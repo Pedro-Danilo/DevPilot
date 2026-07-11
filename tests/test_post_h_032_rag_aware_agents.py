@@ -157,12 +157,12 @@ def test_post_h_032_d_tcr_v1_v2_and_project_state_are_synchronized() -> None:
     assert "SCHEMA-DEVPL-RAG-AGENT-CONTEXT-PACK-V1" in contract_v2["schema_ids"]
 
     state = read_json(".devpilot/project_state.json")
-    assert state["current_micro_sprint"] in {"POST-H-032-D", "POST-H-032-E"}
-    assert state["next_micro_sprint"] in {"POST-H-032-E", "POST-H-032-F"}
-    assert state["current_repo"] in {"repo_DevPilot_Local_297_POST_H_032_D.zip", "repo_DevPilot_Local_298_POST_H_032_E.zip"}
-    assert state["post_h_032_status"] in {"active/rag-aware-agents-implemented-initial", "active/agent-memory-model-implemented-initial"}
-    assert state["post_h_032_current_micro_sprint"] in {"POST-H-032-D", "POST-H-032-E"}
-    assert state["post_h_032_next_micro_sprint"] in {"POST-H-032-E", "POST-H-032-F"}
+    assert state["current_micro_sprint"] in {"POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G"}
+    assert state["next_micro_sprint"] in {"POST-H-032-E", "POST-H-032-F", "POST-H-032-G"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_297_POST_H_032_D.zip", "repo_DevPilot_Local_298_POST_H_032_E.zip", "repo_DevPilot_Local_299_POST_H_032_F.zip"}
+    assert state["post_h_032_status"] in {"active/rag-aware-agents-implemented-initial", "active/agent-memory-model-implemented-initial", "active/tool-calling-contract-implemented-initial"}
+    assert state["post_h_032_current_micro_sprint"] in {"POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G"}
+    assert state["post_h_032_next_micro_sprint"] in {"POST-H-032-E", "POST-H-032-F", "POST-H-032-G"}
     assert state["post_h_032_d_rag_agent_context_schema_registered"] is True
     assert state["post_h_032_d_rag_agent_bindings_path"] == ".devpilot/agents/rag_agent_bindings.json"
     assert state["post_h_032_d_rag_agent_context_cli_command"] == "python -m devpilot_core agent rag-context --json"

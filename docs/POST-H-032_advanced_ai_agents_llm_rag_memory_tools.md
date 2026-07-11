@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-e-implemented-initial"
-current_micro_sprint: "POST-H-032-E"
-next_micro_sprint: "POST-H-032-F"
+implementation_status: "approved/post-h-032-f-implemented-initial"
+current_micro_sprint: "POST-H-032-F"
+next_micro_sprint: "POST-H-032-G"
 ```
 
 ## 1. Proposito del backlog
@@ -639,6 +639,13 @@ python -m pytest -p no:ddtrace --assert=plain `
   -q
 ```
 
+
+### Estado de implementación POST-H-032-F
+
+`POST-H-032-F` queda implementado como versión `implemented-initial` del contrato industrial de tool calling. La implementación agrega el schema `AgentToolCall`, la policy `.devpilot/agents/tool_call_policy.json`, el módulo `src/devpilot_core/agents/tool_calls.py`, CLI/ApplicationService `agent tool-calls validate`, executable subset derivado de MIASI Tool Registry, allowlist por agente, risk levels por tool, dry-run-first, approval binding contractual para tools de riesgo, observability por tool call y pruebas adversariales de prompt/tool injection.
+
+Limitación explícita: esta versión es `contract-only` y `fake-local`; no ejecuta herramientas reales ni habilita scheduler genérico. Connector write, plugin execution, remote execution, network, external APIs y LLM calls permanecen deshabilitados. Cualquier ejecución real futura exige backlog/ADR/gate propio, approvals y ampliación de adversarial tests.
+
 ## POST-H-032-G - MCP design and local fake-server evaluation
 
 ### Objetivo
@@ -958,5 +965,5 @@ POST-H-032-C queda implementado como primera versión `implemented-initial / ext
 
 El sprint no habilita llamadas reales a APIs externas. OpenAI/Gemini permanecen deshabilitados por defecto en metadata versionada; las pruebas usan fake provider determinístico; SecretGuard valida que no haya secretos versionados; CostGuard bloquea uso externo accidental; el reporte mantiene `external_api_used=false`, `network_used=false`, `real_api_call_performed=false` y `tests_require_real_api=false`.
 
-Limitación explícita: esta versión no instala SDKs, no abre sockets, no lee valores de API keys, no envía prompts a proveedores externos y no permite que `production-ready-local` dependa de APIs externas. Cualquier activación real futura requiere configuración local no versionada, env vars, budget explícito, warning visible, risk report, aprobación/acknowledgement y nueva decisión de enablement. POST-H-032-D quedó implementado como agentes RAG-aware con groundedness y fuentes locales; POST-H-032-E avanza hacia memoria local opt-in, redactada e inspeccionable.
+Limitación explícita: esta versión no instala SDKs, no abre sockets, no lee valores de API keys, no envía prompts a proveedores externos y no permite que `production-ready-local` dependa de APIs externas. Cualquier activación real futura requiere configuración local no versionada, env vars, budget explícito, warning visible, risk report, aprobación/acknowledgement y nueva decisión de enablement. POST-H-032-D quedó implementado como agentes RAG-aware con groundedness y fuentes locales; POST-H-032-E implementó memoria local opt-in, redactada e inspeccionable; POST-H-032-F avanza hacia tool calling contractual, dry-run-first, allowlisted y approval-bound.
 

@@ -22,6 +22,14 @@ from .memory import (
     AgentMemoryModelManager,
     AgentMemoryModelOptions,
 )
+
+from .tool_calls import (
+    AGENT_TOOL_CALL_COMMAND,
+    AGENT_TOOL_CALL_CONTRACT,
+    AGENT_TOOL_CALL_SCHEMA_ID,
+    AgentToolCallingContractManager,
+    AgentToolCallingContractOptions,
+)
 from .repo_analysis_agent import RepoAnalysisAgent
 from .release_agent import ReleaseAgent
 from .architecture_agent import ArchitectureAgent
@@ -39,6 +47,11 @@ from .session import AgentSession, AgentSessionEvent, AgentSessionInspectOptions
 from .security_agent import SecurityAgent
 
 __all__ = [
+    "AGENT_TOOL_CALL_COMMAND",
+    "AGENT_TOOL_CALL_CONTRACT",
+    "AGENT_TOOL_CALL_SCHEMA_ID",
+    "AgentToolCallingContractManager",
+    "AgentToolCallingContractOptions",
     "AGENT_MEMORY_COMMAND",
     "AGENT_MEMORY_CONTRACT",
     "AGENT_MEMORY_SCHEMA_ID",

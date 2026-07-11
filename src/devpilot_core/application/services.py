@@ -257,6 +257,42 @@ class ApplicationService:
         ).build()
 
 
+
+    def agent_tool_call_contract(
+        self,
+        *,
+        policy_path: str = ".devpilot/agents/tool_call_policy.json",
+        agent_inventory_path: str = ".devpilot/agents/agent_capability_inventory.json",
+        tool_registry_path: str = ".devpilot/miasi/tool_registry.json",
+        policy_matrix_path: str = ".devpilot/miasi/policy_matrix.json",
+        limit: int = 200,
+        write_report: bool = False,
+        output_json: str = "outputs/reports/agent_tool_call_contract_report.json",
+        output_markdown: str = "outputs/reports/agent_tool_call_contract_report.md",
+    ) -> CommandResult:
+        """Validate the POST-H-032-F governed agent tool-calling contract.
+
+        The boundary is contract-only: it derives MIASI executable subset,
+        validates agent/tool allowlists, enforces dry-run-first and approval
+        requirements for risky tools, and does not execute real tools.
+        """
+
+        from devpilot_core.agents import AgentToolCallingContractManager, AgentToolCallingContractOptions
+
+        return AgentToolCallingContractManager(
+            self.root,
+            AgentToolCallingContractOptions(
+                policy_path=Path(policy_path),
+                agent_inventory_path=Path(agent_inventory_path),
+                tool_registry_path=Path(tool_registry_path),
+                policy_matrix_path=Path(policy_matrix_path),
+                limit=limit,
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).validate()
+
     def agent_memory_model(
         self,
         *,
@@ -1069,6 +1105,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("model.local_health", "Build POST-H-032-B local LLM provider hardening evidence for Ollama/LM Studio without requiring real local servers.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model local-health --json"),
         ("model.external_api_pilot", "Build POST-H-032-C ADR-backed external API fake/gated pilot evidence without real external API calls or secret reads.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model external-api-pilot --json"),
         ("agent.rag_context", "Build POST-H-032-D deterministic RAG-aware agent context packs with citations and insufficient-evidence behavior.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent rag-context --json"),
+        ("agent.tool_call_contract", "Validate POST-H-032-F governed tool-calling contracts with allowlists, dry-run-first, approval binding and injection guards.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent tool-calls validate --json"),
         ("model.capabilities", "Build static model capability matrix.", "none", True, "python -m devpilot_core model capabilities --json"),
         ("history.runs", "List local command history from LocalStore.", "none", True, "python -m devpilot_core history list --json"),
         ("observability.trace_report", "Read bounded local trace report.", "none", True, "python -m devpilot_core trace report --json"),

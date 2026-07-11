@@ -53,6 +53,20 @@
       "validation_enabled_sprint": "POST-H-032-A"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-AGENT-TOOL-CALL-V1",
+      "title": "DevPilot AgentToolCall Contract Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_tool_call.schema.json",
+      "description": "POST-H-032-F structural contract for governed agent tool calls with allowlists, dry-run-first, approval binding, observability and injection defenses.",
+      "status": "registered",
+      "contract": "AgentToolCall",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-032-F",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-032-F"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-API-CONTRACT-DRIFT-REPORT-V1",
       "title": "API Contract Drift Report v1",
       "version": "1.0.0",

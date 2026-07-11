@@ -2,17 +2,31 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.08.0"
+version: "2.09.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-032-E"
+phase: "POST-H-032-F"
 updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-032-F — Tool calling contract
+
+POST-H-032-F agrega el contrato `AgentToolCall`, la política `.devpilot/agents/tool_call_policy.json`, el módulo `src/devpilot_core/agents/tool_calls.py` y el comando `python -m devpilot_core agent tool-calls validate --json`. El objetivo es validar tool calls de agentes con executable subset derivado de MIASI Tool Registry, allowlist por agente, dry-run-first, approval binding para tools de riesgo, observability por tool call y defensas contra prompt/tool injection.
+
+Estado: `implemented-initial`. Esta versión es contract-only/fake-local: no habilita scheduler genérico, connector write, plugin execution, remote execution, network, external APIs, LLM calls ni ejecución real de herramientas.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q
+python -m devpilot_core agent tool-calls validate --json
+```
 
 ## POST-H-032-E — Agent memory model
 
@@ -25,7 +39,8 @@ $env:PYTHONPATH="src"
 python -m devpilot_core agent memory inspect --json
 python -m devpilot_core agent memory export --json --write-report
 python -m devpilot_core agent memory cleanup --json
-python -m devpilot_core schema validate --schema-id AgentMemoryRecord --instance outputseportsgent_memory_model_report.json --json
+python -m devpilot_core schema validate --schema-id AgentMemoryRecord --instance outputs
+eportsgent_memory_model_report.json --json
 ```
 
 Estado: `implemented-initial / agent-memory-model`. La memoria semántica permanece `disabled` por defecto; no se persisten raw prompts, raw outputs ni secretos; no se usa almacenamiento externo; no se comparte memoria entre workspaces sin aprobación futura; cleanup es dry-run por defecto y export siempre redactado. Esta versión es una primera base industrial local-first: no implementa embeddings, vector memory, memoria compartida real ni uso de memoria para justificar claims formales.
@@ -40,7 +55,9 @@ Comandos de verificación:
 $env:PYTHONPATH="src"
 python -m devpilot_core agent rag-context --json
 python -m devpilot_core agent rag-context --json --write-report
-python -m devpilot_core schema validate --schema-id RagAgentContextPack --instance outputseportsag_agent_context_pack.json --json
+python -m devpilot_core schema validate --schema-id RagAgentContextPack --instance outputs
+eports
+ag_agent_context_pack.json --json
 ```
 
 Estado: `implemented-initial / rag-aware-agent-context`. No usa LLM real, memoria, tools, red ni APIs externas; no muta fuentes. Es una capa determinística consumible por futuros prompts/modelos bajo opt-in explícito.

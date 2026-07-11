@@ -15049,6 +15049,72 @@
       "schema_ids": [
         "SCHEMA-DEVPL-AGENT-MEMORY-RECORD-V1"
       ]
+    },
+    {
+      "contract_id": "post-h-032-tool-calling-contract",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-032-tool-calling-contract",
+      "domain": "agentic.runtime",
+      "capability": "AgentToolCallingContract",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_post_h_032_tool_calling_contract.py"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/tool_call_policy.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/miasi/tool_registry.json",
+        "docs/schemas/agent_tool_call.schema.json",
+        "src/devpilot_core/agents/tool_calls.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "validates": [
+        ".devpilot/agents/tool_call_policy.json",
+        "docs/schemas/agent_tool_call.schema.json",
+        "src/devpilot_core/agents/tool_calls.py",
+        "docs/audits/post_h_032_f_tool_calling_contract_report.md"
+      ],
+      "trigger_hints": [
+        "agent-tool-call-change",
+        "post-h-032-f",
+        "policy-change",
+        "miasi-tool-registry-change"
+      ],
+      "impact_scope": [
+        "agents",
+        "tools",
+        "policy",
+        "approval",
+        "security",
+        "observability"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-F",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-F is contract-only and does not execute real tools; all risky tools remain approval-bound and dry-run-first."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService.agent_tool_call_contract",
+      "subgate_id": "post-h-032-tool-calling-contract",
+      "schema_ids": [
+        "SCHEMA-DEVPL-AGENT-TOOL-CALL-V1"
+      ]
     }
   ],
   "migration_metadata": {

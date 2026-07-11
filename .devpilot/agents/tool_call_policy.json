@@ -1,0 +1,597 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-agent-tool-call-policy",
+  "created_by": "POST-H-032-F",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "Contract-only governed agent tool calling for fake/local tools under MIASI allowlists.",
+  "defaults": {
+    "dry_run_first": true,
+    "contract_only": true,
+    "fake_local_tools_only": true,
+    "execute_enabled_by_default": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "external_api_enabled": false,
+    "network_enabled": false,
+    "approval_binding_required_for_risky_tools": true,
+    "observability_required": true,
+    "tool_injection_guard_required": true,
+    "report_only_under_outputs": true
+  },
+  "risk_policy": {
+    "low": {
+      "approval_required": false,
+      "dry_run_first_required": true
+    },
+    "medium": {
+      "approval_required": false,
+      "dry_run_first_required": true
+    },
+    "medium_high": {
+      "approval_required": true,
+      "dry_run_first_required": true
+    },
+    "high": {
+      "approval_required": true,
+      "dry_run_first_required": true
+    },
+    "critical": {
+      "approval_required": true,
+      "dry_run_first_required": true
+    }
+  },
+  "disallowed_capabilities": [
+    "connector.write",
+    "plugin.code.execute",
+    "remote.runner.execute",
+    "network_cost",
+    "external-api",
+    "shell-execution"
+  ],
+  "agents": {
+    "precode.documentation": {
+      "allowed_tools": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "document.draft.generate"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "precode.audit": {
+      "allowed_tools": [
+        "artifact.read",
+        "artifact.frontmatter.validate",
+        "artifact.structure.validate",
+        "checklist.precode.run",
+        "documentation.audit",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "requirements.agent": {
+      "allowed_tools": [
+        "agent.requirements.run",
+        "artifact.read",
+        "traceability.coverage",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "architecture.agent": {
+      "allowed_tools": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "security.agent": {
+      "allowed_tools": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "agent.security.run",
+        "auditpack.build",
+        "compliance.run",
+        "eval.safety.run",
+        "identity.rbac.check",
+        "industrial.readiness.check",
+        "plugin.loader.dry_run",
+        "remote.runner.status",
+        "secret.scan",
+        "workspace.registry.register"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "testplanner.agent": {
+      "allowed_tools": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "auditpack.build",
+        "compliance.run",
+        "eval.safety.run",
+        "identity.rbac.check",
+        "industrial.readiness.check",
+        "plugin.loader.dry_run",
+        "remote.runner.status",
+        "tests.run",
+        "workspace.registry.register"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "repo.analysis": {
+      "allowed_tools": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "repo.quality_gate",
+        "repo.engineering_gate",
+        "repo.architecture_drift",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "repo.engineering_gate",
+        "repo.quality_gate"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "code.review": {
+      "allowed_tools": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "agent.code_review.run",
+        "code.review"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "patch.review": {
+      "allowed_tools": [
+        "agent.patch_review.run",
+        "patch.parse",
+        "patch.dry_run",
+        "patch.check",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "patch.sandbox",
+        "rollback.plan",
+        "rollback.list",
+        "rollback.show"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "agent.patch_review.run",
+        "patch.check",
+        "patch.dry_run",
+        "patch.sandbox",
+        "rollback.plan"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "safe.refactor": {
+      "allowed_tools": [
+        "agent.safe_refactor.run",
+        "artifact.read",
+        "code.review",
+        "refactor.plan",
+        "refactor.sandbox",
+        "tests.run",
+        "rollback.plan",
+        "rollback.list",
+        "rollback.show",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "agent.safe_refactor.run",
+        "code.review",
+        "refactor.plan",
+        "refactor.sandbox",
+        "rollback.plan",
+        "tests.run"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "release.agent": {
+      "allowed_tools": [
+        "artifact.read",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "operations.agent": {
+      "allowed_tools": [
+        "artifact.read",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "auditpack.build",
+        "compliance.run",
+        "identity.rbac.check",
+        "industrial.readiness.check",
+        "remote.runner.status",
+        "workspace.registry.register"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "multiagent.coordinator": {
+      "allowed_tools": [
+        "multiagent.coordinator.run",
+        "multiagent.workflow.run",
+        "multiagent.handoff",
+        "agent.repo_analysis.run",
+        "agent.code_review.run",
+        "agent.security.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "agent.code_review.run",
+        "agent.security.run",
+        "auditpack.build",
+        "compliance.run",
+        "eval.safety.run",
+        "identity.rbac.check",
+        "industrial.readiness.check",
+        "multiagent.coordinator.run",
+        "multiagent.workflow.run",
+        "plugin.loader.dry_run",
+        "remote.runner.status",
+        "workspace.registry.register"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    },
+    "release.assistant": {
+      "allowed_tools": [
+        "release.quality_gate",
+        "release.manifest",
+        "release.changelog",
+        "release.package",
+        "release.sbom",
+        "release.install_plan",
+        "release.upgrade_check",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "approval_required_tools": [
+        "industrial.readiness.check",
+        "remote.runner.status"
+      ],
+      "dry_run_first": true,
+      "observability_events": [
+        "agent.tool_call.planned",
+        "policy.decision"
+      ]
+    }
+  },
+  "no_go_gates": [
+    {
+      "gate_id": "tool-not-allowlisted-blocked",
+      "condition": "Agent/tool pair is not present in allowlist.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "risky-tool-without-approval-blocked",
+      "condition": "High/critical or approval-gated tool does not require scoped approval binding.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "tool-execute-by-default-blocked",
+      "condition": "Tool execution is enabled without dry-run-first planning.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "connector-write-plugin-remote-blocked",
+      "condition": "Connector write, plugin execution or remote execution is enabled by the contract.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "tool-injection-target-change-blocked",
+      "condition": "Prompt/tool injection attempts to change tool target or bypass approval/policy.",
+      "severity": "critical",
+      "default_state": "pass"
+    }
+  ],
+  "notes": [
+    "POST-H-032-F enables contract validation and fake/local tool planning only.",
+    "No generic tool scheduler, connector write, plugin execution or remote execution is enabled.",
+    "This policy is implemented-initial and must evolve with additional adversarial suites before production-grade generic execution."
+  ]
+}

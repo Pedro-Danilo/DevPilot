@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .agents import AgentMemoryModelManager, AgentMemoryModelOptions, AgentRuntime, AgentRuntimeConfig, RagAgentContextOptions, RagAwareAgentContextBuilder, inspect_agent_session
+from .agents import AgentMemoryModelManager, AgentMemoryModelOptions, AgentRuntime, AgentRuntimeConfig, AgentToolCallingContractManager, AgentToolCallingContractOptions, RagAgentContextOptions, RagAwareAgentContextBuilder, inspect_agent_session
 from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions, AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
@@ -1761,6 +1761,41 @@ def agent_session_inspect_command(
 
 
 
+
+
+def agent_tool_calls_command(
+    *,
+    policy_path: str = ".devpilot/agents/tool_call_policy.json",
+    agent_inventory_path: str = ".devpilot/agents/agent_capability_inventory.json",
+    tool_registry_path: str = ".devpilot/miasi/tool_registry.json",
+    policy_matrix_path: str = ".devpilot/miasi/policy_matrix.json",
+    limit: int = 200,
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/agent_tool_call_contract_report.json",
+    output_markdown: str = "outputs/reports/agent_tool_call_contract_report.md",
+) -> int:
+    """Validate POST-H-032-F governed tool-calling contracts without executing tools."""
+
+    root = project_root()
+    manager = AgentToolCallingContractManager(
+        root,
+        AgentToolCallingContractOptions(
+            policy_path=Path(policy_path),
+            agent_inventory_path=Path(agent_inventory_path),
+            tool_registry_path=Path(tool_registry_path),
+            policy_matrix_path=Path(policy_matrix_path),
+            limit=limit,
+            write_report=write_report,
+            output_json=Path(output_json),
+            output_markdown=Path(output_markdown),
+        ),
+    )
+    result = manager.validate()
+    _emit_result_event(root, result, subject="agent.tool-calls")
+    _persist_result(root, result, subject="agent.tool-calls")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def agent_memory_command(
     *,
@@ -6964,6 +6999,20 @@ def build_parser() -> argparse.ArgumentParser:
     agent_rag_context.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_rag_context.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown context pack under outputs/")
 
+
+    agent_tool_calls = agent_sub.add_parser("tool-calls", help="Validate POST-H-032-F governed tool-calling contract")
+    agent_tool_calls_sub = agent_tool_calls.add_subparsers(dest="agent_tool_calls_command")
+    agent_tool_calls_validate = agent_tool_calls_sub.add_parser("validate", help="Validate allowlisted dry-run-first tool-calling contract")
+    agent_tool_calls_validate.add_argument("--policy", default=".devpilot/agents/tool_call_policy.json", help="Agent tool-call policy path")
+    agent_tool_calls_validate.add_argument("--agent-inventory", default=".devpilot/agents/agent_capability_inventory.json", help="Agent capability inventory path")
+    agent_tool_calls_validate.add_argument("--tool-registry", default=".devpilot/miasi/tool_registry.json", help="MIASI tool registry path")
+    agent_tool_calls_validate.add_argument("--policy-matrix", default=".devpilot/miasi/policy_matrix.json", help="MIASI policy matrix path")
+    agent_tool_calls_validate.add_argument("--limit", type=int, default=200, help="Maximum agent/tool pairs per validation scope, capped by the manager")
+    agent_tool_calls_validate.add_argument("--output-json", default="outputs/reports/agent_tool_call_contract_report.json", help="Optional report JSON path under outputs/")
+    agent_tool_calls_validate.add_argument("--output-markdown", default="outputs/reports/agent_tool_call_contract_report.md", help="Optional report Markdown path under outputs/")
+    agent_tool_calls_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    agent_tool_calls_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown tool-call contract report under outputs/")
+
     agent_memory = agent_sub.add_parser("memory", help="Inspect/export/cleanup POST-H-032-E local opt-in agent memory")
     agent_memory_sub = agent_memory.add_subparsers(dest="agent_memory_command")
     for _agent_memory_action in ("inspect", "export", "cleanup"):
@@ -8442,6 +8491,20 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
             )
+
+        if args.agent_command == "tool-calls":
+            if getattr(args, "agent_tool_calls_command", None) == "validate":
+                return agent_tool_calls_command(
+                    policy_path=args.policy,
+                    agent_inventory_path=args.agent_inventory,
+                    tool_registry_path=args.tool_registry,
+                    policy_matrix_path=args.policy_matrix,
+                    limit=args.limit,
+                    json_output=args.json,
+                    write_report=args.write_report,
+                    output_json=args.output_json,
+                    output_markdown=args.output_markdown,
+                )
         if args.agent_command == "memory":
             if getattr(args, "agent_memory_command", None) in {"inspect", "export", "cleanup"}:
                 return agent_memory_command(

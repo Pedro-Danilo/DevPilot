@@ -30,6 +30,7 @@ POST_H_032_A_CREATED_BY = "POST-H-032-A"
 POST_H_032_B_CREATED_BY = "POST-H-032-B"
 POST_H_032_D_CREATED_BY = "POST-H-032-D"
 POST_H_032_E_CREATED_BY = "POST-H-032-E"
+POST_H_032_F_CREATED_BY = "POST-H-032-F"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -41,6 +42,7 @@ APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
     "api.shell-gate": "api.shell_gate",
     "agent.rag-context": "agent.rag_context",
     "agent.memory": "agent.memory",
+    "agent.tool-calls": "agent.tool_call_contract",
     "operator.dashboard": "operator.dashboard",
     "operator.evidence-export": "operator.evidence_export",
     "portfolio.status": "portfolio.status",
@@ -645,7 +647,7 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="agent",
         domain="agentic.runtime",
         owner_module="src/devpilot_core/agents/capability_inventory.py",
-        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_sdlc_agents.py tests/test_miasi_registry.py tests/test_miasi_semantic_validator.py tests/test_schema_registry.py -q",),
+        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py tests/test_post_h_032_tool_calling_contract.py tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_sdlc_agents.py tests/test_miasi_registry.py tests/test_miasi_semantic_validator.py tests/test_schema_registry.py -q",),
         rationale="POST-H-032-A registers agent capability inventory as governed read-only CLI metadata; it does not execute agents, tools, models, RAG or memory.",
     ),
     "model": DeclarativeGroupDescriptor(
@@ -817,6 +819,19 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_rag_aware_agents.py -q",
         ),
         rationale="POST-H-032-D builds deterministic local RAG context packs for selected agents with source ids, citations, freshness and insufficient-evidence behavior; it writes only optional reports under outputs/ and does not call LLMs, network, external APIs, memory or tools.",
+    ),
+
+    "agent.tool-calls": DeclarativeCommandOverride(
+        command_id="agent.tool-calls",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q",
+        ),
+        rationale="POST-H-032-F validates governed tool-calling contracts with MIASI executable subset, per-agent allowlists, dry-run-first, approval binding and prompt/tool injection controls. It writes only optional reports under outputs/ and does not execute connector write, plugins, remote runners, tools, network, external APIs or LLMs.",
     ),
     "agent.memory": DeclarativeCommandOverride(
         command_id="agent.memory",

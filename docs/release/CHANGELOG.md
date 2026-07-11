@@ -1,5 +1,13 @@
 ## post-h-032-e — Agent memory model
 
+
+## POST-H-032-F — Tool calling contract
+
+- Added `AgentToolCall` contract and `.devpilot/agents/tool_call_policy.json`.
+- Added `src/devpilot_core/agents/tool_calls.py` and CLI `agent tool-calls validate`.
+- Validates MIASI executable subset, per-agent allowlists, dry-run-first, approval binding for risky tools, observability fields and prompt/tool injection defenses.
+- Keeps generic tool scheduling, connector write, plugin execution, remote execution, network, external APIs and LLM calls disabled.
+
 - Added ADR `ADR-POSTH-032-E-agent-memory-local-opt-in.md` for local opt-in memory governance.
 - Added `AgentMemoryRecord` schema, `.devpilot/agents/agent_memory_policy.json` and `src/devpilot_core/agents/memory.py`.
 - Added `agent memory inspect|export|cleanup` CLI and ApplicationService boundary for inspectable, redacted, local memory controls.
