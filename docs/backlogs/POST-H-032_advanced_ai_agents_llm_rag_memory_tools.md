@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-b-implemented-initial"
-current_micro_sprint: "POST-H-032-B"
-next_micro_sprint: "POST-H-032-C"
+implementation_status: "approved/post-h-032-c-implemented-initial"
+current_micro_sprint: "POST-H-032-C"
+next_micro_sprint: "POST-H-032-D"
 ```
 
 ## 1. Proposito del backlog
@@ -939,3 +939,11 @@ Evolucion pendiente en POST-H-032-B..H: hardening de providers locales, ADR/pilo
 POST-H-032-B queda implementado como primera versión de hardening de providers locales LLM. Se agrega `LocalLlmProviderHealthReport`, `.devpilot/modeling/local_llm_provider_health_policy.json`, `src/devpilot_core/modeling/local_provider_health.py` y `model local-health`. El sprint no habilita llamadas reales a modelos por defecto: Ollama y LM Studio permanecen deshabilitados en metadata versionada, limitados a localhost, sin secretos, sin API externa, sin dependencia de servidores reales para tests y con fallback a `mock` únicamente explícito y auditable.
 
 Limitación explícita: esta versión es `implemented-initial`; no instala ni administra Ollama/LM Studio, no descarga modelos, no abre endpoints remotos, no llama APIs externas y no promueve agentes a RAG/memory/tool autonomy. POST-H-032-C debe tratar APIs externas con ADR y piloto gated.
+## Implementación acumulada POST-H-032-C
+
+POST-H-032-C queda implementado como primera versión `implemented-initial / external-api-gated-pilot`. Se agrega la ADR `docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md`, el schema `ExternalApiProviderPilot`, la policy `.devpilot/modeling/external_api_provider_pilot_policy.json`, el módulo `src/devpilot_core/modeling/external_api_pilot.py`, el comando `python -m devpilot_core model external-api-pilot --json` y el boundary `ApplicationService.external_api_provider_pilot`.
+
+El sprint no habilita llamadas reales a APIs externas. OpenAI/Gemini permanecen deshabilitados por defecto en metadata versionada; las pruebas usan fake provider determinístico; SecretGuard valida que no haya secretos versionados; CostGuard bloquea uso externo accidental; el reporte mantiene `external_api_used=false`, `network_used=false`, `real_api_call_performed=false` y `tests_require_real_api=false`.
+
+Limitación explícita: esta versión no instala SDKs, no abre sockets, no lee valores de API keys, no envía prompts a proveedores externos y no permite que `production-ready-local` dependa de APIs externas. Cualquier activación real futura requiere configuración local no versionada, env vars, budget explícito, warning visible, risk report, aprobación/acknowledgement y nueva decisión de enablement. POST-H-032-D debe avanzar hacia agentes RAG-aware manteniendo groundedness y fuentes locales.
+

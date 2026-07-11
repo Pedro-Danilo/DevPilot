@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-external-api-provider-pilot-policy",
+  "created_by": "POST-H-032-C",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "ADR-backed gated pilot policy for external API providers without enabling real calls by default",
+  "provider_ids": [
+    "openai",
+    "gemini"
+  ],
+  "fake_provider_id": "fake-external-api",
+  "defaults": {
+    "external_api_disabled_by_default": true,
+    "real_calls_supported_by_this_sprint": false,
+    "real_calls_enabled_by_default": false,
+    "real_calls_require_local_non_versioned_config": true,
+    "tests_use_fake_provider_only": true,
+    "tests_require_real_api": false,
+    "secret_handling_env_only": true,
+    "raw_secret_storage_allowed": false,
+    "read_secret_values_by_default": false,
+    "cost_guard_required": true,
+    "operator_warning_required": true,
+    "risk_report_required": true,
+    "report_external_api_used_default": false,
+    "network_used_default": false,
+    "prompt_storage_allowed": false,
+    "raw_output_storage_allowed": false
+  },
+  "providers": [
+    {
+      "provider_id": "openai",
+      "expected_kind": "api",
+      "enabled_by_default": false,
+      "external_api": true,
+      "requires_api_key": true,
+      "api_key_env": "OPENAI_API_KEY",
+      "endpoint_prefix": "https://api.openai.com",
+      "fake_provider_supported": true,
+      "real_calls_enabled_by_policy": false,
+      "cost_guard_required": true,
+      "operator_warning_required": true,
+      "risk_report_required": true
+    },
+    {
+      "provider_id": "gemini",
+      "expected_kind": "api",
+      "enabled_by_default": false,
+      "external_api": true,
+      "requires_api_key": true,
+      "api_key_env": "GEMINI_API_KEY",
+      "endpoint_prefix": "https://generativelanguage.googleapis.com",
+      "fake_provider_supported": true,
+      "real_calls_enabled_by_policy": false,
+      "cost_guard_required": true,
+      "operator_warning_required": true,
+      "risk_report_required": true
+    }
+  ],
+  "no_go_gates": [
+    {
+      "gate_id": "external-api-enabled-by-default-blocked",
+      "condition": "Any external API provider is enabled in versioned defaults.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "external-api-real-call-in-tests-blocked",
+      "condition": "Any test depends on OpenAI, Gemini or another real external API.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "external-api-secret-in-repo-blocked",
+      "condition": "Any API key or secret value is versioned instead of an environment variable name.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "external-api-without-costguard-blocked",
+      "condition": "Any future real external API path bypasses CostGuard or budget evidence.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "external-api-without-warning-report-blocked",
+      "condition": "Any future real external API path lacks a visible operator warning and risk report.",
+      "severity": "high",
+      "default_state": "pass"
+    }
+  ],
+  "warnings": [
+    "External API providers are optional and must never be required for production-ready-local operation.",
+    "A future real-call pilot must use local non-versioned config, environment variables, CostGuard and explicit operator acknowledgement.",
+    "POST-H-032-C does not implement vendor SDK calls, network transport or real prompt submission."
+  ],
+  "notes": [
+    "POST-H-032-C creates an ADR and fake/gated pilot only; no real external API calls are enabled.",
+    "External providers remain disabled by default in source-controlled provider metadata.",
+    "Any future real call requires local opt-in, env-var secret handling, visible warning, CostGuard and a risk report."
+  ],
+  "limitations": [
+    "This sprint does not implement vendor SDK calls or network transport.",
+    "The fake provider validates contracts only; it is not a quality signal for vendor responses.",
+    "External API usage must not become a production-ready-local requirement."
+  ]
+}

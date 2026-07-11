@@ -287,6 +287,46 @@ class ApplicationService:
             ),
         ).build()
 
+    def external_api_provider_pilot(
+        self,
+        *,
+        policy_path: str = ".devpilot/modeling/external_api_provider_pilot_policy.json",
+        provider: str = "openai",
+        estimated_cost_usd: float = 0.01,
+        budget_limit_usd: float = 0.0,
+        budget_used_usd: float = 0.0,
+        allow_real_api: bool = False,
+        acknowledge_risk: bool = False,
+        write_report: bool = False,
+        output_json: str = "outputs/reports/external_api_provider_pilot_report.json",
+        output_markdown: str = "outputs/reports/external_api_provider_pilot_report.md",
+    ) -> CommandResult:
+        """Build the POST-H-032-C external API provider gated-pilot report.
+
+        This boundary is ADR-backed and fake-provider-only by default. It does
+        not perform real external API calls, read API key values or use network.
+        Real-call options only evaluate gates and remain blocked unless future
+        enablement work changes policy explicitly.
+        """
+
+        from devpilot_core.modeling import ExternalApiProviderPilotOptions, ExternalApiProviderPilotReporter
+
+        return ExternalApiProviderPilotReporter(
+            self.root,
+            ExternalApiProviderPilotOptions(
+                policy_path=Path(policy_path),
+                provider=provider,
+                estimated_cost_usd=estimated_cost_usd,
+                budget_limit_usd=budget_limit_usd,
+                budget_used_usd=budget_used_usd,
+                allow_real_api=allow_real_api,
+                acknowledge_risk=acknowledge_risk,
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)
@@ -939,6 +979,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("model.providers", "List governed model providers without external API calls.", "none", True, "python -m devpilot_core model providers --json"),
         ("model.health", "Check provider health through governed model router.", "localhost_or_none", True, "python -m devpilot_core model health --provider mock --json"),
         ("model.local_health", "Build POST-H-032-B local LLM provider hardening evidence for Ollama/LM Studio without requiring real local servers.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model local-health --json"),
+        ("model.external_api_pilot", "Build POST-H-032-C ADR-backed external API fake/gated pilot evidence without real external API calls or secret reads.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model external-api-pilot --json"),
         ("model.capabilities", "Build static model capability matrix.", "none", True, "python -m devpilot_core model capabilities --json"),
         ("history.runs", "List local command history from LocalStore.", "none", True, "python -m devpilot_core history list --json"),
         ("observability.trace_report", "Read bounded local trace report.", "none", True, "python -m devpilot_core trace report --json"),

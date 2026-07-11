@@ -106,7 +106,7 @@ from .observability import (
     TraceQueryService,
 )
 from .miasi import MiasiRegistryValidator, MiasiSemanticValidator
-from .modeling import BudgetLedger, CapabilityMatrix, LocalLlmProviderHealthOptions, LocalLlmProviderHealthReporter, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
+from .modeling import BudgetLedger, CapabilityMatrix, ExternalApiProviderPilotOptions, ExternalApiProviderPilotReporter, LocalLlmProviderHealthOptions, LocalLlmProviderHealthReporter, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .plugins import PluginDryRunOptions, PluginExposureReporter, PluginExposureReportOptions, PluginRegistry, PluginRegistryOptions
@@ -474,6 +474,45 @@ def model_local_health_command(
     ).build()
     _emit_result_event(root, result, subject="model:local-health")
     _persist_result(root, result, subject="model:local-health")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def model_external_api_pilot_command(
+    *,
+    provider: str = "openai",
+    policy_path: str = ".devpilot/modeling/external_api_provider_pilot_policy.json",
+    estimated_cost_usd: float = 0.01,
+    budget_limit_usd: float = 0.0,
+    budget_used_usd: float = 0.0,
+    allow_real_api: bool = False,
+    acknowledge_risk: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build POST-H-032-C external API ADR/gated-pilot evidence.
+
+    This command uses a fake provider contract and deterministic gates only. It
+    never performs real external API calls, never reads API key values and never
+    uses network in POST-H-032-C.
+    """
+
+    root = project_root()
+    result = ExternalApiProviderPilotReporter(
+        root,
+        ExternalApiProviderPilotOptions(
+            policy_path=policy_path,
+            provider=provider,
+            estimated_cost_usd=estimated_cost_usd,
+            budget_limit_usd=budget_limit_usd,
+            budget_used_usd=budget_used_usd,
+            allow_real_api=allow_real_api,
+            acknowledge_risk=acknowledge_risk,
+            write_report=write_report,
+        ),
+    ).build()
+    _emit_result_event(root, result, subject="model:external-api-pilot")
+    _persist_result(root, result, subject="model:external-api-pilot")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -6586,6 +6625,18 @@ def build_parser() -> argparse.ArgumentParser:
     model_local_health.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_local_health.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    model_external_api = model_sub.add_parser("external-api-pilot", help="Build POST-H-032-C external API fake/gated pilot report")
+    model_external_api.add_argument("--provider", default="openai", help="External API provider id to evaluate through fake/gated contract; default: openai")
+    model_external_api.add_argument("--policy-path", default=".devpilot/modeling/external_api_provider_pilot_policy.json", help="External API provider pilot policy path")
+    model_external_api.add_argument("--estimated-cost-usd", type=float, default=0.01, help="Estimated cost for CostGuard simulation; default: 0.01")
+    model_external_api.add_argument("--budget-limit-usd", type=float, default=0.0, help="Optional budget limit for policy simulation; default: 0.0")
+    model_external_api.add_argument("--budget-used-usd", type=float, default=0.0, help="Optional used budget for policy simulation; default: 0.0")
+    model_external_api.add_argument("--allow-real-api", action="store_true", help="Evaluate real-call gates only; POST-H-032-C still performs no network call")
+    model_external_api.add_argument("--acknowledge-risk", action="store_true", help="Record explicit operator risk acknowledgement for gate evaluation")
+    model_external_api.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_external_api.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     model_capabilities = model_sub.add_parser("capabilities", help="Show governed model capability matrix")
     model_capabilities.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_capabilities.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
@@ -8043,6 +8094,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 timeout_seconds=args.timeout_seconds,
                 probe_enabled_local=args.probe_enabled_local,
                 policy_path=args.policy_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+
+        if args.model_command == "external-api-pilot":
+            return model_external_api_pilot_command(
+                provider=args.provider,
+                policy_path=args.policy_path,
+                estimated_cost_usd=args.estimated_cost_usd,
+                budget_limit_usd=args.budget_limit_usd,
+                budget_used_usd=args.budget_used_usd,
+                allow_real_api=args.allow_real_api,
+                acknowledge_risk=args.acknowledge_risk,
                 json_output=args.json,
                 write_report=args.write_report,
             )

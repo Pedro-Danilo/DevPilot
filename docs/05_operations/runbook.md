@@ -2,17 +2,33 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.05.0"
+version: "2.06.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-032-B"
+phase: "POST-H-032-C"
 updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-032-C — External API provider ADR and gated pilot
+
+POST-H-032-C agrega la ADR `docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md`, el contrato `ExternalApiProviderPilot`, la policy `.devpilot/modeling/external_api_provider_pilot_policy.json`, el módulo `src/devpilot_core/modeling/external_api_pilot.py` y el comando `python -m devpilot_core model external-api-pilot --json`. El objetivo es diseñar una ruta segura para providers API externos sin habilitar llamadas reales: los providers API permanecen `disabled` por defecto, ninguna prueba requiere API real, los secretos se representan solo como nombres de variables de entorno, CostGuard bloquea cualquier uso accidental y el contrato se valida con fake provider determinístico.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core model external-api-pilot --json
+python -m devpilot_core model external-api-pilot --json --write-report
+python -m devpilot_core schema validate --schema-id ExternalApiProviderPilot --instance outputs\reports\external_api_provider_pilot_report.json --json
+```
+
+Estado: `implemented-initial / external-api-gated-pilot`. Esta versión no llama OpenAI, Gemini, Mistral, Hugging Face ni otro proveedor externo; no lee valores de API keys, no abre red, no introduce SDKs ni dependencias externas, y no convierte APIs externas en requisito de `production-ready-local`. Cualquier activación real futura requiere configuración local no versionada, budget explícito, warning visible, reporte de riesgo y nueva decisión de enablement.
+
 
 ## POST-H-032-B — Local LLM provider hardening
 

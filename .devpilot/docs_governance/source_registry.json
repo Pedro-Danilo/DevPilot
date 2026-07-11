@@ -9792,6 +9792,180 @@
       "notes": [
         "Focal tests for local provider health policy, CLI, ApplicationService and fallback-to-mock semantics."
       ]
+    },
+    {
+      "doc_id": "ADR-POSTH-032-C",
+      "path": "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "proposed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-C external API provider gated pilot artifact: docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-C-EXTERNAL-API-PROVIDER-PILOT-POLICY",
+      "path": ".devpilot/modeling/external_api_provider_pilot_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-C external API provider gated pilot artifact: .devpilot/modeling/external_api_provider_pilot_policy.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-C-EXTERNAL-API-PROVIDER-PILOT-SCHEMA",
+      "path": "docs/schemas/external_api_provider_pilot.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-C",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_external_api_provider_pilot.py",
+        "tests/test_schema_registry.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-C external API provider gated pilot artifact: docs/schemas/external_api_provider_pilot.schema.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-C-EXTERNAL-API-PROVIDER-PILOT-MODULE",
+      "path": "src/devpilot_core/modeling/external_api_pilot.py",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-C external API provider gated pilot artifact: src/devpilot_core/modeling/external_api_pilot.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-C-EXTERNAL-API-PROVIDER-PILOT-TEST",
+      "path": "tests/test_post_h_032_external_api_provider_pilot.py",
+      "classification": "derived",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-C external API provider gated pilot artifact: tests/test_post_h_032_external_api_provider_pilot.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-C-EXTERNAL-API-PROVIDER-PILOT-REPORT",
+      "path": "docs/audits/post_h_032_c_external_api_provider_pilot_report.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-C external API provider gated pilot artifact: docs/audits/post_h_032_c_external_api_provider_pilot_report.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-C-MANIFEST",
+      "path": "docs/post_h_032_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-C external API provider gated pilot artifact: docs/post_h_032_c_manifest.json."
+      ]
     }
   ],
   "rules": {
@@ -9865,7 +10039,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 412,
+    "documents_total": 419,
     "source_of_truth_total": 162,
     "machine_readable_source_total": 186,
     "derived_total": 58,
@@ -9886,7 +10060,9 @@
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
     "updated_by": "POST-H-032-A",
-    "last_registered_sprint": "POST-H-032-A"
+    "last_registered_sprint": "POST-H-032-A",
+    "updated": "2026-07-11",
+    "documents_checked_total": 419
   },
   "safety": {
     "local_first": true,
@@ -11123,5 +11299,6 @@
     "post_h_032_b_local_llm_provider_health_available": true,
     "post_h_032_b_real_server_required_for_tests": false,
     "post_h_032_b_models_called_by_health": false
-  }
+  },
+  "updated_at": "2026-07-11"
 }

@@ -2662,3 +2662,11 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Adds source-controlled `.devpilot/agents/agent_capability_inventory.json` and `.devpilot/agents/agent_promotion_criteria.json`.
 - Adds `python -m devpilot_core agent capability-inventory --json` and ApplicationService support.
 - Preserves local-first safety: no agents/tools/models/RAG/memory executed, no external APIs, no remote execution, no connector write, no plugin execution and no deterministic gate replacement by LLM.
+## post-h-032-c — External API provider ADR and gated pilot
+
+- Agrega ADR proposed/design-only para providers API externos gated.
+- Registra `SCHEMA-DEVPL-EXTERNAL-API-PROVIDER-PILOT-V1` y contrato `ExternalApiProviderPilot`.
+- Agrega `.devpilot/modeling/external_api_provider_pilot_policy.json`, fake provider contract y `src/devpilot_core/modeling/external_api_pilot.py`.
+- Expone `python -m devpilot_core model external-api-pilot --json` y `ApplicationService.external_api_provider_pilot`.
+- Mantiene external APIs disabled por defecto, sin llamadas reales, sin lectura de API keys, sin red, sin SDKs externos y sin dependencia de tests sobre proveedores reales.
+

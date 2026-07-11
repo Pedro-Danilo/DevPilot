@@ -8183,6 +8183,41 @@
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q",
         "python -m devpilot_core model local-health --json"
       ]
+    },
+    {
+      "contract_id": "post-h-032-external-api-provider-pilot",
+      "scope": "safety",
+      "owner": "POST-H-032-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "validates": [
+        "ExternalApiProviderPilot",
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
+        ".devpilot/modeling/external_api_provider_pilot_policy.json",
+        "src/devpilot_core/modeling/external_api_pilot.py",
+        "python -m devpilot_core model external-api-pilot --json",
+        "fake provider contract",
+        "CostGuard accidental external API block",
+        "env-var-only secret handling"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/external_api_pilot.py",
+        "docs/schemas/external_api_provider_pilot.schema.json",
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
+        ".devpilot/modeling/external_api_provider_pilot_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/policy/cost_guard.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_external_api_provider_pilot.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_policy_engine.py tests/test_secret_guard_hardening.py -q",
+        "python -m devpilot_core model external-api-pilot --json"
+      ]
     }
   ],
   "notes": [

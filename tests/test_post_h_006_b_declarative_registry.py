@@ -104,6 +104,7 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "release.environment-snapshot",
         "release.source-archive-manifest",
         "agent.capability-inventory",
+        "model.external-api-pilot",
     }
     for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups

@@ -802,6 +802,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="POST-H-032-A builds a local read-only AgentCapabilityInventory and AgentPromotionCriteria validation report; it writes only optional reports under outputs/ and does not execute agents, tools, models, RAG, memory or external APIs.",
     ),
+    "model.external-api-pilot": DeclarativeCommandOverride(
+        command_id="model.external-api-pilot",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_external_api_provider_pilot.py -q",
+        ),
+        rationale="POST-H-032-C builds ADR-backed fake/gated external API provider pilot evidence; it writes only optional reports under outputs/, performs no real external API calls, reads no secrets and uses no network.",
+    ),
     "model.local-health": DeclarativeCommandOverride(
         command_id="model.local-health",
         risk_level=CommandRiskLevel.MEDIUM,

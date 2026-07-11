@@ -1,3 +1,18 @@
+## POST-H-032-C — External API provider ADR and gated pilot
+
+POST-H-032-C agrega la ADR `docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md`, el contrato `ExternalApiProviderPilot`, la policy `.devpilot/modeling/external_api_provider_pilot_policy.json`, el módulo `src/devpilot_core/modeling/external_api_pilot.py` y el comando `python -m devpilot_core model external-api-pilot --json`. El objetivo es diseñar una ruta segura para providers API externos sin habilitar llamadas reales: los providers API permanecen `disabled` por defecto, ninguna prueba requiere API real, los secretos se representan solo como nombres de variables de entorno, CostGuard bloquea cualquier uso accidental y el contrato se valida con fake provider determinístico.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core model external-api-pilot --json
+python -m devpilot_core model external-api-pilot --json --write-report
+python -m devpilot_core schema validate --schema-id ExternalApiProviderPilot --instance outputs\reports\external_api_provider_pilot_report.json --json
+```
+
+Estado: `implemented-initial / external-api-gated-pilot`. Esta versión no llama OpenAI, Gemini, Mistral, Hugging Face ni otro proveedor externo; no lee valores de API keys, no abre red, no introduce SDKs ni dependencias externas, y no convierte APIs externas en requisito de `production-ready-local`. Cualquier activación real futura requiere configuración local no versionada, budget explícito, warning visible, reporte de riesgo y nueva decisión de enablement.
+
 ## POST-H-032-B — Local LLM provider hardening
 
 POST-H-032-B agrega el contrato `LocalLlmProviderHealthReport`, la política `.devpilot/modeling/local_llm_provider_health_policy.json`, el módulo `src/devpilot_core/modeling/local_provider_health.py` y el comando `python -m devpilot_core model local-health --json`. El objetivo es endurecer Ollama y LM Studio como providers locales opcionales: siguen `disabled` por defecto, solo aceptan endpoints HTTP localhost, no requieren secretos, reportan costo monetario local cero y permiten fallback a `mock` solo de forma explícita y auditable.

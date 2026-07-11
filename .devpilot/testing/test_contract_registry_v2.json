@@ -14849,6 +14849,76 @@
       "schema_ids": [
         "SCHEMA-DEVPL-LOCAL-LLM-PROVIDER-HEALTH-REPORT-V1"
       ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-C",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-C external API fake/gated pilot; real API calls, secret reads and network are forbidden in tests."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "external-api-provider-gated-pilot",
+      "contract_id": "post-h-032-external-api-provider-pilot",
+      "source_contract_id": "post-h-032-external-api-provider-pilot",
+      "domain": "agentic.runtime",
+      "capability": "ExternalApiProviderPilot ADR/policy/fake provider contract with CostGuard and env-var-only secret handling",
+      "test_files": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/external_api_pilot.py",
+        "docs/schemas/external_api_provider_pilot.schema.json",
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
+        ".devpilot/modeling/external_api_provider_pilot_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/policy/cost_guard.py"
+      ],
+      "validates": [
+        "ExternalApiProviderPilot",
+        "model external-api-pilot CLI",
+        "ApplicationService.external_api_provider_pilot",
+        "fake external API provider contract",
+        "CostGuard default block for accidental external API",
+        "external_api_used=false",
+        "network_used=false",
+        "tests_require_real_api=false"
+      ],
+      "trigger_hints": [
+        "POST-H-032-C",
+        "external API provider ADR",
+        "gated pilot",
+        "fake API provider"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "modeling.providers",
+        "policy.costguard",
+        "governance.schemas",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_external_api_provider_pilot.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-EXTERNAL-API-PROVIDER-PILOT-V1"
+      ]
     }
   ],
   "migration_metadata": {

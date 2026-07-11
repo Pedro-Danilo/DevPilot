@@ -525,6 +525,20 @@
       "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-EXTERNAL-API-PROVIDER-PILOT-V1",
+      "title": "DevPilot ExternalApiProviderPilot v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/external_api_provider_pilot.schema.json",
+      "description": "POST-H-032-C ADR-backed fake/gated external API provider pilot report without real external API calls, secret reads or network usage.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-032-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "ExternalApiProviderPilot",
+      "validation_enabled_sprint": "POST-H-032-C"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
       "title": "DevPilot Finding v1",
       "version": "1.0.0",
@@ -1704,5 +1718,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 117
+  "schemas_total": 118
 }
