@@ -11,6 +11,10 @@ from devpilot_core.testing import HistoricalRegressionGuardOptions, HistoricalRe
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _post_h_number(value: str) -> int:
+    return int(str(value).split("POST-H-")[-1].split("-")[0])
+
+
 def _read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
@@ -149,10 +153,11 @@ def test_post_h_029_e_quality_gate_and_governance_are_synchronized() -> None:
     changelog = _read_text("docs/release/CHANGELOG.md").lower()
     backlog = _read_text("docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md")
 
-    assert state["current_micro_sprint"] == "POST-H-029-E"
-    assert state["last_completed_sprint"] == "POST-H-029"
-    assert state["next_sprint"] == "POST-H-030"
-    assert state["current_repo"] == "repo_DevPilot_Local_283_POST_H_029_E.zip"
+    assert state.get("post_h_029_current_micro_sprint") == "POST-H-029-E"
+    assert _post_h_number(state["last_completed_sprint"]) >= 29
+    assert state.get("post_h_029_next_micro_sprint") == "POST-H-030"
+    assert state["post_h_029_status"] == "closed/testing-tiers-ready"
+    assert str(state["current_repo"]).startswith("repo_DevPilot_Local_")
     assert state["post_h_029_status"] == "closed/testing-tiers-ready"
     assert state["post_h_029_historical_regression_guard_available"] is True
     assert state["post_h_029_testing_tiers_ready_quality_gate_enabled"] is True

@@ -5762,3 +5762,28 @@ python -m devpilot_core schema validate --schema-id ClaimsNoGoDashboard --instan
 Límites: no crea claims nuevos por inferencia, no muta claims/no-go gates, no reemplaza quality gates ni production-ready-local final declaration, no usa LLM judge, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red ni APIs externas y no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, excluida de ZIPs limpios.
 
 Siguiente micro-sprint: `POST-H-031-E — Redacted evidence export UX`.
+
+
+## POST-H-031-E — Redacted evidence export UX
+
+POST-H-031-E cierra `POST-H-031 — Observabilidad, evidence graph y operador` como `implemented-initial/local-first/redacted-export`. Agrega el schema `OperatorEvidenceExport`, el módulo `src/devpilot_core/evidence_graph/export.py`, el método `ApplicationService.operator_evidence_export(...)`, el comando `python -m devpilot_core operator evidence-export --redacted --dry-run --json` y la ruta local protegida `GET /api/v1/operator/evidence-export`.
+
+La capacidad produce una experiencia CLI/API para generar un paquete curado y redactado de evidencia operacional para auditoría técnica interna. El paquete incluye resúmenes metadata-only de `EvidenceGraph`, `OperatorHealthSummary`, `GapActionMap`, `ClaimsNoGoDashboard`, export observability redactado, runtime state inventory y production-ready final declaration, junto con manifest, checksums e instrucciones de interpretación.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core operator evidence-export --redacted --dry-run --json
+python -m devpilot_core operator evidence-export --redacted --write-report --json
+python -m devpilot_core schema validate --schema-id OperatorEvidenceExport --instance outputs/reports/operator_evidence_export.json --json
+```
+
+Límites: `--redacted` es obligatorio; dry-run no escribe; `--write-report` escribe únicamente bajo `outputs/reports` y `outputs/audit_exports/operator_evidence_export`. No exporta `.env`, secretos, tokens, prompts crudos, outputs crudos, bases SQLite completas, `.devpilot/devpilot.db`, trazas sensibles ni archivos arbitrarios de `outputs/`. El paquete no es certificación externa, no declara enterprise-ready, no declara remote-ready, no declara SaaS-ready y no reemplaza quality gates ni production-ready-local final declaration.
+
+Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`.
+
+
+Último hito: `POST-H-031`
+
+Siguiente hito: `POST-H-032`

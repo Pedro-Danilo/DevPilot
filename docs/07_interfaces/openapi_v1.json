@@ -85,7 +85,8 @@
     "phase_f_closed": true,
     "visual_product_mvp_release": true,
     "web_real_evolution_planned": true,
-    "post_h_031_b_operator_health_route": true
+    "post_h_031_b_operator_health_route": true,
+    "updated_by": "POST-H-031-E"
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -1374,6 +1375,109 @@
         "x-devpilot-consumers": []
       }
     },
+    "/api/v1/operator/claims-no-go": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator claims/no-go dashboard",
+        "description": "Protected local read-only claims/no-go dashboard. Returns an ApplicationResponse with ClaimsNoGoDashboard payload; it never mutates claims, no-go gates or readiness declarations.",
+        "operationId": "operator_claims_no_go_api_v1_operator_claims_no_go_get",
+        "parameters": [
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Write Report"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-operation": "operator.claims_no_go",
+        "x-devpilot-application-service-required": true,
+        "x-devpilot-local-only": true,
+        "x-devpilot-read-only": true,
+        "x-devpilot-mutates-claims": false,
+        "x-devpilot-mutates-no-go-gates": false,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-status": "visual-mvp-closed",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService.claims_no_go_dashboard",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-api-id": "api.operator.claims_no_go"
+      }
+    },
     "/api/v1/operator/dashboard": {
       "get": {
         "tags": [
@@ -1472,6 +1576,226 @@
         ]
       }
     },
+    "/api/v1/operator/evidence-export": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator redacted evidence export",
+        "description": "Protected local POST-H-031-E redacted operator evidence export. Returns an ApplicationResponse with OperatorEvidenceExport payload; write_report, when true, writes only redacted files under outputs/.",
+        "operationId": "operator_evidence_export_api_v1_operator_evidence_export_get",
+        "parameters": [
+          {
+            "name": "redacted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Redacted"
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Dry Run"
+            }
+          },
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Write Report"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-operation": "operator.evidence_export",
+        "x-devpilot-application-service-required": true,
+        "x-devpilot-local-only": true,
+        "x-devpilot-redacted": true,
+        "x-devpilot-writes-only": "outputs/",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-status": "visual-mvp-closed",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService.operator_evidence_export",
+        "x-devpilot-side-effect": "write-output-on-explicit-request",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-api-id": "api.operator.evidence_export"
+      }
+    },
+    "/api/v1/operator/gaps": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator Gaps",
+        "description": "Protected local read-only gap-to-action map. Returns an ApplicationResponse with GapActionMap payload; recommended commands are advisory and are never executed by this endpoint.",
+        "operationId": "operator_gaps_api_v1_operator_gaps_get",
+        "parameters": [
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Write Report"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-status": "visual-mvp-closed",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService.gap_action_map",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-operation": "operator.gaps",
+        "x-devpilot-api-id": "api.operator.gaps"
+      }
+    },
     "/api/v1/operator/health": {
       "get": {
         "tags": [
@@ -1492,20 +1816,84 @@
         ],
         "responses": {
           "200": {
-            "description": "ApplicationResponse with OperatorHealthSummary payload"
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Missing or invalid local API token"
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "403": {
-            "description": "PolicyEngine blocked the local API request"
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "x-devpilot-operation": "operator.health",
         "x-devpilot-application-service-required": true,
         "x-devpilot-local-only": true,
         "x-devpilot-read-only": true,
-        "x-devpilot-no-network": true
+        "x-devpilot-no-network": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-status": "visual-mvp-closed",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService.operator_health_summary",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-api-id": "api.operator.health"
       }
     },
     "/api/v1/portfolio/status": {
@@ -3184,92 +3572,6 @@
         "x-devpilot-consumers": [
           "ui/web dashboard"
         ]
-      }
-    },
-    "/api/v1/operator/gaps": {
-      "get": {
-        "tags": [
-          "operator"
-        ],
-        "summary": "Operator Gaps",
-        "description": "Protected local read-only gap-to-action map. Returns an ApplicationResponse with GapActionMap payload; recommended commands are advisory and are never executed by this endpoint.",
-        "operationId": "operator_gaps_api_v1_operator_gaps_get",
-        "parameters": [
-          {
-            "name": "write_report",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Write Report"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse with GapActionMap payload",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token"
-          },
-          "403": {
-            "description": "Policy denied"
-          }
-        }
-      }
-    },
-    "/api/v1/operator/claims-no-go": {
-      "get": {
-        "tags": [
-          "operator"
-        ],
-        "summary": "Operator claims/no-go dashboard",
-        "description": "Protected local read-only claims/no-go dashboard. Returns an ApplicationResponse with ClaimsNoGoDashboard payload; it never mutates claims, no-go gates or readiness declarations.",
-        "operationId": "operator_claims_no_go_api_v1_operator_claims_no_go_get",
-        "parameters": [
-          {
-            "name": "write_report",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Write Report"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse with ClaimsNoGoDashboard payload",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token"
-          },
-          "403": {
-            "description": "PolicyEngine blocked the local API request"
-          }
-        },
-        "x-devpilot-operation": "operator.claims_no_go",
-        "x-devpilot-application-service-required": true,
-        "x-devpilot-local-only": true,
-        "x-devpilot-read-only": true,
-        "x-devpilot-mutates-claims": false,
-        "x-devpilot-mutates-no-go-gates": false
       }
     }
   },

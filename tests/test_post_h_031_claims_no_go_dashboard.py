@@ -185,10 +185,10 @@ def test_claims_no_go_contracts_and_route_registry_are_synchronized() -> None:
     route_result = ApiRouteContractRegistryValidator(ROOT).validate()
     assert route_result.ok, route_result.to_dict()
     route_summary = route_result.data["summary"]
-    assert route_summary["routes_total"] == 38
-    assert route_summary["fastapi_route_keys_total"] == 38
-    assert route_summary["canonical_router_route_keys_total"] == 38
-    assert route_summary["application_service_routes_total"] == 34
+    assert route_summary["routes_total"] == 39
+    assert route_summary["fastapi_route_keys_total"] == 39
+    assert route_summary["canonical_router_route_keys_total"] == 39
+    assert route_summary["application_service_routes_total"] == 35
 
     route_registry = json.loads((ROOT / ".devpilot/interfaces/api_route_contract_registry.json").read_text(encoding="utf-8"))
     routes = {route["route_id"]: route for route in route_registry["routes"]}

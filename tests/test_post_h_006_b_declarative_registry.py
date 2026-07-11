@@ -28,8 +28,12 @@ CURRENT_DECLARATIVE_GROUPS = {
     "release",
     "release-candidate",
     "package",
+    "backup",
+    "upgrade",
     "connector",
     "install",
+    "tests",
+    "evidence",
 }
 
 

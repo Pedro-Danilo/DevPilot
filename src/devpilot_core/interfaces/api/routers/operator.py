@@ -70,3 +70,18 @@ def operator_claims_no_go(
         )
     )
 
+@router.get("/api/v1/operator/evidence-export")
+def operator_evidence_export(
+    redacted: bool = Query(default=True),
+    dry_run: bool = Query(default=True),
+    write_report: bool = Query(default=False),
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    return _json(
+        *dispatch_application_request(
+            service,
+            operation="operator.evidence_export",
+            payload={"redacted": redacted, "dry_run": dry_run or not write_report, "write_report": write_report},
+        )
+    )
+

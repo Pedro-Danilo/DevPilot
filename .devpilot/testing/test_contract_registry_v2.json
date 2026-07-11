@@ -14534,6 +14534,124 @@
         "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1",
         "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
       ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-E",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-E local-first/redacted operator evidence export contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "operator-evidence-export",
+      "contract_id": "post-h-031-redacted-evidence-export-ux",
+      "source_contract_id": "post-h-031-redacted-evidence-export-ux",
+      "domain": "operations.observability",
+      "capability": "OperatorEvidenceExport redacted operator evidence package",
+      "test_files": [
+        "tests/test_post_h_031_redacted_evidence_export_ux.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/export.py",
+        "docs/schemas/operator_evidence_export.schema.json",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "validates": [
+        "OperatorEvidenceExport",
+        "operator evidence-export CLI",
+        "redaction-required invariant",
+        "outputs-only package writes"
+      ],
+      "trigger_hints": [
+        "operator evidence export",
+        "redacted evidence",
+        "POST-H-031-E"
+      ],
+      "impact_scope": [
+        "operations.observability",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-E",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-E ApplicationService and protected API exposure for redacted evidence export."
+      ],
+      "owner_domain": "application.service",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "operator-evidence-export",
+      "contract_id": "post-h-031-redacted-evidence-export-application-api",
+      "source_contract_id": "post-h-031-redacted-evidence-export-application-api",
+      "domain": "application.service",
+      "capability": "OperatorEvidenceExport ApplicationService/API exposure",
+      "test_files": [
+        "tests/test_post_h_031_redacted_evidence_export_ux.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "validates": [
+        "ApplicationService.operator_evidence_export",
+        "operator.evidence_export",
+        "/api/v1/operator/evidence-export"
+      ],
+      "trigger_hints": [
+        "operator evidence export",
+        "redacted evidence",
+        "POST-H-031-E"
+      ],
+      "impact_scope": [
+        "application.service",
+        "interfaces.api",
+        "operations.observability"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1"
+      ]
     }
   ],
   "migration_metadata": {

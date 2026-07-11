@@ -11131,3 +11131,43 @@ Criterio PASS: `enterprise-ready`, `remote-ready`, `compliance-certified` y `saa
 Criterio BLOCK: cualquier claim prohibido disponible, no-go gate violado oculto, claim permitido sin evidencia, endpoint que modifique claims/gates, uso de LLM judge o red, o redacción insuficiente de evidencia.
 
 Los reportes bajo `outputs/reports` son evidencia runtime regenerable y no deben versionarse ni incluirse en ZIPs limpios.
+
+
+## POST-H-031-E — Redacted evidence export UX
+
+Capacidad `implemented-initial/local-first/redacted-export` para generar una experiencia de exportación redactada de evidencia operacional para operador/auditor interno. El export integra resúmenes de evidence graph, health, gaps, claims/no-go, observability redacted export, runtime state inventory y production-ready final declaration sin copiar payloads crudos.
+
+Comandos operativos:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core operator evidence-export --redacted --dry-run --json
+python -m devpilot_core operator evidence-export --redacted --write-report --json
+python -m devpilot_core schema validate --schema-id OperatorEvidenceExport --instance outputs/reports/operator_evidence_export.json --json
+```
+
+Validación focal recomendada:
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD="1"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_031_redacted_evidence_export_ux.py `
+  tests/test_post_h_031_claims_no_go_dashboard.py `
+  tests/test_post_h_031_gap_to_action_mapping.py `
+  tests/test_post_h_031_operator_health_summary.py `
+  tests/test_post_h_031_evidence_graph_model.py `
+  tests/test_observability_export.py `
+  tests/test_runtime_state_inventory.py `
+  tests/test_schema_registry.py `
+  tests/test_project_global_state.py `
+  -q
+```
+
+Criterio PASS: `--redacted` es obligatorio; dry-run no escribe; write-report escribe solo bajo `outputs/`; el paquete contiene manifest, checksums y README de interpretación; el payload valida contra `OperatorEvidenceExport`; no se exportan `.env`, secretos, prompts crudos, outputs crudos, DB SQLite completa ni `.devpilot/devpilot.db`.
+
+Criterio BLOCK: export sin redacción, escritura fuera de `outputs/`, inclusión de secretos o DB cruda, ausencia de checksums, claims prohibidos presentados como capacidades disponibles o paquete tratado como certificación externa.
+
+Los reportes y paquetes bajo `outputs/` son evidencia runtime regenerable y no deben versionarse ni incluirse en ZIPs limpios. POST-H-031 queda cerrado como capa operacional inicial de evidencia, no como sistema de certificación externa.
+
+
+Siguiente hito: `POST-H-032`

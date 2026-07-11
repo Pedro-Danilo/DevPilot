@@ -9,6 +9,10 @@ from devpilot_core.testing import TestProfileRegistry as ProfileRegistry
 from devpilot_core.testing import TestProfileTaxonomyRunner as ProfileTaxonomyRunner
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _post_h_number(value: str) -> int:
+    return int(str(value).split("POST-H-")[-1].split("-")[0])
 REQUIRED_PROFILE_IDS = {
     "always-fast",
     "p0-critical",
@@ -115,11 +119,11 @@ def test_post_h_029_a_governance_artifacts_are_synchronized() -> None:
     test_strategy = _read_text("docs/04_quality/test_strategy.md")
     changelog = _read_text("docs/release/CHANGELOG.md").lower()
 
-    assert state["last_completed_sprint"] in {"POST-H-028", "POST-H-029"}
-    assert state["next_sprint"] in {"POST-H-029", "POST-H-030"}
+    assert _post_h_number(state["last_completed_sprint"]) >= 29
+    assert _post_h_number(state["next_sprint"]) >= 30
     # POST-H-029-A is historical once B/C/D/E advance; do not bind this test to mutable global sprint pointers.
-    assert str(state["current_micro_sprint"]).startswith("POST-H-029-")
-    assert str(state["next_micro_sprint"]).startswith("POST-H-029-") or state["next_micro_sprint"] in {"POST-H-030", "POST-H-030-A"}
+    assert str(state.get("post_h_029_current_micro_sprint", "")).startswith("POST-H-029-")
+    assert state.get("post_h_029_next_micro_sprint") in {"POST-H-029-B", "POST-H-029-C", "POST-H-029-D", "POST-H-029-E", "POST-H-030"}
     assert str(state["current_repo"]).startswith("repo_DevPilot_Local_")
     assert state["post_h_029_test_profile_taxonomy_valid"] is True
     assert state["post_h_029_tests_executed_from_taxonomy"] is False

@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-031-e-redacted-evidence-export-ux",
+  "created_by": "POST-H-031-E",
+  "status": "implemented-initial",
+  "sprint": "POST-H-031-E",
+  "title": "POST-H-031-E - Redacted evidence export UX",
+  "generated_at_utc": "2026-07-11T00:00:00Z",
+  "summary": "Adds a redacted operator evidence export package with schema, manifest, checksums, CLI, ApplicationService and protected API exposure.",
+  "commands": [
+    "python -m devpilot_core operator evidence-export --redacted --dry-run --json",
+    "python -m devpilot_core operator evidence-export --redacted --write-report --json",
+    "python -m devpilot_core schema validate --schema-id OperatorEvidenceExport --instance outputs/reports/operator_evidence_export.json --json"
+  ],
+  "tests": [
+    "tests/test_post_h_031_redacted_evidence_export_ux.py"
+  ],
+  "safety": {
+    "local_first": true,
+    "redacted": true,
+    "redaction_required": true,
+    "dry_run_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "source_mutations_performed": false,
+    "raw_payloads_exported": false,
+    "raw_prompts_exported": false,
+    "raw_outputs_exported": false,
+    "env_files_exported": false,
+    "devpilot_db_exported": false,
+    "claims_mutated": false,
+    "no_go_gates_mutated": false
+  },
+  "limitations": [
+    "Implemented-initial redacted operator UX, not an external certification artifact.",
+    "Future UI/signing/encryption extensions require separate backlog and must preserve redaction constraints."
+  ],
+  "next_micro_sprint": "POST-H-032-A",
+  "updated": "2026-07-11",
+  "preliminary": true,
+  "post_h_id": "POST-H-031",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-11",
+  "created_files": [
+    "docs/schemas/operator_evidence_export.schema.json",
+    "src/devpilot_core/evidence_graph/export.py",
+    "tests/test_post_h_031_redacted_evidence_export_ux.py",
+    "docs/audits/post_h_031_e_redacted_evidence_export_ux_report.md",
+    "docs/post_h_031_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/evidence_graph/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/interfaces/api/routers/operator.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    ".devpilot/cli_registry/command_ownership_matrix.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/interfaces/api_route_contract_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md",
+    "docs/POST-H-031_observability_evidence_graph_operator.md"
+  ],
+  "verification_commands": [
+    "python -m devpilot_core operator evidence-export --redacted --dry-run --json",
+    "python -m devpilot_core operator evidence-export --redacted --write-report --json",
+    "python -m devpilot_core schema validate --schema-id OperatorEvidenceExport --instance outputs/reports/operator_evidence_export.json --json"
+  ],
+  "pass_criteria": [
+    "--redacted is mandatory and unredacted exports are blocked.",
+    "Dry-run writes no files.",
+    "--write-report writes only under outputs/reports and outputs/audit_exports/operator_evidence_export.",
+    "Export contains manifest, checksums, redaction manifest and auditor interpretation instructions.",
+    "Secret-value scan reports zero detected secret-like values in exported sections.",
+    ".env, .devpilot/devpilot.db, raw prompts, raw outputs and arbitrary outputs are not exported.",
+    "OperatorEvidenceExport validates against schema and API/CLI/ApplicationService contracts are synchronized."
+  ],
+  "block_criteria": [
+    "Export without redaction.",
+    "Export of secrets, .env, SQLite DB bytes, raw prompts or raw outputs.",
+    "Write outside outputs/.",
+    "Inclusion of prohibited claims as available capabilities.",
+    "Missing manifest or checksums.",
+    "Mutation of claims, no-go gates, source files or runtime state."
+  ],
+  "risks": [
+    "Implemented-initial package; UI visual affordance, signing and encryption remain future work.",
+    "The package is for internal technical audit/operator use and is not external certification.",
+    "Runtime outputs remain regenerable and excluded from source ZIPs.",
+    "Section summaries depend on existing deterministic builders and should stay schema-backed."
+  ],
+  "next_sprint": "POST-H-032"
+}

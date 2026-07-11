@@ -184,3 +184,16 @@ El smoke visual verifica que Dashboard, Reports, Traces, Approvals, Settings y O
 POST-H-028-E agrega enforcement bloqueante del `UiRouteContractRegistry`. Las vistas criticas deben declarar sus fuentes, estados visuales y `allowed_api_routes`; esas rutas deben existir en `ApiRouteContractRegistry`. La UI conserva frontera API-only: no importa core Python, no lee `.devpilot/` ni `outputs/`, y no muestra controles para `patch/apply`, rollback execute, refactor execute, tests/run, git push o deploy.
 
 El script `npm --prefix ui/web run test:route-enforcement` es dependency-light y complementa el CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`.
+
+## POST-H-031 — Operator evidence API mappings
+
+POST-H-031 agrega vistas operacionales read-only/redacted mediante `ApplicationService`. Estas rutas no habilitan ejecución remota, connector write, plugin execution ni mutaciones destructivas. Todas quedan protegidas por token local, CORS restringido, `API_ROUTE_POLICIES` y `PolicyEngine`.
+
+| API ID | Método | Path | Operation | Domain service | Side effect | Auth | Policy/gate |
+|---|---|---|---|---|---|---|---|
+| `api.operator.health` | `GET` | `/api/v1/operator/health` | `operator.health` | `ApplicationService.operator_health_summary` | `read_only` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine` |
+| `api.operator.gaps` | `GET` | `/api/v1/operator/gaps` | `operator.gaps` | `ApplicationService.gap_action_map` | `read_only` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; advisory actions only` |
+| `api.operator.claims_no_go` | `GET` | `/api/v1/operator/claims-no-go` | `operator.claims_no_go` | `ApplicationService.claims_no_go_dashboard` | `read_only` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; claims/no-go gates are not mutated` |
+| `api.operator.evidence_export` | `GET` | `/api/v1/operator/evidence-export` | `operator.evidence_export` | `ApplicationService.operator_evidence_export` | `outputs-only on explicit write_report` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; redacted export only; no patch execution; no raw payload export` |
+
+Regla: `operator.evidence_export` requiere export redactado y opera en `dry_run` por defecto. Cuando se solicita escritura explícita, solo escribe paquete regenerable bajo `outputs/audit_exports/operator_evidence_export/`; nunca escribe fuente versionada ni expone `.env`, `.devpilot/devpilot.db`, prompts crudos u outputs crudos.

@@ -187,6 +187,39 @@ class ApplicationService:
             ),
         ).build()
 
+    def operator_evidence_export(
+        self,
+        *,
+        redacted: bool = False,
+        dry_run: bool = True,
+        write_report: bool = False,
+        output_json: str = "outputs/reports/operator_evidence_export.json",
+        output_markdown: str = "outputs/reports/operator_evidence_export.md",
+        package_dir: str = "outputs/audit_exports/operator_evidence_export",
+        observability_limit: int = 100,
+    ) -> CommandResult:
+        """Build the POST-H-031-E redacted operator evidence export package.
+
+        The export is an operator/auditor UX over existing evidence summaries.
+        It requires redaction, writes only when requested, and constrains all
+        generated files to outputs/reports or outputs/audit_exports.
+        """
+
+        from devpilot_core.evidence_graph import OperatorEvidenceExportBuilder, OperatorEvidenceExportOptions
+
+        return OperatorEvidenceExportBuilder(
+            self.root,
+            OperatorEvidenceExportOptions(
+                redacted=redacted,
+                dry_run=dry_run,
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+                package_dir=Path(package_dir),
+                observability_limit=observability_limit,
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)
@@ -745,6 +778,15 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             output_json=str(payload.get("output_json", "outputs/reports/claims_no_go_dashboard.json")),
             output_markdown=str(payload.get("output_markdown", "outputs/reports/claims_no_go_dashboard.md")),
         ),
+        "operator.evidence_export": lambda payload: service.operator_evidence_export(
+            redacted=bool(payload.get("redacted", False)),
+            dry_run=bool(payload.get("dry_run", True)),
+            write_report=bool(payload.get("write_report", False)),
+            output_json=str(payload.get("output_json", "outputs/reports/operator_evidence_export.json")),
+            output_markdown=str(payload.get("output_markdown", "outputs/reports/operator_evidence_export.md")),
+            package_dir=str(payload.get("package_dir", "outputs/audit_exports/operator_evidence_export")),
+            observability_limit=int(payload.get("observability_limit", 100)),
+        ),
         "portfolio.status": lambda payload: service.portfolio_status(registry_path=str(payload.get("registry_path", ".devpilot/workspaces/workspace_registry.json"))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
@@ -885,5 +927,9 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
         ("APP-ROUTE-030", "GET", "/api/v1/operator/dashboard", "operator.dashboard", ["Active POST-H-015-C local operator dashboard snapshot route; read-only by default and ApplicationService-bound."]),
         ("APP-ROUTE-031", "GET", "/api/v1/portfolio/status", "portfolio.status", ["Active POST-H-016-D portfolio status route; read-only, policy-bound and does not change active workspace."]),
+        ("APP-ROUTE-032", "GET", "/api/v1/operator/health", "operator.health", ["Active POST-H-031-B operator health summary route; read-only and ApplicationService-bound."]),
+        ("APP-ROUTE-033", "GET", "/api/v1/operator/gaps", "operator.gaps", ["Active POST-H-031-C gap-to-action mapping route; advisory/read-only and does not execute recommended commands."]),
+        ("APP-ROUTE-034", "GET", "/api/v1/operator/claims-no-go", "operator.claims_no_go", ["Active POST-H-031-D claims/no-go dashboard route; read-only and does not mutate claims or gates."]),
+        ("APP-ROUTE-035", "GET", "/api/v1/operator/evidence-export", "operator.evidence_export", ["Active POST-H-031-E redacted evidence export route; dry-run by default and writes only redacted package under outputs when explicit."]),
     ]
     return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="secured-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

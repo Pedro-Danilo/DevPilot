@@ -17,6 +17,10 @@ from devpilot_core.cli_registry.registry import DeclarativeCliRegistryBuilder
 
 ROOT = Path(__file__).resolve().parents[1]
 
+
+def _post_h_number(value: str) -> int:
+    return int(str(value).split("POST-H-")[-1].split("-")[0])
+
 POST_H_030_C_COMMANDS = {
     "backup.create",
     "backup.list",
@@ -207,9 +211,9 @@ def test_post_h_030_c_governance_artifacts_are_synchronized() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] in {"POST-H-030-C", "POST-H-030-D", "POST-H-030-E"}
-    assert state["next_micro_sprint"] in {"POST-H-030-D", "POST-H-030-E", "POST-H-031-A"}
-    assert state["current_repo"] in {"repo_DevPilot_Local_286_POST_H_030_C.zip", "repo_DevPilot_Local_287_POST_H_030_D.zip", "repo_DevPilot_Local_288_POST_H_030_E.zip"}
+    assert state.get("post_h_030_current_micro_sprint") in {"POST-H-030-C", "POST-H-030-D", "POST-H-030-E"}
+    assert state.get("post_h_030_next_micro_sprint") in {"POST-H-030-D", "POST-H-030-E", "POST-H-031-A"}
+    assert _post_h_number(state["last_completed_sprint"]) >= 30
     assert state["post_h_030_status"] in {"active/implemented-initial-post-h-030-c", "active/implemented-initial-post-h-030-d", "closed/cli-boundary-hotspot-reduction"}
     assert state["post_h_030_release_cli_module"] == "src/devpilot_core/cli_commands/release.py"
     assert state["post_h_030_release_commands_migrated_total"] == len(POST_H_030_C_COMMANDS)

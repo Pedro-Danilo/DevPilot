@@ -70,3 +70,8 @@ Siguiente hito despues del cierre de POST-H-028. Debe gobernar tiers de pruebas,
 ## POST-H-031 — Observabilidad, evidence graph y operador
 
 Siguiente hito posterior al cierre de POST-H-030. Inicio recomendado: `POST-H-031-A — Evidence graph model`.
+
+
+## POST-H-032
+
+Siguiente hito tras POST-H-031: agentes IA avanzados, inventario de capacidades y criterios de promoción, manteniendo local-first y sin habilitar capacidades sensibles sin backlog/ADR propio.

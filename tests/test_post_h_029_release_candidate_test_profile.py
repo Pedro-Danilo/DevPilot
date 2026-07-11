@@ -118,9 +118,10 @@ def test_post_h_029_d_governance_artifacts_are_synchronized() -> None:
     changelog = _read_text("docs/release/CHANGELOG.md").lower()
     backlog = _read_text("docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md")
 
-    assert state["current_micro_sprint"] in {"POST-H-029-D", "POST-H-029-E"}
-    assert state["next_micro_sprint"] in {"POST-H-029-E", "POST-H-030-A"}
-    assert state["current_repo"] in {"repo_DevPilot_Local_282_POST_H_029_D.zip", "repo_DevPilot_Local_283_POST_H_029_E.zip"}
+    assert state.get("post_h_029_current_micro_sprint") in {"POST-H-029-D", "POST-H-029-E"}
+    assert state.get("post_h_029_next_micro_sprint") in {"POST-H-029-E", "POST-H-030"}
+    assert state["post_h_029_status"] == "closed/testing-tiers-ready"
+    assert str(state["current_repo"]).startswith("repo_DevPilot_Local_")
     assert state["post_h_029_release_candidate_test_profile_schema_registered"] is True
     assert state["post_h_029_release_candidate_test_profile_available"] is True
     assert state["post_h_029_release_candidate_test_profile_tests_executed"] is False

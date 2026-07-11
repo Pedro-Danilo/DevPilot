@@ -13,6 +13,10 @@ from devpilot_core.quality.gate import QualityGate, QualityGateOptions
 from devpilot_core.schemas import SchemaValidator
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _post_h_number(value: str) -> int:
+    return int(str(value).split("POST-H-")[-1].split("-")[0])
 WEB = ROOT / "ui" / "web"
 
 
@@ -115,10 +119,10 @@ def test_ui_route_enforcement_schema_registries_and_project_state_are_synchroniz
     assert any(doc["doc_id"] == "POST-H-028-E-UI-ROUTE-ENFORCEMENT-REPORT" for doc in source_registry["documents"])
     assert "post-h-028-ui-route-registry-enforcement" in tcr_v1
     assert "post-h-028-ui-route-registry-enforcement" in tcr_v2
-    assert state["last_completed_sprint"] == "POST-H-028"
-    assert state["next_sprint"] == "POST-H-029"
-    assert state["current_micro_sprint"] == "POST-H-028-E"
-    assert state["next_micro_sprint"] == "POST-H-029"
+    assert _post_h_number(state["last_completed_sprint"]) >= 28
+    assert _post_h_number(state["next_sprint"]) >= 29
+    assert state.get("post_h_028_current_micro_sprint") == "POST-H-028-E"
+    assert state.get("post_h_028_next_micro_sprint") == "POST-H-029"
     assert state["post_h_028_status"] == "closed/ui-api-local-hardening"
     assert state["post_h_028_ui_route_enforcement_available"] is True
     assert state["post_h_028_ui_api_local_hardening_quality_gate_enabled"] is True

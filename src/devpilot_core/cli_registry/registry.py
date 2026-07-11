@@ -36,6 +36,7 @@ APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
     "workspace.status": "workspace.status",
     "api.shell-gate": "api.shell_gate",
     "operator.dashboard": "operator.dashboard",
+    "operator.evidence-export": "operator.evidence_export",
     "portfolio.status": "portfolio.status",
 }
 
@@ -1057,6 +1058,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_application_api.py -q",
         ),
         rationale="POST-H-015-E operator dashboard is read-only by default and writes only operator_dashboard_snapshot JSON/Markdown under outputs/reports when --write-report is explicit.",
+    ),
+    "operator.evidence-export": DeclarativeCommandOverride(
+        command_id="operator.evidence-export",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q",
+        ),
+        rationale="POST-H-031-E builds a redacted operator evidence export package; --redacted is mandatory, dry-run writes nothing and --write-report writes only outputs/reports plus outputs/audit_exports/operator_evidence_export.",
     ),
     "portfolio.status": DeclarativeCommandOverride(
         command_id="portfolio.status",

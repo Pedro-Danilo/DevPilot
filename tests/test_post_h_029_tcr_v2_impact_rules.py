@@ -99,9 +99,10 @@ def test_post_h_029_b_governance_artifacts_are_synchronized() -> None:
     changelog = _read_text("docs/release/CHANGELOG.md").lower()
     backlog = _read_text("docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md")
 
-    assert state["current_micro_sprint"] in {"POST-H-029-D", "POST-H-029-E"}
-    assert state["next_micro_sprint"] in {"POST-H-029-E", "POST-H-030-A"}
-    assert state["current_repo"] in {"repo_DevPilot_Local_282_POST_H_029_D.zip", "repo_DevPilot_Local_283_POST_H_029_E.zip"}
+    assert state.get("post_h_029_current_micro_sprint") in {"POST-H-029-D", "POST-H-029-E"}
+    assert state.get("post_h_029_next_micro_sprint") in {"POST-H-029-E", "POST-H-030"}
+    assert state["post_h_029_status"] == "closed/testing-tiers-ready"
+    assert str(state["current_repo"]).startswith("repo_DevPilot_Local_")
     assert state["post_h_029_test_impact_rule_registry_valid"] is True
     assert state["post_h_029_test_impact_rules_unmapped_p0_p1_domains_total"] == 0
     assert state["post_h_029_test_impact_rules_unsafe_commands_total"] == 0

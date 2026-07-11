@@ -5703,6 +5703,43 @@ def evidence_claims_dashboard_command(
     return int(result.exit_code)
 
 
+def operator_evidence_export_command(
+    *,
+    redacted: bool = False,
+    dry_run: bool = True,
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/operator_evidence_export.json",
+    output_markdown: str = "outputs/reports/operator_evidence_export.md",
+    package_dir: str = "outputs/audit_exports/operator_evidence_export",
+    observability_limit: int = 100,
+) -> int:
+    """Build POST-H-031-E redacted operator evidence export UX."""
+
+    root = project_root()
+    result = ApplicationService(root).operator_evidence_export(
+        redacted=redacted,
+        dry_run=dry_run,
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        package_dir=package_dir,
+        observability_limit=observability_limit,
+    )
+    summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, summary_result, subject="operator:evidence-export")
+    _persist_result(root, summary_result, subject="operator:evidence-export")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def tests_taxonomy_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Validate POST-H-029-A test profile taxonomy without executing tests."""
 
@@ -7048,6 +7085,15 @@ def build_parser() -> argparse.ArgumentParser:
     operator_dashboard = operator_sub.add_parser("dashboard", help="Generate POST-H-015 operator dashboard JSON/Markdown")
     operator_dashboard.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     operator_dashboard.add_argument("--write-report", action="store_true", help="Persist operator_dashboard_snapshot.json and .md under outputs/reports")
+    operator_evidence_export = operator_sub.add_parser("evidence-export", help="Build POST-H-031-E redacted operator evidence export package")
+    operator_evidence_export.add_argument("--redacted", action="store_true", help="Required: build a redacted export only")
+    operator_evidence_export.add_argument("--dry-run", action="store_true", help="Preview export without writing files; default when --write-report is absent")
+    operator_evidence_export.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    operator_evidence_export.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown report and package under outputs/audit_exports/operator_evidence_export")
+    operator_evidence_export.add_argument("--output-json", default="outputs/reports/operator_evidence_export.json", help="OperatorEvidenceExport JSON report path")
+    operator_evidence_export.add_argument("--output-markdown", default="outputs/reports/operator_evidence_export.md", help="OperatorEvidenceExport Markdown report path")
+    operator_evidence_export.add_argument("--package-dir", default="outputs/audit_exports/operator_evidence_export", help="Audit export package directory under outputs/")
+    operator_evidence_export.add_argument("--observability-limit", type=int, default=100, help="Bounded observability sample limit for delegated redacted summary")
 
     api = sub.add_parser("api", help="Run, inspect or secure the local API MVP")
     api_sub = api.add_subparsers(dest="api_command")
@@ -7416,7 +7462,6 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return remote_runner_status_command(
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
-                rules_path=args.rules_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )
@@ -8418,6 +8463,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "operator":
         if args.operator_command == "dashboard":
             return operator_dashboard_command(json_output=args.json, write_report=args.write_report)
+        if args.operator_command == "evidence-export":
+            return operator_evidence_export_command(
+                redacted=args.redacted,
+                dry_run=args.dry_run or not args.write_report,
+                json_output=args.json,
+                write_report=args.write_report,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                package_dir=args.package_dir,
+                observability_limit=args.observability_limit,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "api":

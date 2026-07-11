@@ -2634,3 +2634,15 @@ Siguiente micro-sprint: `POST-H-031-D — Claims and no-go dashboard`.
 - No muta claims, no-go gates, project state ni criterios production-ready-local.
 
 Siguiente micro-sprint: `POST-H-031-E — Redacted evidence export UX`.
+
+
+## post-h-031-e — Redacted evidence export UX
+
+- Agrega `OperatorEvidenceExport` como paquete redactado y curado de evidencia operacional para auditoría técnica interna.
+- Registra `SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1`, `src/devpilot_core/evidence_graph/export.py`, `ApplicationService.operator_evidence_export(...)`, `python -m devpilot_core operator evidence-export --redacted --dry-run --json` y `GET /api/v1/operator/evidence-export`.
+- El export incluye resúmenes metadata-only de evidence graph, operator health, gap action map, claims/no-go dashboard, observability redacted export, runtime state inventory y production-ready final declaration.
+- `--redacted` es obligatorio; dry-run no escribe; write-report escribe solo en `outputs/reports` y `outputs/audit_exports/operator_evidence_export`.
+- No exporta `.env`, secretos, tokens, prompts crudos, outputs crudos, `.devpilot/devpilot.db`, DB SQLite completa ni trazas sensibles.
+- Cierra POST-H-031 como `implemented-initial/local-first/redacted-export`; el paquete no es certificación externa ni enterprise/remote/SaaS readiness.
+
+Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`.

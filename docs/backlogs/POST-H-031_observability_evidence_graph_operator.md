@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md"
 created_for: "DevPilot Local"
 scope: "local-first / read-only by default / operator evidence UX / no overclaims"
-implementation_status: "active/implemented-initial-post-h-031-d"
-current_micro_sprint: "POST-H-031-D"
-next_micro_sprint: "POST-H-031-E"
+implementation_status: "closed/redacted-evidence-export-ux"
+current_micro_sprint: "POST-H-031-E"
+next_micro_sprint: "POST-H-032-A"
 ```
 
 ## 1. Proposito del backlog
@@ -824,3 +824,26 @@ La implementación conserva `production-ready-local` como claim permitido solo b
 Límites explícitos: esta primera versión no muta claims, no muta no-go gates, no reemplaza `ProductionReadyClaimsValidator`, no declara readiness nueva, no usa LLM judge, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red ni APIs externas, no habilita remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
 
 Siguiente micro-sprint: `POST-H-031-E — Redacted evidence export UX`.
+
+
+## Estado de implementación POST-H-031-E
+
+POST-H-031-E queda en estado `implemented-initial/local-first/redacted-export` y cierra el backlog POST-H-031. Se agregó `OperatorEvidenceExport` como paquete curado de evidencia operacional redactada para operador/auditor interno.
+
+Artefactos principales:
+
+- `docs/schemas/operator_evidence_export.schema.json`;
+- `src/devpilot_core/evidence_graph/export.py`;
+- `python -m devpilot_core operator evidence-export --redacted --dry-run --json`;
+- `ApplicationService.operator_evidence_export(...)`;
+- `GET /api/v1/operator/evidence-export`;
+- paquete regenerable bajo `outputs/audit_exports/operator_evidence_export/` cuando se usa `--write-report`;
+- `docs/audits/post_h_031_e_redacted_evidence_export_ux_report.md`;
+- `docs/post_h_031_e_manifest.json`;
+- `tests/test_post_h_031_redacted_evidence_export_ux.py`.
+
+La implementación conserva redacción obligatoria, dry-run por defecto y escritura restringida a `outputs/`. El paquete incluye únicamente resúmenes metadata-only, manifest, checksums e instrucciones de interpretación. No exporta `.env`, secretos, tokens, prompts crudos, outputs crudos, `.devpilot/devpilot.db`, DB SQLite completa, trazas sensibles ni outputs no seleccionados.
+
+Límites explícitos: este export es evidencia técnica interna, no certificación externa; no declara enterprise-ready, remote-ready, SaaS-ready ni compliance-certified; no reemplaza `ProductionReadyClaimsValidator`, `ProductionReadyFinalDeclaration` ni quality gates formales.
+
+Siguiente hito: `POST-H-032-A — Agent capability inventory and promotion criteria`.
