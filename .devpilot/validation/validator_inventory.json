@@ -1,0 +1,828 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-VALIDATOR-INVENTORY-V1",
+  "inventory_id": "devpilot-validator-inventory-post-h-033-a",
+  "created_by": "POST-H-033-A",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "Inventory of deterministic validators and hardcoded rule decisions for POST-H-033 schema-backed migration.",
+  "summary": {
+    "validators_total": 14,
+    "minimum_validators_required_total": 14,
+    "minimum_validators_covered": true,
+    "hardcoded_elements_total": 31,
+    "decisions": {
+      "fallback": 1,
+      "parser": 3,
+      "migrate": 14,
+      "keep": 9,
+      "security-core": 4
+    },
+    "runtime_behavior_changed": false,
+    "llm_judge_required": false,
+    "external_dependencies_added": false,
+    "no_go_gates_relaxed": false,
+    "critical_defenses_disable_allowed": false
+  },
+  "validators": [
+    {
+      "validator_id": "validators.artifact_profiles",
+      "module_path": "src/devpilot_core/validators/artifact_profiles.py",
+      "owner": "POST-H-033-A",
+      "domain": "validation.artifacts",
+      "status": "inventory-captured",
+      "criticality": "P1",
+      "rule_types": [
+        "artifact-profile",
+        "fallback-compatibility"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "artifact-profile-python-fallback",
+          "description": "Python fallback for artifact profiles when declarative catalog is unavailable.",
+          "decision": "fallback",
+          "target_micro_sprint": "POST-H-033-A",
+          "critical": false,
+          "rationale": "The repo already has docs/validation/artifact_profiles.json as primary source; fallback remains for compatibility and must be declared."
+        },
+        {
+          "element_id": "artifact-profile-loader-shape",
+          "description": "Loader and normalization behavior for artifact profiles.",
+          "decision": "parser",
+          "target_micro_sprint": "POST-H-033-A",
+          "critical": false,
+          "rationale": "Parser/normalizer logic should remain in code; rules stay in catalog."
+        }
+      ],
+      "migration_target": "keep schema-backed catalog as primary and keep declared fallback until compatibility deprecation review",
+      "must_remain_in_code": [
+        "catalog loader",
+        "safe fallback resolver"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "docs/validation/artifact_profiles.json"
+      ],
+      "outputs": [
+        "ArtifactProfileRegistry payloads consumed by validators/artifact.py"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-ARTIFACT-PROFILES-V1"
+      ],
+      "tests": [
+        "tests/test_artifact_profile_registry.py",
+        "tests/test_artifact_validator.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-A",
+      "compatibility_strategy": "inventory-only; preserve current behavior and declare fallback owner/deprecation path"
+    },
+    {
+      "validator_id": "validators.frontmatter",
+      "module_path": "src/devpilot_core/validators/frontmatter.py",
+      "owner": "POST-H-033-B",
+      "domain": "validation.frontmatter",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "schema",
+        "metadata-contract",
+        "regex",
+        "severity"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "required-frontmatter-fields",
+          "description": "Required frontmatter fields for governed documents.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-B",
+          "critical": true,
+          "rationale": "Configurable document metadata rules should move to frontmatter catalog/schema without reducing severity."
+        },
+        {
+          "element_id": "allowed-statuses",
+          "description": "Allowed lifecycle/status values.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-B",
+          "critical": true,
+          "rationale": "Status taxonomy is declarative policy; engine remains deterministic."
+        },
+        {
+          "element_id": "semver-date-docid-patterns",
+          "description": "SEMVER, date and doc_id patterns.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-B",
+          "critical": true,
+          "rationale": "Patterns should be versioned and auditable; parser still owns extraction."
+        },
+        {
+          "element_id": "frontmatter-parser",
+          "description": "Dependency-free frontmatter parser.",
+          "decision": "parser",
+          "target_micro_sprint": "POST-H-033-B",
+          "critical": true,
+          "rationale": "Parsing must stay in code to avoid dynamic parser/config execution risk."
+        }
+      ],
+      "migration_target": ".devpilot/validation/frontmatter_catalog.json",
+      "must_remain_in_code": [
+        "frontmatter extraction parser",
+        "safe fallback for missing/invalid catalog"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "Markdown documents with frontmatter"
+      ],
+      "outputs": [
+        "Frontmatter findings consumed by artifact/docs governance validators"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-FRONTMATTER-METADATA-V1"
+      ],
+      "tests": [
+        "tests/test_frontmatter_validator.py",
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-B",
+      "compatibility_strategy": "catalog primary with Python fallback and before/after findings parity tests"
+    },
+    {
+      "validator_id": "validators.readiness",
+      "module_path": "src/devpilot_core/validators/readiness.py",
+      "owner": "POST-H-033-C",
+      "domain": "validation.readiness",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "readiness-requirements",
+        "artifact-presence",
+        "miasi-requirements"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "required-pre-code-artifacts",
+          "description": "Required pre-code artifact lists.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-C",
+          "critical": true,
+          "rationale": "Artifact requirements are auditable requirements, not parser logic."
+        },
+        {
+          "element_id": "required-miasi-artifacts",
+          "description": "Required MIASI artifact lists.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-C",
+          "critical": true,
+          "rationale": "MIASI artifacts must remain blocking but versioned in registry."
+        },
+        {
+          "element_id": "strict-required-artifacts",
+          "description": "Strict readiness blocking artifact list.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-C",
+          "critical": true,
+          "rationale": "Strictness must be traceable to registry version and owner."
+        },
+        {
+          "element_id": "readiness-evaluation-engine",
+          "description": "Deterministic readiness evaluation engine.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-C",
+          "critical": true,
+          "rationale": "Evaluation engine remains code and must not become dynamic executable rules."
+        }
+      ],
+      "migration_target": ".devpilot/readiness/readiness_requirements.json",
+      "must_remain_in_code": [
+        "deterministic readiness evaluator",
+        "safe fallback and missing-registry BLOCK/WARNING handling"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "docs/00_product",
+        "docs/01_requirements",
+        "docs/02_architecture",
+        "docs/03_security",
+        ".devpilot/miasi"
+      ],
+      "outputs": [
+        "Precode readiness CommandResult"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-READINESS-REQUIREMENTS-V1"
+      ],
+      "tests": [
+        "tests/test_precode_readiness.py",
+        "tests/test_validation_gateway.py",
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-C",
+      "compatibility_strategy": "registry primary with fallback parity and no missing-artifact downgrade"
+    },
+    {
+      "validator_id": "miasi.registry",
+      "module_path": "src/devpilot_core/miasi/registry.py",
+      "owner": "POST-H-033-A",
+      "domain": "miasi.registry",
+      "status": "inventory-captured",
+      "criticality": "P0",
+      "rule_types": [
+        "registry-loader",
+        "schema-backed-contract"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "miasi-registry-loader",
+          "description": "Static MIASI registry loading and normalization.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-A",
+          "critical": true,
+          "rationale": "Loader and structural guardrails remain code; registry contents remain JSON/schema-backed."
+        }
+      ],
+      "migration_target": "no behavior migration in POST-H-033-A; keep loader stable",
+      "must_remain_in_code": [
+        "registry file loading",
+        "schema reference handling",
+        "CommandResult mapping"
+      ],
+      "fallback_required": false,
+      "inputs": [
+        ".devpilot/miasi/agent_registry.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json"
+      ],
+      "outputs": [
+        "MIASI registry validation CommandResult"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
+        "SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
+        "SCHEMA-DEVPL-MIASI-POLICY-MATRIX-V1"
+      ],
+      "tests": [
+        "tests/test_miasi_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-A",
+      "compatibility_strategy": "inventory-only; preserve registry behavior"
+    },
+    {
+      "validator_id": "miasi.semantic",
+      "module_path": "src/devpilot_core/miasi/semantic.py",
+      "owner": "POST-H-033-D",
+      "domain": "miasi.semantic",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "semantic-rule",
+        "no-go-gate",
+        "approval-rbac",
+        "security-guard"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "miasi-no-go-action-markers",
+          "description": "No-go action markers for remote/plugin/connector/write/execute-sensitive behavior.",
+          "decision": "security-core",
+          "target_micro_sprint": "POST-H-033-D",
+          "critical": true,
+          "rationale": "No-go semantics may be cataloged for audit but cannot be disabled by local JSON."
+        },
+        {
+          "element_id": "approval-rbac-secret-network-tokens",
+          "description": "Approval, RBAC, SecretGuard, network and local guard tokens.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-D",
+          "critical": true,
+          "rationale": "Tokens should be versioned and reported with rule source while retaining non-removable core enforcement."
+        },
+        {
+          "element_id": "semantic-evaluation-engine",
+          "description": "Deterministic semantic validator engine.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-D",
+          "critical": true,
+          "rationale": "Engine remains non-executing code; registry provides rule data only."
+        }
+      ],
+      "migration_target": ".devpilot/miasi/semantic_rules.json",
+      "must_remain_in_code": [
+        "deterministic semantic engine",
+        "non-removable no-go core",
+        "safe fallback"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        ".devpilot/miasi/*.json",
+        "evals/fixtures"
+      ],
+      "outputs": [
+        "MiasiSemanticReport"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1",
+        "SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1"
+      ],
+      "tests": [
+        "tests/test_miasi_semantic_validator.py",
+        "tests/test_miasi_semantic_validator_fixtures.py",
+        "tests/test_miasi_semantic_report_model.py",
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-D",
+      "compatibility_strategy": "declarative registry plus mandatory built-in no-go core and before/after adversarial tests"
+    },
+    {
+      "validator_id": "miasi.semantic_rules",
+      "module_path": "src/devpilot_core/miasi/semantic_rules.py",
+      "owner": "POST-H-033-D",
+      "domain": "miasi.semantic",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "semantic-rule-source",
+        "fallback-compatibility"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "semantic-rule-constants",
+          "description": "Current semantic rule constants and helper sets.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-D",
+          "critical": true,
+          "rationale": "Rule constants become declarative semantic rule catalog entries where safe."
+        },
+        {
+          "element_id": "semantic-rule-helpers",
+          "description": "Helper functions for semantic rule normalization.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-D",
+          "critical": false,
+          "rationale": "Safe helper code remains engine-side and deterministic."
+        }
+      ],
+      "migration_target": ".devpilot/miasi/semantic_rules.json",
+      "must_remain_in_code": [
+        "normalization helpers",
+        "mandatory security-core fallback"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "MIASI semantic candidate payloads"
+      ],
+      "outputs": [
+        "Normalized semantic rule metadata"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1"
+      ],
+      "tests": [
+        "tests/test_miasi_semantic_validator.py",
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-D",
+      "compatibility_strategy": "migrate constants gradually and assert no-go findings remain stable"
+    },
+    {
+      "validator_id": "docs_governance.validator",
+      "module_path": "src/devpilot_core/docs_governance/validator.py",
+      "owner": "POST-H-033-F",
+      "domain": "docs_governance",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "documentation-governance",
+        "source-of-truth",
+        "required-tests",
+        "lifecycle"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "docs-governance-blocking-rules",
+          "description": "Blocking rules for source registry, frontmatter, status and required tests.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-F",
+          "critical": true,
+          "rationale": "Rules should be auditable in docs governance rule registry, while enforcement engine remains code."
+        },
+        {
+          "element_id": "docs-governance-engine",
+          "description": "Deterministic governance validation engine.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-F",
+          "critical": true,
+          "rationale": "Engine and safe failure behavior remain in code."
+        }
+      ],
+      "migration_target": ".devpilot/docs_governance/rule_registry.json",
+      "must_remain_in_code": [
+        "governance engine",
+        "source registry reader",
+        "safe failure mapping"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/**/*.md",
+        "docs/**/*.json"
+      ],
+      "outputs": [
+        "Documentation governance CommandResult"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1",
+        "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1"
+      ],
+      "tests": [
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-F",
+      "compatibility_strategy": "rule registry plus source registry joint validation; no drift downgrade"
+    },
+    {
+      "validator_id": "docs_governance.backlogs",
+      "module_path": "src/devpilot_core/docs_governance/backlogs.py",
+      "owner": "POST-H-033-F",
+      "domain": "docs_governance.backlogs",
+      "status": "migration-planned",
+      "criticality": "P1",
+      "rule_types": [
+        "backlog-governance",
+        "lifecycle"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "backlog-lifecycle-rules",
+          "description": "Backlog lifecycle, status and synchronization checks.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-F",
+          "critical": false,
+          "rationale": "Lifecycle policy is declarative and should be versioned."
+        },
+        {
+          "element_id": "backlog-parser",
+          "description": "Backlog parsing and markdown scanning.",
+          "decision": "parser",
+          "target_micro_sprint": "POST-H-033-F",
+          "critical": false,
+          "rationale": "Markdown scanning remains code."
+        }
+      ],
+      "migration_target": ".devpilot/docs_governance/rule_registry.json",
+      "must_remain_in_code": [
+        "markdown scanning",
+        "deterministic backlog parser"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "docs/backlogs/*.md"
+      ],
+      "outputs": [
+        "Backlog governance findings"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1"
+      ],
+      "tests": [
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-F",
+      "compatibility_strategy": "add registry-backed policies without changing existing backlog pass/fail behavior"
+    },
+    {
+      "validator_id": "docs_governance.drift",
+      "module_path": "src/devpilot_core/docs_governance/drift.py",
+      "owner": "POST-H-033-F",
+      "domain": "docs_governance.drift",
+      "status": "migration-planned",
+      "criticality": "P1",
+      "rule_types": [
+        "source-of-truth-drift",
+        "authority"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "source-of-truth-drift-rules",
+          "description": "Source-of-truth drift and historical/current authority checks.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-F",
+          "critical": true,
+          "rationale": "Drift rules must become auditable while remaining blocking for critical docs."
+        },
+        {
+          "element_id": "drift-comparison-engine",
+          "description": "Deterministic drift comparison logic.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-F",
+          "critical": true,
+          "rationale": "Comparison engine remains code to preserve deterministic behavior."
+        }
+      ],
+      "migration_target": ".devpilot/docs_governance/rule_registry.json",
+      "must_remain_in_code": [
+        "drift comparison engine",
+        "safe fail-closed behavior"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "source registry entries",
+        "docs authority metadata"
+      ],
+      "outputs": [
+        "Drift findings"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1"
+      ],
+      "tests": [
+        "tests/test_documentation_governance_sync.py",
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-F",
+      "compatibility_strategy": "rule registry must not weaken drift blocking behavior"
+    },
+    {
+      "validator_id": "policy.prompt_guard",
+      "module_path": "src/devpilot_core/policy/prompt_guard.py",
+      "owner": "POST-H-033-E",
+      "domain": "policy.guards",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "security-guard",
+        "pattern-catalog",
+        "prompt-injection"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "prompt-injection-core-patterns",
+          "description": "Mandatory prompt injection patterns.",
+          "decision": "security-core",
+          "target_micro_sprint": "POST-H-033-E",
+          "critical": true,
+          "rationale": "Core patterns may be mirrored in catalog but must not be removable or downgraded."
+        },
+        {
+          "element_id": "prompt-injection-extension-patterns",
+          "description": "Extensible local prompt guard patterns.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-E",
+          "critical": false,
+          "rationale": "Extensions can be cataloged as additive rules only."
+        }
+      ],
+      "migration_target": ".devpilot/policy/guard_pattern_catalog.json",
+      "must_remain_in_code": [
+        "mandatory core patterns",
+        "payload redaction",
+        "safe invalid-catalog behavior"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "user/model/tool text payloads"
+      ],
+      "outputs": [
+        "Prompt injection findings"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1"
+      ],
+      "tests": [
+        "tests/test_prompt_injection_guard.py",
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-E",
+      "compatibility_strategy": "built-in mandatory patterns plus additive catalog; invalid catalog cannot bypass guard"
+    },
+    {
+      "validator_id": "policy.tool_injection_guard",
+      "module_path": "src/devpilot_core/policy/tool_injection_guard.py",
+      "owner": "POST-H-033-E",
+      "domain": "policy.guards",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "security-guard",
+        "tool-injection",
+        "approval-bypass"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "tool-injection-core-patterns",
+          "description": "Mandatory tool injection and approval bypass patterns.",
+          "decision": "security-core",
+          "target_micro_sprint": "POST-H-033-E",
+          "critical": true,
+          "rationale": "Core tool-injection blocking remains non-removable in code."
+        },
+        {
+          "element_id": "tool-injection-extension-patterns",
+          "description": "Additive tool injection patterns.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-E",
+          "critical": false,
+          "rationale": "Additive extensions can be versioned with rule source and redaction guarantees."
+        }
+      ],
+      "migration_target": ".devpilot/policy/guard_pattern_catalog.json",
+      "must_remain_in_code": [
+        "mandatory core patterns",
+        "target/tool mutation blocker",
+        "payload redaction"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "tool call requests",
+        "agent instructions"
+      ],
+      "outputs": [
+        "Tool injection findings"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1"
+      ],
+      "tests": [
+        "tests/test_post_h_032_tool_calling_contract.py",
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-E",
+      "compatibility_strategy": "catalog can only add blocking/warning patterns; cannot enable remote/write/plugin/API behavior"
+    },
+    {
+      "validator_id": "policy.secrets",
+      "module_path": "src/devpilot_core/policy/secrets.py",
+      "owner": "POST-H-033-E",
+      "domain": "policy.secrets",
+      "status": "migration-planned",
+      "criticality": "P0",
+      "rule_types": [
+        "security-guard",
+        "secret-redaction",
+        "pattern-catalog"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "secret-core-patterns",
+          "description": "Mandatory secret detection/redaction patterns.",
+          "decision": "security-core",
+          "target_micro_sprint": "POST-H-033-E",
+          "critical": true,
+          "rationale": "Secret defenses cannot be disabled or downgraded by local JSON."
+        },
+        {
+          "element_id": "secret-extension-patterns",
+          "description": "Optional additive secret pattern extensions.",
+          "decision": "migrate",
+          "target_micro_sprint": "POST-H-033-E",
+          "critical": false,
+          "rationale": "Extensions can be versioned if payload redaction remains mandatory."
+        }
+      ],
+      "migration_target": ".devpilot/policy/guard_pattern_catalog.json",
+      "must_remain_in_code": [
+        "mandatory secret patterns",
+        "redaction engine",
+        "safe failure behavior"
+      ],
+      "fallback_required": true,
+      "inputs": [
+        "paths",
+        "payloads",
+        "environment key names"
+      ],
+      "outputs": [
+        "SecretGuard findings and redacted values"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1"
+      ],
+      "tests": [
+        "tests/test_secret_guard_hardening.py",
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-E",
+      "compatibility_strategy": "catalog additions only; raw secret payloads remain redacted"
+    },
+    {
+      "validator_id": "validation.artifact_profile_registry",
+      "module_path": "src/devpilot_core/validation/artifact_profile_registry.py",
+      "owner": "POST-H-033-A",
+      "domain": "validation.artifacts",
+      "status": "inventory-captured",
+      "criticality": "P1",
+      "rule_types": [
+        "schema-backed-catalog",
+        "loader"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "artifact-profile-registry-loader",
+          "description": "Schema-backed artifact profile registry loader.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-A",
+          "critical": false,
+          "rationale": "This is already the desired pattern: stable engine, declarative profiles."
+        }
+      ],
+      "migration_target": "reference implementation for later schema-backed validator migrations",
+      "must_remain_in_code": [
+        "registry loader",
+        "schema validation hook"
+      ],
+      "fallback_required": false,
+      "inputs": [
+        "docs/validation/artifact_profiles.json"
+      ],
+      "outputs": [
+        "Artifact profile registry result"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-ARTIFACT-PROFILES-V1"
+      ],
+      "tests": [
+        "tests/test_artifact_profile_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-A",
+      "compatibility_strategy": "use as pattern; no runtime behavior change"
+    },
+    {
+      "validator_id": "schemas.validator",
+      "module_path": "src/devpilot_core/schemas/validator.py",
+      "owner": "POST-H-033-A",
+      "domain": "governance.schemas",
+      "status": "inventory-captured",
+      "criticality": "P0",
+      "rule_types": [
+        "schema-validation-engine",
+        "local-jsonschema"
+      ],
+      "hardcoded_elements": [
+        {
+          "element_id": "jsonschema-execution-engine",
+          "description": "Local JSON Schema validation engine and resolver.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-A",
+          "critical": true,
+          "rationale": "The engine validates schema-backed artifacts and must remain deterministic/local-first code."
+        },
+        {
+          "element_id": "schema-reference-resolution",
+          "description": "Resolution by schema_id, contract name or path.",
+          "decision": "keep",
+          "target_micro_sprint": "POST-H-033-A",
+          "critical": true,
+          "rationale": "Safe local resolution remains code and never calls network."
+        }
+      ],
+      "migration_target": "not migrated; engine supports all schema-backed validators",
+      "must_remain_in_code": [
+        "schema resolver",
+        "jsonschema validation engine",
+        "local reference registry"
+      ],
+      "fallback_required": false,
+      "inputs": [
+        "docs/schemas/schema_catalog.json",
+        "schema instances"
+      ],
+      "outputs": [
+        "Schema validation CommandResult"
+      ],
+      "schemas": [
+        "SCHEMA-DEVPL-VALIDATOR-INVENTORY-V1",
+        "SCHEMA-DEVPL-VALIDATOR-MIGRATION-REPORT-V1"
+      ],
+      "tests": [
+        "tests/test_schema_validator.py",
+        "tests/test_schema_registry.py"
+      ],
+      "migration_micro_sprint": "POST-H-033-A",
+      "compatibility_strategy": "no behavior change; new schemas consume existing validator"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "inventory_only": true,
+    "runtime_behavior_changed": false,
+    "llm_judge_used": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "critical_rules_disable_allowed": false
+  },
+  "notes": [
+    "POST-H-033-A classifies hardcoded validator elements only; it does not migrate runtime behavior.",
+    "Parser/engine code remains in Python; configurable rules migrate progressively in POST-H-033-B through POST-H-033-F.",
+    "Security-core defenses are declared non-removable and cannot be downgraded by local JSON catalogs."
+  ],
+  "limitations": [
+    "Inventory is implemented-initial and must be refined as later micro-sprints migrate individual validators.",
+    "No frontmatter/readiness/MIASI/docs-governance runtime behavior changes are introduced in POST-H-033-A."
+  ]
+}

@@ -8371,6 +8371,37 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-033-validator-inventory-migration-plan",
+      "scope": "integration",
+      "owner": "POST-H-033-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "validates": [
+        ".devpilot/validation/validator_inventory.json",
+        ".devpilot/validation/validator_migration_plan.json",
+        "docs/schemas/validator_inventory.schema.json",
+        "docs/schemas/validator_migration_report.schema.json",
+        "src/devpilot_core/validation/validator_inventory.py"
+      ],
+      "watched_paths": [
+        ".devpilot/validation/",
+        "docs/schemas/validator_inventory.schema.json",
+        "docs/schemas/validator_migration_report.schema.json",
+        "src/devpilot_core/validation/validator_inventory.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md",
+        "docs/POST-H-033_schema_backed_validators_declarative_semantics.md",
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_validator_inventory_migration_plan.py tests/test_schema_registry.py tests/test_validation_gateway.py tests/test_project_global_state.py -q"
+      ]
     }
   ],
   "notes": [

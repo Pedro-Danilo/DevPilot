@@ -1,3 +1,18 @@
+## POST-H-033-A — Validator inventory and migration plan
+
+POST-H-033-A aprueba el backlog de validadores schema-backed y agrega el inventario machine-readable `.devpilot/validation/validator_inventory.json`, el plan `.devpilot/validation/validator_migration_plan.json`, los schemas `ValidatorInventory` y `ValidatorMigrationReport`, el módulo `src/devpilot_core/validation/validator_inventory.py` y pruebas focales.
+
+Estado: `implemented-initial`. Esta versión es inventario/plan únicamente: no cambia el comportamiento runtime de frontmatter, readiness, MIASI semantic, docs governance, policy guards ni schema validator. No usa LLM judge, red, APIs externas, remote execution, connector write, plugin execution, dependencias externas nuevas ni mutaciones de fuente. Las defensas `security-core` quedan declaradas como no desactivables por configuración local.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_validator_inventory_migration_plan.py -q
+python -m devpilot_core schema validate --schema-id ValidatorInventory --instance .devpilotalidationalidator_inventory.json --json
+python -m devpilot_core schema validate --schema-id ValidatorMigrationReport --instance .devpilotalidationalidator_migration_plan.json --json
+```
+
 ## POST-H-032-H — Multiagent handoff hardening
 
 POST-H-032-H agrega el contrato `MultiagentHandoffHardeningReport`, la política `.devpilot/agents/multiagent_handoff_policy.json`, el módulo `src/devpilot_core/multiagent/hardening.py` y el comando `python -m devpilot_core multiagent handoff harden --json`. La capacidad endurece workflows multiagente con handoffs explícitos, visibles y trazables, scope propio por agente hijo, supervisor deterministic gate, checkpoints human-in-the-loop para acciones de riesgo, evals positivas/negativas y observabilidad por handoff.

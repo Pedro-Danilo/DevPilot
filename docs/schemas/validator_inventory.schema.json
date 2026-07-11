@@ -1,0 +1,334 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/validator_inventory.schema.json",
+  "title": "DevPilot ValidatorInventory v1",
+  "description": "POST-H-033-A inventory of deterministic validators and hardcoded rule decisions for schema-backed migration planning.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "inventory_id",
+    "created_by",
+    "status",
+    "updated_at",
+    "scope",
+    "summary",
+    "validators",
+    "safety",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-VALIDATOR-INVENTORY-V1"
+    },
+    "inventory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "const": "POST-H-033-A"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "blocked"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "validators_total",
+        "minimum_validators_required_total",
+        "minimum_validators_covered",
+        "hardcoded_elements_total",
+        "runtime_behavior_changed",
+        "llm_judge_required",
+        "external_dependencies_added",
+        "no_go_gates_relaxed",
+        "critical_defenses_disable_allowed"
+      ],
+      "properties": {
+        "validators_total": {
+          "type": "integer",
+          "minimum": 14
+        },
+        "minimum_validators_required_total": {
+          "const": 14
+        },
+        "minimum_validators_covered": {
+          "const": true
+        },
+        "hardcoded_elements_total": {
+          "type": "integer",
+          "minimum": 14
+        },
+        "runtime_behavior_changed": {
+          "const": false
+        },
+        "llm_judge_required": {
+          "const": false
+        },
+        "external_dependencies_added": {
+          "const": false
+        },
+        "no_go_gates_relaxed": {
+          "const": false
+        },
+        "critical_defenses_disable_allowed": {
+          "const": false
+        }
+      }
+    },
+    "validators": {
+      "type": "array",
+      "minItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validator_id",
+          "module_path",
+          "owner",
+          "domain",
+          "status",
+          "rule_types",
+          "hardcoded_elements",
+          "migration_target",
+          "must_remain_in_code",
+          "fallback_required",
+          "criticality",
+          "inputs",
+          "outputs",
+          "schemas",
+          "tests",
+          "migration_micro_sprint",
+          "compatibility_strategy"
+        ],
+        "properties": {
+          "validator_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "module_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rule_types": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "hardcoded_elements": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/hardcodedElement"
+            }
+          },
+          "migration_target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "must_remain_in_code": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "fallback_required": {
+            "type": "boolean"
+          },
+          "criticality": {
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "inputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "outputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "schemas": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "tests": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "migration_micro_sprint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "compatibility_strategy": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "read_only",
+        "inventory_only",
+        "runtime_behavior_changed",
+        "llm_judge_used",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed",
+        "critical_rules_disable_allowed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "inventory_only": {
+          "const": true
+        },
+        "runtime_behavior_changed": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "critical_rules_disable_allowed": {
+          "const": false
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "hardcodedElement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "element_id",
+        "description",
+        "decision",
+        "target_micro_sprint",
+        "critical",
+        "rationale"
+      ],
+      "properties": {
+        "element_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision": {
+          "enum": [
+            "migrate",
+            "keep",
+            "fallback",
+            "parser",
+            "security-core"
+          ]
+        },
+        "target_micro_sprint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "critical": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

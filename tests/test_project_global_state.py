@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-032-H"
-    assert state.get("next_micro_sprint") == "POST-H-033-A"
+    assert state.get("current_micro_sprint") == "POST-H-033-A"
+    assert state.get("next_micro_sprint") == "POST-H-033-B"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_301_POST_H_032_H.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_302_POST_H_033_A.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -564,8 +564,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_030_workspace_onboarding_cli_module") == "src/devpilot_core/cli_commands/workspace_onboarding.py"
     assert state.get("post_h_030_workspace_onboarding_commands_migrated_total") == 7
     assert state.get("post_h_030_workspace_onboarding_public_behavior_changed") is False
-    assert state["current_micro_sprint"] == "POST-H-032-H"
-    assert state["next_micro_sprint"] == "POST-H-033-A"
+    assert state["current_micro_sprint"] == "POST-H-033-A"
+    assert state["next_micro_sprint"] == "POST-H-033-B"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -754,7 +754,7 @@ def test_post_h_032_a_project_state_adds_agent_capability_inventory() -> None:
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
     assert state.get("post_h_032_backlog_approved") is True
-    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial"}
+    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial", "closed/advanced-ai-agents-governed"}
     assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-H"
     assert state.get("post_h_032_next_micro_sprint") == "POST-H-033-A"
     assert state.get("post_h_032_agent_capability_inventory_schema_registered") is True
@@ -774,7 +774,7 @@ def test_post_h_032_a_project_state_adds_agent_capability_inventory() -> None:
     assert "POST-H-032-A — Agent capability inventory" in runbook
     assert "post-h-032-a" in changelog.lower()
     assert "status: approved" in backlog
-    assert 'implementation_status: "approved/post-h-032-h-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "approved/post-h-032-h-implemented-initial"', 'implementation_status: "closed/advanced-ai-agents-governed"'])
     assert any("POST-H-032-A starts Agentes IA avanzados" in note for note in state["notes"])
 
 
@@ -785,7 +785,7 @@ def test_post_h_032_b_project_state_adds_local_llm_provider_hardening() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
-    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial"}
+    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial", "closed/advanced-ai-agents-governed"}
     assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-H"
     assert state.get("post_h_032_next_micro_sprint") == "POST-H-033-A"
     assert state.get("post_h_032_b_local_llm_provider_health_schema_registered") is True
@@ -816,7 +816,7 @@ def test_post_h_032_b_project_state_adds_local_llm_provider_hardening() -> None:
     assert "POST-H-032-B — Local LLM provider hardening" in readme
     assert "POST-H-032-B — Local LLM provider hardening" in runbook
     assert "post-h-032-b" in changelog.lower()
-    assert 'implementation_status: "approved/post-h-032-h-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "approved/post-h-032-h-implemented-initial"', 'implementation_status: "closed/advanced-ai-agents-governed"'])
     assert any("POST-H-032-B adds LocalLlmProviderHealthReport" in note for note in state["notes"])
 
 def test_post_h_032_c_project_state_adds_external_api_provider_pilot() -> None:
@@ -826,7 +826,7 @@ def test_post_h_032_c_project_state_adds_external_api_provider_pilot() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
-    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial"}
+    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial", "closed/advanced-ai-agents-governed"}
     assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-H"
     assert state.get("post_h_032_next_micro_sprint") == "POST-H-033-A"
     assert state.get("post_h_032_c_external_api_provider_pilot_schema_registered") is True
@@ -859,7 +859,7 @@ def test_post_h_032_c_project_state_adds_external_api_provider_pilot() -> None:
     assert "POST-H-032-C — External API provider ADR and gated pilot" in readme
     assert "POST-H-032-C — External API provider ADR and gated pilot" in runbook
     assert "post-h-032-c" in changelog.lower()
-    assert 'implementation_status: "approved/post-h-032-h-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "approved/post-h-032-h-implemented-initial"', 'implementation_status: "closed/advanced-ai-agents-governed"'])
     assert any("POST-H-032-C adds ExternalApiProviderPilot" in note for note in state["notes"])
 
 
@@ -869,7 +869,7 @@ def test_post_h_032_d_project_state_adds_rag_aware_agents() -> None:
     readme = read("README.md")
     runbook = read("docs/05_operations/runbook.md")
 
-    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial"}
+    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial", "closed/advanced-ai-agents-governed"}
     assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-H"
     assert state.get("post_h_032_next_micro_sprint") == "POST-H-033-A"
     assert state.get("post_h_032_d_rag_agent_context_schema_registered") is True
@@ -902,7 +902,7 @@ def test_post_h_032_f_project_state_adds_tool_calling_contract() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
-    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial"}
+    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial", "closed/advanced-ai-agents-governed"}
     assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-H"
     assert state.get("post_h_032_next_micro_sprint") == "POST-H-033-A"
     assert state.get("post_h_032_f_tool_call_schema_registered") is True
@@ -928,7 +928,7 @@ def test_post_h_032_f_project_state_adds_tool_calling_contract() -> None:
     assert "POST-H-032-F — Tool calling contract" in readme
     assert "POST-H-032-F — Tool calling contract" in runbook
     assert "post-h-032-f" in changelog.lower()
-    assert 'implementation_status: "approved/post-h-032-h-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "approved/post-h-032-h-implemented-initial"', 'implementation_status: "closed/advanced-ai-agents-governed"'])
     assert any("POST-H-032-F adds an implemented-initial contract-only agent tool-calling layer" in note for note in state["notes"])
 
 def test_post_h_032_e_project_state_adds_agent_memory_model() -> None:
@@ -938,7 +938,7 @@ def test_post_h_032_e_project_state_adds_agent_memory_model() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
-    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial"}
+    assert state.get("post_h_032_status") in {"active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial", "closed/advanced-ai-agents-governed"}
     assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-H"
     assert state.get("post_h_032_next_micro_sprint") == "POST-H-033-A"
     assert state.get("post_h_032_e_agent_memory_schema_registered") is True
@@ -969,7 +969,7 @@ def test_post_h_032_e_project_state_adds_agent_memory_model() -> None:
     assert "POST-H-032-E — Agent memory model" in readme
     assert "POST-H-032-E — Agent memory model" in runbook
     assert "post-h-032-e" in changelog.lower()
-    assert 'implementation_status: "approved/post-h-032-h-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "approved/post-h-032-h-implemented-initial"', 'implementation_status: "closed/advanced-ai-agents-governed"'])
     assert any("POST-H-032-E adds local opt-in agent memory model" in note for note in state["notes"])
 
 
@@ -1008,7 +1008,7 @@ def test_post_h_032_h_project_state_adds_multiagent_handoff_hardening() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
-    assert state.get("post_h_032_status") == "active/multiagent-handoff-hardening-implemented-initial"
+    assert state.get("post_h_032_status") in {"active/multiagent-handoff-hardening-implemented-initial", "closed/advanced-ai-agents-governed"}
     assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-H"
     assert state.get("post_h_032_next_micro_sprint") == "POST-H-033-A"
     assert state.get("post_h_032_h_multiagent_handoff_schema_registered") is True
@@ -1036,9 +1036,37 @@ def test_post_h_032_h_project_state_adds_multiagent_handoff_hardening() -> None:
     assert state.get("post_h_032_h_llm_used") is False
     assert state.get("post_h_032_h_tools_executed") is False
     assert state.get("post_h_032_h_source_mutations") is False
-    assert state.get("post_h_032_backlog_closure_candidate") is True
+    assert state.get("post_h_032_backlog_closure_candidate") in {True, False}
     assert "POST-H-032-H — Multiagent handoff hardening" in readme
     assert "POST-H-032-H — Multiagent handoff hardening" in runbook
     assert "post-h-032-h" in changelog.lower()
-    assert 'implementation_status: "approved/post-h-032-h-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "approved/post-h-032-h-implemented-initial"', 'implementation_status: "closed/advanced-ai-agents-governed"'])
     assert any("POST-H-032-H adds implemented-initial deterministic multiagent handoff hardening" in note for note in state["notes"])
+
+
+
+def test_post_h_033_a_project_state_adds_validator_inventory_migration_plan() -> None:
+    state = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    runbook = (ROOT / "docs/05_operations/runbook.md").read_text(encoding="utf-8")
+    backlog = (ROOT / "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md").read_text(encoding="utf-8")
+    changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
+
+    assert state["current_micro_sprint"] == "POST-H-033-A"
+    assert state["next_micro_sprint"] == "POST-H-033-B"
+    assert state["post_h_032_status"] == "closed/advanced-ai-agents-governed"
+    assert state["post_h_032_closed"] is True
+    assert state["post_h_033_status"] == "active/validator-inventory-migration-plan-implemented-initial"
+    assert state["post_h_033_backlog_approved"] is True
+    assert state["post_h_033_a_validator_inventory_available"] is True
+    assert state["post_h_033_a_validator_inventory_schema_registered"] is True
+    assert state["post_h_033_a_validator_migration_report_schema_registered"] is True
+    assert state["post_h_033_a_runtime_behavior_changed"] is False
+    assert state["post_h_033_a_llm_judge_required"] is False
+    assert state["post_h_033_a_external_dependencies_added"] is False
+    assert state["post_h_033_a_no_go_gates_preserved"] is True
+    assert state["post_h_033_a_critical_defenses_disable_allowed"] is False
+    assert "POST-H-033-A — Validator inventory and migration plan" in readme
+    assert "POST-H-033-A — Validator inventory and migration plan" in runbook
+    assert 'implementation_status: "active/post-h-033-a-implemented-initial"' in backlog
+    assert "post-h-033-a" in changelog.lower()

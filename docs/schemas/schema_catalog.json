@@ -1746,6 +1746,34 @@
       "validation_enabled_sprint": "POST-H-027-E"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-VALIDATOR-INVENTORY-V1",
+      "title": "DevPilot ValidatorInventory v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/validator_inventory.schema.json",
+      "description": "POST-H-033-A machine-readable inventory of deterministic validators and hardcoded rule decisions for schema-backed migration planning.",
+      "status": "registered",
+      "contract": "ValidatorInventory",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-033-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-VALIDATOR-MIGRATION-REPORT-V1",
+      "title": "DevPilot ValidatorMigrationReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/validator_migration_report.schema.json",
+      "description": "POST-H-033-A migration plan/report contract for validator declarative semantics without runtime behavior changes or LLM judges.",
+      "status": "registered",
+      "contract": "ValidatorMigrationReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-033-A"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1",
       "title": "DevPilot WindowsInstallSmokeReport v1",
       "version": "1.0.0",

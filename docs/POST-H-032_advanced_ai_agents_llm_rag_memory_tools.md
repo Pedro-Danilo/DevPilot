@@ -20,8 +20,8 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-h-implemented-initial"
-current_micro_sprint: "POST-H-032-H"
+implementation_status: "closed/advanced-ai-agents-governed"
+current_micro_sprint: "POST-H-032-CLOSED"
 next_micro_sprint: "POST-H-033-A"
 ```
 
@@ -983,3 +983,21 @@ El sprint no habilita llamadas reales a APIs externas. OpenAI/Gemini permanecen 
 
 Limitación explícita: esta versión no instala SDKs, no abre sockets, no lee valores de API keys, no envía prompts a proveedores externos y no permite que `production-ready-local` dependa de APIs externas. Cualquier activación real futura requiere configuración local no versionada, env vars, budget explícito, warning visible, risk report, aprobación/acknowledgement y nueva decisión de enablement. POST-H-032-D quedó implementado como agentes RAG-aware con groundedness y fuentes locales; POST-H-032-E implementó memoria local opt-in, redactada e inspeccionable; POST-H-032-F avanza hacia tool calling contractual, dry-run-first, allowlisted y approval-bound.
 
+
+
+## Cierre de backlog POST-H-032
+
+Estado: `closed/advanced-ai-agents-governed` tras validación de POST-H-032-H.
+
+Capacidades cubiertas por el backlog:
+
+- inventario de capacidades de agentes y criterios de promoción;
+- hardening de providers locales Ollama/LM Studio deshabilitados por defecto;
+- diseño de providers API externos gated, sin llamadas reales ni secretos versionados;
+- context packs RAG para agentes con citas, freshness e insufficient-evidence;
+- memoria local opt-in, redactada, separada de evidencia formal y disabled por defecto;
+- contrato de tool calling con allowlist, dry-run-first, approval binding y observabilidad;
+- diseño MCP con fake-server local y MCP real deshabilitado;
+- handoffs multiagente explícitos, visibles, trazables, con supervisor gate y checkpoints humanos.
+
+El cierre no habilita autonomía abierta, swarm autónomo, network, APIs externas, LLM calls obligatorias, connector write, plugin execution, remote execution, ejecución real de tools ni mutaciones de fuente. Las capacidades son primeras versiones gobernadas y deben evolucionar mediante backlogs separados antes de claims de producción más amplios.

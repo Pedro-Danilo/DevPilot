@@ -9747,6 +9747,131 @@
       ]
     },
     {
+      "doc_id": "POST-H-032-H-MANIFEST",
+      "path": "docs/post_h_032_h_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: docs/post_h_032_h_manifest.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-HARDENING-REPORT",
+      "path": "docs/audits/post_h_032_h_multiagent_handoff_hardening_report.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: docs/audits/post_h_032_h_multiagent_handoff_hardening_report.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-MODULE",
+      "path": "src/devpilot_core/multiagent/hardening.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: src/devpilot_core/multiagent/hardening.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-POLICY",
+      "path": ".devpilot/agents/multiagent_handoff_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: .devpilot/agents/multiagent_handoff_policy.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-TEST",
+      "path": "tests/test_post_h_032_multiagent_handoff_hardening.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: tests/test_post_h_032_multiagent_handoff_hardening.py."
+      ]
+    },
+    {
       "doc_id": "POST-H-032-IMPLEMENTATION",
       "path": "docs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md",
       "classification": "source-of-truth",
@@ -9769,6 +9894,258 @@
       "lifecycle": "active",
       "notes": [
         "Top-level POST-H-032 implementation tracker."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-MANIFEST",
+      "path": "docs/post_h_033_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "validation.schema-backed",
+      "owner": "POST-H-033-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: docs/post_h_033_a_manifest.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-VALIDATOR-INVENTORY",
+      "path": ".devpilot/validation/validator_inventory.json",
+      "classification": "machine-readable-source",
+      "domain": "validation.schema-backed",
+      "owner": "POST-H-033-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: .devpilot/validation/validator_inventory.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-VALIDATOR-INVENTORY-MIGRATION-PLAN-REPORT",
+      "path": "docs/audits/post_h_033_a_validator_inventory_migration_plan_report.md",
+      "classification": "source-of-truth",
+      "domain": "validation.schema-backed",
+      "owner": "POST-H-033-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: docs/audits/post_h_033_a_validator_inventory_migration_plan_report.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-VALIDATOR-INVENTORY-MODULE",
+      "path": "src/devpilot_core/validation/validator_inventory.py",
+      "classification": "machine-readable-source",
+      "domain": "validation.schema-backed",
+      "owner": "POST-H-033-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: src/devpilot_core/validation/validator_inventory.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-VALIDATOR-INVENTORY-SCHEMA",
+      "path": "docs/schemas/validator_inventory.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-033-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: docs/schemas/validator_inventory.schema.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-VALIDATOR-INVENTORY-TEST",
+      "path": "tests/test_post_h_033_validator_inventory_migration_plan.py",
+      "classification": "derived",
+      "domain": "validation.schema-backed",
+      "owner": "tests/test_post_h_033_validator_inventory_migration_plan.py",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: tests/test_post_h_033_validator_inventory_migration_plan.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-VALIDATOR-MIGRATION-PLAN",
+      "path": ".devpilot/validation/validator_migration_plan.json",
+      "classification": "machine-readable-source",
+      "domain": "validation.schema-backed",
+      "owner": "POST-H-033-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: .devpilot/validation/validator_migration_plan.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-A-VALIDATOR-MIGRATION-REPORT-SCHEMA",
+      "path": "docs/schemas/validator_migration_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-033-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: docs/schemas/validator_migration_report.schema.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-BACKLOG",
+      "path": "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md",
+      "classification": "source-of-truth",
+      "domain": "validation.schema-backed",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-033-TOPLEVEL",
+      "path": "docs/POST-H-033_schema_backed_validators_declarative_semantics.md",
+      "classification": "source-of-truth",
+      "domain": "validation.schema-backed",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-033-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-033-A validator inventory/migration artifact: docs/POST-H-033_schema_backed_validators_declarative_semantics.md."
       ]
     },
     {
@@ -10283,6 +10660,32 @@
       ]
     },
     {
+      "doc_id": "SCHEMA-DEVPL-MULTIAGENT-HANDOFF-HARDENING-REPORT-V1",
+      "path": "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-032-H",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: docs/schemas/multiagent_handoff_hardening_report.schema.json."
+      ]
+    },
+    {
       "doc_id": "SCHEMA-DEVPL-OPERATOR-FLOW-SMOKE-REPORT-V1",
       "path": "docs/schemas/operator_flow_smoke_report.schema.json",
       "classification": "machine-readable-source",
@@ -10634,157 +11037,6 @@
         "test_must_pass"
       ],
       "lifecycle": "historical"
-    },
-    {
-      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-POLICY",
-      "path": ".devpilot/agents/multiagent_handoff_policy.json",
-      "classification": "machine-readable-source",
-      "domain": "agentic.runtime",
-      "owner": "POST-H-032-H",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_032_multiagent_handoff_hardening.py"
-      ],
-      "machine_readable_counterparts": [],
-      "derived_documents": [],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [],
-      "roadmap_milestones": [
-        "POST-H-032-H"
-      ],
-      "lifecycle": "active",
-      "notes": [
-        "POST-H-032-H multiagent handoff hardening artifact: .devpilot/agents/multiagent_handoff_policy.json."
-      ]
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-MULTIAGENT-HANDOFF-HARDENING-REPORT-V1",
-      "path": "docs/schemas/multiagent_handoff_hardening_report.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.schemas",
-      "owner": "POST-H-032-H",
-      "status_required": "registered",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_032_multiagent_handoff_hardening.py"
-      ],
-      "machine_readable_counterparts": [],
-      "derived_documents": [],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "related_adrs": [],
-      "roadmap_milestones": [
-        "POST-H-032-H"
-      ],
-      "lifecycle": "active",
-      "notes": [
-        "POST-H-032-H multiagent handoff hardening artifact: docs/schemas/multiagent_handoff_hardening_report.schema.json."
-      ]
-    },
-    {
-      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-MODULE",
-      "path": "src/devpilot_core/multiagent/hardening.py",
-      "classification": "source-of-truth",
-      "domain": "agentic.runtime",
-      "owner": "POST-H-032-H",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_032_multiagent_handoff_hardening.py"
-      ],
-      "machine_readable_counterparts": [],
-      "derived_documents": [],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [],
-      "roadmap_milestones": [
-        "POST-H-032-H"
-      ],
-      "lifecycle": "active",
-      "notes": [
-        "POST-H-032-H multiagent handoff hardening artifact: src/devpilot_core/multiagent/hardening.py."
-      ]
-    },
-    {
-      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-TEST",
-      "path": "tests/test_post_h_032_multiagent_handoff_hardening.py",
-      "classification": "source-of-truth",
-      "domain": "agentic.runtime",
-      "owner": "POST-H-032-H",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_032_multiagent_handoff_hardening.py"
-      ],
-      "machine_readable_counterparts": [],
-      "derived_documents": [],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [],
-      "roadmap_milestones": [
-        "POST-H-032-H"
-      ],
-      "lifecycle": "active",
-      "notes": [
-        "POST-H-032-H multiagent handoff hardening artifact: tests/test_post_h_032_multiagent_handoff_hardening.py."
-      ]
-    },
-    {
-      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-HARDENING-REPORT",
-      "path": "docs/audits/post_h_032_h_multiagent_handoff_hardening_report.md",
-      "classification": "source-of-truth",
-      "domain": "agentic.runtime",
-      "owner": "POST-H-032-H",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_032_multiagent_handoff_hardening.py"
-      ],
-      "machine_readable_counterparts": [],
-      "derived_documents": [],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [],
-      "roadmap_milestones": [
-        "POST-H-032-H"
-      ],
-      "lifecycle": "active",
-      "notes": [
-        "POST-H-032-H multiagent handoff hardening artifact: docs/audits/post_h_032_h_multiagent_handoff_hardening_report.md."
-      ]
-    },
-    {
-      "doc_id": "POST-H-032-H-MANIFEST",
-      "path": "docs/post_h_032_h_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "agentic.runtime",
-      "owner": "POST-H-032-H",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_032_multiagent_handoff_hardening.py"
-      ],
-      "machine_readable_counterparts": [],
-      "derived_documents": [],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [],
-      "roadmap_milestones": [
-        "POST-H-032-H"
-      ],
-      "lifecycle": "active",
-      "notes": [
-        "POST-H-032-H multiagent handoff hardening artifact: docs/post_h_032_h_manifest.json."
-      ]
     }
   ],
   "rules": {

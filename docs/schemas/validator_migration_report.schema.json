@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/validator_migration_report.schema.json",
+  "title": "DevPilot ValidatorMigrationReport v1",
+  "description": "POST-H-033-A migration plan/report contract for schema-backed validator declarative semantics without runtime behavior changes.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "updated_at",
+    "inventory_path",
+    "migration_plan_path",
+    "backlog_path",
+    "summary",
+    "migration_waves",
+    "validator_decisions",
+    "risks",
+    "safety",
+    "findings",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-VALIDATOR-MIGRATION-REPORT-V1"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "const": "POST-H-033-A"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "blocked"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "inventory_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "migration_plan_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "backlog_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "decision",
+        "validators_total",
+        "hardcoded_elements_total",
+        "hardcoded_elements_with_decision_total",
+        "migration_waves_total",
+        "runtime_behavior_changed",
+        "llm_judge_required",
+        "external_dependencies_added",
+        "critical_defenses_disable_allowed",
+        "no_go_gates_preserved",
+        "fallbacks_declared_total",
+        "blocking_findings_total"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "PASS",
+            "BLOCK"
+          ]
+        },
+        "validators_total": {
+          "type": "integer",
+          "minimum": 14
+        },
+        "hardcoded_elements_total": {
+          "type": "integer",
+          "minimum": 14
+        },
+        "hardcoded_elements_with_decision_total": {
+          "type": "integer",
+          "minimum": 14
+        },
+        "migration_waves_total": {
+          "type": "integer",
+          "minimum": 5
+        },
+        "runtime_behavior_changed": {
+          "const": false
+        },
+        "llm_judge_required": {
+          "const": false
+        },
+        "external_dependencies_added": {
+          "const": false
+        },
+        "critical_defenses_disable_allowed": {
+          "const": false
+        },
+        "no_go_gates_preserved": {
+          "const": true
+        },
+        "fallbacks_declared_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "blocking_findings_total": {
+          "const": 0
+        }
+      }
+    },
+    "migration_waves": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "micro_sprint",
+          "objective",
+          "validators",
+          "risk_level",
+          "compatibility_strategy"
+        ],
+        "properties": {
+          "micro_sprint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objective": {
+            "type": "string",
+            "minLength": 1
+          },
+          "validators": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "risk_level": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "compatibility_strategy": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "validator_decisions": {
+      "type": "array",
+      "minItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "validator_id",
+          "module_path",
+          "owner",
+          "criticality",
+          "migration_micro_sprint",
+          "migration_target",
+          "fallback_required",
+          "compatibility_strategy",
+          "hardcoded_decisions"
+        ]
+      }
+    },
+    "risks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "risk_id",
+          "severity",
+          "mitigation"
+        ]
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "read_only",
+        "inventory_only",
+        "runtime_behavior_changed",
+        "llm_judge_used",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed",
+        "critical_rules_disable_allowed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "inventory_only": {
+          "const": true
+        },
+        "runtime_behavior_changed": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "critical_rules_disable_allowed": {
+          "const": false
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "id",
+          "severity",
+          "message"
+        ]
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

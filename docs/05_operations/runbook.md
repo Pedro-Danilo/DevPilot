@@ -2,17 +2,35 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.11.0"
+version: "2.12.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-032-H"
+phase: "POST-H-033-A"
 updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-033-A — Validator inventory and migration plan
+
+Objetivo operativo: validar que el inventario de validadores y el plan de migración schema-backed cubren los validadores mínimos sin alterar comportamiento runtime.
+
+Comandos:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_validator_inventory_migration_plan.py -q
+python -m devpilot_core schema validate --schema-id ValidatorInventory --instance .devpilotalidationalidator_inventory.json --json
+python -m devpilot_core schema validate --schema-id ValidatorMigrationReport --instance .devpilotalidationalidator_migration_plan.json --json
+python -m devpilot_core schema validate --schema-id ValidatorMigrationReport --instance docs\post_h_033_a_manifest.json --json
+```
+
+Notas de seguridad: POST-H-033-A es read-only/inventory-only. No reemplaza validadores determinísticos por LLM, no relaja no-go gates, no habilita capacidades sensibles y no permite desactivar defensas críticas desde JSON. Las migraciones reales se harán progresivamente en POST-H-033-B a POST-H-033-F con fallback seguro y pruebas de compatibilidad.
+
+
 
 ## POST-H-032-H — Multiagent handoff hardening
 

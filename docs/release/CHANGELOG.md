@@ -1,3 +1,13 @@
+## POST-H-033-A — Validator inventory and migration plan
+
+- Approved POST-H-033 schema-backed validators backlog.
+- Added `ValidatorInventory` and `ValidatorMigrationReport` schemas.
+- Added `.devpilot/validation/validator_inventory.json` and `.devpilot/validation/validator_migration_plan.json`.
+- Added `src/devpilot_core/validation/validator_inventory.py` for deterministic inventory/plan evaluation.
+- Classified hardcoded validator elements as `migrate`, `keep`, `fallback`, `parser` or `security-core`.
+- Preserved runtime behavior: no LLM judge, no external dependencies, no no-go relaxation and no sensitive capability enablement.
+- Closed POST-H-032 as governed advanced AI agent capability baseline after POST-H-032-H validation.
+
 ## POST-H-032-H — Multiagent handoff hardening
 
 - Added `MultiagentHandoffHardeningReport` schema and `.devpilot/agents/multiagent_handoff_policy.json`.
