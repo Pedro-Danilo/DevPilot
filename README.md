@@ -5742,3 +5742,23 @@ Límites: es una primera versión de mapeo determinístico. No reemplaza quality
 
 Siguiente micro-sprint: `POST-H-031-D — Claims and no-go dashboard`.
 
+
+
+## POST-H-031-D — Claims and no-go dashboard
+
+POST-H-031-D amplía `POST-H-031 — Observabilidad, evidence graph y operador` como `implemented-initial/local-first`. Agrega el schema `ClaimsNoGoDashboard`, la configuración `.devpilot/operator/claims_no_go_dashboard_config.json`, el módulo `src/devpilot_core/evidence_graph/claims_dashboard.py`, el método `ApplicationService.claims_no_go_dashboard(...)`, el comando `python -m devpilot_core evidence claims-dashboard --json` y la ruta local protegida `GET /api/v1/operator/claims-no-go`.
+
+La vista muestra `production-ready-local` como claim permitido dentro de alcance local y evidencia POST-H-025, `audit-friendly` como claim condicionado para auditoría técnica interna, y mantiene `enterprise-ready`, `remote-ready`, `compliance-certified` y `saas-ready` como prohibidos. También lista no-go gates, razones de bloqueo, fuentes de evidencia y estado del escaneo determinístico de overclaims en documentos clave.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core evidence claims-dashboard --json
+python -m devpilot_core evidence claims-dashboard --json --write-report
+python -m devpilot_core schema validate --schema-id ClaimsNoGoDashboard --instance outputs/reports/claims_no_go_dashboard.json --json
+```
+
+Límites: no crea claims nuevos por inferencia, no muta claims/no-go gates, no reemplaza quality gates ni production-ready-local final declaration, no usa LLM judge, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red ni APIs externas y no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, excluida de ZIPs limpios.
+
+Siguiente micro-sprint: `POST-H-031-E — Redacted evidence export UX`.

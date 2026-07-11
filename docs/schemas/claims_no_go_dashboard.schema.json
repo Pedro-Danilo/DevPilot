@@ -1,0 +1,410 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/claims_no_go_dashboard.schema.json",
+  "title": "DevPilot ClaimsNoGoDashboard v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "dashboard_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "summary",
+    "claims",
+    "no_go_gates",
+    "overclaim_scan",
+    "production_ready_relation",
+    "warnings",
+    "safety",
+    "limitations",
+    "findings",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1"
+    },
+    "dashboard_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "type": "string",
+      "const": "POST-H-031-D"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "warn",
+        "blocked"
+      ]
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "created_by",
+        "status",
+        "decision",
+        "claims_total",
+        "allowed_claims_total",
+        "conditioned_claims_total",
+        "prohibited_claims_total",
+        "no_go_gates_total",
+        "no_go_violations_total",
+        "overclaim_violations_total",
+        "claims_validator_ok",
+        "documents_scanned_total",
+        "read_only",
+        "network_used",
+        "external_api_used",
+        "source_mutations_performed",
+        "reports_written",
+        "preliminary"
+      ],
+      "properties": {
+        "created_by": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "BLOCK"
+          ]
+        },
+        "claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "allowed_claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "conditioned_claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "prohibited_claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "no_go_gates_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "no_go_violations_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "overclaim_violations_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "claims_validator_ok": {
+          "type": "boolean"
+        },
+        "documents_scanned_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "read_only": {
+          "type": "boolean"
+        },
+        "network_used": {
+          "type": "boolean"
+        },
+        "external_api_used": {
+          "type": "boolean"
+        },
+        "source_mutations_performed": {
+          "type": "boolean"
+        },
+        "reports_written": {
+          "type": "boolean"
+        },
+        "preliminary": {
+          "type": "boolean"
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/claim"
+      }
+    },
+    "no_go_gates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "overclaim_scan": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "production_ready_relation": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "kind",
+        "required",
+        "available",
+        "description"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "claim_id",
+        "title",
+        "status",
+        "allowed",
+        "conditioned",
+        "prohibited",
+        "scope",
+        "evidence_refs",
+        "blocking_reasons",
+        "no_go_gate_refs",
+        "notes"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "conditioned",
+            "prohibited",
+            "blocked"
+          ]
+        },
+        "allowed": {
+          "type": "boolean"
+        },
+        "conditioned": {
+          "type": "boolean"
+        },
+        "prohibited": {
+          "type": "boolean"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        },
+        "blocking_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "no_go_gate_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "gate_id",
+        "status",
+        "safe",
+        "expected",
+        "actual",
+        "blocks_claims",
+        "reason",
+        "source_refs"
+      ],
+      "properties": {
+        "gate_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active_blocking",
+            "violated",
+            "unknown"
+          ]
+        },
+        "safe": {
+          "type": "boolean"
+        },
+        "expected": {},
+        "actual": {},
+        "blocks_claims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "commands_executed",
+        "secrets_read",
+        "raw_payloads_exported",
+        "devpilot_db_read",
+        "reports_written",
+        "claims_mutated",
+        "no_go_gates_mutated",
+        "overclaim_scan_llm_used"
+      ],
+      "properties": {
+        "local_first": {
+          "type": "boolean"
+        },
+        "read_only": {
+          "type": "boolean"
+        },
+        "dry_run": {
+          "type": "boolean"
+        },
+        "network_used": {
+          "type": "boolean"
+        },
+        "external_api_used": {
+          "type": "boolean"
+        },
+        "mutations_performed": {
+          "type": "boolean"
+        },
+        "source_mutations_performed": {
+          "type": "boolean"
+        },
+        "commands_executed": {
+          "type": "boolean"
+        },
+        "secrets_read": {
+          "type": "boolean"
+        },
+        "raw_payloads_exported": {
+          "type": "boolean"
+        },
+        "devpilot_db_read": {
+          "type": "boolean"
+        },
+        "reports_written": {
+          "type": "boolean"
+        },
+        "claims_mutated": {
+          "type": "boolean"
+        },
+        "no_go_gates_mutated": {
+          "type": "boolean"
+        },
+        "overclaim_scan_llm_used": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

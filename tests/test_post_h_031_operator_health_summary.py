@@ -164,10 +164,10 @@ def test_operator_health_contracts_and_route_registry_are_synchronized() -> None
     route_result = ApiRouteContractRegistryValidator(ROOT).validate()
     assert route_result.ok, route_result.to_dict()
     route_summary = route_result.data["summary"]
-    assert route_summary["routes_total"] == 37
-    assert route_summary["fastapi_route_keys_total"] == 37
-    assert route_summary["canonical_router_route_keys_total"] == 37
-    assert route_summary["application_service_routes_total"] == 33
+    assert route_summary["routes_total"] == 38
+    assert route_summary["fastapi_route_keys_total"] == 38
+    assert route_summary["canonical_router_route_keys_total"] == 38
+    assert route_summary["application_service_routes_total"] == 34
 
     route_registry = json.loads((ROOT / ".devpilot/interfaces/api_route_contract_registry.json").read_text(encoding="utf-8"))
     routes = {route["route_id"]: route for route in route_registry["routes"]}

@@ -2622,3 +2622,15 @@ Siguiente micro-sprint: `POST-H-031-C — Gap-to-action mapping`.
 - Los reportes JSON/Markdown se escriben solo con `--write-report` bajo `outputs/reports`.
 
 Siguiente micro-sprint: `POST-H-031-D — Claims and no-go dashboard`.
+
+
+## post-h-031-d — Claims and no-go dashboard
+
+- Agrega `ClaimsNoGoDashboard` como vista local/read-only de claims y no-go gates para operador.
+- Registra `SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1`, `.devpilot/operator/claims_no_go_dashboard_config.json`, `src/devpilot_core/evidence_graph/claims_dashboard.py`, `ApplicationService.claims_no_go_dashboard(...)`, `python -m devpilot_core evidence claims-dashboard --json` y `GET /api/v1/operator/claims-no-go`.
+- Conserva `production-ready-local` dentro de alcance local y `audit-friendly` como claim condicionado de auditoría interna técnica, sin certificación.
+- Mantiene `enterprise-ready`, `remote-ready`, `compliance-certified` y `saas-ready` como claims prohibidos/bloqueados.
+- Integra escaneo determinístico de overclaims mediante `ProductionReadyClaimsValidator` sin LLM judge, red ni APIs externas.
+- No muta claims, no-go gates, project state ni criterios production-ready-local.
+
+Siguiente micro-sprint: `POST-H-031-E — Redacted evidence export UX`.

@@ -3225,6 +3225,52 @@
           }
         }
       }
+    },
+    "/api/v1/operator/claims-no-go": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator claims/no-go dashboard",
+        "description": "Protected local read-only claims/no-go dashboard. Returns an ApplicationResponse with ClaimsNoGoDashboard payload; it never mutates claims, no-go gates or readiness declarations.",
+        "operationId": "operator_claims_no_go_api_v1_operator_claims_no_go_get",
+        "parameters": [
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Write Report"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse with ClaimsNoGoDashboard payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token"
+          },
+          "403": {
+            "description": "PolicyEngine blocked the local API request"
+          }
+        },
+        "x-devpilot-operation": "operator.claims_no_go",
+        "x-devpilot-application-service-required": true,
+        "x-devpilot-local-only": true,
+        "x-devpilot-read-only": true,
+        "x-devpilot-mutates-claims": false,
+        "x-devpilot-mutates-no-go-gates": false
+      }
     }
   },
   "components": {

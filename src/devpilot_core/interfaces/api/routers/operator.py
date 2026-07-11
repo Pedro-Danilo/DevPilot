@@ -57,3 +57,16 @@ def operator_gaps(
         )
     )
 
+@router.get("/api/v1/operator/claims-no-go")
+def operator_claims_no_go(
+    write_report: bool = Query(default=False),
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    return _json(
+        *dispatch_application_request(
+            service,
+            operation="operator.claims_no_go",
+            payload={"write_report": write_report},
+        )
+    )
+

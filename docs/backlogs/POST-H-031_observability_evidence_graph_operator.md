@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md"
 created_for: "DevPilot Local"
 scope: "local-first / read-only by default / operator evidence UX / no overclaims"
-implementation_status: "active/implemented-initial-post-h-031-c"
-current_micro_sprint: "POST-H-031-C"
-next_micro_sprint: "POST-H-031-D"
+implementation_status: "active/implemented-initial-post-h-031-d"
+current_micro_sprint: "POST-H-031-D"
+next_micro_sprint: "POST-H-031-E"
 ```
 
 ## 1. Proposito del backlog
@@ -801,3 +801,26 @@ git commit -m "Add POST-H-031 operator evidence graph backlog"
 ## 17. Cierre esperado de POST-H-031
 
 POST-H-031 debe cerrar con DevPilot capaz de explicar su estado operativo sin exigir al operador lectura manual del repo completo. La aplicacion debe mostrar evidencia, gaps, claims, no-go gates y acciones recomendadas de manera integrada, local, segura y validable. El cierre correcto no es una UI vistosa sin contratos; es una capa de evidencia operacional que preserve la disciplina acumulativa del producto: evidencia antes de claims, redaccion antes de export, y gaps convertidos en acciones verificables.
+
+
+## Estado de implementación POST-H-031-D
+
+POST-H-031-D queda en estado `implemented-initial/local-first`. Se agregó `ClaimsNoGoDashboard` como vista operacional read-only para claims permitidos, claims condicionados, claims prohibidos, no-go gates activos y escaneo determinístico de overclaims sobre documentos clave.
+
+Artefactos principales:
+
+- `docs/schemas/claims_no_go_dashboard.schema.json`;
+- `.devpilot/operator/claims_no_go_dashboard_config.json`;
+- `src/devpilot_core/evidence_graph/claims_dashboard.py`;
+- `python -m devpilot_core evidence claims-dashboard --json`;
+- `ApplicationService.claims_no_go_dashboard(...)`;
+- `GET /api/v1/operator/claims-no-go`;
+- `docs/audits/post_h_031_d_claims_no_go_dashboard_report.md`;
+- `docs/post_h_031_d_manifest.json`;
+- `tests/test_post_h_031_claims_no_go_dashboard.py`.
+
+La implementación conserva `production-ready-local` como claim permitido solo bajo evidencia POST-H-025 y alcance local. `audit-friendly` queda como claim condicionado para auditoría técnica interna, sin certificación. `enterprise-ready`, `remote-ready`, `compliance-certified` y `saas-ready` permanecen prohibidos y visibles como bloqueados.
+
+Límites explícitos: esta primera versión no muta claims, no muta no-go gates, no reemplaza `ProductionReadyClaimsValidator`, no declara readiness nueva, no usa LLM judge, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red ni APIs externas, no habilita remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
+
+Siguiente micro-sprint: `POST-H-031-E — Redacted evidence export UX`.

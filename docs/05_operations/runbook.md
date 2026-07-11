@@ -11095,3 +11095,39 @@ Límites: es una primera versión de mapeo determinístico. No reemplaza quality
 
 Siguiente micro-sprint: `POST-H-031-D — Claims and no-go dashboard`.
 
+
+
+## POST-H-031-D — Claims and no-go dashboard
+
+Capacidad `implemented-initial/local-first` para consultar claims permitidos/condicionados/prohibidos, no-go gates y escaneo determinístico de overclaims sin mutar fuentes.
+
+Comandos operativos:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core evidence claims-dashboard --json
+python -m devpilot_core evidence claims-dashboard --json --write-report
+python -m devpilot_core schema validate --schema-id ClaimsNoGoDashboard --instance outputs/reports/claims_no_go_dashboard.json --json
+```
+
+Validación focal recomendada:
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD="1"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_031_claims_no_go_dashboard.py `
+  tests/test_post_h_031_gap_to_action_mapping.py `
+  tests/test_post_h_031_operator_health_summary.py `
+  tests/test_post_h_025_production_ready_claims_validator.py `
+  tests/test_schema_registry.py `
+  tests/test_project_global_state.py `
+  tests/test_post_h_014_api_route_contracts.py `
+  tests/test_post_h_015_operator_dashboard_application_api.py `
+  -q
+```
+
+Criterio PASS: `enterprise-ready`, `remote-ready`, `compliance-certified` y `saas-ready` aparecen bloqueados; `production-ready-local` queda acotado al alcance local; no-go gates muestran estado y razón; la vista valida contra schema; API/CLI usan `ApplicationService`; no hay mutaciones ni lectura de secretos.
+
+Criterio BLOCK: cualquier claim prohibido disponible, no-go gate violado oculto, claim permitido sin evidencia, endpoint que modifique claims/gates, uso de LLM judge o red, o redacción insuficiente de evidencia.
+
+Los reportes bajo `outputs/reports` son evidencia runtime regenerable y no deben versionarse ni incluirse en ZIPs limpios.

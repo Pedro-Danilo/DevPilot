@@ -5,23 +5,23 @@
   "created_by": "POST-H-030-A",
   "status": "implemented-initial",
   "version": "1.0.0",
-  "updated": "2026-07-10",
+  "updated": "2026-07-09",
   "generated_from": "DeclarativeCliRegistryBuilder",
   "registry_path": "src/devpilot_core/cli_registry/registry.py",
   "cli_source": "src/devpilot_core/cli.py",
   "summary": {
-    "commands_total": 183,
-    "commands_covered_total": 183,
+    "commands_total": 184,
+    "commands_covered_total": 184,
     "coverage_complete": true,
     "registry_phase_counts": {
-      "legacy-unregistered": 91,
-      "declarative-initial": 51,
-      "handler-migrated-incremental": 41
+      "declarative-initial": 52,
+      "handler-migrated-incremental": 41,
+      "legacy-unregistered": 91
     },
     "migration_state_counts": {
+      "already-migrated": 41,
       "deferred-cli-only": 91,
-      "registered-only": 51,
-      "already-migrated": 41
+      "registered-only": 52
     },
     "high_or_critical_commands_total": 55,
     "high_or_critical_with_owner_total": 55,
@@ -36,9 +36,7 @@
     "network_used": false,
     "external_api_used": false,
     "source_mutations_performed": false,
-    "preliminary": true,
-    "commands_with_owner_total": 183,
-    "commands_with_compatibility_contract_total": 183
+    "preliminary": true
   },
   "commands": [
     {
@@ -1544,65 +1542,30 @@
       ]
     },
     {
-      "command_id": "evidence.graph",
+      "command_id": "evidence.claims-dashboard",
       "command_path": [
         "evidence",
-        "graph"
+        "claims-dashboard"
       ],
-      "public_name": "python -m devpilot_core evidence graph",
+      "public_name": "python -m devpilot_core evidence claims-dashboard",
       "domain_owner": "operations.observability",
-      "current_handler": "evidence_graph_command",
-      "target_handler": "ApplicationService.evidence_graph",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_handler": "evidence_claims_dashboard_command",
+      "target_handler": "handle_evidence_claims_dashboard",
+      "current_module": "src/devpilot_core/evidence_graph/builder.py",
       "target_module": "src/devpilot_core/evidence_graph/builder.py",
       "registry_phase": "declarative-initial",
       "migration_state": "registered-only",
-      "application_operation_id": "evidence.graph",
-      "cli_only_reason": null,
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
-      "compatibility_contract_id": "cli-compat:evidence.graph",
+      "compatibility_contract_id": "cli-compat:evidence.claims-dashboard",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve evidence graph command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless a future POST-H-031 compatibility contract explicitly approves a change.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q"
       ],
-      "planned_micro_sprint": "POST-H-031-A",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": true,
-      "policy_check_required": false,
-      "notes": [
-        "POST-H-031-A registers evidence graph as an ApplicationService-backed operator evidence command; it writes only optional outputs/reports evidence and does not declare readiness."
-      ]
-    },
-    {
-      "command_id": "evidence.health",
-      "command_path": [
-        "evidence",
-        "health"
-      ],
-      "public_name": "python -m devpilot_core evidence health",
-      "domain_owner": "operations.observability",
-      "current_handler": "evidence_health_command",
-      "target_handler": "ApplicationService.operator_health_summary",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/evidence_graph/health.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "registered-only",
-      "application_operation_id": "operator.health",
-      "cli_only_reason": null,
-      "risk_level": "medium",
-      "compatibility_contract_id": "cli-compat:evidence.health",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve evidence health command name, operator-facing green/yellow/red summary wording and help surface unless a future compatibility contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_operator_health_summary.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-031-B",
+      "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
         "write-report"
       ],
@@ -1610,7 +1573,7 @@
       "dry_run_supported": true,
       "policy_check_required": true,
       "notes": [
-        "POST-H-031-B registers operator health as an ApplicationService-backed operator evidence command; it writes only optional outputs/reports evidence and does not execute recommended top actions."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -1622,22 +1585,22 @@
       "public_name": "python -m devpilot_core evidence gaps",
       "domain_owner": "operations.observability",
       "current_handler": "evidence_gaps_command",
-      "target_handler": "ApplicationService.gap_action_map",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/evidence_graph/gap_actions.py",
+      "target_handler": "handle_evidence_gaps",
+      "current_module": "src/devpilot_core/evidence_graph/builder.py",
+      "target_module": "src/devpilot_core/evidence_graph/builder.py",
       "registry_phase": "declarative-initial",
       "migration_state": "registered-only",
-      "application_operation_id": "operator.gaps",
-      "cli_only_reason": null,
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:evidence.gaps",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve evidence gaps command name, operator-facing gap/action wording and help surface unless a future compatibility contract explicitly approves a change.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q"
       ],
-      "planned_micro_sprint": "POST-H-031-C",
+      "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
         "write-report"
       ],
@@ -1645,39 +1608,75 @@
       "dry_run_supported": true,
       "policy_check_required": true,
       "notes": [
-        "POST-H-031-C registers gap-to-action mapping as an ApplicationService-backed operator evidence command; it writes only optional outputs/reports evidence and never executes recommended actions."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
-      "command_id": "git-status",
+      "command_id": "evidence.graph",
       "command_path": [
-        "git-status"
+        "evidence",
+        "graph"
       ],
-      "public_name": "python -m devpilot_core git-status",
-      "domain_owner": "interface.cli",
-      "current_handler": "git_status_command",
-      "target_handler": "handle_git_status",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "public_name": "python -m devpilot_core evidence graph",
+      "domain_owner": "operations.observability",
+      "current_handler": "evidence_graph_command",
+      "target_handler": "handle_evidence_graph",
+      "current_module": "src/devpilot_core/evidence_graph/builder.py",
+      "target_module": "src/devpilot_core/evidence_graph/builder.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
-      "compatibility_contract_id": "cli-compat:git-status",
+      "compatibility_contract_id": "cli-compat:evidence.graph",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
         "write-report"
       ],
       "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
+      "dry_run_supported": true,
+      "policy_check_required": true,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A."
+      ]
+    },
+    {
+      "command_id": "evidence.health",
+      "command_path": [
+        "evidence",
+        "health"
+      ],
+      "public_name": "python -m devpilot_core evidence health",
+      "domain_owner": "operations.observability",
+      "current_handler": "evidence_health_command",
+      "target_handler": "handle_evidence_health",
+      "current_module": "src/devpilot_core/evidence_graph/builder.py",
+      "target_module": "src/devpilot_core/evidence_graph/builder.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "medium",
+      "compatibility_contract_id": "cli-compat:evidence.health",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_operator_health_summary.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-E",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": true,
+      "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A."
       ]
@@ -1805,6 +1804,40 @@
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:git.tags",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-E",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A."
+      ]
+    },
+    {
+      "command_id": "git-status",
+      "command_path": [
+        "git-status"
+      ],
+      "public_name": "python -m devpilot_core git-status",
+      "domain_owner": "interface.cli",
+      "current_handler": "git_status_command",
+      "target_handler": "handle_git_status",
+      "current_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/cli.py",
+      "registry_phase": "legacy-unregistered",
+      "migration_state": "deferred-cli-only",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "medium",
+      "compatibility_contract_id": "cli-compat:git-status",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
@@ -2279,40 +2312,6 @@
       ]
     },
     {
-      "command_id": "miasi-required",
-      "command_path": [
-        "miasi-required"
-      ],
-      "public_name": "python -m devpilot_core miasi-required",
-      "domain_owner": "interface.cli",
-      "current_handler": "miasi_required",
-      "target_handler": "handle_miasi_required",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "low",
-      "compatibility_contract_id": "cli-compat:miasi-required",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-E",
-      "side_effects": [
-        "none"
-      ],
-      "writes_files": false,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A."
-      ]
-    },
-    {
       "command_id": "miasi.semantic-validate",
       "command_path": [
         "miasi",
@@ -2481,6 +2480,40 @@
         "write-report"
       ],
       "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A."
+      ]
+    },
+    {
+      "command_id": "miasi-required",
+      "command_path": [
+        "miasi-required"
+      ],
+      "public_name": "python -m devpilot_core miasi-required",
+      "domain_owner": "interface.cli",
+      "current_handler": "miasi_required",
+      "target_handler": "handle_miasi_required",
+      "current_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/cli.py",
+      "registry_phase": "legacy-unregistered",
+      "migration_state": "deferred-cli-only",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "low",
+      "compatibility_contract_id": "cli-compat:miasi-required",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-E",
+      "side_effects": [
+        "none"
+      ],
+      "writes_files": false,
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
@@ -3059,40 +3092,6 @@
       ]
     },
     {
-      "command_id": "patch-review",
-      "command_path": [
-        "patch-review"
-      ],
-      "public_name": "python -m devpilot_core patch-review",
-      "domain_owner": "interface.cli",
-      "current_handler": "patch_review_command",
-      "target_handler": "handle_patch_review",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "medium",
-      "compatibility_contract_id": "cli-compat:patch-review",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-E",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A."
-      ]
-    },
-    {
       "command_id": "patch.check",
       "command_path": [
         "patch",
@@ -3164,6 +3163,40 @@
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
+      ]
+    },
+    {
+      "command_id": "patch-review",
+      "command_path": [
+        "patch-review"
+      ],
+      "public_name": "python -m devpilot_core patch-review",
+      "domain_owner": "interface.cli",
+      "current_handler": "patch_review_command",
+      "target_handler": "handle_patch_review",
+      "current_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/cli.py",
+      "registry_phase": "legacy-unregistered",
+      "migration_state": "deferred-cli-only",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "medium",
+      "compatibility_contract_id": "cli-compat:patch-review",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-E",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -3735,40 +3768,6 @@
       ]
     },
     {
-      "command_id": "refactor-plan",
-      "command_path": [
-        "refactor-plan"
-      ],
-      "public_name": "python -m devpilot_core refactor-plan",
-      "domain_owner": "interface.cli",
-      "current_handler": "refactor_plan_command",
-      "target_handler": "handle_refactor_plan",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "medium",
-      "compatibility_contract_id": "cli-compat:refactor-plan",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-E",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A."
-      ]
-    },
-    {
       "command_id": "refactor.sandbox",
       "command_path": [
         "refactor",
@@ -3804,30 +3803,29 @@
       ]
     },
     {
-      "command_id": "release-candidate.evidence-freshness",
+      "command_id": "refactor-plan",
       "command_path": [
-        "release-candidate",
-        "evidence-freshness"
+        "refactor-plan"
       ],
-      "public_name": "python -m devpilot_core release-candidate evidence-freshness",
-      "domain_owner": "release",
-      "current_handler": "handle_release_candidate_evidence_freshness",
-      "target_handler": "handle_release_candidate_evidence_freshness",
-      "current_module": "src/devpilot_core/cli_commands/release.py",
-      "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "handler-migrated-incremental",
-      "migration_state": "already-migrated",
+      "public_name": "python -m devpilot_core refactor-plan",
+      "domain_owner": "interface.cli",
+      "current_handler": "refactor_plan_command",
+      "target_handler": "handle_refactor_plan",
+      "current_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/cli.py",
+      "registry_phase": "legacy-unregistered",
+      "migration_state": "deferred-cli-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "high",
-      "compatibility_contract_id": "cli-compat:release-candidate.evidence-freshness",
+      "risk_level": "medium",
+      "compatibility_contract_id": "cli-compat:refactor-plan",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_030_release_command_extraction.py -q"
+        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
       ],
-      "planned_micro_sprint": "POST-H-030-C",
+      "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
         "write-report"
       ],
@@ -3835,152 +3833,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "High/critical command requires explicit compatibility contract before migration."
-      ]
-    },
-    {
-      "command_id": "release-candidate.final",
-      "command_path": [
-        "release-candidate",
-        "final"
-      ],
-      "public_name": "python -m devpilot_core release-candidate final",
-      "domain_owner": "release",
-      "current_handler": "handle_release_candidate_final",
-      "target_handler": "handle_release_candidate_final",
-      "current_module": "src/devpilot_core/cli_commands/release.py",
-      "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "handler-migrated-incremental",
-      "migration_state": "already-migrated",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "high",
-      "compatibility_contract_id": "cli-compat:release-candidate.final",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_release_candidate_report.py tests/test_post_h_030_release_command_extraction.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-C",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "High/critical command requires explicit compatibility contract before migration."
-      ]
-    },
-    {
-      "command_id": "release-candidate.install-smoke",
-      "command_path": [
-        "release-candidate",
-        "install-smoke"
-      ],
-      "public_name": "python -m devpilot_core release-candidate install-smoke",
-      "domain_owner": "release",
-      "current_handler": "handle_release_candidate_install_smoke",
-      "target_handler": "handle_release_candidate_install_smoke",
-      "current_module": "src/devpilot_core/cli_commands/release.py",
-      "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "handler-migrated-incremental",
-      "migration_state": "already-migrated",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "high",
-      "compatibility_contract_id": "cli-compat:release-candidate.install-smoke",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_install_smoke.py tests/test_post_h_030_release_command_extraction.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-C",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "High/critical command requires explicit compatibility contract before migration."
-      ]
-    },
-    {
-      "command_id": "release-candidate.profile",
-      "command_path": [
-        "release-candidate",
-        "profile"
-      ],
-      "public_name": "python -m devpilot_core release-candidate profile",
-      "domain_owner": "release",
-      "current_handler": "handle_release_candidate_profile",
-      "target_handler": "handle_release_candidate_profile",
-      "current_module": "src/devpilot_core/cli_commands/release.py",
-      "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "handler-migrated-incremental",
-      "migration_state": "already-migrated",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "high",
-      "compatibility_contract_id": "cli-compat:release-candidate.profile",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_030_release_command_extraction.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-C",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "High/critical command requires explicit compatibility contract before migration."
-      ]
-    },
-    {
-      "command_id": "release-candidate.ui-api-smoke",
-      "command_path": [
-        "release-candidate",
-        "ui-api-smoke"
-      ],
-      "public_name": "python -m devpilot_core release-candidate ui-api-smoke",
-      "domain_owner": "release",
-      "current_handler": "handle_release_candidate_ui_api_smoke",
-      "target_handler": "handle_release_candidate_ui_api_smoke",
-      "current_module": "src/devpilot_core/cli_commands/release.py",
-      "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "handler-migrated-incremental",
-      "migration_state": "already-migrated",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "high",
-      "compatibility_contract_id": "cli-compat:release-candidate.ui-api-smoke",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_030_release_command_extraction.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-C",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "High/critical command requires explicit compatibility contract before migration."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -4453,6 +4306,186 @@
       ]
     },
     {
+      "command_id": "release-candidate.evidence-freshness",
+      "command_path": [
+        "release-candidate",
+        "evidence-freshness"
+      ],
+      "public_name": "python -m devpilot_core release-candidate evidence-freshness",
+      "domain_owner": "release",
+      "current_handler": "handle_release_candidate_evidence_freshness",
+      "target_handler": "handle_release_candidate_evidence_freshness",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
+      "target_module": "src/devpilot_core/cli_commands/release.py",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "high",
+      "compatibility_contract_id": "cli-compat:release-candidate.evidence-freshness",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_030_release_command_extraction.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-C",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A.",
+        "High/critical command requires explicit compatibility contract before migration."
+      ]
+    },
+    {
+      "command_id": "release-candidate.final",
+      "command_path": [
+        "release-candidate",
+        "final"
+      ],
+      "public_name": "python -m devpilot_core release-candidate final",
+      "domain_owner": "release",
+      "current_handler": "handle_release_candidate_final",
+      "target_handler": "handle_release_candidate_final",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
+      "target_module": "src/devpilot_core/cli_commands/release.py",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "high",
+      "compatibility_contract_id": "cli-compat:release-candidate.final",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_026_release_candidate_report.py tests/test_post_h_030_release_command_extraction.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-C",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A.",
+        "High/critical command requires explicit compatibility contract before migration."
+      ]
+    },
+    {
+      "command_id": "release-candidate.install-smoke",
+      "command_path": [
+        "release-candidate",
+        "install-smoke"
+      ],
+      "public_name": "python -m devpilot_core release-candidate install-smoke",
+      "domain_owner": "release",
+      "current_handler": "handle_release_candidate_install_smoke",
+      "target_handler": "handle_release_candidate_install_smoke",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
+      "target_module": "src/devpilot_core/cli_commands/release.py",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "high",
+      "compatibility_contract_id": "cli-compat:release-candidate.install-smoke",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_026_install_smoke.py tests/test_post_h_030_release_command_extraction.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-C",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A.",
+        "High/critical command requires explicit compatibility contract before migration."
+      ]
+    },
+    {
+      "command_id": "release-candidate.profile",
+      "command_path": [
+        "release-candidate",
+        "profile"
+      ],
+      "public_name": "python -m devpilot_core release-candidate profile",
+      "domain_owner": "release",
+      "current_handler": "handle_release_candidate_profile",
+      "target_handler": "handle_release_candidate_profile",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
+      "target_module": "src/devpilot_core/cli_commands/release.py",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "high",
+      "compatibility_contract_id": "cli-compat:release-candidate.profile",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_030_release_command_extraction.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-C",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A.",
+        "High/critical command requires explicit compatibility contract before migration."
+      ]
+    },
+    {
+      "command_id": "release-candidate.ui-api-smoke",
+      "command_path": [
+        "release-candidate",
+        "ui-api-smoke"
+      ],
+      "public_name": "python -m devpilot_core release-candidate ui-api-smoke",
+      "domain_owner": "release",
+      "current_handler": "handle_release_candidate_ui_api_smoke",
+      "target_handler": "handle_release_candidate_ui_api_smoke",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
+      "target_module": "src/devpilot_core/cli_commands/release.py",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "high",
+      "compatibility_contract_id": "cli-compat:release-candidate.ui-api-smoke",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_030_release_command_extraction.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-C",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A.",
+        "High/critical command requires explicit compatibility contract before migration."
+      ]
+    },
+    {
       "command_id": "remote.runner.readiness",
       "command_path": [
         "remote",
@@ -4526,40 +4559,6 @@
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
-      ]
-    },
-    {
-      "command_id": "repo-inventory",
-      "command_path": [
-        "repo-inventory"
-      ],
-      "public_name": "python -m devpilot_core repo-inventory",
-      "domain_owner": "interface.cli",
-      "current_handler": "repo_inventory_command",
-      "target_handler": "handle_repo_inventory",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
-      "application_operation_id": null,
-      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
-      "risk_level": "medium",
-      "compatibility_contract_id": "cli-compat:repo-inventory",
-      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
-      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
-      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
-      "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
-      ],
-      "planned_micro_sprint": "POST-H-030-E",
-      "side_effects": [
-        "write-report"
-      ],
-      "writes_files": true,
-      "dry_run_supported": false,
-      "policy_check_required": false,
-      "notes": [
-        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -4685,6 +4684,40 @@
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:repo.engineering-gate",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-E",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": false,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A."
+      ]
+    },
+    {
+      "command_id": "repo-inventory",
+      "command_path": [
+        "repo-inventory"
+      ],
+      "public_name": "python -m devpilot_core repo-inventory",
+      "domain_owner": "interface.cli",
+      "current_handler": "repo_inventory_command",
+      "target_handler": "handle_repo_inventory",
+      "current_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/cli.py",
+      "registry_phase": "legacy-unregistered",
+      "migration_state": "deferred-cli-only",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "medium",
+      "compatibility_contract_id": "cli-compat:repo-inventory",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
@@ -6554,7 +6587,6 @@
     "POST-H-030-A is metadata-only and does not migrate handlers.",
     "Every public CLI command discovered by the declarative registry is represented once.",
     "Commands planned for POST-H-030-B/C/D keep public invocation, JSON envelope and exit-code contracts unchanged.",
-    "CLI-only commands are justified until compatibility contracts and deeper extraction decisions are implemented in later micro-sprints.",
-    "POST-H-031-A adds evidence.graph to the ownership matrix as a medium-risk ApplicationService-backed operator evidence command."
+    "CLI-only commands are justified until compatibility contracts and deeper extraction decisions are implemented in later micro-sprints."
   ]
 }

@@ -131,6 +131,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/operator/dashboard"): ApiRoutePolicy("operator.dashboard", "read", "protected-operator-dashboard", path_subject=".devpilot/operator/dashboard_config.json"),
     ("GET", "/api/v1/operator/health"): ApiRoutePolicy("operator.health", "read", "protected-operator-health", path_subject=".devpilot/operator/operator_health_config.json"),
     ("GET", "/api/v1/operator/gaps"): ApiRoutePolicy("operator.gaps", "read", "protected-operator-gaps", path_subject=".devpilot/evidence/gap_action_rules.json"),
+    ("GET", "/api/v1/operator/claims-no-go"): ApiRoutePolicy("operator.claims_no_go", "read", "protected-operator-claims-no-go", path_subject=".devpilot/operator/claims_no_go_dashboard_config.json"),
     ("GET", "/api/v1/portfolio/status"): ApiRoutePolicy("portfolio.status", "read", "protected-portfolio-status", path_subject=".devpilot/workspaces/workspace_registry.json"),
 }
 

@@ -7975,6 +7975,64 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-031-claims-no-go-dashboard",
+      "scope": "feature",
+      "owner": "POST-H-031-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "validates": [
+        "docs/schemas/claims_no_go_dashboard.schema.json",
+        ".devpilot/operator/claims_no_go_dashboard_config.json",
+        "src/devpilot_core/evidence_graph/claims_dashboard.py",
+        "python -m devpilot_core evidence claims-dashboard --json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/claims_dashboard.py",
+        "src/devpilot_core/industrial/production_ready.py",
+        "docs/schemas/claims_no_go_dashboard.schema.json",
+        ".devpilot/operator/claims_no_go_dashboard_config.json",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q",
+        "python -m devpilot_core evidence claims-dashboard --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-031-claims-no-go-application-api",
+      "scope": "integration",
+      "owner": "POST-H-031-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "validates": [
+        "ApplicationService.claims_no_go_dashboard",
+        "operator.claims_no_go",
+        "/api/v1/operator/claims-no-go",
+        ".devpilot/interfaces/api_route_contract_registry.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ]
     }
   ],
   "notes": [
@@ -8025,6 +8083,7 @@
     "POST-H-028-C adds the UI visual smoke contract.",
     "POST-H-028-D adds the operator flows and error states contract.",
     "POST-H-031-B registers OperatorHealthSummary schema/model/CLI and protected local API route contracts.",
-    "POST-H-031-C registers GapActionMap schema/rules/CLI/ApplicationService/API contracts."
+    "POST-H-031-C registers GapActionMap schema/rules/CLI/ApplicationService/API contracts.",
+    "POST-H-031-D registers ClaimsNoGoDashboard and protected operator.claims_no_go API contracts."
   ]
 }

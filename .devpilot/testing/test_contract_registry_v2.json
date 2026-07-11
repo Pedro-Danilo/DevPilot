@@ -14414,6 +14414,126 @@
         "SCHEMA-DEVPL-GAP-ACTION-MAP-V1",
         "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
       ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-D",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-D local-first/read-only claims/no-go dashboard contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "claims-no-go-dashboard",
+      "required_for_release": true,
+      "contract_id": "post-h-031-claims-no-go-dashboard",
+      "source_contract_id": "post-h-031-claims-no-go-dashboard",
+      "domain": "operations.observability",
+      "capability": "ClaimsNoGoDashboard schema-backed operator claims/no-go view",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/claims_dashboard.py",
+        "docs/schemas/claims_no_go_dashboard.schema.json",
+        ".devpilot/operator/claims_no_go_dashboard_config.json",
+        "src/devpilot_core/cli.py"
+      ],
+      "validates": [
+        "ClaimsNoGoDashboard",
+        "evidence claims-dashboard CLI",
+        "local-first/read-only safety flags",
+        "prohibited claims remain blocked"
+      ],
+      "trigger_hints": [
+        "claims no-go dashboard",
+        "evidence claims-dashboard",
+        "POST-H-031-D"
+      ],
+      "impact_scope": [
+        "operations.observability",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-D",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-D local-first/read-only claims/no-go dashboard contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "claims-no-go-dashboard",
+      "required_for_release": true,
+      "contract_id": "post-h-031-claims-no-go-application-api",
+      "source_contract_id": "post-h-031-claims-no-go-application-api",
+      "domain": "application.service",
+      "capability": "ApplicationService and protected local API route for claims/no-go dashboard",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "validates": [
+        "ApplicationService.claims_no_go_dashboard",
+        "operator.claims_no_go",
+        "/api/v1/operator/claims-no-go",
+        "token/policy protected local API route"
+      ],
+      "trigger_hints": [
+        "operator.claims_no_go",
+        "api.operator.claims_no_go",
+        "ApplicationService"
+      ],
+      "impact_scope": [
+        "application.service",
+        "product.api",
+        "operations.observability"
+      ],
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1",
+        "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
+      ]
     }
   ],
   "migration_metadata": {
@@ -14424,8 +14544,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 213,
-    "last_updated_by": "POST-H-030-E"
+    "contracts_total": 220,
+    "last_updated_by": "POST-H-031-D"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -14462,6 +14582,7 @@
     "POST-H-029-E registers historical regression guard and testing-tiers-ready quality subgate.",
     "POST-H-031-A registers EvidenceGraphModel as an explicit operations.observability impact contract.",
     "POST-H-031-B adds OperatorHealthSummary contracts for CLI/ApplicationService/API.",
-    "POST-H-031-C adds GapActionMap contracts for CLI/ApplicationService/API."
+    "POST-H-031-C adds GapActionMap contracts for CLI/ApplicationService/API.",
+    "POST-H-031-D adds explicit claims/no-go dashboard contracts for CLI, ApplicationService and protected local API route."
   ]
 }

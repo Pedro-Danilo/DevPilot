@@ -503,6 +503,41 @@
       ]
     },
     {
+      "route_id": "api.operator.claims_no_go",
+      "method": "GET",
+      "path": "/api/v1/operator/claims-no-go",
+      "operation": "operator.claims_no_go",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.operator",
+      "router_module": "operator",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-operator-claims-no-go",
+      "path_subject": ".devpilot/operator/claims_no_go_dashboard_config.json",
+      "tags": [
+        "operator",
+        "claims",
+        "no-go",
+        "read-only"
+      ],
+      "notes": [
+        "POST-H-031-D protected local API route for claims/no-go dashboard. It does not mutate claims or gates."
+      ]
+    },
+    {
       "route_id": "api.operator.dashboard",
       "method": "GET",
       "path": "/api/v1/operator/dashboard",
@@ -534,40 +569,6 @@
       ],
       "notes": [
         "POST-H-015-C exposes OperatorDashboardAggregator only through ApplicationService/API boundary."
-      ]
-    },
-    {
-      "route_id": "api.operator.health",
-      "method": "GET",
-      "path": "/api/v1/operator/health",
-      "operation": "operator.health",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": true,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.operator",
-      "router_module": "operator",
-      "policy_action": "read",
-      "policy_sensitivity": "protected-operator-health",
-      "path_subject": ".devpilot/operator/operator_health_config.json",
-      "tags": [
-        "operator",
-        "health",
-        "read"
-      ],
-      "notes": [
-        "POST-H-031-B exposes OperatorHealthSummary only through ApplicationService/API boundary."
       ]
     },
     {
@@ -603,6 +604,40 @@
       ],
       "notes": [
         "POST-H-031-C protected local API route for advisory gap-to-action mapping. Does not execute recommended commands."
+      ]
+    },
+    {
+      "route_id": "api.operator.health",
+      "method": "GET",
+      "path": "/api/v1/operator/health",
+      "operation": "operator.health",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.operator",
+      "router_module": "operator",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-operator-health",
+      "path_subject": ".devpilot/operator/operator_health_config.json",
+      "tags": [
+        "operator",
+        "health",
+        "read"
+      ],
+      "notes": [
+        "POST-H-031-B exposes OperatorHealthSummary only through ApplicationService/API boundary."
       ]
     },
     {
@@ -1178,11 +1213,11 @@
     }
   ],
   "summary": {
-    "routes_total": 37,
-    "protected_routes_total": 34,
+    "routes_total": 38,
+    "protected_routes_total": 35,
     "public_routes_total": 3,
     "mutating_routes_total": 3,
-    "application_service_routes_total": 33,
+    "application_service_routes_total": 34,
     "policy_bound_routes_total": 32,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
@@ -1195,7 +1230,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "POST-H-031-C"
+    "updated_by": "POST-H-031-D"
   },
   "safety": {
     "local_first": true,

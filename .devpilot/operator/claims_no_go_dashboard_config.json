@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "CONFIG-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1",
+  "created_by": "POST-H-031-D",
+  "status": "implemented-initial",
+  "description": "Local read-only claims/no-go dashboard configuration. It defines the bounded claim baseline, key documents for deterministic overclaim scanning and safe report destinations without mutating claims or gates.",
+  "production_ready_criteria_path": ".devpilot/production/production_ready_local_criteria.json",
+  "project_state_path": ".devpilot/project_state.json",
+  "evidence_graph_sources_path": ".devpilot/evidence/evidence_graph_sources.json",
+  "output_json": "outputs/reports/claims_no_go_dashboard.json",
+  "output_markdown": "outputs/reports/claims_no_go_dashboard.md",
+  "overclaim_documents": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "claims_baseline": [
+    {
+      "claim_id": "production-ready-local",
+      "title": "Production-ready-local",
+      "status": "allowed",
+      "scope": "local-first bounded production readiness",
+      "evidence_refs": [
+        ".devpilot/production/production_ready_local_criteria.json",
+        "docs/audits/devpilot_local_production_ready_declaration.md",
+        "docs/audits/post_h_025_e_final_declaration_report.md"
+      ],
+      "notes": [
+        "Allowed only inside the local-first scope and only while POST-H-025 no-go gates remain safe."
+      ]
+    },
+    {
+      "claim_id": "audit-friendly",
+      "title": "Audit-friendly",
+      "status": "conditioned",
+      "scope": "internal technical audit evidence, not compliance certification",
+      "evidence_refs": [
+        "docs/post_h_031_d_manifest.json",
+        "docs/audits/post_h_031_d_claims_no_go_dashboard_report.md"
+      ],
+      "notes": [
+        "Conditioned claim from POST-H-031-D backlog baseline; it must not be represented as compliance certification."
+      ]
+    },
+    {
+      "claim_id": "enterprise-ready",
+      "title": "Enterprise-ready",
+      "status": "prohibited",
+      "scope": "out of current local-first scope",
+      "blocked_by": [
+        "enterprise_ready_claim"
+      ],
+      "reason": "Enterprise readiness remains blocked until future approved backlog/ADR implements enterprise deployment controls."
+    },
+    {
+      "claim_id": "remote-ready",
+      "title": "Remote-ready",
+      "status": "prohibited",
+      "scope": "out of current local-first scope",
+      "blocked_by": [
+        "remote_ready_claim",
+        "remote_execution_enabled"
+      ],
+      "reason": "Remote execution and remote readiness remain disabled/design-only."
+    },
+    {
+      "claim_id": "compliance-certified",
+      "title": "Compliance-certified",
+      "status": "prohibited",
+      "scope": "out of current local-first scope",
+      "blocked_by": [
+        "compliance_certification_claim"
+      ],
+      "reason": "Compliance mapping is non-certifying and no external audit/legal certification is claimed."
+    },
+    {
+      "claim_id": "saas-ready",
+      "title": "SaaS-ready",
+      "status": "prohibited",
+      "scope": "out of current local-first scope",
+      "blocked_by": [
+        "saas_ready_claim",
+        "external_apis_required"
+      ],
+      "reason": "SaaS readiness is not declared; DevPilot remains local-first."
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_allowed": false,
+    "external_api_allowed": false,
+    "remote_execution_allowed": false,
+    "connector_write_allowed": false,
+    "plugin_execution_allowed": false,
+    "source_mutations_allowed": false,
+    "reports_only_under_outputs": true,
+    "claims_mutation_allowed": false,
+    "no_go_gate_mutation_allowed": false,
+    "llm_overclaim_scan_allowed": false
+  },
+  "notes": [
+    "POST-H-031-D is an operator dashboard over existing claims/no-go evidence; it does not create a new readiness declaration.",
+    "The audit-friendly baseline is bounded to internal evidence/audit usability and is not a compliance-certified claim."
+  ]
+}

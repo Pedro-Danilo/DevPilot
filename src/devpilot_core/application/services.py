@@ -160,6 +160,33 @@ class ApplicationService:
             ),
         ).build()
 
+    def claims_no_go_dashboard(
+        self,
+        *,
+        config_path: str = ".devpilot/operator/claims_no_go_dashboard_config.json",
+        write_report: bool = False,
+        output_json: str = "outputs/reports/claims_no_go_dashboard.json",
+        output_markdown: str = "outputs/reports/claims_no_go_dashboard.md",
+    ) -> CommandResult:
+        """Build the POST-H-031-D local claims/no-go dashboard.
+
+        The dashboard is read-only and derives claim/gate state from POST-H-025
+        criteria, project state, EvidenceGraph and ProductionReadyClaimsValidator.
+        It does not mutate claims, no-go gates or readiness declarations.
+        """
+
+        from devpilot_core.evidence_graph import ClaimsDashboardOptions, ClaimsNoGoDashboardBuilder
+
+        return ClaimsNoGoDashboardBuilder(
+            self.root,
+            ClaimsDashboardOptions(
+                config_path=Path(config_path),
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)
@@ -711,6 +738,12 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             write_report=bool(payload.get("write_report", False)),
             output_json=str(payload.get("output_json", "outputs/reports/gap_action_map.json")),
             output_markdown=str(payload.get("output_markdown", "outputs/reports/gap_action_map.md")),
+        ),
+        "operator.claims_no_go": lambda payload: service.claims_no_go_dashboard(
+            config_path=str(payload.get("config_path", ".devpilot/operator/claims_no_go_dashboard_config.json")),
+            write_report=bool(payload.get("write_report", False)),
+            output_json=str(payload.get("output_json", "outputs/reports/claims_no_go_dashboard.json")),
+            output_markdown=str(payload.get("output_markdown", "outputs/reports/claims_no_go_dashboard.md")),
         ),
         "portfolio.status": lambda payload: service.portfolio_status(registry_path=str(payload.get("registry_path", ".devpilot/workspaces/workspace_registry.json"))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),

@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-031-d-claims-no-go-dashboard",
+  "sprint": "POST-H-031-D",
+  "created_by": "POST-H-031-D",
+  "status": "implemented-initial",
+  "updated": "2026-07-10",
+  "preliminary": true,
+  "summary": "ClaimsNoGoDashboard provides a local read-only operator view of allowed/conditioned/prohibited claims, no-go gates and deterministic overclaim scanning.",
+  "created_files": [
+    "docs/schemas/claims_no_go_dashboard.schema.json",
+    ".devpilot/operator/claims_no_go_dashboard_config.json",
+    "src/devpilot_core/evidence_graph/claims_dashboard.py",
+    "tests/test_post_h_031_claims_no_go_dashboard.py",
+    "docs/audits/post_h_031_d_claims_no_go_dashboard_report.md",
+    "docs/post_h_031_d_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/evidence_graph/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/interfaces/api/routers/operator.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    ".devpilot/interfaces/api_route_contract_registry.json",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md",
+    "docs/POST-H-031_observability_evidence_graph_operator.md"
+  ],
+  "verification_commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q",
+    "python -m devpilot_core evidence claims-dashboard --json",
+    "python -m devpilot_core evidence claims-dashboard --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ClaimsNoGoDashboard --instance outputs/reports/claims_no_go_dashboard.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "commands_executed": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_read": false,
+    "raw_payloads_exported": false,
+    "devpilot_db_read": false,
+    "claims_mutated": false,
+    "no_go_gates_mutated": false
+  },
+  "limitations": [
+    "Implemented-initial operator view only; not a new readiness declaration.",
+    "Does not mutate claims/no-go gates or replace ProductionReadyClaimsValidator.",
+    "UI visual integration remains future/optional; API local protected route is available."
+  ],
+  "next_micro_sprint": "POST-H-031-E",
+  "post_h_id": "POST-H-031",
+  "title": "POST-H-031-D - Claims and no-go dashboard",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-10",
+  "commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q",
+    "python -m devpilot_core evidence claims-dashboard --json",
+    "python -m devpilot_core evidence claims-dashboard --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ClaimsNoGoDashboard --instance outputs/reports/claims_no_go_dashboard.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_031_claims_no_go_dashboard.py"
+  ],
+  "pass_criteria": [
+    "Claims prohibidos aparecen claramente como bloqueados.",
+    "No-go gates aparecen con estado, razon y evidencia.",
+    "production-ready-local queda permitido solo bajo alcance local y evidencia POST-H-025.",
+    "audit-friendly queda condicionado como auditoria tecnica interna, no certificacion.",
+    "La vista valida contra ClaimsNoGoDashboard schema.",
+    "Los documentos clave siguen libres de overclaims.",
+    "CLI/API/ApplicationService son read-only y no mutan claims ni gates."
+  ],
+  "block_criteria": [
+    "Vista que muestre enterprise-ready, remote-ready, compliance-certified o saas-ready como disponible.",
+    "No-go gate violado omitido o marcado como seguro.",
+    "Claim permitido sin evidencia concreta.",
+    "Endpoint o UI que permita modificar claims/no-go gates.",
+    "Lectura/exportacion de secretos, payloads crudos o evidencia no redactada.",
+    "Uso de red, APIs externas, remote execution, connector write o plugin execution."
+  ],
+  "risks": [
+    "Implemented-initial: no reemplaza ProductionReadyClaimsValidator ni production-ready-local final declaration.",
+    "La UI visual queda pendiente; se expone API protegida local y CLI para consumo posterior.",
+    "El dashboard depende de IDs y criterios existentes en production_ready_local_criteria y project_state.",
+    "Outputs runtime deben regenerarse localmente y no versionarse en el ZIP limpio."
+  ],
+  "next_sprint": "POST-H-031"
+}

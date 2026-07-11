@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-031-C"
-    assert state.get("next_micro_sprint") == "POST-H-031-D"
+    assert state.get("current_micro_sprint") == "POST-H-031-D"
+    assert state.get("next_micro_sprint") == "POST-H-031-E"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_291_POST_H_031_C.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_292_POST_H_031_D.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -564,8 +564,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_030_workspace_onboarding_cli_module") == "src/devpilot_core/cli_commands/workspace_onboarding.py"
     assert state.get("post_h_030_workspace_onboarding_commands_migrated_total") == 7
     assert state.get("post_h_030_workspace_onboarding_public_behavior_changed") is False
-    assert state["current_micro_sprint"] == "POST-H-031-C"
-    assert state["next_micro_sprint"] == "POST-H-031-D"
+    assert state["current_micro_sprint"] == "POST-H-031-D"
+    assert state["next_micro_sprint"] == "POST-H-031-E"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -614,10 +614,10 @@ def test_post_h_031_a_project_state_starts_evidence_graph_model() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-031_observability_evidence_graph_operator.md")
 
-    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-c"
+    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-d"
     assert state.get("post_h_031_backlog_approved") is True
-    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-C"
-    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-D"
+    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-D"
+    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-E"
     assert state.get("post_h_031_evidence_graph_schema_registered") is True
     assert state.get("post_h_031_evidence_graph_available") is True
     assert state.get("post_h_031_evidence_graph_declares_readiness") is False
@@ -631,7 +631,7 @@ def test_post_h_031_a_project_state_starts_evidence_graph_model() -> None:
     assert "POST-H-031-A — Evidence graph model" in runbook
     assert "post-h-031-a" in changelog.lower()
     assert 'status: approved' in backlog
-    assert 'implementation_status: "active/implemented-initial-post-h-031-c"' in backlog
+    assert 'implementation_status: "active/implemented-initial-post-h-031-d"' in backlog
     assert any("POST-H-031-A starts Observabilidad" in note for note in state["notes"])
 
 
@@ -642,9 +642,9 @@ def test_post_h_031_b_project_state_adds_operator_health_summary() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-031_observability_evidence_graph_operator.md")
 
-    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-c"
-    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-C"
-    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-D"
+    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-d"
+    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-D"
+    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-E"
     assert state.get("post_h_031_operator_health_schema_registered") is True
     assert state.get("post_h_031_operator_health_available") is True
     assert state.get("post_h_031_operator_health_read_only") is True
@@ -657,7 +657,7 @@ def test_post_h_031_b_project_state_adds_operator_health_summary() -> None:
     assert "POST-H-031-B — Operator health summary" in readme
     assert "POST-H-031-B — Operator health summary" in runbook
     assert "post-h-031-b" in changelog.lower()
-    assert 'implementation_status: "active/implemented-initial-post-h-031-c"' in backlog
+    assert 'implementation_status: "active/implemented-initial-post-h-031-d"' in backlog
     assert any("POST-H-031-B adds OperatorHealthSummary" in note for note in state["notes"])
 
 
@@ -668,9 +668,9 @@ def test_post_h_031_c_project_state_adds_gap_action_mapping() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-031_observability_evidence_graph_operator.md")
 
-    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-c"
-    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-C"
-    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-D"
+    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-d"
+    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-D"
+    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-E"
     assert state.get("post_h_031_gap_action_schema_registered") is True
     assert state.get("post_h_031_gap_action_available") is True
     assert state.get("post_h_031_gap_action_read_only") is True
@@ -684,5 +684,34 @@ def test_post_h_031_c_project_state_adds_gap_action_mapping() -> None:
     assert "POST-H-031-C — Gap-to-action mapping" in readme
     assert "POST-H-031-C — Gap-to-action mapping" in runbook
     assert "post-h-031-c" in changelog.lower()
-    assert 'implementation_status: "active/implemented-initial-post-h-031-c"' in backlog
+    assert 'implementation_status: "active/implemented-initial-post-h-031-d"' in backlog
     assert any("POST-H-031-C adds GapActionMap" in note for note in state["notes"])
+
+
+def test_post_h_031_d_project_state_adds_claims_no_go_dashboard() -> None:
+    state = json.loads(read(".devpilot/project_state.json"))
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+    changelog = read("docs/release/CHANGELOG.md")
+    backlog = read("docs/backlogs/POST-H-031_observability_evidence_graph_operator.md")
+
+    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-d"
+    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-D"
+    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-E"
+    assert state.get("post_h_031_claims_no_go_schema_registered") is True
+    assert state.get("post_h_031_claims_no_go_available") is True
+    assert state.get("post_h_031_claims_no_go_read_only") is True
+    assert state.get("post_h_031_claims_no_go_network_used") is False
+    assert state.get("post_h_031_claims_no_go_external_api_used") is False
+    assert state.get("post_h_031_claims_no_go_commands_executed") is False
+    assert state.get("post_h_031_claims_no_go_secret_reads") is False
+    assert state.get("post_h_031_claims_no_go_devpilot_db_read") is False
+    assert state.get("post_h_031_claims_no_go_replaces_quality_gates") is False
+    assert state.get("post_h_031_claims_no_go_mutates_claims") is False
+    assert state.get("post_h_031_claims_no_go_mutates_no_go_gates") is False
+    assert state.get("post_h_031_claims_no_go_forbidden_claims_blocked") is True
+    assert "POST-H-031-D — Claims and no-go dashboard" in readme
+    assert "POST-H-031-D — Claims and no-go dashboard" in runbook
+    assert "post-h-031-d" in changelog.lower()
+    assert 'implementation_status: "active/implemented-initial-post-h-031-d"' in backlog
+    assert any("POST-H-031-D adds ClaimsNoGoDashboard" in note for note in state["notes"])
