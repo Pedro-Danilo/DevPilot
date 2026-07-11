@@ -1,3 +1,11 @@
+## POST-H-032-H — Multiagent handoff hardening
+
+- Added `MultiagentHandoffHardeningReport` schema and `.devpilot/agents/multiagent_handoff_policy.json`.
+- Added deterministic `src/devpilot_core/multiagent/hardening.py` and CLI `multiagent handoff harden`.
+- Formalized explicit/visible/traceable handoffs, scope isolation for child agents, supervisor deterministic gate, human-in-the-loop checkpoints and workflow evals.
+- Added observability evidence per handoff and prompt/tool injection negative checks.
+- Keeps swarm autonomy, connector write, plugin execution, remote execution, external APIs, LLM calls, real tool execution and source mutation disabled.
+
 
 ## POST-H-032-G — MCP design and local fake-server evaluation
 

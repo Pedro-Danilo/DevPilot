@@ -10634,6 +10634,157 @@
         "test_must_pass"
       ],
       "lifecycle": "historical"
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-POLICY",
+      "path": ".devpilot/agents/multiagent_handoff_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: .devpilot/agents/multiagent_handoff_policy.json."
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-MULTIAGENT-HANDOFF-HARDENING-REPORT-V1",
+      "path": "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-032-H",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: docs/schemas/multiagent_handoff_hardening_report.schema.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-MODULE",
+      "path": "src/devpilot_core/multiagent/hardening.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: src/devpilot_core/multiagent/hardening.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-TEST",
+      "path": "tests/test_post_h_032_multiagent_handoff_hardening.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: tests/test_post_h_032_multiagent_handoff_hardening.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MULTIAGENT-HANDOFF-HARDENING-REPORT",
+      "path": "docs/audits/post_h_032_h_multiagent_handoff_hardening_report.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: docs/audits/post_h_032_h_multiagent_handoff_hardening_report.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-H-MANIFEST",
+      "path": "docs/post_h_032_h_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-H",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-H"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-H multiagent handoff hardening artifact: docs/post_h_032_h_manifest.json."
+      ]
     }
   ],
   "rules": {
@@ -10707,28 +10858,28 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 446,
-    "source_of_truth_total": 162,
-    "machine_readable_source_total": 186,
-    "derived_total": 58,
+    "documents_total": 452,
+    "source_of_truth_total": 181,
+    "machine_readable_source_total": 210,
+    "derived_total": 61,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 311,
+    "critical_sources_total": 357,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 406,
+    "documents_with_required_tests_total": 452,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-032-D",
+    "last_updated_by": "POST-H-032-H",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-032-D",
-    "last_registered_sprint": "POST-H-032-D",
+    "updated_by": "POST-H-032-H",
+    "last_registered_sprint": "POST-H-032-H",
     "updated": "2026-07-11",
     "documents_checked_total": 419,
     "documents_registered_total": 425

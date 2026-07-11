@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-07-11",
-  "sprint": "POST-H-032-B",
+  "sprint": "POST-H-032-H",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through POST-H-032-A agent capability inventory and promotion criteria.",
   "schemas": [
@@ -820,6 +820,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MULTIAGENT-HANDOFF-HARDENING-REPORT-V1",
+      "title": "DevPilot MultiagentHandoffHardeningReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+      "description": "POST-H-032-H structural contract for deterministic multiagent handoff hardening, explicit visible handoffs, supervisor gate, human checkpoints, workflow evals, observability and no-swarm safety flags.",
+      "status": "registered",
+      "contract": "MultiagentHandoffHardeningReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-032-H",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-032-H"
     },
     {
       "schema_id": "SCHEMA-DEVPL-MULTIAGENT-WORKFLOW-V1",
@@ -1774,5 +1788,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 122
+  "schemas_total": 123
 }

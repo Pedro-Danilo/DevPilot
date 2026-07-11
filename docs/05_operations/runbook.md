@@ -2,17 +2,33 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.10.0"
+version: "2.11.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-032-G"
+phase: "POST-H-032-H"
 updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-032-H — Multiagent handoff hardening
+
+POST-H-032-H agrega el contrato `MultiagentHandoffHardeningReport`, la política `.devpilot/agents/multiagent_handoff_policy.json`, el módulo `src/devpilot_core/multiagent/hardening.py` y el comando `python -m devpilot_core multiagent handoff harden --json`. La capacidad endurece workflows multiagente con handoffs explícitos, visibles y trazables, scope propio por agente hijo, supervisor deterministic gate, checkpoints human-in-the-loop para acciones de riesgo, evals positivas/negativas y observabilidad por handoff.
+
+Estado: `implemented-initial`. Esta versión es hardening determinista/report-only: no habilita swarm autónomo, autonomía abierta, connector write, plugin execution, remote execution, network, external APIs, LLM calls, ejecución real de herramientas ni mutaciones de fuente. El objetivo es convertir los handoffs multiagente en contratos auditables y bloqueables antes de cualquier evolución futura de orquestación.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q
+python -m devpilot_core multiagent handoff harden --json
+```
+
+
 
 
 ## POST-H-032-G — MCP design and local fake-server evaluation

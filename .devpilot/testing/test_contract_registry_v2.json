@@ -15185,6 +15185,75 @@
       "schema_ids": [
         "docs/schemas/mcp_fake_server_evaluation.schema.json"
       ]
+    },
+    {
+      "contract_id": "post-h-032-multiagent-handoff-hardening",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-032-multiagent-handoff-hardening",
+      "domain": "agentic.runtime",
+      "capability": "MultiagentHandoffHardening",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/multiagent_handoff_policy.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/agents/tool_call_policy.json",
+        ".devpilot/workflows/sdlc_review.json",
+        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+        "src/devpilot_core/multiagent/hardening.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "validates": [
+        ".devpilot/agents/multiagent_handoff_policy.json",
+        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+        "src/devpilot_core/multiagent/hardening.py"
+      ],
+      "trigger_hints": [
+        "multiagent-handoff-change",
+        "post-h-032-h",
+        "workflow-registry-change",
+        "tool-call-policy-change",
+        "agent-capability-inventory-change"
+      ],
+      "impact_scope": [
+        "agents",
+        "multiagent",
+        "workflow",
+        "tools",
+        "policy",
+        "approval",
+        "security",
+        "observability"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-H",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-H hardens explicit visible handoffs with deterministic supervisor gate, human checkpoints and no swarm autonomy."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService.multiagent_handoff_hardening",
+      "subgate_id": "multiagent-handoff-hardening",
+      "schema_ids": [
+        "docs/schemas/multiagent_handoff_hardening_report.schema.json"
+      ]
     }
   ],
   "migration_metadata": {

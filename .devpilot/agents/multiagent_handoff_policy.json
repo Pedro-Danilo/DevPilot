@@ -1,0 +1,476 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-multiagent-handoff-policy",
+  "created_by": "POST-H-032-H",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "Deterministic hardening policy for visible, traceable and blockable multiagent handoffs without swarm autonomy.",
+  "workflow_id": "sdlc-review",
+  "workflow_registry_path": ".devpilot/workflows/sdlc_review.json",
+  "defaults": {
+    "swarm_autonomy_enabled": false,
+    "autonomous_planner_enabled": false,
+    "dry_run_required": true,
+    "report_only": true,
+    "human_checkpoint_required_for_risky_actions": true,
+    "supervisor_gate_required": true,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "external_api_enabled": false,
+    "network_enabled": false,
+    "llm_enabled_by_default": false,
+    "tools_executed": false,
+    "source_mutations_performed": false
+  },
+  "supervisor_gate": {
+    "gate_id": "multiagent-supervisor-deterministic-gate",
+    "enabled": true,
+    "deterministic": true,
+    "minimum_evidence_items": 2,
+    "required_fields": [
+      "reason",
+      "source_agent",
+      "target_agent",
+      "policy_decision",
+      "trace_id"
+    ],
+    "block_on_insufficient_evidence": true,
+    "block_on_unscoped_tool": true,
+    "block_on_missing_human_checkpoint": true,
+    "block_on_implicit_handoff": true,
+    "eval_cases": [
+      {
+        "case_id": "positive-explicit-handoff",
+        "evidence_items_total": 3,
+        "policy_ok": true,
+        "expected_decision": "allow"
+      },
+      {
+        "case_id": "negative-insufficient-evidence",
+        "evidence_items_total": 1,
+        "policy_ok": true,
+        "expected_decision": "block"
+      },
+      {
+        "case_id": "negative-policy-block",
+        "evidence_items_total": 3,
+        "policy_ok": false,
+        "expected_decision": "block"
+      }
+    ]
+  },
+  "agent_scopes": {
+    "requirements.agent": {
+      "scope_id": "scope-requirements-agent",
+      "allowed_tools": [
+        "agent.requirements.run",
+        "artifact.read",
+        "traceability.coverage",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "inherits_coordinator_tools": false,
+      "external_api_allowed": false,
+      "memory_shared_with_children": false,
+      "rag_context_shared_only_as_citations": true,
+      "source_mutation_allowed": false
+    },
+    "architecture.agent": {
+      "scope_id": "scope-architecture-agent",
+      "allowed_tools": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "inherits_coordinator_tools": false,
+      "external_api_allowed": false,
+      "memory_shared_with_children": false,
+      "rag_context_shared_only_as_citations": true,
+      "source_mutation_allowed": false
+    },
+    "repo.analysis": {
+      "scope_id": "scope-repo-analysis",
+      "allowed_tools": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "repo.quality_gate",
+        "repo.engineering_gate",
+        "repo.architecture_drift",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "inherits_coordinator_tools": false,
+      "external_api_allowed": false,
+      "memory_shared_with_children": false,
+      "rag_context_shared_only_as_citations": true,
+      "source_mutation_allowed": false
+    },
+    "code.review": {
+      "scope_id": "scope-code-review",
+      "allowed_tools": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "inherits_coordinator_tools": false,
+      "external_api_allowed": false,
+      "memory_shared_with_children": false,
+      "rag_context_shared_only_as_citations": true,
+      "source_mutation_allowed": false
+    },
+    "security.agent": {
+      "scope_id": "scope-security-agent",
+      "allowed_tools": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "inherits_coordinator_tools": false,
+      "external_api_allowed": false,
+      "memory_shared_with_children": false,
+      "rag_context_shared_only_as_citations": true,
+      "source_mutation_allowed": false
+    },
+    "testplanner.agent": {
+      "scope_id": "scope-testplanner-agent",
+      "allowed_tools": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "inherits_coordinator_tools": false,
+      "external_api_allowed": false,
+      "memory_shared_with_children": false,
+      "rag_context_shared_only_as_citations": true,
+      "source_mutation_allowed": false
+    }
+  },
+  "handoffs": [
+    {
+      "handoff_id": "handoff-sdlc-review-001-requirements-agent",
+      "workflow_id": "sdlc-review",
+      "sequence": 1,
+      "source_agent": "operator",
+      "target_agent": "requirements.agent",
+      "reason": "RequirementsAgent starts the SDLC review by checking requirements and traceability evidence.",
+      "policy_decision": "allow",
+      "trace_id": "trace-post-h-032-h-sdlc-review-001",
+      "explicit": true,
+      "visible_to_operator": true,
+      "supervisor_gate_required": true,
+      "human_checkpoint_required": false,
+      "observability_events": [
+        "multiagent.handoff.planned",
+        "policy.decision",
+        "supervisor.gate.decision",
+        "multiagent.handoff.traced"
+      ]
+    },
+    {
+      "handoff_id": "handoff-sdlc-review-002-architecture-agent",
+      "workflow_id": "sdlc-review",
+      "sequence": 2,
+      "source_agent": "requirements.agent",
+      "target_agent": "architecture.agent",
+      "reason": "ArchitectureAgent receives requirements context and checks architecture alignment and drift risks.",
+      "policy_decision": "allow",
+      "trace_id": "trace-post-h-032-h-sdlc-review-002",
+      "explicit": true,
+      "visible_to_operator": true,
+      "supervisor_gate_required": true,
+      "human_checkpoint_required": false,
+      "observability_events": [
+        "multiagent.handoff.planned",
+        "policy.decision",
+        "supervisor.gate.decision",
+        "multiagent.handoff.traced"
+      ]
+    },
+    {
+      "handoff_id": "handoff-sdlc-review-003-repo-analysis",
+      "workflow_id": "sdlc-review",
+      "sequence": 3,
+      "source_agent": "architecture.agent",
+      "target_agent": "repo.analysis",
+      "reason": "RepoAnalysisAgent inventories repository health after requirements and architecture review.",
+      "policy_decision": "allow",
+      "trace_id": "trace-post-h-032-h-sdlc-review-003",
+      "explicit": true,
+      "visible_to_operator": true,
+      "supervisor_gate_required": true,
+      "human_checkpoint_required": false,
+      "observability_events": [
+        "multiagent.handoff.planned",
+        "policy.decision",
+        "supervisor.gate.decision",
+        "multiagent.handoff.traced"
+      ]
+    },
+    {
+      "handoff_id": "handoff-sdlc-review-004-code-review",
+      "workflow_id": "sdlc-review",
+      "sequence": 4,
+      "source_agent": "repo.analysis",
+      "target_agent": "code.review",
+      "reason": "CodeReviewAgent checks code-level findings using prior SDLC context through explicit handoff.",
+      "policy_decision": "allow",
+      "trace_id": "trace-post-h-032-h-sdlc-review-004",
+      "explicit": true,
+      "visible_to_operator": true,
+      "supervisor_gate_required": true,
+      "human_checkpoint_required": true,
+      "observability_events": [
+        "multiagent.handoff.planned",
+        "policy.decision",
+        "supervisor.gate.decision",
+        "multiagent.handoff.traced"
+      ]
+    },
+    {
+      "handoff_id": "handoff-sdlc-review-005-security-agent",
+      "workflow_id": "sdlc-review",
+      "sequence": 5,
+      "source_agent": "code.review",
+      "target_agent": "security.agent",
+      "reason": "SecurityAgent reviews safety, secrets and policy boundaries after code-level review.",
+      "policy_decision": "allow",
+      "trace_id": "trace-post-h-032-h-sdlc-review-005",
+      "explicit": true,
+      "visible_to_operator": true,
+      "supervisor_gate_required": true,
+      "human_checkpoint_required": true,
+      "observability_events": [
+        "multiagent.handoff.planned",
+        "policy.decision",
+        "supervisor.gate.decision",
+        "multiagent.handoff.traced"
+      ]
+    },
+    {
+      "handoff_id": "handoff-sdlc-review-006-testplanner-agent",
+      "workflow_id": "sdlc-review",
+      "sequence": 6,
+      "source_agent": "security.agent",
+      "target_agent": "testplanner.agent",
+      "reason": "TestPlannerAgent consolidates test strategy implications from the full SDLC review context.",
+      "policy_decision": "allow",
+      "trace_id": "trace-post-h-032-h-sdlc-review-006",
+      "explicit": true,
+      "visible_to_operator": true,
+      "supervisor_gate_required": true,
+      "human_checkpoint_required": true,
+      "observability_events": [
+        "multiagent.handoff.planned",
+        "policy.decision",
+        "supervisor.gate.decision",
+        "multiagent.handoff.traced"
+      ]
+    }
+  ],
+  "human_checkpoints": [
+    {
+      "checkpoint_id": "checkpoint-code-review-risk",
+      "workflow_id": "sdlc-review",
+      "agent_id": "code.review",
+      "action_type": "write",
+      "risky": true,
+      "required": true,
+      "approval_binding_required": true,
+      "blocks_without_approval": true,
+      "reason": "Code review may propose risky changes; no write is allowed without human approval."
+    },
+    {
+      "checkpoint_id": "checkpoint-security-risk",
+      "workflow_id": "sdlc-review",
+      "agent_id": "security.agent",
+      "action_type": "execute",
+      "risky": true,
+      "required": true,
+      "approval_binding_required": true,
+      "blocks_without_approval": true,
+      "reason": "Security actions that could execute or mutate state require explicit human approval."
+    },
+    {
+      "checkpoint_id": "checkpoint-test-run-risk",
+      "workflow_id": "sdlc-review",
+      "agent_id": "testplanner.agent",
+      "action_type": "execute",
+      "risky": true,
+      "required": true,
+      "approval_binding_required": true,
+      "blocks_without_approval": true,
+      "reason": "Test execution is not automatic; testplanner emits plan-only recommendations unless approved."
+    }
+  ],
+  "evals": [
+    {
+      "case_id": "workflow-positive-sdlc-review",
+      "type": "positive",
+      "reason": "All handoffs explicit, scoped and traced.",
+      "should_block": false
+    },
+    {
+      "case_id": "workflow-negative-implicit-handoff",
+      "type": "negative",
+      "reason": "A target agent appears without explicit source/reason.",
+      "should_block": true,
+      "block_reason": "implicit_handoff"
+    },
+    {
+      "case_id": "workflow-negative-tool-inheritance",
+      "type": "negative",
+      "reason": "A child agent inherits coordinator-only or forbidden tools.",
+      "should_block": true,
+      "block_reason": "unscoped_tool_inheritance"
+    },
+    {
+      "case_id": "workflow-negative-missing-human-checkpoint",
+      "type": "negative",
+      "reason": "Risky write/execute action lacks checkpoint.",
+      "should_block": true,
+      "block_reason": "missing_human_checkpoint"
+    },
+    {
+      "case_id": "workflow-negative-insufficient-evidence",
+      "type": "negative",
+      "reason": "Supervisor evidence below threshold.",
+      "should_block": true,
+      "block_reason": "insufficient_evidence"
+    }
+  ],
+  "observability_events": [
+    "multiagent.handoff.planned",
+    "policy.decision",
+    "supervisor.gate.decision",
+    "human.checkpoint.required",
+    "multiagent.handoff.traced",
+    "multiagent.workflow.evaluated"
+  ],
+  "no_go_gates": [
+    "multiagent-swarm-autonomy-blocked",
+    "multiagent-implicit-handoff-blocked",
+    "multiagent-unscoped-tool-inheritance-blocked",
+    "multiagent-missing-human-checkpoint-blocked",
+    "multiagent-write-remote-plugin-without-approval-blocked"
+  ],
+  "notes": [
+    "POST-H-032-H hardens handoff evidence and does not enable autonomous swarms.",
+    "Child agents keep their own tool scopes and never inherit coordinator tools.",
+    "All risky actions remain blocked until human approval in a future execution workflow."
+  ],
+  "limitations": [
+    "Implemented-initial hardening; it validates contracts and evals, not production autonomous orchestration.",
+    "No LLM, network, external API, connector write, plugin execution, remote execution or source mutation is enabled."
+  ]
+}

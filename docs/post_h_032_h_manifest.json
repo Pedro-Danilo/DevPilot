@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-032-h-multiagent-handoff-hardening",
+  "created_by": "POST-H-032-H",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "micro_sprint": "POST-H-032-H — Multiagent handoff hardening",
+  "artifacts": {
+    "policy": ".devpilot/agents/multiagent_handoff_policy.json",
+    "schema": "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+    "module": "src/devpilot_core/multiagent/hardening.py",
+    "tests": "tests/test_post_h_032_multiagent_handoff_hardening.py",
+    "audit_report": "docs/audits/post_h_032_h_multiagent_handoff_hardening_report.md",
+    "manifest": "docs/post_h_032_h_manifest.json",
+    "workflow_registry": ".devpilot/workflows/sdlc_review.json"
+  },
+  "cli_commands": [
+    "python -m devpilot_core multiagent handoff harden --json",
+    "python -m devpilot_core multiagent handoff harden --json --write-report",
+    "python -m devpilot_core schema validate --schema-id MultiagentHandoffHardeningReport --instance outputs\\reports\\multiagent_handoff_hardening_report.json --json"
+  ],
+  "safety": {
+    "swarm_autonomy_enabled": false,
+    "autonomous_planner_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "llm_used": false,
+    "tools_executed": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "backlog_closure_candidate": true,
+  "next_micro_sprint": "POST-H-032 closure review / POST-H-033-A — Validator inventory and migration plan",
+  "limitations": [
+    "Implemented-initial hardening only; it does not enable autonomous swarm orchestration.",
+    "Supervisor decisions are deterministic contract evaluations, not LLM judgments.",
+    "Future higher-autonomy multiagent behavior requires a separate ADR/backlog, safety evals and explicit owner approval."
+  ]
+}

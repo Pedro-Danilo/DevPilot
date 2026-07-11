@@ -32,6 +32,7 @@ POST_H_032_D_CREATED_BY = "POST-H-032-D"
 POST_H_032_E_CREATED_BY = "POST-H-032-E"
 POST_H_032_F_CREATED_BY = "POST-H-032-F"
 POST_H_032_G_CREATED_BY = "POST-H-032-G"
+POST_H_032_H_CREATED_BY = "POST-H-032-H"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -835,6 +836,19 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q",
         ),
         rationale="POST-H-032-G evaluates MCP design through a local fake server, MCP-to-MIASI mapping, permission model, audit trail and injection controls. It writes only optional reports under outputs/ and does not enable real MCP, network transports, connector write, plugin execution, remote execution, external APIs, LLMs or real tool execution.",
+    ),
+
+    "multiagent.handoff.harden": DeclarativeCommandOverride(
+        command_id="multiagent.handoff.harden",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q",
+        ),
+        rationale="POST-H-032-H evaluates deterministic multiagent handoff hardening with explicit handoffs, supervisor gate, human checkpoints, scope isolation and observability. It writes only optional reports under outputs/ and does not enable swarm autonomy, network, external APIs, LLMs, connector write, plugin execution, remote execution, source mutation or real tool execution.",
     ),
 
     "agent.tool-calls.validate": DeclarativeCommandOverride(

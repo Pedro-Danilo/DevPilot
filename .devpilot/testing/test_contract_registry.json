@@ -8341,6 +8341,36 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-032-multiagent-handoff-hardening",
+      "scope": "safety",
+      "owner": "POST-H-032-H",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "validates": [
+        ".devpilot/agents/multiagent_handoff_policy.json",
+        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+        "src/devpilot_core/multiagent/hardening.py"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/multiagent_handoff_policy.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/agents/tool_call_policy.json",
+        ".devpilot/workflows/sdlc_review.json",
+        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+        "src/devpilot_core/multiagent/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q"
+      ]
     }
   ],
   "notes": [

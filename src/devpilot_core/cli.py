@@ -108,7 +108,7 @@ from .observability import (
 )
 from .miasi import MiasiRegistryValidator, MiasiSemanticValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ExternalApiProviderPilotOptions, ExternalApiProviderPilotReporter, LocalLlmProviderHealthOptions, LocalLlmProviderHealthReporter, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
-from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
+from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions, MultiagentHandoffHardeningManager, MultiagentHandoffHardeningOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .plugins import PluginDryRunOptions, PluginExposureReporter, PluginExposureReportOptions, PluginRegistry, PluginRegistryOptions
 from .prompts import PromptRegistry
@@ -1792,6 +1792,39 @@ def agent_mcp_fake_server_command(
     result = manager.evaluate()
     _emit_result_event(root, result, subject="agent.mcp-fake-server")
     _persist_result(root, result, subject="agent.mcp-fake-server")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def multiagent_handoff_hardening_command(
+    *,
+    policy_path: str = ".devpilot/agents/multiagent_handoff_policy.json",
+    agent_inventory_path: str = ".devpilot/agents/agent_capability_inventory.json",
+    tool_call_policy_path: str = ".devpilot/agents/tool_call_policy.json",
+    workflow_path: str = ".devpilot/workflows/sdlc_review.json",
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/multiagent_handoff_hardening_report.json",
+    output_markdown: str = "outputs/reports/multiagent_handoff_hardening_report.md",
+) -> int:
+    """Evaluate POST-H-032-H deterministic multiagent handoff hardening."""
+
+    root = project_root()
+    manager = MultiagentHandoffHardeningManager(
+        root,
+        MultiagentHandoffHardeningOptions(
+            policy_path=Path(policy_path),
+            agent_inventory_path=Path(agent_inventory_path),
+            tool_call_policy_path=Path(tool_call_policy_path),
+            workflow_path=Path(workflow_path),
+            write_report=write_report,
+            output_json=Path(output_json),
+            output_markdown=Path(output_markdown),
+        ),
+    )
+    result = manager.evaluate()
+    _emit_result_event(root, result, subject="multiagent.handoff")
+    _persist_result(root, result, subject="multiagent.handoff")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -7101,6 +7134,18 @@ def build_parser() -> argparse.ArgumentParser:
     multiagent_workflow_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     multiagent_workflow_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    multiagent_handoff = multiagent_sub.add_parser("handoff", help="Evaluate POST-H-032-H multiagent handoff hardening")
+    multiagent_handoff_sub = multiagent_handoff.add_subparsers(dest="multiagent_handoff_command")
+    multiagent_handoff_harden = multiagent_handoff_sub.add_parser("harden", help="Validate visible, traceable and blockable multiagent handoffs")
+    multiagent_handoff_harden.add_argument("--policy", default=".devpilot/agents/multiagent_handoff_policy.json", help="Multiagent handoff policy path")
+    multiagent_handoff_harden.add_argument("--agent-inventory", default=".devpilot/agents/agent_capability_inventory.json", help="Agent capability inventory path")
+    multiagent_handoff_harden.add_argument("--tool-call-policy", default=".devpilot/agents/tool_call_policy.json", help="Agent tool-call policy path")
+    multiagent_handoff_harden.add_argument("--workflow", default=".devpilot/workflows/sdlc_review.json", help="Workflow registry JSON path")
+    multiagent_handoff_harden.add_argument("--output-json", default="outputs/reports/multiagent_handoff_hardening_report.json", help="Optional report JSON path under outputs/")
+    multiagent_handoff_harden.add_argument("--output-markdown", default="outputs/reports/multiagent_handoff_hardening_report.md", help="Optional report Markdown path under outputs/")
+    multiagent_handoff_harden.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    multiagent_handoff_harden.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown multiagent handoff hardening report under outputs/")
+
 
 
     connector = sub.add_parser("connector", help="Validate local MCP/connector governance registries")
@@ -7570,6 +7615,12 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
         return f"agent {subcommand}" if subcommand else "agent"
     if command == "multiagent":
         subcommand = getattr(args, "multiagent_command", None)
+        handoff_subcommand = getattr(args, "multiagent_handoff_command", None)
+        workflow_subcommand = getattr(args, "multiagent_workflow_command", None)
+        if subcommand == "handoff" and handoff_subcommand:
+            return f"multiagent handoff {handoff_subcommand}"
+        if subcommand == "workflow" and workflow_subcommand:
+            return f"multiagent workflow {workflow_subcommand}"
         return f"multiagent {subcommand}" if subcommand else "multiagent"
     if command == "connector":
         subcommand = getattr(args, "connector_command", None)
@@ -8604,6 +8655,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 max_steps=args.max_steps,
                 json_output=args.json,
                 write_report=args.write_report,
+            )
+        if args.multiagent_command == "handoff" and getattr(args, "multiagent_handoff_command", None) == "harden":
+            return multiagent_handoff_hardening_command(
+                policy_path=args.policy,
+                agent_inventory_path=args.agent_inventory,
+                tool_call_policy_path=args.tool_call_policy,
+                workflow_path=args.workflow,
+                json_output=args.json,
+                write_report=args.write_report,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
             )
         parser.print_help()
         return int(ExitCode.FAIL)

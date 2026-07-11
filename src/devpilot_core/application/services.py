@@ -259,6 +259,41 @@ class ApplicationService:
 
 
 
+
+    def multiagent_handoff_hardening(
+        self,
+        *,
+        policy_path: str = ".devpilot/agents/multiagent_handoff_policy.json",
+        agent_inventory_path: str = ".devpilot/agents/agent_capability_inventory.json",
+        tool_call_policy_path: str = ".devpilot/agents/tool_call_policy.json",
+        workflow_path: str = ".devpilot/workflows/sdlc_review.json",
+        write_report: bool = False,
+        output_json: str = "outputs/reports/multiagent_handoff_hardening_report.json",
+        output_markdown: str = "outputs/reports/multiagent_handoff_hardening_report.md",
+    ) -> CommandResult:
+        """Evaluate POST-H-032-H deterministic multiagent handoff hardening.
+
+        This boundary validates visible handoffs, supervisor gate, human
+        checkpoints, scope isolation and observability. It is report-only and
+        does not enable swarm autonomy, tools, network, external APIs, LLMs,
+        connector write, plugin execution, remote execution or source mutation.
+        """
+
+        from devpilot_core.multiagent import MultiagentHandoffHardeningManager, MultiagentHandoffHardeningOptions
+
+        return MultiagentHandoffHardeningManager(
+            self.root,
+            MultiagentHandoffHardeningOptions(
+                policy_path=Path(policy_path),
+                agent_inventory_path=Path(agent_inventory_path),
+                tool_call_policy_path=Path(tool_call_policy_path),
+                workflow_path=Path(workflow_path),
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).evaluate()
+
     def mcp_fake_server_evaluation(
         self,
         *,
@@ -1138,6 +1173,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("model.external_api_pilot", "Build POST-H-032-C ADR-backed external API fake/gated pilot evidence without real external API calls or secret reads.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model external-api-pilot --json"),
         ("agent.rag_context", "Build POST-H-032-D deterministic RAG-aware agent context packs with citations and insufficient-evidence behavior.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent rag-context --json"),
         ("agent.mcp_fake_server_evaluation", "Evaluate POST-H-032-G MCP design and local fake-server contract without enabling real MCP, network transports or tool execution.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent mcp-fake-server evaluate --json"),
+        ("multiagent.handoff_hardening", "Evaluate POST-H-032-H deterministic multiagent handoff hardening without swarm autonomy, tool execution, network, external APIs or source mutation.", "read_only_optional_outputs_reports", True, "python -m devpilot_core multiagent handoff harden --json"),
         ("agent.tool_call_contract", "Validate POST-H-032-F governed tool-calling contracts with allowlists, dry-run-first, approval binding and injection guards.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent tool-calls validate --json"),
         ("model.capabilities", "Build static model capability matrix.", "none", True, "python -m devpilot_core model capabilities --json"),
         ("history.runs", "List local command history from LocalStore.", "none", True, "python -m devpilot_core history list --json"),

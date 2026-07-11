@@ -72,6 +72,7 @@
     "model.generate",
     "model.health",
     "model.providers",
+    "multiagent.handoff.harden",
     "multiagent.run",
     "multiagent.workflow.run",
     "package.build",
@@ -131,6 +132,7 @@
     "POST-H-015-C corrective patch registers api and audit-pack groups declaratively; api.serve, api.token, audit-pack.build and audit-pack.verify are removed from the temporary legacy allowlist as stale entries.",
     "POST-H-017-C registers portfolio and release groups declaratively; portfolio.status and release.* commands are removed from the temporary legacy allowlist as stale entries.",
     "POST-H-018-B registers connector.validate, connector.call and connector.sandbox.run declaratively, so connector.* commands are no longer legacy allowlist entries.",
-    "POST-H-018-D registers connector.sandbox.exposure declaratively; it is not added as a legacy command."
+    "POST-H-018-D registers connector.sandbox.exposure declaratively; it is not added as a legacy command.",
+    "POST-H-032-H temporarily allowlists multiagent.handoff.harden because nested multiagent handoff subcommand extraction still classifies it as legacy; command remains governed, report-only and covered by CLI compatibility contract."
   ]
 }

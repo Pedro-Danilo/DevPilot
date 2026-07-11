@@ -147,8 +147,8 @@ def test_post_h_032_g_governance_artifacts_registered() -> None:
     tcr_v1 = json.loads((ROOT / ".devpilot/testing/test_contract_registry.json").read_text(encoding="utf-8"))
     tcr_v2 = json.loads((ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8"))
 
-    assert state["post_h_032_current_micro_sprint"] == "POST-H-032-G"
-    assert state["post_h_032_next_micro_sprint"] == "POST-H-032-H"
+    assert state["post_h_032_current_micro_sprint"] in {"POST-H-032-G", "POST-H-032-H"}
+    assert state["post_h_032_next_micro_sprint"] in {"POST-H-032-H", "POST-H-033-A"}
     assert state["post_h_032_g_mcp_fake_server_schema_registered"] is True
     assert state["post_h_032_g_mcp_real_enabled"] is False
     assert state["post_h_032_g_fake_server_only"] is True

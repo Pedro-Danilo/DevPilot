@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-g-implemented-initial"
-current_micro_sprint: "POST-H-032-G"
-next_micro_sprint: "POST-H-032-H"
+implementation_status: "approved/post-h-032-h-implemented-initial"
+current_micro_sprint: "POST-H-032-H"
+next_micro_sprint: "POST-H-033-A"
 ```
 
 ## 1. Proposito del backlog
@@ -763,6 +763,15 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_approval_binding.py `
   -q
 ```
+
+
+## Estado de implementación POST-H-032-H — Multiagent handoff hardening
+
+POST-H-032-H queda implementado como `implemented-initial` determinista y report-only. La implementación agrega el schema `MultiagentHandoffHardeningReport`, la policy `.devpilot/agents/multiagent_handoff_policy.json`, el módulo `src/devpilot_core/multiagent/hardening.py`, el CLI `python -m devpilot_core multiagent handoff harden --json`, integración ApplicationService, reporte de auditoría y manifest.
+
+Esta versión no habilita swarm autónomo, autonomía abierta, connector write, plugin execution, remote execution, network, external APIs, LLM calls, ejecución real de tools ni mutaciones de fuente. Los handoffs se formalizan como contratos visibles, trazables y bloqueables, con supervisor deterministic gate, scope propio por agente hijo, checkpoints human-in-the-loop para acciones de riesgo y evals positivas/negativas.
+
+El backlog POST-H-032 queda como candidato de cierre funcional tras validación local del operador. El siguiente hito planificado es POST-H-033-A, orientado a inventario y migración de validadores hardcodeados hacia contratos/schema-backed donde aplique.
 
 ## 10. Definition of Done del backlog POST-H-032
 

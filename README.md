@@ -1,3 +1,17 @@
+## POST-H-032-H — Multiagent handoff hardening
+
+POST-H-032-H agrega el contrato `MultiagentHandoffHardeningReport`, la política `.devpilot/agents/multiagent_handoff_policy.json`, el módulo `src/devpilot_core/multiagent/hardening.py` y el comando `python -m devpilot_core multiagent handoff harden --json`. La capacidad endurece workflows multiagente con handoffs explícitos, visibles y trazables, scope propio por agente hijo, supervisor deterministic gate, checkpoints human-in-the-loop para acciones de riesgo, evals positivas/negativas y observabilidad por handoff.
+
+Estado: `implemented-initial`. Esta versión es hardening determinista/report-only: no habilita swarm autónomo, autonomía abierta, connector write, plugin execution, remote execution, network, external APIs, LLM calls, ejecución real de herramientas ni mutaciones de fuente. El objetivo es convertir los handoffs multiagente en contratos auditables y bloqueables antes de cualquier evolución futura de orquestación.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q
+python -m devpilot_core multiagent handoff harden --json
+```
+
 ## POST-H-032-D — RAG-aware agents
 
 POST-H-032-D agrega el contrato `RagAgentContextPack`, la policy `.devpilot/agents/rag_agent_bindings.json`, el módulo `src/devpilot_core/agents/rag_context.py` y el comando `python -m devpilot_core agent rag-context --json`. La capacidad produce context packs RAG locales con `source_ids`, citas, freshness, coverage, negative cases e invariantes de `insufficient evidence`.

@@ -146,7 +146,7 @@ def test_post_h_032_a_governance_artifacts_are_synchronized() -> None:
 
     assert state["post_h_032_backlog_approved"] is True
     assert state["post_h_032_current_micro_sprint"] in {"POST-H-032-A", "POST-H-032-B", "POST-H-032-C", "POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H"}
-    assert state["post_h_032_next_micro_sprint"] in {"POST-H-032-B", "POST-H-032-C", "POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H"}
+    assert state["post_h_032_next_micro_sprint"] in {"POST-H-032-B", "POST-H-032-C", "POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H", "POST-H-033-A"}
     assert state["post_h_032_agent_capability_inventory_available"] is True
     assert state["post_h_032_external_api_allowed_total"] == 0
     assert state["post_h_032_memory_enabled_total"] == 0
