@@ -1,3 +1,11 @@
+## post-h-032-b — Local LLM provider hardening
+
+- Added `LocalLlmProviderHealthReport` schema and `.devpilot/modeling/local_llm_provider_health_policy.json`.
+- Added `src/devpilot_core/modeling/local_provider_health.py` and `model local-health` CLI for Ollama/LM Studio governance evidence.
+- Kept local providers disabled by default, localhost-only, API-key-free, zero-cost and fake-testable.
+- Preserved external API disabled/no-network defaults and made fallback-to-mock explicit/auditable.
+- Synchronized README, runbook, backlog, schema catalog, TCR v1/v2, source registry and project_state.
+
 ## post-h-027-e — Upgrade/rollback dry-run
 
 - Agrega `UpgradeRollbackDryRunReport` y `release upgrade-rollback-dry-run` para validar manifest/checksums, backup local, restore dry-run seguro, upgrade check no mutante, smoke post-upgrade esperado y acciones de rollback antes de cualquier upgrade real.

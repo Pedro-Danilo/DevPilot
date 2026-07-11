@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-032-b-local-llm-provider-hardening",
+  "created_by": "POST-H-032-B",
+  "status": "implemented-initial",
+  "updated": "2026-07-11",
+  "scope": "Local LLM provider hardening for Ollama and LM Studio without enabling real providers by default.",
+  "artifacts": [
+    "docs/schemas/local_llm_provider_health_report.schema.json",
+    ".devpilot/modeling/local_llm_provider_health_policy.json",
+    "src/devpilot_core/modeling/local_provider_health.py",
+    "tests/test_post_h_032_local_llm_provider_hardening.py",
+    "docs/audits/post_h_032_b_local_llm_provider_hardening_report.md"
+  ],
+  "commands": [
+    "python -m devpilot_core model local-health --json",
+    "python -m devpilot_core schema validate --schema-id LocalLlmProviderHealthReport --instance outputs/reports/local_llm_provider_health_report.json --json"
+  ],
+  "safety": {
+    "local_first": true,
+    "local_providers_disabled_by_default": true,
+    "localhost_only": true,
+    "real_servers_required_for_tests": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_runtime": false
+  },
+  "next_micro_sprint": "POST-H-032-C"
+}

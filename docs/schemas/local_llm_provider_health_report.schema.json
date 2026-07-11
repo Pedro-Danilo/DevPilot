@@ -1,0 +1,411 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/local_llm_provider_health_report.schema.json",
+  "title": "DevPilot LocalLlmProviderHealthReport v1",
+  "description": "POST-H-032-B local-first health hardening report for Ollama and LM Studio. It validates disabled-by-default, localhost-only, no-secret, zero-cost and explicit fallback semantics without requiring real local model servers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "policy_path",
+    "provider_registry_path",
+    "summary",
+    "providers",
+    "fallback",
+    "budget",
+    "safety",
+    "findings",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-LOCAL-LLM-PROVIDER-HEALTH-REPORT-V1"
+    },
+    "report_id": {
+      "const": "devpilot-local-llm-provider-health-report"
+    },
+    "created_by": {
+      "const": "POST-H-032-B"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "blocked"
+      ]
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "minLength": 10
+    },
+    "policy_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_registry_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "created_by",
+        "status",
+        "decision",
+        "providers_total",
+        "local_providers_total",
+        "required_local_providers_total",
+        "required_local_providers_present_total",
+        "local_enabled_total",
+        "local_disabled_by_default_total",
+        "localhost_only_total",
+        "non_localhost_endpoint_total",
+        "local_requires_secret_total",
+        "local_external_api_total",
+        "external_api_used",
+        "network_used",
+        "real_server_required_for_tests",
+        "fake_provider_tests_supported",
+        "fallback_to_mock_allowed",
+        "fallback_to_mock_explicit",
+        "budget_ledger_zero_cost_supported",
+        "blocking_findings_total",
+        "findings_total",
+        "schema_valid",
+        "reports_written",
+        "preliminary"
+      ],
+      "properties": {
+        "created_by": {
+          "const": "POST-H-032-B"
+        },
+        "status": {
+          "enum": [
+            "implemented-initial",
+            "blocked"
+          ]
+        },
+        "decision": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "ERROR"
+          ]
+        },
+        "providers_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "local_providers_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required_local_providers_total": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "required_local_providers_present_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "local_enabled_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "local_disabled_by_default_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "localhost_only_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "non_localhost_endpoint_total": {
+          "const": 0
+        },
+        "local_requires_secret_total": {
+          "const": 0
+        },
+        "local_external_api_total": {
+          "const": 0
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "network_used": {
+          "type": "boolean"
+        },
+        "real_server_required_for_tests": {
+          "const": false
+        },
+        "fake_provider_tests_supported": {
+          "const": true
+        },
+        "fallback_to_mock_allowed": {
+          "const": true
+        },
+        "fallback_to_mock_explicit": {
+          "const": true
+        },
+        "budget_ledger_zero_cost_supported": {
+          "const": true
+        },
+        "blocking_findings_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "findings_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "schema_valid": {
+          "type": "boolean"
+        },
+        "reports_written": {
+          "type": "boolean"
+        },
+        "preliminary": {
+          "const": true
+        }
+      }
+    },
+    "providers": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "#/$defs/provider"
+      }
+    },
+    "fallback": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "provider",
+        "allowed",
+        "explicit_required",
+        "silent_fallback_allowed"
+      ],
+      "properties": {
+        "provider": {
+          "const": "mock"
+        },
+        "allowed": {
+          "const": true
+        },
+        "explicit_required": {
+          "const": true
+        },
+        "silent_fallback_allowed": {
+          "const": false
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "ledger_supported",
+        "local_monetary_cost_usd",
+        "external_cost_allowed"
+      ],
+      "properties": {
+        "ledger_supported": {
+          "const": true
+        },
+        "local_monetary_cost_usd": {
+          "const": 0.0
+        },
+        "external_cost_allowed": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "models_called",
+        "local_servers_required",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "secrets_read",
+        "raw_prompts_stored",
+        "raw_outputs_stored",
+        "source_mutations_performed",
+        "llm_judge_used"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "type": "boolean"
+        },
+        "dry_run": {
+          "const": true
+        },
+        "models_called": {
+          "const": false
+        },
+        "local_servers_required": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "secrets_read": {
+          "const": false
+        },
+        "raw_prompts_stored": {
+          "const": false
+        },
+        "raw_outputs_stored": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "notes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "provider": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "provider_id",
+        "kind",
+        "registered",
+        "enabled",
+        "disabled_by_default",
+        "endpoint",
+        "localhost_only",
+        "requires_api_key",
+        "external_api",
+        "estimated_cost_per_1k_tokens_usd",
+        "availability",
+        "health_check_mode",
+        "fake_test_compatible",
+        "fallback_provider",
+        "budget_ledger_cost_usd",
+        "blocking_findings"
+      ],
+      "properties": {
+        "provider_id": {
+          "enum": [
+            "ollama",
+            "lmstudio"
+          ]
+        },
+        "kind": {
+          "const": "local"
+        },
+        "registered": {
+          "type": "boolean"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "disabled_by_default": {
+          "type": "boolean"
+        },
+        "endpoint": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "localhost_only": {
+          "type": "boolean"
+        },
+        "requires_api_key": {
+          "const": false
+        },
+        "external_api": {
+          "const": false
+        },
+        "estimated_cost_per_1k_tokens_usd": {
+          "const": 0.0
+        },
+        "availability": {
+          "enum": [
+            "disabled",
+            "available",
+            "unavailable",
+            "misconfigured",
+            "missing"
+          ]
+        },
+        "health_check_mode": {
+          "enum": [
+            "static-disabled",
+            "bounded-local-probe",
+            "blocked-misconfigured",
+            "missing-provider"
+          ]
+        },
+        "fake_test_compatible": {
+          "const": true
+        },
+        "fallback_provider": {
+          "const": "mock"
+        },
+        "budget_ledger_cost_usd": {
+          "const": 0.0
+        },
+        "blocking_findings": {
+          "type": "array"
+        }
+      }
+    }
+  }
+}

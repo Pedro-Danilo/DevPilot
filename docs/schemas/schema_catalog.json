@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-07-11",
-  "sprint": "POST-H-032-A",
+  "sprint": "POST-H-032-B",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through POST-H-032-A agent capability inventory and promotion criteria.",
   "schemas": [
@@ -649,6 +649,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-026-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-LOCAL-LLM-PROVIDER-HEALTH-REPORT-V1",
+      "title": "DevPilot LocalLlmProviderHealthReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/local_llm_provider_health_report.schema.json",
+      "description": "POST-H-032-B local-first health hardening report for Ollama and LM Studio: disabled-by-default, localhost-only, no secrets, zero-cost BudgetLedger support, fake-test compatibility and explicit fallback-to-mock semantics without requiring real local model servers.",
+      "status": "registered",
+      "contract": "LocalLlmProviderHealthReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-032-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-032-B"
     },
     {
       "schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1",
@@ -1690,5 +1704,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 116
+  "schemas_total": 117
 }

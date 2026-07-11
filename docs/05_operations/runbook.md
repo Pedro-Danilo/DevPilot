@@ -2,17 +2,32 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.04.0"
+version: "2.05.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-027-E"
-updated: "2026-07-08"
+phase: "POST-H-032-B"
+updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-032-B — Local LLM provider hardening
+
+POST-H-032-B agrega el contrato `LocalLlmProviderHealthReport`, la política `.devpilot/modeling/local_llm_provider_health_policy.json`, el módulo `src/devpilot_core/modeling/local_provider_health.py` y el comando `python -m devpilot_core model local-health --json`. El objetivo es endurecer Ollama y LM Studio como providers locales opcionales: siguen `disabled` por defecto, solo aceptan endpoints HTTP localhost, no requieren secretos, reportan costo monetario local cero y permiten fallback a `mock` solo de forma explícita y auditable.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core model local-health --json
+python -m devpilot_core schema validate --schema-id LocalLlmProviderHealthReport --instance outputs\reports\local_llm_provider_health_report.json --json
+```
+
+Estado: `implemented-initial / local-llm-provider-hardening`. Esta versión no instala Ollama, no instala LM Studio, no exige servidores locales reales en tests, no llama APIs externas, no lee secretos y no habilita modelos locales por defecto. La evolución posterior queda en POST-H-032-C/D para APIs externas gated y agentes RAG-aware.
+
 
 ## POST-H-027-E — Upgrade/rollback dry-run
 

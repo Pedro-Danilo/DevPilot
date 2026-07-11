@@ -10,25 +10,25 @@
   "registry_path": "src/devpilot_core/cli_registry/registry.py",
   "cli_source": "src/devpilot_core/cli.py",
   "summary": {
-    "commands_total": 186,
-    "commands_covered_total": 186,
+    "commands_total": 187,
+    "commands_covered_total": 187,
     "coverage_complete": true,
     "registry_phase_counts": {
-      "declarative-initial": 56,
+      "declarative-initial": 65,
       "handler-migrated-incremental": 41,
-      "legacy-unregistered": 89
+      "legacy-unregistered": 81
     },
     "migration_state_counts": {
       "already-migrated": 41,
-      "deferred-cli-only": 89,
-      "registered-only": 56
+      "deferred-cli-only": 81,
+      "registered-only": 65
     },
     "high_or_critical_commands_total": 55,
     "high_or_critical_with_owner_total": 55,
     "missing_owner_total": 0,
     "missing_compatibility_contract_total": 0,
     "migrable_commands_total": 41,
-    "cli_only_commands_total": 89,
+    "cli_only_commands_total": 81,
     "dynamic_handler_loading_enabled": false,
     "runtime_router_enabled": false,
     "public_behavior_changes_allowed": false,
@@ -2563,13 +2563,13 @@
         "status"
       ],
       "public_name": "python -m devpilot_core model budget status",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "legacy_dispatch::model_budget_status",
       "target_handler": "handle_model_budget_status",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2578,7 +2578,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
@@ -2598,13 +2598,13 @@
         "capabilities"
       ],
       "public_name": "python -m devpilot_core model capabilities",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "model_capabilities_command",
       "target_handler": "handle_model_capabilities",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2613,7 +2613,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
@@ -2633,13 +2633,13 @@
         "classify"
       ],
       "public_name": "python -m devpilot_core model classify",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "model_classify_command",
       "target_handler": "handle_model_classify",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2648,7 +2648,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
@@ -2668,13 +2668,13 @@
         "embed"
       ],
       "public_name": "python -m devpilot_core model embed",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "model_embed_command",
       "target_handler": "handle_model_embed",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2683,7 +2683,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
@@ -2704,13 +2704,13 @@
         "run"
       ],
       "public_name": "python -m devpilot_core model eval run",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "legacy_dispatch::model_eval_run",
       "target_handler": "handle_model_eval_run",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2719,7 +2719,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
@@ -2739,13 +2739,13 @@
         "generate"
       ],
       "public_name": "python -m devpilot_core model generate",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "model_generate_command",
       "target_handler": "handle_model_generate",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2754,7 +2754,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
@@ -2774,13 +2774,13 @@
         "health"
       ],
       "public_name": "python -m devpilot_core model health",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "model_health_command",
       "target_handler": "handle_model_health",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2789,7 +2789,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [
@@ -2803,19 +2803,54 @@
       ]
     },
     {
+      "command_id": "model.local-health",
+      "command_path": [
+        "model",
+        "local-health"
+      ],
+      "public_name": "python -m devpilot_core model local-health",
+      "domain_owner": "agentic.modeling",
+      "current_handler": "model_local_health_command",
+      "target_handler": "handle_model_local_health",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
+      "application_operation_id": null,
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
+      "risk_level": "medium",
+      "compatibility_contract_id": "cli-compat:model.local-health",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-E",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": true,
+      "policy_check_required": true,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A."
+      ]
+    },
+    {
       "command_id": "model.providers",
       "command_path": [
         "model",
         "providers"
       ],
       "public_name": "python -m devpilot_core model providers",
-      "domain_owner": "agentic.runtime",
+      "domain_owner": "agentic.modeling",
       "current_handler": "model_providers_command",
       "target_handler": "handle_model_providers",
-      "current_module": "src/devpilot_core/cli.py",
-      "target_module": "src/devpilot_core/cli.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "deferred-cli-only",
+      "current_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "target_module": "src/devpilot_core/modeling/local_provider_health.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
       "application_operation_id": null,
       "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
@@ -2824,7 +2859,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-E",
       "side_effects": [

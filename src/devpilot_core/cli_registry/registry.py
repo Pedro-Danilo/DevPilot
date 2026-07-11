@@ -27,6 +27,7 @@ POST_H_030_C_CREATED_BY = "POST-H-030-C"
 POST_H_030_D_CREATED_BY = "POST-H-030-D"
 POST_H_030_E_CREATED_BY = "POST-H-030-E"
 POST_H_032_A_CREATED_BY = "POST-H-032-A"
+POST_H_032_B_CREATED_BY = "POST-H-032-B"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -643,6 +644,14 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_sdlc_agents.py tests/test_miasi_registry.py tests/test_miasi_semantic_validator.py tests/test_schema_registry.py -q",),
         rationale="POST-H-032-A registers agent capability inventory as governed read-only CLI metadata; it does not execute agents, tools, models, RAG or memory.",
     ),
+    "model": DeclarativeGroupDescriptor(
+        group_id="model",
+        domain="agentic.modeling",
+        owner_module="src/devpilot_core/modeling/local_provider_health.py",
+        application_service_required=True,
+        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q",),
+        rationale="POST-H-032-B governs ModelAdapter local provider hardening for Ollama/LM Studio; providers remain disabled by default, localhost-only, no-secret, fake-testable and external APIs stay blocked.",
+    ),
     "quality-gate": DeclarativeGroupDescriptor(
         group_id="quality-gate",
         domain="quality.gate",
@@ -792,6 +801,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
         ),
         rationale="POST-H-032-A builds a local read-only AgentCapabilityInventory and AgentPromotionCriteria validation report; it writes only optional reports under outputs/ and does not execute agents, tools, models, RAG, memory or external APIs.",
+    ),
+    "model.local-health": DeclarativeCommandOverride(
+        command_id="model.local-health",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py -q",
+        ),
+        rationale="POST-H-032-B builds local LLM provider hardening evidence without requiring real Ollama/LM Studio servers; optional reports are constrained to outputs/ and external APIs remain blocked.",
     ),
     "cli-registry.compatibility": DeclarativeCommandOverride(
         command_id="cli-registry.compatibility",

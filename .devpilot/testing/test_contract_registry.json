@@ -8149,6 +8149,40 @@
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
         "python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json"
       ]
+    },
+    {
+      "contract_id": "post-h-032-local-llm-provider-hardening",
+      "scope": "feature",
+      "owner": "POST-H-032-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "validates": [
+        "LocalLlmProviderHealthReport",
+        ".devpilot/modeling/local_llm_provider_health_policy.json",
+        "src/devpilot_core/modeling/local_provider_health.py",
+        "python -m devpilot_core model local-health --json",
+        "ApplicationService.local_llm_provider_health",
+        "controlled fallback to mock for unavailable local provider"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/local_provider_health.py",
+        "docs/schemas/local_llm_provider_health_report.schema.json",
+        ".devpilot/modeling/local_llm_provider_health_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/modeling/router.py",
+        "src/devpilot_core/modeling/ollama_adapter.py",
+        "src/devpilot_core/modeling/lmstudio_adapter.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q",
+        "python -m devpilot_core model local-health --json"
+      ]
     }
   ],
   "notes": [

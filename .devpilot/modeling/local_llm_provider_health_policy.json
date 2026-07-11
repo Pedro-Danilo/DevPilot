@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-local-llm-provider-health-policy",
+  "created_by": "POST-H-032-B",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "local-first hardening policy for Ollama and LM Studio provider health checks",
+  "provider_ids": [
+    "ollama",
+    "lmstudio"
+  ],
+  "mock_fallback_provider": "mock",
+  "defaults": {
+    "local_providers_disabled_by_default": true,
+    "localhost_only": true,
+    "requires_api_key": false,
+    "external_api_allowed": false,
+    "external_api_used": false,
+    "network_probe_default_enabled": false,
+    "real_server_required_for_tests": false,
+    "tests_use_fake_or_disabled_local_provider": true,
+    "fallback_to_mock_on_unavailable_allowed": true,
+    "fallback_must_be_explicit": true,
+    "budget_ledger_zero_cost_required": true,
+    "estimated_cost_per_1k_tokens_usd": 0.0,
+    "raw_secret_storage_allowed": false,
+    "prompt_storage_allowed": false,
+    "raw_output_storage_allowed": false
+  },
+  "providers": [
+    {
+      "provider_id": "ollama",
+      "expected_kind": "local",
+      "expected_endpoint_prefixes": [
+        "http://localhost:",
+        "http://127.0.0.1:",
+        "http://[::1]:"
+      ],
+      "default_endpoint": "http://localhost:11434",
+      "health_endpoint": "/api/tags",
+      "enabled_by_default": false,
+      "requires_api_key": false,
+      "external_api": false,
+      "estimated_cost_per_1k_tokens_usd": 0.0,
+      "fallback_provider": "mock",
+      "tests_must_use_fake_server_or_disabled_config": true
+    },
+    {
+      "provider_id": "lmstudio",
+      "expected_kind": "local",
+      "expected_endpoint_prefixes": [
+        "http://localhost:",
+        "http://127.0.0.1:",
+        "http://[::1]:"
+      ],
+      "default_endpoint": "http://localhost:1234",
+      "health_endpoint": "/v1/models",
+      "enabled_by_default": false,
+      "requires_api_key": false,
+      "external_api": false,
+      "estimated_cost_per_1k_tokens_usd": 0.0,
+      "fallback_provider": "mock",
+      "tests_must_use_fake_server_or_disabled_config": true
+    }
+  ],
+  "no_go_gates": [
+    {
+      "gate_id": "local-provider-enabled-by-default-blocked",
+      "condition": "A local provider is enabled in versioned defaults.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "local-provider-non-localhost-blocked",
+      "condition": "A local provider endpoint is not localhost HTTP.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "local-provider-secret-required-blocked",
+      "condition": "A local provider requires an API key or stores a raw secret.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "external-api-used-by-local-health-blocked",
+      "condition": "Local health hardening calls or enables an external API.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "silent-fallback-blocked",
+      "condition": "Fallback to mock hides local provider unavailability without an explicit finding/report field.",
+      "severity": "high",
+      "default_state": "pass"
+    }
+  ],
+  "limitations": [
+    "POST-H-032-B hardens local provider health and fallback governance; it does not require real Ollama or LM Studio installations.",
+    "Local providers remain disabled by default in versioned provider config.",
+    "External APIs remain disabled and are not called by this policy."
+  ]
+}

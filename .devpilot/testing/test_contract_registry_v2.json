@@ -14777,6 +14777,78 @@
       "schema_ids": [
         "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1"
       ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-B",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-B local-first provider health hardening; real Ollama/LM Studio services are optional and not required in tests."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "local-llm-provider-hardening",
+      "contract_id": "post-h-032-local-llm-provider-hardening",
+      "source_contract_id": "post-h-032-local-llm-provider-hardening",
+      "domain": "agentic.runtime",
+      "capability": "Local LLM provider health hardening for Ollama/LM Studio with localhost-only, zero-secret, zero-cost and explicit mock fallback semantics",
+      "test_files": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/local_provider_health.py",
+        "docs/schemas/local_llm_provider_health_report.schema.json",
+        ".devpilot/modeling/local_llm_provider_health_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/modeling/router.py",
+        "src/devpilot_core/modeling/ollama_adapter.py",
+        "src/devpilot_core/modeling/lmstudio_adapter.py"
+      ],
+      "validates": [
+        "LocalLlmProviderHealthReport",
+        "model local-health CLI",
+        "ApplicationService.local_llm_provider_health",
+        "local providers disabled by default",
+        "localhost-only endpoints",
+        "no secrets for local providers",
+        "no external API used",
+        "explicit fallback to mock",
+        "zero-cost BudgetLedger summary"
+      ],
+      "trigger_hints": [
+        "POST-H-032-B",
+        "local LLM provider hardening",
+        "Ollama",
+        "LM Studio",
+        "fallback to mock"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "governance.policy",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py -q",
+        "python -m devpilot_core model local-health --json"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-LOCAL-LLM-PROVIDER-HEALTH-REPORT-V1"
+      ]
     }
   ],
   "migration_metadata": {

@@ -9641,6 +9641,157 @@
       "notes": [
         "Focal tests for POST-H-032-A inventory, criteria, CLI and ApplicationService."
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-LOCAL-LLM-PROVIDER-HEALTH-REPORT-V1",
+      "path": "docs/schemas/local_llm_provider_health_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "Ordóñez",
+      "status_required": "registered",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/modeling/local_llm_provider_health_policy.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-B"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema for POST-H-032-B LocalLlmProviderHealthReport."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-B-LOCAL-LLM-PROVIDER-HEALTH-POLICY",
+      "path": ".devpilot/modeling/local_llm_provider_health_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.modeling",
+      "owner": "POST-H-032-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/schemas/local_llm_provider_health_report.schema.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-B"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Local-first policy for Ollama/LM Studio provider health hardening; providers remain disabled by default."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-B-LOCAL-LLM-PROVIDER-HEALTH-MODULE",
+      "path": "src/devpilot_core/modeling/local_provider_health.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.modeling",
+      "owner": "POST-H-032-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/modeling/local_llm_provider_health_policy.json",
+        "docs/schemas/local_llm_provider_health_report.schema.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-B"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Read-only LocalLlmProviderHealthReporter for local provider health, fallback and zero-cost budget evidence."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-B-LOCAL-LLM-PROVIDER-HARDENING-REPORT",
+      "path": "docs/audits/post_h_032_b_local_llm_provider_hardening_report.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.modeling",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/post_h_032_b_manifest.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-B"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit report for POST-H-032-B Local LLM provider hardening."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-B-MANIFEST",
+      "path": "docs/post_h_032_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.modeling",
+      "owner": "POST-H-032-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/audits/post_h_032_b_local_llm_provider_hardening_report.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-B"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable manifest for POST-H-032-B."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-B-LOCAL-LLM-PROVIDER-HARDENING-TEST",
+      "path": "tests/test_post_h_032_local_llm_provider_hardening.py",
+      "classification": "source-of-truth",
+      "domain": "quality.tests",
+      "owner": "POST-H-032-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-B"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focal tests for local provider health policy, CLI, ApplicationService and fallback-to-mock semantics."
+      ]
     }
   ],
   "rules": {
@@ -9714,7 +9865,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 406,
+    "documents_total": 412,
     "source_of_truth_total": 162,
     "machine_readable_source_total": 186,
     "derived_total": 58,
@@ -9849,7 +10000,7 @@
     "last_functional_sprint": "FUNC-SPRINT-99",
     "next_sprint": "POST-H-032",
     "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-    "current_repo": "repo_DevPilot_Local_294_POST_H_032_A.zip",
+    "current_repo": "repo_DevPilot_Local_295_POST_H_032_B.zip",
     "global_state_owner": "tests/test_project_global_state.py",
     "mutable_global_state_fields": [
       "last_completed_sprint",
@@ -10114,10 +10265,11 @@
       "POST-H-031-D adds ClaimsNoGoDashboard as implemented-initial: schema, config, builder, ApplicationService method, protected API route and evidence claims-dashboard CLI show allowed/conditioned/prohibited claims, no-go gates and deterministic overclaim scan without mutating claims/gates, reading secrets, using network/external APIs or replacing formal quality gates.",
       "POST-H-031-E adds OperatorEvidenceExport as implemented-initial: a redacted operator/auditor evidence package with manifest, checksums and interpretation instructions; --redacted is mandatory, dry-run writes no files, and --write-report writes only under outputs/ without exporting secrets, .env, SQLite DB bytes, raw prompts or raw outputs.",
       "POST-H-031 closes Observabilidad, evidence graph y operador as implemented-initial/local-first/redacted-export: evidence graph, operator health, gap action map, claims/no-go dashboard and redacted operator evidence export are available without exposing secrets, raw payloads, .env files, SQLite DBs, network, external APIs or replacing formal quality gates.",
-      "POST-H-032-A starts Agentes IA avanzados as implemented-initial/read-only: AgentCapabilityInventory and AgentPromotionCriteria classify MIASI agents, risks, tools, eval coverage and promotion gates without executing agents, models, tools, RAG, memory, MCP, external APIs or source mutations."
+      "POST-H-032-A starts Agentes IA avanzados as implemented-initial/read-only: AgentCapabilityInventory and AgentPromotionCriteria classify MIASI agents, risks, tools, eval coverage and promotion gates without executing agents, models, tools, RAG, memory, MCP, external APIs or source mutations.",
+      "POST-H-032-B adds LocalLlmProviderHealthReport and model local-health CLI as implemented-initial: Ollama/LM Studio remain disabled by default, localhost-only, no-secret, zero-cost, fake-testable and fallback-to-mock explicit without requiring real local servers, network, external APIs, remote execution, connector write or plugin execution."
     ],
-    "current_micro_sprint": "POST-H-032-A",
-    "next_micro_sprint": "POST-H-032-B",
+    "current_micro_sprint": "POST-H-032-B",
+    "next_micro_sprint": "POST-H-032-C",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -10691,7 +10843,7 @@
     "post_h_030_cli_extraction_plan_available": true,
     "post_h_030_cli_extraction_plan_path": ".devpilot/cli_registry/cli_extraction_plan.json",
     "post_h_030_cli_ownership_module": "src/devpilot_core/cli_registry/ownership.py",
-    "post_h_030_cli_ownership_commands_total": 180,
+    "post_h_030_cli_ownership_commands_total": 187,
     "post_h_030_cli_ownership_coverage_complete": true,
     "post_h_030_cli_ownership_missing_owner_total": 0,
     "post_h_030_cli_ownership_missing_compatibility_contract_total": 0,
@@ -10893,10 +11045,10 @@
     "post_h_031_operator_evidence_export_raw_payloads_exported": false,
     "post_h_031_operator_evidence_export_devpilot_db_exported": false,
     "post_h_031_operator_evidence_export_replaces_quality_gates": false,
-    "post_h_032_status": "active/agent-capability-inventory-implemented-initial",
+    "post_h_032_status": "active/local-llm-provider-hardening-implemented-initial",
     "post_h_032_backlog_approved": true,
-    "post_h_032_current_micro_sprint": "POST-H-032-A",
-    "post_h_032_next_micro_sprint": "POST-H-032-B",
+    "post_h_032_current_micro_sprint": "POST-H-032-B",
+    "post_h_032_next_micro_sprint": "POST-H-032-C",
     "post_h_032_agent_capability_inventory_schema_registered": true,
     "post_h_032_agent_promotion_criteria_schema_registered": true,
     "post_h_032_agent_capability_inventory_available": true,
@@ -10935,6 +11087,41 @@
     "post_h_032_llm_judge_used": false,
     "post_h_032_no_go_gates_declared": true,
     "post_h_032_deterministic_gates_preserved": true,
-    "post_h_032_next_provider_hardening": "POST-H-032-B"
+    "post_h_032_next_provider_hardening": "POST-H-032-B",
+    "post_h_032_b_status": "implemented-initial/local-llm-provider-hardening",
+    "post_h_032_b_local_llm_provider_health_schema_registered": true,
+    "post_h_032_b_local_llm_provider_health_policy_path": ".devpilot/modeling/local_llm_provider_health_policy.json",
+    "post_h_032_b_local_llm_provider_health_module": "src/devpilot_core/modeling/local_provider_health.py",
+    "post_h_032_b_local_llm_provider_health_cli_command": "python -m devpilot_core model local-health --json",
+    "post_h_032_b_local_llm_provider_health_application_service_method": "ApplicationService.local_llm_provider_health",
+    "post_h_032_b_local_llm_provider_health_report_schema_path": "docs/schemas/local_llm_provider_health_report.schema.json",
+    "post_h_032_b_local_llm_provider_health_report_output_path": "outputs/reports/local_llm_provider_health_report.json",
+    "post_h_032_b_local_llm_provider_health_report_markdown_path": "outputs/reports/local_llm_provider_health_report.md",
+    "post_h_032_b_reports_opt_in": true,
+    "post_h_032_b_local_providers_total": 2,
+    "post_h_032_b_required_local_providers_present_total": 2,
+    "post_h_032_b_local_providers_disabled_by_default": true,
+    "post_h_032_b_local_enabled_total": 0,
+    "post_h_032_b_ollama_hardened": true,
+    "post_h_032_b_lmstudio_hardened": true,
+    "post_h_032_b_localhost_only": true,
+    "post_h_032_b_non_localhost_endpoint_total": 0,
+    "post_h_032_b_requires_api_key_total": 0,
+    "post_h_032_b_external_api_used": false,
+    "post_h_032_b_external_api_enabled": false,
+    "post_h_032_b_real_local_server_required_for_tests": false,
+    "post_h_032_b_fake_provider_tests_supported": true,
+    "post_h_032_b_fallback_to_mock_allowed": true,
+    "post_h_032_b_fallback_to_mock_explicit": true,
+    "post_h_032_b_budget_ledger_zero_cost_supported": true,
+    "post_h_032_b_network_used_by_default": false,
+    "post_h_032_b_models_called_by_health_report": false,
+    "post_h_032_b_source_mutations": false,
+    "post_h_032_b_remote_execution_enabled": false,
+    "post_h_032_b_connector_write_enabled": false,
+    "post_h_032_b_plugin_execution_enabled": false,
+    "post_h_032_b_local_llm_provider_health_available": true,
+    "post_h_032_b_real_server_required_for_tests": false,
+    "post_h_032_b_models_called_by_health": false
   }
 }

@@ -256,6 +256,37 @@ class ApplicationService:
             ),
         ).build()
 
+    def local_llm_provider_health(
+        self,
+        *,
+        policy_path: str = ".devpilot/modeling/local_llm_provider_health_policy.json",
+        timeout_seconds: float = 0.2,
+        probe_enabled_local: bool = False,
+        write_report: bool = False,
+        output_json: str = "outputs/reports/local_llm_provider_health_report.json",
+        output_markdown: str = "outputs/reports/local_llm_provider_health_report.md",
+    ) -> CommandResult:
+        """Build the POST-H-032-B local LLM provider hardening report.
+
+        This boundary validates Ollama/LM Studio provider governance without
+        requiring real local model servers. Network probes are opt-in and only
+        apply to enabled localhost providers.
+        """
+
+        from devpilot_core.modeling import LocalLlmProviderHealthOptions, LocalLlmProviderHealthReporter
+
+        return LocalLlmProviderHealthReporter(
+            self.root,
+            LocalLlmProviderHealthOptions(
+                policy_path=Path(policy_path),
+                timeout_seconds=timeout_seconds,
+                probe_enabled_local=probe_enabled_local,
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)
@@ -907,6 +938,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("refactor.plan", "Create plan-only safe refactor proposal.", "none", True, "python -m devpilot_core refactor-plan . --json"),
         ("model.providers", "List governed model providers without external API calls.", "none", True, "python -m devpilot_core model providers --json"),
         ("model.health", "Check provider health through governed model router.", "localhost_or_none", True, "python -m devpilot_core model health --provider mock --json"),
+        ("model.local_health", "Build POST-H-032-B local LLM provider hardening evidence for Ollama/LM Studio without requiring real local servers.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model local-health --json"),
         ("model.capabilities", "Build static model capability matrix.", "none", True, "python -m devpilot_core model capabilities --json"),
         ("history.runs", "List local command history from LocalStore.", "none", True, "python -m devpilot_core history list --json"),
         ("observability.trace_report", "Read bounded local trace report.", "none", True, "python -m devpilot_core trace report --json"),

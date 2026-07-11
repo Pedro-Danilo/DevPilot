@@ -35,6 +35,7 @@ CURRENT_DECLARATIVE_GROUPS = {
     "tests",
     "evidence",
     "agent",
+    "model",
 }
 
 

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-a-implemented-initial"
-current_micro_sprint: "POST-H-032-A"
-next_micro_sprint: "POST-H-032-B"
+implementation_status: "approved/post-h-032-b-implemented-initial"
+current_micro_sprint: "POST-H-032-B"
+next_micro_sprint: "POST-H-032-C"
 ```
 
 ## 1. Proposito del backlog
@@ -933,3 +933,9 @@ Limites explicitos:
 - No reemplaza gates deterministicos ni decisions PASS/BLOCK.
 
 Evolucion pendiente en POST-H-032-B..H: hardening de providers locales, ADR/piloto API externa, agentes RAG-aware, memoria local opt-in, tool calling contractual, MCP fake-server y multiagent handoff hardening.
+
+## Implementación acumulada POST-H-032-B
+
+POST-H-032-B queda implementado como primera versión de hardening de providers locales LLM. Se agrega `LocalLlmProviderHealthReport`, `.devpilot/modeling/local_llm_provider_health_policy.json`, `src/devpilot_core/modeling/local_provider_health.py` y `model local-health`. El sprint no habilita llamadas reales a modelos por defecto: Ollama y LM Studio permanecen deshabilitados en metadata versionada, limitados a localhost, sin secretos, sin API externa, sin dependencia de servidores reales para tests y con fallback a `mock` únicamente explícito y auditable.
+
+Limitación explícita: esta versión es `implemented-initial`; no instala ni administra Ollama/LM Studio, no descarga modelos, no abre endpoints remotos, no llama APIs externas y no promueve agentes a RAG/memory/tool autonomy. POST-H-032-C debe tratar APIs externas con ADR y piloto gated.

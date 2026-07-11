@@ -106,7 +106,7 @@ from .observability import (
     TraceQueryService,
 )
 from .miasi import MiasiRegistryValidator, MiasiSemanticValidator
-from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
+from .modeling import BudgetLedger, CapabilityMatrix, LocalLlmProviderHealthOptions, LocalLlmProviderHealthReporter, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .plugins import PluginDryRunOptions, PluginExposureReporter, PluginExposureReportOptions, PluginRegistry, PluginRegistryOptions
@@ -445,6 +445,37 @@ def model_health_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def model_local_health_command(
+    *,
+    timeout_seconds: float = 0.2,
+    probe_enabled_local: bool = False,
+    policy_path: str = ".devpilot/modeling/local_llm_provider_health_policy.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build POST-H-032-B local LLM provider hardening evidence.
+
+    This command is source-metadata first: by default it validates Ollama/LM
+    Studio provider configuration, localhost-only invariants, no-secret/no-API
+    semantics, fake-test compatibility and explicit fallback-to-mock policy
+    without requiring real local model servers.
+    """
+
+    root = project_root()
+    result = LocalLlmProviderHealthReporter(
+        root,
+        LocalLlmProviderHealthOptions(
+            policy_path=policy_path,
+            timeout_seconds=timeout_seconds,
+            probe_enabled_local=probe_enabled_local,
+            write_report=write_report,
+        ),
+    ).build()
+    _emit_result_event(root, result, subject="model:local-health")
+    _persist_result(root, result, subject="model:local-health")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def model_capabilities_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Report the governed model capability matrix without contacting servers."""
@@ -6548,6 +6579,13 @@ def build_parser() -> argparse.ArgumentParser:
     model_health.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_health.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    model_local_health = model_sub.add_parser("local-health", help="Build POST-H-032-B local LLM provider hardening report")
+    model_local_health.add_argument("--timeout-seconds", type=float, default=0.2, help="Bounded local probe timeout when --probe-enabled-local is used")
+    model_local_health.add_argument("--probe-enabled-local", action="store_true", help="Probe enabled localhost providers only; disabled providers are never contacted")
+    model_local_health.add_argument("--policy-path", default=".devpilot/modeling/local_llm_provider_health_policy.json", help="Local LLM provider health policy path")
+    model_local_health.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_local_health.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     model_capabilities = model_sub.add_parser("capabilities", help="Show governed model capability matrix")
     model_capabilities.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_capabilities.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
@@ -7997,6 +8035,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return model_health_command(
                 provider=args.provider,
                 timeout_seconds=args.timeout_seconds,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.model_command == "local-health":
+            return model_local_health_command(
+                timeout_seconds=args.timeout_seconds,
+                probe_enabled_local=args.probe_enabled_local,
+                policy_path=args.policy_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

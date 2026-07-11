@@ -1,3 +1,17 @@
+## POST-H-032-B — Local LLM provider hardening
+
+POST-H-032-B agrega el contrato `LocalLlmProviderHealthReport`, la política `.devpilot/modeling/local_llm_provider_health_policy.json`, el módulo `src/devpilot_core/modeling/local_provider_health.py` y el comando `python -m devpilot_core model local-health --json`. El objetivo es endurecer Ollama y LM Studio como providers locales opcionales: siguen `disabled` por defecto, solo aceptan endpoints HTTP localhost, no requieren secretos, reportan costo monetario local cero y permiten fallback a `mock` solo de forma explícita y auditable.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core model local-health --json
+python -m devpilot_core schema validate --schema-id LocalLlmProviderHealthReport --instance outputs\reports\local_llm_provider_health_report.json --json
+```
+
+Estado: `implemented-initial / local-llm-provider-hardening`. Esta versión no instala Ollama, no instala LM Studio, no exige servidores locales reales en tests, no llama APIs externas, no lee secretos y no habilita modelos locales por defecto. La evolución posterior queda en POST-H-032-C/D para APIs externas gated y agentes RAG-aware.
+
 ## POST-H-027-E — Upgrade/rollback dry-run
 
 POST-H-027-E cierra el hito de packaging local con el contrato `UpgradeRollbackDryRunReport`, el módulo `src/devpilot_core/release/upgrade_rollback_dry_run.py` y el comando `python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report`. El flujo valida que exista manifest/checksums de artefactos, que exista un backup local verificable, que `backup restore --dry-run` no escape del workspace, que `upgrade check` permanezca no mutante y que exista una receta explícita de smoke post-upgrade y rollback.
