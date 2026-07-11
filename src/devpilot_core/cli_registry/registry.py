@@ -31,6 +31,7 @@ POST_H_032_B_CREATED_BY = "POST-H-032-B"
 POST_H_032_D_CREATED_BY = "POST-H-032-D"
 POST_H_032_E_CREATED_BY = "POST-H-032-E"
 POST_H_032_F_CREATED_BY = "POST-H-032-F"
+POST_H_032_G_CREATED_BY = "POST-H-032-G"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -43,6 +44,8 @@ APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
     "agent.rag-context": "agent.rag_context",
     "agent.memory": "agent.memory",
     "agent.tool-calls": "agent.tool_call_contract",
+    "agent.tool-calls.validate": "agent.tool_call_contract",
+    "agent.mcp-fake-server.evaluate": "agent.mcp_fake_server_evaluation",
     "operator.dashboard": "operator.dashboard",
     "operator.evidence-export": "operator.evidence_export",
     "portfolio.status": "portfolio.status",
@@ -821,8 +824,21 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         rationale="POST-H-032-D builds deterministic local RAG context packs for selected agents with source ids, citations, freshness and insufficient-evidence behavior; it writes only optional reports under outputs/ and does not call LLMs, network, external APIs, memory or tools.",
     ),
 
-    "agent.tool-calls": DeclarativeCommandOverride(
-        command_id="agent.tool-calls",
+    "agent.mcp-fake-server.evaluate": DeclarativeCommandOverride(
+        command_id="agent.mcp-fake-server.evaluate",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q",
+        ),
+        rationale="POST-H-032-G evaluates MCP design through a local fake server, MCP-to-MIASI mapping, permission model, audit trail and injection controls. It writes only optional reports under outputs/ and does not enable real MCP, network transports, connector write, plugin execution, remote execution, external APIs, LLMs or real tool execution.",
+    ),
+
+    "agent.tool-calls.validate": DeclarativeCommandOverride(
+        command_id="agent.tool-calls.validate",
         risk_level=CommandRiskLevel.HIGH,
         side_effects=(CommandSideEffect.WRITE_REPORT,),
         writes_files=True,

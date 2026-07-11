@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-032-g-mcp-fake-server-evaluation",
+  "created_by": "POST-H-032-G",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "micro_sprint": "POST-H-032-G — MCP design and local fake-server evaluation",
+  "artifacts": {
+    "adr": "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md",
+    "contract": ".devpilot/mcp/mcp_fake_server_contract.json",
+    "schema": "docs/schemas/mcp_fake_server_evaluation.schema.json",
+    "module_contracts": "src/devpilot_core/mcp/contracts.py",
+    "module_fake_server": "src/devpilot_core/mcp/fake_server.py",
+    "tests": "tests/test_post_h_032_mcp_design_fake_server.py",
+    "audit_report": "docs/audits/post_h_032_g_mcp_fake_server_evaluation_report.md",
+    "manifest": "docs/post_h_032_g_manifest.json"
+  },
+  "cli_commands": [
+    "python -m devpilot_core agent mcp-fake-server evaluate --json",
+    "python -m devpilot_core agent mcp-fake-server evaluate --json --write-report",
+    "python -m devpilot_core schema validate --schema-id McpFakeServerEvaluation --instance outputs\\reports\\mcp_fake_server_evaluation_report.json --json"
+  ],
+  "safety": {
+    "mcp_real_enabled": false,
+    "fake_server_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "llm_used": false,
+    "tools_executed": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "next_micro_sprint": "POST-H-032-H — Multiagent handoff hardening",
+  "limitations": [
+    "Fake-server only; no production MCP server is enabled.",
+    "No transport interoperability with external MCP clients is claimed.",
+    "Future real MCP enablement requires a separate backlog, quality gate and explicit owner approval."
+  ]
+}

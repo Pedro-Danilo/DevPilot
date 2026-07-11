@@ -15,6 +15,21 @@ ag_agent_context_pack.json --json
 
 Estado: `implemented-initial / rag-aware-agent-context`. No usa LLM real, memoria, tools, red ni APIs externas; no muta fuentes. Es una capa determinística consumible por futuros prompts/modelos bajo opt-in explícito.
 
+
+## POST-H-032-G — MCP design and local fake-server evaluation
+
+POST-H-032-G agrega el diseño MCP gobernado y una evaluación con fake-server local: ADR `docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md`, schema `McpFakeServerEvaluation`, contrato `.devpilot/mcp/mcp_fake_server_contract.json`, módulos `src/devpilot_core/mcp/fake_server.py` y `src/devpilot_core/mcp/contracts.py`, CLI `python -m devpilot_core agent mcp-fake-server evaluate --json` y ApplicationService `mcp_fake_server_evaluation`.
+
+Estado: `implemented-initial`. Esta versión es design-only/fake-server-only: MCP real sigue deshabilitado por defecto; no abre transportes MCP, red, APIs externas, LLMs, connector write, plugin execution, remote execution ni ejecución real de tools. El objetivo es validar mapping MCP->MIASI, permission model, audit trail y threat model antes de cualquier integración MCP real futura.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q
+python -m devpilot_core agent mcp-fake-server evaluate --json
+```
+
 ## POST-H-032-F — Tool calling contract
 
 POST-H-032-F agrega el contrato `AgentToolCall`, la política `.devpilot/agents/tool_call_policy.json`, el módulo `src/devpilot_core/agents/tool_calls.py` y el comando `python -m devpilot_core agent tool-calls validate --json`. El objetivo es validar tool calls de agentes con executable subset derivado de MIASI Tool Registry, allowlist por agente, dry-run-first, approval binding para tools de riesgo, observability por tool call y defensas contra prompt/tool injection.

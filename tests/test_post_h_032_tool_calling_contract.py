@@ -123,8 +123,8 @@ def test_post_h_032_f_governance_artifacts_registered() -> None:
     tcr_v1 = json.loads((ROOT / ".devpilot/testing/test_contract_registry.json").read_text(encoding="utf-8"))
     tcr_v2 = json.loads((ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8"))
 
-    assert state["post_h_032_current_micro_sprint"] == "POST-H-032-F"
-    assert state["post_h_032_next_micro_sprint"] == "POST-H-032-G"
+    assert state["post_h_032_current_micro_sprint"] in {"POST-H-032-F", "POST-H-032-G"}
+    assert state["post_h_032_next_micro_sprint"] in {"POST-H-032-G", "POST-H-032-H"}
     assert state["post_h_032_f_tool_call_schema_registered"] is True
     assert state["post_h_032_f_dry_run_first_default"] is True
     assert state["post_h_032_f_connector_write_enabled"] is False

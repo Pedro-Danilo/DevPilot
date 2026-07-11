@@ -2,17 +2,34 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.09.0"
+version: "2.10.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-032-F"
+phase: "POST-H-032-G"
 updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+
+## POST-H-032-G — MCP design and local fake-server evaluation
+
+POST-H-032-G agrega el diseño MCP gobernado y una evaluación con fake-server local: ADR MCP, threat model, contrato `.devpilot/mcp/mcp_fake_server_contract.json`, schema `McpFakeServerEvaluation`, módulos `src/devpilot_core/mcp/fake_server.py` y `src/devpilot_core/mcp/contracts.py`, mapping MCP tools -> MIASI Tool Registry, permission model, audit trail por request fake y el comando `python -m devpilot_core agent mcp-fake-server evaluate --json`.
+
+Estado: `implemented-initial`. Esta versión es design-only/fake-server-only: no habilita MCP real, transportes MCP, red, APIs externas, LLMs, connector write, plugin execution, remote execution ni ejecución real de herramientas. La promoción a MCP real requiere backlog, quality gate y aprobación futura.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q
+python -m devpilot_core agent mcp-fake-server evaluate --json
+python -m devpilot_core agent mcp-fake-server evaluate --json --write-report
+python -m devpilot_core schema validate --schema-id McpFakeServerEvaluation --instance outputs\reports\mcp_fake_server_evaluation_report.json --json
+```
 
 ## POST-H-032-F — Tool calling contract
 

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-f-implemented-initial"
-current_micro_sprint: "POST-H-032-F"
-next_micro_sprint: "POST-H-032-G"
+implementation_status: "approved/post-h-032-g-implemented-initial"
+current_micro_sprint: "POST-H-032-G"
+next_micro_sprint: "POST-H-032-H"
 ```
 
 ## 1. Proposito del backlog
@@ -645,6 +645,13 @@ python -m pytest -p no:ddtrace --assert=plain `
 `POST-H-032-F` queda implementado como versión `implemented-initial` del contrato industrial de tool calling. La implementación agrega el schema `AgentToolCall`, la policy `.devpilot/agents/tool_call_policy.json`, el módulo `src/devpilot_core/agents/tool_calls.py`, CLI/ApplicationService `agent tool-calls validate`, executable subset derivado de MIASI Tool Registry, allowlist por agente, risk levels por tool, dry-run-first, approval binding contractual para tools de riesgo, observability por tool call y pruebas adversariales de prompt/tool injection.
 
 Limitación explícita: esta versión es `contract-only` y `fake-local`; no ejecuta herramientas reales ni habilita scheduler genérico. Connector write, plugin execution, remote execution, network, external APIs y LLM calls permanecen deshabilitados. Cualquier ejecución real futura exige backlog/ADR/gate propio, approvals y ampliación de adversarial tests.
+
+
+## Estado de implementación acumulado — POST-H-032-G
+
+`POST-H-032-G` queda implementado como versión `implemented-initial` de diseño MCP y evaluación con fake-server local. Se agregan ADR, threat model, contrato `.devpilot/mcp/mcp_fake_server_contract.json`, schema `McpFakeServerEvaluation`, módulos `src/devpilot_core/mcp/fake_server.py` y `src/devpilot_core/mcp/contracts.py`, mapping MCP tools -> MIASI Tool Registry, permission model, audit trail, CLI `agent mcp-fake-server evaluate` y ApplicationService `mcp_fake_server_evaluation`.
+
+La implementación es explícitamente preliminar/controlada: MCP real permanece deshabilitado por defecto; no se abren transportes MCP reales, red, APIs externas, LLMs, connector write, plugin execution, remote execution ni ejecución real de herramientas. Cualquier enablement real futuro requiere backlog separado, quality gate y aprobación del owner.
 
 ## POST-H-032-G - MCP design and local fake-server evaluation
 

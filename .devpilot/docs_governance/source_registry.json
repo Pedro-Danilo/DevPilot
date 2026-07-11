@@ -173,6 +173,31 @@
       ]
     },
     {
+      "doc_id": "ADR-POSTH-032-G",
+      "path": "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "POST-H-032-G",
+      "status_required": "proposed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-G"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-G MCP fake-server artifact: docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md."
+      ]
+    },
+    {
       "doc_id": "DEVPL-AUDIT-POST-H-026-B-RC-PROFILE",
       "title": "POST-H-026-B audit report",
       "path": "docs/audits/post_h_026_b_release_candidate_profile_report.md",
@@ -9514,6 +9539,29 @@
       ]
     },
     {
+      "doc_id": "POST-H-032-F-TOOL-CALL-TEST",
+      "path": "tests/test_post_h_032_tool_calling_contract.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-F",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_tool_calling_contract.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-F"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-F tool-calling contract artifact: tests/test_post_h_032_tool_calling_contract.py."
+      ]
+    },
+    {
       "doc_id": "POST-H-032-F-TOOL-CALLING-CONTRACT-REPORT",
       "path": "docs/audits/post_h_032_f_tool_calling_contract_report.md",
       "classification": "source-of-truth",
@@ -9537,26 +9585,165 @@
       ]
     },
     {
-      "doc_id": "POST-H-032-F-TOOL-CALL-TEST",
-      "path": "tests/test_post_h_032_tool_calling_contract.py",
-      "classification": "source-of-truth",
+      "doc_id": "POST-H-032-G-MANIFEST",
+      "path": "docs/post_h_032_g_manifest.json",
+      "classification": "machine-readable-source",
       "domain": "agentic.runtime",
-      "owner": "POST-H-032-F",
+      "owner": "POST-H-032-G",
       "status_required": "implemented-initial",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_032_tool_calling_contract.py"
+        "tests/test_post_h_032_mcp_design_fake_server.py"
       ],
       "machine_readable_counterparts": [],
       "derived_documents": [],
-      "sync_rules": [],
-      "related_adrs": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
       "roadmap_milestones": [
-        "POST-H-032-F"
+        "POST-H-032-G"
       ],
       "lifecycle": "active",
       "notes": [
-        "POST-H-032-F tool-calling contract artifact: tests/test_post_h_032_tool_calling_contract.py."
+        "POST-H-032-G MCP fake-server artifact: docs/post_h_032_g_manifest.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-G-MCP-CONTRACTS-MODULE",
+      "path": "src/devpilot_core/mcp/contracts.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-G",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-G"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-G MCP fake-server artifact: src/devpilot_core/mcp/contracts.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-G-MCP-FAKE-SERVER-CONTRACT",
+      "path": ".devpilot/mcp/mcp_fake_server_contract.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-G",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-G"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-G MCP fake-server artifact: .devpilot/mcp/mcp_fake_server_contract.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-G-MCP-FAKE-SERVER-EVALUATION-REPORT",
+      "path": "docs/audits/post_h_032_g_mcp_fake_server_evaluation_report.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-G",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-G"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-G MCP fake-server artifact: docs/audits/post_h_032_g_mcp_fake_server_evaluation_report.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-G-MCP-FAKE-SERVER-MODULE",
+      "path": "src/devpilot_core/mcp/fake_server.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-G",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-G"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-G MCP fake-server artifact: src/devpilot_core/mcp/fake_server.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-G-MCP-TEST",
+      "path": "tests/test_post_h_032_mcp_design_fake_server.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-G",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-G"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-G MCP fake-server artifact: tests/test_post_h_032_mcp_design_fake_server.py."
       ]
     },
     {
@@ -10068,6 +10255,34 @@
       "lifecycle": "historical"
     },
     {
+      "doc_id": "SCHEMA-DEVPL-MCP-FAKE-SERVER-EVALUATION-V1",
+      "path": "docs/schemas/mcp_fake_server_evaluation.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-032-G",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-G"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-G MCP fake-server artifact: docs/schemas/mcp_fake_server_evaluation.schema.json."
+      ]
+    },
+    {
       "doc_id": "SCHEMA-DEVPL-OPERATOR-FLOW-SMOKE-REPORT-V1",
       "path": "docs/schemas/operator_flow_smoke_report.schema.json",
       "classification": "machine-readable-source",
@@ -10492,7 +10707,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 425,
+    "documents_total": 446,
     "source_of_truth_total": 162,
     "machine_readable_source_total": 186,
     "derived_total": 58,

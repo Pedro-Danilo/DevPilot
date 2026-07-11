@@ -15115,6 +15115,76 @@
       "schema_ids": [
         "SCHEMA-DEVPL-AGENT-TOOL-CALL-V1"
       ]
+    },
+    {
+      "contract_id": "post-h-032-mcp-design-fake-server",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-032-mcp-design-fake-server",
+      "domain": "agentic.runtime",
+      "capability": "McpFakeServerEvaluation",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "watched_paths": [
+        ".devpilot/mcp/mcp_fake_server_contract.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/agents/tool_call_policy.json",
+        "docs/schemas/mcp_fake_server_evaluation.schema.json",
+        "src/devpilot_core/mcp/contracts.py",
+        "src/devpilot_core/mcp/fake_server.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "validates": [
+        ".devpilot/mcp/mcp_fake_server_contract.json",
+        "docs/schemas/mcp_fake_server_evaluation.schema.json",
+        "src/devpilot_core/mcp/contracts.py",
+        "src/devpilot_core/mcp/fake_server.py",
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "trigger_hints": [
+        "mcp-fake-server-change",
+        "post-h-032-g",
+        "mcp-contract-change",
+        "miasi-tool-registry-change",
+        "tool-call-policy-change"
+      ],
+      "impact_scope": [
+        "agents",
+        "mcp",
+        "tools",
+        "policy",
+        "approval",
+        "security",
+        "observability"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-G",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-G design/fake-server-only MCP evaluation; real MCP, transports, network and tool execution remain disabled."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "mcp-fake-server-evaluation",
+      "schema_ids": [
+        "docs/schemas/mcp_fake_server_evaluation.schema.json"
+      ]
     }
   ],
   "migration_metadata": {

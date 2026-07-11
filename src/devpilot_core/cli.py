@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .mcp import McpFakeServerEvaluationManager, McpFakeServerEvaluationOptions
 from .agents import AgentMemoryModelManager, AgentMemoryModelOptions, AgentRuntime, AgentRuntimeConfig, AgentToolCallingContractManager, AgentToolCallingContractOptions, RagAgentContextOptions, RagAwareAgentContextBuilder, inspect_agent_session
 from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions, AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
 from .approval.models import ApprovalStatus
@@ -1762,6 +1763,37 @@ def agent_session_inspect_command(
 
 
 
+
+
+def agent_mcp_fake_server_command(
+    *,
+    contract_path: str = ".devpilot/mcp/mcp_fake_server_contract.json",
+    tool_registry_path: str = ".devpilot/miasi/tool_registry.json",
+    tool_call_policy_path: str = ".devpilot/agents/tool_call_policy.json",
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/mcp_fake_server_evaluation_report.json",
+    output_markdown: str = "outputs/reports/mcp_fake_server_evaluation_report.md",
+) -> int:
+    """Evaluate POST-H-032-G MCP design through a local fake server."""
+
+    root = project_root()
+    manager = McpFakeServerEvaluationManager(
+        root,
+        McpFakeServerEvaluationOptions(
+            contract_path=Path(contract_path),
+            tool_registry_path=Path(tool_registry_path),
+            tool_call_policy_path=Path(tool_call_policy_path),
+            write_report=write_report,
+            output_json=Path(output_json),
+            output_markdown=Path(output_markdown),
+        ),
+    )
+    result = manager.evaluate()
+    _emit_result_event(root, result, subject="agent.mcp-fake-server")
+    _persist_result(root, result, subject="agent.mcp-fake-server")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def agent_tool_calls_command(
     *,
@@ -7000,6 +7032,18 @@ def build_parser() -> argparse.ArgumentParser:
     agent_rag_context.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown context pack under outputs/")
 
 
+
+    agent_mcp_fake_server = agent_sub.add_parser("mcp-fake-server", help="Evaluate POST-H-032-G local fake MCP server design")
+    agent_mcp_fake_server_sub = agent_mcp_fake_server.add_subparsers(dest="agent_mcp_fake_server_command")
+    agent_mcp_fake_server_evaluate = agent_mcp_fake_server_sub.add_parser("evaluate", help="Evaluate MCP design and fake-server contract without real MCP")
+    agent_mcp_fake_server_evaluate.add_argument("--contract", default=".devpilot/mcp/mcp_fake_server_contract.json", help="MCP fake server contract path")
+    agent_mcp_fake_server_evaluate.add_argument("--tool-registry", default=".devpilot/miasi/tool_registry.json", help="MIASI tool registry path")
+    agent_mcp_fake_server_evaluate.add_argument("--tool-call-policy", default=".devpilot/agents/tool_call_policy.json", help="Agent tool-call policy path")
+    agent_mcp_fake_server_evaluate.add_argument("--output-json", default="outputs/reports/mcp_fake_server_evaluation_report.json", help="Optional report JSON path under outputs/")
+    agent_mcp_fake_server_evaluate.add_argument("--output-markdown", default="outputs/reports/mcp_fake_server_evaluation_report.md", help="Optional report Markdown path under outputs/")
+    agent_mcp_fake_server_evaluate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    agent_mcp_fake_server_evaluate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown MCP fake-server evaluation report under outputs/")
+
     agent_tool_calls = agent_sub.add_parser("tool-calls", help="Validate POST-H-032-F governed tool-calling contract")
     agent_tool_calls_sub = agent_tool_calls.add_subparsers(dest="agent_tool_calls_command")
     agent_tool_calls_validate = agent_tool_calls_sub.add_parser("validate", help="Validate allowlisted dry-run-first tool-calling contract")
@@ -8491,6 +8535,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
             )
+
+
+        if args.agent_command == "mcp-fake-server":
+            if getattr(args, "agent_mcp_fake_server_command", None) == "evaluate":
+                return agent_mcp_fake_server_command(
+                    contract_path=args.contract,
+                    tool_registry_path=args.tool_registry,
+                    tool_call_policy_path=args.tool_call_policy,
+                    json_output=args.json,
+                    write_report=args.write_report,
+                    output_json=args.output_json,
+                    output_markdown=args.output_markdown,
+                )
 
         if args.agent_command == "tool-calls":
             if getattr(args, "agent_tool_calls_command", None) == "validate":

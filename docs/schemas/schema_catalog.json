@@ -749,6 +749,20 @@
       "validation_enabled_sprint": "POST-H-002-A"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-MCP-FAKE-SERVER-EVALUATION-V1",
+      "title": "DevPilot McpFakeServerEvaluation v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/mcp_fake_server_evaluation.schema.json",
+      "description": "POST-H-032-G structural contract for MCP design, local fake-server evaluation, MCP-to-MIASI mapping, permission model, threat model and audit trail without enabling real MCP.",
+      "status": "registered",
+      "contract": "McpFakeServerEvaluation",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-032-G",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-032-G"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
       "title": "DevPilot MIASI Agent Registry v1",
       "version": "1.0.0",
@@ -1760,5 +1774,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 119
+  "schemas_total": 122
 }

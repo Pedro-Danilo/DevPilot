@@ -7,22 +7,155 @@
   "updated": "2026-07-11",
   "source_matrix": ".devpilot/cli_registry/command_ownership_matrix.json",
   "summary": {
-    "contracts_total": 76,
+    "contracts_total": 77,
     "tier_0_contracts_total": 72,
-    "tier_1_contracts_total": 1,
+    "tier_1_contracts_total": 5,
     "tier_2_contracts_total": 0,
-    "smoke_contracts_total": 16,
+    "smoke_contracts_total": 18,
     "covers_migrated_commands": true,
     "covers_high_or_critical_commands": true,
     "network_used": false,
     "external_api_used": false,
     "source_mutations_performed": false,
     "preliminary": true,
-    "commands_with_contracts_total": 74,
-    "high_or_critical_contracts_total": 57,
+    "commands_with_contracts_total": 77,
+    "high_or_critical_contracts_total": 59,
     "missing_required_contracts_total": 0
   },
   "contracts": [
+    {
+      "contract_id": "cli-compat:agent.mcp-fake-server.evaluate",
+      "command_id": "agent.mcp-fake-server.evaluate",
+      "tier": "tier_1",
+      "command_path": [
+        "agent",
+        "mcp-fake-server",
+        "evaluate"
+      ],
+      "public_invocation": "python -m devpilot_core agent mcp-fake-server evaluate",
+      "domain_owner": "agentic.runtime",
+      "owner_module": "src/devpilot_core/mcp/contracts.py",
+      "target_module": "src/devpilot_core/mcp/contracts.py",
+      "migration_state": "registered-only",
+      "registry_phase": "declarative-initial",
+      "risk_level": "high",
+      "compatibility_scope": "migrated-or-high-risk",
+      "json_contract": {
+        "required_top_level_keys": [
+          "command",
+          "ok",
+          "exit_code",
+          "message",
+          "data",
+          "findings"
+        ],
+        "preserve_command_result_envelope": true,
+        "data_object_required": true,
+        "findings_array_required": true,
+        "allow_additive_fields": true,
+        "breaking_changes": [
+          "remove_top_level_key",
+          "rename_command",
+          "change_exit_code_semantics",
+          "drop_findings_array"
+        ]
+      },
+      "exit_code_contract": {
+        "allowed_exit_codes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "pass": 0,
+        "fail": 1,
+        "block": 2,
+        "error": 3,
+        "preserve_exit_code_semantics": true
+      },
+      "help_contract": {
+        "required_tokens": [
+          "agent",
+          "mcp-fake-server",
+          "evaluate"
+        ],
+        "help_must_remain_available": true,
+        "operator_facing_name": "agent mcp-fake-server evaluate"
+      },
+      "normalization": {
+        "timestamp_fields": [
+          "generated_at_utc",
+          "created_at",
+          "created_at_utc",
+          "updated_at",
+          "last_validated_at_utc"
+        ],
+        "path_fields": [
+          "root",
+          "target_root",
+          "registry_path",
+          "output_json",
+          "output_markdown",
+          "state_path",
+          "reports_path",
+          "traces_path"
+        ],
+        "duration_fields": [
+          "duration_ms",
+          "elapsed_ms",
+          "expected_duration_seconds"
+        ],
+        "volatile_metadata_fields": [
+          "git.commit",
+          "git.branch",
+          "git.dirty",
+          "python_executable",
+          "generated_at_utc",
+          "current_time"
+        ],
+        "absolute_paths_normalized_to": "<ROOT>",
+        "runtime_outputs_normalized": true
+      },
+      "safety": {
+        "local_first": true,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "remote_execution_allowed": false,
+        "connector_write_allowed": false,
+        "plugin_execution_allowed": false,
+        "destructive_execution_allowed": false,
+        "source_mutations_allowed": false,
+        "dry_run_required_for_mutating_commands": true,
+        "reports_only_under_outputs": true
+      },
+      "smoke": {
+        "enabled": true,
+        "safe": true,
+        "argv": [
+          "agent",
+          "mcp-fake-server",
+          "evaluate",
+          "--json"
+        ],
+        "requires_dry_run": true,
+        "notes": "Safe JSON smoke evaluates local fake MCP server design; no real MCP, network transport or tools are executed."
+      },
+      "approved_change_process": {
+        "fixture_update_requires_audit_note": true,
+        "requires_backlog_or_manifest_update": true,
+        "breaking_change_allowed_without_owner_approval": false,
+        "backlog_reference": "POST-H-032-G",
+        "owner": "POST-H-032-G"
+      },
+      "destructive_execution_allowed": false,
+      "requires_confirmation_for_destructive_execution": false,
+      "writes_files": true,
+      "writes_only_outputs_or_runtime_state": true,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-032-G MCP fake-server compatibility contract. Real MCP, network transports, connector write, plugin execution and remote execution remain disabled."
+      ]
+    },
     {
       "contract_id": "cli-compat:agent.memory",
       "command_id": "agent.memory",

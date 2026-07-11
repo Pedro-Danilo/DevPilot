@@ -258,6 +258,38 @@ class ApplicationService:
 
 
 
+
+    def mcp_fake_server_evaluation(
+        self,
+        *,
+        contract_path: str = ".devpilot/mcp/mcp_fake_server_contract.json",
+        tool_registry_path: str = ".devpilot/miasi/tool_registry.json",
+        tool_call_policy_path: str = ".devpilot/agents/tool_call_policy.json",
+        write_report: bool = False,
+        output_json: str = "outputs/reports/mcp_fake_server_evaluation_report.json",
+        output_markdown: str = "outputs/reports/mcp_fake_server_evaluation_report.md",
+    ) -> CommandResult:
+        """Evaluate POST-H-032-G MCP design through a local fake server.
+
+        The boundary is design/fake-server only. It validates MCP threat model,
+        MCP-to-MIASI mapping, permission model and audit trail without enabling
+        real MCP, network transports, external APIs or tool execution.
+        """
+
+        from devpilot_core.mcp import McpFakeServerEvaluationManager, McpFakeServerEvaluationOptions
+
+        return McpFakeServerEvaluationManager(
+            self.root,
+            McpFakeServerEvaluationOptions(
+                contract_path=Path(contract_path),
+                tool_registry_path=Path(tool_registry_path),
+                tool_call_policy_path=Path(tool_call_policy_path),
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).evaluate()
+
     def agent_tool_call_contract(
         self,
         *,
@@ -1105,6 +1137,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("model.local_health", "Build POST-H-032-B local LLM provider hardening evidence for Ollama/LM Studio without requiring real local servers.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model local-health --json"),
         ("model.external_api_pilot", "Build POST-H-032-C ADR-backed external API fake/gated pilot evidence without real external API calls or secret reads.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model external-api-pilot --json"),
         ("agent.rag_context", "Build POST-H-032-D deterministic RAG-aware agent context packs with citations and insufficient-evidence behavior.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent rag-context --json"),
+        ("agent.mcp_fake_server_evaluation", "Evaluate POST-H-032-G MCP design and local fake-server contract without enabling real MCP, network transports or tool execution.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent mcp-fake-server evaluate --json"),
         ("agent.tool_call_contract", "Validate POST-H-032-F governed tool-calling contracts with allowlists, dry-run-first, approval binding and injection guards.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent tool-calls validate --json"),
         ("model.capabilities", "Build static model capability matrix.", "none", True, "python -m devpilot_core model capabilities --json"),
         ("history.runs", "List local command history from LocalStore.", "none", True, "python -m devpilot_core history list --json"),

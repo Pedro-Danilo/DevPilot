@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "devpilot-mcp-fake-server-contract",
+  "created_by": "POST-H-032-G",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "Design-only local fake MCP server contract for DevPilot before any real MCP enablement",
+  "server": {
+    "server_id": "devpilot-local-fake-mcp-server",
+    "name": "DevPilot Local Fake MCP Server",
+    "transport": "in-process-only",
+    "real_mcp_enabled": false,
+    "fake_server_only": true,
+    "network_transport_enabled": false,
+    "stdio_transport_enabled": false,
+    "http_transport_enabled": false
+  },
+  "defaults": {
+    "mcp_real_enabled": false,
+    "fake_server_only": true,
+    "contract_only": true,
+    "network_enabled": false,
+    "external_api_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "tools_executed": false,
+    "dry_run_first": true,
+    "approval_required_for_write_or_execute": true,
+    "audit_trail_required": true,
+    "permission_model_required": true
+  },
+  "permission_model": {
+    "default_decision": "deny",
+    "tool_visibility": "allowlisted-mcp-tools-only",
+    "read_only_tools_allowed_without_approval": true,
+    "write_tools_require_policy_and_approval": true,
+    "execution_tools_require_policy_and_approval": true,
+    "connector_write_allowed": false,
+    "plugin_execution_allowed": false,
+    "remote_execution_allowed": false,
+    "external_api_allowed": false,
+    "network_allowed": false,
+    "raw_secret_arguments_allowed": false,
+    "audit_event_required_per_request": true
+  },
+  "threat_model": {
+    "assets": [
+      "workspace source tree",
+      "MIASI Tool Registry",
+      "agent tool-call policy",
+      "approval/RBAC decisions",
+      "observability trace events",
+      "operator trust boundary"
+    ],
+    "threats": [
+      {
+        "threat_id": "MCP-REAL-ENABLEMENT-DRIFT",
+        "description": "Real MCP transport is enabled by configuration drift.",
+        "severity": "critical",
+        "mitigation": "mcp_real_enabled=false, no network/stdin/stdout transport in tests, future ADR required."
+      },
+      {
+        "threat_id": "MCP-TOOL-INJECTION",
+        "description": "Prompt/tool injection attempts to redirect MCP tool target or bypass approval.",
+        "severity": "critical",
+        "mitigation": "ToolInjectionGuard, allowlist mapping and approval binding."
+      },
+      {
+        "threat_id": "MCP-UNAPPROVED-WRITE-EXECUTE",
+        "description": "MCP tool writes or executes without policy/approval.",
+        "severity": "critical",
+        "mitigation": "Write/execute side effects require policy and approval and remain blocked in fake server."
+      },
+      {
+        "threat_id": "MCP-AUDIT-GAP",
+        "description": "MCP request has no traceable audit event.",
+        "severity": "high",
+        "mitigation": "Every fake request appends an audit event with method, request id and policy decision."
+      }
+    ],
+    "no_go_gates": [
+      "mcp-real-enabled-by-default-blocked",
+      "mcp-network-transport-blocked",
+      "mcp-write-without-approval-blocked",
+      "mcp-plugin-execution-blocked",
+      "mcp-remote-execution-blocked",
+      "mcp-tool-injection-blocked"
+    ]
+  },
+  "mcp_tool_mappings": [
+    {
+      "mcp_tool_id": "mcp.artifact.read",
+      "name": "mcp_artifact_read",
+      "miasi_tool_id": "artifact.read",
+      "requires_approval": false
+    },
+    {
+      "mcp_tool_id": "mcp.git.status",
+      "name": "mcp_git_status",
+      "miasi_tool_id": "git.status",
+      "requires_approval": false
+    },
+    {
+      "mcp_tool_id": "mcp.rag.query",
+      "name": "mcp_rag_query",
+      "miasi_tool_id": "rag.query",
+      "requires_approval": false
+    },
+    {
+      "mcp_tool_id": "mcp.report.write",
+      "name": "mcp_report_write",
+      "miasi_tool_id": "report.write",
+      "requires_approval": true
+    },
+    {
+      "mcp_tool_id": "mcp.tests.run",
+      "name": "mcp_tests_run",
+      "miasi_tool_id": "tests.run",
+      "requires_approval": true
+    }
+  ],
+  "resources": [
+    {
+      "uri": "devpilot://docs/backlogs/POST-H-032",
+      "name": "POST-H-032 backlog",
+      "read_only": true,
+      "contains_secrets": false
+    },
+    {
+      "uri": "devpilot://miasi/tool-registry",
+      "name": "MIASI Tool Registry metadata",
+      "read_only": true,
+      "contains_secrets": false
+    }
+  ],
+  "prompts": [
+    {
+      "name": "devpilot_mcp_contract_review",
+      "description": "Review MCP fake-server contract without enabling real MCP.",
+      "read_only": true,
+      "raw_prompt_storage_allowed": false
+    }
+  ],
+  "notes": [
+    "MCP real integration remains disabled by default and out of scope for POST-H-032-G.",
+    "The fake server is in-process and deterministic; it never opens sockets or invokes tools.",
+    "Write/execute side effects require policy/approval and remain blocked as fake responses."
+  ],
+  "limitations": [
+    "This is not a production MCP server.",
+    "No MCP SDK transport interoperability is claimed.",
+    "Future real MCP enablement requires separate backlog, ADR/gate and owner approval."
+  ]
+}

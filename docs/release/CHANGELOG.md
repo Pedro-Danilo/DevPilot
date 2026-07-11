@@ -1,3 +1,13 @@
+
+## POST-H-032-G — MCP design and local fake-server evaluation
+
+- Added ADR `ADR-POSTH-032-G-mcp-design-and-threat-model.md` for design-only MCP governance and threat model.
+- Added `McpFakeServerEvaluation` schema and `.devpilot/mcp/mcp_fake_server_contract.json`.
+- Added local in-process fake MCP server and evaluation manager under `src/devpilot_core/mcp/`.
+- Added CLI `agent mcp-fake-server evaluate` and ApplicationService boundary.
+- Validates MCP-to-MIASI mapping, permission model, audit trail, ToolInjectionGuard coverage and disabled real MCP defaults.
+- Keeps real MCP, network transports, connector write, plugin execution, remote execution, external APIs, LLM calls and real tool execution disabled.
+
 ## post-h-032-e — Agent memory model
 
 

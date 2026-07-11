@@ -8310,6 +8310,37 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-032-mcp-design-fake-server",
+      "scope": "safety",
+      "owner": "POST-H-032-G",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "validates": [
+        ".devpilot/mcp/mcp_fake_server_contract.json",
+        "docs/schemas/mcp_fake_server_evaluation.schema.json",
+        "src/devpilot_core/mcp/contracts.py",
+        "src/devpilot_core/mcp/fake_server.py",
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "watched_paths": [
+        ".devpilot/mcp/mcp_fake_server_contract.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/agents/tool_call_policy.json",
+        "docs/schemas/mcp_fake_server_evaluation.schema.json",
+        "src/devpilot_core/mcp/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q"
+      ]
     }
   ],
   "notes": [

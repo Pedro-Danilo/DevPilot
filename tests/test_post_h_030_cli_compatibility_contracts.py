@@ -115,9 +115,9 @@ def test_post_h_030_e_governance_artifacts_are_synchronized() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] in {"POST-H-031-A", "POST-H-031-B", "POST-H-031-C", "POST-H-031-D", "POST-H-031-E", "POST-H-032-A", "POST-H-032-B", "POST-H-032-C", "POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G"}
-    assert state["next_micro_sprint"] in {"POST-H-031-B", "POST-H-031-C", "POST-H-031-D", "POST-H-031-E", "POST-H-032-A", "POST-H-032-B", "POST-H-032-C", "POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G"}
-    assert state["current_repo"] in {"repo_DevPilot_Local_289_POST_H_031_A.zip", "repo_DevPilot_Local_290_POST_H_031_B.zip", "repo_DevPilot_Local_291_POST_H_031_C.zip", "repo_DevPilot_Local_292_POST_H_031_D.zip", "repo_DevPilot_Local_293_POST_H_031_E.zip", "repo_DevPilot_Local_294_POST_H_032_A.zip", "repo_DevPilot_Local_295_POST_H_032_B.zip", "repo_DevPilot_Local_296_POST_H_032_C.zip", "repo_DevPilot_Local_297_POST_H_032_D.zip", "repo_DevPilot_Local_298_POST_H_032_E.zip", "repo_DevPilot_Local_299_POST_H_032_F.zip"}
+    assert state["current_micro_sprint"] in {"POST-H-031-A", "POST-H-031-B", "POST-H-031-C", "POST-H-031-D", "POST-H-031-E", "POST-H-032-A", "POST-H-032-B", "POST-H-032-C", "POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H"}
+    assert state["next_micro_sprint"] in {"POST-H-031-B", "POST-H-031-C", "POST-H-031-D", "POST-H-031-E", "POST-H-032-A", "POST-H-032-B", "POST-H-032-C", "POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_289_POST_H_031_A.zip", "repo_DevPilot_Local_290_POST_H_031_B.zip", "repo_DevPilot_Local_291_POST_H_031_C.zip", "repo_DevPilot_Local_292_POST_H_031_D.zip", "repo_DevPilot_Local_293_POST_H_031_E.zip", "repo_DevPilot_Local_294_POST_H_032_A.zip", "repo_DevPilot_Local_295_POST_H_032_B.zip", "repo_DevPilot_Local_296_POST_H_032_C.zip", "repo_DevPilot_Local_297_POST_H_032_D.zip", "repo_DevPilot_Local_298_POST_H_032_E.zip", "repo_DevPilot_Local_299_POST_H_032_F.zip", "repo_DevPilot_Local_300_POST_H_032_G.zip"}
     assert state["post_h_030_status"] == "closed/cli-boundary-hotspot-reduction"
     assert state["post_h_030_cli_compatibility_contracts_available"] is True
     assert state["post_h_030_cli_compatibility_quality_gate_enabled"] is True
