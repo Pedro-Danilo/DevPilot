@@ -10105,6 +10105,182 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "ADR-POSTH-032-E",
+      "path": "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "proposed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-E"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-E agent memory model artifact: docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-E-AGENT-MEMORY-POLICY",
+      "path": ".devpilot/agents/agent_memory_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.memory",
+      "owner": "POST-H-032-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-E"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-E agent memory model artifact: .devpilot/agents/agent_memory_policy.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-E-AGENT-MEMORY-SCHEMA",
+      "path": "docs/schemas/agent_memory_record.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.memory",
+      "owner": "POST-H-032-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py",
+        "tests/test_schema_registry.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-E"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-E agent memory model artifact: docs/schemas/agent_memory_record.schema.json."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-E-AGENT-MEMORY-MODULE",
+      "path": "src/devpilot_core/agents/memory.py",
+      "classification": "machine-readable-source",
+      "domain": "agentic.memory",
+      "owner": "POST-H-032-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-E"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-E agent memory model artifact: src/devpilot_core/agents/memory.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-E-AGENT-MEMORY-TEST",
+      "path": "tests/test_post_h_032_agent_memory_model.py",
+      "classification": "derived",
+      "domain": "agentic.memory",
+      "owner": "tests/test_post_h_032_agent_memory_model.py",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [
+        "must-exist:tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-E"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-E agent memory model artifact: tests/test_post_h_032_agent_memory_model.py."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-E-AGENT-MEMORY-REPORT",
+      "path": "docs/audits/post_h_032_e_agent_memory_model_report.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.memory",
+      "owner": "POST-H-032-E",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-E"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-E agent memory model artifact: docs/audits/post_h_032_e_agent_memory_model_report.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-E-MANIFEST",
+      "path": "docs/post_h_032_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.memory",
+      "owner": "POST-H-032-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "sync_rules": [],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-032-E"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-032-E agent memory model artifact: docs/post_h_032_e_manifest.json."
+      ]
     }
   ],
   "rules": {

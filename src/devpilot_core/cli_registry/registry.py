@@ -29,6 +29,7 @@ POST_H_030_E_CREATED_BY = "POST-H-030-E"
 POST_H_032_A_CREATED_BY = "POST-H-032-A"
 POST_H_032_B_CREATED_BY = "POST-H-032-B"
 POST_H_032_D_CREATED_BY = "POST-H-032-D"
+POST_H_032_E_CREATED_BY = "POST-H-032-E"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -39,6 +40,7 @@ APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
     "workspace.status": "workspace.status",
     "api.shell-gate": "api.shell_gate",
     "agent.rag-context": "agent.rag_context",
+    "agent.memory": "agent.memory",
     "operator.dashboard": "operator.dashboard",
     "operator.evidence-export": "operator.evidence_export",
     "portfolio.status": "portfolio.status",
@@ -815,6 +817,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_rag_aware_agents.py -q",
         ),
         rationale="POST-H-032-D builds deterministic local RAG context packs for selected agents with source ids, citations, freshness and insufficient-evidence behavior; it writes only optional reports under outputs/ and does not call LLMs, network, external APIs, memory or tools.",
+    ),
+    "agent.memory": DeclarativeCommandOverride(
+        command_id="agent.memory",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT, CommandSideEffect.MUTATE_STATE),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_memory_model.py -q",
+        ),
+        rationale="POST-H-032-E exposes inspect/export/cleanup for local opt-in redacted agent memory. Export writes only outputs/reports, cleanup is dry-run by default and execute may delete only expired local memory records; source files remain immutable.",
     ),
     "model.external-api-pilot": DeclarativeCommandOverride(
         command_id="model.external-api-pilot",

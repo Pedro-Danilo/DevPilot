@@ -25,6 +25,20 @@
       "validation_enabled_sprint": "POST-H-032-A"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-AGENT-MEMORY-RECORD-V1",
+      "title": "DevPilot AgentMemoryRecord v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_memory_record.schema.json",
+      "description": "POST-H-032-E schema-backed local opt-in agent memory model report and redacted AgentMemoryRecord list with disabled-by-default semantic memory, retention, redaction, inspect/export/cleanup and evidence-separation gates.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-032-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "AgentMemoryRecord",
+      "validation_enabled_sprint": "POST-H-032-E"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1",
       "title": "DevPilot AgentPromotionCriteria v1",
       "version": "1.0.0",

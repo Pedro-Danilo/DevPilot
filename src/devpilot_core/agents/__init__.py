@@ -15,6 +15,13 @@ from .patch_review_agent import PatchReviewAgent
 from .safe_refactor_agent import SafeRefactorAgent
 from .test_planner_agent import TestPlannerAgent
 from .models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
+from .memory import (
+    AGENT_MEMORY_COMMAND,
+    AGENT_MEMORY_CONTRACT,
+    AGENT_MEMORY_SCHEMA_ID,
+    AgentMemoryModelManager,
+    AgentMemoryModelOptions,
+)
 from .repo_analysis_agent import RepoAnalysisAgent
 from .release_agent import ReleaseAgent
 from .architecture_agent import ArchitectureAgent
@@ -32,6 +39,11 @@ from .session import AgentSession, AgentSessionEvent, AgentSessionInspectOptions
 from .security_agent import SecurityAgent
 
 __all__ = [
+    "AGENT_MEMORY_COMMAND",
+    "AGENT_MEMORY_CONTRACT",
+    "AGENT_MEMORY_SCHEMA_ID",
+    "AgentMemoryModelManager",
+    "AgentMemoryModelOptions",
     "AGENT_CAPABILITY_INVENTORY_COMMAND",
     "AGENT_CAPABILITY_INVENTORY_CONTRACT",
     "AGENT_CAPABILITY_INVENTORY_SCHEMA_ID",

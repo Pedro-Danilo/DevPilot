@@ -1,3 +1,34 @@
+## POST-H-032-D — RAG-aware agents
+
+POST-H-032-D agrega el contrato `RagAgentContextPack`, la policy `.devpilot/agents/rag_agent_bindings.json`, el módulo `src/devpilot_core/agents/rag_context.py` y el comando `python -m devpilot_core agent rag-context --json`. La capacidad produce context packs RAG locales con `source_ids`, citas, freshness, coverage, negative cases e invariantes de `insufficient evidence`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core agent rag-context --json
+python -m devpilot_core agent rag-context --json --write-report
+python -m devpilot_core schema validate --schema-id RagAgentContextPack --instance outputseportsag_agent_context_pack.json --json
+```
+
+Estado: `implemented-initial / rag-aware-agent-context`. No usa LLM real, memoria, tools, red ni APIs externas; no muta fuentes. Es una capa determinística consumible por futuros prompts/modelos bajo opt-in explícito.
+
+## POST-H-032-E — Agent memory model
+
+POST-H-032-E agrega la ADR `docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md`, el contrato `AgentMemoryRecord`, la política `.devpilot/agents/agent_memory_policy.json`, el módulo `src/devpilot_core/agents/memory.py` y el comando `python -m devpilot_core agent memory inspect --json`. El objetivo es diseñar una memoria local de agentes opt-in, redactada, inspeccionable, exportable y separada de session logs, project state y evidencia formal.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core agent memory inspect --json
+python -m devpilot_core agent memory export --json --write-report
+python -m devpilot_core agent memory cleanup --json
+python -m devpilot_core schema validate --schema-id AgentMemoryRecord --instance outputseportsgent_memory_model_report.json --json
+```
+
+Estado: `implemented-initial / agent-memory-model`. La memoria semántica permanece `disabled` por defecto; no se persisten raw prompts, raw outputs ni secretos; no se usa almacenamiento externo; no se comparte memoria entre workspaces sin aprobación futura; cleanup es dry-run por defecto y export siempre redactado. Esta versión es una primera base industrial local-first: no implementa embeddings, vector memory, memoria compartida real ni uso de memoria para justificar claims formales.
+
 ## POST-H-032-C — External API provider ADR and gated pilot
 
 POST-H-032-C agrega la ADR `docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md`, el contrato `ExternalApiProviderPilot`, la policy `.devpilot/modeling/external_api_provider_pilot_policy.json`, el módulo `src/devpilot_core/modeling/external_api_pilot.py` y el comando `python -m devpilot_core model external-api-pilot --json`. El objetivo es diseñar una ruta segura para providers API externos sin habilitar llamadas reales: los providers API permanecen `disabled` por defecto, ninguna prueba requiere API real, los secretos se representan solo como nombres de variables de entorno, CostGuard bloquea cualquier uso accidental y el contrato se valida con fake provider determinístico.

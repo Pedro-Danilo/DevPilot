@@ -256,6 +256,56 @@ class ApplicationService:
             ),
         ).build()
 
+
+    def agent_memory_model(
+        self,
+        *,
+        action: str = "inspect",
+        policy_path: str = ".devpilot/agents/agent_memory_policy.json",
+        memory_dir: str = ".devpilot/agents/memory",
+        limit: int = 50,
+        execute: bool = False,
+        write_report: bool = False,
+        output_json: str = "outputs/reports/agent_memory_model_report.json",
+        output_markdown: str = "outputs/reports/agent_memory_model_report.md",
+    ) -> CommandResult:
+        """Inspect, export or cleanup the POST-H-032-E local opt-in memory model.
+
+        The boundary keeps semantic memory disabled by default, redacts exports,
+        separates memory from formal evidence and performs cleanup only when the
+        caller explicitly requests execute.
+        """
+
+        from devpilot_core.agents import AgentMemoryModelManager, AgentMemoryModelOptions
+
+        manager = AgentMemoryModelManager(
+            self.root,
+            AgentMemoryModelOptions(
+                policy_path=Path(policy_path),
+                memory_dir=Path(memory_dir),
+                limit=limit,
+                execute=execute,
+                dry_run=not execute,
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        )
+        if action == "inspect":
+            return manager.inspect()
+        if action == "export":
+            return manager.export()
+        if action == "cleanup":
+            return manager.cleanup()
+        return CommandResult(
+            command="agent memory",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Unsupported agent memory action.",
+            data={"summary": {"action": action}},
+            findings=[Finding("AGENT_MEMORY_ACTION_UNSUPPORTED", "Unsupported agent memory action.", Severity.BLOCK, metadata={"action": action})],
+        )
+
     def rag_agent_context(
         self,
         *,

@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/agent_memory_record.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-AGENT-MEMORY-RECORD-V1",
+  "title": "DevPilot AgentMemoryRecord v1",
+  "description": "POST-H-032-E schema-backed local opt-in agent memory model report and redacted AgentMemoryRecord list. It enforces disabled-by-default semantic memory, redaction, retention, inspect/export/cleanup evidence and separation from formal report evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "action",
+    "adr_path",
+    "policy_path",
+    "memory_dir",
+    "summary",
+    "memory_classes",
+    "records",
+    "cleanup_plan",
+    "export",
+    "safety",
+    "findings",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-AGENT-MEMORY-RECORD-V1"},
+    "report_id": {"const": "devpilot-agent-memory-model-report"},
+    "created_by": {"const": "POST-H-032-E"},
+    "status": {"enum": ["implemented-initial", "blocked"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "action": {"enum": ["inspect", "export", "cleanup"]},
+    "adr_path": {"type": "string", "minLength": 1},
+    "policy_path": {"type": "string", "minLength": 1},
+    "memory_dir": {"type": "string", "minLength": 1},
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "created_by",
+        "status",
+        "decision",
+        "semantic_memory_enabled",
+        "memory_enabled_by_default",
+        "records_total",
+        "records_valid_total",
+        "records_invalid_total",
+        "records_expired_total",
+        "cleanup_plan_items_total",
+        "cleanup_deleted_total",
+        "inspect_available",
+        "cleanup_available",
+        "export_redacted",
+        "retention_policy_applied",
+        "no_raw_prompts",
+        "no_raw_outputs",
+        "no_secrets",
+        "external_storage_used",
+        "shared_workspace_memory_enabled",
+        "memory_counts_as_formal_evidence",
+        "session_memory_separated",
+        "project_memory_separated",
+        "report_evidence_separated",
+        "schema_valid",
+        "reports_written",
+        "preliminary"
+      ],
+      "properties": {
+        "created_by": {"const": "POST-H-032-E"},
+        "status": {"enum": ["implemented-initial", "blocked"]},
+        "decision": {"enum": ["PASS", "BLOCK"]},
+        "semantic_memory_enabled": {"const": false},
+        "memory_enabled_by_default": {"const": false},
+        "records_total": {"type": "integer", "minimum": 0},
+        "records_valid_total": {"type": "integer", "minimum": 0},
+        "records_invalid_total": {"type": "integer", "minimum": 0},
+        "records_expired_total": {"type": "integer", "minimum": 0},
+        "cleanup_plan_items_total": {"type": "integer", "minimum": 0},
+        "cleanup_deleted_total": {"type": "integer", "minimum": 0},
+        "inspect_available": {"const": true},
+        "cleanup_available": {"const": true},
+        "export_redacted": {"const": true},
+        "retention_policy_applied": {"const": true},
+        "no_raw_prompts": {"const": true},
+        "no_raw_outputs": {"const": true},
+        "no_secrets": {"const": true},
+        "external_storage_used": {"const": false},
+        "shared_workspace_memory_enabled": {"const": false},
+        "memory_counts_as_formal_evidence": {"const": false},
+        "session_memory_separated": {"const": true},
+        "project_memory_separated": {"const": true},
+        "report_evidence_separated": {"const": true},
+        "schema_valid": {"type": "boolean"},
+        "reports_written": {"type": "boolean"},
+        "preliminary": {"const": true}
+      }
+    },
+    "memory_classes": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"type": "object", "additionalProperties": true}
+    },
+    "records": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/record"}
+    },
+    "cleanup_plan": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["dry_run", "execute_requested", "eligible_records_total", "deleted_records_total", "items"],
+      "properties": {
+        "dry_run": {"type": "boolean"},
+        "execute_requested": {"type": "boolean"},
+        "eligible_records_total": {"type": "integer", "minimum": 0},
+        "deleted_records_total": {"type": "integer", "minimum": 0},
+        "items": {"type": "array"}
+      }
+    },
+    "export": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["redacted", "secrets_in_export", "raw_prompts_in_export", "raw_outputs_in_export", "records_exported_total"],
+      "properties": {
+        "redacted": {"const": true},
+        "secrets_in_export": {"const": false},
+        "raw_prompts_in_export": {"const": false},
+        "raw_outputs_in_export": {"const": false},
+        "records_exported_total": {"type": "integer", "minimum": 0}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "dry_run_default",
+        "semantic_memory_enabled",
+        "memory_enabled_by_default",
+        "raw_prompts_stored",
+        "raw_outputs_stored",
+        "secrets_stored",
+        "external_storage_used",
+        "shared_across_workspaces",
+        "memory_counts_as_formal_evidence",
+        "source_mutations_performed",
+        "network_used",
+        "external_api_used",
+        "tools_executed",
+        "llm_used"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run_default": {"const": true},
+        "semantic_memory_enabled": {"const": false},
+        "memory_enabled_by_default": {"const": false},
+        "raw_prompts_stored": {"const": false},
+        "raw_outputs_stored": {"const": false},
+        "secrets_stored": {"const": false},
+        "external_storage_used": {"const": false},
+        "shared_across_workspaces": {"const": false},
+        "memory_counts_as_formal_evidence": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "tools_executed": {"const": false},
+        "llm_used": {"const": false}
+      }
+    },
+    "findings": {"type": "array"},
+    "notes": {"type": "array", "items": {"type": "string"}},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schema_version",
+        "schema_id",
+        "record_id",
+        "created_by",
+        "status",
+        "created_at_utc",
+        "updated_at_utc",
+        "agent_id",
+        "workspace_id",
+        "memory_type",
+        "scope",
+        "content_redacted",
+        "source_refs",
+        "retention",
+        "policy",
+        "safety"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "schema_id": {"const": "SCHEMA-DEVPL-AGENT-MEMORY-RECORD-V1"},
+        "record_id": {"type": "string", "minLength": 1},
+        "created_by": {"const": "POST-H-032-E"},
+        "status": {"enum": ["active", "expired", "cleanup-eligible", "synthetic-sample"]},
+        "created_at_utc": {"type": "string", "minLength": 10},
+        "updated_at_utc": {"type": "string", "minLength": 10},
+        "agent_id": {"type": "string", "minLength": 1},
+        "workspace_id": {"type": "string", "minLength": 1},
+        "memory_type": {"enum": ["session_memory", "project_memory"]},
+        "scope": {"enum": ["session", "project"]},
+        "content_redacted": {"type": "object", "additionalProperties": true},
+        "source_refs": {"type": "array", "items": {"type": "string"}},
+        "retention": {"type": "object", "additionalProperties": true},
+        "policy": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "semantic_memory_enabled": {"const": false},
+            "memory_enabled_by_default": {"const": false},
+            "export_redacted": {"const": true},
+            "counts_as_formal_evidence": {"const": false}
+          }
+        },
+        "safety": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "raw_prompt_stored": {"const": false},
+            "raw_output_stored": {"const": false},
+            "secret_values_stored": {"const": false},
+            "external_storage_used": {"const": false},
+            "shared_across_workspaces": {"const": false}
+          }
+        }
+      }
+    }
+  }
+}

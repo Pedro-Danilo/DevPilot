@@ -8252,6 +8252,34 @@
       "recommended_commands": [
         "npm --prefix ui/web test"
       ]
+    },
+    {
+      "contract_id": "post-h-032-agent-memory-model",
+      "scope": "safety",
+      "owner": "POST-H-032-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "validates": [
+        ".devpilot/agents/agent_memory_policy.json",
+        "docs/schemas/agent_memory_record.schema.json",
+        "src/devpilot_core/agents/memory.py",
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_memory_policy.json",
+        "docs/schemas/agent_memory_record.schema.json",
+        "src/devpilot_core/agents/memory.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_memory_model.py -q"
+      ]
     }
   ],
   "notes": [

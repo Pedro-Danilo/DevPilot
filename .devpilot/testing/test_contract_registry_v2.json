@@ -14989,6 +14989,66 @@
         "Migrated deterministically from v1 scope 'ui-smoke' during POST-H-003-B.",
         "UI smoke is local but not always required for every backend-only change."
       ]
+    },
+    {
+      "contract_id": "post-h-032-agent-memory-model",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-032-agent-memory-model",
+      "domain": "agentic.runtime",
+      "capability": "AgentMemoryModel",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "test_files": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_memory_policy.json",
+        "docs/schemas/agent_memory_record.schema.json",
+        "src/devpilot_core/agents/memory.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "validates": [
+        ".devpilot/agents/agent_memory_policy.json",
+        "docs/schemas/agent_memory_record.schema.json",
+        "src/devpilot_core/agents/memory.py",
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "trigger_hints": [
+        "agent-memory-change",
+        "post-h-032-e"
+      ],
+      "impact_scope": [
+        "agents",
+        "memory",
+        "privacy",
+        "retention"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_memory_model.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-E memory cleanup may delete only expired local memory records when execute is explicit; source files remain immutable."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService.agent_memory_model",
+      "subgate_id": "post-h-032-agent-memory-model",
+      "schema_ids": [
+        "SCHEMA-DEVPL-AGENT-MEMORY-RECORD-V1"
+      ]
     }
   ],
   "migration_metadata": {

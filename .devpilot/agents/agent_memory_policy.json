@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-agent-memory-policy",
+  "created_by": "POST-H-032-E",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "Local opt-in, redacted and inspectable memory model for DevPilot agents",
+  "defaults": {
+    "semantic_memory_enabled": false,
+    "memory_enabled_by_default": false,
+    "storage_dir": ".devpilot/agents/memory",
+    "external_storage_allowed": false,
+    "raw_prompts_allowed": false,
+    "raw_outputs_allowed": false,
+    "secrets_allowed": false,
+    "shared_workspace_memory_allowed": false,
+    "approval_required_for_shared_workspace_memory": true,
+    "redaction_required": true,
+    "export_always_redacted": true,
+    "inspect_allowed": true,
+    "cleanup_allowed": true,
+    "retention_days": 14,
+    "memory_counts_as_formal_evidence": false,
+    "report_evidence_is_separate": true
+  },
+  "memory_classes": [
+    {
+      "memory_type": "session_memory",
+      "description": "Short-lived redacted operational hints scoped to an agent/session.",
+      "enabled_by_default": false,
+      "counts_as_formal_evidence": false,
+      "allowed_content": ["summary", "tags", "source_refs", "redacted_metadata"]
+    },
+    {
+      "memory_type": "project_memory",
+      "description": "Opt-in project-local redacted facts that may assist later agent runs.",
+      "enabled_by_default": false,
+      "counts_as_formal_evidence": false,
+      "allowed_content": ["summary", "tags", "source_refs", "redacted_metadata"]
+    },
+    {
+      "memory_type": "report_evidence",
+      "description": "Formal reports/evidence stay in docs or outputs; they are explicitly not agent memory records.",
+      "enabled_by_default": false,
+      "counts_as_formal_evidence": true,
+      "excluded_from_memory_store": true
+    }
+  ],
+  "retention": {
+    "default_retention_days": 14,
+    "max_retention_days": 90,
+    "cleanup_mode_default": "dry-run",
+    "cleanup_requires_explicit_execute": true,
+    "expired_records_delete_allowed": true
+  },
+  "redaction": {
+    "secret_guard_required": true,
+    "forbidden_keys": ["raw_prompt", "raw_output", "prompt_text", "model_output", "completion_text", "api_key", "secret", "password", "token"],
+    "forbidden_value_markers": ["sk-", "ghp_", "hf_", "AIza", "-----BEGIN PRIVATE KEY-----"],
+    "export_policy": "always-redacted"
+  },
+  "no_go_gates": [
+    {
+      "gate_id": "agent-memory-enabled-by-default-blocked",
+      "condition": "Semantic or project memory is enabled by default.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "agent-memory-raw-prompt-output-blocked",
+      "condition": "A memory record persists raw prompt or raw output fields.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "agent-memory-secret-persistence-blocked",
+      "condition": "A memory record persists a secret-like value or sensitive key.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "agent-memory-formal-evidence-claim-blocked",
+      "condition": "Agent memory is used as formal report evidence or production-readiness evidence.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "agent-memory-cross-workspace-sharing-blocked",
+      "condition": "A memory record is shared across workspaces without explicit approval.",
+      "severity": "high",
+      "default_state": "pass"
+    }
+  ],
+  "notes": [
+    "POST-H-032-E defines a local opt-in memory model only; no semantic memory is enabled by default.",
+    "Memory records are not formal evidence and must not be used to justify production, compliance, remote or enterprise claims.",
+    "Exports are always redacted and cleanup defaults to dry-run."
+  ],
+  "limitations": [
+    "Initial implementation uses JSON records and deterministic validation only.",
+    "Semantic/vector memory, cross-workspace memory and model-driven recall remain disabled until future explicit enablement."
+  ]
+}

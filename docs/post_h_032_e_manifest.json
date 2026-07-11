@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-032-e-agent-memory-model-manifest",
+  "created_by": "POST-H-032-E",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "micro_sprint": "POST-H-032-E — Agent memory model",
+  "next_micro_sprint": "POST-H-032-F — Tool calling contract",
+  "artifacts": {
+    "adr": "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md",
+    "policy": ".devpilot/agents/agent_memory_policy.json",
+    "schema": "docs/schemas/agent_memory_record.schema.json",
+    "module": "src/devpilot_core/agents/memory.py",
+    "test": "tests/test_post_h_032_agent_memory_model.py",
+    "audit_report": "docs/audits/post_h_032_e_agent_memory_model_report.md"
+  },
+  "cli": [
+    "python -m devpilot_core agent memory inspect --json",
+    "python -m devpilot_core agent memory export --json --write-report",
+    "python -m devpilot_core agent memory cleanup --json"
+  ],
+  "safety": {
+    "semantic_memory_enabled": false,
+    "memory_enabled_by_default": false,
+    "raw_prompts_stored": false,
+    "raw_outputs_stored": false,
+    "secrets_stored": false,
+    "external_storage_used": false,
+    "shared_workspace_memory_enabled": false,
+    "export_always_redacted": true,
+    "cleanup_dry_run_default": true,
+    "memory_counts_as_formal_evidence": false,
+    "network_used": false,
+    "external_api_used": false,
+    "llm_used": false,
+    "tools_executed": false,
+    "source_mutations_performed": false
+  },
+  "tests": [
+    "tests/test_post_h_032_agent_memory_model.py",
+    "tests/test_agent_session.py",
+    "tests/test_runtime_state_policy_schema.py",
+    "tests/test_observability_export.py",
+    "tests/test_secret_guard_hardening.py"
+  ],
+  "limitations": [
+    "No semantic memory or vector memory is enabled by this sprint.",
+    "Memory records are local JSON pilots and must remain redacted.",
+    "Agent memory is not formal evidence and must not justify production claims."
+  ]
+}

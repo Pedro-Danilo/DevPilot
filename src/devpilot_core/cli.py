@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .agents import AgentRuntime, AgentRuntimeConfig, RagAgentContextOptions, RagAwareAgentContextBuilder, inspect_agent_session
+from .agents import AgentMemoryModelManager, AgentMemoryModelOptions, AgentRuntime, AgentRuntimeConfig, RagAgentContextOptions, RagAwareAgentContextBuilder, inspect_agent_session
 from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions, AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
@@ -1759,6 +1759,56 @@ def agent_session_inspect_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+
+def agent_memory_command(
+    *,
+    action: str,
+    policy_path: str = ".devpilot/agents/agent_memory_policy.json",
+    memory_dir: str = ".devpilot/agents/memory",
+    limit: int = 50,
+    execute: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/agent_memory_model_report.json",
+    output_markdown: str = "outputs/reports/agent_memory_model_report.md",
+) -> int:
+    """Inspect, export or cleanup POST-H-032-E local opt-in agent memory."""
+
+    root = project_root()
+    manager = AgentMemoryModelManager(
+        root,
+        AgentMemoryModelOptions(
+            policy_path=Path(policy_path),
+            memory_dir=Path(memory_dir),
+            limit=limit,
+            execute=execute,
+            dry_run=not execute,
+            write_report=write_report,
+            output_json=Path(output_json),
+            output_markdown=Path(output_markdown),
+        ),
+    )
+    if action == "inspect":
+        result = manager.inspect()
+    elif action == "export":
+        result = manager.export()
+    elif action == "cleanup":
+        result = manager.cleanup()
+    else:
+        result = CommandResult(
+            command="agent memory",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Unsupported agent memory action.",
+            data={"summary": {"action": action}},
+            findings=[Finding("AGENT_MEMORY_ACTION_UNSUPPORTED", "Unsupported agent memory action.", Severity.BLOCK, metadata={"action": action})],
+        )
+    _emit_result_event(root, result, subject=f"agent:memory:{action}")
+    _persist_result(root, result, subject=f"agent:memory:{action}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 
 def agent_rag_context_command(
@@ -6914,6 +6964,20 @@ def build_parser() -> argparse.ArgumentParser:
     agent_rag_context.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_rag_context.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown context pack under outputs/")
 
+    agent_memory = agent_sub.add_parser("memory", help="Inspect/export/cleanup POST-H-032-E local opt-in agent memory")
+    agent_memory_sub = agent_memory.add_subparsers(dest="agent_memory_command")
+    for _agent_memory_action in ("inspect", "export", "cleanup"):
+        _memory_parser = agent_memory_sub.add_parser(_agent_memory_action, help=f"{_agent_memory_action.title()} local redacted agent memory")
+        _memory_parser.add_argument("--policy", default=".devpilot/agents/agent_memory_policy.json", help="Agent memory policy path")
+        _memory_parser.add_argument("--memory-dir", default=".devpilot/agents/memory", help="Local agent memory directory")
+        _memory_parser.add_argument("--limit", type=int, default=50, help="Maximum memory records to inspect/export, capped at 500")
+        _memory_parser.add_argument("--output-json", default="outputs/reports/agent_memory_model_report.json", help="Optional report JSON path under outputs/")
+        _memory_parser.add_argument("--output-markdown", default="outputs/reports/agent_memory_model_report.md", help="Optional report Markdown path under outputs/")
+        _memory_parser.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+        _memory_parser.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown memory report under outputs/")
+        if _agent_memory_action == "cleanup":
+            _memory_parser.add_argument("--execute", action="store_true", help="Actually delete expired memory records; default is dry-run")
+
     agent_session = agent_sub.add_parser("session", help="Inspect local AgentSession state")
     agent_session_sub = agent_session.add_subparsers(dest="agent_session_command")
     agent_session_inspect = agent_session_sub.add_parser("inspect", help="Inspect one local AgentSession by id")
@@ -8378,6 +8442,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
             )
+        if args.agent_command == "memory":
+            if getattr(args, "agent_memory_command", None) in {"inspect", "export", "cleanup"}:
+                return agent_memory_command(
+                    action=args.agent_memory_command,
+                    policy_path=args.policy,
+                    memory_dir=args.memory_dir,
+                    limit=args.limit,
+                    execute=bool(getattr(args, "execute", False)),
+                    json_output=args.json,
+                    write_report=args.write_report,
+                    output_json=args.output_json,
+                    output_markdown=args.output_markdown,
+                )
         if args.agent_command == "session":
             if getattr(args, "agent_session_command", None) == "inspect":
                 return agent_session_inspect_command(

@@ -1,3 +1,11 @@
+## post-h-032-e — Agent memory model
+
+- Added ADR `ADR-POSTH-032-E-agent-memory-local-opt-in.md` for local opt-in memory governance.
+- Added `AgentMemoryRecord` schema, `.devpilot/agents/agent_memory_policy.json` and `src/devpilot_core/agents/memory.py`.
+- Added `agent memory inspect|export|cleanup` CLI and ApplicationService boundary for inspectable, redacted, local memory controls.
+- Kept semantic memory disabled by default, no raw prompts, no raw outputs, no secrets, no external storage and no formal-evidence usage.
+- Synchronized README, runbook, backlog, schema catalog, TCR v1/v2, source registry, CLI compatibility and project_state.
+
 ## post-h-032-b — Local LLM provider hardening
 
 - Added `LocalLlmProviderHealthReport` schema and `.devpilot/modeling/local_llm_provider_health_policy.json`.

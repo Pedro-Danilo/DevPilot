@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-d-implemented-initial"
-current_micro_sprint: "POST-H-032-D"
-next_micro_sprint: "POST-H-032-E"
+implementation_status: "approved/post-h-032-e-implemented-initial"
+current_micro_sprint: "POST-H-032-E"
+next_micro_sprint: "POST-H-032-F"
 ```
 
 ## 1. Proposito del backlog
@@ -571,6 +571,12 @@ python -m pytest -p no:ddtrace --assert=plain `
   -q
 ```
 
+### Estado de implementación POST-H-032-E
+
+`POST-H-032-E` queda implementado como versión `implemented-initial` del modelo de memoria local de agentes. La implementación agrega la ADR `docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md`, el schema `AgentMemoryRecord`, la policy `.devpilot/agents/agent_memory_policy.json`, el módulo `src/devpilot_core/agents/memory.py`, el comando `python -m devpilot_core agent memory inspect --json`, export redactado, cleanup dry-run/execute controlado, pruebas negativas contra raw prompts/raw outputs/secrets y separación explícita entre `session_memory`, `project_memory` y `report_evidence`.
+
+Limitación explícita: esta primera versión no habilita memoria semántica, embeddings, vector store, memoria compartida real ni uso de memoria para justificar claims formales. Cualquier evolución hacia semantic/project memory real debe mantenerse opt-in, redactada, inspeccionable, con retención, approval cuando aplique y sin almacenamiento externo por defecto. POST-H-032-F debe avanzar hacia tool calling contractual manteniendo dry-run-first, allowlist, policy/approval binding y defensas contra tool injection.
+
 ## POST-H-032-F - Tool calling contract
 
 ### Objetivo
@@ -952,5 +958,5 @@ POST-H-032-C queda implementado como primera versión `implemented-initial / ext
 
 El sprint no habilita llamadas reales a APIs externas. OpenAI/Gemini permanecen deshabilitados por defecto en metadata versionada; las pruebas usan fake provider determinístico; SecretGuard valida que no haya secretos versionados; CostGuard bloquea uso externo accidental; el reporte mantiene `external_api_used=false`, `network_used=false`, `real_api_call_performed=false` y `tests_require_real_api=false`.
 
-Limitación explícita: esta versión no instala SDKs, no abre sockets, no lee valores de API keys, no envía prompts a proveedores externos y no permite que `production-ready-local` dependa de APIs externas. Cualquier activación real futura requiere configuración local no versionada, env vars, budget explícito, warning visible, risk report, aprobación/acknowledgement y nueva decisión de enablement. POST-H-032-D debe avanzar hacia agentes RAG-aware manteniendo groundedness y fuentes locales.
+Limitación explícita: esta versión no instala SDKs, no abre sockets, no lee valores de API keys, no envía prompts a proveedores externos y no permite que `production-ready-local` dependa de APIs externas. Cualquier activación real futura requiere configuración local no versionada, env vars, budget explícito, warning visible, risk report, aprobación/acknowledgement y nueva decisión de enablement. POST-H-032-D quedó implementado como agentes RAG-aware con groundedness y fuentes locales; POST-H-032-E avanza hacia memoria local opt-in, redactada e inspeccionable.
 
