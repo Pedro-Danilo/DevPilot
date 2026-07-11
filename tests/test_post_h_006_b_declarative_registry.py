@@ -34,6 +34,7 @@ CURRENT_DECLARATIVE_GROUPS = {
     "install",
     "tests",
     "evidence",
+    "agent",
 }
 
 
@@ -101,6 +102,7 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "audit-pack.verify-v2",
         "release.environment-snapshot",
         "release.source-archive-manifest",
+        "agent.capability-inventory",
     }
     for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups

@@ -1,0 +1,3499 @@
+{
+  "agents": [
+    {
+      "agent_id": "precode.documentation",
+      "allowed_tools": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "approval_required_actions": [
+        "document.draft.generate"
+      ],
+      "autonomy_level": "A2",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_agent_runtime.py",
+        "tests/test_agent_runtime_v2.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_agent_runtime.py",
+        "tests/test_agent_runtime_v2.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/runtime.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "tool-calling"
+      ],
+      "name": "PreCodeDocumentationAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "AGENT_SUGGEST_ALLOW",
+        "DOC_WRITE_DRAFT_GATED",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in"
+      ],
+      "promotion_target": "local-llm-opt-in-hardening",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": false,
+      "rag_enabled": false,
+      "rag_groundedness_eval": null,
+      "rag_groundedness_eval_required": false,
+      "remote_execution_enabled": false,
+      "risk_level": "medium",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": true,
+          "risk_level": "medium",
+          "side_effect": "optional_write",
+          "tool_id": "document.draft.generate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        }
+      ]
+    },
+    {
+      "agent_id": "precode.audit",
+      "allowed_tools": [
+        "artifact.read",
+        "artifact.frontmatter.validate",
+        "artifact.structure.validate",
+        "checklist.precode.run",
+        "documentation.audit",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "approval_required_actions": [],
+      "autonomy_level": "A2",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_agent_runtime.py",
+        "tests/test_agent_runtime_v2.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_agent_runtime.py",
+        "tests/test_agent_runtime_v2.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/runtime.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "deterministic",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "deterministic",
+        "model-aware",
+        "tool-calling"
+      ],
+      "name": "DocumentationAuditAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": true,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "AGENT_SUGGEST_ALLOW",
+        "DOC_VALIDATE_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in"
+      ],
+      "promotion_target": "stay-deterministic-for-pass-block; advisory-only-model-use",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": false,
+      "rag_enabled": false,
+      "rag_groundedness_eval": null,
+      "rag_groundedness_eval_required": false,
+      "remote_execution_enabled": false,
+      "risk_level": "medium",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "artifact.frontmatter.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "artifact.structure.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "checklist.precode.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "documentation.audit"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        }
+      ]
+    },
+    {
+      "agent_id": "requirements.agent",
+      "allowed_tools": [
+        "agent.requirements.run",
+        "artifact.read",
+        "traceability.coverage",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "approval_required_actions": [],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_sdlc_agents.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_sdlc_agents.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/requirements_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": true,
+      "memory_enabled": false,
+      "memory_policy_required": true,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "rag-aware",
+        "memory-aware",
+        "tool-calling"
+      ],
+      "name": "RequirementsAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D.",
+        "Memory promotion requires POST-H-032-E ADR/policy; memory remains disabled now."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "REQUIREMENTS_AGENT_GOVERNED_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in",
+        "rag-aware-grounded",
+        "memory-aware-opt-in"
+      ],
+      "promotion_target": "local-llm-opt-in-hardening+rag-aware-with-citations+memory-opt-in-after-adr",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "medium",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "agent.requirements.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "traceability.coverage"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        }
+      ]
+    },
+    {
+      "agent_id": "architecture.agent",
+      "allowed_tools": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "approval_required_actions": [],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_sdlc_agents.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_sdlc_agents.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/architecture_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": true,
+      "memory_enabled": false,
+      "memory_policy_required": true,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "rag-aware",
+        "memory-aware",
+        "tool-calling"
+      ],
+      "name": "ArchitectureAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D.",
+        "Memory promotion requires POST-H-032-E ADR/policy; memory remains disabled now."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in",
+        "rag-aware-grounded",
+        "memory-aware-opt-in"
+      ],
+      "promotion_target": "local-llm-opt-in-hardening+rag-aware-with-citations+memory-opt-in-after-adr",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "medium_high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "agent.architecture.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "architecture.drift"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "repo.dependency_graph"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        }
+      ]
+    },
+    {
+      "agent_id": "security.agent",
+      "allowed_tools": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "approval_required_actions": [
+        "agent.security.run",
+        "auditpack.build",
+        "compliance.run",
+        "eval.safety.run",
+        "industrial.readiness.check",
+        "plugin.loader.dry_run",
+        "secret.scan",
+        "workspace.registry.register"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_sdlc_agents.py",
+        "tests/test_prompt_injection_guard.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_sdlc_agents.py",
+        "tests/test_prompt_injection_guard.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/security_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "rag-aware",
+        "tool-calling"
+      ],
+      "name": "SecurityAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": true,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "SECURITY_AGENT_GOVERNED_ALLOW",
+        "SECURITY_REVIEW_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+        "EVAL_SAFETY_SCORING_ALLOW",
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in",
+        "rag-aware-grounded"
+      ],
+      "promotion_target": "stay-deterministic-for-pass-block; advisory-only-model-use",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "agent.security.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "secret.scan"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "local_compute",
+          "tool_id": "policy.simulate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "security.docs.review"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "eval.safety.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "plugin.registry.validate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "plugin.loader.dry_run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "workspace.registry.validate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.register"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.select"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "portfolio.status"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.current"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.roles"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "identity.rbac.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "auditpack.build"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "auditpack.verify"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "compliance.list"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "compliance.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "remote.runner.status"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "enterprise.report"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "industrial.readiness.check"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "test.contracts.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "project.state.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "test.impact.analyze"
+        }
+      ]
+    },
+    {
+      "agent_id": "testplanner.agent",
+      "allowed_tools": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "approval_required_actions": [
+        "auditpack.build",
+        "compliance.run",
+        "eval.safety.run",
+        "industrial.readiness.check",
+        "plugin.loader.dry_run",
+        "tests.run",
+        "workspace.registry.register"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_refactor_testplanner_agents.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_refactor_testplanner_agents.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/test_planner_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "rag-aware",
+        "tool-calling"
+      ],
+      "name": "TestPlannerAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
+        "TESTS_RUN_PLAN_ONLY_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+        "EVAL_SAFETY_SCORING_ALLOW",
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in",
+        "rag-aware-grounded"
+      ],
+      "promotion_target": "local-llm-opt-in-hardening+rag-aware-with-citations",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "medium",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "agent.test_planner.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "traceability.coverage"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": true,
+          "risk_level": "high",
+          "side_effect": "controlled_execution",
+          "tool_id": "tests.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "eval.safety.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "plugin.registry.validate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "plugin.loader.dry_run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "workspace.registry.validate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.register"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.select"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "portfolio.status"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.current"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.roles"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "identity.rbac.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "auditpack.build"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "auditpack.verify"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "compliance.list"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "compliance.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "remote.runner.status"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "enterprise.report"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "industrial.readiness.check"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "test.contracts.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "project.state.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "test.impact.analyze"
+        }
+      ]
+    },
+    {
+      "agent_id": "repo.analysis",
+      "allowed_tools": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "repo.quality_gate",
+        "repo.engineering_gate",
+        "repo.architecture_drift",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "approval_required_actions": [
+        "repo.engineering_gate",
+        "repo.quality_gate"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_repo_analysis_agent.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_repo_analysis_agent.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/repo_analysis_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "rag-aware",
+        "tool-calling"
+      ],
+      "name": "RepoAnalysisAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "REPO_ANALYSIS_AGENT_GOVERNED_ALLOW",
+        "GIT_READ_ALLOW",
+        "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+        "ENGINEERING_GATE_READ_ONLY_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in",
+        "rag-aware-grounded"
+      ],
+      "promotion_target": "local-llm-opt-in-hardening+rag-aware-with-citations",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "medium",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "agent.repo_analysis.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "read",
+          "tool_id": "git.status"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "read",
+          "tool_id": "repo.inventory"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "repo.dependency_graph"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "repo.analyze"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "repo.quality_gate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "repo.engineering_gate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "repo.architecture_drift"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        }
+      ]
+    },
+    {
+      "agent_id": "code.review",
+      "allowed_tools": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "approval_required_actions": [
+        "agent.code_review.run",
+        "code.review"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_review_agents.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_review_agents.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/code_review_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "rag-aware",
+        "tool-calling"
+      ],
+      "name": "CodeReviewAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "CODE_REVIEW_AGENT_GOVERNED_ALLOW",
+        "CODE_REVIEW_DRY_RUN_ALLOW",
+        "GIT_READ_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in",
+        "rag-aware-grounded"
+      ],
+      "promotion_target": "local-llm-opt-in-hardening+rag-aware-with-citations",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "agent.code_review.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "read",
+          "tool_id": "git.diff"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "code.review"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        }
+      ]
+    },
+    {
+      "agent_id": "patch.review",
+      "allowed_tools": [
+        "agent.patch_review.run",
+        "patch.parse",
+        "patch.dry_run",
+        "patch.check",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate",
+        "patch.sandbox",
+        "rollback.plan",
+        "rollback.list",
+        "rollback.show"
+      ],
+      "approval_required_actions": [
+        "agent.patch_review.run",
+        "patch.check",
+        "patch.dry_run",
+        "patch.sandbox",
+        "rollback.plan"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_review_agents.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_review_agents.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/patch_review_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "model-aware",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "model-aware",
+        "rag-aware",
+        "tool-calling"
+      ],
+      "name": "PatchReviewAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "PATCH_REVIEW_AGENT_GOVERNED_ALLOW",
+        "PATCH_DRY_RUN_ALLOW",
+        "PATCH_CHECK_DRY_RUN_ALLOW",
+        "PATCH_APPLY_DENY",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+        "PATCH_SANDBOX_RUNTIME_ALLOW",
+        "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "ROLLBACK_READ_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in",
+        "rag-aware-grounded"
+      ],
+      "promotion_target": "local-llm-opt-in-hardening+rag-aware-with-citations",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "agent.patch_review.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "patch.parse"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "simulation",
+          "tool_id": "patch.dry_run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "simulation",
+          "tool_id": "patch.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "patch.sandbox"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "rollback.plan"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "read",
+          "tool_id": "rollback.list"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "read",
+          "tool_id": "rollback.show"
+        }
+      ]
+    },
+    {
+      "agent_id": "safe.refactor",
+      "allowed_tools": [
+        "agent.safe_refactor.run",
+        "artifact.read",
+        "code.review",
+        "refactor.plan",
+        "refactor.sandbox",
+        "tests.run",
+        "rollback.plan",
+        "rollback.list",
+        "rollback.show",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "approval_required_actions": [
+        "agent.safe_refactor.run",
+        "code.review",
+        "refactor.plan",
+        "refactor.sandbox",
+        "rollback.plan",
+        "tests.run"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_refactor_testplanner_agents.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_refactor_testplanner_agents.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/safe_refactor_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "deterministic",
+      "model_calls_allowed_only_when_opt_in": true,
+      "modes": [
+        "deterministic",
+        "model-aware",
+        "tool-calling"
+      ],
+      "name": "SafeRefactorAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Model use is opt-in only; mock remains the safe default."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": true,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "SAFE_REFACTOR_AGENT_GOVERNED_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "REFACTOR_SANDBOX_EXECUTE_GATED",
+        "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "ROLLBACK_READ_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "model-aware-local-opt-in"
+      ],
+      "promotion_target": "stay-deterministic-for-pass-block; advisory-only-model-use",
+      "provider_modes_allowed": [
+        "mock",
+        "local_llm_opt_in"
+      ],
+      "rag_candidate": false,
+      "rag_enabled": false,
+      "rag_groundedness_eval": null,
+      "rag_groundedness_eval_required": false,
+      "remote_execution_enabled": false,
+      "risk_level": "high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "agent.safe_refactor.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "code.review"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "refactor.plan"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": true,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "refactor.sandbox"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": true,
+          "risk_level": "high",
+          "side_effect": "controlled_execution",
+          "tool_id": "tests.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "rollback.plan"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "read",
+          "tool_id": "rollback.list"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "read",
+          "tool_id": "rollback.show"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "local_compute",
+          "tool_id": "agent.model.generate"
+        }
+      ]
+    },
+    {
+      "agent_id": "release.agent",
+      "allowed_tools": [
+        "artifact.read",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "approval_required_actions": [],
+      "autonomy_level": "A5",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_release_agent.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_release_agent.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/release_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": false,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "deterministic",
+      "model_calls_allowed_only_when_opt_in": false,
+      "modes": [
+        "deterministic",
+        "tool-calling"
+      ],
+      "name": "ReleaseAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "Future agent remains non-promotable until implementation and tests exist."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": true,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "DEPLOY_DENY"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent"
+      ],
+      "promotion_target": "stay-deterministic-for-pass-block; advisory-only-model-use",
+      "provider_modes_allowed": [
+        "mock"
+      ],
+      "rag_candidate": false,
+      "rag_enabled": false,
+      "rag_groundedness_eval": null,
+      "rag_groundedness_eval_required": false,
+      "remote_execution_enabled": false,
+      "risk_level": "high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "future",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        }
+      ]
+    },
+    {
+      "agent_id": "operations.agent",
+      "allowed_tools": [
+        "artifact.read",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "approval_required_actions": [
+        "auditpack.build",
+        "compliance.run",
+        "industrial.readiness.check",
+        "workspace.registry.register"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_sprint_94_documentation.py",
+        "tests/test_sprint_99_documentation.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_sprint_94_documentation.py",
+        "tests/test_sprint_99_documentation.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/runtime.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "tool-calling",
+      "model_calls_allowed_only_when_opt_in": false,
+      "modes": [
+        "tool-calling"
+      ],
+      "name": "OperationsAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "DEPLOY_DENY",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent"
+      ],
+      "promotion_target": "maintain-tool-calling",
+      "provider_modes_allowed": [
+        "mock"
+      ],
+      "rag_candidate": false,
+      "rag_enabled": false,
+      "rag_groundedness_eval": null,
+      "rag_groundedness_eval_required": false,
+      "remote_execution_enabled": false,
+      "risk_level": "high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "read",
+          "tool_id": "artifact.read"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "workspace.registry.validate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.register"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.select"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "portfolio.status"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.current"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.roles"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "identity.rbac.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "auditpack.build"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "auditpack.verify"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "compliance.list"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "compliance.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "remote.runner.status"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "enterprise.report"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "industrial.readiness.check"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "test.contracts.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "project.state.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "test.impact.analyze"
+        }
+      ]
+    },
+    {
+      "agent_id": "multiagent.coordinator",
+      "allowed_tools": [
+        "multiagent.coordinator.run",
+        "multiagent.workflow.run",
+        "multiagent.handoff",
+        "agent.repo_analysis.run",
+        "agent.code_review.run",
+        "agent.security.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "approval_required_actions": [
+        "agent.code_review.run",
+        "agent.security.run",
+        "auditpack.build",
+        "compliance.run",
+        "eval.safety.run",
+        "industrial.readiness.check",
+        "multiagent.coordinator.run",
+        "multiagent.workflow.run",
+        "plugin.loader.dry_run",
+        "workspace.registry.register"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/multiagent/coordinator.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "multiagent",
+      "model_calls_allowed_only_when_opt_in": false,
+      "modes": [
+        "tool-calling",
+        "multiagent"
+      ],
+      "name": "MultiAgentCoordinator",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": false,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
+        "MULTIAGENT_EXECUTE_DENY",
+        "MULTIAGENT_HANDOFF_TRACE_REQUIRED",
+        "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
+        "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
+        "EVAL_SAFETY_SCORING_ALLOW",
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "multiagent-supervised-handoff"
+      ],
+      "promotion_target": "handoff-hardening-before-autonomy",
+      "provider_modes_allowed": [
+        "mock"
+      ],
+      "rag_candidate": false,
+      "rag_enabled": false,
+      "rag_groundedness_eval": null,
+      "rag_groundedness_eval_required": false,
+      "remote_execution_enabled": false,
+      "risk_level": "high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "multiagent.coordinator.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "multiagent.workflow.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "multiagent.handoff"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "agent.repo_analysis.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "agent.code_review.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "agent.security.run"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "eval.safety.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "plugin.registry.validate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "plugin.loader.dry_run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "workspace.registry.validate"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.register"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "controlled_write",
+          "tool_id": "workspace.registry.select"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "portfolio.status"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.current"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "identity.roles"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "identity.rbac.check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "controlled_write",
+          "tool_id": "auditpack.build"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "auditpack.verify"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "read",
+          "tool_id": "compliance.list"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "compliance.run"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "remote.runner.status"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "enterprise.report"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "industrial.readiness.check"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "test.contracts.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "project.state.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "test.impact.analyze"
+        }
+      ]
+    },
+    {
+      "agent_id": "release.assistant",
+      "allowed_tools": [
+        "release.quality_gate",
+        "release.manifest",
+        "release.changelog",
+        "release.package",
+        "release.sbom",
+        "release.install_plan",
+        "release.upgrade_check",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "remote.runner.status",
+        "enterprise.report",
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
+      ],
+      "approval_required_actions": [
+        "industrial.readiness.check"
+      ],
+      "autonomy_level": "A3",
+      "blocking_gaps": [],
+      "connector_write_enabled": false,
+      "eval_coverage": [
+        "tests/test_release_agent.py"
+      ],
+      "eval_coverage_existing": [
+        "tests/test_release_agent.py"
+      ],
+      "external_api_allowed": false,
+      "external_api_default_enabled": false,
+      "forbidden_tools": [
+        "connector.write",
+        "filesystem.delete",
+        "plugin.code.execute",
+        "remote.runner.execute",
+        "rollback.execute"
+      ],
+      "implementation_module": "src/devpilot_core/agents/release_agent.py",
+      "implementation_module_exists": true,
+      "implemented_agent": true,
+      "llm_enabled_by_default": false,
+      "memory_candidate": false,
+      "memory_enabled": false,
+      "memory_policy_required": false,
+      "mode": "rule-based",
+      "model_calls_allowed_only_when_opt_in": false,
+      "modes": [
+        "rule-based",
+        "rag-aware",
+        "tool-calling"
+      ],
+      "name": "ReleaseAgent",
+      "notes": [
+        "Inventory-only classification; runtime behavior is unchanged by POST-H-032-A.",
+        "RAG promotion requires citations, freshness and groundedness negative tests in POST-H-032-D."
+      ],
+      "observability_events": [
+        "agent.run.started",
+        "agent.run.completed",
+        "agent.tool_call.planned",
+        "policy.decision",
+        "agent.finding.emitted"
+      ],
+      "pass_block_decision_must_remain_deterministic": true,
+      "plugin_execution_enabled": false,
+      "policy_rules": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW",
+        "RELEASE_PUBLISH_DEPLOY_TAG_DENY",
+        "SECRETS_RAW_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
+      ],
+      "promotion_criteria_refs": [
+        "baseline-governed-agent",
+        "rag-aware-grounded"
+      ],
+      "promotion_target": "stay-deterministic-for-pass-block; advisory-only-model-use",
+      "provider_modes_allowed": [
+        "mock"
+      ],
+      "rag_candidate": true,
+      "rag_enabled": false,
+      "rag_groundedness_eval": "tests/test_post_h_011_rag_groundedness.py",
+      "rag_groundedness_eval_required": true,
+      "remote_execution_enabled": false,
+      "risk_level": "medium_high",
+      "source_mutation_allowed": false,
+      "source_mutation_requires_approval": true,
+      "status": "implemented-initial",
+      "tool_calling_allowed": true,
+      "tool_calling_dry_run_first": true,
+      "tool_contracts": [
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "release.quality_gate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "release.manifest"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "release.changelog"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "report",
+          "tool_id": "release.package"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "release.sbom"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "release.install_plan"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "release.upgrade_check"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "report.write"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "controlled_write",
+          "tool_id": "trace.append"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "low",
+          "side_effect": "none",
+          "tool_id": "policy.check"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "none",
+          "tool_id": "remote.runner.status"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "report",
+          "tool_id": "enterprise.report"
+        },
+        {
+          "dry_run_first_required": true,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "high",
+          "side_effect": "report",
+          "tool_id": "industrial.readiness.check"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "test.contracts.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium",
+          "side_effect": "none",
+          "tool_id": "project.state.validate"
+        },
+        {
+          "dry_run_first_required": false,
+          "external_write_enabled": false,
+          "registered": true,
+          "requires_approval": false,
+          "risk_level": "medium_high",
+          "side_effect": "none",
+          "tool_id": "test.impact.analyze"
+        }
+      ]
+    }
+  ],
+  "created_by": "POST-H-032-A",
+  "findings": [
+    {
+      "id": "AGENT_CAPABILITY_INVENTORY_PASS",
+      "message": "Agent capability inventory passed.",
+      "metadata": {
+        "agents_executed": false,
+        "agents_total": 14,
+        "agents_with_tools_total": 14,
+        "agents_with_tools_without_allowlist_total": 0,
+        "blocking_findings_total": 0,
+        "connector_write_enabled": false,
+        "connector_write_enabled_total": 0,
+        "created_by": "POST-H-032-A",
+        "decision": "PASS",
+        "dry_run": true,
+        "external_api_allowed_total": 0,
+        "external_api_used": false,
+        "findings_total": 0,
+        "future_agents_total": 1,
+        "implemented_agents_total": 13,
+        "implemented_without_module_total": 0,
+        "implemented_without_tests_total": 0,
+        "llm_judge_used": false,
+        "memory_candidates_total": 2,
+        "memory_enabled_total": 0,
+        "model_aware_candidates_total": 10,
+        "models_called": false,
+        "network_used": false,
+        "plugin_execution_enabled": false,
+        "plugin_execution_enabled_total": 0,
+        "preliminary": true,
+        "promotion_criteria_valid": true,
+        "rag_candidates_total": 8,
+        "rag_enabled_total": 0,
+        "rag_enabled_without_groundedness_total": 0,
+        "read_only": true,
+        "registry_agents_total": 14,
+        "remote_execution_enabled": false,
+        "remote_execution_enabled_total": 0,
+        "reports_written": false,
+        "schema_valid": true,
+        "source_mutation_allowed_total": 0,
+        "source_mutation_without_approval_total": 0,
+        "source_mutations_performed": false,
+        "status": "implemented-initial",
+        "tools_executed": false,
+        "tools_total": 97
+      },
+      "severity": "info"
+    }
+  ],
+  "generated_at_utc": "2026-07-11T13:34:49Z",
+  "inventory_id": "devpilot-agent-capability-inventory",
+  "notes": [
+    "POST-H-032-A is inventory/promotion governance only; it does not enable new runtime autonomy.",
+    "LLM, RAG, memory, tools, MCP and multiagent hardening remain gated by later POST-H-032 micro-sprints.",
+    "External APIs, connector write, plugin execution and remote execution remain disabled by default."
+  ],
+  "promotion_criteria_ref": {
+    "available": true,
+    "criteria_id": "devpilot-agent-promotion-criteria",
+    "path": ".devpilot/agents/agent_promotion_criteria.json",
+    "schema_id": "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1",
+    "schema_valid": true
+  },
+  "safety": {
+    "agents_executed": false,
+    "connector_write_enabled": false,
+    "dry_run": true,
+    "external_api_used": false,
+    "llm_judge_used": false,
+    "local_first": true,
+    "memory_read": false,
+    "memory_written": false,
+    "models_called": false,
+    "network_used": false,
+    "plugin_execution_enabled": false,
+    "rag_executed": false,
+    "read_only": true,
+    "remote_execution_enabled": false,
+    "source_mutations_performed": false,
+    "tools_executed": false
+  },
+  "schema_id": "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1",
+  "schema_version": "1.0",
+  "source_paths": {
+    "agent_registry": ".devpilot/miasi/agent_registry.json",
+    "policy_matrix": ".devpilot/miasi/policy_matrix.json",
+    "promotion_criteria": ".devpilot/agents/agent_promotion_criteria.json",
+    "tool_registry": ".devpilot/miasi/tool_registry.json"
+  },
+  "status": "implemented-initial",
+  "summary": {
+    "agents_executed": false,
+    "agents_total": 14,
+    "agents_with_tools_total": 14,
+    "agents_with_tools_without_allowlist_total": 0,
+    "blocking_findings_total": 0,
+    "connector_write_enabled": false,
+    "connector_write_enabled_total": 0,
+    "created_by": "POST-H-032-A",
+    "decision": "PASS",
+    "dry_run": true,
+    "external_api_allowed_total": 0,
+    "external_api_used": false,
+    "findings_total": 0,
+    "future_agents_total": 1,
+    "implemented_agents_total": 13,
+    "implemented_without_module_total": 0,
+    "implemented_without_tests_total": 0,
+    "llm_judge_used": false,
+    "memory_candidates_total": 2,
+    "memory_enabled_total": 0,
+    "model_aware_candidates_total": 10,
+    "models_called": false,
+    "network_used": false,
+    "plugin_execution_enabled": false,
+    "plugin_execution_enabled_total": 0,
+    "preliminary": true,
+    "promotion_criteria_valid": true,
+    "rag_candidates_total": 8,
+    "rag_enabled_total": 0,
+    "rag_enabled_without_groundedness_total": 0,
+    "read_only": true,
+    "registry_agents_total": 14,
+    "remote_execution_enabled": false,
+    "remote_execution_enabled_total": 0,
+    "reports_written": false,
+    "schema_valid": true,
+    "source_mutation_allowed_total": 0,
+    "source_mutation_without_approval_total": 0,
+    "source_mutations_performed": false,
+    "status": "implemented-initial",
+    "tools_executed": false,
+    "tools_total": 97
+  }
+}

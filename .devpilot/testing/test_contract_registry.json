@@ -8091,6 +8091,64 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-032-agent-capability-inventory",
+      "scope": "feature",
+      "owner": "POST-H-032-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "validates": [
+        "AgentCapabilityInventory",
+        ".devpilot/agents/agent_capability_inventory.json",
+        "src/devpilot_core/agents/capability_inventory.py",
+        "python -m devpilot_core agent capability-inventory --json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/agents/capability_inventory.py",
+        "docs/schemas/agent_capability_inventory.schema.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/miasi/agent_registry.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
+        "python -m devpilot_core agent capability-inventory --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-agent-promotion-criteria",
+      "scope": "safety",
+      "owner": "POST-H-032-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "validates": [
+        "AgentPromotionCriteria",
+        ".devpilot/agents/agent_promotion_criteria.json",
+        "external API disabled by default",
+        "memory disabled by default",
+        "remote/connector/plugin disabled by default"
+      ],
+      "watched_paths": [
+        "docs/schemas/agent_promotion_criteria.schema.json",
+        ".devpilot/agents/agent_promotion_criteria.json",
+        ".devpilot/project_state.json"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
+        "python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json"
+      ]
     }
   ],
   "notes": [

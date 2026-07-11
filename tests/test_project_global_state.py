@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-031-E"
-    assert state.get("next_micro_sprint") == "POST-H-032-A"
+    assert state.get("current_micro_sprint") == "POST-H-032-A"
+    assert state.get("next_micro_sprint") == "POST-H-032-B"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_293_POST_H_031_E.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_294_POST_H_032_A.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -564,8 +564,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_030_workspace_onboarding_cli_module") == "src/devpilot_core/cli_commands/workspace_onboarding.py"
     assert state.get("post_h_030_workspace_onboarding_commands_migrated_total") == 7
     assert state.get("post_h_030_workspace_onboarding_public_behavior_changed") is False
-    assert state["current_micro_sprint"] == "POST-H-031-E"
-    assert state["next_micro_sprint"] == "POST-H-032-A"
+    assert state["current_micro_sprint"] == "POST-H-032-A"
+    assert state["next_micro_sprint"] == "POST-H-032-B"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -744,3 +744,35 @@ def test_post_h_031_e_project_state_closes_redacted_evidence_export_ux() -> None
     assert "post-h-031-e" in changelog.lower()
     assert 'implementation_status: "closed/redacted-evidence-export-ux"' in backlog
     assert any("POST-H-031-E adds OperatorEvidenceExport" in note for note in state["notes"])
+
+
+def test_post_h_032_a_project_state_adds_agent_capability_inventory() -> None:
+    state = json.loads(read(".devpilot/project_state.json"))
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+    changelog = read("docs/release/CHANGELOG.md")
+    backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
+
+    assert state.get("post_h_032_backlog_approved") is True
+    assert state.get("post_h_032_status") == "active/agent-capability-inventory-implemented-initial"
+    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-A"
+    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-B"
+    assert state.get("post_h_032_agent_capability_inventory_schema_registered") is True
+    assert state.get("post_h_032_agent_promotion_criteria_schema_registered") is True
+    assert state.get("post_h_032_agent_capability_inventory_available") is True
+    assert state.get("post_h_032_agent_promotion_criteria_available") is True
+    assert state.get("post_h_032_agents_total") == 14
+    assert state.get("post_h_032_implemented_agents_total") >= 13
+    assert state.get("post_h_032_external_api_allowed_total") == 0
+    assert state.get("post_h_032_memory_enabled_total") == 0
+    assert state.get("post_h_032_remote_execution_enabled") is False
+    assert state.get("post_h_032_connector_write_enabled") is False
+    assert state.get("post_h_032_plugin_execution_enabled") is False
+    assert state.get("post_h_032_models_called") is False
+    assert state.get("post_h_032_agents_executed") is False
+    assert "POST-H-032-A — Agent capability inventory" in readme
+    assert "POST-H-032-A — Agent capability inventory" in runbook
+    assert "post-h-032-a" in changelog.lower()
+    assert "status: approved" in backlog
+    assert 'implementation_status: "approved/post-h-032-a-implemented-initial"' in backlog
+    assert any("POST-H-032-A starts Agentes IA avanzados" in note for note in state["notes"])

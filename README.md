@@ -5787,3 +5787,18 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 Último hito: `POST-H-031`
 
 Siguiente hito: `POST-H-032`
+
+## POST-H-032-A — Agent capability inventory and promotion criteria
+
+Estado: `implemented-initial` / `read-only inventory`. POST-H-032-A inicia el backlog de agentes IA avanzados sin habilitar autonomía nueva. El sprint agrega inventario machine-readable de agentes MIASI y criterios de promoción para distinguir capacidades determinísticas, model-aware, RAG-aware, memory-aware, tool-calling y multiagent.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agent capability-inventory --json
+python -m devpilot_core agent capability-inventory --json --write-report
+python -m devpilot_core schema validate --schema-id AgentCapabilityInventory --instance .devpilot/agents/agent_capability_inventory.json --json
+python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json
+```
+
+Límites explícitos: no ejecuta agentes, no ejecuta tools, no llama modelos, no ejecuta RAG, no lee ni escribe memoria, no habilita APIs externas, no habilita remote execution, connector write ni plugin execution, y no reemplaza gates determinísticos. Las promociones reales quedan para POST-H-032-B..H.

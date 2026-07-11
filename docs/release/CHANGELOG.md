@@ -2646,3 +2646,11 @@ Siguiente micro-sprint: `POST-H-031-E — Redacted evidence export UX`.
 - Cierra POST-H-031 como `implemented-initial/local-first/redacted-export`; el paquete no es certificación externa ni enterprise/remote/SaaS readiness.
 
 Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`.
+
+## post-h-032-a — Agent capability inventory and promotion criteria
+
+- Approves POST-H-032 as the governed advanced AI agents backlog.
+- Adds `AgentCapabilityInventory` and `AgentPromotionCriteria` schemas.
+- Adds source-controlled `.devpilot/agents/agent_capability_inventory.json` and `.devpilot/agents/agent_promotion_criteria.json`.
+- Adds `python -m devpilot_core agent capability-inventory --json` and ApplicationService support.
+- Preserves local-first safety: no agents/tools/models/RAG/memory executed, no external APIs, no remote execution, no connector write, no plugin execution and no deterministic gate replacement by LLM.

@@ -1,0 +1,237 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1",
+  "criteria_id": "devpilot-agent-promotion-criteria",
+  "created_by": "POST-H-032-A",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "local-first governed agent promotion criteria; inventory-only and read-only in POST-H-032-A",
+  "promotion_paths": [
+    {
+      "criteria_id": "baseline-governed-agent",
+      "title": "Baseline governed agent",
+      "target_mode": "deterministic",
+      "minimum_evidence": [
+        "registered in .devpilot/miasi/agent_registry.json",
+        "implementation module exists when status is implemented or implemented-initial",
+        "focal tests exist",
+        "risk_level and policy rule metadata are declared"
+      ],
+      "required_tests": [
+        "tests/test_agent_runtime.py",
+        "tests/test_agent_runtime_v2.py",
+        "tests/test_miasi_registry.py",
+        "tests/test_miasi_semantic_validator.py"
+      ],
+      "required_policies": [
+        "MIASI policy matrix",
+        "PolicyEngine safety checks"
+      ],
+      "blocked_until": "blocking gaps are zero",
+      "allowed_provider_modes": ["mock"],
+      "external_api_allowed": false,
+      "memory_enabled_by_default": false,
+      "source_mutation_allowed": false
+    },
+    {
+      "criteria_id": "model-aware-local-opt-in",
+      "title": "Model-aware with local provider opt-in",
+      "target_mode": "model-aware",
+      "minimum_evidence": [
+        "mock remains default provider",
+        "local provider health checks are available",
+        "provider fallback is explicit and audited",
+        "no external API is enabled by default"
+      ],
+      "required_tests": [
+        "tests/test_model_adapter.py",
+        "tests/test_model_governance.py",
+        "tests/test_provider_config_schema.py",
+        "tests/test_ollama_adapter.py",
+        "tests/test_lmstudio_adapter.py"
+      ],
+      "required_policies": [
+        "CostGuard",
+        "model governance",
+        "provider config policy"
+      ],
+      "blocked_until": "POST-H-032-B local provider hardening closes",
+      "allowed_provider_modes": ["mock", "local_llm_opt_in"],
+      "external_api_allowed": false,
+      "memory_enabled_by_default": false,
+      "source_mutation_allowed": false
+    },
+    {
+      "criteria_id": "rag-aware-grounded",
+      "title": "RAG-aware with citations and insufficient-evidence behavior",
+      "target_mode": "rag-aware",
+      "minimum_evidence": [
+        "RAG context pack declares source ids",
+        "answers cite local sources",
+        "unsupported claims return insufficient evidence",
+        "negative groundedness evals pass"
+      ],
+      "required_tests": [
+        "tests/test_rag_local.py",
+        "tests/test_post_h_011_rag_groundedness.py",
+        "tests/test_rag_groundedness_claims.py",
+        "tests/test_rag_groundedness_eval_runner.py",
+        "tests/test_rag_citations_source_coverage.py"
+      ],
+      "required_policies": [
+        "RAG source allowlist",
+        "claims/no-go dashboard"
+      ],
+      "blocked_until": "POST-H-032-D RAG-aware agents closes",
+      "allowed_provider_modes": ["mock", "local_llm_opt_in"],
+      "external_api_allowed": false,
+      "memory_enabled_by_default": false,
+      "source_mutation_allowed": false
+    },
+    {
+      "criteria_id": "memory-aware-opt-in",
+      "title": "Memory-aware local opt-in only",
+      "target_mode": "memory-aware",
+      "minimum_evidence": [
+        "ADR defines memory model",
+        "memory policy is disabled by default",
+        "raw prompts and raw outputs are blocked",
+        "inspect/export/cleanup are available"
+      ],
+      "required_tests": [
+        "tests/test_post_h_032_agent_memory_model.py",
+        "tests/test_agent_session.py",
+        "tests/test_observability_export.py",
+        "tests/test_secret_guard_hardening.py"
+      ],
+      "required_policies": [
+        "local memory retention policy",
+        "SecretGuard redaction"
+      ],
+      "blocked_until": "POST-H-032-E ADR and memory model close",
+      "allowed_provider_modes": ["mock", "local_llm_opt_in"],
+      "external_api_allowed": false,
+      "memory_enabled_by_default": false,
+      "source_mutation_allowed": false
+    },
+    {
+      "criteria_id": "tool-calling-policy-bound",
+      "title": "Tool-calling with allowlist, dry-run and approval binding",
+      "target_mode": "tool-calling",
+      "minimum_evidence": [
+        "agent/tool pair is allowlisted",
+        "risk level and side effect are declared",
+        "dry-run-first enforcement is active",
+        "approval binding exists for risky tools",
+        "tool injection negative tests pass"
+      ],
+      "required_tests": [
+        "tests/test_post_h_032_tool_calling_contract.py",
+        "tests/test_prompt_injection_guard.py",
+        "tests/test_policy_engine.py",
+        "tests/test_policy_engine_approval_rbac_enforcement.py",
+        "tests/test_approval_binding.py"
+      ],
+      "required_policies": [
+        "tool_call_policy",
+        "PolicyEngine",
+        "Approval/RBAC hardening"
+      ],
+      "blocked_until": "POST-H-032-F tool calling contract closes",
+      "allowed_provider_modes": ["mock", "local_llm_opt_in"],
+      "external_api_allowed": false,
+      "memory_enabled_by_default": false,
+      "source_mutation_allowed": false
+    },
+    {
+      "criteria_id": "multiagent-supervised-handoff",
+      "title": "Multiagent supervised handoff without swarm autonomy",
+      "target_mode": "multiagent",
+      "minimum_evidence": [
+        "handoff reason/source/target are explicit",
+        "supervisor deterministic gate can block",
+        "human checkpoint exists for risky actions",
+        "child agents do not inherit tools outside their scope"
+      ],
+      "required_tests": [
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py",
+        "tests/test_agentops_gate.py",
+        "tests/test_agentops_instrumentation.py"
+      ],
+      "required_policies": [
+        "multiagent_handoff_policy",
+        "PolicyEngine",
+        "Approval binding"
+      ],
+      "blocked_until": "POST-H-032-H multiagent handoff hardening closes",
+      "allowed_provider_modes": ["mock", "local_llm_opt_in"],
+      "external_api_allowed": false,
+      "memory_enabled_by_default": false,
+      "source_mutation_allowed": false
+    }
+  ],
+  "global_no_go_gates": [
+    {
+      "gate_id": "external-api-disabled-by-default",
+      "title": "External APIs remain disabled by default",
+      "severity": "critical",
+      "condition": "Any agent/provider can call OpenAI/Gemini/Mistral/HF or other external APIs without explicit future ADR and local opt-in.",
+      "default_state": "pass",
+      "owner": "POST-H-032-C",
+      "verification": "external_api_allowed_total == 0 and external_api_default_enabled == false"
+    },
+    {
+      "gate_id": "memory-disabled-by-default",
+      "title": "Agent memory remains disabled by default",
+      "severity": "critical",
+      "condition": "Any agent persists semantic/session/project memory by default before POST-H-032-E ADR/policy.",
+      "default_state": "pass",
+      "owner": "POST-H-032-E",
+      "verification": "memory_enabled_total == 0 and memory_default_enabled == false"
+    },
+    {
+      "gate_id": "no-source-mutation-without-approval",
+      "title": "Source mutation requires explicit approval and dry-run evidence",
+      "severity": "critical",
+      "condition": "Any agent can write versioned source without policy decision, scoped approval and dry-run evidence.",
+      "default_state": "pass",
+      "owner": "POST-H-032-F",
+      "verification": "source_mutation_allowed_total == 0 or all source mutations require approval"
+    },
+    {
+      "gate_id": "no-remote-connector-plugin-execution",
+      "title": "Remote execution, connector write and plugin execution remain blocked",
+      "severity": "critical",
+      "condition": "Any agent enables remote execution, connector write or plugin code execution in POST-H-032-A.",
+      "default_state": "pass",
+      "owner": "POST-H-032-A",
+      "verification": "remote_execution_enabled_total == connector_write_enabled_total == plugin_execution_enabled_total == 0"
+    },
+    {
+      "gate_id": "deterministic-gates-not-replaced-by-llm",
+      "title": "Deterministic gates remain authoritative",
+      "severity": "critical",
+      "condition": "LLM/RAG/memory output replaces schema, policy, readiness, claims or quality-gate PASS/BLOCK decisions.",
+      "default_state": "pass",
+      "owner": "POST-H-032-A",
+      "verification": "pass_block_decision_must_remain_deterministic agents are marked advisory-only for model use"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "external_api_default_enabled": false,
+    "memory_default_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "source_mutations_performed": false,
+    "llm_judge_used": false
+  },
+  "notes": [
+    "POST-H-032-A formalizes promotion criteria only; it does not enable LLM, RAG, memory, tools, MCP or multiagent autonomy.",
+    "Later POST-H-032 micro-sprints must add their own schemas, tests, negative cases and gates before any promotion becomes executable.",
+    "External API provider pilots require ADR and remain disabled by default."
+  ]
+}

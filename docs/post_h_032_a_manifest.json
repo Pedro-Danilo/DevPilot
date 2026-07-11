@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-032-a-agent-capability-inventory",
+  "created_by": "POST-H-032-A",
+  "status": "implemented-initial",
+  "sprint": "POST-H-032-A",
+  "title": "POST-H-032-A - Agent capability inventory and promotion criteria",
+  "generated_at_utc": "2026-07-11T00:00:00Z",
+  "summary": "Approves POST-H-032 and adds a local read-only governed agent capability inventory plus promotion criteria for deterministic, model-aware, RAG-aware, memory-aware, tool-calling and multiagent maturity paths.",
+  "commands": [
+    "python -m devpilot_core agent capability-inventory --json",
+    "python -m devpilot_core agent capability-inventory --json --write-report",
+    "python -m devpilot_core schema validate --schema-id AgentCapabilityInventory --instance .devpilot/agents/agent_capability_inventory.json --json",
+    "python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json"
+  ],
+  "tests": [
+    "tests/test_post_h_032_agent_capability_inventory.py",
+    "tests/test_agent_runtime.py",
+    "tests/test_agent_runtime_v2.py",
+    "tests/test_sdlc_agents.py",
+    "tests/test_miasi_registry.py",
+    "tests/test_miasi_semantic_validator.py",
+    "tests/test_schema_registry.py"
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run_default": true,
+    "agents_executed": false,
+    "tools_executed": false,
+    "models_called": false,
+    "rag_executed": false,
+    "memory_read": false,
+    "memory_written": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "llm_judge_used": false
+  },
+  "limitations": [
+    "Implemented-initial inventory/promotion governance only; it does not enable new runtime agent autonomy.",
+    "LLM, RAG, memory, tool calling, MCP and multiagent promotions require later POST-H-032 micro-sprints and negative tests.",
+    "External API provider usage remains disabled by default and requires a later ADR/pilot."
+  ],
+  "next_micro_sprint": "POST-H-032-B",
+  "updated": "2026-07-11",
+  "preliminary": true,
+  "post_h_id": "POST-H-032",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-11",
+  "created_files": [
+    "docs/schemas/agent_capability_inventory.schema.json",
+    "docs/schemas/agent_promotion_criteria.schema.json",
+    ".devpilot/agents/agent_capability_inventory.json",
+    ".devpilot/agents/agent_promotion_criteria.json",
+    "src/devpilot_core/agents/capability_inventory.py",
+    "tests/test_post_h_032_agent_capability_inventory.py",
+    "docs/audits/post_h_032_a_agent_capability_inventory_report.md",
+    "docs/post_h_032_a_manifest.json",
+    "docs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
+  ],
+  "modified_files": [
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    ".devpilot/cli_registry/command_ownership_matrix.json",
+    ".devpilot/cli_registry/cli_extraction_plan.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_post_h_006_b_declarative_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "verification_commands": [
+    "python -m devpilot_core agent capability-inventory --json",
+    "python -m devpilot_core agent capability-inventory --json --write-report",
+    "python -m devpilot_core schema validate --schema-id AgentCapabilityInventory --instance .devpilot/agents/agent_capability_inventory.json --json",
+    "python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json"
+  ],
+  "pass_criteria": [
+    "All MIASI agents appear in the inventory.",
+    "Implemented agents have implementation modules and focal tests.",
+    "Agents with tools declare allowlists and all allowlisted tools exist in MIASI Tool Registry.",
+    "LLM/model-aware agents declare provider modes while mock remains default and external APIs remain disabled.",
+    "RAG candidates declare groundedness eval requirements while rag_enabled remains false in POST-H-032-A.",
+    "Memory candidates declare policy requirements while memory_enabled remains false in POST-H-032-A.",
+    "No agent has external_api_allowed, connector_write_enabled, plugin_execution_enabled, remote_execution_enabled or source_mutation_allowed by default."
+  ],
+  "block_criteria": [
+    "Implemented agent without owner/risk/module/tests.",
+    "Tool allowlist references unknown MIASI tools.",
+    "External API enabled by default.",
+    "Memory enabled by default before POST-H-032-E ADR/policy.",
+    "Source mutation allowed without approval.",
+    "Remote execution, connector write or plugin execution enabled."
+  ],
+  "risks": [
+    "Agent inventory can become stale if MIASI agent registry changes without regenerating POST-H-032-A artifacts.",
+    "Promotion targets are advisory until later POST-H-032 micro-sprints add executable gates.",
+    "Tool allowlists are classified but tool-call execution enforcement remains POST-H-032-F scope."
+  ],
+  "next_sprint": "POST-H-032-B"
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/agent_promotion_criteria.schema.json",
+  "title": "DevPilot AgentPromotionCriteria v1",
+  "description": "POST-H-032-A promotion criteria and no-go gates for safely evolving DevPilot agents without enabling autonomy by default.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "criteria_id",
+    "created_by",
+    "status",
+    "updated_at",
+    "scope",
+    "promotion_paths",
+    "global_no_go_gates",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1"},
+    "criteria_id": {"const": "devpilot-agent-promotion-criteria"},
+    "created_by": {"const": "POST-H-032-A"},
+    "status": {"enum": ["implemented-initial", "blocked"]},
+    "updated_at": {"type": "string", "minLength": 10},
+    "scope": {"type": "string", "minLength": 1},
+    "promotion_paths": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/promotion_path"}},
+    "global_no_go_gates": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/no_go_gate"}},
+    "safety": {"$ref": "#/$defs/safety"},
+    "notes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "promotion_path": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criteria_id", "title", "target_mode", "minimum_evidence", "required_tests", "required_policies", "blocked_until", "allowed_provider_modes", "external_api_allowed", "memory_enabled_by_default", "source_mutation_allowed"],
+      "properties": {
+        "criteria_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "target_mode": {"enum": ["deterministic", "rule-based", "model-aware", "rag-aware", "memory-aware", "tool-calling", "multiagent"]},
+        "minimum_evidence": {"type": "array", "items": {"type": "string"}},
+        "required_tests": {"type": "array", "items": {"type": "string"}},
+        "required_policies": {"type": "array", "items": {"type": "string"}},
+        "blocked_until": {"type": "string"},
+        "allowed_provider_modes": {"type": "array", "minItems": 1, "items": {"enum": ["mock", "local_llm_opt_in"]}},
+        "external_api_allowed": {"const": false},
+        "memory_enabled_by_default": {"const": false},
+        "source_mutation_allowed": {"const": false}
+      }
+    },
+    "no_go_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "title", "severity", "condition", "default_state", "owner", "verification"],
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "severity": {"enum": ["warning", "block", "critical"]},
+        "condition": {"type": "string", "minLength": 1},
+        "default_state": {"enum": ["pass", "block"]},
+        "owner": {"type": "string", "minLength": 1},
+        "verification": {"type": "string", "minLength": 1}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_first", "read_only", "external_api_default_enabled", "memory_default_enabled", "connector_write_enabled", "plugin_execution_enabled", "remote_execution_enabled", "source_mutations_performed", "llm_judge_used"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "external_api_default_enabled": {"const": false},
+        "memory_default_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "llm_judge_used": {"const": false}
+      }
+    }
+  }
+}

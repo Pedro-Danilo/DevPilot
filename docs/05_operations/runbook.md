@@ -11171,3 +11171,38 @@ Los reportes y paquetes bajo `outputs/` son evidencia runtime regenerable y no d
 
 
 Siguiente hito: `POST-H-032`
+
+## POST-H-032-A — Agent capability inventory and promotion criteria
+
+Estado operativo: `implemented-initial/read-only`. Este procedimiento valida el inventario de capacidades de agentes y sus criterios de promoción sin ejecutar agentes ni proveedores LLM.
+
+### Verificación rápida
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core agent capability-inventory --json
+python -m devpilot_core schema validate --schema-id AgentCapabilityInventory --instance .devpilot/agents/agent_capability_inventory.json --json
+python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json
+```
+
+### Reporte opcional
+
+```powershell
+python -m devpilot_core agent capability-inventory --json --write-report
+```
+
+El reporte opcional se escribe bajo `outputs/reports/` y no debe versionarse en ZIPs limpios.
+
+### No-go gates preservados
+
+- APIs externas disabled por defecto.
+- Memoria disabled por defecto.
+- Sin ejecución remota.
+- Sin connector write.
+- Sin plugin execution.
+- Sin mutaciones de fuente por agentes.
+- Los validadores determinísticos siguen siendo autoridad para PASS/BLOCK.
+
+### Evolución pendiente
+
+POST-H-032-A es inventario y criterios. No habilita runtime nuevo. Los siguientes micro-sprints deben implementar hardening de providers locales, API externa gated, RAG-aware agents, memoria opt-in, tool calling contractual, MCP fake-server y hardening de handoffs multiagente.

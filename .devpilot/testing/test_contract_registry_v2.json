@@ -14652,6 +14652,131 @@
       "schema_ids": [
         "SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1"
       ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-A",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-A local-first/read-only governed agent inventory and promotion criteria contract."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "agent-capability-inventory",
+      "contract_id": "post-h-032-agent-capability-inventory",
+      "source_contract_id": "post-h-032-agent-capability-inventory",
+      "domain": "agentic.runtime",
+      "capability": "AgentCapabilityInventory source-controlled inventory and CLI/ApplicationService projection",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/agents/capability_inventory.py",
+        "docs/schemas/agent_capability_inventory.schema.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/miasi/agent_registry.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json"
+      ],
+      "validates": [
+        "AgentCapabilityInventory",
+        "agent capability-inventory CLI",
+        "ApplicationService.agent_capability_inventory",
+        "all MIASI agents covered",
+        "unsafe defaults disabled"
+      ],
+      "trigger_hints": [
+        "POST-H-032-A",
+        "agent capability inventory",
+        "agent promotion criteria"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "governance.miasi",
+        "governance.schemas",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-A",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-A local-first/read-only governed agent inventory and promotion criteria contract."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "agent-promotion-criteria",
+      "contract_id": "post-h-032-agent-promotion-criteria",
+      "source_contract_id": "post-h-032-agent-promotion-criteria",
+      "domain": "agentic.runtime",
+      "capability": "AgentPromotionCriteria no-go gates for controlled agent maturity promotion",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/agent_promotion_criteria.schema.json",
+        ".devpilot/agents/agent_promotion_criteria.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "AgentPromotionCriteria",
+        "external API disabled by default",
+        "memory disabled by default",
+        "remote/connector/plugin disabled by default",
+        "deterministic gates not replaced by LLM"
+      ],
+      "trigger_hints": [
+        "POST-H-032-A",
+        "agent capability inventory",
+        "agent promotion criteria"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "governance.miasi",
+        "governance.schemas",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1"
+      ]
     }
   ],
   "migration_metadata": {

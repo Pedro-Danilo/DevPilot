@@ -5769,28 +5769,28 @@
       ]
     },
     {
-      "doc_id": "POST-H-025-B-PRODUCTION-READY-MODULE",
-      "path": "src/devpilot_core/industrial/production_ready.py",
       "classification": "machine-readable-source",
       "domain": "production-ready-local",
-      "owner": "POST-H-025-B",
+      "owner": "POST-H-025-E",
       "status_required": "implemented-initial",
       "criticality": "P0",
       "frontmatter_required": false,
-      "required_tests": [
-        "tests/test_post_h_025_production_ready_aggregator.py"
-      ],
-      "sync_rules": [
-        "read_only_aggregation",
-        "no_report_write",
-        "no_production_claim"
-      ],
       "roadmap_milestones": [
         "POST-H-025"
       ],
       "lifecycle": "active",
+      "doc_id": "POST-H-025-E-PRODUCTION-READY-FINAL-MODULE",
+      "path": "src/devpilot_core/industrial/production_ready.py",
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_final_declaration.py"
+      ],
+      "sync_rules": [
+        "final_declaration",
+        "pass_block_report",
+        "no_overclaim_claims"
+      ],
       "notes": [
-        "Read-only evidence aggregation module for production-ready-local gate."
+        "Production-ready-local final declaration module for POST-H-025-E."
       ]
     },
     {
@@ -5905,31 +5905,6 @@
       ]
     },
     {
-      "classification": "machine-readable-source",
-      "domain": "production-ready-local",
-      "owner": "POST-H-025-C",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "roadmap_milestones": [
-        "POST-H-025"
-      ],
-      "lifecycle": "active",
-      "doc_id": "POST-H-025-C-PRODUCTION-READY-GATE-MODULE",
-      "path": "src/devpilot_core/industrial/production_ready.py",
-      "required_tests": [
-        "tests/test_post_h_025_production_ready_declaration_gate.py"
-      ],
-      "sync_rules": [
-        "declaration_gate_cli_api",
-        "schema_valid_report",
-        "no_overclaim_claims"
-      ],
-      "notes": [
-        "Production-ready-local declaration gate module for POST-H-025-C."
-      ]
-    },
-    {
       "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-D",
@@ -6007,31 +5982,6 @@
       ]
     },
     {
-      "classification": "machine-readable-source",
-      "domain": "production-ready-local",
-      "owner": "POST-H-025-D",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "roadmap_milestones": [
-        "POST-H-025"
-      ],
-      "lifecycle": "active",
-      "doc_id": "POST-H-025-D-PRODUCTION-READY-CLAIMS-VALIDATOR-MODULE",
-      "path": "src/devpilot_core/industrial/production_ready.py",
-      "required_tests": [
-        "tests/test_post_h_025_production_ready_claims_validator.py"
-      ],
-      "sync_rules": [
-        "claims_validator",
-        "no_go_gates",
-        "no_overclaim_claims"
-      ],
-      "notes": [
-        "Production-ready-local no-go claims validator module for POST-H-025-D."
-      ]
-    },
-    {
       "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-E",
@@ -6106,31 +6056,6 @@
       ],
       "notes": [
         "Machine-readable manifest for POST-H-025-E."
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "domain": "production-ready-local",
-      "owner": "POST-H-025-E",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "roadmap_milestones": [
-        "POST-H-025"
-      ],
-      "lifecycle": "active",
-      "doc_id": "POST-H-025-E-PRODUCTION-READY-FINAL-MODULE",
-      "path": "src/devpilot_core/industrial/production_ready.py",
-      "required_tests": [
-        "tests/test_post_h_025_production_ready_final_declaration.py"
-      ],
-      "sync_rules": [
-        "final_declaration",
-        "pass_block_report",
-        "no_overclaim_claims"
-      ],
-      "notes": [
-        "Production-ready-local final declaration module for POST-H-025-E."
       ]
     },
     {
@@ -9465,6 +9390,257 @@
       "notes": [
         "Focal tests for redacted evidence export UX, schema, CLI, ApplicationService and API route."
       ]
+    },
+    {
+      "doc_id": "POST-H-032-BACKLOG",
+      "path": "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Approved executable backlog for POST-H-032."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-IMPLEMENTATION",
+      "path": "docs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Top-level POST-H-032 implementation tracker."
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1",
+      "path": "docs/schemas/agent_capability_inventory.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "Ordóñez",
+      "status_required": "registered",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/agents/agent_capability_inventory.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema for POST-H-032-A AgentCapabilityInventory."
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1",
+      "path": "docs/schemas/agent_promotion_criteria.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "Ordóñez",
+      "status_required": "registered",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/agents/agent_promotion_criteria.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema for POST-H-032-A AgentPromotionCriteria."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-A-AGENT-CAPABILITY-INVENTORY",
+      "path": ".devpilot/agents/agent_capability_inventory.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/schemas/agent_capability_inventory.schema.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Source-controlled inventory of governed agents and promotion candidates."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-A-AGENT-PROMOTION-CRITERIA",
+      "path": ".devpilot/agents/agent_promotion_criteria.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/schemas/agent_promotion_criteria.schema.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Source-controlled agent promotion criteria and no-go gates."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-A-CAPABILITY-INVENTORY-MODULE",
+      "path": "src/devpilot_core/agents/capability_inventory.py",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/agents/agent_capability_inventory.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Builder module for AgentCapabilityInventory."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-A-AGENT-CAPABILITY-INVENTORY-REPORT",
+      "path": "docs/audits/post_h_032_a_agent_capability_inventory_report.md",
+      "classification": "source-of-truth",
+      "domain": "agentic.runtime",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/post_h_032_a_manifest.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit report for POST-H-032-A."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-A-MANIFEST",
+      "path": "docs/post_h_032_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "agentic.runtime",
+      "owner": "POST-H-032-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        "docs/audits/post_h_032_a_agent_capability_inventory_report.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable manifest for POST-H-032-A."
+      ]
+    },
+    {
+      "doc_id": "POST-H-032-A-AGENT-CAPABILITY-INVENTORY-TEST",
+      "path": "tests/test_post_h_032_agent_capability_inventory.py",
+      "classification": "source-of-truth",
+      "domain": "quality.tests",
+      "owner": "POST-H-032-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-032-A"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focal tests for POST-H-032-A inventory, criteria, CLI and ApplicationService."
+      ]
     }
   ],
   "rules": {
@@ -9538,28 +9714,28 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 399,
-    "source_of_truth_total": 157,
-    "machine_readable_source_total": 184,
+    "documents_total": 406,
+    "source_of_truth_total": 162,
+    "machine_readable_source_total": 186,
     "derived_total": 58,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 304,
+    "critical_sources_total": 311,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 399,
+    "documents_with_required_tests_total": 406,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-031-E",
+    "last_updated_by": "POST-H-032-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-031-E",
-    "last_registered_sprint": "POST-H-031-E"
+    "updated_by": "POST-H-032-A",
+    "last_registered_sprint": "POST-H-032-A"
   },
   "safety": {
     "local_first": true,
@@ -9673,7 +9849,7 @@
     "last_functional_sprint": "FUNC-SPRINT-99",
     "next_sprint": "POST-H-032",
     "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-    "current_repo": "repo_DevPilot_Local_293_POST_H_031_E.zip",
+    "current_repo": "repo_DevPilot_Local_294_POST_H_032_A.zip",
     "global_state_owner": "tests/test_project_global_state.py",
     "mutable_global_state_fields": [
       "last_completed_sprint",
@@ -9937,10 +10113,11 @@
       "POST-H-031-C adds GapActionMap as implemented-initial: schema, declarative rules, builder, ApplicationService method, protected API route and evidence gaps CLI map evidence/operator gaps to safe verifiable actions without executing commands, reading secrets, using network/external APIs or relaxing no-go gates.",
       "POST-H-031-D adds ClaimsNoGoDashboard as implemented-initial: schema, config, builder, ApplicationService method, protected API route and evidence claims-dashboard CLI show allowed/conditioned/prohibited claims, no-go gates and deterministic overclaim scan without mutating claims/gates, reading secrets, using network/external APIs or replacing formal quality gates.",
       "POST-H-031-E adds OperatorEvidenceExport as implemented-initial: a redacted operator/auditor evidence package with manifest, checksums and interpretation instructions; --redacted is mandatory, dry-run writes no files, and --write-report writes only under outputs/ without exporting secrets, .env, SQLite DB bytes, raw prompts or raw outputs.",
-      "POST-H-031 closes Observabilidad, evidence graph y operador as implemented-initial/local-first/redacted-export: evidence graph, operator health, gap action map, claims/no-go dashboard and redacted operator evidence export are available without exposing secrets, raw payloads, .env files, SQLite DBs, network, external APIs or replacing formal quality gates."
+      "POST-H-031 closes Observabilidad, evidence graph y operador as implemented-initial/local-first/redacted-export: evidence graph, operator health, gap action map, claims/no-go dashboard and redacted operator evidence export are available without exposing secrets, raw payloads, .env files, SQLite DBs, network, external APIs or replacing formal quality gates.",
+      "POST-H-032-A starts Agentes IA avanzados as implemented-initial/read-only: AgentCapabilityInventory and AgentPromotionCriteria classify MIASI agents, risks, tools, eval coverage and promotion gates without executing agents, models, tools, RAG, memory, MCP, external APIs or source mutations."
     ],
-    "current_micro_sprint": "POST-H-031-E",
-    "next_micro_sprint": "POST-H-032-A",
+    "current_micro_sprint": "POST-H-032-A",
+    "next_micro_sprint": "POST-H-032-B",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -10715,6 +10892,49 @@
     "post_h_031_operator_evidence_export_source_mutations": false,
     "post_h_031_operator_evidence_export_raw_payloads_exported": false,
     "post_h_031_operator_evidence_export_devpilot_db_exported": false,
-    "post_h_031_operator_evidence_export_replaces_quality_gates": false
+    "post_h_031_operator_evidence_export_replaces_quality_gates": false,
+    "post_h_032_status": "active/agent-capability-inventory-implemented-initial",
+    "post_h_032_backlog_approved": true,
+    "post_h_032_current_micro_sprint": "POST-H-032-A",
+    "post_h_032_next_micro_sprint": "POST-H-032-B",
+    "post_h_032_agent_capability_inventory_schema_registered": true,
+    "post_h_032_agent_promotion_criteria_schema_registered": true,
+    "post_h_032_agent_capability_inventory_available": true,
+    "post_h_032_agent_promotion_criteria_available": true,
+    "post_h_032_agent_capability_inventory_path": ".devpilot/agents/agent_capability_inventory.json",
+    "post_h_032_agent_promotion_criteria_path": ".devpilot/agents/agent_promotion_criteria.json",
+    "post_h_032_agent_capability_inventory_module": "src/devpilot_core/agents/capability_inventory.py",
+    "post_h_032_agent_capability_inventory_cli_command": "python -m devpilot_core agent capability-inventory --json",
+    "post_h_032_agent_capability_inventory_application_service_method": "ApplicationService.agent_capability_inventory",
+    "post_h_032_agent_capability_inventory_report_output_path": "outputs/reports/agent_capability_inventory.json",
+    "post_h_032_agent_capability_inventory_report_markdown_path": "outputs/reports/agent_capability_inventory.md",
+    "post_h_032_agent_capability_inventory_reports_opt_in": true,
+    "post_h_032_agents_total": 14,
+    "post_h_032_implemented_agents_total": 13,
+    "post_h_032_future_agents_total": 1,
+    "post_h_032_tools_total": 97,
+    "post_h_032_model_aware_candidates_total": 10,
+    "post_h_032_rag_candidates_total": 8,
+    "post_h_032_memory_candidates_total": 2,
+    "post_h_032_rag_enabled_total": 0,
+    "post_h_032_memory_enabled_total": 0,
+    "post_h_032_external_api_allowed_total": 0,
+    "post_h_032_external_api_default_enabled": false,
+    "post_h_032_memory_default_enabled": false,
+    "post_h_032_remote_execution_enabled": false,
+    "post_h_032_connector_write_enabled": false,
+    "post_h_032_plugin_execution_enabled": false,
+    "post_h_032_source_mutations_runtime": false,
+    "post_h_032_agents_executed": false,
+    "post_h_032_tools_executed": false,
+    "post_h_032_models_called": false,
+    "post_h_032_rag_executed": false,
+    "post_h_032_memory_read": false,
+    "post_h_032_memory_written": false,
+    "post_h_032_tests_executed_by_inventory": false,
+    "post_h_032_llm_judge_used": false,
+    "post_h_032_no_go_gates_declared": true,
+    "post_h_032_deterministic_gates_preserved": true,
+    "post_h_032_next_provider_hardening": "POST-H-032-B"
   }
 }

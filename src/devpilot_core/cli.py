@@ -1691,6 +1691,38 @@ def agent_session_inspect_command(
 
 
 
+def agent_capability_inventory_command(
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+    agent_registry: str = ".devpilot/miasi/agent_registry.json",
+    tool_registry: str = ".devpilot/miasi/tool_registry.json",
+    policy_matrix: str = ".devpilot/miasi/policy_matrix.json",
+    inventory: str = ".devpilot/agents/agent_capability_inventory.json",
+    criteria: str = ".devpilot/agents/agent_promotion_criteria.json",
+    output_json: str = "outputs/reports/agent_capability_inventory.json",
+    output_markdown: str = "outputs/reports/agent_capability_inventory.md",
+) -> int:
+    """Build POST-H-032-A agent capability inventory without executing agents."""
+
+    root = project_root()
+    app = ApplicationService(root)
+    result = app.agent_capability_inventory(
+        agent_registry_path=agent_registry,
+        tool_registry_path=tool_registry,
+        policy_matrix_path=policy_matrix,
+        inventory_path=inventory,
+        promotion_criteria_path=criteria,
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+    )
+    _emit_result_event(root, result, subject="agent-capability-inventory")
+    _persist_result(root, result, subject="agent-capability-inventory")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 
 def multiagent_run_command(
     *,
@@ -6729,6 +6761,17 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
     agent_run.add_argument("--session-id", default=None, help="Optional existing AgentSession id; omitted creates a new local session")
 
+    agent_capability = agent_sub.add_parser("capability-inventory", help="Build POST-H-032-A governed agent capability inventory")
+    agent_capability.add_argument("--agent-registry", default=".devpilot/miasi/agent_registry.json", help="MIASI agent registry path")
+    agent_capability.add_argument("--tool-registry", default=".devpilot/miasi/tool_registry.json", help="MIASI tool registry path")
+    agent_capability.add_argument("--policy-matrix", default=".devpilot/miasi/policy_matrix.json", help="MIASI policy matrix path")
+    agent_capability.add_argument("--inventory", default=".devpilot/agents/agent_capability_inventory.json", help="Source-controlled inventory path")
+    agent_capability.add_argument("--criteria", default=".devpilot/agents/agent_promotion_criteria.json", help="Agent promotion criteria path")
+    agent_capability.add_argument("--output-json", default="outputs/reports/agent_capability_inventory.json", help="Optional report JSON path under outputs/")
+    agent_capability.add_argument("--output-markdown", default="outputs/reports/agent_capability_inventory.md", help="Optional report Markdown path under outputs/")
+    agent_capability.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    agent_capability.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown report under outputs/")
+
     agent_session = agent_sub.add_parser("session", help="Inspect local AgentSession state")
     agent_session_sub = agent_session.add_subparsers(dest="agent_session_command")
     agent_session_inspect = agent_session_sub.add_parser("inspect", help="Inspect one local AgentSession by id")
@@ -8146,6 +8189,18 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
                 session_id=args.session_id,
+            )
+        if args.agent_command == "capability-inventory":
+            return agent_capability_inventory_command(
+                json_output=args.json,
+                write_report=args.write_report,
+                agent_registry=args.agent_registry,
+                tool_registry=args.tool_registry,
+                policy_matrix=args.policy_matrix,
+                inventory=args.inventory,
+                criteria=args.criteria,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
             )
         if args.agent_command == "session":
             if getattr(args, "agent_session_command", None) == "inspect":

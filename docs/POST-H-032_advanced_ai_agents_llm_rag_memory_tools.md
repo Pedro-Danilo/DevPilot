@@ -1,5 +1,5 @@
 ---
-doc_id: POST-H-032-BACKLOG
+doc_id: POST-H-032-IMPLEMENTATION
 title: "POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools"
 status: approved
 version: 1.0.0

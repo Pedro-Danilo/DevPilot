@@ -1,6 +1,15 @@
 """Local/mock DevPilot agent runtime."""
 
 from .base import ModelAwareAgent
+from .capability_inventory import (
+    AGENT_CAPABILITY_INVENTORY_COMMAND,
+    AGENT_CAPABILITY_INVENTORY_CONTRACT,
+    AGENT_CAPABILITY_INVENTORY_SCHEMA_ID,
+    AGENT_PROMOTION_CRITERIA_CONTRACT,
+    AGENT_PROMOTION_CRITERIA_SCHEMA_ID,
+    AgentCapabilityInventoryBuilder,
+    AgentCapabilityInventoryOptions,
+)
 from .code_review_agent import CodeReviewAgent
 from .patch_review_agent import PatchReviewAgent
 from .safe_refactor_agent import SafeRefactorAgent
@@ -15,6 +24,13 @@ from .session import AgentSession, AgentSessionEvent, AgentSessionInspectOptions
 from .security_agent import SecurityAgent
 
 __all__ = [
+    "AGENT_CAPABILITY_INVENTORY_COMMAND",
+    "AGENT_CAPABILITY_INVENTORY_CONTRACT",
+    "AGENT_CAPABILITY_INVENTORY_SCHEMA_ID",
+    "AGENT_PROMOTION_CRITERIA_CONTRACT",
+    "AGENT_PROMOTION_CRITERIA_SCHEMA_ID",
+    "AgentCapabilityInventoryBuilder",
+    "AgentCapabilityInventoryOptions",
     "AgentMessage",
     "AgentModelCall",
     "AgentRunResult",

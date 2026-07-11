@@ -220,6 +220,42 @@ class ApplicationService:
             ),
         ).build()
 
+
+    def agent_capability_inventory(
+        self,
+        *,
+        agent_registry_path: str = ".devpilot/miasi/agent_registry.json",
+        tool_registry_path: str = ".devpilot/miasi/tool_registry.json",
+        policy_matrix_path: str = ".devpilot/miasi/policy_matrix.json",
+        inventory_path: str = ".devpilot/agents/agent_capability_inventory.json",
+        promotion_criteria_path: str = ".devpilot/agents/agent_promotion_criteria.json",
+        write_report: bool = False,
+        output_json: str = "outputs/reports/agent_capability_inventory.json",
+        output_markdown: str = "outputs/reports/agent_capability_inventory.md",
+    ) -> CommandResult:
+        """Build the POST-H-032-A governed agent capability inventory.
+
+        The inventory is read-only over runtime behavior: it classifies MIASI
+        agents, allowlisted tools, risk levels, promotion candidates and no-go
+        gates without executing agents, tools, providers, RAG or memory.
+        """
+
+        from devpilot_core.agents import AgentCapabilityInventoryBuilder, AgentCapabilityInventoryOptions
+
+        return AgentCapabilityInventoryBuilder(
+            self.root,
+            AgentCapabilityInventoryOptions(
+                agent_registry_path=Path(agent_registry_path),
+                tool_registry_path=Path(tool_registry_path),
+                policy_matrix_path=Path(policy_matrix_path),
+                inventory_path=Path(inventory_path),
+                promotion_criteria_path=Path(promotion_criteria_path),
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)
@@ -880,6 +916,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("maturity.dashboard", "Generate the local POST-H maturity dashboard from evidence.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity dashboard --json"),
         ("maturity.dashboard_gate", "Run the POST-H-002 maturity dashboard quality gate.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity gate --json"),
         ("operator.dashboard", "Build the local operator dashboard snapshot through ApplicationService.", "read_only_optional_outputs_reports", True, "GET /api/v1/operator/dashboard"),
+        ("agent.capability_inventory", "Build the POST-H-032-A governed agent capability inventory through ApplicationService.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent capability-inventory --json"),
         ("portfolio.status", "Build hardened registered-workspace portfolio status through ApplicationService.", "read_only", True, "python -m devpilot_core portfolio status --json / GET /api/v1/portfolio/status"),
     ]
     return [
