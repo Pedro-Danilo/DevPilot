@@ -1,3 +1,11 @@
+## POST-H-033-B — Frontmatter schema-backed validator
+
+- Added `FrontmatterMetadata` schema and `.devpilot/validation/frontmatter_catalog.json`.
+- Added `src/devpilot_core/validators/frontmatter_catalog.py` and integrated `validators/frontmatter.py` with catalog-first validation plus safe fallback.
+- Preserved dependency-free parser, finding IDs, historical severities and strict/non-strict behavior.
+- Added focal tests, source registry entries, schema catalog registration, TCR v1/v2, project_state, README and runbook updates.
+- No LLM judge, external dependency, network, API, plugin, connector, remote execution or source mutation was introduced.
+
 ## POST-H-033-A — Validator inventory and migration plan
 
 - Approved POST-H-033 schema-backed validators backlog.

@@ -8402,6 +8402,35 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_validator_inventory_migration_plan.py tests/test_schema_registry.py tests/test_validation_gateway.py tests/test_project_global_state.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-033-frontmatter-schema-backed-validator",
+      "scope": "integration",
+      "owner": "POST-H-033-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "validates": [
+        ".devpilot/validation/frontmatter_catalog.json",
+        "docs/schemas/frontmatter_metadata.schema.json",
+        "src/devpilot_core/validators/frontmatter_catalog.py",
+        "src/devpilot_core/validators/frontmatter.py"
+      ],
+      "watched_paths": [
+        ".devpilot/validation/frontmatter_catalog.json",
+        "docs/schemas/frontmatter_metadata.schema.json",
+        "src/devpilot_core/validators/frontmatter_catalog.py",
+        "src/devpilot_core/validators/frontmatter.py",
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_frontmatter_schema_backed_validator.py tests/test_frontmatter_validator.py tests/test_artifact_validator.py tests/test_documentation_governance_validator.py tests/test_schema_validator.py -q"
+      ]
     }
   ],
   "notes": [

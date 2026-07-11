@@ -1,3 +1,17 @@
+## POST-H-033-B — Frontmatter schema-backed validator
+
+POST-H-033-B agrega el schema `FrontmatterMetadata`, el catálogo `.devpilot/validation/frontmatter_catalog.json`, el módulo `src/devpilot_core/validators/frontmatter_catalog.py` y la integración progresiva con `src/devpilot_core/validators/frontmatter.py`. El parser sigue en Python y sin dependencia YAML externa; las reglas configurables de campos requeridos, statuses, regex y severidades quedan versionadas en catálogo.
+
+Estado: `implemented-initial`. La versión conserva compatibilidad de hallazgos y severidades históricas mediante fallback temporal seguro. No usa LLM judge, red, APIs externas, remote execution, connector write, plugin execution ni mutaciones de fuente. Las reglas críticas no son desactivables por configuración local sin ADR/backlog.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_frontmatter_schema_backed_validator.py -q
+python -m devpilot_core schema validate --schema-id FrontmatterMetadata --instance .devpilot\validation\frontmatter_catalog.json --json
+```
+
 ## POST-H-033-A — Validator inventory and migration plan
 
 POST-H-033-A aprueba el backlog de validadores schema-backed y agrega el inventario machine-readable `.devpilot/validation/validator_inventory.json`, el plan `.devpilot/validation/validator_migration_plan.json`, los schemas `ValidatorInventory` y `ValidatorMigrationReport`, el módulo `src/devpilot_core/validation/validator_inventory.py` y pruebas focales.
@@ -9,8 +23,8 @@ Validación focal:
 ```powershell
 $env:PYTHONPATH="src"
 python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_validator_inventory_migration_plan.py -q
-python -m devpilot_core schema validate --schema-id ValidatorInventory --instance .devpilotalidationalidator_inventory.json --json
-python -m devpilot_core schema validate --schema-id ValidatorMigrationReport --instance .devpilotalidationalidator_migration_plan.json --json
+python -m devpilot_core schema validate --schema-id ValidatorInventory --instance .devpilot\validation\validator_inventory.json --json
+python -m devpilot_core schema validate --schema-id ValidatorMigrationReport --instance .devpilot\validation\validator_migration_plan.json --json
 ```
 
 ## POST-H-032-H — Multiagent handoff hardening
@@ -84,8 +98,7 @@ $env:PYTHONPATH="src"
 python -m devpilot_core agent memory inspect --json
 python -m devpilot_core agent memory export --json --write-report
 python -m devpilot_core agent memory cleanup --json
-python -m devpilot_core schema validate --schema-id AgentMemoryRecord --instance outputs
-eportsgent_memory_model_report.json --json
+python -m devpilot_core schema validate --schema-id AgentMemoryRecord --instance outputs\reports\agent_memory_model_report.json --json
 ```
 
 Estado: `implemented-initial / agent-memory-model`. La memoria semántica permanece `disabled` por defecto; no se persisten raw prompts, raw outputs ni secretos; no se usa almacenamiento externo; no se comparte memoria entre workspaces sin aprobación futura; cleanup es dry-run por defecto y export siempre redactado. Esta versión es una primera base industrial local-first: no implementa embeddings, vector memory, memoria compartida real ni uso de memoria para justificar claims formales.

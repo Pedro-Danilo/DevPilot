@@ -6,13 +6,23 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
+from devpilot_core.validators.frontmatter_catalog import (
+    FALLBACK_ALLOWED_STATUSES,
+    FALLBACK_DATE_PATTERN,
+    FALLBACK_DOC_ID_PATTERN,
+    FALLBACK_REQUIRED_FRONTMATTER_FIELDS,
+    FALLBACK_SEMVER_PATTERN,
+    DEFAULT_FRONTMATTER_CATALOG_PATH,
+    discover_frontmatter_catalog_root,
+    load_frontmatter_catalog,
+)
 
 
-REQUIRED_FRONTMATTER_FIELDS = ("title", "doc_id", "status", "version", "owner", "updated")
-ALLOWED_STATUSES = ("draft", "reviewed", "approved", "deprecated")
-SEMVER_PATTERN = re.compile(r"^\d+\.\d+\.\d+(?:[-+][A-Za-z0-9_.-]+)?$")
-DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-DOC_ID_PATTERN = re.compile(r"^[A-Z0-9][A-Z0-9_.-]*$")
+REQUIRED_FRONTMATTER_FIELDS = FALLBACK_REQUIRED_FRONTMATTER_FIELDS
+ALLOWED_STATUSES = FALLBACK_ALLOWED_STATUSES
+SEMVER_PATTERN = re.compile(FALLBACK_SEMVER_PATTERN)
+DATE_PATTERN = re.compile(FALLBACK_DATE_PATTERN)
+DOC_ID_PATTERN = re.compile(FALLBACK_DOC_ID_PATTERN)
 
 
 @dataclass(frozen=True)
@@ -120,10 +130,14 @@ def validate_frontmatter_document(
     *,
     root: Path | None = None,
     strict: bool = False,
+    catalog_path: Path = DEFAULT_FRONTMATTER_CATALOG_PATH,
 ) -> CommandResult:
-    """Validate frontmatter according to DevPilot's FUNC-SPRINT-02 rules."""
+    """Validate frontmatter using a schema-backed catalog with safe fallback."""
 
     path_str = _display_path(document.path, root)
+    catalog_root = discover_frontmatter_catalog_root(document.path, root)
+    catalog = load_frontmatter_catalog(catalog_root, catalog_path=catalog_path)
+    rule_metadata = catalog.metadata()
     findings: list[Finding] = []
 
     if not document.has_frontmatter:
@@ -131,8 +145,9 @@ def validate_frontmatter_document(
             Finding(
                 id="FRONTMATTER_MISSING",
                 message="Markdown document does not start with a valid frontmatter block.",
-                severity=Severity.FAIL,
+                severity=catalog.missing_frontmatter_severity,
                 path=path_str,
+                metadata=rule_metadata,
             )
         )
         return CommandResult(
@@ -145,6 +160,10 @@ def validate_frontmatter_document(
                 "has_frontmatter": False,
                 "fields": {},
                 "strict": strict,
+                "rule_source": catalog.rule_source,
+                "catalog_version": catalog.catalog_version,
+                "catalog_valid": catalog.catalog_valid,
+                "fallback_active": catalog.fallback_active,
             },
             findings=findings,
         )
@@ -156,13 +175,13 @@ def validate_frontmatter_document(
             Finding(
                 id="FRONTMATTER_PARSE_WARNING",
                 message=f"Unparsed frontmatter line: {metadata[key]}",
-                severity=Severity.WARNING,
+                severity=catalog.parse_warning_severity,
                 path=path_str,
-                metadata={"line_key": key},
+                metadata={"line_key": key, **rule_metadata},
             )
         )
 
-    for field_name in REQUIRED_FRONTMATTER_FIELDS:
+    for field_name in catalog.required_fields:
         value = metadata.get(field_name)
         if value is None or str(value).strip() == "":
             findings.append(
@@ -171,57 +190,34 @@ def validate_frontmatter_document(
                     message=f"Required frontmatter field is missing or empty: {field_name}",
                     severity=Severity.FAIL,
                     path=path_str,
-                    metadata={"field": field_name},
+                    metadata={"field": field_name, **rule_metadata},
                 )
             )
 
     status = str(metadata.get("status", "")).strip().lower()
-    if status and status not in ALLOWED_STATUSES:
+    if status and status not in catalog.allowed_statuses:
         findings.append(
             Finding(
                 id="FRONTMATTER_INVALID_STATUS",
-                message=f"Invalid status '{status}'. Allowed values: {', '.join(ALLOWED_STATUSES)}.",
+                message=f"Invalid status '{status}'. Allowed values: {', '.join(catalog.allowed_statuses)}.",
                 severity=Severity.FAIL,
                 path=path_str,
-                metadata={"field": "status", "value": status},
+                metadata={"field": "status", "value": status, **rule_metadata},
             )
         )
 
-    version = str(metadata.get("version", "")).strip()
-    if version and not SEMVER_PATTERN.match(version):
-        findings.append(
-            Finding(
-                id="FRONTMATTER_INVALID_VERSION",
-                message="Version must follow SemVer-like format, for example 1.0.0.",
-                severity=Severity.FAIL,
-                path=path_str,
-                metadata={"field": "version", "value": version},
+    for pattern_rule in catalog.pattern_rules:
+        value = str(metadata.get(pattern_rule.field, "")).strip()
+        if value and not pattern_rule.compiled.match(value):
+            findings.append(
+                Finding(
+                    id=pattern_rule.finding_id,
+                    message=pattern_rule.message,
+                    severity=pattern_rule.severity,
+                    path=path_str,
+                    metadata={"field": pattern_rule.field, "value": value, "pattern_id": pattern_rule.pattern_id, **rule_metadata},
+                )
             )
-        )
-
-    updated = str(metadata.get("updated", "")).strip()
-    if updated and not DATE_PATTERN.match(updated):
-        findings.append(
-            Finding(
-                id="FRONTMATTER_INVALID_UPDATED_DATE",
-                message="Updated date must use YYYY-MM-DD format.",
-                severity=Severity.FAIL,
-                path=path_str,
-                metadata={"field": "updated", "value": updated},
-            )
-        )
-
-    doc_id = str(metadata.get("doc_id", "")).strip()
-    if doc_id and not DOC_ID_PATTERN.match(doc_id):
-        findings.append(
-            Finding(
-                id="FRONTMATTER_INVALID_DOC_ID",
-                message="doc_id should use uppercase letters, digits, dots, hyphens or underscores.",
-                severity=Severity.WARNING,
-                path=path_str,
-                metadata={"field": "doc_id", "value": doc_id},
-            )
-        )
 
     if status == "approved":
         approval = str(metadata.get("approval", "")).strip()
@@ -230,9 +226,9 @@ def validate_frontmatter_document(
                 Finding(
                     id="FRONTMATTER_APPROVED_WITHOUT_APPROVAL",
                     message="Approved documents should include an approval field.",
-                    severity=Severity.FAIL if strict else Severity.WARNING,
+                    severity=catalog.approved_without_approval_strict_severity if strict else catalog.approved_without_approval_default_severity,
                     path=path_str,
-                    metadata={"field": "approval", "strict": strict},
+                    metadata={"field": "approval", "strict": strict, **rule_metadata},
                 )
             )
 
@@ -253,17 +249,27 @@ def validate_frontmatter_document(
             "has_frontmatter": document.has_frontmatter,
             "fields": {
                 key: metadata.get(key)
-                for key in REQUIRED_FRONTMATTER_FIELDS
+                for key in catalog.required_fields
                 if key in metadata
             },
             "status": metadata.get("status"),
             "strict": strict,
+            "rule_source": catalog.rule_source,
+            "catalog_version": catalog.catalog_version,
+            "catalog_valid": catalog.catalog_valid,
+            "fallback_active": catalog.fallback_active,
         },
         findings=findings,
     )
 
 
-def validate_frontmatter_file(path: Path, *, root: Path | None = None, strict: bool = False) -> CommandResult:
+def validate_frontmatter_file(
+    path: Path,
+    *,
+    root: Path | None = None,
+    strict: bool = False,
+    catalog_path: Path = DEFAULT_FRONTMATTER_CATALOG_PATH,
+) -> CommandResult:
     """Validate a Markdown file frontmatter and return a CommandResult."""
 
     if not path.exists():
@@ -299,4 +305,4 @@ def validate_frontmatter_file(path: Path, *, root: Path | None = None, strict: b
         )
 
     document = parse_frontmatter_file(path)
-    return validate_frontmatter_document(document, root=root, strict=strict)
+    return validate_frontmatter_document(document, root=root, strict=strict, catalog_path=catalog_path)

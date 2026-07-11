@@ -10099,6 +10099,107 @@
       ]
     },
     {
+      "doc_id": "POST-H-033-B-FRONTMATTER-CATALOG",
+      "path": ".devpilot/validation/frontmatter_catalog.json",
+      "classification": "machine-readable-source",
+      "domain": "validation.frontmatter",
+      "owner": "POST-H-033-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+        "tests/test_frontmatter_validator.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-B-FRONTMATTER-CATALOG-MODULE",
+      "path": "src/devpilot_core/validators/frontmatter_catalog.py",
+      "classification": "machine-readable-source",
+      "domain": "validation.frontmatter",
+      "owner": "POST-H-033-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+        "tests/test_frontmatter_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-B-FRONTMATTER-SCHEMA-BACKED-REPORT",
+      "path": "docs/audits/post_h_033_b_frontmatter_schema_backed_validator_report.md",
+      "classification": "source-of-truth",
+      "domain": "validation.frontmatter",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-B-FRONTMATTER-SCHEMA-BACKED-TEST",
+      "path": "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+      "classification": "derived",
+      "domain": "validation.frontmatter",
+      "owner": "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-B-FRONTMATTER-VALIDATOR-MODULE",
+      "path": "src/devpilot_core/validators/frontmatter.py",
+      "classification": "machine-readable-source",
+      "domain": "validation.frontmatter",
+      "owner": "POST-H-033-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+        "tests/test_frontmatter_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-B-MANIFEST",
+      "path": "docs/post_h_033_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "validation.frontmatter",
+      "owner": "POST-H-033-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "doc_id": "POST-H-033-BACKLOG",
       "path": "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md",
       "classification": "source-of-truth",
@@ -10525,6 +10626,24 @@
       "sync_rules": [
         "schema_catalog_registered"
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FRONTMATTER-METADATA-V1",
+      "path": "docs/schemas/frontmatter_metadata.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "validation.frontmatter",
+      "owner": "POST-H-033-B",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
     },
     {
       "doc_id": "SCHEMA-DEVPL-HISTORICAL-REGRESSION-GUARD-REPORT-V1",
@@ -12372,5 +12491,6 @@
     "post_h_032_b_real_server_required_for_tests": false,
     "post_h_032_b_models_called_by_health": false
   },
-  "updated_at": "2026-07-11"
+  "updated_at": "2026-07-11",
+  "last_registered_sprint": "POST-H-033-B"
 }

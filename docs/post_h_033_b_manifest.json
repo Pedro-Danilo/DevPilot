@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-FRONTMATTER-METADATA-V1",
+  "catalog_id": "post-h-033-b-frontmatter-schema-backed-validator-manifest",
+  "created_by": "POST-H-033-B",
+  "status": "implemented-initial",
+  "catalog_version": "1.0.0",
+  "updated_at": "2026-07-11",
+  "owner": "Ordóñez",
+  "description": "POST-H-033-B manifest for schema-backed frontmatter validator migration.",
+  "rule_source": ".devpilot/validation/frontmatter_catalog.json",
+  "parser_dependency_free": true,
+  "fallback_required": true,
+  "fallback_status": "temporary-compatible",
+  "fallback_deprecation_target": "POST-H-033-F or later after equivalence evidence",
+  "rules": {
+    "required_fields": [
+      {"field": "title", "finding_id": "FRONTMATTER_REQUIRED_FIELD_MISSING", "severity": "fail", "critical": true, "cannot_disable_without_adr": true},
+      {"field": "doc_id", "finding_id": "FRONTMATTER_REQUIRED_FIELD_MISSING", "severity": "fail", "critical": true, "cannot_disable_without_adr": true},
+      {"field": "status", "finding_id": "FRONTMATTER_REQUIRED_FIELD_MISSING", "severity": "fail", "critical": true, "cannot_disable_without_adr": true},
+      {"field": "version", "finding_id": "FRONTMATTER_REQUIRED_FIELD_MISSING", "severity": "fail", "critical": true, "cannot_disable_without_adr": true},
+      {"field": "owner", "finding_id": "FRONTMATTER_REQUIRED_FIELD_MISSING", "severity": "fail", "critical": true, "cannot_disable_without_adr": true},
+      {"field": "updated", "finding_id": "FRONTMATTER_REQUIRED_FIELD_MISSING", "severity": "fail", "critical": true, "cannot_disable_without_adr": true}
+    ],
+    "allowed_statuses": ["draft", "reviewed", "approved", "deprecated"],
+    "patterns": [
+      {"pattern_id": "semver", "field": "version", "regex": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9_.-]+)?$", "finding_id": "FRONTMATTER_INVALID_VERSION", "message": "Version must follow SemVer-like format, for example 1.0.0.", "severity": "fail", "critical": true, "cannot_disable_without_adr": true},
+      {"pattern_id": "updated-date", "field": "updated", "regex": "^\\d{4}-\\d{2}-\\d{2}$", "finding_id": "FRONTMATTER_INVALID_UPDATED_DATE", "message": "Updated date must use YYYY-MM-DD format.", "severity": "fail", "critical": true, "cannot_disable_without_adr": true},
+      {"pattern_id": "doc-id", "field": "doc_id", "regex": "^[A-Z0-9][A-Z0-9_.-]*$", "finding_id": "FRONTMATTER_INVALID_DOC_ID", "message": "doc_id should use uppercase letters, digits, dots, hyphens or underscores.", "severity": "warning", "critical": false, "cannot_disable_without_adr": false}
+    ],
+    "approved_requires_approval": {"enabled": true, "field": "approval", "finding_id": "FRONTMATTER_APPROVED_WITHOUT_APPROVAL", "default_severity": "warning", "strict_severity": "fail", "critical": true, "cannot_disable_without_adr": true}
+  },
+  "severity_map": {"missing_frontmatter": "fail", "parse_warning": "warning"},
+  "compatibility": {
+    "historical_validator": "src/devpilot_core/validators/frontmatter.py",
+    "runtime_behavior_changed": false,
+    "legacy_constants_preserved": true,
+    "finding_ids_preserved": true,
+    "parser_remains_in_code": true,
+    "fallback_preserves_previous_rules": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "llm_judge_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "critical_rules_disable_allowed": false,
+    "no_go_gates_preserved": true,
+    "no_yaml_dependency_added": true
+  },
+  "tests": [
+    "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+    "tests/test_frontmatter_validator.py",
+    "tests/test_artifact_validator.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_schema_validator.py"
+  ],
+  "notes": [
+    "POST-H-033-B implements FrontmatterMetadata catalog and schema-backed validation with fallback compatibility."
+  ],
+  "limitations": [
+    "Fallback remains until future equivalence evidence allows safe removal."
+  ]
+}

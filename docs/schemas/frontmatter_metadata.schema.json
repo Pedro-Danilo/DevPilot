@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/frontmatter_metadata.schema.json",
+  "title": "DevPilot FrontmatterMetadata v1",
+  "description": "POST-H-033-B schema-backed catalog for deterministic Markdown frontmatter validation rules without adding YAML parser dependencies or weakening critical rules.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "catalog_id",
+    "created_by",
+    "status",
+    "catalog_version",
+    "updated_at",
+    "owner",
+    "rule_source",
+    "parser_dependency_free",
+    "fallback_required",
+    "fallback_status",
+    "rules",
+    "severity_map",
+    "compatibility",
+    "safety",
+    "tests",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-FRONTMATTER-METADATA-V1"},
+    "catalog_id": {"type": "string", "minLength": 1},
+    "created_by": {"const": "POST-H-033-B"},
+    "status": {"enum": ["implemented-initial", "blocked"]},
+    "catalog_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9_.-]+)?$"},
+    "updated_at": {"type": "string", "minLength": 10},
+    "owner": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "rule_source": {"const": ".devpilot/validation/frontmatter_catalog.json"},
+    "parser_dependency_free": {"const": true},
+    "fallback_required": {"const": true},
+    "fallback_status": {"enum": ["temporary-compatible", "deprecated", "removed"]},
+    "fallback_deprecation_target": {"type": "string"},
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_fields", "allowed_statuses", "patterns", "approved_requires_approval"],
+      "properties": {
+        "required_fields": {
+          "type": "array",
+          "minItems": 6,
+          "items": {"$ref": "#/$defs/fieldRule"}
+        },
+        "allowed_statuses": {
+          "type": "array",
+          "minItems": 4,
+          "items": {"type": "string", "minLength": 1},
+          "contains": {"const": "approved"}
+        },
+        "patterns": {
+          "type": "array",
+          "minItems": 3,
+          "items": {"$ref": "#/$defs/patternRule"}
+        },
+        "approved_requires_approval": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "field", "finding_id", "default_severity", "strict_severity", "critical", "cannot_disable_without_adr"],
+          "properties": {
+            "enabled": {"const": true},
+            "field": {"const": "approval"},
+            "finding_id": {"const": "FRONTMATTER_APPROVED_WITHOUT_APPROVAL"},
+            "default_severity": {"enum": ["warning"]},
+            "strict_severity": {"enum": ["fail"]},
+            "critical": {"const": true},
+            "cannot_disable_without_adr": {"const": true}
+          }
+        }
+      }
+    },
+    "severity_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_frontmatter", "parse_warning"],
+      "properties": {
+        "missing_frontmatter": {"enum": ["fail"]},
+        "parse_warning": {"enum": ["warning"]}
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["runtime_behavior_changed", "legacy_constants_preserved", "finding_ids_preserved", "parser_remains_in_code", "fallback_preserves_previous_rules"],
+      "properties": {
+        "runtime_behavior_changed": {"const": false},
+        "legacy_constants_preserved": {"const": true},
+        "finding_ids_preserved": {"const": true},
+        "parser_remains_in_code": {"const": true},
+        "fallback_preserves_previous_rules": {"const": true}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "read_only",
+        "network_used",
+        "external_api_used",
+        "llm_judge_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed",
+        "critical_rules_disable_allowed",
+        "no_go_gates_preserved",
+        "no_yaml_dependency_added"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "llm_judge_used": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "critical_rules_disable_allowed": {"const": false},
+        "no_go_gates_preserved": {"const": true},
+        "no_yaml_dependency_added": {"const": true}
+      }
+    },
+    "tests": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "notes": {"type": "array", "items": {"type": "string"}},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "severity": {"enum": ["info", "warning", "fail", "block", "error"]},
+    "fieldRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "finding_id", "severity", "critical", "cannot_disable_without_adr"],
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "finding_id": {"const": "FRONTMATTER_REQUIRED_FIELD_MISSING"},
+        "severity": {"enum": ["fail"]},
+        "critical": {"const": true},
+        "cannot_disable_without_adr": {"const": true}
+      }
+    },
+    "patternRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pattern_id", "field", "regex", "finding_id", "message", "severity", "critical", "cannot_disable_without_adr"],
+      "properties": {
+        "pattern_id": {"enum": ["semver", "updated-date", "doc-id"]},
+        "field": {"type": "string", "minLength": 1},
+        "regex": {"type": "string", "minLength": 1},
+        "finding_id": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "severity": {"$ref": "#/$defs/severity"},
+        "critical": {"type": "boolean"},
+        "cannot_disable_without_adr": {"type": "boolean"}
+      }
+    }
+  }
+}

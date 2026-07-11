@@ -15324,6 +15324,69 @@
         "docs/schemas/validator_inventory.schema.json",
         "docs/schemas/validator_migration_report.schema.json"
       ]
+    },
+    {
+      "contract_id": "post-h-033-frontmatter-schema-backed-validator",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-033-frontmatter-schema-backed-validator",
+      "domain": "governance.schemas",
+      "capability": "FrontmatterSchemaBackedValidator",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "schema",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "watched_paths": [
+        ".devpilot/validation/frontmatter_catalog.json",
+        "docs/schemas/frontmatter_metadata.schema.json",
+        "src/devpilot_core/validators/frontmatter_catalog.py",
+        "src/devpilot_core/validators/frontmatter.py",
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "validates": [
+        ".devpilot/validation/frontmatter_catalog.json",
+        "docs/schemas/frontmatter_metadata.schema.json",
+        "src/devpilot_core/validators/frontmatter_catalog.py",
+        "src/devpilot_core/validators/frontmatter.py"
+      ],
+      "trigger_hints": [
+        "post-h-033-b",
+        "frontmatter-catalog-change",
+        "schema-backed-validator-governance",
+        "documentation-frontmatter-change"
+      ],
+      "impact_scope": [
+        "frontmatter",
+        "validators",
+        "artifact-validation",
+        "docs-governance",
+        "schemas"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-033-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_frontmatter_schema_backed_validator.py tests/test_frontmatter_validator.py tests/test_artifact_validator.py tests/test_documentation_governance_validator.py tests/test_schema_validator.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-033-B moves frontmatter required fields, statuses, regex patterns and severities to a schema-backed catalog while retaining dependency-free parser and fallback compatibility."
+      ],
+      "owner_domain": "governance.schemas",
+      "service_boundary": "FrontmatterCatalog + validate_frontmatter_file",
+      "subgate_id": "schema-backed-validator-governance",
+      "schema_ids": [
+        "docs/schemas/frontmatter_metadata.schema.json"
+      ]
     }
   ],
   "migration_metadata": {

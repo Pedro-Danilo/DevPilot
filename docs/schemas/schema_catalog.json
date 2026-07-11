@@ -581,6 +581,20 @@
       "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-FRONTMATTER-METADATA-V1",
+      "title": "DevPilot FrontmatterMetadata v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/frontmatter_metadata.schema.json",
+      "description": "POST-H-033-B schema-backed frontmatter metadata catalog for required fields, statuses, patterns, severities and fallback compatibility without adding YAML dependencies.",
+      "status": "registered",
+      "contract": "FrontmatterMetadata",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-033-B"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
       "title": "DevPilot Functional Sprint Manifest v1",
       "version": "1.0.0",
@@ -1816,5 +1830,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 123
+  "schemas_total": 126
 }

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
 created_for: "DevPilot Local"
 scope: "deterministic validators / schema-backed catalogs / declarative semantics / compatibility-preserving migration"
-implementation_status: "active/post-h-033-a-implemented-initial"
-current_micro_sprint: "POST-H-033-A"
-next_micro_sprint: "POST-H-033-B"
+implementation_status: "active/post-h-033-b-implemented-initial"
+current_micro_sprint: "POST-H-033-B"
+next_micro_sprint: "POST-H-033-C"
 ```
 
 ## 1. Proposito del backlog
@@ -361,6 +361,13 @@ python -m pytest -p no:ddtrace --assert=plain `
 
 python -m devpilot_core schema validate --schema-id FrontmatterMetadata --instance .devpilot/validation/frontmatter_catalog.json --json
 ```
+
+
+## Estado de implementación POST-H-033-B
+
+Estado: `implemented-initial`. Se implementó el validador de frontmatter schema-backed sin cambiar el parser dependency-free ni relajar reglas críticas. Los artefactos nuevos son `docs/schemas/frontmatter_metadata.schema.json`, `.devpilot/validation/frontmatter_catalog.json`, `src/devpilot_core/validators/frontmatter_catalog.py`, `docs/audits/post_h_033_b_frontmatter_schema_backed_validator_report.md`, `docs/post_h_033_b_manifest.json` y `tests/test_post_h_033_frontmatter_schema_backed_validator.py`.
+
+La migración es progresiva: `validators/frontmatter.py` usa el catálogo como fuente primaria para campos requeridos, statuses, regex y severidades, pero conserva fallback Python temporal. El resultado reporta `rule_source` y `catalog_version`. No se agregó dependencia YAML externa, no se usa LLM judge, no se habilitan capacidades sensibles y las reglas críticas no son desactivables desde JSON sin ADR/backlog.
 
 ## POST-H-033-C - Readiness requirements registry
 
