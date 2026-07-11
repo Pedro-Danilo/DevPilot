@@ -14294,6 +14294,126 @@
         "Migrated deterministically from v1 scope 'ui-smoke' during POST-H-003-B.",
         "UI smoke is local but not always required for every backend-only change."
       ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-C",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-C local-first/read-only gap-to-action mapping contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "gap-action-map",
+      "contract_id": "post-h-031-gap-action-map",
+      "source_contract_id": "post-h-031-gap-action-map",
+      "domain": "operations.observability",
+      "capability": "GapActionMap schema-backed operator action mapping",
+      "test_files": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/gap_actions.py",
+        "docs/schemas/gap_action_map.schema.json",
+        ".devpilot/evidence/gap_action_rules.json",
+        "src/devpilot_core/cli.py"
+      ],
+      "validates": [
+        "GapActionMap",
+        "evidence gaps CLI",
+        "local-first/read-only safety flags",
+        "gap_action_rules required categories"
+      ],
+      "trigger_hints": [
+        "gap action map",
+        "evidence gaps",
+        "POST-H-031-C"
+      ],
+      "impact_scope": [
+        "operations.observability",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-GAP-ACTION-MAP-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-C",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-C local-first/read-only gap-to-action mapping contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "gap-action-map",
+      "contract_id": "post-h-031-gap-action-application-api",
+      "source_contract_id": "post-h-031-gap-action-application-api",
+      "domain": "application.service",
+      "capability": "ApplicationService and protected local API route for gap-to-action mapping",
+      "test_files": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "validates": [
+        "ApplicationService.gap_action_map",
+        "operator.gaps",
+        "/api/v1/operator/gaps",
+        "token/policy protected local API route"
+      ],
+      "trigger_hints": [
+        "operator.gaps",
+        "api.operator.gaps",
+        "ApplicationService"
+      ],
+      "impact_scope": [
+        "application.service",
+        "product.api",
+        "operations.observability"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-GAP-ACTION-MAP-V1",
+        "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
+      ]
     }
   ],
   "migration_metadata": {
@@ -14341,6 +14461,7 @@
     "POST-H-029-D adds a formal release-candidate-local test profile contract without executing tests from JSON.",
     "POST-H-029-E registers historical regression guard and testing-tiers-ready quality subgate.",
     "POST-H-031-A registers EvidenceGraphModel as an explicit operations.observability impact contract.",
-    "POST-H-031-B adds OperatorHealthSummary contracts for CLI/ApplicationService/API."
+    "POST-H-031-B adds OperatorHealthSummary contracts for CLI/ApplicationService/API.",
+    "POST-H-031-C adds GapActionMap contracts for CLI/ApplicationService/API."
   ]
 }

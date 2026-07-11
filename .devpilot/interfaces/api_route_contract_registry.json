@@ -571,6 +571,41 @@
       ]
     },
     {
+      "route_id": "api.operator.gaps",
+      "method": "GET",
+      "path": "/api/v1/operator/gaps",
+      "operation": "operator.gaps",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.operator",
+      "router_module": "operator",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-operator-gaps",
+      "path_subject": ".devpilot/evidence/gap_action_rules.json",
+      "tags": [
+        "operator",
+        "evidence",
+        "gap-action",
+        "read-only"
+      ],
+      "notes": [
+        "POST-H-031-C protected local API route for advisory gap-to-action mapping. Does not execute recommended commands."
+      ]
+    },
+    {
       "route_id": "api.portfolio.status",
       "method": "GET",
       "path": "/api/v1/portfolio/status",
@@ -1143,11 +1178,11 @@
     }
   ],
   "summary": {
-    "routes_total": 36,
-    "protected_routes_total": 33,
+    "routes_total": 37,
+    "protected_routes_total": 34,
     "public_routes_total": 3,
     "mutating_routes_total": 3,
-    "application_service_routes_total": 32,
+    "application_service_routes_total": 33,
     "policy_bound_routes_total": 32,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
@@ -1155,7 +1190,12 @@
     "preliminary": true,
     "security_posture_routes_total": 1,
     "post_h_015_c_operator_dashboard_route_registered": true,
-    "post_h_016_d_portfolio_status_route_registered": true
+    "post_h_016_d_portfolio_status_route_registered": true,
+    "external_api_routes_total": 0,
+    "remote_execution_routes_total": 0,
+    "connector_write_routes_total": 0,
+    "plugin_execution_routes_total": 0,
+    "updated_by": "POST-H-031-C"
   },
   "safety": {
     "local_first": true,

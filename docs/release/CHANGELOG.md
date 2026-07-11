@@ -2611,3 +2611,14 @@ Siguiente micro-sprint: `POST-H-031-B — Operator health summary`.
 - Los reportes JSON/Markdown se escriben solo con `--write-report` bajo `outputs/reports`.
 
 Siguiente micro-sprint: `POST-H-031-C — Gap-to-action mapping`.
+
+## post-h-031-c — Gap-to-action mapping
+
+- Agrega `GapActionMap` como mapeo local/read-only de gaps a acciones verificables para operador.
+- Registra `SCHEMA-DEVPL-GAP-ACTION-MAP-V1`, `.devpilot/evidence/gap_action_rules.json`, `src/devpilot_core/evidence_graph/gap_actions.py`, `ApplicationService.gap_action_map(...)`, `python -m devpilot_core evidence gaps --json` y `GET /api/v1/operator/gaps`.
+- Cada acción incluye prioridad, owner sugerido, comando recomendado, verificación, criterio de cierre, backlog relacionado y riesgo si se ignora.
+- Las acciones son advisory/operator-facing; DevPilot no las ejecuta automáticamente y no relaja no-go gates.
+- Mantiene red, APIs externas, remote execution, connector write, plugin execution, lectura de secretos y lectura de `.devpilot/devpilot.db` deshabilitadas.
+- Los reportes JSON/Markdown se escriben solo con `--write-report` bajo `outputs/reports`.
+
+Siguiente micro-sprint: `POST-H-031-D — Claims and no-go dashboard`.

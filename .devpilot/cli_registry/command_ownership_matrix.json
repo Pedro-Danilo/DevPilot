@@ -10,17 +10,17 @@
   "registry_path": "src/devpilot_core/cli_registry/registry.py",
   "cli_source": "src/devpilot_core/cli.py",
   "summary": {
-    "commands_total": 182,
-    "commands_covered_total": 181,
+    "commands_total": 183,
+    "commands_covered_total": 183,
     "coverage_complete": true,
     "registry_phase_counts": {
       "legacy-unregistered": 91,
-      "declarative-initial": 49,
+      "declarative-initial": 51,
       "handler-migrated-incremental": 41
     },
     "migration_state_counts": {
       "deferred-cli-only": 91,
-      "registered-only": 49,
+      "registered-only": 51,
       "already-migrated": 41
     },
     "high_or_critical_commands_total": 55,
@@ -37,8 +37,8 @@
     "external_api_used": false,
     "source_mutations_performed": false,
     "preliminary": true,
-    "commands_with_owner_total": 182,
-    "commands_with_compatibility_contract_total": 182
+    "commands_with_owner_total": 183,
+    "commands_with_compatibility_contract_total": 183
   },
   "commands": [
     {
@@ -1611,6 +1611,41 @@
       "policy_check_required": true,
       "notes": [
         "POST-H-031-B registers operator health as an ApplicationService-backed operator evidence command; it writes only optional outputs/reports evidence and does not execute recommended top actions."
+      ]
+    },
+    {
+      "command_id": "evidence.gaps",
+      "command_path": [
+        "evidence",
+        "gaps"
+      ],
+      "public_name": "python -m devpilot_core evidence gaps",
+      "domain_owner": "operations.observability",
+      "current_handler": "evidence_gaps_command",
+      "target_handler": "ApplicationService.gap_action_map",
+      "current_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/evidence_graph/gap_actions.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
+      "application_operation_id": "operator.gaps",
+      "cli_only_reason": null,
+      "risk_level": "medium",
+      "compatibility_contract_id": "cli-compat:evidence.gaps",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve evidence gaps command name, operator-facing gap/action wording and help surface unless a future compatibility contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-031-C",
+      "side_effects": [
+        "write-report"
+      ],
+      "writes_files": true,
+      "dry_run_supported": true,
+      "policy_check_required": true,
+      "notes": [
+        "POST-H-031-C registers gap-to-action mapping as an ApplicationService-backed operator evidence command; it writes only optional outputs/reports evidence and never executes recommended actions."
       ]
     },
     {

@@ -1,0 +1,303 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "CONFIG-DEVPL-GAP-ACTION-RULES-V1",
+  "config_id": "devpilot-gap-action-rules",
+  "created_by": "POST-H-031-C",
+  "status": "implemented-initial",
+  "owner": "Ordóñez",
+  "updated": "2026-07-10",
+  "description": "Local read-only mapping rules that convert stable evidence/operator gap identifiers into prioritized, verifiable operator actions. Rules never authorize command execution and never relax no-go gates.",
+  "required_rule_categories": [
+    "missing_required_evidence",
+    "failed_schema_validation",
+    "docs_governance_blocking_finding",
+    "test_contract_registry_invalid",
+    "no_go_gate_violation",
+    "forbidden_claim_detected",
+    "stale_runtime_evidence",
+    "missing_operator_dashboard_source",
+    "observability_export_not_redacted",
+    "runtime_state_hygiene_failure",
+    "release_reproducibility_missing"
+  ],
+  "rules": [
+    {
+      "rule_id": "gap-action:missing-required-evidence",
+      "gap_type": "missing_required_evidence",
+      "match": {
+        "required": true,
+        "status": "missing"
+      },
+      "priority": "P0",
+      "category": "evidence",
+      "title": "Restaurar evidencia requerida versionada",
+      "owner": "operator.local",
+      "command": "python -m devpilot_core docs-governance validate --json",
+      "verification": "python -m devpilot_core evidence gaps --json",
+      "closure_criterion": "La fuente requerida aparece disponible en EvidenceGraph y el gap deja de ser blocking.",
+      "risk_if_ignored": "La evidencia crítica faltante puede invalidar declaraciones y gates posteriores.",
+      "backlog_ref": "POST-H-031-C",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:failed-schema-validation",
+      "gap_type": "failed_schema_validation",
+      "match": {
+        "finding_id": "SCHEMA_VALIDATION_ERROR"
+      },
+      "priority": "P0",
+      "category": "schema",
+      "title": "Corregir validación de schema",
+      "owner": "engineering.governance",
+      "command": "python -m devpilot_core schema list --json",
+      "verification": "python -m devpilot_core schema list --json",
+      "closure_criterion": "La instancia afectada valida contra su schema y no quedan findings SCHEMA_VALIDATION_ERROR.",
+      "risk_if_ignored": "Contratos inestables pueden romper CLI/API/reportes y generar decisiones de operador inconsistentes.",
+      "backlog_ref": "POST-H-031-C",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:docs-governance-blocking",
+      "gap_type": "docs_governance_blocking_finding",
+      "match": {
+        "finding_id": "DOCS_GOVERNANCE_BLOCKING"
+      },
+      "priority": "P0",
+      "category": "documentation-governance",
+      "title": "Resolver bloqueo de documentación gobernada",
+      "owner": "documentation.governance",
+      "command": "python -m devpilot_core docs-governance validate --json",
+      "verification": "python -m devpilot_core docs-governance validate --json",
+      "closure_criterion": "docs-governance validate retorna ok=true y blocking_findings_total=0.",
+      "risk_if_ignored": "El repo puede quedar desincronizado entre código, backlogs, schemas, TCR y estado global.",
+      "backlog_ref": "POST-H-031-C",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:test-contract-registry-invalid",
+      "gap_type": "test_contract_registry_invalid",
+      "match": {
+        "finding_id": "TEST_CONTRACT_REGISTRY_INVALID"
+      },
+      "priority": "P0",
+      "category": "testing-contracts",
+      "title": "Corregir Test Contract Registry",
+      "owner": "governance.testing",
+      "command": "python -m devpilot_core test-contracts validate-v2 --json",
+      "verification": "python -m devpilot_core test-contracts validate-v2 --json",
+      "closure_criterion": "TCR v1/v2 validan y los contratos críticos del cambio están sincronizados.",
+      "risk_if_ignored": "La selección focal de pruebas puede perder cobertura crítica y aumentar regresiones acumulativas.",
+      "backlog_ref": "POST-H-031-C",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:no-go-gate-violation",
+      "gap_type": "no_go_gate_violation",
+      "match": {
+        "node_type": "gate",
+        "safe": false
+      },
+      "priority": "P0",
+      "category": "claims-no-go",
+      "title": "Bloquear y documentar violación de no-go gate",
+      "owner": "security.governance",
+      "command": "python -m devpilot_core industrial-readiness production-ready-local-final --json",
+      "verification": "python -m devpilot_core evidence gaps --json",
+      "closure_criterion": "El no-go gate vuelve a estado safe=true o la capacidad permanece explícitamente bloqueada.",
+      "risk_if_ignored": "DevPilot podría comunicar capacidades prohibidas como disponibles o habilitar superficies sensibles.",
+      "backlog_ref": "POST-H-031-D",
+      "dry_run": true,
+      "requires_approval": true
+    },
+    {
+      "rule_id": "gap-action:forbidden-claim-detected",
+      "gap_type": "forbidden_claim_detected",
+      "match": {
+        "node_type": "claim",
+        "forbidden_available": true
+      },
+      "priority": "P0",
+      "category": "claims-no-go",
+      "title": "Eliminar o bloquear claim prohibido",
+      "owner": "security.governance",
+      "command": "python -m devpilot_core industrial-readiness production-ready-local-final --json",
+      "verification": "python -m devpilot_core evidence gaps --json",
+      "closure_criterion": "Los claims enterprise/remote/SaaS/compliance-certified permanecen prohibidos y sin disponibilidad operativa.",
+      "risk_if_ignored": "Riesgo de overclaim técnico, legal u operacional.",
+      "backlog_ref": "POST-H-031-D",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:stale-runtime-evidence",
+      "gap_type": "stale_runtime_evidence",
+      "match": {
+        "finding_id": "EVIDENCE_STALE"
+      },
+      "priority": "P1",
+      "category": "runtime-evidence",
+      "title": "Regenerar evidencia runtime obsoleta",
+      "owner": "operator.local",
+      "command": "python -m devpilot_core evidence health --json --write-report",
+      "verification": "python -m devpilot_core evidence gaps --json",
+      "closure_criterion": "La evidencia runtime tiene timestamp reciente o queda marcada como regenerable pendiente.",
+      "risk_if_ignored": "El operador puede diagnosticar con datos desactualizados.",
+      "backlog_ref": "POST-H-031-C",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:runtime-production-ready-report",
+      "gap_type": "missing_runtime_evidence",
+      "match": {
+        "source_id": "runtime-production-ready-report"
+      },
+      "priority": "P1",
+      "category": "production-readiness",
+      "title": "Regenerar reporte production-ready-local",
+      "owner": "operator.local",
+      "command": "python -m devpilot_core industrial-readiness production-ready-local-final --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id ProductionReadyLocalReport --instance outputs/reports/production_ready_local_report.json --json",
+      "closure_criterion": "El reporte existe bajo outputs/reports, valida contra schema y sigue sin claims prohibidos.",
+      "risk_if_ignored": "La evidencia ejecutiva de production-ready-local no estará disponible para auditoría local inmediata.",
+      "backlog_ref": "POST-H-025-E",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:runtime-operator-dashboard-snapshot",
+      "gap_type": "missing_operator_dashboard_source",
+      "match": {
+        "source_id": "runtime-operator-dashboard-snapshot"
+      },
+      "priority": "P1",
+      "category": "operator-dashboard",
+      "title": "Regenerar snapshot del dashboard operador",
+      "owner": "operator.local",
+      "command": "python -m devpilot_core operator dashboard --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json",
+      "closure_criterion": "El snapshot existe, valida contra schema y refleja señales locales actuales.",
+      "risk_if_ignored": "El operador pierde una vista agregada de señales operacionales regenerables.",
+      "backlog_ref": "POST-H-015-B",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:observability-redacted-export",
+      "gap_type": "observability_export_not_redacted",
+      "match": {
+        "source_id": "runtime-observability-redacted-export"
+      },
+      "priority": "P2",
+      "category": "observability",
+      "title": "Generar export redactado de observabilidad",
+      "owner": "operator.local",
+      "command": "python -m devpilot_core observability export --redacted --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id ObservabilityRedactedExport --instance outputs/reports/observability_redacted_export.json --json",
+      "closure_criterion": "El export redactado existe, valida contra schema y no contiene secretos/payloads crudos.",
+      "risk_if_ignored": "La auditoría operacional no tendrá un paquete seguro/redactado de observabilidad.",
+      "backlog_ref": "POST-H-010-D",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:observability-inventory",
+      "gap_type": "missing_runtime_evidence",
+      "match": {
+        "source_id": "runtime-observability-inventory"
+      },
+      "priority": "P2",
+      "category": "observability",
+      "title": "Regenerar inventario de observabilidad",
+      "owner": "operator.local",
+      "command": "python -m devpilot_core observability inventory --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id ObservabilityInventory --instance outputs/reports/observability_inventory.json --json",
+      "closure_criterion": "El inventario de observabilidad existe y valida contra schema.",
+      "risk_if_ignored": "El operador tendrá menor visibilidad de eventos/spans/metrics locales regenerables.",
+      "backlog_ref": "POST-H-010-B",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:runtime-state-hygiene-failure",
+      "gap_type": "runtime_state_hygiene_failure",
+      "match": {
+        "finding_id": "RUNTIME_STATE_HYGIENE_BLOCK"
+      },
+      "priority": "P0",
+      "category": "runtime-state",
+      "title": "Resolver fallo de higiene de runtime state",
+      "owner": "operations.runtime-state",
+      "command": "python -m devpilot_core runtime-state hygiene --json",
+      "verification": "python -m devpilot_core runtime-state hygiene --json",
+      "closure_criterion": "runtime-state hygiene reporta blocking_violations_total=0 y no se versionan artifacts prohibidos.",
+      "risk_if_ignored": "Artifacts runtime, secretos o datos sensibles podrían filtrarse en entregables limpios.",
+      "backlog_ref": "POST-H-008-E",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:release-reproducibility-missing",
+      "gap_type": "release_reproducibility_missing",
+      "match": {
+        "finding_id": "RELEASE_REPRODUCIBILITY_MISSING"
+      },
+      "priority": "P1",
+      "category": "release",
+      "title": "Regenerar evidencia de reproducibilidad de release",
+      "owner": "release.local",
+      "command": "python -m devpilot_core release reproducibility-pack --json --write-report",
+      "verification": "python -m devpilot_core release reproducibility-verify --json",
+      "closure_criterion": "El pack local de reproducibilidad existe, verifica checksums y mantiene publish/deploy deshabilitados.",
+      "risk_if_ignored": "El repo puede perder trazabilidad reproducible entre ZIP fuente, wheel/sdist y checksums.",
+      "backlog_ref": "POST-H-017-E",
+      "dry_run": true,
+      "requires_approval": false
+    },
+    {
+      "rule_id": "gap-action:runtime-state-inventory",
+      "gap_type": "missing_runtime_evidence",
+      "match": {
+        "source_id": "runtime-state-inventory"
+      },
+      "priority": "P2",
+      "category": "runtime-state",
+      "title": "Regenerar inventario de runtime state",
+      "owner": "operations.runtime-state",
+      "command": "python -m devpilot_core runtime-state inventory --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id RuntimeStateInventory --instance outputs/reports/runtime_state_inventory.json --json",
+      "closure_criterion": "El inventario de runtime state existe, valida contra schema y sigue excluido de ZIPs fuente limpios.",
+      "risk_if_ignored": "El operador no podrá revisar localmente artifacts runtime/regenerables antes de empaquetar entregables.",
+      "backlog_ref": "POST-H-008-B",
+      "dry_run": true,
+      "requires_approval": false
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "commands_executed": false,
+    "source_mutations_performed": false,
+    "forbidden_command_fragments": [
+      "--execute",
+      "rm ",
+      "del ",
+      "rmdir",
+      "Remove-Item",
+      "pip install",
+      "npm install"
+    ]
+  },
+  "notes": [
+    "Rules are declarative operator guidance, not an execution policy.",
+    "POST-H-031-C maps gaps to actions; it never executes the recommended commands.",
+    "Any future action that enables remote execution, connector write, plugin execution, external API or destructive mutation requires a separate ADR and approval chain."
+  ]
+}

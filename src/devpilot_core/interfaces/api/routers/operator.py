@@ -43,3 +43,17 @@ def operator_health(
             payload={"write_report": write_report},
         )
     )
+
+@router.get("/api/v1/operator/gaps")
+def operator_gaps(
+    write_report: bool = Query(default=False),
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    return _json(
+        *dispatch_application_request(
+            service,
+            operation="operator.gaps",
+            payload={"write_report": write_report},
+        )
+    )
+

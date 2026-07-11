@@ -129,6 +129,37 @@ class ApplicationService:
             ),
         ).build()
 
+    def gap_action_map(
+        self,
+        *,
+        rules_path: str = ".devpilot/evidence/gap_action_rules.json",
+        evidence_graph_sources_path: str = ".devpilot/evidence/evidence_graph_sources.json",
+        operator_health_config_path: str = ".devpilot/operator/operator_health_config.json",
+        write_report: bool = False,
+        output_json: str = "outputs/reports/gap_action_map.json",
+        output_markdown: str = "outputs/reports/gap_action_map.md",
+    ) -> CommandResult:
+        """Build the POST-H-031-C local gap-to-action map.
+
+        The map is advisory and read-only. It converts stable evidence and
+        operator health gaps into concrete, verifiable actions without running
+        those actions.
+        """
+
+        from devpilot_core.evidence_graph import GapActionMapBuilder, GapActionOptions
+
+        return GapActionMapBuilder(
+            self.root,
+            GapActionOptions(
+                rules_path=Path(rules_path),
+                evidence_graph_sources_path=Path(evidence_graph_sources_path),
+                operator_health_config_path=Path(operator_health_config_path),
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)
@@ -672,6 +703,14 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             write_report=bool(payload.get("write_report", False)),
             output_json=str(payload.get("output_json", "outputs/reports/operator_health_summary.json")),
             output_markdown=str(payload.get("output_markdown", "outputs/reports/operator_health_summary.md")),
+        ),
+        "operator.gaps": lambda payload: service.gap_action_map(
+            rules_path=str(payload.get("rules_path", ".devpilot/evidence/gap_action_rules.json")),
+            evidence_graph_sources_path=str(payload.get("evidence_graph_sources_path", ".devpilot/evidence/evidence_graph_sources.json")),
+            operator_health_config_path=str(payload.get("operator_health_config_path", ".devpilot/operator/operator_health_config.json")),
+            write_report=bool(payload.get("write_report", False)),
+            output_json=str(payload.get("output_json", "outputs/reports/gap_action_map.json")),
+            output_markdown=str(payload.get("output_markdown", "outputs/reports/gap_action_map.md")),
         ),
         "portfolio.status": lambda payload: service.portfolio_status(registry_path=str(payload.get("registry_path", ".devpilot/workspaces/workspace_registry.json"))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),

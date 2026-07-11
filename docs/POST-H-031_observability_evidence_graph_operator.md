@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md"
 created_for: "DevPilot Local"
 scope: "local-first / read-only by default / operator evidence UX / no overclaims"
-implementation_status: "active/implemented-initial-post-h-031-b"
-current_micro_sprint: "POST-H-031-B"
-next_micro_sprint: "POST-H-031-C"
+implementation_status: "active/implemented-initial-post-h-031-c"
+current_micro_sprint: "POST-H-031-C"
+next_micro_sprint: "POST-H-031-D"
 ```
 
 ## 1. Proposito del backlog
@@ -462,6 +462,15 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_test_contract_registry_v2.py `
   -q
 ```
+
+
+## Estado de implementación POST-H-031-C
+
+`POST-H-031-C` queda implementado como versión inicial (`implemented-initial/local-first`). El micro-sprint crea `GapActionMap`, su schema, reglas declarativas de mapeo, builder local/read-only, método de `ApplicationService`, comando CLI `python -m devpilot_core evidence gaps --json`, ruta API local protegida `GET /api/v1/operator/gaps`, pruebas focales y artefactos de auditoría.
+
+El mapeo convierte gaps detectados por `EvidenceGraph` y `OperatorHealthSummary` en acciones concretas, priorizadas, verificables y seguras para el operador. Cada acción incluye prioridad, owner sugerido, comando recomendado, verificación, criterio de cierre, backlog/micro-sprint recomendado y riesgo si se ignora.
+
+La capacidad es advisory/operator-facing: no ejecuta comandos recomendados, no reemplaza quality gates, no declara readiness, no relaja no-go gates, no versiona outputs runtime, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no habilita telemetría remota, no activa connector write ni plugin execution. Los reportes se escriben únicamente bajo `outputs/reports` cuando se usa `--write-report`.
 
 ## POST-H-031-D - Claims and no-go dashboard
 

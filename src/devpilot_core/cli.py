@@ -5635,6 +5635,40 @@ def evidence_health_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+def evidence_gaps_command(
+    *,
+    rules_path: str = ".devpilot/evidence/gap_action_rules.json",
+    sources_path: str = ".devpilot/evidence/evidence_graph_sources.json",
+    health_config_path: str = ".devpilot/operator/operator_health_config.json",
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/gap_action_map.json",
+    output_markdown: str = "outputs/reports/gap_action_map.md",
+) -> int:
+    """Build the POST-H-031-C local read-only gap-to-action map."""
+
+    root = project_root()
+    result = ApplicationService(root).gap_action_map(
+        rules_path=rules_path,
+        evidence_graph_sources_path=sources_path,
+        operator_health_config_path=health_config_path,
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+    )
+    summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, summary_result, subject="evidence:gaps")
+    _persist_result(root, summary_result, subject="evidence:gaps")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 
 def tests_taxonomy_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Validate POST-H-029-A test profile taxonomy without executing tests."""
@@ -6151,6 +6185,14 @@ def build_parser() -> argparse.ArgumentParser:
     evidence_health.add_argument("--write-report", action="store_true", help="Persist operator_health_summary.json/.md under outputs/reports")
     evidence_health.add_argument("--output-json", default="outputs/reports/operator_health_summary.json", help="OperatorHealthSummary JSON output path when --write-report is used")
     evidence_health.add_argument("--output-markdown", default="outputs/reports/operator_health_summary.md", help="OperatorHealthSummary Markdown output path when --write-report is used")
+    evidence_gaps = evidence_sub.add_parser("gaps", help="Build POST-H-031-C read-only gap-to-action map")
+    evidence_gaps.add_argument("--rules", default=".devpilot/evidence/gap_action_rules.json", help="Gap action rules configuration path")
+    evidence_gaps.add_argument("--sources", default=".devpilot/evidence/evidence_graph_sources.json", help="Evidence graph source configuration path")
+    evidence_gaps.add_argument("--health-config", default=".devpilot/operator/operator_health_config.json", help="Operator health config path")
+    evidence_gaps.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    evidence_gaps.add_argument("--write-report", action="store_true", help="Persist gap_action_map.json/.md under outputs/reports")
+    evidence_gaps.add_argument("--output-json", default="outputs/reports/gap_action_map.json", help="GapActionMap JSON output path when --write-report is used")
+    evidence_gaps.add_argument("--output-markdown", default="outputs/reports/gap_action_map.md", help="GapActionMap Markdown output path when --write-report is used")
 
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
@@ -7589,6 +7631,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         if args.evidence_command == "health":
             return evidence_health_command(
                 config_path=args.config,
+                json_output=args.json,
+                write_report=args.write_report,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+            )
+        if args.evidence_command == "gaps":
+            return evidence_gaps_command(
+                rules_path=args.rules,
+                sources_path=args.sources,
+                health_config_path=args.health_config,
                 json_output=args.json,
                 write_report=args.write_report,
                 output_json=args.output_json,

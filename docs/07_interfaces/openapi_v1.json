@@ -3185,6 +3185,46 @@
           "ui/web dashboard"
         ]
       }
+    },
+    "/api/v1/operator/gaps": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator Gaps",
+        "description": "Protected local read-only gap-to-action map. Returns an ApplicationResponse with GapActionMap payload; recommended commands are advisory and are never executed by this endpoint.",
+        "operationId": "operator_gaps_api_v1_operator_gaps_get",
+        "parameters": [
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Write Report"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse with GapActionMap payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token"
+          },
+          "403": {
+            "description": "Policy denied"
+          }
+        }
+      }
     }
   },
   "components": {

@@ -8273,17 +8273,23 @@
       "classification": "source-of-truth",
       "domain": "operations.observability",
       "status_required": "approved",
-      "owner": "POST-H-031-A",
+      "owner": "POST-H-031-C",
       "criticality": "P0",
       "lifecycle": "active",
       "required_tests": [
         "tests/test_post_h_031_evidence_graph_model.py",
-        "tests/test_post_h_031_operator_health_summary.py"
+        "tests/test_post_h_031_operator_health_summary.py",
+        "tests/test_post_h_031_gap_to_action_mapping.py"
       ],
       "sync_rules": [
         "frontmatter_required",
         "backlog_status_match",
         "micro_sprint_status_match"
+      ],
+      "roadmap_milestones": [
+        "POST-H-031-A",
+        "POST-H-031-B",
+        "POST-H-031-C"
       ]
     },
     {
@@ -8292,15 +8298,21 @@
       "classification": "derived",
       "domain": "operations.observability",
       "status_required": "current",
-      "owner": "POST-H-031-A",
+      "owner": "POST-H-031-C",
       "criticality": "P1",
       "lifecycle": "active",
       "required_tests": [
         "tests/test_post_h_031_evidence_graph_model.py",
-        "tests/test_post_h_031_operator_health_summary.py"
+        "tests/test_post_h_031_operator_health_summary.py",
+        "tests/test_post_h_031_gap_to_action_mapping.py"
       ],
       "sync_rules": [
         "frontmatter_required"
+      ],
+      "roadmap_milestones": [
+        "POST-H-031-A",
+        "POST-H-031-B",
+        "POST-H-031-C"
       ]
     },
     {
@@ -9037,6 +9049,159 @@
         "test_must_pass"
       ],
       "lifecycle": "historical"
+    },
+    {
+      "doc_id": "POST-H-031-C-GAP-ACTION-MAP-SCHEMA",
+      "path": "docs/schemas/gap_action_map.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "operations.observability",
+      "owner": "POST-H-031-C",
+      "status_required": "registered",
+      "criticality": "P1",
+      "machine_readable_counterparts": [],
+      "derived_documents": [
+        "docs/audits/post_h_031_c_gap_to_action_mapping_report.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_031_gap_to_action_mapping.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-031-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema-backed contract for GapActionMap."
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-C-GAP-ACTION-RULES",
+      "path": ".devpilot/evidence/gap_action_rules.json",
+      "classification": "machine-readable-source",
+      "domain": "operations.observability",
+      "owner": "POST-H-031-C",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        "docs/schemas/gap_action_map.schema.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "sync_rules": [
+        "source_paths_exist_or_runtime_expected"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-031-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Source-controlled deterministic rules mapping known evidence gaps to safe operator actions."
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-C-GAP-ACTION-MODULE",
+      "path": "src/devpilot_core/evidence_graph/gap_actions.py",
+      "classification": "source-of-truth",
+      "domain": "operations.observability",
+      "owner": "POST-H-031-C",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        "docs/schemas/gap_action_map.schema.json",
+        ".devpilot/evidence/gap_action_rules.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-031-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Local read-only builder for deterministic gap-to-action mapping; it never executes recommended commands."
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-C-GAP-ACTION-MAPPING-REPORT",
+      "path": "docs/audits/post_h_031_c_gap_to_action_mapping_report.md",
+      "classification": "source-of-truth",
+      "domain": "operations.observability",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        "docs/post_h_031_c_manifest.json"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_031_gap_to_action_mapping.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-031-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit report for POST-H-031-C."
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-C-MANIFEST",
+      "path": "docs/post_h_031_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "operations.observability",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "machine_readable_counterparts": [],
+      "derived_documents": [
+        "docs/audits/post_h_031_c_gap_to_action_mapping_report.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-031-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable manifest for POST-H-031-C."
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-C-GAP-ACTION-TEST",
+      "path": "tests/test_post_h_031_gap_to_action_mapping.py",
+      "classification": "source-of-truth",
+      "domain": "quality.tests",
+      "owner": "POST-H-031-C",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-031-C"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focal tests for gap-to-action schema, builder, CLI, ApplicationService and API route."
+      ]
     }
   ],
   "rules": {
@@ -9110,28 +9275,28 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 382,
-    "source_of_truth_total": 148,
-    "machine_readable_source_total": 176,
+    "documents_total": 388,
+    "source_of_truth_total": 151,
+    "machine_readable_source_total": 179,
     "derived_total": 58,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 281,
+    "critical_sources_total": 293,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 382,
+    "documents_with_required_tests_total": 388,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-031-B",
+    "last_updated_by": "POST-H-031-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-031-A",
-    "last_registered_sprint": "POST-H-031-B"
+    "updated_by": "POST-H-031-C",
+    "last_registered_sprint": "POST-H-031-C"
   },
   "safety": {
     "local_first": true,
@@ -9235,8 +9400,9 @@
     "POST-H-031-B registers operator health schema/config/module/API/test/report/manifest."
   ],
   "project_state_snapshot": {
-    "current_micro_sprint": "POST-H-030-E",
-    "next_micro_sprint": "POST-H-031-A",
-    "current_repo": "repo_DevPilot_Local_288_POST_H_030_E.zip"
+    "current_micro_sprint": "POST-H-031-C",
+    "next_micro_sprint": "POST-H-031-D",
+    "current_repo": "repo_DevPilot_Local_288_POST_H_030_E.zip",
+    "post_h_031_status": "active/implemented-initial-post-h-031-c"
   }
 }

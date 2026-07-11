@@ -712,8 +712,8 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         domain="operations.observability",
         owner_module="src/devpilot_core/evidence_graph/builder.py",
         application_service_required=True,
-        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py tests/test_post_h_031_operator_health_summary.py tests/test_schema_registry.py -q",),
-        rationale="POST-H-031 registers local read-only evidence graph and operator health surfaces; they write only optional outputs/reports evidence and do not replace formal readiness gates.",
+        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py tests/test_post_h_031_operator_health_summary.py tests/test_post_h_031_gap_to_action_mapping.py tests/test_schema_registry.py -q",),
+        rationale="POST-H-031 registers local read-only evidence graph, operator health and gap-to-action surfaces; they write only optional outputs/reports evidence and do not replace formal readiness gates.",
     ),
     "docs-governance": DeclarativeGroupDescriptor(
         group_id="docs-governance",
@@ -805,6 +805,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_operator_health_summary.py -q",
         ),
         rationale="POST-H-031-B builds a local read-only OperatorHealthSummary derived from EvidenceGraph and source-controlled metadata; top actions are advisory and no commands are executed.",
+    ),
+    "evidence.gaps": DeclarativeCommandOverride(
+        command_id="evidence.gaps",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q",
+        ),
+        rationale="POST-H-031-C builds a local read-only GapActionMap from EvidenceGraph and OperatorHealthSummary; actions are advisory, safe and never executed by the builder.",
     ),
 
     "workspace.init": DeclarativeCommandOverride(

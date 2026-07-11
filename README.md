@@ -5723,3 +5723,22 @@ python -m devpilot_core schema validate --schema-id OperatorHealthSummary --inst
 Límites: es una primera versión de lectura operacional. Las `top_actions` son instrucciones accionables para el operador, no ejecución automática. No lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
 
 Siguiente micro-sprint: `POST-H-031-C — Gap-to-action mapping`.
+## POST-H-031-C — Gap-to-action mapping
+
+POST-H-031-C amplía `POST-H-031 — Observabilidad, evidence graph y operador` como `implemented-initial/local-first`. Agrega el schema `GapActionMap`, las reglas declarativas `.devpilot/evidence/gap_action_rules.json`, el módulo `src/devpilot_core/evidence_graph/gap_actions.py`, el método `ApplicationService.gap_action_map(...)`, el comando `python -m devpilot_core evidence gaps --json` y la ruta local protegida `GET /api/v1/operator/gaps`.
+
+La capacidad convierte gaps detectados por `EvidenceGraph` y `OperatorHealthSummary` en acciones concretas, priorizadas, verificables y seguras para el operador. Cada acción incluye owner sugerido, comando recomendado, verificación, criterio de cierre, backlog/micro-sprint relacionado y riesgo si se ignora. Las acciones son guía operacional: DevPilot no las ejecuta automáticamente.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core evidence gaps --json
+python -m devpilot_core evidence gaps --json --write-report
+python -m devpilot_core schema validate --schema-id GapActionMap --instance outputs/reports/gap_action_map.json --json
+```
+
+Límites: es una primera versión de mapeo determinístico. No reemplaza quality gates, no declara readiness, no relaja no-go gates, no versiona outputs runtime, no ejecuta comandos recomendados, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
+
+Siguiente micro-sprint: `POST-H-031-D — Claims and no-go dashboard`.
+

@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-031-c-gap-action-mapping",
+  "created_by": "POST-H-031-C",
+  "status": "implemented-initial",
+  "owner": "Ordóñez",
+  "updated": "2026-07-10",
+  "capability": "GapActionMap local read-only operator gap-to-action mapping",
+  "files_created": [
+    "docs/schemas/gap_action_map.schema.json",
+    ".devpilot/evidence/gap_action_rules.json",
+    "src/devpilot_core/evidence_graph/gap_actions.py",
+    "tests/test_post_h_031_gap_to_action_mapping.py",
+    "docs/audits/post_h_031_c_gap_to_action_mapping_report.md",
+    "docs/post_h_031_c_manifest.json"
+  ],
+  "files_modified": [
+    "src/devpilot_core/evidence_graph/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/interfaces/api/routers/operator.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    ".devpilot/interfaces/api_route_contract_registry.json",
+    "docs/07_interfaces/openapi_v1.json",
+    ".devpilot/cli_registry/command_ownership_matrix.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md",
+    "docs/POST-H-031_observability_evidence_graph_operator.md",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py",
+    "tests/test_post_h_031_operator_health_summary.py"
+  ],
+  "commands": [
+    "python -m devpilot_core evidence gaps --json",
+    "python -m devpilot_core evidence gaps --json --write-report",
+    "python -m devpilot_core schema validate --schema-id GapActionMap --instance outputs/reports/gap_action_map.json --json"
+  ],
+  "tests": [
+    "tests/test_post_h_031_gap_to_action_mapping.py"
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "commands_executed": false,
+    "source_mutations_performed": false,
+    "secrets_read": false,
+    "devpilot_db_read": false,
+    "recommended_actions_executed": false
+  },
+  "notes": [
+    "Implemented-initial; future POST-H-031-D/E complete claims/no-go dashboard and redacted evidence export UX."
+  ]
+}

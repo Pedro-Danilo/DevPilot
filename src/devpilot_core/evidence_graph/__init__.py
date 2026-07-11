@@ -31,6 +31,15 @@ __all__ = [
     "OperatorHealthOptions",
     "OperatorHealthSummaryBuilder",
     "render_operator_health_markdown",
+    "DEFAULT_GAP_ACTION_OUTPUT_JSON",
+    "DEFAULT_GAP_ACTION_OUTPUT_MARKDOWN",
+    "DEFAULT_GAP_ACTION_RULES",
+    "GAP_ACTION_MAP_CONTRACT",
+    "GAP_ACTION_MAP_SCHEMA_ID",
+    "POST_H_031_C_CREATED_BY",
+    "GapActionMapBuilder",
+    "GapActionOptions",
+    "render_gap_action_map_markdown",
 ]
 
 from .health import (
@@ -43,4 +52,15 @@ from .health import (
     OperatorHealthOptions,
     OperatorHealthSummaryBuilder,
     render_operator_health_markdown,
+)
+from .gap_actions import (
+    DEFAULT_GAP_ACTION_OUTPUT_JSON,
+    DEFAULT_GAP_ACTION_OUTPUT_MARKDOWN,
+    DEFAULT_GAP_ACTION_RULES,
+    GAP_ACTION_MAP_CONTRACT,
+    GAP_ACTION_MAP_SCHEMA_ID,
+    POST_H_031_C_CREATED_BY,
+    GapActionMapBuilder,
+    GapActionOptions,
+    render_gap_action_map_markdown,
 )
