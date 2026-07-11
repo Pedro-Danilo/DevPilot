@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-032-d-rag-aware-agents-manifest",
+  "created_by": "POST-H-032-D",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "micro_sprint": "POST-H-032-D — RAG-aware agents",
+  "artifacts": {
+    "schemas": [
+      "docs/schemas/rag_agent_context_pack.schema.json"
+    ],
+    "policies": [
+      ".devpilot/agents/rag_agent_bindings.json"
+    ],
+    "modules": [
+      "src/devpilot_core/agents/rag_context.py"
+    ],
+    "tests": [
+      "tests/test_post_h_032_rag_aware_agents.py"
+    ],
+    "reports": [
+      "docs/audits/post_h_032_d_rag_aware_agents_report.md"
+    ],
+    "commands": [
+      "python -m devpilot_core agent rag-context --json",
+      "python -m devpilot_core agent rag-context --json --write-report"
+    ]
+  },
+  "safety": {
+    "local_first": true,
+    "llm_used": false,
+    "network_used": false,
+    "external_api_used": false,
+    "memory_read": false,
+    "memory_written": false,
+    "tools_executed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "criteria": {
+    "suggestions_require_sources": true,
+    "insufficient_evidence_required": true,
+    "prohibited_claims_justified_total": 0,
+    "tests_require_real_llm": false
+  },
+  "next_micro_sprint": "POST-H-032-E — Agent memory model"
+}

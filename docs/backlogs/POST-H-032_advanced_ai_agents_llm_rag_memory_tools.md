@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md"
 created_for: "DevPilot Local"
 scope: "local-first / governed agents / LLM opt-in / RAG grounded / memory opt-in / tools policy-bound"
-implementation_status: "approved/post-h-032-c-implemented-initial"
-current_micro_sprint: "POST-H-032-C"
-next_micro_sprint: "POST-H-032-D"
+implementation_status: "approved/post-h-032-d-implemented-initial"
+current_micro_sprint: "POST-H-032-D"
+next_micro_sprint: "POST-H-032-E"
 ```
 
 ## 1. Proposito del backlog
@@ -490,12 +490,19 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_rag_groundedness_claims.py `
   tests/test_rag_groundedness_eval_runner.py `
   tests/test_rag_citations_source_coverage.py `
-  tests/test_requirements_agent.py `
+  tests/test_sdlc_agents.py `
   tests/test_release_agent.py `
   -q
 ```
 
 Si no existen tests por agente con esos nombres exactos, se deben crear los tests POST-H-032 y reutilizar los tests existentes `test_sdlc_agents.py`, `test_review_agents.py`, `test_release_agent.py`, `test_repo_analysis_agent.py` y `test_refactor_testplanner_agents.py`.
+
+
+### Estado de implementación POST-H-032-D
+
+`POST-H-032-D` queda implementado como versión `implemented-initial` de agentes RAG-aware. La implementación agrega `RagAgentContextPack`, `.devpilot/agents/rag_agent_bindings.json`, `src/devpilot_core/agents/rag_context.py`, CLI `python -m devpilot_core agent rag-context --json`, boundary `ApplicationService.rag_agent_context`, negative cases y tests focales.
+
+La implementación es deliberadamente local-first y determinística: usa el índice RAG lexical existente, exige `source_ids`, citas y freshness, y responde `insufficient evidence` ante claims sin soporte o claims prohibidos. No usa LLM real, red, API externa, memoria, tool execution ni mutaciones de fuente. La evolución futura puede integrar el context pack directamente en prompts/agentes, pero debe preservar estos gates.
 
 ## POST-H-032-E - Agent memory model
 

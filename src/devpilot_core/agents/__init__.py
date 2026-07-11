@@ -20,6 +20,14 @@ from .release_agent import ReleaseAgent
 from .architecture_agent import ArchitectureAgent
 from .requirements_agent import RequirementsAgent
 from .runtime import AgentRuntime, AgentRuntimeConfig
+from .rag_context import (
+    INSUFFICIENT_EVIDENCE,
+    RAG_AGENT_CONTEXT_COMMAND,
+    RAG_AGENT_CONTEXT_CONTRACT,
+    RAG_AGENT_CONTEXT_SCHEMA_ID,
+    RagAgentContextOptions,
+    RagAwareAgentContextBuilder,
+)
 from .session import AgentSession, AgentSessionEvent, AgentSessionInspectOptions, AgentSessionStore, inspect_agent_session
 from .security_agent import SecurityAgent
 
@@ -35,6 +43,12 @@ __all__ = [
     "AgentModelCall",
     "AgentRunResult",
     "AgentRuntime",
+    "INSUFFICIENT_EVIDENCE",
+    "RAG_AGENT_CONTEXT_COMMAND",
+    "RAG_AGENT_CONTEXT_CONTRACT",
+    "RAG_AGENT_CONTEXT_SCHEMA_ID",
+    "RagAgentContextOptions",
+    "RagAwareAgentContextBuilder",
     "AgentRuntimeConfig",
     "AgentSession",
     "AgentSessionEvent",

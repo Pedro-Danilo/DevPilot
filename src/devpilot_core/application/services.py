@@ -256,6 +256,44 @@ class ApplicationService:
             ),
         ).build()
 
+    def rag_agent_context(
+        self,
+        *,
+        agent_id: str | None = None,
+        query: str | None = None,
+        target: str | None = None,
+        bindings_path: str = ".devpilot/agents/rag_agent_bindings.json",
+        index_path: str = ".devpilot/rag/docs_index.json",
+        top_k: int = 5,
+        write_report: bool = False,
+        output_json: str = "outputs/reports/rag_agent_context_pack.json",
+        output_markdown: str = "outputs/reports/rag_agent_context_pack.md",
+    ) -> CommandResult:
+        """Build the POST-H-032-D RAG-aware agent context pack.
+
+        This boundary prepares deterministic local RAG context for selected
+        agents with source ids, citations, freshness and insufficient-evidence
+        behavior. It does not call an LLM, use network, read/write memory or
+        execute tools.
+        """
+
+        from devpilot_core.agents import RagAgentContextOptions, RagAwareAgentContextBuilder
+
+        return RagAwareAgentContextBuilder(
+            self.root,
+            RagAgentContextOptions(
+                agent_id=agent_id,
+                query=query,
+                target=target,
+                bindings_path=Path(bindings_path),
+                index_path=Path(index_path),
+                top_k=top_k,
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     def local_llm_provider_health(
         self,
         *,
@@ -980,6 +1018,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("model.health", "Check provider health through governed model router.", "localhost_or_none", True, "python -m devpilot_core model health --provider mock --json"),
         ("model.local_health", "Build POST-H-032-B local LLM provider hardening evidence for Ollama/LM Studio without requiring real local servers.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model local-health --json"),
         ("model.external_api_pilot", "Build POST-H-032-C ADR-backed external API fake/gated pilot evidence without real external API calls or secret reads.", "read_only_optional_outputs_reports", True, "python -m devpilot_core model external-api-pilot --json"),
+        ("agent.rag_context", "Build POST-H-032-D deterministic RAG-aware agent context packs with citations and insufficient-evidence behavior.", "read_only_optional_outputs_reports", True, "python -m devpilot_core agent rag-context --json"),
         ("model.capabilities", "Build static model capability matrix.", "none", True, "python -m devpilot_core model capabilities --json"),
         ("history.runs", "List local command history from LocalStore.", "none", True, "python -m devpilot_core history list --json"),
         ("observability.trace_report", "Read bounded local trace report.", "none", True, "python -m devpilot_core trace report --json"),

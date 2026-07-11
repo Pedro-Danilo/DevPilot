@@ -5732,6 +5732,64 @@
       ]
     },
     {
+      "contract_id": "post-h-031-claims-no-go-application-api",
+      "scope": "integration",
+      "owner": "POST-H-031-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "validates": [
+        "ApplicationService.claims_no_go_dashboard",
+        "operator.claims_no_go",
+        "/api/v1/operator/claims-no-go",
+        ".devpilot/interfaces/api_route_contract_registry.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-031-claims-no-go-dashboard",
+      "scope": "feature",
+      "owner": "POST-H-031-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "validates": [
+        "docs/schemas/claims_no_go_dashboard.schema.json",
+        ".devpilot/operator/claims_no_go_dashboard_config.json",
+        "src/devpilot_core/evidence_graph/claims_dashboard.py",
+        "python -m devpilot_core evidence claims-dashboard --json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/claims_dashboard.py",
+        "src/devpilot_core/industrial/production_ready.py",
+        "docs/schemas/claims_no_go_dashboard.schema.json",
+        ".devpilot/operator/claims_no_go_dashboard_config.json",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q",
+        "python -m devpilot_core evidence claims-dashboard --json"
+      ]
+    },
+    {
       "contract_id": "post-h-031-evidence-graph-model",
       "scope": "integration",
       "owner": "POST-H-031-A",
@@ -5778,6 +5836,65 @@
       ],
       "notes": [
         "POST-H-031-A starts the operator evidence graph as implemented-initial/local-first without declaring readiness or executing commands."
+      ]
+    },
+    {
+      "contract_id": "post-h-031-gap-action-application-api",
+      "scope": "integration",
+      "owner": "POST-H-031-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "validates": [
+        "ApplicationService.gap_action_map",
+        "operator.gaps",
+        "/api/v1/operator/gaps",
+        ".devpilot/interfaces/api_route_contract_registry.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-031-gap-action-map",
+      "scope": "feature",
+      "owner": "POST-H-031-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "validates": [
+        "docs/schemas/gap_action_map.schema.json",
+        ".devpilot/evidence/gap_action_rules.json",
+        "src/devpilot_core/evidence_graph/gap_actions.py",
+        "python -m devpilot_core evidence gaps --json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/gap_actions.py",
+        "src/devpilot_core/evidence_graph/health.py",
+        "src/devpilot_core/evidence_graph/builder.py",
+        "docs/schemas/gap_action_map.schema.json",
+        ".devpilot/evidence/gap_action_rules.json",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q",
+        "python -m devpilot_core evidence gaps --json"
       ]
     },
     {
@@ -5836,6 +5953,225 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_operator_health_summary.py -q",
         "python -m devpilot_core evidence health --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-031-redacted-evidence-export-application-api",
+      "scope": "integration",
+      "owner": "POST-H-031-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_redacted_evidence_export_ux.py"
+      ],
+      "validates": [
+        "ApplicationService.operator_evidence_export",
+        "operator.evidence_export",
+        "/api/v1/operator/evidence-export",
+        ".devpilot/interfaces/api_route_contract_registry.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-031-redacted-evidence-export-ux",
+      "scope": "feature",
+      "owner": "POST-H-031-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_redacted_evidence_export_ux.py"
+      ],
+      "validates": [
+        "docs/schemas/operator_evidence_export.schema.json",
+        "src/devpilot_core/evidence_graph/export.py",
+        "python -m devpilot_core operator evidence-export --redacted --dry-run --json",
+        "python -m devpilot_core operator evidence-export --redacted --write-report --json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/export.py",
+        "docs/schemas/operator_evidence_export.schema.json",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q",
+        "python -m devpilot_core operator evidence-export --redacted --dry-run --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-agent-capability-inventory",
+      "scope": "feature",
+      "owner": "POST-H-032-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "validates": [
+        "AgentCapabilityInventory",
+        ".devpilot/agents/agent_capability_inventory.json",
+        "src/devpilot_core/agents/capability_inventory.py",
+        "python -m devpilot_core agent capability-inventory --json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/agents/capability_inventory.py",
+        "docs/schemas/agent_capability_inventory.schema.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/miasi/agent_registry.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
+        "python -m devpilot_core agent capability-inventory --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-agent-promotion-criteria",
+      "scope": "safety",
+      "owner": "POST-H-032-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "validates": [
+        "AgentPromotionCriteria",
+        ".devpilot/agents/agent_promotion_criteria.json",
+        "external API disabled by default",
+        "memory disabled by default",
+        "remote/connector/plugin disabled by default"
+      ],
+      "watched_paths": [
+        "docs/schemas/agent_promotion_criteria.schema.json",
+        ".devpilot/agents/agent_promotion_criteria.json",
+        ".devpilot/project_state.json"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
+        "python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-external-api-provider-pilot",
+      "scope": "safety",
+      "owner": "POST-H-032-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "validates": [
+        "ExternalApiProviderPilot",
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
+        ".devpilot/modeling/external_api_provider_pilot_policy.json",
+        "src/devpilot_core/modeling/external_api_pilot.py",
+        "python -m devpilot_core model external-api-pilot --json",
+        "fake provider contract",
+        "CostGuard accidental external API block",
+        "env-var-only secret handling"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/external_api_pilot.py",
+        "docs/schemas/external_api_provider_pilot.schema.json",
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
+        ".devpilot/modeling/external_api_provider_pilot_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/policy/cost_guard.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_external_api_provider_pilot.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_policy_engine.py tests/test_secret_guard_hardening.py -q",
+        "python -m devpilot_core model external-api-pilot --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-local-llm-provider-hardening",
+      "scope": "feature",
+      "owner": "POST-H-032-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "validates": [
+        "LocalLlmProviderHealthReport",
+        ".devpilot/modeling/local_llm_provider_health_policy.json",
+        "src/devpilot_core/modeling/local_provider_health.py",
+        "python -m devpilot_core model local-health --json",
+        "ApplicationService.local_llm_provider_health",
+        "controlled fallback to mock for unavailable local provider"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/local_provider_health.py",
+        "docs/schemas/local_llm_provider_health_report.schema.json",
+        ".devpilot/modeling/local_llm_provider_health_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/modeling/router.py",
+        "src/devpilot_core/modeling/ollama_adapter.py",
+        "src/devpilot_core/modeling/lmstudio_adapter.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q",
+        "python -m devpilot_core model local-health --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-rag-aware-agents",
+      "scope": "feature",
+      "owner": "POST-H-032-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_rag_aware_agents.py"
+      ],
+      "validates": [
+        "RagAgentContextPack",
+        ".devpilot/agents/rag_agent_bindings.json",
+        "src/devpilot_core/agents/rag_context.py",
+        "python -m devpilot_core agent rag-context --json",
+        "ApplicationService.rag_agent_context",
+        "insufficient evidence behavior",
+        "prohibited claim blocking"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/agents/rag_context.py",
+        "docs/schemas/rag_agent_context_pack.schema.json",
+        ".devpilot/agents/rag_agent_bindings.json",
+        ".devpilot/rag/docs_index.json",
+        "src/devpilot_core/rag/retriever.py",
+        "src/devpilot_core/rag/groundedness.py",
+        "src/devpilot_core/rag/citations.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_rag_aware_agents.py tests/test_rag_local.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_claims.py tests/test_rag_groundedness_eval_runner.py tests/test_rag_citations_source_coverage.py tests/test_sdlc_agents.py tests/test_release_agent.py -q",
+        "python -m devpilot_core agent rag-context --json"
       ]
     },
     {
@@ -7915,308 +8251,6 @@
       "critical": false,
       "recommended_commands": [
         "npm --prefix ui/web test"
-      ]
-    },
-    {
-      "contract_id": "post-h-031-gap-action-map",
-      "scope": "feature",
-      "owner": "POST-H-031-C",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_031_gap_to_action_mapping.py"
-      ],
-      "validates": [
-        "docs/schemas/gap_action_map.schema.json",
-        ".devpilot/evidence/gap_action_rules.json",
-        "src/devpilot_core/evidence_graph/gap_actions.py",
-        "python -m devpilot_core evidence gaps --json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/evidence_graph/gap_actions.py",
-        "src/devpilot_core/evidence_graph/health.py",
-        "src/devpilot_core/evidence_graph/builder.py",
-        "docs/schemas/gap_action_map.schema.json",
-        ".devpilot/evidence/gap_action_rules.json",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q",
-        "python -m devpilot_core evidence gaps --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-031-gap-action-application-api",
-      "scope": "integration",
-      "owner": "POST-H-031-C",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_031_gap_to_action_mapping.py"
-      ],
-      "validates": [
-        "ApplicationService.gap_action_map",
-        "operator.gaps",
-        "/api/v1/operator/gaps",
-        ".devpilot/interfaces/api_route_contract_registry.json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/operator.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        "docs/07_interfaces/openapi_v1.json"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-031-claims-no-go-dashboard",
-      "scope": "feature",
-      "owner": "POST-H-031-D",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_031_claims_no_go_dashboard.py"
-      ],
-      "validates": [
-        "docs/schemas/claims_no_go_dashboard.schema.json",
-        ".devpilot/operator/claims_no_go_dashboard_config.json",
-        "src/devpilot_core/evidence_graph/claims_dashboard.py",
-        "python -m devpilot_core evidence claims-dashboard --json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/evidence_graph/claims_dashboard.py",
-        "src/devpilot_core/industrial/production_ready.py",
-        "docs/schemas/claims_no_go_dashboard.schema.json",
-        ".devpilot/operator/claims_no_go_dashboard_config.json",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q",
-        "python -m devpilot_core evidence claims-dashboard --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-031-claims-no-go-application-api",
-      "scope": "integration",
-      "owner": "POST-H-031-D",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_031_claims_no_go_dashboard.py"
-      ],
-      "validates": [
-        "ApplicationService.claims_no_go_dashboard",
-        "operator.claims_no_go",
-        "/api/v1/operator/claims-no-go",
-        ".devpilot/interfaces/api_route_contract_registry.json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/operator.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        "docs/07_interfaces/openapi_v1.json"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-031-redacted-evidence-export-ux",
-      "scope": "feature",
-      "owner": "POST-H-031-E",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_031_redacted_evidence_export_ux.py"
-      ],
-      "validates": [
-        "docs/schemas/operator_evidence_export.schema.json",
-        "src/devpilot_core/evidence_graph/export.py",
-        "python -m devpilot_core operator evidence-export --redacted --dry-run --json",
-        "python -m devpilot_core operator evidence-export --redacted --write-report --json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/evidence_graph/export.py",
-        "docs/schemas/operator_evidence_export.schema.json",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/operator.py",
-        "src/devpilot_core/interfaces/api/security.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q",
-        "python -m devpilot_core operator evidence-export --redacted --dry-run --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-031-redacted-evidence-export-application-api",
-      "scope": "integration",
-      "owner": "POST-H-031-E",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_031_redacted_evidence_export_ux.py"
-      ],
-      "validates": [
-        "ApplicationService.operator_evidence_export",
-        "operator.evidence_export",
-        "/api/v1/operator/evidence-export",
-        ".devpilot/interfaces/api_route_contract_registry.json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/operator.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        "docs/07_interfaces/openapi_v1.json"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-agent-capability-inventory",
-      "scope": "feature",
-      "owner": "POST-H-032-A",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_agent_capability_inventory.py"
-      ],
-      "validates": [
-        "AgentCapabilityInventory",
-        ".devpilot/agents/agent_capability_inventory.json",
-        "src/devpilot_core/agents/capability_inventory.py",
-        "python -m devpilot_core agent capability-inventory --json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/agents/capability_inventory.py",
-        "docs/schemas/agent_capability_inventory.schema.json",
-        ".devpilot/agents/agent_capability_inventory.json",
-        ".devpilot/miasi/agent_registry.json",
-        ".devpilot/miasi/tool_registry.json",
-        ".devpilot/miasi/policy_matrix.json"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
-        "python -m devpilot_core agent capability-inventory --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-agent-promotion-criteria",
-      "scope": "safety",
-      "owner": "POST-H-032-A",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_agent_capability_inventory.py"
-      ],
-      "validates": [
-        "AgentPromotionCriteria",
-        ".devpilot/agents/agent_promotion_criteria.json",
-        "external API disabled by default",
-        "memory disabled by default",
-        "remote/connector/plugin disabled by default"
-      ],
-      "watched_paths": [
-        "docs/schemas/agent_promotion_criteria.schema.json",
-        ".devpilot/agents/agent_promotion_criteria.json",
-        ".devpilot/project_state.json"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q",
-        "python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --instance .devpilot/agents/agent_promotion_criteria.json --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-local-llm-provider-hardening",
-      "scope": "feature",
-      "owner": "POST-H-032-B",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_local_llm_provider_hardening.py"
-      ],
-      "validates": [
-        "LocalLlmProviderHealthReport",
-        ".devpilot/modeling/local_llm_provider_health_policy.json",
-        "src/devpilot_core/modeling/local_provider_health.py",
-        "python -m devpilot_core model local-health --json",
-        "ApplicationService.local_llm_provider_health",
-        "controlled fallback to mock for unavailable local provider"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/modeling/local_provider_health.py",
-        "docs/schemas/local_llm_provider_health_report.schema.json",
-        ".devpilot/modeling/local_llm_provider_health_policy.json",
-        ".devpilot/providers.yaml.example",
-        "src/devpilot_core/modeling/providers.py",
-        "src/devpilot_core/modeling/router.py",
-        "src/devpilot_core/modeling/ollama_adapter.py",
-        "src/devpilot_core/modeling/lmstudio_adapter.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py tests/test_model_adapter.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_policy_engine.py -q",
-        "python -m devpilot_core model local-health --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-external-api-provider-pilot",
-      "scope": "safety",
-      "owner": "POST-H-032-C",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_external_api_provider_pilot.py"
-      ],
-      "validates": [
-        "ExternalApiProviderPilot",
-        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
-        ".devpilot/modeling/external_api_provider_pilot_policy.json",
-        "src/devpilot_core/modeling/external_api_pilot.py",
-        "python -m devpilot_core model external-api-pilot --json",
-        "fake provider contract",
-        "CostGuard accidental external API block",
-        "env-var-only secret handling"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/modeling/external_api_pilot.py",
-        "docs/schemas/external_api_provider_pilot.schema.json",
-        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
-        ".devpilot/modeling/external_api_provider_pilot_policy.json",
-        ".devpilot/providers.yaml.example",
-        "src/devpilot_core/modeling/providers.py",
-        "src/devpilot_core/policy/cost_guard.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_external_api_provider_pilot.py tests/test_model_governance.py tests/test_provider_config_schema.py tests/test_policy_engine.py tests/test_secret_guard_hardening.py -q",
-        "python -m devpilot_core model external-api-pilot --json"
       ]
     }
   ],

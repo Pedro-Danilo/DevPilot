@@ -11237,3 +11237,26 @@ El reporte opcional se escribe bajo `outputs/reports/` y no debe versionarse en 
 ### Evolución pendiente
 
 POST-H-032-A es inventario y criterios. No habilita runtime nuevo. Los siguientes micro-sprints deben implementar hardening de providers locales, API externa gated, RAG-aware agents, memoria opt-in, tool calling contractual, MCP fake-server y hardening de handoffs multiagente.
+
+
+## POST-H-032-D — RAG-aware agents
+
+Objetivo operativo: generar un context pack RAG local para agentes seleccionados sin activar LLM real ni APIs externas. El operador debe usar esta capacidad como evidencia inicial de grounding, no como autorización para ejecución autónoma.
+
+Comandos:
+
+```powershell
+python -m devpilot_core agent rag-context --json
+python -m devpilot_core agent rag-context --json --write-report
+python -m devpilot_core schema validate --schema-id RagAgentContextPack --instance outputs\reports\rag_agent_context_pack.json --json
+```
+
+Controles obligatorios:
+
+- Toda sugerencia grounded debe incluir `source_ids` y citas.
+- Todo claim no soportado debe responder `insufficient evidence`.
+- RAG no puede justificar claims prohibidos.
+- Las fuentes deben estar en allowlist local.
+- No se permite LLM real, red, API externa, memoria, tool execution ni mutación de fuentes en POST-H-032-D.
+
+Estado: `implemented-initial`; futuras versiones pueden integrar el context pack dentro de prompts/agentes, pero deben conservar estos gates.

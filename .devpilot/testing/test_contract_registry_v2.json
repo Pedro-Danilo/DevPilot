@@ -9916,6 +9916,126 @@
       ]
     },
     {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-D",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-D local-first/read-only claims/no-go dashboard contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "claims-no-go-dashboard",
+      "required_for_release": true,
+      "contract_id": "post-h-031-claims-no-go-application-api",
+      "source_contract_id": "post-h-031-claims-no-go-application-api",
+      "domain": "application.service",
+      "capability": "ApplicationService and protected local API route for claims/no-go dashboard",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "validates": [
+        "ApplicationService.claims_no_go_dashboard",
+        "operator.claims_no_go",
+        "/api/v1/operator/claims-no-go",
+        "token/policy protected local API route"
+      ],
+      "trigger_hints": [
+        "operator.claims_no_go",
+        "api.operator.claims_no_go",
+        "ApplicationService"
+      ],
+      "impact_scope": [
+        "application.service",
+        "product.api",
+        "operations.observability"
+      ],
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1",
+        "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-D",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-D local-first/read-only claims/no-go dashboard contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "claims-no-go-dashboard",
+      "required_for_release": true,
+      "contract_id": "post-h-031-claims-no-go-dashboard",
+      "source_contract_id": "post-h-031-claims-no-go-dashboard",
+      "domain": "operations.observability",
+      "capability": "ClaimsNoGoDashboard schema-backed operator claims/no-go view",
+      "test_files": [
+        "tests/test_post_h_031_claims_no_go_dashboard.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/claims_dashboard.py",
+        "docs/schemas/claims_no_go_dashboard.schema.json",
+        ".devpilot/operator/claims_no_go_dashboard_config.json",
+        "src/devpilot_core/cli.py"
+      ],
+      "validates": [
+        "ClaimsNoGoDashboard",
+        "evidence claims-dashboard CLI",
+        "local-first/read-only safety flags",
+        "prohibited claims remain blocked"
+      ],
+      "trigger_hints": [
+        "claims no-go dashboard",
+        "evidence claims-dashboard",
+        "POST-H-031-D"
+      ],
+      "impact_scope": [
+        "operations.observability",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1"
+      ]
+    },
+    {
       "contract_id": "post-h-031-evidence-graph-model",
       "schema_version": "2.0",
       "source_contract_id": "post-h-031-evidence-graph-model",
@@ -9990,6 +10110,126 @@
       "classification_status": "explicit",
       "classification_notes": [
         "POST-H-031-A implements the initial evidence graph model as local-first/read-only and non-readiness-declaring."
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-C",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-C local-first/read-only gap-to-action mapping contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "gap-action-map",
+      "contract_id": "post-h-031-gap-action-application-api",
+      "source_contract_id": "post-h-031-gap-action-application-api",
+      "domain": "application.service",
+      "capability": "ApplicationService and protected local API route for gap-to-action mapping",
+      "test_files": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "validates": [
+        "ApplicationService.gap_action_map",
+        "operator.gaps",
+        "/api/v1/operator/gaps",
+        "token/policy protected local API route"
+      ],
+      "trigger_hints": [
+        "operator.gaps",
+        "api.operator.gaps",
+        "ApplicationService"
+      ],
+      "impact_scope": [
+        "application.service",
+        "product.api",
+        "operations.observability"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-GAP-ACTION-MAP-V1",
+        "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-C",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-C local-first/read-only gap-to-action mapping contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "gap-action-map",
+      "contract_id": "post-h-031-gap-action-map",
+      "source_contract_id": "post-h-031-gap-action-map",
+      "domain": "operations.observability",
+      "capability": "GapActionMap schema-backed operator action mapping",
+      "test_files": [
+        "tests/test_post_h_031_gap_to_action_mapping.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/gap_actions.py",
+        "docs/schemas/gap_action_map.schema.json",
+        ".devpilot/evidence/gap_action_rules.json",
+        "src/devpilot_core/cli.py"
+      ],
+      "validates": [
+        "GapActionMap",
+        "evidence gaps CLI",
+        "local-first/read-only safety flags",
+        "gap_action_rules required categories"
+      ],
+      "trigger_hints": [
+        "gap action map",
+        "evidence gaps",
+        "POST-H-031-C"
+      ],
+      "impact_scope": [
+        "operations.observability",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-GAP-ACTION-MAP-V1"
       ]
     },
     {
@@ -10109,6 +10349,461 @@
       ],
       "schema_ids": [
         "SCHEMA-DEVPL-OPERATOR-HEALTH-SUMMARY-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-E",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-E ApplicationService and protected API exposure for redacted evidence export."
+      ],
+      "owner_domain": "application.service",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "operator-evidence-export",
+      "contract_id": "post-h-031-redacted-evidence-export-application-api",
+      "source_contract_id": "post-h-031-redacted-evidence-export-application-api",
+      "domain": "application.service",
+      "capability": "OperatorEvidenceExport ApplicationService/API exposure",
+      "test_files": [
+        "tests/test_post_h_031_redacted_evidence_export_ux.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "validates": [
+        "ApplicationService.operator_evidence_export",
+        "operator.evidence_export",
+        "/api/v1/operator/evidence-export"
+      ],
+      "trigger_hints": [
+        "operator evidence export",
+        "redacted evidence",
+        "POST-H-031-E"
+      ],
+      "impact_scope": [
+        "application.service",
+        "interfaces.api",
+        "operations.observability"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-E",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-E local-first/redacted operator evidence export contract."
+      ],
+      "owner_domain": "operations.observability",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "operator-evidence-export",
+      "contract_id": "post-h-031-redacted-evidence-export-ux",
+      "source_contract_id": "post-h-031-redacted-evidence-export-ux",
+      "domain": "operations.observability",
+      "capability": "OperatorEvidenceExport redacted operator evidence package",
+      "test_files": [
+        "tests/test_post_h_031_redacted_evidence_export_ux.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/export.py",
+        "docs/schemas/operator_evidence_export.schema.json",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "validates": [
+        "OperatorEvidenceExport",
+        "operator evidence-export CLI",
+        "redaction-required invariant",
+        "outputs-only package writes"
+      ],
+      "trigger_hints": [
+        "operator evidence export",
+        "redacted evidence",
+        "POST-H-031-E"
+      ],
+      "impact_scope": [
+        "operations.observability",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-A",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-A local-first/read-only governed agent inventory and promotion criteria contract."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "agent-capability-inventory",
+      "contract_id": "post-h-032-agent-capability-inventory",
+      "source_contract_id": "post-h-032-agent-capability-inventory",
+      "domain": "agentic.runtime",
+      "capability": "AgentCapabilityInventory source-controlled inventory and CLI/ApplicationService projection",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/agents/capability_inventory.py",
+        "docs/schemas/agent_capability_inventory.schema.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/miasi/agent_registry.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json"
+      ],
+      "validates": [
+        "AgentCapabilityInventory",
+        "agent capability-inventory CLI",
+        "ApplicationService.agent_capability_inventory",
+        "all MIASI agents covered",
+        "unsafe defaults disabled"
+      ],
+      "trigger_hints": [
+        "POST-H-032-A",
+        "agent capability inventory",
+        "agent promotion criteria"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "governance.miasi",
+        "governance.schemas",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-A",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-A local-first/read-only governed agent inventory and promotion criteria contract."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "agent-promotion-criteria",
+      "contract_id": "post-h-032-agent-promotion-criteria",
+      "source_contract_id": "post-h-032-agent-promotion-criteria",
+      "domain": "agentic.runtime",
+      "capability": "AgentPromotionCriteria no-go gates for controlled agent maturity promotion",
+      "test_files": [
+        "tests/test_post_h_032_agent_capability_inventory.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/agent_promotion_criteria.schema.json",
+        ".devpilot/agents/agent_promotion_criteria.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "AgentPromotionCriteria",
+        "external API disabled by default",
+        "memory disabled by default",
+        "remote/connector/plugin disabled by default",
+        "deterministic gates not replaced by LLM"
+      ],
+      "trigger_hints": [
+        "POST-H-032-A",
+        "agent capability inventory",
+        "agent promotion criteria"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "governance.miasi",
+        "governance.schemas",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-C",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-C external API fake/gated pilot; real API calls, secret reads and network are forbidden in tests."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "external-api-provider-gated-pilot",
+      "contract_id": "post-h-032-external-api-provider-pilot",
+      "source_contract_id": "post-h-032-external-api-provider-pilot",
+      "domain": "agentic.runtime",
+      "capability": "ExternalApiProviderPilot ADR/policy/fake provider contract with CostGuard and env-var-only secret handling",
+      "test_files": [
+        "tests/test_post_h_032_external_api_provider_pilot.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/external_api_pilot.py",
+        "docs/schemas/external_api_provider_pilot.schema.json",
+        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
+        ".devpilot/modeling/external_api_provider_pilot_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/policy/cost_guard.py"
+      ],
+      "validates": [
+        "ExternalApiProviderPilot",
+        "model external-api-pilot CLI",
+        "ApplicationService.external_api_provider_pilot",
+        "fake external API provider contract",
+        "CostGuard default block for accidental external API",
+        "external_api_used=false",
+        "network_used=false",
+        "tests_require_real_api=false"
+      ],
+      "trigger_hints": [
+        "POST-H-032-C",
+        "external API provider ADR",
+        "gated pilot",
+        "fake API provider"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "modeling.providers",
+        "policy.costguard",
+        "governance.schemas",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_external_api_provider_pilot.py -q"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-EXTERNAL-API-PROVIDER-PILOT-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-B",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-B local-first provider health hardening; real Ollama/LM Studio services are optional and not required in tests."
+      ],
+      "owner_domain": "agentic.runtime",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "local-llm-provider-hardening",
+      "contract_id": "post-h-032-local-llm-provider-hardening",
+      "source_contract_id": "post-h-032-local-llm-provider-hardening",
+      "domain": "agentic.runtime",
+      "capability": "Local LLM provider health hardening for Ollama/LM Studio with localhost-only, zero-secret, zero-cost and explicit mock fallback semantics",
+      "test_files": [
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/modeling/local_provider_health.py",
+        "docs/schemas/local_llm_provider_health_report.schema.json",
+        ".devpilot/modeling/local_llm_provider_health_policy.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/modeling/router.py",
+        "src/devpilot_core/modeling/ollama_adapter.py",
+        "src/devpilot_core/modeling/lmstudio_adapter.py"
+      ],
+      "validates": [
+        "LocalLlmProviderHealthReport",
+        "model local-health CLI",
+        "ApplicationService.local_llm_provider_health",
+        "local providers disabled by default",
+        "localhost-only endpoints",
+        "no secrets for local providers",
+        "no external API used",
+        "explicit fallback to mock",
+        "zero-cost BudgetLedger summary"
+      ],
+      "trigger_hints": [
+        "POST-H-032-B",
+        "local LLM provider hardening",
+        "Ollama",
+        "LM Studio",
+        "fallback to mock"
+      ],
+      "impact_scope": [
+        "agentic.runtime",
+        "governance.policy",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py -q",
+        "python -m devpilot_core model local-health --json"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-LOCAL-LLM-PROVIDER-HEALTH-REPORT-V1"
+      ]
+    },
+    {
+      "schema_version": "2.0",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-032-D",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-032-D deterministic RAG-aware agent context packs; no LLM, network, external API, memory or tool execution is required."
+      ],
+      "owner_domain": "knowledge.rag",
+      "service_boundary": "ApplicationService",
+      "subgate_id": "rag-aware-agents",
+      "contract_id": "post-h-032-rag-aware-agents",
+      "source_contract_id": "post-h-032-rag-aware-agents",
+      "domain": "knowledge.rag",
+      "capability": "RAG-aware agent context packs with source ids, citations, freshness, negative groundedness cases and insufficient-evidence behavior",
+      "test_files": [
+        "tests/test_post_h_032_rag_aware_agents.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/agents/rag_context.py",
+        "docs/schemas/rag_agent_context_pack.schema.json",
+        ".devpilot/agents/rag_agent_bindings.json",
+        ".devpilot/rag/docs_index.json",
+        "src/devpilot_core/rag/retriever.py",
+        "src/devpilot_core/rag/groundedness.py",
+        "src/devpilot_core/rag/citations.py"
+      ],
+      "validates": [
+        "RagAgentContextPack",
+        "agent rag-context CLI",
+        "ApplicationService.rag_agent_context",
+        "source ids and citations",
+        "freshness metadata",
+        "insufficient evidence for unsupported/prohibited claims",
+        "no prohibited claims justified by RAG"
+      ],
+      "trigger_hints": [
+        "POST-H-032-D",
+        "RAG-aware agents",
+        "insufficient evidence",
+        "citations",
+        "source ids"
+      ],
+      "impact_scope": [
+        "knowledge.rag",
+        "agentic.runtime",
+        "governance.policy",
+        "interface.cli",
+        "application.service"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_rag_aware_agents.py -q",
+        "python -m devpilot_core agent rag-context --json"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-RAG-AGENT-CONTEXT-PACK-V1"
       ]
     },
     {
@@ -14293,631 +14988,6 @@
       "classification_notes": [
         "Migrated deterministically from v1 scope 'ui-smoke' during POST-H-003-B.",
         "UI smoke is local but not always required for every backend-only change."
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 10,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-031-C",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-031-C local-first/read-only gap-to-action mapping contract."
-      ],
-      "owner_domain": "operations.observability",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "gap-action-map",
-      "contract_id": "post-h-031-gap-action-map",
-      "source_contract_id": "post-h-031-gap-action-map",
-      "domain": "operations.observability",
-      "capability": "GapActionMap schema-backed operator action mapping",
-      "test_files": [
-        "tests/test_post_h_031_gap_to_action_mapping.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/evidence_graph/gap_actions.py",
-        "docs/schemas/gap_action_map.schema.json",
-        ".devpilot/evidence/gap_action_rules.json",
-        "src/devpilot_core/cli.py"
-      ],
-      "validates": [
-        "GapActionMap",
-        "evidence gaps CLI",
-        "local-first/read-only safety flags",
-        "gap_action_rules required categories"
-      ],
-      "trigger_hints": [
-        "gap action map",
-        "evidence gaps",
-        "POST-H-031-C"
-      ],
-      "impact_scope": [
-        "operations.observability",
-        "interface.cli",
-        "application.service"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-GAP-ACTION-MAP-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 10,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-031-C",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-031-C local-first/read-only gap-to-action mapping contract."
-      ],
-      "owner_domain": "operations.observability",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "gap-action-map",
-      "contract_id": "post-h-031-gap-action-application-api",
-      "source_contract_id": "post-h-031-gap-action-application-api",
-      "domain": "application.service",
-      "capability": "ApplicationService and protected local API route for gap-to-action mapping",
-      "test_files": [
-        "tests/test_post_h_031_gap_to_action_mapping.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/operator.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        "docs/07_interfaces/openapi_v1.json"
-      ],
-      "validates": [
-        "ApplicationService.gap_action_map",
-        "operator.gaps",
-        "/api/v1/operator/gaps",
-        "token/policy protected local API route"
-      ],
-      "trigger_hints": [
-        "operator.gaps",
-        "api.operator.gaps",
-        "ApplicationService"
-      ],
-      "impact_scope": [
-        "application.service",
-        "product.api",
-        "operations.observability"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-GAP-ACTION-MAP-V1",
-        "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 10,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-031-D",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-031-D local-first/read-only claims/no-go dashboard contract."
-      ],
-      "owner_domain": "operations.observability",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "claims-no-go-dashboard",
-      "required_for_release": true,
-      "contract_id": "post-h-031-claims-no-go-dashboard",
-      "source_contract_id": "post-h-031-claims-no-go-dashboard",
-      "domain": "operations.observability",
-      "capability": "ClaimsNoGoDashboard schema-backed operator claims/no-go view",
-      "test_files": [
-        "tests/test_post_h_031_claims_no_go_dashboard.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/evidence_graph/claims_dashboard.py",
-        "docs/schemas/claims_no_go_dashboard.schema.json",
-        ".devpilot/operator/claims_no_go_dashboard_config.json",
-        "src/devpilot_core/cli.py"
-      ],
-      "validates": [
-        "ClaimsNoGoDashboard",
-        "evidence claims-dashboard CLI",
-        "local-first/read-only safety flags",
-        "prohibited claims remain blocked"
-      ],
-      "trigger_hints": [
-        "claims no-go dashboard",
-        "evidence claims-dashboard",
-        "POST-H-031-D"
-      ],
-      "impact_scope": [
-        "operations.observability",
-        "interface.cli",
-        "application.service"
-      ],
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 10,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-031-D",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-031-D local-first/read-only claims/no-go dashboard contract."
-      ],
-      "owner_domain": "operations.observability",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "claims-no-go-dashboard",
-      "required_for_release": true,
-      "contract_id": "post-h-031-claims-no-go-application-api",
-      "source_contract_id": "post-h-031-claims-no-go-application-api",
-      "domain": "application.service",
-      "capability": "ApplicationService and protected local API route for claims/no-go dashboard",
-      "test_files": [
-        "tests/test_post_h_031_claims_no_go_dashboard.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/operator.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        "docs/07_interfaces/openapi_v1.json"
-      ],
-      "validates": [
-        "ApplicationService.claims_no_go_dashboard",
-        "operator.claims_no_go",
-        "/api/v1/operator/claims-no-go",
-        "token/policy protected local API route"
-      ],
-      "trigger_hints": [
-        "operator.claims_no_go",
-        "api.operator.claims_no_go",
-        "ApplicationService"
-      ],
-      "impact_scope": [
-        "application.service",
-        "product.api",
-        "operations.observability"
-      ],
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-CLAIMS-NO-GO-DASHBOARD-V1",
-        "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 15,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-031-E",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-031-E local-first/redacted operator evidence export contract."
-      ],
-      "owner_domain": "operations.observability",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "operator-evidence-export",
-      "contract_id": "post-h-031-redacted-evidence-export-ux",
-      "source_contract_id": "post-h-031-redacted-evidence-export-ux",
-      "domain": "operations.observability",
-      "capability": "OperatorEvidenceExport redacted operator evidence package",
-      "test_files": [
-        "tests/test_post_h_031_redacted_evidence_export_ux.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/evidence_graph/export.py",
-        "docs/schemas/operator_evidence_export.schema.json",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py"
-      ],
-      "validates": [
-        "OperatorEvidenceExport",
-        "operator evidence-export CLI",
-        "redaction-required invariant",
-        "outputs-only package writes"
-      ],
-      "trigger_hints": [
-        "operator evidence export",
-        "redacted evidence",
-        "POST-H-031-E"
-      ],
-      "impact_scope": [
-        "operations.observability",
-        "interface.cli",
-        "application.service"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 15,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-031-E",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-031-E ApplicationService and protected API exposure for redacted evidence export."
-      ],
-      "owner_domain": "application.service",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "operator-evidence-export",
-      "contract_id": "post-h-031-redacted-evidence-export-application-api",
-      "source_contract_id": "post-h-031-redacted-evidence-export-application-api",
-      "domain": "application.service",
-      "capability": "OperatorEvidenceExport ApplicationService/API exposure",
-      "test_files": [
-        "tests/test_post_h_031_redacted_evidence_export_ux.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/operator.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        "docs/07_interfaces/openapi_v1.json"
-      ],
-      "validates": [
-        "ApplicationService.operator_evidence_export",
-        "operator.evidence_export",
-        "/api/v1/operator/evidence-export"
-      ],
-      "trigger_hints": [
-        "operator evidence export",
-        "redacted evidence",
-        "POST-H-031-E"
-      ],
-      "impact_scope": [
-        "application.service",
-        "interfaces.api",
-        "operations.observability"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-OPERATOR-EVIDENCE-EXPORT-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 15,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-032-A",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-032-A local-first/read-only governed agent inventory and promotion criteria contract."
-      ],
-      "owner_domain": "agentic.runtime",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "agent-capability-inventory",
-      "contract_id": "post-h-032-agent-capability-inventory",
-      "source_contract_id": "post-h-032-agent-capability-inventory",
-      "domain": "agentic.runtime",
-      "capability": "AgentCapabilityInventory source-controlled inventory and CLI/ApplicationService projection",
-      "test_files": [
-        "tests/test_post_h_032_agent_capability_inventory.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/agents/capability_inventory.py",
-        "docs/schemas/agent_capability_inventory.schema.json",
-        ".devpilot/agents/agent_capability_inventory.json",
-        ".devpilot/miasi/agent_registry.json",
-        ".devpilot/miasi/tool_registry.json",
-        ".devpilot/miasi/policy_matrix.json"
-      ],
-      "validates": [
-        "AgentCapabilityInventory",
-        "agent capability-inventory CLI",
-        "ApplicationService.agent_capability_inventory",
-        "all MIASI agents covered",
-        "unsafe defaults disabled"
-      ],
-      "trigger_hints": [
-        "POST-H-032-A",
-        "agent capability inventory",
-        "agent promotion criteria"
-      ],
-      "impact_scope": [
-        "agentic.runtime",
-        "governance.miasi",
-        "governance.schemas",
-        "interface.cli",
-        "application.service"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 15,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-032-A",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-032-A local-first/read-only governed agent inventory and promotion criteria contract."
-      ],
-      "owner_domain": "agentic.runtime",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "agent-promotion-criteria",
-      "contract_id": "post-h-032-agent-promotion-criteria",
-      "source_contract_id": "post-h-032-agent-promotion-criteria",
-      "domain": "agentic.runtime",
-      "capability": "AgentPromotionCriteria no-go gates for controlled agent maturity promotion",
-      "test_files": [
-        "tests/test_post_h_032_agent_capability_inventory.py"
-      ],
-      "watched_paths": [
-        "docs/schemas/agent_promotion_criteria.schema.json",
-        ".devpilot/agents/agent_promotion_criteria.json",
-        ".devpilot/project_state.json"
-      ],
-      "validates": [
-        "AgentPromotionCriteria",
-        "external API disabled by default",
-        "memory disabled by default",
-        "remote/connector/plugin disabled by default",
-        "deterministic gates not replaced by LLM"
-      ],
-      "trigger_hints": [
-        "POST-H-032-A",
-        "agent capability inventory",
-        "agent promotion criteria"
-      ],
-      "impact_scope": [
-        "agentic.runtime",
-        "governance.miasi",
-        "governance.schemas",
-        "interface.cli",
-        "application.service"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_capability_inventory.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-AGENT-PROMOTION-CRITERIA-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 30,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-032-B",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-032-B local-first provider health hardening; real Ollama/LM Studio services are optional and not required in tests."
-      ],
-      "owner_domain": "agentic.runtime",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "local-llm-provider-hardening",
-      "contract_id": "post-h-032-local-llm-provider-hardening",
-      "source_contract_id": "post-h-032-local-llm-provider-hardening",
-      "domain": "agentic.runtime",
-      "capability": "Local LLM provider health hardening for Ollama/LM Studio with localhost-only, zero-secret, zero-cost and explicit mock fallback semantics",
-      "test_files": [
-        "tests/test_post_h_032_local_llm_provider_hardening.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/modeling/local_provider_health.py",
-        "docs/schemas/local_llm_provider_health_report.schema.json",
-        ".devpilot/modeling/local_llm_provider_health_policy.json",
-        ".devpilot/providers.yaml.example",
-        "src/devpilot_core/modeling/providers.py",
-        "src/devpilot_core/modeling/router.py",
-        "src/devpilot_core/modeling/ollama_adapter.py",
-        "src/devpilot_core/modeling/lmstudio_adapter.py"
-      ],
-      "validates": [
-        "LocalLlmProviderHealthReport",
-        "model local-health CLI",
-        "ApplicationService.local_llm_provider_health",
-        "local providers disabled by default",
-        "localhost-only endpoints",
-        "no secrets for local providers",
-        "no external API used",
-        "explicit fallback to mock",
-        "zero-cost BudgetLedger summary"
-      ],
-      "trigger_hints": [
-        "POST-H-032-B",
-        "local LLM provider hardening",
-        "Ollama",
-        "LM Studio",
-        "fallback to mock"
-      ],
-      "impact_scope": [
-        "agentic.runtime",
-        "governance.policy",
-        "interface.cli",
-        "application.service"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_local_llm_provider_hardening.py -q",
-        "python -m devpilot_core model local-health --json"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-LOCAL-LLM-PROVIDER-HEALTH-REPORT-V1"
-      ]
-    },
-    {
-      "schema_version": "2.0",
-      "criticality": "P1",
-      "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 30,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "POST-H-032-C",
-      "classification_status": "explicit",
-      "classification_notes": [
-        "POST-H-032-C external API fake/gated pilot; real API calls, secret reads and network are forbidden in tests."
-      ],
-      "owner_domain": "agentic.runtime",
-      "service_boundary": "ApplicationService",
-      "subgate_id": "external-api-provider-gated-pilot",
-      "contract_id": "post-h-032-external-api-provider-pilot",
-      "source_contract_id": "post-h-032-external-api-provider-pilot",
-      "domain": "agentic.runtime",
-      "capability": "ExternalApiProviderPilot ADR/policy/fake provider contract with CostGuard and env-var-only secret handling",
-      "test_files": [
-        "tests/test_post_h_032_external_api_provider_pilot.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/modeling/external_api_pilot.py",
-        "docs/schemas/external_api_provider_pilot.schema.json",
-        "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
-        ".devpilot/modeling/external_api_provider_pilot_policy.json",
-        ".devpilot/providers.yaml.example",
-        "src/devpilot_core/modeling/providers.py",
-        "src/devpilot_core/policy/cost_guard.py"
-      ],
-      "validates": [
-        "ExternalApiProviderPilot",
-        "model external-api-pilot CLI",
-        "ApplicationService.external_api_provider_pilot",
-        "fake external API provider contract",
-        "CostGuard default block for accidental external API",
-        "external_api_used=false",
-        "network_used=false",
-        "tests_require_real_api=false"
-      ],
-      "trigger_hints": [
-        "POST-H-032-C",
-        "external API provider ADR",
-        "gated pilot",
-        "fake API provider"
-      ],
-      "impact_scope": [
-        "agentic.runtime",
-        "modeling.providers",
-        "policy.costguard",
-        "governance.schemas",
-        "interface.cli",
-        "application.service"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_external_api_provider_pilot.py -q"
-      ],
-      "schema_ids": [
-        "SCHEMA-DEVPL-EXTERNAL-API-PROVIDER-PILOT-V1"
       ]
     }
   ],

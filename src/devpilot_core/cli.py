@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .agents import AgentRuntime, AgentRuntimeConfig, inspect_agent_session
+from .agents import AgentRuntime, AgentRuntimeConfig, RagAgentContextOptions, RagAwareAgentContextBuilder, inspect_agent_session
 from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions, AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
@@ -1759,6 +1759,47 @@ def agent_session_inspect_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def agent_rag_context_command(
+    *,
+    agent_id: str | None = None,
+    query: str | None = None,
+    target: str | None = None,
+    bindings_path: str = ".devpilot/agents/rag_agent_bindings.json",
+    index_path: str = ".devpilot/rag/docs_index.json",
+    top_k: int = 5,
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/rag_agent_context_pack.json",
+    output_markdown: str = "outputs/reports/rag_agent_context_pack.md",
+) -> int:
+    """Build POST-H-032-D RAG-aware agent context packs.
+
+    The command is deterministic and local-only: it reads the local RAG index,
+    applies agent/source bindings, emits source ids/citations/freshness and
+    returns `insufficient evidence` for unsupported or prohibited claims.
+    """
+
+    root = project_root()
+    result = RagAwareAgentContextBuilder(
+        root,
+        RagAgentContextOptions(
+            agent_id=agent_id,
+            query=query,
+            target=target,
+            bindings_path=Path(bindings_path),
+            index_path=Path(index_path),
+            top_k=top_k,
+            write_report=write_report,
+            output_json=Path(output_json),
+            output_markdown=Path(output_markdown),
+        ),
+    ).build()
+    _emit_result_event(root, result, subject="agent:rag-context")
+    _persist_result(root, result, subject="agent:rag-context")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 
 def agent_capability_inventory_command(
@@ -6861,6 +6902,18 @@ def build_parser() -> argparse.ArgumentParser:
     agent_capability.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_capability.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown report under outputs/")
 
+    agent_rag_context = agent_sub.add_parser("rag-context", help="Build POST-H-032-D RAG-aware agent context pack")
+    agent_rag_context.add_argument("--agent-id", default=None, help="Optional agent id; omit for selected POST-H-032-D agents")
+    agent_rag_context.add_argument("--query", default=None, help="Optional RAG query; defaults to each agent binding query")
+    agent_rag_context.add_argument("--target", default=None, help="Optional target artifact or directory for context metadata")
+    agent_rag_context.add_argument("--bindings", default=".devpilot/agents/rag_agent_bindings.json", help="RAG agent bindings path")
+    agent_rag_context.add_argument("--index-path", default=".devpilot/rag/docs_index.json", help="Local RAG index path")
+    agent_rag_context.add_argument("--top-k", type=int, default=5, help="Maximum source chunks per agent, capped at 20")
+    agent_rag_context.add_argument("--output-json", default="outputs/reports/rag_agent_context_pack.json", help="Optional report JSON path under outputs/")
+    agent_rag_context.add_argument("--output-markdown", default="outputs/reports/rag_agent_context_pack.md", help="Optional report Markdown path under outputs/")
+    agent_rag_context.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    agent_rag_context.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown context pack under outputs/")
+
     agent_session = agent_sub.add_parser("session", help="Inspect local AgentSession state")
     agent_session_sub = agent_session.add_subparsers(dest="agent_session_command")
     agent_session_inspect = agent_session_sub.add_parser("inspect", help="Inspect one local AgentSession by id")
@@ -8309,6 +8362,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 policy_matrix=args.policy_matrix,
                 inventory=args.inventory,
                 criteria=args.criteria,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+            )
+        if args.agent_command == "rag-context":
+            return agent_rag_context_command(
+                agent_id=args.agent_id,
+                query=args.query,
+                target=args.target,
+                bindings_path=args.bindings,
+                index_path=args.index_path,
+                top_k=args.top_k,
+                json_output=args.json,
+                write_report=args.write_report,
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
             )

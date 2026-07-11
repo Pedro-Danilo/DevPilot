@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0",
+  "binding_id": "devpilot-rag-agent-bindings",
+  "created_by": "POST-H-032-D",
+  "status": "implemented-initial",
+  "updated_at": "2026-07-11",
+  "scope": "Deterministic local RAG context bindings for selected DevPilot agents",
+  "defaults": {
+    "default_query": "POST-H-032-D RAG-aware agents local sources citations insufficient evidence",
+    "minimum_sources_required": 1,
+    "require_citations": true,
+    "require_source_ids": true,
+    "require_freshness": true,
+    "insufficient_evidence_response": "insufficient evidence",
+    "allowed_source_prefixes": [
+      "README.md",
+      "docs",
+      ".devpilot/agents",
+      ".devpilot/miasi",
+      ".devpilot/rag"
+    ],
+    "llm_required": false,
+    "external_api_allowed": false,
+    "network_allowed": false,
+    "memory_enabled": false,
+    "tools_executed": false,
+    "source_mutations_allowed": false
+  },
+  "agents": [
+    {
+      "agent_id": "requirements.agent",
+      "target": "docs/01_requirements",
+      "default_query": "requirements agent RAG-aware source ids citations insufficient evidence DevPilot POST-H-032-D",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag"]
+    },
+    {
+      "agent_id": "architecture.agent",
+      "target": "docs/02_architecture",
+      "default_query": "architecture agent RAG-aware local sources citations DevPilot POST-H-032-D",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag"]
+    },
+    {
+      "agent_id": "security.agent",
+      "target": "docs/03_security",
+      "default_query": "security agent RAG-aware prohibited claims insufficient evidence POST-H-032-D",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag"]
+    },
+    {
+      "agent_id": "testplanner.agent",
+      "target": "tests",
+      "default_query": "test planner RAG-aware groundedness eval negative cases insufficient evidence POST-H-032-D",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag", "tests"]
+    },
+    {
+      "agent_id": "release.assistant",
+      "target": "docs/release",
+      "default_query": "release assistant RAG-aware sources freshness citations POST-H-032-D DevPilot",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag"]
+    },
+    {
+      "agent_id": "repo.analysis",
+      "target": ".",
+      "default_query": "repo analysis RAG-aware source coverage DevPilot agent capabilities",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag"]
+    },
+    {
+      "agent_id": "code.review",
+      "target": "src",
+      "default_query": "code review RAG-aware local evidence citations DevPilot",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag", "src"]
+    },
+    {
+      "agent_id": "patch.review",
+      "target": "patches",
+      "default_query": "patch review RAG-aware grounded source ids DevPilot",
+      "minimum_sources_required": 1,
+      "allowed_source_prefixes": ["README.md", "docs", ".devpilot/agents", ".devpilot/miasi", ".devpilot/rag"]
+    }
+  ],
+  "prohibited_claims": [
+    "enterprise-ready",
+    "saas-ready",
+    "compliance-certified",
+    "external api enabled by default",
+    "autonomous source mutation without approval",
+    "production-ready for remote execution"
+  ],
+  "negative_cases": [
+    {
+      "case_id": "post-h-032-d-unsupported-enterprise-ready",
+      "type": "prohibited-claim",
+      "claim": "DevPilot is enterprise-ready and SaaS-ready.",
+      "expected_response": "insufficient evidence"
+    },
+    {
+      "case_id": "post-h-032-d-unsupported-api-default",
+      "type": "unsupported-claim",
+      "claim": "External APIs are enabled by default for all agents.",
+      "expected_response": "insufficient evidence"
+    },
+    {
+      "case_id": "post-h-032-d-no-source-claim",
+      "type": "missing-source",
+      "claim": "A RAG-aware agent may answer without citations.",
+      "expected_response": "insufficient evidence"
+    }
+  ],
+  "no_go_gates": [
+    {
+      "gate_id": "rag-agent-claim-without-source-blocked",
+      "condition": "A RAG-aware suggestion contains a claim without source ids/citations.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "rag-agent-insufficient-evidence-missing-blocked",
+      "condition": "Unsupported evidence gaps do not return insufficient evidence.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "rag-agent-source-outside-allowlist-blocked",
+      "condition": "A RAG context pack reads a source outside the configured local allowlist.",
+      "severity": "critical",
+      "default_state": "pass"
+    },
+    {
+      "gate_id": "rag-agent-prohibited-claim-justified-blocked",
+      "condition": "RAG is used to justify a prohibited claim.",
+      "severity": "critical",
+      "default_state": "pass"
+    }
+  ],
+  "notes": [
+    "POST-H-032-D binds selected agents to local RAG context packs only; it does not introduce autonomous RAG execution.",
+    "The pack is deterministic and may be consumed by future prompt/model layers after explicit local provider opt-in."
+  ],
+  "limitations": [
+    "Initial implementation uses lexical RAG index evidence and deterministic checks.",
+    "Future work may add richer claim extraction and per-agent prompt integration, still without external API by default."
+  ]
+}

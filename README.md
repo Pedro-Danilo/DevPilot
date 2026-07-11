@@ -5831,3 +5831,16 @@ python -m devpilot_core schema validate --schema-id AgentPromotionCriteria --ins
 ```
 
 Límites explícitos: no ejecuta agentes, no ejecuta tools, no llama modelos, no ejecuta RAG, no lee ni escribe memoria, no habilita APIs externas, no habilita remote execution, connector write ni plugin execution, y no reemplaza gates determinísticos. Las promociones reales quedan para POST-H-032-B..H.
+
+
+### POST-H-032-D — RAG-aware agents
+
+DevPilot incorpora una primera versión `implemented-initial` de agentes RAG-aware mediante `RagAgentContextPack`. El comando `python -m devpilot_core agent rag-context --json` prepara contexto local para `requirements.agent`, `architecture.agent`, `security.agent`, `testplanner.agent` y `release.assistant` con `source_ids`, citas, freshness y negative cases.
+
+Esta capacidad no llama LLMs, no usa red, no usa APIs externas, no lee/escribe memoria, no ejecuta tools y no muta fuentes. Cuando no hay evidencia suficiente o el claim está prohibido, la salida contractual es `insufficient evidence`.
+
+```powershell
+python -m devpilot_core agent rag-context --json
+python -m devpilot_core agent rag-context --json --write-report
+python -m devpilot_core schema validate --schema-id RagAgentContextPack --instance outputs\reports\rag_agent_context_pack.json --json
+```

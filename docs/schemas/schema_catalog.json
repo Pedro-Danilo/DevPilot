@@ -1130,6 +1130,20 @@
       "validation_enabled_sprint": "POST-H-027-B"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-RAG-AGENT-CONTEXT-PACK-V1",
+      "title": "DevPilot RagAgentContextPack v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/rag_agent_context_pack.schema.json",
+      "description": "POST-H-032-D structural contract for deterministic local RAG-aware agent context packs with source ids, citations, freshness and insufficient-evidence behavior.",
+      "status": "registered",
+      "contract": "RagAgentContextPack",
+      "owner": "POST-H-032-D",
+      "sprint": "POST-H-032-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-032-D"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-RAG-GROUNDEDNESS-EVAL-V1",
       "title": "DevPilot RAG Groundedness Eval Suite v1",
       "version": "1.0.0",
@@ -1718,5 +1732,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 118
+  "schemas_total": 119
 }

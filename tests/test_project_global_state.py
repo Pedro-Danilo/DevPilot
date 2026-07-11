@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-032-C"
-    assert state.get("next_micro_sprint") == "POST-H-032-D"
+    assert state.get("current_micro_sprint") == "POST-H-032-D"
+    assert state.get("next_micro_sprint") == "POST-H-032-E"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_296_POST_H_032_C.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_297_POST_H_032_D.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -564,8 +564,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_030_workspace_onboarding_cli_module") == "src/devpilot_core/cli_commands/workspace_onboarding.py"
     assert state.get("post_h_030_workspace_onboarding_commands_migrated_total") == 7
     assert state.get("post_h_030_workspace_onboarding_public_behavior_changed") is False
-    assert state["current_micro_sprint"] == "POST-H-032-C"
-    assert state["next_micro_sprint"] == "POST-H-032-D"
+    assert state["current_micro_sprint"] == "POST-H-032-D"
+    assert state["next_micro_sprint"] == "POST-H-032-E"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -754,9 +754,9 @@ def test_post_h_032_a_project_state_adds_agent_capability_inventory() -> None:
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
     assert state.get("post_h_032_backlog_approved") is True
-    assert state.get("post_h_032_status") == "active/external-api-gated-pilot-implemented-initial"
-    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-C"
-    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-D"
+    assert state.get("post_h_032_status") == "active/rag-aware-agents-implemented-initial"
+    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-D"
+    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-E"
     assert state.get("post_h_032_agent_capability_inventory_schema_registered") is True
     assert state.get("post_h_032_agent_promotion_criteria_schema_registered") is True
     assert state.get("post_h_032_agent_capability_inventory_available") is True
@@ -785,9 +785,9 @@ def test_post_h_032_b_project_state_adds_local_llm_provider_hardening() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
-    assert state.get("post_h_032_status") == "active/external-api-gated-pilot-implemented-initial"
-    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-C"
-    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-D"
+    assert state.get("post_h_032_status") == "active/rag-aware-agents-implemented-initial"
+    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-D"
+    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-E"
     assert state.get("post_h_032_b_local_llm_provider_health_schema_registered") is True
     assert state.get("post_h_032_b_local_llm_provider_health_schema_registered") is True
     assert state.get("post_h_032_b_local_llm_provider_health_policy_path") == ".devpilot/modeling/local_llm_provider_health_policy.json"
@@ -826,9 +826,9 @@ def test_post_h_032_c_project_state_adds_external_api_provider_pilot() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md")
 
-    assert state.get("post_h_032_status") == "active/external-api-gated-pilot-implemented-initial"
-    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-C"
-    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-D"
+    assert state.get("post_h_032_status") == "active/rag-aware-agents-implemented-initial"
+    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-D"
+    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-E"
     assert state.get("post_h_032_c_external_api_provider_pilot_schema_registered") is True
     assert state.get("post_h_032_c_external_api_provider_pilot_policy_path") == ".devpilot/modeling/external_api_provider_pilot_policy.json"
     assert state.get("post_h_032_c_external_api_provider_pilot_adr_path") == "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
@@ -862,3 +862,33 @@ def test_post_h_032_c_project_state_adds_external_api_provider_pilot() -> None:
     assert 'implementation_status: "approved/post-h-032-c-implemented-initial"' in backlog
     assert any("POST-H-032-C adds ExternalApiProviderPilot" in note for note in state["notes"])
 
+
+
+def test_post_h_032_d_project_state_adds_rag_aware_agents() -> None:
+    state = json.loads(read(".devpilot/project_state.json"))
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+
+    assert state.get("post_h_032_status") == "active/rag-aware-agents-implemented-initial"
+    assert state.get("post_h_032_current_micro_sprint") == "POST-H-032-D"
+    assert state.get("post_h_032_next_micro_sprint") == "POST-H-032-E"
+    assert state.get("post_h_032_d_rag_agent_context_schema_registered") is True
+    assert state.get("post_h_032_d_rag_agent_bindings_path") == ".devpilot/agents/rag_agent_bindings.json"
+    assert state.get("post_h_032_d_rag_agent_context_module") == "src/devpilot_core/agents/rag_context.py"
+    assert state.get("post_h_032_d_rag_agent_context_cli_command") == "python -m devpilot_core agent rag-context --json"
+    assert state.get("post_h_032_d_rag_agent_context_application_service_method") == "ApplicationService.rag_agent_context"
+    assert state.get("post_h_032_d_target_agents_total") == 5
+    assert state.get("post_h_032_d_context_pack_sources_required") is True
+    assert state.get("post_h_032_d_all_grounded_suggestions_have_sources") is True
+    assert state.get("post_h_032_d_insufficient_evidence_behavior_enabled") is True
+    assert state.get("post_h_032_d_negative_cases_passed") is True
+    assert state.get("post_h_032_d_prohibited_claims_justified_total") == 0
+    assert state.get("post_h_032_d_llm_used") is False
+    assert state.get("post_h_032_d_external_api_used") is False
+    assert state.get("post_h_032_d_network_used") is False
+    assert state.get("post_h_032_d_memory_used") is False
+    assert state.get("post_h_032_d_tools_executed") is False
+    assert state.get("post_h_032_d_source_mutations") is False
+    assert "POST-H-032-D — RAG-aware agents" in readme
+    assert "POST-H-032-D — RAG-aware agents" in runbook
+    assert any("POST-H-032-D adds RagAgentContextPack" in note for note in state["notes"])

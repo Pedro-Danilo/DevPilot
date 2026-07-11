@@ -2670,3 +2670,11 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Expone `python -m devpilot_core model external-api-pilot --json` y `ApplicationService.external_api_provider_pilot`.
 - Mantiene external APIs disabled por defecto, sin llamadas reales, sin lectura de API keys, sin red, sin SDKs externos y sin dependencia de tests sobre proveedores reales.
 
+
+
+## POST-H-032-D — RAG-aware agents
+
+- Added `RagAgentContextPack` schema, `.devpilot/agents/rag_agent_bindings.json` and deterministic `src/devpilot_core/agents/rag_context.py`.
+- Added `python -m devpilot_core agent rag-context --json` and `ApplicationService.rag_agent_context`.
+- Added negative cases for unsupported/prohibited claims and mandatory `insufficient evidence` behavior.
+- Preserved local-first safety: no LLM call, no network, no external API, no memory read/write, no tools executed and no source mutation.
