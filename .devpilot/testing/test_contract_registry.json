@@ -8431,6 +8431,35 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_frontmatter_schema_backed_validator.py tests/test_frontmatter_validator.py tests/test_artifact_validator.py tests/test_documentation_governance_validator.py tests/test_schema_validator.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-033-readiness-requirements-registry",
+      "scope": "integration",
+      "owner": "POST-H-033-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "validates": [
+        ".devpilot/readiness/readiness_requirements.json",
+        "docs/schemas/readiness_requirements.schema.json",
+        "src/devpilot_core/validators/readiness_requirements.py",
+        "src/devpilot_core/validators/readiness.py"
+      ],
+      "watched_paths": [
+        ".devpilot/readiness/readiness_requirements.json",
+        "docs/schemas/readiness_requirements.schema.json",
+        "src/devpilot_core/validators/readiness_requirements.py",
+        "src/devpilot_core/validators/readiness.py",
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_readiness_requirements_registry.py tests/test_precode_readiness.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_validation_gateway.py tests/test_schema_validator.py -q"
+      ]
     }
   ],
   "notes": [

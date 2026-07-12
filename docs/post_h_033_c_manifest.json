@@ -1,0 +1,458 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-READINESS-REQUIREMENTS-V1",
+  "registry_id": "post-h-033-c-readiness-requirements-registry-manifest",
+  "created_by": "POST-H-033-C",
+  "status": "implemented-initial",
+  "catalog_version": "1.0.0",
+  "updated_at": "2026-07-11",
+  "owner": "Ordóñez",
+  "profile_id": "devpilot-precode-readiness-default",
+  "description": "POST-H-033-C manifest for schema-backed readiness requirements registry migration.",
+  "rule_source": ".devpilot/readiness/readiness_requirements.json",
+  "engine_dependency_free": true,
+  "fallback_required": true,
+  "fallback_status": "temporary-compatible",
+  "fallback_deprecation_target": "POST-H-033-F or later after equivalence evidence across readiness, onboarding and validation gateway flows",
+  "required_artifacts": [
+    "docs/00_product/product_vision.md",
+    "docs/00_product/business_case.md",
+    "docs/00_product/mvp_scope.md",
+    "docs/01_requirements/requirements_specification.md",
+    "docs/02_architecture/architecture_document.md",
+    "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+    "docs/03_security/security_threat_model.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/checklists/checklist_pre_code.md"
+  ],
+  "required_miasi_artifacts": [
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/human_approval_card.md",
+    "docs/06_miasi/observability_card.md"
+  ],
+  "strict_required_artifacts": [
+    "docs/00_product/product_vision.md",
+    "docs/00_product/business_case.md",
+    "docs/00_product/mvp_scope.md",
+    "docs/01_requirements/requirements_specification.md",
+    "docs/01_requirements/user_stories.md",
+    "docs/01_requirements/use_cases.md",
+    "docs/01_requirements/acceptance_criteria.md",
+    "docs/01_requirements/traceability_matrix.md",
+    "docs/02_architecture/architecture_document.md",
+    "docs/02_architecture/c4_context.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/03_security/security_threat_model.md",
+    "docs/03_security/privacy_assessment.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/human_approval_card.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/checklists/checklist_pre_code.md",
+    "docs/precode_audit_report.md",
+    "docs/precode_baseline_decision.md"
+  ],
+  "optional_artifacts": [],
+  "requirements": [
+    {
+      "artifact": "docs/00_product/product_vision.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/00_product/business_case.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/00_product/mvp_scope.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/01_requirements/requirements_specification.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/01_requirements/user_stories.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/01_requirements/use_cases.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/01_requirements/acceptance_criteria.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/01_requirements/traceability_matrix.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/02_architecture/architecture_document.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/02_architecture/c4_context.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/02_architecture/c4_container.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/03_security/security_threat_model.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/03_security/privacy_assessment.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/04_quality/test_strategy.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/05_operations/observability_plan.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/05_operations/runbook.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/06_miasi/agent_card.md",
+      "artifact_type": "miasi",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "miasi",
+      "profiles": [
+        "strict",
+        "miasi"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/06_miasi/tool_card.md",
+      "artifact_type": "miasi",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "miasi",
+      "profiles": [
+        "strict",
+        "miasi"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/06_miasi/policy_card.md",
+      "artifact_type": "miasi",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "miasi",
+      "profiles": [
+        "strict",
+        "miasi"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/06_miasi/eval_card.md",
+      "artifact_type": "miasi",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "miasi",
+      "profiles": [
+        "strict",
+        "miasi"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/06_miasi/human_approval_card.md",
+      "artifact_type": "miasi",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "miasi",
+      "profiles": [
+        "strict",
+        "miasi"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/06_miasi/observability_card.md",
+      "artifact_type": "miasi",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "miasi",
+      "profiles": [
+        "strict",
+        "miasi"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/checklists/checklist_pre_code.md",
+      "artifact_type": "checklist",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/precode_audit_report.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/precode_baseline_decision.md",
+      "artifact_type": "markdown",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "block",
+      "fallback_compatibility_group": "strict",
+      "profiles": [
+        "strict"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "artifact": "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+      "artifact_type": "adr",
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "severity_if_missing": "fail",
+      "fallback_compatibility_group": "pre-code",
+      "profiles": [
+        "compatibility"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    }
+  ],
+  "artifact_type": "markdown-or-json-card",
+  "requires_frontmatter": true,
+  "requires_approval_status": true,
+  "severity_if_missing": "block",
+  "fallback_compatibility_group": "pre-code-readiness",
+  "tests": [
+    "tests/test_post_h_033_readiness_requirements_registry.py",
+    "tests/test_precode_readiness.py",
+    "tests/test_post_h_024_onboarding_readiness_preview.py",
+    "tests/test_validation_gateway.py",
+    "tests/test_schema_validator.py"
+  ],
+  "compatibility": {
+    "runtime_behavior_changed": false,
+    "required_pre_code_artifacts_preserved": true,
+    "required_miasi_artifacts_preserved": true,
+    "strict_required_artifacts_preserved": true,
+    "finding_ids_preserved": true,
+    "python_fallback_preserved": true,
+    "missing_registry_uses_fallback": true,
+    "invalid_registry_blocks_success": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "llm_judge_used": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "critical_rules_disable_allowed": false,
+    "outputs_versioned": false
+  },
+  "notes": [
+    "POST-H-033-C is an implemented-initial migration. The registry is the primary source for readiness artifact lists, while Python fallback remains temporary for compatibility and safety.",
+    "Invalid registry content must not produce a PASS. Missing registry activates fallback with explicit diagnostic finding.",
+    "MIASI artifacts remain required for strict readiness. Removing them requires ADR/backlog evidence."
+  ]
+}

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
 created_for: "DevPilot Local"
 scope: "deterministic validators / schema-backed catalogs / declarative semantics / compatibility-preserving migration"
-implementation_status: "active/post-h-033-b-implemented-initial"
-current_micro_sprint: "POST-H-033-B"
-next_micro_sprint: "POST-H-033-C"
+implementation_status: "active/post-h-033-c-implemented-initial"
+current_micro_sprint: "POST-H-033-C"
+next_micro_sprint: "POST-H-033-D"
 ```
 
 ## 1. Proposito del backlog
@@ -440,6 +440,14 @@ python -m pytest -p no:ddtrace --assert=plain `
 
 python -m devpilot_core schema validate --schema-id ReadinessRequirements --instance .devpilot/readiness/readiness_requirements.json --json
 ```
+
+
+
+## Estado de implementación POST-H-033-C
+
+Estado: `implemented-initial`. Se implementó el registry schema-backed de readiness mediante `docs/schemas/readiness_requirements.schema.json`, `.devpilot/readiness/readiness_requirements.json` y `src/devpilot_core/validators/readiness_requirements.py`. `validators/readiness.py` usa el registry como fuente primaria para `REQUIRED_PRE_CODE_ARTIFACTS`, `REQUIRED_MIASI_ARTIFACTS` y `STRICT_REQUIRED_ARTIFACTS`, conservando fallback Python temporal.
+
+La implementación mantiene comportamiento determinístico/local, no agrega dependencias externas, no usa LLM judge, no versiona outputs y no relaja MIASI strict readiness. Registry inválido bloquea PASS; registry faltante activa fallback con finding explícito. La versión es preliminar y debe evolucionar antes de retirar el fallback.
 
 ## POST-H-033-D - MIASI semantic rules registry
 

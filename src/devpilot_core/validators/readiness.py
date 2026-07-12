@@ -9,58 +9,30 @@ from devpilot_core.standards.registry import build_standards_status_result
 from devpilot_core.validators.artifact import validate_artifact_file
 from devpilot_core.validators.checklist import validate_precode_checklist
 from devpilot_core.validators.frontmatter import validate_frontmatter_file
+from devpilot_core.validators.readiness_requirements import (
+    FALLBACK_REQUIRED_MIASI_ARTIFACTS,
+    FALLBACK_REQUIRED_PRE_CODE_ARTIFACTS,
+    FALLBACK_STRICT_REQUIRED_ARTIFACTS,
+    load_readiness_requirements,
+)
 
 
-REQUIRED_PRE_CODE_ARTIFACTS = [
-    "docs/00_product/product_vision.md",
-    "docs/00_product/business_case.md",
-    "docs/00_product/mvp_scope.md",
-    "docs/01_requirements/requirements_specification.md",
-    "docs/02_architecture/architecture_document.md",
-    "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
-    "docs/03_security/security_threat_model.md",
-    "docs/04_quality/test_strategy.md",
-    "docs/checklists/checklist_pre_code.md",
-]
-
-REQUIRED_MIASI_ARTIFACTS = [
-    "docs/06_miasi/agent_card.md",
-    "docs/06_miasi/tool_card.md",
-    "docs/06_miasi/policy_card.md",
-    "docs/06_miasi/eval_card.md",
-    "docs/06_miasi/human_approval_card.md",
-    "docs/06_miasi/observability_card.md",
-]
-
-STRICT_REQUIRED_ARTIFACTS = [
-    "docs/00_product/product_vision.md",
-    "docs/00_product/business_case.md",
-    "docs/00_product/mvp_scope.md",
-    "docs/01_requirements/requirements_specification.md",
-    "docs/01_requirements/user_stories.md",
-    "docs/01_requirements/use_cases.md",
-    "docs/01_requirements/acceptance_criteria.md",
-    "docs/01_requirements/traceability_matrix.md",
-    "docs/02_architecture/architecture_document.md",
-    "docs/02_architecture/c4_context.md",
-    "docs/02_architecture/c4_container.md",
-    "docs/03_security/security_threat_model.md",
-    "docs/03_security/privacy_assessment.md",
-    "docs/04_quality/test_strategy.md",
-    "docs/05_operations/observability_plan.md",
-    "docs/05_operations/runbook.md",
-    *REQUIRED_MIASI_ARTIFACTS,
-    "docs/checklists/checklist_pre_code.md",
-    "docs/precode_audit_report.md",
-    "docs/precode_baseline_decision.md",
-]
+REQUIRED_PRE_CODE_ARTIFACTS = list(FALLBACK_REQUIRED_PRE_CODE_ARTIFACTS)
+REQUIRED_MIASI_ARTIFACTS = list(FALLBACK_REQUIRED_MIASI_ARTIFACTS)
+STRICT_REQUIRED_ARTIFACTS = list(FALLBACK_STRICT_REQUIRED_ARTIFACTS)
 
 
-def check_required_artifacts(root: Path) -> dict[str, Any]:
-    """Compatibility readiness check used by early bootstrap tests."""
+def _registry_blocking_findings(registry: Any) -> list[Finding]:
+    return [
+        finding
+        for finding in registry.findings
+        if finding.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR}
+    ]
 
+
+def _check_required_artifacts_with_registry(root: Path, registry: Any) -> dict[str, Any]:
     checks = []
-    for rel in REQUIRED_PRE_CODE_ARTIFACTS:
+    for rel in registry.required_pre_code_artifacts:
         path = root / rel
         checks.append(
             {
@@ -70,14 +42,23 @@ def check_required_artifacts(root: Path) -> dict[str, Any]:
             }
         )
     passed = all(item["exists"] and item["size_bytes"] > 0 for item in checks)
-    return {"ok": passed, "checks": checks}
+    passed = passed and not _registry_blocking_findings(registry)
+    return {"ok": passed, "checks": checks, "registry": registry.metadata()}
+
+
+def check_required_artifacts(root: Path) -> dict[str, Any]:
+    """Compatibility readiness check used by early bootstrap tests."""
+
+    registry = load_readiness_requirements(root, emit_fallback_finding=True)
+    return _check_required_artifacts_with_registry(root, registry)
 
 
 def build_readiness_result(root: Path) -> CommandResult:
     """Build the non-strict compatibility result for readiness-check."""
 
-    legacy_result = check_required_artifacts(root)
-    findings: list[Finding] = []
+    registry = load_readiness_requirements(root, emit_fallback_finding=True)
+    legacy_result = _check_required_artifacts_with_registry(root, registry)
+    findings: list[Finding] = list(registry.findings)
     for item in legacy_result["checks"]:
         if not item["exists"]:
             findings.append(
@@ -117,10 +98,11 @@ def build_strict_readiness_result(root: Path) -> CommandResult:
     checklist gate. It is local-only and deterministic.
     """
 
-    findings: list[Finding] = []
+    registry = load_readiness_requirements(root, emit_fallback_finding=True)
+    findings: list[Finding] = list(registry.findings)
     artifact_checks: list[dict[str, Any]] = []
 
-    for rel in STRICT_REQUIRED_ARTIFACTS:
+    for rel in registry.strict_required_artifacts:
         path = root / rel
         item: dict[str, Any] = {
             "artifact": rel,
@@ -184,7 +166,7 @@ def build_strict_readiness_result(root: Path) -> CommandResult:
     findings.extend(checklist_result.findings)
     findings.extend(standards_result.findings)
 
-    miasi_missing = [rel for rel in REQUIRED_MIASI_ARTIFACTS if not (root / rel).exists()]
+    miasi_missing = [rel for rel in registry.required_miasi_artifacts if not (root / rel).exists()]
     for rel in miasi_missing:
         findings.append(
             Finding(
@@ -217,6 +199,7 @@ def build_strict_readiness_result(root: Path) -> CommandResult:
                 "summary": standards_result.data.get("summary", {}),
             },
             "miasi_required": True,
+            "registry": registry.metadata(),
             "summary": {
                 "required_artifacts_total": len(artifact_checks),
                 "required_artifacts_present": sum(1 for item in artifact_checks if item["exists"]),

@@ -11156,6 +11156,139 @@
         "test_must_pass"
       ],
       "lifecycle": "historical"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS",
+      "path": ".devpilot/readiness/readiness_requirements.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-READINESS-REQUIREMENTS-V1",
+      "path": "docs/schemas/readiness_requirements.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-033-C",
+      "status_required": "registered",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_must_reference_schema",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-MODULE",
+      "path": "src/devpilot_core/validators/readiness_requirements.py",
+      "classification": "source-of-truth",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "tests/test_precode_readiness.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-INTEGRATION-MODULE",
+      "path": "src/devpilot_core/validators/readiness.py",
+      "classification": "source-of-truth",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "tests/test_precode_readiness.py",
+        "tests/test_validation_gateway.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-TEST",
+      "path": "tests/test_post_h_033_readiness_requirements_registry.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-REGISTRY-REPORT",
+      "path": "docs/audits/post_h_033_c_readiness_requirements_registry_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.validation",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-MANIFEST",
+      "path": "docs/post_h_033_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
     }
   ],
   "rules": {

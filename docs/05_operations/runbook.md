@@ -2,17 +2,36 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.13.0"
+version: "2.14.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-033-B"
+phase: "POST-H-033-C"
 updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-033-C — Readiness requirements registry
+
+Estado: `implemented-initial`. DevPilot ahora carga los artefactos requeridos de readiness desde `.devpilot/readiness/readiness_requirements.json`, validado por `docs/schemas/readiness_requirements.schema.json`. La integración en `src/devpilot_core/validators/readiness.py` mantiene fallback Python temporal, conserva los finding IDs históricos y bloquea registries inválidos para evitar falsos PASS. Esta es una primera versión: el fallback se retirará solo cuando exista evidencia de equivalencia acumulada en readiness, onboarding preview y validation gateway.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_033_readiness_requirements_registry.py `
+  tests/test_precode_readiness.py `
+  tests/test_post_h_024_onboarding_readiness_preview.py `
+  tests/test_validation_gateway.py `
+  tests/test_schema_validator.py `
+  -q
+
+python -m devpilot_core schema validate --schema-id ReadinessRequirements --instance .devpilot\readiness\readiness_requirements.json --json
+```
 
 ## POST-H-033-B — Frontmatter schema-backed validator
 

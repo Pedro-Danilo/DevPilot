@@ -15387,6 +15387,69 @@
       "schema_ids": [
         "docs/schemas/frontmatter_metadata.schema.json"
       ]
+    },
+    {
+      "contract_id": "post-h-033-readiness-requirements-registry",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-033-readiness-requirements-registry",
+      "domain": "governance.schemas",
+      "capability": "ReadinessRequirementsRegistry",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "schema",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 35,
+      "test_files": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "watched_paths": [
+        ".devpilot/readiness/readiness_requirements.json",
+        "docs/schemas/readiness_requirements.schema.json",
+        "src/devpilot_core/validators/readiness_requirements.py",
+        "src/devpilot_core/validators/readiness.py",
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "validates": [
+        ".devpilot/readiness/readiness_requirements.json",
+        "docs/schemas/readiness_requirements.schema.json",
+        "src/devpilot_core/validators/readiness_requirements.py",
+        "src/devpilot_core/validators/readiness.py"
+      ],
+      "trigger_hints": [
+        "post-h-033-c",
+        "readiness-registry-change",
+        "schema-backed-validator-governance",
+        "precode-readiness-change"
+      ],
+      "impact_scope": [
+        "readiness",
+        "validators",
+        "onboarding",
+        "validation-gateway",
+        "schemas"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-033-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_readiness_requirements_registry.py tests/test_precode_readiness.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_validation_gateway.py tests/test_schema_validator.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-033-C moves readiness artifact lists into a schema-backed local registry without relaxing strict readiness or MIASI requirements."
+      ],
+      "owner_domain": "governance.schemas",
+      "service_boundary": "ReadinessRequirementsRegistry",
+      "subgate_id": "schema-backed-validator-governance",
+      "schema_ids": [
+        "docs/schemas/readiness_requirements.schema.json"
+      ]
     }
   ],
   "migration_metadata": {

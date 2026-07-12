@@ -1,3 +1,23 @@
+
+## POST-H-033-C — Readiness requirements registry
+
+Estado: `implemented-initial`. DevPilot ahora carga los artefactos requeridos de readiness desde `.devpilot/readiness/readiness_requirements.json`, validado por `docs/schemas/readiness_requirements.schema.json`. La integración en `src/devpilot_core/validators/readiness.py` mantiene fallback Python temporal, conserva los finding IDs históricos y bloquea registries inválidos para evitar falsos PASS. Esta es una primera versión: el fallback se retirará solo cuando exista evidencia de equivalencia acumulada en readiness, onboarding preview y validation gateway.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_033_readiness_requirements_registry.py `
+  tests/test_precode_readiness.py `
+  tests/test_post_h_024_onboarding_readiness_preview.py `
+  tests/test_validation_gateway.py `
+  tests/test_schema_validator.py `
+  -q
+
+python -m devpilot_core schema validate --schema-id ReadinessRequirements --instance .devpilot\readiness\readiness_requirements.json --json
+```
+
 ## POST-H-033-B — Frontmatter schema-backed validator
 
 POST-H-033-B agrega el schema `FrontmatterMetadata`, el catálogo `.devpilot/validation/frontmatter_catalog.json`, el módulo `src/devpilot_core/validators/frontmatter_catalog.py` y la integración progresiva con `src/devpilot_core/validators/frontmatter.py`. El parser sigue en Python y sin dependencia YAML externa; las reglas configurables de campos requeridos, statuses, regex y severidades quedan versionadas en catálogo.

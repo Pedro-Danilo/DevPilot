@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/readiness_requirements.schema.json",
+  "title": "DevPilot ReadinessRequirements v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "created_by",
+    "status",
+    "catalog_version",
+    "owner",
+    "profile_id",
+    "required_artifacts",
+    "required_miasi_artifacts",
+    "strict_required_artifacts",
+    "optional_artifacts",
+    "requirements",
+    "artifact_type",
+    "requires_frontmatter",
+    "requires_approval_status",
+    "severity_if_missing",
+    "fallback_compatibility_group",
+    "tests",
+    "compatibility",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "SCHEMA-DEVPL-READINESS-REQUIREMENTS-V1"
+    },
+    "registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "type": "string",
+      "enum": [
+        "POST-H-033-C"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "implemented-initial",
+        "approved",
+        "current"
+      ]
+    },
+    "catalog_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9_.-]+)?$"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "rule_source": {
+      "type": "string"
+    },
+    "engine_dependency_free": {
+      "type": "boolean",
+      "const": true
+    },
+    "fallback_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "required_artifacts": {
+      "type": "array",
+      "minItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^docs/.+"
+      }
+    },
+    "required_miasi_artifacts": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^docs/06_miasi/.+"
+      }
+    },
+    "strict_required_artifacts": {
+      "type": "array",
+      "minItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^docs/.+"
+      }
+    },
+    "optional_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "artifact",
+          "artifact_type",
+          "requires_frontmatter",
+          "requires_approval_status",
+          "severity_if_missing",
+          "fallback_compatibility_group",
+          "profiles",
+          "critical",
+          "cannot_disable_without_adr"
+        ],
+        "properties": {
+          "artifact": {
+            "type": "string"
+          },
+          "artifact_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requires_frontmatter": {
+            "type": "boolean"
+          },
+          "requires_approval_status": {
+            "type": "boolean"
+          },
+          "severity_if_missing": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "fail",
+              "block",
+              "error"
+            ]
+          },
+          "fallback_compatibility_group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profiles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "compatibility",
+                "strict",
+                "miasi"
+              ]
+            }
+          },
+          "critical": {
+            "type": "boolean",
+            "const": true
+          },
+          "cannot_disable_without_adr": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      }
+    },
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requires_frontmatter": {
+      "type": "boolean"
+    },
+    "requires_approval_status": {
+      "type": "boolean"
+    },
+    "severity_if_missing": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "fail",
+        "block",
+        "error"
+      ]
+    },
+    "fallback_compatibility_group": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_behavior_changed",
+        "required_pre_code_artifacts_preserved",
+        "required_miasi_artifacts_preserved",
+        "strict_required_artifacts_preserved",
+        "finding_ids_preserved",
+        "python_fallback_preserved",
+        "missing_registry_uses_fallback",
+        "invalid_registry_blocks_success"
+      ],
+      "properties": {
+        "runtime_behavior_changed": {
+          "type": "boolean",
+          "const": false
+        },
+        "required_pre_code_artifacts_preserved": {
+          "type": "boolean",
+          "const": true
+        },
+        "required_miasi_artifacts_preserved": {
+          "type": "boolean",
+          "const": true
+        },
+        "strict_required_artifacts_preserved": {
+          "type": "boolean",
+          "const": true
+        },
+        "finding_ids_preserved": {
+          "type": "boolean",
+          "const": true
+        },
+        "python_fallback_preserved": {
+          "type": "boolean",
+          "const": true
+        },
+        "missing_registry_uses_fallback": {
+          "type": "boolean",
+          "const": true
+        },
+        "invalid_registry_blocks_success": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "read_only",
+        "llm_judge_used",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed",
+        "critical_rules_disable_allowed",
+        "outputs_versioned"
+      ],
+      "properties": {
+        "local_first": {
+          "type": "boolean",
+          "const": true
+        },
+        "read_only": {
+          "type": "boolean",
+          "const": true
+        },
+        "llm_judge_used": {
+          "type": "boolean",
+          "const": false
+        },
+        "network_used": {
+          "type": "boolean",
+          "const": false
+        },
+        "external_api_used": {
+          "type": "boolean",
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "connector_write_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "source_mutations_performed": {
+          "type": "boolean",
+          "const": false
+        },
+        "critical_rules_disable_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "outputs_versioned": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    }
+  }
+}

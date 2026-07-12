@@ -1,3 +1,11 @@
+
+## post-h-033-c — Readiness requirements registry
+
+- Added schema-backed `.devpilot/readiness/readiness_requirements.json` as primary readiness artifact source.
+- Added `ReadinessRequirements` schema and `validators/readiness_requirements.py`.
+- Integrated readiness checks with registry metadata while preserving Python fallback and strict MIASI requirements.
+- Added focal tests for schema validation, missing registry fallback, invalid registry BLOCK, drift and compatibility.
+
 ## POST-H-033-B — Frontmatter schema-backed validator
 
 - Added `FrontmatterMetadata` schema and `.devpilot/validation/frontmatter_catalog.json`.

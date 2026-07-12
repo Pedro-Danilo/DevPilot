@@ -134,12 +134,12 @@ def test_post_h_033_a_governance_artifacts_registered_and_docs_synced() -> None:
     assert contract_v2["external_api_allowed"] is False
     assert contract_v2["source_mutations_allowed"] is False
 
-    assert state["current_micro_sprint"] == "POST-H-033-B"
-    assert state["next_micro_sprint"] == "POST-H-033-C"
+    assert state["current_micro_sprint"] == "POST-H-033-C"
+    assert state["next_micro_sprint"] == "POST-H-033-D"
     assert state["post_h_033_a_closed"] is True
-    assert state["current_repo"] == "repo_DevPilot_Local_303_POST_H_033_B.zip"
+    assert state["current_repo"] == "repo_DevPilot_Local_304_POST_H_033_C.zip"
     assert state["post_h_032_status"] == "closed/advanced-ai-agents-governed"
-    assert state["post_h_033_status"] == "active/frontmatter-schema-backed-validator-implemented-initial"
+    assert state["post_h_033_status"] == "active/readiness-requirements-registry-implemented-initial"
     assert state["post_h_033_a_runtime_behavior_changed"] is False
     assert state["post_h_033_a_llm_judge_required"] is False
     assert state["post_h_033_a_critical_defenses_disable_allowed"] is False
@@ -147,5 +147,5 @@ def test_post_h_033_a_governance_artifacts_registered_and_docs_synced() -> None:
     assert "POST-H-033-A — Validator inventory and migration plan" in readme
     assert "POST-H-033-A — Validator inventory and migration plan" in runbook
     assert 'status: approved' in backlog
-    assert 'implementation_status: "active/post-h-033-b-implemented-initial"' in backlog
+    assert 'implementation_status: "active/post-h-033-c-implemented-initial"' in backlog
     assert 'status: approved' in top_level

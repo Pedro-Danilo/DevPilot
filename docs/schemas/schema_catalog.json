@@ -1263,6 +1263,20 @@
       "validation_enabled_sprint": "POST-H-012-C"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-READINESS-REQUIREMENTS-V1",
+      "title": "DevPilot ReadinessRequirements v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/readiness_requirements.schema.json",
+      "description": "POST-H-033-C schema-backed registry for readiness required artifacts, MIASI requirements and strict readiness compatibility without runtime behavior changes.",
+      "status": "registered",
+      "contract": "ReadinessRequirements",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-033-C"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-RELEASE-ARTIFACT-MANIFEST-V1",
       "title": "DevPilot ReleaseArtifactManifest v1",
       "version": "1.0.0",
@@ -1830,5 +1844,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 126
+  "schemas_total": 127
 }
