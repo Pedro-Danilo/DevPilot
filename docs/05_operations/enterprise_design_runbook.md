@@ -133,3 +133,18 @@ sistema de despliegue automático real
 ```
 
 El siguiente hito priorizado es POST-H-023 — Secure transport design sin implementación activa.
+
+
+## POST-H-034-E — Boundary enterprise/SaaS
+
+POST-H-034-E confirma que este runbook describe diseño enterprise `design-only`. No habilita `enterprise-ready`, `SaaS-ready`, control plane, tenancy, API pública, cloud deployment, red, APIs externas ni credenciales reales.
+
+Reglas de interpretación obligatorias:
+
+```text
+enterprise threat model exists != enterprise-ready
+enterprise control matrix exists != production enterprise authorization
+POST-H-034-E ADR exists != runtime enablement
+```
+
+La evolución a enterprise o SaaS requiere backlog futuro con arquitectura enterprise/SaaS, multiuser auth productivo, tenant isolation, privacy/retention, backup/restore, observability backend, incident response, support/SLA, legal/compliance scope, external audit plan y pruebas de seguridad.

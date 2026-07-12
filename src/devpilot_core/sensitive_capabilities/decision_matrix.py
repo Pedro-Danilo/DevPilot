@@ -12,9 +12,11 @@ from devpilot_core.sensitive_capabilities.models import (
     DEFAULT_PLUGIN_EXECUTION_CHECKLIST_PATH,
     DEFAULT_REMOTE_EXECUTION_ADR3_CHECKLIST_PATH,
     DEFAULT_MULTIUSER_AUTH_CHECKLIST_PATH,
+    DEFAULT_ENTERPRISE_SAAS_BOUNDARY_CHECKLIST_PATH,
     PLUGIN_EXECUTION_DECISION_CONTRACT,
     REMOTE_EXECUTION_ADR3_DECISION_CONTRACT,
     MULTIUSER_AUTH_DECISION_CONTRACT,
+    ENTERPRISE_SAAS_BOUNDARY_DECISION_CONTRACT,
     DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH,
     SENSITIVE_CAPABILITY_DECISION_MATRIX_CONTRACT,
     SensitiveCapabilityDecision,
@@ -98,6 +100,17 @@ def load_multiuser_auth_decision(root: Path, path: Path | str = DEFAULT_MULTIUSE
     return payload, findings
 
 
+def load_enterprise_saas_boundary_decision(root: Path, path: Path | str = DEFAULT_ENTERPRISE_SAAS_BOUNDARY_CHECKLIST_PATH) -> tuple[dict[str, Any] | None, list[Finding]]:
+    payload, findings = load_json(root, path)
+    if payload is None:
+        return None, findings
+    schema_result = SchemaValidator(root).validate(schema=ENTERPRISE_SAAS_BOUNDARY_DECISION_CONTRACT, instance=path)
+    if not schema_result.ok:
+        findings.extend(schema_result.findings)
+        findings.append(Finding("ENTERPRISE_SAAS_BOUNDARY_DECISION_SCHEMA_BLOCK", "Enterprise/SaaS boundary decision checklist does not conform to schema.", Severity.BLOCK, path=_display(path)))
+    return payload, findings
+
+
 def _decision_from_matrix(matrix: dict[str, Any], capability_id: str) -> SensitiveCapabilityDecision | None:
     for item in matrix.get("capabilities", []):
         if isinstance(item, dict) and item.get("capability_id") == capability_id:
@@ -119,3 +132,7 @@ def remote_execution_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCa
 
 def multiuser_auth_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCapabilityDecision | None:
     return _decision_from_matrix(matrix, "multiuser.auth")
+
+
+def enterprise_saas_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCapabilityDecision | None:
+    return _decision_from_matrix(matrix, "enterprise.saas")

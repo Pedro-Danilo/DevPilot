@@ -15988,6 +15988,72 @@
         "SCHEMA-DEVPL-MULTIUSER-AUTH-DECISION-V1",
         "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1"
       ]
+    },
+    {
+      "contract_id": "post-h-034-enterprise-saas-boundary-adr",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-034-enterprise-saas-boundary-adr",
+      "domain": "enterprise.reporting",
+      "capability": "EnterpriseSaasBoundaryDecision",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
+        ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/enterprise/enterprise_threat_model.json",
+        ".devpilot/enterprise/enterprise_control_matrix.json",
+        ".devpilot/compliance/control_mappings.json",
+        ".devpilot/compliance/evidence_mappings.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
+        ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
+        "docs/schemas/enterprise_saas_boundary_decision.schema.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/validator.py"
+      ],
+      "trigger_hints": [
+        "post-h-034-e",
+        "enterprise-saas-boundary-change",
+        "enterprise-overclaim-risk",
+        "compliance-certification-claim-risk"
+      ],
+      "impact_scope": [
+        "enterprise",
+        "saas",
+        "compliance",
+        "claims",
+        "schemas",
+        "test-contracts",
+        "project-state"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-034-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_enterprise_saas_boundary_adr.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-034-E introduces the Enterprise/SaaS boundary ADR and preserves local production-ready scope while blocking enterprise/SaaS/compliance-certified overclaims."
+      ]
     }
   ],
   "migration_metadata": {

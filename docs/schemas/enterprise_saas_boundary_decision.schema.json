@@ -1,0 +1,409 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/enterprise_saas_boundary_decision.schema.json",
+  "title": "DevPilot EnterpriseSaasBoundaryDecision v1",
+  "description": "POST-H-034-E structural contract for the Enterprise/SaaS boundary ADR. It documents prerequisites while keeping enterprise-ready, SaaS-ready, compliance-certified, control plane, cloud deployment, tenancy, public API, network, external APIs and credentials disabled.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "decision_id",
+    "created_by",
+    "status",
+    "capability_id",
+    "capability_name",
+    "decision_state",
+    "decision_status",
+    "adr_path",
+    "checklist_path",
+    "production_ready_local_scope_preserved",
+    "enterprise_threat_model_design_only",
+    "compliance_mapping_non_certifying",
+    "enterprise_ready_claimed",
+    "enterprise_ready_enabled",
+    "enterprise_runtime_enabled",
+    "saas_ready_claimed",
+    "saas_runtime_enabled",
+    "control_plane_enabled",
+    "cloud_deployment_enabled",
+    "tenancy_enabled",
+    "tenant_isolation_implemented",
+    "public_api_enabled",
+    "compliance_certified",
+    "compliance_certification_claim",
+    "external_audit_claimed",
+    "legal_advice_claimed",
+    "network_allowed",
+    "external_api_allowed",
+    "credentials_required",
+    "requires_future_backlog",
+    "requires_future_enablement_adr",
+    "requires_human_approval",
+    "enterprise_architecture_required_before_pilot",
+    "tenancy_required_before_saas",
+    "external_audit_required_before_certification",
+    "migration_plan_required_before_enterprise",
+    "prerequisites",
+    "no_go_gates",
+    "evidence_requirements",
+    "current_controls",
+    "safety",
+    "summary",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-ENTERPRISE-SAAS-BOUNDARY-DECISION-V1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matrix_id": {
+      "type": "string"
+    },
+    "created_by": {
+      "const": "POST-H-034-E"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved",
+        "proposed",
+        "closed"
+      ]
+    },
+    "capability_id": {
+      "const": "enterprise.saas"
+    },
+    "capability_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_state": {
+      "enum": [
+        "continue-blocked",
+        "design-only",
+        "out-of-scope",
+        "pilot-gated-future",
+        "approved-for-future-implementation",
+        "rejected"
+      ]
+    },
+    "decision_status": {
+      "enum": [
+        "continue-blocked",
+        "design-only",
+        "out-of-scope",
+        "pilot-gated-future",
+        "rejected"
+      ]
+    },
+    "adr_path": {
+      "const": "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md"
+    },
+    "checklist_path": {
+      "const": ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json"
+    },
+    "report_path": {
+      "type": "string"
+    },
+    "manifest_path": {
+      "type": "string"
+    },
+    "production_ready_local_scope_preserved": {
+      "const": true
+    },
+    "enterprise_threat_model_design_only": {
+      "const": true
+    },
+    "compliance_mapping_non_certifying": {
+      "const": true
+    },
+    "enterprise_ready_claimed": {
+      "const": false
+    },
+    "enterprise_ready_enabled": {
+      "const": false
+    },
+    "enterprise_runtime_enabled": {
+      "const": false
+    },
+    "saas_ready_claimed": {
+      "const": false
+    },
+    "saas_runtime_enabled": {
+      "const": false
+    },
+    "control_plane_enabled": {
+      "const": false
+    },
+    "cloud_deployment_enabled": {
+      "const": false
+    },
+    "tenancy_enabled": {
+      "const": false
+    },
+    "tenant_isolation_implemented": {
+      "const": false
+    },
+    "public_api_enabled": {
+      "const": false
+    },
+    "compliance_certified": {
+      "const": false
+    },
+    "compliance_certification_claim": {
+      "const": false
+    },
+    "external_audit_claimed": {
+      "const": false
+    },
+    "legal_advice_claimed": {
+      "const": false
+    },
+    "network_allowed": {
+      "const": false
+    },
+    "external_api_allowed": {
+      "const": false
+    },
+    "credentials_required": {
+      "const": false
+    },
+    "requires_future_backlog": {
+      "const": true
+    },
+    "requires_future_enablement_adr": {
+      "const": true
+    },
+    "requires_human_approval": {
+      "const": true
+    },
+    "enterprise_architecture_required_before_pilot": {
+      "const": true
+    },
+    "tenancy_required_before_saas": {
+      "const": true
+    },
+    "external_audit_required_before_certification": {
+      "const": true
+    },
+    "migration_plan_required_before_enterprise": {
+      "const": true
+    },
+    "prerequisites": {
+      "type": "array",
+      "minItems": 12,
+      "items": {
+        "$ref": "#/$defs/prerequisite"
+      }
+    },
+    "no_go_gates": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "current_controls": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "enterprise_ready_claimed",
+        "saas_ready_claimed",
+        "compliance_certification_claim",
+        "control_plane_enabled",
+        "cloud_deployment_enabled",
+        "tenancy_enabled",
+        "public_api_enabled",
+        "credentials_versioned",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "enterprise_ready_claimed": {
+          "const": false
+        },
+        "saas_ready_claimed": {
+          "const": false
+        },
+        "compliance_certification_claim": {
+          "const": false
+        },
+        "control_plane_enabled": {
+          "const": false
+        },
+        "cloud_deployment_enabled": {
+          "const": false
+        },
+        "tenancy_enabled": {
+          "const": false
+        },
+        "public_api_enabled": {
+          "const": false
+        },
+        "credentials_versioned": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "decision_blocks_enterprise_saas",
+        "production_ready_local_preserved",
+        "no_go_gates_preserved",
+        "claims_changed",
+        "prerequisites_total",
+        "prerequisites_met_total",
+        "blocking_prerequisites_total"
+      ],
+      "properties": {
+        "decision_blocks_enterprise_saas": {
+          "const": true
+        },
+        "production_ready_local_preserved": {
+          "const": true
+        },
+        "no_go_gates_preserved": {
+          "const": true
+        },
+        "claims_changed": {
+          "const": false
+        },
+        "prerequisites_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "prerequisites_met_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocking_prerequisites_total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "prerequisite": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "status",
+        "blocking",
+        "evidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "met",
+            "partial",
+            "missing",
+            "future-required",
+            "blocked"
+          ]
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "gate": {
+      "type": "object",
+      "required": [
+        "id",
+        "expected",
+        "actual",
+        "status",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {},
+        "actual": {},
+        "status": {
+          "enum": [
+            "pass",
+            "block",
+            "warn"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-ENTERPRISE-SAAS-BOUNDARY-DECISION-V1",
+  "x-devpilot-sprint": "POST-H-034-E",
+  "x-devpilot-status": "registered"
+}

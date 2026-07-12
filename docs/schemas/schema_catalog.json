@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-07-12",
-  "sprint": "POST-H-034-D",
+  "sprint": "POST-H-034-E",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through POST-H-032-A agent capability inventory and promotion criteria.",
   "schemas": [
@@ -1954,7 +1954,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-034-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-ENTERPRISE-SAAS-BOUNDARY-DECISION-V1",
+      "title": "DevPilot EnterpriseSaasBoundaryDecision v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/enterprise_saas_boundary_decision.schema.json",
+      "description": "POST-H-034-E structural contract for Enterprise/SaaS boundary while preserving enterprise-ready, SaaS-ready, compliance-certified, control plane, cloud, tenancy, public API, network, external API and credentials disabled invariants.",
+      "status": "registered",
+      "contract": "EnterpriseSaasBoundaryDecision",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-034-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-034-E"
     }
   ],
-  "schemas_total": 135
+  "schemas_total": 136
 }

@@ -14,6 +14,8 @@ DEFAULT_REMOTE_EXECUTION_ADR3_CHECKLIST_PATH = Path(".devpilot/sensitive_capabil
 DEFAULT_REMOTE_EXECUTION_ADR3_ADR_PATH = Path("docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md")
 DEFAULT_MULTIUSER_AUTH_CHECKLIST_PATH = Path(".devpilot/sensitive_capabilities/multiuser_auth_checklist.json")
 DEFAULT_MULTIUSER_AUTH_ADR_PATH = Path("docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md")
+DEFAULT_ENTERPRISE_SAAS_BOUNDARY_CHECKLIST_PATH = Path(".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json")
+DEFAULT_ENTERPRISE_SAAS_BOUNDARY_ADR_PATH = Path("docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md")
 DEFAULT_CONNECTOR_SANDBOX_POLICY_PATH = Path(".devpilot/connectors/connector_sandbox_policy.json")
 DEFAULT_PLUGIN_REGISTRY_PATH = Path(".devpilot/plugins/plugin_registry.json")
 DEFAULT_PLUGIN_PERMISSION_MODEL_PATH = Path(".devpilot/plugins/plugin_permission_model.json")
@@ -21,6 +23,10 @@ DEFAULT_REMOTE_RUNNER_REGISTRY_PATH = Path(".devpilot/remote/runner_registry.jso
 DEFAULT_REMOTE_READINESS_CRITERIA_PATH = Path(".devpilot/remote/remote_readiness_criteria.json")
 DEFAULT_SECURE_TRANSPORT_DECISION_MATRIX_PATH = Path(".devpilot/remote/secure_transport_protocol_decision_matrix.json")
 DEFAULT_PROJECT_STATE_PATH = Path(".devpilot/project_state.json")
+DEFAULT_ENTERPRISE_THREAT_MODEL_PATH = Path(".devpilot/enterprise/enterprise_threat_model.json")
+DEFAULT_ENTERPRISE_CONTROL_MATRIX_PATH = Path(".devpilot/enterprise/enterprise_control_matrix.json")
+DEFAULT_COMPLIANCE_CONTROL_MAPPINGS_PATH = Path(".devpilot/compliance/control_mappings.json")
+DEFAULT_COMPLIANCE_EVIDENCE_MAPPINGS_PATH = Path(".devpilot/compliance/evidence_mappings.json")
 
 SENSITIVE_CAPABILITY_DECISION_MATRIX_SCHEMA_ID = "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1"
 SENSITIVE_CAPABILITY_DECISION_MATRIX_CONTRACT = "SensitiveCapabilityDecisionMatrix"
@@ -32,6 +38,8 @@ REMOTE_EXECUTION_ADR3_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-REMOTE-EXECUTION-ADR3-D
 REMOTE_EXECUTION_ADR3_DECISION_CONTRACT = "RemoteExecutionAdr3Decision"
 MULTIUSER_AUTH_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-MULTIUSER-AUTH-DECISION-V1"
 MULTIUSER_AUTH_DECISION_CONTRACT = "MultiuserAuthDecision"
+ENTERPRISE_SAAS_BOUNDARY_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-ENTERPRISE-SAAS-BOUNDARY-DECISION-V1"
+ENTERPRISE_SAAS_BOUNDARY_DECISION_CONTRACT = "EnterpriseSaasBoundaryDecision"
 
 POST_H_034_A_CREATED_BY = "POST-H-034-A"
 ALLOWED_CONNECTOR_WRITE_DECISIONS = {
@@ -66,6 +74,16 @@ ALLOWED_MULTIUSER_AUTH_DECISIONS = {
     "out-of-scope",
 }
 POST_H_034_D_EXPECTED_DECISION = "continue-blocked"
+POST_H_034_E_CREATED_BY = "POST-H-034-E"
+ALLOWED_ENTERPRISE_SAAS_BOUNDARY_DECISIONS = {
+    "continue-blocked",
+    "design-only",
+    "out-of-scope",
+    "pilot-gated-future",
+    "approved-for-future-implementation",
+    "rejected",
+}
+POST_H_034_E_EXPECTED_DECISION = "continue-blocked"
 
 
 @dataclass(frozen=True)
@@ -79,6 +97,8 @@ class SensitiveCapabilityOptions:
     remote_execution_adr3_adr_path: Path | str = DEFAULT_REMOTE_EXECUTION_ADR3_ADR_PATH
     multiuser_auth_checklist_path: Path | str = DEFAULT_MULTIUSER_AUTH_CHECKLIST_PATH
     multiuser_auth_adr_path: Path | str = DEFAULT_MULTIUSER_AUTH_ADR_PATH
+    enterprise_saas_boundary_checklist_path: Path | str = DEFAULT_ENTERPRISE_SAAS_BOUNDARY_CHECKLIST_PATH
+    enterprise_saas_boundary_adr_path: Path | str = DEFAULT_ENTERPRISE_SAAS_BOUNDARY_ADR_PATH
     connector_sandbox_policy_path: Path | str = DEFAULT_CONNECTOR_SANDBOX_POLICY_PATH
     plugin_registry_path: Path | str = DEFAULT_PLUGIN_REGISTRY_PATH
     plugin_permission_model_path: Path | str = DEFAULT_PLUGIN_PERMISSION_MODEL_PATH
@@ -86,6 +106,10 @@ class SensitiveCapabilityOptions:
     remote_readiness_criteria_path: Path | str = DEFAULT_REMOTE_READINESS_CRITERIA_PATH
     secure_transport_decision_matrix_path: Path | str = DEFAULT_SECURE_TRANSPORT_DECISION_MATRIX_PATH
     project_state_path: Path | str = DEFAULT_PROJECT_STATE_PATH
+    enterprise_threat_model_path: Path | str = DEFAULT_ENTERPRISE_THREAT_MODEL_PATH
+    enterprise_control_matrix_path: Path | str = DEFAULT_ENTERPRISE_CONTROL_MATRIX_PATH
+    compliance_control_mappings_path: Path | str = DEFAULT_COMPLIANCE_CONTROL_MAPPINGS_PATH
+    compliance_evidence_mappings_path: Path | str = DEFAULT_COMPLIANCE_EVIDENCE_MAPPINGS_PATH
 
 
 @dataclass(frozen=True)

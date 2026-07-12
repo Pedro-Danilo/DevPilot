@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
   "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
-  "created_by": "POST-H-034-D",
+  "created_by": "POST-H-034-E",
   "status": "implemented-initial",
-  "catalog_version": "1.3.0",
+  "catalog_version": "1.4.0",
   "capabilities": [
     {
       "capability_id": "connector.write",
@@ -42,10 +42,12 @@
     },
     {
       "capability_id": "enterprise.saas",
-      "decision_state": "pending-adr",
+      "decision_state": "continue-blocked",
       "runtime_enabled": false,
       "requires_future_adr": true,
-      "planned_micro_sprint": "POST-H-034-E"
+      "planned_micro_sprint": "POST-H-034-E",
+      "adr_path": "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
+      "checklist_path": ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json"
     }
   ],
   "global_no_go_gates": {
@@ -68,16 +70,20 @@
     "capabilities_total": 5,
     "runtime_enabled_total": 0,
     "approved_runtime_total": 0,
-    "pending_adrs_total": 1,
+    "pending_adrs_total": 0,
     "connector_write_decision": "continue-blocked",
     "plugin_execution_decision": "continue-blocked",
     "remote_execution_decision": "continue-blocked",
-    "multiuser_auth_decision": "continue-blocked"
+    "multiuser_auth_decision": "continue-blocked",
+    "approved_or_decided_total": 5,
+    "enterprise_saas_decision": "continue-blocked",
+    "post_h_034_e_decision": "continue-blocked"
   },
   "notes": [
     "POST-H-034-A initializes the sensitive capability decision matrix without enabling any sensitive capability.",
     "POST-H-034-B adds plugin.execution ADR decision and keeps plugin execution continue-blocked without runtime enablement.",
     "POST-H-034-C adds remote.execution ADR-3 decision and preserves remote runner/transport/network disabled invariants.",
-    "POST-H-034-D adds multiuser.auth ADR boundary and preserves production multiuser/IAM/session/tenancy/public API disabled invariants."
+    "POST-H-034-D adds multiuser.auth ADR boundary and preserves production multiuser/IAM/session/tenancy/public API disabled invariants.",
+    "POST-H-034-E adds enterprise.saas boundary and keeps enterprise-ready, SaaS-ready and compliance-certified claims blocked."
   ]
 }

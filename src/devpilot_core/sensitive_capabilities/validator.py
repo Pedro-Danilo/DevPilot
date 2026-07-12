@@ -12,15 +12,18 @@ from devpilot_core.sensitive_capabilities.decision_matrix import (
     load_plugin_execution_decision,
     load_remote_execution_adr3_decision,
     load_multiuser_auth_decision,
+    load_enterprise_saas_boundary_decision,
     plugin_execution_decision_from_matrix,
     remote_execution_decision_from_matrix,
     multiuser_auth_decision_from_matrix,
+    enterprise_saas_decision_from_matrix,
 )
 from devpilot_core.sensitive_capabilities.models import (
     ALLOWED_CONNECTOR_WRITE_DECISIONS,
     ALLOWED_PLUGIN_EXECUTION_DECISIONS,
     ALLOWED_REMOTE_EXECUTION_ADR3_DECISIONS,
     ALLOWED_MULTIUSER_AUTH_DECISIONS,
+    ALLOWED_ENTERPRISE_SAAS_BOUNDARY_DECISIONS,
     POST_H_034_A_CREATED_BY,
     POST_H_034_A_EXPECTED_DECISION,
     POST_H_034_B_CREATED_BY,
@@ -29,6 +32,8 @@ from devpilot_core.sensitive_capabilities.models import (
     POST_H_034_C_EXPECTED_DECISION,
     POST_H_034_D_CREATED_BY,
     POST_H_034_D_EXPECTED_DECISION,
+    POST_H_034_E_CREATED_BY,
+    POST_H_034_E_EXPECTED_DECISION,
     SensitiveCapabilityOptions,
 )
 
@@ -816,6 +821,238 @@ class MultiuserAuthAdrValidator:
             "identity_remote_auth_enabled": defaults.get("auth_remote_enabled") if defaults else None,
             "identity_credentials_stored": defaults.get("credentials_stored") if defaults else None,
             "project_state_production_multiuser": project_state.get("production_multiuser") if isinstance(project_state, dict) else None,
+            "matrix_loaded": matrix is not None,
+            "decision_loaded": bool(decision),
+            "blocking_findings_total": len(blocking),
+            "findings_total": len(blocking),
+            "claims_changed": False,
+            "reports_written": False,
+        }
+
+
+class EnterpriseSaasBoundaryAdrValidator:
+    """POST-H-034-E validator for enterprise/SaaS/compliance boundary invariants.
+
+    The validator reads local source-controlled decision, enterprise threat model,
+    compliance mapping and project metadata only. It does not open network
+    connections, call cloud providers, create tenants, authenticate users, read
+    credentials, start control planes or mutate the workspace.
+    """
+
+    def __init__(self, root: Path, *, options: SensitiveCapabilityOptions | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.options = options or SensitiveCapabilityOptions()
+
+    def validate(self) -> CommandResult:
+        findings: list[Finding] = []
+        matrix, matrix_findings = load_decision_matrix(self.root, self.options.matrix_path)
+        decision, decision_findings = load_enterprise_saas_boundary_decision(self.root, self.options.enterprise_saas_boundary_checklist_path)
+        findings.extend(matrix_findings)
+        findings.extend(decision_findings)
+
+        enterprise_threat_model = self._read_json(self.options.enterprise_threat_model_path)
+        enterprise_control_matrix = self._read_json(self.options.enterprise_control_matrix_path)
+        compliance_control_mappings = self._read_json(self.options.compliance_control_mappings_path)
+        compliance_evidence_mappings = self._read_json(self.options.compliance_evidence_mappings_path)
+        project_state = self._read_json(self.options.project_state_path)
+        adr_path = _resolve(self.root, self.options.enterprise_saas_boundary_adr_path)
+        adr_text = ""
+        if not adr_path.exists():
+            findings.append(Finding("ENTERPRISE_SAAS_ADR_MISSING", "Enterprise/SaaS boundary ADR is missing.", Severity.BLOCK, path=_rel(self.options.enterprise_saas_boundary_adr_path)))
+        else:
+            adr_text = adr_path.read_text(encoding="utf-8")
+            if 'status: "approved"' not in adr_text:
+                findings.append(Finding("ENTERPRISE_SAAS_ADR_NOT_APPROVED", "Enterprise/SaaS boundary ADR must be approved.", Severity.BLOCK, path=_rel(self.options.enterprise_saas_boundary_adr_path)))
+            if 'decision_status: "continue-blocked"' not in adr_text:
+                findings.append(Finding("ENTERPRISE_SAAS_ADR_NOT_CONTINUE_BLOCKED", "Enterprise/SaaS boundary ADR must declare continue-blocked.", Severity.BLOCK, path=_rel(self.options.enterprise_saas_boundary_adr_path)))
+
+        if decision:
+            findings.extend(self._validate_decision(decision, adr_text))
+        if matrix:
+            findings.extend(self._validate_matrix(matrix))
+        if enterprise_threat_model:
+            findings.extend(self._validate_enterprise_threat_model(enterprise_threat_model))
+        else:
+            findings.append(Finding("ENTERPRISE_SAAS_THREAT_MODEL_MISSING", "Enterprise threat model must remain available as design-only evidence.", Severity.BLOCK, path=_rel(self.options.enterprise_threat_model_path)))
+        if enterprise_control_matrix:
+            findings.extend(self._validate_enterprise_control_matrix(enterprise_control_matrix))
+        else:
+            findings.append(Finding("ENTERPRISE_SAAS_CONTROL_MATRIX_MISSING", "Enterprise control matrix must remain available as design-only evidence.", Severity.BLOCK, path=_rel(self.options.enterprise_control_matrix_path)))
+        if compliance_control_mappings:
+            findings.extend(self._validate_compliance_mapping(compliance_control_mappings, self.options.compliance_control_mappings_path))
+        else:
+            findings.append(Finding("ENTERPRISE_SAAS_COMPLIANCE_CONTROLS_MISSING", "Compliance control mappings must remain available as non-certifying evidence.", Severity.BLOCK, path=_rel(self.options.compliance_control_mappings_path)))
+        if compliance_evidence_mappings:
+            findings.extend(self._validate_compliance_mapping(compliance_evidence_mappings, self.options.compliance_evidence_mappings_path))
+        else:
+            findings.append(Finding("ENTERPRISE_SAAS_COMPLIANCE_EVIDENCE_MISSING", "Compliance evidence mappings must remain available as non-certifying evidence.", Severity.BLOCK, path=_rel(self.options.compliance_evidence_mappings_path)))
+        if project_state:
+            findings.extend(self._validate_project_state(project_state))
+
+        blocking = [finding for finding in findings if finding.severity in _BLOCKING]
+        if not blocking:
+            findings.append(Finding("ENTERPRISE_SAAS_BOUNDARY_ADR_GATE_PASS", "Enterprise/SaaS boundary ADR gate passed: enterprise-ready, SaaS-ready, compliance-certified, control plane, tenancy, public API, network, external APIs and credentials remain disabled.", Severity.INFO))
+        return CommandResult(
+            command="sensitive-capability enterprise-saas-boundary validate",
+            ok=not blocking,
+            exit_code=ExitCode.PASS if not blocking else ExitCode.BLOCK,
+            message="Enterprise/SaaS boundary ADR gate passed." if not blocking else "Enterprise/SaaS boundary ADR gate blocked.",
+            data={
+                "summary": self._summary(decision, matrix, enterprise_threat_model, enterprise_control_matrix, compliance_control_mappings, project_state, blocking),
+                "notes": [
+                    "POST-H-034-E validates ADR/no-go decisions only.",
+                    "The validator does not enable enterprise, SaaS, compliance certification, control plane, cloud deployment, tenancy, public API, network, external APIs or credentials.",
+                ],
+            },
+            findings=findings,
+        )
+
+    def _read_json(self, path: Path | str) -> dict[str, Any] | None:
+        resolved = _resolve(self.root, path)
+        if not resolved.exists():
+            return None
+        try:
+            payload = json.loads(resolved.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return None
+        return payload if isinstance(payload, dict) else None
+
+    def _validate_decision(self, decision: dict[str, Any], adr_text: str) -> list[Finding]:
+        findings: list[Finding] = []
+        if decision.get("created_by") != POST_H_034_E_CREATED_BY:
+            findings.append(Finding("ENTERPRISE_SAAS_WRONG_OWNER", "Enterprise/SaaS boundary decision must be created by POST-H-034-E.", Severity.BLOCK, metadata={"actual": decision.get("created_by")}))
+        if decision.get("decision_state") not in ALLOWED_ENTERPRISE_SAAS_BOUNDARY_DECISIONS:
+            findings.append(Finding("ENTERPRISE_SAAS_UNKNOWN_DECISION", "Enterprise/SaaS boundary decision_state is not allowed.", Severity.BLOCK, metadata={"actual": decision.get("decision_state")}))
+        if decision.get("decision_state") != POST_H_034_E_EXPECTED_DECISION:
+            findings.append(Finding("ENTERPRISE_SAAS_NOT_CONTINUE_BLOCKED", "Enterprise/SaaS boundary must remain continue-blocked in POST-H-034-E.", Severity.BLOCK, metadata={"actual": decision.get("decision_state")}))
+        false_flags = (
+            "enterprise_ready_claimed", "enterprise_ready_enabled", "enterprise_runtime_enabled", "saas_ready_claimed", "saas_runtime_enabled", "control_plane_enabled", "cloud_deployment_enabled", "tenancy_enabled", "tenant_isolation_implemented", "public_api_enabled", "compliance_certified", "compliance_certification_claim", "external_audit_claimed", "legal_advice_claimed", "network_allowed", "external_api_allowed", "credentials_required",
+        )
+        for key in false_flags:
+            if decision.get(key) is not False:
+                findings.append(Finding("ENTERPRISE_SAAS_DECISION_FLAG_BLOCK", f"{key} must remain false.", Severity.BLOCK, path=_rel(self.options.enterprise_saas_boundary_checklist_path), metadata={"flag": key, "actual": decision.get(key)}))
+        true_flags = (
+            "production_ready_local_scope_preserved", "enterprise_threat_model_design_only", "compliance_mapping_non_certifying", "requires_future_backlog", "requires_future_enablement_adr", "requires_human_approval", "enterprise_architecture_required_before_pilot", "tenancy_required_before_saas", "external_audit_required_before_certification", "migration_plan_required_before_enterprise",
+        )
+        for key in true_flags:
+            if decision.get(key) is not True:
+                findings.append(Finding("ENTERPRISE_SAAS_REQUIRED_CONTROL_BLOCK", f"{key} must remain true.", Severity.BLOCK, path=_rel(self.options.enterprise_saas_boundary_checklist_path), metadata={"flag": key, "actual": decision.get(key)}))
+        lowered = adr_text.lower()
+        required_rules = [
+            "enterprise threat model exists != enterprise-ready",
+            "enterprise control matrix exists != production enterprise authorization",
+            "compliance mapping exists != compliance-certified",
+            "production-ready-local exists != saas-ready",
+            "post-h-034-e adr exists != runtime enablement",
+        ]
+        for rule in required_rules:
+            if rule not in lowered:
+                findings.append(Finding("ENTERPRISE_SAAS_ADR_MISSING_INTERPRETATION_RULE", "ADR must separate design/compliance evidence from enterprise/SaaS enablement.", Severity.BLOCK, path=_rel(self.options.enterprise_saas_boundary_adr_path), metadata={"rule": rule}))
+        return findings
+
+    def _validate_matrix(self, matrix: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        decision = enterprise_saas_decision_from_matrix(matrix)
+        if decision is None:
+            findings.append(Finding("ENTERPRISE_SAAS_MATRIX_ENTRY_MISSING", "Sensitive capability matrix must include enterprise.saas.", Severity.BLOCK, path=_rel(self.options.matrix_path)))
+            return findings
+        if decision.decision_state != POST_H_034_E_EXPECTED_DECISION:
+            findings.append(Finding("ENTERPRISE_SAAS_MATRIX_DECISION_BLOCK", "Matrix enterprise.saas decision must remain continue-blocked.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata=decision.to_dict()))
+        if decision.runtime_enabled is not False:
+            findings.append(Finding("ENTERPRISE_SAAS_MATRIX_RUNTIME_BLOCK", "Matrix enterprise.saas runtime_enabled must remain false.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata=decision.to_dict()))
+        gates = matrix.get("global_no_go_gates", {}) if isinstance(matrix.get("global_no_go_gates"), dict) else {}
+        for key in ("enterprise_ready", "saas_ready", "compliance_certified", "production_multiuser"):
+            if gates.get(key) is not False:
+                findings.append(Finding("ENTERPRISE_SAAS_MATRIX_NO_GO_BLOCK", f"global_no_go_gates.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata={"flag": key, "actual": gates.get(key)}))
+        return findings
+
+    def _validate_enterprise_threat_model(self, model: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        expected = {
+            "decision_status": "design-only",
+            "enterprise_deployment_enabled": False,
+            "production_multiuser_enabled": False,
+            "control_plane_enabled": False,
+            "remote_execution_enabled": False,
+            "secure_transport_implemented": False,
+            "compliance_certification_claim": False,
+        }
+        for key, value in expected.items():
+            if model.get(key) != value:
+                findings.append(Finding("ENTERPRISE_SAAS_THREAT_MODEL_FLAG_BLOCK", f"Enterprise threat model {key} must remain {value!r}.", Severity.BLOCK, path=_rel(self.options.enterprise_threat_model_path), metadata={"flag": key, "actual": model.get(key)}))
+        safety = model.get("safety") if isinstance(model.get("safety"), dict) else {}
+        for key in ("network_used", "external_api_used", "mutations_performed", "source_mutations_performed", "secrets_read"):
+            if safety.get(key) is not False:
+                findings.append(Finding("ENTERPRISE_SAAS_THREAT_MODEL_SAFETY_BLOCK", f"Enterprise threat model safety.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.enterprise_threat_model_path), metadata={"flag": key, "actual": safety.get(key)}))
+        return findings
+
+    def _validate_enterprise_control_matrix(self, matrix: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        expected = {
+            "decision_status": "design-only",
+            "enterprise_ready_claimed": False,
+            "enterprise_deployment_enabled": False,
+            "remote_execution_enabled": False,
+            "secure_transport_implemented": False,
+            "compliance_certification_claim": False,
+        }
+        for key, value in expected.items():
+            if matrix.get(key) != value:
+                findings.append(Finding("ENTERPRISE_SAAS_CONTROL_MATRIX_FLAG_BLOCK", f"Enterprise control matrix {key} must remain {value!r}.", Severity.BLOCK, path=_rel(self.options.enterprise_control_matrix_path), metadata={"flag": key, "actual": matrix.get(key)}))
+        summary = matrix.get("summary") if isinstance(matrix.get("summary"), dict) else {}
+        if int(summary.get("required_not_implemented_total", 0)) <= 0:
+            findings.append(Finding("ENTERPRISE_SAAS_CONTROL_MATRIX_NO_BLOCKERS", "Enterprise control matrix must keep explicit blockers before enterprise-ready claims.", Severity.BLOCK, path=_rel(self.options.enterprise_control_matrix_path)))
+        return findings
+
+    def _validate_compliance_mapping(self, payload: dict[str, Any], path: Path | str) -> list[Finding]:
+        findings: list[Finding] = []
+        if payload.get("certification_claimed") is not False:
+            findings.append(Finding("ENTERPRISE_SAAS_COMPLIANCE_CERTIFICATION_BLOCK", "Compliance mapping certification_claimed must remain false.", Severity.BLOCK, path=_rel(path)))
+        if payload.get("legal_advice_claimed") is not False:
+            findings.append(Finding("ENTERPRISE_SAAS_COMPLIANCE_LEGAL_ADVICE_BLOCK", "Compliance mapping legal_advice_claimed must remain false.", Severity.BLOCK, path=_rel(path)))
+        safety = payload.get("safety") if isinstance(payload.get("safety"), dict) else {}
+        for key in ("network_used", "external_api_used", "mutations_performed"):
+            if safety.get(key) is not False:
+                findings.append(Finding("ENTERPRISE_SAAS_COMPLIANCE_SAFETY_BLOCK", f"Compliance mapping safety.{key} must remain false.", Severity.BLOCK, path=_rel(path), metadata={"flag": key, "actual": safety.get(key)}))
+        disclaimer = str(payload.get("disclaimer", "")).lower()
+        if "not" not in disclaimer or ("certification" not in disclaimer and "certified" not in disclaimer):
+            findings.append(Finding("ENTERPRISE_SAAS_COMPLIANCE_DISCLAIMER_WEAK", "Compliance mapping must keep a non-certification disclaimer.", Severity.BLOCK, path=_rel(path)))
+        return findings
+
+    def _validate_project_state(self, state: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        for key in (
+            "enterprise_ready_claimed", "enterprise_ready_enabled", "enterprise_runtime_enabled", "enterprise_deployment_enabled", "saas_ready_claimed", "saas_runtime_enabled", "control_plane_enabled", "cloud_deployment_enabled", "tenancy_enabled", "tenant_isolation_implemented", "public_api_enabled", "compliance_certification_claim", "compliance_certified_claimed", "external_audit_claimed", "legal_advice_claimed", "network_allowed", "network_used", "external_api_used", "credentials_required", "connector_write_enabled", "plugin_execution_enabled", "remote_execution_enabled", "production_multiuser",
+        ):
+            if state.get(key) is not False:
+                findings.append(Finding("ENTERPRISE_SAAS_PROJECT_STATE_NO_GO_BLOCK", f"project_state.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.project_state_path), metadata={"flag": key, "actual": state.get(key)}))
+        return findings
+
+    def _summary(self, decision: dict[str, Any] | None, matrix: dict[str, Any] | None, enterprise_threat_model: dict[str, Any] | None, enterprise_control_matrix: dict[str, Any] | None, compliance_mapping: dict[str, Any] | None, project_state: dict[str, Any] | None, blocking: list[Finding]) -> dict[str, Any]:
+        decision = decision or {}
+        return {
+            "created_by": POST_H_034_E_CREATED_BY,
+            "status": "implemented-initial",
+            "preliminary": True,
+            "capability_id": "enterprise.saas",
+            "enterprise_saas_decision_state": decision.get("decision_state"),
+            "enterprise_saas_decision_status": decision.get("decision_status"),
+            "enterprise_ready_claimed": decision.get("enterprise_ready_claimed"),
+            "enterprise_ready_enabled": decision.get("enterprise_ready_enabled"),
+            "saas_ready_claimed": decision.get("saas_ready_claimed"),
+            "control_plane_enabled": decision.get("control_plane_enabled"),
+            "cloud_deployment_enabled": decision.get("cloud_deployment_enabled"),
+            "tenancy_enabled": decision.get("tenancy_enabled"),
+            "public_api_enabled": decision.get("public_api_enabled"),
+            "compliance_certification_claim": decision.get("compliance_certification_claim"),
+            "compliance_certified": decision.get("compliance_certified"),
+            "network_allowed": decision.get("network_allowed"),
+            "external_api_allowed": decision.get("external_api_allowed"),
+            "credentials_required": decision.get("credentials_required"),
+            "enterprise_threat_model_decision_status": enterprise_threat_model.get("decision_status") if isinstance(enterprise_threat_model, dict) else None,
+            "enterprise_control_matrix_decision_status": enterprise_control_matrix.get("decision_status") if isinstance(enterprise_control_matrix, dict) else None,
+            "compliance_certification_claimed": compliance_mapping.get("certification_claimed") if isinstance(compliance_mapping, dict) else None,
+            "project_state_enterprise_ready_claimed": project_state.get("enterprise_ready_claimed") if isinstance(project_state, dict) else None,
             "matrix_loaded": matrix is not None,
             "decision_loaded": bool(decision),
             "blocking_findings_total": len(blocking),

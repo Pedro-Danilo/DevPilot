@@ -2,17 +2,42 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.17.0"
+version: "2.18.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-034-C"
+phase: "POST-H-034-E"
 updated: "2026-07-12"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-034-E — Operación de ADR Enterprise/SaaS boundary
+
+Estado operativo: `enterprise.saas` permanece `continue-blocked`. El operador puede revisar la ADR, checklist, manifest, matrix y reportes de enterprise/compliance, pero no debe interpretar estos artefactos como autorización de deployment enterprise, SaaS, control plane, tenancy, API pública o certificación compliance.
+
+Comandos recomendados:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_enterprise_saas_boundary_adr.py -q
+python -m devpilot_core schema validate --schema-id EnterpriseSaasBoundaryDecision --instance .devpilot\sensitive_capabilities\enterprise_saas_boundary_checklist.json --json
+python -m devpilot_core schema validate --schema-id EnterpriseSaasBoundaryDecision --instance docs\post_h_034_e_manifest.json --json
+python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot\sensitive_capabilities\capability_decision_matrix.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Notas de seguridad:
+
+- `production-ready-local` no equivale a `enterprise-ready` ni `SaaS-ready`.
+- `EnterpriseThreatModel` sigue siendo `design-only`.
+- `ComplianceMapping` sigue siendo evidencia interna no certificante; no es auditoría externa ni asesoría legal.
+- No crear tenants, credenciales reales, API pública, control plane ni despliegue cloud en este sprint.
+- Esta es una versión `implemented-initial`; cualquier piloto futuro requiere backlog separado, arquitectura, threat model, pruebas, approvals, legal/compliance scope y external audit plan si se pretende certificación.
+
 
 ## POST-H-034-B — Operación de ADR plugin execution
 

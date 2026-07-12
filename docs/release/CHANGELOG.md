@@ -1,3 +1,11 @@
+## post-h-034-e — Enterprise/SaaS boundary ADR
+
+- Agrega ADR aprobada `ADR-POSTH-034-E` para mantener `enterprise.saas` en `continue-blocked`.
+- Agrega schema `EnterpriseSaasBoundaryDecision`, checklist, manifest, reporte y pruebas focales.
+- Extiende `sensitive-capability-adr-gate` para validar connector write, plugin execution, remote execution, multiuser/auth y enterprise/SaaS boundary.
+- Mantiene `enterprise_ready_claimed=false`, `saas_ready_claimed=false`, `compliance_certification_claim=false`, sin control plane, cloud deployment, tenancy, public API, network, external APIs ni credenciales.
+- Documenta que esta es una versión `implemented-initial`; enterprise/SaaS/compliance certification requieren backlog futuro, arquitectura, threat model, legal/compliance scope, external audit plan y pruebas de seguridad.
+
 
 ## post-h-034-b
 

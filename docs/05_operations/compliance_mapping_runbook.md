@@ -138,3 +138,18 @@ AuditPackV2 incluye un bloque `compliance_mapping` como summary no-certificante.
 ## 9. Responsabilidad del operador
 
 El operador debe revisar lenguaje, evidencias y gaps antes de compartir reportes. Cualquier uso regulatorio, contractual o legal requiere revisión de especialistas externos a DevPilot.
+
+
+## POST-H-034-E — Boundary compliance no certificante
+
+POST-H-034-E confirma que los compliance mapping packs son evidencia interna de ingeniería local. No equivalen a certificación, auditoría externa, asesoría legal, garantía regulatoria ni `compliance-certified`.
+
+Reglas de interpretación obligatorias:
+
+```text
+compliance mapping exists != compliance-certified
+internal evidence report != external audit
+production-ready-local exists != compliance certification
+```
+
+Cualquier claim de certificación requiere backlog futuro, alcance legal/compliance explícito, auditoría externa, evidencias firmadas, revisión humana y actualización de ADR/gates.

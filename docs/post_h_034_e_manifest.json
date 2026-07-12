@@ -1,0 +1,288 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-ENTERPRISE-SAAS-BOUNDARY-DECISION-V1",
+  "decision_id": "POST-H-034-E-MANIFEST",
+  "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+  "created_by": "POST-H-034-E",
+  "status": "implemented-initial",
+  "capability_id": "enterprise.saas",
+  "capability_name": "Enterprise/SaaS boundary",
+  "decision_state": "continue-blocked",
+  "decision_status": "continue-blocked",
+  "adr_path": "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
+  "checklist_path": ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
+  "report_path": "docs/audits/post_h_034_e_enterprise_saas_boundary_adr_report.md",
+  "manifest_path": "docs/post_h_034_e_manifest.json",
+  "production_ready_local_scope_preserved": true,
+  "enterprise_threat_model_design_only": true,
+  "compliance_mapping_non_certifying": true,
+  "enterprise_ready_claimed": false,
+  "enterprise_ready_enabled": false,
+  "enterprise_runtime_enabled": false,
+  "saas_ready_claimed": false,
+  "saas_runtime_enabled": false,
+  "control_plane_enabled": false,
+  "cloud_deployment_enabled": false,
+  "tenancy_enabled": false,
+  "tenant_isolation_implemented": false,
+  "public_api_enabled": false,
+  "compliance_certified": false,
+  "compliance_certification_claim": false,
+  "external_audit_claimed": false,
+  "legal_advice_claimed": false,
+  "network_allowed": false,
+  "external_api_allowed": false,
+  "credentials_required": false,
+  "requires_future_backlog": true,
+  "requires_future_enablement_adr": true,
+  "requires_human_approval": true,
+  "enterprise_architecture_required_before_pilot": true,
+  "tenancy_required_before_saas": true,
+  "external_audit_required_before_certification": true,
+  "migration_plan_required_before_enterprise": true,
+  "prerequisites": [
+    {
+      "id": "adr-approved",
+      "description": "ADR boundary approved",
+      "status": "met",
+      "blocking": false,
+      "evidence": [
+        "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md"
+      ]
+    },
+    {
+      "id": "enterprise-saas-architecture",
+      "description": "Enterprise/SaaS architecture and deployment model",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "tenant-isolation",
+      "description": "Tenant isolation and data segregation model",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "multiuser-auth-production",
+      "description": "Production multiuser auth and session model",
+      "status": "missing",
+      "blocking": true,
+      "evidence": [
+        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md"
+      ]
+    },
+    {
+      "id": "data-retention-privacy",
+      "description": "Data retention, privacy and DPA/legal model",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "cloud-deployment-model",
+      "description": "Cloud deployment, control plane and network model",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "backup-restore-enterprise",
+      "description": "Enterprise backup, restore and disaster recovery",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "observability-backend",
+      "description": "External/central observability backend with privacy controls",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "incident-response",
+      "description": "Incident response, on-call and support process",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "support-sla-model",
+      "description": "Support/SLO/SLA model",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "legal-compliance-scope",
+      "description": "Legal/compliance scope and external audit plan",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "security-threat-model",
+      "description": "Security tests and threat model for enterprise/SaaS",
+      "status": "partial",
+      "blocking": true,
+      "evidence": [
+        ".devpilot/enterprise/enterprise_threat_model.json"
+      ]
+    },
+    {
+      "id": "migration-plan",
+      "description": "Migration plan from local-first to enterprise/SaaS",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    }
+  ],
+  "no_go_gates": [
+    {
+      "id": "enterprise_ready_claimed",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No enterprise-ready claim is allowed."
+    },
+    {
+      "id": "enterprise_ready_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No enterprise runtime enablement is allowed."
+    },
+    {
+      "id": "saas_ready_claimed",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No SaaS-ready claim is allowed."
+    },
+    {
+      "id": "saas_runtime_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No SaaS runtime exists."
+    },
+    {
+      "id": "control_plane_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No control plane is enabled."
+    },
+    {
+      "id": "cloud_deployment_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No cloud deployment is enabled."
+    },
+    {
+      "id": "tenancy_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No tenancy is enabled."
+    },
+    {
+      "id": "public_api_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No public API is enabled."
+    },
+    {
+      "id": "compliance_certified",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No compliance certification is claimed."
+    },
+    {
+      "id": "compliance_certification_claim",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "Compliance mapping remains non-certifying."
+    },
+    {
+      "id": "network_allowed",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No network usage is allowed by this ADR."
+    },
+    {
+      "id": "external_api_allowed",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No external APIs are allowed by this ADR."
+    },
+    {
+      "id": "credentials_required",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No real credentials are introduced."
+    }
+  ],
+  "evidence_requirements": [
+    "Enterprise/SaaS architecture before any cloud or control-plane claim.",
+    "Tenant isolation before any tenancy or SaaS claim.",
+    "Production multiuser auth before any public/multiuser surface.",
+    "Data retention/privacy policy before cloud evidence processing.",
+    "Backup/restore and incident response before enterprise operations.",
+    "Support/SLO/SLA model before enterprise-ready claim.",
+    "External audit plan before compliance-certified claim.",
+    "Migration plan from local-first before enterprise deployment.",
+    "Security tests and threat model before enabling enterprise runtime."
+  ],
+  "current_controls": {
+    "enterprise_threat_model": ".devpilot/enterprise/enterprise_threat_model.json",
+    "enterprise_control_matrix": ".devpilot/enterprise/enterprise_control_matrix.json",
+    "enterprise_closure_report": "docs/audits/post_h_022_e_enterprise_closure_report.md",
+    "compliance_control_mappings": ".devpilot/compliance/control_mappings.json",
+    "compliance_evidence_mappings": ".devpilot/compliance/evidence_mappings.json",
+    "compliance_runbook": "docs/05_operations/compliance_mapping_runbook.md",
+    "production_ready_local_declaration": "docs/audits/devpilot_local_production_ready_declaration.md",
+    "enterprise_design_only": true,
+    "compliance_non_certifying": true,
+    "local_first_scope": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "enterprise_ready_claimed": false,
+    "saas_ready_claimed": false,
+    "compliance_certification_claim": false,
+    "control_plane_enabled": false,
+    "cloud_deployment_enabled": false,
+    "tenancy_enabled": false,
+    "public_api_enabled": false,
+    "credentials_versioned": false,
+    "source_mutations_performed": false
+  },
+  "summary": {
+    "decision_blocks_enterprise_saas": true,
+    "production_ready_local_preserved": true,
+    "no_go_gates_preserved": true,
+    "claims_changed": false,
+    "prerequisites_total": 13,
+    "prerequisites_met_total": 1,
+    "blocking_prerequisites_total": 12
+  },
+  "notes": [
+    "POST-H-034-E is an ADR/governance boundary only; it does not enable enterprise, SaaS, tenancy, public API, cloud, network, external APIs or credentials.",
+    "Enterprise threat model remains design-only and compliance mappings remain non-certifying internal engineering evidence.",
+    "A future implementation requires a separate backlog, threat model, tests, approvals, legal/compliance scope and external audit plan when certification is claimed."
+  ]
+}

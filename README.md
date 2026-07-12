@@ -1,3 +1,19 @@
+## POST-H-034-E — Enterprise/SaaS boundary ADR
+
+POST-H-034-E agrega la ADR aprobada para `enterprise.saas` y mantiene el estado `continue-blocked`: DevPilot conserva alcance `production-ready-local`, no declara `enterprise-ready`, no declara `SaaS-ready`, no declara `compliance-certified`, no habilita control plane, cloud deployment, tenancy, public API, red, APIs externas ni credenciales reales.
+
+La implementación es `implemented-initial` y de gobierno: agrega schema `EnterpriseSaasBoundaryDecision`, checklist, manifest, reporte, validador y pruebas focales. El enterprise threat model de POST-H-022 sigue siendo `design-only`; los compliance mappings de POST-H-020 siguen siendo evidencia interna no certificante. Cualquier evolución enterprise/SaaS futura requiere backlog separado con arquitectura, auth productivo, tenant isolation, privacidad/retención, backup/restore, observability backend, incident response, support/SLA, legal/compliance scope, external audit plan y pruebas de seguridad.
+
+Comandos focales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_enterprise_saas_boundary_adr.py -q
+python -m devpilot_core schema validate --schema-id EnterpriseSaasBoundaryDecision --instance .devpilot\sensitive_capabilities\enterprise_saas_boundary_checklist.json --json
+python -m devpilot_core schema validate --schema-id EnterpriseSaasBoundaryDecision --instance docs\post_h_034_e_manifest.json --json
+python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot\sensitive_capabilities\capability_decision_matrix.json --json
+```
+
 ## POST-H-034-B — Plugin execution ADR
 
 POST-H-034-B agrega la ADR aprobada para `plugin.execution` y mantiene el estado `continue-blocked`: no se ejecutan plugins, no se cargan entrypoints, no se permite `dynamic import`, `subprocess`, `shell`, escritura de filesystem, red ni APIs externas. Esta es una implementación `implemented-initial` de frontera arquitectónica; un eventual piloto futuro requiere sandbox real, firma/verificación, permission enforcement runtime, límites de recursos, Approval/RBAC, audit trail, kill-switch y pruebas con plugin fake malicioso.

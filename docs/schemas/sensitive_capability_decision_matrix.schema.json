@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/sensitive_capability_decision_matrix.schema.json",
   "title": "DevPilot SensitiveCapabilityDecisionMatrix v1",
-  "description": "POST-H-034 matrix for sensitive capability ADR states and no-go runtime flags. Introduced by POST-H-034-A and extended by POST-H-034-B/C/D for plugin.execution, remote.execution ADR-3 and multiuser.auth.",
+  "description": "POST-H-034 matrix for sensitive capability ADR states and no-go runtime flags. Introduced by POST-H-034-A and extended through POST-H-034-E for connector.write, plugin.execution, remote.execution ADR-3, multiuser.auth and enterprise.saas.",
   "type": "object",
   "required": [
     "schema_version",
@@ -32,7 +32,8 @@
         "POST-H-034-A",
         "POST-H-034-B",
         "POST-H-034-C",
-        "POST-H-034-D"
+        "POST-H-034-D",
+        "POST-H-034-E"
       ]
     },
     "status": {
@@ -164,6 +165,6 @@
   },
   "additionalProperties": true,
   "x-devpilot-schema-id": "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
-  "x-devpilot-sprint": "POST-H-034-D",
+  "x-devpilot-sprint": "POST-H-034-E",
   "x-devpilot-status": "registered"
 }

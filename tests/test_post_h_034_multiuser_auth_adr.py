@@ -141,8 +141,8 @@ def test_post_h_034_d_local_identity_rbac_and_api_security_remain_local_only() -
 def test_post_h_034_d_project_state_and_claims_remain_blocked() -> None:
     state = _read_json(".devpilot/project_state.json")
 
-    assert state["post_h_034_current_micro_sprint"] == "POST-H-034-D"
-    assert state["post_h_034_next_micro_sprint"] == "POST-H-034-E"
+    assert state["post_h_034_current_micro_sprint"] in {"POST-H-034-D", "POST-H-034-E"}
+    assert state["post_h_034_next_micro_sprint"] in {"POST-H-034-E", "POST-H-034-CLOSURE"}
     assert state["post_h_034_c_closed"] is True
     assert state["post_h_034_d_decision_state"] == "continue-blocked"
     assert state["post_h_034_d_multiuser_auth_enabled"] is False
@@ -183,8 +183,8 @@ def test_post_h_034_d_governance_artifacts_are_synchronized() -> None:
     assert "POST-H-034-D — Multiuser/auth ADR" in readme
     assert "POST-H-034-D — Operación de ADR multiuser/auth" in runbook
     assert "post-h-034-d" in changelog
-    assert 'current_micro_sprint: "POST-H-034-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-034-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-034-D"' in backlog or 'current_micro_sprint: "POST-H-034-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-034-E"' in backlog or 'next_micro_sprint: "POST-H-034-CLOSURE"' in backlog
 
 
 def test_post_h_034_d_no_real_credentials_network_or_enablement_terms_are_versioned() -> None:
