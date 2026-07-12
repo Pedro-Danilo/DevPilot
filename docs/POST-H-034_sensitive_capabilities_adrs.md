@@ -9,9 +9,9 @@ updated: "2026-07-12"
 approval: "approved_by_owner"
 roadmap_wave: "Ola 9"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
-implementation_status: "active/post-h-034-a-implemented-initial"
-current_micro_sprint: "POST-H-034-A"
-next_micro_sprint: "POST-H-034-B"
+implementation_status: "active/post-h-034-b-implemented-initial"
+current_micro_sprint: "POST-H-034-B"
+next_micro_sprint: "POST-H-034-C"
 repo_baseline: "repo_DevPilot_Local_307_POST_H_033_F.zip"
 created_for: "DevPilot Local"
 scope: "architecture decisions / no-go gates / sensitive capability enablement prerequisites"
@@ -573,6 +573,13 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_post_h_025_production_ready_final_declaration.py `
   -q
 ```
+
+
+## Estado de implementación POST-H-034-B
+
+POST-H-034-B queda implementado como `implemented-initial`: se crea la ADR aprobada de `plugin.execution`, el schema `PluginExecutionDecision`, el checklist `.devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json`, el reporte, el manifest y pruebas focales. La decisión es `continue-blocked`: no se ejecutan plugins, no se carga código, no se habilitan dynamic import/subprocess/shell/filesystem write/network/API externa y no se amplían claims productivos.
+
+El resultado es deliberadamente conservador. Para una versión industrial futura se requiere backlog separado con sandbox real, firma/verificación de plugins, permission enforcement runtime, límites de recursos, audit trail, Approval/RBAC, kill-switch y pruebas dinámicas con plugin fake malicioso.
 
 ## 9. Definition of Done del backlog POST-H-034
 

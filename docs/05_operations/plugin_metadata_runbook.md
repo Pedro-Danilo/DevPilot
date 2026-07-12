@@ -2,15 +2,26 @@
 doc_id: "POST-H-019-PLUGIN-METADATA-RUNBOOK"
 title: "POST-H-019 — Runbook metadata-only para plugins"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-06-30"
+updated: "2026-07-12"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 local_first: true
 dry_run: true
 plugin_execution_enabled: false
 ---
+
+## POST-H-034-B — Plugin execution sigue bloqueado
+
+POST-H-034-B confirma mediante ADR que el plugin registry y los manifests son metadata-only. No autorizan carga de código, dynamic import, subprocess, shell, filesystem write, network, external APIs ni marketplace. Cualquier piloto futuro requiere ADR/backlog separado, signing, sandbox real, permission enforcement runtime, audit trail, resource limits, Approval/RBAC, kill-switch y pruebas con plugin fake malicioso.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_plugin_execution_adr.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_quality_gate.py -q
+```
 
 # POST-H-019 — Runbook metadata-only para plugins
 

@@ -11730,7 +11730,8 @@
       "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
       ],
       "sync_rules": [
         "frontmatter_required",
@@ -11750,7 +11751,8 @@
       "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
       ],
       "sync_rules": [
         "frontmatter_required",
@@ -11810,7 +11812,8 @@
       "status_required": "implemented-initial",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
       ],
       "sync_rules": [
         "schema_validates",
@@ -11993,6 +11996,146 @@
       "roadmap_milestones": [
         "POST-H-034-A"
       ]
+    },
+    {
+      "doc_id": "ADR-POSTH-034-B",
+      "path": "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "adr_linked",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-DECISION-SCHEMA",
+      "path": "docs/schemas/plugin_execution_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "schema_registered",
+        "schema_validates"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-ADR-REPORT",
+      "path": "docs/audits/post_h_034_b_plugin_execution_adr_report.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-MANIFEST",
+      "path": "docs/post_h_034_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-SENSITIVE-CAPABILITY-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "architecture-decision",
+      "owner": "POST-H-034-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-TEST",
+      "path": "tests/test_post_h_034_plugin_execution_adr.py",
+      "classification": "derived",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
     }
   ],
   "rules": {
@@ -12066,31 +12209,31 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 513,
-    "source_of_truth_total": 203,
-    "machine_readable_source_total": 242,
-    "derived_total": 68,
+    "documents_total": 520,
+    "source_of_truth_total": 205,
+    "machine_readable_source_total": 246,
+    "derived_total": 69,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 418,
+    "critical_sources_total": 425,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 513,
+    "documents_with_required_tests_total": 520,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-033-F",
+    "last_updated_by": "POST-H-034-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-033-F",
-    "last_registered_sprint": "POST-H-033-F",
-    "updated": "2026-07-11",
+    "updated_by": "POST-H-034-B",
+    "last_registered_sprint": "POST-H-034-B",
+    "updated": "2026-07-12",
     "documents_checked_total": 419,
-    "documents_registered_total": 499
+    "documents_registered_total": 520
   },
   "safety": {
     "local_first": true,
@@ -13329,6 +13472,6 @@
     "post_h_032_b_real_server_required_for_tests": false,
     "post_h_032_b_models_called_by_health": false
   },
-  "updated_at": "2026-07-11T00:00:00Z",
-  "last_registered_sprint": "POST-H-033-F"
+  "updated_at": "2026-07-12",
+  "last_registered_sprint": "POST-H-034-B"
 }

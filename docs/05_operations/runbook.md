@@ -2,17 +2,38 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.16.0"
+version: "2.17.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-034-A"
+phase: "POST-H-034-B"
 updated: "2026-07-12"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-034-B — Operación de ADR plugin execution
+
+Estado operativo: `plugin.execution` permanece `continue-blocked`. El operador puede revisar plugin registry, permission model, ADR, checklist y reportes, pero no debe cargar ni ejecutar código de plugins. El gate `sensitive-capability-adr-gate` valida connector write y plugin execution como no-go gates locales y read-only.
+
+Comandos recomendados:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_plugin_execution_adr.py -q
+python -m devpilot_core schema validate --schema-id PluginExecutionDecision --instance .devpilot\sensitive_capabilities\plugin_execution_enablement_checklist.json --json
+python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot\sensitive_capabilities\capability_decision_matrix.json --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Notas de seguridad:
+
+- No ejecutar plugins ni scripts declarados por manifests.
+- No convertir `plugin_registry.json` en loader runtime.
+- No permitir `dynamic_import`, `subprocess`, `shell`, filesystem write, network o external APIs.
+- Tratar este sprint como `implemented-initial`; el sandbox productivo queda fuera de alcance.
 
 ## POST-H-034-A — Operación de ADR connector write
 

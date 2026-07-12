@@ -1,0 +1,220 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-PLUGIN-EXECUTION-DECISION-V1",
+  "decision_id": "POST-H-034-B-PLUGIN-EXECUTION-DECISION",
+  "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+  "created_by": "POST-H-034-B",
+  "status": "implemented-initial",
+  "capability_id": "plugin.execution",
+  "capability_name": "Plugin execution",
+  "decision_state": "continue-blocked",
+  "decision_status": "continue-blocked",
+  "adr_path": "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
+  "checklist_path": ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
+  "report_path": "docs/audits/post_h_034_b_plugin_execution_adr_report.md",
+  "manifest_path": "docs/post_h_034_b_manifest.json",
+  "plugin_execution_enabled": false,
+  "runtime_execution_enabled": false,
+  "plugin_code_loading_enabled": false,
+  "dynamic_import_allowed": false,
+  "subprocess_allowed": false,
+  "external_api_allowed": false,
+  "network_allowed": false,
+  "filesystem_write_allowed": false,
+  "shell_allowed": false,
+  "credentials_required": false,
+  "requires_future_backlog": true,
+  "requires_future_enablement_adr": true,
+  "requires_human_approval": true,
+  "sandbox_required_before_pilot": true,
+  "kill_switch_required_before_pilot": true,
+  "signing_required_before_pilot": true,
+  "supply_chain_policy_required_before_pilot": true,
+  "prerequisites": [
+    {
+      "id": "ADR-APPROVED",
+      "description": "ADR aprobada que mantenga plugin execution bloqueado o defina piloto futuro gated.",
+      "status": "met",
+      "required_for": "plugin execution pilot",
+      "evidence": [
+        "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md"
+      ]
+    },
+    {
+      "id": "PLUGIN-THREAT-MODEL",
+      "description": "Threat model especifico para ejecucion de plugins y supply chain.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "PLUGIN-SIGNING",
+      "description": "Firma/verificacion de plugins antes de cargar codigo ejecutable.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "PERMISSION-ENFORCEMENT",
+      "description": "Permission model enforceable en runtime, no solo declarativo.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "EXECUTION-SANDBOX",
+      "description": "Sandbox real de ejecucion con aislamiento de filesystem, CPU, memoria y tiempo.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "FILESYSTEM-ALLOWLIST",
+      "description": "Allowlist de filesystem y bloqueo por defecto fuera del sandbox.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "NETWORK-DISABLED",
+      "description": "Red deshabilitada por defecto y sin API externa en pilotos.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "RESOURCE-LIMITS",
+      "description": "Limites de recursos y timeouts para evitar loops/autonomia no controlada.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "AUDIT-TRAIL",
+      "description": "Audit trail de install/load/execute con redaccion de secretos.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "APPROVAL-RBAC",
+      "description": "Approval/RBAC fuerte para plugin install/execute por actor, plugin_id y accion.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "SUPPLY-CHAIN-POLICY",
+      "description": "Politica de supply chain: origen, hash, version, bloqueo de dependencias dinamicas.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "KILL-SWITCH",
+      "description": "Kill-switch local y rollback/cleanup antes de cualquier piloto.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    },
+    {
+      "id": "MALICIOUS-FAKE-PLUGIN-TESTS",
+      "description": "Static + dynamic tests con plugin fake malicioso antes de habilitar pilotos.",
+      "status": "future-required",
+      "required_for": "plugin execution pilot",
+      "evidence": []
+    }
+  ],
+  "no_go_gates": [
+    {
+      "gate_id": "plugin-execution-enabled",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "plugin-code-loaded",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "dynamic-import-allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "subprocess-allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "network-allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "filesystem-write-allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "shell-allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    }
+  ],
+  "evidence_requirements": [
+    "ADR aprobada y source-controlled",
+    "Plugin permission model con deny-by-default",
+    "Plugin registry con loading_mode metadata-only y execution_enabled=false",
+    "Static validator y quality gate de no-execution",
+    "Tests de plugin execution blocked",
+    "Runbook de plugin metadata actualizado con no-go operativo"
+  ],
+  "current_controls": {
+    "plugin_registry_path": ".devpilot/plugins/plugin_registry.json",
+    "plugin_permission_model_path": ".devpilot/plugins/plugin_permission_model.json",
+    "plugin_metadata_runbook_path": "docs/05_operations/plugin_metadata_runbook.md",
+    "plugin_registry_status": "metadata-only",
+    "permission_model_default_effect": "deny",
+    "execution_policy": "no-execution",
+    "static_validator_available": true,
+    "quality_gate_available": true,
+    "plugin_execution_blocked_tests_available": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "plugin_execution_enabled": false,
+    "plugin_code_loaded": false,
+    "dynamic_import_used": false,
+    "subprocess_used": false,
+    "shell_used": false,
+    "filesystem_write_used": false,
+    "secrets_versioned": false,
+    "source_mutations_performed": false
+  },
+  "summary": {
+    "decision_blocks_runtime_execution": true,
+    "no_go_gates_preserved": true,
+    "claims_changed": false,
+    "prerequisites_total": 13,
+    "prerequisites_met_total": 1,
+    "blocking_prerequisites_total": 12,
+    "runtime_enablement_added": false
+  },
+  "notes": [
+    "POST-H-034-B is an ADR/no-go decision only; it does not execute plugins or load arbitrary code.",
+    "Existing plugin registry/manifest/permission model remain metadata-only and deny-by-default.",
+    "Any future plugin execution pilot requires a separate backlog with sandbox, signing, resource limits, approval/RBAC, malicious fake plugin tests and kill-switch."
+  ]
+}

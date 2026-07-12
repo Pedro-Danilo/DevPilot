@@ -8,13 +8,19 @@ from typing import Any
 DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH = Path(".devpilot/sensitive_capabilities/capability_decision_matrix.json")
 DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH = Path(".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json")
 DEFAULT_CONNECTOR_WRITE_ADR_PATH = Path("docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md")
+DEFAULT_PLUGIN_EXECUTION_CHECKLIST_PATH = Path(".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json")
+DEFAULT_PLUGIN_EXECUTION_ADR_PATH = Path("docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md")
 DEFAULT_CONNECTOR_SANDBOX_POLICY_PATH = Path(".devpilot/connectors/connector_sandbox_policy.json")
+DEFAULT_PLUGIN_REGISTRY_PATH = Path(".devpilot/plugins/plugin_registry.json")
+DEFAULT_PLUGIN_PERMISSION_MODEL_PATH = Path(".devpilot/plugins/plugin_permission_model.json")
 DEFAULT_PROJECT_STATE_PATH = Path(".devpilot/project_state.json")
 
 SENSITIVE_CAPABILITY_DECISION_MATRIX_SCHEMA_ID = "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1"
 SENSITIVE_CAPABILITY_DECISION_MATRIX_CONTRACT = "SensitiveCapabilityDecisionMatrix"
 CONNECTOR_WRITE_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-CONNECTOR-WRITE-DECISION-V1"
 CONNECTOR_WRITE_DECISION_CONTRACT = "ConnectorWriteDecision"
+PLUGIN_EXECUTION_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-PLUGIN-EXECUTION-DECISION-V1"
+PLUGIN_EXECUTION_DECISION_CONTRACT = "PluginExecutionDecision"
 
 POST_H_034_A_CREATED_BY = "POST-H-034-A"
 ALLOWED_CONNECTOR_WRITE_DECISIONS = {
@@ -24,6 +30,14 @@ ALLOWED_CONNECTOR_WRITE_DECISIONS = {
     "rejected",
 }
 POST_H_034_A_EXPECTED_DECISION = "continue-blocked"
+POST_H_034_B_CREATED_BY = "POST-H-034-B"
+ALLOWED_PLUGIN_EXECUTION_DECISIONS = {
+    "continue-blocked",
+    "pilot-gated-future",
+    "approved-for-future-implementation",
+    "rejected",
+}
+POST_H_034_B_EXPECTED_DECISION = "continue-blocked"
 
 
 @dataclass(frozen=True)
@@ -31,7 +45,11 @@ class SensitiveCapabilityOptions:
     matrix_path: Path | str = DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH
     connector_write_checklist_path: Path | str = DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH
     connector_write_adr_path: Path | str = DEFAULT_CONNECTOR_WRITE_ADR_PATH
+    plugin_execution_checklist_path: Path | str = DEFAULT_PLUGIN_EXECUTION_CHECKLIST_PATH
+    plugin_execution_adr_path: Path | str = DEFAULT_PLUGIN_EXECUTION_ADR_PATH
     connector_sandbox_policy_path: Path | str = DEFAULT_CONNECTOR_SANDBOX_POLICY_PATH
+    plugin_registry_path: Path | str = DEFAULT_PLUGIN_REGISTRY_PATH
+    plugin_permission_model_path: Path | str = DEFAULT_PLUGIN_PERMISSION_MODEL_PATH
     project_state_path: Path | str = DEFAULT_PROJECT_STATE_PATH
 
 

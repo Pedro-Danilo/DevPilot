@@ -8592,6 +8592,54 @@
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-034-plugin-execution-adr",
+      "scope": "safety",
+      "owner": "POST-H-034-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_019_plugin_sandbox_design.py",
+        "tests/test_post_h_019_plugin_permission_model.py",
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py",
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_plugin_registry.py",
+        "tests/test_secret_guard_hardening.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/plugin_execution_decision.schema.json",
+        "docs/audits/post_h_034_b_plugin_execution_adr_report.md",
+        "docs/post_h_034_b_manifest.json",
+        ".devpilot/plugins/plugin_registry.json",
+        ".devpilot/plugins/plugin_permission_model.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/plugins/plugin_registry.json",
+        ".devpilot/plugins/plugin_permission_model.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/plugins/",
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_plugin_execution_adr.py -q",
+        "python -m devpilot_core schema validate --schema-id PluginExecutionDecision --instance .devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [
@@ -8643,6 +8691,7 @@
     "POST-H-028-D adds the operator flows and error states contract.",
     "POST-H-031-B registers OperatorHealthSummary schema/model/CLI and protected local API route contracts.",
     "POST-H-031-C registers GapActionMap schema/rules/CLI/ApplicationService/API contracts.",
-    "POST-H-031-D registers ClaimsNoGoDashboard and protected operator.claims_no_go API contracts."
+    "POST-H-031-D registers ClaimsNoGoDashboard and protected operator.claims_no_go API contracts.",
+    "POST-H-034-B registers plugin execution ADR as a safety contract without enabling plugin execution."
   ]
 }

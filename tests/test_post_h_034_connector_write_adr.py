@@ -117,8 +117,8 @@ def test_post_h_034_a_project_state_and_claims_remain_blocked() -> None:
     state = _read_json(".devpilot/project_state.json")
 
     assert state["post_h_034_backlog_approved"] is True
-    assert state["post_h_034_current_micro_sprint"] == "POST-H-034-A"
-    assert state["post_h_034_next_micro_sprint"] == "POST-H-034-B"
+    assert state["post_h_034_current_micro_sprint"] in {"POST-H-034-A", "POST-H-034-B"}
+    assert state["post_h_034_next_micro_sprint"] in {"POST-H-034-B", "POST-H-034-C"}
     assert state["post_h_034_a_decision_state"] == "continue-blocked"
     assert state["post_h_034_a_connector_write_enabled"] is False
     assert state["post_h_034_a_runtime_write_enabled"] is False
@@ -149,7 +149,7 @@ def test_post_h_034_a_governance_artifacts_are_synchronized() -> None:
     assert "POST-H-034-A — Operación de ADR connector write" in runbook
     assert "post-h-034-a" in changelog
     assert 'status: "approved"' in backlog
-    assert 'current_micro_sprint: "POST-H-034-A"' in backlog
+    assert 'current_micro_sprint: "POST-H-034-A"' in backlog or 'current_micro_sprint: "POST-H-034-B"' in backlog
     assert 'status: "approved"' in top_level
 
 

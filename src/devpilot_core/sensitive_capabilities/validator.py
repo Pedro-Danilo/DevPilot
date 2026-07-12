@@ -9,11 +9,16 @@ from devpilot_core.sensitive_capabilities.decision_matrix import (
     connector_write_decision_from_matrix,
     load_connector_write_decision,
     load_decision_matrix,
+    load_plugin_execution_decision,
+    plugin_execution_decision_from_matrix,
 )
 from devpilot_core.sensitive_capabilities.models import (
     ALLOWED_CONNECTOR_WRITE_DECISIONS,
+    ALLOWED_PLUGIN_EXECUTION_DECISIONS,
     POST_H_034_A_CREATED_BY,
     POST_H_034_A_EXPECTED_DECISION,
+    POST_H_034_B_CREATED_BY,
+    POST_H_034_B_EXPECTED_DECISION,
     SensitiveCapabilityOptions,
 )
 
@@ -184,6 +189,233 @@ class ConnectorWriteAdrValidator:
             "external_api_used": safety.get("external_api_used", False),
             "sandbox_policy_connector_write_enabled": sandbox_policy.get("connector_write_enabled") if isinstance(sandbox_policy, dict) else None,
             "project_state_connector_write_enabled": project_state.get("connector_write_enabled") if isinstance(project_state, dict) else None,
+            "matrix_loaded": matrix is not None,
+            "decision_loaded": bool(decision),
+            "blocking_findings_total": len(blocking),
+            "findings_total": len(blocking),
+            "claims_changed": False,
+            "reports_written": False,
+        }
+
+
+class PluginExecutionAdrValidator:
+    """POST-H-034-B validator for plugin execution ADR/no-go invariants.
+
+    The validator reads source-controlled plugin policy, registry and decision
+    artifacts only. It never imports plugin code, starts subprocesses, opens
+    network connections, uses external APIs, reads secrets or mutates the
+    workspace. Its purpose is to prove that plugin execution remains explicitly
+    blocked until a future ADR/backlog introduces a real sandbox and supply-chain
+    controls.
+    """
+
+    def __init__(self, root: Path, *, options: SensitiveCapabilityOptions | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.options = options or SensitiveCapabilityOptions()
+
+    def validate(self) -> CommandResult:
+        findings: list[Finding] = []
+        matrix, matrix_findings = load_decision_matrix(self.root, self.options.matrix_path)
+        decision, decision_findings = load_plugin_execution_decision(self.root, self.options.plugin_execution_checklist_path)
+        findings.extend(matrix_findings)
+        findings.extend(decision_findings)
+
+        plugin_registry = self._read_json(self.options.plugin_registry_path)
+        permission_model = self._read_json(self.options.plugin_permission_model_path)
+        project_state = self._read_json(self.options.project_state_path)
+        adr_path = _resolve(self.root, self.options.plugin_execution_adr_path)
+        adr_text = ""
+        if not adr_path.exists():
+            findings.append(Finding("PLUGIN_EXECUTION_ADR_MISSING", "Plugin execution ADR is missing.", Severity.BLOCK, path=_rel(self.options.plugin_execution_adr_path)))
+        else:
+            adr_text = adr_path.read_text(encoding="utf-8")
+
+        if decision is not None:
+            findings.extend(self._validate_decision(decision, adr_text))
+        if matrix is not None:
+            findings.extend(self._validate_matrix(matrix))
+        if isinstance(plugin_registry, dict):
+            findings.extend(self._validate_plugin_registry(plugin_registry))
+        else:
+            findings.append(Finding("PLUGIN_REGISTRY_MISSING", "Plugin registry is missing or invalid JSON.", Severity.BLOCK, path=_rel(self.options.plugin_registry_path)))
+        if isinstance(permission_model, dict):
+            findings.extend(self._validate_permission_model(permission_model))
+        else:
+            findings.append(Finding("PLUGIN_PERMISSION_MODEL_MISSING", "Plugin permission model is missing or invalid JSON.", Severity.BLOCK, path=_rel(self.options.plugin_permission_model_path)))
+        if isinstance(project_state, dict):
+            findings.extend(self._validate_project_state(project_state))
+
+        blocking = [finding for finding in findings if finding.severity in _BLOCKING]
+        summary = self._summary(decision, matrix, plugin_registry, permission_model, project_state, blocking)
+        if not blocking:
+            findings.append(
+                Finding(
+                    "PLUGIN_EXECUTION_ADR_GATE_PASS",
+                    "Plugin execution ADR gate passed: plugin.execution remains continue-blocked with plugin code loading and runtime execution disabled.",
+                    Severity.INFO,
+                    metadata={"decision_state": summary["plugin_decision_state"], "plugin_execution_enabled": summary["plugin_execution_enabled"]},
+                )
+            )
+            summary["findings_total"] = len(findings)
+        return CommandResult(
+            command="sensitive-capability plugin-execution-adr validate",
+            ok=not blocking,
+            exit_code=ExitCode.PASS if not blocking else ExitCode.BLOCK,
+            message="Plugin execution ADR gate passed." if not blocking else "Plugin execution ADR gate blocked.",
+            data={
+                "summary": summary,
+                "decision": decision or {},
+                "matrix_summary": (matrix or {}).get("summary", {}) if isinstance(matrix, dict) else {},
+                "notes": [
+                    "POST-H-034-B is an ADR/no-go validation only; it does not execute, import or load plugin code.",
+                    "Any future plugin execution pilot requires separate backlog, threat model, signing, runtime sandbox, resource limits, Approval/RBAC and malicious fake plugin tests.",
+                ],
+            },
+            findings=findings,
+        )
+
+    def _read_json(self, path: Path | str) -> dict[str, Any] | None:
+        resolved = _resolve(self.root, path)
+        if not resolved.exists():
+            return None
+        try:
+            payload = json.loads(resolved.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return None
+        return payload if isinstance(payload, dict) else None
+
+    def _validate_decision(self, decision: dict[str, Any], adr_text: str) -> list[Finding]:
+        findings: list[Finding] = []
+        if decision.get("created_by") != POST_H_034_B_CREATED_BY:
+            findings.append(Finding("PLUGIN_EXECUTION_DECISION_CREATED_BY_BLOCK", "Plugin execution decision must be owned by POST-H-034-B.", Severity.BLOCK, path=_rel(self.options.plugin_execution_checklist_path)))
+        if decision.get("capability_id") != "plugin.execution":
+            findings.append(Finding("PLUGIN_EXECUTION_DECISION_CAPABILITY_BLOCK", "Plugin execution decision must target capability_id plugin.execution.", Severity.BLOCK, path=_rel(self.options.plugin_execution_checklist_path)))
+        state = decision.get("decision_state")
+        if state not in ALLOWED_PLUGIN_EXECUTION_DECISIONS:
+            findings.append(Finding("PLUGIN_EXECUTION_DECISION_STATE_BLOCK", "Plugin execution decision_state is not allowed.", Severity.BLOCK, path=_rel(self.options.plugin_execution_checklist_path), metadata={"decision_state": state}))
+        if state != POST_H_034_B_EXPECTED_DECISION:
+            findings.append(Finding("PLUGIN_EXECUTION_DECISION_NOT_CONTINUE_BLOCKED", "POST-H-034-B must keep plugin.execution in continue-blocked state for the current repo baseline.", Severity.BLOCK, path=_rel(self.options.plugin_execution_checklist_path), metadata={"decision_state": state}))
+        for key in ("plugin_execution_enabled", "runtime_execution_enabled", "plugin_code_loading_enabled", "dynamic_import_allowed", "subprocess_allowed", "external_api_allowed", "network_allowed", "filesystem_write_allowed", "shell_allowed", "credentials_required"):
+            if decision.get(key) is not False:
+                findings.append(Finding("PLUGIN_EXECUTION_DECISION_FLAG_BLOCK", f"{key} must remain false.", Severity.BLOCK, path=_rel(self.options.plugin_execution_checklist_path), metadata={"flag": key, "actual": decision.get(key)}))
+        for key in ("requires_future_backlog", "requires_future_enablement_adr", "requires_human_approval", "sandbox_required_before_pilot", "kill_switch_required_before_pilot", "signing_required_before_pilot", "supply_chain_policy_required_before_pilot"):
+            if decision.get(key) is not True:
+                findings.append(Finding("PLUGIN_EXECUTION_DECISION_PREREQUISITE_FLAG_BLOCK", f"{key} must be true.", Severity.BLOCK, path=_rel(self.options.plugin_execution_checklist_path), metadata={"flag": key, "actual": decision.get(key)}))
+        safety = decision.get("safety") if isinstance(decision.get("safety"), dict) else {}
+        for key in ("network_used", "external_api_used", "plugin_execution_enabled", "plugin_code_loaded", "dynamic_import_used", "subprocess_used", "shell_used", "filesystem_write_used", "secrets_versioned", "source_mutations_performed"):
+            if safety.get(key) is not False:
+                findings.append(Finding("PLUGIN_EXECUTION_SAFETY_FLAG_BLOCK", f"safety.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.plugin_execution_checklist_path), metadata={"flag": key, "actual": safety.get(key)}))
+        if "decision_status: \"continue-blocked\"" not in adr_text and "decision_status: 'continue-blocked'" not in adr_text:
+            findings.append(Finding("PLUGIN_EXECUTION_ADR_STATUS_BLOCK", "Plugin execution ADR frontmatter must declare decision_status continue-blocked.", Severity.BLOCK, path=_rel(self.options.plugin_execution_adr_path)))
+        lowered = adr_text.lower()
+        forbidden_terms = ["enabled-now", "production-enabled", "plugin_execution_enabled: true", "runtime_execution_enabled: true", "dynamic_import_allowed: true", "subprocess_allowed: true"]
+        for term in forbidden_terms:
+            if term in lowered:
+                findings.append(Finding("PLUGIN_EXECUTION_ADR_FORBIDDEN_ENABLEMENT_TERM", "Plugin execution ADR contains a forbidden runtime enablement term.", Severity.BLOCK, path=_rel(self.options.plugin_execution_adr_path), metadata={"term": term}))
+        return findings
+
+    def _validate_matrix(self, matrix: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        plugin_decision = plugin_execution_decision_from_matrix(matrix)
+        if plugin_decision is None:
+            findings.append(Finding("SENSITIVE_CAPABILITY_MATRIX_PLUGIN_EXECUTION_MISSING", "Decision matrix must include plugin.execution.", Severity.BLOCK, path=_rel(self.options.matrix_path)))
+        else:
+            if plugin_decision.runtime_enabled is not False:
+                findings.append(Finding("SENSITIVE_CAPABILITY_MATRIX_PLUGIN_RUNTIME_ENABLEMENT_BLOCK", "plugin.execution runtime_enabled must remain false in decision matrix.", Severity.BLOCK, path=_rel(self.options.matrix_path)))
+            if plugin_decision.decision_state != POST_H_034_B_EXPECTED_DECISION:
+                findings.append(Finding("SENSITIVE_CAPABILITY_MATRIX_PLUGIN_EXECUTION_DECISION_BLOCK", "Decision matrix must keep plugin.execution continue-blocked in POST-H-034-B.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata=plugin_decision.to_dict()))
+        connector_decision = connector_write_decision_from_matrix(matrix)
+        if connector_decision is None or connector_decision.decision_state != POST_H_034_A_EXPECTED_DECISION or connector_decision.runtime_enabled is not False:
+            findings.append(Finding("SENSITIVE_CAPABILITY_MATRIX_CONNECTOR_WRITE_REGRESSION_BLOCK", "POST-H-034-B must preserve connector.write continue-blocked and runtime_enabled=false.", Severity.BLOCK, path=_rel(self.options.matrix_path)))
+        gates = matrix.get("global_no_go_gates") if isinstance(matrix.get("global_no_go_gates"), dict) else {}
+        for key in ("connector_write_enabled", "plugin_execution_enabled", "remote_execution_enabled", "production_multiuser", "enterprise_ready", "saas_ready", "compliance_certified"):
+            if gates.get(key) is not False:
+                findings.append(Finding("SENSITIVE_CAPABILITY_MATRIX_NO_GO_BLOCK", f"global_no_go_gates.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata={"flag": key, "actual": gates.get(key)}))
+        return findings
+
+    def _validate_plugin_registry(self, registry: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        defaults = registry.get("defaults") if isinstance(registry.get("defaults"), dict) else {}
+        security = registry.get("security") if isinstance(registry.get("security"), dict) else {}
+        default_checks = {
+            "executable_loading_default": False,
+            "deny_unregistered_plugins": True,
+            "permission_model_required": True,
+            "critical_permissions_require_future_adr": True,
+        }
+        for key, expected in default_checks.items():
+            if defaults.get(key) is not expected:
+                findings.append(Finding("PLUGIN_REGISTRY_DEFAULT_BLOCK", f"defaults.{key} must be {expected!r}.", Severity.BLOCK, path=_rel(self.options.plugin_registry_path), metadata={"flag": key, "actual": defaults.get(key)}))
+        for key in ("plugin_code_loaded", "arbitrary_code_execution_performed", "network_used", "external_api_used", "shell_used", "remote_execution_used", "secrets_allowed", "dynamic_import_allowed", "subprocess_allowed", "filesystem_write_allowed", "pip_install_allowed", "marketplace_enabled"):
+            if security.get(key) is not False:
+                findings.append(Finding("PLUGIN_REGISTRY_SECURITY_FLAG_BLOCK", f"security.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.plugin_registry_path), metadata={"flag": key, "actual": security.get(key)}))
+        for plugin in registry.get("plugins", []):
+            if not isinstance(plugin, dict):
+                continue
+            plugin_id = plugin.get("plugin_id")
+            if plugin.get("loading_mode") != "metadata-only":
+                findings.append(Finding("PLUGIN_REGISTRY_LOADING_MODE_BLOCK", "Every plugin must remain metadata-only.", Severity.BLOCK, path=_rel(self.options.plugin_registry_path), metadata={"plugin_id": plugin_id, "loading_mode": plugin.get("loading_mode")}))
+            if plugin.get("execution_enabled") is not False:
+                findings.append(Finding("PLUGIN_REGISTRY_EXECUTION_BLOCK", "Every plugin must keep execution_enabled=false.", Severity.BLOCK, path=_rel(self.options.plugin_registry_path), metadata={"plugin_id": plugin_id}))
+            if not str(plugin.get("entrypoint", "")).startswith("disabled://"):
+                findings.append(Finding("PLUGIN_REGISTRY_ENTRYPOINT_BLOCK", "Every plugin entrypoint must remain disabled:// in POST-H-034-B.", Severity.BLOCK, path=_rel(self.options.plugin_registry_path), metadata={"plugin_id": plugin_id, "entrypoint": plugin.get("entrypoint")}))
+            for key in ("network_allowed", "external_api_allowed", "shell_allowed", "remote_execution_allowed"):
+                if plugin.get(key) is not False:
+                    findings.append(Finding("PLUGIN_REGISTRY_PLUGIN_FLAG_BLOCK", f"plugin.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.plugin_registry_path), metadata={"plugin_id": plugin_id, "flag": key, "actual": plugin.get(key)}))
+        return findings
+
+    def _validate_permission_model(self, model: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        for key in ("plugin_execution_allowed", "dynamic_import_allowed", "subprocess_allowed", "network_allowed", "external_api_allowed", "filesystem_write_allowed", "shell_allowed", "remote_execution_allowed", "pip_install_allowed", "marketplace_enabled"):
+            if model.get(key) is not False:
+                findings.append(Finding("PLUGIN_PERMISSION_MODEL_FLAG_BLOCK", f"{key} must remain false.", Severity.BLOCK, path=_rel(self.options.plugin_permission_model_path), metadata={"flag": key, "actual": model.get(key)}))
+        if model.get("default_effect") != "deny" or model.get("unknown_permissions_effect") != "deny":
+            findings.append(Finding("PLUGIN_PERMISSION_MODEL_DEFAULT_DENY_BLOCK", "Plugin permission model must remain deny-by-default and deny unknown permissions.", Severity.BLOCK, path=_rel(self.options.plugin_permission_model_path)))
+        denied_ids = {"plugin.code.execute", "plugin.dynamic_import", "plugin.subprocess.run", "plugin.network.access", "plugin.filesystem.write", "plugin.dependency.install"}
+        seen: set[str] = set()
+        for permission in model.get("permissions", []):
+            if not isinstance(permission, dict):
+                continue
+            pid = str(permission.get("permission_id", ""))
+            if pid in denied_ids:
+                seen.add(pid)
+                if permission.get("effect") != "deny":
+                    findings.append(Finding("PLUGIN_PERMISSION_MODEL_CRITICAL_PERMISSION_BLOCK", "Critical plugin execution permissions must be denied.", Severity.BLOCK, path=_rel(self.options.plugin_permission_model_path), metadata={"permission_id": pid, "effect": permission.get("effect")}))
+                if permission.get("blocked_until") != "future-adr":
+                    findings.append(Finding("PLUGIN_PERMISSION_MODEL_FUTURE_ADR_BLOCK", "Critical plugin execution permissions must be blocked until a future ADR.", Severity.BLOCK, path=_rel(self.options.plugin_permission_model_path), metadata={"permission_id": pid}))
+        missing = denied_ids - seen
+        if missing:
+            findings.append(Finding("PLUGIN_PERMISSION_MODEL_CRITICAL_PERMISSION_MISSING", "Permission model must explicitly deny critical plugin execution permissions.", Severity.BLOCK, path=_rel(self.options.plugin_permission_model_path), metadata={"missing": sorted(missing)}))
+        return findings
+
+    def _validate_project_state(self, state: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        for key in ("connector_write_enabled", "plugin_execution_enabled", "remote_execution_enabled", "enterprise_ready_claimed", "compliance_certification_claim"):
+            if state.get(key) is not False:
+                findings.append(Finding("SENSITIVE_CAPABILITY_PROJECT_STATE_NO_GO_BLOCK", f"project_state.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.project_state_path), metadata={"flag": key, "actual": state.get(key)}))
+        return findings
+
+    def _summary(self, decision: dict[str, Any] | None, matrix: dict[str, Any] | None, plugin_registry: dict[str, Any] | None, permission_model: dict[str, Any] | None, project_state: dict[str, Any] | None, blocking: list[Finding]) -> dict[str, Any]:
+        decision = decision or {}
+        safety = decision.get("safety") if isinstance(decision.get("safety"), dict) else {}
+        security = plugin_registry.get("security") if isinstance(plugin_registry, dict) and isinstance(plugin_registry.get("security"), dict) else {}
+        return {
+            "created_by": POST_H_034_B_CREATED_BY,
+            "status": "implemented-initial",
+            "preliminary": True,
+            "capability_id": "plugin.execution",
+            "plugin_decision_state": decision.get("decision_state"),
+            "plugin_decision_status": decision.get("decision_status"),
+            "plugin_execution_enabled": decision.get("plugin_execution_enabled"),
+            "runtime_execution_enabled": decision.get("runtime_execution_enabled"),
+            "plugin_code_loading_enabled": decision.get("plugin_code_loading_enabled"),
+            "dynamic_import_allowed": decision.get("dynamic_import_allowed"),
+            "subprocess_allowed": decision.get("subprocess_allowed"),
+            "network_used": safety.get("network_used", False),
+            "external_api_used": safety.get("external_api_used", False),
+            "registry_plugin_code_loaded": security.get("plugin_code_loaded") if security else None,
+            "permission_model_plugin_execution_allowed": permission_model.get("plugin_execution_allowed") if isinstance(permission_model, dict) else None,
+            "project_state_plugin_execution_enabled": project_state.get("plugin_execution_enabled") if isinstance(project_state, dict) else None,
             "matrix_loaded": matrix is not None,
             "decision_loaded": bool(decision),
             "blocking_findings_total": len(blocking),

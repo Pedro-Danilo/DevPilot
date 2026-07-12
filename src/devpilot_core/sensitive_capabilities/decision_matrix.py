@@ -9,6 +9,8 @@ from devpilot_core.schemas import SchemaValidator
 from devpilot_core.sensitive_capabilities.models import (
     CONNECTOR_WRITE_DECISION_CONTRACT,
     DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH,
+    DEFAULT_PLUGIN_EXECUTION_CHECKLIST_PATH,
+    PLUGIN_EXECUTION_DECISION_CONTRACT,
     DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH,
     SENSITIVE_CAPABILITY_DECISION_MATRIX_CONTRACT,
     SensitiveCapabilityDecision,
@@ -60,8 +62,27 @@ def load_connector_write_decision(root: Path, path: Path | str = DEFAULT_CONNECT
     return payload, findings
 
 
-def connector_write_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCapabilityDecision | None:
+def load_plugin_execution_decision(root: Path, path: Path | str = DEFAULT_PLUGIN_EXECUTION_CHECKLIST_PATH) -> tuple[dict[str, Any] | None, list[Finding]]:
+    payload, findings = load_json(root, path)
+    if payload is None:
+        return None, findings
+    schema_result = SchemaValidator(root).validate(schema=PLUGIN_EXECUTION_DECISION_CONTRACT, instance=path)
+    if not schema_result.ok:
+        findings.extend(schema_result.findings)
+        findings.append(Finding("PLUGIN_EXECUTION_DECISION_SCHEMA_BLOCK", "Plugin execution decision checklist does not conform to schema.", Severity.BLOCK, path=_display(path)))
+    return payload, findings
+
+
+def _decision_from_matrix(matrix: dict[str, Any], capability_id: str) -> SensitiveCapabilityDecision | None:
     for item in matrix.get("capabilities", []):
-        if isinstance(item, dict) and item.get("capability_id") == "connector.write":
+        if isinstance(item, dict) and item.get("capability_id") == capability_id:
             return SensitiveCapabilityDecision.from_payload(item)
     return None
+
+
+def connector_write_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCapabilityDecision | None:
+    return _decision_from_matrix(matrix, "connector.write")
+
+
+def plugin_execution_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCapabilityDecision | None:
+    return _decision_from_matrix(matrix, "plugin.execution")

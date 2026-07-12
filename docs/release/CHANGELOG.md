@@ -1,4 +1,13 @@
 
+## post-h-034-b
+
+- Agrega ADR aprobada `ADR-POSTH-034-B` para mantener `plugin.execution` en `continue-blocked`.
+- Agrega schema `PluginExecutionDecision`, checklist, manifest, reporte y pruebas focales.
+- Extiende `sensitive-capability-adr-gate` para validar plugin execution junto con connector write sin ejecutar plugins.
+- Mantiene `plugin_execution_enabled=false`, no dynamic import, no subprocess, no shell, no filesystem write, no network y no external APIs.
+- Documenta que esta es una versión `implemented-initial`; sandbox real, signing y permission enforcement runtime quedan para backlog futuro.
+
+
 
 ## post-h-034-a — Connector write ADR
 

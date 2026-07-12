@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-07-12",
-  "sprint": "POST-H-034-A",
+  "sprint": "POST-H-034-B",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through POST-H-032-A agent capability inventory and promotion criteria.",
   "schemas": [
@@ -1912,7 +1912,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLUGIN-EXECUTION-DECISION-V1",
+      "title": "DevPilot PluginExecutionDecision v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/plugin_execution_decision.schema.json",
+      "description": "POST-H-034-B structural contract for plugin execution ADR/checklist while preserving no-execution and metadata-only plugin controls.",
+      "status": "registered",
+      "contract": "PluginExecutionDecision",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-034-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-034-B"
     }
   ],
-  "schemas_total": 130
+  "schemas_total": 133
 }

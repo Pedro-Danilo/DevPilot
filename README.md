@@ -1,3 +1,16 @@
+## POST-H-034-B — Plugin execution ADR
+
+POST-H-034-B agrega la ADR aprobada para `plugin.execution` y mantiene el estado `continue-blocked`: no se ejecutan plugins, no se cargan entrypoints, no se permite `dynamic import`, `subprocess`, `shell`, escritura de filesystem, red ni APIs externas. Esta es una implementación `implemented-initial` de frontera arquitectónica; un eventual piloto futuro requiere sandbox real, firma/verificación, permission enforcement runtime, límites de recursos, Approval/RBAC, audit trail, kill-switch y pruebas con plugin fake malicioso.
+
+Verificación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_plugin_execution_adr.py -q
+python -m devpilot_core schema validate --schema-id PluginExecutionDecision --instance .devpilot\sensitive_capabilities\plugin_execution_enablement_checklist.json --json
+python -m devpilot_core docs-governance validate --json
+```
+
 
 
 ## POST-H-034-A — Connector write ADR y sensitive capability gate

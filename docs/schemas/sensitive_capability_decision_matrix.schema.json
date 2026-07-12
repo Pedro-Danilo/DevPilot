@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/sensitive_capability_decision_matrix.schema.json",
   "title": "DevPilot SensitiveCapabilityDecisionMatrix v1",
-  "description": "POST-H-034 matrix for sensitive capability ADR states and no-go runtime flags. This schema is introduced by POST-H-034-A and expands as B-E are implemented.",
+  "description": "POST-H-034 matrix for sensitive capability ADR states and no-go runtime flags. Introduced by POST-H-034-A and extended by POST-H-034-B for plugin.execution.",
   "type": "object",
   "required": [
     "schema_version",
@@ -28,7 +28,10 @@
       "const": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1"
     },
     "created_by": {
-      "const": "POST-H-034-A"
+      "enum": [
+        "POST-H-034-A",
+        "POST-H-034-B"
+      ]
     },
     "status": {
       "enum": [
