@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1",
+  "registry_id": "devpilot-docs-governance-rule-registry",
+  "created_by": "POST-H-033-F",
+  "status": "implemented-initial",
+  "catalog_version": "1.0.0",
+  "updated_at": "2026-07-11",
+  "owner": "POST-H-033-F",
+  "description": "Declarative registry for DocumentationGovernanceValidator business rules. It complements the canonical source registry and preserves deterministic Python validation as engine/fallback.",
+  "rule_source": ".devpilot/docs_governance/rule_registry.json",
+  "source_registry_path": ".devpilot/docs_governance/source_registry.json",
+  "integrates_with_source_registry": true,
+  "fallback_required": true,
+  "fallback_status": "temporary-compatible",
+  "critical_rules_disable_allowed": false,
+  "rules": {
+    "status_frontmatter_required": [
+      "approved",
+      "draft",
+      "reviewed",
+      "deprecated"
+    ],
+    "blocking_severities": [
+      "fail",
+      "block",
+      "error"
+    ],
+    "classification_policy": {
+      "allowed_classifications": [
+        "source-of-truth",
+        "machine-readable-source",
+        "derived",
+        "generated-runtime",
+        "historical",
+        "deprecated"
+      ],
+      "source_of_truth_requires_tests": true,
+      "source_of_truth_requires_owner": true,
+      "source_of_truth_requires_status_required": true,
+      "machine_readable_sources_check_structured_status": true,
+      "generated_runtime_must_not_be_versioned": true,
+      "invalid_classification_severity": "block"
+    },
+    "required_tests_policy": {
+      "classifications_requiring_tests": [
+        "source-of-truth"
+      ],
+      "criticalities_requiring_tests": [
+        "P0",
+        "P1"
+      ],
+      "missing_tests_severity": "block",
+      "missing_test_path_severity": "block",
+      "test_path_must_exist_unless_outputs_runtime": true
+    },
+    "frontmatter_policy": {
+      "markdown_statuses_requiring_frontmatter": [
+        "approved",
+        "draft",
+        "reviewed",
+        "deprecated"
+      ],
+      "missing_frontmatter_severity": "block",
+      "doc_id_mismatch_severity": "block",
+      "status_mismatch_severity": "block",
+      "owner_missing_severity": "block",
+      "approved_without_approval_downgrade_to_warning": true
+    },
+    "lifecycle_policy": {
+      "allowed_lifecycles": [
+        "active",
+        "closed",
+        "historical",
+        "planned",
+        "deprecated"
+      ],
+      "historical_active_authority_severity": "warning",
+      "invalid_lifecycle_severity": "block"
+    },
+    "sync_policy": {
+      "markdown_json_pairs_require_sync": true,
+      "rule_registry_must_match_source_registry": true,
+      "contradiction_severity": "block",
+      "sync_rules_versioned": true
+    },
+    "rule_definitions": [
+      {
+        "rule_id": "DOCGOV-OWNER-001",
+        "title": "Governed documents must declare owner metadata.",
+        "severity": "block",
+        "category": "ownership",
+        "subject_type": "document",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-STATUS-001",
+        "title": "Governed documents must declare status_required metadata.",
+        "severity": "block",
+        "category": "status",
+        "subject_type": "document",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-SOURCE-EXISTS-001",
+        "title": "Governed documentation source paths must exist.",
+        "severity": "block",
+        "category": "path",
+        "subject_type": "document",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-REQUIRED-TESTS-001",
+        "title": "Critical or source-of-truth documents must declare required_tests.",
+        "severity": "block",
+        "category": "test_contract",
+        "subject_type": "document",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-REQUIRED-TEST-PATH-001",
+        "title": "Required tests declared by source registry must exist.",
+        "severity": "block",
+        "category": "test_contract",
+        "subject_type": "test_path",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-FRONTMATTER-001",
+        "title": "Markdown documents with governed statuses require matching frontmatter.",
+        "severity": "block",
+        "category": "frontmatter",
+        "subject_type": "markdown",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-STRUCTURED-STATUS-001",
+        "title": "Structured sources must match registry status when literal status is declared.",
+        "severity": "block",
+        "category": "structured_status",
+        "subject_type": "json",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-HISTORICAL-ACTIVE-001",
+        "title": "Historical documents marked active require review before treating them as current authority.",
+        "severity": "warning",
+        "category": "lifecycle",
+        "subject_type": "document",
+        "enabled": true,
+        "built_in_mandatory": false,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      },
+      {
+        "rule_id": "DOCGOV-SOURCE-RULE-CONSISTENCY-001",
+        "title": "Rule registry and source registry must not contradict governed classifications, criticalities or lifecycles.",
+        "severity": "block",
+        "category": "registry_consistency",
+        "subject_type": "registry",
+        "enabled": true,
+        "built_in_mandatory": true,
+        "cannot_disable_without_adr": true,
+        "source_catalog": ".devpilot/docs_governance/rule_registry.json",
+        "version": "1.0.0"
+      }
+    ]
+  },
+  "compatibility": {
+    "runtime_behavior_changed": false,
+    "finding_ids_preserved": true,
+    "source_registry_preserved": true,
+    "python_fallback_preserved": true,
+    "docs_governance_report_schema_preserved": true,
+    "invalid_registry_blocks_success": true,
+    "missing_registry_uses_fallback": true,
+    "rule_source_reported": true,
+    "catalog_version_reported": true,
+    "source_registry_and_rule_registry_validated_together": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only_registry": true,
+    "deterministic": true,
+    "llm_judge_used": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "subprocess_execution_enabled": false,
+    "tools_executed": false,
+    "agents_executed": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "critical_rules_disable_allowed": false,
+    "dynamic_executable_rules_allowed": false
+  },
+  "tests": [
+    "tests/test_post_h_033_docs_governance_rule_registry.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_documentation_governance_backlogs.py",
+    "tests/test_documentation_governance_sync.py",
+    "tests/test_schema_validator.py"
+  ],
+  "notes": [
+    "POST-H-033-F is implemented-initial: rule data is declarative, but parser and deterministic validation engine remain Python.",
+    "The source registry remains canonical for governed documents; this registry governs how entries are validated.",
+    "Invalid rule registry must block success; missing registry uses temporary fallback with an explicit finding."
+  ],
+  "limitations": [
+    "Fallback Python remains until accumulated equivalence evidence allows safe removal.",
+    "The registry does not execute dynamic code, plugins, LLM judges or external API checks.",
+    "This sprint does not replace Markdown/JSON sync and backlog validators; it annotates and governs their entry points."
+  ]
+}

@@ -9,6 +9,7 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity,
 from devpilot_core.docs_governance.backlogs import DocumentationBacklogGovernanceValidator
 from devpilot_core.docs_governance.drift import DocumentationSyncValidator
 from devpilot_core.docs_governance.registry import DEFAULT_DOCUMENTATION_SOURCE_REGISTRY, load_documentation_source_registry
+from devpilot_core.docs_governance.rule_registry import DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY, load_docs_governance_rule_registry
 from devpilot_core.runtime_state.models import utc_now_iso
 from devpilot_core.validators.frontmatter import parse_frontmatter_file, validate_frontmatter_document
 
@@ -37,6 +38,7 @@ class DocumentationGovernanceValidationOptions:
     output_json: str | Path = DEFAULT_DOCUMENTATION_GOVERNANCE_JSON
     output_markdown: str | Path = DEFAULT_DOCUMENTATION_GOVERNANCE_MARKDOWN
     strict_frontmatter: bool = False
+    rule_registry_path: str | Path = DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY
 
 
 class DocumentationGovernanceValidator:
@@ -107,6 +109,21 @@ class DocumentationGovernanceValidator:
         source_of_truth_checked_total = 0
         machine_readable_checked_total = 0
         historical_current_authority_total = 0
+        rule_registry = load_docs_governance_rule_registry(self.root, self.options.rule_registry_path)
+        rule_registry_metadata = rule_registry.metadata()
+        findings.extend(rule_registry.findings_as_report_items())
+
+        expected_registry_path = _posix(self.options.registry_path)
+        if rule_registry.source_registry_path != expected_registry_path:
+            findings.append(
+                _finding(
+                    "DOCUMENTATION_RULE_REGISTRY_SOURCE_REGISTRY_MISMATCH",
+                    "Docs governance rule registry references a different source registry path than the active validator options.",
+                    rule_registry.contradiction_severity,
+                    rule_registry.source_catalog,
+                    {"expected_source_registry_path": expected_registry_path, "actual_source_registry_path": rule_registry.source_registry_path, **rule_registry_metadata},
+                )
+            )
 
         for document in registry.documents:
             path = self.root / document.path
@@ -123,42 +140,53 @@ class DocumentationGovernanceValidator:
                 "status_checked": False,
                 "required_tests_checked": False,
                 "ok": True,
+                "rule_source": rule_registry.source_catalog,
+                "catalog_version": rule_registry.catalog_version,
+                "rule_registry_valid": rule_registry.registry_valid,
+                "rule_registry_fallback_active": rule_registry.fallback_active,
             }
             if document.is_source_of_truth:
                 source_of_truth_checked_total += 1
             if document.is_machine_readable_source:
                 machine_readable_checked_total += 1
 
+            if document.classification not in rule_registry.allowed_classifications:
+                findings.append(_finding("DOCUMENTATION_CLASSIFICATION_NOT_GOVERNED", "Registry document classification is not governed by the docs rule registry.", rule_registry.contradiction_severity, document.path, {"doc_id": document.doc_id, "classification": document.classification, **rule_registry_metadata}))
+                check["ok"] = False
+            if document.lifecycle not in rule_registry.allowed_lifecycles:
+                findings.append(_finding("DOCUMENTATION_LIFECYCLE_NOT_GOVERNED", "Registry document lifecycle is not governed by the docs rule registry.", rule_registry.contradiction_severity, document.path, {"doc_id": document.doc_id, "lifecycle": document.lifecycle, **rule_registry_metadata}))
+                check["ok"] = False
+
             if not document.owner.strip():
-                findings.append(_finding("DOCUMENTATION_OWNER_MISSING", "Registry document owner is missing.", "block", document.path, {"doc_id": document.doc_id}))
+                findings.append(_finding("DOCUMENTATION_OWNER_MISSING", "Registry document owner is missing.", "block", document.path, {"doc_id": document.doc_id, **rule_registry_metadata}))
                 check["ok"] = False
             if not document.status_required.strip():
-                findings.append(_finding("DOCUMENTATION_STATUS_REQUIRED_MISSING", "Registry document status_required is missing.", "block", document.path, {"doc_id": document.doc_id}))
+                findings.append(_finding("DOCUMENTATION_STATUS_REQUIRED_MISSING", "Registry document status_required is missing.", "block", document.path, {"doc_id": document.doc_id, **rule_registry_metadata}))
                 check["ok"] = False
 
             if not path.exists():
-                findings.append(_finding("DOCUMENTATION_SOURCE_MISSING", "Governed documentation source path does not exist.", "block", document.path, {"doc_id": document.doc_id}))
+                findings.append(_finding("DOCUMENTATION_SOURCE_MISSING", "Governed documentation source path does not exist.", "block", document.path, {"doc_id": document.doc_id, **rule_registry_metadata}))
                 check["ok"] = False
                 document_checks.append(check)
                 continue
 
             if document.classification == "historical" and document.lifecycle == "active":
                 historical_current_authority_total += 1
-                findings.append(_finding("DOCUMENTATION_HISTORICAL_ACTIVE_REVIEW", "Historical document is registered as active authority; review classification/lifecycle before treating it as current source.", "warning", document.path, {"doc_id": document.doc_id}))
+                findings.append(_finding("DOCUMENTATION_HISTORICAL_ACTIVE_REVIEW", "Historical document is registered as active authority; review classification/lifecycle before treating it as current source.", rule_registry.historical_active_authority_severity, document.path, {"doc_id": document.doc_id, **rule_registry_metadata}))
 
             required_tests = list(document.required_tests)
-            if document.is_critical or document.is_source_of_truth:
+            if rule_registry.requires_tests(classification=document.classification, criticality=document.criticality):
                 check["required_tests_checked"] = True
                 required_tests_checked_total += len(required_tests)
                 if not required_tests:
-                    findings.append(_finding("DOCUMENTATION_REQUIRED_TESTS_MISSING", "Critical/source-of-truth document has no required_tests in registry.", "block", document.path, {"doc_id": document.doc_id}))
+                    findings.append(_finding("DOCUMENTATION_REQUIRED_TESTS_MISSING", "Critical/source-of-truth document has no required_tests in registry.", "block", document.path, {"doc_id": document.doc_id, **rule_registry_metadata}))
                     check["ok"] = False
                 for test_path in required_tests:
                     if not (self.root / test_path).exists():
-                        findings.append(_finding("DOCUMENTATION_REQUIRED_TEST_MISSING", "Required test declared by registry does not exist.", "block", test_path, {"doc_id": document.doc_id, "source_path": document.path}))
+                        findings.append(_finding("DOCUMENTATION_REQUIRED_TEST_MISSING", "Required test declared by registry does not exist.", "block", test_path, {"doc_id": document.doc_id, "source_path": document.path, **rule_registry_metadata}))
                         check["ok"] = False
 
-            if path.suffix.lower() == ".md" and document.status_required in STATUS_FRONTMATTER_REQUIRED:
+            if path.suffix.lower() == ".md" and document.status_required in rule_registry.status_frontmatter_required:
                 check["frontmatter_checked"] = True
                 check["status_checked"] = True
                 frontmatter_checked_total += 1
@@ -197,6 +225,13 @@ class DocumentationGovernanceValidator:
             "created_by": POST_H_009_CURRENT_CREATED_BY,
             "status": "implemented-initial",
             "preliminary": True,
+            "rule_source": rule_registry.source_catalog,
+            "catalog_version": rule_registry.catalog_version,
+            "rule_registry_valid": rule_registry.registry_valid,
+            "rule_registry_fallback_active": rule_registry.fallback_active,
+            "rule_registry_blocking_findings_total": len(rule_registry.blocking_findings),
+            "rule_registry_nonblocking_findings_total": len(rule_registry.nonblocking_findings),
+            "source_registry_and_rule_registry_validated_together": True,
             "documents_total": len(registry.documents),
             "documents_checked_total": len(document_checks),
             "frontmatter_checked_total": frontmatter_checked_total,
@@ -246,6 +281,8 @@ class DocumentationGovernanceValidator:
             "status": "implemented-initial",
             "generated_at_utc": utc_now_iso(),
             "registry_path": _posix(self.options.registry_path),
+            "rule_registry_path": _posix(self.options.rule_registry_path),
+            "rule_registry": rule_registry_metadata,
             "summary": summary,
             "document_checks": document_checks,
             "sync_checks": sync_checks,
@@ -270,6 +307,7 @@ class DocumentationGovernanceValidator:
                 "POST-H-009-D adds deterministic governance for executable backlogs derived from the roadmap.",
                 "This validator is deterministic and read-only; it does not use LLM judge, network or external APIs.",
                 "POST-H-009-E integrates this validator as the docs-governance quality-gate subgate.",
+                "POST-H-033-F adds a schema-backed docs governance rule registry for auditable severities, lifecycle and required-tests policies while preserving the source registry as canonical document inventory.",
             ],
         }
 
@@ -365,6 +403,9 @@ def render_documentation_governance_markdown(report: dict[str, Any]) -> str:
         "## Summary",
         "",
         f"- Documents checked: `{summary.get('documents_checked_total')}` / `{summary.get('documents_total')}`",
+        f"- Rule source: `{summary.get('rule_source')}`",
+        f"- Rule catalog version: `{summary.get('catalog_version')}`",
+        f"- Rule registry valid: `{summary.get('rule_registry_valid')}`",
         f"- Frontmatter checked: `{summary.get('frontmatter_checked_total')}`",
         f"- Blocking findings: `{summary.get('blocking_findings_total')}`",
         f"- Warnings: `{summary.get('warnings_total')}`",

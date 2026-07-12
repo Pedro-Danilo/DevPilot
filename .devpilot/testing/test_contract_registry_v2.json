@@ -15586,6 +15586,65 @@
       "classification_notes": [
         "POST-H-033-E introduces schema-backed policy guard pattern catalogs while preserving non-removable mandatory built-in defenses and fail-closed invalid catalog behavior."
       ]
+    },
+    {
+      "contract_id": "post-h-033-docs-governance-rule-registry",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-033-docs-governance-rule-registry",
+      "domain": "documentation.governance",
+      "capability": "DocsGovernanceRuleRegistry",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 80,
+      "test_files": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "watched_paths": [
+        ".devpilot/docs_governance/rule_registry.json",
+        "docs/schemas/docs_governance_rule_registry.schema.json",
+        "src/devpilot_core/docs_governance/rule_registry.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "tests/test_post_h_033_docs_governance_rule_registry.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "validates": [
+        ".devpilot/docs_governance/rule_registry.json",
+        "docs/schemas/docs_governance_rule_registry.schema.json",
+        "src/devpilot_core/docs_governance/rule_registry.py",
+        "src/devpilot_core/docs_governance/validator.py"
+      ],
+      "trigger_hints": [
+        "post-h-033-f",
+        "docs-governance-rule-registry-change",
+        "source-registry-governance-change",
+        "documentation-governance-validator-change"
+      ],
+      "impact_scope": [
+        "documentation",
+        "docs-governance",
+        "source-registry",
+        "schemas",
+        "test-contracts",
+        "project-state"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-033-F",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_docs_governance_rule_registry.py tests/test_documentation_governance_validator.py tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_schema_validator.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-033-F introduces a schema-backed docs governance rule registry while preserving deterministic validator behavior and source registry authority."
+      ]
     }
   ],
   "migration_metadata": {

@@ -8521,6 +8521,35 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_policy_guard_pattern_catalogs.py tests/test_prompt_injection_guard.py tests/test_secret_guard_hardening.py tests/test_policy_engine.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_post_h_032_tool_calling_contract.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-033-docs-governance-rule-registry",
+      "scope": "integration",
+      "owner": "POST-H-033-F",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "validates": [
+        ".devpilot/docs_governance/rule_registry.json",
+        "docs/schemas/docs_governance_rule_registry.schema.json",
+        "src/devpilot_core/docs_governance/rule_registry.py",
+        "src/devpilot_core/docs_governance/validator.py"
+      ],
+      "watched_paths": [
+        ".devpilot/docs_governance/rule_registry.json",
+        "docs/schemas/docs_governance_rule_registry.schema.json",
+        "src/devpilot_core/docs_governance/rule_registry.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "tests/test_post_h_033_docs_governance_rule_registry.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_docs_governance_rule_registry.py tests/test_documentation_governance_validator.py tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_schema_validator.py -q"
+      ]
     }
   ],
   "notes": [

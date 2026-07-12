@@ -135,8 +135,8 @@ def test_post_h_033_e_governance_artifacts_registered_and_docs_synced() -> None:
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
     assert state["post_h_033_d_closed"] is True
-    assert state["post_h_033_current_micro_sprint"] == "POST-H-033-E"
-    assert state["post_h_033_next_micro_sprint"] == "POST-H-033-F"
+    assert state["post_h_033_current_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F"}
+    assert state["post_h_033_next_micro_sprint"] in {"POST-H-033-F", "POST-H-033-CLOSURE"}
     assert state["post_h_033_e_policy_guard_pattern_catalog_available"] is True
     assert state["post_h_033_e_policy_guard_pattern_catalog_schema_registered"] is True
     assert state["post_h_033_e_critical_patterns_disable_allowed"] is False

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
 created_for: "DevPilot Local"
 scope: "deterministic validators / schema-backed catalogs / declarative semantics / compatibility-preserving migration"
-implementation_status: "active/post-h-033-e-implemented-initial"
-current_micro_sprint: "POST-H-033-E"
-next_micro_sprint: "POST-H-033-F"
+implementation_status: "active/post-h-033-f-implemented-initial"
+current_micro_sprint: "POST-H-033-F"
+next_micro_sprint: "POST-H-033-CLOSURE"
 ```
 
 ## 1. Proposito del backlog
@@ -857,3 +857,12 @@ Artefactos principales:
 - `tests/test_post_h_033_validator_inventory_migration_plan.py`.
 
 Restricciones explícitas: no se introduce LLM judge, no se agregan dependencias externas, no se relajan no-go gates, no se habilita red/API externa/remote/plugin/connector write y las defensas `security-core` no pueden ser deshabilitadas por configuración local.
+
+
+### Estado de implementación POST-H-033-F
+
+POST-H-033-F quedó implementado como `implemented-initial`. Se agregó `DocsGovernanceRuleRegistry` con `.devpilot/docs_governance/rule_registry.json`, `docs/schemas/docs_governance_rule_registry.schema.json` y `src/devpilot_core/docs_governance/rule_registry.py`.
+
+La integración con `DocumentationGovernanceValidator` preserva el source registry como inventario canónico y usa el rule registry para hacer auditables severidades, required_tests, frontmatter requirements, lifecycle y consistencia source/rule registry. El reporte de governance expone `rule_source`, `catalog_version`, `registry_valid` y `fallback_active`.
+
+Esta versión conserva fallback Python temporal. Un registry inválido bloquea el PASS; un registry ausente activa fallback explícito. No se introduce LLM judge, red, APIs externas, remote execution, connector write, plugin execution ni mutaciones de fuente.

@@ -6,13 +6,38 @@ version: "2.15.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-033-E"
+phase: "POST-H-033-F"
 updated: "2026-07-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+
+## POST-H-033-F — Docs governance rule registry
+
+Estado: `implemented-initial`. DevPilot ahora carga reglas de documentation governance desde `.devpilot/docs_governance/rule_registry.json`, validado por `docs/schemas/docs_governance_rule_registry.schema.json`. El source registry sigue siendo la fuente canónica de documentos; el rule registry gobierna severidades, required_tests, frontmatter, lifecycle y consistencia entre ambos registries.
+
+Esta es una primera versión: el fallback Python se conserva hasta completar evidencia de equivalencia acumulada. El registry inválido bloquea el PASS para evitar bypass; el registry ausente activa fallback explícito. No usa LLM judge, red, APIs externas, remote execution, connector write, plugin execution ni mutaciones de fuente.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_033_docs_governance_rule_registry.py `
+  tests/test_documentation_governance_validator.py `
+  tests/test_documentation_source_registry_schema.py `
+  tests/test_documentation_governance_backlogs.py `
+  tests/test_documentation_governance_sync.py `
+  tests/test_schema_validator.py `
+  -q
+
+python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance .devpilot\docs_governanceule_registry.json --json
+python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance docs\post_h_033_f_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+```
 
 ## POST-H-033-E — Policy/guard pattern catalogs
 

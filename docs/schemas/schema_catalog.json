@@ -441,6 +441,20 @@
       "validation_enabled_sprint": "POST-H-018-A"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1",
+      "title": "DevPilot DocsGovernanceRuleRegistry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/docs_governance_rule_registry.schema.json",
+      "description": "POST-H-033-F structural contract for versioned documentation governance rules integrated with the source registry while preserving deterministic read-only validation and fail-closed invalid registry behavior.",
+      "status": "registered",
+      "contract": "DocsGovernanceRuleRegistry",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-F",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-033-F"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1",
       "title": "DevPilot Documentation Governance Report v1",
       "version": "1.0.0",
@@ -1100,6 +1114,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-019-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1",
+      "title": "DevPilot PolicyGuardPatternCatalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/policy_guard_pattern_catalog.schema.json",
+      "description": "POST-H-033-E structural contract for versioned PromptInjectionGuard, ToolInjectionGuard and SecretGuard pattern catalogs with non-removable built-in mandatory defenses and fail-closed invalid catalog behavior.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "PolicyGuardPatternCatalog",
+      "validation_enabled_sprint": "POST-H-033-E"
     },
     {
       "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
@@ -1856,21 +1884,7 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-23"
-    },
-    {
-      "schema_id": "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1",
-      "title": "DevPilot PolicyGuardPatternCatalog v1",
-      "version": "1.0.0",
-      "path": "docs/schemas/policy_guard_pattern_catalog.schema.json",
-      "description": "POST-H-033-E structural contract for versioned PromptInjectionGuard, ToolInjectionGuard and SecretGuard pattern catalogs with non-removable built-in mandatory defenses and fail-closed invalid catalog behavior.",
-      "status": "registered",
-      "owner": "Ordóñez",
-      "sprint": "POST-H-033-E",
-      "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": true,
-      "contract": "PolicyGuardPatternCatalog",
-      "validation_enabled_sprint": "POST-H-033-E"
     }
   ],
-  "schemas_total": 129
+  "schemas_total": 130
 }

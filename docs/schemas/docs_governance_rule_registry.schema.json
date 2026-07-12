@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/docs_governance_rule_registry.schema.json",
+  "title": "DevPilot DocsGovernanceRuleRegistry v1",
+  "description": "POST-H-033-F structural contract for versioned documentation governance rules integrated with the canonical source registry while preserving deterministic, local-first, read-only validation.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "created_by",
+    "status",
+    "catalog_version",
+    "updated_at",
+    "owner",
+    "rule_source",
+    "source_registry_path",
+    "integrates_with_source_registry",
+    "fallback_required",
+    "fallback_status",
+    "critical_rules_disable_allowed",
+    "rules",
+    "compatibility",
+    "safety",
+    "tests",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1"
+    },
+    "registry_id": {
+      "const": "devpilot-docs-governance-rule-registry"
+    },
+    "created_by": {
+      "const": "POST-H-033-F"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved"
+      ]
+    },
+    "catalog_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "rule_source": {
+      "const": ".devpilot/docs_governance/rule_registry.json"
+    },
+    "source_registry_path": {
+      "const": ".devpilot/docs_governance/source_registry.json"
+    },
+    "integrates_with_source_registry": {
+      "const": true
+    },
+    "fallback_required": {
+      "const": true
+    },
+    "fallback_status": {
+      "enum": [
+        "temporary-compatible"
+      ]
+    },
+    "critical_rules_disable_allowed": {
+      "const": false
+    },
+    "rules": {
+      "type": "object",
+      "required": [
+        "status_frontmatter_required",
+        "blocking_severities",
+        "classification_policy",
+        "required_tests_policy",
+        "frontmatter_policy",
+        "lifecycle_policy",
+        "sync_policy",
+        "rule_definitions"
+      ],
+      "properties": {
+        "status_frontmatter_required": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "approved"
+          }
+        },
+        "blocking_severities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "fail",
+              "block",
+              "error"
+            ]
+          },
+          "contains": {
+            "const": "block"
+          }
+        },
+        "classification_policy": {
+          "type": "object",
+          "required": [
+            "allowed_classifications",
+            "source_of_truth_requires_tests",
+            "source_of_truth_requires_owner",
+            "source_of_truth_requires_status_required",
+            "generated_runtime_must_not_be_versioned"
+          ],
+          "properties": {
+            "allowed_classifications": {
+              "type": "array",
+              "contains": {
+                "const": "source-of-truth"
+              }
+            },
+            "source_of_truth_requires_tests": {
+              "const": true
+            },
+            "source_of_truth_requires_owner": {
+              "const": true
+            },
+            "source_of_truth_requires_status_required": {
+              "const": true
+            },
+            "generated_runtime_must_not_be_versioned": {
+              "const": true
+            }
+          },
+          "additionalProperties": true
+        },
+        "required_tests_policy": {
+          "type": "object",
+          "required": [
+            "classifications_requiring_tests",
+            "criticalities_requiring_tests",
+            "missing_tests_severity",
+            "missing_test_path_severity"
+          ],
+          "properties": {
+            "classifications_requiring_tests": {
+              "type": "array",
+              "contains": {
+                "const": "source-of-truth"
+              }
+            },
+            "criticalities_requiring_tests": {
+              "type": "array",
+              "contains": {
+                "const": "P0"
+              }
+            },
+            "missing_tests_severity": {
+              "const": "block"
+            },
+            "missing_test_path_severity": {
+              "const": "block"
+            }
+          },
+          "additionalProperties": true
+        },
+        "frontmatter_policy": {
+          "type": "object",
+          "required": [
+            "markdown_statuses_requiring_frontmatter",
+            "missing_frontmatter_severity",
+            "doc_id_mismatch_severity",
+            "status_mismatch_severity",
+            "owner_missing_severity"
+          ],
+          "properties": {
+            "markdown_statuses_requiring_frontmatter": {
+              "type": "array",
+              "contains": {
+                "const": "approved"
+              }
+            },
+            "missing_frontmatter_severity": {
+              "const": "block"
+            },
+            "doc_id_mismatch_severity": {
+              "const": "block"
+            },
+            "status_mismatch_severity": {
+              "const": "block"
+            },
+            "owner_missing_severity": {
+              "const": "block"
+            }
+          },
+          "additionalProperties": true
+        },
+        "lifecycle_policy": {
+          "type": "object",
+          "required": [
+            "allowed_lifecycles",
+            "historical_active_authority_severity",
+            "invalid_lifecycle_severity"
+          ],
+          "properties": {
+            "allowed_lifecycles": {
+              "type": "array",
+              "contains": {
+                "const": "active"
+              }
+            },
+            "historical_active_authority_severity": {
+              "const": "warning"
+            },
+            "invalid_lifecycle_severity": {
+              "const": "block"
+            }
+          },
+          "additionalProperties": true
+        },
+        "sync_policy": {
+          "type": "object",
+          "required": [
+            "markdown_json_pairs_require_sync",
+            "rule_registry_must_match_source_registry",
+            "contradiction_severity"
+          ],
+          "properties": {
+            "markdown_json_pairs_require_sync": {
+              "type": "boolean"
+            },
+            "rule_registry_must_match_source_registry": {
+              "const": true
+            },
+            "contradiction_severity": {
+              "const": "block"
+            }
+          },
+          "additionalProperties": true
+        },
+        "rule_definitions": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "$ref": "#/$defs/rule_definition"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "compatibility": {
+      "type": "object",
+      "required": [
+        "runtime_behavior_changed",
+        "finding_ids_preserved",
+        "source_registry_preserved",
+        "python_fallback_preserved",
+        "docs_governance_report_schema_preserved",
+        "invalid_registry_blocks_success",
+        "rule_source_reported",
+        "catalog_version_reported"
+      ],
+      "properties": {
+        "runtime_behavior_changed": {
+          "const": false
+        },
+        "finding_ids_preserved": {
+          "const": true
+        },
+        "source_registry_preserved": {
+          "const": true
+        },
+        "python_fallback_preserved": {
+          "const": true
+        },
+        "docs_governance_report_schema_preserved": {
+          "const": true
+        },
+        "invalid_registry_blocks_success": {
+          "const": true
+        },
+        "rule_source_reported": {
+          "const": true
+        },
+        "catalog_version_reported": {
+          "const": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only_registry",
+        "deterministic",
+        "llm_judge_used",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed",
+        "critical_rules_disable_allowed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only_registry": {
+          "const": true
+        },
+        "deterministic": {
+          "const": true
+        },
+        "llm_judge_used": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "subprocess_execution_enabled": {
+          "const": false
+        },
+        "tools_executed": {
+          "const": false
+        },
+        "agents_executed": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "critical_rules_disable_allowed": {
+          "const": false
+        },
+        "dynamic_executable_rules_allowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "rule_definition": {
+      "type": "object",
+      "required": [
+        "rule_id",
+        "title",
+        "severity",
+        "category",
+        "subject_type",
+        "enabled",
+        "built_in_mandatory",
+        "cannot_disable_without_adr",
+        "source_catalog",
+        "version"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "block",
+            "error"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enabled": {
+          "const": true
+        },
+        "built_in_mandatory": {
+          "type": "boolean"
+        },
+        "cannot_disable_without_adr": {
+          "const": true
+        },
+        "source_catalog": {
+          "const": ".devpilot/docs_governance/rule_registry.json"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1",
+  "x-devpilot-sprint": "POST-H-033-F",
+  "x-devpilot-status": "implemented-initial"
+}

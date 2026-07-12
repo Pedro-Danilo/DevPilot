@@ -12,6 +12,13 @@ mutating source files or enabling external services.
 from .backlogs import DocumentationBacklogGovernanceValidator
 from .drift import DocumentationSyncValidator
 from .quality_gate import run_docs_governance_quality_subgate
+from .rule_registry import (
+    DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY,
+    DOCS_GOVERNANCE_RULE_REGISTRY_CONTRACT,
+    DOCS_GOVERNANCE_RULE_REGISTRY_SCHEMA_ID,
+    DocsGovernanceRuleRegistry,
+    load_docs_governance_rule_registry,
+)
 from .registry import (
     DEFAULT_DOCUMENTATION_SOURCE_REGISTRY,
     DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID,
@@ -31,6 +38,11 @@ from .validator import (
 
 __all__ = [
     "DocumentationBacklogGovernanceValidator",
+    "DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY",
+    "DOCS_GOVERNANCE_RULE_REGISTRY_CONTRACT",
+    "DOCS_GOVERNANCE_RULE_REGISTRY_SCHEMA_ID",
+    "DocsGovernanceRuleRegistry",
+    "load_docs_governance_rule_registry",
     "DocumentationSyncValidator",
     "DEFAULT_DOCUMENTATION_SOURCE_REGISTRY",
     "DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID",

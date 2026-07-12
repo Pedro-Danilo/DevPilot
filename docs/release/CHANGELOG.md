@@ -1,3 +1,12 @@
+
+## post-h-033-f — Docs governance rule registry
+
+- Agrega `DocsGovernanceRuleRegistry` como registry declarativo para reglas de documentation governance integrado con source registry.
+- Registra `SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1`, `.devpilot/docs_governance/rule_registry.json` y `src/devpilot_core/docs_governance/rule_registry.py`.
+- Expone `rule_source`, `catalog_version`, `registry_valid` y `fallback_active` en `docs-governance validate`.
+- Conserva validación determinística local-first/read-only, fallback Python temporal y fail-closed ante registry inválido.
+- No habilita LLM judge, red, APIs externas, remote execution, connector write, plugin execution ni mutaciones de fuente.
+
 ## POST-H-033-E — Policy/guard pattern catalogs
 
 - Added `PolicyGuardPatternCatalog` schema and `.devpilot/policy/guard_pattern_catalog.json`.

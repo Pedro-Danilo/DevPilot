@@ -11590,6 +11590,136 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY",
+      "path": ".devpilot/docs_governance/rule_registry.json",
+      "classification": "machine-readable-source",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-SCHEMA",
+      "path": "docs/schemas/docs_governance_rule_registry.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-033-F",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-MODULE",
+      "path": "src/devpilot_core/docs_governance/rule_registry.py",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-VALIDATOR-INTEGRATION",
+      "path": "src/devpilot_core/docs_governance/validator.py",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-TEST",
+      "path": "tests/test_post_h_033_docs_governance_rule_registry.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-F",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-REPORT",
+      "path": "docs/audits/post_h_033_f_docs_governance_rule_registry_report.md",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-MANIFEST",
+      "path": "docs/post_h_033_f_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
     }
   ],
   "rules": {
@@ -11663,31 +11793,31 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 492,
-    "source_of_truth_total": 196,
-    "machine_readable_source_total": 230,
-    "derived_total": 66,
+    "documents_total": 499,
+    "source_of_truth_total": 199,
+    "machine_readable_source_total": 233,
+    "derived_total": 67,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 357,
+    "critical_sources_total": 404,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 492,
+    "documents_with_required_tests_total": 499,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-032-H",
+    "last_updated_by": "POST-H-033-F",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-032-H",
-    "last_registered_sprint": "POST-H-032-H",
+    "updated_by": "POST-H-033-F",
+    "last_registered_sprint": "POST-H-033-F",
     "updated": "2026-07-11",
     "documents_checked_total": 419,
-    "documents_registered_total": 425
+    "documents_registered_total": 499
   },
   "safety": {
     "local_first": true,
@@ -12927,5 +13057,5 @@
     "post_h_032_b_models_called_by_health": false
   },
   "updated_at": "2026-07-11T00:00:00Z",
-  "last_registered_sprint": "POST-H-033-E"
+  "last_registered_sprint": "POST-H-033-F"
 }
