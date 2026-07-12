@@ -11,19 +11,24 @@ from devpilot_core.sensitive_capabilities.decision_matrix import (
     load_decision_matrix,
     load_plugin_execution_decision,
     load_remote_execution_adr3_decision,
+    load_multiuser_auth_decision,
     plugin_execution_decision_from_matrix,
     remote_execution_decision_from_matrix,
+    multiuser_auth_decision_from_matrix,
 )
 from devpilot_core.sensitive_capabilities.models import (
     ALLOWED_CONNECTOR_WRITE_DECISIONS,
     ALLOWED_PLUGIN_EXECUTION_DECISIONS,
     ALLOWED_REMOTE_EXECUTION_ADR3_DECISIONS,
+    ALLOWED_MULTIUSER_AUTH_DECISIONS,
     POST_H_034_A_CREATED_BY,
     POST_H_034_A_EXPECTED_DECISION,
     POST_H_034_B_CREATED_BY,
     POST_H_034_B_EXPECTED_DECISION,
     POST_H_034_C_CREATED_BY,
     POST_H_034_C_EXPECTED_DECISION,
+    POST_H_034_D_CREATED_BY,
+    POST_H_034_D_EXPECTED_DECISION,
     SensitiveCapabilityOptions,
 )
 
@@ -626,6 +631,191 @@ class RemoteExecutionAdr3Validator:
             "readiness_decision_status": readiness.get("decision_status") if isinstance(readiness, dict) else None,
             "transport_decision_status": transport.get("decision_status") if isinstance(transport, dict) else None,
             "project_state_remote_execution_enabled": project_state.get("remote_execution_enabled") if isinstance(project_state, dict) else None,
+            "matrix_loaded": matrix is not None,
+            "decision_loaded": bool(decision),
+            "blocking_findings_total": len(blocking),
+            "findings_total": len(blocking),
+            "claims_changed": False,
+            "reports_written": False,
+        }
+
+
+class MultiuserAuthAdrValidator:
+    """POST-H-034-D validator for multiuser/auth boundary invariants.
+
+    The validator reads local source-controlled decision, identity and project
+    metadata only. It does not authenticate users, create sessions, read real
+    credentials, open network connections, call external identity providers,
+    start servers or mutate the workspace.
+    """
+
+    def __init__(self, root: Path, *, options: SensitiveCapabilityOptions | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.options = options or SensitiveCapabilityOptions()
+
+    def validate(self) -> CommandResult:
+        findings: list[Finding] = []
+        matrix, matrix_findings = load_decision_matrix(self.root, self.options.matrix_path)
+        decision, decision_findings = load_multiuser_auth_decision(self.root, self.options.multiuser_auth_checklist_path)
+        findings.extend(matrix_findings)
+        findings.extend(decision_findings)
+
+        identity_registry = self._read_json(Path(".devpilot/identity/identity_registry.json"))
+        project_state = self._read_json(self.options.project_state_path)
+        api_security_report = _resolve(self.root, Path("docs/audits/post_h_028_b_local_auth_cors_hardening_report.md"))
+        adr_path = _resolve(self.root, self.options.multiuser_auth_adr_path)
+        adr_text = ""
+        if not adr_path.exists():
+            findings.append(Finding("MULTIUSER_AUTH_ADR_MISSING", "Multiuser/auth ADR is missing.", Severity.BLOCK, path=_rel(self.options.multiuser_auth_adr_path)))
+        else:
+            adr_text = adr_path.read_text(encoding="utf-8")
+            if 'status: "approved"' not in adr_text:
+                findings.append(Finding("MULTIUSER_AUTH_ADR_NOT_APPROVED", "Multiuser/auth ADR must be approved.", Severity.BLOCK, path=_rel(self.options.multiuser_auth_adr_path)))
+            if 'decision_status: "continue-blocked"' not in adr_text:
+                findings.append(Finding("MULTIUSER_AUTH_ADR_NOT_CONTINUE_BLOCKED", "Multiuser/auth ADR must declare continue-blocked.", Severity.BLOCK, path=_rel(self.options.multiuser_auth_adr_path)))
+        api_text = api_security_report.read_text(encoding="utf-8") if api_security_report.exists() else ""
+
+        if decision:
+            findings.extend(self._validate_decision(decision, adr_text))
+        if matrix:
+            findings.extend(self._validate_matrix(matrix))
+        if identity_registry:
+            findings.extend(self._validate_identity_registry(identity_registry))
+        else:
+            findings.append(Finding("MULTIUSER_AUTH_IDENTITY_REGISTRY_MISSING", "Identity registry must remain available as local preliminary RBAC source.", Severity.BLOCK, path=".devpilot/identity/identity_registry.json"))
+        findings.extend(self._validate_api_security_report(api_text))
+        if project_state:
+            findings.extend(self._validate_project_state(project_state))
+
+        blocking = [finding for finding in findings if finding.severity in _BLOCKING]
+        if not blocking:
+            findings.append(Finding("MULTIUSER_AUTH_ADR_GATE_PASS", "Multiuser/auth ADR gate passed: production multiuser, enterprise IAM, sessions, tenancy, public API, network, external APIs and credentials remain disabled.", Severity.INFO))
+        return CommandResult(
+            command="sensitive-capability multiuser-auth validate",
+            ok=not blocking,
+            exit_code=ExitCode.PASS if not blocking else ExitCode.BLOCK,
+            message="Multiuser/auth ADR gate passed." if not blocking else "Multiuser/auth ADR gate blocked.",
+            data={
+                "summary": self._summary(decision, matrix, identity_registry, project_state, blocking),
+                "notes": [
+                    "POST-H-034-D validates ADR/no-go decisions only.",
+                    "The validator does not enable multiuser auth, sessions, IAM, tenancy, public API, network, external APIs or credentials.",
+                ],
+            },
+            findings=findings,
+        )
+
+    def _read_json(self, path: Path | str) -> dict[str, Any] | None:
+        resolved = _resolve(self.root, path)
+        if not resolved.exists():
+            return None
+        try:
+            payload = json.loads(resolved.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return None
+        return payload if isinstance(payload, dict) else None
+
+    def _validate_decision(self, decision: dict[str, Any], adr_text: str) -> list[Finding]:
+        findings: list[Finding] = []
+        if decision.get("created_by") != POST_H_034_D_CREATED_BY:
+            findings.append(Finding("MULTIUSER_AUTH_WRONG_OWNER", "Multiuser/auth decision must be created by POST-H-034-D.", Severity.BLOCK, metadata={"actual": decision.get("created_by")}))
+        if decision.get("decision_state") not in ALLOWED_MULTIUSER_AUTH_DECISIONS:
+            findings.append(Finding("MULTIUSER_AUTH_UNKNOWN_DECISION", "Multiuser/auth decision_state is not allowed.", Severity.BLOCK, metadata={"actual": decision.get("decision_state")}))
+        if decision.get("decision_state") != POST_H_034_D_EXPECTED_DECISION:
+            findings.append(Finding("MULTIUSER_AUTH_NOT_CONTINUE_BLOCKED", "Multiuser/auth must remain continue-blocked in POST-H-034-D.", Severity.BLOCK, metadata={"actual": decision.get("decision_state")}))
+        for key in (
+            "multiuser_auth_enabled", "production_multiuser_enabled", "multiuser_runtime_enabled", "iam_enterprise_enabled", "oidc_enabled", "sso_enabled", "session_management_enabled", "tenancy_enabled", "tenant_isolation_implemented", "public_api_enabled", "network_allowed", "external_api_allowed", "credentials_required", "password_storage_enabled",
+        ):
+            if decision.get(key) is not False:
+                findings.append(Finding("MULTIUSER_AUTH_DECISION_FLAG_BLOCK", f"{key} must remain false.", Severity.BLOCK, path=_rel(self.options.multiuser_auth_checklist_path), metadata={"flag": key, "actual": decision.get(key)}))
+        for key in ("local_api_token_control", "local_rbac_initial", "local_approval_binding_initial", "requires_future_backlog", "requires_future_enablement_adr", "requires_human_approval", "auth_threat_model_required_before_pilot", "session_management_required_before_pilot", "tenant_isolation_required_before_pilot", "approval_actor_binding_required_before_pilot"):
+            if decision.get(key) is not True:
+                findings.append(Finding("MULTIUSER_AUTH_REQUIRED_CONTROL_BLOCK", f"{key} must remain true.", Severity.BLOCK, path=_rel(self.options.multiuser_auth_checklist_path), metadata={"flag": key, "actual": decision.get(key)}))
+        lowered = adr_text.lower()
+        required_rules = [
+            "local api token exists != production multiuser enabled",
+            "identity registry exists != real user identity provider",
+            "auth/rbac initial exists != enterprise iam",
+            "post-h-034-d adr exists != runtime enablement",
+        ]
+        for rule in required_rules:
+            if rule not in lowered:
+                findings.append(Finding("MULTIUSER_AUTH_ADR_MISSING_INTERPRETATION_RULE", "ADR must separate local auth/RBAC from production multiuser enablement.", Severity.BLOCK, path=_rel(self.options.multiuser_auth_adr_path), metadata={"rule": rule}))
+        return findings
+
+    def _validate_matrix(self, matrix: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        decision = multiuser_auth_decision_from_matrix(matrix)
+        if decision is None:
+            findings.append(Finding("MULTIUSER_AUTH_MATRIX_ENTRY_MISSING", "Sensitive capability matrix must include multiuser.auth.", Severity.BLOCK, path=_rel(self.options.matrix_path)))
+            return findings
+        if decision.decision_state != POST_H_034_D_EXPECTED_DECISION:
+            findings.append(Finding("MULTIUSER_AUTH_MATRIX_DECISION_BLOCK", "Matrix multiuser.auth decision must remain continue-blocked.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata=decision.to_dict()))
+        if decision.runtime_enabled is not False:
+            findings.append(Finding("MULTIUSER_AUTH_MATRIX_RUNTIME_BLOCK", "Matrix multiuser.auth runtime_enabled must remain false.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata=decision.to_dict()))
+        gates = matrix.get("global_no_go_gates", {}) if isinstance(matrix.get("global_no_go_gates"), dict) else {}
+        if gates.get("production_multiuser") is not False:
+            findings.append(Finding("MULTIUSER_AUTH_MATRIX_NO_GO_BLOCK", "global_no_go_gates.production_multiuser must remain false.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata={"actual": gates.get("production_multiuser")}))
+        return findings
+
+    def _validate_identity_registry(self, registry: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        defaults = registry.get("defaults") if isinstance(registry.get("defaults"), dict) else {}
+        security = registry.get("security") if isinstance(registry.get("security"), dict) else {}
+        if defaults.get("auth_remote_enabled") is not False:
+            findings.append(Finding("MULTIUSER_AUTH_IDENTITY_REMOTE_AUTH_BLOCK", "identity.defaults.auth_remote_enabled must remain false.", Severity.BLOCK, path=".devpilot/identity/identity_registry.json"))
+        if defaults.get("credentials_stored") is not False:
+            findings.append(Finding("MULTIUSER_AUTH_IDENTITY_CREDENTIALS_BLOCK", "identity.defaults.credentials_stored must remain false.", Severity.BLOCK, path=".devpilot/identity/identity_registry.json"))
+        if defaults.get("deny_unknown_actor") is not True:
+            findings.append(Finding("MULTIUSER_AUTH_IDENTITY_UNKNOWN_ACTOR_BLOCK", "identity.defaults.deny_unknown_actor must remain true.", Severity.BLOCK, path=".devpilot/identity/identity_registry.json"))
+        for key in ("network_used", "external_api_used", "remote_auth_used", "credentials_read", "credentials_stored"):
+            if security.get(key) is not False:
+                findings.append(Finding("MULTIUSER_AUTH_IDENTITY_SECURITY_FLAG_BLOCK", f"identity.security.{key} must remain false.", Severity.BLOCK, path=".devpilot/identity/identity_registry.json", metadata={"flag": key, "actual": security.get(key)}))
+        actors = registry.get("actors") if isinstance(registry.get("actors"), list) else []
+        for actor in actors:
+            if isinstance(actor, dict) and (actor.get("credentials_stored") is not False or actor.get("remote_auth_enabled") is not False):
+                findings.append(Finding("MULTIUSER_AUTH_IDENTITY_ACTOR_ENABLEMENT_BLOCK", "Identity actor credentials_stored and remote_auth_enabled must remain false.", Severity.BLOCK, path=".devpilot/identity/identity_registry.json", metadata={"actor_id": actor.get("actor_id")}))
+        return findings
+
+    def _validate_api_security_report(self, text: str) -> list[Finding]:
+        findings: list[Finding] = []
+        lowered = text.lower()
+        if "no es iam enterprise" not in lowered and "no es iam" not in lowered:
+            findings.append(Finding("MULTIUSER_AUTH_API_SECURITY_BOUNDARY_MISSING", "API security report/runbook must state the local token is not IAM enterprise.", Severity.WARN, path="docs/audits/post_h_028_b_local_auth_cors_hardening_report.md"))
+        return findings
+
+    def _validate_project_state(self, state: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        for key in (
+            "production_multiuser", "production_multiuser_enabled", "multiuser_auth_enabled", "multiuser_runtime_enabled", "iam_enterprise_enabled", "session_management_enabled", "tenancy_enabled", "public_api_enabled", "network_allowed", "network_used", "external_api_used", "credentials_required", "connector_write_enabled", "plugin_execution_enabled", "remote_execution_enabled", "enterprise_ready_claimed", "compliance_certification_claim",
+        ):
+            if state.get(key) is not False:
+                findings.append(Finding("MULTIUSER_AUTH_PROJECT_STATE_NO_GO_BLOCK", f"project_state.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.project_state_path), metadata={"flag": key, "actual": state.get(key)}))
+        return findings
+
+    def _summary(self, decision: dict[str, Any] | None, matrix: dict[str, Any] | None, identity_registry: dict[str, Any] | None, project_state: dict[str, Any] | None, blocking: list[Finding]) -> dict[str, Any]:
+        decision = decision or {}
+        defaults = identity_registry.get("defaults") if isinstance(identity_registry, dict) and isinstance(identity_registry.get("defaults"), dict) else {}
+        return {
+            "created_by": POST_H_034_D_CREATED_BY,
+            "status": "implemented-initial",
+            "preliminary": True,
+            "capability_id": "multiuser.auth",
+            "multiuser_decision_state": decision.get("decision_state"),
+            "multiuser_decision_status": decision.get("decision_status"),
+            "multiuser_auth_enabled": decision.get("multiuser_auth_enabled"),
+            "production_multiuser_enabled": decision.get("production_multiuser_enabled"),
+            "multiuser_runtime_enabled": decision.get("multiuser_runtime_enabled"),
+            "iam_enterprise_enabled": decision.get("iam_enterprise_enabled"),
+            "session_management_enabled": decision.get("session_management_enabled"),
+            "tenancy_enabled": decision.get("tenancy_enabled"),
+            "public_api_enabled": decision.get("public_api_enabled"),
+            "network_allowed": decision.get("network_allowed"),
+            "external_api_allowed": decision.get("external_api_allowed"),
+            "credentials_required": decision.get("credentials_required"),
+            "identity_remote_auth_enabled": defaults.get("auth_remote_enabled") if defaults else None,
+            "identity_credentials_stored": defaults.get("credentials_stored") if defaults else None,
+            "project_state_production_multiuser": project_state.get("production_multiuser") if isinstance(project_state, dict) else None,
             "matrix_loaded": matrix is not None,
             "decision_loaded": bool(decision),
             "blocking_findings_total": len(blocking),

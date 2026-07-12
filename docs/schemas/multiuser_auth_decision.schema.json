@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/multiuser_auth_decision.schema.json",
+  "title": "DevPilot MultiuserAuthDecision v1",
+  "description": "POST-H-034-D structural contract for the multiuser/auth boundary ADR. It documents prerequisites while keeping production multiuser, enterprise IAM, tenancy, public API, network, external APIs and credentials disabled.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "decision_id",
+    "created_by",
+    "status",
+    "capability_id",
+    "capability_name",
+    "decision_state",
+    "decision_status",
+    "adr_path",
+    "checklist_path",
+    "local_api_token_control",
+    "local_rbac_initial",
+    "local_approval_binding_initial",
+    "multiuser_auth_enabled",
+    "production_multiuser_enabled",
+    "multiuser_runtime_enabled",
+    "iam_enterprise_enabled",
+    "oidc_enabled",
+    "sso_enabled",
+    "session_management_enabled",
+    "tenancy_enabled",
+    "tenant_isolation_implemented",
+    "public_api_enabled",
+    "network_allowed",
+    "external_api_allowed",
+    "credentials_required",
+    "password_storage_enabled",
+    "requires_future_backlog",
+    "requires_future_enablement_adr",
+    "requires_human_approval",
+    "auth_threat_model_required_before_pilot",
+    "session_management_required_before_pilot",
+    "tenant_isolation_required_before_pilot",
+    "approval_actor_binding_required_before_pilot",
+    "prerequisites",
+    "no_go_gates",
+    "evidence_requirements",
+    "current_controls",
+    "safety",
+    "summary",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-MULTIUSER-AUTH-DECISION-V1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matrix_id": {
+      "type": "string"
+    },
+    "created_by": {
+      "const": "POST-H-034-D"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved",
+        "proposed"
+      ]
+    },
+    "capability_id": {
+      "const": "multiuser.auth"
+    },
+    "capability_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_state": {
+      "enum": [
+        "continue-blocked",
+        "pilot-gated-future",
+        "approved-for-future-implementation",
+        "rejected",
+        "out-of-scope"
+      ]
+    },
+    "decision_status": {
+      "enum": [
+        "continue-blocked",
+        "design-only",
+        "pilot-gated-future",
+        "rejected",
+        "out-of-scope"
+      ]
+    },
+    "adr_path": {
+      "const": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md"
+    },
+    "checklist_path": {
+      "const": ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json"
+    },
+    "report_path": {
+      "type": "string"
+    },
+    "manifest_path": {
+      "type": "string"
+    },
+    "local_api_token_control": {
+      "const": true
+    },
+    "local_rbac_initial": {
+      "const": true
+    },
+    "local_approval_binding_initial": {
+      "const": true
+    },
+    "multiuser_auth_enabled": {
+      "const": false
+    },
+    "production_multiuser_enabled": {
+      "const": false
+    },
+    "multiuser_runtime_enabled": {
+      "const": false
+    },
+    "iam_enterprise_enabled": {
+      "const": false
+    },
+    "oidc_enabled": {
+      "const": false
+    },
+    "sso_enabled": {
+      "const": false
+    },
+    "session_management_enabled": {
+      "const": false
+    },
+    "tenancy_enabled": {
+      "const": false
+    },
+    "tenant_isolation_implemented": {
+      "const": false
+    },
+    "public_api_enabled": {
+      "const": false
+    },
+    "network_allowed": {
+      "const": false
+    },
+    "external_api_allowed": {
+      "const": false
+    },
+    "credentials_required": {
+      "const": false
+    },
+    "password_storage_enabled": {
+      "const": false
+    },
+    "requires_future_backlog": {
+      "const": true
+    },
+    "requires_future_enablement_adr": {
+      "const": true
+    },
+    "requires_human_approval": {
+      "const": true
+    },
+    "auth_threat_model_required_before_pilot": {
+      "const": true
+    },
+    "session_management_required_before_pilot": {
+      "const": true
+    },
+    "tenant_isolation_required_before_pilot": {
+      "const": true
+    },
+    "approval_actor_binding_required_before_pilot": {
+      "const": true
+    },
+    "prerequisites": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/prerequisite"
+      }
+    },
+    "no_go_gates": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "current_controls": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "multiuser_auth_enabled",
+        "production_multiuser_enabled",
+        "public_api_enabled",
+        "credentials_versioned",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "multiuser_auth_enabled": {
+          "const": false
+        },
+        "production_multiuser_enabled": {
+          "const": false
+        },
+        "public_api_enabled": {
+          "const": false
+        },
+        "credentials_versioned": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "decision_blocks_production_multiuser",
+        "no_go_gates_preserved",
+        "claims_changed",
+        "prerequisites_total",
+        "prerequisites_met_total",
+        "blocking_prerequisites_total"
+      ],
+      "properties": {
+        "decision_blocks_production_multiuser": {
+          "const": true
+        },
+        "no_go_gates_preserved": {
+          "const": true
+        },
+        "claims_changed": {
+          "const": false
+        },
+        "prerequisites_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "prerequisites_met_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocking_prerequisites_total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "prerequisite": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "status",
+        "blocking"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "met",
+            "missing",
+            "partial",
+            "future-required"
+          ]
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "gate": {
+      "type": "object",
+      "required": [
+        "id",
+        "expected",
+        "actual",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {},
+        "actual": {},
+        "status": {
+          "enum": [
+            "pass",
+            "block",
+            "warn"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-MULTIUSER-AUTH-DECISION-V1",
+  "x-devpilot-sprint": "POST-H-034-D",
+  "x-devpilot-status": "registered"
+}

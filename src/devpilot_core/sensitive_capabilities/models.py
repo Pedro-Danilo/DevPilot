@@ -12,6 +12,8 @@ DEFAULT_PLUGIN_EXECUTION_CHECKLIST_PATH = Path(".devpilot/sensitive_capabilities
 DEFAULT_PLUGIN_EXECUTION_ADR_PATH = Path("docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md")
 DEFAULT_REMOTE_EXECUTION_ADR3_CHECKLIST_PATH = Path(".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json")
 DEFAULT_REMOTE_EXECUTION_ADR3_ADR_PATH = Path("docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md")
+DEFAULT_MULTIUSER_AUTH_CHECKLIST_PATH = Path(".devpilot/sensitive_capabilities/multiuser_auth_checklist.json")
+DEFAULT_MULTIUSER_AUTH_ADR_PATH = Path("docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md")
 DEFAULT_CONNECTOR_SANDBOX_POLICY_PATH = Path(".devpilot/connectors/connector_sandbox_policy.json")
 DEFAULT_PLUGIN_REGISTRY_PATH = Path(".devpilot/plugins/plugin_registry.json")
 DEFAULT_PLUGIN_PERMISSION_MODEL_PATH = Path(".devpilot/plugins/plugin_permission_model.json")
@@ -28,6 +30,8 @@ PLUGIN_EXECUTION_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-PLUGIN-EXECUTION-DECISION-V1
 PLUGIN_EXECUTION_DECISION_CONTRACT = "PluginExecutionDecision"
 REMOTE_EXECUTION_ADR3_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-REMOTE-EXECUTION-ADR3-DECISION-V1"
 REMOTE_EXECUTION_ADR3_DECISION_CONTRACT = "RemoteExecutionAdr3Decision"
+MULTIUSER_AUTH_DECISION_SCHEMA_ID = "SCHEMA-DEVPL-MULTIUSER-AUTH-DECISION-V1"
+MULTIUSER_AUTH_DECISION_CONTRACT = "MultiuserAuthDecision"
 
 POST_H_034_A_CREATED_BY = "POST-H-034-A"
 ALLOWED_CONNECTOR_WRITE_DECISIONS = {
@@ -53,6 +57,15 @@ ALLOWED_REMOTE_EXECUTION_ADR3_DECISIONS = {
     "rejected",
 }
 POST_H_034_C_EXPECTED_DECISION = "continue-blocked"
+POST_H_034_D_CREATED_BY = "POST-H-034-D"
+ALLOWED_MULTIUSER_AUTH_DECISIONS = {
+    "continue-blocked",
+    "pilot-gated-future",
+    "approved-for-future-implementation",
+    "rejected",
+    "out-of-scope",
+}
+POST_H_034_D_EXPECTED_DECISION = "continue-blocked"
 
 
 @dataclass(frozen=True)
@@ -64,6 +77,8 @@ class SensitiveCapabilityOptions:
     plugin_execution_adr_path: Path | str = DEFAULT_PLUGIN_EXECUTION_ADR_PATH
     remote_execution_adr3_checklist_path: Path | str = DEFAULT_REMOTE_EXECUTION_ADR3_CHECKLIST_PATH
     remote_execution_adr3_adr_path: Path | str = DEFAULT_REMOTE_EXECUTION_ADR3_ADR_PATH
+    multiuser_auth_checklist_path: Path | str = DEFAULT_MULTIUSER_AUTH_CHECKLIST_PATH
+    multiuser_auth_adr_path: Path | str = DEFAULT_MULTIUSER_AUTH_ADR_PATH
     connector_sandbox_policy_path: Path | str = DEFAULT_CONNECTOR_SANDBOX_POLICY_PATH
     plugin_registry_path: Path | str = DEFAULT_PLUGIN_REGISTRY_PATH
     plugin_permission_model_path: Path | str = DEFAULT_PLUGIN_PERMISSION_MODEL_PATH

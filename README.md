@@ -6058,3 +6058,19 @@ La implementación es `implemented-initial`: conserva fallback Python temporal, 
 POST-H-034-C agrega ADR-3 para `remote.execution` como decisión `continue-blocked`. DevPilot conserva `remote_execution_enabled=false`, `remote_runner_enabled=false`, `remote_transport_enabled=false`, `network_allowed=false`, `shell_allowed=false`, `external_api_allowed=false` y `credentials_required=false`.
 
 La implementación es `implemented-initial`: agrega schema, checklist, manifest, reporte, tests y subgate dentro de `SensitiveCapabilityAdrGate`. No habilita runtime remoto. Cualquier piloto futuro requiere backlog separado, secure transport implementado, sandbox remoto, Approval/RBAC, command allowlist, observabilidad, kill-switch, rollback y pruebas adversariales.
+
+
+## POST-H-034-D — Multiuser/auth ADR
+
+Estado: `implemented-initial`. POST-H-034-D agrega la ADR `ADR-POSTH-034-D-multiuser-auth-boundary.md`, el schema `MultiuserAuthDecision`, checklist, manifest, reporte y tests para separar auth local de multiusuario productivo.
+
+No habilita multiuser/auth productivo, IAM enterprise, OIDC, SSO, sesiones, tenancy, API pública, red, APIs externas ni credenciales. API local token, Identity Registry, RBAC y approval binding siguen siendo controles locales iniciales dentro del alcance `production-ready-local`.
+
+Verificación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q
+python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json
+python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot/sensitive_capabilities/capability_decision_matrix.json --json
+```

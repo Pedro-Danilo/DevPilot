@@ -2791,3 +2791,11 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Extends `SensitiveCapabilityAdrGate` with remote execution ADR-3 subgate.
 - Preserves remote runner disabled, secure transport design-only, no-network, no-shell, no external API and no credentials.
 - Synchronizes source registry, schema catalog, TCR v1/v2, README, runbook and POST-H-034 backlog.
+
+
+## post-h-034-d
+
+- Add MultiuserAuthDecision schema, ADR, checklist, manifest and report.
+- Extend SensitiveCapabilityAdrGate with multiuser.auth boundary validation.
+- Preserve production multiuser, enterprise IAM, sessions, tenancy, public API, network, external API and credentials as disabled.
+- Synchronize README, runbook, POST-H-034 docs, schema catalog, source registry, TCR v1/v2 and project_state.

@@ -91,3 +91,8 @@ python -m devpilot_core schema validate `
 - El hardening actual no debe sobredeclararse como autenticacion enterprise.
 - Las pruebas visuales y estados de operador siguen pendientes para POST-H-028-C/D.
 - El UI route registry enforcement sigue pendiente para POST-H-028-E.
+
+
+## POST-H-034-D boundary update
+
+La protección por token local, CORS local-only y headers de seguridad siguen siendo controles locales. No equivalen a IAM enterprise, login multiusuario, sesiones productivas, OIDC, SSO, tenancy ni API pública. Cualquier habilitación futura requiere ADR/backlog separado y pruebas de bypass.

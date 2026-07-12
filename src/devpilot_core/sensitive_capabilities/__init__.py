@@ -7,6 +7,8 @@ from .models import (
     PLUGIN_EXECUTION_DECISION_SCHEMA_ID,
     REMOTE_EXECUTION_ADR3_DECISION_CONTRACT,
     REMOTE_EXECUTION_ADR3_DECISION_SCHEMA_ID,
+    MULTIUSER_AUTH_DECISION_CONTRACT,
+    MULTIUSER_AUTH_DECISION_SCHEMA_ID,
     DEFAULT_CONNECTOR_WRITE_ADR_PATH,
     DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH,
     DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH,
@@ -17,7 +19,7 @@ from .models import (
     SensitiveCapabilityOptions,
 )
 from .quality_gate import SensitiveCapabilityAdrGate
-from .validator import ConnectorWriteAdrValidator, PluginExecutionAdrValidator, RemoteExecutionAdr3Validator
+from .validator import ConnectorWriteAdrValidator, PluginExecutionAdrValidator, RemoteExecutionAdr3Validator, MultiuserAuthAdrValidator
 
 __all__ = [
     "CONNECTOR_WRITE_DECISION_CONTRACT",
@@ -26,6 +28,8 @@ __all__ = [
     "PLUGIN_EXECUTION_DECISION_SCHEMA_ID",
     "REMOTE_EXECUTION_ADR3_DECISION_CONTRACT",
     "REMOTE_EXECUTION_ADR3_DECISION_SCHEMA_ID",
+    "MULTIUSER_AUTH_DECISION_CONTRACT",
+    "MULTIUSER_AUTH_DECISION_SCHEMA_ID",
     "DEFAULT_CONNECTOR_WRITE_ADR_PATH",
     "DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH",
     "DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH",
@@ -35,6 +39,7 @@ __all__ = [
     "ConnectorWriteAdrValidator",
     "PluginExecutionAdrValidator",
     "RemoteExecutionAdr3Validator",
+    "MultiuserAuthAdrValidator",
     "SensitiveCapabilityAdrGate",
     "SensitiveCapabilityDecision",
     "SensitiveCapabilityOptions",

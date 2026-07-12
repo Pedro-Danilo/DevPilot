@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-MULTIUSER-AUTH-DECISION-V1",
+  "decision_id": "POST-H-034-D-MANIFEST",
+  "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+  "created_by": "POST-H-034-D",
+  "status": "implemented-initial",
+  "capability_id": "multiuser.auth",
+  "capability_name": "Multiuser/auth productivo",
+  "decision_state": "continue-blocked",
+  "decision_status": "continue-blocked",
+  "adr_path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+  "checklist_path": ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
+  "report_path": "docs/audits/post_h_034_d_multiuser_auth_adr_report.md",
+  "manifest_path": "docs/post_h_034_d_manifest.json",
+  "local_api_token_control": true,
+  "local_rbac_initial": true,
+  "local_approval_binding_initial": true,
+  "multiuser_auth_enabled": false,
+  "production_multiuser_enabled": false,
+  "multiuser_runtime_enabled": false,
+  "iam_enterprise_enabled": false,
+  "oidc_enabled": false,
+  "sso_enabled": false,
+  "session_management_enabled": false,
+  "tenancy_enabled": false,
+  "tenant_isolation_implemented": false,
+  "public_api_enabled": false,
+  "network_allowed": false,
+  "external_api_allowed": false,
+  "credentials_required": false,
+  "password_storage_enabled": false,
+  "requires_future_backlog": true,
+  "requires_future_enablement_adr": true,
+  "requires_human_approval": true,
+  "auth_threat_model_required_before_pilot": true,
+  "session_management_required_before_pilot": true,
+  "tenant_isolation_required_before_pilot": true,
+  "approval_actor_binding_required_before_pilot": true,
+  "prerequisites": [
+    {
+      "id": "adr-approved",
+      "description": "ADR boundary approved",
+      "status": "met",
+      "blocking": false,
+      "evidence": [
+        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md"
+      ]
+    },
+    {
+      "id": "auth-threat-model",
+      "description": "Authentication threat model for real users",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "identity-registry-productive",
+      "description": "Production identity registry or identity adapter",
+      "status": "missing",
+      "blocking": true,
+      "evidence": [
+        ".devpilot/identity/identity_registry.json"
+      ]
+    },
+    {
+      "id": "session-management",
+      "description": "Session lifecycle, rotation, revocation and CSRF strategy",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "csrf-cors-token-hardening",
+      "description": "CSRF/CORS/token hardening for non-local use",
+      "status": "partial",
+      "blocking": true,
+      "evidence": [
+        "docs/audits/post_h_028_b_local_auth_cors_hardening_report.md"
+      ]
+    },
+    {
+      "id": "rbac-endpoint-enforcement",
+      "description": "RBAC enforcement by endpoint and action",
+      "status": "partial",
+      "blocking": true,
+      "evidence": [
+        ".devpilot/identity/identity_registry.json",
+        "tests/test_policy_engine_approval_rbac_enforcement.py"
+      ]
+    },
+    {
+      "id": "approval-actor-binding",
+      "description": "Non-spoofable approval actor binding",
+      "status": "partial",
+      "blocking": true,
+      "evidence": [
+        "tests/test_approval_binding.py",
+        "tests/test_approval_policy_binding.py"
+      ]
+    },
+    {
+      "id": "audit-trail-user",
+      "description": "Audit trail with real user identity",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "tenant-data-isolation",
+      "description": "Tenant and data isolation model",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "secret-handling",
+      "description": "Credential/secret handling for auth material",
+      "status": "missing",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "bypass-tests",
+      "description": "Bypass tests for auth, RBAC and approval scope",
+      "status": "future-required",
+      "blocking": true,
+      "evidence": []
+    },
+    {
+      "id": "ui-auth-flow",
+      "description": "UI auth flow if multiuser UX is introduced",
+      "status": "future-required",
+      "blocking": true,
+      "evidence": []
+    }
+  ],
+  "no_go_gates": [
+    {
+      "id": "multiuser_auth_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No multiuser login is enabled."
+    },
+    {
+      "id": "production_multiuser_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "Production multiuser remains blocked."
+    },
+    {
+      "id": "iam_enterprise_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "Enterprise IAM is not enabled."
+    },
+    {
+      "id": "session_management_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No production session model exists."
+    },
+    {
+      "id": "tenancy_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No tenancy or tenant isolation is enabled."
+    },
+    {
+      "id": "public_api_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "API remains local-only."
+    },
+    {
+      "id": "network_allowed",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "Network use is not required."
+    },
+    {
+      "id": "external_api_allowed",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No external identity provider is called."
+    },
+    {
+      "id": "credentials_required",
+      "expected": false,
+      "actual": false,
+      "status": "pass",
+      "description": "No real credentials are introduced."
+    }
+  ],
+  "evidence_requirements": [
+    "Auth threat model before any pilot.",
+    "Identity adapter or production identity registry before real users.",
+    "Session management and CSRF strategy before browser login.",
+    "Endpoint/action RBAC enforcement tests before multiuser use.",
+    "Non-spoofable approval actor binding before sensitive actions.",
+    "Tenant/data isolation model before any tenancy claim.",
+    "Audit trail with real actor IDs before production authorization."
+  ],
+  "current_controls": {
+    "local_api_token_report": "docs/audits/post_h_028_b_local_auth_cors_hardening_report.md",
+    "identity_registry": ".devpilot/identity/identity_registry.json",
+    "approval_rbac_report": "docs/audits/post_h_012_c_rbac_exposure_report.md",
+    "api_local_only": true,
+    "identity_registry_preliminary": true,
+    "rbac_implemented_initial": true,
+    "approval_binding_implemented_initial": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "multiuser_auth_enabled": false,
+    "production_multiuser_enabled": false,
+    "public_api_enabled": false,
+    "credentials_versioned": false,
+    "source_mutations_performed": false
+  },
+  "summary": {
+    "decision_blocks_production_multiuser": true,
+    "no_go_gates_preserved": true,
+    "claims_changed": false,
+    "prerequisites_total": 12,
+    "prerequisites_met_total": 1,
+    "blocking_prerequisites_total": 11,
+    "local_controls_are_not_enterprise_iam": true
+  },
+  "notes": [
+    "POST-H-034-D documents the multiuser/auth boundary only; it does not enable production multiuser, enterprise IAM, OIDC, SSO, tenancy, public API, network, external APIs or credentials.",
+    "Local API token, local RBAC and approval binding remain implemented-initial controls for the single-owner local product scope."
+  ]
+}

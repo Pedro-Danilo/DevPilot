@@ -11,8 +11,10 @@ from devpilot_core.sensitive_capabilities.models import (
     DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH,
     DEFAULT_PLUGIN_EXECUTION_CHECKLIST_PATH,
     DEFAULT_REMOTE_EXECUTION_ADR3_CHECKLIST_PATH,
+    DEFAULT_MULTIUSER_AUTH_CHECKLIST_PATH,
     PLUGIN_EXECUTION_DECISION_CONTRACT,
     REMOTE_EXECUTION_ADR3_DECISION_CONTRACT,
+    MULTIUSER_AUTH_DECISION_CONTRACT,
     DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH,
     SENSITIVE_CAPABILITY_DECISION_MATRIX_CONTRACT,
     SensitiveCapabilityDecision,
@@ -85,6 +87,16 @@ def load_remote_execution_adr3_decision(root: Path, path: Path | str = DEFAULT_R
         findings.append(Finding("REMOTE_EXECUTION_ADR3_DECISION_SCHEMA_BLOCK", "Remote execution ADR-3 checklist does not conform to schema.", Severity.BLOCK, path=_display(path)))
     return payload, findings
 
+def load_multiuser_auth_decision(root: Path, path: Path | str = DEFAULT_MULTIUSER_AUTH_CHECKLIST_PATH) -> tuple[dict[str, Any] | None, list[Finding]]:
+    payload, findings = load_json(root, path)
+    if payload is None:
+        return None, findings
+    schema_result = SchemaValidator(root).validate(schema=MULTIUSER_AUTH_DECISION_CONTRACT, instance=path)
+    if not schema_result.ok:
+        findings.extend(schema_result.findings)
+        findings.append(Finding("MULTIUSER_AUTH_DECISION_SCHEMA_BLOCK", "Multiuser/auth decision checklist does not conform to schema.", Severity.BLOCK, path=_display(path)))
+    return payload, findings
+
 
 def _decision_from_matrix(matrix: dict[str, Any], capability_id: str) -> SensitiveCapabilityDecision | None:
     for item in matrix.get("capabilities", []):
@@ -103,3 +115,7 @@ def plugin_execution_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCa
 
 def remote_execution_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCapabilityDecision | None:
     return _decision_from_matrix(matrix, "remote.execution")
+
+
+def multiuser_auth_decision_from_matrix(matrix: dict[str, Any]) -> SensitiveCapabilityDecision | None:
+    return _decision_from_matrix(matrix, "multiuser.auth")

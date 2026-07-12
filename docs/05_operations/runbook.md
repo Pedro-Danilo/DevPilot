@@ -11509,7 +11509,8 @@ Comandos focales:
 ```powershell
 $env:PYTHONPATH="src"
 python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_remote_execution_adr3.py -q
-python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance .devpilot\sensitive_capabilitiesemote_execution_adr3_checklist.json --json
+python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance .devpilot\sensitive_capabilities
+emote_execution_adr3_checklist.json --json
 python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance docs\post_h_034_c_manifest.json --json
 python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot\sensitive_capabilities\capability_decision_matrix.json --json
 ```
@@ -11517,3 +11518,30 @@ python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionM
 No ejecutar ni habilitar runners remotos. El estado permitido sigue siendo `remote_execution_enabled=false`, `remote_runner_enabled=false`, `remote_transport_enabled=false`, `network_allowed=false`, `shell_allowed=false`, `external_api_allowed=false` y `credentials_required=false`.
 
 Esta es una versión inicial de gobierno/ADR. No sustituye un secure transport real, sandbox remoto, identity/RBAC enterprise, Approval binding remoto, kill-switch ni pruebas de red. Esos elementos requieren backlog posterior.
+
+
+## POST-H-034-D — Operación de ADR multiuser/auth
+
+POST-H-034-D es una frontera arquitectónica y de seguridad. No active login multiusuario, sesiones productivas, IAM enterprise, OIDC, SSO, tenancy, API pública, red, APIs externas ni credenciales reales desde esta ADR.
+
+Interpretación obligatoria:
+
+```text
+local API token exists != production multiuser enabled
+identity registry exists != real user identity provider
+auth/RBAC initial exists != enterprise IAM
+approval actor exists != non-spoofable human account
+UI/API local shell exists != enterprise console
+```
+
+Verificación local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q
+python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+PASS si `multiuser.auth` permanece `continue-blocked`, `production_multiuser=false`, la API sigue local-only y no se introducen credenciales reales. BLOCK si se declara multiuser productivo, enterprise IAM, public API o tenancy sin backlog futuro, threat model, sesiones, RBAC por endpoint, approval actor binding no spoofable y data isolation.

@@ -138,8 +138,8 @@ def test_post_h_034_b_project_state_and_claims_remain_blocked() -> None:
     state = _read_json(".devpilot/project_state.json")
 
     assert state["post_h_034_backlog_approved"] is True
-    assert state["post_h_034_current_micro_sprint"] in {"POST-H-034-B", "POST-H-034-C"}
-    assert state["post_h_034_next_micro_sprint"] in {"POST-H-034-C", "POST-H-034-D"}
+    assert state["post_h_034_current_micro_sprint"] in {"POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E"}
+    assert state["post_h_034_next_micro_sprint"] in {"POST-H-034-C", "POST-H-034-D", "POST-H-034-E"}
     assert state["post_h_034_a_closed"] is True
     assert state["post_h_034_b_decision_state"] == "continue-blocked"
     assert state["post_h_034_b_plugin_execution_enabled"] is False
@@ -173,8 +173,8 @@ def test_post_h_034_b_governance_artifacts_are_synchronized() -> None:
     assert "POST-H-034-B — Operación de ADR plugin execution" in runbook
     assert "POST-H-034-B — Plugin execution sigue bloqueado" in plugin_runbook
     assert "post-h-034-b" in changelog
-    assert 'current_micro_sprint: "POST-H-034-B"' in backlog or 'current_micro_sprint: "POST-H-034-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-034-C"' in backlog or 'next_micro_sprint: "POST-H-034-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-034-B"' in backlog or 'current_micro_sprint: "POST-H-034-C"' in backlog or 'current_micro_sprint: "POST-H-034-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-034-C"' in backlog or 'next_micro_sprint: "POST-H-034-D"' in backlog or 'next_micro_sprint: "POST-H-034-E"' in backlog
 
 
 def test_post_h_034_b_no_real_credentials_or_enablement_terms_are_versioned() -> None:

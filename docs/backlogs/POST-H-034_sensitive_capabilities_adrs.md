@@ -9,9 +9,9 @@ updated: "2026-07-12"
 approval: "approved_by_owner"
 roadmap_wave: "Ola 9"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
-implementation_status: "active/post-h-034-c-implemented-initial"
-current_micro_sprint: "POST-H-034-C"
-next_micro_sprint: "POST-H-034-D"
+implementation_status: "active/post-h-034-d-implemented-initial"
+current_micro_sprint: "POST-H-034-D"
+next_micro_sprint: "POST-H-034-E"
 repo_baseline: "repo_DevPilot_Local_307_POST_H_033_F.zip"
 created_for: "DevPilot Local"
 scope: "architecture decisions / no-go gates / sensitive capability enablement prerequisites"
@@ -580,6 +580,13 @@ python -m pytest -p no:ddtrace --assert=plain `
 POST-H-034-B queda implementado como `implemented-initial`: se crea la ADR aprobada de `plugin.execution`, el schema `PluginExecutionDecision`, el checklist `.devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json`, el reporte, el manifest y pruebas focales. La decisión es `continue-blocked`: no se ejecutan plugins, no se carga código, no se habilitan dynamic import/subprocess/shell/filesystem write/network/API externa y no se amplían claims productivos.
 
 El resultado es deliberadamente conservador. Para una versión industrial futura se requiere backlog separado con sandbox real, firma/verificación de plugins, permission enforcement runtime, límites de recursos, audit trail, Approval/RBAC, kill-switch y pruebas dinámicas con plugin fake malicioso.
+
+
+## Estado de implementación POST-H-034-D
+
+POST-H-034-D queda implementado como `implemented-initial` con decisión `continue-blocked` para `multiuser.auth`. La implementación agrega ADR, schema, checklist, manifest, reporte, validador y pruebas focales sin habilitar multiusuario productivo, IAM enterprise, OIDC, SSO, sesiones productivas, tenancy, API pública, red, APIs externas ni credenciales reales.
+
+La frontera operacional queda así: API local token, Identity Registry, RBAC y approval binding son controles locales iniciales; no equivalen a usuarios reales productivos, IAM enterprise, tenancy ni consola pública. Cualquier evolución futura requiere backlog separado, threat model auth, session management, RBAC por endpoint, approval actor binding no spoofable, audit trail de usuario real, data isolation y pruebas de bypass.
 
 ## 9. Definition of Done del backlog POST-H-034
 

@@ -12278,6 +12278,147 @@
       "roadmap_milestones": [
         "POST-H-034-C"
       ]
+    },
+    {
+      "doc_id": "ADR-POSTH-034-D",
+      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+      "classification": "source-of-truth",
+      "domain": "security.auth",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-SCHEMA",
+      "path": "docs/schemas/multiuser_auth_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-034-D",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "schema_registered",
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-ADR-REPORT",
+      "path": "docs/audits/post_h_034_d_multiuser_auth_adr_report.md",
+      "classification": "source-of-truth",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-034-D-MANIFEST",
+      "path": "docs/post_h_034_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-SENSITIVE-CAPABILITY-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-TEST",
+      "path": "tests/test_post_h_034_multiuser_auth_adr.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
     }
   ],
   "rules": {
@@ -12351,31 +12492,31 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 527,
-    "source_of_truth_total": 207,
-    "machine_readable_source_total": 251,
-    "derived_total": 69,
+    "documents_total": 534,
+    "source_of_truth_total": 209,
+    "machine_readable_source_total": 254,
+    "derived_total": 71,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 432,
+    "critical_sources_total": 439,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 527,
+    "documents_with_required_tests_total": 534,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-034-C",
+    "last_updated_by": "POST-H-034-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-034-C",
-    "last_registered_sprint": "POST-H-034-C",
+    "updated_by": "POST-H-034-D",
+    "last_registered_sprint": "POST-H-034-D",
     "updated": "2026-07-12",
     "documents_checked_total": 419,
-    "documents_registered_total": 527
+    "documents_registered_total": 534
   },
   "safety": {
     "local_first": true,
@@ -13615,5 +13756,5 @@
     "post_h_032_b_models_called_by_health": false
   },
   "updated_at": "2026-07-12",
-  "last_registered_sprint": "POST-H-034-C"
+  "last_registered_sprint": "POST-H-034-D"
 }
