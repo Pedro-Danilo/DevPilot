@@ -130,3 +130,20 @@ No-go si falta cualquiera de los elementos anteriores o si la solución depende 
 
 POST-H-021-E no agrega runtime remoto. Es un cierre documental y operativo de una capacidad preliminar de diseño. La evolución industrial requiere nuevos backlogs, ADR y quality gates antes de modificar `remote_execution_allowed=false`.
 
+
+
+## POST-H-034-C — Remote execution sigue bloqueado
+
+POST-H-034-C agrega ADR-3 para `remote.execution` con decisión `continue-blocked`.
+
+Reglas obligatorias:
+
+```text
+remote runner design != remote execution enabled
+remote readiness != remote-ready claim
+secure transport design != secure transport implemented
+protocol matrix != network allowed
+ADR-3 != runtime enablement
+```
+
+No se habilitan red, transporte activo, shell remoto, credenciales, external APIs ni workers remotos. Cualquier cambio de esta frontera requiere ADR/backlog posterior, sandbox remoto, Approval/RBAC, command allowlist, observabilidad, kill-switch, rollback y pruebas adversariales.

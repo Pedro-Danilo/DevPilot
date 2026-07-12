@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-REMOTE-EXECUTION-ADR3-DECISION-V1",
+  "decision_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-CHECKLIST",
+  "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+  "created_by": "POST-H-034-C",
+  "status": "implemented-initial",
+  "capability_id": "remote.execution",
+  "capability_name": "Remote execution / remote runner / secure transport enablement",
+  "decision_state": "continue-blocked",
+  "decision_status": "continue-blocked",
+  "adr_path": "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+  "checklist_path": ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
+  "report_path": "docs/audits/post_h_034_c_remote_execution_adr3_report.md",
+  "manifest_path": "docs/post_h_034_c_manifest.json",
+  "remote_execution_enabled": false,
+  "remote_runner_enabled": false,
+  "runtime_execution_enabled": false,
+  "remote_transport_enabled": false,
+  "secure_transport_implemented": false,
+  "transport_implemented": false,
+  "shell_allowed": false,
+  "arbitrary_command_execution_allowed": false,
+  "network_allowed": false,
+  "external_api_allowed": false,
+  "credentials_required": false,
+  "requires_future_backlog": true,
+  "requires_future_enablement_adr": true,
+  "requires_human_approval": true,
+  "remote_sandbox_required_before_pilot": true,
+  "kill_switch_required_before_pilot": true,
+  "secure_transport_required_before_pilot": true,
+  "approval_rbac_required_before_pilot": true,
+  "prerequisites": [
+    {
+      "id": "adr3-approved",
+      "description": "ADR-3 aprobada y registrada en source registry/TCR.",
+      "status": "met",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": [
+        "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md"
+      ]
+    },
+    {
+      "id": "remote-runner-disabled",
+      "description": "Remote runner actual permanece disabled metadata/stub.",
+      "status": "met",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": [
+        ".devpilot/remote/runner_registry.json",
+        "tests/test_post_h_021_remote_disabled_invariants.py"
+      ]
+    },
+    {
+      "id": "secure-transport-design",
+      "description": "Secure transport existe como diseño, no como transporte implementado.",
+      "status": "partial",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": [
+        "docs/adr/ADR-POSTH-005-secure-transport-design-only.md"
+      ]
+    },
+    {
+      "id": "secure-transport-implementation",
+      "description": "Transporte seguro implementado, probado y con lifecycle de certificados.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    },
+    {
+      "id": "identity-rbac-remote-binding",
+      "description": "RBAC/Approval por actor, command_id, target, workspace y risk.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    },
+    {
+      "id": "remote-sandbox",
+      "description": "Sandbox remoto con filesystem/process isolation.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    },
+    {
+      "id": "command-allowlist",
+      "description": "Allowlist de comandos remotos con deny-by-default.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    },
+    {
+      "id": "secret-handling",
+      "description": "Credenciales/secretos fuera de git, con rotación y redacción.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    },
+    {
+      "id": "observability-end-to-end",
+      "description": "Audit trail request->approval->dispatch->result.",
+      "status": "partial",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": [
+        "POST-H-031 evidence graph local operator artifacts"
+      ]
+    },
+    {
+      "id": "kill-switch",
+      "description": "Kill-switch local/remoto probado.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    },
+    {
+      "id": "rollback-cleanup",
+      "description": "Rollback/cleanup remoto para fallos parciales.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    },
+    {
+      "id": "network-security-tests",
+      "description": "Pruebas de seguridad de red/fake remote runner.",
+      "status": "missing",
+      "required_for": "future-remote-execution-pilot",
+      "evidence": []
+    }
+  ],
+  "no_go_gates": [
+    {
+      "gate_id": "remote_execution_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "remote_runner_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "runtime_execution_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "remote_transport_enabled",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "shell_allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "arbitrary_command_execution_allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "network_allowed",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "credentials_required",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    },
+    {
+      "gate_id": "remote_ready_claim",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    }
+  ],
+  "evidence_requirements": [
+    "ADR aprobada y versionada.",
+    "Remote runner registry disabled y metadata-only.",
+    "Remote readiness criteria design-only con no-go gates false.",
+    "Secure transport design-only y no-network invariant preservados.",
+    "Project state sin remote-ready/remote-enabled claims.",
+    "Quality gate sensible PASS sin habilitar runtime.",
+    "TCR v1/v2 y source registry sincronizados."
+  ],
+  "current_controls": {
+    "remote_runner_registry": ".devpilot/remote/runner_registry.json",
+    "remote_readiness_criteria": ".devpilot/remote/remote_readiness_criteria.json",
+    "remote_adr2": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+    "secure_transport_design_adr": "docs/adr/ADR-POSTH-005-secure-transport-design-only.md",
+    "remote_quality_gate": "remote-readiness-design-only",
+    "sensitive_capability_gate": "sensitive-capability-adr-gate"
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "remote_runner_enabled": false,
+    "remote_transport_enabled": false,
+    "shell_used": false,
+    "credentials_versioned": false,
+    "source_mutations_performed": false
+  },
+  "summary": {
+    "decision_blocks_remote_execution": true,
+    "no_go_gates_preserved": true,
+    "claims_changed": false,
+    "prerequisites_total": 12,
+    "prerequisites_met_total": 2,
+    "blocking_prerequisites_total": 8,
+    "pilot_authorized": false,
+    "production_authorized": false
+  },
+  "notes": [
+    "POST-H-034-C is a decision/gate sprint only; it does not enable remote execution.",
+    "Remote runner, secure transport, network, credentials and shell remain blocked.",
+    "Future enablement requires separate backlog, threat model, secure transport implementation, sandbox and quality gate."
+  ]
+}

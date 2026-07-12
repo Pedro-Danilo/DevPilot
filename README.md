@@ -6051,3 +6051,10 @@ python -m devpilot_core schema validate --schema-id RagAgentContextPack --instan
 DevPilot incorpora una primera versión schema-backed del registry declarativo de reglas semánticas MIASI. El nuevo artefacto `.devpilot/miasi/semantic_rules.json`, validado por `docs/schemas/miasi_semantic_rules.schema.json`, versiona tokens sensibles, marcadores no-go, guard mappings y fixtures de evaluación requeridos sin reemplazar el motor determinístico de `src/devpilot_core/miasi/semantic.py`.
 
 La implementación es `implemented-initial`: conserva fallback Python temporal, no habilita ejecución de agents/tools/red/plugins/conectores/subprocesses, no permite desactivar reglas críticas y deja `rule_source`/`catalog_version` visibles en el reporte semántico.
+
+
+### POST-H-034-C — Remote execution ADR-3
+
+POST-H-034-C agrega ADR-3 para `remote.execution` como decisión `continue-blocked`. DevPilot conserva `remote_execution_enabled=false`, `remote_runner_enabled=false`, `remote_transport_enabled=false`, `network_allowed=false`, `shell_allowed=false`, `external_api_allowed=false` y `credentials_required=false`.
+
+La implementación es `implemented-initial`: agrega schema, checklist, manifest, reporte, tests y subgate dentro de `SensitiveCapabilityAdrGate`. No habilita runtime remoto. Cualquier piloto futuro requiere backlog separado, secure transport implementado, sandbox remoto, Approval/RBAC, command allowlist, observabilidad, kill-switch, rollback y pruebas adversariales.

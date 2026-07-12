@@ -9,9 +9,9 @@ updated: "2026-07-12"
 approval: "approved_by_owner"
 roadmap_wave: "Ola 9"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
-implementation_status: "active/post-h-034-b-implemented-initial"
-current_micro_sprint: "POST-H-034-B"
-next_micro_sprint: "POST-H-034-C"
+implementation_status: "active/post-h-034-c-implemented-initial"
+current_micro_sprint: "POST-H-034-C"
+next_micro_sprint: "POST-H-034-D"
 repo_baseline: "repo_DevPilot_Local_307_POST_H_033_F.zip"
 created_for: "DevPilot Local"
 scope: "architecture decisions / no-go gates / sensitive capability enablement prerequisites"
@@ -753,3 +753,19 @@ POST-H-034 debe cerrar con una frontera arquitectonica clara para capacidades se
 Estado: `implemented-initial`. El backlog fue elevado a `approved` para iniciar la Ola 9. POST-H-034-A crea una ADR aprobada para mantener `connector write` bloqueado, un schema `ConnectorWriteDecision`, un checklist versionado y un quality gate determinístico. Esta versión no habilita escritura de conectores, no agrega credenciales reales, no requiere red ni APIs externas y conserva el alcance `production-ready-local`.
 
 Evolución pendiente: POST-H-034-B a POST-H-034-E deben completar las ADRs de plugin execution, remote execution, multiuser/auth y enterprise/SaaS. El cierre del backlog solo procede cuando existan las cinco ADRs, decision matrix, quality gates y no-go gates sincronizados.
+
+
+### POST-H-034-C — Remote execution ADR-3 implementado inicial
+
+Estado: `implemented-initial`.
+
+Artefactos agregados:
+
+- ADR `docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md`.
+- Schema `RemoteExecutionAdr3Decision`.
+- Checklist `.devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json`.
+- Manifest `docs/post_h_034_c_manifest.json`.
+- Reporte `docs/audits/post_h_034_c_remote_execution_adr3_report.md`.
+- Tests `tests/test_post_h_034_remote_execution_adr3.py`.
+
+La decisión es `continue-blocked`. Este avance no habilita remote execution, remote runner runtime, transporte activo, red, shell, external APIs, credenciales ni workers remotos. Secure transport sigue `design-only` y remote runner sigue disabled. Una evolución posterior requiere backlog separado, threat model, secure transport implementado, sandbox remoto, Approval/RBAC, kill-switch, rollback y quality gate propio.

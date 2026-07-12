@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-07-12",
-  "sprint": "POST-H-034-B",
+  "sprint": "POST-H-034-C",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through POST-H-032-A agent capability inventory and promotion criteria.",
   "schemas": [
@@ -1926,7 +1926,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-034-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-REMOTE-EXECUTION-ADR3-DECISION-V1",
+      "title": "DevPilot RemoteExecutionAdr3Decision v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/remote_execution_adr3_decision.schema.json",
+      "description": "POST-H-034-C structural contract for remote execution ADR-3 while preserving remote runner, secure transport, shell, network, external API and credentials disabled invariants.",
+      "status": "registered",
+      "contract": "RemoteExecutionAdr3Decision",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-034-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-034-C"
     }
   ],
-  "schemas_total": 133
+  "schemas_total": 134
 }

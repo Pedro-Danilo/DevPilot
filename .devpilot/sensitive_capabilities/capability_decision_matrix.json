@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
   "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
-  "created_by": "POST-H-034-B",
+  "created_by": "POST-H-034-C",
   "status": "implemented-initial",
-  "catalog_version": "1.1.0",
+  "catalog_version": "1.2.0",
   "capabilities": [
     {
       "capability_id": "connector.write",
@@ -24,10 +24,12 @@
     },
     {
       "capability_id": "remote.execution",
-      "decision_state": "pending-adr",
+      "decision_state": "continue-blocked",
       "runtime_enabled": false,
       "requires_future_adr": true,
-      "planned_micro_sprint": "POST-H-034-C"
+      "planned_micro_sprint": "POST-H-034-C",
+      "adr_path": "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+      "checklist_path": ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json"
     },
     {
       "capability_id": "multiuser.auth",
@@ -64,12 +66,14 @@
     "capabilities_total": 5,
     "runtime_enabled_total": 0,
     "approved_runtime_total": 0,
-    "pending_adrs_total": 3,
+    "pending_adrs_total": 2,
     "connector_write_decision": "continue-blocked",
-    "plugin_execution_decision": "continue-blocked"
+    "plugin_execution_decision": "continue-blocked",
+    "remote_execution_decision": "continue-blocked"
   },
   "notes": [
     "POST-H-034-A initializes the sensitive capability decision matrix without enabling any sensitive capability.",
-    "POST-H-034-B adds plugin.execution ADR decision and keeps plugin execution continue-blocked without runtime enablement."
+    "POST-H-034-B adds plugin.execution ADR decision and keeps plugin execution continue-blocked without runtime enablement.",
+    "POST-H-034-C adds remote.execution ADR-3 decision and preserves remote runner/transport/network disabled invariants."
   ]
 }

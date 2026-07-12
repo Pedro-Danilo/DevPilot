@@ -6,7 +6,7 @@ version: "2.17.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-034-B"
+phase: "POST-H-034-C"
 updated: "2026-07-12"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -11498,3 +11498,22 @@ python -m devpilot_core miasi semantic-validate --json
 ```
 
 El registry versiona tokens, no-go markers, guard mappings y fixtures requeridos. El motor permanece determinístico y no ejecutante. El fallback Python es temporal y no debe eliminarse hasta completar equivalencia before/after al cierre de POST-H-033. No se permite desactivar reglas críticas sin ADR/backlog posterior.
+
+
+## POST-H-034-C — Operación de ADR remote execution
+
+Estado: `implemented-initial / continue-blocked`.
+
+Comandos focales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_remote_execution_adr3.py -q
+python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance .devpilot\sensitive_capabilitiesemote_execution_adr3_checklist.json --json
+python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance docs\post_h_034_c_manifest.json --json
+python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot\sensitive_capabilities\capability_decision_matrix.json --json
+```
+
+No ejecutar ni habilitar runners remotos. El estado permitido sigue siendo `remote_execution_enabled=false`, `remote_runner_enabled=false`, `remote_transport_enabled=false`, `network_allowed=false`, `shell_allowed=false`, `external_api_allowed=false` y `credentials_required=false`.
+
+Esta es una versión inicial de gobierno/ADR. No sustituye un secure transport real, sandbox remoto, identity/RBAC enterprise, Approval binding remoto, kill-switch ni pruebas de red. Esos elementos requieren backlog posterior.

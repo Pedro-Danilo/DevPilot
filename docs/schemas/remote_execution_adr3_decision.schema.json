@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/remote_execution_adr3_decision.schema.json",
+  "title": "DevPilot RemoteExecutionAdr3Decision v1",
+  "description": "POST-H-034-C structural contract for the Remote execution ADR-3 decision. It documents prerequisites and keeps remote execution, remote runner, transport, shell, network, external APIs and credentials disabled.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "decision_id",
+    "created_by",
+    "status",
+    "capability_id",
+    "capability_name",
+    "decision_state",
+    "decision_status",
+    "adr_path",
+    "checklist_path",
+    "remote_execution_enabled",
+    "remote_runner_enabled",
+    "runtime_execution_enabled",
+    "remote_transport_enabled",
+    "secure_transport_implemented",
+    "transport_implemented",
+    "shell_allowed",
+    "arbitrary_command_execution_allowed",
+    "network_allowed",
+    "external_api_allowed",
+    "credentials_required",
+    "requires_future_backlog",
+    "requires_future_enablement_adr",
+    "requires_human_approval",
+    "remote_sandbox_required_before_pilot",
+    "kill_switch_required_before_pilot",
+    "prerequisites",
+    "no_go_gates",
+    "evidence_requirements",
+    "current_controls",
+    "safety",
+    "summary",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-REMOTE-EXECUTION-ADR3-DECISION-V1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matrix_id": {
+      "type": "string"
+    },
+    "created_by": {
+      "const": "POST-H-034-C"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved",
+        "proposed"
+      ]
+    },
+    "capability_id": {
+      "const": "remote.execution"
+    },
+    "capability_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_state": {
+      "enum": [
+        "continue-blocked",
+        "pilot-gated-future",
+        "approved-for-future-implementation",
+        "rejected"
+      ]
+    },
+    "decision_status": {
+      "enum": [
+        "continue-blocked",
+        "design-only",
+        "pilot-gated-future",
+        "rejected"
+      ]
+    },
+    "adr_path": {
+      "const": "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md"
+    },
+    "checklist_path": {
+      "const": ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json"
+    },
+    "report_path": {
+      "type": "string"
+    },
+    "manifest_path": {
+      "type": "string"
+    },
+    "remote_execution_enabled": {
+      "const": false
+    },
+    "remote_runner_enabled": {
+      "const": false
+    },
+    "runtime_execution_enabled": {
+      "const": false
+    },
+    "remote_transport_enabled": {
+      "const": false
+    },
+    "secure_transport_implemented": {
+      "const": false
+    },
+    "transport_implemented": {
+      "const": false
+    },
+    "shell_allowed": {
+      "const": false
+    },
+    "arbitrary_command_execution_allowed": {
+      "const": false
+    },
+    "network_allowed": {
+      "const": false
+    },
+    "external_api_allowed": {
+      "const": false
+    },
+    "credentials_required": {
+      "const": false
+    },
+    "requires_future_backlog": {
+      "const": true
+    },
+    "requires_future_enablement_adr": {
+      "const": true
+    },
+    "requires_human_approval": {
+      "const": true
+    },
+    "remote_sandbox_required_before_pilot": {
+      "const": true
+    },
+    "kill_switch_required_before_pilot": {
+      "const": true
+    },
+    "secure_transport_required_before_pilot": {
+      "const": true
+    },
+    "approval_rbac_required_before_pilot": {
+      "const": true
+    },
+    "prerequisites": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/prerequisite"
+      }
+    },
+    "no_go_gates": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "current_controls": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "remote_runner_enabled",
+        "remote_transport_enabled",
+        "shell_used",
+        "credentials_versioned",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "remote_runner_enabled": {
+          "const": false
+        },
+        "remote_transport_enabled": {
+          "const": false
+        },
+        "shell_used": {
+          "const": false
+        },
+        "credentials_versioned": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "decision_blocks_remote_execution",
+        "no_go_gates_preserved",
+        "claims_changed",
+        "prerequisites_total",
+        "prerequisites_met_total",
+        "blocking_prerequisites_total"
+      ],
+      "properties": {
+        "decision_blocks_remote_execution": {
+          "const": true
+        },
+        "no_go_gates_preserved": {
+          "const": true
+        },
+        "claims_changed": {
+          "const": false
+        },
+        "prerequisites_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "prerequisites_met_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocking_prerequisites_total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "prerequisite": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "status",
+        "required_for"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "met",
+            "partial",
+            "missing",
+            "blocked",
+            "future-required"
+          ]
+        },
+        "required_for": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "gate": {
+      "type": "object",
+      "required": [
+        "gate_id",
+        "expected",
+        "actual",
+        "status"
+      ],
+      "properties": {
+        "gate_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {},
+        "actual": {},
+        "status": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "INFO"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-REMOTE-EXECUTION-ADR3-DECISION-V1",
+  "x-devpilot-contract": "RemoteExecutionAdr3Decision",
+  "x-devpilot-owner": "POST-H-034-C",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-local-first": true,
+  "x-devpilot-network-used": false,
+  "x-devpilot-external-api-used": false,
+  "x-devpilot-runtime-enablements": {
+    "remote_execution_enabled": false,
+    "remote_runner_enabled": false,
+    "remote_transport_enabled": false,
+    "shell_allowed": false,
+    "arbitrary_command_execution_allowed": false,
+    "network_allowed": false,
+    "credentials_required": false
+  }
+}

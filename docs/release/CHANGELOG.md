@@ -2782,3 +2782,12 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Added `python -m devpilot_core agent rag-context --json` and `ApplicationService.rag_agent_context`.
 - Added negative cases for unsupported/prohibited claims and mandatory `insufficient evidence` behavior.
 - Preserved local-first safety: no LLM call, no network, no external API, no memory read/write, no tools executed and no source mutation.
+
+
+## post-h-034-c
+
+- Adds `ADR-POSTH-034-C` for remote execution ADR-3 with decision `continue-blocked`.
+- Adds `RemoteExecutionAdr3Decision` schema, checklist, manifest and report.
+- Extends `SensitiveCapabilityAdrGate` with remote execution ADR-3 subgate.
+- Preserves remote runner disabled, secure transport design-only, no-network, no-shell, no external API and no credentials.
+- Synchronizes source registry, schema catalog, TCR v1/v2, README, runbook and POST-H-034 backlog.

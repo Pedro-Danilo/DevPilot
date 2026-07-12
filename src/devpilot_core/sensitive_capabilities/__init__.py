@@ -5,6 +5,8 @@ from .models import (
     CONNECTOR_WRITE_DECISION_SCHEMA_ID,
     PLUGIN_EXECUTION_DECISION_CONTRACT,
     PLUGIN_EXECUTION_DECISION_SCHEMA_ID,
+    REMOTE_EXECUTION_ADR3_DECISION_CONTRACT,
+    REMOTE_EXECUTION_ADR3_DECISION_SCHEMA_ID,
     DEFAULT_CONNECTOR_WRITE_ADR_PATH,
     DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH,
     DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH,
@@ -15,13 +17,15 @@ from .models import (
     SensitiveCapabilityOptions,
 )
 from .quality_gate import SensitiveCapabilityAdrGate
-from .validator import ConnectorWriteAdrValidator, PluginExecutionAdrValidator
+from .validator import ConnectorWriteAdrValidator, PluginExecutionAdrValidator, RemoteExecutionAdr3Validator
 
 __all__ = [
     "CONNECTOR_WRITE_DECISION_CONTRACT",
     "CONNECTOR_WRITE_DECISION_SCHEMA_ID",
     "PLUGIN_EXECUTION_DECISION_CONTRACT",
     "PLUGIN_EXECUTION_DECISION_SCHEMA_ID",
+    "REMOTE_EXECUTION_ADR3_DECISION_CONTRACT",
+    "REMOTE_EXECUTION_ADR3_DECISION_SCHEMA_ID",
     "DEFAULT_CONNECTOR_WRITE_ADR_PATH",
     "DEFAULT_CONNECTOR_WRITE_CHECKLIST_PATH",
     "DEFAULT_SENSITIVE_CAPABILITY_MATRIX_PATH",
@@ -30,6 +34,7 @@ __all__ = [
     "SENSITIVE_CAPABILITY_DECISION_MATRIX_SCHEMA_ID",
     "ConnectorWriteAdrValidator",
     "PluginExecutionAdrValidator",
+    "RemoteExecutionAdr3Validator",
     "SensitiveCapabilityAdrGate",
     "SensitiveCapabilityDecision",
     "SensitiveCapabilityOptions",

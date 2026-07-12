@@ -15803,6 +15803,99 @@
         "SCHEMA-DEVPL-PLUGIN-EXECUTION-DECISION-V1",
         "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1"
       ]
+    },
+    {
+      "contract_id": "post-h-034-remote-execution-adr3",
+      "scope": "safety",
+      "owner": "POST-H-034-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_021_remote_adr2.py",
+        "tests/test_post_h_021_remote_readiness_report.py",
+        "tests/test_post_h_021_remote_quality_gate.py",
+        "tests/test_post_h_021_remote_disabled_invariants.py",
+        "tests/test_post_h_023_secure_transport_design.py",
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_secure_transport_closure.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+        ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/remote_execution_adr3_decision.schema.json",
+        "docs/audits/post_h_034_c_remote_execution_adr3_report.md",
+        "docs/post_h_034_c_manifest.json",
+        ".devpilot/remote/runner_registry.json",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/secure_transport_protocol_decision_matrix.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+        ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/remote/runner_registry.json",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/secure_transport_protocol_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/remote/",
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_remote_execution_adr3.py -q",
+        "python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance .devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-034-remote-execution-adr3",
+      "domain": "enterprise.remote",
+      "capability": "RemoteExecutionAdr3",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "trigger_hints": [
+        "post-h-034-c-change",
+        "remote-execution-decision-change",
+        "remote-runner-enable-change",
+        "secure-transport-enable-change",
+        "sensitive-capability-no-go-change"
+      ],
+      "impact_scope": [
+        "remote-execution",
+        "remote-runner",
+        "secure-transport",
+        "sensitive-capabilities",
+        "post-h-034"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-034-C validates remote execution ADR-3/no-go gates without enabling remote execution, remote runner, secure transport, network, shell, external APIs or credentials.",
+        "The contract blocks accidental remote-ready claim broadening."
+      ],
+      "owner_domain": "enterprise.remote",
+      "service_boundary": "sensitive_capabilities",
+      "subgate_id": "sensitive-capability-adr-gate",
+      "schema_ids": [
+        "SCHEMA-DEVPL-REMOTE-EXECUTION-ADR3-DECISION-V1",
+        "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1"
+      ]
     }
   ],
   "migration_metadata": {

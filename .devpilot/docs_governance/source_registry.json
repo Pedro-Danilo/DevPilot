@@ -12136,6 +12136,148 @@
       "roadmap_milestones": [
         "POST-H-034-B"
       ]
+    },
+    {
+      "doc_id": "ADR-POSTH-034-C",
+      "path": "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-SCHEMA",
+      "path": "docs/schemas/remote_execution_adr3_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-034-C",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_registered",
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-REPORT",
+      "path": "docs/audits/post_h_034_c_remote_execution_adr3_report.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-MANIFEST",
+      "path": "docs/post_h_034_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-SENSITIVE-CAPABILITY-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-TEST",
+      "path": "tests/test_post_h_034_remote_execution_adr3.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
     }
   ],
   "rules": {
@@ -12209,31 +12351,31 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 520,
-    "source_of_truth_total": 205,
-    "machine_readable_source_total": 246,
+    "documents_total": 527,
+    "source_of_truth_total": 207,
+    "machine_readable_source_total": 251,
     "derived_total": 69,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 425,
+    "critical_sources_total": 432,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 520,
+    "documents_with_required_tests_total": 527,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-034-B",
+    "last_updated_by": "POST-H-034-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-034-B",
-    "last_registered_sprint": "POST-H-034-B",
+    "updated_by": "POST-H-034-C",
+    "last_registered_sprint": "POST-H-034-C",
     "updated": "2026-07-12",
     "documents_checked_total": 419,
-    "documents_registered_total": 520
+    "documents_registered_total": 527
   },
   "safety": {
     "local_first": true,
@@ -13473,5 +13615,5 @@
     "post_h_032_b_models_called_by_health": false
   },
   "updated_at": "2026-07-12",
-  "last_registered_sprint": "POST-H-034-B"
+  "last_registered_sprint": "POST-H-034-C"
 }

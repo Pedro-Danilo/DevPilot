@@ -10,15 +10,20 @@ from devpilot_core.sensitive_capabilities.decision_matrix import (
     load_connector_write_decision,
     load_decision_matrix,
     load_plugin_execution_decision,
+    load_remote_execution_adr3_decision,
     plugin_execution_decision_from_matrix,
+    remote_execution_decision_from_matrix,
 )
 from devpilot_core.sensitive_capabilities.models import (
     ALLOWED_CONNECTOR_WRITE_DECISIONS,
     ALLOWED_PLUGIN_EXECUTION_DECISIONS,
+    ALLOWED_REMOTE_EXECUTION_ADR3_DECISIONS,
     POST_H_034_A_CREATED_BY,
     POST_H_034_A_EXPECTED_DECISION,
     POST_H_034_B_CREATED_BY,
     POST_H_034_B_EXPECTED_DECISION,
+    POST_H_034_C_CREATED_BY,
+    POST_H_034_C_EXPECTED_DECISION,
     SensitiveCapabilityOptions,
 )
 
@@ -416,6 +421,211 @@ class PluginExecutionAdrValidator:
             "registry_plugin_code_loaded": security.get("plugin_code_loaded") if security else None,
             "permission_model_plugin_execution_allowed": permission_model.get("plugin_execution_allowed") if isinstance(permission_model, dict) else None,
             "project_state_plugin_execution_enabled": project_state.get("plugin_execution_enabled") if isinstance(project_state, dict) else None,
+            "matrix_loaded": matrix is not None,
+            "decision_loaded": bool(decision),
+            "blocking_findings_total": len(blocking),
+            "findings_total": len(blocking),
+            "claims_changed": False,
+            "reports_written": False,
+        }
+
+
+class RemoteExecutionAdr3Validator:
+    """POST-H-034-C validator for remote execution ADR-3/no-go invariants.
+
+    The validator reads only source-controlled decision, remote runner and secure
+    transport design artifacts. It does not execute remote commands, open network
+    connections, read credentials, call external APIs, start workers or mutate the
+    workspace. Its purpose is to prove that remote execution remains explicitly
+    blocked until a future backlog introduces a complete secure transport/runtime
+    architecture.
+    """
+
+    def __init__(self, root: Path, *, options: SensitiveCapabilityOptions | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.options = options or SensitiveCapabilityOptions()
+
+    def validate(self) -> CommandResult:
+        findings: list[Finding] = []
+        matrix, matrix_findings = load_decision_matrix(self.root, self.options.matrix_path)
+        decision, decision_findings = load_remote_execution_adr3_decision(self.root, self.options.remote_execution_adr3_checklist_path)
+        findings.extend(matrix_findings)
+        findings.extend(decision_findings)
+
+        remote_registry = self._read_json(self.options.remote_runner_registry_path, "REMOTE_RUNNER_REGISTRY")
+        readiness = self._read_json(self.options.remote_readiness_criteria_path, "REMOTE_READINESS_CRITERIA")
+        transport = self._read_json(self.options.secure_transport_decision_matrix_path, "SECURE_TRANSPORT_DECISION_MATRIX")
+        project_state = self._read_json(self.options.project_state_path, "PROJECT_STATE")
+        adr_path = _resolve(self.root, self.options.remote_execution_adr3_adr_path)
+        adr_text = ""
+        if not adr_path.exists():
+            findings.append(Finding("REMOTE_EXECUTION_ADR3_MISSING", "Remote execution ADR-3 is missing.", Severity.BLOCK, path=_rel(self.options.remote_execution_adr3_adr_path)))
+        else:
+            adr_text = adr_path.read_text(encoding="utf-8")
+            if 'status: "approved"' not in adr_text:
+                findings.append(Finding("REMOTE_EXECUTION_ADR3_NOT_APPROVED", "Remote execution ADR-3 must be approved.", Severity.BLOCK, path=_rel(self.options.remote_execution_adr3_adr_path)))
+            if 'decision_status: "continue-blocked"' not in adr_text:
+                findings.append(Finding("REMOTE_EXECUTION_ADR3_NOT_CONTINUE_BLOCKED", "Remote execution ADR-3 must declare continue-blocked.", Severity.BLOCK, path=_rel(self.options.remote_execution_adr3_adr_path)))
+
+        if decision:
+            findings.extend(self._validate_decision(decision, adr_text))
+        if matrix:
+            findings.extend(self._validate_matrix(matrix))
+        if remote_registry:
+            findings.extend(self._validate_remote_registry(remote_registry))
+        if readiness:
+            findings.extend(self._validate_readiness(readiness))
+        if transport:
+            findings.extend(self._validate_transport(transport))
+        if project_state:
+            findings.extend(self._validate_project_state(project_state))
+
+        blocking = [finding for finding in findings if finding.severity in _BLOCKING]
+        if not blocking:
+            findings.append(Finding("REMOTE_EXECUTION_ADR3_GATE_PASS", "Remote execution ADR-3 remains continue-blocked; remote runner, transport, shell, network, external API and credentials are disabled.", Severity.INFO))
+        return CommandResult(
+            command="sensitive-capability remote-execution-adr3 validate",
+            ok=not blocking,
+            exit_code=ExitCode.PASS if not blocking else ExitCode.BLOCK,
+            message="Remote execution ADR-3 gate passed." if not blocking else "Remote execution ADR-3 gate blocked.",
+            data={
+                "summary": self._summary(decision, matrix, remote_registry, readiness, transport, project_state, blocking),
+                "notes": [
+                    "POST-H-034-C validates ADR/no-go decisions only.",
+                    "The validator does not enable remote runner, transport, network, shell, external APIs or credentials.",
+                ],
+            },
+            findings=findings,
+        )
+
+    def _read_json(self, path: Path | str, label: str) -> dict[str, Any] | None:
+        resolved = _resolve(self.root, path)
+        if not resolved.exists():
+            return None
+        try:
+            payload = json.loads(resolved.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return None
+        return payload if isinstance(payload, dict) else None
+
+    def _validate_decision(self, decision: dict[str, Any], adr_text: str) -> list[Finding]:
+        findings: list[Finding] = []
+        if decision.get("created_by") != POST_H_034_C_CREATED_BY:
+            findings.append(Finding("REMOTE_EXECUTION_ADR3_WRONG_OWNER", "Remote execution ADR-3 decision must be created by POST-H-034-C.", Severity.BLOCK, metadata={"actual": decision.get("created_by")}))
+        if decision.get("decision_state") not in ALLOWED_REMOTE_EXECUTION_ADR3_DECISIONS:
+            findings.append(Finding("REMOTE_EXECUTION_ADR3_UNKNOWN_DECISION", "Remote execution ADR-3 decision_state is not allowed.", Severity.BLOCK, metadata={"actual": decision.get("decision_state")}))
+        if decision.get("decision_state") != POST_H_034_C_EXPECTED_DECISION:
+            findings.append(Finding("REMOTE_EXECUTION_ADR3_NOT_CONTINUE_BLOCKED", "Remote execution ADR-3 must remain continue-blocked in POST-H-034-C.", Severity.BLOCK, metadata={"actual": decision.get("decision_state")}))
+        for key in (
+            "remote_execution_enabled",
+            "remote_runner_enabled",
+            "runtime_execution_enabled",
+            "remote_transport_enabled",
+            "secure_transport_implemented",
+            "transport_implemented",
+            "shell_allowed",
+            "arbitrary_command_execution_allowed",
+            "network_allowed",
+            "external_api_allowed",
+            "credentials_required",
+        ):
+            if decision.get(key) is not False:
+                findings.append(Finding("REMOTE_EXECUTION_ADR3_DECISION_FLAG_BLOCK", f"{key} must remain false.", Severity.BLOCK, metadata={"flag": key, "actual": decision.get(key)}))
+        for key in ("requires_future_backlog", "requires_future_enablement_adr", "requires_human_approval", "remote_sandbox_required_before_pilot", "kill_switch_required_before_pilot"):
+            if decision.get(key) is not True:
+                findings.append(Finding("REMOTE_EXECUTION_ADR3_REQUIRED_CONTROL_BLOCK", f"{key} must remain true.", Severity.BLOCK, metadata={"flag": key, "actual": decision.get(key)}))
+        if "remote runner registry exists != remote execution enabled" not in adr_text.lower():
+            findings.append(Finding("REMOTE_EXECUTION_ADR3_MISSING_INTERPRETATION_RULE", "ADR must separate remote runner registry from remote execution enablement.", Severity.BLOCK))
+        return findings
+
+    def _validate_matrix(self, matrix: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        remote = remote_execution_decision_from_matrix(matrix)
+        if remote is None:
+            findings.append(Finding("REMOTE_EXECUTION_MATRIX_ENTRY_MISSING", "Sensitive capability matrix must include remote.execution.", Severity.BLOCK, path=_rel(self.options.matrix_path)))
+            return findings
+        if remote.decision_state != POST_H_034_C_EXPECTED_DECISION:
+            findings.append(Finding("REMOTE_EXECUTION_MATRIX_DECISION_BLOCK", "Matrix remote.execution decision must remain continue-blocked.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata=remote.to_dict()))
+        if remote.runtime_enabled is not False:
+            findings.append(Finding("REMOTE_EXECUTION_MATRIX_RUNTIME_BLOCK", "Matrix remote.execution runtime_enabled must remain false.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata=remote.to_dict()))
+        gates = matrix.get("global_no_go_gates", {}) if isinstance(matrix.get("global_no_go_gates"), dict) else {}
+        if gates.get("remote_execution_enabled") is not False:
+            findings.append(Finding("REMOTE_EXECUTION_MATRIX_NO_GO_BLOCK", "global_no_go_gates.remote_execution_enabled must remain false.", Severity.BLOCK, path=_rel(self.options.matrix_path), metadata={"actual": gates.get("remote_execution_enabled")}))
+        return findings
+
+    def _validate_remote_registry(self, registry: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        security = registry.get("security") if isinstance(registry.get("security"), dict) else {}
+        for key in ("remote_runner_enabled", "execution_allowed", "remote_execution_used", "cloud_control_plane_enabled", "network_used", "external_api_used", "shell_allowed", "arbitrary_command_execution_allowed", "credentials_required", "secrets_read", "source_mutations_performed", "mutations_performed"):
+            if security.get(key) is not False:
+                findings.append(Finding("REMOTE_RUNNER_REGISTRY_FLAG_BLOCK", f"Remote runner registry security.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.remote_runner_registry_path), metadata={"flag": key, "actual": security.get(key)}))
+        for runner in registry.get("runners", []):
+            if not isinstance(runner, dict):
+                continue
+            if runner.get("status") != "disabled" or runner.get("execution_allowed") is not False or runner.get("network_allowed") is not False or runner.get("requires_credentials") is not False:
+                findings.append(Finding("REMOTE_RUNNER_PROFILE_ENABLEMENT_BLOCK", "All remote runner profiles must remain disabled and non-executable.", Severity.BLOCK, path=_rel(self.options.remote_runner_registry_path), metadata={"runner_id": runner.get("runner_id")}))
+        return findings
+
+    def _validate_readiness(self, readiness: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        if readiness.get("decision_status") != "design-only":
+            findings.append(Finding("REMOTE_READINESS_STATUS_BLOCK", "Remote readiness criteria must remain design-only.", Severity.BLOCK, path=_rel(self.options.remote_readiness_criteria_path), metadata={"actual": readiness.get("decision_status")}))
+        if readiness.get("remote_execution_allowed") is not False or readiness.get("remote_runner_enabled") is not False:
+            findings.append(Finding("REMOTE_READINESS_ENABLEMENT_BLOCK", "Remote readiness criteria must not allow remote execution or runner enablement.", Severity.BLOCK, path=_rel(self.options.remote_readiness_criteria_path)))
+        no_go = readiness.get("no_go_gates") if isinstance(readiness.get("no_go_gates"), dict) else {}
+        for key in ("remote_runner_enabled", "remote_execution_used", "network_required", "external_api_required", "credentials_required", "secrets_required", "mutations_performed", "source_mutations_performed"):
+            if no_go.get(key) is not False:
+                findings.append(Finding("REMOTE_READINESS_NO_GO_BLOCK", f"Remote readiness no_go_gates.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.remote_readiness_criteria_path), metadata={"flag": key, "actual": no_go.get(key)}))
+        return findings
+
+    def _validate_transport(self, transport: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        expected = {
+            "decision_status": "design-only",
+            "selected_for_now": "local-only-no-transport",
+            "transport_implemented": False,
+            "network_allowed": False,
+            "remote_execution_enabled": False,
+            "secrets_required": False,
+            "requires_future_enablement_adr": True,
+        }
+        for key, value in expected.items():
+            if transport.get(key) != value:
+                findings.append(Finding("SECURE_TRANSPORT_REMOTE_ADR3_BLOCK", f"Secure transport decision matrix {key} must remain {value!r}.", Severity.BLOCK, path=_rel(self.options.secure_transport_decision_matrix_path), metadata={"flag": key, "actual": transport.get(key)}))
+        return findings
+
+    def _validate_project_state(self, state: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        for key in ("remote_execution_enabled", "remote_runner_enabled", "network_allowed", "network_used", "external_api_used", "credentials_required", "connector_write_enabled", "plugin_execution_enabled", "enterprise_ready_claimed", "compliance_certification_claim"):
+            if state.get(key) is not False:
+                findings.append(Finding("REMOTE_EXECUTION_PROJECT_STATE_NO_GO_BLOCK", f"project_state.{key} must remain false.", Severity.BLOCK, path=_rel(self.options.project_state_path), metadata={"flag": key, "actual": state.get(key)}))
+        return findings
+
+    def _summary(self, decision: dict[str, Any] | None, matrix: dict[str, Any] | None, remote_registry: dict[str, Any] | None, readiness: dict[str, Any] | None, transport: dict[str, Any] | None, project_state: dict[str, Any] | None, blocking: list[Finding]) -> dict[str, Any]:
+        decision = decision or {}
+        security = remote_registry.get("security") if isinstance(remote_registry, dict) and isinstance(remote_registry.get("security"), dict) else {}
+        return {
+            "created_by": POST_H_034_C_CREATED_BY,
+            "status": "implemented-initial",
+            "preliminary": True,
+            "capability_id": "remote.execution",
+            "remote_decision_state": decision.get("decision_state"),
+            "remote_decision_status": decision.get("decision_status"),
+            "remote_execution_enabled": decision.get("remote_execution_enabled"),
+            "remote_runner_enabled": decision.get("remote_runner_enabled"),
+            "runtime_execution_enabled": decision.get("runtime_execution_enabled"),
+            "remote_transport_enabled": decision.get("remote_transport_enabled"),
+            "secure_transport_implemented": decision.get("secure_transport_implemented"),
+            "transport_implemented": decision.get("transport_implemented"),
+            "shell_allowed": decision.get("shell_allowed"),
+            "network_allowed": decision.get("network_allowed"),
+            "external_api_allowed": decision.get("external_api_allowed"),
+            "credentials_required": decision.get("credentials_required"),
+            "registry_remote_runner_enabled": security.get("remote_runner_enabled") if security else None,
+            "registry_execution_allowed": security.get("execution_allowed") if security else None,
+            "readiness_decision_status": readiness.get("decision_status") if isinstance(readiness, dict) else None,
+            "transport_decision_status": transport.get("decision_status") if isinstance(transport, dict) else None,
+            "project_state_remote_execution_enabled": project_state.get("remote_execution_enabled") if isinstance(project_state, dict) else None,
             "matrix_loaded": matrix is not None,
             "decision_loaded": bool(decision),
             "blocking_findings_total": len(blocking),

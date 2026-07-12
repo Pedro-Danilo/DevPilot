@@ -193,3 +193,20 @@ Go/no-go firmado por owner.
 ## 9. Relación con próximos hitos
 
 POST-H-024 puede iniciar onboarding operacional sobre una base donde el diseño de transporte seguro está documentado y gobernado, pero no implementado. POST-H-025 podrá evaluar declaraciones de producción solo si todos los no-go gates y disclaimers siguen alineados.
+
+
+## POST-H-034-C — Secure transport no habilita remote execution
+
+POST-H-034-C agrega ADR-3 para `remote.execution` con decisión `continue-blocked`.
+
+Reglas obligatorias:
+
+```text
+remote runner design != remote execution enabled
+remote readiness != remote-ready claim
+secure transport design != secure transport implemented
+protocol matrix != network allowed
+ADR-3 != runtime enablement
+```
+
+No se habilitan red, transporte activo, shell remoto, credenciales, external APIs ni workers remotos. Cualquier cambio de esta frontera requiere ADR/backlog posterior, sandbox remoto, Approval/RBAC, command allowlist, observabilidad, kill-switch, rollback y pruebas adversariales.
