@@ -3,6 +3,7 @@ from __future__ import annotations
 from devpilot_core.policy.cost_guard import CostGuard, CostPolicy, load_cost_policy
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
 from devpilot_core.policy.engine import POST_H_012_D_CREATED_BY, PolicyEngine, PolicyRequest
+from devpilot_core.policy.guard_catalog import PolicyGuardPatternCatalog, load_guard_pattern_catalog
 from devpilot_core.policy.path_guard import PathGuard, PathPolicy
 from devpilot_core.policy.prompt_guard import PromptInjectionGuard
 from devpilot_core.policy.secrets import REDACTED, RedactionResult, SecretGuard, redact_sensitive_data, redact_string
@@ -13,10 +14,12 @@ __all__ = [
     "CostGuard",
     "CostPolicy",
     "load_cost_policy",
+    "load_guard_pattern_catalog",
     "PathGuard",
     "PathPolicy",
     "PolicyDecision",
     "PolicyEffect",
+    "PolicyGuardPatternCatalog",
     "POST_H_012_D_CREATED_BY",
     "PolicyEngine",
     "PolicyRequest",

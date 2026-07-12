@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
 created_for: "DevPilot Local"
 scope: "deterministic validators / schema-backed catalogs / declarative semantics / compatibility-preserving migration"
-implementation_status: "active/post-h-033-d-implemented-initial"
-current_micro_sprint: "POST-H-033-D"
-next_micro_sprint: "POST-H-033-E"
+implementation_status: "active/post-h-033-e-implemented-initial"
+current_micro_sprint: "POST-H-033-E"
+next_micro_sprint: "POST-H-033-F"
 ```
 
 ## 1. Proposito del backlog
@@ -600,6 +600,15 @@ python -m devpilot_core schema validate --schema-id PolicyGuardPatternCatalog --
 ```
 
 Si `tests/test_post_h_032_tool_calling_contract.py` aun no existe al ejecutar POST-H-033, se debe sustituir por los tests disponibles de policy/tool injection y registrar la dependencia en el TCR.
+
+
+## Estado de implementación POST-H-033-E
+
+Estado: `implemented-initial`. Se agregó el catálogo versionado `.devpilot/policy/guard_pattern_catalog.json`, el schema `PolicyGuardPatternCatalog`, el módulo `src/devpilot_core/policy/guard_catalog.py` y la integración progresiva con `PromptInjectionGuard`, `ToolInjectionGuard` y `SecretGuard`.
+
+La implementación mantiene patrones built-in mandatory no removibles en código y permite extensiones locales solo para agregar cobertura. El catálogo inválido falla cerrado, el catálogo faltante activa fallback Python temporal y ningún payload crudo se expone en findings. No se introducen dependencias externas, LLM judge, red, API externa, remote execution, connector write, plugin execution, subprocesses, agents ni tools.
+
+Evolución pendiente: retirar fallback Python solo después de evidencia acumulada de equivalencia adversarial al cierre de POST-H-033 y abordar POST-H-033-F para docs-governance rule registry.
 
 ## POST-H-033-F - Docs governance rule registry
 

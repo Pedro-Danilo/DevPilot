@@ -146,8 +146,8 @@ def test_post_h_033_b_governance_artifacts_registered_and_docs_synced() -> None:
     assert contract_v2["external_api_allowed"] is False
     assert contract_v2["source_mutations_allowed"] is False
 
-    assert state["current_micro_sprint"] in {"POST-H-033-C", "POST-H-033-D"}
-    assert state["next_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E"}
+    assert state["current_micro_sprint"] in {"POST-H-033-C", "POST-H-033-D", "POST-H-033-E"}
+    assert state["next_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F"}
     assert state["post_h_033_a_closed"] is True
     assert state["post_h_033_b_frontmatter_catalog_available"] is True
     assert state["post_h_033_b_catalog_source_primary"] is True
@@ -156,4 +156,4 @@ def test_post_h_033_b_governance_artifacts_registered_and_docs_synced() -> None:
     assert state["post_h_033_b_critical_rules_disable_allowed"] is False
     assert "POST-H-033-B — Frontmatter schema-backed validator" in readme
     assert "POST-H-033-B — Frontmatter schema-backed validator" in runbook
-    assert any(marker in backlog for marker in ['implementation_status: "active/post-h-033-c-implemented-initial"', 'implementation_status: "active/post-h-033-d-implemented-initial"'])
+    assert any(marker in backlog for marker in ['implementation_status: "active/post-h-033-c-implemented-initial"', 'implementation_status: "active/post-h-033-d-implemented-initial"', 'implementation_status: "active/post-h-033-e-implemented-initial"'])

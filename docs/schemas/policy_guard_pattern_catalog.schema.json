@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/policy_guard_pattern_catalog.schema.json",
+  "title": "DevPilot PolicyGuardPatternCatalog v1",
+  "description": "POST-H-033-E schema-backed policy guard pattern catalog for deterministic PromptInjectionGuard, ToolInjectionGuard and SecretGuard extensions without weakening built-in mandatory defenses.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "created_by",
+    "status",
+    "catalog_version",
+    "updated_at",
+    "owner",
+    "rule_source",
+    "fallback_required",
+    "fallback_status",
+    "critical_rules_disable_allowed",
+    "extension_policy",
+    "guards",
+    "compatibility",
+    "safety",
+    "tests",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1"},
+    "registry_id": {"type": "string", "minLength": 1},
+    "created_by": {"const": "POST-H-033-E"},
+    "status": {"enum": ["implemented-initial", "approved", "current", "blocked"]},
+    "catalog_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9_.-]+)?$"},
+    "updated_at": {"type": "string", "minLength": 10},
+    "owner": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "rule_source": {"const": ".devpilot/policy/guard_pattern_catalog.json"},
+    "fallback_required": {"const": true},
+    "fallback_status": {"enum": ["temporary-compatible", "deprecated", "removed"]},
+    "critical_rules_disable_allowed": {"const": false},
+    "extension_policy": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_extensions_allowed",
+        "extensions_can_add_patterns",
+        "extensions_can_disable_builtin_mandatory",
+        "extensions_can_weaken_severity",
+        "critical_severity_change_requires_adr",
+        "payloads_must_remain_redacted",
+        "invalid_catalog_fails_closed"
+      ],
+      "properties": {
+        "local_extensions_allowed": {"const": true},
+        "extensions_can_add_patterns": {"const": true},
+        "extensions_can_disable_builtin_mandatory": {"const": false},
+        "extensions_can_weaken_severity": {"const": false},
+        "critical_severity_change_requires_adr": {"const": true},
+        "payloads_must_remain_redacted": {"const": true},
+        "invalid_catalog_fails_closed": {"const": true}
+      }
+    },
+    "guards": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt_injection", "tool_injection", "secret_guard"],
+      "properties": {
+        "prompt_injection": {"$ref": "#/$defs/guard_catalog"},
+        "tool_injection": {"$ref": "#/$defs/guard_catalog"},
+        "secret_guard": {
+          "allOf": [{"$ref": "#/$defs/guard_catalog"}],
+          "type": "object",
+          "required": ["sensitive_key_patterns"]
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["runtime_behavior_changed", "finding_ids_preserved", "python_fallback_preserved", "invalid_catalog_blocks_success", "payload_redaction_preserved"],
+      "properties": {
+        "runtime_behavior_changed": {"const": false},
+        "finding_ids_preserved": {"const": true},
+        "python_fallback_preserved": {"const": true},
+        "invalid_catalog_blocks_success": {"const": true},
+        "payload_redaction_preserved": {"const": true}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["local_first", "read_only_catalog", "deterministic", "llm_judge_used", "network_used", "external_api_used", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled", "source_mutations_performed", "critical_rules_disable_allowed"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only_catalog": {"const": true},
+        "deterministic": {"const": true},
+        "llm_judge_used": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "subprocess_execution_enabled": {"const": false},
+        "tools_executed": {"const": false},
+        "agents_executed": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "critical_rules_disable_allowed": {"const": false}
+      }
+    },
+    "tests": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "notes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "guard_catalog": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["module", "guard_class", "built_in_mandatory_pattern_ids", "local_extensions_allowed", "patterns"],
+      "properties": {
+        "module": {"type": "string", "minLength": 1},
+        "guard_class": {"enum": ["PromptInjectionGuard", "ToolInjectionGuard", "SecretGuard"]},
+        "built_in_mandatory_pattern_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "local_extensions_allowed": {"const": true},
+        "patterns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/pattern_rule"}},
+        "sensitive_key_patterns": {"type": "array", "items": {"$ref": "#/$defs/key_pattern_rule"}}
+      }
+    },
+    "pattern_rule": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["guard", "category", "rule_id", "severity", "pattern", "source", "enabled", "critical", "built_in_mandatory", "cannot_disable_without_adr", "payload_redacted", "tests"],
+      "properties": {
+        "guard": {"enum": ["PromptInjectionGuard", "ToolInjectionGuard", "SecretGuard"]},
+        "category": {"type": "string", "minLength": 1},
+        "rule_id": {"type": "string", "minLength": 1},
+        "severity": {"enum": ["warn", "warning", "block", "deny"]},
+        "pattern": {"type": "string", "minLength": 1},
+        "source": {"enum": ["built-in-mandatory", "local-extension"]},
+        "enabled": {"type": "boolean"},
+        "critical": {"type": "boolean"},
+        "built_in_mandatory": {"type": "boolean"},
+        "cannot_disable_without_adr": {"type": "boolean"},
+        "payload_redacted": {"const": true},
+        "tests": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "key_pattern_rule": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["rule_id", "pattern", "enabled", "built_in_mandatory", "critical", "cannot_disable_without_adr", "payload_redacted"],
+      "properties": {
+        "rule_id": {"type": "string", "minLength": 1},
+        "pattern": {"type": "string", "minLength": 1},
+        "enabled": {"const": true},
+        "built_in_mandatory": {"const": true},
+        "critical": {"const": true},
+        "cannot_disable_without_adr": {"const": true},
+        "payload_redacted": {"const": true}
+      }
+    }
+  }
+}

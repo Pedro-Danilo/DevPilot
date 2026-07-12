@@ -1,0 +1,611 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1",
+  "registry_id": "post-h-033-e-policy-guard-pattern-catalogs-manifest",
+  "created_by": "POST-H-033-E",
+  "status": "implemented-initial",
+  "catalog_version": "1.0.0",
+  "updated_at": "2026-07-11",
+  "owner": "Ordóñez",
+  "description": "Schema-backed policy guard pattern catalog for PromptInjectionGuard, ToolInjectionGuard and SecretGuard extensions. Built-in mandatory patterns remain non-removable in Python as base defense.",
+  "rule_source": ".devpilot/policy/guard_pattern_catalog.json",
+  "fallback_required": true,
+  "fallback_status": "temporary-compatible",
+  "fallback_deprecation_target": "after POST-H-033 closure when before/after adversarial equivalence evidence is complete",
+  "critical_rules_disable_allowed": false,
+  "extension_policy": {
+    "local_extensions_allowed": true,
+    "extensions_can_add_patterns": true,
+    "extensions_can_disable_builtin_mandatory": false,
+    "extensions_can_weaken_severity": false,
+    "critical_severity_change_requires_adr": true,
+    "payloads_must_remain_redacted": true,
+    "invalid_catalog_fails_closed": true
+  },
+  "guards": {
+    "prompt_injection": {
+      "module": "src/devpilot_core/policy/prompt_guard.py",
+      "guard_class": "PromptInjectionGuard",
+      "built_in_mandatory_pattern_ids": [
+        "PROMPT_INJECTION_INSTRUCTION_OVERRIDE",
+        "PROMPT_INJECTION_POLICY_BYPASS",
+        "PROMPT_INJECTION_SECRET_EXFILTRATION",
+        "PROMPT_INJECTION_ROLE_HIJACK",
+        "PROMPT_INJECTION_HIDDEN_INSTRUCTION"
+      ],
+      "local_extensions_allowed": true,
+      "patterns": [
+        {
+          "guard": "PromptInjectionGuard",
+          "category": "instruction_override",
+          "rule_id": "PROMPT_INJECTION_INSTRUCTION_OVERRIDE",
+          "severity": "block",
+          "pattern": "(?i)\\b(ignore|disregard|forget|override)\\b.{0,48}\\b(previous|prior|system|developer|policy|instruction|instructions|rules?)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_prompt_injection_guard.py"
+          ]
+        },
+        {
+          "guard": "PromptInjectionGuard",
+          "category": "policy_bypass",
+          "rule_id": "PROMPT_INJECTION_POLICY_BYPASS",
+          "severity": "block",
+          "pattern": "(?i)\\b(bypass|disable|turn\\s*off|circumvent|skip)\\b.{0,48}\\b(policy|guard|approval|approval_id|safety|security|validation|validator)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_prompt_injection_guard.py"
+          ]
+        },
+        {
+          "guard": "PromptInjectionGuard",
+          "category": "secret_exfiltration",
+          "rule_id": "PROMPT_INJECTION_SECRET_EXFILTRATION",
+          "severity": "block",
+          "pattern": "(?i)\\b(print|show|reveal|dump|exfiltrate|leak|send)\\b.{0,48}\\b(secret|secrets|token|tokens|api[_ -]?key|password|credentials?|\\.env|env vars?)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_prompt_injection_guard.py"
+          ]
+        },
+        {
+          "guard": "PromptInjectionGuard",
+          "category": "role_hijack",
+          "rule_id": "PROMPT_INJECTION_ROLE_HIJACK",
+          "severity": "warn",
+          "pattern": "(?i)\\b(you\\s+are\\s+now|act\\s+as|pretend\\s+to\\s+be)\\b.{0,48}\\b(root|admin|developer|system|security auditor|owner)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": false,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_prompt_injection_guard.py"
+          ]
+        },
+        {
+          "guard": "PromptInjectionGuard",
+          "category": "hidden_instruction",
+          "rule_id": "PROMPT_INJECTION_HIDDEN_INSTRUCTION",
+          "severity": "warn",
+          "pattern": "(?i)\\b(hidden|invisible|secret)\\b.{0,48}\\b(instruction|prompt|message|command)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": false,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_prompt_injection_guard.py"
+          ]
+        },
+        {
+          "guard": "PromptInjectionGuard",
+          "category": "data_exfiltration_instruction",
+          "rule_id": "PROMPT_INJECTION_DATA_EXFILTRATION_REQUEST",
+          "severity": "block",
+          "pattern": "(?i)\\b(copy|extract|export|upload)\\b.{0,64}\\b(private|internal|confidential|workspace|repository)\\b.{0,64}\\b(data|files|prompts|logs|traces)\\b",
+          "source": "local-extension",
+          "enabled": true,
+          "critical": false,
+          "built_in_mandatory": false,
+          "cannot_disable_without_adr": false,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+          ]
+        }
+      ]
+    },
+    "tool_injection": {
+      "module": "src/devpilot_core/policy/tool_injection_guard.py",
+      "guard_class": "ToolInjectionGuard",
+      "built_in_mandatory_pattern_ids": [
+        "TOOL_INJECTION_FORCE_TOOL_EXECUTION",
+        "TOOL_INJECTION_APPROVAL_BYPASS",
+        "TOOL_INJECTION_DESTRUCTIVE_TOOL_REQUEST",
+        "TOOL_INJECTION_TOOL_SELECTOR_SYNTAX"
+      ],
+      "local_extensions_allowed": true,
+      "patterns": [
+        {
+          "guard": "ToolInjectionGuard",
+          "category": "force_tool_execution",
+          "rule_id": "TOOL_INJECTION_FORCE_TOOL_EXECUTION",
+          "severity": "block",
+          "pattern": "(?i)\\b(force|must|directly|silently|without\\s+asking)\\b.{0,80}\\b(use|call|run|execute|invoke)\\b.{0,80}\\b(tool|tests\\.run|patch\\.apply|git\\.push|deploy|shell|subprocess)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_post_h_032_tool_calling_contract.py"
+          ]
+        },
+        {
+          "guard": "ToolInjectionGuard",
+          "category": "approval_bypass",
+          "rule_id": "TOOL_INJECTION_APPROVAL_BYPASS",
+          "severity": "block",
+          "pattern": "(?i)\\b(without|skip|bypass|ignore)\\b.{0,48}\\b(approval|approval_id|policy|PolicyEngine|ApprovalPolicyChecker)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_post_h_032_tool_calling_contract.py"
+          ]
+        },
+        {
+          "guard": "ToolInjectionGuard",
+          "category": "destructive_tool_request",
+          "rule_id": "TOOL_INJECTION_DESTRUCTIVE_TOOL_REQUEST",
+          "severity": "block",
+          "pattern": "(?i)\\b(run|execute|call|use)\\b.{0,80}\\b(rm\\s+-rf|del\\s+/f|format\\s+|git\\s+push|git\\s+commit|patch\\s+apply|deploy|overwrite\\s+docs?)\\b",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_post_h_032_tool_calling_contract.py"
+          ]
+        },
+        {
+          "guard": "ToolInjectionGuard",
+          "category": "tool_selector_syntax",
+          "rule_id": "TOOL_INJECTION_TOOL_SELECTOR_SYNTAX",
+          "severity": "warn",
+          "pattern": "(?i)\\b(tool|function|function_call|tool_call)\\s*[:=]\\s*['\\\"]?[a-zA-Z0-9_.-]{3,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": false,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_post_h_032_tool_calling_contract.py"
+          ]
+        },
+        {
+          "guard": "ToolInjectionGuard",
+          "category": "target_override",
+          "rule_id": "TOOL_INJECTION_TARGET_OVERRIDE",
+          "severity": "block",
+          "pattern": "(?i)\\b(change|override|replace|redirect)\\b.{0,64}\\b(target|workspace|tool_id|tool call|destination)\\b",
+          "source": "local-extension",
+          "enabled": true,
+          "critical": false,
+          "built_in_mandatory": false,
+          "cannot_disable_without_adr": false,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_post_h_032_tool_calling_contract.py"
+          ]
+        }
+      ]
+    },
+    "secret_guard": {
+      "module": "src/devpilot_core/policy/secrets.py",
+      "guard_class": "SecretGuard",
+      "built_in_mandatory_pattern_ids": [
+        "SECRETGUARD_OPENAI_PROJECT_KEY",
+        "SECRETGUARD_OPENAI_KEY",
+        "SECRETGUARD_GITHUB_TOKEN",
+        "SECRETGUARD_GITHUB_PAT",
+        "SECRETGUARD_GITLAB_PAT",
+        "SECRETGUARD_HF_TOKEN",
+        "SECRETGUARD_SLACK_TOKEN",
+        "SECRETGUARD_AWS_ACCESS_KEY",
+        "SECRETGUARD_AWS_TEMP_KEY",
+        "SECRETGUARD_GOOGLE_API_KEY",
+        "SECRETGUARD_PRIVATE_KEY_BLOCK",
+        "SECRETGUARD_DATABASE_URL",
+        "SECRETGUARD_SLACK_WEBHOOK",
+        "SECRETGUARD_DISCORD_WEBHOOK",
+        "SECRETGUARD_BEARER_TOKEN",
+        "SECRETGUARD_BASIC_TOKEN",
+        "SECRETGUARD_ASSIGNMENT_SECRET"
+      ],
+      "local_extensions_allowed": true,
+      "sensitive_key_patterns": [
+        {
+          "rule_id": "SECRETGUARD_SENSITIVE_KEY_NAMES",
+          "pattern": "(api[_-]?key|access[_-]?token|refresh[_-]?token|id[_-]?token|auth[_-]?token|token|secret|password|passwd|pwd|authorization|bearer|private[_-]?key|client[_-]?secret|database[_-]?url|connection[_-]?string|webhook)",
+          "enabled": true,
+          "built_in_mandatory": true,
+          "critical": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true
+        }
+      ],
+      "patterns": [
+        {
+          "guard": "SecretGuard",
+          "category": "openai_project_key",
+          "rule_id": "SECRETGUARD_OPENAI_PROJECT_KEY",
+          "severity": "block",
+          "pattern": "sk-proj-[A-Za-z0-9_\\-]{12,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "openai_key",
+          "rule_id": "SECRETGUARD_OPENAI_KEY",
+          "severity": "block",
+          "pattern": "sk-[A-Za-z0-9_\\-]{12,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "github_token",
+          "rule_id": "SECRETGUARD_GITHUB_TOKEN",
+          "severity": "block",
+          "pattern": "ghp_[A-Za-z0-9_]{12,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "github_pat",
+          "rule_id": "SECRETGUARD_GITHUB_PAT",
+          "severity": "block",
+          "pattern": "github_pat_[A-Za-z0-9_\\-]{12,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "gitlab_pat",
+          "rule_id": "SECRETGUARD_GITLAB_PAT",
+          "severity": "block",
+          "pattern": "glpat-[A-Za-z0-9_\\-]{12,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "huggingface_token",
+          "rule_id": "SECRETGUARD_HF_TOKEN",
+          "severity": "block",
+          "pattern": "hf_[A-Za-z0-9_\\-]{12,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "slack_token",
+          "rule_id": "SECRETGUARD_SLACK_TOKEN",
+          "severity": "block",
+          "pattern": "xox[baprs]-[A-Za-z0-9_\\-]{10,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "aws_access_key",
+          "rule_id": "SECRETGUARD_AWS_ACCESS_KEY",
+          "severity": "block",
+          "pattern": "AKIA[0-9A-Z]{16}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "aws_temp_key",
+          "rule_id": "SECRETGUARD_AWS_TEMP_KEY",
+          "severity": "block",
+          "pattern": "ASIA[0-9A-Z]{16}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "google_api_key",
+          "rule_id": "SECRETGUARD_GOOGLE_API_KEY",
+          "severity": "block",
+          "pattern": "AIza[0-9A-Za-z_\\-]{20,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "private_key_block",
+          "rule_id": "SECRETGUARD_PRIVATE_KEY_BLOCK",
+          "severity": "block",
+          "pattern": "(?i)-----BEGIN\\s+(RSA\\s+|EC\\s+|OPENSSH\\s+)?PRIVATE\\s+KEY-----[\\s\\S]*?-----END\\s+(RSA\\s+|EC\\s+|OPENSSH\\s+)?PRIVATE\\s+KEY-----",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "database_url",
+          "rule_id": "SECRETGUARD_DATABASE_URL",
+          "severity": "block",
+          "pattern": "(?i)(postgres(?:ql)?|mysql|mongodb(?:\\+srv)?|redis)://[^\\s'\\\"<>]+:[^\\s'\\\"<>]+@[^\\s'\\\"<>]+",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "slack_webhook",
+          "rule_id": "SECRETGUARD_SLACK_WEBHOOK",
+          "severity": "block",
+          "pattern": "https://hooks\\.slack\\.com/services/[A-Za-z0-9_/\\-]{20,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "discord_webhook",
+          "rule_id": "SECRETGUARD_DISCORD_WEBHOOK",
+          "severity": "block",
+          "pattern": "https://discord(?:app)?\\.com/api/webhooks/\\d+/[A-Za-z0-9_\\-]{20,}",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "bearer_token",
+          "rule_id": "SECRETGUARD_BEARER_TOKEN",
+          "severity": "block",
+          "pattern": "(?i)(bearer)\\s+([A-Za-z0-9._\\-]{12,})",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "basic_token",
+          "rule_id": "SECRETGUARD_BASIC_TOKEN",
+          "severity": "block",
+          "pattern": "(?i)(basic)\\s+([A-Za-z0-9+/=]{12,})",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        },
+        {
+          "guard": "SecretGuard",
+          "category": "assignment_secret",
+          "rule_id": "SECRETGUARD_ASSIGNMENT_SECRET",
+          "severity": "block",
+          "pattern": "(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|id[_-]?token|auth[_-]?token|token|secret|password|passwd|pwd|authorization|client[_-]?secret|database[_-]?url|connection[_-]?string)\\s*[:=]\\s*['\\\"]?([^'\\\"\\s,;]+)",
+          "source": "built-in-mandatory",
+          "enabled": true,
+          "critical": true,
+          "built_in_mandatory": true,
+          "cannot_disable_without_adr": true,
+          "payload_redacted": true,
+          "tests": [
+            "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+            "tests/test_secret_guard_hardening.py"
+          ]
+        }
+      ]
+    }
+  },
+  "compatibility": {
+    "runtime_behavior_changed": false,
+    "finding_ids_preserved": true,
+    "python_fallback_preserved": true,
+    "invalid_catalog_blocks_success": true,
+    "missing_catalog_uses_fallback": true,
+    "payload_redaction_preserved": true,
+    "tool_target_override_blocked": true,
+    "prompt_injection_blocked": true,
+    "secret_leakage_blocked": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only_catalog": true,
+    "deterministic": true,
+    "llm_judge_used": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "subprocess_execution_enabled": false,
+    "tools_executed": false,
+    "agents_executed": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "critical_rules_disable_allowed": false
+  },
+  "tests": [
+    "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+    "tests/test_prompt_injection_guard.py",
+    "tests/test_secret_guard_hardening.py",
+    "tests/test_policy_engine.py",
+    "tests/test_policy_engine_approval_rbac_enforcement.py",
+    "tests/test_post_h_032_tool_calling_contract.py"
+  ],
+  "notes": [
+    "POST-H-033-E implemented-initial: catalog extends guards without weakening built-in mandatory patterns.",
+    "Invalid catalog fails closed while mandatory Python fallback remains active.",
+    "Pattern matches and policy findings never include raw payloads."
+  ],
+  "limitations": [
+    "Built-in mandatory patterns remain duplicated in Python fallback until POST-H-033 closure evidence allows a narrower source split.",
+    "SecretGuard remains a lightweight deterministic scanner, not a complete enterprise DLP engine."
+  ]
+}

@@ -1,3 +1,10 @@
+## POST-H-033-E — Policy/guard pattern catalogs
+
+- Added `PolicyGuardPatternCatalog` schema and `.devpilot/policy/guard_pattern_catalog.json`.
+- Added `src/devpilot_core/policy/guard_catalog.py` with schema validation, safe fallback and fail-closed invalid catalog behavior.
+- Integrated PromptInjectionGuard, ToolInjectionGuard and SecretGuard with catalog-backed patterns while preserving non-removable built-in mandatory defenses.
+- Added adversarial tests for disabled mandatory patterns, invalid catalogs, local extensions, payload redaction and governance synchronization.
+
 
 ## POST-H-033-D — MIASI semantic rules registry
 

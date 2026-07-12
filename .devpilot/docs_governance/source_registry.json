@@ -11422,6 +11422,174 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOG",
+      "path": ".devpilot/policy/guard_pattern_catalog.json",
+      "classification": "machine-readable-source",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOG-SCHEMA",
+      "path": "docs/schemas/policy_guard_pattern_catalog.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-033-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-CATALOG-MODULE",
+      "path": "src/devpilot_core/policy/guard_catalog.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-PROMPT-GUARD-INTEGRATION",
+      "path": "src/devpilot_core/policy/prompt_guard.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "tests/test_prompt_injection_guard.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-TOOL-INJECTION-GUARD-INTEGRATION",
+      "path": "src/devpilot_core/policy/tool_injection_guard.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "tests/test_post_h_032_tool_calling_contract.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-SECRET-GUARD-INTEGRATION",
+      "path": "src/devpilot_core/policy/secrets.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "tests/test_secret_guard_hardening.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOGS-TEST",
+      "path": "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOGS-REPORT",
+      "path": "docs/audits/post_h_033_e_policy_guard_pattern_catalogs_report.md",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-MANIFEST",
+      "path": "docs/post_h_033_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
     }
   ],
   "rules": {
@@ -11495,16 +11663,16 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 483,
-    "source_of_truth_total": 181,
-    "machine_readable_source_total": 210,
-    "derived_total": 61,
+    "documents_total": 492,
+    "source_of_truth_total": 196,
+    "machine_readable_source_total": 230,
+    "derived_total": 66,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
     "critical_sources_total": 357,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 452,
+    "documents_with_required_tests_total": 492,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
@@ -11620,7 +11788,8 @@
     "POST-H-029-B registers TestImpactRuleRegistry and declarative TCR v2 impact rules without executing tests from JSON.",
     "POST-H-029-D registers ReleaseCandidateTestProfileReport and formal release-candidate-local profile artifacts.",
     "POST-H-031-A registers evidence graph model sources, schema, manifest, audit report and focal test as governed documentation/evidence sources.",
-    "POST-H-031-B registers operator health schema/config/module/API/test/report/manifest."
+    "POST-H-031-B registers operator health schema/config/module/API/test/report/manifest.",
+    "POST-H-033-E registers policy guard pattern catalog, schema, loader, guard integrations, tests, report and manifest. Built-in mandatory guard patterns remain non-removable."
   ],
   "project_state_snapshot": {
     "schema_version": "1.0",
@@ -12758,5 +12927,5 @@
     "post_h_032_b_models_called_by_health": false
   },
   "updated_at": "2026-07-11T00:00:00Z",
-  "last_registered_sprint": "POST-H-033-D"
+  "last_registered_sprint": "POST-H-033-E"
 }

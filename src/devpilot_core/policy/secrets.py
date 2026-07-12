@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
+from devpilot_core.policy.guard_catalog import DEFAULT_GUARD_PATTERN_CATALOG_PATH, catalog_block_decision_metadata, load_guard_pattern_catalog
 
 REDACTED = "[REDACTED]"
 
@@ -43,13 +45,14 @@ class RedactionResult:
 
     value: Any
     redactions: int
+    catalog_metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def changed(self) -> bool:
         return self.redactions > 0
 
     def to_dict(self) -> dict[str, Any]:
-        return {"redactions": self.redactions, "changed": self.changed}
+        return {"redactions": self.redactions, "changed": self.changed, "guard_pattern_catalog": self.catalog_metadata}
 
 
 class SecretGuard:
@@ -62,15 +65,30 @@ class SecretGuard:
     reports, traces, stdout/stderr and policy evidence.
     """
 
+    def __init__(self, root: Path | None = None, *, catalog_path: str | Path = DEFAULT_GUARD_PATTERN_CATALOG_PATH) -> None:
+        self.root = Path(root).resolve() if root is not None else Path.cwd().resolve()
+        self.catalog_path = Path(catalog_path)
+
     def redact(self, value: Any) -> RedactionResult:
         """Recursively redact sensitive keys and known token-like values."""
 
-        redacted, count = self._redact_value(value)
-        return RedactionResult(value=redacted, redactions=count)
+        catalog = load_guard_pattern_catalog(self.root, self.catalog_path)
+        redacted, count = self._redact_value(value, catalog=catalog)
+        return RedactionResult(value=redacted, redactions=count, catalog_metadata=catalog.metadata())
 
     def scan_text(self, text: str | None, *, subject: str | None = None) -> PolicyDecision:
         """Return BLOCK when text contains a secret-like value."""
 
+        catalog = load_guard_pattern_catalog(self.root, self.catalog_path)
+        if catalog.has_blocking_catalog_findings:
+            return PolicyDecision(
+                effect=PolicyEffect.BLOCK,
+                reason="SecretGuard failed closed because the policy guard pattern catalog is invalid.",
+                guard="SecretGuard",
+                rule_id="POLICY_GUARD_PATTERN_CATALOG_INVALID_BLOCKED",
+                subject=subject,
+                metadata=catalog_block_decision_metadata(catalog),
+            )
         if not text:
             return PolicyDecision(
                 effect=PolicyEffect.ALLOW,
@@ -87,7 +105,7 @@ class SecretGuard:
                 guard="SecretGuard",
                 rule_id="SECRETGUARD_SECRET_DETECTED",
                 subject=subject,
-                metadata={"redactions": result.redactions, "payload_redacted": True, "preliminary": True},
+                metadata={"redactions": result.redactions, "payload_redacted": True, "preliminary": True, "guard_pattern_catalog": result.catalog_metadata},
             )
         return PolicyDecision(
             effect=PolicyEffect.ALLOW,
@@ -97,16 +115,17 @@ class SecretGuard:
             subject=subject,
         )
 
-    def _redact_value(self, value: Any) -> tuple[Any, int]:
+    def _redact_value(self, value: Any, *, catalog=None) -> tuple[Any, int]:
+        catalog = catalog or load_guard_pattern_catalog(self.root, self.catalog_path)
         if isinstance(value, dict):
             redacted: dict[Any, Any] = {}
             count = 0
             for key, item in value.items():
-                if _is_sensitive_key(str(key)):
+                if _is_sensitive_key(str(key), catalog=catalog):
                     redacted[key] = REDACTED
                     count += 1
                 else:
-                    item_value, item_count = self._redact_value(item)
+                    item_value, item_count = self._redact_value(item, catalog=catalog)
                     redacted[key] = item_value
                     count += item_count
             return redacted, count
@@ -114,15 +133,15 @@ class SecretGuard:
             result = []
             count = 0
             for item in value:
-                item_value, item_count = self._redact_value(item)
+                item_value, item_count = self._redact_value(item, catalog=catalog)
                 result.append(item_value)
                 count += item_count
             return result, count
         if isinstance(value, tuple):
-            value_list, count = self._redact_value(list(value))
+            value_list, count = self._redact_value(list(value), catalog=catalog)
             return value_list, count
         if isinstance(value, str):
-            return redact_sensitive_string(value)
+            return _redact_sensitive_string_with_catalog(value, catalog=catalog)
         return value, 0
 
 
@@ -132,12 +151,20 @@ def redact_sensitive_data(value: Any) -> Any:
     return SecretGuard().redact(value).value
 
 
-def redact_sensitive_string(value: str) -> tuple[str, int]:
+def redact_sensitive_string(value: str, *, root: Path | None = None, catalog_path: str | Path = DEFAULT_GUARD_PATTERN_CATALOG_PATH) -> tuple[str, int]:
     """Redact known token patterns in a string and return redaction count."""
 
+    catalog = load_guard_pattern_catalog(root, catalog_path)
     redacted = value
     count = 0
-    for pattern in _SECRET_VALUE_PATTERNS:
+    return _redact_sensitive_string_with_catalog(value, catalog=catalog)
+
+
+def _redact_sensitive_string_with_catalog(value: str, *, catalog) -> tuple[str, int]:
+    redacted = value
+    count = 0
+    patterns = [rule.compiled for rule in catalog.secret_value_patterns] if not catalog.has_blocking_catalog_findings else _SECRET_VALUE_PATTERNS
+    for pattern in patterns:
         def _replace(match: re.Match[str]) -> str:
             nonlocal count
             count += 1
@@ -159,5 +186,7 @@ def redact_string(value: str) -> str:
     return redact_sensitive_string(value)[0]
 
 
-def _is_sensitive_key(key: str) -> bool:
+def _is_sensitive_key(key: str, *, catalog=None) -> bool:
+    if catalog is not None and not catalog.has_blocking_catalog_findings:
+        return bool(catalog.secret_key_pattern.search(key))
     return bool(_SECRET_KEY_PATTERN.search(key))

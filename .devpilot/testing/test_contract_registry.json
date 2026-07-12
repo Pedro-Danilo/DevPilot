@@ -8488,6 +8488,39 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_miasi_semantic_rules_registry.py tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py tests/test_policy_engine.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_018_connector_policy_binding.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-033-policy-guard-pattern-catalogs",
+      "scope": "safety",
+      "owner": "POST-H-033-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "validates": [
+        ".devpilot/policy/guard_pattern_catalog.json",
+        "docs/schemas/policy_guard_pattern_catalog.schema.json",
+        "src/devpilot_core/policy/guard_catalog.py",
+        "src/devpilot_core/policy/prompt_guard.py",
+        "src/devpilot_core/policy/tool_injection_guard.py",
+        "src/devpilot_core/policy/secrets.py"
+      ],
+      "watched_paths": [
+        ".devpilot/policy/guard_pattern_catalog.json",
+        "docs/schemas/policy_guard_pattern_catalog.schema.json",
+        "src/devpilot_core/policy/guard_catalog.py",
+        "src/devpilot_core/policy/prompt_guard.py",
+        "src/devpilot_core/policy/tool_injection_guard.py",
+        "src/devpilot_core/policy/secrets.py",
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_policy_guard_pattern_catalogs.py tests/test_prompt_injection_guard.py tests/test_secret_guard_hardening.py tests/test_policy_engine.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_post_h_032_tool_calling_contract.py -q"
+      ]
     }
   ],
   "notes": [

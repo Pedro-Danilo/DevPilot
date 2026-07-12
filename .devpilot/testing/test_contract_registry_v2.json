@@ -15519,6 +15519,73 @@
       "schema_ids": [
         "docs/schemas/miasi_semantic_rules.schema.json"
       ]
+    },
+    {
+      "contract_id": "post-h-033-policy-guard-pattern-catalogs",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-033-policy-guard-pattern-catalogs",
+      "domain": "security.guards",
+      "capability": "PolicyGuardPatternCatalog",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 70,
+      "test_files": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "watched_paths": [
+        ".devpilot/policy/guard_pattern_catalog.json",
+        "docs/schemas/policy_guard_pattern_catalog.schema.json",
+        "src/devpilot_core/policy/guard_catalog.py",
+        "src/devpilot_core/policy/prompt_guard.py",
+        "src/devpilot_core/policy/tool_injection_guard.py",
+        "src/devpilot_core/policy/secrets.py",
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "validates": [
+        ".devpilot/policy/guard_pattern_catalog.json",
+        "docs/schemas/policy_guard_pattern_catalog.schema.json",
+        "src/devpilot_core/policy/guard_catalog.py",
+        "src/devpilot_core/policy/prompt_guard.py",
+        "src/devpilot_core/policy/tool_injection_guard.py",
+        "src/devpilot_core/policy/secrets.py"
+      ],
+      "trigger_hints": [
+        "post-h-033-e",
+        "policy-guard-pattern-catalog-change",
+        "prompt-injection-guard-change",
+        "tool-injection-guard-change",
+        "secret-guard-change",
+        "schema-backed-validator-governance"
+      ],
+      "impact_scope": [
+        "policy",
+        "security",
+        "prompt-injection",
+        "tool-injection",
+        "secrets",
+        "agents",
+        "tools",
+        "schemas"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-033-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_policy_guard_pattern_catalogs.py tests/test_prompt_injection_guard.py tests/test_secret_guard_hardening.py tests/test_policy_engine.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_post_h_032_tool_calling_contract.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-033-E introduces schema-backed policy guard pattern catalogs while preserving non-removable mandatory built-in defenses and fail-closed invalid catalog behavior."
+      ]
     }
   ],
   "migration_metadata": {

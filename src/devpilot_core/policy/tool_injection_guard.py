@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
 
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
+from devpilot_core.policy.guard_catalog import DEFAULT_GUARD_PATTERN_CATALOG_PATH, GuardPatternRule, catalog_block_decision_metadata, load_guard_pattern_catalog
 
 
 @dataclass(frozen=True)
@@ -13,48 +15,45 @@ class ToolInjectionMatch:
     category: str
     rule_id: str
     severity: str
+    rule_source: str = "python:fallback:policy.tool_injection_guard"
+    catalog_version: str = "fallback-compatible"
+    built_in_mandatory: bool = True
+    critical: bool = False
 
-    def to_dict(self) -> dict[str, str]:
-        return {"category": self.category, "rule_id": self.rule_id, "severity": self.severity}
-
-
-_TOOL_PATTERNS: tuple[tuple[str, str, str, re.Pattern[str]], ...] = (
-    (
-        "force_tool_execution",
-        "TOOL_INJECTION_FORCE_TOOL_EXECUTION",
-        "block",
-        re.compile(r"(?i)\b(force|must|directly|silently|without\s+asking)\b.{0,80}\b(use|call|run|execute|invoke)\b.{0,80}\b(tool|tests\.run|patch\.apply|git\.push|deploy|shell|subprocess)\b"),
-    ),
-    (
-        "approval_bypass",
-        "TOOL_INJECTION_APPROVAL_BYPASS",
-        "block",
-        re.compile(r"(?i)\b(without|skip|bypass|ignore)\b.{0,48}\b(approval|approval_id|policy|PolicyEngine|ApprovalPolicyChecker)\b"),
-    ),
-    (
-        "destructive_tool_request",
-        "TOOL_INJECTION_DESTRUCTIVE_TOOL_REQUEST",
-        "block",
-        re.compile(r"(?i)\b(run|execute|call|use)\b.{0,80}\b(rm\s+-rf|del\s+/f|format\s+|git\s+push|git\s+commit|patch\s+apply|deploy|overwrite\s+docs?)\b"),
-    ),
-    (
-        "tool_selector_syntax",
-        "TOOL_INJECTION_TOOL_SELECTOR_SYNTAX",
-        "warn",
-        re.compile(r"(?i)\b(tool|function|function_call|tool_call)\s*[:=]\s*['\"]?[a-zA-Z0-9_.-]{3,}"),
-    ),
-)
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "category": self.category,
+            "rule_id": self.rule_id,
+            "severity": self.severity,
+            "rule_source": self.rule_source,
+            "catalog_version": self.catalog_version,
+            "built_in_mandatory": self.built_in_mandatory,
+            "critical": self.critical,
+        }
 
 
 class ToolInjectionGuard:
     """Detect attempts to steer DevPilot into unauthorized tool execution.
 
-    This guard is intentionally pattern-based and conservative. It does not
-    authorize or deny real tool use by itself; PolicyEngine combines its decision
-    with ApprovalPolicyChecker, PathGuard, SecretGuard and CostGuard.
+    POST-H-033-E makes the pattern set schema-backed and extensible without
+    allowing local JSON to weaken mandatory built-in defenses.
     """
 
+    def __init__(self, root: Path | None = None, *, catalog_path: str | Path = DEFAULT_GUARD_PATTERN_CATALOG_PATH) -> None:
+        self.root = Path(root).resolve() if root is not None else Path.cwd().resolve()
+        self.catalog_path = Path(catalog_path)
+
     def scan_text(self, text: str | None, *, subject: str | None = None) -> PolicyDecision:
+        catalog = load_guard_pattern_catalog(self.root, self.catalog_path)
+        if catalog.has_blocking_catalog_findings:
+            return PolicyDecision(
+                effect=PolicyEffect.BLOCK,
+                reason="ToolInjectionGuard failed closed because the policy guard pattern catalog is invalid.",
+                guard="ToolInjectionGuard",
+                rule_id="POLICY_GUARD_PATTERN_CATALOG_INVALID_BLOCKED",
+                subject=subject,
+                metadata=catalog_block_decision_metadata(catalog),
+            )
         if not text:
             return PolicyDecision(
                 effect=PolicyEffect.ALLOW,
@@ -94,12 +93,26 @@ class ToolInjectionGuard:
                 "matches": [match.to_dict() for match in matches],
                 "payload_redacted": True,
                 "preliminary": True,
+                "guard_pattern_catalog": catalog.metadata(),
             },
         )
 
     def find_matches(self, text: str) -> list[ToolInjectionMatch]:
+        catalog = load_guard_pattern_catalog(self.root, self.catalog_path)
         matches: list[ToolInjectionMatch] = []
-        for category, rule_id, severity, pattern in _TOOL_PATTERNS:
-            if pattern.search(text):
-                matches.append(ToolInjectionMatch(category=category, rule_id=rule_id, severity=severity))
+        for rule in catalog.tool_patterns:
+            if rule.compiled.search(text):
+                matches.append(_match_from_rule(rule))
         return matches
+
+
+def _match_from_rule(rule: GuardPatternRule) -> ToolInjectionMatch:
+    return ToolInjectionMatch(
+        category=rule.category,
+        rule_id=rule.rule_id,
+        severity=rule.severity,
+        rule_source=rule.source_catalog,
+        catalog_version=rule.catalog_version,
+        built_in_mandatory=rule.built_in_mandatory,
+        critical=rule.critical,
+    )

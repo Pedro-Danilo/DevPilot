@@ -1,3 +1,23 @@
+## POST-H-033-E — Policy/guard pattern catalogs
+
+Estado: `implemented-initial`. DevPilot ahora carga patrones extensibles de `PromptInjectionGuard`, `ToolInjectionGuard` y `SecretGuard` desde `.devpilot/policy/guard_pattern_catalog.json`, validado por `docs/schemas/policy_guard_pattern_catalog.schema.json`. La defensa base permanece no removible en Python: los patrones `built_in_mandatory` no pueden deshabilitarse, debilitar severidad ni cambiar sin ADR/backlog explícito. Esta es una primera versión: el fallback Python se conserva hasta completar evidencia before/after al cierre de POST-H-033.
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_033_policy_guard_pattern_catalogs.py `
+  tests/test_prompt_injection_guard.py `
+  tests/test_secret_guard_hardening.py `
+  tests/test_policy_engine.py `
+  tests/test_policy_engine_approval_rbac_enforcement.py `
+  tests/test_post_h_032_tool_calling_contract.py `
+  -q
+
+python -m devpilot_core schema validate --schema-id PolicyGuardPatternCatalog --instance .devpilot\policy\guard_pattern_catalog.json --json
+python -m devpilot_core schema validate --schema-id PolicyGuardPatternCatalog --instance docs\post_h_033_e_manifest.json --json
+```
 
 ## POST-H-033-C — Readiness requirements registry
 

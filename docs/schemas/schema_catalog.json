@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-07-11",
-  "sprint": "POST-H-032-H",
+  "sprint": "POST-H-033-E",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through POST-H-032-A agent capability inventory and promotion criteria.",
   "schemas": [
@@ -1856,7 +1856,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-POLICY-GUARD-PATTERN-CATALOG-V1",
+      "title": "DevPilot PolicyGuardPatternCatalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/policy_guard_pattern_catalog.schema.json",
+      "description": "POST-H-033-E structural contract for versioned PromptInjectionGuard, ToolInjectionGuard and SecretGuard pattern catalogs with non-removable built-in mandatory defenses and fail-closed invalid catalog behavior.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "PolicyGuardPatternCatalog",
+      "validation_enabled_sprint": "POST-H-033-E"
     }
   ],
-  "schemas_total": 128
+  "schemas_total": 129
 }

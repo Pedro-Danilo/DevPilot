@@ -87,9 +87,9 @@ class PolicyEngine:
         self.root = root.resolve()
         self.observability_enabled = observability_enabled
         self.path_guard = PathGuard(self.root, policy=path_policy)
-        self.secret_guard = SecretGuard()
-        self.prompt_injection_guard = PromptInjectionGuard()
-        self.tool_injection_guard = ToolInjectionGuard()
+        self.secret_guard = SecretGuard(self.root)
+        self.prompt_injection_guard = PromptInjectionGuard(self.root)
+        self.tool_injection_guard = ToolInjectionGuard(self.root)
         self.cost_guard = CostGuard(policy=cost_policy)
         self.approval_checker = ApprovalPolicyChecker(self.root)
         self.sensitive_action_catalog_path = self.root / ".devpilot" / "approval" / "sensitive_action_catalog.json"
