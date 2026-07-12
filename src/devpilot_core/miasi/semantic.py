@@ -15,65 +15,39 @@ from devpilot_core.miasi.registry import (
     PolicyRule,
     ToolSpec,
 )
+from devpilot_core.miasi.declarative_semantic_rules import (
+    DEFAULT_MIASI_SEMANTIC_RULES_PATH,
+    FALLBACK_APPROVAL_GATE_TOKENS,
+    FALLBACK_EXECUTION_SIDE_EFFECTS,
+    FALLBACK_LOCAL_GUARD_TOKENS,
+    FALLBACK_NETWORK_GUARD_TOKENS,
+    FALLBACK_NO_GO_ACTION_MARKERS,
+    FALLBACK_REQUIRED_EVAL_FIXTURES,
+    FALLBACK_RBAC_GATE_TOKENS,
+    FALLBACK_SAFE_GATED_CONTROLLED_WRITE_TOKENS,
+    FALLBACK_SECRET_GUARD_TOKENS,
+    FALLBACK_SENSITIVE_SIDE_EFFECTS,
+    load_miasi_semantic_rules,
+)
 from devpilot_core.miasi.semantic_models import MiasiSemanticReport, SemanticFinding, SemanticRuleResult
 from devpilot_core.miasi.semantic_rules import SemanticRuleStatus, SemanticSeverity, normalize_semantic_severity
 from devpilot_core.schemas import SchemaValidator
 
-SENSITIVE_SIDE_EFFECTS = {"controlled_write", "controlled_execution", "network_cost", "optional_write"}
-EXECUTION_SIDE_EFFECTS = {"controlled_execution", "network_cost"}
-SAFE_GATED_CONTROLLED_WRITE_TOKENS = (
-    "sandbox",
-    "dry_run",
-    "dry-run",
-    "rollback",
-    "registry",
-    "local",
-    "pathguard",
-    "secretguard",
-    "policyengine",
-)
-NO_GO_ACTION_MARKERS = {
-    "remote": ("execute_remote", "cloud_control_plane", "remote_authentication"),
-    "plugin": ("execute_plugin_code", "plugin_execute", "execute_plugin"),
-    "connector": ("connector_call_execute_mode", "connector_write", "write_connector"),
-}
+SENSITIVE_SIDE_EFFECTS = set(FALLBACK_SENSITIVE_SIDE_EFFECTS)
+EXECUTION_SIDE_EFFECTS = set(FALLBACK_EXECUTION_SIDE_EFFECTS)
+SAFE_GATED_CONTROLLED_WRITE_TOKENS = FALLBACK_SAFE_GATED_CONTROLLED_WRITE_TOKENS
+NO_GO_ACTION_MARKERS = dict(FALLBACK_NO_GO_ACTION_MARKERS)
 
-APPROVAL_GATE_TOKENS = ("approval", "approvalpolicychecker", "approvalservice", "human", "actor")
-RBAC_GATE_TOKENS = ("rbac", "identityregistry", "role", "actor")
-SECRET_GUARD_TOKENS = ("secretguard", "secret", "redacted", "no raw secrets", "norawsecrets")
-NETWORK_GUARD_TOKENS = ("costguard", "noexternalapi", "no external api", "nonetwork", "no network", "localhostonly")
-LOCAL_GUARD_TOKENS = ("pathguard", "policyengine", "sandbox", "dry_run", "dry-run", "local", "checksum", "rollback", "registry")
+APPROVAL_GATE_TOKENS = FALLBACK_APPROVAL_GATE_TOKENS
+RBAC_GATE_TOKENS = FALLBACK_RBAC_GATE_TOKENS
+SECRET_GUARD_TOKENS = FALLBACK_SECRET_GUARD_TOKENS
+NETWORK_GUARD_TOKENS = FALLBACK_NETWORK_GUARD_TOKENS
+LOCAL_GUARD_TOKENS = FALLBACK_LOCAL_GUARD_TOKENS
 IDENTITY_REGISTRY_FILE = Path(".devpilot") / "identity" / "identity_registry.json"
 TEST_CONTRACT_REGISTRY_V1_FILE = Path(".devpilot") / "testing" / "test_contract_registry.json"
 TEST_CONTRACT_REGISTRY_V2_FILE = Path(".devpilot") / "testing" / "test_contract_registry_v2.json"
 
-REQUIRED_EVAL_FIXTURES: tuple[dict[str, Any], ...] = (
-    {
-        "path": Path("evals") / "fixtures" / "red_team_agentic_eval_cases.json",
-        "suite_id": "red-team",
-        "required_markers": ("prompt-injection", "secret", "connector"),
-    },
-    {
-        "path": Path("evals") / "fixtures" / "advanced_agentic_eval_cases.json",
-        "suite_id": "advanced-agentic",
-        "required_markers": ("rag", "mcp", "multiagent"),
-    },
-    {
-        "path": Path("evals") / "fixtures" / "plugin_ecosystem_eval_cases.json",
-        "suite_id": "plugin-ecosystem",
-        "required_markers": ("plugin",),
-    },
-    {
-        "path": Path("evals") / "fixtures" / "identity_rbac_eval_cases.json",
-        "suite_id": "identity-rbac",
-        "required_markers": ("rbac",),
-    },
-    {
-        "path": Path("evals") / "fixtures" / "remote_enterprise_eval_cases.json",
-        "suite_id": "remote-enterprise",
-        "required_markers": ("remote",),
-    },
-)
+REQUIRED_EVAL_FIXTURES: tuple[dict[str, Any], ...] = tuple(spec.as_legacy_dict() for spec in FALLBACK_REQUIRED_EVAL_FIXTURES)
 
 
 class MiasiSemanticReportBuilder:
@@ -93,6 +67,7 @@ class MiasiSemanticReportBuilder:
             "tool_registry": TOOL_REGISTRY_FILE.as_posix(),
             "policy_matrix": POLICY_MATRIX_FILE.as_posix(),
             "semantic_report_schema": "docs/schemas/miasi_semantic_report.schema.json",
+            "semantic_rules": DEFAULT_MIASI_SEMANTIC_RULES_PATH.as_posix(),
         }
 
     def build_empty_report(self, *, report_id: str = "miasi-semantic-post-h-004-a") -> MiasiSemanticReport:
@@ -129,6 +104,7 @@ class MiasiSemanticValidator:
     def __init__(self, root: Path) -> None:
         self.root = Path(root).resolve()
         self.builder = MiasiSemanticReportBuilder(self.root)
+        self.semantic_rules = load_miasi_semantic_rules(self.root, emit_fallback_finding=True)
 
     def validate(self) -> CommandResult:
         bundle, load_findings = MiasiRegistryValidator(self.root).load_bundle()
@@ -139,6 +115,9 @@ class MiasiSemanticValidator:
             rule_results.append(self._load_failure_rule(load_findings))
             report = self._report(rule_results=rule_results, status="blocked")
             return self._command_result(report=report, schema_result=None)
+
+        if self.semantic_rules.findings:
+            rule_results.append(self._semantic_rules_registry_rule())
 
         rule_results.extend(
             [
@@ -208,6 +187,15 @@ class MiasiSemanticValidator:
             findings=semantic_findings,
             subjects_evaluated=1,
             summary={"source_findings_total": len(findings)},
+        )
+
+    def _semantic_rules_registry_rule(self) -> SemanticRuleResult:
+        return self._rule_result(
+            rule_id="SEM-RULES-REGISTRY-001",
+            title="MIASI semantic rules registry must be schema-valid or use explicit safe fallback",
+            findings=list(self.semantic_rules.findings),
+            subjects_evaluated=1,
+            summary=self.semantic_rules.summary(),
         )
 
     def _validate_agent_tool_references(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
@@ -374,7 +362,7 @@ class MiasiSemanticValidator:
         sensitive_tools = [
             tool
             for tool in bundle.tools
-            if tool.risk_level in {"high", "medium_high"} or tool.side_effect in SENSITIVE_SIDE_EFFECTS
+            if tool.risk_level in {"high", "medium_high"} or tool.side_effect in self.semantic_rules.sensitive_side_effects
         ]
         for tool in sensitive_tools:
             associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
@@ -418,18 +406,16 @@ class MiasiSemanticValidator:
             summary={"sensitive_tools_total": len(sensitive_tools)},
         )
 
-    @staticmethod
-    def _tool_requires_immediate_approval(tool: ToolSpec) -> bool:
-        return tool.risk_level == "high" and tool.side_effect in EXECUTION_SIDE_EFFECTS and tool.status not in {"disabled", "future", "planned"}
+    def _tool_requires_immediate_approval(self, tool: ToolSpec) -> bool:
+        return tool.risk_level == "high" and tool.side_effect in self.semantic_rules.execution_side_effects and tool.status not in {"disabled", "future", "planned"}
 
-    @staticmethod
-    def _controlled_write_without_explicit_approval(tool: ToolSpec, rules: list[PolicyRule]) -> bool:
+    def _controlled_write_without_explicit_approval(self, tool: ToolSpec, rules: list[PolicyRule]) -> bool:
         if tool.requires_approval:
             return False
         if tool.risk_level != "high" or tool.side_effect != "controlled_write" or tool.status in {"disabled", "future", "planned"}:
             return False
         gates_text = " ".join(rule.gate.lower() for rule in rules)
-        has_safe_gate_token = any(token in gates_text for token in SAFE_GATED_CONTROLLED_WRITE_TOKENS)
+        has_safe_gate_token = any(token in gates_text for token in self.semantic_rules.safe_gated_controlled_write_tokens)
         has_blocking_policy = any(rule.default_effect in {"deny", "block"} for rule in rules)
         # Keep POST-H-004-B non-breaking for known implemented-initial local/sandbox flows,
         # but surface them as debt. POST-H-004-C hardens approval/RBAC/security guards.
@@ -442,12 +428,12 @@ class MiasiSemanticValidator:
             tool
             for tool in bundle.tools
             if tool.status not in {"disabled", "future", "planned"}
-            and (tool.requires_approval or tool.side_effect in EXECUTION_SIDE_EFFECTS or (tool.risk_level == "high" and tool.side_effect in SENSITIVE_SIDE_EFFECTS))
+            and (tool.requires_approval or tool.side_effect in self.semantic_rules.execution_side_effects or (tool.risk_level == "high" and tool.side_effect in self.semantic_rules.sensitive_side_effects))
         ]
         for tool in sensitive_tools:
             associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
             if tool.requires_approval:
-                approval_rules = [rule for rule in associated_rules if rule.approval_required or self._text_has_any(rule.gate, APPROVAL_GATE_TOKENS)]
+                approval_rules = [rule for rule in associated_rules if rule.approval_required or self._text_has_any(rule.gate, self.semantic_rules.approval_gate_tokens)]
                 if not approval_rules:
                     findings.append(
                         self._finding(
@@ -478,7 +464,7 @@ class MiasiSemanticValidator:
                             )
                         )
             elif tool.risk_level == "high" and tool.side_effect == "controlled_write":
-                guarded = self._rules_have_any_token(associated_rules, LOCAL_GUARD_TOKENS) and self._rules_have_any_token(associated_rules, SECRET_GUARD_TOKENS)
+                guarded = self._rules_have_any_token(associated_rules, self.semantic_rules.local_guard_tokens) and self._rules_have_any_token(associated_rules, self.semantic_rules.secret_guard_tokens)
                 if not guarded:
                     findings.append(
                         self._finding(
@@ -509,7 +495,7 @@ class MiasiSemanticValidator:
             tool
             for tool in bundle.tools
             if tool.status not in {"disabled", "future", "planned"}
-            and (tool.risk_level == "high" or tool.side_effect in {"controlled_execution", "network_cost", "controlled_write"})
+            and (tool.risk_level == "high" or tool.side_effect in (self.semantic_rules.execution_side_effects | {"controlled_write"}))
         ]
         rules_by_id = {rule.rule_id: rule for rule in bundle.rules}
         if registry:
@@ -547,7 +533,7 @@ class MiasiSemanticValidator:
         for tool in sensitive_tools:
             associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
             if tool.side_effect in {"controlled_execution", "network_cost"} and tool.requires_approval:
-                has_rbac_or_approval = self._rules_have_any_token(associated_rules, RBAC_GATE_TOKENS + APPROVAL_GATE_TOKENS)
+                has_rbac_or_approval = self._rules_have_any_token(associated_rules, self.semantic_rules.rbac_gate_tokens + self.semantic_rules.approval_gate_tokens)
                 if not has_rbac_or_approval:
                     findings.append(
                         self._finding(
@@ -565,7 +551,7 @@ class MiasiSemanticValidator:
             elif tool.side_effect == "controlled_write" and tool.risk_level == "high" and not tool.requires_approval:
                 # Current implemented-initial controlled-write capabilities remain local and sandboxed;
                 # C records RBAC debt as a warning when local guards exist, and blocks when no guard exists.
-                if self._rules_have_any_token(associated_rules, LOCAL_GUARD_TOKENS):
+                if self._rules_have_any_token(associated_rules, self.semantic_rules.local_guard_tokens):
                     findings.append(
                         self._finding(
                             finding_id="MIASI_SEMANTIC_RBAC_REVIEW_REQUIRED",
@@ -612,13 +598,13 @@ class MiasiSemanticValidator:
             tool
             for tool in bundle.tools
             if tool.status not in {"disabled", "future", "planned"}
-            and (tool.risk_level in {"high", "medium_high"} or tool.side_effect in SENSITIVE_SIDE_EFFECTS)
+            and (tool.risk_level in {"high", "medium_high"} or tool.side_effect in self.semantic_rules.sensitive_side_effects)
         ]
         for tool in sensitive_tools:
             associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
             gate_text = " ".join(rule.gate.lower() for rule in associated_rules)
             rule_ids_text = " ".join(tool.policy_rule_ids).lower()
-            if self._tool_needs_secret_guard(tool) and not (self._text_has_any(gate_text, SECRET_GUARD_TOKENS) or "secrets_raw_deny" in rule_ids_text):
+            if self._tool_needs_secret_guard(tool) and not (self._text_has_any(gate_text, self.semantic_rules.secret_guard_tokens) or "secrets_raw_deny" in rule_ids_text):
                 findings.append(
                     self._finding(
                         finding_id="MIASI_SEMANTIC_SECRET_GUARD_MISSING",
@@ -632,7 +618,7 @@ class MiasiSemanticValidator:
                         metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
                     )
                 )
-            if tool.side_effect == "network_cost" and not (tool.requires_approval and self._rules_have_any_token(associated_rules, NETWORK_GUARD_TOKENS)):
+            if tool.side_effect == "network_cost" and not (tool.requires_approval and self._rules_have_any_token(associated_rules, self.semantic_rules.network_guard_tokens)):
                 findings.append(
                     self._finding(
                         finding_id="MIASI_SEMANTIC_NETWORK_COST_GUARD_MISSING",
@@ -646,7 +632,7 @@ class MiasiSemanticValidator:
                         metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
                     )
                 )
-            if tool.side_effect in {"controlled_write", "optional_write"} and not self._rules_have_any_token(associated_rules, LOCAL_GUARD_TOKENS):
+            if tool.side_effect in {"controlled_write", "optional_write"} and not self._rules_have_any_token(associated_rules, self.semantic_rules.local_guard_tokens):
                 findings.append(
                     self._finding(
                         finding_id="MIASI_SEMANTIC_LOCAL_WRITE_GUARD_MISSING",
@@ -678,7 +664,7 @@ class MiasiSemanticValidator:
             if self._looks_like_no_go_tool(identity, rule_text):
                 allowed = any(rule.default_effect == "allow" for rule in associated_rules)
                 denied_or_blocked = any(rule.default_effect in {"deny", "block"} for rule in associated_rules) or tool.status in {"disabled", "future", "planned"}
-                has_future_sandbox_only = self._text_has_any(rule_text, ("futureadr", "future sandbox", "sandboxfuture", "sandbox", "dry_run", "dry-run", "metadata"))
+                has_future_sandbox_only = self._text_has_any(rule_text, self.semantic_rules.no_go_future_sandbox_tokens)
                 if allowed and not denied_or_blocked:
                     findings.append(
                         self._finding(
@@ -774,7 +760,7 @@ class MiasiSemanticValidator:
             tool
             for tool in bundle.tools
             if tool.status not in {"disabled", "future", "planned"}
-            and (tool.risk_level in {"high", "medium_high"} or tool.side_effect in SENSITIVE_SIDE_EFFECTS)
+            and (tool.risk_level in {"high", "medium_high"} or tool.side_effect in self.semantic_rules.sensitive_side_effects)
         ]
         for tool in sensitive_tools:
             associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
@@ -830,11 +816,11 @@ class MiasiSemanticValidator:
         findings: list[SemanticFinding] = []
         suites_present = 0
         cases_total = 0
-        for spec in REQUIRED_EVAL_FIXTURES:
-            fixture_path = spec["path"]
+        for spec in self.semantic_rules.required_eval_fixtures:
+            fixture_path = spec.path
             path = self.root / fixture_path
-            expected_suite = str(spec["suite_id"])
-            required_markers = tuple(str(item) for item in spec["required_markers"])
+            expected_suite = str(spec.suite_id)
+            required_markers = tuple(str(item) for item in spec.required_markers)
             if not path.is_file():
                 findings.append(
                     self._finding(
@@ -902,7 +888,7 @@ class MiasiSemanticValidator:
                         metadata={"missing_markers": missing_markers, "required_markers": list(required_markers)},
                     )
                 )
-            for flag in ("network_used", "external_api_used", "llm_judge_used"):
+            for flag in self.semantic_rules.unsafe_eval_runtime_flags:
                 if payload.get(flag) is True:
                     findings.append(
                         self._finding(
@@ -921,9 +907,9 @@ class MiasiSemanticValidator:
             rule_id="SEM-EVAL-COVERAGE-001",
             title="Agentic safety, red-team, plugin, RBAC and remote fixtures must cover high-risk semantic threats",
             findings=findings,
-            subjects_evaluated=len(REQUIRED_EVAL_FIXTURES),
+            subjects_evaluated=len(self.semantic_rules.required_eval_fixtures),
             summary={
-                "required_eval_fixtures_total": len(REQUIRED_EVAL_FIXTURES),
+                "required_eval_fixtures_total": len(self.semantic_rules.required_eval_fixtures),
                 "required_eval_fixtures_present": suites_present,
                 "eval_cases_total": cases_total,
             },
@@ -1175,7 +1161,7 @@ class MiasiSemanticValidator:
         findings: list[SemanticFinding] = []
         for rule in bundle.rules:
             identity = f"{rule.domain}.{rule.action}.{rule.rule_id}".lower()
-            for no_go, markers in NO_GO_ACTION_MARKERS.items():
+            for no_go, markers in self.semantic_rules.no_go_action_markers.items():
                 if any(marker in identity for marker in markers) and rule.default_effect == "allow":
                     findings.append(
                         self._finding(
@@ -1195,7 +1181,7 @@ class MiasiSemanticValidator:
             title="Remote/plugin/connector execute no-go policy rules must remain blocked",
             findings=findings,
             subjects_evaluated=len(bundle.rules),
-            summary={"no_go_domains": sorted(NO_GO_ACTION_MARKERS)},
+            summary={"no_go_domains": sorted(self.semantic_rules.no_go_action_markers)},
         )
 
     def _rule_result(
@@ -1207,13 +1193,14 @@ class MiasiSemanticValidator:
         subjects_evaluated: int,
         summary: dict[str, Any] | None = None,
     ) -> SemanticRuleResult:
+        merged_summary = {**(summary or {}), **self.semantic_rules.metadata()}
         if findings:
             return SemanticRuleResult.from_findings(
                 rule_id=rule_id,
                 title=title,
                 findings=findings,
                 subjects_evaluated=subjects_evaluated,
-                summary=summary or {},
+                summary=merged_summary,
             )
         return SemanticRuleResult(
             rule_id=rule_id,
@@ -1222,11 +1209,11 @@ class MiasiSemanticValidator:
             severity=SemanticSeverity.INFO,
             subjects_evaluated=subjects_evaluated,
             findings=(),
-            summary=summary or {},
+            summary=merged_summary,
         )
 
-    @staticmethod
     def _finding(
+        self,
         *,
         finding_id: str,
         rule_id: str,
@@ -1247,7 +1234,7 @@ class MiasiSemanticValidator:
             subject_type=subject_type,
             subject_id=subject_id,
             path=path,
-            metadata=metadata or {},
+            metadata={**self.semantic_rules.metadata(), **(metadata or {})},
         )
 
     @staticmethod
@@ -1267,24 +1254,16 @@ class MiasiSemanticValidator:
         # A sensitive approval gate should name a concrete checker/service or bind RBAC/actor semantics.
         return rule.approval_required and not any(token in gate for token in ("approvalpolicychecker", "approvalservice", "rbac", "actor", "identity"))
 
-    @staticmethod
-    def _tool_needs_secret_guard(tool: ToolSpec) -> bool:
+    def _tool_needs_secret_guard(self, tool: ToolSpec) -> bool:
         identifier = f"{tool.tool_id} {tool.name}".lower()
-        sensitive_name = any(
-            marker in identifier
-            for marker in ("secret", "model", "security", "connector", "plugin", "remote", "audit", "compliance", "enterprise", "release")
-        )
+        sensitive_name = any(marker in identifier for marker in self.semantic_rules.sensitive_name_markers)
         return tool.risk_level in {"high", "medium_high"} and (tool.side_effect in {"controlled_write", "optional_write", "network_cost"} or sensitive_name)
 
-    @staticmethod
-    def _looks_like_no_go_tool(identity: str, rule_text: str) -> bool:
+    def _looks_like_no_go_tool(self, identity: str, rule_text: str) -> bool:
         combined = f"{identity} {rule_text}".lower()
-        if "remote" in combined and any(marker in combined for marker in ("execute", "runner", "auth", "cloud_control")):
-            return True
-        if "plugin" in combined and any(marker in combined for marker in ("execute", "loader", "code")):
-            return True
-        if "connector" in combined and any(marker in combined for marker in ("write", "execute", "call_execute")):
-            return True
+        for domain, markers in self.semantic_rules.no_go_tool_markers.items():
+            if domain in combined and any(marker in combined for marker in markers):
+                return True
         return False
 
 
@@ -1414,6 +1393,7 @@ class MiasiSemanticValidator:
             "mutations_performed": False,
             "source_mutations_performed": False,
             "preliminary": True,
+            "semantic_rules_registry": self.semantic_rules.summary(),
         }
         message = "MIASI semantic validation passed."
         if payload["summary"]["warning_findings_total"]:

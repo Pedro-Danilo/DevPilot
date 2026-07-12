@@ -822,6 +822,20 @@
       "no_remote_execution_enabled": true
     },
     {
+      "schema_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1",
+      "title": "DevPilot MiasiSemanticRules v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/miasi_semantic_rules.schema.json",
+      "description": "POST-H-033-D schema-backed registry for deterministic MIASI semantic rule tokens, no-go markers, guard requirements and required eval fixtures without enabling execution.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-033-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "MiasiSemanticRules",
+      "validation_enabled_sprint": "POST-H-033-D"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
       "title": "DevPilot MIASI Tool Registry v1",
       "version": "1.0.0",
@@ -1844,5 +1858,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 127
+  "schemas_total": 128
 }

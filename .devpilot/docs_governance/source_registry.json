@@ -11289,6 +11289,139 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES",
+      "path": ".devpilot/miasi/semantic_rules.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1",
+      "path": "docs/schemas/miasi_semantic_rules.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-033-D",
+      "status_required": "registered",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_must_reference_schema",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-MODULE",
+      "path": "src/devpilot_core/miasi/declarative_semantic_rules.py",
+      "classification": "source-of-truth",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+        "tests/test_miasi_semantic_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-VALIDATOR-MODULE",
+      "path": "src/devpilot_core/miasi/semantic.py",
+      "classification": "source-of-truth",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+        "tests/test_miasi_semantic_validator.py",
+        "tests/test_miasi_semantic_validator_fixtures.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-REGISTRY-TEST",
+      "path": "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-REGISTRY-REPORT",
+      "path": "docs/audits/post_h_033_d_miasi_semantic_rules_registry_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.miasi",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MANIFEST",
+      "path": "docs/post_h_033_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
     }
   ],
   "rules": {
@@ -11362,7 +11495,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 452,
+    "documents_total": 483,
     "source_of_truth_total": 181,
     "machine_readable_source_total": 210,
     "derived_total": 61,
@@ -12624,6 +12757,6 @@
     "post_h_032_b_real_server_required_for_tests": false,
     "post_h_032_b_models_called_by_health": false
   },
-  "updated_at": "2026-07-11",
-  "last_registered_sprint": "POST-H-033-B"
+  "updated_at": "2026-07-11T00:00:00Z",
+  "last_registered_sprint": "POST-H-033-D"
 }

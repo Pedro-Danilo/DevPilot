@@ -11391,3 +11391,15 @@ Controles obligatorios:
 - No se permite LLM real, red, API externa, memoria, tool execution ni mutación de fuentes en POST-H-032-D.
 
 Estado: `implemented-initial`; futuras versiones pueden integrar el context pack dentro de prompts/agentes, pero deben conservar estos gates.
+
+## POST-H-033-D — MIASI semantic rules registry
+
+Estado: `implemented-initial`. Para verificar el registry MIASI semántico:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema-id MiasiSemanticRules --instance .devpilot\miasi\semantic_rules.json --json
+python -m devpilot_core miasi semantic-validate --json
+```
+
+El registry versiona tokens, no-go markers, guard mappings y fixtures requeridos. El motor permanece determinístico y no ejecutante. El fallback Python es temporal y no debe eliminarse hasta completar equivalencia before/after al cierre de POST-H-033. No se permite desactivar reglas críticas sin ADR/backlog posterior.

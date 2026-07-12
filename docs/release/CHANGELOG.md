@@ -1,4 +1,14 @@
 
+## POST-H-033-D — MIASI semantic rules registry
+
+- Added `docs/schemas/miasi_semantic_rules.schema.json`.
+- Added `.devpilot/miasi/semantic_rules.json`.
+- Added `src/devpilot_core/miasi/declarative_semantic_rules.py`.
+- Integrated `MiasiSemanticValidator` with registry-backed semantic tokens and eval fixture requirements.
+- Preserved deterministic/non-executing behavior, fallback compatibility and no-go blocking semantics.
+- Added `tests/test_post_h_033_miasi_semantic_rules_registry.py`.
+
+
 ## post-h-033-c — Readiness requirements registry
 
 - Added schema-backed `.devpilot/readiness/readiness_requirements.json` as primary readiness artifact source.

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
 created_for: "DevPilot Local"
 scope: "deterministic validators / schema-backed catalogs / declarative semantics / compatibility-preserving migration"
-implementation_status: "active/post-h-033-c-implemented-initial"
-current_micro_sprint: "POST-H-033-C"
-next_micro_sprint: "POST-H-033-D"
+implementation_status: "active/post-h-033-d-implemented-initial"
+current_micro_sprint: "POST-H-033-D"
+next_micro_sprint: "POST-H-033-E"
 ```
 
 ## 1. Proposito del backlog
@@ -519,6 +519,15 @@ python -m pytest -p no:ddtrace --assert=plain `
 
 python -m devpilot_core schema validate --schema-id MiasiSemanticRules --instance .devpilot/miasi/semantic_rules.json --json
 ```
+
+
+## Estado de implementación POST-H-033-D
+
+Estado: `implemented-initial`. Se implementó el registry schema-backed de reglas semánticas MIASI mediante `docs/schemas/miasi_semantic_rules.schema.json`, `.devpilot/miasi/semantic_rules.json` y `src/devpilot_core/miasi/declarative_semantic_rules.py`, con integración progresiva en `src/devpilot_core/miasi/semantic.py`.
+
+La implementación migra únicamente reglas seguras de parametrizar: side effects sensibles, execution side effects, safe gated controlled write tokens, no-go action markers, approval/RBAC/SecretGuard/network/local guard tokens, fixtures requeridos y severidades base. El motor semántico permanece determinístico, local-first y no ejecutante. Registry inválido activa fallback explícito con finding bloqueante; registry faltante activa fallback con warning.
+
+La versión es preliminar y debe evolucionar antes de retirar fallback Python. No se agregan dependencias externas, no se usa LLM judge, no se habilita red, plugin execution, connector write, remote execution ni subprocesses. Las reglas críticas no se pueden desactivar sin ADR/backlog posterior.
 
 ## POST-H-033-E - Policy/guard pattern catalogs
 

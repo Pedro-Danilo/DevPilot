@@ -5969,3 +5969,9 @@ python -m devpilot_core agent rag-context --json
 python -m devpilot_core agent rag-context --json --write-report
 python -m devpilot_core schema validate --schema-id RagAgentContextPack --instance outputs\reports\rag_agent_context_pack.json --json
 ```
+## POST-H-033-D — MIASI semantic rules registry
+
+DevPilot incorpora una primera versión schema-backed del registry declarativo de reglas semánticas MIASI. El nuevo artefacto `.devpilot/miasi/semantic_rules.json`, validado por `docs/schemas/miasi_semantic_rules.schema.json`, versiona tokens sensibles, marcadores no-go, guard mappings y fixtures de evaluación requeridos sin reemplazar el motor determinístico de `src/devpilot_core/miasi/semantic.py`.
+
+La implementación es `implemented-initial`: conserva fallback Python temporal, no habilita ejecución de agents/tools/red/plugins/conectores/subprocesses, no permite desactivar reglas críticas y deja `rule_source`/`catalog_version` visibles en el reporte semántico.
+

@@ -15450,6 +15450,75 @@
       "schema_ids": [
         "docs/schemas/readiness_requirements.schema.json"
       ]
+    },
+    {
+      "contract_id": "post-h-033-miasi-semantic-rules-registry",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-033-miasi-semantic-rules-registry",
+      "domain": "governance.miasi",
+      "capability": "MiasiSemanticRulesRegistry",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "watched_paths": [
+        ".devpilot/miasi/semantic_rules.json",
+        "docs/schemas/miasi_semantic_rules.schema.json",
+        "src/devpilot_core/miasi/declarative_semantic_rules.py",
+        "src/devpilot_core/miasi/semantic.py",
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "validates": [
+        ".devpilot/miasi/semantic_rules.json",
+        "docs/schemas/miasi_semantic_rules.schema.json",
+        "src/devpilot_core/miasi/declarative_semantic_rules.py",
+        "src/devpilot_core/miasi/semantic.py"
+      ],
+      "trigger_hints": [
+        "post-h-033-d",
+        "miasi-semantic-rules-change",
+        "no-go-marker-change",
+        "guard-token-change",
+        "eval-fixture-requirements-change"
+      ],
+      "impact_scope": [
+        "miasi",
+        "policy",
+        "approval",
+        "rbac",
+        "security",
+        "connectors",
+        "plugins",
+        "remote",
+        "evals",
+        "schemas"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-033-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_miasi_semantic_rules_registry.py tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py tests/test_policy_engine.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_018_connector_policy_binding.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-033-D moves safe-to-parameterize MIASI semantic tokens, guard mappings, no-go markers and eval fixture requirements to a schema-backed registry while preserving the deterministic non-executing validator."
+      ],
+      "owner_domain": "governance.miasi",
+      "service_boundary": "MiasiSemanticValidator + DeclarativeSemanticRulesCatalog",
+      "subgate_id": "miasi-semantic-no-go-governance",
+      "schema_ids": [
+        "docs/schemas/miasi_semantic_rules.schema.json"
+      ]
     }
   ],
   "migration_metadata": {

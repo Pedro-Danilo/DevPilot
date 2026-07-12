@@ -1,0 +1,375 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1",
+  "registry_id": "MIASI-SEMANTIC-RULES-REGISTRY-V1",
+  "created_by": "POST-H-033-D",
+  "status": "implemented-initial",
+  "catalog_version": "1.0.0",
+  "updated_at": "2026-07-11",
+  "owner": "Ordóñez",
+  "description": "Schema-backed declarative registry for safe-to-parameterize MIASI semantic validation tokens, no-go markers, guard requirements, severities and required eval fixtures. The deterministic Python engine remains authoritative for execution flow and non-removable base defenses.",
+  "rule_source": ".devpilot/miasi/semantic_rules.json",
+  "engine_dependency_free": true,
+  "fallback_required": true,
+  "fallback_status": "temporary-compatible",
+  "fallback_deprecation_target": "after POST-H-033 closure when before/after equivalence evidence is complete",
+  "rules_engine": {
+    "module": "src/devpilot_core/miasi/declarative_semantic_rules.py",
+    "integrated_validator": "src/devpilot_core/miasi/semantic.py",
+    "deterministic": true,
+    "non_executing": true,
+    "read_only": true
+  },
+  "token_sets": {
+    "sensitive_side_effects": [
+      "controlled_write",
+      "controlled_execution",
+      "network_cost",
+      "optional_write"
+    ],
+    "execution_side_effects": [
+      "controlled_execution",
+      "network_cost"
+    ],
+    "safe_gated_controlled_write_tokens": [
+      "sandbox",
+      "dry_run",
+      "dry-run",
+      "rollback",
+      "registry",
+      "local",
+      "pathguard",
+      "secretguard",
+      "policyengine"
+    ],
+    "approval_gate_tokens": [
+      "approval",
+      "approvalpolicychecker",
+      "approvalservice",
+      "human",
+      "actor"
+    ],
+    "rbac_gate_tokens": [
+      "rbac",
+      "identityregistry",
+      "role",
+      "actor"
+    ],
+    "secret_guard_tokens": [
+      "secretguard",
+      "secret",
+      "redacted",
+      "no raw secrets",
+      "norawsecrets"
+    ],
+    "network_guard_tokens": [
+      "costguard",
+      "noexternalapi",
+      "no external api",
+      "nonetwork",
+      "no network",
+      "localhostonly"
+    ],
+    "local_guard_tokens": [
+      "pathguard",
+      "policyengine",
+      "sandbox",
+      "dry_run",
+      "dry-run",
+      "local",
+      "checksum",
+      "rollback",
+      "registry"
+    ],
+    "sensitive_name_markers": [
+      "secret",
+      "model",
+      "security",
+      "connector",
+      "plugin",
+      "remote",
+      "audit",
+      "compliance",
+      "enterprise",
+      "release"
+    ],
+    "no_go_future_sandbox_tokens": [
+      "futureadr",
+      "future sandbox",
+      "sandboxfuture",
+      "sandbox",
+      "dry_run",
+      "dry-run",
+      "metadata"
+    ]
+  },
+  "no_go_action_markers": {
+    "remote": [
+      "execute_remote",
+      "cloud_control_plane",
+      "remote_authentication"
+    ],
+    "plugin": [
+      "execute_plugin_code",
+      "plugin_execute",
+      "execute_plugin"
+    ],
+    "connector": [
+      "connector_call_execute_mode",
+      "connector_write",
+      "write_connector"
+    ]
+  },
+  "no_go_tool_markers": {
+    "remote": [
+      "execute",
+      "runner",
+      "auth",
+      "cloud_control"
+    ],
+    "plugin": [
+      "execute",
+      "loader",
+      "code"
+    ],
+    "connector": [
+      "write",
+      "execute",
+      "call_execute"
+    ]
+  },
+  "required_eval_fixtures": [
+    {
+      "path": "evals/fixtures/red_team_agentic_eval_cases.json",
+      "suite_id": "red-team",
+      "required_markers": [
+        "prompt-injection",
+        "secret",
+        "connector"
+      ],
+      "missing_severity": "warning",
+      "invalid_json_severity": "block",
+      "suite_mismatch_severity": "block",
+      "cases_missing_severity": "block",
+      "marker_missing_severity": "block",
+      "unsafe_runtime_flag_severity": "block"
+    },
+    {
+      "path": "evals/fixtures/advanced_agentic_eval_cases.json",
+      "suite_id": "advanced-agentic",
+      "required_markers": [
+        "rag",
+        "mcp",
+        "multiagent"
+      ],
+      "missing_severity": "warning",
+      "invalid_json_severity": "block",
+      "suite_mismatch_severity": "block",
+      "cases_missing_severity": "block",
+      "marker_missing_severity": "block",
+      "unsafe_runtime_flag_severity": "block"
+    },
+    {
+      "path": "evals/fixtures/plugin_ecosystem_eval_cases.json",
+      "suite_id": "plugin-ecosystem",
+      "required_markers": [
+        "plugin"
+      ],
+      "missing_severity": "warning",
+      "invalid_json_severity": "block",
+      "suite_mismatch_severity": "block",
+      "cases_missing_severity": "block",
+      "marker_missing_severity": "block",
+      "unsafe_runtime_flag_severity": "block"
+    },
+    {
+      "path": "evals/fixtures/identity_rbac_eval_cases.json",
+      "suite_id": "identity-rbac",
+      "required_markers": [
+        "rbac"
+      ],
+      "missing_severity": "warning",
+      "invalid_json_severity": "block",
+      "suite_mismatch_severity": "block",
+      "cases_missing_severity": "block",
+      "marker_missing_severity": "block",
+      "unsafe_runtime_flag_severity": "block"
+    },
+    {
+      "path": "evals/fixtures/remote_enterprise_eval_cases.json",
+      "suite_id": "remote-enterprise",
+      "required_markers": [
+        "remote"
+      ],
+      "missing_severity": "warning",
+      "invalid_json_severity": "block",
+      "suite_mismatch_severity": "block",
+      "cases_missing_severity": "block",
+      "marker_missing_severity": "block",
+      "unsafe_runtime_flag_severity": "block"
+    }
+  ],
+  "unsafe_eval_runtime_flags": [
+    "network_used",
+    "external_api_used",
+    "llm_judge_used"
+  ],
+  "semantic_rules": [
+    {
+      "rule_id": "SEM-TOOL-APPROVAL-001",
+      "title": "Sensitive side-effecting tools must be approval-governed or explicitly safe-gated",
+      "category": "tool",
+      "default_severity": "block",
+      "finding_ids": [
+        "MIASI_SEMANTIC_SENSITIVE_TOOL_APPROVAL_MISSING",
+        "MIASI_SEMANTIC_CONTROLLED_WRITE_APPROVAL_REVIEW"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "rule_id": "SEM-APPROVAL-SCOPE-001",
+      "title": "Sensitive tools must have explicit approval metadata or concrete local guard scope",
+      "category": "approval",
+      "default_severity": "block",
+      "finding_ids": [
+        "MIASI_SEMANTIC_APPROVAL_METADATA_MISSING",
+        "MIASI_SEMANTIC_APPROVAL_SCOPE_GENERIC",
+        "MIASI_SEMANTIC_CONTROLLED_WRITE_APPROVAL_OR_GUARD_MISSING"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "rule_id": "SEM-RBAC-001",
+      "title": "Sensitive actions must be constrained by local identity/RBAC metadata",
+      "category": "rbac",
+      "default_severity": "block",
+      "finding_ids": [
+        "MIASI_SEMANTIC_RBAC_NOT_ENFORCED",
+        "MIASI_SEMANTIC_UNKNOWN_ACTOR_NOT_DENIED",
+        "MIASI_SEMANTIC_RBAC_BINDING_MISSING",
+        "MIASI_SEMANTIC_RBAC_REVIEW_REQUIRED"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "rule_id": "SEM-SECURITY-GUARD-001",
+      "title": "Sensitive tools must declare SecretGuard, local guard and network/cost guard semantics",
+      "category": "security",
+      "default_severity": "block",
+      "finding_ids": [
+        "MIASI_SEMANTIC_SECRET_GUARD_MISSING",
+        "MIASI_SEMANTIC_NETWORK_COST_GUARD_MISSING",
+        "MIASI_SEMANTIC_LOCAL_WRITE_GUARD_MISSING"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "rule_id": "SEM-NO-GO-GUARD-001",
+      "title": "Remote/plugin/connector write or execute paths must remain deny/block guarded",
+      "category": "no-go",
+      "default_severity": "block",
+      "finding_ids": [
+        "MIASI_SEMANTIC_NO_GO_TOOL_ALLOWED",
+        "MIASI_SEMANTIC_CONNECTOR_WRITE_WITHOUT_FUTURE_GUARDS"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "rule_id": "SEM-EVAL-COVERAGE-001",
+      "title": "Agentic safety, red-team, plugin, RBAC and remote fixtures must cover high-risk semantic threats",
+      "category": "eval",
+      "default_severity": "block",
+      "finding_ids": [
+        "MIASI_SEMANTIC_EVAL_FIXTURE_MISSING",
+        "MIASI_SEMANTIC_EVAL_SUITE_ID_MISMATCH",
+        "MIASI_SEMANTIC_EVAL_CASES_MISSING",
+        "MIASI_SEMANTIC_EVAL_MARKER_COVERAGE_MISSING",
+        "MIASI_SEMANTIC_EVAL_UNSAFE_RUNTIME_FLAG"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    },
+    {
+      "rule_id": "SEM-NO-GO-001",
+      "title": "Remote/plugin/connector execute no-go policy rules must remain blocked",
+      "category": "no-go",
+      "default_severity": "block",
+      "finding_ids": [
+        "MIASI_SEMANTIC_NO_GO_RULE_ALLOWED"
+      ],
+      "critical": true,
+      "cannot_disable_without_adr": true
+    }
+  ],
+  "severity_policy": {
+    "controlled_write_review": "warning",
+    "missing_eval_fixture": "warning",
+    "invalid_registry": "block",
+    "missing_registry": "warning",
+    "no_go_allowed": "block",
+    "critical_rule_disable_attempt": "block"
+  },
+  "compatibility": {
+    "runtime_behavior_changed": false,
+    "legacy_constants_preserved": true,
+    "finding_ids_preserved": true,
+    "python_fallback_preserved": true,
+    "fallback_preserves_previous_rules": true,
+    "semantic_report_schema_preserved": true,
+    "miasi_validator_non_executing": true,
+    "no_go_gates_preserved": true,
+    "eval_fixture_coverage_preserved": true,
+    "tokens_versioned": true,
+    "guard_mappings_versioned": true,
+    "rule_source_reported": true,
+    "catalog_version_reported": true,
+    "critical_rules_disable_allowed": false
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "llm_judge_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "subprocess_execution_enabled": false,
+    "tools_executed": false,
+    "agents_executed": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "critical_rules_disable_allowed": false,
+    "dynamic_executable_rules_allowed": false,
+    "no_go_gates_preserved": true
+  },
+  "tests": [
+    "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+    "tests/test_miasi_semantic_validator.py",
+    "tests/test_miasi_semantic_validator_fixtures.py",
+    "tests/test_miasi_semantic_report_model.py",
+    "tests/test_miasi_registry.py",
+    "tests/test_policy_engine.py",
+    "tests/test_post_h_021_remote_disabled_invariants.py",
+    "tests/test_post_h_019_plugin_execution_blocked.py",
+    "tests/test_post_h_018_connector_policy_binding.py"
+  ],
+  "notes": [
+    "POST-H-033-D migrates only safe-to-parameterize semantic tokens and fixture requirements; it does not replace all of miasi/semantic.py.",
+    "Critical no-go rules remain non-removable and cannot be disabled by local configuration.",
+    "Fallback is temporary and exists to avoid opening bypasses while equivalence evidence accumulates."
+  ],
+  "limitations": [
+    "Semantic rule execution flow remains in Python.",
+    "Future POST-H-033-E/F must migrate policy guard pattern catalogs and docs governance rule registries separately."
+  ],
+  "manifest_id": "POST-H-033-D-MANIFEST",
+  "manifest_type": "micro-sprint-manifest",
+  "sprint": "POST-H-033-D",
+  "source_registry": ".devpilot/miasi/semantic_rules.json"
+}

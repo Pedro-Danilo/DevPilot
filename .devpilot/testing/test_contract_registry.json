@@ -8460,6 +8460,34 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_readiness_requirements_registry.py tests/test_precode_readiness.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_validation_gateway.py tests/test_schema_validator.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-033-miasi-semantic-rules-registry",
+      "scope": "safety",
+      "owner": "POST-H-033-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "validates": [
+        ".devpilot/miasi/semantic_rules.json",
+        "docs/schemas/miasi_semantic_rules.schema.json",
+        "src/devpilot_core/miasi/declarative_semantic_rules.py",
+        "src/devpilot_core/miasi/semantic.py"
+      ],
+      "watched_paths": [
+        ".devpilot/miasi/semantic_rules.json",
+        "docs/schemas/miasi_semantic_rules.schema.json",
+        "src/devpilot_core/miasi/declarative_semantic_rules.py",
+        "src/devpilot_core/miasi/semantic.py",
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_miasi_semantic_rules_registry.py tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py tests/test_policy_engine.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_018_connector_policy_binding.py -q"
+      ]
     }
   ],
   "notes": [

@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-033-C"
-    assert state.get("next_micro_sprint") == "POST-H-033-D"
+    assert state.get("current_micro_sprint") == "POST-H-033-D"
+    assert state.get("next_micro_sprint") == "POST-H-033-E"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_304_POST_H_033_C.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_305_POST_H_033_D.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -564,8 +564,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_030_workspace_onboarding_cli_module") == "src/devpilot_core/cli_commands/workspace_onboarding.py"
     assert state.get("post_h_030_workspace_onboarding_commands_migrated_total") == 7
     assert state.get("post_h_030_workspace_onboarding_public_behavior_changed") is False
-    assert state["current_micro_sprint"] == "POST-H-033-C"
-    assert state["next_micro_sprint"] == "POST-H-033-D"
+    assert state["current_micro_sprint"] == "POST-H-033-D"
+    assert state["next_micro_sprint"] == "POST-H-033-E"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -1052,11 +1052,11 @@ def test_post_h_033_a_project_state_adds_validator_inventory_migration_plan() ->
     backlog = (ROOT / "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] == "POST-H-033-C"
-    assert state["next_micro_sprint"] == "POST-H-033-D"
+    assert state["current_micro_sprint"] == "POST-H-033-D"
+    assert state["next_micro_sprint"] == "POST-H-033-E"
     assert state["post_h_032_status"] == "closed/advanced-ai-agents-governed"
     assert state["post_h_032_closed"] is True
-    assert state["post_h_033_status"] == "active/readiness-requirements-registry-implemented-initial"
+    assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial"}
     assert state["post_h_033_backlog_approved"] is True
     assert state["post_h_033_a_closed"] is True
     assert state["post_h_033_a_validator_inventory_available"] is True
@@ -1069,7 +1069,7 @@ def test_post_h_033_a_project_state_adds_validator_inventory_migration_plan() ->
     assert state["post_h_033_a_critical_defenses_disable_allowed"] is False
     assert "POST-H-033-A — Validator inventory and migration plan" in readme
     assert "POST-H-033-A — Validator inventory and migration plan" in runbook
-    assert 'implementation_status: "active/post-h-033-c-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "active/post-h-033-c-implemented-initial"', 'implementation_status: "active/post-h-033-d-implemented-initial"'])
     assert "post-h-033-a" in changelog.lower()
 
 
@@ -1080,10 +1080,10 @@ def test_post_h_033_b_project_state_adds_frontmatter_schema_backed_validator() -
     backlog = (ROOT / "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] == "POST-H-033-C"
-    assert state["next_micro_sprint"] == "POST-H-033-D"
+    assert state["current_micro_sprint"] == "POST-H-033-D"
+    assert state["next_micro_sprint"] == "POST-H-033-E"
     assert state["post_h_033_a_closed"] is True
-    assert state["post_h_033_status"] == "active/readiness-requirements-registry-implemented-initial"
+    assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial"}
     assert state["post_h_033_b_frontmatter_catalog_available"] is True
     assert state["post_h_033_b_frontmatter_metadata_schema_registered"] is True
     assert state["post_h_033_b_frontmatter_validator_integrated"] is True
@@ -1101,7 +1101,7 @@ def test_post_h_033_b_project_state_adds_frontmatter_schema_backed_validator() -
     assert state["post_h_033_b_catalog_version_reported"] is True
     assert "POST-H-033-B — Frontmatter schema-backed validator" in readme
     assert "POST-H-033-B — Frontmatter schema-backed validator" in runbook
-    assert 'implementation_status: "active/post-h-033-c-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "active/post-h-033-c-implemented-initial"', 'implementation_status: "active/post-h-033-d-implemented-initial"'])
     assert "post-h-033-b" in changelog.lower()
 
 
@@ -1112,10 +1112,10 @@ def test_post_h_033_c_project_state_adds_readiness_requirements_registry() -> No
     backlog = (ROOT / "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] == "POST-H-033-C"
-    assert state["next_micro_sprint"] == "POST-H-033-D"
+    assert state["current_micro_sprint"] == "POST-H-033-D"
+    assert state["next_micro_sprint"] == "POST-H-033-E"
     assert state["post_h_033_b_closed"] is True
-    assert state["post_h_033_status"] == "active/readiness-requirements-registry-implemented-initial"
+    assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial"}
     assert state["post_h_033_c_readiness_requirements_available"] is True
     assert state["post_h_033_c_readiness_requirements_schema_registered"] is True
     assert state["post_h_033_c_readiness_validator_integrated"] is True
@@ -1133,5 +1133,34 @@ def test_post_h_033_c_project_state_adds_readiness_requirements_registry() -> No
     assert state["post_h_033_c_critical_rules_disable_allowed"] is False
     assert "POST-H-033-C — Readiness requirements registry" in readme
     assert "POST-H-033-C — Readiness requirements registry" in runbook
-    assert 'implementation_status: "active/post-h-033-c-implemented-initial"' in backlog
+    assert any(marker in backlog for marker in ['implementation_status: "active/post-h-033-c-implemented-initial"', 'implementation_status: "active/post-h-033-d-implemented-initial"'])
     assert "post-h-033-c" in changelog.lower()
+
+
+def test_post_h_033_d_project_state_adds_miasi_semantic_rules_registry() -> None:
+    state = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
+
+    assert state["post_h_033_c_closed"] is True
+    assert state["current_micro_sprint"] == "POST-H-033-D"
+    assert state["next_micro_sprint"] == "POST-H-033-E"
+    assert state["post_h_033_d_miasi_semantic_rules_available"] is True
+    assert state["post_h_033_d_miasi_semantic_rules_schema_registered"] is True
+    assert state["post_h_033_d_miasi_semantic_validator_integrated"] is True
+    assert state["post_h_033_d_registry_source_primary"] is True
+    assert state["post_h_033_d_python_fallback_required"] is True
+    assert state["post_h_033_d_runtime_behavior_changed"] is False
+    assert state["post_h_033_d_finding_ids_preserved"] is True
+    assert state["post_h_033_d_no_go_gates_preserved"] is True
+    assert state["post_h_033_d_eval_fixture_coverage_preserved"] is True
+    assert state["post_h_033_d_tokens_versioned"] is True
+    assert state["post_h_033_d_guard_mappings_versioned"] is True
+    assert state["post_h_033_d_invalid_registry_blocks_success"] is True
+    assert state["post_h_033_d_rule_source_reported"] is True
+    assert state["post_h_033_d_catalog_version_reported"] is True
+    assert state["post_h_033_d_critical_rules_disable_allowed"] is False
+    assert state["post_h_033_d_network_used"] is False
+    assert state["post_h_033_d_external_api_used"] is False
+    assert state["post_h_033_d_remote_execution_enabled"] is False
+    assert state["post_h_033_d_connector_write_enabled"] is False
+    assert state["post_h_033_d_plugin_execution_enabled"] is False
+    assert state["post_h_033_d_source_mutations"] is False

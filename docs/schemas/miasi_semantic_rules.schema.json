@@ -1,0 +1,523 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/miasi_semantic_rules.schema.json",
+  "title": "DevPilot MiasiSemanticRules v1",
+  "description": "POST-H-033-D schema-backed registry for deterministic, non-executing MIASI semantic rule tokens, no-go markers, guard requirements and required safety eval fixtures.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "created_by",
+    "status",
+    "catalog_version",
+    "updated_at",
+    "owner",
+    "rule_source",
+    "engine_dependency_free",
+    "fallback_required",
+    "fallback_status",
+    "rules_engine",
+    "token_sets",
+    "no_go_action_markers",
+    "no_go_tool_markers",
+    "required_eval_fixtures",
+    "unsafe_eval_runtime_flags",
+    "semantic_rules",
+    "severity_policy",
+    "compatibility",
+    "safety",
+    "tests",
+    "notes",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1"
+    },
+    "registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "const": "POST-H-033-D"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved",
+        "current",
+        "blocked"
+      ]
+    },
+    "catalog_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9_.-]+)?$"
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rule_source": {
+      "const": ".devpilot/miasi/semantic_rules.json"
+    },
+    "engine_dependency_free": {
+      "const": true
+    },
+    "fallback_required": {
+      "const": true
+    },
+    "fallback_status": {
+      "enum": [
+        "temporary-compatible",
+        "deprecated",
+        "removed"
+      ]
+    },
+    "rules_engine": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "module",
+        "integrated_validator",
+        "deterministic",
+        "non_executing",
+        "read_only"
+      ],
+      "properties": {
+        "module": {
+          "const": "src/devpilot_core/miasi/declarative_semantic_rules.py"
+        },
+        "integrated_validator": {
+          "const": "src/devpilot_core/miasi/semantic.py"
+        },
+        "deterministic": {
+          "const": true
+        },
+        "non_executing": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        }
+      }
+    },
+    "token_sets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sensitive_side_effects",
+        "execution_side_effects",
+        "safe_gated_controlled_write_tokens",
+        "approval_gate_tokens",
+        "rbac_gate_tokens",
+        "secret_guard_tokens",
+        "network_guard_tokens",
+        "local_guard_tokens",
+        "sensitive_name_markers",
+        "no_go_future_sandbox_tokens"
+      ],
+      "properties": {
+        "sensitive_side_effects": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "execution_side_effects": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "safe_gated_controlled_write_tokens": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "approval_gate_tokens": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "rbac_gate_tokens": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "secret_guard_tokens": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "network_guard_tokens": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "local_guard_tokens": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "sensitive_name_markers": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "no_go_future_sandbox_tokens": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        }
+      }
+    },
+    "no_go_action_markers": {
+      "$ref": "#/$defs/markerMap"
+    },
+    "no_go_tool_markers": {
+      "$ref": "#/$defs/markerMap"
+    },
+    "required_eval_fixtures": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "$ref": "#/$defs/evalFixture"
+      }
+    },
+    "unsafe_eval_runtime_flags": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "enum": [
+          "network_used",
+          "external_api_used",
+          "llm_judge_used"
+        ]
+      },
+      "contains": {
+        "const": "network_used"
+      }
+    },
+    "semantic_rules": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "$ref": "#/$defs/semanticRule"
+      }
+    },
+    "severity_policy": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "info",
+          "warning",
+          "error",
+          "block"
+        ]
+      },
+      "required": [
+        "controlled_write_review",
+        "missing_eval_fixture",
+        "invalid_registry",
+        "missing_registry",
+        "no_go_allowed",
+        "critical_rule_disable_attempt"
+      ],
+      "properties": {
+        "controlled_write_review": {
+          "const": "warning"
+        },
+        "missing_eval_fixture": {
+          "const": "warning"
+        },
+        "invalid_registry": {
+          "const": "block"
+        },
+        "missing_registry": {
+          "const": "warning"
+        },
+        "no_go_allowed": {
+          "const": "block"
+        },
+        "critical_rule_disable_attempt": {
+          "const": "block"
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "runtime_behavior_changed",
+        "legacy_constants_preserved",
+        "finding_ids_preserved",
+        "python_fallback_preserved",
+        "fallback_preserves_previous_rules",
+        "semantic_report_schema_preserved",
+        "miasi_validator_non_executing",
+        "no_go_gates_preserved",
+        "eval_fixture_coverage_preserved",
+        "tokens_versioned",
+        "guard_mappings_versioned",
+        "rule_source_reported",
+        "catalog_version_reported",
+        "critical_rules_disable_allowed"
+      ],
+      "properties": {
+        "runtime_behavior_changed": {
+          "const": false
+        },
+        "legacy_constants_preserved": {
+          "const": true
+        },
+        "finding_ids_preserved": {
+          "const": true
+        },
+        "python_fallback_preserved": {
+          "const": true
+        },
+        "fallback_preserves_previous_rules": {
+          "const": true
+        },
+        "semantic_report_schema_preserved": {
+          "const": true
+        },
+        "miasi_validator_non_executing": {
+          "const": true
+        },
+        "no_go_gates_preserved": {
+          "const": true
+        },
+        "eval_fixture_coverage_preserved": {
+          "const": true
+        },
+        "tokens_versioned": {
+          "const": true
+        },
+        "guard_mappings_versioned": {
+          "const": true
+        },
+        "rule_source_reported": {
+          "const": true
+        },
+        "catalog_version_reported": {
+          "const": true
+        },
+        "critical_rules_disable_allowed": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "read_only",
+        "network_used",
+        "external_api_used",
+        "llm_judge_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "subprocess_execution_enabled",
+        "tools_executed",
+        "agents_executed",
+        "mutations_performed",
+        "source_mutations_performed",
+        "critical_rules_disable_allowed",
+        "dynamic_executable_rules_allowed",
+        "no_go_gates_preserved"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "subprocess_execution_enabled": {
+          "const": false
+        },
+        "tools_executed": {
+          "const": false
+        },
+        "agents_executed": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "critical_rules_disable_allowed": {
+          "const": false
+        },
+        "dynamic_executable_rules_allowed": {
+          "const": false
+        },
+        "no_go_gates_preserved": {
+          "const": true
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "markerMap": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/nonEmptyStringArray"
+      },
+      "required": [
+        "remote",
+        "plugin",
+        "connector"
+      ]
+    },
+    "evalFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "suite_id",
+        "required_markers",
+        "missing_severity",
+        "invalid_json_severity",
+        "suite_mismatch_severity",
+        "cases_missing_severity",
+        "marker_missing_severity",
+        "unsafe_runtime_flag_severity"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^evals/fixtures/.+\\.json$"
+        },
+        "suite_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_markers": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "missing_severity": {
+          "enum": [
+            "warning"
+          ]
+        },
+        "invalid_json_severity": {
+          "enum": [
+            "block"
+          ]
+        },
+        "suite_mismatch_severity": {
+          "enum": [
+            "block"
+          ]
+        },
+        "cases_missing_severity": {
+          "enum": [
+            "block"
+          ]
+        },
+        "marker_missing_severity": {
+          "enum": [
+            "block"
+          ]
+        },
+        "unsafe_runtime_flag_severity": {
+          "enum": [
+            "block"
+          ]
+        }
+      }
+    },
+    "semanticRule": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "rule_id",
+        "title",
+        "category",
+        "default_severity",
+        "finding_ids",
+        "critical",
+        "cannot_disable_without_adr"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^SEM-[A-Z0-9-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1
+        },
+        "default_severity": {
+          "enum": [
+            "info",
+            "warning",
+            "error",
+            "block"
+          ]
+        },
+        "finding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^MIASI_SEMANTIC_[A-Z0-9_]+$"
+          }
+        },
+        "critical": {
+          "const": true
+        },
+        "cannot_disable_without_adr": {
+          "const": true
+        }
+      }
+    }
+  }
+}
