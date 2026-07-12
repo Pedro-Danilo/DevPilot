@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-CONNECTOR-WRITE-DECISION-V1",
+  "decision_id": "POST-H-034-A-CONNECTOR-WRITE-DECISION",
+  "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+  "created_by": "POST-H-034-A",
+  "status": "implemented-initial",
+  "capability_id": "connector.write",
+  "capability_name": "Connector write",
+  "decision_state": "continue-blocked",
+  "decision_status": "continue-blocked",
+  "adr_path": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+  "checklist_path": ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+  "report_path": "docs/audits/post_h_034_a_connector_write_adr_report.md",
+  "manifest_path": "docs/post_h_034_a_manifest.json",
+  "connector_write_enabled": false,
+  "runtime_write_enabled": false,
+  "external_api_allowed": false,
+  "network_allowed": false,
+  "credentials_required": false,
+  "requires_future_backlog": true,
+  "requires_future_enablement_adr": true,
+  "requires_human_approval": true,
+  "rollback_required_before_pilot": true,
+  "kill_switch_required_before_pilot": true,
+  "prerequisites": [
+    {
+      "id": "adr-approved",
+      "description": "ADR approved by owner for connector write decision",
+      "status": "met",
+      "required_for": "pilot",
+      "evidence": [
+        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md"
+      ]
+    },
+    {
+      "id": "connector-write-threat-model",
+      "description": "Dedicated threat model per connector write class",
+      "status": "missing",
+      "required_for": "pilot",
+      "evidence": []
+    },
+    {
+      "id": "rollback-compensation",
+      "description": "Connector sandbox rollback or compensating transaction model",
+      "status": "missing",
+      "required_for": "pilot",
+      "evidence": []
+    },
+    {
+      "id": "fake-write-tests",
+      "description": "Fake connector write tests with no real side effects",
+      "status": "missing",
+      "required_for": "pilot",
+      "evidence": []
+    },
+    {
+      "id": "negative-replay-fixtures",
+      "description": "Replay fixtures for denied and malicious write attempts",
+      "status": "partial",
+      "required_for": "pilot",
+      "evidence": [
+        "evals/fixtures/connector_replay_cases.json"
+      ]
+    },
+    {
+      "id": "approval-rbac-binding",
+      "description": "Approval/RBAC binding by actor, connector_id, operation_id and subject",
+      "status": "partial",
+      "required_for": "pilot",
+      "evidence": [
+        "src/devpilot_core/connectors/policy_binding.py",
+        "tests/test_post_h_018_connector_policy_binding.py"
+      ]
+    },
+    {
+      "id": "secret-handling",
+      "description": "Non-versioned secret handling for future write connectors",
+      "status": "partial",
+      "required_for": "pilot",
+      "evidence": [
+        "src/devpilot_core/policy/secrets.py"
+      ]
+    },
+    {
+      "id": "observability-audit",
+      "description": "Audit trail and observability for future write attempts",
+      "status": "partial",
+      "required_for": "pilot",
+      "evidence": [
+        "src/devpilot_core/evidence_graph/"
+      ]
+    },
+    {
+      "id": "data-classification",
+      "description": "Data classification before side-effecting writes",
+      "status": "missing",
+      "required_for": "pilot",
+      "evidence": []
+    },
+    {
+      "id": "rate-limit-idempotency",
+      "description": "Rate limits and idempotency keys for future writes",
+      "status": "missing",
+      "required_for": "pilot",
+      "evidence": []
+    },
+    {
+      "id": "kill-switch",
+      "description": "Operator kill-switch for connector write capability",
+      "status": "missing",
+      "required_for": "pilot",
+      "evidence": []
+    },
+    {
+      "id": "quality-gate",
+      "description": "Quality gate connector-write-disabled-or-approved",
+      "status": "met",
+      "required_for": "pilot",
+      "evidence": [
+        "src/devpilot_core/sensitive_capabilities/quality_gate.py"
+      ]
+    }
+  ],
+  "no_go_gates": [
+    {
+      "id": "connector-write-enabled",
+      "description": "connector_write_enabled must remain false",
+      "expected": false,
+      "actual": false,
+      "ok": true,
+      "severity": "info"
+    },
+    {
+      "id": "runtime-write-enabled",
+      "description": "runtime write must remain false",
+      "expected": false,
+      "actual": false,
+      "ok": true,
+      "severity": "info"
+    },
+    {
+      "id": "network-allowed",
+      "description": "network must not be required or used",
+      "expected": false,
+      "actual": false,
+      "ok": true,
+      "severity": "info"
+    },
+    {
+      "id": "external-api-allowed",
+      "description": "external APIs must not be required or used",
+      "expected": false,
+      "actual": false,
+      "ok": true,
+      "severity": "info"
+    },
+    {
+      "id": "credentials-versioned",
+      "description": "real credentials/tokens must not be versioned",
+      "expected": false,
+      "actual": false,
+      "ok": true,
+      "severity": "info"
+    },
+    {
+      "id": "claims-changed",
+      "description": "production-ready-local claims must not broaden",
+      "expected": false,
+      "actual": false,
+      "ok": true,
+      "severity": "info"
+    }
+  ],
+  "evidence_requirements": [
+    "approved ADR",
+    "connector sandbox deny-write policy",
+    "approval/RBAC binding evidence",
+    "redacted audit trail",
+    "rollback/compensation design",
+    "fake write tests",
+    "negative replay fixtures",
+    "quality gate evidence"
+  ],
+  "current_controls": {
+    "connector_sandbox_policy": ".devpilot/connectors/connector_sandbox_policy.json",
+    "connector_sandbox_quality_gate": "connector-sandbox",
+    "connector_write_disabled_by_policy": true,
+    "write_without_approval_blocks": true,
+    "sandbox_replay_is_not_write": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "connector_write_enabled": false,
+    "connector_write_used": false,
+    "remote_execution_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "secrets_versioned": false
+  },
+  "summary": {
+    "decision_blocks_runtime_write": true,
+    "no_go_gates_preserved": true,
+    "claims_changed": false,
+    "prerequisites_total": 12,
+    "prerequisites_met_total": 2,
+    "blocking_prerequisites_total": 6,
+    "pilot_authorized": false,
+    "production_authorized": false
+  },
+  "notes": [
+    "POST-H-034-A is decision/control-plane work only; it does not enable connector write.",
+    "Sandbox/replay evidence remains read-only/dry-run and must not be interpreted as write authorization."
+  ]
+}

@@ -1,4 +1,22 @@
 
+
+## POST-H-034-A — Connector write ADR y sensitive capability gate
+
+Estado: `implemented-initial`. Se elevó `docs/POST-H-034_sensitive_capabilities_adrs.md` y `docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md` a `approved` para iniciar la Ola 9 de ADRs de capacidades sensibles.
+
+POST-H-034-A crea la ADR `docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md`, el schema `ConnectorWriteDecision`, el checklist `.devpilot/sensitive_capabilities/connector_write_enablement_checklist.json`, la matriz `.devpilot/sensitive_capabilities/capability_decision_matrix.json` y el gate `SensitiveCapabilityAdrGate`.
+
+La decisión actual es `continue-blocked`: `connector_write_enabled=false`, `runtime_write_enabled=false`, `network_allowed=false`, `external_api_allowed=false` y `credentials_required=false`. Esta versión no habilita escritura de conectores ni cambia el alcance `production-ready-local`; cualquier piloto futuro requiere ADR/backlog adicional, threat model, fake write tests, rollback/compensación, approval/RBAC, audit trail, rate limits, idempotency y kill-switch.
+
+Validación focal recomendada:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_connector_write_adr.py -q
+python -m devpilot_core schema validate --schema-id ConnectorWriteDecision --instance .devpilot\sensitive_capabilities\connector_write_enablement_checklist.json --json
+python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot\sensitive_capabilities\capability_decision_matrix.json --json
+python -m devpilot_core docs-governance validate --json
+```
 ## POST-H-033-F — Docs governance rule registry
 
 Estado: `implemented-initial`. DevPilot ahora carga reglas de documentation governance desde `.devpilot/docs_governance/rule_registry.json`, validado por `docs/schemas/docs_governance_rule_registry.schema.json`. El source registry sigue siendo la fuente canónica de documentos; el rule registry gobierna severidades, required_tests, frontmatter, lifecycle y consistencia entre ambos registries.
@@ -18,7 +36,8 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_schema_validator.py `
   -q
 
-python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance .devpilot\docs_governanceule_registry.json --json
+python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance .devpilot\docs_governance
+ule_registry.json --json
 python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance docs\post_h_033_f_manifest.json --json
 python -m devpilot_core docs-governance validate --json
 ```
@@ -6019,4 +6038,3 @@ python -m devpilot_core schema validate --schema-id RagAgentContextPack --instan
 DevPilot incorpora una primera versión schema-backed del registry declarativo de reglas semánticas MIASI. El nuevo artefacto `.devpilot/miasi/semantic_rules.json`, validado por `docs/schemas/miasi_semantic_rules.schema.json`, versiona tokens sensibles, marcadores no-go, guard mappings y fixtures de evaluación requeridos sin reemplazar el motor determinístico de `src/devpilot_core/miasi/semantic.py`.
 
 La implementación es `implemented-initial`: conserva fallback Python temporal, no habilita ejecución de agents/tools/red/plugins/conectores/subprocesses, no permite desactivar reglas críticas y deja `rule_source`/`catalog_version` visibles en el reporte semántico.
-

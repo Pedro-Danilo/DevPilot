@@ -134,12 +134,12 @@ def test_post_h_033_a_governance_artifacts_registered_and_docs_synced() -> None:
     assert contract_v2["external_api_allowed"] is False
     assert contract_v2["source_mutations_allowed"] is False
 
-    assert state["current_micro_sprint"] in {"POST-H-033-C", "POST-H-033-D", "POST-H-033-E", "POST-H-033-F"}
-    assert state["next_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE"}
+    assert state["current_micro_sprint"] in {"POST-H-033-C", "POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A"}
+    assert state["next_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B"}
     assert state["post_h_033_a_closed"] is True
-    assert state["current_repo"] in {"repo_DevPilot_Local_304_POST_H_033_C.zip", "repo_DevPilot_Local_305_POST_H_033_D.zip", "repo_DevPilot_Local_306_POST_H_033_E.zip", "repo_DevPilot_Local_307_POST_H_033_F.zip"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_304_POST_H_033_C.zip", "repo_DevPilot_Local_305_POST_H_033_D.zip", "repo_DevPilot_Local_306_POST_H_033_E.zip", "repo_DevPilot_Local_307_POST_H_033_F.zip", "repo_DevPilot_Local_308_POST_H_034_A.zip"}
     assert state["post_h_032_status"] == "closed/advanced-ai-agents-governed"
-    assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial", "active/policy-guard-pattern-catalogs-implemented-initial", "active/docs-governance-rule-registry-implemented-initial"}
+    assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial", "active/policy-guard-pattern-catalogs-implemented-initial", "active/docs-governance-rule-registry-implemented-initial", "closed/schema-backed-validators-declarative-semantics"}
     assert state["post_h_033_a_runtime_behavior_changed"] is False
     assert state["post_h_033_a_llm_judge_required"] is False
     assert state["post_h_033_a_critical_defenses_disable_allowed"] is False

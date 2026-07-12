@@ -15645,6 +15645,82 @@
       "classification_notes": [
         "POST-H-033-F introduces a schema-backed docs governance rule registry while preserving deterministic validator behavior and source registry authority."
       ]
+    },
+    {
+      "contract_id": "post-h-034-connector-write-adr",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-034-connector-write-adr",
+      "domain": "integration.connectors",
+      "capability": "ConnectorWriteAdr",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_018_connector_sandbox_policy.py",
+        "tests/test_post_h_018_connector_sandbox_gate.py",
+        "tests/test_connector_registry.py",
+        "tests/test_policy_engine_approval_rbac_enforcement.py"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/connectors/connector_sandbox_policy.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/connectors/",
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/connector_write_decision.schema.json",
+        "docs/audits/post_h_034_a_connector_write_adr_report.md",
+        "docs/post_h_034_a_manifest.json"
+      ],
+      "trigger_hints": [
+        "post-h-034-a-change",
+        "connector-write-decision-change",
+        "sensitive-capability-no-go-change"
+      ],
+      "impact_scope": [
+        "connector-write",
+        "sensitive-capabilities",
+        "post-h-034"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-034-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_connector_write_adr.py -q",
+        "python -m devpilot_core schema validate --schema-id ConnectorWriteDecision --instance .devpilot/sensitive_capabilities/connector_write_enablement_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-034-A validates connector write ADR/no-go gates without enabling connector write.",
+        "The contract blocks accidental runtime write enablement, external API use, network use or claim broadening."
+      ],
+      "owner_domain": "integration.connectors",
+      "service_boundary": "sensitive_capabilities",
+      "subgate_id": "sensitive-capability-adr-gate",
+      "schema_ids": [
+        "SCHEMA-DEVPL-CONNECTOR-WRITE-DECISION-V1",
+        "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1"
+      ]
     }
   ],
   "migration_metadata": {

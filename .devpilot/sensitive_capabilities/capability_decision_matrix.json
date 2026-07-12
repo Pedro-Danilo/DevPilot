@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+  "matrix_id": "SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+  "created_by": "POST-H-034-A",
+  "status": "implemented-initial",
+  "catalog_version": "1.0.0",
+  "capabilities": [
+    {
+      "capability_id": "connector.write",
+      "decision_state": "continue-blocked",
+      "runtime_enabled": false,
+      "requires_future_adr": true,
+      "adr_path": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+      "checklist_path": ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json"
+    },
+    {
+      "capability_id": "plugin.execution",
+      "decision_state": "pending-adr",
+      "runtime_enabled": false,
+      "requires_future_adr": true,
+      "planned_micro_sprint": "POST-H-034-B"
+    },
+    {
+      "capability_id": "remote.execution",
+      "decision_state": "pending-adr",
+      "runtime_enabled": false,
+      "requires_future_adr": true,
+      "planned_micro_sprint": "POST-H-034-C"
+    },
+    {
+      "capability_id": "multiuser.auth",
+      "decision_state": "pending-adr",
+      "runtime_enabled": false,
+      "requires_future_adr": true,
+      "planned_micro_sprint": "POST-H-034-D"
+    },
+    {
+      "capability_id": "enterprise.saas",
+      "decision_state": "pending-adr",
+      "runtime_enabled": false,
+      "requires_future_adr": true,
+      "planned_micro_sprint": "POST-H-034-E"
+    }
+  ],
+  "global_no_go_gates": {
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "production_multiuser": false,
+    "enterprise_ready": false,
+    "saas_ready": false,
+    "compliance_certified": false
+  },
+  "safety": {
+    "local_first": true,
+    "network_used": false,
+    "external_api_used": false,
+    "source_mutations_performed": false,
+    "credentials_versioned": false
+  },
+  "summary": {
+    "capabilities_total": 5,
+    "runtime_enabled_total": 0,
+    "approved_runtime_total": 0,
+    "pending_adrs_total": 4,
+    "connector_write_decision": "continue-blocked"
+  },
+  "notes": [
+    "POST-H-034-A initializes the sensitive capability decision matrix without enabling any sensitive capability."
+  ]
+}

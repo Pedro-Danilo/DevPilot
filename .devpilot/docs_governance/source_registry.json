@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-11",
+  "updated": "2026-07-12",
   "preliminary": true,
   "documents": [
     {
@@ -11720,6 +11720,279 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-034-BACKLOG",
+      "path": "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "adr_backlog_linked"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-TOPLEVEL",
+      "path": "docs/POST-H-034_sensitive_capabilities_adrs.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "backlog_copy_sync"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034"
+      ]
+    },
+    {
+      "doc_id": "ADR-POSTH-034-A",
+      "path": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "adr_linked",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-MATRIX",
+      "path": ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+      "classification": "machine-readable-source",
+      "domain": "architecture-decision",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-DECISION-SCHEMA",
+      "path": "docs/schemas/connector_write_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-MATRIX-SCHEMA",
+      "path": "docs/schemas/sensitive_capability_decision_matrix.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-MODELS",
+      "path": "src/devpilot_core/sensitive_capabilities/models.py",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-DECISION-MATRIX-MODULE",
+      "path": "src/devpilot_core/sensitive_capabilities/decision_matrix.py",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-GATE",
+      "path": "src/devpilot_core/sensitive_capabilities/quality_gate.py",
+      "classification": "machine-readable-source",
+      "domain": "quality.gate",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-ADR-REPORT",
+      "path": "docs/audits/post_h_034_a_connector_write_adr_report.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "decision_report_linked"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-MANIFEST",
+      "path": "docs/post_h_034_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "manifest_linked"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-ADR-TEST",
+      "path": "tests/test_post_h_034_connector_write_adr.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "test_contract_registered"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
     }
   ],
   "rules": {
@@ -11793,16 +12066,16 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 499,
-    "source_of_truth_total": 199,
-    "machine_readable_source_total": 233,
-    "derived_total": 67,
+    "documents_total": 513,
+    "source_of_truth_total": 203,
+    "machine_readable_source_total": 242,
+    "derived_total": 68,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 404,
+    "critical_sources_total": 418,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 499,
+    "documents_with_required_tests_total": 513,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,

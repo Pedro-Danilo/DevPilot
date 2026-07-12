@@ -2,18 +2,45 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.15.0"
+version: "2.16.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-033-F"
-updated: "2026-07-11"
+phase: "POST-H-034-A"
+updated: "2026-07-12"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+## POST-H-034-A — Operación de ADR connector write
+
+Estado: `implemented-initial`. El objetivo operativo es demostrar que `connector.write` permanece bloqueado por ADR, checklist y gate. No existe procedimiento para habilitar escritura real en este sprint.
+
+Comandos:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_connector_write_adr.py -q
+python -m devpilot_core schema validate --schema-id ConnectorWriteDecision --instance .devpilot\sensitive_capabilities\connector_write_enablement_checklist.json --json
+python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot\sensitive_capabilities\capability_decision_matrix.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+No-go operativo:
+
+```text
+connector_write_enabled=false
+runtime_write_enabled=false
+network_allowed=false
+external_api_allowed=false
+credentials_required=false
+remote_execution_enabled=false
+plugin_execution_enabled=false
+```
+
+Si un operador necesita un piloto de escritura, debe crear un backlog posterior con threat model por conector, fake write tests, rollback/compensación, Approval/RBAC fuerte, data classification, audit trail, rate limits, idempotency y kill-switch. Sandbox/replay sigue siendo read-only/dry-run y no equivale a autorización productiva.
 
 ## POST-H-033-F — Docs governance rule registry
 
@@ -34,7 +61,8 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_schema_validator.py `
   -q
 
-python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance .devpilot\docs_governanceule_registry.json --json
+python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance .devpilot\docs_governance
+ule_registry.json --json
 python -m devpilot_core schema validate --schema-id DocsGovernanceRuleRegistry --instance docs\post_h_033_f_manifest.json --json
 python -m devpilot_core docs-governance validate --json
 ```

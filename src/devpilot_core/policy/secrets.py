@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -18,6 +19,17 @@ _SECRET_KEY_PATTERN = re.compile(
 # Ordered from most specific to broadest. Patterns intentionally target common
 # synthetic/dev tokens and well-known token shapes. They do not try to be a full
 # industrial secret scanner.
+
+
+@lru_cache(maxsize=32)
+def _cached_guard_pattern_catalog(root_key: str, catalog_key: str):
+    return load_guard_pattern_catalog(Path(root_key), Path(catalog_key))
+
+
+def _load_cached_guard_pattern_catalog(root: Path | None, catalog_path: str | Path):
+    resolved_root = Path(root).resolve() if root is not None else Path.cwd().resolve()
+    return _cached_guard_pattern_catalog(str(resolved_root), str(Path(catalog_path)))
+
 _SECRET_VALUE_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"sk-proj-[A-Za-z0-9_\-]{12,}"),
     re.compile(r"sk-[A-Za-z0-9_\-]{12,}"),
@@ -154,9 +166,7 @@ def redact_sensitive_data(value: Any) -> Any:
 def redact_sensitive_string(value: str, *, root: Path | None = None, catalog_path: str | Path = DEFAULT_GUARD_PATTERN_CATALOG_PATH) -> tuple[str, int]:
     """Redact known token patterns in a string and return redaction count."""
 
-    catalog = load_guard_pattern_catalog(root, catalog_path)
-    redacted = value
-    count = 0
+    catalog = _load_cached_guard_pattern_catalog(root, catalog_path)
     return _redact_sensitive_string_with_catalog(value, catalog=catalog)
 
 

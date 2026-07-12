@@ -1,4 +1,13 @@
 
+
+## post-h-034-a — Connector write ADR
+
+- Eleva `POST-H-034_sensitive_capabilities_adrs.md` a `approved` para iniciar la Ola 9.
+- Agrega ADR aprobada `ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md` con decisión `continue-blocked`.
+- Agrega schemas `ConnectorWriteDecision` y `SensitiveCapabilityDecisionMatrix`.
+- Agrega checklist/matriz bajo `.devpilot/sensitive_capabilities/` y gate determinístico `SensitiveCapabilityAdrGate`.
+- Mantiene `connector_write_enabled=false`, sin red, sin APIs externas, sin credenciales reales y sin cambio de claims `production-ready-local`.
+
 ## post-h-033-f — Docs governance rule registry
 
 - Agrega `DocsGovernanceRuleRegistry` como registry declarativo para reglas de documentation governance integrado con source registry.

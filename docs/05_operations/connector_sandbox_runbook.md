@@ -86,3 +86,10 @@ NO-GO si remote execution o plugin execution se habilitan desde el flujo de cone
 ## Límites explícitos
 
 POST-H-018-E cierra el backlog como base local de sandbox de conectores. No implementa OAuth, tokens reales, conectores write, webhooks productivos, APIs externas, background workers remotos, remote execution, plugin execution ni integración productiva externa. Cualquier evolución hacia esas capacidades exige ADR, threat model, approvals, RBAC reforzado, observabilidad y quality gates adicionales.
+
+## POST-H-034-A — Decisión ADR sobre connector write
+
+POST-H-034-A agrega la ADR `ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md` y mantiene `connector write` en estado `continue-blocked`. Este runbook conserva las instrucciones de deny-write: replay, dry-run y exposición de policy no son autorización de escritura real.
+
+Antes de cualquier piloto futuro deben existir, como mínimo, threat model por conector write, rollback/compensación, fake connector write tests, fixtures negativas, Approval/RBAC por actor/connector/operation/subject, manejo de secretos no versionado, audit trail, data classification, rate limits, idempotency y kill-switch.
+

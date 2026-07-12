@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-07-11",
-  "sprint": "POST-H-033-E",
+  "updated": "2026-07-12",
+  "sprint": "POST-H-034-A",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through POST-H-032-A agent capability inventory and promotion criteria.",
   "schemas": [
@@ -439,6 +439,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-018-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-CONNECTOR-WRITE-DECISION-V1",
+      "title": "DevPilot ConnectorWriteDecision v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/connector_write_decision.schema.json",
+      "description": "POST-H-034-A schema for connector write ADR decision and enablement checklist that keeps connector write blocked while documenting prerequisites for future pilots.",
+      "status": "registered",
+      "contract": "ConnectorWriteDecision",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-034-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-034-A"
     },
     {
       "schema_id": "SCHEMA-DEVPL-DOCS-GOVERNANCE-RULE-REGISTRY-V1",
@@ -1609,6 +1623,20 @@
       "local_first": true,
       "dry_run_default": true,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-SENSITIVE-CAPABILITY-DECISION-MATRIX-V1",
+      "title": "DevPilot SensitiveCapabilityDecisionMatrix v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/sensitive_capability_decision_matrix.schema.json",
+      "description": "POST-H-034-A schema for the sensitive capability ADR decision matrix and no-go gates across connector write, plugin execution, remote execution, multiuser/auth and enterprise/SaaS.",
+      "status": "registered",
+      "contract": "SensitiveCapabilityDecisionMatrix",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-034-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-034-A"
     },
     {
       "schema_id": "SCHEMA-DEVPL-SERVICE-CAPABILITY-V1",

@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/connector_write_decision.schema.json",
+  "title": "DevPilot ConnectorWriteDecision v1",
+  "description": "POST-H-034-A structural contract for the connector write ADR decision and enablement checklist. It documents prerequisites and keeps connector write disabled; it does not enable runtime write operations.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "decision_id",
+    "created_by",
+    "status",
+    "capability_id",
+    "capability_name",
+    "decision_state",
+    "decision_status",
+    "adr_path",
+    "checklist_path",
+    "connector_write_enabled",
+    "runtime_write_enabled",
+    "external_api_allowed",
+    "network_allowed",
+    "requires_future_backlog",
+    "prerequisites",
+    "no_go_gates",
+    "evidence_requirements",
+    "current_controls",
+    "safety",
+    "summary",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-CONNECTOR-WRITE-DECISION-V1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matrix_id": {
+      "type": "string"
+    },
+    "created_by": {
+      "const": "POST-H-034-A"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved",
+        "proposed"
+      ]
+    },
+    "capability_id": {
+      "const": "connector.write"
+    },
+    "capability_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_state": {
+      "enum": [
+        "continue-blocked",
+        "pilot-gated-future",
+        "approved-for-future-implementation",
+        "rejected"
+      ]
+    },
+    "decision_status": {
+      "enum": [
+        "continue-blocked",
+        "design-only",
+        "pilot-gated-future",
+        "rejected"
+      ]
+    },
+    "adr_path": {
+      "const": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md"
+    },
+    "checklist_path": {
+      "const": ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json"
+    },
+    "report_path": {
+      "type": "string"
+    },
+    "manifest_path": {
+      "type": "string"
+    },
+    "connector_write_enabled": {
+      "const": false
+    },
+    "runtime_write_enabled": {
+      "const": false
+    },
+    "external_api_allowed": {
+      "const": false
+    },
+    "network_allowed": {
+      "const": false
+    },
+    "credentials_required": {
+      "const": false
+    },
+    "requires_future_backlog": {
+      "const": true
+    },
+    "requires_future_enablement_adr": {
+      "const": true
+    },
+    "requires_human_approval": {
+      "const": true
+    },
+    "rollback_required_before_pilot": {
+      "const": true
+    },
+    "kill_switch_required_before_pilot": {
+      "const": true
+    },
+    "prerequisites": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "$ref": "#/$defs/prerequisite"
+      }
+    },
+    "no_go_gates": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "current_controls": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "connector_write_enabled",
+        "connector_write_used",
+        "remote_execution_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed",
+        "secrets_versioned"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "connector_write_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "secrets_versioned": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "decision_blocks_runtime_write",
+        "no_go_gates_preserved",
+        "claims_changed",
+        "prerequisites_total",
+        "prerequisites_met_total",
+        "blocking_prerequisites_total"
+      ],
+      "properties": {
+        "decision_blocks_runtime_write": {
+          "const": true
+        },
+        "no_go_gates_preserved": {
+          "const": true
+        },
+        "claims_changed": {
+          "const": false
+        },
+        "prerequisites_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "prerequisites_met_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocking_prerequisites_total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "prerequisite": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "status",
+        "required_for"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "met",
+            "partial",
+            "missing",
+            "blocked",
+            "future"
+          ]
+        },
+        "required_for": {
+          "enum": [
+            "pilot",
+            "production",
+            "all"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "gate": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "expected",
+        "actual",
+        "ok"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "expected": {},
+        "actual": {},
+        "ok": {
+          "type": "boolean"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "fail",
+            "block",
+            "error"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "not": {
+        "properties": {
+          "decision_state": {
+            "const": "enabled-now"
+          }
+        }
+      }
+    },
+    {
+      "not": {
+        "properties": {
+          "decision_status": {
+            "const": "production-enabled"
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CONNECTOR-WRITE-DECISION-V1",
+  "x-devpilot-sprint": "POST-H-034-A",
+  "x-devpilot-status": "registered"
+}

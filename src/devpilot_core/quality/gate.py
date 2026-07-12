@@ -161,6 +161,7 @@ class QualityGate:
                     "POST-H-028-D adds operator-flow-smoke to hardening/industrial profiles to verify operator flows and user-facing error states without browser dependency or source mutations.",
                     "POST-H-028-C adds ui-visual-smoke to hardening/industrial profiles to validate dependency-light critical UI visual contracts, state visibility and screenshot hygiene without requiring browser tooling in core pytest.",
                     "POST-H-028-E adds ui-route-enforcement and ui-api-local-hardening to hardening/industrial profiles to enforce UI route registry, route/API bindings and the final local UI/API hardening aggregate gate.",
+                    "POST-H-034-A adds sensitive-capability-adr-gate to hardening/industrial profiles to prove connector write remains blocked by ADR and no-go gates without enabling side effects.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -227,6 +228,7 @@ class QualityGate:
             subgates.append(QualitySubgate("ui-api-local-hardening", "POST-H-028-E aggregate UI/API local hardening gate.", self._ui_api_local_hardening))
             subgates.append(QualitySubgate("testing-tiers-ready", "POST-H-029-E testing tiers, impact rules, RC profile and historical regression guard.", self._testing_tiers_ready))
             subgates.append(QualitySubgate("cli-boundary-hotspot-reduction", "POST-H-030-E CLI compatibility contracts for migrated/high-risk commands and no dynamic router invariants.", self._cli_boundary_hotspot_reduction))
+            subgates.append(QualitySubgate("sensitive-capability-adr-gate", "POST-H-034-A sensitive capability ADR gate for connector write no-go invariants.", self._sensitive_capability_adr_gate))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -429,6 +431,11 @@ class QualityGate:
         from devpilot_core.cli_registry import CliCompatibilityContractRunner, CliCompatibilityOptions
 
         return CliCompatibilityContractRunner(self.root, CliCompatibilityOptions(write_report=False)).run()
+
+    def _sensitive_capability_adr_gate(self) -> CommandResult:
+        from devpilot_core.sensitive_capabilities import SensitiveCapabilityAdrGate
+
+        return SensitiveCapabilityAdrGate(self.root).run()
 
     def _connector_sandbox(self) -> CommandResult:
         from devpilot_core.connectors import ConnectorSandboxQualityGate

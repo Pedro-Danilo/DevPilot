@@ -8550,6 +8550,48 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_docs_governance_rule_registry.py tests/test_documentation_governance_validator.py tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_schema_validator.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-034-connector-write-adr",
+      "scope": "safety",
+      "owner": "POST-H-034-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_018_connector_sandbox_policy.py",
+        "tests/test_post_h_018_connector_sandbox_gate.py",
+        "tests/test_connector_registry.py",
+        "tests/test_policy_engine_approval_rbac_enforcement.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/connector_write_decision.schema.json",
+        "docs/audits/post_h_034_a_connector_write_adr_report.md",
+        "docs/post_h_034_a_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/connectors/connector_sandbox_policy.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/connectors/",
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_connector_write_adr.py -q",
+        "python -m devpilot_core schema validate --schema-id ConnectorWriteDecision --instance .devpilot/sensitive_capabilities/connector_write_enablement_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [
