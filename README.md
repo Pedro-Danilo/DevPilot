@@ -4,9 +4,11 @@
 
 Siguiente hito: `POST-H-034`
 
-Repo vigente resultante: `repo_DevPilot_Local_313_POST_H_034_CLOSURE.zip`.
+Repo vigente resultante: `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip`.
 
-Estado: `closed/final-regression-reconciled`. No existe un backlog funcional posterior autorizado; `next_sprint=POST-H-034` es el ancla compatible con ProjectState v1 y `next_backlog_planned=false` expresa la ausencia de un siguiente backlog.
+Estado: `closed/full-regression-pass`. No existe un backlog funcional posterior autorizado; `next_sprint=POST-H-034` es el ancla compatible con ProjectState v1 y `next_backlog_planned=false` expresa la ausencia de un siguiente backlog.
+
+Evidencia definitiva: `1911 passed, 0 failed, 0 errors, 0 skipped` en Windows. Log: `Log_consola_validacion_general_no-regresion_POST-H-034-CLOSURE.txt`; SHA-256: `3a03395c650ad4cf230581dabb2fcb53e2f3c5d6dee252ec55a485040d133d4d`. No queda rerun pendiente para este backlog.
 
 El cierre corrige drift acumulativo detectado por la regresión general final: mappings CLI→ApplicationService inexistentes, criterios RC congelados, dominio `agentic.runtime` sin impact rule, allowlist CLI obsoleto, tests históricos acoplados a listas finitas de versiones y lifecycle state desactualizado. No habilita red, APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
 
@@ -6115,7 +6117,9 @@ python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionM
 
 ## POST-H-034-CLOSURE follow-up — Read-only Git timeout hardening
 
-El segundo testeo general (`1902 passed, 5 failed`) aisló los cinco fallos remanentes en una sola causa: `GitAdapter` aplicaba un timeout fijo de 8 segundos y propagaba `subprocess.TimeoutExpired` desde `git diff --stat`/diff metadata. El fallo afectaba `git diff-report`, `RepoAnalysisAgent`, `MultiAgentCoordinator` y `MultiAgentWorkflowRunner`.
+El segundo testeo general intermedio (`1902 passed, 5 failed`) aisló los cinco fallos remanentes en una sola causa: `GitAdapter` aplicaba un timeout fijo de 8 segundos y propagaba `subprocess.TimeoutExpired` desde `git diff --stat`/diff metadata. El fallo afectaba `git diff-report`, `RepoAnalysisAgent`, `MultiAgentCoordinator` y `MultiAgentWorkflowRunner`.
+
+La regresión definitiva posterior al patch terminó con `1911 passed, 0 failed, 0 errors, 0 skipped`; este resultado sustituye cualquier estado documental `pending-full-regression`.
 
 La corrección mantiene Git estrictamente read-only y sin shell. El timeout predeterminado pasa a 60 segundos y puede configurarse localmente mediante `DEVPILOT_GIT_TIMEOUT_SECONDS`, limitado al rango 5-300. Las estadísticas diff opcionales degradan a WARNING con metadata fallback; las lecturas esenciales producen BLOCK/FAIL estructurado y nunca una excepción genérica.
 

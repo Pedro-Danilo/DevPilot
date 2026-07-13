@@ -28,14 +28,14 @@
     "tests/test_post_h_034_closure_regression_reconciliation.py"
   ],
   "verification": {
-    "dedicated_closure_tests": "pending-rerun",
-    "focal_regression": "pass-32-tests-before-doc-sync",
-    "project_state": "pending-rerun",
-    "docs_governance": "pending-rerun",
-    "tcr_v1": "pass",
-    "tcr_v2": "pass",
-    "local_release_candidate": "pending-rerun",
-    "full_pytest": "pending-final-run"
+    "dedicated_closure_tests": "pass",
+    "focal_regression": "pass-32-tests",
+    "project_state": "pass-6-checks",
+    "docs_governance": "pass-545-documents",
+    "tcr_v1": "pass-244-contracts",
+    "tcr_v2": "pass-244-contracts",
+    "local_release_candidate": "pass",
+    "full_pytest": "pass-1911-tests"
   },
   "safety": {
     "network_used": false,
@@ -48,11 +48,12 @@
     "enterprise_ready_claimed": false,
     "saas_ready_claimed": false
   },
-  "decision": "PASS-focal-pending-Windows-full-regression",
+  "decision": "PASS-full-regression",
   "notes": [
     "This is a corrective administrative closure, not a new functional capability.",
     "No ADR is required because existing boundaries and no-go decisions are preserved.",
-    "Second regression reduced failures from 31 to 5 and isolated all remaining failures to the same fixed Git timeout defect."
+    "The intermediate 1870/31 and 1902/5 runs remain as historical diagnostic inputs.",
+    "The authoritative final evidence is the Windows full regression: 1911 passed, 0 failed, 0 errors and 0 skipped."
   ],
   "verification_hardening": {
     "visual_smoke_timeout_seconds": 180,
@@ -72,7 +73,7 @@
   "files_modified": [
     "src/devpilot_core/quality/gate.py"
   ],
-  "target_repo": "repo_DevPilot_Local_314_POST_H_034_CLOSURE_GIT_TIMEOUT_HARDENING.zip",
+  "target_repo": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
   "follow_up_source_log": "testeo_general_final_02.txt",
   "follow_up_input_test_summary": {
     "passed": 1902,
@@ -93,12 +94,12 @@
   "verification_follow_up": {
     "git_adapter_v2": "pass-9-tests",
     "fake_git_cli_timeout_integration": "pass-exit-0-partial-fallback",
-    "multiagent_existing_contracts": "pending-user-windows-rerun/deterministic-cause-covered-by-git-adapter-tests",
-    "tcr_v1": "pending-final-validator-run",
-    "tcr_v2": "pending-final-validator-run",
-    "docs_governance": "pending-final-validator-run",
-    "local_release_candidate": "pending-final-validator-run",
-    "full_pytest": "pending-user-windows-rerun"
+    "multiagent_existing_contracts": "pass-via-full-regression",
+    "tcr_v1": "pass-244-contracts",
+    "tcr_v2": "pass-244-contracts",
+    "docs_governance": "pass-545-documents",
+    "local_release_candidate": "pass",
+    "full_pytest": "pass-1911-tests"
   },
   "follow_up_files_created": [],
   "follow_up_files_modified": [
@@ -116,5 +117,58 @@
     "src/devpilot_core/repo/git_adapter.py",
     "tests/test_git_adapter_v2.py"
   ],
-  "follow_up_files_deleted": []
+  "follow_up_files_deleted": [],
+  "final_evidence": {
+    "source_repo": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
+    "source_log": "Log_consola_validacion_general_no-regresion_POST-H-034-CLOSURE.txt",
+    "source_log_sha256": "3a03395c650ad4cf230581dabb2fcb53e2f3c5d6dee252ec55a485040d133d4d",
+    "source_log_size_bytes": 150439,
+    "test_summary": {
+      "passed": 1911,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "collected_total": 1911
+    },
+    "project_state": "pass-6-of-6",
+    "docs_governance": "pass-545-of-545",
+    "tcr_v1": "pass-244-contracts",
+    "tcr_v2": "pass-244-contracts",
+    "schema_registry": "pass-136-of-136",
+    "cli_no_growth_gate": "pass",
+    "sensitive_capability_adr_gate": "pass-5-of-5",
+    "supersedes": [
+      "PASS-focal-pending-Windows-full-regression",
+      "pending-final-run",
+      "pending-user-windows-rerun"
+    ]
+  },
+  "final_evidence_sync_files_modified": [
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/rag/docs_index.json",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-034_sensitive_capabilities_adrs.md",
+    "docs/audits/post_h_034_closure_final_regression_report.md",
+    "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
+    "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+    "docs/post_h_034_closure_manifest.json",
+    "docs/release/CHANGELOG.md",
+    "tests/test_post_h_034_closure_regression_reconciliation.py",
+    "tests/test_project_global_state.py"
+  ],
+  "final_evidence_sync_validation": {
+    "json_integrity": "pass",
+    "closure_project_state_focal": "pass-3-tests",
+    "project_state_cli": "pass-6-of-6",
+    "docs_governance": "pass-545-of-545",
+    "tcr_v1": "pass-244-contracts",
+    "tcr_v2": "pass-244-contracts",
+    "evidence_freshness": "pass-37-fresh-0-critical-gaps",
+    "sensitive_capability_gate": "pass-2-tests",
+    "local_release_candidate_aggregate": "not-counted-time-limit; component-level freshness and state checks passed",
+    "full_pytest": "authoritative-user-evidence-pass-1911-tests"
+  }
 }

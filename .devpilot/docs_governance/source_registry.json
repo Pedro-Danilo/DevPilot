@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-12",
+  "updated": "2026-07-13",
   "preliminary": true,
   "documents": [
     {
@@ -12854,7 +12854,7 @@
     "last_functional_sprint": "FUNC-SPRINT-99",
     "next_sprint": "POST-H-034",
     "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-    "current_repo": "repo_DevPilot_Local_313_POST_H_034_CLOSURE.zip",
+    "current_repo": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
     "global_state_owner": "tests/test_project_global_state.py",
     "mutable_global_state_fields": [
       "last_completed_sprint",
@@ -13978,8 +13978,15 @@
     "post_h_032_b_real_server_required_for_tests": false,
     "post_h_032_b_models_called_by_health": false,
     "next_backlog_planned": false,
-    "next_backlog_status": "not-planned-after-post-h-034-closure"
+    "next_backlog_status": "not-planned-after-post-h-034-closure",
+    "post_h_034_closed": true,
+    "post_h_034_closure_status": "closed/full-regression-pass",
+    "post_h_034_closure_full_regression_passed": true,
+    "post_h_034_closure_full_regression_tests_passed": 1911,
+    "post_h_034_closure_full_regression_tests_failed": 0,
+    "post_h_034_closure_full_regression_errors": 0,
+    "post_h_034_closure_full_regression_skipped": 0
   },
-  "updated_at": "2026-07-12",
+  "updated_at": "2026-07-13",
   "last_registered_sprint": "POST-H-034-CLOSURE"
 }

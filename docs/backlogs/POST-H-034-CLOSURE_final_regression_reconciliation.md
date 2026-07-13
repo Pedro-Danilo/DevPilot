@@ -2,13 +2,13 @@
 doc_id: "POST-H-034-CLOSURE-FINAL-REGRESSION-RECONCILIATION"
 title: "POST-H-034-CLOSURE — Reconciliación de regresión general final"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 updated: "2026-07-13"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 created_by: "POST-H-034-CLOSURE"
-implementation_status: "closed/final-regression-reconciled"
+implementation_status: "closed/full-regression-pass"
 current_micro_sprint: "POST-H-034-CLOSURE"
 next_micro_sprint: "POST-H-034-CLOSURE"
 preliminary: false
@@ -23,7 +23,7 @@ Cerrar administrativamente POST-H-034 y reconciliar las regresiones detectadas p
 ## 2. Línea base y evidencia de entrada
 
 - Repo fuente: `repo_DevPilot_Local_312_POST_H_034-E.zip`.
-- Repo resultante: `repo_DevPilot_Local_313_POST_H_034_CLOSURE.zip`.
+- Repo final vigente: `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip`.
 - Log fuente: `testeo_general_final.txt`.
 - Resultado de entrada: `1870 passed, 31 failed, 0 errors, 0 skipped`.
 - Último micro-sprint funcional verificado antes de esta reconciliación: `POST-H-034-E`.
@@ -142,4 +142,24 @@ Patch aplicado:
 4. estadísticas y metadata diff opcionales degradan a WARNING y fallback de `git status --short`;
 5. tests adversariales simulan timeouts sin ejecutar red ni comandos Git write.
 
-Criterio de cierre del follow-up: pruebas `test_git_adapter_v2.py` en PASS, contratos TCR/docs/RC en PASS y `pytest -q` completo en Windows sin los cinco fallos. Hasta recibir esa última evidencia, la decisión permanece `PASS-focal-pending-Windows-full-regression`.
+El resultado `1902/5` queda clasificado como evidencia intermedia. El follow-up se cierra con la ejecución completa de Windows sobre `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip`:
+
+```text
+1911 passed, 0 failed, 0 errors, 0 skipped
+```
+
+La decisión definitiva es `PASS-full-regression`; no quedan reruns pendientes para POST-H-034-CLOSURE.
+
+
+## 12. Evidencia final y cierre formal
+
+- Log: `Log_consola_validacion_general_no-regresion_POST-H-034-CLOSURE.txt`.
+- SHA-256: `3a03395c650ad4cf230581dabb2fcb53e2f3c5d6dee252ec55a485040d133d4d`.
+- Project State: PASS, 6/6 checks.
+- Documentation Governance: PASS, 545/545 documentos.
+- TCR v1/v2: PASS, 244 contratos en cada registro.
+- Schema Registry: PASS, 136/136.
+- Sensitive Capability ADR Gate: PASS, 5/5.
+- Regresión completa: PASS, 1911/1911.
+
+`POST-H-034-CLOSURE` queda `closed/full-regression-pass`. Este cierre no habilita connector write, plugin execution, remote execution, multiuser auth ni enterprise/SaaS.

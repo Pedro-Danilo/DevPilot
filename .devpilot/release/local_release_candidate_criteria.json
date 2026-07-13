@@ -7,7 +7,7 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_314_POST_H_034_CLOSURE_GIT_TIMEOUT_HARDENING.zip",
+  "expected_current_repo": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_current_micro_sprint": "POST-H-034-CLOSURE",
   "expected_next_micro_sprint": "POST-H-034-CLOSURE",
@@ -35,7 +35,7 @@
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_314_POST_H_034_CLOSURE_GIT_TIMEOUT_HARDENING.zip",
+        "current_repo": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_sprint": "POST-H-034",
         "current_micro_sprint": "POST-H-034-CLOSURE",

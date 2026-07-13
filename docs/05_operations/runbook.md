@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.19.0"
+version: "2.20.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-H-034-CLOSURE"
-updated: "2026-07-12"
+updated: "2026-07-13"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -16,9 +16,11 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 ## POST-H-034-CLOSURE — Operación y verificación de cierre de fase
 
-Repo objetivo: `repo_DevPilot_Local_313_POST_H_034_CLOSURE.zip`.
+Repo objetivo: `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip`.
 
 Propósito: verificar que el repo posterior a POST-H-034-E no conserve drift en CLI/ApplicationService, release candidate, testing impact, historical regression o project state.
+
+Estado verificado: `closed/full-regression-pass`. La suite completa de Windows terminó con `1911 passed, 0 failed, 0 errors, 0 skipped`. Log: `Log_consola_validacion_general_no-regresion_POST-H-034-CLOSURE.txt`; SHA-256: `3a03395c650ad4cf230581dabb2fcb53e2f3c5d6dee252ec55a485040d133d4d`.
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -11624,6 +11626,8 @@ python -m pytest -p no:ddtrace --assert=plain -q
 ```
 
 ### PASS/BLOCK
+
+PASS final registrado: la suite general posterior al hardening pasó 1911/1911 pruebas; no hay rerun pendiente para POST-H-034-CLOSURE.
 
 PASS: no se propaga `TimeoutExpired`, el CLI conserva JSON parseable y los workflows dry-run terminan sin mutaciones.  
 BLOCK: una lectura Git esencial no completa dentro del timeout, Git no está disponible o se solicita un comando fuera de allowlist.

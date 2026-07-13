@@ -1,3 +1,11 @@
+## post-h-034-closure-final-evidence-sync — Full regression PASS
+
+- Records the authoritative Windows regression result: `1911 passed, 0 failed, 0 errors, 0 skipped`.
+- Synchronizes Project State, RC criteria, closure manifest, audit report, backlogs, README, runbook and RAG documentation index.
+- Reclassifies the `1870/31` and `1902/5` runs as historical diagnostic inputs, not current status.
+- Formally closes POST-H-034 as `closed/full-regression-pass` while preserving all five sensitive capabilities as `continue-blocked`.
+- Does not change runtime behavior, dependencies, network posture or production claims.
+
 ## post-h-034-closure-follow-up — Git read-only timeout hardening
 
 - Resolves the five remaining failures from `testeo_general_final_02.txt` as one Windows-local Git timeout root cause.

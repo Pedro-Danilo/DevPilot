@@ -1355,4 +1355,4 @@ def test_post_h_034_e_project_state_adds_enterprise_saas_boundary_adr() -> None:
     assert state.get("external_api_allowed") is False
     assert "POST-H-034-E — Enterprise/SaaS boundary ADR" in readme
     assert "POST-H-034-E — Operación de ADR Enterprise/SaaS boundary" in runbook
-    assert 'implementation_status: "closed/post-h-034-closure-final-regression-reconciled"' in backlog
+    assert 'implementation_status: "closed/full-regression-pass"' in backlog

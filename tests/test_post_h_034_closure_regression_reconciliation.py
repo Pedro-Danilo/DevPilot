@@ -61,7 +61,16 @@ def test_closure_state_and_backlog_are_administratively_closed() -> None:
     assert state["current_micro_sprint"] == "POST-H-034-CLOSURE"
     assert state["post_h_034_closed"] is True
     assert state["next_backlog_planned"] is False
-    assert 'implementation_status: "closed/post-h-034-closure-final-regression-reconciled"' in backlog
+    assert 'implementation_status: "closed/full-regression-pass"' in backlog
+    assert state["post_h_034_closure_status"] == "closed/full-regression-pass"
+    assert state["post_h_034_closure_full_regression_passed"] is True
+    assert state["post_h_034_closure_full_regression_tests_passed"] == 1911
+    assert state["post_h_034_closure_full_regression_tests_failed"] == 0
+    manifest = _read_json("docs/post_h_034_closure_manifest.json")
+    assert manifest["decision"] == "PASS-full-regression"
+    assert manifest["final_evidence"]["test_summary"] == {
+        "passed": 1911, "failed": 0, "errors": 0, "skipped": 0, "collected_total": 1911
+    }
 
 
 def test_closure_visual_smoke_timeout_is_bounded_for_large_repositories() -> None:

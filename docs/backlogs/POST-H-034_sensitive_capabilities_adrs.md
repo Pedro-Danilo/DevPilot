@@ -3,13 +3,13 @@ doc_id: "POST-H-034-BACKLOG"
 title: "POST-H-034 — ADRs de capacidades sensibles"
 original_doc_id: "DEVPL-BACKLOG-POST-H-034-SENSITIVE-CAPABILITIES-ADRS-V1"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-07-12"
+updated: "2026-07-13"
 approval: "approved_by_owner"
 roadmap_wave: "Ola 9"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
-implementation_status: "closed/post-h-034-closure-final-regression-reconciled"
+implementation_status: "closed/full-regression-pass"
 current_micro_sprint: "POST-H-034-CLOSURE"
 next_micro_sprint: "POST-H-034-CLOSURE"
 repo_baseline: "repo_DevPilot_Local_307_POST_H_033_F.zip"
@@ -154,11 +154,11 @@ Las capacidades con side effects requieren approval/RBAC, audit trail, rollback 
 - `docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md`
 - `docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md`
 
-### 7.2 Nuevos schemas
+### 7.2 Schemas implementados
 
-- `docs/schemas/sensitive_capability_adr.schema.json`
-- `docs/schemas/sensitive_capability_enablement_checklist.schema.json`
-- `docs/schemas/sensitive_capability_decision_report.schema.json`
+La proyección inicial de tres schemas genéricos fue sustituida por una composición más precisa: un schema global para la matriz y cinco schemas específicos por capacidad. No se crean aliases redundantes.
+
+- `docs/schemas/sensitive_capability_decision_matrix.schema.json`
 - `docs/schemas/connector_write_decision.schema.json`
 - `docs/schemas/plugin_execution_decision.schema.json`
 - `docs/schemas/remote_execution_adr3_decision.schema.json`
@@ -793,7 +793,8 @@ Estado final:
 
 - backlog POST-H-034: `closed`;
 - micro-sprints A-E: implementados y verificados;
-- reconciliación general: `closed/final-regression-reconciled`;
+- reconciliación general: `closed/full-regression-pass`;
+- regresión general definitiva: `1911 passed, 0 failed, 0 errors, 0 skipped`;
 - siguiente backlog funcional: no planificado;
 - connector write, plugin execution, remote execution, multiuser productivo y enterprise/SaaS: `continue-blocked`.
 
@@ -803,3 +804,10 @@ Evidencia:
 - `docs/audits/post_h_034_closure_final_regression_report.md`;
 - `docs/post_h_034_closure_manifest.json`;
 - `tests/test_post_h_034_closure_regression_reconciliation.py`.
+
+
+## 19. Evidencia final de cierre formal
+
+La evidencia autoritativa de cierre corresponde a `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip` y al log `Log_consola_validacion_general_no-regresion_POST-H-034-CLOSURE.txt` (`SHA-256: 3a03395c650ad4cf230581dabb2fcb53e2f3c5d6dee252ec55a485040d133d4d`). La suite completa pasó 1911/1911 pruebas. Project State, Documentation Governance, TCR v1/v2, Schema Registry, CLI no-growth y Sensitive Capability ADR Gate quedaron en PASS.
+
+Con esta sincronización, `POST-H-034` se declara formalmente `closed/full-regression-pass`; no existe trabajo pendiente dentro del backlog y todas las capacidades sensibles permanecen `continue-blocked`.

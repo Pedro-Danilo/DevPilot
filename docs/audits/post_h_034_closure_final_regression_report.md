@@ -2,13 +2,13 @@
 doc_id: "POST-H-034-CLOSURE-FINAL-REGRESSION-REPORT"
 title: "POST-H-034-CLOSURE — Reporte técnico de reconciliación de regresión final"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 updated: "2026-07-13"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 created_by: "POST-H-034-CLOSURE"
-implementation_status: "implemented-and-focally-verified"
+implementation_status: "implemented-and-fully-verified"
 preliminary: false
 ---
 
@@ -18,7 +18,7 @@ preliminary: false
 
 La causa de los 31 fallos iniciales no fue una ruptura masiva del producto. Se identificaron cinco familias de drift acumulativo y una inconsistencia de lifecycle state. Los patches restauran contratos vigentes, eliminan metadata ficticia, actualizan evidencia RC, completan coverage de impacto, endurecen pruebas históricas y cierran el estado administrativo de POST-H-034.
 
-Veredicto técnico: **PASS condicionado a la evidencia de regresión general final registrada en este documento y en el manifest de cierre**.
+Veredicto técnico: **PASS definitivo — la regresión general final está registrada, validada y sincronizada con el manifest y Project State**.
 
 ## 2. Reconstrucción del punto de interrupción
 
@@ -84,15 +84,22 @@ Validadores directos:
 - Testing tiers: PASS, 5/5 componentes.
 - Sensitive capability ADR gate: PASS, cinco capacidades `continue-blocked`.
 
-## 7. Regresión general
+## 7. Regresión general definitiva
 
-La evidencia final se actualiza después de ejecutar:
+La ejecución completa en Windows sobre `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip` concluyó:
 
-```powershell
-python -m pytest -p no:ddtrace --assert=plain -q
+```text
+1911 passed
+0 failed
+0 errors
+0 skipped
 ```
 
-Estado inicial de este campo: `pending-final-run`.
+Log fuente: `Log_consola_validacion_general_no-regresion_POST-H-034-CLOSURE.txt`.
+
+SHA-256 del log: `3a03395c650ad4cf230581dabb2fcb53e2f3c5d6dee252ec55a485040d133d4d`.
+
+Esta evidencia sustituye los estados `pending-final-run` y `PASS-focal-pending-Windows-full-regression`.
 
 ## 8. ADR
 
@@ -124,4 +131,15 @@ Evidencia focal implementada:
 - timeout opcional simulado: PASS con `GIT_OPTIONAL_READ_TIMEOUT` y fallback de status;
 - no shell, no red, no API externa y ninguna mutación Git.
 
-La regresión multiagente completa es costosa en el entorno de análisis y queda como comando obligatorio para Windows. El cierre definitivo requiere que el operador ejecute el conjunto focal multiagente y `pytest -q`, adjuntando el log resultante.
+Este resultado de 1902/5 se conserva como evidencia diagnóstica intermedia. Después del hardening Git, la regresión general de Windows pasó 1911/1911 pruebas; por ello los contratos multiagente quedan cubiertos por la suite completa y ya no existe una ejecución pendiente.
+
+
+## 11. Decisión final de cierre de evidencia
+
+- Backlog `POST-H-034`: **CLOSED**.
+- Micro-sprint administrativo `POST-H-034-CLOSURE`: **CLOSED/FULL-REGRESSION-PASS**.
+- Suite final: `1911 passed, 0 failed, 0 errors, 0 skipped`.
+- Documentación, Project State, RC criteria y manifest: sincronizados con `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip`.
+- Claims y no-go gates: sin cambios; las cinco capacidades sensibles permanecen `continue-blocked`.
+
+No queda trabajo funcional ni documental pendiente dentro de POST-H-034. La siguiente actividad autorizable es un hito de evaluación separado, no una extensión implícita de este backlog.
