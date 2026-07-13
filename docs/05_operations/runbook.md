@@ -2,17 +2,43 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.18.0"
+version: "2.19.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-034-E"
+phase: "POST-H-034-CLOSURE"
 updated: "2026-07-12"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-034-CLOSURE — Operación y verificación de cierre de fase
+
+Repo objetivo: `repo_DevPilot_Local_313_POST_H_034_CLOSURE.zip`.
+
+Propósito: verificar que el repo posterior a POST-H-034-E no conserve drift en CLI/ApplicationService, release candidate, testing impact, historical regression o project state.
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py -q
+python -m pytest -p no:ddtrace --assert=plain tests/test_application_cli_boundary_integration.py tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_029_tcr_v2_impact_rules.py tests/test_post_h_029_historical_regression_guard.py -q
+python -m devpilot_core project-state validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core release-candidate final --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m pytest -p no:ddtrace --assert=plain -q
+```
+
+PASS: todos los comandos terminan con exit code 0, el RC no tiene blocking gaps, los dominios P0/P1 están mapeados y los cinco ADRs sensibles permanecen `continue-blocked`.
+
+BLOCK: cualquier metadata de operación inexistente, evidencia crítica stale, dominio P0/P1 sin impact rule, crecimiento CLI no registrado, activación sensible o fallo de regresión.
+
+Los `outputs/`, caches, `.devpilot/devpilot.db`, `.venv/` y `.git/` no pertenecen al ZIP limpio. Los comandos son read-only salvo la escritura explícita de reportes bajo `outputs/` cuando se usa `--write-report`.
+
 
 ## POST-H-034-E — Operación de ADR Enterprise/SaaS boundary
 
@@ -11570,3 +11596,35 @@ python -m devpilot_core test-contracts validate-v2 --json
 ```
 
 PASS si `multiuser.auth` permanece `continue-blocked`, `production_multiuser=false`, la API sigue local-only y no se introducen credenciales reales. BLOCK si se declara multiuser productivo, enterprise IAM, public API o tenancy sin backlog futuro, threat model, sesiones, RBAC por endpoint, approval actor binding no spoofable y data isolation.
+
+## POST-H-034-CLOSURE follow-up — Diagnóstico de timeouts Git read-only
+
+### Síntoma
+
+`pytest -q` o un workflow multiagente falla con `subprocess.TimeoutExpired` sobre `git diff --stat` después de 8 segundos.
+
+### Operación corregida
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DEVPILOT_GIT_TIMEOUT_SECONDS="60"  # rango permitido: 5-300
+python -m devpilot_core git diff-report --json --write-report
+```
+
+- `git status --short`, `rev-parse` y otras lecturas esenciales: un timeout devuelve BLOCK estructurado.
+- `git diff --stat`, `--name-status` y `--numstat` usados como enriquecimiento: un timeout produce WARNING y fallback basado en `status --short`.
+- Ningún timeout habilita comandos write, shell, red o API externa.
+
+### Verificación
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_git_adapter_v2.py -q
+python -m pytest -p no:ddtrace --assert=plain tests/test_multiagent_coordinator.py tests/test_multiagent_workflow.py -q
+python -m pytest -p no:ddtrace --assert=plain -q
+```
+
+### PASS/BLOCK
+
+PASS: no se propaga `TimeoutExpired`, el CLI conserva JSON parseable y los workflows dry-run terminan sin mutaciones.  
+BLOCK: una lectura Git esencial no completa dentro del timeout, Git no está disponible o se solicita un comando fuera de allowlist.
+

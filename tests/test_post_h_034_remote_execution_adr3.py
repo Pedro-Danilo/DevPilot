@@ -186,7 +186,11 @@ def test_post_h_034_c_governance_artifacts_are_synchronized() -> None:
     assert "POST-H-034-C — Remote execution sigue bloqueado" in remote_runbook
     assert "POST-H-034-C — Secure transport no habilita remote execution" in transport_runbook
     assert "post-h-034-c" in changelog
-    assert 'current_micro_sprint: "POST-H-034-D"' in backlog or 'current_micro_sprint: "POST-H-034-E"' in backlog
+    assert any(marker in backlog for marker in [
+        'current_micro_sprint: "POST-H-034-D"',
+        'current_micro_sprint: "POST-H-034-E"',
+        'current_micro_sprint: "POST-H-034-CLOSURE"',
+    ])
     assert 'next_micro_sprint: "POST-H-034-E"' in backlog or 'next_micro_sprint: "POST-H-034-CLOSURE"' in backlog
 
 

@@ -1,3 +1,21 @@
+## post-h-034-closure-follow-up — Git read-only timeout hardening
+
+- Resolves the five remaining failures from `testeo_general_final_02.txt` as one Windows-local Git timeout root cause.
+- Replaces the fixed 8-second timeout with a bounded configurable default of 60 seconds (`DEVPILOT_GIT_TIMEOUT_SECONDS`, 5-300).
+- Converts `TimeoutExpired` into structured command evidence instead of CLI ERROR/uncaught exceptions.
+- Allows optional diff enrichment to degrade to warning/fallback while essential Git reads fail closed with BLOCK/FAIL.
+- Adds deterministic timeout/fallback tests and preserves read-only allowlisting, no shell, no network and no external APIs.
+
+## post-h-034-closure — Final regression reconciliation
+
+- Reconciles 31 full-suite failures into five root-cause patches plus lifecycle-state cleanup.
+- Removes invalid CLI-to-ApplicationService operation mappings and regenerates CLI governance artifacts.
+- Updates local release-candidate freshness criteria to repo 312 / POST-H-034-CLOSURE.
+- Maps TCR v2 domain `agentic.runtime` into deterministic impact rules.
+- Cleans the legacy CLI allowlist and hardens its negative test against real legacy state.
+- Replaces finite future-version assertions with durable backlog invariants.
+- Closes POST-H-034 administratively without enabling connector write, plugin execution, remote execution, multiuser auth, enterprise, SaaS, network or external APIs.
+
 ## post-h-034-e — Enterprise/SaaS boundary ADR
 
 - Agrega ADR aprobada `ADR-POSTH-034-E` para mantener `enterprise.saas` en `continue-blocked`.

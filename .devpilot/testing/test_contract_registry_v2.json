@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "created_by": "POST-H-003-E",
   "status": "implemented-initial",
-  "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable.",
+  "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "compatibility": {
     "v1_compatible": true,
@@ -16054,6 +16054,146 @@
       "classification_notes": [
         "POST-H-034-E introduces the Enterprise/SaaS boundary ADR and preserves local production-ready scope while blocking enterprise/SaaS/compliance-certified overclaims."
       ]
+    },
+    {
+      "contract_id": "post-h-034-closure-final-regression-reconciliation",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-034-closure-final-regression-reconciliation",
+      "domain": "governance.testing",
+      "capability": "FinalRegressionReconciliation",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 90,
+      "test_files": [
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/",
+        ".devpilot/cli_registry/",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/project_state.json",
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "src/devpilot_core/quality/gate.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "validates": [
+        "application-cli-boundary-integration",
+        "local-release-candidate",
+        "test-impact-rule-registry",
+        "historical-regression-guard",
+        "project-global-state",
+        "src/devpilot_core/quality/gate.py"
+      ],
+      "trigger_hints": [
+        "post-h-034-closure",
+        "final-regression",
+        "project-state-drift",
+        "release-candidate-stale"
+      ],
+      "impact_scope": [
+        "cli-registry",
+        "application-service",
+        "release-candidate",
+        "testing",
+        "project-state",
+        "documentation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-034-CLOSURE",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Corrective closure contract for accumulated drift; it does not authorize sensitive capability enablement."
+      ]
+    },
+    {
+      "contract_id": "post-h-034-closure-git-timeout-hardening",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-034-closure-git-timeout-hardening",
+      "domain": "operations.workspace",
+      "capability": "GitReadOnlyTimeoutHardening",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 900,
+      "test_files": [
+        "tests/test_git_adapter_v2.py",
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/repo/git_adapter.py",
+        "src/devpilot_core/repo/analyzer.py",
+        "src/devpilot_core/agents/repo_analysis_agent.py",
+        "src/devpilot_core/repo/architecture_drift.py",
+        "src/devpilot_core/multiagent/",
+        "tests/test_git_adapter_v2.py",
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py"
+      ],
+      "validates": [
+        "bounded-local-git-timeout",
+        "optional-read-fallback",
+        "required-read-controlled-block",
+        "no-unhandled-timeout-expired",
+        "read-only-no-shell-no-network"
+      ],
+      "trigger_hints": [
+        "git-adapter-change",
+        "repo-analysis-change",
+        "multiagent-repo-review-change",
+        "windows-git-timeout-regression"
+      ],
+      "impact_scope": [
+        "git-read-only",
+        "repo-analysis",
+        "multiagent",
+        "cli-reporting",
+        "windows-local-operation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-034-CLOSURE",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_git_adapter_v2.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_multiagent_coordinator.py tests/test_multiagent_workflow.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Second final-regression log exposed a single cross-cutting Windows Git timeout cause behind five failures.",
+        "The patch preserves read-only behavior and converts TimeoutExpired into structured PASS-with-warning or BLOCK/FAIL according to command criticality."
+      ]
     }
   ],
   "migration_metadata": {
@@ -16104,6 +16244,7 @@
     "POST-H-031-B adds OperatorHealthSummary contracts for CLI/ApplicationService/API.",
     "POST-H-031-C adds GapActionMap contracts for CLI/ApplicationService/API.",
     "POST-H-031-D adds explicit claims/no-go dashboard contracts for CLI, ApplicationService and protected local API route.",
-    "POST-H-034-B registers plugin execution ADR as a P0 security contract without enabling plugin execution."
+    "POST-H-034-B registers plugin execution ADR as a P0 security contract without enabling plugin execution.",
+    "POST-H-034-CLOSURE classifies the final regression reconciliation as P1 governance.testing/release evidence."
   ]
 }

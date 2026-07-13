@@ -12,16 +12,16 @@
   "connector_write_enabled": false,
   "control_plane_enabled": false,
   "credentials_required": false,
-  "current_micro_sprint": "POST-H-034-E",
+  "current_micro_sprint": "POST-H-034-CLOSURE",
   "current_phase": "POST-FASE-H",
-  "current_repo": "repo_DevPilot_Local_312_POST_H_034_E.zip",
+  "current_repo": "repo_DevPilot_Local_314_POST_H_034_CLOSURE_GIT_TIMEOUT_HARDENING.zip",
   "enterprise_deployment_enabled": false,
   "enterprise_ready_claimed": false,
   "external_api_used": false,
   "external_apis_required": false,
   "global_state_owner": "tests/test_project_global_state.py",
   "industrial_baseline_ready": true,
-  "last_completed_sprint": "POST-H-031",
+  "last_completed_sprint": "POST-H-034",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "maturity_level": "industrial-baseline-ready",
   "mutable_global_state_fields": [
@@ -37,7 +37,7 @@
   "network_allowed": false,
   "network_used": false,
   "next_micro_sprint": "POST-H-034-CLOSURE",
-  "next_sprint": "POST-H-032",
+  "next_sprint": "POST-H-034",
   "notes": [
     "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
     "POST-H-003 closes Test Contract Registry 2.0 as implemented-initial: schema v2, migration, validator, profiles, impact analyzer v2 and quality-gate signal are available locally.",
@@ -314,7 +314,9 @@
     "POST-H-034-B adds plugin execution ADR/gate as implemented-initial: plugin.execution remains continue-blocked, metadata-only and no-execution with future sandbox/signing/approval prerequisites.",
     "POST-H-034-C adds Remote execution ADR-3/gate as implemented-initial: remote.execution remains continue-blocked, remote runner disabled, secure transport design-only and no-network/no-shell/no-credentials.",
     "POST-H-034-D adds MultiuserAuthDecision ADR boundary as implemented-initial: API local token, identity/RBAC and approval controls remain local-first; production multiuser, enterprise IAM, sessions, tenancy, public API, network, external APIs and credentials stay disabled.",
-    "POST-H-034-E adds Enterprise/SaaS boundary ADR as implemented-initial and preserves production-ready-local; enterprise/SaaS/compliance-certified claims remain blocked."
+    "POST-H-034-E adds Enterprise/SaaS boundary ADR as implemented-initial and preserves production-ready-local; enterprise/SaaS/compliance-certified claims remain blocked.",
+    "POST-H-034-CLOSURE reconciles the final full-regression drift; no subsequent functional backlog is authorized, and next_sprint remains POST-H-034 as a ProjectState v1 compatibility anchor.",
+    "POST-H-034-CLOSURE follow-up hardens read-only Git subprocess timeouts after the second full regression: optional diff enrichment degrades to warnings/fallback metadata, required reads return controlled BLOCK/FAIL, and the timeout is locally configurable within 5-300 seconds."
   ],
   "phase_h_status": "closed_implemented_initial",
   "plugin_execution_enabled": false,
@@ -1517,7 +1519,7 @@
   "post_h_033_closed": true,
   "post_h_033_backlog_closure_candidate": true,
   "post_h_034_backlog_approved": true,
-  "post_h_034_status": "active/post-h-034-e-implemented-initial",
+  "post_h_034_status": "closed/sensitive-capabilities-adrs",
   "post_h_034_current_micro_sprint": "POST-H-034-E",
   "post_h_034_next_micro_sprint": "POST-H-034-CLOSURE",
   "post_h_034_a_connector_write_adr_path": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
@@ -1671,5 +1673,19 @@
   "legal_advice_claimed": false,
   "post_h_034_e_external_audit_claimed": false,
   "post_h_034_e_legal_advice_claimed": false,
-  "external_api_allowed": false
+  "external_api_allowed": false,
+  "post_h_034_closed": true,
+  "post_h_034_closure_status": "closed/final-regression-reconciled",
+  "post_h_034_closure_date": "2026-07-12",
+  "next_backlog_planned": false,
+  "next_backlog_status": "not-planned-after-post-h-034-closure",
+  "post_h_034_closure_git_timeout_hardening_available": true,
+  "post_h_034_closure_git_timeout_hardening_status": "implemented/focal-pass-pending-full-regression",
+  "post_h_034_closure_git_timeout_default_seconds": 60,
+  "post_h_034_closure_git_timeout_env": "DEVPILOT_GIT_TIMEOUT_SECONDS",
+  "post_h_034_closure_git_timeout_bounds_seconds": {
+    "minimum": 5,
+    "maximum": 300
+  },
+  "post_h_034_closure_git_timeout_failure_mode": "controlled-result/no-unhandled-TimeoutExpired"
 }

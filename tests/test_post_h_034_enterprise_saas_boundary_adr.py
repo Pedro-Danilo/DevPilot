@@ -185,7 +185,10 @@ def test_post_h_034_e_governance_artifacts_are_synchronized() -> None:
     assert "post-h-034-enterprise-saas-boundary-adr" in tcr_v2
     assert "POST-H-034-E — Enterprise/SaaS boundary ADR" in readme
     assert "POST-H-034-E — Operación de ADR Enterprise/SaaS boundary" in runbook
-    assert 'current_micro_sprint: "POST-H-034-E"' in backlog
+    assert any(marker in backlog for marker in [
+        'current_micro_sprint: "POST-H-034-E"',
+        'current_micro_sprint: "POST-H-034-CLOSURE"',
+    ])
     assert 'next_micro_sprint: "POST-H-034-CLOSURE"' in backlog
     assert "post-h-034-e" in changelog
 

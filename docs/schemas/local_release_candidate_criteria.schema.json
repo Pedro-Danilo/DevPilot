@@ -67,11 +67,11 @@
     },
     "expected_current_micro_sprint": {
       "type": "string",
-      "pattern": "^POST-H-[0-9]{3}(-[A-E])?$"
+      "pattern": "^POST-H-[0-9]{3}(-([A-E]|CLOSURE))?$"
     },
     "expected_next_micro_sprint": {
       "type": "string",
-      "pattern": "^POST-H-[0-9]{3}(-[A-E])?$"
+      "pattern": "^POST-H-[0-9]{3}(-([A-E]|CLOSURE))?$"
     },
     "freshness_policy": {
       "type": "string",

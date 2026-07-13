@@ -155,6 +155,7 @@ def test_post_h_034_a_governance_artifacts_are_synchronized() -> None:
         or 'current_micro_sprint: "POST-H-034-C"' in backlog
         or 'current_micro_sprint: "POST-H-034-D"' in backlog
         or 'current_micro_sprint: "POST-H-034-E"' in backlog
+        or 'current_micro_sprint: "POST-H-034-CLOSURE"' in backlog
     )
     assert 'status: "approved"' in top_level
 

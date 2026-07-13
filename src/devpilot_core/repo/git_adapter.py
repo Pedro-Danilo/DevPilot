@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 import shutil
 import subprocess
@@ -10,7 +11,11 @@ from typing import Any, Iterable
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PolicyEngine, PolicyRequest
 
-_SAFE_GIT_TIMEOUT_SECONDS = 8
+_DEFAULT_SAFE_GIT_TIMEOUT_SECONDS = 60
+_MIN_SAFE_GIT_TIMEOUT_SECONDS = 5
+_MAX_SAFE_GIT_TIMEOUT_SECONDS = 300
+_GIT_TIMEOUT_ENV = "DEVPILOT_GIT_TIMEOUT_SECONDS"
+_GIT_TIMEOUT_EXIT_CODE = 124
 _DEFAULT_LOG_LIMIT = 20
 _MAX_LOG_LIMIT = 200
 _DEFAULT_DIFF_FILE_LIMIT = 200
@@ -31,6 +36,8 @@ class GitCommandResult:
     exit_code: int
     stdout: str
     stderr: str
+    timed_out: bool = False
+    timeout_seconds: int | None = None
 
     @property
     def ok(self) -> bool:
@@ -42,6 +49,8 @@ class GitCommandResult:
             "exit_code": self.exit_code,
             "stdout": self.stdout,
             "stderr": self.stderr,
+            "timed_out": self.timed_out,
+            "timeout_seconds": self.timeout_seconds,
         }
 
 
@@ -197,9 +206,16 @@ class GitAdapter:
         ("diff", "--cached", "--numstat"),
     )
 
-    def __init__(self, root: Path, *, git_executable: str | None = None) -> None:
+    def __init__(
+        self,
+        root: Path,
+        *,
+        git_executable: str | None = None,
+        command_timeout_seconds: int | None = None,
+    ) -> None:
         self.root = root.resolve()
         self.git_executable = git_executable or shutil.which("git")
+        self.command_timeout_seconds = _resolve_git_timeout_seconds(command_timeout_seconds)
 
     def status(self) -> CommandResult:
         """Return a normalized read-only Git status result."""
@@ -215,35 +231,62 @@ class GitAdapter:
         git_root_result = self._run_allowed(("rev-parse", "--show-toplevel"))
         branch_result = self._run_allowed(("branch", "--show-current"))
         status_result = self._run_allowed(("status", "--short"))
+        commands.extend([git_root_result, branch_result, status_result])
+
+        required_failure = self._required_command_failure(
+            command="git-status",
+            results=(git_root_result, branch_result, status_result),
+            commands=commands,
+        )
+        if required_failure is not None:
+            return required_failure
+
+        # Diff statistics enrich status output but are not required for repo analysis.
+        # On large Windows worktrees Git may legitimately need longer than the old
+        # fixed eight-second timeout. A timeout here must degrade to a warning, not
+        # abort every consumer such as RepoAnalysisAgent or multiagent workflows.
         diff_result = self._run_allowed(("diff", "--stat"))
         staged_diff_result = self._run_allowed(("diff", "--cached", "--stat"))
-        commands.extend([git_root_result, branch_result, status_result, diff_result, staged_diff_result])
+        commands.extend([diff_result, staged_diff_result])
+        optional_failures = [result for result in (diff_result, staged_diff_result) if not result.ok]
 
         short_status = [line for line in status_result.stdout.splitlines() if line.strip()]
         counts = _count_short_status(short_status)
-        git_root = _display_path(Path(git_root_result.stdout.strip()), self.root) if git_root_result.ok and git_root_result.stdout.strip() else None
+        git_root = _display_path(Path(git_root_result.stdout.strip()), self.root) if git_root_result.stdout.strip() else None
         snapshot = GitStatusSnapshot(
             is_git_repo=True,
             branch=branch_result.stdout.strip() or None,
             short_status=short_status,
-            diff_stat=diff_result.stdout.strip(),
-            staged_diff_stat=staged_diff_result.stdout.strip(),
+            diff_stat=diff_result.stdout.strip() if diff_result.ok else "",
+            staged_diff_stat=staged_diff_result.stdout.strip() if staged_diff_result.ok else "",
             counts=counts,
             git_root=git_root,
             git_available=True,
         )
         findings = [Finding(id="GIT_STATUS_READ_ONLY_PASS", message="Git status was collected using read-only commands.", severity=Severity.INFO)]
+        findings.extend(_optional_command_findings(optional_failures, operation="git-status"))
         if counts.get("untracked", 0) > 0:
             findings.append(Finding(id="GIT_UNTRACKED_FILES_PRESENT", message="Untracked files are present.", severity=Severity.WARNING, metadata={"count": counts["untracked"]}))
         if counts.get("modified", 0) > 0 or counts.get("staged", 0) > 0:
             findings.append(Finding(id="GIT_WORKTREE_CHANGES_PRESENT", message="Working tree changes are present.", severity=Severity.WARNING, metadata=counts))
 
+        summary = snapshot.to_dict()
+        summary.update(
+            {
+                "partial": bool(optional_failures),
+                "optional_commands_failed_total": len(optional_failures),
+                "command_timeout_seconds": self.command_timeout_seconds,
+                "network_used": False,
+                "external_api_used": False,
+                "mutations_performed": False,
+            }
+        )
         return CommandResult(
             command="git-status",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Git status collected in read-only mode.",
-            data={"summary": snapshot.to_dict(), "commands_executed": [cmd.to_dict() for cmd in commands]},
+            message="Git status collected in read-only mode." if not optional_failures else "Git status collected with optional diff statistics unavailable.",
+            data={"summary": summary, "commands_executed": [cmd.to_dict() for cmd in commands]},
             findings=findings,
         )
 
@@ -259,6 +302,9 @@ class GitAdapter:
 
         result = self._run_allowed(("branch", "--all", "--format=%(refname:short)%1f%(objectname:short)%1f%(upstream:short)%1f%(HEAD)%1f%(committerdate:iso8601)"))
         commands.append(result)
+        failure = self._required_command_failure(command="git branches", results=(result,), commands=commands)
+        if failure is not None:
+            return failure
         branches = _parse_branches(result.stdout)
         return CommandResult(
             command="git branches",
@@ -292,6 +338,9 @@ class GitAdapter:
 
         result = self._run_allowed(("tag", "--list", "--format=%(refname:short)%1f%(objectname:short)%1f%(creatordate:iso8601)%1f%(subject)"))
         commands.append(result)
+        failure = self._required_command_failure(command="git tags", results=(result,), commands=commands)
+        if failure is not None:
+            return failure
         tags = _parse_tags(result.stdout)
         return CommandResult(
             command="git tags",
@@ -328,6 +377,9 @@ class GitAdapter:
         log_args = self._log_args(limit)
         result = self._run_allowed(log_args)
         commands.append(result)
+        failure = self._required_command_failure(command="git log", results=(result,), commands=commands)
+        if failure is not None:
+            return failure
         commits = _parse_commits(result.stdout)
         return CommandResult(
             command="git log",
@@ -362,25 +414,44 @@ class GitAdapter:
             return repo_check
 
         status_result = self._run_allowed(("status", "--short"))
+        commands.append(status_result)
+        required_failure = self._required_command_failure(
+            command="git diff-report",
+            results=(status_result,),
+            commands=commands,
+        )
+        if required_failure is not None:
+            return required_failure
+
         unstaged_names = self._run_allowed(("diff", "--name-status"))
         unstaged_numstat = self._run_allowed(("diff", "--numstat"))
         staged_names = self._run_allowed(("diff", "--cached", "--name-status"))
         staged_numstat = self._run_allowed(("diff", "--cached", "--numstat"))
-        commands.extend([status_result, unstaged_names, unstaged_numstat, staged_names, staged_numstat])
+        optional_results = (unstaged_names, unstaged_numstat, staged_names, staged_numstat)
+        commands.extend(optional_results)
+        optional_failures = [result for result in optional_results if not result.ok]
 
         diff_files = _build_diff_files(
             status_lines=status_result.stdout.splitlines(),
-            unstaged_name_status=unstaged_names.stdout,
-            unstaged_numstat=unstaged_numstat.stdout,
-            staged_name_status=staged_names.stdout,
-            staged_numstat=staged_numstat.stdout,
+            unstaged_name_status=unstaged_names.stdout if unstaged_names.ok else "",
+            unstaged_numstat=unstaged_numstat.stdout if unstaged_numstat.ok else "",
+            staged_name_status=staged_names.stdout if staged_names.ok else "",
+            staged_numstat=staged_numstat.stdout if staged_numstat.ok else "",
         )
+        if not unstaged_names.ok or not staged_names.ok:
+            diff_files = _merge_status_fallback_files(
+                diff_files,
+                status_result.stdout.splitlines(),
+                include_unstaged=not unstaged_names.ok,
+                include_staged=not staged_names.ok,
+            )
         truncated = False
         if len(diff_files) > max_files:
             diff_files = diff_files[:max_files]
             truncated = True
         counts = _diff_counts(diff_files)
         findings = [Finding(id="GIT_DIFF_REPORT_READ_ONLY_PASS", message="Git diff report was collected using read-only commands.", severity=Severity.INFO)]
+        findings.extend(_optional_command_findings(optional_failures, operation="git diff-report"))
         if truncated:
             findings.append(Finding(id="GIT_DIFF_REPORT_TRUNCATED", message="Git diff report exceeded max_files and was truncated.", severity=Severity.WARNING, metadata={"max_files": max_files}))
         high_risk = [file for file in diff_files if file.risk_level == "high"]
@@ -398,7 +469,7 @@ class GitAdapter:
             command="git diff-report",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Git diff report collected in read-only mode.",
+            message="Git diff report collected in read-only mode." if not optional_failures else "Git diff report collected with bounded fallback metadata.",
             data={
                 "summary": {
                     "is_git_repo": True,
@@ -412,6 +483,9 @@ class GitAdapter:
                     "external_api_used": False,
                     "mutations_performed": False,
                     "preliminary": True,
+                    "partial": bool(optional_failures),
+                    "optional_commands_failed_total": len(optional_failures),
+                    "command_timeout_seconds": self.command_timeout_seconds,
                     **counts,
                 },
                 "files": [file.to_dict() for file in diff_files],
@@ -446,6 +520,12 @@ class GitAdapter:
         commands: list[GitCommandResult] = []
         inside = self._run_allowed(("rev-parse", "--is-inside-work-tree"))
         commands.append(inside)
+        if inside.timed_out:
+            return self._required_command_failure(command=command, results=(inside,), commands=commands), commands
+        if not inside.ok:
+            stderr = inside.stderr.lower()
+            if "not a git repository" not in stderr:
+                return self._required_command_failure(command=command, results=(inside,), commands=commands), commands
         if not inside.ok or inside.stdout.strip().lower() != "true":
             snapshot = GitStatusSnapshot(
                 is_git_repo=False,
@@ -458,7 +538,7 @@ class GitAdapter:
                     ok=True,
                     exit_code=ExitCode.PASS,
                     message="Workspace is not a Git repository; read-only Git command skipped.",
-                    data={"summary": snapshot.to_dict() | {"preliminary": True}, "commands_executed": [cmd.to_dict() for cmd in commands]},
+                    data={"summary": snapshot.to_dict() | {"preliminary": True, "command_timeout_seconds": self.command_timeout_seconds}, "commands_executed": [cmd.to_dict() for cmd in commands]},
                     findings=[Finding(id="GIT_REPOSITORY_NOT_FOUND", message="No Git repository was detected at the workspace root.", severity=Severity.WARNING)],
                 ),
                 commands,
@@ -468,16 +548,96 @@ class GitAdapter:
     def _run_allowed(self, args: tuple[str, ...]) -> GitCommandResult:
         if not self._is_read_only_allowed(args):
             raise ValueError(f"Unsafe or unsupported git command: {' '.join(args)}")
-        completed = subprocess.run(
-            [self.git_executable or "git", *args],
-            cwd=self.root,
-            text=True,
-            capture_output=True,
-            timeout=_SAFE_GIT_TIMEOUT_SECONDS,
-            check=False,
-            shell=False,
+        try:
+            completed = subprocess.run(
+                [self.git_executable or "git", *args],
+                cwd=self.root,
+                text=True,
+                capture_output=True,
+                timeout=self.command_timeout_seconds,
+                check=False,
+                shell=False,
+            )
+        except subprocess.TimeoutExpired as exc:
+            stdout = _coerce_subprocess_text(exc.stdout)
+            stderr = _coerce_subprocess_text(exc.stderr)
+            diagnostic = f"Read-only Git command timed out after {self.command_timeout_seconds} seconds."
+            stderr = f"{stderr.rstrip()}\n{diagnostic}".strip()
+            return GitCommandResult(
+                args=args,
+                exit_code=_GIT_TIMEOUT_EXIT_CODE,
+                stdout=stdout,
+                stderr=stderr,
+                timed_out=True,
+                timeout_seconds=self.command_timeout_seconds,
+            )
+        except OSError as exc:
+            return GitCommandResult(
+                args=args,
+                exit_code=127,
+                stdout="",
+                stderr=f"Unable to execute read-only Git command: {exc}",
+                timeout_seconds=self.command_timeout_seconds,
+            )
+        return GitCommandResult(
+            args=args,
+            exit_code=completed.returncode,
+            stdout=completed.stdout,
+            stderr=completed.stderr,
+            timeout_seconds=self.command_timeout_seconds,
         )
-        return GitCommandResult(args=args, exit_code=completed.returncode, stdout=completed.stdout, stderr=completed.stderr)
+
+    def _required_command_failure(
+        self,
+        *,
+        command: str,
+        results: Iterable[GitCommandResult],
+        commands: list[GitCommandResult],
+    ) -> CommandResult | None:
+        failed = [result for result in results if not result.ok]
+        if not failed:
+            return None
+        timed_out = [result for result in failed if result.timed_out]
+        finding_id = "GIT_READ_ONLY_COMMAND_TIMEOUT" if timed_out else "GIT_READ_ONLY_COMMAND_FAILED"
+        severity = Severity.BLOCK if timed_out else Severity.FAIL
+        exit_code = ExitCode.BLOCK if timed_out else ExitCode.FAIL
+        message = (
+            f"{command} could not complete because a bounded read-only Git command timed out."
+            if timed_out
+            else f"{command} could not complete because a read-only Git command failed."
+        )
+        return CommandResult(
+            command=command,
+            ok=False,
+            exit_code=exit_code,
+            message=message,
+            data={
+                "summary": {
+                    "is_git_repo": True,
+                    "git_available": True,
+                    "commands_failed_total": len(failed),
+                    "commands_timed_out_total": len(timed_out),
+                    "command_timeout_seconds": self.command_timeout_seconds,
+                    "network_used": False,
+                    "external_api_used": False,
+                    "mutations_performed": False,
+                    "preliminary": True,
+                },
+                "commands_executed": [item.to_dict() for item in commands],
+            },
+            findings=[
+                Finding(
+                    id=finding_id,
+                    message=message,
+                    severity=severity,
+                    metadata={
+                        "failed_commands": [list(result.args) for result in failed],
+                        "timed_out_commands": [list(result.args) for result in timed_out],
+                        "timeout_seconds": self.command_timeout_seconds,
+                    },
+                )
+            ],
+        )
 
     def _is_read_only_allowed(self, args: tuple[str, ...]) -> bool:
         if args in self._ALLOWED_COMMANDS:
@@ -489,6 +649,115 @@ class GitAdapter:
     @staticmethod
     def _log_args(limit: int) -> tuple[str, ...]:
         return ("log", "--date=iso-strict", "--pretty=format:%H%x1f%h%x1f%an%x1f%ae%x1f%ad%x1f%s", "-n", str(limit))
+
+
+def _resolve_git_timeout_seconds(explicit: int | None) -> int:
+    """Resolve a bounded local Git timeout without introducing config files."""
+
+    if explicit is not None:
+        if not isinstance(explicit, int) or isinstance(explicit, bool):
+            raise TypeError("command_timeout_seconds must be an integer")
+        if not _MIN_SAFE_GIT_TIMEOUT_SECONDS <= explicit <= _MAX_SAFE_GIT_TIMEOUT_SECONDS:
+            raise ValueError(
+                f"command_timeout_seconds must be between {_MIN_SAFE_GIT_TIMEOUT_SECONDS} "
+                f"and {_MAX_SAFE_GIT_TIMEOUT_SECONDS}"
+            )
+        return explicit
+
+    raw = os.getenv(_GIT_TIMEOUT_ENV, "").strip()
+    if not raw:
+        return _DEFAULT_SAFE_GIT_TIMEOUT_SECONDS
+    try:
+        parsed = int(raw)
+    except ValueError:
+        return _DEFAULT_SAFE_GIT_TIMEOUT_SECONDS
+    if not _MIN_SAFE_GIT_TIMEOUT_SECONDS <= parsed <= _MAX_SAFE_GIT_TIMEOUT_SECONDS:
+        return _DEFAULT_SAFE_GIT_TIMEOUT_SECONDS
+    return parsed
+
+
+def _coerce_subprocess_text(value: str | bytes | None) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="replace")
+    return value
+
+
+def _optional_command_findings(results: Iterable[GitCommandResult], *, operation: str) -> list[Finding]:
+    findings: list[Finding] = []
+    for result in results:
+        if result.timed_out:
+            findings.append(
+                Finding(
+                    id="GIT_OPTIONAL_READ_TIMEOUT",
+                    message=f"{operation} continued without optional Git enrichment after a bounded timeout.",
+                    severity=Severity.WARNING,
+                    metadata={
+                        "args": list(result.args),
+                        "timeout_seconds": result.timeout_seconds,
+                        "fallback_used": True,
+                    },
+                )
+            )
+        else:
+            findings.append(
+                Finding(
+                    id="GIT_OPTIONAL_READ_FAILED",
+                    message=f"{operation} continued without optional Git enrichment after a read-only command failed.",
+                    severity=Severity.WARNING,
+                    metadata={
+                        "args": list(result.args),
+                        "exit_code": result.exit_code,
+                        "fallback_used": True,
+                    },
+                )
+            )
+    return findings
+
+
+def _merge_status_fallback_files(
+    existing: list[GitDiffFile],
+    status_lines: Iterable[str],
+    *,
+    include_unstaged: bool,
+    include_staged: bool,
+) -> list[GitDiffFile]:
+    """Recover file-level diff metadata from porcelain status when diff enrichment times out."""
+
+    files = {(item.scope, item.path): item for item in existing}
+    for line in status_lines:
+        if len(line) < 3 or not line.strip():
+            continue
+        prefix = line[:2]
+        raw_path = line[3:].strip()
+        if " -> " in raw_path:
+            previous_path, raw_path = raw_path.split(" -> ", 1)
+            previous_path = _normalize_git_path(previous_path.strip('"'))
+        else:
+            previous_path = None
+        path = _normalize_git_path(raw_path.strip('"'))
+        if prefix == "??":
+            files[("untracked", path)] = _make_diff_file(path=path, change_type="untracked", scope="untracked")
+            continue
+        index_status, worktree_status = prefix[0], prefix[1]
+        if include_staged and index_status != " ":
+            change_type = _change_type_from_status(index_status)
+            files[("staged", path)] = _make_diff_file(
+                path=path,
+                change_type=change_type,
+                scope="staged",
+                previous_path=previous_path if change_type == "renamed" else None,
+            )
+        if include_unstaged and worktree_status != " ":
+            change_type = _change_type_from_status(worktree_status)
+            files[("unstaged", path)] = _make_diff_file(
+                path=path,
+                change_type=change_type,
+                scope="unstaged",
+                previous_path=previous_path if change_type == "renamed" else None,
+            )
+    return sorted(files.values(), key=lambda item: (item.scope, item.path))
 
 
 def _count_short_status(lines: list[str]) -> dict[str, int]:

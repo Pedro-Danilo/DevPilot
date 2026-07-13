@@ -25,6 +25,7 @@ class QualityGateOptions:
     profile: str = "fast"
     include_pytest: bool = False
     pytest_timeout_seconds: int = 180
+    visual_smoke_timeout_seconds: int = 180
 
 
 @dataclass(frozen=True)
@@ -604,21 +605,48 @@ class QualityGate:
                 data={"summary": {"script": "scripts/visual_product_smoke.py", "preliminary": True}},
                 findings=[Finding("VISUAL_PRODUCT_SMOKE_SCRIPT_MISSING", "scripts/visual_product_smoke.py is missing.", Severity.BLOCK, path="scripts/visual_product_smoke.py")],
             )
-        completed = subprocess.run(
-            [sys.executable, str(script), "--dry-run", "--json"],
-            cwd=self.root,
-            text=True,
-            capture_output=True,
-            check=False,
-            timeout=60,
-        )
+        timeout_seconds = max(30, min(int(self.options.visual_smoke_timeout_seconds), 600))
+        try:
+            completed = subprocess.run(
+                [sys.executable, str(script), "--dry-run", "--json"],
+                cwd=self.root,
+                text=True,
+                capture_output=True,
+                check=False,
+                timeout=timeout_seconds,
+            )
+        except subprocess.TimeoutExpired as exc:
+            return CommandResult(
+                command="visual product smoke",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Visual product smoke timed out.",
+                data={
+                    "summary": {
+                        "script": "scripts/visual_product_smoke.py",
+                        "timeout_seconds": timeout_seconds,
+                        "stdout_tail": (exc.stdout or "")[-500:],
+                        "stderr_tail": (exc.stderr or "")[-500:],
+                        "preliminary": True,
+                    }
+                },
+                findings=[
+                    Finding(
+                        "VISUAL_PRODUCT_SMOKE_TIMEOUT",
+                        "Visual product smoke exceeded its bounded local timeout.",
+                        Severity.BLOCK,
+                        path="scripts/visual_product_smoke.py",
+                        metadata={"timeout_seconds": timeout_seconds},
+                    )
+                ],
+            )
         try:
             payload = json.loads(completed.stdout or "{}")
         except json.JSONDecodeError:
             payload = {}
         ok = completed.returncode == 0 and bool(payload.get("ok"))
         summary = dict((payload.get("data") or {}).get("summary") or {}) if isinstance(payload, dict) else {}
-        summary.update({"returncode": completed.returncode, "stdout_parseable": bool(payload), "stderr_tail": completed.stderr[-500:], "preliminary": True})
+        summary.update({"returncode": completed.returncode, "stdout_parseable": bool(payload), "stderr_tail": completed.stderr[-500:], "timeout_seconds": timeout_seconds, "preliminary": True})
         return CommandResult(
             command="visual product smoke",
             ok=ok,

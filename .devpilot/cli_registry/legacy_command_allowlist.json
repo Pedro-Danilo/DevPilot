@@ -23,8 +23,6 @@
     "dynamic_handler_loading_enabled": false
   },
   "allowed_legacy_command_ids": [
-    "agent.run",
-    "agent.session.inspect",
     "agentops.status",
     "app.contract",
     "approval.list",
@@ -34,9 +32,6 @@
     "architecture.hotspots",
     "architecture.inventory",
     "architecture.map",
-    "backup.create",
-    "backup.list",
-    "backup.restore",
     "checklist-pre-code",
     "code-review",
     "compliance.list",
@@ -54,7 +49,6 @@
     "identity.current",
     "identity.exposure",
     "identity.roles",
-    "install.plan",
     "maturity.dashboard",
     "maturity.gate",
     "metrics.summary",
@@ -64,18 +58,9 @@
     "miasi.validate-policy-matrix",
     "miasi.validate-registry",
     "miasi.validate-tools",
-    "model.budget.status",
-    "model.capabilities",
-    "model.classify",
-    "model.embed",
-    "model.eval.run",
-    "model.generate",
-    "model.health",
-    "model.providers",
     "multiagent.handoff.harden",
     "multiagent.run",
     "multiagent.workflow.run",
-    "package.build",
     "patch-review",
     "patch.check",
     "patch.sandbox",
@@ -111,8 +96,6 @@
     "test-impact.analyze",
     "test-impact.analyze-v2",
     "test-impact.rules",
-    "tests.profiles",
-    "tests.run",
     "trace.inspect",
     "trace.report",
     "traceability.architecture-drift",
@@ -120,7 +103,6 @@
     "traceability.report",
     "traceability.scan",
     "traceability.validate",
-    "upgrade.check",
     "validate-artifact",
     "validate-frontmatter"
   ],
@@ -133,6 +115,7 @@
     "POST-H-017-C registers portfolio and release groups declaratively; portfolio.status and release.* commands are removed from the temporary legacy allowlist as stale entries.",
     "POST-H-018-B registers connector.validate, connector.call and connector.sandbox.run declaratively, so connector.* commands are no longer legacy allowlist entries.",
     "POST-H-018-D registers connector.sandbox.exposure declaratively; it is not added as a legacy command.",
-    "POST-H-032-H temporarily allowlists multiagent.handoff.harden because nested multiagent handoff subcommand extraction still classifies it as legacy; command remains governed, report-only and covered by CLI compatibility contract."
+    "POST-H-032-H temporarily allowlists multiagent.handoff.harden because nested multiagent handoff subcommand extraction still classifies it as legacy; command remains governed, report-only and covered by CLI compatibility contract.",
+    "POST-H-034-CLOSURE removes stale allowlist entries already promoted to declarative registration; only live legacy-unregistered commands remain."
   ]
 }

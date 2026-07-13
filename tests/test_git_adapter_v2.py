@@ -105,3 +105,98 @@ def test_git_v2_cli_diff_report_writes_report(capsys) -> None:
     assert payload["command"] == "git diff-report"
     assert payload["data"]["reports"]["json"].endswith("git_diff_report.json")
     assert payload["data"]["reports"]["markdown"].endswith("git_diff_report.md")
+
+
+def test_git_adapter_status_degrades_optional_diff_stat_timeout_to_warning(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from devpilot_core.repo import git_adapter as git_adapter_module
+
+    repo = _init_repo(tmp_path)
+    (repo / "app.py").write_text("print('changed')\n", encoding="utf-8")
+    original_run = git_adapter_module.subprocess.run
+
+    def timeout_unstaged_stat(command, *args, **kwargs):
+        if tuple(command[1:]) == ("diff", "--stat"):
+            raise subprocess.TimeoutExpired(command, timeout=kwargs["timeout"])
+        return original_run(command, *args, **kwargs)
+
+    monkeypatch.setattr(git_adapter_module.subprocess, "run", timeout_unstaged_stat)
+
+    result = GitAdapter(repo, command_timeout_seconds=5).status()
+
+    assert result.ok is True
+    assert result.exit_code == 0
+    assert result.data["summary"]["partial"] is True
+    assert result.data["summary"]["optional_commands_failed_total"] == 1
+    assert result.data["summary"]["command_timeout_seconds"] == 5
+    assert any(finding.id == "GIT_OPTIONAL_READ_TIMEOUT" for finding in result.findings)
+    timed_out = [item for item in result.data["commands_executed"] if item["timed_out"]]
+    assert timed_out[0]["args"] == ["diff", "--stat"]
+
+
+def test_git_diff_report_uses_status_fallback_when_optional_diff_commands_timeout(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from devpilot_core.repo import git_adapter as git_adapter_module
+
+    repo = _init_repo(tmp_path)
+    (repo / "app.py").write_text("print('changed')\n", encoding="utf-8")
+    (repo / "new_module.py").write_text("VALUE = 1\n", encoding="utf-8")
+    _run_git(repo, "add", "new_module.py")
+    original_run = git_adapter_module.subprocess.run
+
+    def timeout_diff_enrichment(command, *args, **kwargs):
+        if command[1] == "diff":
+            raise subprocess.TimeoutExpired(command, timeout=kwargs["timeout"])
+        return original_run(command, *args, **kwargs)
+
+    monkeypatch.setattr(git_adapter_module.subprocess, "run", timeout_diff_enrichment)
+
+    result = GitAdapter(repo, command_timeout_seconds=5).diff_report()
+
+    assert result.ok is True
+    assert result.exit_code == 0
+    assert result.data["summary"]["partial"] is True
+    assert result.data["summary"]["optional_commands_failed_total"] == 4
+    by_path = {(item["scope"], item["path"]): item for item in result.data["files"]}
+    assert by_path[("unstaged", "app.py")]["change_type"] == "modified"
+    assert by_path[("staged", "new_module.py")]["change_type"] == "added"
+    assert sum(finding.id == "GIT_OPTIONAL_READ_TIMEOUT" for finding in result.findings) == 4
+
+
+def test_git_diff_report_required_status_timeout_returns_controlled_block(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from devpilot_core.repo import git_adapter as git_adapter_module
+
+    repo = _init_repo(tmp_path)
+    original_run = git_adapter_module.subprocess.run
+
+    def timeout_status(command, *args, **kwargs):
+        if tuple(command[1:]) == ("status", "--short"):
+            raise subprocess.TimeoutExpired(command, timeout=kwargs["timeout"])
+        return original_run(command, *args, **kwargs)
+
+    monkeypatch.setattr(git_adapter_module.subprocess, "run", timeout_status)
+
+    result = GitAdapter(repo, command_timeout_seconds=5).diff_report()
+
+    assert result.ok is False
+    assert result.exit_code == 2
+    assert result.findings[0].id == "GIT_READ_ONLY_COMMAND_TIMEOUT"
+    assert result.data["summary"]["commands_timed_out_total"] == 1
+    assert result.data["summary"]["mutations_performed"] is False
+
+
+def test_git_timeout_configuration_is_bounded(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("DEVPILOT_GIT_TIMEOUT_SECONDS", "120")
+    assert GitAdapter(tmp_path).command_timeout_seconds == 120
+
+    monkeypatch.setenv("DEVPILOT_GIT_TIMEOUT_SECONDS", "not-an-integer")
+    assert GitAdapter(tmp_path).command_timeout_seconds == 60
+
+    with pytest.raises(ValueError):
+        GitAdapter(tmp_path, command_timeout_seconds=4)
+    with pytest.raises(ValueError):
+        GitAdapter(tmp_path, command_timeout_seconds=301)

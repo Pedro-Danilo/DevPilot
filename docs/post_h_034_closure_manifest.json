@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-034-CLOSURE-MANIFEST",
+  "created_by": "POST-H-034-CLOSURE",
+  "status": "closed",
+  "updated": "2026-07-13",
+  "source_repo": "repo_DevPilot_Local_312_POST_H_034_E.zip",
+  "source_log": "testeo_general_final.txt",
+  "input_test_summary": {
+    "passed": 1870,
+    "failed": 31,
+    "errors": 0,
+    "skipped": 0
+  },
+  "root_causes_total": 6,
+  "root_causes": [
+    "stale-cli-application-operation-metadata",
+    "stale-release-candidate-freshness-criteria",
+    "unmapped-agentic-runtime-test-impact-domain",
+    "stale-cli-no-growth-negative-fixture",
+    "finite-future-version-assertions",
+    "stale-global-project-lifecycle-state"
+  ],
+  "files_created": [
+    "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
+    "docs/audits/post_h_034_closure_final_regression_report.md",
+    "docs/post_h_034_closure_manifest.json",
+    "tests/test_post_h_034_closure_regression_reconciliation.py"
+  ],
+  "verification": {
+    "dedicated_closure_tests": "pending-rerun",
+    "focal_regression": "pass-32-tests-before-doc-sync",
+    "project_state": "pending-rerun",
+    "docs_governance": "pending-rerun",
+    "tcr_v1": "pass",
+    "tcr_v2": "pass",
+    "local_release_candidate": "pending-rerun",
+    "full_pytest": "pending-final-run"
+  },
+  "safety": {
+    "network_used": false,
+    "external_api_used": false,
+    "credentials_introduced": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "multiuser_production_enabled": false,
+    "enterprise_ready_claimed": false,
+    "saas_ready_claimed": false
+  },
+  "decision": "PASS-focal-pending-Windows-full-regression",
+  "notes": [
+    "This is a corrective administrative closure, not a new functional capability.",
+    "No ADR is required because existing boundaries and no-go decisions are preserved.",
+    "Second regression reduced failures from 31 to 5 and isolated all remaining failures to the same fixed Git timeout defect."
+  ],
+  "verification_hardening": {
+    "visual_smoke_timeout_seconds": 180,
+    "timeout_failure_mode": "BLOCK-with-diagnostics",
+    "git_read_only_timeout_default_seconds": 60,
+    "git_read_only_timeout_bounds_seconds": {
+      "minimum": 5,
+      "maximum": 300
+    },
+    "git_read_only_timeout_env": "DEVPILOT_GIT_TIMEOUT_SECONDS",
+    "git_read_only_timeout_behavior": {
+      "optional_enrichment": "PASS-with-warning-and-fallback",
+      "required_read": "BLOCK-or-FAIL-with-structured-diagnostics",
+      "unhandled_exception": false
+    }
+  },
+  "files_modified": [
+    "src/devpilot_core/quality/gate.py"
+  ],
+  "target_repo": "repo_DevPilot_Local_314_POST_H_034_CLOSURE_GIT_TIMEOUT_HARDENING.zip",
+  "follow_up_source_log": "testeo_general_final_02.txt",
+  "follow_up_input_test_summary": {
+    "passed": 1902,
+    "failed": 5,
+    "errors": 0,
+    "skipped": 0
+  },
+  "follow_up_root_causes_total": 1,
+  "follow_up_root_causes": [
+    {
+      "id": "fixed-read-only-git-timeout-unhandled",
+      "direct_failures": 5,
+      "component": "src/devpilot_core/repo/git_adapter.py",
+      "cause": "Eight-second fixed subprocess timeout and unhandled subprocess.TimeoutExpired on read-only Git diff commands.",
+      "patch": "Bounded configurable 60-second default, structured timeout results, optional diff fallback, required-command BLOCK/FAIL."
+    }
+  ],
+  "verification_follow_up": {
+    "git_adapter_v2": "pass-9-tests",
+    "fake_git_cli_timeout_integration": "pass-exit-0-partial-fallback",
+    "multiagent_existing_contracts": "pending-user-windows-rerun/deterministic-cause-covered-by-git-adapter-tests",
+    "tcr_v1": "pending-final-validator-run",
+    "tcr_v2": "pending-final-validator-run",
+    "docs_governance": "pending-final-validator-run",
+    "local_release_candidate": "pending-final-validator-run",
+    "full_pytest": "pending-user-windows-rerun"
+  },
+  "follow_up_files_created": [],
+  "follow_up_files_modified": [
+    ".devpilot/project_state.json",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/testing/test_impact_rules.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/audits/post_h_034_closure_final_regression_report.md",
+    "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
+    "docs/post_h_034_closure_manifest.json",
+    "docs/release/CHANGELOG.md",
+    "src/devpilot_core/repo/git_adapter.py",
+    "tests/test_git_adapter_v2.py"
+  ],
+  "follow_up_files_deleted": []
+}

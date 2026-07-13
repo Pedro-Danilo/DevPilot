@@ -157,10 +157,8 @@ def test_post_h_032_d_tcr_v1_v2_and_project_state_are_synchronized() -> None:
     assert "SCHEMA-DEVPL-RAG-AGENT-CONTEXT-PACK-V1" in contract_v2["schema_ids"]
 
     state = read_json(".devpilot/project_state.json")
-    assert state["current_micro_sprint"] in {"POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H"}
-    assert state["next_micro_sprint"] in {"POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H", "POST-H-033-A"}
-    assert state["current_repo"] in {"repo_DevPilot_Local_297_POST_H_032_D.zip", "repo_DevPilot_Local_298_POST_H_032_E.zip", "repo_DevPilot_Local_299_POST_H_032_F.zip", "repo_DevPilot_Local_300_POST_H_032_G.zip", "repo_DevPilot_Local_301_POST_H_032_H.zip"}
-    assert state["post_h_032_status"] in {"active/rag-aware-agents-implemented-initial", "active/agent-memory-model-implemented-initial", "active/tool-calling-contract-implemented-initial", "active/mcp-fake-server-evaluation-implemented-initial", "active/multiagent-handoff-hardening-implemented-initial"}
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
+    assert state["post_h_032_status"] == "closed/advanced-ai-agents-governed"
     assert state["post_h_032_current_micro_sprint"] in {"POST-H-032-D", "POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H"}
     assert state["post_h_032_next_micro_sprint"] in {"POST-H-032-E", "POST-H-032-F", "POST-H-032-G", "POST-H-032-H", "POST-H-033-A"}
     assert state["post_h_032_d_rag_agent_context_schema_registered"] is True

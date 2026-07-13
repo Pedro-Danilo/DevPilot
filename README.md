@@ -1,3 +1,25 @@
+## POST-H-034-CLOSURE — Reconciliación de regresión general final
+
+Último hito: `POST-H-034`
+
+Siguiente hito: `POST-H-034`
+
+Repo vigente resultante: `repo_DevPilot_Local_313_POST_H_034_CLOSURE.zip`.
+
+Estado: `closed/final-regression-reconciled`. No existe un backlog funcional posterior autorizado; `next_sprint=POST-H-034` es el ancla compatible con ProjectState v1 y `next_backlog_planned=false` expresa la ausencia de un siguiente backlog.
+
+El cierre corrige drift acumulativo detectado por la regresión general final: mappings CLI→ApplicationService inexistentes, criterios RC congelados, dominio `agentic.runtime` sin impact rule, allowlist CLI obsoleto, tests históricos acoplados a listas finitas de versiones y lifecycle state desactualizado. No habilita red, APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
+
+Verificación principal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py -q
+python -m devpilot_core project-state validate --json
+python -m devpilot_core release-candidate final --json
+python -m pytest -p no:ddtrace --assert=plain -q
+```
+
 ## POST-H-034-E — Enterprise/SaaS boundary ADR
 
 POST-H-034-E agrega la ADR aprobada para `enterprise.saas` y mantiene el estado `continue-blocked`: DevPilot conserva alcance `production-ready-local`, no declara `enterprise-ready`, no declara `SaaS-ready`, no declara `compliance-certified`, no habilita control plane, cloud deployment, tenancy, public API, red, APIs externas ni credenciales reales.
@@ -6090,3 +6112,20 @@ python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_au
 python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json
 python -m devpilot_core schema validate --schema-id SensitiveCapabilityDecisionMatrix --instance .devpilot/sensitive_capabilities/capability_decision_matrix.json --json
 ```
+
+## POST-H-034-CLOSURE follow-up — Read-only Git timeout hardening
+
+El segundo testeo general (`1902 passed, 5 failed`) aisló los cinco fallos remanentes en una sola causa: `GitAdapter` aplicaba un timeout fijo de 8 segundos y propagaba `subprocess.TimeoutExpired` desde `git diff --stat`/diff metadata. El fallo afectaba `git diff-report`, `RepoAnalysisAgent`, `MultiAgentCoordinator` y `MultiAgentWorkflowRunner`.
+
+La corrección mantiene Git estrictamente read-only y sin shell. El timeout predeterminado pasa a 60 segundos y puede configurarse localmente mediante `DEVPILOT_GIT_TIMEOUT_SECONDS`, limitado al rango 5-300. Las estadísticas diff opcionales degradan a WARNING con metadata fallback; las lecturas esenciales producen BLOCK/FAIL estructurado y nunca una excepción genérica.
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DEVPILOT_GIT_TIMEOUT_SECONDS="60"
+python -m devpilot_core git diff-report --json --write-report
+python -m pytest -p no:ddtrace --assert=plain tests/test_git_adapter_v2.py -q
+python -m pytest -p no:ddtrace --assert=plain tests/test_multiagent_coordinator.py tests/test_multiagent_workflow.py -q
+```
+
+Límites preservados: no `git add/commit/checkout/reset/push`, no shell, no red, no APIs externas, no mutaciones de fuente y no habilitación de capacidades sensibles.
+

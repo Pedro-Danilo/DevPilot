@@ -75,3 +75,11 @@ Siguiente hito posterior al cierre de POST-H-030. Inicio recomendado: `POST-H-03
 ## POST-H-032
 
 Siguiente hito tras POST-H-031: agentes IA avanzados, inventario de capacidades y criterios de promoción, manteniendo local-first y sin habilitar capacidades sensibles sin backlog/ADR propio.
+
+## Cierre vigente posterior a las olas ejecutadas
+
+- Último backlog completado: `POST-H-034`.
+- Micro-sprint administrativo vigente: `POST-H-034-CLOSURE`.
+- Siguiente backlog funcional: no planificado (`next_backlog_planned=false`).
+- `next_sprint=POST-H-034` se conserva como ancla de compatibilidad con ProjectState v1 hasta que un backlog posterior sea aprobado.
+

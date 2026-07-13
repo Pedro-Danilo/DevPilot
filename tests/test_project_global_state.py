@@ -23,9 +23,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-031"
+    assert state["last_completed_sprint"] == "POST-H-034"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-032"
+    assert state["next_sprint"] == "POST-H-034"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
@@ -105,7 +105,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("current_micro_sprint") in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE"}
     assert state.get("next_micro_sprint") in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE"}
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") in {"repo_DevPilot_Local_305_POST_H_033_D.zip", "repo_DevPilot_Local_306_POST_H_033_E.zip", "repo_DevPilot_Local_307_POST_H_033_F.zip", "repo_DevPilot_Local_308_POST_H_034_A.zip", "repo_DevPilot_Local_309_POST_H_034_B.zip", "repo_DevPilot_Local_310_POST_H_034_C.zip", "repo_DevPilot_Local_311_POST_H_034_D.zip", "repo_DevPilot_Local_312_POST_H_034_E.zip"}
+    assert str(state.get("current_repo", "")).startswith("repo_DevPilot_Local_")
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -587,8 +587,8 @@ def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-031"
-    assert result.data["summary"]["next_sprint"] == "POST-H-032"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-034"
+    assert result.data["summary"]["next_sprint"] == "POST-H-034"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]
 
 
@@ -1355,4 +1355,4 @@ def test_post_h_034_e_project_state_adds_enterprise_saas_boundary_adr() -> None:
     assert state.get("external_api_allowed") is False
     assert "POST-H-034-E — Enterprise/SaaS boundary ADR" in readme
     assert "POST-H-034-E — Operación de ADR Enterprise/SaaS boundary" in runbook
-    assert 'implementation_status: "closed/post-h-034-e-implemented-initial"' in backlog
+    assert 'implementation_status: "closed/post-h-034-closure-final-regression-reconciled"' in backlog

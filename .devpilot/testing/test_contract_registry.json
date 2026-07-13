@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "created_by": "POST-H-001",
   "status": "implemented-initial",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening.",
   "contracts": [
     {
       "contract_id": "post-h-002-maturity-dashboard",
@@ -8787,6 +8787,96 @@
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-034-closure-final-regression-reconciliation",
+      "scope": "integration",
+      "owner": "POST-H-034-CLOSURE",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/cli_registry/legacy_command_allowlist.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/project_state.json",
+        "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
+        "docs/audits/post_h_034_closure_final_regression_report.md",
+        "src/devpilot_core/quality/gate.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/",
+        ".devpilot/cli_registry/",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/project_state.json",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "src/devpilot_core/quality/gate.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core release-candidate final --json",
+        "python -m pytest -p no:ddtrace --assert=plain -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-closure-git-timeout-hardening",
+      "scope": "integration",
+      "owner": "POST-H-034-CLOSURE",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_git_adapter_v2.py",
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py"
+      ],
+      "validates": [
+        "src/devpilot_core/repo/git_adapter.py",
+        "GitAdapter bounded timeout configuration",
+        "controlled TimeoutExpired handling",
+        "status optional diff-stat degradation",
+        "diff-report status fallback",
+        "multiagent repo-review and sdlc-review continuity"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/repo/git_adapter.py",
+        "src/devpilot_core/repo/analyzer.py",
+        "src/devpilot_core/agents/repo_analysis_agent.py",
+        "src/devpilot_core/repo/architecture_drift.py",
+        "src/devpilot_core/multiagent/",
+        "tests/test_git_adapter_v2.py",
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/project_state.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_git_adapter_v2.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_multiagent_coordinator.py tests/test_multiagent_workflow.py -q",
+        "python -m devpilot_core git diff-report --json --write-report",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [
@@ -8839,6 +8929,7 @@
     "POST-H-031-B registers OperatorHealthSummary schema/model/CLI and protected local API route contracts.",
     "POST-H-031-C registers GapActionMap schema/rules/CLI/ApplicationService/API contracts.",
     "POST-H-031-D registers ClaimsNoGoDashboard and protected operator.claims_no_go API contracts.",
-    "POST-H-034-B registers plugin execution ADR as a safety contract without enabling plugin execution."
+    "POST-H-034-B registers plugin execution ADR as a safety contract without enabling plugin execution.",
+    "POST-H-034-CLOSURE registers the final regression reconciliation contract and preserves all sensitive-capability no-go gates."
   ]
 }

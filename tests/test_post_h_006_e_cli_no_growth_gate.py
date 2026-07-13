@@ -50,7 +50,7 @@ def test_post_h_006_e_new_unregistered_command_is_blocked_by_focal_gate(tmp_path
     from devpilot_core.cli_registry.growth_gate import CliNoGrowthGate, CliNoGrowthGateOptions
 
     allowlist = _read_json(".devpilot/cli_registry/legacy_command_allowlist.json")
-    removed = "agent.run"
+    removed = "agentops.status"
     assert removed in allowlist["allowed_legacy_command_ids"]
     allowlist["allowed_legacy_command_ids"] = [
         command_id for command_id in allowlist["allowed_legacy_command_ids"] if command_id != removed

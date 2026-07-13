@@ -154,8 +154,7 @@ def test_post_h_033_d_manifest_contract_and_governance_are_synced() -> None:
     assert contract_v2["external_api_allowed"] is False
     assert contract_v2["source_mutations_allowed"] is False
 
-    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C"}
-    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C"}
+    assert state["post_h_033_status"] == "closed/schema-backed-validators-declarative-semantics"
     assert state["post_h_033_c_closed"] is True
     assert state["post_h_033_d_miasi_semantic_rules_available"] is True
     assert state["post_h_033_d_registry_source_primary"] is True

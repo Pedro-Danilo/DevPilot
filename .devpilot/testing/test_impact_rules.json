@@ -5,7 +5,7 @@
   "created_by": "POST-H-029-B",
   "status": "implemented-initial",
   "version": "1.0.0",
-  "updated": "2026-07-09",
+  "updated": "2026-07-13",
   "rules": [
     {
       "rule_id": "policy-security",
@@ -350,7 +350,7 @@
     {
       "rule_id": "runtime-observability-workspace",
       "title": "runtime state, observability and workspace operations",
-      "description": "Declarative POST-H-029-B impact rule for runtime state, observability and workspace operations.",
+      "description": "Declarative POST-H-029-B impact rule for runtime state, observability and workspace operations. Includes read-only Git/repository inspection and governed multiagent consumers after POST-H-034-CLOSURE timeout hardening.",
       "path_patterns": [
         "src/devpilot_core/runtime",
         "src/devpilot_core/observability",
@@ -358,7 +358,9 @@
         ".devpilot/runtime_state_policy.json",
         ".devpilot/observability",
         "docs/05_operations/observability",
-        "docs/05_operations/workspace"
+        "docs/05_operations/workspace",
+        "src/devpilot_core/repo",
+        "src/devpilot_core/multiagent"
       ],
       "domains": [
         "operations.observability",
@@ -380,11 +382,15 @@
         "tests/test_runtime_state_policy_schema.py",
         "tests/test_runtime_state_hygiene.py",
         "tests/test_observability_hygiene_gate.py",
-        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py"
+        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py",
+        "tests/test_git_adapter_v2.py",
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py"
       ],
       "recommended_commands": [
         "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_runtime_state_hygiene.py tests/test_observability_hygiene_gate.py tests/test_post_h_016_workspace_portfolio_hardening_gate.py -q",
-        "python -m devpilot_core test-contracts validate-v2 --json"
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_git_adapter_v2.py tests/test_multiagent_coordinator.py tests/test_multiagent_workflow.py -q"
       ],
       "escalation": {
         "level": "review-required",
@@ -417,8 +423,9 @@
         ".devpilot/miasi"
       ],
       "domains": [
-        "knowledge.rag",
-        "governance.miasi"
+        "agentic.runtime",
+        "governance.miasi",
+        "knowledge.rag"
       ],
       "profiles": [
         "security",
@@ -718,6 +725,7 @@
   "notes": [
     "POST-H-029-B moves impact-selection knowledge into source-controlled declarative rules.",
     "The registry is advisory and non-executing; tests.run or explicit operator commands remain approval-gated.",
-    "Heuristic fallback may remain until POST-H-029-C/D/E complete the recommendation and regression guard layers."
+    "Heuristic fallback may remain until POST-H-029-C/D/E complete the recommendation and regression guard layers.",
+    "POST-H-034-CLOSURE follow-up maps GitAdapter and multiagent repository inspection into operations.workspace impact coverage."
   ]
 }
