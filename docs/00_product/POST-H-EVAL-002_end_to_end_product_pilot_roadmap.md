@@ -3,13 +3,13 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 updated: "2026-07-14"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
+source_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 implementation_status: "approved/planned"
 current_wave: "EVAL-002-01"
@@ -40,7 +40,7 @@ La secuencia prioriza la Web UI como superficie del operador, usa CLI únicament
 
 | Fuente | Uso |
 |---|---|
-| `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip` | Baseline inmutable de la plataforma |
+| `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` | Baseline inmutable de la plataforma |
 | `Log_consola_validacion_general_no-regresion_POST-H-EVAL-002_activate.txt` | Evidencia 1918/1918 de la activación POST-H-EVAL-002 |
 | Runbook UI-first aprobado | Procedimiento operativo detallado |
 | Backlogs EVAL-002-01/02/03 | Unidades ejecutables y gates |

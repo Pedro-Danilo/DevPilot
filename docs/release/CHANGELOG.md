@@ -1,3 +1,11 @@
+## post-h-eval-002-pilot-ready-baseline — Eliminate residual operational baseline drift
+
+- Promotes `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip` to immutable parent evidence and defines `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` as the only baseline authorized for `POST-H-EVAL-002-01-A`.
+- Corrects backlog 01 instructions that still referenced ZIP 315 and historical commit `665fa37`.
+- Requires SHA-256 and the real `git rev-parse HEAD` value instead of hardcoded historical identifiers.
+- Strengthens the activation contract to reject stale operational baseline instructions.
+- Does not execute or close `POST-H-EVAL-002-01-A`, and preserves every sensitive-capability no-go gate.
+
 ## post-h-eval-002-baseline-sync — Operational baseline identity reconciliation
 
 - Promotes `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip` from activation artifact to the parent of `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`.

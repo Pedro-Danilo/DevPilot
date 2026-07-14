@@ -2,7 +2,7 @@
 doc_id: "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
 title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-07-14"
 approval: "approved_by_owner"
@@ -10,7 +10,7 @@ phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
 implementation_status: "approved/baseline-ready"
-baseline_repo: "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
+baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1918 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 local_first: true
@@ -55,11 +55,12 @@ Este runbook queda `approved` y autorizado como procedimiento operativo de `POST
 
 El baseline operativo del piloto es:
 
-- `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`.
+- `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`.
 
 Trazabilidad de origen:
 
-- baseline de activación inmediatamente anterior: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`;
+- baseline operativo sincronizado inmediatamente anterior: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`;
+- baseline de activación: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`;
 - SHA-256 del baseline de activación: `c60c3a69d2ead35ca4e66f10ad15a0ed64b4db913b6cb4978ab6e587c824b305`;
 - commit de activación registrado: `6092e83`;
 - log de regresión de activación: `Log_consola_validacion_general_no-regresion_POST-H-EVAL-002_activate.txt`;
@@ -67,7 +68,7 @@ Trazabilidad de origen:
 - resultado de activación: `1918 passed, 0 failed, 0 errors, 0 skipped`;
 - contrato focal de activación: `40 passed, 0 failed, 0 errors, 0 skipped`.
 
-El SHA-256 de `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip` debe calcularse después de `git archive` y registrarse en el charter y en `evidence_manifest.json`. Antes de comenzar trabajo funcional del piloto se debe repetir la regresión general sobre el baseline 317 y confirmar el mismo resultado de 1918 pruebas o justificar formalmente cualquier variación del inventario.
+El SHA-256 de `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` debe calcularse después de `git archive` y registrarse en el charter y en `evidence_manifest.json`. Antes de comenzar trabajo funcional del piloto se debe repetir la regresión general sobre el baseline 318 y confirmar el mismo resultado de 1918 pruebas o justificar formalmente cualquier variación del inventario.
 
 El repo histórico `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip` permanece únicamente como fuente de cierre de POST-H-034; no debe utilizarse para ejecutar el piloto porque no contiene la activación canónica de `POST-H-EVAL-002`.
 
@@ -261,7 +262,7 @@ Hito de evaluación:    POST-H-EVAL-002
 Piloto:                PILOT-E2E-001
 Proyecto:              inventory-sales-local
 Workspace ID:          pilot-inventory-sales-local
-Baseline de plataforma: repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip
+Baseline de plataforma: repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip
 ```
 
 ## 7. Roles
@@ -287,10 +288,10 @@ Topología recomendada:
 ```text
 D:\Projects\DevPilot_E2E_Evaluation\
 ├── baselines\
-│   ├── repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip
+│   ├── repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip
 │   └── checksums\
 ├── platform\
-│   └── DevPilot_Local_317_EVAL\
+│   └── DevPilot_Local_318_EVAL\
 ├── workspaces\
 │   └── inventory-sales-local\
 ├── evidence\
@@ -420,7 +421,7 @@ Crear `00_control/evidence_manifest.json`:
 ```json
 {
   "pilot_id": "PILOT-E2E-001",
-  "baseline": "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip",
+  "baseline": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
   "baseline_sha256": "<sha256>",
   "started_at": "<ISO-8601>",
   "operator": "<name>",
@@ -571,8 +572,8 @@ Guardar la salida en:
 
 ```powershell
 $EvalRoot = "D:\Projects\DevPilot_E2E_Evaluation"
-$BaselineZip = "$EvalRoot\baselines\repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
-$PlatformRoot = "$EvalRoot\platform\DevPilot_Local_317_EVAL"
+$BaselineZip = "$EvalRoot\baselines\repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
+$PlatformRoot = "$EvalRoot\platform\DevPilot_Local_318_EVAL"
 ```
 
 ## 18. Paso 1.2 — Calcular hashes
@@ -604,7 +605,7 @@ No sobrescribir una instalación existente.
 
 ## 20. Paso 1.4 — Verificar que el cierre administrativo ya está integrado
 
-El baseline 317 fue generado después de aplicar y versionar el patch administrativo. No debe aplicarse un ZIP diferencial adicional. Verificar que existan:
+El baseline 318 fue generado después de aplicar y versionar la activación y la sincronización documental previa. No requiere overlays adicionales antes del micro-sprint 01-A. No debe aplicarse un ZIP diferencial adicional. Verificar que existan:
 
 ```text
 $PlatformRoot\.devpilot\project_state.json
@@ -630,7 +631,7 @@ Opciones:
 
 ### Opción preferida
 
-Usar una copia/clon real del repositorio Git en el commit equivalente al baseline 317.
+Usar una copia/clon real del repositorio Git en el commit equivalente al baseline 318.
 
 ### Opción controlada para evaluación
 
@@ -640,7 +641,7 @@ Inicializar un repositorio local solo para trazabilidad del piloto:
 Set-Location $PlatformRoot
 git init
 git add .
-git commit -m "Baseline DevPilot 317 for PILOT-E2E-001"
+git commit -m "Baseline DevPilot 318 for PILOT-E2E-001"
 git tag pilot-e2e-001-baseline
 ```
 
@@ -716,7 +717,7 @@ Evidence Freshness: PASS
 
 ## 26. Paso 1.10 — Baseline de pruebas
 
-Es obligatorio ejecutar la regresión general sobre el baseline 317 antes de aceptar G0/G1 y comenzar trabajo funcional del piloto:
+Es obligatorio ejecutar la regresión general sobre el baseline 318 antes de aceptar G0/G1 y comenzar trabajo funcional del piloto:
 
 ```powershell
 python -m pytest -p no:ddtrace --assert=plain -q `
@@ -2099,7 +2100,7 @@ El Onboarding Report se actualiza después del piloto para reflejar comportamien
 
 El piloto puede declararse PASS si:
 
-- baseline 317 verificable;
+- baseline 318 verificable;
 - instalación reproducible;
 - API y UI arrancan;
 - cinco rutas UI críticas pasan;
@@ -2326,7 +2327,7 @@ El test debe comprobar:
 
 - `status=approved`;
 - `approval=approved_by_owner`;
-- baseline 317 y sus hashes;
+- baseline 318 y sus hashes;
 - pilot ID;
 - UI-first;
 - cinco rutas UI críticas;
@@ -2360,7 +2361,7 @@ La decisión operacional recomendada es:
 ```text
 1. Integrar el runbook aprobado en Documentation Governance.
 2. Registrar el roadmap y los tres backlogs ejecutables.
-3. Congelar baseline 317 aprobado y su hash.
+3. Congelar baseline 318 aprobado y su hash.
 4. Ejecutar PILOT-E2E-001 con enfoque UI-first.
 5. Registrar todos los bridges CLI y gaps UI.
 6. Completar RC e instalación limpia.

@@ -8,9 +8,9 @@ Siguiente hito: `POST-H-EVAL-002`
 
 Micro-sprint activo: `POST-H-EVAL-002-01-A`. Siguiente micro-sprint: `POST-H-EVAL-002-01-B`.
 
-Repo padre de activación: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`. Repo baseline operativo objetivo posterior al sync: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`.
+Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`. Repo baseline vigente y autorizado para iniciar el piloto: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. La activación histórica permanece en `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `approved/active-evaluation`. El runbook, roadmap y tres backlogs ejecutables de POST-H-EVAL-002 están registrados como fuentes canónicas. La activación no ejecuta todavía el piloto, no reabre POST-H-034 y no habilita red externa, APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
+Estado: `approved/active-evaluation/pilot-ready`. El runbook, roadmap y tres backlogs ejecutables de POST-H-EVAL-002 están registrados como fuentes canónicas y sincronizados con el baseline 318. La activación no ejecuta todavía el piloto, no reabre POST-H-034 y no habilita red externa, APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
 
 Documentos de entrada:
 

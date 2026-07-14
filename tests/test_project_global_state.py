@@ -104,9 +104,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
     assert state.get("current_micro_sprint") in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A"}
     assert state.get("next_micro_sprint") in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B"}
-    assert state.get("source_repo") == "repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip"
+    assert state.get("source_repo") == "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
     assert str(state.get("current_repo", "")).startswith("repo_DevPilot_Local_")
-    assert state.get("current_repo") == "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
     assert state.get("current_micro_sprint") == "POST-H-EVAL-002-01-A"
     assert state.get("next_micro_sprint") == "POST-H-EVAL-002-01-B"
     assert state.get("post_h_eval_002_activated") is True

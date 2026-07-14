@@ -7,8 +7,8 @@ from devpilot_core.testing.project_state_progress import post_h_progress_rank
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SOURCE_REPO = "repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip"
-TARGET_REPO = "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
+SOURCE_REPO = "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
+TARGET_REPO = "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 CURRENT_MICRO = "POST-H-EVAL-002-01-A"
 NEXT_MICRO = "POST-H-EVAL-002-01-B"
 CONTRACT_ID = "post-h-eval-002-activation-governance"
@@ -50,6 +50,24 @@ def test_post_h_eval_002_documents_are_approved_and_cross_linked() -> None:
     assert "POST-H-EVAL-002-01-A" in roadmap
     for path in list(CANONICAL_DOCS.values())[2:]:
         assert Path(path).name in roadmap
+
+    # Every active pilot source must identify the exact immutable baseline.
+    for path in CANONICAL_DOCS.values():
+        assert TARGET_REPO in _text(path)
+
+
+def test_post_h_eval_002_backlog_01_has_no_historical_operational_baseline_drift() -> None:
+    backlog = _text(CANONICAL_DOCS["DEVPL-POST-H-EVAL-002-01-BACKLOG"])
+    forbidden = (
+        "calcular SHA-256 del ZIP 315",
+        "instalar DevPilot desde el ZIP 315",
+        "registrar commit fuente `665fa37`",
+    )
+    for phrase in forbidden:
+        assert phrase not in backlog
+    assert "calcular SHA-256 del ZIP 318" in backlog
+    assert "git rev-parse HEAD" in backlog
+    assert "instalar DevPilot desde el ZIP 318" in backlog
 
 
 def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> None:

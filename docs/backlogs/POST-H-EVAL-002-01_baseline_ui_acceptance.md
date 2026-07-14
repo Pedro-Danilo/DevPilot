@@ -3,7 +3,7 @@ doc_id: "DEVPL-POST-H-EVAL-002-01-BACKLOG"
 id: "POST-H-EVAL-002-01"
 title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 updated: "2026-07-14"
 approval: "approved_by_owner"
@@ -11,7 +11,7 @@ phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
+source_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
 implementation_status: "approved/not-started"
 current_micro_sprint: "POST-H-EVAL-002-01-A"
@@ -65,12 +65,13 @@ Entregables:
 00_control/initial_risk_register.md
 00_control/stop_conditions.md
 00_control/baseline_hashes.txt
+00_control/baseline_git_commit.txt
 ```
 
 Actividades:
 
-1. calcular SHA-256 del ZIP 315 y log final;
-2. registrar commit fuente `665fa37`;
+1. calcular SHA-256 del ZIP 318 y del log de validación que acompaña al baseline;
+2. registrar el commit fuente real obtenido con `git rev-parse HEAD`; no usar un hash histórico hardcodeado;
 3. asignar roles;
 4. declarar no-go gates;
 5. aprobar política de red/provisión;
@@ -80,6 +81,7 @@ Actividades:
 Criterios PASS:
 
 - hashes coinciden;
+- `baseline_git_commit.txt` contiene el commit real del baseline 318 o declara explícitamente que el ZIP provino de `git archive`;
 - charter aprobado;
 - stop conditions explícitas;
 - S0/S1 iniciales = 0;
@@ -94,7 +96,7 @@ Criterios BLOCK:
 
 ### POST-H-EVAL-002-01-B — Instalación limpia y baseline verification
 
-**Objetivo:** instalar DevPilot desde el ZIP 315 en una ruta nueva.
+**Objetivo:** instalar DevPilot desde el ZIP 318 en una ruta nueva y vacía.
 
 Entregables:
 

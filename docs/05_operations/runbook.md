@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.22.0"
+version: "2.23.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -16,11 +16,11 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 ## POST-H-EVAL-002 — Activación de evaluación end-to-end UI-first
 
-Repo padre de activación: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`. Repo baseline operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`.
+Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`. Repo baseline vigente del piloto: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo de activación histórico: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
 Estado: `approved/active-evaluation`. Último backlog cerrado: `POST-H-034`. Micro-sprint autorizado: `POST-H-EVAL-002-01-A`; siguiente: `POST-H-EVAL-002-01-B`.
 
-El baseline padre 316 pasó `1918 passed, 0 failed, 0 errors, 0 skipped`. El baseline 317 sincroniza el runbook y los backlogs con la identidad de instalación vigente; su hash y regresión deben registrarse en el charter antes del trabajo funcional.
+El baseline 317 pasó `1918 passed, 0 failed, 0 errors, 0 skipped`. El baseline 318 corrige el último drift operativo del backlog 01; su SHA-256, commit fuente y regresión deben registrarse en el charter antes del trabajo funcional.
 
 La activación registra como fuentes canónicas el runbook específico, el roadmap y los tres backlogs de evaluación. No ejecuta todavía el piloto. El operador debe iniciar por `POST-H-EVAL-002-01-A — Freeze, charter y evidence control` y conservar el freeze de plataforma salvo incidente S0/S1.
 
