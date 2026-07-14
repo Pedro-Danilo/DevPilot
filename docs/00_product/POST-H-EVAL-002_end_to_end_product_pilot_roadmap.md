@@ -3,13 +3,13 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-07-13"
+updated: "2026-07-14"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip"
+source_repo: "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 implementation_status: "approved/planned"
 current_wave: "EVAL-002-01"
@@ -40,16 +40,17 @@ La secuencia prioriza la Web UI como superficie del operador, usa CLI únicament
 
 | Fuente | Uso |
 |---|---|
-| `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip` | Baseline inmutable de la plataforma |
-| `Log_consola_no-regresion_POST-H-034-final.txt` | Evidencia 1911/1911 y cierre POST-H-034 |
+| `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip` | Baseline inmutable de la plataforma |
+| `Log_consola_validacion_general_no-regresion_POST-H-EVAL-002_activate.txt` | Evidencia 1918/1918 de la activación POST-H-EVAL-002 |
 | Runbook UI-first aprobado | Procedimiento operativo detallado |
 | Backlogs EVAL-002-01/02/03 | Unidades ejecutables y gates |
 
-Hashes de referencia:
+Trazabilidad de referencia:
 
 ```text
-baseline ZIP: 9824313443e2fe874dd3e89fa3d72a60a4f4bc3e33232c373cb002bee77da5d1
-log final:    fc13a5c5e5f938a0eab0e220ecb97d6e6d4fd5c534b6198e4df0a6b1c40fe346
+baseline padre 316 SHA-256: c60c3a69d2ead35ca4e66f10ad15a0ed64b4db913b6cb4978ab6e587c824b305
+log activación SHA-256:      9c379fdd0e6fd26bb781607404e2ab18263c76e4624ded40c6c57632b4fc0ae9
+baseline 317 SHA-256:        registrar después de git archive
 ```
 
 ## 3. Principios de ejecución

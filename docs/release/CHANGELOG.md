@@ -1,3 +1,11 @@
+## post-h-eval-002-baseline-sync — Operational baseline identity reconciliation
+
+- Promotes `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip` from activation artifact to the parent of `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`.
+- Aligns the approved pilot runbook, roadmap and three executable backlogs with the baseline that must actually be installed.
+- Records the activation regression evidence `1918 passed, 0 failed, 0 errors, 0 skipped` without claiming execution of `POST-H-EVAL-002-01-A`.
+- Requires SHA-256 registration and a full regression of baseline 317 before functional pilot work.
+- Preserves local-first, UI-first, dry-run-first and all sensitive-capability no-go gates.
+
 ## post-h-eval-002-activation — Canonical pilot planning and Project State transition
 
 - Registers the approved UI-first pilot runbook, roadmap and three executable backlogs as canonical documentation sources.
