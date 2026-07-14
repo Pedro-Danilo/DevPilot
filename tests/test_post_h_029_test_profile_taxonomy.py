@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 from devpilot_core import cli
 from devpilot_core.schemas import SchemaValidator
 from devpilot_core.testing import TestProfileRegistry as ProfileRegistry
@@ -11,8 +13,7 @@ from devpilot_core.testing import TestProfileTaxonomyRunner as ProfileTaxonomyRu
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _post_h_number(value: str) -> int:
-    return int(str(value).split("POST-H-")[-1].split("-")[0])
+
 REQUIRED_PROFILE_IDS = {
     "always-fast",
     "p0-critical",

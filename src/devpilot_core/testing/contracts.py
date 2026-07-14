@@ -138,7 +138,7 @@ class TestContractRegistry:
             "readme_next_hito": self._file_contains("README.md", f"Siguiente hito: `{next_sprint}"),
             "post_h_001_doc_approved": self._file_contains("docs/POST-H-001_industrial_hardening_tests_contracts.md", 'status: "approved"'),
             "runbook_last_completed": self._file_contains("docs/05_operations/runbook.md", last_completed),
-            "post_h_backlog_next": self._file_contains("docs/backlogs/post_phase_h_ideas.md", next_sprint) or self._file_contains("docs/backlogs/post_h_prioritized_roadmap.md", next_sprint),
+            "post_h_backlog_next": self._file_contains("docs/backlogs/post_phase_h_ideas.md", next_sprint) or self._file_contains("docs/backlogs/post_h_prioritized_roadmap.md", next_sprint) or self._file_contains("docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md", next_sprint),
             "changelog_last_completed": self._file_contains("docs/release/CHANGELOG.md", last_completed.lower()) or self._file_contains("docs/release/CHANGELOG.md", last_completed),
         }
         if last_completed == "POST-H-002":

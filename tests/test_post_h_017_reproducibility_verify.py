@@ -4,6 +4,8 @@ import copy
 import json
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 from devpilot_core import cli
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.release import (
@@ -19,11 +21,6 @@ from devpilot_core.schemas import SchemaValidator
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUTS = ROOT / "outputs" / "release"
 
-
-def _post_h_number(value: str) -> int:
-    marker = "POST-H-"
-    assert marker in value
-    return int(value.split(marker, 1)[1].split("-", 1)[0])
 
 
 def _prepare_pack(name: str = "test_reproducibility_pack.json") -> Path:

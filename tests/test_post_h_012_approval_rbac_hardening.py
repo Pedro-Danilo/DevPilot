@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 from devpilot_core import cli
 from devpilot_core.docs_governance import DocumentationGovernanceValidator, load_documentation_source_registry
 from devpilot_core.policy.sensitive_actions import (
@@ -21,12 +23,6 @@ def read(path: str) -> str:
 def read_json(path: str) -> dict:
     return json.loads(read(path))
 
-
-def _post_h_number(value: str) -> int:
-    prefix = "POST-H-"
-    if not value.startswith(prefix):
-        raise AssertionError(f"Expected POST-H sprint identifier, got: {value!r}")
-    return int(value.removeprefix(prefix).split("-", maxsplit=1)[0])
 
 
 def test_post_h_012_backlog_is_approved_and_synced() -> None:

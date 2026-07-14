@@ -1,16 +1,18 @@
 ---
 doc_id: "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
 title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first"
-status: "draft"
-version: "1.0.0"
+status: "approved"
+version: "1.1.0"
 owner: "Ordóñez"
 updated: "2026-07-13"
-approval: "pending_owner_review"
+approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
-implementation_status: "proposed-evaluation-runbook"
-baseline_repo: "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip"
+roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
+planning_backlogs_total: 3
+implementation_status: "approved/evaluation-ready"
+baseline_repo: "repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip"
 baseline_test_evidence: "1911 passed, 0 failed, 0 errors, 0 skipped"
-recommended_repo_path: "docs/05_operations/post_h_eval_002_end_to_end_product_pilot_ui_first_runbook.md"
+recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -49,23 +51,26 @@ Sin este runbook, dos ejecuciones del mismo piloto podrían usar pasos, comandos
 
 ## 0.1. Estado documental
 
-Este documento se entrega como `draft` listo para revisión del propietario.
+Este runbook queda `approved` y autorizado como procedimiento operativo de `POST-H-EVAL-002`. El baseline 315 ya integra el patch administrativo final de cierre de evidencia de POST-H-034; no debe aplicarse un overlay adicional antes del piloto.
 
-No debe registrarse como fuente canónica `approved` dentro de DevPilot hasta que:
+Fuentes autoritativas de arranque:
 
-1. el propietario revise el alcance y los criterios;
-2. se confirme el identificador final del hito;
-3. se definan las rutas definitivas de evidencia;
-4. se registre en Documentation Source Registry;
-5. se regenere el índice RAG documental;
-6. se añada, si corresponde, un contrato de prueba documental.
+- `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip`;
+- SHA-256 del baseline: `9824313443e2fe874dd3e89fa3d72a60a4f4bc3e33232c373cb002bee77da5d1`;
+- commit archivado en el log de cierre: `665fa37`;
+- `Log_consola_no-regresion_POST-H-034-final.txt`;
+- SHA-256 del log: `fc13a5c5e5f938a0eab0e220ecb97d6e6d4fd5c534b6198e4df0a6b1c40fe346`;
+- resultado: `1911 passed, 0 failed, 0 errors, 0 skipped`;
+- contrato focal de cierre: `6 passed, 0 failed, 0 errors, 0 skipped`.
 
-Ruta recomendada dentro del repo:
+Ruta canónica dentro del repo:
 
 ```text
 DevPilot_Local/docs/05_operations/
-  post_h_eval_002_end_to_end_product_pilot_ui_first_runbook.md
+  DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md
 ```
+
+Este documento debe registrarse en Documentation Source Registry e índice RAG al integrar el paquete de planificación. Los backlogs ejecutables derivados se describen en el roadmap `POST-H-EVAL-002`.
 
 ---
 
@@ -248,7 +253,7 @@ Hito de evaluación:    POST-H-EVAL-002
 Piloto:                PILOT-E2E-001
 Proyecto:              inventory-sales-local
 Workspace ID:          pilot-inventory-sales-local
-Baseline de plataforma: repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip
+Baseline de plataforma: repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip
 ```
 
 ## 7. Roles
@@ -274,11 +279,10 @@ Topología recomendada:
 ```text
 D:\Projects\DevPilot_E2E_Evaluation\
 ├── baselines\
-│   ├── repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip
-│   ├── DevPilot_POST_H_034_FINAL_EVIDENCE_ADMIN_PATCH.zip
+│   ├── repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip
 │   └── checksums\
 ├── platform\
-│   └── DevPilot_Local_314_EVAL\
+│   └── DevPilot_Local_315_EVAL\
 ├── workspaces\
 │   └── inventory-sales-local\
 ├── evidence\
@@ -408,10 +412,8 @@ Crear `00_control/evidence_manifest.json`:
 ```json
 {
   "pilot_id": "PILOT-E2E-001",
-  "baseline": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
+  "baseline": "repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip",
   "baseline_sha256": "<sha256>",
-  "admin_patch": "DevPilot_POST_H_034_FINAL_EVIDENCE_ADMIN_PATCH.zip",
-  "admin_patch_sha256": "<sha256>",
   "started_at": "<ISO-8601>",
   "operator": "<name>",
   "environment": {
@@ -557,20 +559,18 @@ Guardar la salida en:
 01_baseline_installation/tool_versions.txt
 ```
 
-## 17. Paso 1.1 — Copiar baseline y patch
+## 17. Paso 1.1 — Copiar el baseline aprobado
 
 ```powershell
 $EvalRoot = "D:\Projects\DevPilot_E2E_Evaluation"
-$BaselineZip = "$EvalRoot\baselines\repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip"
-$AdminPatch = "$EvalRoot\baselines\DevPilot_POST_H_034_FINAL_EVIDENCE_ADMIN_PATCH.zip"
-$PlatformRoot = "$EvalRoot\platform\DevPilot_Local_314_EVAL"
+$BaselineZip = "$EvalRoot\baselines\repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip"
+$PlatformRoot = "$EvalRoot\platform\DevPilot_Local_315_EVAL"
 ```
 
 ## 18. Paso 1.2 — Calcular hashes
 
 ```powershell
 Get-FileHash $BaselineZip -Algorithm SHA256
-Get-FileHash $AdminPatch -Algorithm SHA256
 ```
 
 Guardar:
@@ -579,11 +579,9 @@ Guardar:
 Get-FileHash $BaselineZip -Algorithm SHA256 |
   Format-List | Out-File "$EvalRoot\evidence\PILOT-E2E-001\01_baseline_installation\baseline_sha256.txt"
 
-Get-FileHash $AdminPatch -Algorithm SHA256 |
-  Format-List | Out-File "$EvalRoot\evidence\PILOT-E2E-001\01_baseline_installation\patch_sha256.txt"
 ```
 
-No continuar si los hashes no corresponden a los aprobados en el charter.
+No continuar si el hash del baseline no corresponde al aprobado en el charter.
 
 ## 19. Paso 1.3 — Extraer en ruta nueva
 
@@ -596,18 +594,9 @@ Identificar la carpeta raíz resultante y mover/copiar su contenido a `$Platform
 
 No sobrescribir una instalación existente.
 
-## 20. Paso 1.4 — Aplicar patch administrativo
+## 20. Paso 1.4 — Verificar que el cierre administrativo ya está integrado
 
-El patch contiene rutas relativas desde la raíz del repo.
-
-```powershell
-Expand-Archive `
-  -Path $AdminPatch `
-  -DestinationPath $PlatformRoot `
-  -Force
-```
-
-Verificar que existan:
+El baseline 315 fue generado después de aplicar y versionar el patch administrativo. No debe aplicarse un ZIP diferencial adicional. Verificar que existan:
 
 ```text
 $PlatformRoot\.devpilot\project_state.json
@@ -633,7 +622,7 @@ Opciones:
 
 ### Opción preferida
 
-Usar una copia/clon real del repositorio Git y aplicar el patch allí.
+Usar una copia/clon real del repositorio Git en el commit equivalente al baseline 315.
 
 ### Opción controlada para evaluación
 
@@ -643,7 +632,7 @@ Inicializar un repositorio local solo para trazabilidad del piloto:
 Set-Location $PlatformRoot
 git init
 git add .
-git commit -m "Baseline DevPilot 314 for PILOT-E2E-001"
+git commit -m "Baseline DevPilot 315 for PILOT-E2E-001"
 git tag pilot-e2e-001-baseline
 ```
 
@@ -740,8 +729,8 @@ Si la suite no coincide, el piloto queda `BLOCKED-BASELINE-DRIFT`.
 ### Criterio PASS de FASE 1
 
 ```text
-hashes confirmados
-+ patch aplicado
+hash del baseline confirmado
++ cierre administrativo integrado
 + entorno Python funcional
 + frontend instalado
 + Project State PASS
@@ -2101,7 +2090,7 @@ El Onboarding Report se actualiza después del piloto para reflejar comportamien
 
 El piloto puede declararse PASS si:
 
-- baseline y patch verificables;
+- baseline 315 verificable;
 - instalación reproducible;
 - API y UI arrancan;
 - cinco rutas UI críticas pasan;
@@ -2269,39 +2258,33 @@ Revisión futura:
 
 ---
 
-## Parte XX — Integración futura de este runbook en DevPilot
+## Parte XX — Integración gobernada de este runbook en DevPilot
 
 ## 103. Procedimiento de incorporación al repo
 
-Cuando el propietario lo apruebe:
+El documento ya está aprobado. Para incorporarlo como autoridad canónica:
 
-1. copiar a:
+1. conservar la ruta exacta:
 
 ```text
-docs/05_operations/post_h_eval_002_end_to_end_product_pilot_ui_first_runbook.md
+docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md
 ```
 
-2. cambiar frontmatter:
-
-```yaml
-status: "approved"
-approval: "approved_by_owner"
-implementation_status: "approved-evaluation-runbook"
-```
-
-3. registrar en:
+2. registrar en:
 
 ```text
 .devpilot/docs_governance/source_registry.json
 ```
 
-4. definir si es autoridad de:
+3. clasificarlo como fuente de verdad P0 para:
 
 ```text
 POST-H-EVAL-002 pilot procedure
 ```
 
-5. añadir required tests, como mínimo:
+4. registrar también el roadmap y los tres backlogs ejecutables derivados.
+
+5. añadir un contrato documental, como mínimo:
 
 ```text
 tests/test_post_h_eval_002_pilot_runbook_contract.py
@@ -2312,26 +2295,30 @@ tests/test_post_h_eval_002_pilot_runbook_contract.py
 ```powershell
 python -m devpilot_core docs-governance validate --json
 python -m devpilot_core validate docs --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
 ```
 
-7. regenerar índice documental RAG mediante el comando soportado por el baseline.
+7. regenerar el índice documental RAG mediante el comando soportado por el baseline.
 
-8. verificar que RAG recupera la versión nueva y no una guía preliminar.
+8. verificar que RAG recupera la versión `1.1.0` y no una guía preliminar.
 
-9. actualizar README/runbook principal con enlace, sin duplicar todo el contenido.
+9. actualizar README, runbook principal, changelog y Project State con el hito `POST-H-EVAL-002-01-A`, sin duplicar el contenido completo.
 
 10. crear commit independiente:
 
 ```text
-POST-H-EVAL-002 add governed UI-first end-to-end pilot runbook
+POST-H-EVAL-002 approve UI-first pilot runbook and executable roadmap
 ```
 
 ## 104. Contrato documental recomendado
 
-El test futuro debería comprobar:
+El test debe comprobar:
 
-- frontmatter obligatorio;
-- baseline y pilot ID;
+- `status=approved`;
+- `approval=approved_by_owner`;
+- baseline 315 y sus hashes;
+- pilot ID;
 - UI-first;
 - cinco rutas UI críticas;
 - no-go gates;
@@ -2341,7 +2328,8 @@ El test futuro debería comprobar:
 - PASS/BLOCK;
 - bridges CLI;
 - assessment y roadmap;
-- ausencia de claims enterprise/SaaS/compliance.
+- ausencia de claims enterprise/SaaS/compliance;
+- ausencia de referencias al baseline 314 o al patch administrativo separado.
 
 No debe ejecutar el piloto desde pytest.
 
@@ -2361,9 +2349,9 @@ Elevar el procedimiento a este documento es conveniente porque convierte el pilo
 La decisión operacional recomendada es:
 
 ```text
-1. Aprobar este runbook.
-2. Integrarlo en Documentation Governance.
-3. Congelar baseline 314 + patch administrativo.
+1. Integrar el runbook aprobado en Documentation Governance.
+2. Registrar el roadmap y los tres backlogs ejecutables.
+3. Congelar baseline 315 aprobado y su hash.
 4. Ejecutar PILOT-E2E-001 con enfoque UI-first.
 5. Registrar todos los bridges CLI y gaps UI.
 6. Completar RC e instalación limpia.

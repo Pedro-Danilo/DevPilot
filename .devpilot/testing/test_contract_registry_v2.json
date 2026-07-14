@@ -16194,18 +16194,105 @@
         "Second final-regression log exposed a single cross-cutting Windows Git timeout cause behind five failures.",
         "The patch preserves read-only behavior and converts TimeoutExpired into structured PASS-with-warning or BLOCK/FAIL according to command criticality."
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-activation-governance",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-activation-governance",
+      "domain": "governance.project_state",
+      "capability": "PostHEval002ActivationGovernance",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "documentation",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 120,
+      "test_files": [
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/project_state.schema.json",
+        "docs/schemas/local_release_candidate_criteria.schema.json",
+        "src/devpilot_core/testing/contracts.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "validates": [
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "trigger_hints": [
+        "post-h-eval-002-activation",
+        "pilot-planning-doc-change",
+        "project-state-transition",
+        "canonical-source-drift"
+      ],
+      "impact_scope": [
+        "documentation-governance",
+        "project-state",
+        "release-candidate",
+        "pilot-planning",
+        "ui-first-evaluation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-EVAL-002",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Registers the approved runbook, roadmap and three executable backlogs as canonical planning sources.",
+        "Transitions Project State to POST-H-EVAL-002 without reopening POST-H-034 or enabling sensitive capabilities."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 169,
+    "source_contracts_total": 245,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 241,
-    "last_updated_by": "POST-H-034-D"
+    "contracts_total": 245,
+    "last_updated_by": "POST-H-EVAL-002"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",

@@ -1,3 +1,13 @@
+## post-h-eval-002-activation — Canonical pilot planning and Project State transition
+
+- Registers the approved UI-first pilot runbook, roadmap and three executable backlogs as canonical documentation sources.
+- Adds TCR v1/v2 contract `post-h-eval-002-activation-governance` and the dedicated activation regression test.
+- Transitions Project State from the POST-H-034-CLOSURE compatibility anchor to `POST-H-EVAL-002-01-A` while preserving POST-H-034 as the last completed backlog.
+- Updates source/current repo identity from `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip` to target baseline `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+- Extends ProjectState/RC schemas and freshness evidence for POST-H-EVAL identifiers.
+- Preserves local-first, dry-run-first and all sensitive-capability no-go gates.
+- Does not execute the pilot or claim completion of `POST-H-EVAL-002-01-A`.
+
 ## post-h-034-closure-final-evidence-sync — Full regression PASS
 
 - Records the authoritative Windows regression result: `1911 passed, 0 failed, 0 errors, 0 skipped`.

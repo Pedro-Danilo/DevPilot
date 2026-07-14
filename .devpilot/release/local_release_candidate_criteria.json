@@ -6,11 +6,11 @@
   "status": "closed",
   "scope": "local-release-candidate",
   "preliminary": true,
-  "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
+  "expected_source_repo": "repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip",
   "expected_last_completed_sprint": "POST-H-034",
-  "expected_current_micro_sprint": "POST-H-034-CLOSURE",
-  "expected_next_micro_sprint": "POST-H-034-CLOSURE",
+  "expected_current_micro_sprint": "POST-H-EVAL-002-01-A",
+  "expected_next_micro_sprint": "POST-H-EVAL-002-01-B",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -31,21 +31,24 @@
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-034-CLOSURE",
+      "producer_sprint": "POST-H-EVAL-002",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
-        "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip",
+        "source_repo": "repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip",
+        "current_repo": "repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip",
         "last_completed_sprint": "POST-H-034",
-        "next_sprint": "POST-H-034",
-        "current_micro_sprint": "POST-H-034-CLOSURE",
-        "next_micro_sprint": "POST-H-034-CLOSURE",
+        "next_sprint": "POST-H-EVAL-002",
+        "current_micro_sprint": "POST-H-EVAL-002-01-A",
+        "next_micro_sprint": "POST-H-EVAL-002-01-B",
         "post_h_026_status": "closed/local-release-candidate-pass",
         "post_h_027_status": "closed/packaging-local-ready",
         "post_h_028_status": "closed/ui-api-local-hardening",
         "post_h_029_status": "closed/testing-tiers-ready",
         "post_h_030_status": "closed/cli-boundary-hotspot-reduction",
-        "post_h_031_status": "closed/redacted-evidence-export-ux"
+        "post_h_031_status": "closed/redacted-evidence-export-ux",
+        "next_backlog_planned": true,
+        "post_h_eval_002_activated": true,
+        "post_h_eval_002_status": "approved/active-evaluation"
       }
     },
     {
@@ -539,6 +542,81 @@
       "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
       "checks": []
+    },
+    {
+      "evidence_id": "post-h-eval-002-e2e-pilot-ui-first-runbook",
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK",
+      "path": "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+      "category": "evaluation-planning",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK",
+        "status: \"approved\"",
+        "POST-H-EVAL-002"
+      ]
+    },
+    {
+      "evidence_id": "post-h-eval-002-pilot-roadmap",
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-PILOT-ROADMAP",
+      "path": "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+      "category": "evaluation-planning",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP",
+        "status: \"approved\"",
+        "POST-H-EVAL-002"
+      ]
+    },
+    {
+      "evidence_id": "post-h-eval-002-01-backlog",
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-01-BACKLOG",
+      "path": "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+      "category": "evaluation-planning",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "DEVPL-POST-H-EVAL-002-01-BACKLOG",
+        "status: \"approved\"",
+        "POST-H-EVAL-002"
+      ]
+    },
+    {
+      "evidence_id": "post-h-eval-002-02-backlog",
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-02-BACKLOG",
+      "path": "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+      "category": "evaluation-planning",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "DEVPL-POST-H-EVAL-002-02-BACKLOG",
+        "status: \"approved\"",
+        "POST-H-EVAL-002"
+      ]
+    },
+    {
+      "evidence_id": "post-h-eval-002-03-backlog",
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-03-BACKLOG",
+      "path": "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
+      "category": "evaluation-planning",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "DEVPL-POST-H-EVAL-002-03-BACKLOG",
+        "status: \"approved\"",
+        "POST-H-EVAL-002"
+      ]
     }
   ],
   "schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1"

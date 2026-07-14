@@ -4,15 +4,14 @@ import json
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 from devpilot_core import cli
 from devpilot_core.quality import QualityGate, QualityGateOptions
 from devpilot_core.testing import HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner
 
 ROOT = Path(__file__).resolve().parents[1]
 
-
-def _post_h_number(value: str) -> int:
-    return int(str(value).split("POST-H-")[-1].split("-")[0])
 
 
 def _read_json(path: str) -> dict:

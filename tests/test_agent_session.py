@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -85,7 +86,7 @@ def test_agent_session_cli_json_and_write_report() -> None:
         text=True,
         capture_output=True,
         check=False,
-        env={"PYTHONPATH": "src"},
+        env={**os.environ, "PYTHONPATH": "src"},
     )
     assert run.returncode == 0, run.stderr or run.stdout
     payload = json.loads(run.stdout)
@@ -97,7 +98,7 @@ def test_agent_session_cli_json_and_write_report() -> None:
         text=True,
         capture_output=True,
         check=False,
-        env={"PYTHONPATH": "src"},
+        env={**os.environ, "PYTHONPATH": "src"},
     )
     assert inspect.returncode == 0, inspect.stderr or inspect.stdout
     inspected = json.loads(inspect.stdout)

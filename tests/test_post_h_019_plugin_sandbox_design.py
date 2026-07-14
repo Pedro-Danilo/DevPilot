@@ -4,6 +4,8 @@ import json
 import re
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 from devpilot_core import cli
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.plugins import PluginRegistry
@@ -27,11 +29,6 @@ def _frontmatter(text: str) -> dict[str, str]:
         fields[key.strip()] = value.strip().strip('"')
     return fields
 
-
-def _post_h_number(value: str) -> int:
-    marker = "POST-H-"
-    assert marker in value
-    return int(value.split(marker, 1)[1].split("-", 1)[0])
 
 
 def test_post_h_019_backlog_is_approved_and_tracks_micro_sprint() -> None:

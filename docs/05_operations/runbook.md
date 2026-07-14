@@ -2,17 +2,39 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.20.0"
+version: "2.21.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-034-CLOSURE"
+phase: "POST-H-EVAL-002"
 updated: "2026-07-13"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-EVAL-002 — Activación de evaluación end-to-end UI-first
+
+Repo fuente: `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip`. Repo baseline objetivo: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+
+Estado: `approved/active-evaluation`. Último backlog cerrado: `POST-H-034`. Micro-sprint autorizado: `POST-H-EVAL-002-01-A`; siguiente: `POST-H-EVAL-002-01-B`.
+
+La activación registra como fuentes canónicas el runbook específico, el roadmap y los tres backlogs de evaluación. No ejecuta todavía el piloto. El operador debe iniciar por `POST-H-EVAL-002-01-A — Freeze, charter y evidence control` y conservar el freeze de plataforma salvo incidente S0/S1.
+
+Validación de activación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q
+python -m devpilot_core project-state validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core release-candidate evidence-freshness --json
+```
+
+PASS: cinco fuentes canónicas aprobadas, contrato TCR v1/v2 vigente, Project State en POST-H-EVAL-002 y no-go gates preservados. BLOCK: documento faltante/no aprobado, registry drift, baseline distinto, evidencia crítica stale o activación de capacidad sensible.
 
 ## POST-H-034-CLOSURE — Operación y verificación de cierre de fase
 

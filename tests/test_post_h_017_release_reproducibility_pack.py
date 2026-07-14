@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 from devpilot_core import cli
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.quality.gate import QualityGate, QualityGateOptions
@@ -11,11 +13,6 @@ from devpilot_core.schemas import SchemaValidator
 
 ROOT = Path(__file__).resolve().parents[1]
 
-
-def _post_h_number(value: str) -> int:
-    marker = "POST-H-"
-    assert marker in value
-    return int(value.split(marker, 1)[1].split("-", 1)[0])
 
 
 def test_post_h_017_e_reproducibility_pack_builder_writes_and_verifies_local_pack() -> None:

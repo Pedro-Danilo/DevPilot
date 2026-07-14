@@ -1,12 +1,46 @@
+## POST-H-EVAL-002 — Activación del piloto real end-to-end UI-first
+
+Último hito: `POST-H-034`
+
+Último hito cerrado: `POST-H-034 — Sensitive capabilities ADRs`
+
+Siguiente hito: `POST-H-EVAL-002`
+
+Micro-sprint activo: `POST-H-EVAL-002-01-A`. Siguiente micro-sprint: `POST-H-EVAL-002-01-B`.
+
+Repo fuente de activación: `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip`. Repo baseline objetivo posterior al commit: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+
+Estado: `approved/active-evaluation`. El runbook, roadmap y tres backlogs ejecutables de POST-H-EVAL-002 están registrados como fuentes canónicas. La activación no ejecuta todavía el piloto, no reabre POST-H-034 y no habilita red externa, APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
+
+Documentos de entrada:
+
+- `docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md`
+- `docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md`
+- `docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md`
+- `docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md`
+- `docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md`
+
+Validación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q
+python -m devpilot_core project-state validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core release-candidate evidence-freshness --json
+```
+
 ## POST-H-034-CLOSURE — Reconciliación de regresión general final
 
 Último hito: `POST-H-034`
 
-Siguiente hito: `POST-H-034`
+Hito posterior autorizado: `POST-H-EVAL-002`
 
-Repo vigente resultante: `repo_DevPilot_Local_314_POST_H_034-CLOSURE.zip`.
+Repo de cierre confirmado: `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip`.
 
-Estado: `closed/full-regression-pass`. No existe un backlog funcional posterior autorizado; `next_sprint=POST-H-034` es el ancla compatible con ProjectState v1 y `next_backlog_planned=false` expresa la ausencia de un siguiente backlog.
+Estado: `closed/full-regression-pass`. POST-H-034 permanece cerrado. POST-H-EVAL-002 está autorizado como hito de evaluación; `next_sprint=POST-H-EVAL-002` y `next_backlog_planned=true` expresan la transición sin reabrir el backlog anterior.
 
 Evidencia definitiva: `1911 passed, 0 failed, 0 errors, 0 skipped` en Windows. Log: `Log_consola_validacion_general_no-regresion_POST-H-034-CLOSURE.txt`; SHA-256: `3a03395c650ad4cf230581dabb2fcb53e2f3c5d6dee252ec55a485040d133d4d`. No queda rerun pendiente para este backlog.
 

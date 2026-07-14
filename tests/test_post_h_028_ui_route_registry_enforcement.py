@@ -6,6 +6,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 from devpilot_core import cli
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.interfaces.api import UiApiLocalHardeningGate, UiRouteEnforcementOptions, UiRouteEnforcementRunner
@@ -15,8 +17,7 @@ from devpilot_core.schemas import SchemaValidator
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _post_h_number(value: str) -> int:
-    return int(str(value).split("POST-H-")[-1].split("-")[0])
+
 WEB = ROOT / "ui" / "web"
 
 

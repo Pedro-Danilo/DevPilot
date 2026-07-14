@@ -4,6 +4,8 @@ import json
 import re
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -14,12 +16,6 @@ def _read(path: str) -> str:
 def _read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
-
-def _post_h_number(value: str) -> int:
-    match = re.fullmatch(r"POST-H-(\d+)", value)
-    if match is None:
-        raise AssertionError(f"Expected POST-H identifier, got {value!r}")
-    return int(match.group(1))
 
 
 def test_post_h_003_backlog_is_closed_and_points_to_post_h_004() -> None:

@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank as _post_h_number
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -21,11 +23,6 @@ def _frontmatter(text: str) -> dict[str, str]:
         fields[key.strip()] = value.strip().strip('"')
     return fields
 
-
-def _post_h_number(value: str) -> int:
-    marker = "POST-H-"
-    assert marker in value
-    return int(value.split(marker, 1)[1].split("-", 1)[0])
 
 
 def test_post_h_019_e_plugin_metadata_runbook_documents_metadata_only_and_adr_trigger() -> None:

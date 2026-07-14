@@ -29,7 +29,7 @@ def test_closure_release_candidate_evidence_is_current_and_passes() -> None:
     state = _read_json(".devpilot/project_state.json")
 
     assert criteria["expected_current_repo"] == state["current_repo"]
-    assert criteria["expected_current_micro_sprint"] == "POST-H-034-CLOSURE"
+    assert criteria["expected_current_micro_sprint"] == state["current_micro_sprint"]
     assert EvidenceFreshnessScanner(ROOT).scan().ok
     assert LocalReleaseCandidateReporter(ROOT).run().ok
 
@@ -58,9 +58,10 @@ def test_closure_state_and_backlog_are_administratively_closed() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md").read_text(encoding="utf-8")
 
     assert state["last_completed_sprint"] == "POST-H-034"
-    assert state["current_micro_sprint"] == "POST-H-034-CLOSURE"
+    assert state["current_micro_sprint"] == "POST-H-EVAL-002-01-A"
     assert state["post_h_034_closed"] is True
-    assert state["next_backlog_planned"] is False
+    assert state["next_backlog_planned"] is True
+    assert state["post_h_eval_002_activated"] is True
     assert 'implementation_status: "closed/full-regression-pass"' in backlog
     assert state["post_h_034_closure_status"] == "closed/full-regression-pass"
     assert state["post_h_034_closure_full_regression_passed"] is True
