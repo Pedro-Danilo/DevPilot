@@ -3,7 +3,7 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-07-14"
 approval: "approved_by_owner"
@@ -41,16 +41,16 @@ La secuencia prioriza la Web UI como superficie del operador, usa CLI únicament
 | Fuente | Uso |
 |---|---|
 | `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` | Baseline inmutable de la plataforma |
-| `Log_consola_validacion_general_no-regresion_POST-H-EVAL-002_activate.txt` | Evidencia 1918/1918 de la activación POST-H-EVAL-002 |
+| `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt` | Evidencia autoritativa 1919/1919 del baseline 318 |
 | Runbook UI-first aprobado | Procedimiento operativo detallado |
 | Backlogs EVAL-002-01/02/03 | Unidades ejecutables y gates |
 
 Trazabilidad de referencia:
 
 ```text
-baseline padre 316 SHA-256: c60c3a69d2ead35ca4e66f10ad15a0ed64b4db913b6cb4978ab6e587c824b305
-log activación SHA-256:      9c379fdd0e6fd26bb781607404e2ab18263c76e4624ded40c6c57632b4fc0ae9
-baseline 317 SHA-256:        registrar después de git archive
+baseline 318 SHA-256:        7551ff3b97adc6fbbe63965adf2b8906eccb5a61a45758a6018e2fc0801a7fb9
+log baseline 318 SHA-256:    a2874adfff5b99e98117beaa9513e6bda0a7192287c81e7741d1632ca1debd30
+commit baseline 318:         0c7741f
 ```
 
 ## 3. Principios de ejecución
@@ -105,7 +105,7 @@ S0/S1=0
 ```
 
 ### Oleada EVAL-002-02 — SDLC real, implementación y trazabilidad
-
+  
 Backlog: `POST-H-EVAL-002-02_sdlc_execution_traceability.md`
 
 Resultado esperado:

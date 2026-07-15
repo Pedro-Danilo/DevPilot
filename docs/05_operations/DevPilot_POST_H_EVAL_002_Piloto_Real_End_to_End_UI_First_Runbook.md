@@ -2,7 +2,7 @@
 doc_id: "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
 title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
 updated: "2026-07-14"
 approval: "approved_by_owner"
@@ -11,7 +11,7 @@ roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.
 planning_backlogs_total: 3
 implementation_status: "approved/baseline-ready"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
-baseline_test_evidence: "1918 passed, 0 failed, 0 errors, 0 skipped"
+baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 local_first: true
 ui_first: true
@@ -68,7 +68,16 @@ Trazabilidad de origen:
 - resultado de activación: `1918 passed, 0 failed, 0 errors, 0 skipped`;
 - contrato focal de activación: `40 passed, 0 failed, 0 errors, 0 skipped`.
 
-El SHA-256 de `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` debe calcularse después de `git archive` y registrarse en el charter y en `evidence_manifest.json`. Antes de comenzar trabajo funcional del piloto se debe repetir la regresión general sobre el baseline 318 y confirmar el mismo resultado de 1918 pruebas o justificar formalmente cualquier variación del inventario.
+Evidencia autoritativa del baseline 318:
+
+- SHA-256 del ZIP 318: `7551ff3b97adc6fbbe63965adf2b8906eccb5a61a45758a6018e2fc0801a7fb9`;
+- commit fuente: `0c7741f`;
+- log de validación: `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt`;
+- SHA-256 del log: `a2874adfff5b99e98117beaa9513e6bda0a7192287c81e7741d1632ca1debd30`;
+- regresión completa: `1919 passed, 0 failed, 0 errors, 0 skipped`;
+- contrato focal: `41 passed, 0 failed, 0 errors, 0 skipped`.
+
+El SHA-256 de `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` ya fue calculado después de `git archive` y debe copiarse al charter y a `evidence_manifest.json`. La regresión general del baseline 318 ya fue ejecutada con 1919/1919 PASS; no debe repetirse por correcciones exclusivamente documentales que no alteren código, tests, schemas, dependencias ni configuración ejecutable. En ese caso bastan Documentation Governance, contrato documental focal, búsqueda anti-drift y RAG grounded.
 
 El repo histórico `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip` permanece únicamente como fuente de cierre de POST-H-034; no debe utilizarse para ejecutar el piloto porque no contiene la activación canónica de `POST-H-EVAL-002`.
 
@@ -728,7 +737,7 @@ python -m pytest -p no:ddtrace --assert=plain -q `
 Criterio esperado:
 
 ```text
-1918 passed
+1919 passed
 0 failed
 0 errors
 0 skipped

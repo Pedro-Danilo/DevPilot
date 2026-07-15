@@ -1,3 +1,10 @@
+## 2026-07-14 — POST-H-EVAL-002 baseline 318 evidence synchronization (documentation-only)
+
+- Records `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt` as the authoritative baseline 318 validation: `1919 passed, 0 failed, 0 errors, 0 skipped`; focal contract: `41 passed`.
+- Records ZIP SHA-256 `7551ff3b97adc6fbbe63965adf2b8906eccb5a61a45758a6018e2fc0801a7fb9` and commit `0c7741f`.
+- Corrects the remaining backlog objective reference from baseline 317 to baseline 318.
+- This change is documentation/RAG metadata only; it does not modify executable code, tests, schemas, dependencies or runtime configuration and therefore does not require another full `pytest -q`.
+
 ## post-h-eval-002-pilot-ready-baseline — Eliminate residual operational baseline drift
 
 - Promotes `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip` to immutable parent evidence and defines `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` as the only baseline authorized for `POST-H-EVAL-002-01-A`.

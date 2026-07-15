@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.23.0"
+version: "2.24.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -20,7 +20,7 @@ Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zi
 
 Estado: `approved/active-evaluation`. Último backlog cerrado: `POST-H-034`. Micro-sprint autorizado: `POST-H-EVAL-002-01-A`; siguiente: `POST-H-EVAL-002-01-B`.
 
-El baseline 317 pasó `1918 passed, 0 failed, 0 errors, 0 skipped`. El baseline 318 corrige el último drift operativo del backlog 01; su SHA-256, commit fuente y regresión deben registrarse en el charter antes del trabajo funcional.
+El baseline 318 quedó validado con `1919 passed, 0 failed, 0 errors, 0 skipped` y contrato focal `41 passed, 0 failed, 0 errors, 0 skipped`. ZIP SHA-256 `7551ff3b97adc6fbbe63965adf2b8906eccb5a61a45758a6018e2fc0801a7fb9`, commit `0c7741f` y log `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt`. Las correcciones posteriores exclusivamente documentales no requieren repetir `pytest -q`; deben pasar gobernanza documental, contrato focal, búsqueda anti-drift y RAG grounded.
 
 La activación registra como fuentes canónicas el runbook específico, el roadmap y los tres backlogs de evaluación. No ejecuta todavía el piloto. El operador debe iniciar por `POST-H-EVAL-002-01-A — Freeze, charter y evidence control` y conservar el freeze de plataforma salvo incidente S0/S1.
 

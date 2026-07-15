@@ -3,7 +3,7 @@ doc_id: "DEVPL-POST-H-EVAL-002-01-BACKLOG"
 id: "POST-H-EVAL-002-01"
 title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-07-14"
 approval: "approved_by_owner"
@@ -34,7 +34,7 @@ Establecer un baseline reproducible y validar la experiencia Web UI antes de inc
 
 ## 3. Objetivo
 
-Preparar una ejecución reproducible del piloto, instalar el baseline 317 y validar la Web UI como consola de operador antes de incorporar el proyecto real.
+Preparar una ejecución reproducible del piloto, instalar el baseline 318 y validar la Web UI como consola de operador antes de incorporar el proyecto real.
 
 ## 2. Alcance
 
