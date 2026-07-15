@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-A-MANIFEST",
+  "created_by": "POST-H-EVAL-002-01-A",
+  "status": "closed",
+  "updated": "2026-07-15",
+  "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
+  "target_repo": "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip",
+  "pilot_baseline_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
+  "run_id": "PILOT-E2E-001-RUN-01",
+  "evidence_package": {
+    "name": "PILOT-E2E-001-RUN-01_POST-H-EVAL-002-01-A_evidence.zip",
+    "sha256": "f6385f047db79f0b02ae01d7c73b1d2d784f1a1acfc6361863e79917935618dc",
+    "baseline_sha256": "bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308",
+    "validation_log_sha256": "42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc",
+    "packaged_r1_commit_short": "2c5f209",
+    "functional_anchor_commit_short": "0c7741f"
+  },
+  "decision": "PASS",
+  "micro_sprint_state": {
+    "closed": true,
+    "current": "POST-H-EVAL-002-01-B",
+    "next": "POST-H-EVAL-002-01-C",
+    "next_executed": false
+  },
+  "scope": {
+    "platform_installed": false,
+    "workspace_created": false,
+    "token_generated": false,
+    "network_used": false,
+    "external_api_used": false
+  },
+  "incidents": {
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "safety": {
+    "platform_frozen": true,
+    "dry_run_default": true,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "production_multiuser_enabled": false,
+    "enterprise_ready_claimed": false,
+    "saas_ready_claimed": false
+  },
+  "files_created": [
+    "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+    "docs/post_h_eval_002_01_a_manifest.json",
+    "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
+  ],
+  "notes": [
+    "External RUN evidence is intentionally separated from the DevPilot repository.",
+    "No full pytest rerun is required because changes are governance/documentation/test-contract metadata only."
+  ],
+  "handoff": "operator-commit-and-git-archive-319"
+}

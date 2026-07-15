@@ -16281,18 +16281,99 @@
         "Registers the approved runbook, roadmap and three executable backlogs as canonical planning sources.",
         "Transitions Project State to POST-H-EVAL-002 without reopening POST-H-034 or enabling sensitive capabilities."
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-a-freeze-charter-evidence-control",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-01-a-freeze-charter-evidence-control",
+      "domain": "governance.project_state",
+      "capability": "PostHEval00201AFreezeCharterEvidenceControl",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "documentation",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+        "docs/post_h_eval_002_01_a_manifest.json",
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+        "docs/post_h_eval_002_01_a_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "trigger_hints": [
+        "post-h-eval-002-01-a",
+        "pilot-run-control-change",
+        "project-state-transition",
+        "evidence-package-change"
+      ],
+      "impact_scope": [
+        "documentation-governance",
+        "project-state",
+        "pilot-evidence",
+        "release-candidate"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-EVAL-002-01-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Validates G0 control evidence, baseline provenance and the transition from 01-A to 01-B without installing the platform or creating a workspace."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 245,
+    "source_contracts_total": 246,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 245,
-    "last_updated_by": "POST-H-EVAL-002"
+    "contracts_total": 246,
+    "last_updated_by": "POST-H-EVAL-002-01-A"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",

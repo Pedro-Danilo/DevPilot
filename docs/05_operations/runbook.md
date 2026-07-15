@@ -16,11 +16,11 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 ## POST-H-EVAL-002 — Activación de evaluación end-to-end UI-first
 
-Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`. Repo baseline vigente del piloto: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo de activación histórico: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+Repo de gobernanza vigente: `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`. Baseline ejecutable congelado del piloto: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`. Repo de activación histórico: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
 Estado: `approved/active-evaluation`. Último backlog cerrado: `POST-H-034`. Micro-sprint autorizado: `POST-H-EVAL-002-01-A`; siguiente: `POST-H-EVAL-002-01-B`.
 
-El baseline 318 quedó validado con `1919 passed, 0 failed, 0 errors, 0 skipped` y contrato focal `41 passed, 0 failed, 0 errors, 0 skipped`. ZIP SHA-256 `7551ff3b97adc6fbbe63965adf2b8906eccb5a61a45758a6018e2fc0801a7fb9`, commit `0c7741f` y log `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt`. Las correcciones posteriores exclusivamente documentales no requieren repetir `pytest -q`; deben pasar gobernanza documental, contrato focal, búsqueda anti-drift y RAG grounded.
+El baseline ejecutable 318 quedó validado con `1919 passed, 0 failed, 0 errors, 0 skipped` y contrato focal `41 passed`. La copia R1 exacta tiene SHA-256 `bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308`, commit de empaquetado `2c5f209` y ancla funcional `0c7741f`; el log exacto tiene SHA-256 `42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc`. El cierre de 01-A se gobierna desde `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`. Las correcciones documentales/metadata no requieren `pytest -q`; deben pasar pruebas focales, gobernanza, TCR, freshness, anti-drift y RAG grounded.
 
 La activación registra como fuentes canónicas el runbook específico, el roadmap y los tres backlogs de evaluación. No ejecuta todavía el piloto. El operador debe iniciar por `POST-H-EVAL-002-01-A — Freeze, charter y evidence control` y conservar el freeze de plataforma salvo incidente S0/S1.
 

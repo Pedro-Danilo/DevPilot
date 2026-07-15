@@ -3,15 +3,16 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
-updated: "2026-07-14"
+updated: "2026-07-15"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
+source_repo: "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
+pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
-implementation_status: "approved/planned"
+implementation_status: "active/01-a-closure-candidate"
 current_wave: "EVAL-002-01"
 next_wave: "EVAL-002-02"
 local_first: true
@@ -28,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`approved/planned`. La ejecución no ha comenzado; el primer micro-sprint autorizado es `POST-H-EVAL-002-01-A`.
+`active/01-A-closed`. `POST-H-EVAL-002-01-A` materializó el control de RUN-01; `POST-H-EVAL-002-01-B` queda como siguiente micro-sprint y no ha sido ejecutado.
 
 ## 2. Propósito
 
@@ -48,10 +49,22 @@ La secuencia prioriza la Web UI como superficie del operador, usa CLI únicament
 Trazabilidad de referencia:
 
 ```text
-baseline 318 SHA-256:        7551ff3b97adc6fbbe63965adf2b8906eccb5a61a45758a6018e2fc0801a7fb9
-log baseline 318 SHA-256:    a2874adfff5b99e98117beaa9513e6bda0a7192287c81e7741d1632ca1debd30
-commit baseline 318:         0c7741f
+BASELINE EJECUTABLE CONGELADO (copia R1 exacta adjunta)
+repo:                         repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip
+SHA-256:                      bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308
+commit de empaquetado R1:     2c5f209
+log exacto SHA-256:           42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc
+
+ANCLA FUNCIONAL VALIDADA ANTES DE R1
+commit:                       0c7741f
+regresión:                    1919 passed, 0 failed, 0 errors, 0 skipped
+contrato focal:               41 passed, 0 failed, 0 errors, 0 skipped
+
+REPO DE GOBERNANZA DESPUÉS DE 01-A
+repo:                         repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip
 ```
+
+`0c7741f` identifica la superficie ejecutable validada; `2c5f209` identifica el commit documental R1 desde el cual se generó la copia exacta congelada. No son el mismo artefacto y no se presentan como hashes Git completos.
 
 ## 3. Principios de ejecución
 
@@ -89,7 +102,7 @@ Backlog: `POST-H-EVAL-002-01_baseline_ui_acceptance.md`
 Resultado esperado:
 
 - charter aprobado;
-- baseline 315 instalado y verificado;
+- baseline 318 instalado y verificado;
 - API/UI locales operativas;
 - cinco rutas UI críticas y estados negativos evaluados;
 - baseline de bridges CLI y UX gaps registrado.

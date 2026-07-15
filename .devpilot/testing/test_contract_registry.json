@@ -8939,7 +8939,67 @@
         "python -m devpilot_core release-candidate evidence-freshness --json"
       ],
       "notes": [
-        "Activates planning/governance only; execution of POST-H-EVAL-002-01-A remains pending."
+        "Activation remains valid; POST-H-EVAL-002-01-A is now a governed closure candidate and POST-H-EVAL-002-01-B is next."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-a-freeze-charter-evidence-control",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002-01-A",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+        "docs/post_h_eval_002_01_a_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+        "docs/post_h_eval_002_01_a_manifest.json",
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "notes": [
+        "Closes control/evidence preparation only; platform installation and workspace creation remain forbidden until 01-B/02-A."
       ]
     }
   ],

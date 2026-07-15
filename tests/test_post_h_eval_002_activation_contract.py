@@ -7,10 +7,10 @@ from devpilot_core.testing.project_state_progress import post_h_progress_rank
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SOURCE_REPO = "repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip"
-TARGET_REPO = "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
-CURRENT_MICRO = "POST-H-EVAL-002-01-A"
-NEXT_MICRO = "POST-H-EVAL-002-01-B"
+SOURCE_REPO = "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
+TARGET_REPO = "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
+CURRENT_MICRO = "POST-H-EVAL-002-01-B"
+NEXT_MICRO = "POST-H-EVAL-002-01-C"
 CONTRACT_ID = "post-h-eval-002-activation-governance"
 
 CANONICAL_DOCS = {
@@ -51,9 +51,11 @@ def test_post_h_eval_002_documents_are_approved_and_cross_linked() -> None:
     for path in list(CANONICAL_DOCS.values())[2:]:
         assert Path(path).name in roadmap
 
-    # Every active pilot source must identify the exact immutable baseline.
+    # Every active source identifies current governance repo and frozen executable baseline.
     for path in CANONICAL_DOCS.values():
-        assert TARGET_REPO in _text(path)
+        text = _text(path)
+        assert TARGET_REPO in text
+        assert "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip" in text
 
 
 def test_post_h_eval_002_backlog_01_has_no_historical_operational_baseline_drift() -> None:
@@ -81,7 +83,7 @@ def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> No
         assert item["criticality"] == "P0"
         assert "tests/test_post_h_eval_002_activation_contract.py" in item["required_tests"]
         assert item["lifecycle"] == "active"
-    assert registry["last_registered_sprint"] == "POST-H-EVAL-002"
+    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002", "POST-H-EVAL-002-01-A"}
 
 
 def test_post_h_eval_002_test_contract_is_registered_in_v1_and_v2() -> None:

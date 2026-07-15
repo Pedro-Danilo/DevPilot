@@ -4,12 +4,13 @@ title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-e
 status: "approved"
 version: "1.4.0"
 owner: "Ordóñez"
-updated: "2026-07-14"
+updated: "2026-07-15"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
-implementation_status: "approved/baseline-ready"
+implementation_status: "active/01-a-closed"
+source_repo: "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
@@ -68,16 +69,19 @@ Trazabilidad de origen:
 - resultado de activación: `1918 passed, 0 failed, 0 errors, 0 skipped`;
 - contrato focal de activación: `40 passed, 0 failed, 0 errors, 0 skipped`.
 
-Evidencia autoritativa del baseline 318:
+Evidencia autoritativa y procedencia por capas:
 
-- SHA-256 del ZIP 318: `7551ff3b97adc6fbbe63965adf2b8906eccb5a61a45758a6018e2fc0801a7fb9`;
-- commit fuente: `0c7741f`;
-- log de validación: `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt`;
-- SHA-256 del log: `a2874adfff5b99e98117beaa9513e6bda0a7192287c81e7741d1632ca1debd30`;
+- baseline ejecutable congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`;
+- SHA-256 de la copia exacta R1: `bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308`;
+- commit de empaquetado documental R1: `2c5f209`;
+- ancla funcional validada: `0c7741f`;
+- log exacto de esta entrega: `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt`;
+- SHA-256 del log exacto: `42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc`;
 - regresión completa: `1919 passed, 0 failed, 0 errors, 0 skipped`;
-- contrato focal: `41 passed, 0 failed, 0 errors, 0 skipped`.
+- contrato focal: `41 passed, 0 failed, 0 errors, 0 skipped`;
+- repo de gobernanza posterior a 01-A: `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`.
 
-El SHA-256 de `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` ya fue calculado después de `git archive` y debe copiarse al charter y a `evidence_manifest.json`. La regresión general del baseline 318 ya fue ejecutada con 1919/1919 PASS; no debe repetirse por correcciones exclusivamente documentales que no alteren código, tests, schemas, dependencias ni configuración ejecutable. En ese caso bastan Documentation Governance, contrato documental focal, búsqueda anti-drift y RAG grounded.
+`0c7741f` identifica la superficie ejecutable probada. `2c5f209` identifica el commit documental R1 desde el cual se generó el ZIP exacto congelado. El charter y `evidence_manifest.json` deben registrar ambas capas. Las correcciones exclusivamente documentales y de metadata de gobernanza no requieren repetir `pytest -q`; bastan pruebas focales, Documentation Governance, TCR, Evidence Freshness, búsqueda anti-drift y RAG grounded.
 
 El repo histórico `repo_DevPilot_Local_315_POST_H_034-CLOSURE.zip` permanece únicamente como fuente de cierre de POST-H-034; no debe utilizarse para ejecutar el piloto porque no contiene la activación canónica de `POST-H-EVAL-002`.
 

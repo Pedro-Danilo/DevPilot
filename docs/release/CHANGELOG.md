@@ -1,3 +1,12 @@
+## 2026-07-15 — POST-H-EVAL-002-01-A freeze, charter and evidence control
+
+- Freezes `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` as the executable pilot baseline and advances governance to `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`.
+- Records RUN-01 evidence package `PILOT-E2E-001-RUN-01_POST-H-EVAL-002-01-A_evidence.zip` SHA-256 `f6385f047db79f0b02ae01d7c73b1d2d784f1a1acfc6361863e79917935618dc` with S0/S1 `0/0`.
+- Distinguishes functional validation commit `0c7741f` from documentation packaging commit `2c5f209`.
+- Corrects the final active roadmap reference from baseline 315 to baseline 318.
+- Does not install DevPilot, create the pilot workspace, generate tokens, use network/external APIs or enable sensitive capabilities.
+- Uses focal tests and governance validators only; the existing 1919/1919 full regression remains authoritative.
+
 ## 2026-07-14 — POST-H-EVAL-002 baseline 318 evidence synchronization (documentation-only)
 
 - Records `Log_consola_validacion_POST-H-EVAL-002_synchronize_operational_baseline_318.txt` as the authoritative baseline 318 validation: `1919 passed, 0 failed, 0 errors, 0 skipped`; focal contract: `41 passed`.

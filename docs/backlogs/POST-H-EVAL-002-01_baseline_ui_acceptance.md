@@ -3,19 +3,20 @@ doc_id: "DEVPL-POST-H-EVAL-002-01-BACKLOG"
 id: "POST-H-EVAL-002-01"
 title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
-updated: "2026-07-14"
+updated: "2026-07-15"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
+source_repo: "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
+pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
-implementation_status: "approved/not-started"
-current_micro_sprint: "POST-H-EVAL-002-01-A"
-next_micro_sprint: "POST-H-EVAL-002-01-B"
+implementation_status: "active/01-a-closed"
+current_micro_sprint: "POST-H-EVAL-002-01-B"
+next_micro_sprint: "POST-H-EVAL-002-01-C"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -26,7 +27,7 @@ platform_freeze_default: true
 
 ## 1. Estado
 
-`approved/not-started`. No se autoriza avanzar a EVAL-002-02 hasta cerrar los micro-sprints A-D.
+`active/01-a-closed`. `01-A` tiene evidencia de control materializada; `01-B` es el siguiente micro-sprint y no ha sido ejecutado. No se autoriza avanzar a EVAL-002-02 hasta cerrar A-D.
 
 ## 2. Propósito
 
@@ -93,6 +94,22 @@ Criterios BLOCK:
 - hash distinto;
 - ausencia de owner/operador;
 - no-go gates ambiguos.
+
+#### Evidencia y decisión de cierre de 01-A
+
+- RUN: `PILOT-E2E-001-RUN-01`;
+- paquete externo: `PILOT-E2E-001-RUN-01_POST-H-EVAL-002-01-A_evidence.zip`;
+- SHA-256 del paquete: `f6385f047db79f0b02ae01d7c73b1d2d784f1a1acfc6361863e79917935618dc`;
+- baseline ejecutable congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`;
+- SHA-256 exacto del baseline: `bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308`;
+- commit de empaquetado R1: `2c5f209`;
+- ancla funcional: `0c7741f`;
+- S0/S1 iniciales: `0/0`;
+- plataforma instalada: `false`;
+- workspace creado: `false`;
+- decisión: `PASS`; la integración del patch y la generación del repo 319 son el handoff operativo estándar.
+
+`01-B` queda autorizado después de esa integración; no se ejecuta en este micro-sprint.
 
 ### POST-H-EVAL-002-01-B — Instalación limpia y baseline verification
 
