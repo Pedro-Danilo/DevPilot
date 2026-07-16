@@ -3,20 +3,20 @@ doc_id: "DEVPL-POST-H-EVAL-002-01-BACKLOG"
 id: "POST-H-EVAL-002-01"
 title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
-updated: "2026-07-15"
+updated: "2026-07-16"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip"
+source_repo: "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
-implementation_status: "active/01-a-closed"
-current_micro_sprint: "POST-H-EVAL-002-01-C"
-next_micro_sprint: "POST-H-EVAL-002-01-D"
+implementation_status: "active/01-c-closed"
+current_micro_sprint: "POST-H-EVAL-002-01-D"
+next_micro_sprint: "POST-H-EVAL-002-02-A"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -27,7 +27,7 @@ platform_freeze_default: true
 
 ## 1. Estado
 
-`active/01-b-closed`. `01-B` quedó cerrado `PASS-WITH-GAPS` con instalación Windows reproducible, validadores PASS y cero S0/S1; `01-C` está autorizado. No se autoriza avanzar a EVAL-002-02 hasta cerrar A-D.
+`active/01-c-closed`. `01-C` quedó cerrado `PASS-WITH-GAPS` con API/UI localhost reales, 41/41 controles, 12/12 comandos, auth/CORS/token hygiene PASS y cero S0/S1; `01-D` está autorizado. No se autoriza avanzar a EVAL-002-02 hasta cerrar la aceptación visual formal de 01-D.
 
 ## 2. Propósito
 
@@ -187,6 +187,18 @@ Criterios BLOCK:
 - token en URL/Git/evidence;
 - control crítico sin auth;
 - ruta crítica no carga.
+
+#### Cierre verificado de 01-C
+
+- decisión: `PASS-WITH-GAPS`;
+- evidencia final: `DevPilot_E2E_Evaluation_POST-H-EVAL-002-01-C.zip` SHA-256 `c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5`;
+- evidencia prioritaria: `POST-H-EVAL-002-01-C_windows_authoritative_evidence.zip` SHA-256 `4c5596d09c4208ccd092f42f110e8b23609b1d4de98166140fc26ac9b95407c5`;
+- 41/41 controles y 12/12 comandos PASS;
+- API `127.0.0.1:8787`, UI `127.0.0.1:5173`, auth 401/401/200 y CORS GET/preflight PASS;
+- token efímero no persistido, secret findings `0`, procesos detenidos y puertos liberados;
+- S0/S1 abiertos: `0/0`;
+- gap S3 no bloqueante: cuatro rutas públicas omitidas por el OpenAPI estático aunque runtime/canonical/registry y toda ruta protegida permanecen alineados;
+- 01-D autorizado; aceptación browser formal, screenshots, matriz negativa y bridges todavía no ejecutados.
 
 ### POST-H-EVAL-002-01-D — Web UI acceptance and bridge baseline
 

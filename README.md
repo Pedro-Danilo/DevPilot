@@ -6,11 +6,11 @@
 
 Siguiente hito: `POST-H-EVAL-002`
 
-Micro-sprint activo: `POST-H-EVAL-002-01-C`. Siguiente micro-sprint: `POST-H-EVAL-002-01-D`.
+Micro-sprint activo: `POST-H-EVAL-002-01-D`. Siguiente micro-sprint: `POST-H-EVAL-002-02-A`.
 
-Repo de gobernanza vigente: `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+Repo de gobernanza vigente: `repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `active/01-b-closed`. La instalación limpia Windows y baseline verification quedaron cerradas `PASS-WITH-GAPS`; 01-C está autorizado para levantar API/UI local con token temporal. No se reabre POST-H-034 ni se habilitan APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
+Estado: `active/01-c-closed`. `POST-H-EVAL-002-01-C` quedó cerrado `PASS-WITH-GAPS`: API/UI localhost, token efímero, auth, CORS y smokes focales PASS; la aceptación visual formal de cinco rutas y estados negativos corresponde a 01-D. Permanece un gap S3 no bloqueante de completitud del OpenAPI estático para cuatro rutas públicas. No se reabre POST-H-034 ni se habilitan APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
 
 Documentos de entrada:
 

@@ -3,16 +3,16 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
-updated: "2026-07-15"
+updated: "2026-07-16"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip"
+source_repo: "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
-implementation_status: "active/01-a-closure-candidate"
+implementation_status: "active/01-c-closed"
 current_wave: "EVAL-002-01"
 next_wave: "EVAL-002-02"
 local_first: true
@@ -29,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`active/01-B-closed`. `POST-H-EVAL-002-01-B` completó instalación limpia y baseline verification en Windows; `POST-H-EVAL-002-01-C` queda autorizado para startup API/UI y postura de seguridad. `POST-H-EVAL-002-01-A` permanece cerrado como antecedente de freeze y control de evidencia.
+`active/01-C-closed`. `POST-H-EVAL-002-01-C` verificó startup real de API/UI en localhost, token efímero, autenticación, CORS GET/preflight, smokes focales y liberación de procesos; `POST-H-EVAL-002-01-D` queda autorizado para aceptación visual formal y registro de bridges. `POST-H-EVAL-002-01-A/B` permanecen cerrados como antecedentes de freeze e instalación limpia.
 
 ## 2. Propósito
 

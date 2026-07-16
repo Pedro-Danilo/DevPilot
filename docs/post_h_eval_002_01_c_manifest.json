@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-C-MANIFEST",
+  "created_by": "POST-H-EVAL-002-01-C",
+  "status": "closed",
+  "updated": "2026-07-16",
+  "source_repo": "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
+  "target_repo": "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
+  "pilot_baseline_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
+  "run_id": "PILOT-E2E-001-RUN-01",
+  "decision": "PASS-WITH-GAPS",
+  "operator": {
+    "runner_version": "2.0.0",
+    "r1_false_negative_resolved": true,
+    "devpilot_source_patch_required": false
+  },
+  "evidence": {
+    "final_package": {
+      "name": "DevPilot_E2E_Evaluation_POST-H-EVAL-002-01-C.zip",
+      "sha256": "c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5",
+      "crc": "PASS",
+      "included_files_total": 4598,
+      "excluded_runtime_files_total": 3853,
+      "forbidden_entries_total": 0
+    },
+    "priority_package": {
+      "name": "POST-H-EVAL-002-01-C_windows_authoritative_evidence.zip",
+      "sha256": "4c5596d09c4208ccd092f42f110e8b23609b1d4de98166140fc26ac9b95407c5",
+      "files_total": 22,
+      "internal_hashes_total": 21,
+      "internal_hash_mismatches": 0
+    },
+    "operator_log_sha256": "3b1678386b9b3f3c6605674df401f36b6b078966d1f25e6360e80c4fe9f990cc"
+  },
+  "results": {
+    "checks_total": 41,
+    "checks_passed": 41,
+    "commands_total": 12,
+    "commands_passed": 12,
+    "api_health_status": 200,
+    "protected_no_token_status": 401,
+    "protected_invalid_token_status": 401,
+    "protected_valid_token_status": 200,
+    "cors_local_origin": "http://127.0.0.1:5173",
+    "cors_preflight_local_status": 200,
+    "cors_preflight_untrusted_status": 400,
+    "cors_wildcard_enabled": false,
+    "api_contract_runtime_routes": 39,
+    "api_contract_protected_routes": 36,
+    "api_contract_blocking_findings": 0,
+    "api_contract_public_transport_warnings": 4,
+    "secret_findings": 0,
+    "ports_released": true
+  },
+  "scope": {
+    "api_started": true,
+    "ui_started": true,
+    "browser_acceptance_executed": false,
+    "workspace_created": false,
+    "platform_source_changed": false,
+    "governance_changed_by_operator": false,
+    "runtime_external_network_allowed": false,
+    "external_api_used": false
+  },
+  "incidents": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "s2_open": 0,
+    "s3_open": 1,
+    "resolved_operator_incidents": [
+      "EVAL-002-01-C-INC-001-R1-HEADER-CASE-FALSE-NEGATIVE"
+    ],
+    "gap_ids": [
+      "EVAL-002-01-C-GAP-001"
+    ]
+  },
+  "micro_sprint_state": {
+    "closed": true,
+    "current": "POST-H-EVAL-002-01-D",
+    "next": "POST-H-EVAL-002-02-A",
+    "next_executed": false
+  },
+  "safety": {
+    "platform_frozen": true,
+    "token_persisted": false,
+    "token_in_url": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "production_multiuser_enabled": false,
+    "enterprise_ready_claimed": false,
+    "saas_ready_claimed": false
+  },
+  "files_created": [
+    "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
+    "docs/post_h_eval_002_01_c_manifest.json",
+    "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
+  ],
+  "handoff": "operator-commit-and-git-archive-321"
+}

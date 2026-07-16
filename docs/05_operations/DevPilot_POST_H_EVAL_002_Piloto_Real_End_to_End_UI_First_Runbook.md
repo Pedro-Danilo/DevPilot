@@ -2,15 +2,15 @@
 doc_id: "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
 title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
-updated: "2026-07-15"
+updated: "2026-07-16"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
-implementation_status: "active/01-a-closed"
-source_repo: "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip"
+implementation_status: "active/01-c-closed"
+source_repo: "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
@@ -92,7 +92,7 @@ DevPilot_Local/docs/05_operations/
   DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md
 ```
 
-El runbook, roadmap y tres backlogs están registrados en Documentation Source Registry, TCR v1/v2 e índice RAG. `POST-H-EVAL-002-01-B` está cerrado `PASS-WITH-GAPS`; el micro-sprint autorizado es `POST-H-EVAL-002-01-C`.
+El runbook, roadmap y tres backlogs están registrados en Documentation Source Registry, TCR v1/v2 e índice RAG. `POST-H-EVAL-002-01-C` está cerrado `PASS-WITH-GAPS`; el micro-sprint autorizado es `POST-H-EVAL-002-01-D`. La ejecución formal de rutas críticas, estados negativos, screenshots y bridges pertenece a 01-D.
 
 ---
 

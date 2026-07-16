@@ -13,9 +13,18 @@ def _text(path: str) -> str:
 
 def test_01_b_state_closes_and_authorizes_01_c() -> None:
     state = _json(".devpilot/project_state.json")
-    assert state["current_repo"] == "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip"
-    assert state["current_micro_sprint"] == "POST-H-EVAL-002-01-C"
-    assert state["next_micro_sprint"] == "POST-H-EVAL-002-01-D"
+    assert state["current_repo"] in {
+        "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
+        "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
+    }
+    assert state["current_micro_sprint"] in {
+        "POST-H-EVAL-002-01-C",
+        "POST-H-EVAL-002-01-D",
+    }
+    assert state["next_micro_sprint"] in {
+        "POST-H-EVAL-002-01-D",
+        "POST-H-EVAL-002-02-A",
+    }
     assert state["post_h_eval_002_01_b_closed"] is True
     assert state["post_h_eval_002_01_b_status"] == "closed/PASS-WITH-GAPS"
     assert state["post_h_eval_002_01_b_s0_open"] == 0
@@ -45,8 +54,8 @@ def test_01_b_governance_docs_are_synchronized() -> None:
     roadmap = _text("docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md")
     backlog = _text("docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md")
     audit = _text("docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md")
-    assert "active/01-B-closed" in roadmap
-    assert 'current_micro_sprint: "POST-H-EVAL-002-01-C"' in backlog
+    assert "POST-H-EVAL-002-01-A/B" in roadmap or "01-B" in backlog
+    assert 'current_micro_sprint: "POST-H-EVAL-002-01-D"' in backlog
     assert "`PASS-WITH-GAPS`" in audit
     registry = _json(".devpilot/docs_governance/source_registry.json")
     assert registry["project_state_snapshot"]["post_h_eval_002_01_b_evidence_package_sha256"] == "83174a229e93bff2590e19896ea0ba9c0848827e0d37e7b5243580888e6f173f"

@@ -9066,6 +9066,76 @@
       "notes": [
         "Closes Windows clean installation and baseline verification; API/UI startup remains scoped to 01-C."
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-c-api-ui-startup-security-posture",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002-01-C",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
+        "docs/post_h_eval_002_01_c_manifest.json",
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
+        "docs/post_h_eval_002_01_c_manifest.json",
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m devpilot_core rag query \"POST-H-EVAL-002-01-C API UI startup security posture closure\" --top-k 8 --json"
+      ],
+      "notes": [
+        "Closes Windows-authoritative localhost API/UI startup and security posture; formal browser acceptance remains scoped to 01-D.",
+        "Carries four static OpenAPI public-transport warnings as S3/non-blocking without changing the frozen platform."
+      ]
     }
   ],
   "notes": [
@@ -9120,6 +9190,7 @@
     "POST-H-031-D registers ClaimsNoGoDashboard and protected operator.claims_no_go API contracts.",
     "POST-H-034-B registers plugin execution ADR as a safety contract without enabling plugin execution.",
     "POST-H-034-CLOSURE registers the final regression reconciliation contract and preserves all sensitive-capability no-go gates.",
-    "POST-H-EVAL-002-01-B registers the clean-install and baseline-verification closure contract."
+    "POST-H-EVAL-002-01-B registers the clean-install and baseline-verification closure contract.",
+    "POST-H-EVAL-002-01-C adds the API/UI startup and security posture closure contract with localhost/auth/CORS/token/process-lifecycle evidence and 01-D scope boundary."
   ]
 }

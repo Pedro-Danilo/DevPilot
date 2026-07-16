@@ -1,3 +1,12 @@
+## 2026-07-16 — POST-H-EVAL-002-01-C API/UI startup and security posture
+
+- Closes 01-C as `PASS-WITH-GAPS` and advances governance to `repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip` with 01-D active and 02-A next.
+- Records Windows evidence `DevPilot_E2E_Evaluation_POST-H-EVAL-002-01-C.zip` SHA-256 `c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5` and priority evidence SHA-256 `4c5596d09c4208ccd092f42f110e8b23609b1d4de98166140fc26ac9b95407c5`.
+- Confirms 41/41 checks and 12/12 commands PASS: localhost API/UI startup, non-local bind rejection, token hygiene, auth 401/401/200, CORS GET/preflight, npm/API/UI smokes, secret scan and process cleanup.
+- Records and closes the operator R1 case-sensitive-header false negative; no DevPilot source patch was required.
+- Carries `EVAL-002-01-C-GAP-001` as S3/non-blocking: four public transport routes are omitted by the static OpenAPI artifact while runtime/canonical/registry and protected-route coverage remain aligned.
+- Authorizes `POST-H-EVAL-002-01-D`; formal five-route browser acceptance, negative-state matrix, screenshots and CLI bridge classification remain unexecuted.
+
 ## 2026-07-16 — POST-H-EVAL-002-01-B clean installation and baseline verification
 
 - Closes 01-B as `PASS-WITH-GAPS` and advances governance to `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip` with 01-C active.
