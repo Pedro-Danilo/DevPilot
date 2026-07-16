@@ -1,3 +1,12 @@
+## 2026-07-16 — POST-H-EVAL-002-01-B clean installation and baseline verification
+
+- Closes 01-B as `PASS-WITH-GAPS` and advances governance to `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip` with 01-C active.
+- Records Windows evidence package `DevPilot_E2E_Evaluation_POST-H-EVAL-002-01-B.zip` SHA-256 `83174a229e93bff2590e19896ea0ba9c0848827e0d37e7b5243580888e6f173f` and priority evidence SHA-256 `ac41871b57ec681146fa501ef57083de955d9ffb1dda1ffb8fb7edd9893080dd`.
+- Confirms 17/17 commands PASS, frontend install/build PASS, POST-H-034 closure contract 6/6, Project State/docs/TCR/freshness/install smoke PASS, secret scan PASS and physical separation PASS.
+- Preserves the immutable executable baseline 318 and all sensitive-capability no-go gates.
+- Documents one S3 packaging-hygiene gap: generated `*.egg-info` metadata is present in the evidence ZIP and must be excluded by future operators.
+- Authorizes `POST-H-EVAL-002-01-C`; API/UI startup and token generation remain unexecuted in 01-B.
+
 ## 2026-07-15 — POST-H-EVAL-002-01-A freeze, charter and evidence control
 
 - Freezes `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip` as the executable pilot baseline and advances governance to `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`.

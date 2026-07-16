@@ -10,7 +10,7 @@ phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
 implementation_status: "active/01-a-closed"
-source_repo: "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
+source_repo: "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
@@ -79,7 +79,7 @@ Evidencia autoritativa y procedencia por capas:
 - SHA-256 del log exacto: `42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc`;
 - regresión completa: `1919 passed, 0 failed, 0 errors, 0 skipped`;
 - contrato focal: `41 passed, 0 failed, 0 errors, 0 skipped`;
-- repo de gobernanza posterior a 01-A: `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`.
+- repo de gobernanza posterior a 01-B: `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip`.
 
 `0c7741f` identifica la superficie ejecutable probada. `2c5f209` identifica el commit documental R1 desde el cual se generó el ZIP exacto congelado. El charter y `evidence_manifest.json` deben registrar ambas capas. Las correcciones exclusivamente documentales y de metadata de gobernanza no requieren repetir `pytest -q`; bastan pruebas focales, Documentation Governance, TCR, Evidence Freshness, búsqueda anti-drift y RAG grounded.
 
@@ -92,7 +92,7 @@ DevPilot_Local/docs/05_operations/
   DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md
 ```
 
-El runbook, roadmap y tres backlogs están registrados en Documentation Source Registry, TCR v1/v2 e índice RAG. El primer micro-sprint autorizado sigue siendo `POST-H-EVAL-002-01-A`; este ajuste de baseline no lo ejecuta ni lo cierra.
+El runbook, roadmap y tres backlogs están registrados en Documentation Source Registry, TCR v1/v2 e índice RAG. `POST-H-EVAL-002-01-B` está cerrado `PASS-WITH-GAPS`; el micro-sprint autorizado es `POST-H-EVAL-002-01-C`.
 
 ---
 
@@ -748,6 +748,8 @@ Criterio esperado:
 ```
 
 Si la suite no coincide, el piloto queda `BLOCKED-BASELINE-DRIFT`.
+
+Para una instalación limpia de un ZIP cuyo SHA-256 coincide exactamente con el baseline congelado y que no modifica fuente, puede heredarse la regresión general autoritativa 1919/1919 y ejecutar el closure contract focal más los validadores de gobernanza. La regresión completa se repite si cambia el hash, aparece drift funcional/de dependencias, existe S0/S1 o un gate posterior la exige.
 
 ### Criterio PASS de FASE 1
 

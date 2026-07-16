@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-15",
+  "updated": "2026-07-16",
   "preliminary": true,
   "documents": [
     {
@@ -12826,6 +12826,65 @@
       "roadmap_milestones": [
         "POST-H-EVAL-002-01-A"
       ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-B-CLOSURE-AUDIT",
+      "path": "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-B"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-B-MANIFEST",
+      "path": "docs/post_h_eval_002_01_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-B",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-B-TEST",
+      "path": "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-B"
+      ]
     }
   ],
   "rules": {
@@ -12900,31 +12959,31 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 554,
-    "source_of_truth_total": 219,
-    "machine_readable_source_total": 260,
-    "derived_total": 75,
+    "documents_total": 557,
+    "source_of_truth_total": 220,
+    "machine_readable_source_total": 261,
+    "derived_total": 76,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 459,
+    "critical_sources_total": 462,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 554,
+    "documents_with_required_tests_total": 557,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-EVAL-002-01-A",
+    "last_updated_by": "POST-H-EVAL-002-01-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-EVAL-002-01-A",
-    "last_registered_sprint": "POST-H-EVAL-002-01-A",
-    "updated": "2026-07-15",
-    "documents_checked_total": 554,
-    "documents_registered_total": 554
+    "updated_by": "POST-H-EVAL-002-01-B",
+    "last_registered_sprint": "POST-H-EVAL-002-01-B",
+    "updated": "2026-07-16",
+    "documents_checked_total": 557,
+    "documents_registered_total": 557
   },
   "safety": {
     "local_first": true,
@@ -13028,7 +13087,8 @@
     "POST-H-031-B registers operator health schema/config/module/API/test/report/manifest.",
     "POST-H-033-E registers policy guard pattern catalog, schema, loader, guard integrations, tests, report and manifest. Built-in mandatory guard patterns remain non-removable.",
     "POST-H-034-CLOSURE registers final regression reconciliation artifacts and synchronizes the project-state snapshot without enabling sensitive capabilities.",
-    "POST-H-EVAL-002 activates five approved planning sources and a dedicated governance contract without enabling sensitive capabilities."
+    "POST-H-EVAL-002 activates five approved planning sources and a dedicated governance contract without enabling sensitive capabilities.",
+    "POST-H-EVAL-002-01-B registers clean-install closure evidence, advances Project State to 01-C and records the S3 egg-info archive-hygiene gap without changing platform runtime behavior."
   ],
   "project_state_snapshot": {
     "certificate_authority_created": false,
@@ -13044,9 +13104,9 @@
     "connector_write_enabled": false,
     "control_plane_enabled": false,
     "credentials_required": false,
-    "current_micro_sprint": "POST-H-EVAL-002-01-B",
+    "current_micro_sprint": "POST-H-EVAL-002-01-C",
     "current_phase": "POST-H-EVAL-002",
-    "current_repo": "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip",
+    "current_repo": "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
     "enterprise_deployment_enabled": false,
     "enterprise_ready_claimed": false,
     "external_api_used": false,
@@ -13071,7 +13131,7 @@
     ],
     "network_allowed": false,
     "network_used": false,
-    "next_micro_sprint": "POST-H-EVAL-002-01-C",
+    "next_micro_sprint": "POST-H-EVAL-002-01-D",
     "next_sprint": "POST-H-EVAL-002",
     "notes": [
       "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
@@ -13356,7 +13416,8 @@
       "POST-H-EVAL-002 activation registers the approved UI-first pilot runbook, roadmap and three executable backlogs as canonical sources; the first authorized micro-sprint is POST-H-EVAL-002-01-A and all sensitive capabilities remain disabled.",
       "POST-H-EVAL-002 baseline sync promotes repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip to parent evidence and targets repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip as the operational pilot baseline; canonical runbook/roadmap/backlogs now require baseline 317 and 1918-test regression before functional execution.",
       "POST-H-EVAL-002 pilot-ready sync promotes repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip to immutable parent evidence and targets repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip; the 01-A/01-B instructions now require the actual ZIP 318 hash and dynamic Git commit capture, with no historical hardcoded baseline.",
-      "POST-H-EVAL-002-01-A freezes executable baseline 318, creates RUN-01 control evidence, records 0 S0/S1, and advances governance to repo 319 with POST-H-EVAL-002-01-B next; no platform installation or workspace creation occurred."
+      "POST-H-EVAL-002-01-A freezes executable baseline 318, creates RUN-01 control evidence, records 0 S0/S1, and advances governance to repo 319 with POST-H-EVAL-002-01-B next; no platform installation or workspace creation occurred.",
+      "POST-H-EVAL-002-01-B closes PASS-WITH-GAPS after a Windows clean install: 17/17 commands PASS, frontend build PASS, focal closure 6/6, governance validators PASS, no secrets or path overlaps; only S3 evidence-archive egg-info hygiene remains and 01-C is authorized."
     ],
     "phase_h_status": "closed_implemented_initial",
     "plugin_execution_enabled": false,
@@ -14749,8 +14810,8 @@
       "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md"
     ],
     "post_h_eval_002_current_backlog": "POST-H-EVAL-002-01",
-    "post_h_eval_002_current_micro_sprint": "POST-H-EVAL-002-01-B",
-    "post_h_eval_002_next_micro_sprint": "POST-H-EVAL-002-01-C",
+    "post_h_eval_002_current_micro_sprint": "POST-H-EVAL-002-01-C",
+    "post_h_eval_002_next_micro_sprint": "POST-H-EVAL-002-01-D",
     "post_h_eval_002_ui_first": true,
     "post_h_eval_002_local_first": true,
     "post_h_eval_002_dry_run_default": true,
@@ -14761,7 +14822,7 @@
     "post_h_eval_002_connector_write_enabled": false,
     "post_h_eval_002_plugin_execution_enabled": false,
     "post_h_eval_002_pilot_baseline_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-    "post_h_eval_002_governance_repo": "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip",
+    "post_h_eval_002_governance_repo": "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
     "post_h_eval_002_01_a_closed": true,
     "post_h_eval_002_01_a_status": "closed/PASS",
     "post_h_eval_002_01_a_run_id": "PILOT-E2E-001-RUN-01",
@@ -14778,8 +14839,33 @@
     "post_h_eval_002_01_a_external_api_used": false,
     "post_h_eval_002_01_a_workspace_created": false,
     "post_h_eval_002_01_a_platform_installed": false,
-    "post_h_eval_002_01_a_next_authorized": "POST-H-EVAL-002-01-B"
+    "post_h_eval_002_01_a_next_authorized": "POST-H-EVAL-002-01-B",
+    "post_h_eval_002_01_b_closed": true,
+    "post_h_eval_002_01_b_status": "closed/PASS-WITH-GAPS",
+    "post_h_eval_002_01_b_run_id": "PILOT-E2E-001-RUN-01",
+    "post_h_eval_002_01_b_evidence_package": "DevPilot_E2E_Evaluation_POST-H-EVAL-002-01-B.zip",
+    "post_h_eval_002_01_b_evidence_package_sha256": "83174a229e93bff2590e19896ea0ba9c0848827e0d37e7b5243580888e6f173f",
+    "post_h_eval_002_01_b_priority_evidence_package": "POST-H-EVAL-002-01-B_windows_authoritative_evidence.zip",
+    "post_h_eval_002_01_b_priority_evidence_package_sha256": "ac41871b57ec681146fa501ef57083de955d9ffb1dda1ffb8fb7edd9893080dd",
+    "post_h_eval_002_01_b_operator_log_sha256": "5452d9b091fa5a85711b8ba8af6fc40f9b8a05fe94218a42ab0bbf481465aa90",
+    "post_h_eval_002_01_b_platform_installed": true,
+    "post_h_eval_002_01_b_frontend_installed": true,
+    "post_h_eval_002_01_b_frontend_built": true,
+    "post_h_eval_002_01_b_workspace_created": false,
+    "post_h_eval_002_01_b_api_started": false,
+    "post_h_eval_002_01_b_ui_started": false,
+    "post_h_eval_002_01_b_token_generated": false,
+    "post_h_eval_002_01_b_commands_passed": 17,
+    "post_h_eval_002_01_b_commands_total": 17,
+    "post_h_eval_002_01_b_s0_open": 0,
+    "post_h_eval_002_01_b_s1_open": 0,
+    "post_h_eval_002_01_b_s3_open": 1,
+    "post_h_eval_002_01_b_nonblocking_gap": "EVAL-002-01-B-GAP-001",
+    "post_h_eval_002_01_b_next_authorized": "POST-H-EVAL-002-01-C",
+    "post_h_eval_002_01_b_provisioning_network_approved": true,
+    "post_h_eval_002_01_b_runtime_external_network_allowed": false,
+    "post_h_eval_002_01_b_external_api_used": false
   },
-  "updated_at": "2026-07-15",
-  "last_registered_sprint": "POST-H-EVAL-002-01-A"
+  "updated_at": "2026-07-16",
+  "last_registered_sprint": "POST-H-EVAL-002-01-B"
 }

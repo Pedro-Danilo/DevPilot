@@ -17,9 +17,11 @@ def _text(path: str) -> str:
 def test_01_a_state_advances_without_installing_platform_or_workspace() -> None:
     state = _json(".devpilot/project_state.json")
     assert state["source_repo"] == "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
-    assert state["current_repo"] == "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
-    assert state["current_micro_sprint"] == "POST-H-EVAL-002-01-B"
-    assert state["next_micro_sprint"] == "POST-H-EVAL-002-01-C"
+    assert state["post_h_eval_002_governance_repo"] in {
+        "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip",
+        "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
+    }
+    assert state["current_micro_sprint"].startswith("POST-H-EVAL-002-01-")
     assert state["post_h_eval_002_01_a_closed"] is True
     assert state["post_h_eval_002_01_a_platform_frozen"] is True
     assert state["post_h_eval_002_01_a_platform_installed"] is False

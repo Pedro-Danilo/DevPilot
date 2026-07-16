@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-B-MANIFEST",
+  "created_by": "POST-H-EVAL-002-01-B",
+  "status": "closed",
+  "updated": "2026-07-16",
+  "source_repo": "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip",
+  "target_repo": "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
+  "pilot_baseline_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
+  "run_id": "PILOT-E2E-001-RUN-01",
+  "decision": "PASS-WITH-GAPS",
+  "evidence": {
+    "final_package": {
+      "name": "DevPilot_E2E_Evaluation_POST-H-EVAL-002-01-B.zip",
+      "sha256": "83174a229e93bff2590e19896ea0ba9c0848827e0d37e7b5243580888e6f173f",
+      "crc": "PASS",
+      "included_files_total": 4579,
+      "excluded_runtime_files_total": 3846
+    },
+    "priority_package": {
+      "name": "POST-H-EVAL-002-01-B_windows_authoritative_evidence.zip",
+      "sha256": "ac41871b57ec681146fa501ef57083de955d9ffb1dda1ffb8fb7edd9893080dd",
+      "files_total": 26
+    },
+    "operator_log_sha256": "5452d9b091fa5a85711b8ba8af6fc40f9b8a05fe94218a42ab0bbf481465aa90",
+    "baseline_sha256": "bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308",
+    "governance_319_sha256": "0f96a24fd8040abc2c14bd5c4469bfca3e4aed5b164a03b89238d1ab5776c204"
+  },
+  "results": {
+    "commands_total": 17,
+    "commands_passed": 17,
+    "closure_contract_passed": 6,
+    "project_state_checks_passed": 6,
+    "docs_checked": 551,
+    "tcr_v1_contracts": 245,
+    "tcr_v2_contracts": 245,
+    "fresh_total": 42,
+    "evidence_total": 43,
+    "secret_findings": 0,
+    "path_overlaps": 0
+  },
+  "scope": {
+    "platform_installed": true,
+    "frontend_installed": true,
+    "frontend_built": true,
+    "workspace_created": false,
+    "api_started": false,
+    "ui_started": false,
+    "token_generated": false,
+    "provisioning_network_approved": true,
+    "runtime_external_network_allowed": false,
+    "external_api_used": false
+  },
+  "incidents": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "s2_open": 0,
+    "s3_open": 1,
+    "gap_ids": [
+      "EVAL-002-01-B-GAP-001"
+    ]
+  },
+  "micro_sprint_state": {
+    "closed": true,
+    "current": "POST-H-EVAL-002-01-C",
+    "next": "POST-H-EVAL-002-01-D",
+    "next_executed": false
+  },
+  "safety": {
+    "platform_frozen": true,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "production_multiuser_enabled": false,
+    "enterprise_ready_claimed": false,
+    "saas_ready_claimed": false
+  },
+  "files_created": [
+    "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
+    "docs/post_h_eval_002_01_b_manifest.json",
+    "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+  ],
+  "handoff": "operator-commit-and-git-archive-320"
+}

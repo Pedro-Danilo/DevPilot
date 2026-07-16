@@ -11,12 +11,12 @@ phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
+source_repo: "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
 implementation_status: "active/01-a-closed"
-current_micro_sprint: "POST-H-EVAL-002-01-B"
-next_micro_sprint: "POST-H-EVAL-002-01-C"
+current_micro_sprint: "POST-H-EVAL-002-01-C"
+next_micro_sprint: "POST-H-EVAL-002-01-D"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -27,7 +27,7 @@ platform_freeze_default: true
 
 ## 1. Estado
 
-`active/01-a-closed`. `01-A` tiene evidencia de control materializada; `01-B` es el siguiente micro-sprint y no ha sido ejecutado. No se autoriza avanzar a EVAL-002-02 hasta cerrar A-D.
+`active/01-b-closed`. `01-B` quedó cerrado `PASS-WITH-GAPS` con instalación Windows reproducible, validadores PASS y cero S0/S1; `01-C` está autorizado. No se autoriza avanzar a EVAL-002-02 hasta cerrar A-D.
 
 ## 2. Propósito
 
@@ -147,6 +147,15 @@ Criterios PASS:
 - closure contract PASS;
 - Project State/docs/TCR/freshness PASS;
 - repo de plataforma separado del workspace piloto.
+
+#### Cierre verificado de 01-B
+
+- decisión: `PASS-WITH-GAPS`;
+- evidencia final: `DevPilot_E2E_Evaluation_POST-H-EVAL-002-01-B.zip` SHA-256 `83174a229e93bff2590e19896ea0ba9c0848827e0d37e7b5243580888e6f173f`;
+- 17/17 comandos PASS, closure contract 6/6 y validadores PASS;
+- S0/S1 abiertos: `0/0`;
+- gap S3 no bloqueante: exclusión futura de `*.egg-info` en paquetes de evidencia;
+- 01-C autorizado; API/UI todavía no se levantaron en 01-B.
 
 ### POST-H-EVAL-002-01-C — API/UI startup and security posture
 

@@ -9,7 +9,7 @@ updated: "2026-07-15"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip"
+source_repo: "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 implementation_status: "active/01-a-closure-candidate"
@@ -29,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`active/01-A-closed`. `POST-H-EVAL-002-01-A` materializó el control de RUN-01; `POST-H-EVAL-002-01-B` queda como siguiente micro-sprint y no ha sido ejecutado.
+`active/01-B-closed`. `POST-H-EVAL-002-01-B` completó instalación limpia y baseline verification en Windows; `POST-H-EVAL-002-01-C` queda autorizado para startup API/UI y postura de seguridad. `POST-H-EVAL-002-01-A` permanece cerrado como antecedente de freeze y control de evidencia.
 
 ## 2. Propósito
 
@@ -61,7 +61,7 @@ regresión:                    1919 passed, 0 failed, 0 errors, 0 skipped
 contrato focal:               41 passed, 0 failed, 0 errors, 0 skipped
 
 REPO DE GOBERNANZA DESPUÉS DE 01-A
-repo:                         repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip
+repo:                         repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip
 ```
 
 `0c7741f` identifica la superficie ejecutable validada; `2c5f209` identifica el commit documental R1 desde el cual se generó la copia exacta congelada. No son el mismo artefacto y no se presentan como hashes Git completos.

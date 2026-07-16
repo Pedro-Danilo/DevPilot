@@ -6,11 +6,11 @@
 
 Siguiente hito: `POST-H-EVAL-002`
 
-Micro-sprint activo: `POST-H-EVAL-002-01-A`. Siguiente micro-sprint: `POST-H-EVAL-002-01-B`.
+Micro-sprint activo: `POST-H-EVAL-002-01-C`. Siguiente micro-sprint: `POST-H-EVAL-002-01-D`.
 
-Repo de gobernanza vigente: `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`. Baseline ejecutable congelado para instalar en `POST-H-EVAL-002-01-B`: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+Repo de gobernanza vigente: `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `active/01-a-closed`. El runbook, roadmap y tres backlogs ejecutables de POST-H-EVAL-002 están registrados como fuentes canónicas y sincronizados con el baseline 318. La activación no ejecuta todavía el piloto, no reabre POST-H-034 y no habilita red externa, APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
+Estado: `active/01-b-closed`. La instalación limpia Windows y baseline verification quedaron cerradas `PASS-WITH-GAPS`; 01-C está autorizado para levantar API/UI local con token temporal. No se reabre POST-H-034 ni se habilitan APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
 
 Documentos de entrada:
 

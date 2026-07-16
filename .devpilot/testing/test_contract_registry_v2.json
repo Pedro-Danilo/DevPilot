@@ -16362,18 +16362,105 @@
       "classification_notes": [
         "Validates G0 control evidence, baseline provenance and the transition from 01-A to 01-B without installing the platform or creating a workspace."
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-b-clean-install-baseline-verification",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-01-b-clean-install-baseline-verification",
+      "domain": "governance.project_state",
+      "capability": "PostHEval00201BCleanInstallBaselineVerification",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
+        "docs/post_h_eval_002_01_b_manifest.json",
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
+        "docs/post_h_eval_002_01_b_manifest.json",
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "trigger_hints": [
+        "post-h-eval-002-01-b",
+        "clean-install",
+        "project-state-transition",
+        "pilot-evidence-package"
+      ],
+      "impact_scope": [
+        "documentation-governance",
+        "project-state",
+        "pilot-evidence",
+        "installation",
+        "frontend"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-EVAL-002-01-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Validates the exact Windows installation evidence and transition from 01-B to 01-C without claiming API/UI startup."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 246,
+    "source_contracts_total": 247,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 246,
-    "last_updated_by": "POST-H-EVAL-002-01-A"
+    "contracts_total": 247,
+    "last_updated_by": "POST-H-EVAL-002-01-B"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -16413,6 +16500,7 @@
     "POST-H-031-C adds GapActionMap contracts for CLI/ApplicationService/API.",
     "POST-H-031-D adds explicit claims/no-go dashboard contracts for CLI, ApplicationService and protected local API route.",
     "POST-H-034-B registers plugin execution ADR as a P0 security contract without enabling plugin execution.",
-    "POST-H-034-CLOSURE classifies the final regression reconciliation as P1 governance.testing/release evidence."
+    "POST-H-034-CLOSURE classifies the final regression reconciliation as P1 governance.testing/release evidence.",
+    "POST-H-EVAL-002-01-B adds explicit clean-install and baseline-verification closure coverage."
   ]
 }

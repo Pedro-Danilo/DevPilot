@@ -2,25 +2,31 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.24.0"
+version: "2.25.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-H-EVAL-002"
-updated: "2026-07-14"
+updated: "2026-07-16"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+## POST-H-EVAL-002-01-B — Clean installation and baseline verification
+
+Estado: `closed/PASS-WITH-GAPS`. Repo de gobernanza: `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip`. Baseline ejecutable inmutable: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`.
+
+La instalación Windows creó una venv nueva, instaló `.[dev]`, materializó y construyó el frontend, y ejecutó 17/17 comandos PASS. Evidencia final SHA-256: `83174a229e93bff2590e19896ea0ba9c0848827e0d37e7b5243580888e6f173f`. No se creó workspace ni se levantó API/UI. El único gap S3 es metadata `*.egg-info` incluida en el ZIP de evidencia; futuros empaquetadores deben excluirla. `POST-H-EVAL-002-01-C` queda autorizado.
+
 ## POST-H-EVAL-002 — Activación de evaluación end-to-end UI-first
 
-Repo de gobernanza vigente: `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`. Baseline ejecutable congelado del piloto: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`. Repo de activación histórico: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+Repo de gobernanza vigente: `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip`. Baseline ejecutable congelado del piloto: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`. Repo de activación histórico: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `approved/active-evaluation`. Último backlog cerrado: `POST-H-034`. Micro-sprint autorizado: `POST-H-EVAL-002-01-A`; siguiente: `POST-H-EVAL-002-01-B`.
+Estado: `approved/active-evaluation`. Último backlog cerrado: `POST-H-034`. Micro-sprint autorizado: `POST-H-EVAL-002-01-C`; siguiente: `POST-H-EVAL-002-01-D`.
 
-El baseline ejecutable 318 quedó validado con `1919 passed, 0 failed, 0 errors, 0 skipped` y contrato focal `41 passed`. La copia R1 exacta tiene SHA-256 `bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308`, commit de empaquetado `2c5f209` y ancla funcional `0c7741f`; el log exacto tiene SHA-256 `42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc`. El cierre de 01-A se gobierna desde `repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip`. Las correcciones documentales/metadata no requieren `pytest -q`; deben pasar pruebas focales, gobernanza, TCR, freshness, anti-drift y RAG grounded.
+El baseline ejecutable 318 quedó validado con `1919 passed, 0 failed, 0 errors, 0 skipped` y contrato focal `41 passed`. La copia R1 exacta tiene SHA-256 `bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308`, commit de empaquetado `2c5f209` y ancla funcional `0c7741f`; el log exacto tiene SHA-256 `42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc`. El cierre de 01-B se gobierna desde `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip`. Las correcciones documentales/metadata no requieren `pytest -q`; deben pasar pruebas focales, gobernanza, TCR, freshness, anti-drift y RAG grounded.
 
 La activación registra como fuentes canónicas el runbook específico, el roadmap y los tres backlogs de evaluación. No ejecuta todavía el piloto. El operador debe iniciar por `POST-H-EVAL-002-01-A — Freeze, charter y evidence control` y conservar el freeze de plataforma salvo incidente S0/S1.
 
