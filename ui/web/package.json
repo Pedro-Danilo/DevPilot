@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.6.3-post-h-028-e",
+  "version": "0.6.4-post-h-eval-002-01-d-prep",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI for local operator console: dashboard, reports, traces, approvals, settings, operator dashboard, POST-H-028 visual smoke and operator-flow smoke contracts.",
@@ -11,7 +11,8 @@
     "test": "node scripts/smoke-test.mjs",
     "test:visual": "node scripts/visual-smoke.mjs",
     "test:operator-flows": "node scripts/operator-flow-smoke.mjs",
-    "test:route-enforcement": "node scripts/route-enforcement-smoke.mjs"
+    "test:route-enforcement": "node scripts/route-enforcement-smoke.mjs",
+    "test:acceptance-baseline": "node scripts/acceptance-baseline.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -96,6 +97,11 @@
     "approvalDemoActor": "local-owner",
     "postH028DPathFix": true,
     "postH028E": true,
-    "uiRouteEnforcement": true
+    "uiRouteEnforcement": true,
+    "postHEval00201DPreparation": true,
+    "routeAwareRuntimeDispatch": true,
+    "requestTimeoutMs": 8000,
+    "browserAcceptanceExecuted": false,
+    "workspaceCreated": false
   }
 }

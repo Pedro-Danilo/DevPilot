@@ -92,7 +92,7 @@ DevPilot_Local/docs/05_operations/
   DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md
 ```
 
-El runbook, roadmap y tres backlogs están registrados en Documentation Source Registry, TCR v1/v2 e índice RAG. `POST-H-EVAL-002-01-C` está cerrado `PASS-WITH-GAPS`; el micro-sprint autorizado es `POST-H-EVAL-002-01-D`. La ejecución formal de rutas críticas, estados negativos, screenshots y bridges pertenece a 01-D.
+El runbook, roadmap y tres backlogs están registrados en Documentation Source Registry, TCR v1/v2 e índice RAG. `POST-H-EVAL-002-01-C` está cerrado `PASS-WITH-GAPS`; `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip` prepara 01-D corrigiendo dispatch de rutas y timeout browser. La ejecución formal de rutas críticas, estados negativos, screenshots y bridges sigue pendiente y pertenece exclusivamente a 01-D.
 
 ---
 
@@ -1040,6 +1040,35 @@ total de operaciones del piloto
 ```
 
 Esta segunda métrica es diagnóstica y alimenta el roadmap.
+
+
+## 37.1. Baseline de aceptación 01-D
+
+Antes de la captura formal debe verificarse que se opera:
+
+```text
+repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip
+```
+
+La preparación implementa:
+
+- dispatch runtime explícito de las cinco rutas contractuales;
+- navegación local y foco de ruta;
+- timeout HTTP de 8 segundos con estado recuperable;
+- test estático `npm --prefix ui/web run test:acceptance-baseline`.
+
+Estos controles no sustituyen la evidencia browser. El operador debe conservar
+el baseline 318 y materializar una nueva plataforma 322 separada. No debe aplicar
+el patch sobre `platform/DevPilot_Local_318_EVAL` en caliente.
+
+El resultado previo a la ejecución formal es:
+
+```text
+01-D implemented = true
+01-D browser evidence = pending
+01-D closed = false
+02-A authorized = false
+```
 
 ---
 

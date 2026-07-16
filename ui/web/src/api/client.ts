@@ -2,6 +2,7 @@ import type { DevPilotApplicationResponse, OperatorDashboardResponseData } from 
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
+export const DEFAULT_REQUEST_TIMEOUT_MS = 8000;
 
 export class DevPilotApiError extends Error {
   readonly status: number;
@@ -18,15 +19,18 @@ export class DevPilotApiError extends Error {
 export interface DevPilotApiClientOptions {
   baseUrl?: string;
   token?: string;
+  requestTimeoutMs?: number;
 }
 
 export class DevPilotApiClient {
   readonly baseUrl: string;
   readonly token: string;
+  readonly requestTimeoutMs: number;
 
   constructor(options: DevPilotApiClientOptions = {}) {
     this.baseUrl = (options.baseUrl ?? DEFAULT_API_BASE).replace(/\/$/, '');
     this.token = options.token ?? readStoredToken();
+    this.requestTimeoutMs = normalizeTimeout(options.requestTimeoutMs);
   }
 
   async workspaceStatus(): Promise<DevPilotApplicationResponse> {
@@ -143,20 +147,32 @@ export class DevPilotApiClient {
 
   private async request(path: string, init: RequestInit): Promise<DevPilotApplicationResponse> {
     let response: Response;
+    const controller = new AbortController();
+    const timeoutId = globalThis.setTimeout(() => controller.abort(), this.requestTimeoutMs);
     try {
       response = await fetch(`${this.baseUrl}${path}`, {
         ...init,
+        signal: controller.signal,
         headers: {
           ...(init.headers ?? {}),
           ...this.authHeaders(),
         },
       });
     } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw new DevPilotApiError(
+          `Tiempo de espera agotado (timeout) después de ${this.requestTimeoutMs} ms. La UI permanece recuperable; verifica la API local y vuelve a intentar.`,
+          408,
+          { state: 'timeout', timeout_ms: this.requestTimeoutMs }
+        );
+      }
       throw new DevPilotApiError(
         'API local down o inaccesible: verifica que DevPilot API esté levantada en localhost, conserva 127.0.0.1 y configura el token local; no uses bind no-local como solución.',
         0,
         { error: error instanceof Error ? error.message : String(error), state: 'api_down' }
       );
+    } finally {
+      globalThis.clearTimeout(timeoutId);
     }
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
@@ -186,4 +202,10 @@ export function storeToken(token: string): void {
   } else {
     globalThis.sessionStorage?.removeItem(TOKEN_STORAGE_KEY);
   }
+}
+
+
+function normalizeTimeout(value: number | undefined): number {
+  if (!Number.isFinite(value)) return DEFAULT_REQUEST_TIMEOUT_MS;
+  return Math.max(1000, Math.min(Number(value), 60000));
 }

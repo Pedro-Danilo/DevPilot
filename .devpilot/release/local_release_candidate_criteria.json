@@ -7,7 +7,7 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-  "expected_current_repo": "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
+  "expected_current_repo": "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_current_micro_sprint": "POST-H-EVAL-002-01-D",
   "expected_next_micro_sprint": "POST-H-EVAL-002-02-A",
@@ -35,7 +35,7 @@
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-        "current_repo": "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
+        "current_repo": "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
         "last_completed_sprint": "POST-H-034",
         "next_sprint": "POST-H-EVAL-002",
         "current_micro_sprint": "POST-H-EVAL-002-01-D",
@@ -617,6 +617,38 @@
         "status: \"approved\"",
         "POST-H-EVAL-002"
       ]
+    },
+    {
+      "evidence_id": "post-h-eval-002-01-d-acceptance-readiness",
+      "title": "POST-H-EVAL-002-01-D acceptance readiness report",
+      "path": "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
+      "category": "evaluation-readiness",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002-01-D",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-EVAL-002-01-D-ACCEPTANCE-READINESS",
+        "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE",
+        "EVAL-002-01-D-S1-001",
+        "EVAL-002-01-D-S1-002"
+      ]
+    },
+    {
+      "evidence_id": "post-h-eval-002-01-d-preparation-manifest",
+      "title": "POST-H-EVAL-002-01-D active preparation manifest",
+      "path": "docs/post_h_eval_002_01_d_preparation_manifest.json",
+      "category": "evaluation-readiness",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002-01-D",
+      "freshness_policy": "json-field-match",
+      "json_fields": {
+        "manifest_id": "POST-H-EVAL-002-01-D-PREPARATION-MANIFEST",
+        "status": "active",
+        "target_repo": "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
+        "decision": "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE"
+      }
     }
   ],
   "schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1"

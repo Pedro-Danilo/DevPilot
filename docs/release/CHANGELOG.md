@@ -1,3 +1,12 @@
+## 2026-07-16 — POST-H-EVAL-002-01-D acceptance preparation
+
+- Keeps 01-D open and targets `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`.
+- Corrects `EVAL-002-01-D-S1-001`: the SPA runtime now dispatches `/`, `/reports`, `/traces`, `/approvals` and `/settings` to their registered components and exposes local navigation.
+- Corrects `EVAL-002-01-D-S1-002`: API requests now use an 8-second bounded timeout with a controlled recoverable message.
+- Adds `npm run test:acceptance-baseline`, a focal Python contract, readiness report and active preparation manifest.
+- Does not create the pilot workspace, generate screenshots, close 01-D or authorize 02-A.
+- Preserves local-first/token-session-only/no-remote/no-external-API invariants.
+
 ## 2026-07-16 — POST-H-EVAL-002-01-C API/UI startup and security posture
 
 - Closes 01-C as `PASS-WITH-GAPS` and advances governance to `repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip` with 01-D active and 02-A next.

@@ -8,9 +8,9 @@ Siguiente hito: `POST-H-EVAL-002`
 
 Micro-sprint activo: `POST-H-EVAL-002-01-D`. Siguiente micro-sprint: `POST-H-EVAL-002-02-A`.
 
-Repo de gobernanza vigente: `repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+Repo de aceptación vigente: `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `active/01-c-closed`. `POST-H-EVAL-002-01-C` quedó cerrado `PASS-WITH-GAPS`: API/UI localhost, token efímero, auth, CORS y smokes focales PASS; la aceptación visual formal de cinco rutas y estados negativos corresponde a 01-D. Permanece un gap S3 no bloqueante de completitud del OpenAPI estático para cuatro rutas públicas. No se reabre POST-H-034 ni se habilitan APIs externas, connector write, plugin execution, remote execution, multiusuario productivo ni enterprise/SaaS.
+Estado: `active/01-d-acceptance-ready`. `POST-H-EVAL-002-01-C` permanece cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió dos blockers S1 del baseline de aceptación: dispatch runtime para las cinco rutas críticas y timeout browser acotado a 8 segundos. **01-D permanece abierto** hasta completar en Windows las capturas, las cinco rutas, los ocho estados negativos, UI Eligible Coverage y el registro inicial de bridges. El workspace `inventory-sales-local` todavía no existe. Permanece además el gap S3 no bloqueante del OpenAPI estático.
 
 Documentos de entrada:
 
@@ -30,6 +30,7 @@ python -m devpilot_core docs-governance validate --json
 python -m devpilot_core test-contracts validate --json
 python -m devpilot_core test-contracts validate-v2 --json
 python -m devpilot_core release-candidate evidence-freshness --json
+npm --prefix ui/web run test:acceptance-baseline
 ```
 
 ## POST-H-034-CLOSURE — Reconciliación de regresión general final

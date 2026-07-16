@@ -106,7 +106,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("next_micro_sprint") in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
     assert state.get("source_repo") == "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
     assert str(state.get("current_repo", "")).startswith("repo_DevPilot_Local_")
-    assert state.get("current_repo") in {"repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip", "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip", "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"}
+    assert state.get("current_repo") in {"repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip", "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip", "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip", "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip"}
     assert state.get("current_micro_sprint") in {"POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D"}
     assert state.get("next_micro_sprint") in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
     assert state.get("post_h_eval_002_activated") is True

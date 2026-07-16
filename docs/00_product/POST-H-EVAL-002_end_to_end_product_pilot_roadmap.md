@@ -3,16 +3,16 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
 updated: "2026-07-16"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"
+source_repo: "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
-implementation_status: "active/01-c-closed"
+implementation_status: "active/01-d-acceptance-ready"
 current_wave: "EVAL-002-01"
 next_wave: "EVAL-002-02"
 local_first: true
@@ -29,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`active/01-C-closed`. `POST-H-EVAL-002-01-C` verificó startup real de API/UI en localhost, token efímero, autenticación, CORS GET/preflight, smokes focales y liberación de procesos; `POST-H-EVAL-002-01-D` queda autorizado para aceptación visual formal y registro de bridges. `POST-H-EVAL-002-01-A/B` permanecen cerrados como antecedentes de freeze e instalación limpia.
+`active/01-D-acceptance-ready`. `POST-H-EVAL-002-01-C` permanece cerrado. La preparación de 01-D corrige bajo excepción S1 de freeze el dispatch real de las cinco rutas y el timeout browser acotado. La aceptación visual, screenshots, estados negativos y bridges siguen pendientes; `POST-H-EVAL-002-02-A` no está autorizado todavía.
 
 ## 2. Propósito
 

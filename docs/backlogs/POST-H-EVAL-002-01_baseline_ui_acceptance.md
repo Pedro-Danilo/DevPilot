@@ -3,7 +3,7 @@ doc_id: "DEVPL-POST-H-EVAL-002-01-BACKLOG"
 id: "POST-H-EVAL-002-01"
 title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
 updated: "2026-07-16"
 approval: "approved_by_owner"
@@ -11,10 +11,10 @@ phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"
+source_repo: "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
-implementation_status: "active/01-c-closed"
+implementation_status: "active/01-d-acceptance-ready"
 current_micro_sprint: "POST-H-EVAL-002-01-D"
 next_micro_sprint: "POST-H-EVAL-002-02-A"
 local_first: true
@@ -27,7 +27,7 @@ platform_freeze_default: true
 
 ## 1. Estado
 
-`active/01-c-closed`. `01-C` quedó cerrado `PASS-WITH-GAPS` con API/UI localhost reales, 41/41 controles, 12/12 comandos, auth/CORS/token hygiene PASS y cero S0/S1; `01-D` está autorizado. No se autoriza avanzar a EVAL-002-02 hasta cerrar la aceptación visual formal de 01-D.
+`active/01-d-acceptance-ready`. `01-C` está cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió `EVAL-002-01-D-S1-001` (dispatch runtime de cinco rutas) y `EVAL-002-01-D-S1-002` (timeout browser no acotado). La aceptación browser todavía no fue ejecutada y 02-A no está autorizado.
 
 ## 2. Propósito
 
@@ -244,6 +244,30 @@ secret_exposure = 0
 unhandled_errors = 0
 S0/S1 = 0
 ```
+
+
+#### Preparación de aceptación implementada
+
+Fuente objetivo: `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`.
+
+- `/`, `/reports`, `/traces`, `/approvals` y `/settings` tienen dispatch runtime explícito;
+- navegación local visible y estado `aria-current`;
+- ruta desconocida produce estado controlado;
+- requests API usan timeout por defecto de `8000 ms`;
+- `npm run test:acceptance-baseline` valida el contrato estático;
+- no se creó el workspace ni se generó evidencia visual.
+
+Estado de cierre:
+
+```text
+browser acceptance executed = false
+critical routes executed = 0/5
+negative states executed = 0/8
+next authorized = false
+```
+
+La carpeta `03_ui_baseline_acceptance` y sus screenshots se generan únicamente
+por el operador Windows. No se versionan en el repositorio.
 
 ## 4. Definition of Done
 

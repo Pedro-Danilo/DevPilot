@@ -8,7 +8,7 @@ from devpilot_core.testing.project_state_progress import post_h_progress_rank
 ROOT = Path(__file__).resolve().parents[1]
 
 SOURCE_REPO = "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
-TARGET_REPO = "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"
+TARGET_REPO = "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip"
 CURRENT_MICRO = "POST-H-EVAL-002-01-D"
 NEXT_MICRO = "POST-H-EVAL-002-02-A"
 CONTRACT_ID = "post-h-eval-002-activation-governance"
@@ -83,7 +83,7 @@ def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> No
         assert item["criticality"] == "P0"
         assert "tests/test_post_h_eval_002_activation_contract.py" in item["required_tests"]
         assert item["lifecycle"] == "active"
-    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C"}
+    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D"}
 
 
 def test_post_h_eval_002_test_contract_is_registered_in_v1_and_v2() -> None:

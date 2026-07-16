@@ -14,6 +14,15 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+## 2026-07-16 — POST-H-EVAL-002-01-D acceptance-ready baseline
+
+- Current repository: `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`.
+- Current micro-sprint: `POST-H-EVAL-002-01-D`; it remains open.
+- Corrected S1 blockers: runtime dispatch for five critical UI paths and bounded 8-second browser API timeout.
+- Windows browser screenshots, five-route/negative-state matrices and CLI bridge register remain mandatory.
+- Do not create `inventory-sales-local` before 01-D closure.
+- Preserve platform 318 and materialize platform 322 in a separate directory.
+
 ## POST-H-EVAL-002-01-C — API/UI startup and security posture
 
 Estado: `closed/PASS-WITH-GAPS`. Repo de gobernanza: `repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip`. Baseline ejecutable inmutable: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`.

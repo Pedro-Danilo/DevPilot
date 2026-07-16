@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-D-PREPARATION-MANIFEST",
+  "created_by": "POST-H-EVAL-002-01-D",
+  "status": "active",
+  "updated": "2026-07-16",
+  "source_repo": "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
+  "target_repo": "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
+  "pilot_baseline_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
+  "decision": "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE",
+  "blockers_corrected": [
+    {
+      "id": "EVAL-002-01-D-S1-001",
+      "title": "runtime route dispatch drift",
+      "severity": "S1",
+      "files": [
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css"
+      ],
+      "status": "corrected-pending-windows-validation"
+    },
+    {
+      "id": "EVAL-002-01-D-S1-002",
+      "title": "unbounded browser request",
+      "severity": "S1",
+      "files": [
+        "ui/web/src/api/client.ts"
+      ],
+      "status": "corrected-pending-windows-validation"
+    }
+  ],
+  "implementation": {
+    "critical_routes_total": 5,
+    "route_aware_dispatch": true,
+    "navigation_available": true,
+    "controlled_not_found": true,
+    "request_timeout_ms": 8000,
+    "timeout_state_visible": true,
+    "acceptance_baseline_script": "ui/web/scripts/acceptance-baseline.mjs",
+    "browser_acceptance_executed": false,
+    "workspace_created": false
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "token_session_only": true,
+    "token_in_url": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_runtime": false
+  },
+  "micro_sprint_state": {
+    "closed": false,
+    "current": "POST-H-EVAL-002-01-D",
+    "next": "POST-H-EVAL-002-02-A",
+    "next_authorized": false
+  },
+  "files_created": [
+    "ui/web/scripts/acceptance-baseline.mjs",
+    "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
+    "docs/post_h_eval_002_01_d_preparation_manifest.json",
+    "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py"
+  ]
+}

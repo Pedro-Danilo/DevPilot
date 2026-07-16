@@ -16,6 +16,7 @@ def test_01_b_state_closes_and_authorizes_01_c() -> None:
     assert state["current_repo"] in {
         "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
         "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
+        "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
     }
     assert state["current_micro_sprint"] in {
         "POST-H-EVAL-002-01-C",
