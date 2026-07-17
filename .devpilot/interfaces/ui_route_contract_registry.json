@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
   "registry_id": "devpilot-ui-route-contract-registry",
-  "status": "implemented-initial",
+  "status": "implemented-initial-ui-corrective",
   "created_by": "POST-H-014-C",
-  "updated": "2026-07-09",
+  "updated": "2026-07-17",
   "routes": [
     {
       "route_id": "ui.dashboard",
@@ -17,7 +17,8 @@
         "ui/web/src/pages/OperatorDashboard.ts",
         "ui/web/src/components/OperatorStatusCard.ts",
         "ui/web/src/components/OperatorGatePanel.ts",
-        "ui/web/src/components/OperatorNextActions.ts"
+        "ui/web/src/components/OperatorNextActions.ts",
+        "ui/web/src/utils/async.ts"
       ],
       "allowed_api_routes": [
         "api.health",
@@ -54,23 +55,25 @@
       "notes": [
         "Single page dashboard shell for local status/readiness/standards/MIASI signals.",
         "POST-H-015-D embeds the local Operator Dashboard surface in ui.dashboard.",
-        "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser."
+        "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser.",
+        "POST-H-EVAL-002-01-D corrective: dashboard no longer embeds Reports, Traces, Approvals or Settings.",
+        "Protected API fan-out is bounded to two concurrent requests with progressive rendering."
       ]
     },
     {
       "route_id": "ui.reports",
       "title": "Reports viewer",
       "path": "/reports",
-      "page_component": "ReportTraceView",
+      "page_component": "ReportsView",
       "source_files": [
-        "ui/web/src/pages/ReportTraceView.ts",
-        "ui/web/src/components/FindingTable.ts"
+        "ui/web/src/pages/ReportsView.ts",
+        "ui/web/src/components/FindingTable.ts",
+        "ui/web/src/utils/async.ts"
       ],
       "allowed_api_routes": [
         "api.reports.list",
         "api.reports.read",
-        "api.metrics.summary",
-        "api.traces.list"
+        "api.metrics.summary"
       ],
       "critical": true,
       "local_only": true,
@@ -97,24 +100,23 @@
       "external_api_allowed": false,
       "owner": "ui.web",
       "notes": [
-        "Read-only local report index/detail viewer; it never reads outputs directly.",
-        "POST-H-028-E: ReportTraceView is shared with ui.traces, so the route contract explicitly allows the trace list call made by the shared component."
+        "Read-only route-specific report index/detail viewer.",
+        "It does not query trace list automatically."
       ]
     },
     {
       "route_id": "ui.traces",
       "title": "Trace viewer",
       "path": "/traces",
-      "page_component": "ReportTraceView",
+      "page_component": "TracesView",
       "source_files": [
-        "ui/web/src/pages/ReportTraceView.ts",
-        "ui/web/src/components/FindingTable.ts"
+        "ui/web/src/pages/TracesView.ts",
+        "ui/web/src/utils/async.ts"
       ],
       "allowed_api_routes": [
         "api.traces.list",
         "api.traces.inspect",
-        "api.metrics.summary",
-        "api.reports.list"
+        "api.metrics.summary"
       ],
       "critical": true,
       "local_only": true,
@@ -141,8 +143,8 @@
       "external_api_allowed": false,
       "owner": "ui.web",
       "notes": [
-        "Read-only trace list/detail viewer backed by local API only.",
-        "POST-H-028-E: ReportTraceView is shared with ui.reports, so the route contract explicitly allows the report list call made by the shared component."
+        "Read-only route-specific trace list/detail viewer.",
+        "It does not query report index automatically."
       ]
     },
     {
@@ -204,7 +206,8 @@
       "page_component": "SettingsView",
       "source_files": [
         "ui/web/src/pages/SettingsView.ts",
-        "ui/web/src/components/ProviderSettings.ts"
+        "ui/web/src/components/ProviderSettings.ts",
+        "ui/web/src/utils/async.ts"
       ],
       "allowed_api_routes": [
         "api.settings.workspace",
@@ -246,7 +249,8 @@
       "owner": "ui.web",
       "notes": [
         "Settings view is read-only except provider plan generation; secrets remain redacted.",
-        "POST-H-014-D surfaces protected security posture in Settings without exposing secrets."
+        "POST-H-014-D surfaces protected security posture in Settings without exposing secrets.",
+        "POST-H-EVAL-002-01-D corrective: settings phases are mutually exclusive and protected request concurrency is bounded to two."
       ]
     }
   ],
@@ -258,7 +262,10 @@
     "no_remote_badged_routes_total": 5,
     "mutation_control_routes_total": 2,
     "allowed_api_routes_unique_total": 22,
-    "post_h_015_d_operator_dashboard_ui_registered": true
+    "post_h_015_d_operator_dashboard_ui_registered": true,
+    "post_h_eval_002_01_d_ui_corrective": true,
+    "dashboard_max_concurrency": 2,
+    "reports_traces_route_specific": true
   },
   "safety": {
     "local_first": true,
@@ -274,6 +281,7 @@
     "POST-H-014-C contracts critical local UI sections without enabling SaaS, remote execution, connector write, plugin execution or external APIs.",
     "The Web UI remains a local product shell; quality-gate integration is deferred to POST-H-014-E.",
     "POST-H-014-D aligns Settings UI with protected security posture diagnostics.",
-    "POST-H-015-D extends ui.dashboard with the Operator Dashboard visual surface while preserving the POST-H-014-C critical-route set."
+    "POST-H-015-D extends ui.dashboard with the Operator Dashboard visual surface while preserving the POST-H-014-C critical-route set.",
+    "POST-H-EVAL-002-01-D corrective removes eager embedded detail views, separates Reports/Traces and preserves all no-go gates."
   ]
 }

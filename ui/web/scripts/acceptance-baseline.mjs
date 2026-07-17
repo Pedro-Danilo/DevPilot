@@ -15,8 +15,8 @@ const registry = readRepoJson('.devpilot/interfaces/ui_route_contract_registry.j
 
 const expected = [
   ['ui.dashboard', '/', 'Dashboard'],
-  ['ui.reports', '/reports', 'ReportTraceView'],
-  ['ui.traces', '/traces', 'ReportTraceView'],
+  ['ui.reports', '/reports', 'ReportsView'],
+  ['ui.traces', '/traces', 'TracesView'],
   ['ui.approvals', '/approvals', 'ApprovalCenterView'],
   ['ui.settings', '/settings', 'SettingsView'],
 ];

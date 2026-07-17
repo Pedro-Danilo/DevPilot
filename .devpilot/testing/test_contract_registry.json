@@ -9146,7 +9146,8 @@
         "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
         "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
         "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py"
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
       ],
       "validates": [
         ".devpilot/project_state.json",
@@ -9171,7 +9172,14 @@
         "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
         "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
         "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py"
+        "tests/test_project_global_state.py",
+        "ui/web/src/pages/ReportsView.ts",
+        "ui/web/src/pages/TracesView.ts",
+        "ui/web/src/utils/async.ts",
+        "ui/web/scripts/acceptance-corrective.mjs",
+        "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
+        "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
       ],
       "watched_paths": [
         ".devpilot/project_state.json",
@@ -9196,7 +9204,14 @@
         "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
         "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
         "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py"
+        "tests/test_project_global_state.py",
+        "ui/web/src/pages/ReportsView.ts",
+        "ui/web/src/pages/TracesView.ts",
+        "ui/web/src/utils/async.ts",
+        "ui/web/scripts/acceptance-corrective.mjs",
+        "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
+        "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
       ],
       "mutable_global_state_allowed": true,
       "global_state_source": ".devpilot/project_state.json",
@@ -9212,7 +9227,8 @@
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json"
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_ui_corrective_patch.py -q"
       ],
       "notes": [
         "Corrects route dispatch and bounded timeout blockers without closing 01-D.",
@@ -9274,6 +9290,7 @@
     "POST-H-034-CLOSURE registers the final regression reconciliation contract and preserves all sensitive-capability no-go gates.",
     "POST-H-EVAL-002-01-B registers the clean-install and baseline-verification closure contract.",
     "POST-H-EVAL-002-01-C adds the API/UI startup and security posture closure contract with localhost/auth/CORS/token/process-lifecycle evidence and 01-D scope boundary.",
-    "POST-H-EVAL-002-01-D adds the acceptance-ready route/timeout contract while keeping browser acceptance open."
+    "POST-H-EVAL-002-01-D adds the acceptance-ready route/timeout contract while keeping browser acceptance open.",
+    "POST-H-EVAL-002-01-D UI corrective test and route-specific UI files added; browser RUN-02 remains required."
   ]
 }

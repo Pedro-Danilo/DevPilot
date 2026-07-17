@@ -7,7 +7,8 @@ const read = (relative) => fs.readFileSync(path.join(root, relative), 'utf8');
 const packageJson = JSON.parse(read('package.json'));
 const client = read('src/api/client.ts');
 const dashboard = read('src/pages/Dashboard.ts');
-const reportTraceView = read('src/pages/ReportTraceView.ts');
+const reportsView = read('src/pages/ReportsView.ts');
+const tracesView = read('src/pages/TracesView.ts');
 const approvalCenterView = read('src/pages/ApprovalCenterView.ts');
 const settingsView = read('src/pages/SettingsView.ts');
 const providerSettings = read('src/components/ProviderSettings.ts');
@@ -22,7 +23,7 @@ const operatorNextActions = read('src/components/OperatorNextActions.ts');
 const uiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/ui_route_contract_registry.json'));
 const apiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/api_route_contract_registry.json'));
 const sanitizeUtils = read('src/utils/sanitize.ts');
-const filesToScan = [client, dashboard, statusCard, reportTraceView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, read('src/main.ts')];
+const filesToScan = [client, dashboard, statusCard, reportsView, tracesView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, read('src/main.ts')];
 
 function assert(condition, message) {
   if (!condition) {
@@ -80,22 +81,23 @@ for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/valida
 
 assert(client.includes('X-DevPilot-Token'), 'El cliente debe enviar token local por header');
 assert(statusCard.includes('PASS') && statusCard.includes('WARN') && statusCard.includes('BLOCK'), 'La UI debe traducir estados PASS/WARN/BLOCK');
-assert(reportTraceView.includes('Report Viewer') && reportTraceView.includes('Trace Viewer'), 'La UI debe incluir Report Viewer y Trace Viewer');
+assert(reportsView.includes('Reportes') && tracesView.includes('Trazas'), 'La UI debe incluir vistas específicas de Reportes y Trazas');
 assert(contractBadges.includes('renderContractBadges'), 'La UI debe tener componente ContractBadges');
 assert(dashboard.includes('ui.dashboard'), 'Dashboard debe declarar marker ui.dashboard');
-assert(reportTraceView.includes('ui.reports') && reportTraceView.includes('ui.traces'), 'ReportTraceView debe declarar markers ui.reports/ui.traces');
+assert(reportsView.includes('ui.reports') && tracesView.includes('ui.traces'), 'ReportsView/TracesView deben declarar contratos específicos');
+assert(!reportsView.includes('listTraces') && !tracesView.includes('listReports'), 'Reports y Traces no deben realizar consultas cruzadas automáticas');
 assert(approvalCenterView.includes('ui.approvals'), 'ApprovalCenterView debe declarar marker ui.approvals');
 assert(settingsView.includes('ui.settings'), 'SettingsView debe declarar marker ui.settings');
-assert(reportTraceView.includes('Sin trazas para mostrar'), 'Trace Viewer debe manejar trazas vacías');
+assert(reportsView.includes('No hay reportes locales') && tracesView.includes('No hay trazas disponibles'), 'Reportes/Trazas deben manejar estados vacíos');
 assert(approvalCenterView.includes('Approval Center') && approvalCenterView.includes('Action Launcher'), 'La UI debe incluir Approval Center y Action Launcher');
-assert(settingsView.includes('Settings UI') && settingsView.includes('Provider editor plan-only'), 'La UI debe incluir Settings UI y editor plan-only');
-assert(settingsView.includes('Security posture') && settingsView.includes('POST-H-014-D'), 'Settings UI debe mostrar Security posture POST-H-014-D');
+assert(settingsView.includes('Configuración') && settingsView.includes('Editor de provider — plan-only'), 'La UI debe incluir Configuración y editor plan-only');
+assert(settingsView.includes('Postura de seguridad') && settingsView.includes('securityPosture'), 'Configuración debe mostrar postura de seguridad');
 assert(dashboard.includes('renderOperatorDashboard'), 'Dashboard debe integrar OperatorDashboard POST-H-015-D');
 assert(operatorDashboard.includes('Operator Dashboard') && operatorDashboard.includes('POST-H-015-D'), 'OperatorDashboard debe declarar POST-H-015-D');
 assert(operatorStatusCard.includes('source_refs'), 'OperatorStatusCard debe mostrar fuentes del snapshot');
-assert(operatorGatePanel.includes('No-go gates') && operatorGatePanel.includes('remote_execution_enabled=false'), 'OperatorGatePanel debe mostrar no-go gates');
+assert(operatorGatePanel.includes('No-go gates') && operatorGatePanel.includes('remote_execution_enabled') && operatorGatePanel.includes('DISABLED BY POLICY'), 'OperatorGatePanel debe mostrar no-go gates con semántica segura');
 assert(operatorNextActions.includes('Next actions') && operatorNextActions.includes('dry-run'), 'OperatorNextActions debe mostrar acciones locales/dry-run');
-assert(settingsView.includes('data-ui-state=\"loading\"') && settingsView.includes('data-ui-state=\"empty\"') && settingsView.includes('data-ui-state=\"error\"'), 'Settings UI debe declarar loading/empty/error states');
+assert(contractBadges.includes('data-ui-state=\"loading\"') && contractBadges.includes('data-ui-state=\"empty\"') && contractBadges.includes('data-ui-state=\"error\"'), 'El contrato UI debe declarar loading/empty/error sin renderizarlos simultáneamente');
 assert(providerSettings.includes('api_key_env'), 'Providers settings puede mostrar nombres de env var, no secretos crudos');
 assert(providerSettings.includes('escapeHtml') && settingsView.includes('safeJsonForHtml'), 'Settings UI debe escapar HTML y redactar secretos antes de renderizar');
 assert(sanitizeUtils.includes('redactSecrets') && sanitizeUtils.includes('escapeHtml'), 'La UI debe incluir utilidades locales de redacción/escape');

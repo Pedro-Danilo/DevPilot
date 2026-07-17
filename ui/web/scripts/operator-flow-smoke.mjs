@@ -7,7 +7,8 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const files = [
   'src/api/client.ts',
   'src/pages/Dashboard.ts',
-  'src/pages/ReportTraceView.ts',
+  'src/pages/ReportsView.ts',
+  'src/pages/TracesView.ts',
   'src/pages/ApprovalCenterView.ts',
   'src/pages/SettingsView.ts',
   'src/pages/OperatorDashboard.ts',
@@ -19,8 +20,8 @@ const source = files.map((file) => readFileSync(join(root, file), 'utf8')).join(
 const required = [
   'API local down',
   'Unauthorized/Forbidden 401/403',
-  'Sin reportes para mostrar',
-  'Sin trazas para mostrar',
+  'No hay reportes locales',
+  'No hay trazas disponibles',
   'approval pending',
   'patch apply',
   'BLOCK visible',

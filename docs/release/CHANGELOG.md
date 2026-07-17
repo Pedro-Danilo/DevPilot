@@ -2902,3 +2902,14 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Extend SensitiveCapabilityAdrGate with multiuser.auth boundary validation.
 - Preserve production multiuser, enterprise IAM, sessions, tenancy, public API, network, external API and credentials as disabled.
 - Synchronize README, runbook, POST-H-034 docs, schema catalog, source registry, TCR v1/v2 and project_state.
+
+## 2026-07-17 — POST-H-EVAL-002-01-D UI corrective baseline
+
+- Target repository: `repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip`.
+
+- Adds route-specific ReportsView and TracesView.
+- Removes eager embedded Reports/Traces/Approvals/Settings from Dashboard.
+- Bounds protected browser request concurrency to two with progressive rendering.
+- Makes Settings states mutually exclusive and renders missing no-go snapshot as UNKNOWN.
+- Keeps 8-second timeout while adding endpoint/duration/retry context.
+- Keeps 01-D open and requires PILOT-E2E-001-RUN-02.

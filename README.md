@@ -6168,3 +6168,6 @@ python -m pytest -p no:ddtrace --assert=plain tests/test_multiagent_coordinator.
 
 Límites preservados: no `git add/commit/checkout/reset/push`, no shell, no red, no APIs externas, no mutaciones de fuente y no habilitación de capacidades sensibles.
 
+## POST-H-EVAL-002-01-D — UI corrective baseline 323
+
+Repo de aceptación vigente: `repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip`. RUN-01 parcial diagnosticó fan-out eager sin fallos HTTP; el patch separa vistas y limita concurrencia. 01-D permanece abierto hasta RUN-02 completo; no se autoriza 02-A.

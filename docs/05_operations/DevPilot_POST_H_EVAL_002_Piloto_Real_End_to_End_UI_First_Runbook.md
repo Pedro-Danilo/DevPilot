@@ -2415,3 +2415,12 @@ La decisión operacional recomendada es:
 ```
 
 El éxito del piloto no se medirá por evitar la CLI a toda costa. Se medirá por usar la UI en toda operación que ya tiene superficie, hacer explícita cada dependencia de CLI y convertir esa evidencia en decisiones de producto verificables.
+
+## 2026-07-17 — POST-H-EVAL-002-01-D UI corrective baseline 323
+
+- Current repository: `repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip`.
+- RUN-01 partial archive is diagnostic-only: 5/6 requested diagnostic files, missing `process_lifecycle.json`, session still `running=true`, formal matrices remain 0/5, 0/8 and 0%.
+- API log contains 115 HTTP requests and zero non-200 responses; API/UI stderr contain no application failure.
+- Corrective UI removes embedded detail surfaces from Dashboard, limits protected browser concurrency to two, separates Reports/Traces, makes Settings states exclusive and fixes UNKNOWN/disabled gate semantics.
+- Request timeout remains 8000 ms and exposes endpoint/retry context.
+- Formal retest is `PILOT-E2E-001-RUN-02`; 01-D and backlog 01 remain open and 02-A is not authorized.

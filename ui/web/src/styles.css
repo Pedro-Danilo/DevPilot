@@ -374,3 +374,56 @@ button:disabled { cursor: wait; opacity: 0.7; }
     flex-wrap: nowrap;
   }
 }
+
+/* POST-H-EVAL-002-01-D corrective UX baseline */
+.connection-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border: 1px solid #c7d3e6;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #31415e;
+}
+.connection-summary strong { color: #0f2d5c; }
+.status-card-wrapper { display: grid; gap: 5px; }
+.request-timing { margin: 0 8px 4px; color: #53627a; font-size: 0.78rem; }
+.route-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.route-summary-card {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid #d9e2f2;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #18335f;
+  text-decoration: none;
+}
+.route-summary-card span { color: #53627a; }
+.route-summary-card em { font-style: normal; font-weight: 800; }
+.ui-state--success { background: #e7f8ee; border-color: #b8e8cb; color: #0d6532; }
+.operator-gate-list__item--unknown { background: #f1f4f9; border-color: #d9e2f2; color: #44506a; }
+.operator-gate-list__item--disabled { background: #eef4ff; border-color: #c9dafa; color: #244b87; }
+.primary-nav { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 22px; padding: 12px 16px; background: #102a56; border-radius: 16px; }
+.primary-nav a { color: #ffffff; text-decoration: none; }
+.primary-nav__brand { font-weight: 900; }
+.primary-nav__links { display: flex; flex-wrap: wrap; gap: 6px; }
+.primary-nav__links a { padding: 8px 10px; border-radius: 9px; }
+.primary-nav__links a.is-active { background: #ffffff; color: #102a56; }
+.route-header { display: grid; grid-template-columns: 1fr minmax(300px, 420px); gap: 18px; align-items: end; margin-bottom: 18px; }
+.grid.two-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.card { padding: 15px; border: 1px solid #d9e2f2; border-radius: 14px; background: #ffffff; overflow: auto; }
+.card pre { max-height: 320px; overflow: auto; background: #f3f6fb; padding: 12px; border-radius: 10px; }
+.section-heading-row { display: flex; justify-content: space-between; gap: 16px; align-items: start; }
+@media (max-width: 820px) {
+  .route-summary-grid, .grid.two-cols, .route-header { grid-template-columns: 1fr; }
+  .section-heading-row { display: block; }
+}

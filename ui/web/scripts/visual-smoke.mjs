@@ -21,7 +21,8 @@ const sourceFiles = [
   'src/main.ts',
   'src/api/client.ts',
   'src/pages/Dashboard.ts',
-  'src/pages/ReportTraceView.ts',
+  'src/pages/ReportsView.ts',
+  'src/pages/TracesView.ts',
   'src/pages/ApprovalCenterView.ts',
   'src/pages/SettingsView.ts',
   'src/pages/OperatorDashboard.ts',
@@ -59,10 +60,10 @@ for (const route of uiRegistry.routes) {
 
 const visualMarkers = [
   ['dashboard', 'src/pages/Dashboard.ts', ['DevPilot Local Dashboard', 'ui.dashboard', 'renderOperatorDashboard']],
-  ['report viewer', 'src/pages/ReportTraceView.ts', ['Report Viewer', 'ui.reports', 'Sin reportes para mostrar']],
-  ['trace viewer', 'src/pages/ReportTraceView.ts', ['Trace Viewer', 'ui.traces', 'Sin trazas para mostrar']],
+  ['report viewer', 'src/pages/ReportsView.ts', ['Reportes', 'ui.reports', 'No hay reportes locales']],
+  ['trace viewer', 'src/pages/TracesView.ts', ['Trazas', 'ui.traces', 'No hay trazas disponibles']],
   ['approval center', 'src/pages/ApprovalCenterView.ts', ['Approval Center', 'ui.approvals', 'Action Launcher', 'Sin approvals']],
-  ['settings', 'src/pages/SettingsView.ts', ['Settings UI', 'ui.settings', 'Provider editor plan-only', 'secretos redactados']],
+  ['settings', 'src/pages/SettingsView.ts', ['Configuración', 'ui.settings', 'Editor de provider — plan-only', 'Postura de seguridad']],
   ['operator dashboard', 'src/pages/OperatorDashboard.ts', ['Operator Dashboard', 'POST-H-015-D']],
 ];
 for (const [view, file, markers] of visualMarkers) {

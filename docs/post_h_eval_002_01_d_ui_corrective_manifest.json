@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-D-UI-CORRECTIVE-MANIFEST",
+  "created_by": "POST-H-EVAL-002-01-D",
+  "status": "active",
+  "updated": "2026-07-17",
+  "source_repo": "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
+  "target_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+  "decision": "IMPLEMENTED-PENDING-RUN-02-WINDOWS-BROWSER-EVIDENCE",
+  "partial_run_analysis": {
+    "archive": "DevPilot_E2E_Evaluation_01D_PARTIAL_ARCHIVE.zip",
+    "archive_sha256": "5cd73ae64eb2abc85e0b1fbd4a20089d27974300c5c3e5ef01471dd39154f72e",
+    "requested_files_total": 6,
+    "requested_files_present": 5,
+    "requested_files_missing": [
+      "process_lifecycle.json"
+    ],
+    "present": [
+      "logs/api_stdout.log",
+      "logs/api_stderr.log",
+      "logs/ui_stdout.log",
+      "logs/ui_stderr.log",
+      "session_state.json"
+    ],
+    "session_running": true,
+    "http_requests_logged": 115,
+    "http_non_200_total": 0,
+    "api_stderr_application_errors": 0,
+    "ui_stderr_bytes": 0,
+    "formal_route_coverage": "0/5",
+    "formal_negative_state_coverage": "0/8",
+    "formal_ui_eligible_coverage_percent": 0,
+    "closure_eligible": false
+  },
+  "root_cause": {
+    "id": "EVAL-002-01-D-S1-003",
+    "title": "eager embedded protected-request fan-out",
+    "classification": "product-ui/performance-and-state-orchestration",
+    "api_crash_observed": false,
+    "factors": [
+      "Dashboard embedded full detail views",
+      "embedded views auto-refreshed independently",
+      "duplicate Reports/Traces component",
+      "four concurrent Settings calls",
+      "protected requests include policy/observability work"
+    ]
+  },
+  "corrective_changes": {
+    "dashboard_max_concurrency": 2,
+    "dashboard_progressive_rendering": true,
+    "dashboard_embedded_detail_views": false,
+    "reports_traces_separated": true,
+    "settings_max_concurrency": 2,
+    "settings_states_mutually_exclusive": true,
+    "unknown_gate_not_block": true,
+    "disabled_sensitive_capability_semantics": "DISABLED BY POLICY",
+    "request_timeout_ms": 8000,
+    "timeout_endpoint_context": true
+  },
+  "safety": {
+    "local_first": true,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "workspace_created": false,
+    "api_changed": false,
+    "policy_engine_changed": false,
+    "database_schema_changed": false
+  },
+  "closure_state": {
+    "closed": false,
+    "current": "POST-H-EVAL-002-01-D",
+    "required_retest_run_id": "PILOT-E2E-001-RUN-02",
+    "next": "POST-H-EVAL-002-02-A",
+    "next_authorized": false
+  }
+}

@@ -22,6 +22,7 @@ def test_01_a_state_advances_without_installing_platform_or_workspace() -> None:
         "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip",
         "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
         "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
+        "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
     }
     assert state["current_micro_sprint"].startswith("POST-H-EVAL-002-01-")
     assert state["post_h_eval_002_01_a_closed"] is True

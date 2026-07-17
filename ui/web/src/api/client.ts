@@ -7,12 +7,16 @@ export const DEFAULT_REQUEST_TIMEOUT_MS = 8000;
 export class DevPilotApiError extends Error {
   readonly status: number;
   readonly payload: unknown;
+  readonly endpoint: string;
+  readonly durationMs: number;
 
-  constructor(message: string, status: number, payload: unknown) {
+  constructor(message: string, status: number, payload: unknown, endpoint = '', durationMs = 0) {
     super(message);
     this.name = 'DevPilotApiError';
     this.status = status;
     this.payload = payload;
+    this.endpoint = endpoint;
+    this.durationMs = durationMs;
   }
 }
 
@@ -147,10 +151,12 @@ export class DevPilotApiClient {
 
   private async request(path: string, init: RequestInit): Promise<DevPilotApplicationResponse> {
     let response: Response;
+    const startedAt = performance.now();
+    const endpoint = `${this.baseUrl}${path}`;
     const controller = new AbortController();
     const timeoutId = globalThis.setTimeout(() => controller.abort(), this.requestTimeoutMs);
     try {
-      response = await fetch(`${this.baseUrl}${path}`, {
+      response = await fetch(endpoint, {
         ...init,
         signal: controller.signal,
         headers: {
@@ -161,15 +167,19 @@ export class DevPilotApiClient {
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         throw new DevPilotApiError(
-          `Tiempo de espera agotado (timeout) después de ${this.requestTimeoutMs} ms. La UI permanece recuperable; verifica la API local y vuelve a intentar.`,
+          `Tiempo de espera agotado en ${path} después de ${this.requestTimeoutMs} ms. Selecciona Reintentar o verifica la API local.`,
           408,
-          { state: 'timeout', timeout_ms: this.requestTimeoutMs }
+          { state: 'timeout', timeout_ms: this.requestTimeoutMs, endpoint: path, action: 'retry' },
+          path,
+          Math.round(performance.now() - startedAt)
         );
       }
       throw new DevPilotApiError(
         'API local down o inaccesible: verifica que DevPilot API esté levantada en localhost, conserva 127.0.0.1 y configura el token local; no uses bind no-local como solución.',
         0,
-        { error: error instanceof Error ? error.message : String(error), state: 'api_down' }
+        { error: error instanceof Error ? error.message : String(error), state: 'api_down', endpoint: path, action: 'retry' },
+        path,
+        Math.round(performance.now() - startedAt)
       );
     } finally {
       globalThis.clearTimeout(timeoutId);
@@ -179,7 +189,7 @@ export class DevPilotApiClient {
       const authHint = response.status === 401 || response.status === 403
         ? 'Unauthorized/Forbidden 401/403: token local faltante o inválido.'
         : 'Error HTTP de API local.';
-      throw new DevPilotApiError(`DevPilot API respondió HTTP ${response.status}. ${authHint}`, response.status, payload);
+      throw new DevPilotApiError(`DevPilot API respondió HTTP ${response.status} en ${path}. ${authHint}`, response.status, payload, path, Math.round(performance.now() - startedAt));
     }
     return payload as DevPilotApplicationResponse;
   }

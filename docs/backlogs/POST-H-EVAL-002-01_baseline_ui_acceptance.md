@@ -5,16 +5,16 @@ title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
 version: "1.6.0"
 owner: "Ordóñez"
-updated: "2026-07-16"
+updated: "2026-07-17"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip"
+source_repo: "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
-implementation_status: "active/01-d-acceptance-ready"
+implementation_status: "active/01-d-ui-corrective-pending-run-02"
 current_micro_sprint: "POST-H-EVAL-002-01-D"
 next_micro_sprint: "POST-H-EVAL-002-02-A"
 local_first: true
@@ -281,3 +281,14 @@ por el operador Windows. No se versionan en el repositorio.
 ## 5. Comandos de verificación
 
 Usar los comandos completos del runbook aprobado. Cualquier desviación debe quedar en la bitácora de RUN.
+
+#### Corrective baseline after partial RUN-01
+
+RUN-01 is diagnostic-only: API/UI started, but `process_lifecycle.json` is absent and all formal matrices remain PENDING. Its logs contain 115 requests, all HTTP 200, and expose eager duplicated UI requests rather than API failure. Baseline 323 corrects Dashboard fan-out, separates Reports/Traces, makes Settings states exclusive and fixes gate semantics. RUN-02 is mandatory before closure.
+
+```text
+current_repo = repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip
+required_retest = PILOT-E2E-001-RUN-02
+01-D closed = false
+02-A authorized = false
+```

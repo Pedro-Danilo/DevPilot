@@ -3,16 +3,18 @@ import type { DashboardSnapshot, DevPilotApplicationResponse } from '../api/type
 import { renderFindingList } from '../components/FindingList';
 import { renderStatusCard } from '../components/StatusCard';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
-import { renderReportTraceView } from './ReportTraceView';
-import { renderApprovalCenterView } from './ApprovalCenterView';
-import { renderSettingsView } from './SettingsView';
 import { renderOperatorDashboard } from './OperatorDashboard';
+import { runBounded } from '../utils/async';
 
 interface DashboardState {
   loading: boolean;
   token: string;
   snapshot: DashboardSnapshot;
   errors: Record<string, string>;
+  durations: Record<string, number>;
+  completed: number;
+  total: number;
+  refreshedAt?: string;
 }
 
 const CARD_META = {
@@ -28,88 +30,96 @@ export function renderDashboard(root: HTMLElement): void {
     token: readStoredToken(),
     snapshot: {},
     errors: {},
+    durations: {},
+    completed: 0,
+    total: 5,
   };
 
   async function refresh(): Promise<void> {
     state.loading = true;
     state.errors = {};
+    state.completed = 0;
+    state.refreshedAt = undefined;
     draw();
     const client = new DevPilotApiClient({ token: state.token });
-    const tasks: Array<[keyof DashboardSnapshot, () => Promise<DevPilotApplicationResponse<any>>]> = [
-      ['operator', () => client.operatorDashboard(false)],
-      ['workspace', () => client.workspaceStatus()],
-      ['readiness', () => client.readiness(true)],
-      ['standards', () => client.standardsStatus()],
-      ['miasi', () => client.miasiStatus()],
+    const tasks: Array<{ key: keyof DashboardSnapshot; run: () => Promise<DevPilotApplicationResponse<any>> }> = [
+      { key: 'operator', run: () => client.operatorDashboard(false) },
+      { key: 'workspace', run: () => client.workspaceStatus() },
+      { key: 'readiness', run: () => client.readiness(true) },
+      { key: 'standards', run: () => client.standardsStatus() },
+      { key: 'miasi', run: () => client.miasiStatus() },
     ];
 
-    const entries = await Promise.all(
-      tasks.map(async ([key, loader]) => {
-        try {
-          return [key, await loader(), undefined] as const;
-        } catch (error) {
-          return [key, undefined, error instanceof Error ? error.message : String(error)] as const;
-        }
-      })
+    await runBounded<DevPilotApplicationResponse<any>>(
+      tasks.map((task) => ({ key: String(task.key), run: task.run })),
+      2,
+      (result) => {
+        const key = result.key as keyof DashboardSnapshot;
+        state.durations[result.key] = result.durationMs;
+        if (result.value) state.snapshot[key] = result.value;
+        if (result.error) state.errors[result.key] = result.error;
+        state.completed += 1;
+        draw();
+      }
     );
-
-    for (const [key, response, error] of entries) {
-      if (response) state.snapshot[key] = response;
-      if (error) state.errors[key] = error;
-    }
     state.loading = false;
+    state.refreshedAt = new Date().toISOString();
     draw();
   }
 
   function draw(): void {
     root.replaceChildren();
     root.append(renderHeader(state, refresh));
+    root.append(renderConnectionSummary(state));
     root.append(renderOperatorDashboard(state.snapshot.operator, state.errors.operator));
 
     const grid = document.createElement('main');
     grid.className = 'dashboard-grid';
     for (const key of Object.keys(CARD_META) as Array<keyof typeof CARD_META>) {
       const [title, description] = CARD_META[key];
-      grid.append(renderStatusCard({ title, description, response: state.snapshot[key], error: state.errors[key] }));
+      const wrapper = document.createElement('div');
+      wrapper.className = 'status-card-wrapper';
+      wrapper.append(renderStatusCard({ title, description, response: state.snapshot[key], error: state.errors[key] }));
+      const timing = document.createElement('p');
+      timing.className = 'request-timing';
+      timing.textContent = state.durations[key] === undefined
+        ? 'Consulta pendiente.'
+        : `Última consulta: ${state.durations[key]} ms.`;
+      wrapper.append(timing);
+      grid.append(wrapper);
     }
     root.append(grid);
+
     if (state.loading) {
-      root.append(renderUiStateNotice('loading', 'POST-H-015-D ui.dashboard loading state: consultando API local con token del operador.'));
+      root.append(renderUiStateNotice('loading', `Consultando API local de forma progresiva (${state.completed}/${state.total}); máximo 2 solicitudes simultáneas.`));
     }
-    if (!state.loading && !Object.keys(state.snapshot).length) {
-      root.append(renderUiStateNotice('empty', 'POST-H-015-D ui.dashboard empty state: agrega token local y actualiza para consultar el API.'));
+    if (!state.loading && !Object.keys(state.snapshot).length && !Object.keys(state.errors).length) {
+      root.append(renderUiStateNotice('empty', 'Agrega el token local y actualiza para consultar el estado real del sistema.'));
     }
     if (Object.keys(state.errors).length) {
-      root.append(renderUiStateNotice('error', 'POST-H-015-D ui.dashboard error state: BLOCK/ERROR se muestra y no se oculta detrás de estado exitoso.'));
+      root.append(renderUiStateNotice('error', 'Una o más tarjetas no pudieron actualizarse. Los resultados exitosos permanecen visibles; use Reintentar para la consulta afectada.'));
     }
 
     const allFindings = Object.values(state.snapshot)
       .flatMap((response) => response?.findings ?? [])
       .filter((finding) => ['warning', 'block', 'error'].includes(String(finding.severity).toLowerCase()));
     root.append(renderFindingList(allFindings));
-    root.append(renderReportTraceView(() => state.token));
-    root.append(renderApprovalCenterView(() => state.token));
-    const settingsWrapper = document.createElement('div');
-    settingsWrapper.innerHTML = renderSettingsView(new DevPilotApiClient({ token: state.token }), () => state.token);
-    root.append(settingsWrapper);
+    root.append(renderRouteSummaries());
   }
 
   draw();
-  if (state.token) {
-    void refresh();
-  }
+  if (state.token) void refresh();
 }
 
 function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTMLElement {
   const header = document.createElement('header');
   header.className = 'app-header';
-
   const titleBlock = document.createElement('div');
   const title = document.createElement('h1');
   title.textContent = 'DevPilot Local Dashboard';
   const subtitle = document.createElement('p');
-  subtitle.textContent = 'POST-H-015-D · ui.dashboard · operator snapshot · local-first · dry-run visible · PASS/FAIL/BLOCK/ERROR explícitos.';
-  titleBlock.append(title, subtitle, renderContractBadges('ui.dashboard', { warning: 'Shell local: no SaaS, no connector write, no plugin execution.' }));
+  subtitle.textContent = 'Resumen operacional local. Las vistas detalladas se consultan solo al abrir su ruta para evitar fan-out duplicado.';
+  titleBlock.append(title, subtitle, renderContractBadges('ui.dashboard', { warning: 'Local-first; no SaaS, connector write, plugin execution ni remote execution.' }));
 
   const form = document.createElement('form');
   form.className = 'token-form';
@@ -120,24 +130,52 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
     storeToken(state.token);
     void refresh();
   });
-
   const label = document.createElement('label');
   label.textContent = 'Token local';
-
   const input = document.createElement('input');
   input.name = 'token';
   input.type = 'password';
   input.placeholder = 'Pega DEVPILOT_API_TOKEN';
   input.value = state.token;
   input.autocomplete = 'off';
-
   const button = document.createElement('button');
   button.type = 'submit';
-  button.textContent = state.loading ? 'Consultando…' : 'Actualizar dashboard';
+  button.textContent = state.loading ? 'Consultando…' : 'Actualizar resumen';
   button.disabled = state.loading;
-
   label.append(input);
   form.append(label, button);
   header.append(titleBlock, form);
   return header;
+}
+
+function renderConnectionSummary(state: DashboardState): HTMLElement {
+  const panel = document.createElement('section');
+  panel.className = 'connection-summary';
+  const status = state.loading ? 'ACTUALIZANDO' : Object.keys(state.errors).length ? 'DEGRADADO' : Object.keys(state.snapshot).length ? 'OPERATIVO' : 'NO CONSULTADO';
+  panel.innerHTML = `
+    <strong>API local: ${status}</strong>
+    <span>http://127.0.0.1:8787</span>
+    <span>Progreso: ${state.completed}/${state.total}</span>
+    <span>Última actualización: ${state.refreshedAt ?? 'pendiente'}</span>
+  `;
+  return panel;
+}
+
+function renderRouteSummaries(): HTMLElement {
+  const section = document.createElement('section');
+  section.className = 'route-summary-grid';
+  const routes = [
+    ['/reports', 'Reportes', 'Índice y detalle de reportes locales.'],
+    ['/traces', 'Trazas', 'Spans, eventos y métricas por traza.'],
+    ['/approvals', 'Approval Center', 'Aprobaciones y acciones estrictamente dry-run.'],
+    ['/settings', 'Configuración', 'Providers, política y postura de seguridad.'],
+  ];
+  for (const [href, title, description] of routes) {
+    const link = document.createElement('a');
+    link.href = href;
+    link.className = 'route-summary-card';
+    link.innerHTML = `<strong>${title}</strong><span>${description}</span><em>Abrir vista →</em>`;
+    section.append(link);
+  }
+  return section;
 }

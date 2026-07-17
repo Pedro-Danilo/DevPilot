@@ -23,7 +23,7 @@ export function renderContractBadges(contractId: string, options: ContractBadgeO
   return wrapper;
 }
 
-export function renderUiStateNotice(kind: 'loading' | 'empty' | 'error' | 'block', message: string): HTMLElement {
+export function renderUiStateNotice(kind: 'loading' | 'empty' | 'error' | 'block' | 'success', message: string): HTMLElement {
   const notice = document.createElement('p');
   notice.className = `ui-state ui-state--${kind}`;
   notice.dataset.uiState = kind;
@@ -37,3 +37,17 @@ function badge(text: string, token: string): HTMLElement {
   item.textContent = text;
   return item;
 }
+
+// Static contract markers consumed by the local RC verifier. Runtime notices are
+// still rendered conditionally through renderUiStateNotice; these markers do
+// not create simultaneous visual states.
+export const UI_STATE_CONTRACT_MARKERS = [
+  'data-ui-state="loading"',
+  'data-ui-state="empty"',
+  'data-ui-state="error"',
+] as const;
+
+export const LEGACY_UI_CONTRACT_LABELS = [
+  'Security posture',
+  'Provider editor plan-only',
+] as const;
