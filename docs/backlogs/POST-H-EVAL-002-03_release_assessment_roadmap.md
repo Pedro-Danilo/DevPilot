@@ -11,7 +11,7 @@ phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-03"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip"
+source_repo: "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-02 closed/pass"
 implementation_status: "approved/not-started"
@@ -231,3 +231,9 @@ Actividades:
 - nuevo roadmap recomendado;
 - plan de Onboarding Report v2 definido;
 - `POST-H-EVAL-002` formalmente cerrado.
+
+## 2026-07-21 — Runtime corrective 324 y gate RUN-03
+
+- Current repository: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
+- `PILOT-E2E-001-RUN-02` permanece como evidencia `BLOCK`; no habilita el siguiente backlog.
+- La autorización de este backlog sigue condicionada al PASS autoritativo de `PILOT-E2E-001-RUN-03` y al cierre formal de POST-H-EVAL-002-01.

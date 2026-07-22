@@ -16,7 +16,7 @@ def _text(path: str) -> str:
 
 def test_01_c_state_closes_and_authorizes_01_d() -> None:
     state = _json(".devpilot/project_state.json")
-    assert state["current_repo"] in {"repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip", "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip", "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip", "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip", "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip", "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"}
     assert state["current_micro_sprint"] == "POST-H-EVAL-002-01-D"
     assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-A"
     assert state["post_h_eval_002_01_c_closed"] is True

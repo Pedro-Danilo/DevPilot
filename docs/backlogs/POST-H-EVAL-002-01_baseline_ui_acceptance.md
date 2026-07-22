@@ -11,7 +11,7 @@ phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip"
+source_repo: "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
 implementation_status: "active/01-d-ui-corrective-pending-run-02"
@@ -287,8 +287,18 @@ Usar los comandos completos del runbook aprobado. Cualquier desviación debe que
 RUN-01 is diagnostic-only: API/UI started, but `process_lifecycle.json` is absent and all formal matrices remain PENDING. Its logs contain 115 requests, all HTTP 200, and expose eager duplicated UI requests rather than API failure. Baseline 323 corrects Dashboard fan-out, separates Reports/Traces, makes Settings states exclusive and fixes gate semantics. RUN-02 is mandatory before closure.
 
 ```text
-current_repo = repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip
-required_retest = PILOT-E2E-001-RUN-02
+current_repo = repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip
+required_retest = PILOT-E2E-001-RUN-03
 01-D closed = false
 02-A authorized = false
 ```
+
+
+## 2026-07-21 — RUN-02 BLOCK y corrective 324
+
+- RUN-02 se preserva como evidencia BLOCK; no es elegible para cierre.
+- Corrective vigente: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
+- Mantiene timeout default de 8000 ms y asigna 30000 ms explícitos a readiness/providers/provider-plan.
+- Añade warm-up protegido, retry status-0-only y pending feedback accesible.
+- Retest obligatorio: `PILOT-E2E-001-RUN-03`.
+- `POST-H-EVAL-002-02-A` continúa no autorizado.

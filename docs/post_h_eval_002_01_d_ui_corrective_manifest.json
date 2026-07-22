@@ -71,8 +71,11 @@
   "closure_state": {
     "closed": false,
     "current": "POST-H-EVAL-002-01-D",
-    "required_retest_run_id": "PILOT-E2E-001-RUN-02",
+    "required_retest_run_id": "PILOT-E2E-001-RUN-03",
     "next": "POST-H-EVAL-002-02-A",
     "next_authorized": false
-  }
+  },
+  "superseded_by": "docs/post_h_eval_002_01_d_runtime_corrective_324_manifest.json",
+  "run_02_result": "BLOCK",
+  "lifecycle": "superseded-by-runtime-corrective-324"
 }

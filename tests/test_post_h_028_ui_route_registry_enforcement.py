@@ -137,8 +137,10 @@ def test_ui_registry_shared_view_bindings_and_web_scripts_are_synchronized() -> 
     operator_script = _read_web("scripts/operator-flow-smoke.mjs")
 
     routes = {route["route_id"]: route for route in registry["routes"]}
-    assert "api.traces.list" in routes["ui.reports"]["allowed_api_routes"]
-    assert "api.reports.list" in routes["ui.traces"]["allowed_api_routes"]
+    assert "api.traces.list" not in routes["ui.reports"]["allowed_api_routes"]
+    assert "api.reports.list" not in routes["ui.traces"]["allowed_api_routes"]
+    assert routes["ui.reports"]["page_component"] == "ReportsView"
+    assert routes["ui.traces"]["page_component"] == "TracesView"
     assert package["scripts"]["test:route-enforcement"] == "node scripts/route-enforcement-smoke.mjs"
     assert package["devpilot"]["postH028E"] is True
     assert package["devpilot"]["uiRouteEnforcement"] is True

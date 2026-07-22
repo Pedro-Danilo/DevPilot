@@ -9,7 +9,7 @@ updated: "2026-07-17"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip"
+source_repo: "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 implementation_status: "active/01-d-ui-corrective-pending-run-02"
@@ -272,3 +272,9 @@ roadmap recommendation
 - no existen findings S0/S1 sin decisión;
 - assessment y roadmap recommendation están aprobados;
 - Onboarding Report v2 queda listo como siguiente hito documental.
+
+## 2026-07-21 — Runtime corrective 324 y gate RUN-03
+
+- Current repository: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
+- `PILOT-E2E-001-RUN-02` permanece como evidencia `BLOCK`; no habilita el siguiente backlog.
+- La autorización de este backlog sigue condicionada al PASS autoritativo de `PILOT-E2E-001-RUN-03` y al cierre formal de POST-H-EVAL-002-01.

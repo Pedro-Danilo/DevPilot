@@ -2,15 +2,15 @@
 doc_id: "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
 title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
-updated: "2026-07-16"
+updated: "2026-07-21"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
-implementation_status: "active/01-c-closed"
-source_repo: "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip"
+implementation_status: "active/runtime-corrective-324-pending-run-03"
+source_repo: "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
@@ -2424,3 +2424,12 @@ El éxito del piloto no se medirá por evitar la CLI a toda costa. Se medirá po
 - Corrective UI removes embedded detail surfaces from Dashboard, limits protected browser concurrency to two, separates Reports/Traces, makes Settings states exclusive and fixes UNKNOWN/disabled gate semantics.
 - Request timeout remains 8000 ms and exposes endpoint/retry context.
 - Formal retest is `PILOT-E2E-001-RUN-02`; 01-D and backlog 01 remain open and 02-A is not authorized.
+
+## 2026-07-21 — RUN-02 BLOCK y runtime corrective 324
+
+- Current repository: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
+- `PILOT-E2E-001-RUN-02` cerró forénsicamente en `BLOCK`; no constituye evidencia de aceptación.
+- El cierre seguro dejó `session.running=false`, PIDs nulos, puertos 8787/5173 libres y `unknown_pid_killed=false`.
+- El runtime corrective 324 preserva el timeout general de 8000 ms, agrega límites explícitos para operaciones costosas, warm-up protegido y feedback pending por acción.
+- La validación autoritativa requerida es `PILOT-E2E-001-RUN-03`; 01-D y backlog 01 permanecen abiertos y 02-A no está autorizado.
+- La no-regresión Python debe ejecutarse sobre un árbol fuente limpio: `ui/web/node_modules` se elimina después de los contratos npm y antes de `pytest -q`.

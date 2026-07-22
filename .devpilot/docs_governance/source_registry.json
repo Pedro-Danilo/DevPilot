@@ -13060,6 +13060,25 @@
       "roadmap_milestones": [
         "POST-H-EVAL-002-01-D"
       ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-RUNTIME-CORRECTIVE-324-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_runtime_corrective_324_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-run-03",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_runtime_corrective_324.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
     }
   ],
   "rules": {
@@ -13284,7 +13303,7 @@
     "credentials_required": false,
     "current_micro_sprint": "POST-H-EVAL-002-01-D",
     "current_phase": "POST-H-EVAL-002",
-    "current_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+    "current_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
     "enterprise_deployment_enabled": false,
     "enterprise_ready_claimed": false,
     "external_api_used": false,
@@ -15003,7 +15022,7 @@
     "post_h_eval_002_connector_write_enabled": false,
     "post_h_eval_002_plugin_execution_enabled": false,
     "post_h_eval_002_pilot_baseline_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-    "post_h_eval_002_governance_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+    "post_h_eval_002_governance_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
     "post_h_eval_002_01_a_closed": true,
     "post_h_eval_002_01_a_status": "closed/PASS",
     "post_h_eval_002_01_a_run_id": "PILOT-E2E-001-RUN-01",
@@ -15093,9 +15112,9 @@
     "post_h_eval_002_01_c_runtime_external_network_allowed": false,
     "post_h_eval_002_01_c_operator_r1_false_negative_resolved": true,
     "post_h_eval_002_01_d_closed": false,
-    "post_h_eval_002_01_d_status": "active/ui-corrective-implemented-pending-run-02",
-    "post_h_eval_002_01_d_source_repo": "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
-    "post_h_eval_002_01_d_target_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+    "post_h_eval_002_01_d_status": "active/runtime-corrective-324-implemented-pending-run-03",
+    "post_h_eval_002_01_d_source_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+    "post_h_eval_002_01_d_target_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
     "post_h_eval_002_01_d_acceptance_readiness_report": "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
     "post_h_eval_002_01_d_preparation_manifest": "docs/post_h_eval_002_01_d_preparation_manifest.json",
     "post_h_eval_002_01_d_route_dispatch_ready": true,
@@ -15111,13 +15130,13 @@
     "post_h_eval_002_01_d_secret_exposure": null,
     "post_h_eval_002_01_d_unhandled_errors": null,
     "post_h_eval_002_01_d_s0_open": 0,
-    "post_h_eval_002_01_d_s1_open": 0,
+    "post_h_eval_002_01_d_s1_open": 2,
     "post_h_eval_002_01_d_next_authorized": false,
     "post_h_eval_002_01_d_workspace_created": false,
     "post_h_eval_002_01_d_external_api_used": false,
     "post_h_eval_002_01_d_runtime_external_network_allowed": false,
     "post_h_eval_002_01_d_platform_freeze_exception": "S1 acceptance blockers: route dispatch, bounded timeout, eager UI fan-out, contradictory settings state and false BLOCK gate semantics",
-    "post_h_eval_002_01_d_required_retest_run_id": "PILOT-E2E-001-RUN-02",
+    "post_h_eval_002_01_d_required_retest_run_id": "PILOT-E2E-001-RUN-03",
     "post_h_eval_002_01_d_partial_run_id": "PILOT-E2E-001-RUN-01",
     "post_h_eval_002_01_d_partial_run_status": "diagnostic-only/incomplete-lifecycle",
     "post_h_eval_002_01_d_partial_run_archive_sha256": "5cd73ae64eb2abc85e0b1fbd4a20089d27974300c5c3e5ef01471dd39154f72e",
@@ -15129,7 +15148,18 @@
     "post_h_eval_002_01_d_reports_traces_separated": true,
     "post_h_eval_002_01_d_settings_exclusive_state": true,
     "post_h_eval_002_01_d_gate_unknown_semantics": true,
-    "post_h_eval_002_01_d_timeout_endpoint_context": true
+    "post_h_eval_002_01_d_timeout_endpoint_context": true,
+    "post_h_eval_002_01_d_runtime_corrective_manifest": "docs/post_h_eval_002_01_d_runtime_corrective_324_manifest.json",
+    "post_h_eval_002_01_d_run_02_status": "BLOCK/forensic-closed",
+    "post_h_eval_002_01_d_run_02_block_control_sha256": "ba0c833cd810f5a71c71b861ec11a48593e94b4fe4b67deb43c54189b4dfbd7b",
+    "post_h_eval_002_01_d_protected_warmup": true,
+    "post_h_eval_002_01_d_transient_network_retries": 2,
+    "post_h_eval_002_01_d_expensive_request_timeout_ms": 30000,
+    "post_h_eval_002_01_d_action_pending_feedback": true,
+    "post_h_eval_002_01_d_runtime_corrective_s1_implemented_pending_validation_total": 2,
+    "post_h_eval_002_01_d_runtime_corrective_s2_implemented_pending_validation_total": 2,
+    "post_h_eval_002_01_d_technical_validation_status": "partial-pass/requires-authoritative-windows-validation",
+    "post_h_eval_002_01_d_run_03_authorized": false
   },
   "updated_at": "2026-07-17",
   "last_registered_sprint": "POST-H-EVAL-002-01-D"

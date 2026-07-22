@@ -427,3 +427,7 @@ button:disabled { cursor: wait; opacity: 0.7; }
   .route-summary-grid, .grid.two-cols, .route-header { grid-template-columns: 1fr; }
   .section-heading-row { display: block; }
 }
+
+
+.action-status { margin: 8px 0; min-height: 1.25rem; color: #31415e; font-weight: 700; }
+button[aria-busy="true"] { cursor: wait; opacity: 0.72; }

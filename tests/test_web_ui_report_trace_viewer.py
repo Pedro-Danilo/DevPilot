@@ -33,6 +33,6 @@ def test_web_ui_smoke_script_tracks_sprint70_scope() -> None:
     assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
     assert package["devpilot"]["reportViewer"] is True
     assert package["devpilot"]["traceViewer"] is True
-    assert "Report Viewer" in smoke
-    assert "Trace Viewer" in smoke
-    assert "Sin trazas para mostrar" in smoke
+    assert "ReportsView/TracesView" in smoke
+    assert "Reports y Traces no deben realizar consultas cruzadas automáticas" in smoke
+    assert "read('src/pages/TracesView.ts')" in smoke

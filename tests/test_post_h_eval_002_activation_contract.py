@@ -8,7 +8,7 @@ from devpilot_core.testing.project_state_progress import post_h_progress_rank
 ROOT = Path(__file__).resolve().parents[1]
 
 SOURCE_REPO = "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
-TARGET_REPO = "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip"
+TARGET_REPO = "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
 CURRENT_MICRO = "POST-H-EVAL-002-01-D"
 NEXT_MICRO = "POST-H-EVAL-002-02-A"
 CONTRACT_ID = "post-h-eval-002-activation-governance"

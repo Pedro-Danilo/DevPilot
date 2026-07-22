@@ -1,4 +1,4 @@
-import { DevPilotApiClient, readStoredToken, storeToken } from '../api/client';
+import { DevPilotApiClient, DevPilotApiError, readStoredToken, storeToken } from '../api/client';
 import type { DashboardSnapshot, DevPilotApplicationResponse } from '../api/types';
 import { renderFindingList } from '../components/FindingList';
 import { renderStatusCard } from '../components/StatusCard';
@@ -8,6 +8,7 @@ import { runBounded } from '../utils/async';
 
 interface DashboardState {
   loading: boolean;
+  warming: boolean;
   token: string;
   snapshot: DashboardSnapshot;
   errors: Record<string, string>;
@@ -24,27 +25,52 @@ const CARD_META = {
   miasi: ['MIASI', 'Estado de registries agent/tool/policy.'],
 } as const;
 
+const DASHBOARD_KEYS: Array<keyof DashboardSnapshot> = ['operator', 'workspace', 'readiness', 'standards', 'miasi'];
+
 export function renderDashboard(root: HTMLElement): void {
   const state: DashboardState = {
     loading: false,
+    warming: false,
     token: readStoredToken(),
     snapshot: {},
     errors: {},
     durations: {},
     completed: 0,
-    total: 5,
+    total: DASHBOARD_KEYS.length,
   };
 
   async function refresh(): Promise<void> {
+    if (state.loading) return;
     state.loading = true;
+    state.warming = true;
+    state.snapshot = {};
     state.errors = {};
+    state.durations = {};
     state.completed = 0;
     state.refreshedAt = undefined;
     draw();
+
     const client = new DevPilotApiClient({ token: state.token });
+    const warmupStarted = performance.now();
+    try {
+      state.snapshot.workspace = await client.protectedWarmup();
+      state.durations.workspace = Math.round(performance.now() - warmupStarted);
+      state.completed = 1;
+      state.warming = false;
+      draw();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      for (const key of DASHBOARD_KEYS) state.errors[String(key)] = message;
+      state.completed = state.total;
+      state.warming = false;
+      state.loading = false;
+      state.refreshedAt = new Date().toISOString();
+      draw();
+      return;
+    }
+
     const tasks: Array<{ key: keyof DashboardSnapshot; run: () => Promise<DevPilotApplicationResponse<any>> }> = [
       { key: 'operator', run: () => client.operatorDashboard(false) },
-      { key: 'workspace', run: () => client.workspaceStatus() },
       { key: 'readiness', run: () => client.readiness(true) },
       { key: 'standards', run: () => client.standardsStatus() },
       { key: 'miasi', run: () => client.miasiStatus() },
@@ -82,23 +108,16 @@ export function renderDashboard(root: HTMLElement): void {
       wrapper.append(renderStatusCard({ title, description, response: state.snapshot[key], error: state.errors[key] }));
       const timing = document.createElement('p');
       timing.className = 'request-timing';
-      timing.textContent = state.durations[key] === undefined
-        ? 'Consulta pendiente.'
-        : `Última consulta: ${state.durations[key]} ms.`;
+      timing.textContent = state.durations[key] === undefined ? 'Consulta pendiente.' : `Última consulta: ${state.durations[key]} ms.`;
       wrapper.append(timing);
       grid.append(wrapper);
     }
     root.append(grid);
 
-    if (state.loading) {
-      root.append(renderUiStateNotice('loading', `Consultando API local de forma progresiva (${state.completed}/${state.total}); máximo 2 solicitudes simultáneas.`));
-    }
-    if (!state.loading && !Object.keys(state.snapshot).length && !Object.keys(state.errors).length) {
-      root.append(renderUiStateNotice('empty', 'Agrega el token local y actualiza para consultar el estado real del sistema.'));
-    }
-    if (Object.keys(state.errors).length) {
-      root.append(renderUiStateNotice('error', 'Una o más tarjetas no pudieron actualizarse. Los resultados exitosos permanecen visibles; use Reintentar para la consulta afectada.'));
-    }
+    if (state.warming) root.append(renderUiStateNotice('loading', 'Warm-up protegido: esperando que la superficie autenticada de la API local esté lista antes de lanzar el resumen.'));
+    else if (state.loading) root.append(renderUiStateNotice('loading', `Consultando API local de forma progresiva (${state.completed}/${state.total}); máximo 2 solicitudes simultáneas.`));
+    if (!state.loading && !Object.keys(state.snapshot).length && !Object.keys(state.errors).length) root.append(renderUiStateNotice('empty', 'Agrega el token local y actualiza para consultar el estado real del sistema.'));
+    if (Object.keys(state.errors).length) root.append(renderUiStateNotice('error', 'Una o más tarjetas no pudieron actualizarse. Los resultados exitosos permanecen visibles; use Reintentar para la consulta afectada.'));
 
     const allFindings = Object.values(state.snapshot)
       .flatMap((response) => response?.findings ?? [])
@@ -140,8 +159,9 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
   input.autocomplete = 'off';
   const button = document.createElement('button');
   button.type = 'submit';
-  button.textContent = state.loading ? 'Consultando…' : 'Actualizar resumen';
+  button.textContent = state.warming ? 'Preparando API…' : state.loading ? 'Consultando…' : 'Actualizar resumen';
   button.disabled = state.loading;
+  button.setAttribute('aria-busy', String(state.loading));
   label.append(input);
   form.append(label, button);
   header.append(titleBlock, form);
@@ -152,12 +172,7 @@ function renderConnectionSummary(state: DashboardState): HTMLElement {
   const panel = document.createElement('section');
   panel.className = 'connection-summary';
   const status = state.loading ? 'ACTUALIZANDO' : Object.keys(state.errors).length ? 'DEGRADADO' : Object.keys(state.snapshot).length ? 'OPERATIVO' : 'NO CONSULTADO';
-  panel.innerHTML = `
-    <strong>API local: ${status}</strong>
-    <span>http://127.0.0.1:8787</span>
-    <span>Progreso: ${state.completed}/${state.total}</span>
-    <span>Última actualización: ${state.refreshedAt ?? 'pendiente'}</span>
-  `;
+  panel.innerHTML = `<strong>API local: ${status}</strong><span>http://127.0.0.1:8787</span><span>Progreso: ${state.completed}/${state.total}</span><span>Última actualización: ${state.refreshedAt ?? 'pendiente'}</span>`;
   return panel;
 }
 

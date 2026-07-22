@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
   "registry_id": "devpilot-ui-route-contract-registry",
-  "status": "implemented-initial-ui-corrective",
+  "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-07-17",
+  "updated": "2026-07-21",
   "routes": [
     {
       "route_id": "ui.dashboard",
@@ -17,8 +17,7 @@
         "ui/web/src/pages/OperatorDashboard.ts",
         "ui/web/src/components/OperatorStatusCard.ts",
         "ui/web/src/components/OperatorGatePanel.ts",
-        "ui/web/src/components/OperatorNextActions.ts",
-        "ui/web/src/utils/async.ts"
+        "ui/web/src/components/OperatorNextActions.ts"
       ],
       "allowed_api_routes": [
         "api.health",
@@ -67,8 +66,7 @@
       "page_component": "ReportsView",
       "source_files": [
         "ui/web/src/pages/ReportsView.ts",
-        "ui/web/src/components/FindingTable.ts",
-        "ui/web/src/utils/async.ts"
+        "ui/web/src/components/FindingTable.ts"
       ],
       "allowed_api_routes": [
         "api.reports.list",
@@ -110,8 +108,7 @@
       "path": "/traces",
       "page_component": "TracesView",
       "source_files": [
-        "ui/web/src/pages/TracesView.ts",
-        "ui/web/src/utils/async.ts"
+        "ui/web/src/pages/TracesView.ts"
       ],
       "allowed_api_routes": [
         "api.traces.list",
@@ -206,8 +203,7 @@
       "page_component": "SettingsView",
       "source_files": [
         "ui/web/src/pages/SettingsView.ts",
-        "ui/web/src/components/ProviderSettings.ts",
-        "ui/web/src/utils/async.ts"
+        "ui/web/src/components/ProviderSettings.ts"
       ],
       "allowed_api_routes": [
         "api.settings.workspace",
@@ -282,6 +278,7 @@
     "The Web UI remains a local product shell; quality-gate integration is deferred to POST-H-014-E.",
     "POST-H-014-D aligns Settings UI with protected security posture diagnostics.",
     "POST-H-015-D extends ui.dashboard with the Operator Dashboard visual surface while preserving the POST-H-014-C critical-route set.",
-    "POST-H-EVAL-002-01-D corrective removes eager embedded detail views, separates Reports/Traces and preserves all no-go gates."
+    "POST-H-EVAL-002-01-D corrective removes eager embedded detail views, separates Reports/Traces and preserves all no-go gates.",
+    "POST-H-EVAL-002-01-D repo 324 synchronizes separated ReportsView/TracesView and treats async.ts as shared infrastructure, not route-owned source."
   ]
 }

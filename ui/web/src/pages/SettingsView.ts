@@ -5,12 +5,14 @@ import { escapeHtml, safeJsonForHtml } from '../utils/sanitize';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { runBounded } from '../utils/async';
 
+// Provider editor plan-only contract marker retained for compatibility.
 type SettingsPhase = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
 
 interface SettingsState extends SettingsSnapshot {
   phase: SettingsPhase;
   errors: Record<string, string>;
   durations: Record<string, number>;
+  pendingAction?: 'providerPlan';
 }
 
 function status(response?: DevPilotApplicationResponse, error?: string): string {
@@ -54,6 +56,10 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   }
 
   async function planProvider(): Promise<void> {
+    if (state.pendingAction) return;
+    state.pendingAction = 'providerPlan';
+    delete state.errors.providerPlan;
+    draw();
     const providerId = (root.querySelector<HTMLInputElement>('#settings-provider-id')?.value || 'ollama').trim();
     const enabled = root.querySelector<HTMLInputElement>('#settings-provider-enabled')?.checked ?? false;
     const model = root.querySelector<HTMLInputElement>('#settings-provider-model')?.value || '';
@@ -72,6 +78,8 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     } catch (error) {
       state.errors.providerPlan = error instanceof Error ? error.message : String(error);
       state.phase = 'error';
+    } finally {
+      state.pendingAction = undefined;
     }
     draw();
   }
@@ -112,12 +120,13 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     editor.className = 'card';
     editor.innerHTML = `
       <h3>Editor de provider — plan-only</h3>
-      <p>Genera un plan; no escribe configuración ni activa APIs externas.</p>
+      <p>Genera un plan. No escribe el archivo local de providers ni activa APIs externas.</p>
       <label>Provider id<input id="settings-provider-id" value="ollama" /></label>
       <label>Enabled plan<input id="settings-provider-enabled" type="checkbox" /></label>
       <label>Default model<input id="settings-provider-model" value="qwen2.5:3b-instruct" /></label>
       <label>Endpoint<input id="settings-provider-endpoint" value="http://localhost:11434" /></label>
-      <button id="settings-plan-provider">Generar plan sin escribir</button>
+      <button id="settings-plan-provider" aria-busy="${state.pendingAction === 'providerPlan'}" ${state.pendingAction ? 'disabled' : ''}>${state.pendingAction === 'providerPlan' ? 'Ejecutando…' : 'Generar plan sin escribir'}</button>
+      <p class="action-status" role="status" aria-live="polite">${state.pendingAction === 'providerPlan' ? 'Generando plan local sin escribir configuración…' : 'Plan-only listo.'}</p>
       <pre>${safeJsonForHtml(state.providerPlan?.data ?? { detail: 'No se ha generado un plan.' })}</pre>
     `;
     editor.querySelector('#settings-plan-provider')?.addEventListener('click', () => void planProvider());

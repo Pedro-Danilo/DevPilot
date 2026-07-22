@@ -3,6 +3,9 @@ import type { DevPilotApplicationResponse, OperatorDashboardResponseData } from 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
 export const DEFAULT_REQUEST_TIMEOUT_MS = 8000;
+export const EXPENSIVE_REQUEST_TIMEOUT_MS = 30000;
+export const PROTECTED_WARMUP_TIMEOUT_MS = 15000;
+export const TRANSIENT_NETWORK_RETRY_DELAYS_MS = [500, 1000] as const;
 
 export class DevPilotApiError extends Error {
   readonly status: number;
@@ -26,6 +29,12 @@ export interface DevPilotApiClientOptions {
   requestTimeoutMs?: number;
 }
 
+interface RequestPolicy {
+  timeoutMs?: number;
+  retryNetworkErrors?: boolean;
+  retryDelaysMs?: readonly number[];
+}
+
 export class DevPilotApiClient {
   readonly baseUrl: string;
   readonly token: string;
@@ -37,20 +46,31 @@ export class DevPilotApiClient {
     this.requestTimeoutMs = normalizeTimeout(options.requestTimeoutMs);
   }
 
+  async health(): Promise<DevPilotApplicationResponse> {
+    return this.get('/health', { timeoutMs: 5000, retryNetworkErrors: true });
+  }
+
+  async protectedWarmup(): Promise<DevPilotApplicationResponse> {
+    return this.get('/workspace/status', {
+      timeoutMs: PROTECTED_WARMUP_TIMEOUT_MS,
+      retryNetworkErrors: true,
+    });
+  }
+
   async workspaceStatus(): Promise<DevPilotApplicationResponse> {
-    return this.get('/workspace/status');
+    return this.get('/workspace/status', { retryNetworkErrors: true });
   }
 
   async applicationContract(): Promise<DevPilotApplicationResponse> {
-    return this.get('/application/contract');
+    return this.get('/application/contract', { retryNetworkErrors: true });
   }
 
   async standardsStatus(): Promise<DevPilotApplicationResponse> {
-    return this.get('/standards/status');
+    return this.get('/standards/status', { retryNetworkErrors: true });
   }
 
   async miasiStatus(): Promise<DevPilotApplicationResponse> {
-    return this.get('/miasi/status');
+    return this.get('/miasi/status', { retryNetworkErrors: true });
   }
 
   async readiness(strict = true): Promise<DevPilotApplicationResponse> {
@@ -58,9 +78,11 @@ export class DevPilotApiClient {
       operation: 'validation.readiness',
       payload: { strict },
       dry_run: true,
+    }, {
+      timeoutMs: EXPENSIVE_REQUEST_TIMEOUT_MS,
+      retryNetworkErrors: true,
     });
   }
-
 
   async listReports(filters: { limit?: number; severity?: string; status?: string; command?: string } = {}): Promise<DevPilotApplicationResponse> {
     return this.get(`/reports${this.query(filters)}`);
@@ -102,42 +124,45 @@ export class DevPilotApiClient {
     return this.post('/actions/dry-run', payload);
   }
 
-
   async settingsWorkspace(): Promise<DevPilotApplicationResponse> {
-    return this.get('/settings/workspace');
+    return this.get('/settings/workspace', { retryNetworkErrors: true });
   }
 
   async settingsProviders(): Promise<DevPilotApplicationResponse> {
-    return this.get('/settings/providers');
+    return this.get('/settings/providers', {
+      timeoutMs: EXPENSIVE_REQUEST_TIMEOUT_MS,
+      retryNetworkErrors: true,
+    });
   }
 
   async settingsPolicy(): Promise<DevPilotApplicationResponse> {
-    return this.get('/settings/policy');
+    return this.get('/settings/policy', { retryNetworkErrors: true });
   }
 
   async securityPosture(): Promise<DevPilotApplicationResponse> {
-    return this.get('/security/posture');
+    return this.get('/security/posture', { retryNetworkErrors: true });
   }
 
   async operatorDashboard(writeReport = false): Promise<DevPilotApplicationResponse<OperatorDashboardResponseData>> {
-    return this.get(`/operator/dashboard${this.query({ write_report: writeReport })}`);
+    return this.get(`/operator/dashboard${this.query({ write_report: writeReport })}`, { retryNetworkErrors: true });
   }
 
   async planProviderChange(payload: { provider_id: string; changes: Record<string, unknown>; actor?: string; reason?: string }): Promise<DevPilotApplicationResponse> {
-    return this.post('/settings/providers/plan', payload);
+    return this.post('/settings/providers/plan', payload, {
+      timeoutMs: EXPENSIVE_REQUEST_TIMEOUT_MS,
+    });
   }
 
-
-  private async get(path: string): Promise<DevPilotApplicationResponse> {
-    return this.request(path, { method: 'GET' });
+  private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
+    return this.request(path, { method: 'GET' }, policy);
   }
 
-  private async post(path: string, body: unknown): Promise<DevPilotApplicationResponse> {
+  private async post(path: string, body: unknown, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
     return this.request(path, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
-    });
+    }, policy);
   }
 
   private query(params: Record<string, string | number | boolean | undefined>): string {
@@ -149,12 +174,28 @@ export class DevPilotApiClient {
     return rendered ? `?${rendered}` : '';
   }
 
-  private async request(path: string, init: RequestInit): Promise<DevPilotApplicationResponse> {
+  private async request(path: string, init: RequestInit, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
+    const retryDelays = policy.retryNetworkErrors
+      ? [...(policy.retryDelaysMs ?? TRANSIENT_NETWORK_RETRY_DELAYS_MS)]
+      : [];
+    let attempt = 0;
+    while (true) {
+      try {
+        return await this.requestOnce(path, init, normalizeTimeout(policy.timeoutMs ?? this.requestTimeoutMs));
+      } catch (error) {
+        if (!isTransientNetworkError(error) || attempt >= retryDelays.length) throw error;
+        await sleep(retryDelays[attempt]);
+        attempt += 1;
+      }
+    }
+  }
+
+  private async requestOnce(path: string, init: RequestInit, timeoutMs: number): Promise<DevPilotApplicationResponse> {
     let response: Response;
     const startedAt = performance.now();
     const endpoint = `${this.baseUrl}${path}`;
     const controller = new AbortController();
-    const timeoutId = globalThis.setTimeout(() => controller.abort(), this.requestTimeoutMs);
+    const timeoutId = globalThis.setTimeout(() => controller.abort(), timeoutMs);
     try {
       response = await fetch(endpoint, {
         ...init,
@@ -167,9 +208,9 @@ export class DevPilotApiClient {
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         throw new DevPilotApiError(
-          `Tiempo de espera agotado en ${path} después de ${this.requestTimeoutMs} ms. Selecciona Reintentar o verifica la API local.`,
+          `Tiempo de espera agotado en ${path} después de ${timeoutMs} ms. Selecciona Reintentar o verifica la API local.`,
           408,
-          { state: 'timeout', timeout_ms: this.requestTimeoutMs, endpoint: path, action: 'retry' },
+          { state: 'timeout', timeout_ms: timeoutMs, endpoint: path, action: 'retry' },
           path,
           Math.round(performance.now() - startedAt)
         );
@@ -195,9 +236,7 @@ export class DevPilotApiClient {
   }
 
   private authHeaders(): Record<string, string> {
-    if (!this.token) {
-      return {};
-    }
+    if (!this.token) return {};
     return { 'X-DevPilot-Token': this.token };
   }
 }
@@ -207,13 +246,17 @@ export function readStoredToken(): string {
 }
 
 export function storeToken(token: string): void {
-  if (token.trim()) {
-    globalThis.sessionStorage?.setItem(TOKEN_STORAGE_KEY, token.trim());
-  } else {
-    globalThis.sessionStorage?.removeItem(TOKEN_STORAGE_KEY);
-  }
+  if (token.trim()) globalThis.sessionStorage?.setItem(TOKEN_STORAGE_KEY, token.trim());
+  else globalThis.sessionStorage?.removeItem(TOKEN_STORAGE_KEY);
 }
 
+export function isTransientNetworkError(error: unknown): error is DevPilotApiError {
+  return error instanceof DevPilotApiError && error.status === 0;
+}
+
+function sleep(delayMs: number): Promise<void> {
+  return new Promise((resolve) => globalThis.setTimeout(resolve, Math.max(0, delayMs)));
+}
 
 function normalizeTimeout(value: number | undefined): number {
   if (!Number.isFinite(value)) return DEFAULT_REQUEST_TIMEOUT_MS;

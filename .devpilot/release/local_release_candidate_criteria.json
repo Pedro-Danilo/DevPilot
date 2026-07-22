@@ -7,7 +7,7 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-  "expected_current_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+  "expected_current_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_current_micro_sprint": "POST-H-EVAL-002-01-D",
   "expected_next_micro_sprint": "POST-H-EVAL-002-02-A",
@@ -35,7 +35,7 @@
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-        "current_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+        "current_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_sprint": "POST-H-EVAL-002",
         "current_micro_sprint": "POST-H-EVAL-002-01-D",
@@ -646,7 +646,7 @@
       "json_fields": {
         "manifest_id": "POST-H-EVAL-002-01-D-PREPARATION-MANIFEST",
         "status": "active",
-        "target_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+        "target_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
         "decision": "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE"
       }
     }

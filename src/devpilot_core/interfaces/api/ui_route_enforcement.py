@@ -37,7 +37,8 @@ _EXPECTED_CRITICAL_ROUTES = {
 
 _EXPECTED_CRITICAL_VIEW_FILES = {
     "ui/web/src/pages/Dashboard.ts",
-    "ui/web/src/pages/ReportTraceView.ts",
+    "ui/web/src/pages/ReportsView.ts",
+    "ui/web/src/pages/TracesView.ts",
     "ui/web/src/pages/ApprovalCenterView.ts",
     "ui/web/src/pages/SettingsView.ts",
     "ui/web/src/pages/OperatorDashboard.ts",

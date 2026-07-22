@@ -2913,3 +2913,19 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Makes Settings states mutually exclusive and renders missing no-go snapshot as UNKNOWN.
 - Keeps 8-second timeout while adding endpoint/duration/retry context.
 - Keeps 01-D open and requires PILOT-E2E-001-RUN-02.
+
+
+## 2026-07-21 — repo 324 POST-H-EVAL-002-01-D runtime corrective
+
+- Source: `repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip`.
+- Target: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
+- Preserves RUN-02 as BLOCK evidence and requires `PILOT-E2E-001-RUN-03`.
+- Adds protected Dashboard warm-up, bounded status-0 retry, explicit expensive-operation timeout and action-level pending feedback.
+- Keeps local-first/no-remote/no external API/no workspace creation invariants.
+
+## 2026-07-21 — repo 324 validation sanitization R2
+
+- Diagnoses 22 full-regression failures: 20 propagated from `ui/web/node_modules` left by `npm ci`, one historical POST-H-015-D literal safety marker drift and one POST-H-EVAL-002 canonical-document synchronization drift.
+- Preserves the source hygiene gates; validation now requires removing `ui/web/node_modules` before `pytest -q`.
+- Synchronizes the five canonical pilot documents with repo 324, RUN-02 BLOCK and mandatory RUN-03.
+- Does not authorize RUN-03, close 01-D or alter API, PolicyEngine, DB, permissions or safety posture.

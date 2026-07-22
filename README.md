@@ -10,7 +10,7 @@ Micro-sprint activo: `POST-H-EVAL-002-01-D`. Siguiente micro-sprint: `POST-H-EVA
 
 Repo de aceptación vigente: `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `active/01-d-acceptance-ready`. `POST-H-EVAL-002-01-C` permanece cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió dos blockers S1 del baseline de aceptación: dispatch runtime para las cinco rutas críticas y timeout browser acotado a 8 segundos. **01-D permanece abierto** hasta completar en Windows las capturas, las cinco rutas, los ocho estados negativos, UI Eligible Coverage y el registro inicial de bridges. El workspace `inventory-sales-local` todavía no existe. Permanece además el gap S3 no bloqueante del OpenAPI estático.
+Estado: `active/01-d-runtime-corrective-324-pending-run-03`. `POST-H-EVAL-002-01-C` permanece cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió dos blockers S1 del baseline de aceptación: dispatch runtime para las cinco rutas críticas y timeout browser acotado a 8 segundos. **01-D permanece abierto** hasta completar en Windows las capturas, las cinco rutas, los ocho estados negativos, UI Eligible Coverage y el registro inicial de bridges. El workspace `inventory-sales-local` todavía no existe. Permanece además el gap S3 no bloqueante del OpenAPI estático.
 
 Documentos de entrada:
 
@@ -6171,3 +6171,13 @@ Límites preservados: no `git add/commit/checkout/reset/push`, no shell, no red,
 ## POST-H-EVAL-002-01-D — UI corrective baseline 323
 
 Repo de aceptación vigente: `repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip`. RUN-01 parcial diagnosticó fan-out eager sin fallos HTTP; el patch separa vistas y limita concurrencia. 01-D permanece abierto hasta RUN-02 completo; no se autoriza 02-A.
+
+
+## 2026-07-21 — POST-H-EVAL-002-01-D runtime corrective baseline 324
+
+- RUN-02 cerró forénsicamente como `BLOCK`, con materialización PASS, lifecycle final STOPPED y sin PIDs desconocidos terminados.
+- Repo vigente: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
+- Dashboard incorpora warm-up protegido, dos reintentos exclusivos para fallos de red `status=0` y limpieza del snapshot antes de cada refresh.
+- El timeout por defecto permanece en 8000 ms para NEG-08; readiness, providers y provider-plan usan 30000 ms explícitos y acotados.
+- Approval Center, dry-run y provider-plan exponen estado pending, controles deshabilitados, `Ejecutando…`, `aria-busy` y región live.
+- 01-D permanece abierto. La validación autoritativa requerida es `PILOT-E2E-001-RUN-03`; 02-A continúa no autorizado.

@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-D-RUNTIME-CORRECTIVE-324",
+  "created_by": "POST-H-EVAL-002-01-D",
+  "status": "implemented-pending-run-03",
+  "updated": "2026-07-21",
+  "source_repo": "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
+  "target_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
+  "decision": "IMPLEMENTED-PENDING-TECHNICAL-VALIDATION-AND-RUN-03",
+  "run_02_forensic": {
+    "decision": "BLOCK",
+    "control_zip_sha256": "ba0c833cd810f5a71c71b861ec11a48593e94b4fe4b67deb43c54189b4dfbd7b",
+    "materialization_decision": "PASS",
+    "session_final": "STOPPED",
+    "unknown_pid_killed": false,
+    "formal_critical_routes": "0/5",
+    "formal_ui_operations_percent": 0,
+    "formal_negative_states": "0/8",
+    "screenshots_valid": "8/13"
+  },
+  "defects": [
+    {
+      "id": "EVAL-002-01-D-S1-003",
+      "surface": "Dashboard",
+      "problem": "Protected requests can fail transiently immediately after startup and stale state survives refresh.",
+      "correction": "Protected workspace warm-up, status-0-only retry [500,1000] ms and refresh state reset."
+    },
+    {
+      "id": "EVAL-002-01-D-S1-004",
+      "surface": "readiness/providers/provider-plan",
+      "problem": "Uniform 8000 ms timeout is insufficient for deterministic expensive local operations.",
+      "correction": "Keep default 8000 ms; use explicit bounded 30000 ms only on expensive operations."
+    },
+    {
+      "id": "EVAL-002-01-D-S2-006",
+      "surface": "approval/provider actions",
+      "problem": "No action-level pending feedback or reliable dry-run redraw.",
+      "correction": "Single pending action, disabled controls, Ejecutando text, aria-busy/live region and explicit redraw."
+    },
+    {
+      "id": "EVAL-002-01-D-S2-007",
+      "surface": "UI route governance",
+      "problem": "Repo 323 kept legacy ReportTraceView expectations and route-owned async.ts bindings after Reports/Traces separation.",
+      "correction": "Synchronize registry schema status, separated critical view files and route-specific tests."
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "workspace_created": false,
+    "api_contract_changed": false,
+    "policy_engine_changed": false,
+    "database_schema_changed": false,
+    "default_timeout_ms": 8000,
+    "expensive_timeout_ms": 30000,
+    "network_retry_statuses": [
+      0
+    ],
+    "network_retry_delays_ms": [
+      500,
+      1000
+    ]
+  },
+  "validation": {
+    "technical_validation_required": true,
+    "run_id": "PILOT-E2E-001-RUN-03",
+    "repeat_01_c_startup": true,
+    "repeat_01_d_browser": true,
+    "closure_allowed": false,
+    "next_authorized": false,
+    "local_container_results": {
+      "node_contracts": "PASS",
+      "npm_build": "PASS",
+      "python_focal_suites": "PASS",
+      "ui_route_enforcement": "PASS",
+      "docs_governance": "PASS",
+      "full_windows_regression": "PENDING",
+      "run_03": "PENDING"
+    },
+    "s1_open_until_run_03": 2
+  }
+}

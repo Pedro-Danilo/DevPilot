@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+const root = process.cwd();
+const read = (p) => fs.readFileSync(path.join(root,p),'utf8');
+const client=read('src/api/client.ts');
+const dashboard=read('src/pages/Dashboard.ts');
+const settings=read('src/pages/SettingsView.ts');
+const approvals=read('src/pages/ApprovalCenterView.ts');
+const dryRun=read('src/components/DryRunActionForm.ts');
+const pkg=JSON.parse(read('package.json'));
+const checks=[];
+const check=(id,pass,detail)=>checks.push({id,status:pass?'PASS':'BLOCK',detail});
+check('DEFAULT_TIMEOUT_8S',client.includes('DEFAULT_REQUEST_TIMEOUT_MS = 8000'),'NEG-08/default timeout remains 8000 ms');
+check('EXPENSIVE_TIMEOUT_30S',client.includes('EXPENSIVE_REQUEST_TIMEOUT_MS = 30000'),'readiness/providers/plan use bounded 30000 ms');
+check('NETWORK_RETRY_BOUNDED',client.includes('TRANSIENT_NETWORK_RETRY_DELAYS_MS = [500, 1000]') && client.includes('error.status === 0'),'only status 0 receives two bounded retries');
+check('NO_AUTH_RETRY',client.includes('isTransientNetworkError') && !client.includes('error.status === 401 || error.status === 403'),'401/403 are not transient retry candidates');
+check('DASHBOARD_PROTECTED_WARMUP',dashboard.includes('protectedWarmup') && dashboard.includes('Warm-up protegido'),'protected surface is warmed before fan-out');
+check('DASHBOARD_RESETS_STALE_STATE',dashboard.includes('state.snapshot = {}') && dashboard.includes('state.durations = {}'),'each refresh resets stale snapshot/error timing state');
+check('SETTINGS_PROVIDER_PENDING',settings.includes("pendingAction?: 'providerPlan'") && settings.includes('Ejecutando…') && settings.includes('aria-busy'),'provider plan exposes pending feedback');
+check('APPROVAL_ACTION_PENDING',approvals.includes('pendingAction?: string') && approvals.includes('runPending') && approvals.includes('aria-live'),'approval actions expose one bounded pending state');
+check('DRY_RUN_PENDING',dryRun.includes("button.textContent = 'Ejecutando…'") && dryRun.includes("aria-busy"),'dry-run action exposes pending feedback');
+check('RUN03_METADATA',pkg.devpilot.browserRetestRunId === 'PILOT-E2E-001-RUN-03' && pkg.devpilot.run03Required === true,'package requires RUN-03');
+const blockers=checks.filter(x=>x.status!=='PASS');
+console.log(JSON.stringify({schema_version:'1.0',phase:'runtime-corrective-324/static',decision:blockers.length?'BLOCK':'PASS',checks_total:checks.length,checks_passed:checks.length-blockers.length,blockers,checks},null,2));
+if(blockers.length) process.exit(1);
+console.log('POST-H-EVAL-002-01-D RUNTIME CORRECTIVE 324: PASS');

@@ -1,4 +1,5 @@
 // POST-H-015-D contract marker: ui.dashboard
+// POST-H-015-D safety contract markers: remote_execution_enabled=false; connector_write_enabled=false; plugin_execution_enabled=false
 import type { OperatorDashboardSnapshot } from '../api/types';
 
 type GateState = 'PASS' | 'BLOCK' | 'UNKNOWN' | 'DISABLED BY POLICY';

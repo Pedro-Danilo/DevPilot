@@ -11,51 +11,56 @@ interface ApprovalState {
   requestResult?: DevPilotApplicationResponse;
   errors: Record<string, string>;
   statusFilter: string;
-  loading: boolean;
+  pendingAction?: string;
 }
 
 export function renderApprovalCenterView(tokenProvider: () => string): HTMLElement {
   const section = document.createElement('section');
   section.className = 'approval-panel';
-  const state: ApprovalState = { errors: {}, statusFilter: '', loading: false };
+  const state: ApprovalState = { errors: {}, statusFilter: '' };
 
-  async function refresh(): Promise<void> {
-    state.loading = true;
-    state.errors = {};
-    try {
-      const client = new DevPilotApiClient({ token: tokenProvider() });
-      state.approvals = await client.listApprovals({ status: state.statusFilter || undefined, limit: 100 });
-    } catch (error) {
-      state.errors.approvals = error instanceof Error ? error.message : String(error);
-    }
-    state.loading = false;
-    draw();
+  async function loadApprovals(): Promise<void> {
+    const client = new DevPilotApiClient({ token: tokenProvider() });
+    state.approvals = await client.listApprovals({ status: state.statusFilter || undefined, limit: 100 });
+    delete state.errors.approvals;
   }
 
-  async function selectApproval(approvalId: string): Promise<void> {
-    try {
-      const client = new DevPilotApiClient({ token: tokenProvider() });
-      state.selected = await client.showApproval(approvalId);
-      delete state.errors.selected;
-    } catch (error) {
-      state.errors.selected = error instanceof Error ? error.message : String(error);
-    }
+  async function runPending(action: string, work: () => Promise<void>, errorKey: string): Promise<void> {
+    if (state.pendingAction) return;
+    state.pendingAction = action;
+    delete state.errors[errorKey];
     draw();
-  }
-
-  async function decide(approvalId: string, decision: 'approve' | 'deny'): Promise<void> {
     try {
-      const client = new DevPilotApiClient({ token: tokenProvider() });
-      state.selected = await client.decideApproval(approvalId, decision, { actor: 'local-owner', reason: `${decision} from Approval Center` });
-      await refresh();
+      await work();
     } catch (error) {
-      state.errors.selected = error instanceof Error ? error.message : String(error);
+      state.errors[errorKey] = error instanceof Error ? error.message : String(error);
+    } finally {
+      state.pendingAction = undefined;
       draw();
     }
   }
 
+  async function refresh(): Promise<void> {
+    await runPending('refresh', loadApprovals, 'approvals');
+  }
+
+  async function selectApproval(approvalId: string): Promise<void> {
+    await runPending(`show:${approvalId}`, async () => {
+      const client = new DevPilotApiClient({ token: tokenProvider() });
+      state.selected = await client.showApproval(approvalId);
+    }, 'selected');
+  }
+
+  async function decide(approvalId: string, decision: 'approve' | 'deny'): Promise<void> {
+    await runPending(`${decision}:${approvalId}`, async () => {
+      const client = new DevPilotApiClient({ token: tokenProvider() });
+      state.selected = await client.decideApproval(approvalId, decision, { actor: 'local-owner', reason: `${decision} from Approval Center` });
+      await loadApprovals();
+    }, 'selected');
+  }
+
   async function requestSampleApproval(): Promise<void> {
-    try {
+    await runPending('request', async () => {
       const client = new DevPilotApiClient({ token: tokenProvider() });
       state.requestResult = await client.requestApproval({
         tool_id: 'tests.run',
@@ -65,11 +70,8 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
         reason: 'Sample approval request generated from POST-H-028-D Approval Center operator flow.',
         ttl_minutes: 60,
       });
-      await refresh();
-    } catch (error) {
-      state.errors.requestResult = error instanceof Error ? error.message : String(error);
-      draw();
-    }
+      await loadApprovals();
+    }, 'requestResult');
   }
 
   function draw(): void {
@@ -88,6 +90,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     const filterLabel = document.createElement('label');
     filterLabel.textContent = 'Filtrar estado';
     const filter = document.createElement('select');
+    filter.disabled = Boolean(state.pendingAction);
     for (const [value, label] of [['', 'Todos'], ['requested', 'Requested'], ['approved', 'Approved'], ['denied', 'Denied'], ['revoked', 'Revoked'], ['expired', 'Expired']]) {
       const option = document.createElement('option');
       option.value = value;
@@ -97,27 +100,28 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     }
     filter.addEventListener('change', () => { state.statusFilter = filter.value; void refresh(); });
     filterLabel.append(filter);
-    const refreshButton = document.createElement('button');
-    refreshButton.type = 'button';
-    refreshButton.textContent = 'Actualizar approvals';
-    refreshButton.addEventListener('click', () => { void refresh(); });
-    const requestButton = document.createElement('button');
-    requestButton.type = 'button';
-    requestButton.textContent = 'Crear approval demo';
-    requestButton.addEventListener('click', () => { void requestSampleApproval(); });
+    const refreshButton = actionButton('Actualizar approvals', state.pendingAction === 'refresh' ? 'Ejecutando…' : 'Actualizar approvals', state.pendingAction, () => void refresh());
+    const requestButton = actionButton('Crear approval demo', state.pendingAction === 'request' ? 'Ejecutando…' : 'Crear approval demo', state.pendingAction, () => void requestSampleApproval());
     controls.append(filterLabel, refreshButton, requestButton);
     header.append(titleBlock, controls);
     section.append(header);
 
+    const actionStatus = document.createElement('p');
+    actionStatus.className = 'action-status';
+    actionStatus.setAttribute('role', 'status');
+    actionStatus.setAttribute('aria-live', 'polite');
+    actionStatus.textContent = state.pendingAction ? `Ejecutando acción local: ${state.pendingAction}` : 'Approval Center listo.';
+    section.append(actionStatus);
+
     const grid = document.createElement('div');
     grid.className = 'viewer-grid';
     grid.append(renderApprovalsPanel(state, selectApproval, decide));
-    grid.append(renderActionPanel(state, tokenProvider));
+    grid.append(renderActionPanel(state, tokenProvider, draw));
     section.append(grid);
-    if (state.loading) section.append(renderUiStateNotice('loading', 'POST-H-028-D ui.approvals loading state: consultando approvals por API local.'));
+    if (state.pendingAction) section.append(renderUiStateNotice('loading', `POST-H-028-D ui.approvals loading state: acción en curso ${state.pendingAction}. Los controles permanecen deshabilitados hasta finalizar.`));
     section.append(renderUiStateNotice('block', 'POST-H-028-D ui.approvals block state: acciones críticas se muestran como BLOCK y no como éxito.'));
     section.append(renderUiStateNotice('empty', 'POST-H-028-D ui.approvals pending state: approval pending/requested aparece con acciones Approve/Deny cuando aplica.'));
-    if (state.errors.approvals || state.errors.selected || state.errors.requestResult) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.approvals error state: BLOCK/ERROR se mantiene visible.'));
+    if (state.errors.approvals || state.errors.selected || state.errors.requestResult || state.errors.actionResult) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.approvals error state: BLOCK/ERROR se mantiene visible.'));
     section.append(renderDetailPanel('Approval seleccionado', state.selected, state.errors.selected));
     section.append(renderDetailPanel('Última solicitud approval', state.requestResult, state.errors.requestResult));
   }
@@ -125,6 +129,17 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   draw();
   if (tokenProvider()) void refresh();
   return section;
+}
+
+function actionButton(label: string, text: string, pendingAction: string | undefined, onClick: () => void): HTMLButtonElement {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.setAttribute('aria-label', label);
+  button.setAttribute('aria-busy', String(Boolean(pendingAction)));
+  button.disabled = Boolean(pendingAction);
+  button.textContent = text;
+  button.addEventListener('click', onClick);
+  return button;
 }
 
 function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: string) => Promise<void>, onDecide: (approvalId: string, decision: 'approve' | 'deny') => Promise<void>): HTMLElement {
@@ -140,22 +155,16 @@ function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: strin
   for (const approval of approvals.slice(0, 50)) {
     const row = document.createElement('div');
     row.className = 'approval-row';
-    const button = document.createElement('button');
-    button.type = 'button';
+    const showKey = `show:${approval.approval_id}`;
+    const button = actionButton('Mostrar approval', state.pendingAction === showKey ? 'Ejecutando…' : `${approval.status.toUpperCase()} · ${approval.tool_id}/${approval.action} · ${approval.subject}`, state.pendingAction, () => void onSelect(approval.approval_id));
     button.className = 'viewer-list__item';
-    button.textContent = `${approval.status.toUpperCase()} · ${approval.tool_id}/${approval.action} · ${approval.subject}`;
-    button.addEventListener('click', () => { void onSelect(approval.approval_id); });
     row.append(button);
     if (approval.status === 'requested') {
-      const approve = document.createElement('button');
-      approve.type = 'button';
-      approve.textContent = 'Approve';
-      approve.addEventListener('click', () => { void onDecide(approval.approval_id, 'approve'); });
-      const deny = document.createElement('button');
-      deny.type = 'button';
+      const approveKey = `approve:${approval.approval_id}`;
+      const approve = actionButton('Approve', state.pendingAction === approveKey ? 'Ejecutando…' : 'Approve', state.pendingAction, () => void onDecide(approval.approval_id, 'approve'));
+      const denyKey = `deny:${approval.approval_id}`;
+      const deny = actionButton('Deny', state.pendingAction === denyKey ? 'Ejecutando…' : 'Deny', state.pendingAction, () => void onDecide(approval.approval_id, 'deny'));
       deny.className = 'button-secondary';
-      deny.textContent = 'Deny';
-      deny.addEventListener('click', () => { void onDecide(approval.approval_id, 'deny'); });
       row.append(approve, deny);
     }
     list.append(row);
@@ -164,14 +173,13 @@ function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: strin
   return panel;
 }
 
-function renderActionPanel(state: ApprovalState, tokenProvider: () => string): HTMLElement {
+function renderActionPanel(state: ApprovalState, tokenProvider: () => string, redraw: () => void): HTMLElement {
   const panel = panelShell('Action Launcher dry-run — POST-H-014-C ui.approvals', state.errors.actionResult ?? state.actionResult?.message ?? 'Solo acciones read-only/dry-run.');
   panel.append(renderDryRunActionForm(tokenProvider, (response, error) => {
     state.actionResult = response;
     if (error) state.errors.actionResult = error;
     else delete state.errors.actionResult;
-    const current = panel.parentElement?.parentElement;
-    if (current) current.dispatchEvent(new Event('devpilot-redraw'));
+    redraw();
   }));
   panel.append(emptyPre(JSON.stringify(state.actionResult?.data?.action_launcher ?? { dry_run: true, critical_actions_blocked: true }, null, 2)));
   if (state.actionResult?.findings?.length) panel.append(renderFindingTable(state.actionResult.findings));

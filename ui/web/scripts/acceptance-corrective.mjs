@@ -18,6 +18,8 @@ const settings = read('src/pages/SettingsView.ts');
 const gates = read('src/components/OperatorGatePanel.ts');
 const client = read('src/api/client.ts');
 const asyncUtils = read('src/utils/async.ts');
+const approvals = read('src/pages/ApprovalCenterView.ts');
+const dryRun = read('src/components/DryRunActionForm.ts');
 const packageJson = readJson('package.json');
 const registry = readRepoJson('.devpilot/interfaces/ui_route_contract_registry.json');
 
@@ -31,7 +33,11 @@ check('SETTINGS_BOUNDED_CONCURRENCY', settings.includes('runBounded') && setting
 check('GATE_UNKNOWN_NOT_BLOCK', gates.includes("'UNKNOWN'") && gates.includes('este estado no equivale a BLOCK'), 'Missing snapshot is UNKNOWN');
 check('SENSITIVE_CAPABILITY_DISABLED', gates.includes("'DISABLED BY POLICY'"), 'Disabled sensitive capability is not rendered as failure');
 check('TIMEOUT_ENDPOINT_CONTEXT', client.includes('endpoint: path') && client.includes('action: \'retry\''), 'Timeout includes endpoint and retry guidance');
-check('TIMEOUT_REMAINS_BOUNDED', client.includes('DEFAULT_REQUEST_TIMEOUT_MS = 8000') && client.includes('AbortController'), 'Timeout stays at 8 seconds');
+check('TIMEOUT_REMAINS_BOUNDED', client.includes('DEFAULT_REQUEST_TIMEOUT_MS = 8000') && client.includes('AbortController'), 'Default/NEG-08 timeout stays at 8 seconds');
+check('EXPENSIVE_TIMEOUT_BOUNDED', client.includes('EXPENSIVE_REQUEST_TIMEOUT_MS = 30000') && client.includes('PROTECTED_WARMUP_TIMEOUT_MS = 15000'), 'Expensive operations and warm-up use explicit bounded timeouts');
+check('TRANSIENT_RETRY_BOUNDED', client.includes('TRANSIENT_NETWORK_RETRY_DELAYS_MS = [500, 1000]') && client.includes('isTransientNetworkError'), 'Only transient status 0 receives bounded retry');
+check('DASHBOARD_PROTECTED_WARMUP', dashboard.includes('protectedWarmup') && dashboard.includes('Warm-up protegido') && dashboard.includes('state.snapshot = {}'), 'Dashboard warms protected API and clears stale state before fan-out');
+check('ACTION_PENDING_FEEDBACK', settings.includes('pendingAction') && approvals.includes('runPending') && dryRun.includes('Ejecutando…') && [settings, approvals, dryRun].every((source) => source.includes('aria-busy')), 'Provider/approval/dry-run actions expose pending feedback');
 check('GENERIC_BOUNDED_RUNNER', asyncUtils.includes('runBounded') && asyncUtils.includes('concurrency = 2'), 'Generic dependency-free bounded runner exists');
 check('ROUTE_REGISTRY_SEPARATED', registry.routes.find((r) => r.route_id === 'ui.reports')?.page_component === 'ReportsView' && registry.routes.find((r) => r.route_id === 'ui.traces')?.page_component === 'TracesView', 'Route registry uses distinct components');
 check('PACKAGE_SCRIPT', packageJson.scripts['test:acceptance-corrective'] === 'node scripts/acceptance-corrective.mjs', 'Corrective npm script registered');

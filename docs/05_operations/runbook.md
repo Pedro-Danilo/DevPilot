@@ -11687,3 +11687,8 @@ BLOCK: una lectura Git esencial no completa dentro del timeout, Git no está dis
 - Corrective UI removes embedded detail surfaces from Dashboard, limits protected browser concurrency to two, separates Reports/Traces, makes Settings states exclusive and fixes UNKNOWN/disabled gate semantics.
 - Request timeout remains 8000 ms and exposes endpoint/retry context.
 - Formal retest is `PILOT-E2E-001-RUN-02`; 01-D and backlog 01 remain open and 02-A is not authorized.
+
+
+## 2026-07-21 — RUN-03 corrective 324
+
+Materializar `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip` en raíces 324 separadas. No reutilizar capturas ni matrices RUN-02. Repetir startup afectado de 01-C y 01-D completo bajo `PILOT-E2E-001-RUN-03`. El timeout general continúa en 8000 ms; solo readiness/providers/provider-plan usan 30000 ms.

@@ -17,14 +17,23 @@ export function renderDryRunActionForm(tokenProvider: () => string, onResult: (r
   button.type = 'submit';
   button.textContent = 'Ejecutar dry-run seguro';
 
+  const status = document.createElement('p');
+  status.className = 'action-status';
+  status.setAttribute('role', 'status');
+  status.setAttribute('aria-live', 'polite');
+  status.textContent = 'Dry-run listo.';
+
   const note = document.createElement('p');
   note.className = 'muted';
   note.textContent = 'Solo acciones read-only/dry-run. La UI no habilita patch apply, refactor execute, rollback execute, git push ni deploy. POST-H-028-D: acción prohibida => BLOCK visible, nunca éxito silencioso.';
 
-  form.append(action.wrapper, target.wrapper, goal.wrapper, note, button);
+  form.append(action.wrapper, target.wrapper, goal.wrapper, note, button, status);
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     button.disabled = true;
+    button.textContent = 'Ejecutando…';
+    button.setAttribute('aria-busy', 'true');
+    status.textContent = 'Ejecutando dry-run local seguro…';
     try {
       const client = new DevPilotApiClient({ token: tokenProvider() });
       const response = await client.runDryRunAction({
@@ -39,6 +48,9 @@ export function renderDryRunActionForm(tokenProvider: () => string, onResult: (r
       onResult(undefined, error instanceof Error ? error.message : String(error));
     } finally {
       button.disabled = false;
+      button.textContent = 'Ejecutar dry-run seguro';
+      button.setAttribute('aria-busy', 'false');
+      status.textContent = 'Dry-run finalizado.';
     }
   });
   return form;

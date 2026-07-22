@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TARGET_REPO = "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip"
+TARGET_REPO = "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
 
 
 def read(path: str) -> str:
@@ -22,7 +22,7 @@ def test_corrective_baseline_keeps_01_d_open() -> None:
     assert state["post_h_eval_002_01_d_closed"] is False
     assert state["post_h_eval_002_01_d_browser_acceptance_executed"] is False
     assert state["post_h_eval_002_01_d_next_authorized"] is False
-    assert state["post_h_eval_002_01_d_required_retest_run_id"] == "PILOT-E2E-001-RUN-02"
+    assert state["post_h_eval_002_01_d_required_retest_run_id"] == "PILOT-E2E-001-RUN-03"
 
 
 def test_dashboard_removes_eager_embedded_views_and_bounds_fanout() -> None:
@@ -72,6 +72,8 @@ def test_no_go_gate_unknown_is_not_block() -> None:
 def test_timeout_keeps_eight_second_bound_and_adds_context() -> None:
     source = read("ui/web/src/api/client.ts")
     assert "DEFAULT_REQUEST_TIMEOUT_MS = 8000" in source
+    assert "EXPENSIVE_REQUEST_TIMEOUT_MS = 30000" in source
+    assert "TRANSIENT_NETWORK_RETRY_DELAYS_MS = [500, 1000]" in source
     assert "endpoint: path" in source
     assert "action: 'retry'" in source
     assert "durationMs" in source
@@ -83,7 +85,9 @@ def test_corrective_static_contract_is_registered() -> None:
     assert package["devpilot"]["dashboardMaxConcurrency"] == 2
     assert package["devpilot"]["dashboardEmbeddedDetailViews"] is False
     assert package["devpilot"]["reportsTracesSeparated"] is True
-    assert package["devpilot"]["browserRetestRunId"] == "PILOT-E2E-001-RUN-02"
+    assert package["devpilot"]["browserRetestRunId"] == "PILOT-E2E-001-RUN-03"
+    assert package["devpilot"]["protectedWarmup"] is True
+    assert package["devpilot"]["actionPendingFeedback"] is True
 
 
 def test_partial_run_is_diagnostic_not_closure_evidence() -> None:
