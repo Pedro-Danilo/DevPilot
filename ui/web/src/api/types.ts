@@ -8,6 +8,13 @@ export interface DevPilotFinding {
   metadata?: Record<string, unknown>;
 }
 
+export interface ClientRequestMetadata {
+  endpoint: string;
+  duration_ms: number;
+  timeout_budget_ms: number;
+  attempt: number;
+}
+
 export interface DevPilotApplicationResponse<TData = Record<string, unknown>> {
   contract: 'DevPilotApplicationResponse';
   operation: string;
@@ -16,6 +23,7 @@ export interface DevPilotApplicationResponse<TData = Record<string, unknown>> {
   message: string;
   data: TData;
   findings: DevPilotFinding[];
+  client_request?: ClientRequestMetadata;
 }
 
 export interface DashboardSnapshot {

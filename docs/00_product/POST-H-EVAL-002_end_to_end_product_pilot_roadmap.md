@@ -3,16 +3,16 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
-updated: "2026-07-17"
+updated: "2026-07-22"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
-implementation_status: "active/01-d-ui-corrective-pending-run-02"
+implementation_status: "active/01-d-browser-acceptance-corrective-325-pending-validation"
 current_wave: "EVAL-002-01"
 next_wave: "EVAL-002-02"
 local_first: true
@@ -278,3 +278,14 @@ roadmap recommendation
 - Current repository: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
 - `PILOT-E2E-001-RUN-02` permanece como evidencia `BLOCK`; no habilita el siguiente backlog.
 - La autorización de este backlog sigue condicionada al PASS autoritativo de `PILOT-E2E-001-RUN-03` y al cierre formal de POST-H-EVAL-002-01.
+
+
+## 2026-07-22 — RUN-03 forensic closure and Browser Acceptance Corrective 325
+
+- RUN-03 is preserved as `BLOCK-WITH-PROGRESS`: materialization, R6.2 runtime and lifecycle PASS; formal browser acceptance BLOCK.
+- Product corrective: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
+- Ordinary requests remain bounded to 8000 ms; expensive operations use explicit operation-specific budgets.
+- Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
+- Provider plan validates the synthetic proposal in memory and performs no provider-file write.
+- Retest required: `PILOT-E2E-001-RUN-04`.
+- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.

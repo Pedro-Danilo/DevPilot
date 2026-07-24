@@ -11692,3 +11692,14 @@ BLOCK: una lectura Git esencial no completa dentro del timeout, Git no está dis
 ## 2026-07-21 — RUN-03 corrective 324
 
 Materializar `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip` en raíces 324 separadas. No reutilizar capturas ni matrices RUN-02. Repetir startup afectado de 01-C y 01-D completo bajo `PILOT-E2E-001-RUN-03`. El timeout general continúa en 8000 ms; solo readiness/providers/provider-plan usan 30000 ms.
+
+
+## 2026-07-22 — RUN-03 forensic closure and Browser Acceptance Corrective 325
+
+- RUN-03 is preserved as `BLOCK-WITH-PROGRESS`: materialization, R6.2 runtime and lifecycle PASS; formal browser acceptance BLOCK.
+- Product corrective: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
+- Ordinary requests remain bounded to 8000 ms; expensive operations use explicit operation-specific budgets.
+- Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
+- Provider plan validates the synthetic proposal in memory and performs no provider-file write.
+- Retest required: `PILOT-E2E-001-RUN-04`.
+- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.

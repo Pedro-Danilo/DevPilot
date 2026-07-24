@@ -10,7 +10,7 @@ phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
 implementation_status: "active/runtime-corrective-324-pending-run-03"
-source_repo: "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
@@ -2433,3 +2433,14 @@ El éxito del piloto no se medirá por evitar la CLI a toda costa. Se medirá po
 - El runtime corrective 324 preserva el timeout general de 8000 ms, agrega límites explícitos para operaciones costosas, warm-up protegido y feedback pending por acción.
 - La validación autoritativa requerida es `PILOT-E2E-001-RUN-03`; 01-D y backlog 01 permanecen abiertos y 02-A no está autorizado.
 - La no-regresión Python debe ejecutarse sobre un árbol fuente limpio: `ui/web/node_modules` se elimina después de los contratos npm y antes de `pytest -q`.
+
+
+## 2026-07-22 — RUN-03 forensic closure and Browser Acceptance Corrective 325
+
+- RUN-03 is preserved as `BLOCK-WITH-PROGRESS`: materialization, R6.2 runtime and lifecycle PASS; formal browser acceptance BLOCK.
+- Product corrective: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
+- Ordinary requests remain bounded to 8000 ms; expensive operations use explicit operation-specific budgets.
+- Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
+- Provider plan validates the synthetic proposal in memory and performs no provider-file write.
+- Retest required: `PILOT-E2E-001-RUN-04`.
+- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.

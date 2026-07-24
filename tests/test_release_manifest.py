@@ -26,12 +26,29 @@ MUTABLE_POST_RELEASE_ARTIFACTS = {
 }
 
 
+TEXT_RELEASE_ARTIFACT_SUFFIXES = {
+    ".json",
+    ".md",
+    ".py",
+    ".toml",
+    ".txt",
+    ".yaml",
+    ".yml",
+}
+
+
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(65536), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    """Return the canonical release checksum for a source artifact.
+
+    Sprint 19 recorded text checksums from LF-normalized source bytes. Git may
+    materialize the same tracked text as CRLF on Windows, which must not be
+    treated as release-content drift. Binary artifacts remain byte-exact.
+    """
+
+    content = path.read_bytes()
+    if path.suffix.lower() in TEXT_RELEASE_ARTIFACT_SUFFIXES:
+        content = content.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(content).hexdigest()
 
 
 def test_release_manifest_exists_and_declares_sprint_19_release() -> None:

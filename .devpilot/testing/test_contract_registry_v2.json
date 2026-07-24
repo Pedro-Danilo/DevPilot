@@ -16559,7 +16559,8 @@
         "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
         "tests/test_post_h_eval_002_activation_contract.py",
         "tests/test_project_global_state.py",
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
       ],
       "watched_paths": [
         ".devpilot/project_state.json",
@@ -16591,7 +16592,16 @@
         "ui/web/scripts/acceptance-corrective.mjs",
         "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
         "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+        "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
+        "ui/web/scripts/browser-acceptance-corrective-325.mjs",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/modeling/providers.py",
+        "ui/web/src/components/DryRunActionForm.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "ui/web/src/pages/SettingsView.ts"
       ],
       "validates": [
         ".devpilot/project_state.json",
@@ -16623,7 +16633,16 @@
         "ui/web/scripts/acceptance-corrective.mjs",
         "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
         "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+        "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
+        "ui/web/scripts/browser-acceptance-corrective-325.mjs",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/modeling/providers.py",
+        "ui/web/src/components/DryRunActionForm.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "ui/web/src/pages/SettingsView.ts"
       ],
       "trigger_hints": [
         "post-h-eval-002-01-d",
@@ -16654,12 +16673,14 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core release-candidate evidence-freshness --json",
-        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_ui_corrective_patch.py -q"
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_ui_corrective_patch.py -q",
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py tests/test_api_settings.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q"
       ],
       "classification_status": "explicit",
       "classification_notes": [
         "Validates acceptance readiness only; browser PASS/BLOCK remains operator evidence.",
-        "S1 freeze exception is limited to route dispatch and bounded timeout."
+        "S1 freeze exception is limited to route dispatch and bounded timeout.",
+        "Corrective 325 keeps 01-D open and requires independent validation plus PILOT-E2E-001-RUN-04."
       ]
     }
   ],
@@ -16672,7 +16693,7 @@
     "external_api_used": false,
     "mutations_performed_by_default": false,
     "contracts_total": 249,
-    "last_updated_by": "POST-H-EVAL-002-01-D"
+    "last_updated_by": "POST-H-EVAL-002-01-D-BROWSER-CORRECTIVE-325"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -16716,6 +16737,7 @@
     "POST-H-EVAL-002-01-B adds explicit clean-install and baseline-verification closure coverage.",
     "POST-H-EVAL-002-01-C adds the API/UI startup and security posture closure contract with localhost/auth/CORS/token/process-lifecycle evidence and 01-D scope boundary.",
     "POST-H-EVAL-002-01-D adds an explicit P0 UI acceptance-readiness contract without authorizing 02-A.",
-    "POST-H-EVAL-002-01-D UI corrective test and route-specific UI files added; browser RUN-02 remains required."
+    "POST-H-EVAL-002-01-D UI corrective test and route-specific UI files added; browser RUN-02 remains required.",
+    "Corrective 325 keeps 01-D open and requires independent validation plus PILOT-E2E-001-RUN-04."
   ]
 }

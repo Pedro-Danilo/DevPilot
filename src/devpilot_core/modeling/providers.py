@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling.contracts import ModelProviderConfig, ModelProviderKind
-from devpilot_core.policy import SecretGuard
+from devpilot_core.policy.secrets import redact_sensitive_string
 
 LOCALHOST_NAMES = {"localhost", "127.0.0.1", "::1"}
 EXTERNAL_PROVIDER_IDS = {"openai", "gemini", "mistral", "huggingface", "hugging-face", "hf"}
@@ -203,6 +203,12 @@ def parse_provider_config_file(path: Path) -> tuple[dict[str, Any], list[ModelPr
     """Parse `.devpilot/providers.yaml(.example)` without external YAML deps."""
 
     payload = _parse_provider_yaml_payload(path)
+    return parse_provider_config_payload(payload, source_path=str(path))
+
+
+def parse_provider_config_payload(payload: dict[str, Any], *, source_path: str) -> tuple[dict[str, Any], list[ModelProviderConfig], list[Finding]]:
+    """Parse an already-loaded provider payload without touching the filesystem."""
+
     raw_items = payload.get("providers", [])
     findings: list[Finding] = []
     configs: list[ModelProviderConfig] = []
@@ -213,7 +219,7 @@ def parse_provider_config_file(path: Path) -> tuple[dict[str, Any], list[ModelPr
                     id="MODEL_PROVIDER_CONFIG_ITEM_INVALID",
                     message="Provider entry must be a mapping/object.",
                     severity=Severity.BLOCK,
-                    path=str(path),
+                    path=source_path,
                 )
             )
             continue
@@ -224,7 +230,7 @@ def parse_provider_config_file(path: Path) -> tuple[dict[str, Any], list[ModelPr
                     id="MODEL_PROVIDER_ID_MISSING",
                     message="Provider entry is missing a non-empty id.",
                     severity=Severity.BLOCK,
-                    path=str(path),
+                    path=source_path,
                 )
             )
             continue
@@ -234,7 +240,7 @@ def parse_provider_config_file(path: Path) -> tuple[dict[str, Any], list[ModelPr
                     id="MODEL_PROVIDER_RAW_SECRET_BLOCKED",
                     message=f"Provider '{provider_id}' contains a raw secret-like value and is not routable.",
                     severity=Severity.BLOCK,
-                    path=str(path),
+                    path=source_path,
                     metadata={"provider": provider_id},
                 )
             )
@@ -248,7 +254,7 @@ def parse_provider_config_file(path: Path) -> tuple[dict[str, Any], list[ModelPr
                     id="MODEL_PROVIDER_KIND_UNKNOWN",
                     message=f"Provider '{provider_id}' declares unsupported kind '{kind_raw}'.",
                     severity=Severity.BLOCK,
-                    path=str(path),
+                    path=source_path,
                     metadata={"provider": provider_id, "kind": kind_raw},
                 )
             )
@@ -463,21 +469,36 @@ def _parse_scalar(value: str) -> Any:
         return value
 
 
+def _value_contains_raw_secret(value: Any) -> bool:
+    """Scan nested provider values using the cached secret catalog.
+
+    The previous implementation created a SecretGuard decision for every
+    individual string. Each decision reloaded and revalidated the catalog,
+    which made provider-plan validation scale poorly on Windows. This helper
+    keeps the same fail-safe token patterns while using the cached string
+    redactor and walking the value only once.
+    """
+
+    if isinstance(value, str):
+        return redact_sensitive_string(value)[1] > 0
+    if isinstance(value, dict):
+        return _contains_raw_secret(value)
+    if isinstance(value, (list, tuple)):
+        return any(_value_contains_raw_secret(entry) for entry in value)
+    return False
+
+
 def _contains_raw_secret(item: dict[str, Any]) -> bool:
-    secret_guard = SecretGuard()
     unsafe_keys = {"api_key", "token", "secret", "password", "client_secret"}
+    exempt_reference_keys = {"api_key_env", "token_env_var"}
     for key, value in item.items():
-        normalized_key = key.lower().strip()
+        normalized_key = str(key).lower().strip()
         if normalized_key in unsafe_keys:
             return True
-        if key == "api_key_env":
+        if normalized_key in exempt_reference_keys:
             continue
-        if isinstance(value, str) and secret_guard.scan_text(value).effect.value == "block":
+        if _value_contains_raw_secret(value):
             return True
-        if isinstance(value, list):
-            for entry in value:
-                if isinstance(entry, str) and secret_guard.scan_text(entry).effect.value == "block":
-                    return True
     return False
 
 

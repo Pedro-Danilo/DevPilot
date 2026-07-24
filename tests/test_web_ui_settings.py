@@ -39,3 +39,18 @@ def test_package_and_smoke_test_track_sprint_72_settings_contract() -> None:
     assert "FUNC-SPRINT-73" in smoke
     assert "/settings/providers/plan" in smoke
     assert "Settings UI" in smoke
+
+
+def test_browser_acceptance_corrective_325_provider_plan_state_is_exclusive() -> None:
+    client = _read("src/api/client.ts")
+    settings = _read("src/pages/SettingsView.ts")
+
+    assert "PROVIDER_SETTINGS_READ_TIMEOUT_MS = 45000" in client
+    assert "PROVIDER_PLAN_TIMEOUT_MS = 60000" in client
+    assert "timeoutMs: PROVIDER_PLAN_TIMEOUT_MS" in client
+    assert "'idle' | 'loading' | 'pass' | 'block' | 'timeout' | 'error'" in settings
+    assert "state.providerPlan = undefined" in settings
+    assert "No existe un plan válido" in settings
+    assert "Plan-only listo." not in settings
+    assert "providerPlanDurationMs" in settings
+    assert "providerPlanTimeoutBudgetMs" in settings

@@ -3,18 +3,18 @@ doc_id: "DEVPL-POST-H-EVAL-002-01-BACKLOG"
 id: "POST-H-EVAL-002-01"
 title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
-updated: "2026-07-17"
+updated: "2026-07-22"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
-implementation_status: "active/01-d-ui-corrective-pending-run-02"
+implementation_status: "active/01-d-browser-acceptance-corrective-325-pending-validation"
 current_micro_sprint: "POST-H-EVAL-002-01-D"
 next_micro_sprint: "POST-H-EVAL-002-02-A"
 local_first: true
@@ -302,3 +302,14 @@ required_retest = PILOT-E2E-001-RUN-03
 - Añade warm-up protegido, retry status-0-only y pending feedback accesible.
 - Retest obligatorio: `PILOT-E2E-001-RUN-03`.
 - `POST-H-EVAL-002-02-A` continúa no autorizado.
+
+
+## 2026-07-22 — RUN-03 forensic closure and Browser Acceptance Corrective 325
+
+- RUN-03 is preserved as `BLOCK-WITH-PROGRESS`: materialization, R6.2 runtime and lifecycle PASS; formal browser acceptance BLOCK.
+- Product corrective: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
+- Ordinary requests remain bounded to 8000 ms; expensive operations use explicit operation-specific budgets.
+- Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
+- Provider plan validates the synthetic proposal in memory and performs no provider-file write.
+- Retest required: `PILOT-E2E-001-RUN-04`.
+- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.

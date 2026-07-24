@@ -10,7 +10,7 @@ Micro-sprint activo: `POST-H-EVAL-002-01-D`. Siguiente micro-sprint: `POST-H-EVA
 
 Repo de aceptación vigente: `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `active/01-d-runtime-corrective-324-pending-run-03`. `POST-H-EVAL-002-01-C` permanece cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió dos blockers S1 del baseline de aceptación: dispatch runtime para las cinco rutas críticas y timeout browser acotado a 8 segundos. **01-D permanece abierto** hasta completar en Windows las capturas, las cinco rutas, los ocho estados negativos, UI Eligible Coverage y el registro inicial de bridges. El workspace `inventory-sales-local` todavía no existe. Permanece además el gap S3 no bloqueante del OpenAPI estático.
+Estado: `active/01-d-browser-acceptance-corrective-325-pending-independent-validation`. `POST-H-EVAL-002-01-C` permanece cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió dos blockers S1 del baseline de aceptación: dispatch runtime para las cinco rutas críticas y timeout browser acotado a 8 segundos. **01-D permanece abierto** hasta completar en Windows las capturas, las cinco rutas, los ocho estados negativos, UI Eligible Coverage y el registro inicial de bridges. El workspace `inventory-sales-local` todavía no existe. Permanece además el gap S3 no bloqueante del OpenAPI estático.
 
 Documentos de entrada:
 
@@ -6181,3 +6181,14 @@ Repo de aceptación vigente: `repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_AC
 - El timeout por defecto permanece en 8000 ms para NEG-08; readiness, providers y provider-plan usan 30000 ms explícitos y acotados.
 - Approval Center, dry-run y provider-plan exponen estado pending, controles deshabilitados, `Ejecutando…`, `aria-busy` y región live.
 - 01-D permanece abierto. La validación autoritativa requerida es `PILOT-E2E-001-RUN-03`; 02-A continúa no autorizado.
+
+
+## 2026-07-22 — RUN-03 forensic closure and Browser Acceptance Corrective 325
+
+- RUN-03 is preserved as `BLOCK-WITH-PROGRESS`: materialization, R6.2 runtime and lifecycle PASS; formal browser acceptance BLOCK.
+- Product corrective: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
+- Ordinary requests remain bounded to 8000 ms; expensive operations use explicit operation-specific budgets.
+- Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
+- Provider plan validates the synthetic proposal in memory and performs no provider-file write.
+- Retest required: `PILOT-E2E-001-RUN-04`.
+- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.

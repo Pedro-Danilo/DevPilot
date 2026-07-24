@@ -1,14 +1,16 @@
 from __future__ import annotations
 
+import copy
 import json
+import time
 from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.modeling.providers import ProviderRegistry, parse_provider_config_file, validate_provider_configs
+from devpilot_core.modeling.providers import ProviderRegistry, parse_provider_config_file, parse_provider_config_payload, validate_provider_configs
 from devpilot_core.policy.cost_guard import load_cost_policy
 from devpilot_core.policy.secrets import REDACTED, redact_sensitive_string
-from devpilot_core.schemas.builtins import parse_provider_config_yaml, parse_workspace_project_yaml
+from devpilot_core.schemas.builtins import parse_workspace_project_yaml
 
 _PROVIDER_MUTABLE_FIELDS = {"enabled", "default_model", "endpoint"}
 _SECRET_KEY_EXCEPTIONS = {"api_key_env", "token_env_var"}
@@ -47,6 +49,10 @@ def _bounded_text(path: Path, *, limit: int = 12000) -> str:
     if len(text) > limit:
         return text[:limit] + "\n[TRUNCATED]"
     return text
+
+
+def _duration_ms(started_at: float) -> int:
+    return max(0, round((time.perf_counter() - started_at) * 1000))
 
 
 class SettingsApplicationService:
@@ -163,68 +169,117 @@ class SettingsApplicationService:
         )
 
     def provider_plan(self, *, provider_id: str, changes: dict[str, Any] | None = None, actor: str = "ui-local", reason: str = "Settings UI plan-only provider change") -> CommandResult:
+        started_at = time.perf_counter()
         provider_id = str(provider_id or "").strip().lower()
         changes = dict(changes or {})
         source = self.root / ".devpilot" / "providers.yaml"
         if not source.is_file():
             source = self.root / ".devpilot" / "providers.yaml.example"
+        source_path = _relative(source, self.root)
         payload, configs, parse_findings = parse_provider_config_file(source)
         current = next((config for config in configs if config.provider_id == provider_id), None)
         findings: list[Finding] = list(parse_findings)
         if current is None:
-            findings.append(Finding(id="SETTINGS_PROVIDER_NOT_FOUND_BLOCK", message=f"Provider '{provider_id}' does not exist in current provider settings.", severity=Severity.BLOCK, path=_relative(source, self.root), metadata={"provider_id": provider_id}))
-            return CommandResult(command="settings providers plan", ok=False, exit_code=ExitCode.BLOCK, message="Provider plan blocked because provider id was not found.", data={"summary": {"provider_id": provider_id, "write_performed": False, "plan_only": True, "preliminary": True}}, findings=findings)
+            findings.append(Finding(id="SETTINGS_PROVIDER_NOT_FOUND_BLOCK", message=f"Provider '{provider_id}' does not exist in current provider settings.", severity=Severity.BLOCK, path=source_path, metadata={"provider_id": provider_id}))
+            return CommandResult(
+                command="settings providers plan",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Provider plan blocked because provider id was not found.",
+                data={"summary": {"provider_id": provider_id, "write_performed": False, "plan_only": True, "validation_target": "synthetic-proposal", "duration_ms": _duration_ms(started_at), "preliminary": True}},
+                findings=findings,
+            )
 
         unsupported = sorted(set(changes) - _PROVIDER_MUTABLE_FIELDS)
         proposed_changes = {key: changes[key] for key in sorted(changes) if key in _PROVIDER_MUTABLE_FIELDS}
         for key, value in proposed_changes.items():
             if isinstance(value, str) and redact_sensitive_string(value)[1] > 0:
-                findings.append(Finding(id="SETTINGS_PROVIDER_PLAN_SECRET_BLOCK", message=f"Proposed field '{key}' contains secret-like content.", severity=Severity.BLOCK, path=_relative(source, self.root), metadata={"provider_id": provider_id, "field": key}))
+                findings.append(Finding(id="SETTINGS_PROVIDER_PLAN_SECRET_BLOCK", message=f"Proposed field '{key}' contains secret-like content.", severity=Severity.BLOCK, path=source_path, metadata={"provider_id": provider_id, "field": key}))
         if unsupported:
             findings.append(Finding(id="SETTINGS_PROVIDER_PLAN_UNSUPPORTED_FIELD_WARNING", message="Unsupported provider fields were ignored by the plan-only editor.", severity=Severity.WARNING, metadata={"unsupported_fields": unsupported}))
+        if current.external_api and bool(proposed_changes.get("enabled", current.enabled)):
+            findings.append(Finding(id="SETTINGS_PROVIDER_EXTERNAL_ENABLE_BLOCK", message="Settings UI cannot enable external API providers; use a later approval-gated workflow with CostGuard.", severity=Severity.BLOCK, path=source_path, metadata={"provider_id": provider_id}))
+
+        synthetic_payload = copy.deepcopy(payload)
+        synthetic_items: list[dict[str, Any]] = []
+        provider_updated = False
+        for raw_item in synthetic_payload.get("providers", []):
+            if not isinstance(raw_item, dict):
+                synthetic_items.append(raw_item)
+                continue
+            item = copy.deepcopy(raw_item)
+            raw_id = str(item.get("id") or item.get("provider_id") or "").strip().lower()
+            if raw_id == provider_id:
+                item.update(proposed_changes)
+                provider_updated = True
+            synthetic_items.append(item)
+        synthetic_payload["providers"] = synthetic_items
+        if not provider_updated:
+            findings.append(Finding(id="SETTINGS_PROVIDER_SYNTHETIC_TARGET_MISSING_BLOCK", message="The provider existed in parsed configs but not in the synthetic source payload.", severity=Severity.BLOCK, path=source_path, metadata={"provider_id": provider_id}))
+
+        _, synthetic_configs, synthetic_parse_findings = parse_provider_config_payload(
+            synthetic_payload,
+            source_path=f"{source_path}#synthetic-proposal",
+        )
+        findings.extend(synthetic_parse_findings)
+        findings.extend(validate_provider_configs(synthetic_configs, payload=synthetic_payload, source_path=f"{source_path}#synthetic-proposal"))
+        proposed_config = next((config for config in synthetic_configs if config.provider_id == provider_id), None)
+        if proposed_config is None:
+            findings.append(Finding(id="SETTINGS_PROVIDER_SYNTHETIC_PARSE_BLOCK", message="The proposed provider configuration could not be parsed safely.", severity=Severity.BLOCK, path=source_path, metadata={"provider_id": provider_id}))
 
         current_data = _redact_settings_value(current.to_dict())
-        proposed = dict(current.to_dict())
-        proposed.update(proposed_changes)
-        # External API providers must not be enabled by Settings UI in Sprint 72.
-        if current.external_api and bool(proposed.get("enabled")):
-            findings.append(Finding(id="SETTINGS_PROVIDER_EXTERNAL_ENABLE_BLOCK", message="Settings UI cannot enable external API providers; use a later approval-gated workflow with CostGuard.", severity=Severity.BLOCK, path=_relative(source, self.root), metadata={"provider_id": provider_id}))
-        # Local endpoints must remain localhost-only; reuse registry semantic validation by constructing a temporary payload.
-        temp_payload = dict(payload)
-        temp_items = []
-        for item in parse_provider_config_yaml(source).get("providers", []):
-            if str(item.get("id", "")).strip().lower() == provider_id:
-                item = {**item, **proposed_changes}
-            temp_items.append(item)
-        temp_payload["providers"] = temp_items
-        _, temp_configs, temp_parse_findings = parse_provider_config_file(source)
-        # parse_provider_config_file reads source, so validate manually against existing configs with limited checks via current + proposed shape.
-        # Build a synthetic summary without writing; semantic validation of actual file remains source-of-truth.
-        findings.extend(temp_parse_findings)
-        semantic_findings = validate_provider_configs(configs, payload=payload, source_path=_relative(source, self.root))
-        findings.extend(semantic_findings)
-        blocking = [f for f in findings if f.severity in {Severity.BLOCK, Severity.ERROR}]
+        proposed_data = _redact_settings_value(proposed_config.to_dict()) if proposed_config is not None else {}
+        blocking = [finding for finding in findings if finding.severity in {Severity.BLOCK, Severity.ERROR}]
+        duration_ms = _duration_ms(started_at)
         plan = {
             "provider_id": provider_id,
             "actor": actor,
             "reason": reason,
-            "source_path": _relative(source, self.root),
+            "source_path": source_path,
+            "validation_target": "synthetic-proposal",
+            "validation_steps": [
+                "load-source-once",
+                "apply-supported-proposed-changes-in-memory",
+                "parse-synthetic-payload",
+                "validate-synthetic-provider-configs",
+                "redact-current-and-proposed",
+                "return-plan-without-write",
+            ],
             "current": current_data,
             "proposed_changes": _redact_settings_value(proposed_changes),
-            "proposed_preview": _redact_settings_value({k: proposed.get(k) for k in sorted({*current.to_dict().keys(), *proposed_changes.keys()})}),
+            "proposed_preview": proposed_data,
+            "unsupported_fields": unsupported,
             "write_performed": False,
             "plan_only": True,
             "requires_approval": bool(proposed_changes),
-            "external_api_enable_blocked": any(f.id == "SETTINGS_PROVIDER_EXTERNAL_ENABLE_BLOCK" for f in findings),
+            "external_api_enable_blocked": any(f.id in {"SETTINGS_PROVIDER_EXTERNAL_ENABLE_BLOCK", "MODEL_PROVIDER_EXTERNAL_ENABLED_BLOCKED"} for f in findings),
             "secrets_redacted": True,
+            "duration_ms": duration_ms,
         }
         if not blocking:
-            findings.insert(0, Finding(id="SETTINGS_PROVIDER_PLAN_PASS", message="Provider change plan generated without writing files.", severity=Severity.INFO, path=_relative(source, self.root), metadata={"provider_id": provider_id}))
+            findings.insert(0, Finding(id="SETTINGS_PROVIDER_PLAN_PASS", message="Synthetic provider change plan validated without writing files.", severity=Severity.INFO, path=source_path, metadata={"provider_id": provider_id, "duration_ms": duration_ms}))
         return CommandResult(
             command="settings providers plan",
             ok=not blocking,
             exit_code=ExitCode.PASS if not blocking else ExitCode.BLOCK,
-            message="Provider change plan generated without writing files." if not blocking else "Provider change plan was blocked by safety gates.",
-            data={"summary": {"settings_domain": "providers", "provider_id": provider_id, "write_performed": False, "plan_only": True, "requires_approval": bool(proposed_changes), "blocking_findings_total": len(blocking), "preliminary": True}, "plan": plan, "notes": ["FUNC-SPRINT-72 never writes .devpilot/providers.yaml.", "External API providers remain disabled unless a future explicit approval-gated workflow changes that policy."]},
+            message="Provider change plan generated and validated without writing files." if not blocking else "Provider change plan was blocked by safety gates.",
+            data={
+                "summary": {
+                    "settings_domain": "providers",
+                    "provider_id": provider_id,
+                    "write_performed": False,
+                    "plan_only": True,
+                    "validation_target": "synthetic-proposal",
+                    "requires_approval": bool(proposed_changes),
+                    "blocking_findings_total": len(blocking),
+                    "duration_ms": duration_ms,
+                    "preliminary": True,
+                },
+                "plan": plan,
+                "notes": [
+                    "POST-H-EVAL-002-01-D corrective 325 never writes .devpilot/providers.yaml.",
+                    "External API providers remain disabled unless a future explicit approval-gated workflow changes that policy.",
+                ],
+            },
             findings=findings,
         )

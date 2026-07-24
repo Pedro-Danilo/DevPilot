@@ -10,8 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 TOKEN = "test-token-settings"
 
 
+_CLIENT = TestClient(create_app(ROOT, api_token=TOKEN))
+
+
 def _client() -> TestClient:
-    return TestClient(create_app(ROOT, api_token=TOKEN))
+    return _CLIENT
 
 
 def _headers() -> dict[str, str]:
@@ -20,6 +23,7 @@ def _headers() -> dict[str, str]:
 
 def test_settings_workspace_providers_and_policy_are_read_only() -> None:
     client = _client()
+
     for path in ["/api/v1/settings/workspace", "/api/v1/settings/providers", "/api/v1/settings/policy"]:
         response = client.get(path, headers=_headers())
         assert response.status_code == 200, response.text
@@ -32,7 +36,8 @@ def test_settings_workspace_providers_and_policy_are_read_only() -> None:
 
 
 def test_settings_providers_do_not_expose_raw_secret_values() -> None:
-    response = _client().get("/api/v1/settings/providers", headers=_headers())
+    client = _client()
+    response = client.get("/api/v1/settings/providers", headers=_headers())
     assert response.status_code == 200
     text = response.text
     assert "sk-proj-" not in text
@@ -45,9 +50,10 @@ def test_settings_providers_do_not_expose_raw_secret_values() -> None:
 
 
 def test_provider_plan_is_plan_only_and_does_not_write_providers_file() -> None:
+    client = _client()
     provider_file = ROOT / ".devpilot" / "providers.yaml"
     before = provider_file.read_text(encoding="utf-8") if provider_file.exists() else ""
-    response = _client().post(
+    response = client.post(
         "/api/v1/settings/providers/plan",
         headers=_headers(),
         json={"provider_id": "ollama", "changes": {"enabled": True, "endpoint": "http://localhost:11434"}, "actor": "pytest", "reason": "settings plan test"},
@@ -62,7 +68,8 @@ def test_provider_plan_is_plan_only_and_does_not_write_providers_file() -> None:
 
 
 def test_provider_plan_blocks_external_api_enable() -> None:
-    response = _client().post(
+    client = _client()
+    response = client.post(
         "/api/v1/settings/providers/plan",
         headers=_headers(),
         json={"provider_id": "openai", "changes": {"enabled": True}, "actor": "pytest", "reason": "should block"},
@@ -74,6 +81,85 @@ def test_provider_plan_blocks_external_api_enable() -> None:
 
 
 def test_settings_routes_are_protected_by_token_and_policy() -> None:
-    response = _client().get("/api/v1/settings/workspace", headers={"Origin": "http://127.0.0.1:5173"})
+    client = _client()
+    response = client.get("/api/v1/settings/workspace", headers={"Origin": "http://127.0.0.1:5173"})
     assert response.status_code == 401
     assert response.headers.get("Access-Control-Allow-Origin") == "http://127.0.0.1:5173"
+
+
+def test_provider_plan_validates_synthetic_local_proposal_and_records_duration() -> None:
+    client = _client()
+    response = client.post(
+        "/api/v1/settings/providers/plan",
+        headers=_headers(),
+        json={
+            "provider_id": "ollama",
+            "changes": {"enabled": True, "default_model": "qwen2.5:3b-instruct", "endpoint": "http://127.0.0.1:11434"},
+            "actor": "pytest",
+            "reason": "synthetic proposal",
+        },
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    summary = payload["data"]["summary"]
+    plan = payload["data"]["plan"]
+    assert summary["validation_target"] == "synthetic-proposal"
+    assert summary["duration_ms"] >= 0
+    assert plan["proposed_preview"]["endpoint"] == "http://127.0.0.1:11434"
+    assert "validate-synthetic-provider-configs" in plan["validation_steps"]
+    assert plan["write_performed"] is False
+
+
+def test_provider_plan_blocks_nonlocal_endpoint_in_synthetic_proposal() -> None:
+    client = _client()
+    response = client.post(
+        "/api/v1/settings/providers/plan",
+        headers=_headers(),
+        json={"provider_id": "ollama", "changes": {"endpoint": "https://models.example.com"}},
+    )
+    assert response.status_code == 403, response.text
+    payload = response.json()
+    assert any(finding["id"] == "MODEL_PROVIDER_LOCAL_ENDPOINT_NOT_LOCAL_BLOCKED" for finding in payload["findings"])
+    assert payload["data"]["summary"]["write_performed"] is False
+
+
+def test_provider_plan_blocks_secret_like_proposal_and_redacts_response() -> None:
+    client = _client()
+    secret = "sk-" + "proj-" + "never-persist-this-value"
+    response = client.post(
+        "/api/v1/settings/providers/plan",
+        headers=_headers(),
+        json={"provider_id": "ollama", "changes": {"endpoint": f"http://localhost:11434?token={secret}"}},
+    )
+    assert response.status_code == 403, response.text
+    assert secret not in response.text
+    payload = response.json()
+    assert any(finding["id"] in {"SETTINGS_PROVIDER_PLAN_SECRET_BLOCK", "MODEL_PROVIDER_RAW_SECRET_BLOCKED"} for finding in payload["findings"])
+
+
+def test_provider_plan_warns_and_ignores_unsupported_fields() -> None:
+    client = _client()
+    response = client.post(
+        "/api/v1/settings/providers/plan",
+        headers=_headers(),
+        json={"provider_id": "ollama", "changes": {"description": "not mutable"}},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert any(finding["id"] == "SETTINGS_PROVIDER_PLAN_UNSUPPORTED_FIELD_WARNING" for finding in payload["findings"])
+    assert payload["data"]["plan"]["unsupported_fields"] == ["description"]
+
+
+def test_provider_plan_blocks_unknown_provider_without_writing() -> None:
+    client = _client()
+    provider_file = ROOT / ".devpilot" / "providers.yaml"
+    before = provider_file.read_bytes() if provider_file.exists() else b""
+    response = client.post(
+        "/api/v1/settings/providers/plan",
+        headers=_headers(),
+        json={"provider_id": "missing-provider", "changes": {"enabled": True}},
+    )
+    assert response.status_code == 403
+    assert any(finding["id"] == "SETTINGS_PROVIDER_NOT_FOUND_BLOCK" for finding in response.json()["findings"])
+    after = provider_file.read_bytes() if provider_file.exists() else b""
+    assert after == before

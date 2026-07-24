@@ -1,17 +1,26 @@
-import { DevPilotApiClient } from '../api/client';
+import {
+  DevPilotApiClient,
+  DevPilotApiError,
+  PROVIDER_PLAN_TIMEOUT_MS,
+} from '../api/client';
 import type { DevPilotApplicationResponse, SettingsSnapshot } from '../api/types';
 import { renderProviderSettings } from '../components/ProviderSettings';
-import { escapeHtml, safeJsonForHtml } from '../utils/sanitize';
+import { safeJsonForHtml } from '../utils/sanitize';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { runBounded } from '../utils/async';
 
 // Provider editor plan-only contract marker retained for compatibility.
 type SettingsPhase = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
+type ProviderPlanPhase = 'idle' | 'loading' | 'pass' | 'block' | 'timeout' | 'error';
 
 interface SettingsState extends SettingsSnapshot {
   phase: SettingsPhase;
+  providerPlanPhase: ProviderPlanPhase;
   errors: Record<string, string>;
   durations: Record<string, number>;
+  providerPlanEndpoint?: string;
+  providerPlanDurationMs?: number;
+  providerPlanTimeoutBudgetMs: number;
   pendingAction?: 'providerPlan';
 }
 
@@ -25,11 +34,17 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   const root = document.createElement('section');
   root.className = 'panel settings-panel';
   root.dataset.devpilotUiContract = 'ui.settings';
-  const state: SettingsState = { phase: 'idle', errors: {}, durations: {} };
+  const state: SettingsState = {
+    phase: 'idle',
+    providerPlanPhase: 'idle',
+    errors: {},
+    durations: {},
+    providerPlanTimeoutBudgetMs: PROVIDER_PLAN_TIMEOUT_MS,
+  };
 
   async function refresh(): Promise<void> {
     state.phase = 'loading';
-    state.errors = {};
+    state.errors = Object.fromEntries(Object.entries(state.errors).filter(([key]) => key === 'providerPlan'));
     draw();
     const fresh = new DevPilotApiClient({ token: token() });
     await runBounded<DevPilotApplicationResponse>([
@@ -48,8 +63,9 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       if (result.error) state.errors[result.key] = result.error;
       draw();
     });
+    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture'];
     const responses = [state.workspace, state.providers, state.policy, state.securityPosture].filter(Boolean);
-    if (Object.keys(state.errors).length) state.phase = 'error';
+    if (responseKeys.some((key) => Boolean(state.errors[key]))) state.phase = 'error';
     else if (!responses.length) state.phase = 'empty';
     else state.phase = 'ready';
     draw();
@@ -58,6 +74,10 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   async function planProvider(): Promise<void> {
     if (state.pendingAction) return;
     state.pendingAction = 'providerPlan';
+    state.providerPlanPhase = 'loading';
+    state.providerPlan = undefined;
+    state.providerPlanDurationMs = undefined;
+    state.providerPlanEndpoint = '/settings/providers/plan';
     delete state.errors.providerPlan;
     draw();
     const providerId = (root.querySelector<HTMLInputElement>('#settings-provider-id')?.value || 'ollama').trim();
@@ -68,16 +88,33 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     if (model.trim()) changes.default_model = model.trim();
     if (endpoint.trim()) changes.endpoint = endpoint.trim();
     try {
-      state.providerPlan = await new DevPilotApiClient({ token: token() }).planProviderChange({
+      const response = await new DevPilotApiClient({ token: token() }).planProviderChange({
         provider_id: providerId,
         changes,
         actor: 'ui-local',
         reason: 'Plan-only provider settings change from Settings UI.',
       });
-      delete state.errors.providerPlan;
+      state.providerPlan = response;
+      state.providerPlanPhase = response.ok ? 'pass' : 'block';
+      state.providerPlanEndpoint = response.client_request?.endpoint ?? '/settings/providers/plan';
+      state.providerPlanDurationMs = response.client_request?.duration_ms;
+      state.providerPlanTimeoutBudgetMs = response.client_request?.timeout_budget_ms ?? PROVIDER_PLAN_TIMEOUT_MS;
     } catch (error) {
-      state.errors.providerPlan = error instanceof Error ? error.message : String(error);
-      state.phase = 'error';
+      if (error instanceof DevPilotApiError) {
+        const payload = isApplicationResponse(error.payload) ? error.payload : undefined;
+        state.providerPlan = payload;
+        state.providerPlanDurationMs = error.durationMs;
+        state.providerPlanEndpoint = error.endpoint || '/settings/providers/plan';
+        state.providerPlanPhase = error.status === 408
+          ? 'timeout'
+          : error.status === 403 && payload
+            ? 'block'
+            : 'error';
+        state.errors.providerPlan = error.message;
+      } else {
+        state.providerPlanPhase = 'error';
+        state.errors.providerPlan = error instanceof Error ? error.message : String(error);
+      }
     } finally {
       state.pendingAction = undefined;
     }
@@ -116,18 +153,23 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     const providers = document.createElement('article');
     providers.className = 'card';
     providers.innerHTML = `<span class="badge ${status(state.providers, state.errors.providers).toLowerCase()}">${status(state.providers, state.errors.providers)}</span><h3>Providers</h3><p>Listado seguro sin secretos ni activación externa accidental. ${durationLabel(state.durations.providers)}</p>${renderProviderSettings(state.providers)}<pre>${safeJsonForHtml(state.providers?.data?.summary ?? { detail: 'Sin providers cargados.' })}</pre>`;
+
+    const loading = state.providerPlanPhase === 'loading';
     const editor = document.createElement('article');
     editor.className = 'card';
+    editor.dataset.providerPlanPhase = state.providerPlanPhase;
     editor.innerHTML = `
+      <span class="badge ${providerPlanBadge(state.providerPlanPhase)}">${state.providerPlanPhase.toUpperCase()}</span>
       <h3>Editor de provider — plan-only</h3>
       <p>Genera un plan. No escribe el archivo local de providers ni activa APIs externas.</p>
-      <label>Provider id<input id="settings-provider-id" value="ollama" /></label>
-      <label>Enabled plan<input id="settings-provider-enabled" type="checkbox" /></label>
-      <label>Default model<input id="settings-provider-model" value="qwen2.5:3b-instruct" /></label>
-      <label>Endpoint<input id="settings-provider-endpoint" value="http://localhost:11434" /></label>
-      <button id="settings-plan-provider" aria-busy="${state.pendingAction === 'providerPlan'}" ${state.pendingAction ? 'disabled' : ''}>${state.pendingAction === 'providerPlan' ? 'Ejecutando…' : 'Generar plan sin escribir'}</button>
-      <p class="action-status" role="status" aria-live="polite">${state.pendingAction === 'providerPlan' ? 'Generando plan local sin escribir configuración…' : 'Plan-only listo.'}</p>
-      <pre>${safeJsonForHtml(state.providerPlan?.data ?? { detail: 'No se ha generado un plan.' })}</pre>
+      <label>Provider id<input id="settings-provider-id" value="ollama" ${loading ? 'disabled' : ''} /></label>
+      <label>Enabled plan<input id="settings-provider-enabled" type="checkbox" ${loading ? 'disabled' : ''} /></label>
+      <label>Default model<input id="settings-provider-model" value="qwen2.5:3b-instruct" ${loading ? 'disabled' : ''} /></label>
+      <label>Endpoint<input id="settings-provider-endpoint" value="http://localhost:11434" ${loading ? 'disabled' : ''} /></label>
+      <button id="settings-plan-provider" aria-busy="${loading}" ${loading ? 'disabled' : ''}>${loading ? 'Ejecutando…' : providerPlanButtonLabel(state.providerPlanPhase)}</button>
+      <p class="action-status" role="status" aria-live="polite">${providerPlanStatusLabel(state)}</p>
+      <p class="muted">${providerPlanTelemetry(state)}</p>
+      <pre>${safeJsonForHtml(state.providerPlan?.data ?? { detail: 'No existe un plan válido para esta sesión.' })}</pre>
     `;
     editor.querySelector('#settings-plan-provider')?.addEventListener('click', () => void planProvider());
     providerGrid.append(providers, editor);
@@ -139,11 +181,41 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   return root;
 }
 
+function providerPlanStatusLabel(state: SettingsState): string {
+  if (state.providerPlanPhase === 'loading') return 'LOADING · generando plan local sin escribir configuración…';
+  if (state.providerPlanPhase === 'pass') return 'PASS · plan-only generado con respuesta válida del API.';
+  if (state.providerPlanPhase === 'block') return 'BLOCK · la propuesta fue rechazada por los safety gates.';
+  if (state.providerPlanPhase === 'timeout') return 'TIMEOUT · no existe plan válido; revise la API local y reintente.';
+  if (state.providerPlanPhase === 'error') return `ERROR · ${state.errors.providerPlan ?? 'fallo no clasificado'}`;
+  return 'IDLE · plan no ejecutado.';
+}
+
+function providerPlanTelemetry(state: SettingsState): string {
+  const duration = state.providerPlanDurationMs === undefined ? 'pendiente' : `${state.providerPlanDurationMs} ms`;
+  return `Endpoint ${state.providerPlanEndpoint ?? '/settings/providers/plan'} · duración ${duration} · budget ${state.providerPlanTimeoutBudgetMs} ms.`;
+}
+
+function providerPlanButtonLabel(phase: ProviderPlanPhase): string {
+  return phase === 'timeout' || phase === 'error' ? 'Reintentar plan sin escribir' : 'Generar plan sin escribir';
+}
+
+function providerPlanBadge(phase: ProviderPlanPhase): string {
+  if (phase === 'pass') return 'pass';
+  if (phase === 'block') return 'block';
+  if (phase === 'timeout' || phase === 'error') return 'error';
+  return 'pending';
+}
+
+function isApplicationResponse(value: unknown): value is DevPilotApplicationResponse {
+  return Boolean(value && typeof value === 'object' && (value as { contract?: unknown }).contract === 'DevPilotApplicationResponse');
+}
+
 function renderPhaseNotice(state: SettingsState): HTMLElement {
   if (state.phase === 'loading') return renderUiStateNotice('loading', 'Consultando configuración local con máximo dos solicitudes simultáneas.');
   if (state.phase === 'empty') return renderUiStateNotice('empty', 'No se recibió configuración. Verifique el workspace activo y vuelva a intentar.');
   if (state.phase === 'error') {
-    return renderUiStateNotice('error', `Configuración degradada: ${Object.entries(state.errors).map(([key, value]) => `${key}: ${value}`).join(' | ')}`);
+    const readErrors = Object.entries(state.errors).filter(([key]) => key !== 'providerPlan');
+    return renderUiStateNotice('error', `Configuración degradada: ${readErrors.map(([key, value]) => `${key}: ${value}`).join(' | ')}`);
   }
   if (state.phase === 'ready') return renderUiStateNotice('success', 'Configuración local cargada. Las capacidades sensibles permanecen gobernadas.');
   return renderUiStateNotice('empty', 'Aplique un token local y seleccione Actualizar configuración.');

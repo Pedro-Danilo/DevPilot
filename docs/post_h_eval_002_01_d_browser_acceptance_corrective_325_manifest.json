@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-D-BROWSER-ACCEPTANCE-CORRECTIVE-325",
+  "created_by": "POST-H-EVAL-002-01-D",
+  "updated": "2026-07-22",
+  "source_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
+  "target_repo": "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip",
+  "status": "implemented-pending-independent-validation",
+  "run_03_forensic": {
+    "decision": "BLOCK-WITH-PROGRESS",
+    "materialization": "PASS",
+    "runtime_r6_2": "PASS",
+    "lifecycle": "PASS",
+    "browser_acceptance": "BLOCK",
+    "closure_eligible": false,
+    "required_retest_run_id": "PILOT-E2E-001-RUN-04"
+  },
+  "product_corrective": {
+    "default_timeout_ms": 8000,
+    "protected_warmup_timeout_ms": 15000,
+    "readiness_timeout_ms": 30000,
+    "provider_settings_read_timeout_ms": 45000,
+    "action_dry_run_timeout_ms": 60000,
+    "provider_plan_timeout_ms": 60000,
+    "dry_run_state_machine": [
+      "idle",
+      "loading",
+      "pass",
+      "block",
+      "timeout",
+      "error"
+    ],
+    "provider_plan_state_machine": [
+      "idle",
+      "loading",
+      "pass",
+      "block",
+      "timeout",
+      "error"
+    ],
+    "stale_result_cleared_before_retry": true,
+    "synthetic_provider_proposal_validated": true,
+    "provider_plan_write_enabled": false,
+    "approval_show_evidence_surface": true,
+    "client_duration_and_budget_visible": true
+  },
+  "operator_only_gaps_deferred_to_r7_0": [
+    "deterministic empty reports/traces fixtures",
+    "timeout fixture disconnect handling",
+    "NEG-07 HTTP 200 + parse_error contract alignment",
+    "automated 23/23 probes",
+    "Console/HAR evidence"
+  ],
+  "safety": {
+    "local_first": true,
+    "external_api_used": false,
+    "network_used": false,
+    "provider_write_enabled": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "token_persisted": false,
+    "workspace_created": false
+  },
+  "closure_state": {
+    "closed": false,
+    "current": "POST-H-EVAL-002-01-D",
+    "required_retest_run_id": "PILOT-E2E-001-RUN-04",
+    "next": "POST-H-EVAL-002-02-A",
+    "next_authorized": false
+  },
+  "files": {
+    "frontend": [
+      "ui/web/src/api/client.ts",
+      "ui/web/src/api/types.ts",
+      "ui/web/src/components/DryRunActionForm.ts",
+      "ui/web/src/pages/ApprovalCenterView.ts",
+      "ui/web/src/pages/SettingsView.ts",
+      "ui/web/scripts/browser-acceptance-corrective-325.mjs",
+      "ui/web/package.json",
+      "ui/web/package-lock.json"
+    ],
+    "backend": [
+      "src/devpilot_core/modeling/providers.py",
+      "src/devpilot_core/application/settings_service.py"
+    ],
+    "tests": [
+      "tests/test_api_settings.py",
+      "tests/test_web_ui_approval_center.py",
+      "tests/test_web_ui_settings.py",
+      "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
+    ]
+  }
+}

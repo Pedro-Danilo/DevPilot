@@ -1,6 +1,7 @@
 import { DevPilotApiClient } from '../api/client';
 import type { ApprovalRecordItem, DevPilotApplicationResponse } from '../api/types';
-import { renderDryRunActionForm } from '../components/DryRunActionForm';
+import { idleOutcome, renderDryRunActionForm } from '../components/DryRunActionForm';
+import type { DryRunUiOutcome } from '../components/DryRunActionForm';
 import { renderFindingTable } from '../components/FindingTable';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 
@@ -12,12 +13,13 @@ interface ApprovalState {
   errors: Record<string, string>;
   statusFilter: string;
   pendingAction?: string;
+  actionOutcome: DryRunUiOutcome;
 }
 
 export function renderApprovalCenterView(tokenProvider: () => string): HTMLElement {
   const section = document.createElement('section');
   section.className = 'approval-panel';
-  const state: ApprovalState = { errors: {}, statusFilter: '' };
+  const state: ApprovalState = { errors: {}, statusFilter: '', actionOutcome: idleOutcome() };
 
   async function loadApprovals(): Promise<void> {
     const client = new DevPilotApiClient({ token: tokenProvider() });
@@ -70,6 +72,10 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
         reason: 'Sample approval request generated from POST-H-028-D Approval Center operator flow.',
         ttl_minutes: 60,
       });
+      const created = (state.requestResult.data as { approval?: ApprovalRecordItem }).approval;
+      if (created?.approval_id) {
+        state.selected = await client.showApproval(created.approval_id);
+      }
       await loadApprovals();
     }, 'requestResult');
   }
@@ -122,7 +128,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     section.append(renderUiStateNotice('block', 'POST-H-028-D ui.approvals block state: acciones críticas se muestran como BLOCK y no como éxito.'));
     section.append(renderUiStateNotice('empty', 'POST-H-028-D ui.approvals pending state: approval pending/requested aparece con acciones Approve/Deny cuando aplica.'));
     if (state.errors.approvals || state.errors.selected || state.errors.requestResult || state.errors.actionResult) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.approvals error state: BLOCK/ERROR se mantiene visible.'));
-    section.append(renderDetailPanel('Approval seleccionado', state.selected, state.errors.selected));
+    section.append(renderApprovalDetailPanel(state.selected, state.errors.selected));
     section.append(renderDetailPanel('Última solicitud approval', state.requestResult, state.errors.requestResult));
   }
 
@@ -175,14 +181,51 @@ function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: strin
 
 function renderActionPanel(state: ApprovalState, tokenProvider: () => string, redraw: () => void): HTMLElement {
   const panel = panelShell('Action Launcher dry-run — POST-H-014-C ui.approvals', state.errors.actionResult ?? state.actionResult?.message ?? 'Solo acciones read-only/dry-run.');
-  panel.append(renderDryRunActionForm(tokenProvider, (response, error) => {
-    state.actionResult = response;
-    if (error) state.errors.actionResult = error;
+  panel.dataset.phase = state.actionOutcome.phase;
+  panel.append(renderDryRunActionForm(tokenProvider, (outcome) => {
+    state.actionOutcome = outcome;
+    state.actionResult = outcome.response;
+    if (outcome.error) state.errors.actionResult = outcome.error;
     else delete state.errors.actionResult;
     redraw();
-  }));
-  panel.append(emptyPre(JSON.stringify(state.actionResult?.data?.action_launcher ?? { dry_run: true, critical_actions_blocked: true }, null, 2)));
+  }, state.actionOutcome));
+  const detail = state.actionResult?.data?.action_launcher;
+  panel.append(emptyPre(JSON.stringify(detail ?? { detail: 'No existe respuesta de dry-run para esta sesión.' }, null, 2)));
   if (state.actionResult?.findings?.length) panel.append(renderFindingTable(state.actionResult.findings));
+  return panel;
+}
+
+function renderApprovalDetailPanel(response?: DevPilotApplicationResponse, error?: string): HTMLElement {
+  const panel = panelShell('Approval seleccionado', error ?? response?.message ?? 'Selecciona un approval para ver el detalle.');
+  const approval = (response?.data as { approval?: ApprovalRecordItem } | undefined)?.approval;
+  if (!approval) {
+    panel.append(emptyPre(JSON.stringify({ detail: 'Sin detalle seleccionado.' }, null, 2)));
+    return panel;
+  }
+  const badge = document.createElement('span');
+  badge.className = 'badge pass';
+  badge.textContent = 'DETAIL LOADED';
+  badge.dataset.approvalId = approval.approval_id;
+  const list = document.createElement('dl');
+  list.className = 'approval-detail';
+  for (const [label, value] of [
+    ['approval_id', approval.approval_id],
+    ['status', approval.status],
+    ['tool_id', approval.tool_id],
+    ['action', approval.action],
+    ['subject', approval.subject],
+    ['actor', approval.actor ?? ''],
+    ['created_at', approval.created_at ?? ''],
+    ['expires_at', approval.expires_at ?? ''],
+  ]) {
+    const term = document.createElement('dt');
+    term.textContent = label;
+    const description = document.createElement('dd');
+    description.textContent = value;
+    list.append(term, description);
+  }
+  panel.append(badge, list, emptyPre(JSON.stringify(response?.data ?? {}, null, 2)));
+  if (response?.findings?.length) panel.append(renderFindingTable(response.findings));
   return panel;
 }
 

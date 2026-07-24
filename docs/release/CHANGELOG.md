@@ -2929,3 +2929,12 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Preserves the source hygiene gates; validation now requires removing `ui/web/node_modules` before `pytest -q`.
 - Synchronizes the five canonical pilot documents with repo 324, RUN-02 BLOCK and mandatory RUN-03.
 - Does not authorize RUN-03, close 01-D or alter API, PolicyEngine, DB, permissions or safety posture.
+
+
+## 2026-07-22 — PATCH 324 → 325 Browser Acceptance Corrective
+
+- Source: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
+- Target: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
+- Preserves RUN-03 as `BLOCK-WITH-PROGRESS` and requires `PILOT-E2E-001-RUN-04`.
+- Adds operation-specific bounded timeouts, exclusive UI operation states, synthetic provider proposal validation, explicit approval detail evidence and corrective tests.
+- Keeps `POST-H-EVAL-002-01-D` open and `POST-H-EVAL-002-02-A` unauthorized.

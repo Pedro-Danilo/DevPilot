@@ -3,8 +3,13 @@ import type { DevPilotApplicationResponse, OperatorDashboardResponseData } from 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
 export const DEFAULT_REQUEST_TIMEOUT_MS = 8000;
-export const EXPENSIVE_REQUEST_TIMEOUT_MS = 30000;
 export const PROTECTED_WARMUP_TIMEOUT_MS = 15000;
+export const READINESS_REQUEST_TIMEOUT_MS = 30000;
+export const PROVIDER_SETTINGS_READ_TIMEOUT_MS = 45000;
+export const ACTION_DRY_RUN_TIMEOUT_MS = 60000;
+export const PROVIDER_PLAN_TIMEOUT_MS = 60000;
+// Compatibility alias retained for older static contracts. New code must use the operation-specific constants above.
+export const EXPENSIVE_REQUEST_TIMEOUT_MS = READINESS_REQUEST_TIMEOUT_MS;
 export const TRANSIENT_NETWORK_RETRY_DELAYS_MS = [500, 1000] as const;
 
 export class DevPilotApiError extends Error {
@@ -79,7 +84,7 @@ export class DevPilotApiClient {
       payload: { strict },
       dry_run: true,
     }, {
-      timeoutMs: EXPENSIVE_REQUEST_TIMEOUT_MS,
+      timeoutMs: READINESS_REQUEST_TIMEOUT_MS,
       retryNetworkErrors: true,
     });
   }
@@ -121,7 +126,9 @@ export class DevPilotApiClient {
   }
 
   async runDryRunAction(payload: { action_id: string; target?: string; goal?: string; strict?: boolean; include_code_review?: boolean }): Promise<DevPilotApplicationResponse> {
-    return this.post('/actions/dry-run', payload);
+    return this.post('/actions/dry-run', payload, {
+      timeoutMs: ACTION_DRY_RUN_TIMEOUT_MS,
+    });
   }
 
   async settingsWorkspace(): Promise<DevPilotApplicationResponse> {
@@ -130,7 +137,7 @@ export class DevPilotApiClient {
 
   async settingsProviders(): Promise<DevPilotApplicationResponse> {
     return this.get('/settings/providers', {
-      timeoutMs: EXPENSIVE_REQUEST_TIMEOUT_MS,
+      timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS,
       retryNetworkErrors: true,
     });
   }
@@ -149,7 +156,7 @@ export class DevPilotApiClient {
 
   async planProviderChange(payload: { provider_id: string; changes: Record<string, unknown>; actor?: string; reason?: string }): Promise<DevPilotApplicationResponse> {
     return this.post('/settings/providers/plan', payload, {
-      timeoutMs: EXPENSIVE_REQUEST_TIMEOUT_MS,
+      timeoutMs: PROVIDER_PLAN_TIMEOUT_MS,
     });
   }
 
@@ -181,7 +188,7 @@ export class DevPilotApiClient {
     let attempt = 0;
     while (true) {
       try {
-        return await this.requestOnce(path, init, normalizeTimeout(policy.timeoutMs ?? this.requestTimeoutMs));
+        return await this.requestOnce(path, init, normalizeTimeout(policy.timeoutMs ?? this.requestTimeoutMs), attempt + 1);
       } catch (error) {
         if (!isTransientNetworkError(error) || attempt >= retryDelays.length) throw error;
         await sleep(retryDelays[attempt]);
@@ -190,7 +197,7 @@ export class DevPilotApiClient {
     }
   }
 
-  private async requestOnce(path: string, init: RequestInit, timeoutMs: number): Promise<DevPilotApplicationResponse> {
+  private async requestOnce(path: string, init: RequestInit, timeoutMs: number, attempt: number): Promise<DevPilotApplicationResponse> {
     let response: Response;
     const startedAt = performance.now();
     const endpoint = `${this.baseUrl}${path}`;
@@ -232,7 +239,16 @@ export class DevPilotApiClient {
         : 'Error HTTP de API local.';
       throw new DevPilotApiError(`DevPilot API respondió HTTP ${response.status} en ${path}. ${authHint}`, response.status, payload, path, Math.round(performance.now() - startedAt));
     }
-    return payload as DevPilotApplicationResponse;
+    const durationMs = Math.round(performance.now() - startedAt);
+    return {
+      ...(payload as DevPilotApplicationResponse),
+      client_request: {
+        endpoint: path,
+        duration_ms: durationMs,
+        timeout_budget_ms: timeoutMs,
+        attempt,
+      },
+    };
   }
 
   private authHeaders(): Record<string, string> {

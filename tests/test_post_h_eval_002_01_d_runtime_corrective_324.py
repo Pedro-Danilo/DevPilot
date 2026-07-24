@@ -2,7 +2,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-REPO="repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
+REPO="repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip"
 
 def text(path:str)->str: return (ROOT/path).read_text(encoding="utf-8")
 def data(path:str)->dict: return json.loads(text(path))
@@ -12,17 +12,20 @@ def test_runtime_corrective_state_requires_run_03_and_keeps_01_d_open()->None:
     assert state['current_repo']==REPO
     assert state['current_micro_sprint']=='POST-H-EVAL-002-01-D'
     assert state['post_h_eval_002_01_d_closed'] is False
-    assert state['post_h_eval_002_01_d_required_retest_run_id']=='PILOT-E2E-001-RUN-03'
+    assert state['post_h_eval_002_01_d_required_retest_run_id']=='PILOT-E2E-001-RUN-04'
     assert state['post_h_eval_002_01_d_next_authorized'] is False
 
 def test_client_keeps_neg08_default_and_bounds_expensive_operations()->None:
     source=text('ui/web/src/api/client.ts')
     assert 'DEFAULT_REQUEST_TIMEOUT_MS = 8000' in source
-    assert 'EXPENSIVE_REQUEST_TIMEOUT_MS = 30000' in source
+    assert 'READINESS_REQUEST_TIMEOUT_MS = 30000' in source
+    assert 'ACTION_DRY_RUN_TIMEOUT_MS = 60000' in source
+    assert 'PROVIDER_PLAN_TIMEOUT_MS = 60000' in source
     assert 'PROTECTED_WARMUP_TIMEOUT_MS = 15000' in source
     assert 'TRANSIENT_NETWORK_RETRY_DELAYS_MS = [500, 1000]' in source
     assert "error instanceof DevPilotApiError && error.status === 0" in source
-    assert "timeoutMs: EXPENSIVE_REQUEST_TIMEOUT_MS" in source
+    assert "timeoutMs: ACTION_DRY_RUN_TIMEOUT_MS" in source
+    assert "timeoutMs: PROVIDER_PLAN_TIMEOUT_MS" in source
 
 def test_dashboard_warms_protected_surface_and_resets_stale_state()->None:
     source=text('ui/web/src/pages/Dashboard.ts')
