@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-07-21",
+  "updated": "2026-07-28",
   "routes": [
     {
       "route_id": "ui.dashboard",
@@ -56,7 +56,8 @@
         "POST-H-015-D embeds the local Operator Dashboard surface in ui.dashboard.",
         "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser.",
         "POST-H-EVAL-002-01-D corrective: dashboard no longer embeds Reports, Traces, Approvals or Settings.",
-        "Protected API fan-out is bounded to two concurrent requests with progressive rendering."
+        "Protected API fan-out is bounded to two concurrent requests with progressive rendering.",
+        "Corrective 326 executes and renders api.health as a preflight before the five protected data operations."
       ]
     },
     {

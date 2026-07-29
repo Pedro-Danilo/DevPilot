@@ -16560,7 +16560,8 @@
         "tests/test_post_h_eval_002_activation_contract.py",
         "tests/test_project_global_state.py",
         "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
-        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
+    "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+    "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
       ],
       "watched_paths": [
         ".devpilot/project_state.json",
@@ -16601,7 +16602,13 @@
         "src/devpilot_core/modeling/providers.py",
         "ui/web/src/components/DryRunActionForm.ts",
         "ui/web/src/pages/ApprovalCenterView.ts",
-        "ui/web/src/pages/SettingsView.ts"
+    "ui/web/src/pages/SettingsView.ts",
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/src/components/ContractBadges.ts",
+    "ui/web/scripts/run05b-integral-corrective-326.mjs",
+    "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
+    "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
+    "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
       ],
       "validates": [
         ".devpilot/project_state.json",
@@ -16642,7 +16649,13 @@
         "src/devpilot_core/modeling/providers.py",
         "ui/web/src/components/DryRunActionForm.ts",
         "ui/web/src/pages/ApprovalCenterView.ts",
-        "ui/web/src/pages/SettingsView.ts"
+    "ui/web/src/pages/SettingsView.ts",
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/src/components/ContractBadges.ts",
+    "ui/web/scripts/run05b-integral-corrective-326.mjs",
+    "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
+    "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
+    "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
       ],
       "trigger_hints": [
         "post-h-eval-002-01-d",
@@ -16674,14 +16687,17 @@
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core release-candidate evidence-freshness --json",
         "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_ui_corrective_patch.py -q",
-        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py tests/test_api_settings.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q"
+    "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py tests/test_api_settings.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q",
+    "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q"
       ],
       "classification_status": "explicit",
-      "classification_notes": [
-        "Validates acceptance readiness only; browser PASS/BLOCK remains operator evidence.",
-        "S1 freeze exception is limited to route dispatch and bounded timeout.",
-        "Corrective 325 keeps 01-D open and requires independent validation plus PILOT-E2E-001-RUN-04."
-      ]
+  "classification_notes": [
+    "Validates acceptance readiness only; browser PASS/BLOCK remains operator evidence.",
+    "S1 freeze exception is limited to route dispatch and bounded timeout.",
+    "Corrective 325 remains a historical parent contract.",
+    "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
+    "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03."
+  ]
     }
   ],
   "migration_metadata": {
@@ -16738,6 +16754,8 @@
     "POST-H-EVAL-002-01-C adds the API/UI startup and security posture closure contract with localhost/auth/CORS/token/process-lifecycle evidence and 01-D scope boundary.",
     "POST-H-EVAL-002-01-D adds an explicit P0 UI acceptance-readiness contract without authorizing 02-A.",
     "POST-H-EVAL-002-01-D UI corrective test and route-specific UI files added; browser RUN-02 remains required.",
-    "Corrective 325 keeps 01-D open and requires independent validation plus PILOT-E2E-001-RUN-04."
+    "Corrective 325 keeps its historical contract and evidence.",
+    "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
+    "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03."
   ]
 }

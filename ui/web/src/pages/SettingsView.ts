@@ -5,7 +5,7 @@ import {
 } from '../api/client';
 import type { DevPilotApplicationResponse, SettingsSnapshot } from '../api/types';
 import { renderProviderSettings } from '../components/ProviderSettings';
-import { safeJsonForHtml } from '../utils/sanitize';
+import { redactSecrets, safeJsonForHtml } from '../utils/sanitize';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { runBounded } from '../utils/async';
 
@@ -242,7 +242,7 @@ function renderDataCard(
   const details = document.createElement('pre');
   details.textContent = error
     ? error
-    : JSON.stringify(summaryOnly ? response?.data?.summary ?? {} : response?.data ?? {}, null, 2);
+    : JSON.stringify(redactSecrets(summaryOnly ? response?.data?.summary ?? {} : response?.data ?? {}), null, 2);
   card.append(badge, heading, context, details);
   return card;
 }

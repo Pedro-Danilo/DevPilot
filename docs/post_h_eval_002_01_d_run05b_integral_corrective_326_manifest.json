@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326",
+  "created_by": "POST-H-EVAL-002-01-D",
+  "updated": "2026-07-28",
+  "source_repo": "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip",
+  "source_repo_sha256": "c0d3b54cf6fef983997261e7177717490c881a21fad15fb7f478f30efb412e36",
+  "target_repo": "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+  "status": "implemented-pending-independent-validation",
+  "rerun_02": {
+    "run_id": "PILOT-E2E-001-RUN-05B-RERUN-02",
+    "decision": "BLOCK/product-contract-evidence",
+    "evidence_use": "forensic-diagnostic-only",
+    "finalize_authorized": false,
+    "controlled_stop_required": true,
+    "viewport_screenshots_present": 13,
+    "viewport_screenshots_semantically_valid": 9,
+    "full_page_screenshots_present": 5,
+    "valid_negative_screenshots": 4,
+    "required_negative_screenshots": 8,
+    "observed_ui_operations": 21,
+    "required_ui_operations": 23,
+    "final_har_operations": 5,
+    "bridge_register": "CLOSED 8/8",
+    "manual_observation_status": "PENDING",
+    "manual_confirmations_completed": 0,
+    "manual_confirmations_required": 4
+  },
+  "product_defects_corrected": [
+    {
+      "id": "RUN05B-PRODUCT-001",
+      "severity": "S1",
+      "finding": "api.health was contractually declared but had no browser UI consumer",
+      "corrective": "Dashboard executes and renders Health preflight before protected warm-up"
+    },
+    {
+      "id": "RUN05B-PRODUCT-002",
+      "severity": "S1",
+      "finding": "Approval Center rendered BLOCK and pending notices without an actual matching state",
+      "corrective": "notices are conditional and the initial unqueried state is PENDING"
+    },
+    {
+      "id": "RUN05B-PRODUCT-003",
+      "severity": "S1",
+      "finding": "Settings rendered token-derived characters in token_redacted",
+      "corrective": "all secret-like keys pass through recursive full visual redaction"
+    },
+    {
+      "id": "RUN05B-PRODUCT-004",
+      "severity": "S2",
+      "finding": "shared UI state notices lacked explicit live-region semantics",
+      "corrective": "status/alert, aria-live and aria-atomic are now explicit"
+    }
+  ],
+  "operator_and_auditor_defects_deferred_to_execution_tooling_sprint": [
+    "deterministic empty-traces fixture must not generate its own visible observability traces",
+    "timeout fixture must answer CORS OPTIONS and delay the real GET beyond the client budget",
+    "screenshot gate must verify state-specific visible content, not only name, dimensions and hash",
+    "HAR gate must require the complete unfiltered single-session operation set",
+    "bridge auditor must distinguish lifecycle references from command execution logs",
+    "manual observations cannot be PASS while status is PENDING or confirmations are null",
+    "dry-run evidence must prove POST /api/v1/actions/dry-run was executed",
+    "NEG-07 capture must place the parse_error state inside the captured viewport"
+  ],
+  "ux_backlog": [
+    "pagination and filters for long trace lists",
+    "collapsible structured summaries instead of dominant raw JSON",
+    "consistent Spanish operator vocabulary",
+    "compact full-page layouts that preserve target evidence above the fold"
+  ],
+  "closure_state": {
+    "closed": false,
+    "current": "POST-H-EVAL-002-01-D",
+    "next": "POST-H-EVAL-002-02-A",
+    "next_authorized": false,
+    "required_retest_run_id": "PILOT-E2E-001-RUN-05B-RERUN-03",
+    "authoritative_acceptance_required": true
+  },
+  "safety": {
+    "local_first": true,
+    "external_api_used": false,
+    "network_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "provider_write_enabled": false,
+    "secrets_included": false,
+    "raw_har_included": false,
+    "dpapi_state_included": false,
+    "sqlite_included": false
+  }
+}

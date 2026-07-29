@@ -10,6 +10,9 @@ interface DashboardState {
   loading: boolean;
   warming: boolean;
   token: string;
+  health?: DevPilotApplicationResponse;
+  healthError?: string;
+  healthDuration?: number;
   snapshot: DashboardSnapshot;
   errors: Record<string, string>;
   durations: Record<string, number>;
@@ -43,6 +46,9 @@ export function renderDashboard(root: HTMLElement): void {
     if (state.loading) return;
     state.loading = true;
     state.warming = true;
+    state.health = undefined;
+    state.healthError = undefined;
+    state.healthDuration = undefined;
     state.snapshot = {};
     state.errors = {};
     state.durations = {};
@@ -51,6 +57,21 @@ export function renderDashboard(root: HTMLElement): void {
     draw();
 
     const client = new DevPilotApiClient({ token: state.token });
+    const healthStarted = performance.now();
+    try {
+      state.health = await client.health();
+      state.healthDuration = Math.round(performance.now() - healthStarted);
+      draw();
+    } catch (error) {
+      state.healthDuration = Math.round(performance.now() - healthStarted);
+      state.healthError = error instanceof Error ? error.message : String(error);
+      state.warming = false;
+      state.loading = false;
+      state.refreshedAt = new Date().toISOString();
+      draw();
+      return;
+    }
+
     const warmupStarted = performance.now();
     try {
       state.snapshot.workspace = await client.protectedWarmup();
@@ -97,6 +118,7 @@ export function renderDashboard(root: HTMLElement): void {
     root.replaceChildren();
     root.append(renderHeader(state, refresh));
     root.append(renderConnectionSummary(state));
+    root.append(renderHealthPreflight(state));
     root.append(renderOperatorDashboard(state.snapshot.operator, state.errors.operator));
 
     const grid = document.createElement('main');
@@ -117,7 +139,8 @@ export function renderDashboard(root: HTMLElement): void {
     if (state.warming) root.append(renderUiStateNotice('loading', 'Warm-up protegido: esperando que la superficie autenticada de la API local esté lista antes de lanzar el resumen.'));
     else if (state.loading) root.append(renderUiStateNotice('loading', `Consultando API local de forma progresiva (${state.completed}/${state.total}); máximo 2 solicitudes simultáneas.`));
     if (!state.loading && !Object.keys(state.snapshot).length && !Object.keys(state.errors).length) root.append(renderUiStateNotice('empty', 'Agrega el token local y actualiza para consultar el estado real del sistema.'));
-    if (Object.keys(state.errors).length) root.append(renderUiStateNotice('error', 'Una o más tarjetas no pudieron actualizarse. Los resultados exitosos permanecen visibles; use Reintentar para la consulta afectada.'));
+    if (state.healthError) root.append(renderUiStateNotice('error', 'El preflight Health falló. El fan-out autenticado no se ejecutó para evitar presentar un resumen parcial como operativo.'));
+    else if (Object.keys(state.errors).length) root.append(renderUiStateNotice('error', 'Una o más tarjetas no pudieron actualizarse. Los resultados exitosos permanecen visibles; use Reintentar para la consulta afectada.'));
 
     const allFindings = Object.values(state.snapshot)
       .flatMap((response) => response?.findings ?? [])
@@ -171,8 +194,48 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
 function renderConnectionSummary(state: DashboardState): HTMLElement {
   const panel = document.createElement('section');
   panel.className = 'connection-summary';
-  const status = state.loading ? 'ACTUALIZANDO' : Object.keys(state.errors).length ? 'DEGRADADO' : Object.keys(state.snapshot).length ? 'OPERATIVO' : 'NO CONSULTADO';
-  panel.innerHTML = `<strong>API local: ${status}</strong><span>http://127.0.0.1:8787</span><span>Progreso: ${state.completed}/${state.total}</span><span>Última actualización: ${state.refreshedAt ?? 'pendiente'}</span>`;
+  panel.setAttribute('role', 'status');
+  panel.setAttribute('aria-live', 'polite');
+  const status = state.loading
+    ? 'ACTUALIZANDO'
+    : state.healthError
+      ? 'NO DISPONIBLE'
+      : Object.keys(state.errors).length
+        ? 'DEGRADADO'
+        : Object.keys(state.snapshot).length
+          ? 'OPERATIVO'
+          : 'NO CONSULTADO';
+  const healthCompleted = state.health ? 1 : 0;
+  const items = [
+    ['strong', `API local: ${status}`],
+    ['span', 'http://127.0.0.1:8787'],
+    ['span', `Datos: ${state.completed}/${state.total}`],
+    ['span', `Operaciones contractuales: ${healthCompleted + state.completed}/${state.total + 1}`],
+    ['span', `Última actualización: ${state.refreshedAt ?? 'pendiente'}`],
+  ] as const;
+  for (const [tag, text] of items) {
+    const item = document.createElement(tag);
+    item.textContent = text;
+    panel.append(item);
+  }
+  return panel;
+}
+
+function renderHealthPreflight(state: DashboardState): HTMLElement {
+  const panel = document.createElement('section');
+  panel.className = 'health-preflight';
+  panel.dataset.apiOperation = 'api.health';
+  const title = document.createElement('strong');
+  title.textContent = 'Preflight Health';
+  const status = document.createElement('span');
+  status.className = `badge ${state.healthError ? 'error' : state.health ? 'pass' : 'pending'}`;
+  status.textContent = state.healthError ? 'ERROR' : state.health ? 'PASS' : 'PENDING';
+  const detail = document.createElement('span');
+  const duration = state.healthDuration === undefined ? 'duración pendiente' : `${state.healthDuration} ms`;
+  detail.textContent = state.healthError
+    ? `GET /api/v1/health · ${duration} · ${state.healthError}`
+    : `GET /api/v1/health · ${duration} · preflight previo al warm-up autenticado`;
+  panel.append(title, status, detail);
   return panel;
 }
 

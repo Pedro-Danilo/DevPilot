@@ -2938,3 +2938,12 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Preserves RUN-03 as `BLOCK-WITH-PROGRESS` and requires `PILOT-E2E-001-RUN-04`.
 - Adds operation-specific bounded timeouts, exclusive UI operation states, synthetic provider proposal validation, explicit approval detail evidence and corrective tests.
 - Keeps `POST-H-EVAL-002-01-D` open and `POST-H-EVAL-002-02-A` unauthorized.
+
+## 2026-07-28 — PATCH 325 → 326 RUN05B Integral Corrective
+
+- Source: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
+- Target: `repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip`.
+- Preserves RERUN-02 as forensic-only `BLOCK/product-contract-evidence`; `Finalize` is not authorized.
+- Adds real Dashboard Health consumption, conditional Approval Center states, full Settings visual secret redaction, accessibility semantics and corrective gates.
+- Requires corrected operator/auditor tooling and `PILOT-E2E-001-RUN-05B-RERUN-03`.
+- Keeps `POST-H-EVAL-002-01-D` open and `POST-H-EVAL-002-02-A` unauthorized.

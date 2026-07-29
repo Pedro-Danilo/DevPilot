@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.6.7-post-h-eval-002-01-d-browser-acceptance-corrective",
+  "version": "0.6.8-post-h-eval-002-01-d-run05b-integral-corrective",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI for local operator console: dashboard, reports, traces, approvals, settings, operator dashboard, POST-H-028 visual smoke and operator-flow smoke contracts.",
@@ -15,7 +15,8 @@
     "test:acceptance-baseline": "node scripts/acceptance-baseline.mjs",
     "test:acceptance-corrective": "node scripts/acceptance-corrective.mjs",
     "test:runtime-corrective": "node scripts/runtime-corrective-contract.mjs",
-    "test:browser-acceptance-corrective-325": "node scripts/browser-acceptance-corrective-325.mjs"
+    "test:browser-acceptance-corrective-325": "node scripts/browser-acceptance-corrective-325.mjs",
+    "test:run05b-integral-corrective-326": "node scripts/run05b-integral-corrective-326.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -111,7 +112,7 @@
     "dashboardEmbeddedDetailViews": false,
     "settingsExclusiveUiState": true,
     "reportsTracesSeparated": true,
-    "browserRetestRunId": "PILOT-E2E-001-RUN-04",
+    "browserRetestRunId": "PILOT-E2E-001-RUN-05B-RERUN-03",
     "runtimeCorrective324": true,
     "protectedWarmup": true,
     "transientNetworkRetries": 2,
@@ -128,6 +129,16 @@
     "providerPlanTimeoutMs": 60000,
     "operationStateMachines": true,
     "providerSyntheticProposalValidation": true,
-    "approvalShowEvidence": true
+    "approvalShowEvidence": true,
+    "run05bRerun02Decision": "BLOCK/product-contract-evidence",
+    "run05bIntegralCorrective326": true,
+    "dashboardHealthConsumed": true,
+    "dashboardContractualOperations": 6,
+    "approvalStateNoticesConditional": true,
+    "settingsVisualSecretRedaction": true,
+    "requiredNegativeScreenshots": 8,
+    "requiredViewportScreenshots": 13,
+    "requiredFullPageScreenshots": 5,
+    "run05bRerun03Required": true
   }
 }

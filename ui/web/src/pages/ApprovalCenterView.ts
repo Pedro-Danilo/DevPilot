@@ -125,8 +125,8 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     grid.append(renderActionPanel(state, tokenProvider, draw));
     section.append(grid);
     if (state.pendingAction) section.append(renderUiStateNotice('loading', `POST-H-028-D ui.approvals loading state: acción en curso ${state.pendingAction}. Los controles permanecen deshabilitados hasta finalizar.`));
-    section.append(renderUiStateNotice('block', 'POST-H-028-D ui.approvals block state: acciones críticas se muestran como BLOCK y no como éxito.'));
-    section.append(renderUiStateNotice('empty', 'POST-H-028-D ui.approvals pending state: approval pending/requested aparece con acciones Approve/Deny cuando aplica.'));
+    if (state.actionOutcome.phase === 'block') section.append(renderUiStateNotice('block', 'POST-H-028-D ui.approvals block state: la última acción fue bloqueada y no se presenta como éxito.'));
+    if (approvalItems(state).some((approval) => approval.status === 'requested')) section.append(renderUiStateNotice('pending', 'POST-H-028-D ui.approvals pending state: existe al menos un approval requested con acciones Approve/Deny disponibles.'));
     if (state.errors.approvals || state.errors.selected || state.errors.requestResult || state.errors.actionResult) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.approvals error state: BLOCK/ERROR se mantiene visible.'));
     section.append(renderApprovalDetailPanel(state.selected, state.errors.selected));
     section.append(renderDetailPanel('Última solicitud approval', state.requestResult, state.errors.requestResult));
@@ -150,7 +150,12 @@ function actionButton(label: string, text: string, pendingAction: string | undef
 
 function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: string) => Promise<void>, onDecide: (approvalId: string, decision: 'approve' | 'deny') => Promise<void>): HTMLElement {
   const panel = panelShell('Approval Center', state.errors.approvals ?? state.approvals?.message ?? 'Pendiente de consulta.');
-  const approvals = ((state.approvals?.data as { approvals?: ApprovalRecordItem[] } | undefined)?.approvals ?? []);
+  if (!state.approvals && !state.errors.approvals) {
+    panel.append(renderUiStateNotice('pending', 'Consulta inicial pendiente. Este estado no acredita una lista vacía.'));
+    panel.append(emptyPre('Pendiente de consultar approvals.'));
+    return panel;
+  }
+  const approvals = approvalItems(state);
   if (!approvals.length) {
     panel.append(renderUiStateNotice('empty', 'POST-H-014-C ui.approvals empty state: Sin approvals para mostrar.'));
     panel.append(emptyPre('Sin approvals para mostrar. Puedes crear un approval demo.'));
@@ -177,6 +182,10 @@ function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: strin
   }
   panel.append(list);
   return panel;
+}
+
+function approvalItems(state: ApprovalState): ApprovalRecordItem[] {
+  return ((state.approvals?.data as { approvals?: ApprovalRecordItem[] } | undefined)?.approvals ?? []);
 }
 
 function renderActionPanel(state: ApprovalState, tokenProvider: () => string, redraw: () => void): HTMLElement {

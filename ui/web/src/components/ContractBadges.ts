@@ -23,10 +23,13 @@ export function renderContractBadges(contractId: string, options: ContractBadgeO
   return wrapper;
 }
 
-export function renderUiStateNotice(kind: 'loading' | 'empty' | 'error' | 'block' | 'success', message: string): HTMLElement {
+export function renderUiStateNotice(kind: 'loading' | 'pending' | 'empty' | 'error' | 'block' | 'success', message: string): HTMLElement {
   const notice = document.createElement('p');
   notice.className = `ui-state ui-state--${kind}`;
   notice.dataset.uiState = kind;
+  notice.setAttribute('role', kind === 'error' || kind === 'block' ? 'alert' : 'status');
+  notice.setAttribute('aria-live', kind === 'error' || kind === 'block' ? 'assertive' : 'polite');
+  notice.setAttribute('aria-atomic', 'true');
   notice.textContent = message;
   return notice;
 }

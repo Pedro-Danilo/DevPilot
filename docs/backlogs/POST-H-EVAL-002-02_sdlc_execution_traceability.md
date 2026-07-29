@@ -11,7 +11,7 @@ phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-02"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-01 closed/pass"
 implementation_status: "approved/not-started"
@@ -242,4 +242,13 @@ all CLI bridges classified = true
 - Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
 - Provider plan validates the synthetic proposal in memory and performs no provider-file write.
 - Retest required: `PILOT-E2E-001-RUN-04`.
+- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+
+## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
+
+- RERUN-02 is preserved as `BLOCK/product-contract-evidence` and forensic-only; `Finalize` is not authorized.
+- Product corrective: `repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip`.
+- Dashboard consumes Health, Approval Center states are conditional, Settings fully redacts secret-like fields and state notices are accessible.
+- Operator/auditor tooling must be corrected before a new run.
+- Required retest: `PILOT-E2E-001-RUN-05B-RERUN-03`.
 - `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
