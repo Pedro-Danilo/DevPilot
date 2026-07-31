@@ -1,3 +1,12 @@
+## 2026-07-31 — Sprint 7 v2.1.1 historical regression-contract recovery
+
+- Preserves the successful v2.1.0 Git-canonical preflight and transactional application of the 29-path governance overlay.
+- Classifies the Windows full-regression result `1985 passed, 1 failed` as one stale historical test contract, not a product or Project State regression.
+- Updates `test_post_h_034_closure_regression_reconciliation.py` to accept the complete approved POST-H-EVAL-002 roadmap while keeping POST-H-034 closure invariants strict.
+- Adds that historical regression test to the closure contract in TCR v1/v2 and to the early focal gate, which now requires `51/51` before full pytest.
+- Expands the accumulated 326→327 diff to `25 modified + 5 added = 30 paths`, with zero functional changes under `src/` or `ui/`.
+- Keeps Sprint 7 pending until Windows revalidation returns `1986 passed, 0 failed, 0 errors, 0 skipped` and all validators pass.
+
 ## 2026-07-16 — POST-H-EVAL-002-01-D acceptance preparation
 
 - Keeps 01-D open and targets `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`.
@@ -2938,6 +2947,18 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Preserves RUN-03 as `BLOCK-WITH-PROGRESS` and requires `PILOT-E2E-001-RUN-04`.
 - Adds operation-specific bounded timeouts, exclusive UI operation states, synthetic provider proposal validation, explicit approval detail evidence and corrective tests.
 - Keeps `POST-H-EVAL-002-01-D` open and `POST-H-EVAL-002-02-A` unauthorized.
+
+## 2026-07-30 — PATCH 326 → 327 POST-H-EVAL-002-01-D Governance Closure
+
+- Preserves `PILOT-E2E-001-RUN-05B-RERUN-02` as immutable `BLOCK/product-contract-evidence`, `FORENSIC-ONLY`.
+- Registers `PILOT-E2E-001-RUN-05B-RERUN-03` as authoritative acceptance evidence for repo 326.
+- Freezes final browser, control and independent-audit package hashes.
+- Closes routes `5/5`, negatives `8/8`, operations `23/23`, correlations `13/13`, Bridges `8/8`, `S0=0`, `S1=0`.
+- Records safe Stop and Finalize exactly once.
+- Adds governance closure report, manifest, authoritative Windows validation guide and dedicated contract.
+- Synchronizes Project State, source registry, TCR v1/v2, freshness criteria, roadmap, backlogs, runbooks, traceability and README.
+- Promotes `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip` without functional code changes.
+- Authorizes `POST-H-EVAL-002-02-A`; next planned micro-sprint is `POST-H-EVAL-002-02-B`.
 
 ## 2026-07-28 — PATCH 325 → 326 RUN05B Integral Corrective
 

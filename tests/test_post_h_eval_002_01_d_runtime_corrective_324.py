@@ -2,18 +2,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-REPO="repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+REPO="repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 
 def text(path:str)->str: return (ROOT/path).read_text(encoding="utf-8")
 def data(path:str)->dict: return json.loads(text(path))
 
-def test_runtime_corrective_state_requires_run_03_and_keeps_01_d_open()->None:
+def test_runtime_corrective_state_is_preserved_after_01_d_closure()->None:
     state=data('.devpilot/project_state.json')
     assert state['current_repo']==REPO
-    assert state['current_micro_sprint']=='POST-H-EVAL-002-01-D'
-    assert state['post_h_eval_002_01_d_closed'] is False
+    assert state['current_micro_sprint']=='POST-H-EVAL-002-02-A'
+    assert state['post_h_eval_002_01_d_closed'] is True
     assert state['post_h_eval_002_01_d_required_retest_run_id']=='PILOT-E2E-001-RUN-05B-RERUN-03'
-    assert state['post_h_eval_002_01_d_next_authorized'] is False
+    assert state['post_h_eval_002_01_d_next_authorized'] is True
 
 def test_client_keeps_neg08_default_and_bounds_expensive_operations()->None:
     source=text('ui/web/src/api/client.ts')

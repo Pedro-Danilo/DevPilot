@@ -3,20 +3,20 @@ doc_id: "DEVPL-POST-H-EVAL-002-01-BACKLOG"
 id: "POST-H-EVAL-002-01"
 title: "POST-H-EVAL-002-01 — Baseline, arranque y aceptación Web UI"
 status: "approved"
-version: "1.7.0"
+version: "1.8.0"
 owner: "Ordóñez"
-updated: "2026-07-22"
+updated: "2026-07-30"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-01"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-034 closed/full-regression-pass"
-implementation_status: "active/01-d-browser-acceptance-corrective-325-pending-validation"
-current_micro_sprint: "POST-H-EVAL-002-01-D"
-next_micro_sprint: "POST-H-EVAL-002-02-A"
+implementation_status: "closed/PASS-authoritative-rerun03"
+current_micro_sprint: "POST-H-EVAL-002-02-A"
+next_micro_sprint: "POST-H-EVAL-002-02-B"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -27,7 +27,7 @@ platform_freeze_default: true
 
 ## 1. Estado
 
-`active/01-d-acceptance-ready`. `01-C` está cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió `EVAL-002-01-D-S1-001` (dispatch runtime de cinco rutas) y `EVAL-002-01-D-S1-002` (timeout browser no acotado). La aceptación browser todavía no fue ejecutada y 02-A no está autorizado.
+`closed/PASS-authoritative-rerun03`. `01-D` cerró con la aceptación autoritativa `PILOT-E2E-001-RUN-05B-RERUN-03`, auditoría independiente `PASS`, `S0=0`, `S1=0` y Finalize exactamente una vez. `POST-H-EVAL-002-02-A` queda autorizado como micro-sprint actual.
 
 ## 2. Propósito
 
@@ -313,6 +313,20 @@ required_retest = PILOT-E2E-001-RUN-03
 - Provider plan validates the synthetic proposal in memory and performs no provider-file write.
 - Retest required: `PILOT-E2E-001-RUN-04`.
 - `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+
+## 2026-07-30 — Cierre verificado de 01-D y de la ola 01
+
+- Repo funcional aceptado: `repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip`.
+- Repo documental/de gobernanza: `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`.
+- RERUN-02: `BLOCK/product-contract-evidence`, `FORENSIC-ONLY`, sin Finalize.
+- RERUN-03: `CLOSED/PASS`, evidencia autoritativa.
+- Rutas `5/5`, negativos `8/8`, operaciones `23/23`, correlaciones `13/13`, Bridges `8/8`.
+- Capturas: `13` viewport y `5` full-page.
+- Stop: `running=false`, puertos `8787/5173` libres, `unknown_pid_killed=false`.
+- Finalize: exactamente `1`.
+- `S0=0`, `S1=0`, exposición de secretos `0`.
+- `POST-H-EVAL-002-01-D` y `POST-H-EVAL-002-01` quedan cerrados.
+- `POST-H-EVAL-002-02-A` queda autorizado; `POST-H-EVAL-002-02-B` es el siguiente micro-sprint planificado.
 
 ## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
 

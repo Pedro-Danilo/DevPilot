@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from devpilot_core.application import application_cli_boundary_integration_report
@@ -58,7 +59,11 @@ def test_closure_state_and_backlog_are_administratively_closed() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md").read_text(encoding="utf-8")
 
     assert state["last_completed_sprint"] == "POST-H-034"
-    assert state["current_micro_sprint"] in {"POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D"}
+    assert state["current_phase"] == "POST-H-EVAL-002"
+    assert re.fullmatch(
+        r"POST-H-EVAL-002-(?:01-[A-D]|02-[A-E]|03-[A-E])",
+        state["current_micro_sprint"],
+    )
     assert state["post_h_034_closed"] is True
     assert state["next_backlog_planned"] is True
     assert state["post_h_eval_002_activated"] is True

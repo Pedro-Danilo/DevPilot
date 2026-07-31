@@ -18,15 +18,17 @@ def test_01_b_state_closes_and_authorizes_01_c() -> None:
         "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
         "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
         "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
-        "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+        "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip", "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
     }
     assert state["current_micro_sprint"] in {
         "POST-H-EVAL-002-01-C",
         "POST-H-EVAL-002-01-D",
+        "POST-H-EVAL-002-02-A",
     }
     assert state["next_micro_sprint"] in {
         "POST-H-EVAL-002-01-D",
         "POST-H-EVAL-002-02-A",
+        "POST-H-EVAL-002-02-B",
     }
     assert state["post_h_eval_002_01_b_closed"] is True
     assert state["post_h_eval_002_01_b_status"] == "closed/PASS-WITH-GAPS"
@@ -58,7 +60,7 @@ def test_01_b_governance_docs_are_synchronized() -> None:
     backlog = _text("docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md")
     audit = _text("docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md")
     assert "POST-H-EVAL-002-01-A/B" in roadmap or "01-B" in backlog
-    assert 'current_micro_sprint: "POST-H-EVAL-002-01-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-EVAL-002-02-A"' in backlog
     assert "`PASS-WITH-GAPS`" in audit
     registry = _json(".devpilot/docs_governance/source_registry.json")
     assert registry["project_state_snapshot"]["post_h_eval_002_01_b_evidence_package_sha256"] == "83174a229e93bff2590e19896ea0ba9c0848827e0d37e7b5243580888e6f173f"

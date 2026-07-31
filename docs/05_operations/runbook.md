@@ -11704,6 +11704,12 @@ Materializar `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zi
 - Retest required: `PILOT-E2E-001-RUN-04`.
 - `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
 
+## 2026-07-30 — PATCH 326 → 327 governance closure
+
+`PILOT-E2E-001-RUN-05B-RERUN-02` remains `BLOCK/product-contract-evidence`, `FORENSIC-ONLY`. `PILOT-E2E-001-RUN-05B-RERUN-03` is authoritative and closes browser acceptance with routes `5/5`, negatives `8/8`, operations `23/23`, correlations `13/13`, Bridges `8/8`, `S0=0`, `S1=0`, `running=false`, ports `8787/5173` free, `unknown_pid_killed=false` and `finalize_count=1`.
+
+The governed repository is `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`. `POST-H-EVAL-002-01-D` is closed and `POST-H-EVAL-002-02-A` is authorized. Validate this repository with `docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md`; do not restart API/UI, generate a token or repeat screenshots.
+
 ## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
 
 - RERUN-02 is preserved as `BLOCK/product-contract-evidence` and forensic-only; `Finalize` is not authorized.

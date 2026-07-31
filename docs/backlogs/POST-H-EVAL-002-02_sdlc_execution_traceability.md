@@ -3,18 +3,18 @@ doc_id: "DEVPL-POST-H-EVAL-002-02-BACKLOG"
 id: "POST-H-EVAL-002-02"
 title: "POST-H-EVAL-002-02 — SDLC real, implementación y trazabilidad"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
-updated: "2026-07-22"
+updated: "2026-07-30"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-02"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-01 closed/pass"
-implementation_status: "approved/not-started"
+implementation_status: "active/02-a-authorized"
 current_micro_sprint: "POST-H-EVAL-002-02-A"
 next_micro_sprint: "POST-H-EVAL-002-02-B"
 local_first: true
@@ -26,7 +26,7 @@ dry_run_default: true
 
 ## 1. Estado
 
-`approved/not-started`. Depende del cierre PASS de `POST-H-EVAL-002-01`.
+`active/02-a-authorized`. La dependencia `POST-H-EVAL-002-01` cerró `PASS` mediante `PILOT-E2E-001-RUN-05B-RERUN-03`; repo 327 registra el cierre documental y autoriza el onboarding aislado. No se ha creado todavía `inventory-sales-local`.
 
 ## 2. Propósito
 

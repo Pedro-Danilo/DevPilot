@@ -6,11 +6,11 @@
 
 Siguiente hito: `POST-H-EVAL-002`
 
-Micro-sprint activo: `POST-H-EVAL-002-01-D`. Siguiente micro-sprint: `POST-H-EVAL-002-02-A`.
+Micro-sprint activo: `POST-H-EVAL-002-02-A`. Siguiente micro-sprint: `POST-H-EVAL-002-02-B`.
 
-Repo de aceptación vigente: `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+Repo de gobernanza vigente: `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`. Repo funcional aceptado: `repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `active/01-d-browser-acceptance-corrective-325-pending-independent-validation`. `POST-H-EVAL-002-01-C` permanece cerrado `PASS-WITH-GAPS`. La preparación de 01-D corrigió dos blockers S1 del baseline de aceptación: dispatch runtime para las cinco rutas críticas y timeout browser acotado a 8 segundos. **01-D permanece abierto** hasta completar en Windows las capturas, las cinco rutas, los ocho estados negativos, UI Eligible Coverage y el registro inicial de bridges. El workspace `inventory-sales-local` todavía no existe. Permanece además el gap S3 no bloqueante del OpenAPI estático.
+Estado: `active/02-a-authorized-after-01-d-closure`. `POST-H-EVAL-002-01-D` cerró `PASS` con `PILOT-E2E-001-RUN-05B-RERUN-03`, auditoría independiente desde ZIP cerrados, `S0=0`, `S1=0` y Finalize exactamente una vez. El workspace `inventory-sales-local` todavía no existe; su creación pertenece a `POST-H-EVAL-002-02-A`.
 
 Documentos de entrada:
 
@@ -6192,6 +6192,16 @@ Repo de aceptación vigente: `repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_AC
 - Provider plan validates the synthetic proposal in memory and performs no provider-file write.
 - Retest required: `PILOT-E2E-001-RUN-04`.
 - `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+
+## 2026-07-30 — PATCH 326 → 327 Governance Closure
+
+- RERUN-02 remains immutable as `BLOCK/product-contract-evidence`, `FORENSIC-ONLY`.
+- RERUN-03 is authoritative: routes `5/5`, negatives `8/8`, operations `23/23`, correlations `13/13`, Bridges `8/8`, screenshots `13+5`.
+- Independent package audit: `PASS`, `S0=0`, `S1=0`, secret exposure `0`.
+- Stop/Finalize: services stopped, ports `8787/5173` free, `unknown_pid_killed=false`, `finalize_count=1`.
+- Governance repository: `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`.
+- `POST-H-EVAL-002-01-D` and wave 01 are closed; `POST-H-EVAL-002-02-A` is authorized.
+- No functional source, API, UI or runtime behavior changed in repo 327.
 
 ## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
 

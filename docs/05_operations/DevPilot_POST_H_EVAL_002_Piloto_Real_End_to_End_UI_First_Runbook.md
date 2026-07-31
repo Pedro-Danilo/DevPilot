@@ -2,15 +2,15 @@
 doc_id: "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
 title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
-updated: "2026-07-21"
+updated: "2026-07-30"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
-implementation_status: "active/runtime-corrective-324-pending-run-03"
-source_repo: "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+implementation_status: "active/02-a-authorized-after-01-d-closure"
+source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
@@ -2444,6 +2444,18 @@ El éxito del piloto no se medirá por evitar la CLI a toda costa. Se medirá po
 - Provider plan validates the synthetic proposal in memory and performs no provider-file write.
 - Retest required: `PILOT-E2E-001-RUN-04`.
 - `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+
+## 2026-07-30 — RERUN-03 PASS, Stop/Finalize y cierre de gobernanza 327
+
+- `PILOT-E2E-001-RUN-05B-RERUN-02` permanece `BLOCK/product-contract-evidence`, `FORENSIC-ONLY`, sin promoción ni Finalize.
+- `PILOT-E2E-001-RUN-05B-RERUN-03` es la evidencia autoritativa de aceptación del repo 326.
+- La auditoría independiente leyó únicamente ZIP cerrados y concluyó `PASS`, `S0=0`, `S1=0`, `blockers=[]`.
+- Se acreditaron rutas `5/5`, negativos `8/8`, operaciones `23/23`, correlaciones `13/13`, Bridges `8/8` y capturas `13+5`.
+- Stop dejó `running=false`, puertos `8787/5173` libres, token DPAPI retirado, portapapeles limpio y `unknown_pid_killed=false`.
+- Finalize se ejecutó exactamente una vez.
+- Repo vigente de gobernanza: `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`.
+- `POST-H-EVAL-002-01-D` y la ola 01 quedan cerrados; `POST-H-EVAL-002-02-A` queda autorizado.
+- Este cierre no exige reiniciar API/UI, crear un token ni repetir HAR, Bridges o capturas.
 
 ## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
 

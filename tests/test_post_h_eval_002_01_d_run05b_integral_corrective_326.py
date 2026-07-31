@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_326 = "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+REPO_327 = "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 RERUN_03 = "PILOT-E2E-001-RUN-05B-RERUN-03"
 
 
@@ -16,12 +17,13 @@ def data(path: str) -> dict:
     return json.loads(text(path))
 
 
-def test_repo_326_is_current_but_does_not_close_01_d() -> None:
+def test_repo_326_product_history_is_preserved_after_repo_327_closure() -> None:
     state = data(".devpilot/project_state.json")
-    assert state["current_repo"] == REPO_326
-    assert state["current_micro_sprint"] == "POST-H-EVAL-002-01-D"
-    assert state["post_h_eval_002_01_d_closed"] is False
-    assert state["post_h_eval_002_01_d_next_authorized"] is False
+    assert state["current_repo"] == REPO_327
+    assert state["post_h_eval_002_01_d_target_repo"] == REPO_326
+    assert state["current_micro_sprint"] == "POST-H-EVAL-002-02-A"
+    assert state["post_h_eval_002_01_d_closed"] is True
+    assert state["post_h_eval_002_01_d_next_authorized"] is True
     assert state["post_h_eval_002_01_d_required_retest_run_id"] == RERUN_03
     assert state["post_h_eval_002_01_d_run05b_rerun02_result"] == "BLOCK/product-contract-evidence"
 

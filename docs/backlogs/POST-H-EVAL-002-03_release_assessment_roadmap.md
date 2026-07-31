@@ -3,15 +3,15 @@ doc_id: "DEVPL-POST-H-EVAL-002-03-BACKLOG"
 id: "POST-H-EVAL-002-03"
 title: "POST-H-EVAL-002-03 — Release, clean install y assessment industrial"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
-updated: "2026-07-22"
+updated: "2026-07-30"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-03"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-02 closed/pass"
 implementation_status: "approved/not-started"
@@ -26,7 +26,7 @@ dry_run_default: true
 
 ## 1. Estado
 
-`approved/not-started`. Depende del cierre PASS de `POST-H-EVAL-002-02`.
+`approved/not-started`. Depende del cierre PASS de `POST-H-EVAL-002-02`. La entrada gobernada vigente es repo 327, derivada del `CLOSED/PASS` autoritativo `PILOT-E2E-001-RUN-05B-RERUN-03`; esta referencia no autoriza anticipar actividades de la ola 03.
 
 ## 2. Propósito
 

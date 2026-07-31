@@ -23,9 +23,9 @@ def test_01_a_state_advances_without_installing_platform_or_workspace() -> None:
         "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip",
         "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
         "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
-        "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+        "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip", "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
     }
-    assert state["current_micro_sprint"].startswith("POST-H-EVAL-002-01-")
+    assert state["current_micro_sprint"].startswith(("POST-H-EVAL-002-01-", "POST-H-EVAL-002-02-"))
     assert state["post_h_eval_002_01_a_closed"] is True
     assert state["post_h_eval_002_01_a_platform_frozen"] is True
     assert state["post_h_eval_002_01_a_platform_installed"] is False

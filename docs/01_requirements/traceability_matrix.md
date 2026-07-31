@@ -2,14 +2,15 @@
 title: "Traceability Matrix — DevPilot Local"
 doc_id: "DEVPL-REQ-005"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-02"
-updated: "2026-06-02"
+phase: "POST-H-EVAL-002"
+updated: "2026-07-30"
 approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved"
+current_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 change_policy: "controlled_changes_allowed_until_precode_baseline"
 ---
 # Traceability Matrix — DevPilot Local
@@ -91,4 +92,31 @@ Este documento conecta objetivos de producto, requerimientos, historias, casos d
 ```yaml
 traceability_status: approved
 ready_for_architecture_sprint: true
+```
+
+## 6. Trazabilidad de cierre POST-H-EVAL-002-01-D
+
+| Requisito de cierre | Evidencia autoritativa | Contrato | Resultado |
+|---|---|---|---|
+| Preservar RERUN-02 como forense | `PILOT-E2E-001-RUN-05B-RERUN-02` | no promoción, no Finalize | `BLOCK/FORENSIC-ONLY` |
+| Aceptación browser de repo 326 | `PILOT-E2E-001-RUN-05B-RERUN-03` | 5 rutas, 8 negativos, 23 operaciones | `PASS` |
+| Correlación HTTP manual | resumen HAR sanitizado | `13/13` | `PASS` |
+| Bridges | registro reconciliado | `8/8` | `PASS` |
+| Evidencia visual | ZIP browser cerrado | 13 viewport + 5 full-page | `PASS` |
+| Stop seguro | `01_stop_verification.json` | PIDs registrados, puertos libres | `PASS` |
+| Finalize idempotente | ledger y finalization report | `finalize_count=1` | `PASS` |
+| Severidad y secretos | auditoría independiente | `S0=0`, `S1=0`, exposición `0` | `PASS` |
+| Cierre documental | `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip` | diff funcional `0` | pendiente de regresión Windows |
+
+Contrato gobernante:
+
+```text
+tests/test_post_h_eval_002_01_d_governance_closure_327.py
+```
+
+Transición autorizada:
+
+```text
+current_micro_sprint = POST-H-EVAL-002-02-A
+next_micro_sprint = POST-H-EVAL-002-02-B
 ```

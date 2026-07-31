@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "criteria_id": "local-release-candidate-criteria-v1",
   "created_by": "POST-H-026-E",
-  "updated": "2026-07-22",
+  "updated": "2026-07-31",
   "status": "closed",
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-  "expected_current_repo": "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
   "expected_last_completed_sprint": "POST-H-034",
-  "expected_current_micro_sprint": "POST-H-EVAL-002-01-D",
-  "expected_next_micro_sprint": "POST-H-EVAL-002-02-A",
+  "expected_current_micro_sprint": "POST-H-EVAL-002-02-A",
+  "expected_next_micro_sprint": "POST-H-EVAL-002-02-B",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -35,11 +35,11 @@
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-        "current_repo": "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+        "current_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_sprint": "POST-H-EVAL-002",
-        "current_micro_sprint": "POST-H-EVAL-002-01-D",
-        "next_micro_sprint": "POST-H-EVAL-002-02-A",
+        "current_micro_sprint": "POST-H-EVAL-002-02-A",
+        "next_micro_sprint": "POST-H-EVAL-002-02-B",
         "post_h_026_status": "closed/local-release-candidate-pass",
         "post_h_027_status": "closed/packaging-local-ready",
         "post_h_028_status": "closed/ui-api-local-hardening",
@@ -648,6 +648,37 @@
         "status": "active",
         "target_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
         "decision": "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE"
+      }
+    },
+    {
+      "evidence_id": "post-h-eval-002-01-d-governance-closure-327-report",
+      "title": "POST-H-EVAL-002-01-D authoritative governance closure report",
+      "path": "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+      "category": "evaluation-closure",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+        "closed/PASS-authoritative-rerun03",
+        "POST-H-EVAL-002-02-A"
+      ]
+    },
+    {
+      "evidence_id": "post-h-eval-002-01-d-governance-closure-327-manifest",
+      "title": "POST-H-EVAL-002-01-D governance closure machine-readable manifest",
+      "path": "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+      "category": "evaluation-closure",
+      "critical": true,
+      "runtime_optional": false,
+      "producer_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+      "freshness_policy": "json-field-match",
+      "json_fields": {
+        "manifest_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+        "status": "implemented-pending-windows-validation",
+        "target_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
+        "decision": "PASS-EVIDENCE/IMPLEMENTED-PENDING-FULL-REGRESSION"
       }
     }
   ],

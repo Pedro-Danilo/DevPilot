@@ -4,21 +4,21 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TARGET_REPO = "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+TARGET_REPO = "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 
 
 def _json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_01_d_remains_open_and_next_not_authorized() -> None:
+def test_01_d_is_closed_and_02_a_is_authorized() -> None:
     state = _json(".devpilot/project_state.json")
     assert state["current_repo"] == TARGET_REPO
-    assert state["current_micro_sprint"] == "POST-H-EVAL-002-01-D"
-    assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-A"
-    assert state["post_h_eval_002_01_d_closed"] is False
-    assert state["post_h_eval_002_01_d_browser_acceptance_executed"] is False
-    assert state["post_h_eval_002_01_d_next_authorized"] is False
+    assert state["current_micro_sprint"] == "POST-H-EVAL-002-02-A"
+    assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-B"
+    assert state["post_h_eval_002_01_d_closed"] is True
+    assert state["post_h_eval_002_01_d_browser_acceptance_executed"] is True
+    assert state["post_h_eval_002_01_d_next_authorized"] is True
 
 
 def test_five_registered_routes_have_runtime_dispatch() -> None:
@@ -80,12 +80,12 @@ def test_preparation_manifest_is_open_and_bounded() -> None:
     assert len(manifest["blockers_corrected"]) == 2
 
 
-def test_backlog_and_readme_do_not_claim_01_d_closed() -> None:
+def test_backlog_and_readme_record_01_d_closure() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert 'current_micro_sprint: "POST-H-EVAL-002-01-D"' in backlog
-    assert "active/01-d-acceptance-ready" in backlog
-    assert "01-D permanece abierto" in readme
+    assert 'current_micro_sprint: "POST-H-EVAL-002-02-A"' in backlog
+    assert "closed/PASS-authoritative-rerun03" in backlog
+    assert "POST-H-EVAL-002-02-A" in readme
 
 
 def test_no_pilot_workspace_or_browser_evidence_is_versioned() -> None:

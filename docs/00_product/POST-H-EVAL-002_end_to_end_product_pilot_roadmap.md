@@ -3,18 +3,18 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.7.0"
+version: "1.8.0"
 owner: "Ordóñez"
-updated: "2026-07-22"
+updated: "2026-07-30"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"
+source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
-implementation_status: "active/01-d-browser-acceptance-corrective-325-pending-validation"
-current_wave: "EVAL-002-01"
-next_wave: "EVAL-002-02"
+implementation_status: "active/02-a-authorized-after-01-d-closure"
+current_wave: "EVAL-002-02"
+next_wave: "EVAL-002-03"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -29,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`active/01-D-acceptance-ready`. `POST-H-EVAL-002-01-C` permanece cerrado. La preparación de 01-D corrige bajo excepción S1 de freeze el dispatch real de las cinco rutas y el timeout browser acotado. La aceptación visual, screenshots, estados negativos y bridges siguen pendientes; `POST-H-EVAL-002-02-A` no está autorizado todavía.
+`active/02-A-authorized`. `POST-H-EVAL-002-01-D` cerró `PASS` mediante la aceptación autoritativa `PILOT-E2E-001-RUN-05B-RERUN-03` y su auditoría independiente desde ZIP cerrados. Repo 327 contiene exclusivamente el cierre documental/de gobernanza; `POST-H-EVAL-002-02-A` es el micro-sprint actual y `POST-H-EVAL-002-02-B` el siguiente.
 
 ## 2. Propósito
 
@@ -289,6 +289,17 @@ roadmap recommendation
 - Provider plan validates the synthetic proposal in memory and performs no provider-file write.
 - Retest required: `PILOT-E2E-001-RUN-04`.
 - `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+
+## 2026-07-30 — RERUN-03 authoritative PASS and governance closure 327
+
+- `PILOT-E2E-001-RUN-05B-RERUN-02` remains immutable as `BLOCK/product-contract-evidence`, `FORENSIC-ONLY`; it was not promoted or finalized.
+- `PILOT-E2E-001-RUN-05B-RERUN-03` is the authoritative acceptance run for repo 326.
+- Independent audit source: closed ZIP packages only; result `PASS`, `S0=0`, `S1=0`, `blockers=[]`.
+- Acceptance totals: routes `5/5`, negatives `8/8`, operations `23/23`, correlations `13/13`, Bridges `8/8`, screenshots `13+5`.
+- Stop/Finalize: `running=false`, ports `8787/5173` free, `unknown_pid_killed=false`, `finalize_count=1`.
+- Governance repository: `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`.
+- `POST-H-EVAL-002-01-D` and wave `POST-H-EVAL-002-01` are closed `PASS`.
+- Current micro-sprint: `POST-H-EVAL-002-02-A`; next: `POST-H-EVAL-002-02-B`.
 
 ## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
 

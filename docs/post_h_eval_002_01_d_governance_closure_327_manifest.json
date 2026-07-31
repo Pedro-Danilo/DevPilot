@@ -1,0 +1,249 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+  "created_by": "POST-H-EVAL-002-01-D-SPRINT7",
+  "updated": "2026-07-31",
+  "status": "implemented-pending-windows-revalidation",
+  "decision": "BLOCK-RECOVERED/IMPLEMENTED-PENDING-WINDOWS-REVALIDATION",
+  "implementation_strategy": {
+    "version": "2.1.1",
+    "strategy": "direct-transactional-governance-overlay-git-canonical",
+    "trigger": "POST_H_034_CLOSURE_CURRENT_MICRO_SPRINT_ALLOWLIST_STALE",
+    "cause": "the v2.1.0 overlay advanced current_micro_sprint to POST-H-EVAL-002-02-A but omitted tests/test_post_h_034_closure_regression_reconciliation.py, whose historical allowlist ended at 01-D; the v2.1.0 focal gate also omitted that registered regression contract",
+    "corrected_contract_id": "post-h-eval-002-01-d-governance-closure-327",
+    "corrected_scope": "integration",
+    "canonical_global_state_owner": "project-global-state",
+    "functional_code_changed": false,
+    "windows_revalidation_required": true,
+    "source_git_head": "af85cd2bba2cca861c25ebf093b3e0e1a92cbea9",
+    "source_git_branch": "patch/325-to-326-run05b-integral-corrective",
+    "patch_files_total": 30,
+    "modified_files_total": 25,
+    "added_files_total": 5,
+    "deleted_files_total": 0,
+    "transactional_apply": true,
+    "dry_run_first": true,
+    "validation_mirror": "validation\\repo_327_sprint7_direct_v210",
+    "runtime_allowlist": [
+      ".devpilot/devpilot.db*",
+      ".devpilot/agent_sessions/**",
+      "outputs/**"
+    ],
+    "source_files_frozen_by_sha256": true,
+    "repo_327_built_only_from_frozen_source_manifest": true,
+    "triggers_preserved": [
+      "TEST_CONTRACT_GLOBAL_STATE_OWNER_INVALID",
+      "EVIDENCE_FRESHNESS_ITEM_BLOCK",
+      "PYTEST_COLLECTION_ENVIRONMENT_BLOCK",
+      "DEPENDENCY_IMPORT_PRECHECK_BLOCK",
+      "POWERSHELL_NATIVE_ARGUMENT_QUOTING_BLOCK",
+      "RUNTIME_SQLITE_MISCLASSIFIED_AS_SOURCE_MUTATION",
+      "RAW_WORKTREE_SHA256_FALSE_CONFLICT_OR_UNDIAGNOSED_DRIFT",
+      "POST_H_034_CLOSURE_CURRENT_MICRO_SPRINT_ALLOWLIST_STALE"
+    ],
+    "freshness_cause": "the registered critical closure report did not contain the exact required marker closed/PASS-authoritative-rerun03",
+    "corrected_evidence_id": "post-h-eval-002-01-d-governance-closure-327-report",
+    "required_marker": "closed/PASS-authoritative-rerun03",
+    "preflight_path": "tests/preflight_release_candidate_evidence_stdlib.py",
+    "history": [
+      {
+        "version": "1.0.1",
+        "trigger": "TEST_CONTRACT_GLOBAL_STATE_OWNER_INVALID",
+        "correction": "classify the closure contract as integration while preserving project-global-state as the sole global-state owner"
+      },
+      {
+        "version": "1.0.2",
+        "trigger": "EVIDENCE_FRESHNESS_ITEM_BLOCK",
+        "correction": "add the exact authoritative RERUN-03 status marker to the registered report and enforce all 47 evidence contracts with a read-only preflight"
+      },
+      {
+        "version": "1.0.3",
+        "trigger": "PYTEST_COLLECTION_ENVIRONMENT_BLOCK",
+        "correction": "create an isolated non-editable dev environment, use one interpreter, gate collection at 1986 tests, require the focused contract, emit JUnit evidence and prove candidate tree immutability"
+      },
+      {
+        "version": "1.0.4",
+        "trigger": "DEPENDENCY_IMPORT_PRECHECK_BLOCK",
+        "correction": "derive the declared HTTP client from pyproject.toml, import httpx2, verify Starlette TestClient compatibility with 21 tests, and preserve the isolated environment"
+      },
+      {
+        "version": "1.0.5",
+        "trigger": "POWERSHELL_NATIVE_ARGUMENT_QUOTING_BLOCK",
+        "correction": "replace multiline python -c transport with a standalone Python precheck file and isolate focused pytest execution"
+      },
+      {
+        "version": "2.0.0",
+        "trigger": "RUNTIME_SQLITE_MISCLASSIFIED_AS_SOURCE_MUTATION",
+        "correction": "apply a minimal transactional overlay directly to verified repo 326, validate one tracked-source mirror, separate runtime from source integrity, and build repo 327 only from frozen source bytes"
+      },
+      {
+        "version": "2.1.0",
+        "trigger": "RAW_WORKTREE_SHA256_FALSE_CONFLICT_OR_UNDIAGNOSED_DRIFT",
+        "correction": "validate working-tree identity through Git canonical blobs, emit per-file forensic diagnostics, and return all Sprint 7 runtime paths to D:\\Projects\\DevPilot_E2E_Evaluation"
+      },
+      {
+        "version": "2.1.1",
+        "trigger": "POST_H_034_CLOSURE_CURRENT_MICRO_SPRINT_ALLOWLIST_STALE",
+        "correction": "replace the obsolete 01-A..01-D allowlist with the complete approved EVAL-002 roadmap pattern, register the historical closure test in TCR v1/v2, and execute it inside the early focal gate"
+      }
+    ],
+    "runner_delivery": "external-direct-patch-kit",
+    "isolated_environment": "D:\\Projects\\DevPilot_Local\\.venv\\Scripts\\python.exe",
+    "installation_contract": "reuse-official-repo-ignored-venv-no-pip-install",
+    "single_interpreter_required": true,
+    "expected_collection_total": 1986,
+    "junit_required": true,
+    "official_repo_runtime_mutation_allowed": false,
+    "declared_http_client": "httpx2>=2.4,<3",
+    "expected_import_module": "httpx2",
+    "testclient_implementation": "starlette.testclient",
+    "compatibility_tests_expected": 21,
+    "python_inline_command_allowed": false,
+    "dependency_precheck_transport": "runner-internal-probe-executed-by-selected-interpreter",
+    "source_identity_gate": "git-canonical-blob-plus-physical-sha256-diagnostics",
+    "working_tree_base_verification": "git hash-object --path equals HEAD blob",
+    "physical_sha256_role": "package-integrity-backup-diagnostics-not-sole-working-tree-identity",
+    "canonical_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation",
+    "legacy_run06_root_allowed": false,
+    "expected_focal_tests": 51,
+    "early_regression_contract": "tests/test_post_h_034_closure_regression_reconciliation.py",
+    "recovery_strategy": "recovery-on-top-of-v2.1.0-patch-applied"
+  },
+  "source_repo": "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+  "source_repo_sha256": "359a7e72ad39566fdf9bb40dd9a52a3c7851f969505409e8fb008f59db4bb840",
+  "target_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
+  "change_scope": "documentation-and-governance-only",
+  "functional_code_changed": false,
+  "authoritative_run": {
+    "run_id": "PILOT-E2E-001-RUN-05B-RERUN-03",
+    "status": "CLOSED/PASS",
+    "audit_source": "CLOSED_ZIPS_ONLY",
+    "s0": 0,
+    "s1": 0,
+    "blockers": [],
+    "routes": "5/5",
+    "negatives": "8/8",
+    "operations": "23/23",
+    "manual_correlations": "13/13",
+    "bridges": "8/8",
+    "viewport_screenshots": 13,
+    "full_page_screenshots": 5,
+    "secret_exposure": 0,
+    "running": false,
+    "ports_free": {
+      "8787": true,
+      "5173": true
+    },
+    "unknown_pid_killed": false,
+    "finalize_count": 1
+  },
+  "historical_run": {
+    "run_id": "PILOT-E2E-001-RUN-05B-RERUN-02",
+    "decision": "BLOCK/product-contract-evidence",
+    "evidence_use": "FORENSIC-ONLY",
+    "authoritative_for_repo_326": false,
+    "finalize_authorized": false
+  },
+  "final_evidence": {
+    "browser_acceptance_package": {
+      "name": "RUN05B_RERUN03_BROWSER_ACCEPTANCE_EVIDENCE.zip",
+      "sha256": "1453fb9a10ba87908ebf77a36324054d6946da07fd28bade7399af5ef67b0d88",
+      "entries": 69,
+      "sidecar_matches": true
+    },
+    "finalization_control_package": {
+      "name": "RUN05B_RERUN03_FINALIZATION_CONTROL_EVIDENCE.zip",
+      "sha256": "e04a8c754cb8112a28ce79fe0135886690e7522b5642a54b65316c4ea4ed7cfb",
+      "entries": 12,
+      "sidecar_matches": true
+    },
+    "independent_audit": {
+      "name": "RUN05B_RERUN03_INDEPENDENT_PACKAGE_AUDIT.json",
+      "sha256": "73f2a425af41725cbb26ecf5463c8b4a6b3d1d570f75d191d6e246e2775538df",
+      "markdown_sha256": "b9ff5cd9c7eb93e8e8c003fe4346cd99dc058623d71f0b33e114ab6ca7e6ec78",
+      "decision": "PASS",
+      "sprint6_state": "CLOSED/PASS",
+      "sprint7_authorized": true
+    }
+  },
+  "closure_state": {
+    "post_h_eval_002_01_d_closed": true,
+    "post_h_eval_002_01_status": "closed/PASS",
+    "current_micro_sprint": "POST-H-EVAL-002-02-A",
+    "next_micro_sprint": "POST-H-EVAL-002-02-B",
+    "next_authorized": true,
+    "workspace_created": false
+  },
+  "governance_files_created": [
+    "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+    "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+    "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
+    "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+    "tests/preflight_release_candidate_evidence_stdlib.py"
+  ],
+  "verification": {
+    "static_json_parse": "required-pass",
+    "governance_contract": "required-pass",
+    "project_state_validator": "required-pass",
+    "documentation_governance_validator": "required-pass",
+    "tcr_v1_validator": "required-pass",
+    "tcr_v2_validator": "required-pass",
+    "release_candidate_freshness": "required-pass",
+    "full_pytest": "required-pass-on-windows-after-v2.1.1",
+    "functional_delta_total": 0,
+    "windows_validation_status": "blocked-v2.1.0/recovery-v2.1.1-pending",
+    "stdlib_evidence_preflight": "required-pass",
+    "stdlib_evidence_preflight_expected_total": 47,
+    "validated_dev_environment_reused": "required-pass",
+    "dependency_import_precheck": "required-pass",
+    "pip_check": "required-pass",
+    "focused_contract_cannot_be_omitted": "required-pass",
+    "collection_gate": "required-pass",
+    "expected_collection_total": 1986,
+    "full_pytest_junit": "required-pass",
+    "source_mirror_integrity": "required-pass",
+    "dependency_contract_derived_from_pyproject": "required-pass",
+    "httpx2_import_precheck": "required-pass",
+    "testclient_httpx2_compatibility": "required-pass",
+    "testclient_httpx2_expected_tests": 21,
+    "transactional_direct_overlay": "required-pass",
+    "repo_git_diff_exact_paths": "required-pass",
+    "runtime_allowlist_enforced": "required-pass",
+    "repo_327_from_frozen_source_manifest": "required-pass",
+    "powershell_inline_python_absent": "required-pass",
+    "runner_internal_dependency_precheck": "required-pass",
+    "git_canonical_blob_preflight": "required-pass",
+    "physical_hash_diagnostic_report": "required-pass",
+    "canonical_evaluation_root_only": "required-pass",
+    "focused_contract_expected_total": 51,
+    "historical_post_h_034_closure_contract_in_focal_gate": "required-pass"
+  },
+  "safety": {
+    "network_used": false,
+    "external_api_used": false,
+    "credentials_introduced": false,
+    "raw_har_included": false,
+    "dpapi_state_included": false,
+    "sqlite_included": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "enterprise_ready_claimed": false,
+    "saas_ready_claimed": false
+  },
+  "windows_validation_history": [
+    {
+      "operator_version": "2.1.0",
+      "generated_at_utc": "2026-07-31T16:10:04Z",
+      "decision": "BLOCK",
+      "collection_total": 1986,
+      "passed": 1985,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "duration_seconds": 7864.03,
+      "failing_test": "tests/test_post_h_034_closure_regression_reconciliation.py::test_closure_state_and_backlog_are_administratively_closed",
+      "failure_classification": "stale-historical-regression-contract/no-product-regression"
+    }
+  ]
+}

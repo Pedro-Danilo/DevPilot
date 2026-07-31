@@ -9148,8 +9148,8 @@
         "tests/test_post_h_eval_002_activation_contract.py",
         "tests/test_project_global_state.py",
         "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
-    "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
-    "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
       ],
       "validates": [
         ".devpilot/project_state.json",
@@ -9190,13 +9190,13 @@
         "src/devpilot_core/modeling/providers.py",
         "ui/web/src/components/DryRunActionForm.ts",
         "ui/web/src/pages/ApprovalCenterView.ts",
-    "ui/web/src/pages/SettingsView.ts",
-    "ui/web/src/pages/Dashboard.ts",
-    "ui/web/src/components/ContractBadges.ts",
-    "ui/web/scripts/run05b-integral-corrective-326.mjs",
-    "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
-    "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
-    "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/components/ContractBadges.ts",
+        "ui/web/scripts/run05b-integral-corrective-326.mjs",
+        "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
+        "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
       ],
       "watched_paths": [
         ".devpilot/project_state.json",
@@ -9237,13 +9237,13 @@
         "src/devpilot_core/modeling/providers.py",
         "ui/web/src/components/DryRunActionForm.ts",
         "ui/web/src/pages/ApprovalCenterView.ts",
-    "ui/web/src/pages/SettingsView.ts",
-    "ui/web/src/pages/Dashboard.ts",
-    "ui/web/src/components/ContractBadges.ts",
-    "ui/web/scripts/run05b-integral-corrective-326.mjs",
-    "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
-    "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
-    "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/components/ContractBadges.ts",
+        "ui/web/scripts/run05b-integral-corrective-326.mjs",
+        "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
+        "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
       ],
       "mutable_global_state_allowed": true,
       "global_state_source": ".devpilot/project_state.json",
@@ -9261,16 +9261,82 @@
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core release-candidate evidence-freshness --json",
         "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_ui_corrective_patch.py -q",
-    "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py tests/test_api_settings.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q",
-    "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q"
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py tests/test_api_settings.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q",
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q"
       ],
-  "notes": [
-    "Corrects route dispatch and bounded timeout blockers without closing 01-D.",
-    "Formal Windows browser screenshots and matrices remain external evidence and must not be invented or versioned.",
-    "Corrective 325 remains a historical parent contract.",
-    "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
-    "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03."
-  ]
+      "notes": [
+        "Corrects route dispatch and bounded timeout blockers without closing 01-D.",
+        "Formal Windows browser screenshots and matrices remain external evidence and must not be invented or versioned.",
+        "Corrective 325 remains a historical parent contract.",
+        "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
+        "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-d-governance-closure-327",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002-01-D",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+        "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "README.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+        "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "README.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m pytest -p no:ddtrace --assert=plain -q"
+      ],
+      "notes": [
+        "Registers RUN05B RERUN-02 as forensic BLOCK and RERUN-03 as the only authoritative PASS.",
+        "Closes POST-H-EVAL-002-01-D and authorizes POST-H-EVAL-002-02-A without functional product changes.",
+        "The package remains implemented-pending-windows-validation until the full regression and validators pass on Windows.",
+        "Runs the POST-H-034 closure regression contract inside the early focal gate to prevent stale state allowlists from reaching the full regression."
+      ]
     }
   ],
   "notes": [
@@ -9331,6 +9397,7 @@
     "POST-H-EVAL-002-01-D UI corrective test and route-specific UI files added; browser RUN-02 remains required.",
     "Corrective 325 keeps its historical contract and evidence.",
     "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
-    "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03."
+    "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03.",
+    "Governance closure 327 records the authoritative RERUN-03 PASS, closes 01-D, advances the current micro-sprint to 02-A and keeps the package pending full Windows validation."
   ]
 }

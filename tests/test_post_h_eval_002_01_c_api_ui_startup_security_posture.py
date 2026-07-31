@@ -16,9 +16,9 @@ def _text(path: str) -> str:
 
 def test_01_c_state_closes_and_authorizes_01_d() -> None:
     state = _json(".devpilot/project_state.json")
-    assert state["current_repo"] in {"repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip", "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip", "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip", "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip"}
-    assert state["current_micro_sprint"] == "POST-H-EVAL-002-01-D"
-    assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-A"
+    assert state["current_repo"] in {"repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip", "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip", "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip", "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip", "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"}
+    assert state["current_micro_sprint"] in {"POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
+    assert state["next_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["post_h_eval_002_01_c_closed"] is True
     assert state["post_h_eval_002_01_c_status"] == "closed/PASS-WITH-GAPS"
     assert state["post_h_eval_002_01_c_s0_open"] == 0
@@ -79,12 +79,12 @@ def test_01_c_governance_docs_are_synchronized() -> None:
     roadmap = _text("docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md")
     backlog = _text("docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md")
     audit = _text("docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md")
-    assert "active/01-D-acceptance-ready" in roadmap
-    assert 'current_micro_sprint: "POST-H-EVAL-002-01-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-EVAL-002-02-A"' in backlog
+    assert "active/02-A-authorized" in roadmap
+    assert 'current_micro_sprint: "POST-H-EVAL-002-02-A"' in backlog
+    assert 'next_micro_sprint: "POST-H-EVAL-002-02-B"' in backlog
     assert "`PASS-WITH-GAPS`" in audit
     assert "formal browser acceptance" in audit
     registry = _json(".devpilot/docs_governance/source_registry.json")
     snapshot = registry["project_state_snapshot"]
     assert snapshot["post_h_eval_002_01_c_evidence_package_sha256"] == "c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5"
-    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D"}
+    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327"}

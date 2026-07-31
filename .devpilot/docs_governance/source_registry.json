@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-22",
+  "updated": "2026-07-31",
   "preliminary": true,
   "documents": [
     {
@@ -13197,6 +13197,98 @@
       "roadmap_milestones": [
         "POST-H-EVAL-002-01-D"
       ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-REPORT",
+      "path": "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "closure_status_match",
+        "next_hito_match"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-SPRINT7-IMPLEMENTATION-GUIDE",
+      "path": "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
+      "classification": "source-of-truth",
+      "domain": "operations.runbook",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ],
+      "updated": "2026-07-31",
+      "notes": [
+        "v2.1.1 preserves Git-canonical preflight, recovers the stale POST-H-034 closure regression contract, and executes it in the 51-test early focal gate."
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-windows-revalidation",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "test_must_pass",
+        "closure_status_match",
+        "next_hito_match"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-TEST",
+      "path": "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
     }
   ],
   "rules": {
@@ -13271,31 +13363,31 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 573,
-    "source_of_truth_total": 225,
-    "machine_readable_source_total": 267,
-    "derived_total": 81,
+    "documents_total": 577,
+    "source_of_truth_total": 227,
+    "machine_readable_source_total": 268,
+    "derived_total": 82,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 478,
+    "critical_sources_total": 482,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 573,
+    "documents_with_required_tests_total": 577,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326",
+    "last_updated_by": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-EVAL-002-01-C",
-    "last_registered_sprint": "POST-H-EVAL-002-01-C",
-    "updated": "2026-07-22",
-    "documents_checked_total": 560,
-    "documents_registered_total": 563
+    "updated_by": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+    "last_registered_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+    "updated": "2026-07-30",
+    "documents_checked_total": 577,
+    "documents_registered_total": 577
   },
   "safety": {
     "local_first": true,
@@ -13419,9 +13511,9 @@
     "connector_write_enabled": false,
     "control_plane_enabled": false,
     "credentials_required": false,
-    "current_micro_sprint": "POST-H-EVAL-002-01-D",
+    "current_micro_sprint": "POST-H-EVAL-002-02-A",
     "current_phase": "POST-H-EVAL-002",
-    "current_repo": "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+    "current_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
     "enterprise_deployment_enabled": false,
     "enterprise_ready_claimed": false,
     "external_api_used": false,
@@ -13446,7 +13538,7 @@
     ],
     "network_allowed": false,
     "network_used": false,
-    "next_micro_sprint": "POST-H-EVAL-002-02-A",
+    "next_micro_sprint": "POST-H-EVAL-002-02-B",
     "next_sprint": "POST-H-EVAL-002",
     "notes": [
       "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
@@ -15128,8 +15220,8 @@
       "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md"
     ],
     "post_h_eval_002_current_backlog": "POST-H-EVAL-002-01",
-    "post_h_eval_002_current_micro_sprint": "POST-H-EVAL-002-01-D",
-    "post_h_eval_002_next_micro_sprint": "POST-H-EVAL-002-02-A",
+    "post_h_eval_002_current_micro_sprint": "POST-H-EVAL-002-02-A",
+    "post_h_eval_002_next_micro_sprint": "POST-H-EVAL-002-02-B",
     "post_h_eval_002_ui_first": true,
     "post_h_eval_002_local_first": true,
     "post_h_eval_002_dry_run_default": true,
@@ -15140,7 +15232,7 @@
     "post_h_eval_002_connector_write_enabled": false,
     "post_h_eval_002_plugin_execution_enabled": false,
     "post_h_eval_002_pilot_baseline_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-    "post_h_eval_002_governance_repo": "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
+    "post_h_eval_002_governance_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
     "post_h_eval_002_01_a_closed": true,
     "post_h_eval_002_01_a_status": "closed/PASS",
     "post_h_eval_002_01_a_run_id": "PILOT-E2E-001-RUN-01",
@@ -15229,8 +15321,8 @@
     "post_h_eval_002_01_c_external_api_used": false,
     "post_h_eval_002_01_c_runtime_external_network_allowed": false,
     "post_h_eval_002_01_c_operator_r1_false_negative_resolved": true,
-    "post_h_eval_002_01_d_closed": false,
-    "post_h_eval_002_01_d_status": "active/run05b-integral-corrective-326-implemented-pending-independent-validation",
+    "post_h_eval_002_01_d_closed": true,
+    "post_h_eval_002_01_d_status": "closed/PASS-authoritative-rerun03",
     "post_h_eval_002_01_d_source_repo": "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip",
     "post_h_eval_002_01_d_target_repo": "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip",
     "post_h_eval_002_01_d_acceptance_readiness_report": "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
@@ -15241,15 +15333,15 @@
     "post_h_eval_002_01_d_timeout_state_ready": true,
     "post_h_eval_002_01_d_s1_detected_total": 8,
     "post_h_eval_002_01_d_s1_corrected_total": 8,
-    "post_h_eval_002_01_d_browser_acceptance_executed": false,
-    "post_h_eval_002_01_d_critical_route_coverage": null,
-    "post_h_eval_002_01_d_ui_eligible_coverage": null,
-    "post_h_eval_002_01_d_negative_states_executed": 0,
-    "post_h_eval_002_01_d_secret_exposure": null,
-    "post_h_eval_002_01_d_unhandled_errors": null,
+    "post_h_eval_002_01_d_browser_acceptance_executed": true,
+    "post_h_eval_002_01_d_critical_route_coverage": "5/5",
+    "post_h_eval_002_01_d_ui_eligible_coverage": "23/23",
+    "post_h_eval_002_01_d_negative_states_executed": 8,
+    "post_h_eval_002_01_d_secret_exposure": 0,
+    "post_h_eval_002_01_d_unhandled_errors": 0,
     "post_h_eval_002_01_d_s0_open": 0,
-    "post_h_eval_002_01_d_s1_open": 3,
-    "post_h_eval_002_01_d_next_authorized": false,
+    "post_h_eval_002_01_d_s1_open": 0,
+    "post_h_eval_002_01_d_next_authorized": true,
     "post_h_eval_002_01_d_workspace_created": false,
     "post_h_eval_002_01_d_external_api_used": false,
     "post_h_eval_002_01_d_runtime_external_network_allowed": false,
@@ -15276,8 +15368,8 @@
     "post_h_eval_002_01_d_action_pending_feedback": true,
     "post_h_eval_002_01_d_runtime_corrective_s1_implemented_pending_validation_total": 2,
     "post_h_eval_002_01_d_runtime_corrective_s2_implemented_pending_validation_total": 2,
-    "post_h_eval_002_01_d_technical_validation_status": "partial-pass/requires-authoritative-windows-validation",
-    "post_h_eval_002_01_d_run_03_authorized": false,
+    "post_h_eval_002_01_d_technical_validation_status": "closed/PASS-authoritative-rerun03",
+    "post_h_eval_002_01_d_run_03_authorized": true,
     "post_h_eval_002_01_d_integral_corrective_manifest": "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
     "post_h_eval_002_01_d_run05b_rerun02_result": "BLOCK/product-contract-evidence",
     "post_h_eval_002_01_d_run05b_rerun02_finalize_authorized": false,
@@ -15288,8 +15380,32 @@
     "post_h_eval_002_01_d_dashboard_health_consumed": true,
     "post_h_eval_002_01_d_approval_states_conditional": true,
     "post_h_eval_002_01_d_settings_visual_secret_redaction": true,
-    "post_h_eval_002_01_d_run05b_rerun03_authorized": false
+    "post_h_eval_002_01_d_run05b_rerun03_authorized": true,
+    "post_h_eval_002_01_d_run05b_rerun03_result": "CLOSED/PASS",
+    "post_h_eval_002_01_d_run05b_rerun03_routes_passed": 5,
+    "post_h_eval_002_01_d_run05b_rerun03_routes_total": 5,
+    "post_h_eval_002_01_d_run05b_rerun03_negative_states_passed": 8,
+    "post_h_eval_002_01_d_run05b_rerun03_negative_states_total": 8,
+    "post_h_eval_002_01_d_run05b_rerun03_operations_passed": 23,
+    "post_h_eval_002_01_d_run05b_rerun03_operations_total": 23,
+    "post_h_eval_002_01_d_run05b_rerun03_bridges_passed": 8,
+    "post_h_eval_002_01_d_run05b_rerun03_bridges_total": 8,
+    "post_h_eval_002_01_d_run05b_rerun03_s0_open": 0,
+    "post_h_eval_002_01_d_run05b_rerun03_s1_open": 0,
+    "post_h_eval_002_01_d_run05b_rerun03_secret_exposure": 0,
+    "post_h_eval_002_01_d_browser_package_sha256": "1453fb9a10ba87908ebf77a36324054d6946da07fd28bade7399af5ef67b0d88",
+    "post_h_eval_002_01_d_finalization_package_sha256": "e04a8c754cb8112a28ce79fe0135886690e7522b5642a54b65316c4ea4ed7cfb",
+    "post_h_eval_002_01_d_independent_audit_sha256": "73f2a425af41725cbb26ecf5463c8b4a6b3d1d570f75d191d6e246e2775538df",
+    "post_h_eval_002_01_d_finalize_count": 1,
+    "post_h_eval_002_01_d_governance_closure_manifest": "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+    "post_h_eval_002_01_d_governance_closure_report": "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+    "post_h_eval_002_wave_01_closed": true,
+    "post_h_eval_002_02_a_authorized": true,
+    "updated_at": "2026-07-31",
+    "post_h_eval_002_01_d_governance_operator_version": "2.1.0",
+    "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
+    "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
-  "updated_at": "2026-07-28",
-  "last_registered_sprint": "POST-H-EVAL-002-01-D"
+  "updated_at": "2026-07-30",
+  "last_registered_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327"
 }
