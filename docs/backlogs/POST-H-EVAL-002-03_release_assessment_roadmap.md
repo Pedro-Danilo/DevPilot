@@ -3,20 +3,30 @@ doc_id: "DEVPL-POST-H-EVAL-002-03-BACKLOG"
 id: "POST-H-EVAL-002-03"
 title: "POST-H-EVAL-002-03 — Release, clean install y assessment industrial"
 status: "approved"
-version: "1.5.0"
+version: "1.6.1"
 owner: "Ordóñez"
-updated: "2026-07-30"
+updated: "2026-08-02"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-03"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+minimum_source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+minimum_source_repo_identity_policy: "resolve-from-external-immutable-baseline-manifest"
+minimum_source_repo_manifest_path: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002\\baselines\\repo_327\\BASELINE_CURRENT.json"
+minimum_source_repo_manifest_schema: "devpilot.post_h_eval_002.operational_baseline.v1"
+minimum_source_repo_sha256_embedded: false
+source_repo_resolution: "resolve-latest-governed-DevPilot-baseline-from-POST-H-EVAL-002-02-closure-manifest"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-02 closed/pass"
 implementation_status: "approved/not-started"
 current_micro_sprint: "POST-H-EVAL-002-03-A"
 next_micro_sprint: "POST-H-EVAL-002-03-B"
+workspace_id: "inventory-sales-local"
+workspace_root: "D:\\Projects\\DevPilot_Workspaces\\inventory-sales-local"
+evaluation_root: "D:\\Projects\\DevPilot_E2E_Evaluation"
+artifacts_root: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002"
+temporary_root: "D:\\Projects\\DevPilot_Temp"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -24,23 +34,66 @@ dry_run_default: true
 
 # POST-H-EVAL-002-03 — Release, clean install y assessment industrial
 
-## 1. Estado
+## 1. Estado vigente
 
-`approved/not-started`. Depende del cierre PASS de `POST-H-EVAL-002-02`. La entrada gobernada vigente es repo 327, derivada del `CLOSED/PASS` autoritativo `PILOT-E2E-001-RUN-05B-RERUN-03`; esta referencia no autoriza anticipar actividades de la ola 03.
+`approved/not-started`.
 
-## 2. Propósito
+Este backlog depende del cierre `PASS` o `PASS-WITH-GAPS` no bloqueante de `POST-H-EVAL-002-02`. Repo 327 es el baseline mínimo lógico de plataforma. Su identidad física mínima se resuelve desde:
 
-Comprobar reproducibilidad de release y convertir el piloto en un diagnóstico industrial accionable.
+```text
+D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002\baselines\repo_327\BASELINE_CURRENT.json
+```
 
-## 3. Objetivo
+03-A debe resolver y verificar el baseline DevPilot efectivo más reciente declarado por el manifest de cierre de 02-E cuando durante la ola 02 se haya producido un patch de plataforma. El SHA-256 no se incrusta en este backlog porque el documento puede formar parte del propio `git archive`; la identidad verificable reside en manifests externos inmutables.
 
-Demostrar reproducibilidad operacional del proyecto piloto y convertir la evidencia acumulada en un diagnóstico industrial y un nuevo roadmap de DevPilot.
+Ninguna actividad 03-A–03-E está autorizada antes del cierre formal de 02-E.
 
-## 2. Micro-sprints
+## 2. Precedencia documental
+
+1. frontmatter vigente;
+2. sección **Estado vigente**;
+3. cierre autoritativo de POST-H-EVAL-002-02;
+4. Project State, roadmap y runbook vigentes;
+5. notas históricas fechadas, solo como evidencia forense.
+
+## 3. Propósito
+
+Comprobar reproducibilidad de release y clean install del proyecto piloto, y convertir la evidencia acumulada en un diagnóstico industrial accionable para DevPilot.
+
+## 4. Objetivo
+
+Demostrar que `inventory-sales-local` puede empaquetarse, instalarse desde cero, operar su flujo crítico y reiniciarse sin depender del entorno de desarrollo. Luego, evaluar DevPilot en una operación representativa y derivar un roadmap trazable.
+
+## 5. Rutas y aislamiento
+
+```text
+DevPilot:       D:\Projects\DevPilot_Local
+Workspace:      D:\Projects\DevPilot_Workspaces\inventory-sales-local
+Evaluación:     D:\Projects\DevPilot_E2E_Evaluation
+Artefactos:     D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002
+Temporal:       D:\Projects\DevPilot_Temp
+Clean install:  D:\Projects\DevPilot_E2E_Evaluation\validation\POST-H-EVAL-002-03-C\<run-id>\install_root
+```
+
+`C:\Users\Pedro\Downloads` es ingreso temporal, no ubicación de ejecución ni fuente de verdad.
+
+## 6. Política de pruebas y artefactos
+
+- El workspace Git y el release manifest identifican la fuente exacta del RC.
+- El baseline mínimo 327 debe verificarse contra `BASELINE_CURRENT.json`; el baseline efectivo de 03-A debe verificarse contra el manifest autoritativo de cierre de 02-E.
+- Ningún SHA-256 de un ZIP se considera válido por estar escrito en este backlog: siempre debe recalcularse sobre el artefacto y compararse con su manifest externo.
+- La regresión del piloto puede reutilizarse en 03-A únicamente si corresponde al mismo commit y no cambiaron código, tests, dependencias, configuración o migraciones.
+- Cualquier cambio que invalide esa evidencia obliga a ejecutar las pruebas afectadas y, cuando corresponda, la regresión completa del piloto.
+- No se ejecuta full pytest de DevPilot salvo cambio de plataforma o señal de Test Impact/riesgo residual.
+- Se genera un único RC source ZIP autoritativo y un único paquete de evidencia por micro-sprint.
+- No se empaquetan `.git`, `.venv`, `node_modules`, caches, SQLite operativa, `.env`, secretos, tokens, HAR bruto ni outputs runtime.
+- Los entornos temporales de clean install se eliminan solo después de archivar evidencia suficiente y verificar hashes.
+
+## 7. Micro-sprints
 
 ### POST-H-EVAL-002-03-A — Documentation and RC readiness
 
-Entregables del proyecto piloto:
+Entregables del workspace:
 
 ```text
 README.md
@@ -56,19 +109,24 @@ backup_restore_plan.md
 
 Actividades:
 
-- reconciliar docs y comportamiento real;
-- cerrar findings de documentación;
-- verificar evidence freshness de DevPilot;
-- verificar cero S0/S1;
-- congelar versión del MVP.
+1. auditar el cierre del backlog 02 y resolver desde su manifest autoritativo el baseline DevPilot vigente, su commit y su SHA-256;
+2. reconciliar documentación con el comportamiento as-built;
+3. validar comandos, rutas, variables, migraciones y limitaciones;
+4. cerrar findings documentales;
+5. verificar evidence freshness y `S0/S1 = 0`;
+6. ejecutar o reutilizar regresión vigente del piloto bajo criterios explícitos de frescura;
+7. fijar versión, commit y contenido candidato a RC;
+8. bloquear overclaims enterprise/SaaS/compliance.
 
 PASS:
 
-- docs reproducibles;
-- no claims enterprise/SaaS/compliance;
-- full regression del proyecto PASS;
+- documentación reproducible;
+- regresión del piloto PASS vigente;
 - trazabilidad completa;
-- RC autorizado.
+- no overclaims;
+- versión y commit congelados;
+- RC autorizado;
+- `POST-H-EVAL-002-03-B` autorizado.
 
 ### POST-H-EVAL-002-03-B — Package, checksums and local release candidate
 
@@ -79,43 +137,60 @@ Entregables:
 09_release_candidate/checksums.sha256
 09_release_candidate/release_manifest.json
 09_release_candidate/build_logs/
+09_release_candidate/secret_and_runtime_scan.json
+09_release_candidate/backup_rollback_dry_run.json
 09_release_candidate/rc_decision.md
 ```
 
 Validar:
 
-- source ZIP limpio;
-- build frontend;
-- dependencias declaradas;
-- migraciones/base demo controlada;
-- checksums;
+- source ZIP limpio del proyecto piloto, no de DevPilot;
+- frontend y backend reproducibles;
+- dependencias y lockfiles declarados;
+- migraciones/inicialización SQLite controladas;
+- checksums y manifest consistentes;
 - backup/rollback dry-run;
-- local RC DevPilot como evidencia de plataforma.
+- ausencia de secretos, rutas absolutas y runtime state;
+- Local RC de DevPilot usado únicamente como evidencia de plataforma.
 
-No asumir que comandos de packaging de DevPilot empaquetan automáticamente el workspace piloto; documentar alcance real.
+PASS:
+
+- ZIP limpio e íntegro;
+- build reproducible;
+- checksums verificables;
+- dependencias/migraciones declaradas;
+- backup/rollback dry-run PASS;
+- `rc_decision` sustentada;
+- `POST-H-EVAL-002-03-C` autorizado.
 
 ### POST-H-EVAL-002-03-C — Clean installation and post-install UI
 
-Instalar en ruta nueva sin reutilizar:
+La instalación debe ejecutarse en una ruta nueva dentro del área de validación, sin reutilizar:
 
 - `.venv`;
 - `node_modules`;
 - SQLite operativa;
 - configuración temporal;
-- rutas absolutas anteriores.
+- rutas absolutas anteriores;
+- procesos o puertos de la instalación de desarrollo.
 
 Flujo post-instalación:
 
 ```text
-arrancar backend
-→ arrancar frontend
+verificar artefacto y checksum
+→ instalar backend
+→ instalar/build frontend
+→ inicializar base controlada
+→ arrancar backend y frontend
 → crear producto
 → registrar entrada
 → registrar venta
 → verificar stock
 → generar reporte
-→ smoke tests
+→ ejecutar smoke tests
+→ detener procesos
 → reiniciar
+→ repetir verificación crítica
 ```
 
 Además, verificar desde Web UI DevPilot:
@@ -130,10 +205,12 @@ Además, verificar desde Web UI DevPilot:
 PASS:
 
 ```text
-clean_install=PASS
-critical_business_flow=PASS
-post_install_restart=PASS
-DevPilot_UI_observability=PASS
+clean_install = PASS
+critical_business_flow = PASS
+post_install_restart = PASS
+DevPilot_UI_observability = PASS
+process_cleanup = PASS
+ports_released = PASS
 ```
 
 ### POST-H-EVAL-002-03-D — Industrial baseline assessment
@@ -149,6 +226,7 @@ Entregables:
 12_final_assessment/risk_register_final.md
 12_final_assessment/maturity_scorecard.json
 12_final_assessment/prioritized_gap_matrix.md
+12_final_assessment/evidence_coverage_map.json
 ```
 
 Dimensiones:
@@ -176,6 +254,8 @@ Escala:
 5 probado en operación representativa
 ```
 
+Cada puntuación debe incluir evidencia, confianza y limitaciones. La existencia de código no justifica por sí sola una puntuación de integración u operación.
+
 ### POST-H-EVAL-002-03-E — Roadmap recommendation and handoff
 
 Entregables:
@@ -185,75 +265,62 @@ Entregables:
 12_final_assessment/next_wave_backlog_candidates.md
 12_final_assessment/onboarding_report_v2_update_plan.md
 12_final_assessment/POST-H-EVAL-002_closure_report.md
+12_final_assessment/final_artifact_manifest.json
 ```
 
 Actividades:
 
-1. priorizar gaps por impacto/riesgo/frecuencia/costo;
-2. separar defectos, UX gaps y capacidades futuras;
-3. decidir nuevas olas;
-4. no habilitar capacidades sensibles por inferencia;
-5. proyectar Onboarding Report v2 después del assessment;
-6. cerrar el hito con PASS, PASS-with-gaps o BLOCK justificado.
+1. auditar el assessment 03-D;
+2. priorizar gaps por impacto, riesgo, frecuencia, costo, dependencia y valor;
+3. separar defectos, UX gaps, deuda arquitectónica y capacidades futuras;
+4. proyectar olas/backlogs ejecutables;
+5. no habilitar capacidades sensibles por inferencia;
+6. decidir cierre global `PASS`, `PASS-WITH-GAPS` o `BLOCK`;
+7. sincronizar Project State y fuentes canónicas solo después de una decisión válida;
+8. fijar baseline final y handoff;
+9. no implementar la primera ola recomendada en el mismo micro-sprint.
 
-## 3. Criterios globales de salida
+## 8. Criterios globales de salida
 
 ### PASS
 
 - RC y clean install PASS;
-- S0/S1 = 0;
+- `S0/S1 = 0`;
 - no-go gates preservados;
-- assessment completo;
-- roadmap recommendation aprobada.
+- assessment completo y sustentado;
+- roadmap recommendation aprobada;
+- cierre de gobernanza y baseline final verificables.
 
-### PASS-with-gaps
+### PASS-WITH-GAPS
 
 - RC alcanzado;
 - solo S2/S3 abiertos;
-- workarounds seguros y priorizados;
-- ninguna evidencia faltante crítica.
+- workarounds seguros, documentados y priorizados;
+- ninguna evidencia crítica faltante;
+- ninguna capacidad sensible habilitada.
 
 ### BLOCK
 
-- corrupción/pérdida de datos;
+- corrupción o pérdida de datos;
 - secreto expuesto;
 - acción sensible no gobernada;
 - RC no reproducible;
-- clean install falla;
-- trazabilidad incompleta crítica;
-- assessment no puede sostener sus conclusiones.
+- clean install fallido;
+- trazabilidad crítica incompleta;
+- assessment sin evidencia suficiente.
 
-## 4. Definition of Done
+## 9. Definition of Done del backlog 03
 
-- A-E cerrados;
-- paquete y clean install verificados;
+- A–E cerrados secuencialmente;
+- RC limpio y verificable;
+- clean install y reinicio PASS;
 - diagnóstico industrial basado en evidencia;
 - nuevo roadmap recomendado;
 - plan de Onboarding Report v2 definido;
+- Project State y fuentes canónicas sincronizados;
+- paquete final autoritativo y hashes generados;
 - `POST-H-EVAL-002` formalmente cerrado.
 
-## 2026-07-21 — Runtime corrective 324 y gate RUN-03
+## 10. Registro histórico no autoritativo
 
-- Current repository: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
-- `PILOT-E2E-001-RUN-02` permanece como evidencia `BLOCK`; no habilita el siguiente backlog.
-- La autorización de este backlog sigue condicionada al PASS autoritativo de `PILOT-E2E-001-RUN-03` y al cierre formal de POST-H-EVAL-002-01.
-
-
-## 2026-07-22 — RUN-03 forensic closure and Browser Acceptance Corrective 325
-
-- RUN-03 is preserved as `BLOCK-WITH-PROGRESS`: materialization, R6.2 runtime and lifecycle PASS; formal browser acceptance BLOCK.
-- Product corrective: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
-- Ordinary requests remain bounded to 8000 ms; expensive operations use explicit operation-specific budgets.
-- Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
-- Provider plan validates the synthetic proposal in memory and performs no provider-file write.
-- Retest required: `PILOT-E2E-001-RUN-04`.
-- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
-
-## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
-
-- RERUN-02 is preserved as `BLOCK/product-contract-evidence` and forensic-only; `Finalize` is not authorized.
-- Product corrective: `repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip`.
-- Dashboard consumes Health, Approval Center states are conditional, Settings fully redacts secret-like fields and state notices are accessible.
-- Operator/auditor tooling must be corrected before a new run.
-- Required retest: `PILOT-E2E-001-RUN-05B-RERUN-03`.
-- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+Las entradas de 2026-07-21, 2026-07-22 y 2026-07-28 describen bloqueos anteriores de 01-D. Fueron superadas por `PILOT-E2E-001-RUN-05B-RERUN-03`, cuyo resultado autoritativo fue `CLOSED/PASS`, y por el posterior cierre de gobernanza repo 327. Se conservan únicamente como historial forense y no condicionan la autorización futura de 03-A, que depende exclusivamente del cierre de 02-E.

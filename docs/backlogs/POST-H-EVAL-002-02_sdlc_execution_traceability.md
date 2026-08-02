@@ -3,20 +3,29 @@ doc_id: "DEVPL-POST-H-EVAL-002-02-BACKLOG"
 id: "POST-H-EVAL-002-02"
 title: "POST-H-EVAL-002-02 — SDLC real, implementación y trazabilidad"
 status: "approved"
-version: "1.5.0"
+version: "1.6.1"
 owner: "Ordóñez"
-updated: "2026-07-30"
+updated: "2026-08-02"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-02"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+source_repo_identity_policy: "resolve-from-external-immutable-baseline-manifest"
+source_repo_manifest_path: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002\\baselines\\repo_327\\BASELINE_CURRENT.json"
+source_repo_manifest_schema: "devpilot.post_h_eval_002.operational_baseline.v1"
+source_repo_sha256_embedded: false
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-01 closed/pass"
 implementation_status: "active/02-a-authorized"
 current_micro_sprint: "POST-H-EVAL-002-02-A"
 next_micro_sprint: "POST-H-EVAL-002-02-B"
+workspace_id: "inventory-sales-local"
+workspace_root: "D:\\Projects\\DevPilot_Workspaces\\inventory-sales-local"
+evaluation_root: "D:\\Projects\\DevPilot_E2E_Evaluation"
+artifacts_root: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002"
+temporary_root: "D:\\Projects\\DevPilot_Temp"
 local_first: true
 ui_first: true
 dry_run_default: true
@@ -24,33 +33,107 @@ dry_run_default: true
 
 # POST-H-EVAL-002-02 — SDLC real, implementación y trazabilidad
 
-## 1. Estado
+## 1. Estado vigente y autorización
 
-`active/02-a-authorized`. La dependencia `POST-H-EVAL-002-01` cerró `PASS` mediante `PILOT-E2E-001-RUN-05B-RERUN-03`; repo 327 registra el cierre documental y autoriza el onboarding aislado. No se ha creado todavía `inventory-sales-local`.
+`active/02-a-authorized`.
 
-## 2. Propósito
-
-Validar que DevPilot puede gobernar un SDLC real con trazabilidad completa y UI-first medible.
-
-## 3. Objetivo
-
-Recorrer onboarding, pre-code, diseño, implementación y pruebas del proyecto `inventory-sales-local`, midiendo la integración real de DevPilot y la dependencia residual de CLI.
-
-## 2. Regla de ejecución
+La dependencia `POST-H-EVAL-002-01` cerró `CLOSED/PASS` mediante `PILOT-E2E-001-RUN-05B-RERUN-03` y el Sprint 7 de cierre de gobernanza 326 → 327. La entrada mínima gobernada es:
 
 ```text
-UI para observar/decidir/aprobar
-IDE + archivos versionados para autoría
-CLI solo como bridge registrado
+Artefacto lógico:
+repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip
+
+Manifest autoritativo externo:
+D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002\baselines\repo_327\BASELINE_CURRENT.json
+
+DevPilot:
+D:\Projects\DevPilot_Local
+
+Workspace:
+D:\Projects\DevPilot_Workspaces\inventory-sales-local
 ```
 
-No se permitirá implementar todo el MVP y validar al final. Cada historia debe cerrar con pruebas, trace/report y commit.
+El commit Git, la ruta física y el SHA-256 del baseline operativo deben resolverse y verificarse desde `BASELINE_CURRENT.json`. El hash del ZIP no se incrusta en este backlog porque el documento forma parte del propio archivo generado mediante `git archive`; hacerlo produciría una referencia circular e inestable.
 
-## 3. Micro-sprints
+`inventory-sales-local` todavía no debe existir como workspace materializado al iniciar 02-A. El único micro-sprint autorizado es `POST-H-EVAL-002-02-A`; los micro-sprints B–E permanecen secuenciales y no pueden adelantarse.
+
+El manifest externo debe declarar, como mínimo:
+
+```text
+schema_id = devpilot.post_h_eval_002.operational_baseline.v1
+artifact_name = repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip
+git_commit = commit gobernado de entrada
+sha256 = hash real del artefacto
+worktree_clean_at_generation = true
+authorized_micro_sprint = POST-H-EVAL-002-02-A
+```
+
+Si el manifest falta, es inválido, no coincide con el artefacto o declara un repositorio no limpio, 02-A queda en `BLOCK`.
+
+## 2. Precedencia documental
+
+Cuando existan notas históricas que describan estados anteriores, se aplicará esta precedencia:
+
+1. frontmatter vigente del backlog;
+2. sección **Estado vigente y autorización**;
+3. `.devpilot/project_state.json` y evidencia de cierre más reciente;
+4. roadmap y runbook vigentes;
+5. notas históricas fechadas, exclusivamente como evidencia forense.
+
+Las notas históricas no revocan una autorización posterior explícita.
+
+## 3. Propósito
+
+Validar que DevPilot puede gobernar un SDLC real con trazabilidad completa y una experiencia UI-first medible, mediante la construcción controlada de `inventory-sales-local`.
+
+## 4. Objetivo
+
+Recorrer onboarding, pre-code, arquitectura, seguridad, asistencia agentic gobernada, implementación por historias y regresión del proyecto piloto, midiendo:
+
+- integración real de DevPilot;
+- dependencia residual de CLI;
+- trazabilidad requisito → historia → archivos → pruebas → trace/report → commit;
+- calidad, seguridad y reproducibilidad operacional.
+
+## 5. Modelo operativo y aislamiento
+
+```text
+Web UI  → observar, decidir, revisar y aprobar
+IDE/Git → autoría y versionado del workspace
+CLI     → bridge explícitamente registrado cuando la UI no cubra la operación
+```
+
+Rutas canónicas:
+
+```text
+D:\Projects\DevPilot_Local
+D:\Projects\DevPilot_E2E_Evaluation
+D:\Projects\DevPilot_Workspaces\inventory-sales-local
+D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002
+D:\Projects\DevPilot_Temp
+```
+
+`C:\Users\Pedro\Downloads` es únicamente zona temporal de recepción. No se ejecutan operadores, repositorios ni validaciones desde Downloads.
+
+El repositorio DevPilot y el repositorio del workspace deben permanecer físicamente separados. Un defecto de DevPilot se corrige en un patch y commit de plataforma independiente; nunca se mezcla con el commit del proyecto piloto.
+
+## 6. Política de secuenciación, pruebas y artefactos
+
+1. Cada micro-sprint requiere cierre verificable antes de autorizar el siguiente.
+2. Cada historia de 02-D se implementa en una invocación separada y termina con un commit trazable.
+3. En 02-A–02-D se usan Test Impact, pruebas focales y validadores pertinentes.
+4. La regresión completa de `inventory-sales-local` es obligatoria en 02-E.
+5. La regresión completa de DevPilot solo se ejecuta si DevPilot cambia o Test Impact/riesgo residual lo exige.
+6. Git es la fuente primaria del workspace. Se genera un ZIP limpio del workspace únicamente en el cierre del micro-sprint cuando sea necesario como baseline o transferencia.
+7. No se genera un nuevo ZIP de DevPilot si la plataforma no cambió.
+8. Se conserva un único paquete de evidencia autoritativo por micro-sprint. Los intentos BLOCK conservan JSON/log mínimo y no multiplican copias completas.
+9. Los ZIP limpios excluyen `.git`, `.venv`, `node_modules`, caches, `outputs`, SQLite operativa, secretos, tokens, HAR bruto y backups runtime.
+
+## 7. Micro-sprints
 
 ### POST-H-EVAL-002-02-A — Workspace onboarding and isolation
 
-Entregables:
+Entregables autoritativos:
 
 ```text
 04_workspace_onboarding/bootstrap_dry_run.json
@@ -59,27 +142,42 @@ Entregables:
 04_workspace_onboarding/registry_validation.json
 04_workspace_onboarding/isolation_report.json
 04_workspace_onboarding/ui_visibility_report.md
+04_workspace_onboarding/workspace_git_identity.json
+04_workspace_onboarding/write_boundary_manifest.json
 ```
 
 Actividades:
 
-1. bootstrap dry-run;
-2. revisión del plan en Reports UI;
-3. aprobación humana;
-4. materialización en ruta separada;
-5. registro e isolation check;
-6. reconciliación UI↔CLI.
+1. verificar el cierre de 01 y resolver desde `BASELINE_CURRENT.json` el commit, la ruta y el SHA-256 del baseline 327;
+2. registrar espacio libre, rutas y estado inicial;
+3. ejecutar bootstrap dry-run sin mutaciones;
+4. revisar el plan en Reports UI cuando exista superficie;
+5. registrar aprobación humana;
+6. materializar en la ruta canónica separada;
+7. inicializar o verificar repositorio Git independiente del workspace;
+8. ejecutar registry validation e isolation check;
+9. verificar escritura exclusivamente dentro del workspace permitido;
+10. comprobar visibilidad UI y reconciliar UI ↔ CLI;
+11. registrar cada bridge o ausencia como UX-GAP;
+12. realizar commit de onboarding/baseline del workspace.
 
 PASS:
 
-- no escritura fuera del workspace;
+- manifest externo 327 válido y baseline verificado por nombre, commit y SHA-256;
+- dry-run no mutó disco;
+- materialización controlada y aprobada;
+- cero escritura fuera del workspace;
 - registry/isolation PASS;
-- workspace visible en UI;
-- cualquier falta de UI registrada como UX-GAP.
+- repositorio Git del workspace independiente y limpio después del commit;
+- workspace visible en UI o gap clasificado;
+- evidencia reproducible;
+- `POST-H-EVAL-002-02-B` autorizado.
+
+Gobernanza pendiente no bloqueante: al cierre de 02-A debe reconciliarse, si aún persiste, el campo redundante `post_h_eval_002_current_backlog` a `POST-H-EVAL-002-02`, mediante un cambio de gobernanza de DevPilot separado del commit del workspace.
 
 ### POST-H-EVAL-002-02-B — Product, requirements, architecture and security baseline
 
-Entregables versionados en el proyecto piloto:
+Entregables versionados en el workspace:
 
 ```text
 product_vision.md
@@ -94,36 +192,48 @@ traceability_matrix.md
 
 Actividades:
 
-- definir historias e IDs estables;
-- arquitectura React/FastAPI/SQLite;
-- modelo de errores y observabilidad;
-- threat model;
-- estrategia de pruebas;
-- MIASI registries/policy;
-- `readiness-check --strict`.
+- definir IDs estables para requisitos, historias, riesgos, controles, ADRs y pruebas;
+- fijar arquitectura React + TypeScript, FastAPI + Python y SQLite local;
+- definir boundaries, DTOs, persistencia, errores, observabilidad y backup;
+- establecer alcance MVP y exclusiones explícitas;
+- modelar amenazas y controles proporcionales al contexto local;
+- registrar MIASI/policies aplicables;
+- ejecutar validaciones semánticas y `readiness-check --strict`;
+- crear commit pre-code inmutable.
 
 PASS:
 
 - frontmatter válido;
-- requisitos aceptables y testeables;
+- requisitos testeables y sin contradicciones críticas;
 - riesgos críticos con controles;
 - MIASI PASS;
-- readiness strict PASS.
+- readiness strict PASS;
+- trazabilidad inicial completa;
+- cero código funcional del MVP adelantado;
+- `POST-H-EVAL-002-02-C` autorizado.
 
 ### POST-H-EVAL-002-02-C — Governed agentic assistance
 
-**Objetivo:** probar capacidades agentic sin confundir evaluación con autonomía.
+Objetivo: evaluar capacidades agentic sin confundir evidencia con autonomía.
+
+Rutas de proveedor:
+
+```text
+Ruta obligatoria: mock/sin API
+Ruta opcional: modelos locales, solo localhost y opt-in
+Ruta externa: no autorizada por defecto; requiere decisión separada, CostGuard y evidencia explícita
+```
 
 Evaluar:
 
 - capability inventory;
-- RAG context con citations;
-- insufficient-evidence;
-- memoria opt-in y redacción;
-- tool calling allowlisted/dry-run;
-- approval binding;
-- handoffs multiagente explícitos;
-- traces visibles.
+- RAG con citations, freshness e insufficient-evidence;
+- memoria opt-in, retención, redacción e independencia de evidencia formal;
+- tool calling allowlisted, contract-only y dry-run-first;
+- approval binding para acciones de riesgo;
+- handoffs multiagente explícitos con supervisor gate;
+- límites de iteración/tiempo definidos por policy;
+- traces visibles y correlacionables.
 
 Entregables:
 
@@ -132,19 +242,23 @@ Entregables:
 05_precode_requirements_architecture_security/rag_grounding_samples.json
 05_precode_requirements_architecture_security/tool_call_cases.json
 05_precode_requirements_architecture_security/handoff_traces.json
+05_precode_requirements_architecture_security/agentic_limits_and_costs.json
 ```
 
 PASS:
 
-- cero tool execution no autorizada;
-- sources/citations presentes;
-- memory no usada como evidencia formal;
-- supervisor/human checkpoints respetados;
-- no-go gates intactos.
+- cero ejecución de herramientas no autorizada;
+- fuentes y citas presentes;
+- insufficient-evidence bloquea afirmaciones no sustentadas;
+- memoria no usada como evidencia formal;
+- supervisor y checkpoints humanos respetados;
+- sin loops autónomos ilimitados;
+- no-go gates intactos;
+- `POST-H-EVAL-002-02-D` autorizado.
 
 ### POST-H-EVAL-002-02-D — MVP implementation cycles
 
-Historias mínimas:
+Historias obligatorias:
 
 ```text
 INV-001 crear producto
@@ -157,33 +271,35 @@ ALT-001 alerta stock mínimo
 OPS-001 backup local
 ```
 
-Por cada historia:
+Por historia:
 
-1. confirmar requisito y aceptación;
-2. análisis DevPilot;
-3. fuentes y plan;
-4. dry-run;
-5. aprobación si aplica;
-6. implementación humana/controlada;
-7. pruebas focales;
-8. code/patch review;
-9. Test Impact;
-10. report/trace en UI;
-11. commit.
-
-Entregable por historia:
-
-```text
-06_implementation_cycles/<story-id>/story_execution_record.md
-```
+1. confirmar requisito, aceptación y dependencias;
+2. ejecutar análisis DevPilot, fuentes y plan;
+3. ejecutar dry-run y aprobación cuando corresponda;
+4. implementar código modular completo y migraciones necesarias;
+5. ejecutar pruebas focales según Test Impact;
+6. ejecutar code review/patch review;
+7. verificar report/trace en UI y registrar bridges;
+8. actualizar trazabilidad;
+9. crear `06_implementation_cycles/<story-id>/story_execution_record.md`;
+10. crear un commit único y trazable de la historia;
+11. comprobar no regresión de historias previas.
 
 PASS por historia:
 
 - criterios de aceptación PASS;
-- tests focales PASS;
+- pruebas focales PASS;
 - blockers de review = 0;
-- trace/report disponible;
-- commit trazable.
+- trace/report disponible o gap clasificado;
+- commit trazable;
+- no regresión observada en historias cerradas.
+
+PASS de 02-D:
+
+- ocho historias cerradas;
+- flujo funcional mínimo integrado;
+- `S0/S1 = 0`;
+- `POST-H-EVAL-002-02-E` autorizado.
 
 ### POST-H-EVAL-002-02-E — Regression, traceability and UI gap consolidation
 
@@ -194,61 +310,62 @@ Entregables:
 07_testing_traceability/pilot_test_contracts.md
 07_testing_traceability/requirement_to_test_matrix.md
 07_testing_traceability/full_regression.log
+07_testing_traceability/full_regression.junit.xml
+07_testing_traceability/critical_flow_e2e.json
 11_incidents_and_ux_gaps/cli_bridge_register.md
 11_incidents_and_ux_gaps/ui_gap_register.md
 ```
 
 Validaciones:
 
-- unit/integration/API/contract/UI/E2E;
-- flujo crítico producto→entrada→venta→stock;
-- requirement→story→files→tests→trace→commit;
-- full regression del proyecto;
-- quality gate DevPilot según contexto;
-- UI discoverability de reportes/traces.
+- unit, integration, API, contract, UI y E2E;
+- flujo producto → entrada → venta → stock → reporte → alerta;
+- trazabilidad requisito → historia → archivos → pruebas → trace → commit;
+- regresión completa del proyecto piloto;
+- quality gate DevPilot pertinente;
+- discoverability UI de reportes/traces;
+- clasificación completa de CLI bridges y gaps.
 
 PASS:
 
 ```text
-pilot regression = PASS
-traceability coverage = 100%
-open traceability blockers = 0
-S0/S1 = 0
-all CLI bridges classified = true
+pilot_regression = PASS
+critical_flow = PASS
+traceability_coverage = 100%
+open_traceability_blockers = 0
+S0 = 0
+S1 = 0
+all_cli_bridges_classified = true
 ```
 
-## 4. Definition of Done
+El cierre de 02-E debe fijar:
 
-- A-E cerrados;
-- workspace y pre-code PASS;
-- MVP funcional;
-- agentic features evaluadas con límites;
-- pruebas y trazabilidad completas;
+- commit y versión de cierre del workspace;
+- baseline de evidencia del backlog 02;
+- DevPilot baseline vigente para 03-A;
+- decisión `PASS`, `PASS-WITH-GAPS` o `BLOCK`;
+- autorización explícita de `POST-H-EVAL-002-03-A` solo cuando corresponda.
+
+## 8. Definition of Done del backlog 02
+
+- A–E cerrados en secuencia;
+- workspace aislado y gobernado;
+- baseline pre-code PASS;
+- capacidades agentic evaluadas con límites;
+- ocho historias funcionales trazables;
+- regresión del piloto PASS;
+- cobertura de trazabilidad 100%;
 - UI/CLI gaps consolidados;
+- `S0/S1 = 0`;
+- baseline de entrada de 03-A identificado y verificado;
 - `POST-H-EVAL-002-03` autorizado.
 
-## 2026-07-21 — Runtime corrective 324 y gate RUN-03
+## 9. Registro histórico no autoritativo
 
-- Current repository: `repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip`.
-- `PILOT-E2E-001-RUN-02` permanece como evidencia `BLOCK`; no habilita el siguiente backlog.
-- La autorización de este backlog sigue condicionada al PASS autoritativo de `PILOT-E2E-001-RUN-03` y al cierre formal de POST-H-EVAL-002-01.
+Las siguientes entradas se conservan como historia forense y no describen el estado vigente:
 
+- 2026-07-21: Runtime corrective 324 y gate RUN-03;
+- 2026-07-22: RUN-03 `BLOCK-WITH-PROGRESS` y corrective 325;
+- 2026-07-28: RUN05B RERUN-02 `BLOCK/product-contract-evidence` y corrective 326.
 
-## 2026-07-22 — RUN-03 forensic closure and Browser Acceptance Corrective 325
-
-- RUN-03 is preserved as `BLOCK-WITH-PROGRESS`: materialization, R6.2 runtime and lifecycle PASS; formal browser acceptance BLOCK.
-- Product corrective: `repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip`.
-- Ordinary requests remain bounded to 8000 ms; expensive operations use explicit operation-specific budgets.
-- Dry-run and provider-plan surfaces use exclusive `idle/loading/pass/block/timeout/error` states and never retain a previous PASS after timeout/error.
-- Provider plan validates the synthetic proposal in memory and performs no provider-file write.
-- Retest required: `PILOT-E2E-001-RUN-04`.
-- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
-
-## 2026-07-28 — RUN05B RERUN-02 forensic BLOCK and integral corrective 326
-
-- RERUN-02 is preserved as `BLOCK/product-contract-evidence` and forensic-only; `Finalize` is not authorized.
-- Product corrective: `repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip`.
-- Dashboard consumes Health, Approval Center states are conditional, Settings fully redacts secret-like fields and state notices are accessible.
-- Operator/auditor tooling must be corrected before a new run.
-- Required retest: `PILOT-E2E-001-RUN-05B-RERUN-03`.
-- `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+Fueron superadas por `PILOT-E2E-001-RUN-05B-RERUN-03 CLOSED/PASS` y por el cierre de gobernanza repo 327.
