@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.policy import PathGuard, PolicyEffect, SecretGuard
+from devpilot_core.policy import PathGuard, PolicyEffect, SecretGuard, configured_external_workspace_roots
 from devpilot_core.schemas import SchemaValidator
 from devpilot_core.workspace.registry import MultiworkspaceRegistry, WorkspaceRegistryOptions
 
@@ -30,7 +30,11 @@ class MultiworkspaceRegistryV2:
     def __init__(self, root: Path, *, options: WorkspaceRegistryV2Options | None = None) -> None:
         self.root = Path(root).resolve()
         self.options = options or WorkspaceRegistryV2Options()
-        self.path_guard = PathGuard(self.root)
+        self.path_guard = PathGuard(
+            self.root,
+            allowed_external_roots=configured_external_workspace_roots(),
+        )
+        self.workspace_path_guard = self.path_guard
         self.secret_guard = SecretGuard()
 
     def migrate(self) -> CommandResult:
@@ -203,7 +207,7 @@ class MultiworkspaceRegistryV2:
                 active_found = True
             root_path = str(entry.get("root_path") or "")
             candidate = self._resolve(root_path)
-            decision = self.path_guard.evaluate(candidate, action="read")
+            decision = self.workspace_path_guard.evaluate(candidate, action="read")
             if decision.effect in {PolicyEffect.BLOCK, PolicyEffect.DENY}:
                 path_isolation_passed = False
                 findings.append(Finding("WORKSPACE_REGISTRY_V2_ROOT_BLOCKED", decision.reason, Severity.BLOCK, path=decision.subject, metadata={"workspace_id": workspace_id, **decision.metadata}))

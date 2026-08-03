@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import os
 from pathlib import Path
 
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
@@ -17,6 +18,28 @@ class PathPolicy:
     metadata: dict[str, str] = field(default_factory=dict)
 
 
+def configured_external_workspace_roots() -> tuple[Path, ...]:
+    """Return explicit external workspace roots from DEVPILOT_ALLOWED_WORKSPACE_ROOTS.
+
+    The variable uses the host path separator (``;`` on Windows). Empty or
+    relative entries are ignored so the boundary cannot silently broaden.
+    """
+
+    raw = os.environ.get("DEVPILOT_ALLOWED_WORKSPACE_ROOTS", "")
+    roots: list[Path] = []
+    for item in raw.split(os.pathsep):
+        item = item.strip()
+        if not item:
+            continue
+        candidate = Path(item)
+        if not candidate.is_absolute():
+            continue
+        resolved = candidate.resolve()
+        if resolved not in roots:
+            roots.append(resolved)
+    return tuple(roots)
+
+
 class PathGuard:
     """Guard for root-constrained filesystem access.
 
@@ -26,9 +49,16 @@ class PathGuard:
     evaluates a requested action/path pair.
     """
 
-    def __init__(self, root: Path, *, policy: PathPolicy | None = None) -> None:
+    def __init__(
+        self,
+        root: Path,
+        *,
+        policy: PathPolicy | None = None,
+        allowed_external_roots: tuple[Path, ...] = (),
+    ) -> None:
         self.root = root.resolve()
         self.policy = policy or PathPolicy()
+        self.allowed_external_roots = tuple(Path(item).resolve() for item in allowed_external_roots)
 
     def evaluate(self, path: str | Path | None, *, action: str = "read") -> PolicyDecision:
         """Evaluate whether `action` is allowed for `path`."""
@@ -48,19 +78,31 @@ class PathGuard:
         if not candidate.is_absolute():
             candidate = self.root / candidate
         resolved = candidate.resolve()
-        subject = _relative(resolved, self.root)
-
+        boundary_root = self.root
+        external_boundary = False
         try:
             resolved.relative_to(self.root)
         except ValueError:
-            return PolicyDecision(
-                effect=PolicyEffect.BLOCK,
-                reason="PathGuard blocked a path outside the DevPilot workspace root.",
-                guard="PathGuard",
-                rule_id="PATHGUARD_OUTSIDE_ROOT",
-                subject=raw,
-                metadata={"action": action_normalized},
+            matching_external_root = next(
+                (item for item in self.allowed_external_roots if _is_relative_to(resolved, item)),
+                None,
             )
+            if matching_external_root is None:
+                return PolicyDecision(
+                    effect=PolicyEffect.BLOCK,
+                    reason="PathGuard blocked a path outside the DevPilot workspace root and explicit external workspace roots.",
+                    guard="PathGuard",
+                    rule_id="PATHGUARD_OUTSIDE_ROOT",
+                    subject=raw,
+                    metadata={
+                        "action": action_normalized,
+                        "allowed_external_roots": [str(item) for item in self.allowed_external_roots],
+                    },
+                )
+            boundary_root = matching_external_root
+            external_boundary = True
+
+        subject = _relative(resolved, boundary_root)
 
         if ".." in Path(raw).parts:
             return PolicyDecision(
@@ -105,7 +147,7 @@ class PathGuard:
 
         if action_normalized in {"write", "create", "append"}:
             first_part = path_parts[0] if path_parts else ""
-            if first_part not in self.policy.write_allowed_prefixes:
+            if not external_boundary and first_part not in self.policy.write_allowed_prefixes:
                 return PolicyDecision(
                     effect=PolicyEffect.DENY,
                     reason="PathGuard denied write-like action outside approved writable prefixes.",
@@ -117,11 +159,19 @@ class PathGuard:
 
         return PolicyDecision(
             effect=PolicyEffect.ALLOW,
-            reason="PathGuard allowed the requested path/action.",
+            reason=(
+                "PathGuard allowed the requested path/action inside an explicit external workspace root."
+                if external_boundary
+                else "PathGuard allowed the requested path/action."
+            ),
             guard="PathGuard",
-            rule_id="PATHGUARD_PASS",
+            rule_id="PATHGUARD_EXTERNAL_WORKSPACE_PASS" if external_boundary else "PATHGUARD_PASS",
             subject=subject,
-            metadata={"action": action_normalized},
+            metadata={
+                "action": action_normalized,
+                "boundary_root": str(boundary_root),
+                "external_workspace_boundary": external_boundary,
+            },
         )
 
 
@@ -130,3 +180,11 @@ def _relative(path: Path, root: Path) -> str:
         return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
     except ValueError:
         return str(path).replace("\\", "/")
+
+
+def _is_relative_to(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    return True

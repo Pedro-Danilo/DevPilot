@@ -9,7 +9,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
 from devpilot_core.onboarding.templates import MARKDOWN_TEMPLATE_PATHS, MIASI_TEMPLATE_PATHS, validate_new_project_templates
-from devpilot_core.policy import PathGuard, PolicyEffect, SecretGuard
+from devpilot_core.policy import PathGuard, PolicyEffect, SecretGuard, configured_external_workspace_roots
 from devpilot_core.workspace.manager import DEFAULT_PROJECT_TYPE, render_project_yaml
 
 PROJECT_BOOTSTRAP_REPORT_SCHEMA_ID = "SCHEMA-DEVPL-PROJECT-BOOTSTRAP-REPORT-V1"
@@ -167,6 +167,10 @@ class ProjectBootstrapPlanner:
     def __init__(self, root: Path) -> None:
         self.root = Path(root).resolve()
         self.path_guard = PathGuard(self.root)
+        self.workspace_path_guard = PathGuard(
+            self.root,
+            allowed_external_roots=configured_external_workspace_roots(),
+        )
         self.secret_guard = SecretGuard()
 
     def run(self, options: ProjectBootstrapOptions) -> CommandResult:
@@ -327,7 +331,7 @@ class ProjectBootstrapPlanner:
         return self._resolve_repo_path(raw)
 
     def _evaluate_target_root(self, target_root: Path) -> list[Finding]:
-        decision = self.path_guard.evaluate(target_root, action="write")
+        decision = self.workspace_path_guard.evaluate(target_root, action="write")
         if decision.effect in {PolicyEffect.BLOCK, PolicyEffect.DENY}:
             return [
                 Finding(
@@ -426,7 +430,7 @@ class ProjectBootstrapPlanner:
                         metadata={"target_root": _relative(target_resolved, self.root)},
                     )
                 )
-            decision = self.path_guard.evaluate(path, action="write")
+            decision = self.workspace_path_guard.evaluate(path, action="write")
             if decision.effect in {PolicyEffect.BLOCK, PolicyEffect.DENY}:
                 findings.append(
                     Finding(

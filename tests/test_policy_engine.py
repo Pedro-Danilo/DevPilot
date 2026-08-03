@@ -28,6 +28,21 @@ def test_path_guard_blocks_path_outside_workspace(tmp_path: Path) -> None:
     assert decision.rule_id == "PATHGUARD_OUTSIDE_ROOT"
 
 
+def test_path_guard_allows_only_explicit_external_workspace_root(tmp_path: Path) -> None:
+    workspace = (tmp_path.parent / "DevPilot_Workspaces" / "inventory-sales-local").resolve()
+    outside = (tmp_path.parent / "Other" / "inventory-sales-local").resolve()
+    guard = PathGuard(tmp_path, allowed_external_roots=(workspace,))
+
+    root_decision = guard.evaluate(workspace, action="write")
+    document_decision = guard.evaluate(workspace / "docs" / "artifact.md", action="write")
+    outside_decision = guard.evaluate(outside, action="write")
+
+    assert root_decision.effect == PolicyEffect.ALLOW
+    assert root_decision.rule_id == "PATHGUARD_EXTERNAL_WORKSPACE_PASS"
+    assert document_decision.effect == PolicyEffect.ALLOW
+    assert outside_decision.effect == PolicyEffect.BLOCK
+
+
 def test_path_guard_blocks_destructive_actions(tmp_path: Path) -> None:
     decision = PathGuard(tmp_path).evaluate("docs/example.md", action="delete")
 

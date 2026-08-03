@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.policy import PathGuard, PolicyEffect
+from devpilot_core.policy import PathGuard, PolicyEffect, configured_external_workspace_roots
 from devpilot_core.schemas import SchemaValidator
 from devpilot_core.workspace.registry_v2 import MultiworkspaceRegistryV2, WorkspaceRegistryV2Options
 
@@ -34,7 +34,10 @@ class WorkspaceIsolationValidator:
     def __init__(self, root: Path, *, options: WorkspaceIsolationOptions | None = None) -> None:
         self.root = Path(root).resolve()
         self.options = options or WorkspaceIsolationOptions()
-        self.path_guard = PathGuard(self.root)
+        self.path_guard = PathGuard(
+            self.root,
+            allowed_external_roots=configured_external_workspace_roots(),
+        )
 
     def run(self) -> CommandResult:
         registry_result = MultiworkspaceRegistryV2(

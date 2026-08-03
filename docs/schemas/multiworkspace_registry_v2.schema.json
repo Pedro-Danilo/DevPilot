@@ -17,11 +17,25 @@
     "workspaces"
   ],
   "properties": {
-    "schema_version": {"const": "2.0"},
-    "schema_id": {"const": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V2"},
-    "created_by": {"const": "POST-H-016-A"},
-    "updated_at": {"type": "string", "minLength": 1},
-    "active_workspace_id": {"type": ["string", "null"]},
+    "schema_version": {
+      "const": "2.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V2"
+    },
+    "created_by": {
+      "const": "POST-H-016-A"
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active_workspace_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "defaults": {
       "type": "object",
       "additionalProperties": false,
@@ -33,11 +47,21 @@
         "portfolio_status_read_only"
       ],
       "properties": {
-        "deny_unregistered_workspaces": {"const": true},
-        "cross_workspace_state_reads": {"const": false},
-        "cross_workspace_writes": {"const": false},
-        "secret_sharing_allowed": {"const": false},
-        "portfolio_status_read_only": {"const": true}
+        "deny_unregistered_workspaces": {
+          "const": true
+        },
+        "cross_workspace_state_reads": {
+          "const": false
+        },
+        "cross_workspace_writes": {
+          "const": false
+        },
+        "secret_sharing_allowed": {
+          "const": false
+        },
+        "portfolio_status_read_only": {
+          "const": true
+        }
       }
     },
     "security": {
@@ -55,15 +79,33 @@
         "secrets_read"
       ],
       "properties": {
-        "network_used": {"const": false},
-        "external_api_used": {"const": false},
-        "shell_used": {"const": false},
-        "remote_execution_used": {"const": false},
-        "connector_write_used": {"const": false},
-        "plugin_execution_used": {"const": false},
-        "mutations_performed": {"const": false},
-        "source_mutations_performed": {"const": false},
-        "secrets_read": {"const": false}
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "shell_used": {
+          "const": false
+        },
+        "remote_execution_used": {
+          "const": false
+        },
+        "connector_write_used": {
+          "const": false
+        },
+        "plugin_execution_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "secrets_read": {
+          "const": false
+        }
       }
     },
     "migration": {
@@ -79,13 +121,28 @@
         "mutations_performed"
       ],
       "properties": {
-        "source_registry_path": {"const": ".devpilot/workspaces/workspace_registry.json"},
-        "source_schema_version": {"const": "1.0"},
-        "target_schema_version": {"const": "2.0"},
-        "mode": {"const": "read-only"},
-        "source_registry_preserved": {"const": true},
-        "compatible_with_v1": {"const": true},
-        "mutations_performed": {"const": false}
+        "source_registry_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_schema_version": {
+          "const": "1.0"
+        },
+        "target_schema_version": {
+          "const": "2.0"
+        },
+        "mode": {
+          "const": "read-only"
+        },
+        "source_registry_preserved": {
+          "const": true
+        },
+        "compatible_with_v1": {
+          "const": true
+        },
+        "mutations_performed": {
+          "const": false
+        }
       }
     },
     "workspaces": {
@@ -118,27 +175,97 @@
           "source_registry_version"
         ],
         "properties": {
-          "workspace_id": {"type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9_.-]+$"},
-          "project_id": {"type": "string", "minLength": 1},
-          "name": {"type": "string", "minLength": 1},
-          "root_path": {"type": "string", "minLength": 1},
-          "path_mode": {"const": "relative-to-registry-root"},
-          "project_file": {"const": ".devpilot/project.yaml"},
-          "state_path": {"const": ".devpilot/devpilot.db"},
-          "reports_path": {"type": "string", "minLength": 1},
-          "traces_path": {"type": "string", "minLength": 1},
-          "secrets_path": {"type": "string", "minLength": 1},
-          "status": {"type": "string", "enum": ["active", "registered", "disabled", "archived"]},
-          "risk_level": {"type": "string", "enum": ["low", "medium", "medium_high", "high"]},
-          "default_effect": {"const": "deny"},
-          "secret_policy": {"const": "reference-only"},
-          "network_allowed": {"const": false},
-          "external_api_allowed": {"const": false},
-          "observability_required": {"const": true},
-          "eval_required": {"const": true},
-          "registered_at_utc": {"type": "string", "minLength": 1},
-          "last_validated_at_utc": {"type": ["string", "null"]},
-          "source_registry_version": {"const": "1.0"}
+          "workspace_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_.-]+$"
+          },
+          "project_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "root_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path_mode": {
+            "type": "string",
+            "enum": [
+              "relative-to-registry-root",
+              "absolute-local"
+            ]
+          },
+          "project_file": {
+            "const": ".devpilot/project.yaml"
+          },
+          "state_path": {
+            "const": ".devpilot/devpilot.db"
+          },
+          "reports_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "traces_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "secrets_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "registered",
+              "disabled",
+              "archived"
+            ]
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "medium_high",
+              "high"
+            ]
+          },
+          "default_effect": {
+            "const": "deny"
+          },
+          "secret_policy": {
+            "const": "reference-only"
+          },
+          "network_allowed": {
+            "const": false
+          },
+          "external_api_allowed": {
+            "const": false
+          },
+          "observability_required": {
+            "const": true
+          },
+          "eval_required": {
+            "const": true
+          },
+          "registered_at_utc": {
+            "type": "string",
+            "minLength": 1
+          },
+          "last_validated_at_utc": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_registry_version": {
+            "const": "1.0"
+          }
         }
       }
     }
@@ -148,5 +275,5 @@
   "x-devpilot-sprint": "POST-H-016-A",
   "x-devpilot-status": "registered",
   "x-devpilot-preliminary": true,
-  "x-devpilot-note": "POST-H-016-A keeps the v1 registry as source-compatible and validates a deterministic v2 view in memory; source writes are not performed by default."
+  "x-devpilot-note": "POST-H-016-A keeps the v1 registry as source-compatible and validates a deterministic v2 view in memory; source writes are not performed by default. Explicit allowlisted local workspaces may use absolute-local when a relative path cannot be represented across Windows volumes."
 }

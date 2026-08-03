@@ -9,7 +9,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.miasi import MiasiRegistryValidator
-from devpilot_core.policy import PathGuard, PolicyEffect
+from devpilot_core.policy import PathGuard, PolicyEffect, configured_external_workspace_roots
 from devpilot_core.schemas import SchemaValidator
 from devpilot_core.standards.registry import build_standards_status_result
 from devpilot_core.validators.artifact import validate_artifact_file
@@ -70,11 +70,15 @@ class OnboardingReadinessPreviewer:
     def __init__(self, root: Path) -> None:
         self.root = Path(root).resolve()
         self.path_guard = PathGuard(self.root)
+        self.workspace_path_guard = PathGuard(
+            self.root,
+            allowed_external_roots=configured_external_workspace_roots(),
+        )
         self.schema_validator = SchemaValidator(self.root)
 
     def run(self, options: OnboardingReadinessPreviewOptions) -> CommandResult:
         target_root = self._resolve_repo_path(options.target_root)
-        path_decision = self.path_guard.evaluate(target_root, action="read")
+        path_decision = self.workspace_path_guard.evaluate(target_root, action="read")
         if path_decision.effect in {PolicyEffect.BLOCK, PolicyEffect.DENY}:
             finding = Finding(
                 "ONBOARDING_READINESS_TARGET_PATH_BLOCKED",

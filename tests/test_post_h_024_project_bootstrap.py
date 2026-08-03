@@ -6,7 +6,18 @@ import subprocess
 import sys
 from pathlib import Path
 
+from devpilot_core.onboarding import OnboardingReadinessPreviewOptions, OnboardingReadinessPreviewer
 from devpilot_core.schemas import SchemaValidator
+from devpilot_core.workspace import (
+    MultiworkspaceRegistry,
+    MultiworkspaceRegistryV2,
+    WorkspaceIsolationOptions,
+    WorkspaceIsolationValidator,
+    WorkspaceRegisterOptions,
+    WorkspaceRegistryOptions,
+    WorkspaceRegistryV2Options,
+)
+from devpilot_core.workspace import registry as registry_module
 from devpilot_core.workspace.bootstrap import (
     DEFAULT_BOOTSTRAP_OUTPUT_JSON,
     ProjectBootstrapOptions,
@@ -229,3 +240,104 @@ def test_post_h_024_c_governance_artifacts_are_synchronized() -> None:
     assert "POST-H-024-C — Bootstrap workflow dry-run" in runbook
     assert "Siguiente hito: `POST-H-025`" in readme
     assert "post-h-024-c" in changelog
+
+
+def test_bootstrap_registry_and_isolation_support_explicit_external_workspace(monkeypatch, tmp_path: Path) -> None:
+    workspace = (tmp_path / "DevPilot_Workspaces" / "inventory-sales-local").resolve()
+    monkeypatch.setenv("DEVPILOT_ALLOWED_WORKSPACE_ROOTS", str(workspace))
+
+    planner = ProjectBootstrapPlanner(ROOT)
+    dry_run = planner.run(
+        ProjectBootstrapOptions(
+            project_id="inventory-sales-local",
+            project_name="Sistema local de ventas e inventario",
+            target_root=str(workspace),
+            execute=False,
+            write_report=False,
+        )
+    )
+    assert dry_run.ok, dry_run.to_dict()
+    assert dry_run.data["summary"]["mutations_performed"] is False
+    assert not workspace.exists()
+
+    execute = planner.run(
+        ProjectBootstrapOptions(
+            project_id="inventory-sales-local",
+            project_name="Sistema local de ventas e inventario",
+            target_root=str(workspace),
+            execute=True,
+            write_report=False,
+        )
+    )
+    assert execute.ok, execute.to_dict()
+    assert (workspace / ".devpilot" / "project.yaml").is_file()
+
+    readiness = OnboardingReadinessPreviewer(ROOT).run(
+        OnboardingReadinessPreviewOptions(
+            target_root=str(workspace),
+            project_id="inventory-sales-local",
+            project_name="Sistema local de ventas e inventario",
+            write_report=False,
+        )
+    )
+    assert readiness.ok, readiness.to_dict()
+    assert readiness.data["summary"]["target_exists"] is True
+
+    registry_path = workspace / ".devpilot/onboarding/workspace_registry.json"
+    registry_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(ROOT / ".devpilot/workspaces/workspace_registry.json", registry_path)
+    registry_rel = str(registry_path)
+
+    registry = MultiworkspaceRegistry(ROOT, options=WorkspaceRegistryOptions(registry_path=registry_rel))
+    registered = registry.register(
+        WorkspaceRegisterOptions(
+            path=str(workspace),
+            workspace_id="inventory-sales-local",
+            name="Sistema local de ventas e inventario",
+            registry_path=registry_rel,
+        )
+    )
+    assert registered.ok, registered.to_dict()
+
+    registry_payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    entry = next(item for item in registry_payload["workspaces"] if item["workspace_id"] == "inventory-sales-local")
+    if workspace.anchor.casefold() != ROOT.anchor.casefold():
+        assert entry["path_mode"] == "absolute-local"
+        assert Path(entry["path"]).is_absolute()
+        assert Path(entry["path"]).resolve() == workspace
+    else:
+        assert entry["path_mode"] == "relative-to-registry-root"
+        assert entry["path"].startswith("..")
+    assert entry["network_allowed"] is False
+    assert entry["external_api_allowed"] is False
+
+    assert registry.validate().ok
+    assert MultiworkspaceRegistryV2(
+        ROOT,
+        options=WorkspaceRegistryV2Options(registry_path=registry_rel),
+    ).validate().ok
+
+    isolation = WorkspaceIsolationValidator(
+        ROOT,
+        options=WorkspaceIsolationOptions(registry_path=registry_rel),
+    ).run()
+    assert isolation.ok, isolation.to_dict()
+    assert isolation.data["summary"]["path_guard_aligned"] is True
+    assert isolation.data["summary"]["cross_workspace_refs_detected"] is False
+
+
+def test_registry_path_reference_falls_back_to_absolute_local_when_relpath_is_unrepresentable(monkeypatch, tmp_path: Path) -> None:
+    root = (tmp_path / "repo").resolve()
+    workspace = (tmp_path / "external-workspace").resolve()
+    root.mkdir()
+    workspace.mkdir()
+
+    def _raise_value_error(*_args, **_kwargs):
+        raise ValueError("path is on a different Windows mount")
+
+    monkeypatch.setattr(registry_module.os.path, "relpath", _raise_value_error)
+    path_value, path_mode = registry_module._registry_path_reference(root, workspace)
+
+    assert path_mode == "absolute-local"
+    assert Path(path_value).is_absolute()
+    assert Path(path_value).resolve() == workspace

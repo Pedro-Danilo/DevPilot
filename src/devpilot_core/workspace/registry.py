@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -9,7 +10,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.observability import EventLogger, EventRecord
-from devpilot_core.policy import PathGuard, PolicyEffect, PolicyEngine, PolicyRequest, SecretGuard
+from devpilot_core.policy import PathGuard, PolicyEffect, PolicyEngine, PolicyRequest, SecretGuard, configured_external_workspace_roots
 from devpilot_core.schemas import SchemaValidator
 from devpilot_core.workspace.manager import parse_project_yaml_metadata
 
@@ -58,9 +59,16 @@ class MultiworkspaceRegistry:
     def __init__(self, root: Path, *, options: WorkspaceRegistryOptions | None = None) -> None:
         self.root = Path(root).resolve()
         self.options = options or WorkspaceRegistryOptions()
-        self.path_guard = PathGuard(self.root)
+        self.path_guard = PathGuard(
+            self.root,
+            allowed_external_roots=configured_external_workspace_roots(),
+        )
+        self.workspace_path_guard = self.path_guard
         self.secret_guard = SecretGuard()
-        self.policy = PolicyEngine(self.root)
+        self.policy = PolicyEngine(
+            self.root,
+            allowed_external_roots=configured_external_workspace_roots(),
+        )
 
     @property
     def registry_path(self) -> Path:
@@ -286,13 +294,13 @@ class MultiworkspaceRegistry:
             finding = Finding("MULTIWORKSPACE_REGISTRY_WORKSPACES_INVALID", "Registry workspaces field must be an array.", Severity.BLOCK, path=_rel(self.root, self.registry_path))
             return CommandResult(command="workspace register", ok=False, exit_code=ExitCode.BLOCK, message="Workspace registration blocked by invalid registry shape.", data={}, findings=[finding])
 
-        rel_path = _rel(self.root, target)
+        registry_path_value, registry_path_mode = _registry_path_reference(self.root, target)
         new_entry = {
             "workspace_id": workspace_id,
             "project_id": str(metadata.get("project_id") or workspace_id),
             "name": name,
-            "path": rel_path,
-            "path_mode": "relative-to-registry-root",
+            "path": registry_path_value,
+            "path_mode": registry_path_mode,
             "status": "active" if registry.get("active_workspace_id") in (None, workspace_id) else "registered",
             "risk_level": "medium_high",
             "default_effect": "deny",
@@ -410,7 +418,7 @@ class MultiworkspaceRegistry:
         if not candidate.is_absolute():
             candidate = self.root / candidate
         resolved = candidate.resolve()
-        decision = self.path_guard.evaluate(resolved, action=action)
+        decision = self.workspace_path_guard.evaluate(resolved, action=action)
         if decision.effect in {PolicyEffect.BLOCK, PolicyEffect.DENY}:
             return None, Finding("MULTIWORKSPACE_PATH_BLOCKED", decision.reason, Severity.BLOCK, path=decision.subject, metadata={"workspace_id": workspace_id, **decision.metadata})
         return resolved, None
@@ -449,6 +457,35 @@ class MultiworkspaceRegistry:
             )
         )
 
+
+
+def _registry_path_reference(root: Path, path: Path) -> tuple[str, str]:
+    """Encode a governed local workspace path without assuming one Windows volume.
+
+    Same-volume workspaces retain the historical relative representation. When
+    Windows reports different anchors (for example ``D:\\`` and ``C:\\``),
+    ``os.path.relpath`` is undefined; in that case the registry stores a
+    normalized absolute local path. PathGuard still enforces the explicit
+    external-root allowlist before the value is accepted or used.
+    """
+
+    root_resolved = Path(root).resolve()
+    path_resolved = Path(path).resolve()
+
+    root_anchor = root_resolved.anchor.casefold()
+    path_anchor = path_resolved.anchor.casefold()
+    if root_anchor and path_anchor and root_anchor != path_anchor:
+        return path_resolved.as_posix(), "absolute-local"
+
+    try:
+        relative = path_resolved.relative_to(root_resolved)
+    except ValueError:
+        try:
+            relative = Path(os.path.relpath(path_resolved, root_resolved))
+        except ValueError:
+            return path_resolved.as_posix(), "absolute-local"
+
+    return relative.as_posix(), "relative-to-registry-root"
 
 def _default_registry() -> dict[str, Any]:
     now = _utc_now()

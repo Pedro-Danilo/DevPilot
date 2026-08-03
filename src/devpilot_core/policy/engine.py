@@ -83,10 +83,15 @@ class PolicyEngine:
         path_policy: PathPolicy | None = None,
         cost_policy: CostPolicy | None = None,
         observability_enabled: bool = True,
+        allowed_external_roots: tuple[Path, ...] = (),
     ) -> None:
         self.root = root.resolve()
         self.observability_enabled = observability_enabled
-        self.path_guard = PathGuard(self.root, policy=path_policy)
+        self.path_guard = PathGuard(
+            self.root,
+            policy=path_policy,
+            allowed_external_roots=allowed_external_roots,
+        )
         self.secret_guard = SecretGuard(self.root)
         self.prompt_injection_guard = PromptInjectionGuard(self.root)
         self.tool_injection_guard = ToolInjectionGuard(self.root)
