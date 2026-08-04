@@ -32,6 +32,7 @@ export interface DashboardSnapshot {
   standards?: DevPilotApplicationResponse;
   miasi?: DevPilotApplicationResponse;
   operator?: DevPilotApplicationResponse<OperatorDashboardResponseData>;
+  portfolio?: DevPilotApplicationResponse;
 }
 
 export type DashboardStatus = 'PASS' | 'WARN' | 'FAIL' | 'BLOCK' | 'ERROR' | 'PENDING';
@@ -39,6 +40,15 @@ export type DashboardStatus = 'PASS' | 'WARN' | 'FAIL' | 'BLOCK' | 'ERROR' | 'PE
 
 export interface ReportIndexItem {
   report_id: string;
+  display_id?: string;
+  relative_stem?: string;
+  relative_path?: string;
+  scope?: string;
+  workspace_id?: string | null;
+  nested?: boolean;
+  depth?: number;
+  size_bytes?: number;
+  summary_loaded?: boolean;
   formats?: string[];
   paths?: Record<string, string>;
   command?: string;

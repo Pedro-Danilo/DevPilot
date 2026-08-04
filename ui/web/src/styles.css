@@ -444,3 +444,74 @@ button:disabled { cursor: wait; opacity: 0.7; }
 
 .action-status { margin: 8px 0; min-height: 1.25rem; color: #31415e; font-weight: 700; }
 button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
+
+
+/* POST-H-EVAL-002-02-A UI-first gap corrective */
+.workspace-context-panel {
+  margin: 12px 0 16px;
+  padding: 14px;
+  border: 1px solid #c7d3e6;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+.workspace-context-panel__heading,
+.report-detail-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+.workspace-context-panel__heading h3,
+.report-detail-heading h3 { margin: 0; }
+.context-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.badge { display: inline-flex; border-radius: 999px; padding: 4px 8px; font-size: 0.7rem; font-weight: 900; background: #e8edf7; color: #44506a; }
+.badge.pass { background: #dff8ea; color: #0d6532; }
+.badge.pending { background: #fff3cd; color: #725100; }
+.workspace-context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.workspace-context-item {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #d9e2f2;
+  border-radius: 10px;
+  background: #ffffff;
+}
+.workspace-context-item__label { color: #53627a; font-size: 0.78rem; font-weight: 800; }
+.workspace-context-item code { overflow-wrap: anywhere; white-space: normal; }
+.viewer-controls input,
+.viewer-controls select,
+.approval-request-form input,
+.approval-request-form select,
+.approval-request-form textarea {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #c7d3e6;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #182033;
+}
+.report-controls { display: grid; grid-template-columns: repeat(3, minmax(150px, 1fr)); gap: 10px; align-items: end; }
+.report-controls .control-wide { grid-column: span 2; }
+.report-index-item { overflow-wrap: anywhere; }
+.approval-request-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.approval-request-form label { display: grid; gap: 6px; font-weight: 700; }
+.approval-request-form .field-wide { grid-column: 1 / -1; }
+.approval-request-form textarea { min-height: 84px; resize: vertical; }
+.pagination-controls { display: flex; gap: 8px; align-items: center; justify-content: space-between; margin-top: 10px; }
+@media (max-width: 900px) {
+  .workspace-context-grid,
+  .report-controls,
+  .approval-request-form { grid-template-columns: 1fr; }
+  .report-controls .control-wide,
+  .approval-request-form .field-wide { grid-column: auto; }
+}

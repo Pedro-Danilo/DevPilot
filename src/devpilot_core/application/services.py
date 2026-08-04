@@ -25,6 +25,7 @@ from .settings_service import SettingsApplicationService
 from .review_service import ReviewApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
+from .ui_workspace_context import UiWorkspaceContextResolver
 
 
 def _display_path(path: str | Path) -> str:
@@ -58,22 +59,23 @@ class ApplicationService:
     def __init__(self, root: Path, *, enforce_workspace_paths: bool = False) -> None:
         self.root = root.resolve()
         self.enforce_workspace_paths = enforce_workspace_paths
+        self.ui_workspace_context = UiWorkspaceContextResolver(self.root)
         self.workspace = WorkspaceApplicationService(self.root)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)
         self.evals = EvaluationApplicationService(self.root)
         self.repo = RepoApplicationService(self.root)
-        self.reports = ReportsApplicationService(self.root)
+        self.reports = ReportsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.approvals = ApprovalApplicationService(self.root)
-        self.settings = SettingsApplicationService(self.root)
+        self.settings = SettingsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.review = ReviewApplicationService(self.root)
         self.refactor = RefactorApplicationService(self.root)
         self.model = ModelApplicationService(self.root)
         self.history = HistoryApplicationService(self.root)
-        self.observability = ObservabilityApplicationService(self.root)
+        self.observability = ObservabilityApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.operator_dashboard = OperatorDashboardApplicationService(self.root)
-        self.portfolio = PortfolioApplicationService(self.root)
+        self.portfolio = PortfolioApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
 
     def evidence_graph(
@@ -638,7 +640,7 @@ class ApplicationService:
             ),
         ).run()
 
-    def portfolio_status(self, *, registry_path: str = ".devpilot/workspaces/workspace_registry.json") -> CommandResult:
+    def portfolio_status(self, *, registry_path: str | None = None) -> CommandResult:
         return self.portfolio.status(registry_path=registry_path)
 
     def settings_workspace(self) -> CommandResult:
@@ -835,20 +837,20 @@ class ApplicationService:
             findings=[Finding("UI_ACTION_NOT_EXPOSED_BLOCK", "The requested action is not exposed by the UI dry-run launcher.", Severity.BLOCK, metadata={"action_id": normalized})],
         )
 
-    def reports_list(self, *, limit: int = 50, severity: str | None = None, status: str | None = None, command: str | None = None) -> CommandResult:
-        return self.reports.list_reports(limit=limit, severity=severity, status=status, command=command)
+    def reports_list(self, *, limit: int = 50, offset: int = 0, severity: str | None = None, status: str | None = None, command: str | None = None, query: str | None = None, scope: str | None = None) -> CommandResult:
+        return self.reports.list_reports(limit=limit, offset=offset, severity=severity, status=status, command=command, query=query, scope=scope)
 
     def reports_read(self, *, report_id: str, format: str = "json", max_chars: int = 20000) -> CommandResult:
         return self.reports.read_report(report_id, format=format, max_chars=max_chars)
 
-    def trace_report(self, *, limit: int = 20, include_events: bool = True, include_metrics: bool = True) -> CommandResult:
-        return self.observability.trace_report(limit=limit, include_events=include_events, include_metrics=include_metrics)
+    def trace_report(self, *, limit: int = 20, include_events: bool = True, include_metrics: bool = True, scope: str = "active") -> CommandResult:
+        return self.observability.trace_report(limit=limit, include_events=include_events, include_metrics=include_metrics, scope=scope)
 
-    def trace_inspect(self, trace_id: str, *, limit: int = 100) -> CommandResult:
-        return self.observability.trace_inspect(trace_id, limit=limit)
+    def trace_inspect(self, trace_id: str, *, limit: int = 100, scope: str = "active") -> CommandResult:
+        return self.observability.trace_inspect(trace_id, limit=limit, scope=scope)
 
-    def metrics_summary(self, *, category: str | None = None, limit: int = 50) -> CommandResult:
-        return self.observability.metrics_summary(category=category, limit=limit)
+    def metrics_summary(self, *, category: str | None = None, limit: int = 50, scope: str = "active") -> CommandResult:
+        return self.observability.metrics_summary(category=category, limit=limit, scope=scope)
 
     def history_list(self, *, limit: int = 10) -> CommandResult:
         return self.history.list_runs(limit=limit)
@@ -1085,10 +1087,10 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             package_dir=str(payload.get("package_dir", "outputs/audit_exports/operator_evidence_export")),
             observability_limit=int(payload.get("observability_limit", 100)),
         ),
-        "portfolio.status": lambda payload: service.portfolio_status(registry_path=str(payload.get("registry_path", ".devpilot/workspaces/workspace_registry.json"))),
+        "portfolio.status": lambda payload: service.portfolio_status(registry_path=(str(payload.get("registry_path")) if payload.get("registry_path") else None)),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
-        "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command")),
+        "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command"), query=payload.get("query"), scope=payload.get("scope")),
         "reports.read": lambda payload: service.reports_read(report_id=str(payload.get("report_id", "")), format=str(payload.get("format", "json")), max_chars=int(payload.get("max_chars", 20000))),
         "approvals.list": lambda payload: service.approvals_list(status=payload.get("status"), tool_id=payload.get("tool_id"), action=payload.get("action"), limit=int(payload.get("limit", 100))),
         "approvals.show": lambda payload: service.approvals_show(approval_id=str(payload.get("approval_id", ""))),
@@ -1105,10 +1107,10 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
         "model.providers": lambda payload: service.model_providers(),
-        "observability.trace_report": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True))),
-        "observability.traces": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True))),
-        "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100))),
-        "observability.metrics_summary": lambda payload: service.metrics_summary(category=payload.get("category"), limit=int(payload.get("limit", 50))),
+        "observability.trace_report": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
+        "observability.traces": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
+        "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100)), scope=str(payload.get("scope", "active"))),
+        "observability.metrics_summary": lambda payload: service.metrics_summary(category=payload.get("category"), limit=int(payload.get("limit", 50)), scope=str(payload.get("scope", "active"))),
         "history.runs": lambda payload: service.history_list(limit=int(payload.get("limit", 10))),
         "maturity.dashboard": lambda payload: service.maturity_dashboard(write_report=bool(payload.get("write_report", False))),
     }

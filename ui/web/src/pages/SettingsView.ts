@@ -8,12 +8,14 @@ import { renderProviderSettings } from '../components/ProviderSettings';
 import { redactSecrets, safeJsonForHtml } from '../utils/sanitize';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { runBounded } from '../utils/async';
+import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 
 // Provider editor plan-only contract marker retained for compatibility.
 type SettingsPhase = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
 type ProviderPlanPhase = 'idle' | 'loading' | 'pass' | 'block' | 'timeout' | 'error';
 
 interface SettingsState extends SettingsSnapshot {
+  portfolio?: DevPilotApplicationResponse;
   phase: SettingsPhase;
   providerPlanPhase: ProviderPlanPhase;
   errors: Record<string, string>;
@@ -52,6 +54,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       { key: 'providers', run: () => fresh.settingsProviders() },
       { key: 'policy', run: () => fresh.settingsPolicy() },
       { key: 'securityPosture', run: () => fresh.securityPosture() },
+      { key: 'portfolio', run: () => fresh.portfolioStatus() },
     ], 2, (result) => {
       state.durations[result.key] = result.durationMs;
       if (result.value) {
@@ -59,12 +62,13 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
         if (result.key === 'providers') state.providers = result.value;
         if (result.key === 'policy') state.policy = result.value;
         if (result.key === 'securityPosture') state.securityPosture = result.value;
+        if (result.key === 'portfolio') state.portfolio = result.value;
       }
       if (result.error) state.errors[result.key] = result.error;
       draw();
     });
-    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture'];
-    const responses = [state.workspace, state.providers, state.policy, state.securityPosture].filter(Boolean);
+    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'portfolio'];
+    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.portfolio].filter(Boolean);
     if (responseKeys.some((key) => Boolean(state.errors[key]))) state.phase = 'error';
     else if (!responses.length) state.phase = 'empty';
     else state.phase = 'ready';
@@ -138,12 +142,13 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     heading.append(intro, refreshButton);
     root.append(heading);
     root.append(renderPhaseNotice(state));
+    root.append(renderWorkspaceContextPanel(state.portfolio, state.errors.portfolio, state.durations.portfolio));
 
     const grid = document.createElement('div');
     grid.className = 'grid two-cols';
     grid.append(
-      renderDataCard('Workspace', 'Project.yaml y rutas locales.', state.workspace, state.errors.workspace, state.durations.workspace),
-      renderDataCard('Política', 'PolicyEngine, CostGuard y MIASI policy matrix.', state.policy, state.errors.policy, state.durations.policy),
+      renderDataCard('Workspace activo', 'Project.yaml y rutas locales del contexto UI configurado.', state.workspace, state.errors.workspace, state.durations.workspace),
+      renderDataCard('Política de plataforma', 'PolicyEngine, CostGuard y MIASI policy matrix de DevPilot.', state.policy, state.errors.policy, state.durations.policy),
       renderDataCard('Postura de seguridad', 'Token requerido, CORS local restrictivo y capacidades sensibles deshabilitadas.', state.securityPosture, state.errors.securityPosture, state.durations.securityPosture, true)
     );
     root.append(grid);
@@ -152,7 +157,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     providerGrid.className = 'grid two-cols';
     const providers = document.createElement('article');
     providers.className = 'card';
-    providers.innerHTML = `<span class="badge ${status(state.providers, state.errors.providers).toLowerCase()}">${status(state.providers, state.errors.providers)}</span><h3>Providers</h3><p>Listado seguro sin secretos ni activación externa accidental. ${durationLabel(state.durations.providers)}</p>${renderProviderSettings(state.providers)}<pre>${safeJsonForHtml(state.providers?.data?.summary ?? { detail: 'Sin providers cargados.' })}</pre>`;
+    providers.innerHTML = `<span class="badge ${status(state.providers, state.errors.providers).toLowerCase()}">${status(state.providers, state.errors.providers)}</span><h3>Providers de plataforma</h3><p>Listado seguro de DevPilot sin secretos ni activación externa accidental. ${durationLabel(state.durations.providers)}</p>${renderProviderSettings(state.providers)}<pre>${safeJsonForHtml(state.providers?.data?.summary ?? { detail: 'Sin providers cargados.' })}</pre>`;
 
     const loading = state.providerPlanPhase === 'loading';
     const editor = document.createElement('article');

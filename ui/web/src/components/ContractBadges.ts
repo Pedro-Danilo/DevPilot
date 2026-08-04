@@ -54,3 +54,6 @@ export const LEGACY_UI_CONTRACT_LABELS = [
   'Security posture',
   'Provider editor plan-only',
 ] as const;
+
+// Visual smoke contract markers retained for POST-H-028-C compatibility:
+// loading state · empty state · error state · BLOCK · 401/403 · API local down

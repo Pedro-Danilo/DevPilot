@@ -165,3 +165,37 @@ def test_ui_route_enforcement_npm_script_is_explicit_opt_in() -> None:
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
     assert "DEVPL WEB UI ROUTE ENFORCEMENT SMOKE TEST: PASS" in completed.stdout
+
+
+def test_post_h_eval_002_02_a_ui_first_gap_corrective_static_contracts() -> None:
+    registry = _json(".devpilot/interfaces/ui_route_contract_registry.json")
+    package = json.loads(_read_web("package.json"))
+    reports = _read_web("src/pages/ReportsView.ts")
+    traces = _read_web("src/pages/TracesView.ts")
+    approvals = _read_web("src/pages/ApprovalCenterView.ts")
+    dashboard = _read_web("src/pages/Dashboard.ts")
+    settings = _read_web("src/pages/SettingsView.ts")
+    context_component = _read_web("src/components/WorkspaceContextPanel.ts")
+    client = _read_web("src/api/client.ts")
+
+    routes = {route["route_id"]: route for route in registry["routes"]}
+    for route_id in ["ui.dashboard", "ui.reports", "ui.traces", "ui.approvals", "ui.settings"]:
+        assert "api.portfolio.status" in routes[route_id]["allowed_api_routes"]
+
+    assert package["devpilot"]["postHEval00202AUiFirstGapCorrective"] is True
+    assert package["devpilot"]["recursiveReportDiscovery"] is True
+    assert package["devpilot"]["workspaceContextVisible"] is True
+    assert package["devpilot"]["scopedObservability"] is True
+    assert package["devpilot"]["governedApprovalRequest"] is True
+    assert package["devpilot"]["topLevelUiRoutesChanged"] is False
+    assert "REPORTS_REQUEST_TIMEOUT_MS = 15000" in client
+    assert "renderWorkspaceContextPanel" in reports
+    assert "scope" in reports and "query" in reports
+    assert "renderWorkspaceContextPanel" in traces
+    assert "pagination" in traces.lower() or "pageSize" in traces
+    assert "Solicitar approval gobernado" in approvals
+    assert "workspace:inventory-sales-local" in approvals
+    assert "renderWorkspaceContextPanel" in dashboard
+    assert "renderWorkspaceContextPanel" in settings
+    assert "Contexto operativo" in context_component
+    assert "DEVPILOT_UI_WORKSPACE_REGISTRY_PATH" not in reports

@@ -128,7 +128,9 @@
         "approval",
         "local-state-mutation"
       ],
-      "notes": [],
+      "notes": [
+        "Approval Center exposes a real local request form with explicit workspace/artifact scope; approval does not execute the subject action."
+      ],
       "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
     },
     {
@@ -341,12 +343,14 @@
       "router_module": "traces",
       "policy_action": "read",
       "policy_sensitivity": "protected-read",
-      "path_subject": ".devpilot/devpilot.db",
+      "path_subject": "platform or explicit PathGuard-approved active workspace observability root",
       "tags": [
         "metrics",
         "read"
       ],
-      "notes": []
+      "notes": [
+        "POST-H-EVAL-002-02-A UI-first corrective adds explicit read-only platform/workspace scope selection."
+      ]
     },
     {
       "route_id": "api.miasi.status",
@@ -698,7 +702,7 @@
       "router_module": "portfolio",
       "policy_action": "read",
       "policy_sensitivity": "protected-portfolio-status",
-      "path_subject": ".devpilot/workspaces/workspace_registry.json",
+      "path_subject": "default registry or explicit PathGuard-approved UI workspace registry",
       "tags": [
         "portfolio",
         "workspace",
@@ -706,7 +710,8 @@
       ],
       "notes": [
         "POST-H-016-D exposes hardened portfolio status only through ApplicationService/API boundary.",
-        "The route is read-only and must not change active_workspace_id or write cross-workspace state."
+        "The route is read-only and must not change active_workspace_id or write cross-workspace state.",
+        "The UI may resolve a read-only external registry through DEVPILOT_UI_WORKSPACE_REGISTRY_PATH; active workspace selection is not mutated."
       ]
     },
     {
@@ -796,12 +801,15 @@
       "router_module": "reports",
       "policy_action": "read",
       "policy_sensitivity": "protected-read",
-      "path_subject": "outputs/reports",
+      "path_subject": "outputs/reports or explicit PathGuard-approved workspace reports root",
       "tags": [
         "reports",
         "read"
       ],
-      "notes": []
+      "notes": [
+        "POST-H-EVAL-002-02-A UI-first corrective permits bounded recursive discovery under governed local report roots.",
+        "Nested report ids are server-issued and path traversal remains blocked."
+      ]
     },
     {
       "route_id": "api.reports.read",
@@ -827,12 +835,15 @@
       "router_module": "reports",
       "policy_action": "read",
       "policy_sensitivity": "protected-read",
-      "path_subject": "outputs/reports",
+      "path_subject": "outputs/reports or explicit PathGuard-approved workspace reports root",
       "tags": [
         "reports",
         "read"
       ],
-      "notes": []
+      "notes": [
+        "POST-H-EVAL-002-02-A UI-first corrective permits bounded recursive discovery under governed local report roots.",
+        "Nested report ids are server-issued and path traversal remains blocked."
+      ]
     },
     {
       "route_id": "api.review.code",
@@ -1083,12 +1094,14 @@
       "router_module": "traces",
       "policy_action": "read",
       "policy_sensitivity": "protected-read",
-      "path_subject": ".devpilot/devpilot.db",
+      "path_subject": "platform or explicit PathGuard-approved active workspace observability root",
       "tags": [
         "traces",
         "read"
       ],
-      "notes": []
+      "notes": [
+        "POST-H-EVAL-002-02-A UI-first corrective adds explicit read-only platform/workspace scope selection."
+      ]
     },
     {
       "route_id": "api.traces.inspect",
@@ -1114,12 +1127,14 @@
       "router_module": "traces",
       "policy_action": "read",
       "policy_sensitivity": "protected-read",
-      "path_subject": ".devpilot/devpilot.db",
+      "path_subject": "platform or explicit PathGuard-approved active workspace observability root",
       "tags": [
         "traces",
         "read"
       ],
-      "notes": []
+      "notes": [
+        "POST-H-EVAL-002-02-A UI-first corrective adds explicit read-only platform/workspace scope selection."
+      ]
     },
     {
       "route_id": "api.validation.artifact",
@@ -1264,7 +1279,11 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "POST-H-031-E"
+    "updated_by": "POST-H-031-E",
+    "ui_first_gap_corrective": true,
+    "recursive_report_discovery": true,
+    "scoped_observability": true,
+    "explicit_ui_workspace_context": true
   },
   "safety": {
     "local_first": true,

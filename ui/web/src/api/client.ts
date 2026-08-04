@@ -4,6 +4,7 @@ export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
 export const DEFAULT_REQUEST_TIMEOUT_MS = 8000;
 export const PROTECTED_WARMUP_TIMEOUT_MS = 15000;
+export const REPORTS_REQUEST_TIMEOUT_MS = 15000;
 export const READINESS_REQUEST_TIMEOUT_MS = 30000;
 export const PROVIDER_SETTINGS_READ_TIMEOUT_MS = 45000;
 export const ACTION_DRY_RUN_TIMEOUT_MS = 60000;
@@ -89,24 +90,31 @@ export class DevPilotApiClient {
     });
   }
 
-  async listReports(filters: { limit?: number; severity?: string; status?: string; command?: string } = {}): Promise<DevPilotApplicationResponse> {
-    return this.get(`/reports${this.query(filters)}`);
+  async listReports(filters: { limit?: number; offset?: number; severity?: string; status?: string; command?: string; query?: string; scope?: string } = {}): Promise<DevPilotApplicationResponse> {
+    return this.get(`/reports${this.query(filters)}`, {
+      timeoutMs: REPORTS_REQUEST_TIMEOUT_MS,
+      retryNetworkErrors: true,
+    });
   }
 
   async readReport(reportId: string, format = 'json'): Promise<DevPilotApplicationResponse> {
-    return this.get(`/reports/${encodeURIComponent(reportId)}${this.query({ format })}`);
+    return this.get(`/reports/${encodeURIComponent(reportId)}${this.query({ format })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }
 
-  async listTraces(limit = 20): Promise<DevPilotApplicationResponse> {
-    return this.get(`/traces${this.query({ limit })}`);
+  async listTraces(limit = 20, scope = 'active'): Promise<DevPilotApplicationResponse> {
+    return this.get(`/traces${this.query({ limit, scope })}`);
   }
 
-  async inspectTrace(traceId: string, limit = 100): Promise<DevPilotApplicationResponse> {
-    return this.get(`/traces/${encodeURIComponent(traceId)}${this.query({ limit })}`);
+  async inspectTrace(traceId: string, limit = 100, scope = 'active'): Promise<DevPilotApplicationResponse> {
+    return this.get(`/traces/${encodeURIComponent(traceId)}${this.query({ limit, scope })}`);
   }
 
-  async metricsSummary(): Promise<DevPilotApplicationResponse> {
-    return this.get('/metrics/summary');
+  async metricsSummary(scope = 'active'): Promise<DevPilotApplicationResponse> {
+    return this.get(`/metrics/summary${this.query({ scope })}`);
+  }
+
+  async portfolioStatus(): Promise<DevPilotApplicationResponse> {
+    return this.get('/portfolio/status', { retryNetworkErrors: true });
   }
 
   async listApprovals(filters: { status?: string; limit?: number } = {}): Promise<DevPilotApplicationResponse> {
@@ -117,7 +125,7 @@ export class DevPilotApiClient {
     return this.get(`/approvals/${encodeURIComponent(approvalId)}`);
   }
 
-  async requestApproval(payload: { tool_id: string; action: string; subject: string; actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+  async requestApproval(payload: { tool_id: string; action: string; subject: string; actor: string; reason: string; scope?: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
     return this.post('/approvals/request', payload);
   }
 

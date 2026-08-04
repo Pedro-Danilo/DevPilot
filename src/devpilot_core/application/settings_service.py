@@ -12,6 +12,8 @@ from devpilot_core.policy.cost_guard import load_cost_policy
 from devpilot_core.policy.secrets import REDACTED, redact_sensitive_string
 from devpilot_core.schemas.builtins import parse_workspace_project_yaml
 
+from .ui_workspace_context import UiWorkspaceContextResolver
+
 _PROVIDER_MUTABLE_FIELDS = {"enabled", "default_model", "endpoint"}
 _SECRET_KEY_EXCEPTIONS = {"api_key_env", "token_env_var"}
 _SECRET_KEY_FRAGMENTS = ("api_key", "access_token", "refresh_token", "auth_token", "token", "secret", "password", "passwd", "pwd", "authorization", "bearer", "private_key", "client_secret", "database_url", "connection_string", "webhook")
@@ -63,11 +65,14 @@ class SettingsApplicationService:
     configuration changes are returned as plans only and never mutate files.
     """
 
-    def __init__(self, root: Path) -> None:
+    def __init__(self, root: Path, *, context_resolver: UiWorkspaceContextResolver | None = None) -> None:
         self.root = Path(root).resolve()
+        self.context_resolver = context_resolver or UiWorkspaceContextResolver(self.root)
 
     def workspace(self) -> CommandResult:
-        project_path = self.root / ".devpilot" / "project.yaml"
+        context = self.context_resolver.resolve()
+        project_path = context.project_file if context.valid and context.project_file else self.root / ".devpilot" / "project.yaml"
+        workspace_root = context.effective_workspace_root
         findings: list[Finding] = []
         try:
             payload = parse_workspace_project_yaml(project_path)
@@ -77,11 +82,13 @@ class SettingsApplicationService:
             payload = {}
             ok = False
             message = "Workspace settings could not be loaded."
-            findings.append(Finding(id="SETTINGS_WORKSPACE_LOAD_BLOCK", message=str(exc), severity=Severity.BLOCK, path=_relative(project_path, self.root)))
+            findings.append(Finding(id="SETTINGS_WORKSPACE_LOAD_BLOCK", message=str(exc), severity=Severity.BLOCK, path=_relative(project_path, workspace_root)))
         redacted = _redact_settings_value(payload)
         summary = {
             "settings_domain": "workspace",
-            "path": _relative(project_path, self.root),
+            "path": _relative(project_path, workspace_root),
+            "scope": "active-workspace" if context.active_workspace_root else "platform",
+            "workspace_context": context.summary(),
             "exists": project_path.is_file(),
             "schema_version": redacted.get("schema_version") if isinstance(redacted, dict) else None,
             "project_id": (redacted.get("project") or {}).get("id") if isinstance(redacted, dict) else None,
@@ -93,13 +100,14 @@ class SettingsApplicationService:
             "preliminary": True,
         }
         if ok:
-            findings.append(Finding(id="SETTINGS_WORKSPACE_READ_PASS", message="Workspace settings read-only projection passed.", severity=Severity.INFO, path=_relative(project_path, self.root)))
+            findings.append(Finding(id="SETTINGS_WORKSPACE_READ_PASS", message="Workspace settings read-only projection passed.", severity=Severity.INFO, path=_relative(project_path, workspace_root)))
+        findings.extend(context.findings)
         return CommandResult(
             command="settings workspace",
             ok=ok,
             exit_code=ExitCode.PASS if ok else ExitCode.BLOCK,
             message=message,
-            data={"summary": summary, "workspace": redacted, "raw_text_preview": _redact_settings_value(_bounded_text(project_path, limit=6000)), "notes": ["Settings UI reads this via API only.", "No workspace settings are written by FUNC-SPRINT-72."]},
+            data={"summary": summary, "workspace": redacted, "workspace_context": context.summary(), "raw_text_preview": _redact_settings_value(_bounded_text(project_path, limit=6000)), "notes": ["Settings UI reads this via API only.", "Workspace context is read-only and may be external only when explicitly configured and PathGuard-approved.", "No workspace settings are written by FUNC-SPRINT-72."]},
             findings=findings,
         )
 

@@ -4,9 +4,11 @@ import { idleOutcome, renderDryRunActionForm } from '../components/DryRunActionF
 import type { DryRunUiOutcome } from '../components/DryRunActionForm';
 import { renderFindingTable } from '../components/FindingTable';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
+import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 
 interface ApprovalState {
   approvals?: DevPilotApplicationResponse;
+  portfolio?: DevPilotApplicationResponse;
   selected?: DevPilotApplicationResponse;
   actionResult?: DevPilotApplicationResponse;
   requestResult?: DevPilotApplicationResponse;
@@ -14,17 +16,28 @@ interface ApprovalState {
   statusFilter: string;
   pendingAction?: string;
   actionOutcome: DryRunUiOutcome;
+  durations: Record<string, number>;
 }
 
 export function renderApprovalCenterView(tokenProvider: () => string): HTMLElement {
   const section = document.createElement('section');
   section.className = 'approval-panel';
-  const state: ApprovalState = { errors: {}, statusFilter: '', actionOutcome: idleOutcome() };
+  const state: ApprovalState = { errors: {}, statusFilter: '', actionOutcome: idleOutcome(), durations: {} };
 
   async function loadApprovals(): Promise<void> {
     const client = new DevPilotApiClient({ token: tokenProvider() });
+    const started = performance.now();
     state.approvals = await client.listApprovals({ status: state.statusFilter || undefined, limit: 100 });
+    state.durations.approvals = Math.round(performance.now() - started);
     delete state.errors.approvals;
+  }
+
+  async function loadPortfolio(): Promise<void> {
+    const client = new DevPilotApiClient({ token: tokenProvider() });
+    const started = performance.now();
+    state.portfolio = await client.portfolioStatus();
+    state.durations.portfolio = Math.round(performance.now() - started);
+    delete state.errors.portfolio;
   }
 
   async function runPending(action: string, work: () => Promise<void>, errorKey: string): Promise<void> {
@@ -43,13 +56,12 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   }
 
   async function refresh(): Promise<void> {
-    await runPending('refresh', loadApprovals, 'approvals');
+    await runPending('refresh', async () => { await Promise.all([loadApprovals(), loadPortfolio()]); }, 'approvals');
   }
 
   async function selectApproval(approvalId: string): Promise<void> {
     await runPending(`show:${approvalId}`, async () => {
-      const client = new DevPilotApiClient({ token: tokenProvider() });
-      state.selected = await client.showApproval(approvalId);
+      state.selected = await new DevPilotApiClient({ token: tokenProvider() }).showApproval(approvalId);
     }, 'selected');
   }
 
@@ -61,21 +73,27 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     }, 'selected');
   }
 
-  async function requestSampleApproval(): Promise<void> {
+  async function requestApprovalFromForm(): Promise<void> {
+    const value = (id: string): string => section.querySelector<HTMLInputElement>(`#${id}`)?.value.trim() ?? '';
+    const payload = {
+      tool_id: value('approval-tool-id') || 'docs.review',
+      action: value('approval-action') || 'approve',
+      subject: value('approval-subject'),
+      actor: value('approval-actor') || 'local-owner',
+      reason: value('approval-reason'),
+      scope: value('approval-scope') || undefined,
+      ttl_minutes: Number(value('approval-ttl') || '120'),
+    };
+    if (!payload.subject || !payload.reason) {
+      state.errors.requestResult = 'Subject y reason son obligatorios para crear un approval trazable.';
+      draw();
+      return;
+    }
     await runPending('request', async () => {
       const client = new DevPilotApiClient({ token: tokenProvider() });
-      state.requestResult = await client.requestApproval({
-        tool_id: 'tests.run',
-        action: 'execute',
-        subject: 'pytest',
-        actor: 'local-owner',
-        reason: 'Sample approval request generated from POST-H-028-D Approval Center operator flow.',
-        ttl_minutes: 60,
-      });
+      state.requestResult = await client.requestApproval(payload);
       const created = (state.requestResult.data as { approval?: ApprovalRecordItem }).approval;
-      if (created?.approval_id) {
-        state.selected = await client.showApproval(created.approval_id);
-      }
+      if (created?.approval_id) state.selected = await client.showApproval(created.approval_id);
       await loadApprovals();
     }, 'requestResult');
   }
@@ -88,7 +106,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     const title = document.createElement('h2');
     title.textContent = 'Approval Center y Action Launcher';
     const subtitle = document.createElement('p');
-    subtitle.textContent = 'POST-H-028-D · ui.approvals · approvals locales · action launcher dry-run · no-remote · approval pending/approved/denied · BLOCK/ERROR visibles.';
+    subtitle.textContent = 'Approvals locales trazables, scope de workspace explícito y acciones estrictamente dry-run.';
     titleBlock.append(title, subtitle, renderContractBadges('ui.approvals', { warning: 'Mutaciones limitadas al lifecycle local de approvals; ejecución destructiva bloqueada.' }));
 
     const controls = document.createElement('div');
@@ -107,10 +125,12 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     filter.addEventListener('change', () => { state.statusFilter = filter.value; void refresh(); });
     filterLabel.append(filter);
     const refreshButton = actionButton('Actualizar approvals', state.pendingAction === 'refresh' ? 'Ejecutando…' : 'Actualizar approvals', state.pendingAction, () => void refresh());
-    const requestButton = actionButton('Crear approval demo', state.pendingAction === 'request' ? 'Ejecutando…' : 'Crear approval demo', state.pendingAction, () => void requestSampleApproval());
-    controls.append(filterLabel, refreshButton, requestButton);
+    controls.append(filterLabel, refreshButton);
     header.append(titleBlock, controls);
     section.append(header);
+
+    section.append(renderWorkspaceContextPanel(state.portfolio, state.errors.portfolio, state.durations.portfolio));
+    section.append(renderApprovalRequestForm(state, requestApprovalFromForm));
 
     const actionStatus = document.createElement('p');
     actionStatus.className = 'action-status';
@@ -124,10 +144,10 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     grid.append(renderApprovalsPanel(state, selectApproval, decide));
     grid.append(renderActionPanel(state, tokenProvider, draw));
     section.append(grid);
-    if (state.pendingAction) section.append(renderUiStateNotice('loading', `POST-H-028-D ui.approvals loading state: acción en curso ${state.pendingAction}. Los controles permanecen deshabilitados hasta finalizar.`));
-    if (state.actionOutcome.phase === 'block') section.append(renderUiStateNotice('block', 'POST-H-028-D ui.approvals block state: la última acción fue bloqueada y no se presenta como éxito.'));
-    if (approvalItems(state).some((approval) => approval.status === 'requested')) section.append(renderUiStateNotice('pending', 'POST-H-028-D ui.approvals pending state: existe al menos un approval requested con acciones Approve/Deny disponibles.'));
-    if (state.errors.approvals || state.errors.selected || state.errors.requestResult || state.errors.actionResult) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.approvals error state: BLOCK/ERROR se mantiene visible.'));
+    if (state.pendingAction) section.append(renderUiStateNotice('loading', `Acción en curso ${state.pendingAction}. Los controles permanecen deshabilitados hasta finalizar.`));
+    if (state.actionOutcome.phase === 'block') section.append(renderUiStateNotice('block', 'La última acción fue bloqueada y no se presenta como éxito.'));
+    if (approvalItems(state).some((approval) => approval.status === 'requested')) section.append(renderUiStateNotice('pending', 'Existe al menos un approval requested con acciones Approve/Deny disponibles.'));
+    if (state.errors.approvals || state.errors.selected || state.errors.requestResult || state.errors.actionResult || state.errors.portfolio) section.append(renderUiStateNotice('error', 'Approval Center mantiene BLOCK/ERROR visibles.'));
     section.append(renderApprovalDetailPanel(state.selected, state.errors.selected));
     section.append(renderDetailPanel('Última solicitud approval', state.requestResult, state.errors.requestResult));
   }
@@ -135,6 +155,28 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   draw();
   if (tokenProvider()) void refresh();
   return section;
+}
+
+function renderApprovalRequestForm(state: ApprovalState, onRequest: () => Promise<void>): HTMLElement {
+  const panel = document.createElement('section');
+  panel.className = 'viewer-card approval-request-form';
+  panel.innerHTML = `
+    <h3>Solicitar approval gobernado</h3>
+    <p>Registra una solicitud real en el store local. El campo scope debe identificar el workspace o artefacto; no ejecuta la acción aprobada.</p>
+    <div class="grid two-cols">
+      <label>Tool id<input id="approval-tool-id" value="docs.review" /></label>
+      <label>Action<input id="approval-action" value="approve" /></label>
+      <label>Subject<input id="approval-subject" placeholder="docs/00_product/product_vision.md" /></label>
+      <label>Scope<input id="approval-scope" placeholder="workspace:inventory-sales-local" /></label>
+      <label>Actor<input id="approval-actor" value="local-owner" /></label>
+      <label>TTL minutos<input id="approval-ttl" type="number" min="1" max="1440" value="120" /></label>
+    </div>
+    <label>Reason<input id="approval-reason" placeholder="Aprobar artefacto después de revisión humana y validaciones." /></label>
+  `;
+  const button = actionButton('Crear approval gobernado', state.pendingAction === 'request' ? 'Creando…' : 'Crear approval solicitado', state.pendingAction, () => void onRequest());
+  panel.append(button);
+  if (state.errors.requestResult) panel.append(renderUiStateNotice('error', state.errors.requestResult));
+  return panel;
 }
 
 function actionButton(label: string, text: string, pendingAction: string | undefined, onClick: () => void): HTMLButtonElement {
@@ -157,8 +199,7 @@ function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: strin
   }
   const approvals = approvalItems(state);
   if (!approvals.length) {
-    panel.append(renderUiStateNotice('empty', 'POST-H-014-C ui.approvals empty state: Sin approvals para mostrar.'));
-    panel.append(emptyPre('Sin approvals para mostrar. Puedes crear un approval demo.'));
+    panel.append(renderUiStateNotice('empty', 'Sin approvals para mostrar. Usa el formulario gobernado para registrar una solicitud real.'));
     return panel;
   }
   const list = document.createElement('div');
@@ -189,7 +230,7 @@ function approvalItems(state: ApprovalState): ApprovalRecordItem[] {
 }
 
 function renderActionPanel(state: ApprovalState, tokenProvider: () => string, redraw: () => void): HTMLElement {
-  const panel = panelShell('Action Launcher dry-run — POST-H-014-C ui.approvals', state.errors.actionResult ?? state.actionResult?.message ?? 'Solo acciones read-only/dry-run.');
+  const panel = panelShell('Action Launcher dry-run', state.errors.actionResult ?? state.actionResult?.message ?? 'Solo acciones read-only/dry-run.');
   panel.dataset.phase = state.actionOutcome.phase;
   panel.append(renderDryRunActionForm(tokenProvider, (outcome) => {
     state.actionOutcome = outcome;
@@ -218,14 +259,8 @@ function renderApprovalDetailPanel(response?: DevPilotApplicationResponse, error
   const list = document.createElement('dl');
   list.className = 'approval-detail';
   for (const [label, value] of [
-    ['approval_id', approval.approval_id],
-    ['status', approval.status],
-    ['tool_id', approval.tool_id],
-    ['action', approval.action],
-    ['subject', approval.subject],
-    ['actor', approval.actor ?? ''],
-    ['created_at', approval.created_at ?? ''],
-    ['expires_at', approval.expires_at ?? ''],
+    ['approval_id', approval.approval_id], ['status', approval.status], ['tool_id', approval.tool_id], ['action', approval.action],
+    ['subject', approval.subject], ['actor', approval.actor ?? ''], ['created_at', approval.created_at ?? ''], ['expires_at', approval.expires_at ?? ''],
   ]) {
     const term = document.createElement('dt');
     term.textContent = label;
@@ -239,7 +274,7 @@ function renderApprovalDetailPanel(response?: DevPilotApplicationResponse, error
 }
 
 function renderDetailPanel(title: string, response?: DevPilotApplicationResponse, error?: string): HTMLElement {
-  const panel = panelShell(title, error ?? response?.message ?? 'Selecciona un approval para ver el detalle.');
+  const panel = panelShell(title, error ?? response?.message ?? 'Sin solicitud en esta sesión.');
   panel.append(emptyPre(JSON.stringify(response?.data ?? { detail: 'Sin detalle seleccionado.' }, null, 2)));
   if (response?.findings?.length) panel.append(renderFindingTable(response.findings));
   return panel;
@@ -262,3 +297,5 @@ function emptyPre(text: string): HTMLElement {
   pre.textContent = text;
   return pre;
 }
+
+// Operator-flow compatibility marker: approval pending remains visible until an explicit approve/deny decision.

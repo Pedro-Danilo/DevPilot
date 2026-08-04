@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-07-28",
+  "updated": "2026-08-03",
   "routes": [
     {
       "route_id": "ui.dashboard",
@@ -25,7 +25,8 @@
         "api.validation.readiness",
         "api.standards.status",
         "api.miasi.status",
-        "api.operator.dashboard"
+        "api.operator.dashboard",
+        "api.portfolio.status"
       ],
       "critical": true,
       "local_only": true,
@@ -72,7 +73,8 @@
       "allowed_api_routes": [
         "api.reports.list",
         "api.reports.read",
-        "api.metrics.summary"
+        "api.metrics.summary",
+        "api.portfolio.status"
       ],
       "critical": true,
       "local_only": true,
@@ -114,7 +116,8 @@
       "allowed_api_routes": [
         "api.traces.list",
         "api.traces.inspect",
-        "api.metrics.summary"
+        "api.metrics.summary",
+        "api.portfolio.status"
       ],
       "critical": true,
       "local_only": true,
@@ -160,7 +163,8 @@
         "api.approvals.request",
         "api.approvals.approve",
         "api.approvals.deny",
-        "api.actions.dry_run"
+        "api.actions.dry_run",
+        "api.portfolio.status"
       ],
       "critical": true,
       "local_only": true,
@@ -211,7 +215,8 @@
         "api.settings.providers",
         "api.settings.policy",
         "api.settings.providers.plan",
-        "api.security.posture"
+        "api.security.posture",
+        "api.portfolio.status"
       ],
       "critical": true,
       "local_only": true,
@@ -262,7 +267,12 @@
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
-    "reports_traces_route_specific": true
+    "reports_traces_route_specific": true,
+    "ui_first_gap_corrective": true,
+    "workspace_context_surface_routes_total": 5,
+    "recursive_report_discovery": true,
+    "scoped_observability": true,
+    "governed_approval_request": true
   },
   "safety": {
     "local_first": true,
@@ -280,6 +290,7 @@
     "POST-H-014-D aligns Settings UI with protected security posture diagnostics.",
     "POST-H-015-D extends ui.dashboard with the Operator Dashboard visual surface while preserving the POST-H-014-C critical-route set.",
     "POST-H-EVAL-002-01-D corrective removes eager embedded detail views, separates Reports/Traces and preserves all no-go gates.",
-    "POST-H-EVAL-002-01-D repo 324 synchronizes separated ReportsView/TracesView and treats async.ts as shared infrastructure, not route-owned source."
+    "POST-H-EVAL-002-01-D repo 324 synchronizes separated ReportsView/TracesView and treats async.ts as shared infrastructure, not route-owned source.",
+    "POST-H-EVAL-002-02-A UI-first corrective adds shared read-only portfolio/workspace context to all five critical routes without adding a new top-level route."
   ]
 }

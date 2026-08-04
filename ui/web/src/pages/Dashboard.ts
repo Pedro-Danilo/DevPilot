@@ -5,6 +5,7 @@ import { renderStatusCard } from '../components/StatusCard';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { renderOperatorDashboard } from './OperatorDashboard';
 import { runBounded } from '../utils/async';
+import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 
 interface DashboardState {
   loading: boolean;
@@ -29,6 +30,7 @@ const CARD_META = {
 } as const;
 
 const DASHBOARD_KEYS: Array<keyof DashboardSnapshot> = ['operator', 'workspace', 'readiness', 'standards', 'miasi'];
+const DASHBOARD_TOTAL = DASHBOARD_KEYS.length + 1;
 
 export function renderDashboard(root: HTMLElement): void {
   const state: DashboardState = {
@@ -39,7 +41,7 @@ export function renderDashboard(root: HTMLElement): void {
     errors: {},
     durations: {},
     completed: 0,
-    total: DASHBOARD_KEYS.length,
+    total: DASHBOARD_TOTAL,
   };
 
   async function refresh(): Promise<void> {
@@ -95,6 +97,7 @@ export function renderDashboard(root: HTMLElement): void {
       { key: 'readiness', run: () => client.readiness(true) },
       { key: 'standards', run: () => client.standardsStatus() },
       { key: 'miasi', run: () => client.miasiStatus() },
+      { key: 'portfolio', run: () => client.portfolioStatus() },
     ];
 
     await runBounded<DevPilotApplicationResponse<any>>(
@@ -119,6 +122,7 @@ export function renderDashboard(root: HTMLElement): void {
     root.append(renderHeader(state, refresh));
     root.append(renderConnectionSummary(state));
     root.append(renderHealthPreflight(state));
+    root.append(renderWorkspaceContextPanel(state.snapshot.portfolio, state.errors.portfolio, state.durations.portfolio));
     root.append(renderOperatorDashboard(state.snapshot.operator, state.errors.operator));
 
     const grid = document.createElement('main');

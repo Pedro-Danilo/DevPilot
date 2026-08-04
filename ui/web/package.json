@@ -139,6 +139,21 @@
     "requiredNegativeScreenshots": 8,
     "requiredViewportScreenshots": 13,
     "requiredFullPageScreenshots": 5,
-    "run05bRerun03Required": true
+    "run05bRerun03Required": true,
+    "postHEval00202AUiFirstGapCorrective": true,
+    "recursiveReportDiscovery": true,
+    "reportDiscoveryMaxDepth": 6,
+    "reportDiscoveryMaxFiles": 2500,
+    "reportSummaryLazyLoading": true,
+    "reportsRequestTimeoutMs": 15000,
+    "workspaceContextVisible": true,
+    "workspaceContextReadOnly": true,
+    "workspaceContextRegistryEnv": "DEVPILOT_UI_WORKSPACE_REGISTRY_PATH",
+    "workspaceContextRootEnv": "DEVPILOT_UI_ACTIVE_WORKSPACE_ROOT",
+    "scopedObservability": true,
+    "governedApprovalRequest": true,
+    "approvalDemoOnly": false,
+    "topLevelUiRoutesChanged": false,
+    "uiFirstGapDecision": "correct-before-post-h-eval-002-02-b"
   }
 }

@@ -20,16 +20,19 @@ def _json(payload: dict[str, Any], status_code: int) -> JSONResponse:
 @router.get("/api/v1/reports")
 def list_reports(
     limit: int = Query(default=50, ge=1, le=200),
+    offset: int = Query(default=0, ge=0, le=10000),
     severity: str | None = Query(default=None),
     status: str | None = Query(default=None),
     command: str | None = Query(default=None),
+    query: str | None = Query(default=None, max_length=200),
+    scope: str = Query(default="all", pattern="^(all|platform|workspace)$"),
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
     return _json(
         *dispatch_application_request(
             service,
             operation="reports.list",
-            payload={"limit": limit, "severity": severity, "status": status, "command": command},
+            payload={"limit": limit, "offset": offset, "severity": severity, "status": status, "command": command, "query": query, "scope": scope},
         )
     )
 

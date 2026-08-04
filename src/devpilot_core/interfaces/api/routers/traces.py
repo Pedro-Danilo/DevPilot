@@ -22,13 +22,14 @@ def list_traces(
     limit: int = Query(default=20, ge=1, le=100),
     include_events: bool = Query(default=True),
     include_metrics: bool = Query(default=True),
+    scope: str = Query(default="active", pattern="^(active|platform|workspace)$"),
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
     return _json(
         *dispatch_application_request(
             service,
             operation="observability.trace_report",
-            payload={"limit": limit, "include_events": include_events, "include_metrics": include_metrics},
+            payload={"limit": limit, "include_events": include_events, "include_metrics": include_metrics, "scope": scope},
         )
     )
 
@@ -37,13 +38,14 @@ def list_traces(
 def inspect_trace(
     trace_id: str,
     limit: int = Query(default=100, ge=1, le=500),
+    scope: str = Query(default="active", pattern="^(active|platform|workspace)$"),
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
     return _json(
         *dispatch_application_request(
             service,
             operation="observability.trace_inspect",
-            payload={"trace_id": trace_id, "limit": limit},
+            payload={"trace_id": trace_id, "limit": limit, "scope": scope},
         )
     )
 
@@ -52,12 +54,13 @@ def inspect_trace(
 def metrics_summary(
     category: str | None = Query(default=None),
     limit: int = Query(default=50, ge=1, le=500),
+    scope: str = Query(default="active", pattern="^(active|platform|workspace)$"),
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
     return _json(
         *dispatch_application_request(
             service,
             operation="observability.metrics_summary",
-            payload={"category": category, "limit": limit},
+            payload={"category": category, "limit": limit, "scope": scope},
         )
     )
