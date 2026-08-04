@@ -1,13 +1,23 @@
 from __future__ import annotations
 
+import importlib
 import json
 from pathlib import Path
+
+import pytest
 
 from fastapi.testclient import TestClient
 
 from devpilot_core.cli import main
 from devpilot_core.interfaces.api import DEFAULT_ALLOWED_ORIGINS, create_app
-from devpilot_core.interfaces.api.security import API_ROUTE_POLICIES, API_TOKEN_ENV_VAR, API_TOKEN_HEADER
+from devpilot_core.interfaces.api.security import (
+    API_ROUTE_POLICIES,
+    API_TOKEN_ENV_VAR,
+    API_TOKEN_HEADER,
+    API_TOKEN_MAX_LENGTH,
+    ApiSecurityConfig,
+    validate_api_token,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_TOKEN = "devpilot-test-token"
@@ -168,3 +178,53 @@ def test_security_error_does_not_echo_cors_for_untrusted_origin() -> None:
     assert response.status_code == 401
     assert "access-control-allow-origin" not in {key.lower(): value for key, value in response.headers.items()}
     assert response.json()["findings"][0]["id"] == "API_TOKEN_INVALID_BLOCK"
+
+
+def test_validate_api_token_rejects_non_ascii_without_exception() -> None:
+    config = ApiSecurityConfig(token=TEST_TOKEN, token_source="pytest")
+
+    assert validate_api_token(config, "tökén-inválido") == (False, "API_TOKEN_INVALID_BLOCK")
+
+
+@pytest.mark.parametrize(
+    "supplied_token",
+    [
+        " leading-space",
+        "trailing-space ",
+        "tab\tinside",
+        "control\x7f",
+        "x" * (API_TOKEN_MAX_LENGTH + 1),
+    ],
+)
+def test_validate_api_token_rejects_malformed_visible_ascii_contract(supplied_token: str) -> None:
+    config = ApiSecurityConfig(token=TEST_TOKEN, token_source="pytest")
+
+    assert validate_api_token(config, supplied_token) == (False, "API_TOKEN_INVALID_BLOCK")
+
+
+def test_validate_api_token_rejects_invalid_config_token_without_exception() -> None:
+    config = ApiSecurityConfig(token="configuración-no-ascii", token_source="pytest")
+
+    assert validate_api_token(config, "configuración-no-ascii") == (False, "API_TOKEN_INVALID_BLOCK")
+
+
+def test_middleware_maps_non_ascii_token_to_401_and_remains_usable(monkeypatch) -> None:
+    api_app_module = importlib.import_module("devpilot_core.interfaces.api.app")
+    original_extractor = api_app_module.extract_request_token
+    app = create_app(ROOT, api_token=TEST_TOKEN)
+    client = TestClient(app, raise_server_exceptions=False)
+
+    monkeypatch.setattr(api_app_module, "extract_request_token", lambda _headers: "tökén-inválido")
+    response = client.get("/api/v1/workspace/status")
+
+    assert response.status_code == 401
+    assert response.json()["contract"] == "DevPilotApplicationResponse"
+    assert response.json()["ok"] is False
+    assert response.json()["findings"][0]["id"] == "API_TOKEN_INVALID_BLOCK"
+    assert "tökén-inválido" not in response.text
+    assert "Traceback" not in response.text
+
+    monkeypatch.setattr(api_app_module, "extract_request_token", original_extractor)
+    recovered = client.get("/api/v1/workspace/status", headers={API_TOKEN_HEADER: TEST_TOKEN})
+    assert recovered.status_code == 200
+    assert recovered.json()["ok"] is True

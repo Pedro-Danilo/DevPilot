@@ -14,6 +14,7 @@ from .response_mapping import api_error_response
 
 API_TOKEN_ENV_VAR = "DEVPILOT_API_TOKEN"
 API_TOKEN_HEADER = "X-DevPilot-Token"
+API_TOKEN_MAX_LENGTH = 512
 AUTHORIZATION_HEADER = "Authorization"
 API_REMOTE_BIND_OVERRIDE_ENV_VAR = "DEVPILOT_API_ALLOW_NON_LOCALHOST"
 LOCAL_API_ALLOWED_HOSTS: tuple[str, ...] = ("127.0.0.1", "localhost", "::1")
@@ -291,12 +292,33 @@ def build_security_error_response(*, status_code: int, message: str, finding_id:
     )
 
 
+def _token_ascii_bytes(token: str | None) -> bytes | None:
+    """Return a bounded visible-ASCII token representation.
+
+    HTTP bearer tokens are opaque, but DevPilot generates URL-safe ASCII
+    values. Rejecting malformed values before constant-time comparison prevents
+    ``secrets.compare_digest`` from raising ``TypeError`` for non-ASCII
+    strings. The helper never normalizes or repairs a credential.
+    """
+
+    if not isinstance(token, str) or not token or len(token) > API_TOKEN_MAX_LENGTH:
+        return None
+    if any(ord(character) < 0x21 or ord(character) > 0x7E for character in token):
+        return None
+    return token.encode("ascii")
+
+
 def validate_api_token(config: ApiSecurityConfig, supplied_token: str | None) -> tuple[bool, str | None]:
     if not config.token_required:
         return True, None
     if not supplied_token:
         return False, "API_TOKEN_MISSING_BLOCK"
-    if not secrets.compare_digest(config.token, supplied_token):
+
+    expected = _token_ascii_bytes(config.token)
+    supplied = _token_ascii_bytes(supplied_token)
+    if expected is None or supplied is None:
+        return False, "API_TOKEN_INVALID_BLOCK"
+    if not secrets.compare_digest(expected, supplied):
         return False, "API_TOKEN_INVALID_BLOCK"
     return True, None
 
