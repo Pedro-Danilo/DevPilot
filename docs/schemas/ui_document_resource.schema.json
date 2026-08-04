@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-DOCUMENT-RESOURCE-V1",
+  "title": "DevPilot UI Document Resource v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "resource_id",
+    "workspace_id",
+    "relative_path",
+    "content_type",
+    "size_bytes",
+    "sha256",
+    "git_status",
+    "read_only",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resource_id": {
+      "type": "string",
+      "pattern": "^doc_[A-Za-z0-9_-]{8,256}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "pattern": "(^[A-Za-z]:|^/|^\\\\|(^|/)\\.\\.(/|$))"
+      }
+    },
+    "content_type": {
+      "enum": [
+        "markdown",
+        "json",
+        "yaml",
+        "text"
+      ]
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10485760
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "git_status": {
+      "enum": [
+        "clean",
+        "modified",
+        "untracked",
+        "deleted",
+        "ignored",
+        "unavailable"
+      ]
+    },
+    "read_only": {
+      "const": true
+    },
+    "frontmatter": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "last_commit": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-DOCUMENT-RESOURCE-V1",
+  "x-devpilot-sprint": "UOC-000",
+  "x-devpilot-status": "registered"
+}

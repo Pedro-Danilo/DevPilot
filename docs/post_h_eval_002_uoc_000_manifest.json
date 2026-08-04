@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-MANIFEST-V1",
+  "sprint_id": "UOC-000",
+  "title": "Charter, capability inventory y contratos base",
+  "status": "implemented-initial",
+  "implemented_at": "2026-08-04",
+  "base_commit": "43254e3e61cdafe65e0ed2d773fe9032b0a81f05",
+  "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
+  "created_files": [
+    ".devpilot/interfaces/ui_capability_registry.json",
+    ".devpilot/interfaces/ui_operational_console_flags.json",
+    "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+    "docs/07_interfaces/ui_capability_registry.md",
+    "docs/architecture/adr_ui_no_arbitrary_shell.md",
+    "docs/architecture/adr_ui_opaque_resource_identifiers.md",
+    "docs/architecture/adr_governed_job_execution.md",
+    "docs/audits/uoc_000_capability_inventory_report.md",
+    "docs/schemas/ui_capability_registry.schema.json",
+    "docs/schemas/ui_document_resource.schema.json",
+    "docs/schemas/ui_edit_plan.schema.json",
+    "docs/schemas/ui_approval_binding.schema.json",
+    "docs/schemas/ui_governed_job.schema.json",
+    "docs/schemas/ui_evidence_reference.schema.json",
+    "docs/schemas/ui_operational_console_flags.schema.json",
+    "docs/schemas/ui_operational_console_manifest.schema.json",
+    "docs/post_h_eval_002_uoc_000_manifest.json",
+    "tests/test_post_h_eval_002_uoc_000_contracts.py"
+  ],
+  "modified_files": [
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/schemas/schema_catalog.json",
+    "tests/test_schema_registry.py"
+  ],
+  "inventory": {
+    "cli_commands_total": 193,
+    "cli_commands_classified_total": 193,
+    "api_routes_total": 39,
+    "ui_routes_total": 5,
+    "risk_class_counts": {
+      "forbidden": 5,
+      "mutating": 130,
+      "read-only": 2,
+      "sensitive": 56
+    },
+    "parity_status_counts": {
+      "CLI-BRIDGE-REGISTERED": 181,
+      "PLANNED": 3,
+      "POLICY-BLOCKED": 5,
+      "UI-READ-ONLY": 4
+    }
+  },
+  "gates": {
+    "registry_schema_pass": true,
+    "all_ui_routes_mapped": true,
+    "all_cli_commands_classified": true,
+    "mutating_without_policy_total": 0,
+    "sensitive_ui_native_without_approval_total": 0,
+    "arbitrary_shell_allowed": false,
+    "new_ui_routes_added": 0,
+    "runtime_execution_enabled": false,
+    "s0": 0,
+    "s1": 0
+  },
+  "tests": [
+    "tests/test_post_h_eval_002_uoc_000_contracts.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_030_cli_command_ownership_matrix.py",
+    "tests/test_post_h_028_ui_route_registry_enforcement.py"
+  ],
+  "safety": {
+    "local_first": true,
+    "metadata_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_runtime": false,
+    "dry_run_default": true
+  },
+  "next_sprint": "UOC-001",
+  "limitations": [
+    "No document route or viewer is implemented in UOC-000.",
+    "No UI bridge may execute arbitrary CLI text.",
+    "Edit/job schemas are contracts only and do not authorize runtime mutation."
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-MANIFEST-V1",
+  "title": "DevPilot UI Operational Console Sprint Manifest v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "sprint_id",
+    "title",
+    "status",
+    "implemented_at",
+    "base_commit",
+    "created_files",
+    "modified_files",
+    "inventory",
+    "gates",
+    "tests",
+    "safety",
+    "next_sprint"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-MANIFEST-V1"
+    },
+    "sprint_id": {
+      "pattern": "^UOC-[0-9]{3}$"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "closed",
+        "blocked"
+      ]
+    },
+    "base_commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "created_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "modified_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inventory": {
+      "type": "object"
+    },
+    "gates": {
+      "type": "object"
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "safety": {
+      "type": "object"
+    },
+    "next_sprint": {
+      "const": "UOC-001"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-MANIFEST-V1",
+  "x-devpilot-sprint": "UOC-000",
+  "x-devpilot-status": "registered"
+}

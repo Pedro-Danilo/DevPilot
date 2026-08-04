@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "created_by": "POST-H-003-E",
   "status": "implemented-initial",
-  "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage.",
+  "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "compatibility": {
     "v1_compatible": true,
@@ -16787,6 +16787,112 @@
         "Full Windows validators and regression remain mandatory before accepting the repo 327 package.",
         "Runs the POST-H-034 closure regression contract inside the early focal gate to prevent stale state allowlists from reaching the full regression."
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-000-capability-contracts",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-uoc-000-capability-contracts",
+      "domain": "product.ui",
+      "capability": "UiOperationalConsoleCapabilityContracts",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_030_cli_command_ownership_matrix.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "watched_paths": [
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+        "docs/07_interfaces/ui_capability_registry.md",
+        "docs/architecture/adr_ui_no_arbitrary_shell.md",
+        "docs/architecture/adr_ui_opaque_resource_identifiers.md",
+        "docs/architecture/adr_governed_job_execution.md",
+        "docs/audits/uoc_000_capability_inventory_report.md",
+        "docs/schemas/ui_capability_registry.schema.json",
+        "docs/schemas/ui_document_resource.schema.json",
+        "docs/schemas/ui_edit_plan.schema.json",
+        "docs/schemas/ui_approval_binding.schema.json",
+        "docs/schemas/ui_governed_job.schema.json",
+        "docs/schemas/ui_evidence_reference.schema.json",
+        "docs/schemas/ui_operational_console_flags.schema.json",
+        "docs/schemas/ui_operational_console_manifest.schema.json",
+        "docs/post_h_eval_002_uoc_000_manifest.json",
+        "tests/test_post_h_eval_002_uoc_000_contracts.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "tests/test_schema_registry.py"
+      ],
+      "validates": [
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+        "docs/07_interfaces/ui_capability_registry.md",
+        "docs/architecture/adr_ui_no_arbitrary_shell.md",
+        "docs/architecture/adr_ui_opaque_resource_identifiers.md",
+        "docs/architecture/adr_governed_job_execution.md",
+        "docs/audits/uoc_000_capability_inventory_report.md",
+        "docs/schemas/ui_capability_registry.schema.json",
+        "docs/schemas/ui_document_resource.schema.json",
+        "docs/schemas/ui_edit_plan.schema.json",
+        "docs/schemas/ui_approval_binding.schema.json",
+        "docs/schemas/ui_governed_job.schema.json",
+        "docs/schemas/ui_evidence_reference.schema.json",
+        "docs/schemas/ui_operational_console_flags.schema.json",
+        "docs/schemas/ui_operational_console_manifest.schema.json",
+        "docs/post_h_eval_002_uoc_000_manifest.json",
+        "tests/test_post_h_eval_002_uoc_000_contracts.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "tests/test_schema_registry.py"
+      ],
+      "trigger_hints": [
+        "uoc-000",
+        "ui-capability-registry",
+        "operational-console",
+        "opaque-identifiers",
+        "governed-jobs"
+      ],
+      "impact_scope": [
+        "product.ui",
+        "interfaces.api",
+        "governance.testing",
+        "documentation-governance",
+        "project-state"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "UOC-000",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -o addopts= tests/test_post_h_eval_002_uoc_000_contracts.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_030_cli_command_ownership_matrix.py tests/test_post_h_028_ui_route_registry_enforcement.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "P0 because future UI mutation boundaries depend on these contracts.",
+        "No runtime route or source mutation is enabled in UOC-000."
+      ]
     }
   ],
   "migration_metadata": {
@@ -16797,8 +16903,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 250,
-    "last_updated_by": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327"
+    "contracts_total": 251,
+    "last_updated_by": "UOC-000"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -16846,6 +16952,7 @@
     "Corrective 325 keeps its historical contract and evidence.",
     "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
     "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03.",
-    "Governance closure 327 adds the release-scoped contract that freezes RERUN-03 hashes, closes 01-D and advances the project state to 02-A."
+    "Governance closure 327 adds the release-scoped contract that freezes RERUN-03 hashes, closes 01-D and advances the project state to 02-A.",
+    "UOC-000 operational-console capability contract registered as P0 impact/security metadata gate."
   ]
 }

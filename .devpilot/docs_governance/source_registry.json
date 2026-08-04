@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-31",
+  "updated": "2026-08-04",
   "preliminary": true,
   "documents": [
     {
@@ -198,6 +198,178 @@
       ]
     },
     {
+      "doc_id": "ADR-POSTH-034-A",
+      "path": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "adr_linked",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "ADR-POSTH-034-B",
+      "path": "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "adr_linked",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "ADR-POSTH-034-C",
+      "path": "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "ADR-POSTH-034-D",
+      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+      "classification": "source-of-truth",
+      "domain": "security.auth",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "ADR-POSTH-034-E",
+      "path": "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.reporting",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-E"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "ADR-UOC-000-GOVERNED-JOB-EXECUTION",
+      "path": "docs/architecture/adr_governed_job_execution.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.decisions",
+      "owner": "UOC-000",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "ADR-UOC-000-NO-ARBITRARY-SHELL",
+      "path": "docs/architecture/adr_ui_no_arbitrary_shell.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.decisions",
+      "owner": "UOC-000",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "ADR-UOC-000-OPAQUE-RESOURCE-IDENTIFIERS",
+      "path": "docs/architecture/adr_ui_opaque_resource_identifiers.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.decisions",
+      "owner": "UOC-000",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
       "doc_id": "DEVPL-AUDIT-POST-H-026-B-RC-PROFILE",
       "title": "POST-H-026-B audit report",
       "path": "docs/audits/post_h_026_b_release_candidate_profile_report.md",
@@ -358,6 +530,137 @@
       ]
     },
     {
+      "doc_id": "DEVPL-POST-H-EVAL-002-01-BACKLOG",
+      "path": "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_activation_contract.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-POST-H-EVAL-002-02-BACKLOG",
+      "path": "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_activation_contract.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-02"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-POST-H-EVAL-002-03-BACKLOG",
+      "path": "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_activation_contract.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-03"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK",
+      "path": "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_activation_contract.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002",
+        "POST-H-EVAL-002-01",
+        "POST-H-EVAL-002-02",
+        "POST-H-EVAL-002-03"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP",
+      "path": "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_activation_contract.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION",
+      "path": "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+      "classification": "source-of-truth",
+      "domain": "product.backlog",
+      "owner": "UOC-000",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
       "doc_id": "DEVPL-PROJECT-STATE-001",
       "path": ".devpilot/project_state.json",
       "classification": "machine-readable-source",
@@ -431,6 +734,52 @@
         "contract_registry_integrity"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-UOC-000-CAPABILITY-INVENTORY-REPORT",
+      "path": "docs/audits/uoc_000_capability_inventory_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-000",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "DEVPL-UOC-000-UI-CAPABILITY-REGISTRY",
+      "path": "docs/07_interfaces/ui_capability_registry.md",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-000",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
     },
     {
       "domain": "operator-onboarding",
@@ -10225,6 +10574,530 @@
       ]
     },
     {
+      "doc_id": "POST-H-033-C-MANIFEST",
+      "path": "docs/post_h_033_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-INTEGRATION-MODULE",
+      "path": "src/devpilot_core/validators/readiness.py",
+      "classification": "source-of-truth",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "tests/test_precode_readiness.py",
+        "tests/test_validation_gateway.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS",
+      "path": ".devpilot/readiness/readiness_requirements.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-MODULE",
+      "path": "src/devpilot_core/validators/readiness_requirements.py",
+      "classification": "source-of-truth",
+      "domain": "governance.validation",
+      "owner": "POST-H-033-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "tests/test_precode_readiness.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-REGISTRY-REPORT",
+      "path": "docs/audits/post_h_033_c_readiness_requirements_registry_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.validation",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-TEST",
+      "path": "tests/test_post_h_033_readiness_requirements_registry.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MANIFEST",
+      "path": "docs/post_h_033_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES",
+      "path": ".devpilot/miasi/semantic_rules.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-MODULE",
+      "path": "src/devpilot_core/miasi/declarative_semantic_rules.py",
+      "classification": "source-of-truth",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+        "tests/test_miasi_semantic_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-REGISTRY-REPORT",
+      "path": "docs/audits/post_h_033_d_miasi_semantic_rules_registry_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.miasi",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-REGISTRY-TEST",
+      "path": "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-VALIDATOR-MODULE",
+      "path": "src/devpilot_core/miasi/semantic.py",
+      "classification": "source-of-truth",
+      "domain": "governance.miasi",
+      "owner": "POST-H-033-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+        "tests/test_miasi_semantic_validator.py",
+        "tests/test_miasi_semantic_validator_fixtures.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-MANIFEST",
+      "path": "docs/post_h_033_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-CATALOG-MODULE",
+      "path": "src/devpilot_core/policy/guard_catalog.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOG",
+      "path": ".devpilot/policy/guard_pattern_catalog.json",
+      "classification": "machine-readable-source",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOG-SCHEMA",
+      "path": "docs/schemas/policy_guard_pattern_catalog.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-033-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOGS-REPORT",
+      "path": "docs/audits/post_h_033_e_policy_guard_pattern_catalogs_report.md",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOGS-TEST",
+      "path": "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-PROMPT-GUARD-INTEGRATION",
+      "path": "src/devpilot_core/policy/prompt_guard.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "tests/test_prompt_injection_guard.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-SECRET-GUARD-INTEGRATION",
+      "path": "src/devpilot_core/policy/secrets.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "tests/test_secret_guard_hardening.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-E-TOOL-INJECTION-GUARD-INTEGRATION",
+      "path": "src/devpilot_core/policy/tool_injection_guard.py",
+      "classification": "source-of-truth",
+      "domain": "security.policy",
+      "owner": "POST-H-033-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "tests/test_post_h_032_tool_calling_contract.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY",
+      "path": ".devpilot/docs_governance/rule_registry.json",
+      "classification": "machine-readable-source",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-MODULE",
+      "path": "src/devpilot_core/docs_governance/rule_registry.py",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-REPORT",
+      "path": "docs/audits/post_h_033_f_docs_governance_rule_registry_report.md",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-SCHEMA",
+      "path": "docs/schemas/docs_governance_rule_registry.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-033-F",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-TEST",
+      "path": "tests/test_post_h_033_docs_governance_rule_registry.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-033-F",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-VALIDATOR-INTEGRATION",
+      "path": "src/devpilot_core/docs_governance/validator.py",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "current",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-033-F-MANIFEST",
+      "path": "docs/post_h_033_f_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "documentation.governance",
+      "owner": "POST-H-033-F",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "doc_id": "POST-H-033-TOPLEVEL",
       "path": "docs/POST-H-033_schema_backed_validators_declarative_semantics.md",
       "classification": "source-of-truth",
@@ -10247,6 +11120,1364 @@
       "lifecycle": "active",
       "notes": [
         "POST-H-033-A validator inventory/migration artifact: docs/POST-H-033_schema_backed_validators_declarative_semantics.md."
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-ADR-REPORT",
+      "path": "docs/audits/post_h_034_a_connector_write_adr_report.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "decision_report_linked"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-ADR-TEST",
+      "path": "tests/test_post_h_034_connector_write_adr.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "test_contract_registered"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-DECISION-SCHEMA",
+      "path": "docs/schemas/connector_write_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-MANIFEST",
+      "path": "docs/post_h_034_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "manifest_linked"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-DECISION-MATRIX-MODULE",
+      "path": "src/devpilot_core/sensitive_capabilities/decision_matrix.py",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-MODELS",
+      "path": "src/devpilot_core/sensitive_capabilities/models.py",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-GATE",
+      "path": "src/devpilot_core/sensitive_capabilities/quality_gate.py",
+      "classification": "machine-readable-source",
+      "domain": "quality.gate",
+      "owner": "POST-H-034-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "module_test_coverage"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-MATRIX",
+      "path": ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+      "classification": "machine-readable-source",
+      "domain": "architecture-decision",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-MATRIX-SCHEMA",
+      "path": "docs/schemas/sensitive_capability_decision_matrix.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-034-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-MANIFEST",
+      "path": "docs/post_h_034_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-ADR-REPORT",
+      "path": "docs/audits/post_h_034_b_plugin_execution_adr_report.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "no_go_gates_preserved"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-DECISION-SCHEMA",
+      "path": "docs/schemas/plugin_execution_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "schema_registered",
+        "schema_validates"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-TEST",
+      "path": "tests/test_post_h_034_plugin_execution_adr.py",
+      "classification": "derived",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-034-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-B-SENSITIVE-CAPABILITY-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "architecture-decision",
+      "owner": "POST-H-034-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-BACKLOG",
+      "path": "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "adr_backlog_linked"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-MANIFEST",
+      "path": "docs/post_h_034_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-REPORT",
+      "path": "docs/audits/post_h_034_c_remote_execution_adr3_report.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-SCHEMA",
+      "path": "docs/schemas/remote_execution_adr3_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-034-C",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_registered",
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-TEST",
+      "path": "tests/test_post_h_034_remote_execution_adr3.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-C-SENSITIVE-CAPABILITY-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-034-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-CLOSURE-FINAL-REGRESSION-RECONCILIATION",
+      "path": "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-CLOSURE"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-034-CLOSURE-FINAL-REGRESSION-REPORT",
+      "path": "docs/audits/post_h_034_closure_final_regression_report.md",
+      "classification": "source-of-truth",
+      "domain": "operations.audit",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-CLOSURE"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-034-CLOSURE-MANIFEST",
+      "path": "docs/post_h_034_closure_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "POST-H-034-CLOSURE",
+      "status_required": "closed",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-CLOSURE"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-CLOSURE-REGRESSION-TEST",
+      "path": "tests/test_post_h_034_closure_regression_reconciliation.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-CLOSURE",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-CLOSURE"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-MANIFEST",
+      "path": "docs/post_h_034_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-ADR-REPORT",
+      "path": "docs/audits/post_h_034_d_multiuser_auth_adr_report.md",
+      "classification": "source-of-truth",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-SCHEMA",
+      "path": "docs/schemas/multiuser_auth_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-034-D",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "schema_registered",
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-TEST",
+      "path": "tests/test_post_h_034_multiuser_auth_adr.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-D-SENSITIVE-CAPABILITY-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "security.auth",
+      "owner": "POST-H-034-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-ADR-REPORT",
+      "path": "docs/audits/post_h_034_e_enterprise_saas_boundary_adr_report.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-034-E",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-E"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-CHECKLIST",
+      "path": ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-034-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-E"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-SCHEMA",
+      "path": "docs/schemas/enterprise_saas_boundary_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "POST-H-034-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "sync_rules": [
+        "schema_registered",
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-E"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-TEST",
+      "path": "tests/test_post_h_034_enterprise_saas_boundary_adr.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-034-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-E"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-E-MANIFEST",
+      "path": "docs/post_h_034_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-034-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "sync_rules": [
+        "schema_validates",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-E"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-E-SENSITIVE-CAPABILITY-VALIDATOR",
+      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-034-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034-E"
+      ]
+    },
+    {
+      "doc_id": "POST-H-034-TOPLEVEL",
+      "path": "docs/POST-H-034_sensitive_capabilities_adrs.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "backlog_copy_sync"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-034"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-A-AUDIT",
+      "path": "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-A"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-A-MANIFEST",
+      "path": "docs/post_h_eval_002_01_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-A",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-A-TEST",
+      "path": "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-A"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-B-CLOSURE-AUDIT",
+      "path": "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-B"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-B-MANIFEST",
+      "path": "docs/post_h_eval_002_01_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-B",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-B-TEST",
+      "path": "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-B"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-C-CLOSURE-AUDIT",
+      "path": "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-C"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-C-MANIFEST",
+      "path": "docs/post_h_eval_002_01_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-C",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-C-TEST",
+      "path": "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-C"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-ACCEPTANCE-READINESS",
+      "path": "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-BROWSER-CORRECTIVE-325-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-independent-validation",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-BROWSER-CORRECTIVE-325-REPORT",
+      "path": "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-independent-validation",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-BROWSER-CORRECTIVE-325-TEST",
+      "path": "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-windows-revalidation",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "test_must_pass",
+        "closure_status_match",
+        "next_hito_match"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-REPORT",
+      "path": "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "closure_status_match",
+        "next_hito_match"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-TEST",
+      "path": "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-PREPARATION-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_preparation_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "active",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-independent-validation",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326-REPORT",
+      "path": "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-independent-validation",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326-TEST",
+      "path": "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-RUNTIME-CORRECTIVE-324-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_runtime_corrective_324_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "implemented-pending-run-03",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_runtime_corrective_324.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-SPRINT7-IMPLEMENTATION-GUIDE",
+      "path": "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
+      "classification": "source-of-truth",
+      "domain": "operations.runbook",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ],
+      "updated": "2026-07-31",
+      "notes": [
+        "v2.1.1 preserves Git-canonical preflight, recovers the stale POST-H-034 closure regression contract, and executes it in the 51-test early focal gate."
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-TEST",
+      "path": "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-UI-CORRECTIVE",
+      "path": "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-UI-CORRECTIVE-MANIFEST",
+      "path": "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "active",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-01-D-UI-CORRECTIVE-TEST",
+      "path": "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002-01-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002-01-D"
+      ]
+    },
+    {
+      "doc_id": "POST-H-EVAL-002-ACTIVATION-CONTRACT-TEST",
+      "path": "tests/test_post_h_eval_002_activation_contract.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "POST-H-EVAL-002",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_activation_contract.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "POST-H-EVAL-002"
       ]
     },
     {
@@ -10779,6 +13010,26 @@
       ]
     },
     {
+      "doc_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1",
+      "path": "docs/schemas/miasi_semantic_rules.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-033-D",
+      "status_required": "registered",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_must_reference_schema",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "doc_id": "SCHEMA-DEVPL-MULTIAGENT-HANDOFF-HARDENING-REPORT-V1",
       "path": "docs/schemas/multiagent_handoff_hardening_report.schema.json",
       "classification": "machine-readable-source",
@@ -10820,6 +13071,26 @@
         "test_must_pass"
       ],
       "lifecycle": "historical"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-READINESS-REQUIREMENTS-V1",
+      "path": "docs/schemas/readiness_requirements.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "owner": "POST-H-033-C",
+      "status_required": "registered",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_must_reference_schema",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
     },
     {
       "doc_id": "SCHEMA-DEVPL-RELEASE-CANDIDATE-TEST-PROFILE-REPORT-V1",
@@ -11158,2136 +13429,243 @@
       "lifecycle": "historical"
     },
     {
-      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS",
-      "path": ".devpilot/readiness/readiness_requirements.json",
+      "doc_id": "UOC-000-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_000_manifest.json",
       "classification": "machine-readable-source",
-      "domain": "governance.validation",
-      "owner": "POST-H-033-C",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_readiness_requirements_registry.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-READINESS-REQUIREMENTS-V1",
-      "path": "docs/schemas/readiness_requirements.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.schemas",
-      "owner": "POST-H-033-C",
-      "status_required": "registered",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_readiness_requirements_registry.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "schema_catalog_must_reference_schema",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-MODULE",
-      "path": "src/devpilot_core/validators/readiness_requirements.py",
-      "classification": "source-of-truth",
-      "domain": "governance.validation",
-      "owner": "POST-H-033-C",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_readiness_requirements_registry.py",
-        "tests/test_precode_readiness.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-C-READINESS-INTEGRATION-MODULE",
-      "path": "src/devpilot_core/validators/readiness.py",
-      "classification": "source-of-truth",
-      "domain": "governance.validation",
-      "owner": "POST-H-033-C",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_readiness_requirements_registry.py",
-        "tests/test_precode_readiness.py",
-        "tests/test_validation_gateway.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-TEST",
-      "path": "tests/test_post_h_033_readiness_requirements_registry.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-033-C",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_readiness_requirements_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS-REGISTRY-REPORT",
-      "path": "docs/audits/post_h_033_c_readiness_requirements_registry_report.md",
-      "classification": "source-of-truth",
-      "domain": "governance.validation",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "frontmatter_required": true,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_readiness_requirements_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-C-MANIFEST",
-      "path": "docs/post_h_033_c_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.validation",
-      "owner": "POST-H-033-C",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_readiness_requirements_registry.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES",
-      "path": ".devpilot/miasi/semantic_rules.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.miasi",
-      "owner": "POST-H-033-D",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-RULES-V1",
-      "path": "docs/schemas/miasi_semantic_rules.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.schemas",
-      "owner": "POST-H-033-D",
-      "status_required": "registered",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "schema_catalog_must_reference_schema",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-MODULE",
-      "path": "src/devpilot_core/miasi/declarative_semantic_rules.py",
-      "classification": "source-of-truth",
-      "domain": "governance.miasi",
-      "owner": "POST-H-033-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
-        "tests/test_miasi_semantic_validator.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-VALIDATOR-MODULE",
-      "path": "src/devpilot_core/miasi/semantic.py",
-      "classification": "source-of-truth",
-      "domain": "governance.miasi",
-      "owner": "POST-H-033-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py",
-        "tests/test_miasi_semantic_validator.py",
-        "tests/test_miasi_semantic_validator_fixtures.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-REGISTRY-TEST",
-      "path": "tests/test_post_h_033_miasi_semantic_rules_registry.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-033-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-D-MIASI-SEMANTIC-RULES-REGISTRY-REPORT",
-      "path": "docs/audits/post_h_033_d_miasi_semantic_rules_registry_report.md",
-      "classification": "source-of-truth",
-      "domain": "governance.miasi",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "frontmatter_required": true,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-D-MANIFEST",
-      "path": "docs/post_h_033_d_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.miasi",
-      "owner": "POST-H-033-D",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOG",
-      "path": ".devpilot/policy/guard_pattern_catalog.json",
-      "classification": "machine-readable-source",
-      "domain": "security.policy",
-      "owner": "POST-H-033-E",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOG-SCHEMA",
-      "path": "docs/schemas/policy_guard_pattern_catalog.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "POST-H-033-E",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-POLICY-GUARD-CATALOG-MODULE",
-      "path": "src/devpilot_core/policy/guard_catalog.py",
-      "classification": "source-of-truth",
-      "domain": "security.policy",
-      "owner": "POST-H-033-E",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-PROMPT-GUARD-INTEGRATION",
-      "path": "src/devpilot_core/policy/prompt_guard.py",
-      "classification": "source-of-truth",
-      "domain": "security.policy",
-      "owner": "POST-H-033-E",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
-        "tests/test_prompt_injection_guard.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-TOOL-INJECTION-GUARD-INTEGRATION",
-      "path": "src/devpilot_core/policy/tool_injection_guard.py",
-      "classification": "source-of-truth",
-      "domain": "security.policy",
-      "owner": "POST-H-033-E",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
-        "tests/test_post_h_032_tool_calling_contract.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-SECRET-GUARD-INTEGRATION",
-      "path": "src/devpilot_core/policy/secrets.py",
-      "classification": "source-of-truth",
-      "domain": "security.policy",
-      "owner": "POST-H-033-E",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
-        "tests/test_secret_guard_hardening.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOGS-TEST",
-      "path": "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-033-E",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-POLICY-GUARD-PATTERN-CATALOGS-REPORT",
-      "path": "docs/audits/post_h_033_e_policy_guard_pattern_catalogs_report.md",
-      "classification": "source-of-truth",
-      "domain": "security.policy",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "frontmatter_required": true,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-E-MANIFEST",
-      "path": "docs/post_h_033_e_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "security.policy",
-      "owner": "POST-H-033-E",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY",
-      "path": ".devpilot/docs_governance/rule_registry.json",
-      "classification": "machine-readable-source",
-      "domain": "documentation.governance",
-      "owner": "POST-H-033-F",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-SCHEMA",
-      "path": "docs/schemas/docs_governance_rule_registry.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "POST-H-033-F",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-MODULE",
-      "path": "src/devpilot_core/docs_governance/rule_registry.py",
-      "classification": "source-of-truth",
-      "domain": "documentation.governance",
-      "owner": "POST-H-033-F",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-VALIDATOR-INTEGRATION",
-      "path": "src/devpilot_core/docs_governance/validator.py",
-      "classification": "source-of-truth",
-      "domain": "documentation.governance",
-      "owner": "POST-H-033-F",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py",
-        "tests/test_documentation_governance_validator.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-TEST",
-      "path": "tests/test_post_h_033_docs_governance_rule_registry.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-033-F",
-      "status_required": "current",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": false,
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-REPORT",
-      "path": "docs/audits/post_h_033_f_docs_governance_rule_registry_report.md",
-      "classification": "source-of-truth",
-      "domain": "documentation.governance",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "frontmatter_required": true,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-F-MANIFEST",
-      "path": "docs/post_h_033_f_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "documentation.governance",
-      "owner": "POST-H-033-F",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "frontmatter_required": false,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-034-BACKLOG",
-      "path": "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
-      "classification": "source-of-truth",
-      "domain": "architecture-decision",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py",
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "adr_backlog_linked"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-TOPLEVEL",
-      "path": "docs/POST-H-034_sensitive_capabilities_adrs.md",
-      "classification": "source-of-truth",
-      "domain": "architecture-decision",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py",
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "backlog_copy_sync"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034"
-      ]
-    },
-    {
-      "doc_id": "ADR-POSTH-034-A",
-      "path": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
-      "classification": "source-of-truth",
-      "domain": "architecture-decision",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "adr_linked",
-        "no_go_gates_preserved"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-CHECKLIST",
-      "path": ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
-      "classification": "machine-readable-source",
-      "domain": "integration.connectors",
-      "owner": "POST-H-034-A",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-000",
       "status_required": "implemented-initial",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
-        "schema_validates",
-        "no_go_gates_preserved"
+        "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-A"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-MATRIX",
-      "path": ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+      "doc_id": "UOC-000-SCHEMA-UI-APPROVAL-BINDING",
+      "path": "docs/schemas/ui_approval_binding.schema.json",
       "classification": "machine-readable-source",
-      "domain": "architecture-decision",
-      "owner": "POST-H-034-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py",
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "no_go_gates_preserved"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-DECISION-SCHEMA",
-      "path": "docs/schemas/connector_write_decision.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.schemas",
-      "owner": "POST-H-034-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "schema_catalog_registered"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-MATRIX-SCHEMA",
-      "path": "docs/schemas/sensitive_capability_decision_matrix.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.schemas",
-      "owner": "POST-H-034-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "schema_catalog_registered"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-MODELS",
-      "path": "src/devpilot_core/sensitive_capabilities/models.py",
-      "classification": "machine-readable-source",
-      "domain": "integration.connectors",
-      "owner": "POST-H-034-A",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "module_test_coverage"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-DECISION-MATRIX-MODULE",
-      "path": "src/devpilot_core/sensitive_capabilities/decision_matrix.py",
-      "classification": "machine-readable-source",
-      "domain": "integration.connectors",
-      "owner": "POST-H-034-A",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "module_test_coverage"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITIES-VALIDATOR",
-      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
-      "classification": "machine-readable-source",
-      "domain": "integration.connectors",
-      "owner": "POST-H-034-A",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "module_test_coverage"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-SENSITIVE-CAPABILITY-GATE",
-      "path": "src/devpilot_core/sensitive_capabilities/quality_gate.py",
-      "classification": "machine-readable-source",
-      "domain": "quality.gate",
-      "owner": "POST-H-034-A",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "module_test_coverage"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-ADR-REPORT",
-      "path": "docs/audits/post_h_034_a_connector_write_adr_report.md",
-      "classification": "source-of-truth",
-      "domain": "integration.connectors",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "decision_report_linked"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-MANIFEST",
-      "path": "docs/post_h_034_a_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "integration.connectors",
-      "owner": "POST-H-034-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "manifest_linked"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-A-CONNECTOR-WRITE-ADR-TEST",
-      "path": "tests/test_post_h_034_connector_write_adr.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-034-A",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "sync_rules": [
-        "test_contract_registered"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-A"
-      ]
-    },
-    {
-      "doc_id": "ADR-POSTH-034-B",
-      "path": "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
-      "classification": "source-of-truth",
-      "domain": "architecture-decision",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "adr_linked",
-        "no_go_gates_preserved"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-B"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-CHECKLIST",
-      "path": ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
-      "classification": "machine-readable-source",
-      "domain": "extensibility.plugins",
-      "owner": "POST-H-034-B",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "no_go_gates_preserved"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-B"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-DECISION-SCHEMA",
-      "path": "docs/schemas/plugin_execution_decision.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "extensibility.plugins",
-      "owner": "POST-H-034-B",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
       "status_required": "registered",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_plugin_execution_adr.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
-        "schema_registered",
-        "schema_validates"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-B"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-ADR-REPORT",
-      "path": "docs/audits/post_h_034_b_plugin_execution_adr_report.md",
-      "classification": "source-of-truth",
-      "domain": "extensibility.plugins",
-      "owner": "POST-H-034-B",
-      "status_required": "approved",
-      "criticality": "P0",
-      "frontmatter_required": true,
-      "required_tests": [
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-B"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-B-MANIFEST",
-      "path": "docs/post_h_034_b_manifest.json",
+      "doc_id": "UOC-000-SCHEMA-UI-CAPABILITY-REGISTRY",
+      "path": "docs/schemas/ui_capability_registry.schema.json",
       "classification": "machine-readable-source",
-      "domain": "extensibility.plugins",
-      "owner": "POST-H-034-B",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-B"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-B-SENSITIVE-CAPABILITY-VALIDATOR",
-      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
-      "classification": "machine-readable-source",
-      "domain": "architecture-decision",
-      "owner": "POST-H-034-B",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_connector_write_adr.py",
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-B"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-B-PLUGIN-EXECUTION-TEST",
-      "path": "tests/test_post_h_034_plugin_execution_adr.py",
-      "classification": "derived",
-      "domain": "extensibility.plugins",
-      "owner": "POST-H-034-B",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-B"
-      ]
-    },
-    {
-      "doc_id": "ADR-POSTH-034-C",
-      "path": "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
-      "classification": "source-of-truth",
-      "domain": "enterprise.remote",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_remote_execution_adr3.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-C"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-CHECKLIST",
-      "path": ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
-      "classification": "machine-readable-source",
-      "domain": "enterprise.remote",
-      "owner": "POST-H-034-C",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_remote_execution_adr3.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-C"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-SCHEMA",
-      "path": "docs/schemas/remote_execution_adr3_decision.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "POST-H-034-C",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
       "status_required": "registered",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_remote_execution_adr3.py",
-        "tests/test_schema_registry.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
-        "schema_registered",
-        "schema_validates",
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-C"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-REPORT",
-      "path": "docs/audits/post_h_034_c_remote_execution_adr3_report.md",
-      "classification": "source-of-truth",
-      "domain": "enterprise.remote",
-      "owner": "POST-H-034-C",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_remote_execution_adr3.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-C"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-C-MANIFEST",
-      "path": "docs/post_h_034_c_manifest.json",
+      "doc_id": "UOC-000-SCHEMA-UI-DOCUMENT-RESOURCE",
+      "path": "docs/schemas/ui_document_resource.schema.json",
       "classification": "machine-readable-source",
-      "domain": "enterprise.remote",
-      "owner": "POST-H-034-C",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_remote_execution_adr3.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-C"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-C-SENSITIVE-CAPABILITY-VALIDATOR",
-      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
-      "classification": "machine-readable-source",
-      "domain": "enterprise.remote",
-      "owner": "POST-H-034-C",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_remote_execution_adr3.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-C"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-C-REMOTE-EXECUTION-ADR3-TEST",
-      "path": "tests/test_post_h_034_remote_execution_adr3.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-034-C",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_remote_execution_adr3.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-C"
-      ]
-    },
-    {
-      "doc_id": "ADR-POSTH-034-D",
-      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
-      "classification": "source-of-truth",
-      "domain": "security.auth",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_multiuser_auth_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-D"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-CHECKLIST",
-      "path": ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
-      "classification": "machine-readable-source",
-      "domain": "security.auth",
-      "owner": "POST-H-034-D",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_multiuser_auth_adr.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-SCHEMA",
-      "path": "docs/schemas/multiuser_auth_decision.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "POST-H-034-D",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
       "status_required": "registered",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_multiuser_auth_adr.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
-        "schema_registered",
-        "schema_validates",
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-D"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-ADR-REPORT",
-      "path": "docs/audits/post_h_034_d_multiuser_auth_adr_report.md",
-      "classification": "source-of-truth",
-      "domain": "security.auth",
-      "owner": "POST-H-034-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_multiuser_auth_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-D"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-034-D-MANIFEST",
-      "path": "docs/post_h_034_d_manifest.json",
+      "doc_id": "UOC-000-SCHEMA-UI-EDIT-PLAN",
+      "path": "docs/schemas/ui_edit_plan.schema.json",
       "classification": "machine-readable-source",
-      "domain": "security.auth",
-      "owner": "POST-H-034-D",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_multiuser_auth_adr.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-D-SENSITIVE-CAPABILITY-VALIDATOR",
-      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
-      "classification": "machine-readable-source",
-      "domain": "security.auth",
-      "owner": "POST-H-034-D",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_multiuser_auth_adr.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-D-MULTIUSER-AUTH-TEST",
-      "path": "tests/test_post_h_034_multiuser_auth_adr.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-034-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_multiuser_auth_adr.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-D"
-      ]
-    },
-    {
-      "doc_id": "ADR-POSTH-034-E",
-      "path": "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
-      "classification": "source-of-truth",
-      "domain": "enterprise.reporting",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-E"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-CHECKLIST",
-      "path": ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
-      "classification": "machine-readable-source",
-      "domain": "enterprise.reporting",
-      "owner": "POST-H-034-E",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
-      ],
-      "sync_rules": [
-        "schema_validates",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-E"
-      ]
-    },
-    {
-      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-SCHEMA",
-      "path": "docs/schemas/enterprise_saas_boundary_decision.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "POST-H-034-E",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
       "status_required": "registered",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
-        "schema_registered",
-        "schema_validates",
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-E"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-ADR-REPORT",
-      "path": "docs/audits/post_h_034_e_enterprise_saas_boundary_adr_report.md",
-      "classification": "source-of-truth",
-      "domain": "enterprise.reporting",
-      "owner": "POST-H-034-E",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-E"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-034-E-MANIFEST",
-      "path": "docs/post_h_034_e_manifest.json",
+      "doc_id": "UOC-000-SCHEMA-UI-EVIDENCE-REFERENCE",
+      "path": "docs/schemas/ui_evidence_reference.schema.json",
       "classification": "machine-readable-source",
-      "domain": "enterprise.reporting",
-      "owner": "POST-H-034-E",
-      "status_required": "implemented-initial",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
+      "status_required": "registered",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
-        "schema_validates",
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-E"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-E-SENSITIVE-CAPABILITY-VALIDATOR",
-      "path": "src/devpilot_core/sensitive_capabilities/validator.py",
+      "doc_id": "UOC-000-SCHEMA-UI-GOVERNED-JOB",
+      "path": "docs/schemas/ui_governed_job.schema.json",
       "classification": "machine-readable-source",
-      "domain": "enterprise.reporting",
-      "owner": "POST-H-034-E",
-      "status_required": "implemented-initial",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
+      "status_required": "registered",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-E"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-E-ENTERPRISE-SAAS-BOUNDARY-TEST",
-      "path": "tests/test_post_h_034_enterprise_saas_boundary_adr.py",
+      "doc_id": "UOC-000-SCHEMA-UI-OPERATIONAL-CONSOLE-FLAGS",
+      "path": "docs/schemas/ui_operational_console_flags.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ]
+    },
+    {
+      "doc_id": "UOC-000-SCHEMA-UI-OPERATIONAL-CONSOLE-MANIFEST",
+      "path": "docs/schemas/ui_operational_console_manifest.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-000",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-000",
+        "UOC-001"
+      ]
+    },
+    {
+      "doc_id": "UOC-000-TEST",
+      "path": "tests/test_post_h_eval_002_uoc_000_contracts.py",
       "classification": "derived",
       "domain": "quality.tests",
-      "owner": "POST-H-034-E",
+      "owner": "UOC-000",
       "status_required": "current",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-E"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-CLOSURE-FINAL-REGRESSION-RECONCILIATION",
-      "path": "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
-      "classification": "source-of-truth",
-      "domain": "documentation.governance",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-CLOSURE"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-034-CLOSURE-FINAL-REGRESSION-REPORT",
-      "path": "docs/audits/post_h_034_closure_final_regression_report.md",
-      "classification": "source-of-truth",
-      "domain": "operations.audit",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-CLOSURE"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-034-CLOSURE-MANIFEST",
-      "path": "docs/post_h_034_closure_manifest.json",
+      "doc_id": "UOC-000-UI-CAPABILITY-REGISTRY-JSON",
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
       "classification": "machine-readable-source",
-      "domain": "governance.testing",
-      "owner": "POST-H-034-CLOSURE",
-      "status_required": "closed",
-      "criticality": "P1",
+      "domain": "interfaces.ui",
+      "owner": "UOC-000",
+      "status_required": "approved",
+      "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-034-CLOSURE"
+        "UOC-000",
+        "UOC-001"
       ]
     },
     {
-      "doc_id": "POST-H-034-CLOSURE-REGRESSION-TEST",
-      "path": "tests/test_post_h_034_closure_regression_reconciliation.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-034-CLOSURE",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-034-CLOSURE"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK",
-      "path": "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_activation_contract.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002",
-        "POST-H-EVAL-002-01",
-        "POST-H-EVAL-002-02",
-        "POST-H-EVAL-002-03"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP",
-      "path": "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_activation_contract.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "DEVPL-POST-H-EVAL-002-01-BACKLOG",
-      "path": "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_activation_contract.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "DEVPL-POST-H-EVAL-002-02-BACKLOG",
-      "path": "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_activation_contract.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-02"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "DEVPL-POST-H-EVAL-002-03-BACKLOG",
-      "path": "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_activation_contract.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-03"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-ACTIVATION-CONTRACT-TEST",
-      "path": "tests/test_post_h_eval_002_activation_contract.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_activation_contract.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-A-AUDIT",
-      "path": "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-A"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-A-MANIFEST",
-      "path": "docs/post_h_eval_002_01_a_manifest.json",
+      "doc_id": "UOC-000-UI-FLAGS-JSON",
+      "path": ".devpilot/interfaces/ui_operational_console_flags.json",
       "classification": "machine-readable-source",
-      "domain": "evaluation.pilot",
-      "owner": "POST-H-EVAL-002-01-A",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-A-TEST",
-      "path": "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-A",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-A"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-B-CLOSURE-AUDIT",
-      "path": "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
+      "domain": "interfaces.ui",
+      "owner": "UOC-000",
       "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-B"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-B-MANIFEST",
-      "path": "docs/post_h_eval_002_01_b_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "evaluation.pilot",
-      "owner": "POST-H-EVAL-002-01-B",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
+        "tests/test_post_h_eval_002_uoc_000_contracts.py"
       ],
       "sync_rules": [
         "test_must_pass"
       ],
       "lifecycle": "active",
       "roadmap_milestones": [
-        "POST-H-EVAL-002-01-B"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-B-TEST",
-      "path": "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-B",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-B"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-C-CLOSURE-AUDIT",
-      "path": "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-C"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-C-MANIFEST",
-      "path": "docs/post_h_eval_002_01_c_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "evaluation.pilot",
-      "owner": "POST-H-EVAL-002-01-C",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-C"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-C-TEST",
-      "path": "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-C",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-C"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-ACCEPTANCE-READINESS",
-      "path": "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
-      "classification": "source-of-truth",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-PREPARATION-MANIFEST",
-      "path": "docs/post_h_eval_002_01_d_preparation_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "active",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-TEST",
-      "path": "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-UI-CORRECTIVE",
-      "path": "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
-      "classification": "source-of-truth",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-UI-CORRECTIVE-MANIFEST",
-      "path": "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "active",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-UI-CORRECTIVE-TEST",
-      "path": "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-RUNTIME-CORRECTIVE-324-MANIFEST",
-      "path": "docs/post_h_eval_002_01_d_runtime_corrective_324_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "implemented-pending-run-03",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_runtime_corrective_324.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-BROWSER-CORRECTIVE-325-REPORT",
-      "path": "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
-      "classification": "source-of-truth",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "implemented-pending-independent-validation",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-BROWSER-CORRECTIVE-325-MANIFEST",
-      "path": "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "implemented-pending-independent-validation",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-BROWSER-CORRECTIVE-325-TEST",
-      "path": "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326-REPORT",
-      "path": "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
-      "classification": "source-of-truth",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "implemented-pending-independent-validation",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
-      ],
-      "sync_rules": [
-        "frontmatter_required",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ],
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326-MANIFEST",
-      "path": "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "product.ui",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "implemented-pending-independent-validation",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-RUN05B-INTEGRAL-CORRECTIVE-326-TEST",
-      "path": "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-REPORT",
-      "path": "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
-      "classification": "source-of-truth",
-      "domain": "evaluation.pilot",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "frontmatter_required": true,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "sync_rules": [
-        "frontmatter_status",
-        "closure_status_match",
-        "next_hito_match"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-SPRINT7-IMPLEMENTATION-GUIDE",
-      "path": "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
-      "classification": "source-of-truth",
-      "domain": "operations.runbook",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "frontmatter_required": true,
-      "status_checked": true,
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "sync_rules": [
-        "frontmatter_status",
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ],
-      "updated": "2026-07-31",
-      "notes": [
-        "v2.1.1 preserves Git-canonical preflight, recovers the stale POST-H-034 closure regression contract, and executes it in the 51-test early focal gate."
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-MANIFEST",
-      "path": "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "evaluation.pilot",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "implemented-pending-windows-revalidation",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "sync_rules": [
-        "test_must_pass",
-        "closure_status_match",
-        "next_hito_match"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
-      ]
-    },
-    {
-      "doc_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-TEST",
-      "path": "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
-      "classification": "derived",
-      "domain": "quality.tests",
-      "owner": "POST-H-EVAL-002-01-D",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_eval_002_01_d_governance_closure_327.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "lifecycle": "active",
-      "roadmap_milestones": [
-        "POST-H-EVAL-002-01-D"
+        "UOC-000",
+        "UOC-001"
       ]
     }
   ],
@@ -13363,31 +13741,31 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 577,
-    "source_of_truth_total": 227,
-    "machine_readable_source_total": 268,
-    "derived_total": 82,
+    "documents_total": 595,
+    "source_of_truth_total": 233,
+    "machine_readable_source_total": 279,
+    "derived_total": 83,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 482,
+    "critical_sources_total": 500,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 577,
+    "documents_with_required_tests_total": 595,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+    "last_updated_by": "UOC-000",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
-    "last_registered_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
-    "updated": "2026-07-30",
-    "documents_checked_total": 577,
-    "documents_registered_total": 577
+    "updated_by": "UOC-000",
+    "last_registered_sprint": "UOC-000",
+    "updated": "2026-08-04",
+    "documents_checked_total": 595,
+    "documents_registered_total": 595
   },
   "safety": {
     "local_first": true,
@@ -13495,7 +13873,8 @@
     "POST-H-EVAL-002-01-B registers clean-install closure evidence, advances Project State to 01-C and records the S3 egg-info archive-hygiene gap without changing platform runtime behavior.",
     "POST-H-EVAL-002-01-C registers API/UI startup and security posture closure evidence, advances Project State to 01-D, preserves platform 318 freeze and carries static OpenAPI public-route completeness as S3/non-blocking.",
     "POST-H-EVAL-002-01-D registers the acceptance-ready route/timeout correction while keeping browser evidence pending and 02-A unauthorized.",
-    "POST-H-EVAL-002-01-D UI corrective artifacts registered; RUN-02 remains mandatory."
+    "POST-H-EVAL-002-01-D UI corrective artifacts registered; RUN-02 remains mandatory.",
+    "UOC-000 registers the approved Operational Console backlog, complete capability registry, base schemas, ADRs, audit and manifest without enabling runtime execution."
   ],
   "project_state_snapshot": {
     "certificate_authority_created": false,
@@ -15406,6 +15785,6 @@
     "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
-  "updated_at": "2026-07-30",
-  "last_registered_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327"
+  "updated_at": "2026-08-04",
+  "last_registered_sprint": "UOC-000"
 }

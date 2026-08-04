@@ -1,0 +1,409 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-CAPABILITY-REGISTRY-V1",
+  "title": "DevPilot UI Capability Registry v1",
+  "description": "UOC-000 registry that classifies every CLI command and maps current API/UI surfaces without enabling runtime execution.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "created_by",
+    "status",
+    "version",
+    "updated",
+    "source_commits",
+    "source_registries",
+    "classification_model",
+    "budgets",
+    "feature_flags_registry",
+    "ui_routes",
+    "capabilities",
+    "summary",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-UI-CAPABILITY-REGISTRY-V1"
+    },
+    "registry_id": {
+      "const": "devpilot-ui-capability-registry"
+    },
+    "created_by": {
+      "const": "UOC-000"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "approved",
+        "deprecated"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_commits": {
+      "type": "object",
+      "required": [
+        "canonical_commit",
+        "ui_corrective_commit",
+        "api_security_commit"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "source_registries": {
+      "type": "object",
+      "minProperties": 5,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "classification_model": {
+      "type": "object"
+    },
+    "budgets": {
+      "type": "object"
+    },
+    "feature_flags_registry": {
+      "type": "string"
+    },
+    "ui_routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ui_route_mapping"
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/capability"
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "cli_commands_total",
+        "cli_commands_classified_total",
+        "classification_complete",
+        "ui_routes_total",
+        "ui_routes_mapped_total",
+        "api_routes_total",
+        "risk_class_counts",
+        "parity_status_counts",
+        "mutating_without_policy_total",
+        "sensitive_ui_native_without_approval_total"
+      ]
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "metadata_only",
+        "new_ui_routes_added",
+        "runtime_execution_enabled",
+        "arbitrary_shell_allowed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "external_api_required"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "metadata_only": {
+          "const": true
+        },
+        "new_ui_routes_added": {
+          "const": 0
+        },
+        "runtime_execution_enabled": {
+          "const": false
+        },
+        "arbitrary_shell_allowed": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "external_api_required": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "ui_route_mapping": {
+      "type": "object",
+      "required": [
+        "route_id",
+        "path",
+        "title",
+        "page_component",
+        "allowed_api_route_ids",
+        "mapped_cli_capability_ids",
+        "shows_mutation_controls",
+        "local_only",
+        "external_api_allowed",
+        "remote_execution_allowed",
+        "connector_write_allowed",
+        "plugin_execution_allowed",
+        "state_contract"
+      ],
+      "properties": {
+        "route_id": {
+          "type": "string",
+          "pattern": "^ui\\."
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "allowed_api_route_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "mapped_cli_capability_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "local_only": {
+          "const": true
+        },
+        "external_api_allowed": {
+          "const": false
+        },
+        "remote_execution_allowed": {
+          "const": false
+        },
+        "connector_write_allowed": {
+          "const": false
+        },
+        "plugin_execution_allowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "capability": {
+      "type": "object",
+      "required": [
+        "capability_id",
+        "title",
+        "cli_command_id",
+        "cli_command",
+        "command_path",
+        "domain_owner",
+        "application_service",
+        "api_route_ids",
+        "ui_route_ids",
+        "read_write",
+        "risk_class",
+        "source_risk_level",
+        "parity_status",
+        "planned_sprint",
+        "policy",
+        "requires_dry_run",
+        "requires_approval",
+        "supports_cancel",
+        "supports_rollback",
+        "current_cli_contract",
+        "evidence_contract"
+      ],
+      "properties": {
+        "capability_id": {
+          "type": "string",
+          "pattern": "^cli\\."
+        },
+        "cli_command_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "application_service": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "api_route_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "ui_route_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "risk_class": {
+          "enum": [
+            "read-only",
+            "mutating",
+            "sensitive",
+            "forbidden"
+          ]
+        },
+        "parity_status": {
+          "enum": [
+            "UI-NATIVE",
+            "UI-READ-ONLY",
+            "CLI-BRIDGE-REGISTERED",
+            "POLICY-BLOCKED",
+            "NOT-APPLICABLE",
+            "PLANNED",
+            "DEPRECATED"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "required": [
+            "required",
+            "currently_declared_by_cli",
+            "ui_exposure_requires_policy",
+            "default_decision"
+          ],
+          "properties": {
+            "required": {
+              "type": "boolean"
+            },
+            "currently_declared_by_cli": {
+              "type": "boolean"
+            },
+            "ui_exposure_requires_policy": {
+              "type": "boolean"
+            },
+            "default_decision": {
+              "enum": [
+                "allow-read-only",
+                "plan-only",
+                "deny"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "requires_dry_run": {
+          "type": "boolean"
+        },
+        "requires_approval": {
+          "type": "boolean"
+        },
+        "supports_cancel": {
+          "type": "boolean"
+        },
+        "supports_rollback": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "risk_class": {
+                "enum": [
+                  "mutating",
+                  "sensitive",
+                  "forbidden"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "policy": {
+                "properties": {
+                  "required": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "risk_class": {
+                "const": "forbidden"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "parity_status": {
+                "const": "POLICY-BLOCKED"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "risk_class": {
+                "const": "sensitive"
+              },
+              "parity_status": {
+                "const": "UI-NATIVE"
+              }
+            },
+            "required": [
+              "risk_class",
+              "parity_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "requires_approval": {
+                "const": true
+              },
+              "requires_dry_run": {
+                "const": true
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-CAPABILITY-REGISTRY-V1",
+  "x-devpilot-sprint": "UOC-000",
+  "x-devpilot-status": "registered"
+}

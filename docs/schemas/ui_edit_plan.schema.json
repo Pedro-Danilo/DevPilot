@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-EDIT-PLAN-V1",
+  "title": "DevPilot UI Edit Plan v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "plan_id",
+    "workspace_id",
+    "resource_id",
+    "base_sha256",
+    "proposed_sha256",
+    "diff_sha256",
+    "status",
+    "dry_run",
+    "expires_at",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^plan_[A-Za-z0-9_-]{8,256}$"
+    },
+    "resource_id": {
+      "type": "string",
+      "pattern": "^doc_"
+    },
+    "base_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "proposed_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "diff_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "validated",
+        "pending-approval",
+        "approved",
+        "rejected",
+        "expired",
+        "executed",
+        "rolled-back",
+        "blocked"
+      ]
+    },
+    "dry_run": {
+      "const": true
+    },
+    "expires_at": {
+      "type": "string"
+    },
+    "validation_findings": {
+      "type": "array"
+    },
+    "mutations_performed": {
+      "const": false
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-EDIT-PLAN-V1",
+  "x-devpilot-sprint": "UOC-000",
+  "x-devpilot-status": "registered"
+}

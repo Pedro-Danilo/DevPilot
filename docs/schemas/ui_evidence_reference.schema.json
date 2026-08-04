@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-EVIDENCE-REFERENCE-V1",
+  "title": "DevPilot UI Evidence Reference v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "evidence_id",
+    "workspace_id",
+    "kind",
+    "relative_path",
+    "sha256",
+    "bytes",
+    "created_at",
+    "contains_secrets"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^evidence_"
+    },
+    "kind": {
+      "enum": [
+        "report",
+        "trace",
+        "log",
+        "manifest",
+        "screenshot",
+        "diff",
+        "backup",
+        "commit"
+      ]
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "pattern": "(^[A-Za-z]:|^/|^\\\\|(^|/)\\.\\.(/|$))"
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "contains_secrets": {
+      "const": false
+    },
+    "retention_class": {
+      "enum": [
+        "ephemeral",
+        "run",
+        "audit",
+        "release"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-EVIDENCE-REFERENCE-V1",
+  "x-devpilot-sprint": "UOC-000",
+  "x-devpilot-status": "registered"
+}

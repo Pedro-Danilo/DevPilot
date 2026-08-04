@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-GOVERNED-JOB-V1",
+  "title": "DevPilot UI Governed Job v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "job_id",
+    "capability_id",
+    "workspace_id",
+    "status",
+    "risk_class",
+    "dry_run",
+    "timeout_seconds",
+    "retry_limit",
+    "created_at",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "^job_"
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "pending-approval",
+        "approved",
+        "running",
+        "pass",
+        "pass-with-gaps",
+        "block",
+        "error",
+        "cancelled",
+        "rolled-back"
+      ]
+    },
+    "risk_class": {
+      "enum": [
+        "read-only",
+        "mutating",
+        "sensitive"
+      ]
+    },
+    "dry_run": {
+      "type": "boolean"
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7200
+    },
+    "retry_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "heartbeat_interval_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "approval_binding_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "supports_cancel": {
+      "type": "boolean"
+    },
+    "supports_rollback": {
+      "type": "boolean"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-GOVERNED-JOB-V1",
+  "x-devpilot-sprint": "UOC-000",
+  "x-devpilot-status": "registered"
+}

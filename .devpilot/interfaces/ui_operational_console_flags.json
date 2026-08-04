@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-FLAGS-V1",
+  "registry_id": "devpilot-ui-operational-console-flags",
+  "created_by": "UOC-000",
+  "status": "approved",
+  "version": "1.0.0",
+  "updated": "2026-08-04",
+  "default_mode": "disabled-until-sprint-gate",
+  "feature_flags": [
+    {
+      "flag_id": "uoc.documents.read_only",
+      "enabled": false,
+      "owner_sprint": "UOC-001",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.documents.metadata_git_search",
+      "enabled": false,
+      "owner_sprint": "UOC-002",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.documents.validation_traceability",
+      "enabled": false,
+      "owner_sprint": "UOC-003",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.documents.edit_plan",
+      "enabled": false,
+      "owner_sprint": "UOC-004",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.documents.apply_rollback",
+      "enabled": false,
+      "owner_sprint": "UOC-005",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.git.governed_operations",
+      "enabled": false,
+      "owner_sprint": "UOC-006",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.jobs.framework",
+      "enabled": false,
+      "owner_sprint": "UOC-007",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.jobs.console",
+      "enabled": false,
+      "owner_sprint": "UOC-008",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.quality.release_operations",
+      "enabled": false,
+      "owner_sprint": "UOC-009",
+      "requires_restart": false
+    },
+    {
+      "flag_id": "uoc.rag_agents_tools",
+      "enabled": false,
+      "owner_sprint": "UOC-010",
+      "requires_restart": false
+    }
+  ],
+  "kill_switches": [
+    {
+      "switch_id": "uoc.global_mutations_disabled",
+      "state": "engaged",
+      "scope": "all-mutating-capabilities",
+      "owner": "PolicyEngine"
+    },
+    {
+      "switch_id": "uoc.arbitrary_shell_disabled",
+      "state": "engaged",
+      "scope": "all-ui-routes",
+      "owner": "InterfaceBoundary"
+    },
+    {
+      "switch_id": "uoc.remote_execution_disabled",
+      "state": "engaged",
+      "scope": "remote",
+      "owner": "PolicyEngine"
+    },
+    {
+      "switch_id": "uoc.connector_write_disabled",
+      "state": "engaged",
+      "scope": "connectors",
+      "owner": "PolicyEngine"
+    },
+    {
+      "switch_id": "uoc.plugin_execution_disabled",
+      "state": "engaged",
+      "scope": "plugins",
+      "owner": "PolicyEngine"
+    },
+    {
+      "switch_id": "uoc.external_api_required_disabled",
+      "state": "engaged",
+      "scope": "model-providers",
+      "owner": "CostGuard"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "arbitrary_shell_allowed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "external_api_required": false,
+    "source_mutations_performed": false
+  }
+}
