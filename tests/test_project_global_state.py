@@ -102,13 +102,13 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
-    assert state.get("next_micro_sprint") in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state.get("current_micro_sprint") in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
+    assert state.get("next_micro_sprint") in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state.get("source_repo") == "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
     assert str(state.get("current_repo", "")).startswith("repo_DevPilot_Local_")
     assert state.get("current_repo") in {"repo_DevPilot_Local_319_POST_H_EVAL_002_01_A.zip", "repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip", "repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip", "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip", "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip", "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip", "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"}
-    assert state.get("current_micro_sprint") in {"POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
-    assert state.get("next_micro_sprint") in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state.get("current_micro_sprint") in {"POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
+    assert state.get("next_micro_sprint") in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state.get("post_h_eval_002_activated") is True
     assert state.get("next_backlog_planned") is True
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
@@ -569,8 +569,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_030_workspace_onboarding_cli_module") == "src/devpilot_core/cli_commands/workspace_onboarding.py"
     assert state.get("post_h_030_workspace_onboarding_commands_migrated_total") == 7
     assert state.get("post_h_030_workspace_onboarding_public_behavior_changed") is False
-    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
-    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
+    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -1057,8 +1057,8 @@ def test_post_h_033_a_project_state_adds_validator_inventory_migration_plan() ->
     backlog = (ROOT / "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
-    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
+    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state["post_h_032_status"] == "closed/advanced-ai-agents-governed"
     assert state["post_h_032_closed"] is True
     assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial", "active/policy-guard-pattern-catalogs-implemented-initial", "active/docs-governance-rule-registry-implemented-initial", "closed/schema-backed-validators-declarative-semantics"}
@@ -1085,8 +1085,8 @@ def test_post_h_033_b_project_state_adds_frontmatter_schema_backed_validator() -
     backlog = (ROOT / "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
-    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
+    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state["post_h_033_a_closed"] is True
     assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial", "active/policy-guard-pattern-catalogs-implemented-initial", "active/docs-governance-rule-registry-implemented-initial", "closed/schema-backed-validators-declarative-semantics"}
     assert state["post_h_033_b_frontmatter_catalog_available"] is True
@@ -1117,8 +1117,8 @@ def test_post_h_033_c_project_state_adds_readiness_requirements_registry() -> No
     backlog = (ROOT / "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
-    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
+    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state["post_h_033_b_closed"] is True
     assert state["post_h_033_status"] in {"active/readiness-requirements-registry-implemented-initial", "active/miasi-semantic-rules-registry-implemented-initial", "active/policy-guard-pattern-catalogs-implemented-initial", "active/docs-governance-rule-registry-implemented-initial", "closed/schema-backed-validators-declarative-semantics"}
     assert state["post_h_033_c_readiness_requirements_available"] is True
@@ -1146,8 +1146,8 @@ def test_post_h_033_d_project_state_adds_miasi_semantic_rules_registry() -> None
     state = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
 
     assert state["post_h_033_c_closed"] is True
-    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A"}
-    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state["current_micro_sprint"] in {"POST-H-033-D", "POST-H-033-E", "POST-H-033-F", "POST-H-034-A", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
+    assert state["next_micro_sprint"] in {"POST-H-033-E", "POST-H-033-F", "POST-H-033-CLOSURE", "POST-H-034-B", "POST-H-034-C", "POST-H-034-D", "POST-H-034-E", "POST-H-034-CLOSURE", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state["post_h_033_d_miasi_semantic_rules_available"] is True
     assert state["post_h_033_d_miasi_semantic_rules_schema_registered"] is True
     assert state["post_h_033_d_miasi_semantic_validator_integrated"] is True

@@ -24,8 +24,11 @@ def text(path: str) -> str:
 def test_project_state_closes_01_d_and_authorizes_02_a() -> None:
     state = data(".devpilot/project_state.json")
     assert state["current_repo"] == REPO_327
-    assert state["current_micro_sprint"] == "POST-H-EVAL-002-02-A"
-    assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-B"
+    assert state["current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    if state["current_micro_sprint"] == "POST-H-EVAL-002-02-B":
+        assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-C"
+    else:
+        assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-B"
     assert state["post_h_eval_002_01_d_closed"] is True
     assert state["post_h_eval_002_01_d_status"] == "closed/PASS-authoritative-rerun03"
     assert state["post_h_eval_002_01_d_browser_acceptance_executed"] is True

@@ -41,7 +41,7 @@ La instalación Windows creó una venv nueva, instaló `.[dev]`, materializó y 
 
 Repo de gobernanza vigente: `repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip`. Baseline ejecutable congelado del piloto: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`. Repo de activación histórico: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
 
-Estado: `approved/active-evaluation`. Último backlog cerrado: `POST-H-034`. Micro-sprint autorizado: `POST-H-EVAL-002-01-D`; siguiente: `POST-H-EVAL-002-02-A`.
+Estado: `approved/active-evaluation`. Último micro-sprint cerrado: `POST-H-EVAL-002-02-A` (`PASS-WITH-GAPS`). Micro-sprint autorizado: `POST-H-EVAL-002-02-B`; siguiente: `POST-H-EVAL-002-02-C`. El corrective patch UI-first de Reports/contexto operativo es gate previo de plataforma para 02-B.
 
 El baseline ejecutable 318 quedó validado con `1919 passed, 0 failed, 0 errors, 0 skipped` y contrato focal `41 passed`. La copia R1 exacta tiene SHA-256 `bf5c10df92a104a9c212c19db28d518eff0d5e5a671b4b35ec71bfd79c7df308`, commit de empaquetado `2c5f209` y ancla funcional `0c7741f`; el log exacto tiene SHA-256 `42afee0bac6eaf7bfe816e3caa02bbf22a1e820f061ac049df94a0298f429bbc`. El cierre de 01-B se gobierna desde `repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip`. Las correcciones documentales/metadata no requieren `pytest -q`; deben pasar pruebas focales, gobernanza, TCR, freshness, anti-drift y RAG grounded.
 

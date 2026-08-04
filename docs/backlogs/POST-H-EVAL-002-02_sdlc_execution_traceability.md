@@ -3,9 +3,9 @@ doc_id: "DEVPL-POST-H-EVAL-002-02-BACKLOG"
 id: "POST-H-EVAL-002-02"
 title: "POST-H-EVAL-002-02 — SDLC real, implementación y trazabilidad"
 status: "approved"
-version: "1.6.1"
+version: "1.6.2"
 owner: "Ordóñez"
-updated: "2026-08-02"
+updated: "2026-08-03"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
@@ -18,9 +18,9 @@ source_repo_manifest_schema: "devpilot.post_h_eval_002.operational_baseline.v1"
 source_repo_sha256_embedded: false
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-01 closed/pass"
-implementation_status: "active/02-a-authorized"
-current_micro_sprint: "POST-H-EVAL-002-02-A"
-next_micro_sprint: "POST-H-EVAL-002-02-B"
+implementation_status: "active/02-b-authorized-after-02-a-pass-with-gaps"
+current_micro_sprint: "POST-H-EVAL-002-02-B"
+next_micro_sprint: "POST-H-EVAL-002-02-C"
 workspace_id: "inventory-sales-local"
 workspace_root: "D:\\Projects\\DevPilot_Workspaces\\inventory-sales-local"
 evaluation_root: "D:\\Projects\\DevPilot_E2E_Evaluation"
@@ -35,9 +35,11 @@ dry_run_default: true
 
 ## 1. Estado vigente y autorización
 
-`active/02-a-authorized`.
+`active/02-b-authorized-after-02-a-pass-with-gaps`.
 
-La dependencia `POST-H-EVAL-002-01` cerró `CLOSED/PASS` mediante `PILOT-E2E-001-RUN-05B-RERUN-03` y el Sprint 7 de cierre de gobernanza 326 → 327. La entrada mínima gobernada es:
+`POST-H-EVAL-002-02-A` cerró `PASS-WITH-GAPS` con `S0=0`, `S1=0`, workspace Git independiente y evidencia autoritativa `POST_H_EVAL_002_02_A_EVIDENCE.zip` (`SHA-256=cbd00d7d278050b36a1f6bf919567a6c33263e940d72aa5484941890ff198e2f`). El único gap de cierre fue `UX-GAP-02-A-001`: Reports UI no descubría reportes anidados. El corrective patch UI-first de DevPilot debe cerrar ese gap antes de iniciar la ejecución sustantiva de 02-B.
+
+La dependencia `POST-H-EVAL-002-01` cerró `CLOSED/PASS` mediante `PILOT-E2E-001-RUN-05B-RERUN-03` y el Sprint 7 de cierre de gobernanza 326 → 327. La entrada mínima gobernada permanece:
 
 ```text
 Artefacto lógico:
@@ -55,7 +57,7 @@ D:\Projects\DevPilot_Workspaces\inventory-sales-local
 
 El commit Git, la ruta física y el SHA-256 del baseline operativo deben resolverse y verificarse desde `BASELINE_CURRENT.json`. El hash del ZIP no se incrusta en este backlog porque el documento forma parte del propio archivo generado mediante `git archive`; hacerlo produciría una referencia circular e inestable.
 
-`inventory-sales-local` todavía no debe existir como workspace materializado al iniciar 02-A. El único micro-sprint autorizado es `POST-H-EVAL-002-02-A`; los micro-sprints B–E permanecen secuenciales y no pueden adelantarse.
+`inventory-sales-local` existe en `D:\Projects\DevPilot_Workspaces\inventory-sales-local`, conserva el commit de onboarding `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y debe permanecer limpio antes de 02-B. El micro-sprint autorizado es `POST-H-EVAL-002-02-B`; C–E permanecen secuenciales y no pueden adelantarse.
 
 El manifest externo debe declarar, como mínimo:
 

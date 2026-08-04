@@ -9,8 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 SOURCE_REPO = "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 TARGET_REPO = "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
-CURRENT_MICRO = "POST-H-EVAL-002-02-A"
-NEXT_MICRO = "POST-H-EVAL-002-02-B"
+CURRENT_MICRO = "POST-H-EVAL-002-02-B"
+NEXT_MICRO = "POST-H-EVAL-002-02-C"
 CONTRACT_ID = "post-h-eval-002-activation-governance"
 
 CANONICAL_DOCS = {

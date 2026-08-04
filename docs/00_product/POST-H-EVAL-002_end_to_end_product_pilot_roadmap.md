@@ -3,16 +3,16 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.8.0"
+version: "1.9.0"
 owner: "Ordóñez"
-updated: "2026-07-30"
+updated: "2026-08-03"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
-implementation_status: "active/02-a-authorized-after-01-d-closure"
+implementation_status: "active/02-b-authorized-after-02-a-pass-with-gaps"
 current_wave: "EVAL-002-02"
 next_wave: "EVAL-002-03"
 local_first: true
@@ -29,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`active/02-A-authorized`. `POST-H-EVAL-002-01-D` cerró `PASS` mediante la aceptación autoritativa `PILOT-E2E-001-RUN-05B-RERUN-03` y su auditoría independiente desde ZIP cerrados. Repo 327 contiene exclusivamente el cierre documental/de gobernanza; `POST-H-EVAL-002-02-A` es el micro-sprint actual y `POST-H-EVAL-002-02-B` el siguiente.
+`active/02-B-authorized-after-02-A-pass-with-gaps`. `POST-H-EVAL-002-02-A` cerró `PASS-WITH-GAPS`, creó el workspace aislado `inventory-sales-local`, fijó el commit `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y autorizó 02-B. Antes de ejecutar 02-B se aplica el corrective patch UI-first que cierra la discoverability recursiva de Reports y hace explícito el contexto plataforma/workspace en las cinco rutas críticas.
 
 ## 2. Propósito
 

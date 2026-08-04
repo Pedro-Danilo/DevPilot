@@ -1174,6 +1174,15 @@ Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`
 
 # Changelog
 
+## 2026-08-03 — POST-H-EVAL-002-02-A UI-first operational gaps corrective
+
+- Closes governed recursive report discovery under platform and explicitly allowed workspace roots.
+- Adds visible read-only platform/workspace context to Dashboard, Reports, Traces, Approval Center and Settings.
+- Adds scoped report/trace browsing and a real local approval-request surface without executing the subject action.
+- Advances evaluation governance from 02-A `PASS-WITH-GAPS` to 02-B authorized.
+- Preserves local-first, no-remote, no-external-API, no connector write and no plugin execution invariants.
+
+
 ## [post-h-013-b] - 2026-06-27
 
 ### Added

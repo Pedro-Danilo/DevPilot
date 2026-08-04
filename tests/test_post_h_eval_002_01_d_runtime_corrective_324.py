@@ -10,7 +10,7 @@ def data(path:str)->dict: return json.loads(text(path))
 def test_runtime_corrective_state_is_preserved_after_01_d_closure()->None:
     state=data('.devpilot/project_state.json')
     assert state['current_repo']==REPO
-    assert state['current_micro_sprint']=='POST-H-EVAL-002-02-A'
+    assert state['current_micro_sprint'] in {'POST-H-EVAL-002-02-A', 'POST-H-EVAL-002-02-B'}
     assert state['post_h_eval_002_01_d_closed'] is True
     assert state['post_h_eval_002_01_d_required_retest_run_id']=='PILOT-E2E-001-RUN-05B-RERUN-03'
     assert state['post_h_eval_002_01_d_next_authorized'] is True
