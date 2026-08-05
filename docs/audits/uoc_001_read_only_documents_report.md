@@ -59,3 +59,17 @@ px, paginación y feedback explícito de solo lectura.
 
 La implementación no autoriza UOC-002 hasta que el operador Windows produzca
 manifest PASS, capturas, zero-write proof, negative path matrix y baseline limpia.
+
+
+## Browser acceptance corrective v1.0.4
+
+The initial browser acceptance contract incorrectly treated `traceability_matrix.md`
+and authored ADR documents as UOC-001 prerequisites, even though the approved
+sequence creates them during POST-H-EVAL-002-02-B. The corrected gate is
+sequence-aware: every materialized pre-code document must be visible, while
+future 02-B deliverables are reported as planned rather than hidden.
+
+The responsive acceptance now requires a portrait viewport of at least 360×640
+at 100% browser zoom, visible keyboard focus, consistent workspace context, and
+coherent document/folder counts. A screenshot that merely scales the desktop
+layout does not satisfy the UX gate.

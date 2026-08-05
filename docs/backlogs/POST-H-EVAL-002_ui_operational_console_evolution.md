@@ -9,7 +9,7 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-001-implemented-initial/pending-browser-acceptance"
+implementation_status: "UOC-001-functional-implemented/pending-browser-acceptance-corrective"
 current_sprint: "UOC-001"
 next_sprint: "UOC-002"
 completed_sprints: "UOC-000"
@@ -953,3 +953,14 @@ El programa no se considera cerrado hasta que:
 - no existan S0/S1;
 - exista runbook de instalación, operación, diagnóstico y rollback;
 - el release local sea reproducible y verificable.
+
+
+## UOC-001 browser acceptance clarification
+
+UOC-001 precedes POST-H-EVAL-002-02-B and remains strictly read-only. Its
+browser gate therefore requires visibility parity for all currently materialized
+workspace documents. `traceability_matrix.md` and authored ADR documents are
+classified as `PLANNED-FOR-02-B` when they do not yet exist on disk; a file that
+exists but is omitted by the API/UI remains a blocker. Responsive evidence must
+show a genuine portrait viewport with legible controls and document access, not
+a scaled desktop screenshot.

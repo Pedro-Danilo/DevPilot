@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-MANIFEST-V1",
   "sprint_id": "UOC-001",
   "title": "Workspace Documents: explorador read-only",
-  "status": "implemented-initial",
+  "status": "implemented-initial/pending-browser-acceptance-corrective",
   "implemented_at": "2026-08-04",
   "base_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
   "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
@@ -81,7 +81,8 @@
     "markdown_inner_html": false,
     "s0": 0,
     "s1": 0,
-    "browser_acceptance_pending": true
+    "browser_acceptance_pending": true,
+    "browser_acceptance_corrective_required": true
   },
   "tests": [
     "tests/test_workspace_document_service.py",
@@ -107,7 +108,9 @@
     "Git metadata/search remain UOC-002.",
     "Actual symlink creation is host-capability dependent; deterministic link-guard tests and an actual Windows junction acceptance are mandatory.",
     "Browser acceptance is pending.",
-    "No document mutation is enabled."
+    "No document mutation is enabled.",
+    "traceability_matrix.md and ADR documents are authored during POST-H-EVAL-002-02-B; UOC-001 verifies visibility of every materialized pre-code artifact without mutating the workspace.",
+    "Browser JSON evidence is required only when the active workspace contains an allowed JSON document; otherwise structured JSON remains covered by API/UI contract tests and browser evidence uses a safe YAML/raw document."
   ],
   "test_contract": {
     "representative_suite_collected": 114,
@@ -120,5 +123,17 @@
     "windows_path_suite_required_passed": 10,
     "windows_path_suite_allowed_skipped": 0,
     "result_source": "pytest JUnit XML, not stdout substring matching"
+  },
+  "version": "1.1.0",
+  "browser_acceptance_contract": {
+    "version": "2.0",
+    "sequence_aware": true,
+    "materialized_precode_documents_required_visible": true,
+    "future_02b_deliverables_may_be_planned": true,
+    "reduced_viewport_minimum": "360x640 portrait at 100% zoom",
+    "structured_evidence_modes": [
+      "json-browser",
+      "yaml-raw-browser+json-contract-tests"
+    ]
   }
 }

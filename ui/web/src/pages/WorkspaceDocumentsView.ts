@@ -20,6 +20,11 @@ interface WorkspaceDocumentsState {
   offset: number;
   limit: number;
   matchingTotal: number;
+  documentsTotal: number;
+  foldersTotal: number;
+  returnedDocuments: number;
+  returnedFolders: number;
+  elapsedMs?: number;
   nextOffset?: number | null;
 }
 
@@ -39,6 +44,10 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
     offset: 0,
     limit: 100,
     matchingTotal: 0,
+    documentsTotal: 0,
+    foldersTotal: 0,
+    returnedDocuments: 0,
+    returnedFolders: 0,
   };
 
   async function load(resetOffset = false): Promise<void> {
@@ -61,6 +70,11 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
       state.nodes = Array.isArray(data.nodes) ? data.nodes : [];
       const summary = data.summary ?? {};
       state.matchingTotal = Number(summary.matching_total ?? state.nodes.length);
+      state.documentsTotal = Number(summary.documents_total ?? state.nodes.filter((node) => node.kind === 'document').length);
+      state.foldersTotal = Number(summary.folders_total ?? state.nodes.filter((node) => node.kind === 'folder').length);
+      state.returnedDocuments = state.nodes.filter((node) => node.kind === 'document').length;
+      state.returnedFolders = state.nodes.filter((node) => node.kind === 'folder').length;
+      state.elapsedMs = summary.elapsed_ms === undefined ? undefined : Number(summary.elapsed_ms);
       state.nextOffset = summary.next_offset === null || summary.next_offset === undefined ? null : Number(summary.next_offset);
       if (state.selectedId && !state.selected) await loadDocument(state.selectedId, false);
     } catch (error) {
@@ -100,10 +114,25 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
     root.replaceChildren();
     root.append(renderIntroduction(), renderFilters(state, () => void load(true)));
     const contextData = state.listResponse?.data as { ui_workspace_context?: Record<string, unknown> } | undefined;
-    const contextResponse = state.listResponse && contextData?.ui_workspace_context
-      ? ({ ...state.listResponse, data: { ui_workspace_context: contextData.ui_workspace_context, summary: { active_workspace_id: contextData.ui_workspace_context.active_workspace_id } } } as DevPilotApplicationResponse)
+    const context = contextData?.ui_workspace_context;
+    const activeWorkspaceId = String(context?.active_workspace_id ?? '');
+    const activeWorkspaceRoot = String(context?.active_workspace_root ?? context?.effective_workspace_root ?? '');
+    const contextResponse = state.listResponse && context
+      ? ({
+        ...state.listResponse,
+        data: {
+          ui_workspace_context: context,
+          summary: { active_workspace_id: activeWorkspaceId },
+          workspaces: activeWorkspaceId ? [{
+            workspace_id: activeWorkspaceId,
+            active: true,
+            root_path: activeWorkspaceRoot,
+            status: context.valid === false ? 'blocked' : 'configured',
+          }] : [],
+        },
+      } as DevPilotApplicationResponse)
       : undefined;
-    root.append(renderWorkspaceContextPanel(contextResponse, state.listError));
+    root.append(renderWorkspaceContextPanel(contextResponse, state.listError, state.elapsedMs));
 
     if (state.loading && !state.nodes.length) root.append(renderUiStateNotice('loading', 'Construyendo índice bounded del workspace activo…'));
     else if (state.listError) root.append(renderUiStateNotice(state.listError.includes('403') ? 'block' : 'error', state.listError));
@@ -112,7 +141,13 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
     const layout = document.createElement('div');
     layout.className = 'workspace-documents-layout';
     layout.append(
-      renderDocumentTree({ nodes: state.nodes, selectedId: state.selectedId, onSelect: (id) => void loadDocument(id) }),
+      renderDocumentTree({
+        nodes: state.nodes,
+        selectedId: state.selectedId,
+        returnedDocuments: state.returnedDocuments,
+        returnedFolders: state.returnedFolders,
+        onSelect: (id) => void loadDocument(id),
+      }),
       renderDocumentViewer({ document: state.selected, loading: state.detailLoading, error: state.detailError }),
     );
     root.append(layout, renderPagination(state, () => void load(false)));
@@ -126,8 +161,8 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
 function renderIntroduction(): HTMLElement {
   const section = document.createElement('section');
   section.className = 'panel workspace-documents-intro';
-  const title = document.createElement('h1');
-  title.textContent = 'Workspace Documents';
+  const title = document.createElement('h2');
+  title.textContent = 'Explorador de documentos';
   const description = document.createElement('p');
   description.textContent = 'Explorador read-only del workspace activo. El navegador usa identificadores opacos y nunca entrega rutas absolutas como autoridad.';
   section.append(title, description, renderContractBadges('ui.workspace-documents', { dryRunLabel: 'Read-only', warning: 'Primera versión UOC-001: consulta y búsqueda por nombre; Git y búsqueda full-text llegan en UOC-002.' }));
@@ -163,7 +198,10 @@ function renderPagination(state: WorkspaceDocumentsState, load: () => void): HTM
   previous.disabled = state.loading || state.offset === 0;
   previous.addEventListener('click', () => { state.offset = Math.max(0, state.offset - state.limit); load(); });
   const status = document.createElement('span');
-  status.textContent = `${state.offset + Math.min(1, state.matchingTotal)}–${Math.min(state.offset + state.nodes.length, state.matchingTotal)} de ${state.matchingTotal}`;
+  const first = state.matchingTotal === 0 ? 0 : state.offset + 1;
+  const last = Math.min(state.offset + state.nodes.length, state.matchingTotal);
+  status.textContent = `${first}–${last} de ${state.matchingTotal} elementos · ${state.returnedDocuments} documentos · ${state.returnedFolders} carpetas`;
+  status.setAttribute('aria-live', 'polite');
   const next = document.createElement('button');
   next.type = 'button';
   next.textContent = 'Siguiente →';

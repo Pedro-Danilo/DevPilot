@@ -53,7 +53,13 @@ export function renderWorkspaceContextPanel(
   const context = (data.ui_workspace_context ?? {}) as Record<string, unknown>;
   const workspaces = Array.isArray(data.workspaces) ? data.workspaces : [];
   const activeId = String(summary.active_workspace_id ?? context.active_workspace_id ?? '');
-  const active = workspaces.find((item) => item.active || item.workspace_id === activeId);
+  const active = workspaces.find((item) => item.active || item.workspace_id === activeId)
+    ?? (activeId ? {
+      workspace_id: activeId,
+      active: true,
+      root_path: String(context.active_workspace_root ?? context.effective_workspace_root ?? ''),
+      status: context.valid === false ? 'blocked' : 'configured',
+    } : undefined);
   const mode = String(context.mode ?? 'platform');
   const configured = context.configured === true;
   const valid = context.valid !== false;
@@ -72,11 +78,11 @@ export function renderWorkspaceContextPanel(
   grid.className = 'workspace-context-grid';
   grid.append(
     contextItem('Modo API/UI', mode),
-    contextItem('Plataforma', String(context.platform_root ?? 'no informado')),
+    contextItem('Plataforma', compactPath(String(context.platform_root ?? 'no informado'))),
     contextItem('Workspace activo', active?.workspace_id ?? (activeId || 'no configurado')),
-    contextItem('Root activo', active?.root_path ?? String(context.active_workspace_root ?? context.effective_workspace_root ?? 'no informado')),
+    contextItem('Root activo', compactPath(active?.root_path ?? String(context.active_workspace_root ?? context.effective_workspace_root ?? 'no informado'))),
     contextItem('Estado', active?.status ?? (configured ? 'desconocido' : 'platform-only')),
-    contextItem('Readiness portfolio', active ? (active.ready ? 'ready' : 'not-ready') : 'no evaluado'),
+    contextItem('Readiness portfolio', active?.ready === true ? 'ready' : active?.ready === false ? 'not-ready' : 'no evaluado'),
   );
   panel.append(grid);
 
@@ -84,8 +90,8 @@ export function renderWorkspaceContextPanel(
     panel.append(renderUiStateNotice('block', 'La configuración externa existe pero no pasó los controles de registry/PathGuard. La UI no debe asumir un workspace activo.'));
   } else if (!configured) {
     panel.append(renderUiStateNotice('pending', 'La API está operando en contexto de plataforma. Configure explícitamente el registry local para inspeccionar el proyecto piloto desde la UI.'));
-  } else if (!active) {
-    panel.append(renderUiStateNotice('pending', 'El registry configurado no expuso un workspace activo en el portfolio.'));
+  } else if (!activeId) {
+    panel.append(renderUiStateNotice('pending', 'El registry configurado no expuso un workspace activo.'));
   }
   return panel;
 }
@@ -107,4 +113,12 @@ function badge(text: string, state: string): HTMLElement {
   item.className = `badge ${state}`;
   item.textContent = text;
   return item;
+}
+
+function compactPath(value: string): string {
+  if (!value || value === 'no informado') return value || 'no informado';
+  const normalized = value.replace(/\\/g, '/');
+  const parts = normalized.split('/').filter(Boolean);
+  if (parts.length <= 3) return value;
+  return `…/${parts.slice(-3).join('/')}`;
 }

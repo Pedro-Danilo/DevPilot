@@ -13726,7 +13726,7 @@
       "classification": "machine-readable-source",
       "domain": "evaluation.pilot",
       "owner": "UOC-001",
-      "status_required": "implemented-initial",
+      "status_required": "implemented-initial/pending-browser-acceptance-corrective",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_document_service.py",

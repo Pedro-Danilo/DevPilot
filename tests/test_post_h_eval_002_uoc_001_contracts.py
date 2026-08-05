@@ -22,14 +22,15 @@ def test_uoc_001_backlog_manifest_state_and_flags_are_synchronized() -> None:
     state = _json(".devpilot/project_state.json")
     flags = _json(".devpilot/interfaces/ui_operational_console_flags.json")
 
-    assert 'implementation_status: "UOC-001-implemented-initial/pending-browser-acceptance"' in backlog
+    assert 'implementation_status: "UOC-001-functional-implemented/pending-browser-acceptance-corrective"' in backlog
     assert 'canonical_baseline_commit: "a986f83a7c2da99a734c88feb80bf5d66cde2e4a"' in backlog
     assert manifest["sprint_id"] == "UOC-001"
     assert manifest["base_commit"] == "a986f83a7c2da99a734c88feb80bf5d66cde2e4a"
     assert manifest["gates"]["read_only"] is True
     assert manifest["gates"]["mutations_enabled"] is False
     assert manifest["gates"]["browser_acceptance_pending"] is True
-    assert state["uoc_001_status"] == "implemented-initial/pending-windows-browser-acceptance"
+    assert manifest["browser_acceptance_contract"]["sequence_aware"] is True
+    assert state["uoc_001_status"] == "functional-implemented/pending-browser-acceptance-corrective"
     assert state["uoc_001_write_enabled"] is False
     assert state["uoc_002_authorized"] is False
     read_flag = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.documents.read_only")

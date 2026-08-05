@@ -4,6 +4,8 @@ import type { WorkspaceDocumentNode } from '../api/types';
 export interface DocumentTreeOptions {
   nodes: WorkspaceDocumentNode[];
   selectedId?: string;
+  returnedDocuments?: number;
+  returnedFolders?: number;
   onSelect: (documentId: string) => void;
 }
 
@@ -18,7 +20,10 @@ export function renderDocumentTree(options: DocumentTreeOptions): HTMLElement {
   title.textContent = 'Documentos';
   const count = document.createElement('span');
   count.className = 'muted';
-  count.textContent = `${options.nodes.filter((node) => node.kind === 'document').length} documentos en esta página`;
+  const documents = options.returnedDocuments ?? options.nodes.filter((node) => node.kind === 'document').length;
+  const folders = options.returnedFolders ?? options.nodes.filter((node) => node.kind === 'folder').length;
+  count.textContent = `${documents} documentos · ${folders} carpetas en esta página`;
+  count.setAttribute('aria-live', 'polite');
   heading.append(title, count);
   section.append(heading);
 
@@ -49,6 +54,7 @@ export function renderDocumentTree(options: DocumentTreeOptions): HTMLElement {
         button.setAttribute('aria-current', 'true');
       }
       button.disabled = !node.readable;
+      button.setAttribute('aria-label', `Abrir ${node.name}, ${node.category}, ${formatBytes(node.size_bytes)}`);
       button.addEventListener('click', () => options.onSelect(node.document_id ?? node.node_id));
       const label = document.createElement('span');
       label.textContent = node.name;

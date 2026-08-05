@@ -35,6 +35,8 @@ def test_workspace_documents_route_and_components_are_registered() -> None:
     assert "role', 'treeitem'" in tree
     assert "textContent" in viewer
     assert "innerHTML" not in viewer
+    assert "splitFrontmatter" in viewer
+    assert "MARKDOWN SEGURO" in viewer
     assert "/workspace/documents" in client
 
 
@@ -49,6 +51,9 @@ def test_workspace_documents_ui_has_required_states_and_responsive_contract() ->
     assert "@media (max-width: 900px)" in styles
     assert "@media (max-width: 560px)" in styles
     assert "workspace-documents-layout" in styles
+    assert "outline: 3px solid #1f63d4" in styles
+    assert "grid-template-columns: repeat(2, minmax(0, 1fr))" in styles
+    assert "min-height: 44px" in styles
     assert package["devpilot"]["workspaceDocuments"] is True
     assert package["devpilot"]["workspaceDocumentsReadOnly"] is True
     assert package["devpilot"]["workspaceDocumentsOpaqueIds"] is True
@@ -72,3 +77,23 @@ def test_document_viewer_never_executes_html_or_reads_filesystem() -> None:
     viewer = _read("ui/web/src/components/DocumentViewer.ts")
     assert "paragraph.textContent = rawLine" in viewer
     assert "pre.textContent" in viewer
+    assert "value.textContent" in viewer
+    assert "document-frontmatter" in viewer
+
+
+def test_workspace_documents_context_and_counts_are_not_contradictory() -> None:
+    page = _read("ui/web/src/pages/WorkspaceDocumentsView.ts")
+    context = _read("ui/web/src/components/WorkspaceContextPanel.ts")
+    tree = _read("ui/web/src/components/DocumentTree.ts")
+    assert "workspaces: activeWorkspaceId" in page
+    assert "renderWorkspaceContextPanel(contextResponse, state.listError, state.elapsedMs)" in page
+    assert "else if (!activeId)" in context
+    assert "active?.ready === true" in context
+    assert "documentos ·" in tree
+    assert "elementos ·" in page
+
+
+def test_workspace_documents_uses_spanish_secondary_heading() -> None:
+    page = _read("ui/web/src/pages/WorkspaceDocumentsView.ts")
+    assert "Explorador de documentos" in page
+    assert "title.textContent = 'Workspace Documents'" not in page

@@ -41,6 +41,7 @@ export function renderDocumentViewer(options: DocumentViewerOptions): HTMLElemen
     badge('READ-ONLY', 'pass'),
     badge((resource.extension ?? 'text').toUpperCase(), 'pending'),
     badge(resource.category.toUpperCase(), 'pending'),
+    badge(viewModeLabel(resource), 'pending'),
   );
   header.append(titleBlock, badges);
   section.append(header, renderBreadcrumbs(resource));
@@ -92,6 +93,9 @@ function renderBreadcrumbs(resource: WorkspaceDocumentResource): HTMLElement {
 }
 
 function renderSafeMarkdown(target: HTMLElement, source: string): void {
+  const parsed = splitFrontmatter(source);
+  if (parsed.frontmatter.length) renderFrontmatter(target, parsed.frontmatter);
+  source = parsed.body;
   let codeFence = false;
   let codeLines: string[] = [];
   let list: HTMLUListElement | null = null;
@@ -161,4 +165,40 @@ function meta(label: string, value: string): HTMLElement {
   description.textContent = value;
   wrapper.append(term, description);
   return wrapper;
+}
+
+function splitFrontmatter(source: string): { frontmatter: string[]; body: string } {
+  const lines = source.split(/\r?\n/);
+  if (lines[0]?.trim() !== '---') return { frontmatter: [], body: source };
+  const closing = lines.slice(1).findIndex((line) => line.trim() === '---');
+  if (closing < 0) return { frontmatter: [], body: source };
+  const end = closing + 1;
+  return { frontmatter: lines.slice(1, end), body: lines.slice(end + 1).join('\n') };
+}
+
+function renderFrontmatter(target: HTMLElement, lines: string[]): void {
+  const details = document.createElement('details');
+  details.className = 'document-frontmatter';
+  const summary = document.createElement('summary');
+  summary.textContent = 'Metadatos de frontmatter';
+  const list = document.createElement('dl');
+  for (const line of lines) {
+    const match = /^([A-Za-z0-9_.-]+):\s*(.*)$/.exec(line);
+    if (!match) continue;
+    const wrapper = document.createElement('div');
+    const term = document.createElement('dt');
+    term.textContent = match[1];
+    const value = document.createElement('dd');
+    value.textContent = match[2] || '—';
+    wrapper.append(term, value);
+    list.append(wrapper);
+  }
+  details.append(summary, list);
+  target.append(details);
+}
+
+function viewModeLabel(resource: WorkspaceDocumentResource): string {
+  if (resource.extension === '.json' && resource.structured !== null && resource.structured !== undefined) return 'ESTRUCTURADO';
+  if (resource.extension === '.md') return 'MARKDOWN SEGURO';
+  return 'RAW SEGURO';
 }
