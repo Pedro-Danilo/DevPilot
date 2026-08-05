@@ -28,6 +28,7 @@ CANONICAL_FASTAPI_ROUTER_MODULES = (
     "devpilot_core.interfaces.api.routers.operator",
     "devpilot_core.interfaces.api.routers.portfolio",
     "devpilot_core.interfaces.api.routers.security_posture",
+    "devpilot_core.interfaces.api.routers.workspace_documents",
 )
 ALLOWED_API_CONTRACT_METHODS = frozenset({"GET", "POST", "PUT", "PATCH", "DELETE"})
 

@@ -4,15 +4,17 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "updated": "2026-08-04",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
       "flag_id": "uoc.documents.read_only",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-001",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-001",
+      "notes": "Read-only active-workspace document list/read/metadata only."
     },
     {
       "flag_id": "uoc.documents.metadata_git_search",
@@ -115,6 +117,8 @@
     "connector_write_enabled": false,
     "plugin_execution_enabled": false,
     "external_api_required": false,
-    "source_mutations_performed": false
+    "source_mutations_performed": false,
+    "workspace_documents_read_only_enabled": true,
+    "document_write_enabled": false
   }
 }

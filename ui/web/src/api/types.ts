@@ -183,3 +183,32 @@ export interface OperatorDashboardResponseData {
   snapshot?: OperatorDashboardSnapshot;
   reports?: Record<string, string>;
 }
+
+
+export interface WorkspaceDocumentNode {
+  node_id: string;
+  document_id?: string | null;
+  kind: 'folder' | 'document';
+  name: string;
+  relative_path: string;
+  parent_id?: string | null;
+  extension?: string | null;
+  category: string;
+  size_bytes?: number | null;
+  modified_at?: string | null;
+  readable: boolean;
+  blocked_reason?: string | null;
+}
+
+export interface WorkspaceDocumentBreadcrumb {
+  label: string;
+  relative_path?: string | null;
+}
+
+export interface WorkspaceDocumentResource extends WorkspaceDocumentNode {
+  sha256?: string;
+  encoding?: string;
+  content?: string;
+  structured?: unknown;
+  breadcrumbs?: WorkspaceDocumentBreadcrumb[];
+}

@@ -247,6 +247,7 @@ function renderRouteSummaries(): HTMLElement {
   const section = document.createElement('section');
   section.className = 'route-summary-grid';
   const routes = [
+    ['/workspace/documents', 'Documentos', 'Explorador read-only del workspace activo.'],
     ['/reports', 'Reportes', 'Índice y detalle de reportes locales.'],
     ['/traces', 'Trazas', 'Spans, eventos y métricas por traza.'],
     ['/approvals', 'Approval Center', 'Aprobaciones y acciones estrictamente dry-run.'],

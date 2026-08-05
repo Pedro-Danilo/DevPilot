@@ -6,7 +6,7 @@
   "version": "1.1.0",
   "owner": "Ordóñez",
   "updated": "2026-08-04",
-  "sprint": "UOC-000",
+  "sprint": "UOC-001",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through UOC-000 UI operational console capability and base resource contracts.",
   "schemas": [
@@ -2070,6 +2070,48 @@
       "validation_enabled_sprint": "POST-H-027-D"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-INDEX-V1",
+      "title": "Workspace Document Index v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_document_index.schema.json",
+      "description": "Bounded read-only active-workspace document tree response data.",
+      "status": "registered",
+      "contract": "WorkspaceDocumentIndex",
+      "owner": "Ordóñez",
+      "sprint": "UOC-001",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-001"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-METADATA-V1",
+      "title": "Workspace Document Metadata v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_document_metadata.schema.json",
+      "description": "Metadata-only response for an opaque document id.",
+      "status": "registered",
+      "contract": "WorkspaceDocumentMetadata",
+      "owner": "Ordóñez",
+      "sprint": "UOC-001",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-001"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-RESOURCE-V1",
+      "title": "Workspace Document Resource v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_document_resource.schema.json",
+      "description": "Read-only document content resolved from an opaque id.",
+      "status": "registered",
+      "contract": "WorkspaceDocumentResource",
+      "owner": "Ordóñez",
+      "sprint": "UOC-001",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-001"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-WORKSPACE-ISOLATION-REPORT-V1",
       "title": "DevPilot Workspace Isolation Report v1",
       "version": "1.0.0",
@@ -2098,5 +2140,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 144
+  "schemas_total": 147
 }

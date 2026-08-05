@@ -33,6 +33,7 @@ _EXPECTED_CRITICAL_ROUTES = {
     "ui.traces",
     "ui.approvals",
     "ui.settings",
+    "ui.workspace-documents",
 }
 
 _EXPECTED_CRITICAL_VIEW_FILES = {
@@ -42,6 +43,9 @@ _EXPECTED_CRITICAL_VIEW_FILES = {
     "ui/web/src/pages/ApprovalCenterView.ts",
     "ui/web/src/pages/SettingsView.ts",
     "ui/web/src/pages/OperatorDashboard.ts",
+    "ui/web/src/pages/WorkspaceDocumentsView.ts",
+    "ui/web/src/components/DocumentTree.ts",
+    "ui/web/src/components/DocumentViewer.ts",
 }
 
 _REQUIRED_STATE_FLAGS = ("loading", "empty", "error", "block_visible")
@@ -100,6 +104,9 @@ _CLIENT_METHOD_TO_API_ROUTES: dict[str, tuple[str, ...]] = {
     "securityPosture": ("api.security.posture",),
     "operatorDashboard": ("api.operator.dashboard",),
     "planProviderChange": ("api.settings.providers.plan",),
+    "listWorkspaceDocuments": ("api.workspace.documents.list",),
+    "readWorkspaceDocument": ("api.workspace.documents.read",),
+    "workspaceDocumentMetadata": ("api.workspace.documents.metadata",),
 }
 
 

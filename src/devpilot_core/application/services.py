@@ -25,6 +25,7 @@ from .settings_service import SettingsApplicationService
 from .review_service import ReviewApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
+from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -61,6 +62,7 @@ class ApplicationService:
         self.enforce_workspace_paths = enforce_workspace_paths
         self.ui_workspace_context = UiWorkspaceContextResolver(self.root)
         self.workspace = WorkspaceApplicationService(self.root)
+        self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)
@@ -837,6 +839,15 @@ class ApplicationService:
             findings=[Finding("UI_ACTION_NOT_EXPOSED_BLOCK", "The requested action is not exposed by the UI dry-run launcher.", Severity.BLOCK, metadata={"action_id": normalized})],
         )
 
+    def workspace_documents_list(self, *, limit: int = 50, offset: int = 0, query: str | None = None, extension: str | None = None, category: str | None = None) -> CommandResult:
+        return self.workspace_documents.list_documents(limit=limit, offset=offset, query=query, extension=extension, category=category)
+
+    def workspace_documents_read(self, *, document_id: str) -> CommandResult:
+        return self.workspace_documents.read_document(document_id)
+
+    def workspace_documents_metadata(self, *, document_id: str) -> CommandResult:
+        return self.workspace_documents.document_metadata(document_id)
+
     def reports_list(self, *, limit: int = 50, offset: int = 0, severity: str | None = None, status: str | None = None, command: str | None = None, query: str | None = None, scope: str | None = None) -> CommandResult:
         return self.reports.list_reports(limit=limit, offset=offset, severity=severity, status=status, command=command, query=query, scope=scope)
 
@@ -1037,6 +1048,9 @@ OperationHandler = Callable[[dict[str, Any]], CommandResult]
 def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandler]:
     return {
         "workspace.status": lambda payload: service.workspace_status(),
+        "workspace.documents.list": lambda payload: service.workspace_documents_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), query=payload.get("query"), extension=payload.get("extension"), category=payload.get("category")),
+        "workspace.documents.read": lambda payload: service.workspace_documents_read(document_id=str(payload.get("document_id", ""))),
+        "workspace.documents.metadata": lambda payload: service.workspace_documents_metadata(document_id=str(payload.get("document_id", ""))),
         "app.contract": lambda payload: service.application_contract(),
         "standards.status": lambda payload: service.standards_status(),
         "validators.validate_frontmatter": lambda payload: service.validate_frontmatter(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
@@ -1119,6 +1133,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
 def _domain_summaries() -> list[dict[str, Any]]:
     return [
         {"domain": "workspace", "service": "WorkspaceApplicationService", "status": "implemented-initial", "side_effects": "read_or_dry_run_plan"},
+        {"domain": "workspace-documents", "service": "WorkspaceDocumentsApplicationService", "status": "implemented-initial-uoc-001", "side_effects": "bounded_read_only"},
         {"domain": "validation", "service": "ValidationApplicationService", "status": "implemented", "side_effects": "none_or_explicit_report_by_adapter"},
         {"domain": "miasi", "service": "MiasiApplicationService", "status": "implemented", "side_effects": "none"},
         {"domain": "maturity", "service": "MaturityApplicationService", "status": "implemented-initial", "side_effects": "explicit_outputs_reports_only"},
@@ -1140,6 +1155,9 @@ def _domain_summaries() -> list[dict[str, Any]]:
 def _capabilities() -> list[ServiceCapability]:
     rows = [
         ("workspace.status", "Report workspace initialization/readiness state.", "none", True, "python -m devpilot_core workspace status --json"),
+        ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),
+        ("workspace.documents.read", "Read one allowlisted UTF-8 workspace document by opaque identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}"),
+        ("workspace.documents.metadata", "Read deterministic metadata for one opaque workspace document identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}/metadata"),
         ("workspace.init_plan", "Build a workspace initialization plan without writing files.", "none", True, "python -m devpilot_core workspace init --json"),
         ("validators.validate_frontmatter", "Legacy alias: validate Markdown frontmatter metadata for one artifact.", "none", True, "python -m devpilot_core validate-frontmatter <path> --json"),
         ("validators.validate_artifact", "Legacy alias: validate Markdown structure against MIPSoftware/MIASI profiles.", "none", True, "python -m devpilot_core validate-artifact <path> --json"),
@@ -1204,6 +1222,9 @@ def _capabilities() -> list[ServiceCapability]:
 def _routes() -> list[InterfaceRouteContract]:
     route_specs = [
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
+        ("APP-ROUTE-UOC-001-A", "GET", "/api/v1/workspace/documents", "workspace.documents.list", ["UOC-001 bounded read-only active-workspace document index."]),
+        ("APP-ROUTE-UOC-001-B", "GET", "/api/v1/workspace/documents/{document_id}", "workspace.documents.read", ["UOC-001 opaque-id document viewer; no path authority accepted from browser."]),
+        ("APP-ROUTE-UOC-001-C", "GET", "/api/v1/workspace/documents/{document_id}/metadata", "workspace.documents.metadata", ["UOC-001 read-only document metadata contract."]),
         ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),

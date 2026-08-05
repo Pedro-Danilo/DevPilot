@@ -2,19 +2,19 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 updated: "2026-08-04"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-000-closed/PASS"
+implementation_status: "UOC-001-implemented-initial/pending-browser-acceptance"
 current_sprint: "UOC-001"
-next_sprint: "UOC-001"
+next_sprint: "UOC-002"
 completed_sprints: "UOC-000"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
-canonical_baseline_commit: "43254e3e61cdafe65e0ed2d773fe9032b0a81f05"
+canonical_baseline_commit: "a986f83a7c2da99a734c88feb80bf5d66cde2e4a"
 source_corrective_branch: "fix/post-h-eval-002-ui-first-operational-surfaces"
 source_corrective_commit: "84789e428246d732cf308d70aa965dfda291b09e"
 source_api_security_branch: "fix/post-h-eval-002-api-token-nonascii-401"
@@ -44,7 +44,7 @@ La baseline canónica aprobada y sincronizada es:
 
 ```text
 Rama canónica: eval/post-h-eval-002-02-a-onboarding
-Commit:        43254e3e61cdafe65e0ed2d773fe9032b0a81f05
+Commit:        a986f83a7c2da99a734c88feb80bf5d66cde2e4a
 UI corrective: CLOSED/PASS
 API-GAP-SEC-001: CLOSED/PASS
 Windows/local/origin sync: PASS
@@ -52,8 +52,9 @@ S0: 0
 S1: 0
 ```
 
-`UOC-000` queda implementado como sprint de contratos y gobernanza sin añadir
-rutas UI ni habilitar escrituras. `UOC-001` es el siguiente sprint autorizado.
+`UOC-000` queda cerrado/PASS en `a986f83...`. `UOC-001` incorpora una primera
+versión read-only del explorador documental; UOC-002 permanece bloqueado hasta
+la aceptación Windows/API/UI/browser y la nueva baseline exact-tree.
 
 ## 2. Problema que resuelve
 

@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-07-11",
+  "updated": "2026-08-04",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -67,6 +67,70 @@
         "read-only"
       ],
       "notes": []
+    },
+    {
+      "route_id": "api.approvals.approve",
+      "method": "POST",
+      "path": "/api/v1/approvals/{approval_id}/approve",
+      "operation": "approvals.approve",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.approvals",
+      "router_module": "approvals",
+      "policy_action": "approval",
+      "policy_sensitivity": "protected-approval-write",
+      "path_subject": ".devpilot/devpilot.db",
+      "tags": [
+        "approval",
+        "local-state-mutation"
+      ],
+      "notes": [],
+      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
+    },
+    {
+      "route_id": "api.approvals.deny",
+      "method": "POST",
+      "path": "/api/v1/approvals/{approval_id}/deny",
+      "operation": "approvals.deny",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.approvals",
+      "router_module": "approvals",
+      "policy_action": "approval",
+      "policy_sensitivity": "protected-approval-write",
+      "path_subject": ".devpilot/devpilot.db",
+      "tags": [
+        "approval",
+        "local-state-mutation"
+      ],
+      "notes": [],
+      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
     },
     {
       "route_id": "api.approvals.list",
@@ -163,70 +227,6 @@
         "read"
       ],
       "notes": []
-    },
-    {
-      "route_id": "api.approvals.approve",
-      "method": "POST",
-      "path": "/api/v1/approvals/{approval_id}/approve",
-      "operation": "approvals.approve",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.approvals",
-      "router_module": "approvals",
-      "policy_action": "approval",
-      "policy_sensitivity": "protected-approval-write",
-      "path_subject": ".devpilot/devpilot.db",
-      "tags": [
-        "approval",
-        "local-state-mutation"
-      ],
-      "notes": [],
-      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
-    },
-    {
-      "route_id": "api.approvals.deny",
-      "method": "POST",
-      "path": "/api/v1/approvals/{approval_id}/deny",
-      "operation": "approvals.deny",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.approvals",
-      "router_module": "approvals",
-      "policy_action": "approval",
-      "policy_sensitivity": "protected-approval-write",
-      "path_subject": ".devpilot/devpilot.db",
-      "tags": [
-        "approval",
-        "local-state-mutation"
-      ],
-      "notes": [],
-      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
     },
     {
       "route_id": "api.docs",
@@ -1071,10 +1071,10 @@
       "notes": []
     },
     {
-      "route_id": "api.traces.list",
+      "route_id": "api.traces.inspect",
       "method": "GET",
-      "path": "/api/v1/traces",
-      "operation": "observability.trace_report",
+      "path": "/api/v1/traces/{trace_id}",
+      "operation": "observability.trace_inspect",
       "application_service_required": true,
       "policy_check_required": true,
       "auth_required": true,
@@ -1104,10 +1104,10 @@
       ]
     },
     {
-      "route_id": "api.traces.inspect",
+      "route_id": "api.traces.list",
       "method": "GET",
-      "path": "/api/v1/traces/{trace_id}",
-      "operation": "observability.trace_inspect",
+      "path": "/api/v1/traces",
+      "operation": "observability.trace_report",
       "application_service_required": true,
       "policy_check_required": true,
       "auth_required": true,
@@ -1230,6 +1230,108 @@
       "notes": []
     },
     {
+      "route_id": "api.workspace.documents.list",
+      "method": "GET",
+      "path": "/api/v1/workspace/documents",
+      "operation": "workspace.documents.list",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_documents",
+      "router_module": "workspace_documents",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "tags": [
+        "workspace-documents",
+        "read-only"
+      ],
+      "notes": [
+        "UOC-001 accepts only server-issued opaque ids and never treats a browser path as authority.",
+        "PathGuard and no-follow discovery constrain all reads to the active registered workspace."
+      ]
+    },
+    {
+      "route_id": "api.workspace.documents.metadata",
+      "method": "GET",
+      "path": "/api/v1/workspace/documents/{document_id}/metadata",
+      "operation": "workspace.documents.metadata",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "low",
+      "owner": "interfaces.api.workspace_documents",
+      "router_module": "workspace_documents",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "tags": [
+        "workspace-documents",
+        "read-only"
+      ],
+      "notes": [
+        "UOC-001 accepts only server-issued opaque ids and never treats a browser path as authority.",
+        "PathGuard and no-follow discovery constrain all reads to the active registered workspace."
+      ]
+    },
+    {
+      "route_id": "api.workspace.documents.read",
+      "method": "GET",
+      "path": "/api/v1/workspace/documents/{document_id}",
+      "operation": "workspace.documents.read",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_documents",
+      "router_module": "workspace_documents",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "tags": [
+        "workspace-documents",
+        "read-only"
+      ],
+      "notes": [
+        "UOC-001 accepts only server-issued opaque ids and never treats a browser path as authority.",
+        "PathGuard and no-follow discovery constrain all reads to the active registered workspace."
+      ]
+    },
+    {
       "route_id": "api.workspace.status",
       "method": "GET",
       "path": "/api/v1/workspace/status",
@@ -1262,12 +1364,12 @@
     }
   ],
   "summary": {
-    "routes_total": 39,
-    "protected_routes_total": 36,
+    "routes_total": 42,
+    "protected_routes_total": 39,
     "public_routes_total": 3,
     "mutating_routes_total": 3,
-    "application_service_routes_total": 35,
-    "policy_bound_routes_total": 36,
+    "application_service_routes_total": 38,
+    "policy_bound_routes_total": 39,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -1279,11 +1381,13 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "POST-H-031-E",
+    "updated_by": "UOC-001",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
-    "explicit_ui_workspace_context": true
+    "explicit_ui_workspace_context": true,
+    "uoc_001_workspace_document_routes_total": 3,
+    "read_only_workspace_document_routes_total": 3
   },
   "safety": {
     "local_first": true,
@@ -1302,6 +1406,7 @@
     "This registry is implemented-initial and must evolve with response mapping, UI contracts, API security hardening and final quality gate sprints.",
     "POST-H-014-D adds protected local API/UI security posture diagnostics and confirms token/CORS/local-bind hardening.",
     "POST-H-015-C adds GET /api/v1/operator/dashboard as a protected ApplicationService-bound read-only route.",
-    "POST-H-016-D adds GET /api/v1/portfolio/status as a protected ApplicationService-bound read-only route that must not mutate active workspace selection."
+    "POST-H-016-D adds GET /api/v1/portfolio/status as a protected ApplicationService-bound read-only route that must not mutate active workspace selection.",
+    "UOC-001 registers three protected read-only Workspace Documents endpoints with opaque ids and server-resolved active workspace roots."
   ]
 }

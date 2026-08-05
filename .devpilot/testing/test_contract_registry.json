@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "created_by": "POST-H-001",
   "status": "implemented-initial",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents.",
   "contracts": [
     {
       "contract_id": "post-h-002-maturity-dashboard",
@@ -6044,6 +6044,34 @@
       ]
     },
     {
+      "contract_id": "post-h-032-agent-memory-model",
+      "scope": "safety",
+      "owner": "POST-H-032-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_agent_memory_model.py"
+      ],
+      "validates": [
+        ".devpilot/agents/agent_memory_policy.json",
+        "docs/schemas/agent_memory_record.schema.json",
+        "src/devpilot_core/agents/memory.py",
+        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_memory_policy.json",
+        "docs/schemas/agent_memory_record.schema.json",
+        "src/devpilot_core/agents/memory.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_memory_model.py -q"
+      ]
+    },
+    {
       "contract_id": "post-h-032-agent-promotion-criteria",
       "scope": "safety",
       "owner": "POST-H-032-A",
@@ -6141,6 +6169,67 @@
       ]
     },
     {
+      "contract_id": "post-h-032-mcp-design-fake-server",
+      "scope": "safety",
+      "owner": "POST-H-032-G",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_mcp_design_fake_server.py"
+      ],
+      "validates": [
+        ".devpilot/mcp/mcp_fake_server_contract.json",
+        "docs/schemas/mcp_fake_server_evaluation.schema.json",
+        "src/devpilot_core/mcp/contracts.py",
+        "src/devpilot_core/mcp/fake_server.py",
+        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
+      ],
+      "watched_paths": [
+        ".devpilot/mcp/mcp_fake_server_contract.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/agents/tool_call_policy.json",
+        "docs/schemas/mcp_fake_server_evaluation.schema.json",
+        "src/devpilot_core/mcp/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-multiagent-handoff-hardening",
+      "scope": "safety",
+      "owner": "POST-H-032-H",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_multiagent_handoff_hardening.py"
+      ],
+      "validates": [
+        ".devpilot/agents/multiagent_handoff_policy.json",
+        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+        "src/devpilot_core/multiagent/hardening.py"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/multiagent_handoff_policy.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/agents/tool_call_policy.json",
+        ".devpilot/workflows/sdlc_review.json",
+        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
+        "src/devpilot_core/multiagent/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q"
+      ]
+    },
+    {
       "contract_id": "post-h-032-rag-aware-agents",
       "scope": "feature",
       "owner": "POST-H-032-D",
@@ -6172,6 +6261,542 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_rag_aware_agents.py tests/test_rag_local.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_claims.py tests/test_rag_groundedness_eval_runner.py tests/test_rag_citations_source_coverage.py tests/test_sdlc_agents.py tests/test_release_agent.py -q",
         "python -m devpilot_core agent rag-context --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-032-tool-calling-contract",
+      "scope": "safety",
+      "owner": "POST-H-032-F",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_032_tool_calling_contract.py"
+      ],
+      "validates": [
+        ".devpilot/agents/tool_call_policy.json",
+        "docs/schemas/agent_tool_call.schema.json",
+        "src/devpilot_core/agents/tool_calls.py",
+        "docs/audits/post_h_032_f_tool_calling_contract_report.md"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/tool_call_policy.json",
+        ".devpilot/agents/agent_capability_inventory.json",
+        ".devpilot/miasi/tool_registry.json",
+        "docs/schemas/agent_tool_call.schema.json",
+        "src/devpilot_core/agents/tool_calls.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-033-docs-governance-rule-registry",
+      "scope": "integration",
+      "owner": "POST-H-033-F",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py"
+      ],
+      "validates": [
+        ".devpilot/docs_governance/rule_registry.json",
+        "docs/schemas/docs_governance_rule_registry.schema.json",
+        "src/devpilot_core/docs_governance/rule_registry.py",
+        "src/devpilot_core/docs_governance/validator.py"
+      ],
+      "watched_paths": [
+        ".devpilot/docs_governance/rule_registry.json",
+        "docs/schemas/docs_governance_rule_registry.schema.json",
+        "src/devpilot_core/docs_governance/rule_registry.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "tests/test_post_h_033_docs_governance_rule_registry.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_docs_governance_rule_registry.py tests/test_documentation_governance_validator.py tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_schema_validator.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-033-frontmatter-schema-backed-validator",
+      "scope": "integration",
+      "owner": "POST-H-033-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
+      ],
+      "validates": [
+        ".devpilot/validation/frontmatter_catalog.json",
+        "docs/schemas/frontmatter_metadata.schema.json",
+        "src/devpilot_core/validators/frontmatter_catalog.py",
+        "src/devpilot_core/validators/frontmatter.py"
+      ],
+      "watched_paths": [
+        ".devpilot/validation/frontmatter_catalog.json",
+        "docs/schemas/frontmatter_metadata.schema.json",
+        "src/devpilot_core/validators/frontmatter_catalog.py",
+        "src/devpilot_core/validators/frontmatter.py",
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_frontmatter_schema_backed_validator.py tests/test_frontmatter_validator.py tests/test_artifact_validator.py tests/test_documentation_governance_validator.py tests/test_schema_validator.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-033-miasi-semantic-rules-registry",
+      "scope": "safety",
+      "owner": "POST-H-033-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "validates": [
+        ".devpilot/miasi/semantic_rules.json",
+        "docs/schemas/miasi_semantic_rules.schema.json",
+        "src/devpilot_core/miasi/declarative_semantic_rules.py",
+        "src/devpilot_core/miasi/semantic.py"
+      ],
+      "watched_paths": [
+        ".devpilot/miasi/semantic_rules.json",
+        "docs/schemas/miasi_semantic_rules.schema.json",
+        "src/devpilot_core/miasi/declarative_semantic_rules.py",
+        "src/devpilot_core/miasi/semantic.py",
+        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_miasi_semantic_rules_registry.py tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py tests/test_policy_engine.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_018_connector_policy_binding.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-033-policy-guard-pattern-catalogs",
+      "scope": "safety",
+      "owner": "POST-H-033-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
+      ],
+      "validates": [
+        ".devpilot/policy/guard_pattern_catalog.json",
+        "docs/schemas/policy_guard_pattern_catalog.schema.json",
+        "src/devpilot_core/policy/guard_catalog.py",
+        "src/devpilot_core/policy/prompt_guard.py",
+        "src/devpilot_core/policy/tool_injection_guard.py",
+        "src/devpilot_core/policy/secrets.py"
+      ],
+      "watched_paths": [
+        ".devpilot/policy/guard_pattern_catalog.json",
+        "docs/schemas/policy_guard_pattern_catalog.schema.json",
+        "src/devpilot_core/policy/guard_catalog.py",
+        "src/devpilot_core/policy/prompt_guard.py",
+        "src/devpilot_core/policy/tool_injection_guard.py",
+        "src/devpilot_core/policy/secrets.py",
+        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_policy_guard_pattern_catalogs.py tests/test_prompt_injection_guard.py tests/test_secret_guard_hardening.py tests/test_policy_engine.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_post_h_032_tool_calling_contract.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-033-readiness-requirements-registry",
+      "scope": "integration",
+      "owner": "POST-H-033-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_readiness_requirements_registry.py"
+      ],
+      "validates": [
+        ".devpilot/readiness/readiness_requirements.json",
+        "docs/schemas/readiness_requirements.schema.json",
+        "src/devpilot_core/validators/readiness_requirements.py",
+        "src/devpilot_core/validators/readiness.py"
+      ],
+      "watched_paths": [
+        ".devpilot/readiness/readiness_requirements.json",
+        "docs/schemas/readiness_requirements.schema.json",
+        "src/devpilot_core/validators/readiness_requirements.py",
+        "src/devpilot_core/validators/readiness.py",
+        "tests/test_post_h_033_readiness_requirements_registry.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_readiness_requirements_registry.py tests/test_precode_readiness.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_validation_gateway.py tests/test_schema_validator.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-033-validator-inventory-migration-plan",
+      "scope": "integration",
+      "owner": "POST-H-033-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "validates": [
+        ".devpilot/validation/validator_inventory.json",
+        ".devpilot/validation/validator_migration_plan.json",
+        "docs/schemas/validator_inventory.schema.json",
+        "docs/schemas/validator_migration_report.schema.json",
+        "src/devpilot_core/validation/validator_inventory.py"
+      ],
+      "watched_paths": [
+        ".devpilot/validation/",
+        "docs/schemas/validator_inventory.schema.json",
+        "docs/schemas/validator_migration_report.schema.json",
+        "src/devpilot_core/validation/validator_inventory.py",
+        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md",
+        "docs/POST-H-033_schema_backed_validators_declarative_semantics.md",
+        "tests/test_post_h_033_validator_inventory_migration_plan.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_validator_inventory_migration_plan.py tests/test_schema_registry.py tests/test_validation_gateway.py tests/test_project_global_state.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-closure-final-regression-reconciliation",
+      "scope": "integration",
+      "owner": "POST-H-034-CLOSURE",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/cli_registry/legacy_command_allowlist.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/project_state.json",
+        "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
+        "docs/audits/post_h_034_closure_final_regression_report.md",
+        "src/devpilot_core/quality/gate.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/",
+        ".devpilot/cli_registry/",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/project_state.json",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "src/devpilot_core/quality/gate.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core release-candidate final --json",
+        "python -m pytest -p no:ddtrace --assert=plain -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-closure-git-timeout-hardening",
+      "scope": "integration",
+      "owner": "POST-H-034-CLOSURE",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_git_adapter_v2.py",
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py"
+      ],
+      "validates": [
+        "src/devpilot_core/repo/git_adapter.py",
+        "GitAdapter bounded timeout configuration",
+        "controlled TimeoutExpired handling",
+        "status optional diff-stat degradation",
+        "diff-report status fallback",
+        "multiagent repo-review and sdlc-review continuity"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/repo/git_adapter.py",
+        "src/devpilot_core/repo/analyzer.py",
+        "src/devpilot_core/agents/repo_analysis_agent.py",
+        "src/devpilot_core/repo/architecture_drift.py",
+        "src/devpilot_core/multiagent/",
+        "tests/test_git_adapter_v2.py",
+        "tests/test_multiagent_coordinator.py",
+        "tests/test_multiagent_workflow.py",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/project_state.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_git_adapter_v2.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_multiagent_coordinator.py tests/test_multiagent_workflow.py -q",
+        "python -m devpilot_core git diff-report --json --write-report",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-connector-write-adr",
+      "scope": "safety",
+      "owner": "POST-H-034-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_connector_write_adr.py",
+        "tests/test_post_h_018_connector_sandbox_policy.py",
+        "tests/test_post_h_018_connector_sandbox_gate.py",
+        "tests/test_connector_registry.py",
+        "tests/test_policy_engine_approval_rbac_enforcement.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/connector_write_decision.schema.json",
+        "docs/audits/post_h_034_a_connector_write_adr_report.md",
+        "docs/post_h_034_a_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/connectors/connector_sandbox_policy.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/connectors/",
+        "tests/test_post_h_034_connector_write_adr.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_connector_write_adr.py -q",
+        "python -m devpilot_core schema validate --schema-id ConnectorWriteDecision --instance .devpilot/sensitive_capabilities/connector_write_enablement_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-enterprise-saas-boundary-adr",
+      "scope": "safety",
+      "owner": "POST-H-034-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py",
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_post_h_022_enterprise_closure.py",
+        "tests/test_enterprise_reporting.py",
+        "tests/test_post_h_020_compliance_no_certification.py",
+        "tests/test_post_h_020_compliance_runbook_disclaimers.py",
+        "tests/test_post_h_025_production_ready_claims_validator.py",
+        "tests/test_post_h_025_production_ready_final_declaration.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
+        ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/enterprise_saas_boundary_decision.schema.json",
+        "docs/audits/post_h_034_e_enterprise_saas_boundary_adr_report.md",
+        "docs/post_h_034_e_manifest.json",
+        ".devpilot/enterprise/enterprise_threat_model.json",
+        ".devpilot/compliance/control_mappings.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
+        ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/enterprise/enterprise_threat_model.json",
+        ".devpilot/enterprise/enterprise_control_matrix.json",
+        ".devpilot/compliance/control_mappings.json",
+        ".devpilot/compliance/evidence_mappings.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_enterprise_saas_boundary_adr.py -q",
+        "python -m devpilot_core schema validate --schema-id EnterpriseSaasBoundaryDecision --instance .devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-multiuser-auth-adr",
+      "scope": "safety",
+      "owner": "POST-H-034-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_api_security.py",
+        "tests/test_identity_rbac.py",
+        "tests/test_rbac_exposure.py",
+        "tests/test_approval_binding.py",
+        "tests/test_approval_policy_binding.py",
+        "tests/test_policy_engine_approval_rbac_enforcement.py",
+        "tests/test_application_boundary_policy.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+        ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/multiuser_auth_decision.schema.json",
+        "docs/audits/post_h_034_d_multiuser_auth_adr_report.md",
+        "docs/post_h_034_d_manifest.json",
+        ".devpilot/identity/identity_registry.json",
+        "docs/audits/post_h_028_b_local_auth_cors_hardening_report.md"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+        ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/identity/identity_registry.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/identity/",
+        "src/devpilot_core/interfaces/api/",
+        "tests/test_post_h_034_multiuser_auth_adr.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q",
+        "python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-plugin-execution-adr",
+      "scope": "safety",
+      "owner": "POST-H-034-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_plugin_execution_adr.py",
+        "tests/test_post_h_019_plugin_sandbox_design.py",
+        "tests/test_post_h_019_plugin_permission_model.py",
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py",
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_plugin_registry.py",
+        "tests/test_secret_guard_hardening.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/plugin_execution_decision.schema.json",
+        "docs/audits/post_h_034_b_plugin_execution_adr_report.md",
+        "docs/post_h_034_b_manifest.json",
+        ".devpilot/plugins/plugin_registry.json",
+        ".devpilot/plugins/plugin_permission_model.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
+        ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/plugins/plugin_registry.json",
+        ".devpilot/plugins/plugin_permission_model.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/plugins/",
+        "tests/test_post_h_034_plugin_execution_adr.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_plugin_execution_adr.py -q",
+        "python -m devpilot_core schema validate --schema-id PluginExecutionDecision --instance .devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-034-remote-execution-adr3",
+      "scope": "safety",
+      "owner": "POST-H-034-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_034_remote_execution_adr3.py",
+        "tests/test_post_h_021_remote_adr2.py",
+        "tests/test_post_h_021_remote_readiness_report.py",
+        "tests/test_post_h_021_remote_quality_gate.py",
+        "tests/test_post_h_021_remote_disabled_invariants.py",
+        "tests/test_post_h_023_secure_transport_design.py",
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_secure_transport_closure.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+        ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "docs/schemas/remote_execution_adr3_decision.schema.json",
+        "docs/audits/post_h_034_c_remote_execution_adr3_report.md",
+        "docs/post_h_034_c_manifest.json",
+        ".devpilot/remote/runner_registry.json",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/secure_transport_protocol_decision_matrix.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/POST-H-034_sensitive_capabilities_adrs.md",
+        "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
+        ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
+        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
+        ".devpilot/remote/runner_registry.json",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/secure_transport_protocol_decision_matrix.json",
+        "src/devpilot_core/sensitive_capabilities/",
+        "src/devpilot_core/remote/",
+        "tests/test_post_h_034_remote_execution_adr3.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_remote_execution_adr3.py -q",
+        "python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance .devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
       ]
     },
     {
@@ -6207,6 +6832,671 @@
       "critical": true,
       "recommended_commands": [
         "python -m pytest tests/test_post_h_eval_001_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-a-freeze-charter-evidence-control",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002-01-A",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+        "docs/post_h_eval_002_01_a_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
+        "docs/post_h_eval_002_01_a_manifest.json",
+        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "notes": [
+        "Closes control/evidence preparation only; platform installation and workspace creation remain forbidden until 01-B/02-A."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-b-clean-install-baseline-verification",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002-01-B",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
+        "docs/post_h_eval_002_01_b_manifest.json",
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
+        "docs/post_h_eval_002_01_b_manifest.json",
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "notes": [
+        "Closes Windows clean installation and baseline verification; API/UI startup remains scoped to 01-C."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-c-api-ui-startup-security-posture",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002-01-C",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
+        "docs/post_h_eval_002_01_c_manifest.json",
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
+        "docs/post_h_eval_002_01_c_manifest.json",
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m devpilot_core rag query \"POST-H-EVAL-002-01-C API UI startup security posture closure\" --top-k 8 --json"
+      ],
+      "notes": [
+        "Closes Windows-authoritative localhost API/UI startup and security posture; formal browser acceptance remains scoped to 01-D.",
+        "Carries four static OpenAPI public-transport warnings as S3/non-blocking without changing the frozen platform."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-d-governance-closure-327",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002-01-D",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+        "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "README.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+        "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "README.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_post_h_034_closure_regression_reconciliation.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m pytest -p no:ddtrace --assert=plain -q"
+      ],
+      "notes": [
+        "Registers RUN05B RERUN-02 as forensic BLOCK and RERUN-03 as the only authoritative PASS.",
+        "Closes POST-H-EVAL-002-01-D and authorizes POST-H-EVAL-002-02-A without functional product changes.",
+        "The package remains implemented-pending-windows-validation until the full regression and validators pass on Windows.",
+        "Runs the POST-H-034 closure regression contract inside the early focal gate to prevent stale state allowlists from reaching the full regression."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-01-d-web-ui-acceptance-baseline",
+      "scope": "ui-smoke",
+      "owner": "POST-H-EVAL-002-01-D",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "ui/web/src/main.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/styles.css",
+        "ui/web/scripts/acceptance-baseline.mjs",
+        "ui/web/package.json",
+        "ui/web/package-lock.json",
+        "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
+        "docs/post_h_eval_002_01_d_preparation_manifest.json",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "ui/web/src/pages/ReportsView.ts",
+        "ui/web/src/pages/TracesView.ts",
+        "ui/web/src/utils/async.ts",
+        "ui/web/scripts/acceptance-corrective.mjs",
+        "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
+        "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+        "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
+        "ui/web/scripts/browser-acceptance-corrective-325.mjs",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/modeling/providers.py",
+        "ui/web/src/components/DryRunActionForm.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/components/ContractBadges.ts",
+        "ui/web/scripts/run05b-integral-corrective-326.mjs",
+        "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
+        "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "ui/web/src/main.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/styles.css",
+        "ui/web/scripts/acceptance-baseline.mjs",
+        "ui/web/package.json",
+        "ui/web/package-lock.json",
+        "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
+        "docs/post_h_eval_002_01_d_preparation_manifest.json",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
+        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "ui/web/src/pages/ReportsView.ts",
+        "ui/web/src/pages/TracesView.ts",
+        "ui/web/src/utils/async.ts",
+        "ui/web/scripts/acceptance-corrective.mjs",
+        "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
+        "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
+        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
+        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
+        "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
+        "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
+        "ui/web/scripts/browser-acceptance-corrective-325.mjs",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/modeling/providers.py",
+        "ui/web/src/components/DryRunActionForm.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/components/ContractBadges.ts",
+        "ui/web/scripts/run05b-integral-corrective-326.mjs",
+        "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
+        "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
+        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
+        "npm --prefix ui/web test",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_ui_corrective_patch.py -q",
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py tests/test_api_settings.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q",
+        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q"
+      ],
+      "notes": [
+        "Corrects route dispatch and bounded timeout blockers without closing 01-D.",
+        "Formal Windows browser screenshots and matrices remain external evidence and must not be invented or versioned.",
+        "Corrective 325 remains a historical parent contract.",
+        "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
+        "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-activation-governance",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-002",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "watched_paths": [
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/project_state.schema.json",
+        "docs/schemas/local_release_candidate_criteria.schema.json",
+        "src/devpilot_core/testing/contracts.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_034_closure_regression_reconciliation.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "notes": [
+        "Activation remains valid; POST-H-EVAL-002-01-A is now a governed closure candidate and POST-H-EVAL-002-01-B is next."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-000-capability-contracts",
+      "scope": "integration",
+      "owner": "UOC-000",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_post_h_eval_002_uoc_000_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_030_cli_command_ownership_matrix.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "validates": [
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+        "docs/07_interfaces/ui_capability_registry.md",
+        "docs/architecture/adr_ui_no_arbitrary_shell.md",
+        "docs/architecture/adr_ui_opaque_resource_identifiers.md",
+        "docs/architecture/adr_governed_job_execution.md",
+        "docs/audits/uoc_000_capability_inventory_report.md",
+        "docs/schemas/ui_capability_registry.schema.json",
+        "docs/schemas/ui_document_resource.schema.json",
+        "docs/schemas/ui_edit_plan.schema.json",
+        "docs/schemas/ui_approval_binding.schema.json",
+        "docs/schemas/ui_governed_job.schema.json",
+        "docs/schemas/ui_evidence_reference.schema.json",
+        "docs/schemas/ui_operational_console_flags.schema.json",
+        "docs/schemas/ui_operational_console_manifest.schema.json",
+        "docs/post_h_eval_002_uoc_000_manifest.json",
+        "tests/test_post_h_eval_002_uoc_000_contracts.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "tests/test_schema_registry.py"
+      ],
+      "watched_paths": [
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+        "docs/07_interfaces/ui_capability_registry.md",
+        "docs/architecture/adr_ui_no_arbitrary_shell.md",
+        "docs/architecture/adr_ui_opaque_resource_identifiers.md",
+        "docs/architecture/adr_governed_job_execution.md",
+        "docs/audits/uoc_000_capability_inventory_report.md",
+        "docs/schemas/ui_capability_registry.schema.json",
+        "docs/schemas/ui_document_resource.schema.json",
+        "docs/schemas/ui_edit_plan.schema.json",
+        "docs/schemas/ui_approval_binding.schema.json",
+        "docs/schemas/ui_governed_job.schema.json",
+        "docs/schemas/ui_evidence_reference.schema.json",
+        "docs/schemas/ui_operational_console_flags.schema.json",
+        "docs/schemas/ui_operational_console_manifest.schema.json",
+        "docs/post_h_eval_002_uoc_000_manifest.json",
+        "tests/test_post_h_eval_002_uoc_000_contracts.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "tests/test_schema_registry.py"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -o addopts= tests/test_post_h_eval_002_uoc_000_contracts.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_030_cli_command_ownership_matrix.py tests/test_post_h_028_ui_route_registry_enforcement.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "notes": [
+        "UOC-000 is metadata/schema/governance only and adds no runtime UI route.",
+        "Every CLI command and every current UI route must be represented exactly once.",
+        "Mutating and sensitive capabilities require policy; sensitive UI-NATIVE capabilities require approval."
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-001-workspace-documents",
+      "scope": "integration",
+      "owner": "UOC-001",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/workspace_documents_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_documents.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/components/DocumentTree.ts",
+        "ui/web/src/components/DocumentViewer.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/styles.css",
+        "ui/web/package.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+        "docs/07_interfaces/workspace_documents_api.md",
+        "docs/audits/uoc_001_read_only_documents_report.md",
+        "docs/schemas/workspace_document_index.schema.json",
+        "docs/schemas/workspace_document_resource.schema.json",
+        "docs/schemas/workspace_document_metadata.schema.json",
+        "docs/post_h_eval_002_uoc_001_manifest.json",
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "docs/07_interfaces/openapi_v1.json",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        "ui/web/package-lock.json",
+        "ui/web/index.html",
+        "docs/07_interfaces/api_service_mapping.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/workspace_documents_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_documents.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/components/DocumentTree.ts",
+        "ui/web/src/components/DocumentViewer.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/styles.css",
+        "ui/web/package.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
+        "docs/07_interfaces/workspace_documents_api.md",
+        "docs/audits/uoc_001_read_only_documents_report.md",
+        "docs/schemas/workspace_document_index.schema.json",
+        "docs/schemas/workspace_document_resource.schema.json",
+        "docs/schemas/workspace_document_metadata.schema.json",
+        "docs/post_h_eval_002_uoc_001_manifest.json",
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "docs/07_interfaces/openapi_v1.json",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        "ui/web/package-lock.json",
+        "ui/web/index.html",
+        "docs/07_interfaces/api_service_mapping.md"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace -p no:cacheprovider --assert=plain -o addopts= tests/test_workspace_document_service.py tests/test_api_workspace_documents.py tests/test_web_ui_workspace_documents.py tests/test_post_h_eval_002_uoc_001_contracts.py tests/test_schema_registry.py tests/test_post_h_028_ui_route_registry_enforcement.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "notes": [
+        "UOC-001 is read-only and accepts opaque document ids only.",
+        "The active workspace root is resolved server-side; browser paths are never authoritative.",
+        "Browser acceptance and Windows junction negative evidence are required before UOC-002."
       ]
     },
     {
@@ -8251,1175 +9541,6 @@
       "critical": false,
       "recommended_commands": [
         "npm --prefix ui/web test"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-agent-memory-model",
-      "scope": "safety",
-      "owner": "POST-H-032-E",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_agent_memory_model.py"
-      ],
-      "validates": [
-        ".devpilot/agents/agent_memory_policy.json",
-        "docs/schemas/agent_memory_record.schema.json",
-        "src/devpilot_core/agents/memory.py",
-        "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md"
-      ],
-      "watched_paths": [
-        ".devpilot/agents/agent_memory_policy.json",
-        "docs/schemas/agent_memory_record.schema.json",
-        "src/devpilot_core/agents/memory.py",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_agent_memory_model.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-tool-calling-contract",
-      "scope": "safety",
-      "owner": "POST-H-032-F",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_tool_calling_contract.py"
-      ],
-      "validates": [
-        ".devpilot/agents/tool_call_policy.json",
-        "docs/schemas/agent_tool_call.schema.json",
-        "src/devpilot_core/agents/tool_calls.py",
-        "docs/audits/post_h_032_f_tool_calling_contract_report.md"
-      ],
-      "watched_paths": [
-        ".devpilot/agents/tool_call_policy.json",
-        ".devpilot/agents/agent_capability_inventory.json",
-        ".devpilot/miasi/tool_registry.json",
-        "docs/schemas/agent_tool_call.schema.json",
-        "src/devpilot_core/agents/tool_calls.py",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-mcp-design-fake-server",
-      "scope": "safety",
-      "owner": "POST-H-032-G",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_mcp_design_fake_server.py"
-      ],
-      "validates": [
-        ".devpilot/mcp/mcp_fake_server_contract.json",
-        "docs/schemas/mcp_fake_server_evaluation.schema.json",
-        "src/devpilot_core/mcp/contracts.py",
-        "src/devpilot_core/mcp/fake_server.py",
-        "docs/adr/ADR-POSTH-032-G-mcp-design-and-threat-model.md"
-      ],
-      "watched_paths": [
-        ".devpilot/mcp/mcp_fake_server_contract.json",
-        ".devpilot/miasi/tool_registry.json",
-        ".devpilot/agents/tool_call_policy.json",
-        "docs/schemas/mcp_fake_server_evaluation.schema.json",
-        "src/devpilot_core/mcp/",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_mcp_design_fake_server.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-032-multiagent-handoff-hardening",
-      "scope": "safety",
-      "owner": "POST-H-032-H",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_032_multiagent_handoff_hardening.py"
-      ],
-      "validates": [
-        ".devpilot/agents/multiagent_handoff_policy.json",
-        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
-        "src/devpilot_core/multiagent/hardening.py"
-      ],
-      "watched_paths": [
-        ".devpilot/agents/multiagent_handoff_policy.json",
-        ".devpilot/agents/agent_capability_inventory.json",
-        ".devpilot/agents/tool_call_policy.json",
-        ".devpilot/workflows/sdlc_review.json",
-        "docs/schemas/multiagent_handoff_hardening_report.schema.json",
-        "src/devpilot_core/multiagent/",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/services.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_multiagent_handoff_hardening.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-033-validator-inventory-migration-plan",
-      "scope": "integration",
-      "owner": "POST-H-033-A",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_033_validator_inventory_migration_plan.py"
-      ],
-      "validates": [
-        ".devpilot/validation/validator_inventory.json",
-        ".devpilot/validation/validator_migration_plan.json",
-        "docs/schemas/validator_inventory.schema.json",
-        "docs/schemas/validator_migration_report.schema.json",
-        "src/devpilot_core/validation/validator_inventory.py"
-      ],
-      "watched_paths": [
-        ".devpilot/validation/",
-        "docs/schemas/validator_inventory.schema.json",
-        "docs/schemas/validator_migration_report.schema.json",
-        "src/devpilot_core/validation/validator_inventory.py",
-        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md",
-        "docs/POST-H-033_schema_backed_validators_declarative_semantics.md",
-        "tests/test_post_h_033_validator_inventory_migration_plan.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_validator_inventory_migration_plan.py tests/test_schema_registry.py tests/test_validation_gateway.py tests/test_project_global_state.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-033-frontmatter-schema-backed-validator",
-      "scope": "integration",
-      "owner": "POST-H-033-B",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
-      ],
-      "validates": [
-        ".devpilot/validation/frontmatter_catalog.json",
-        "docs/schemas/frontmatter_metadata.schema.json",
-        "src/devpilot_core/validators/frontmatter_catalog.py",
-        "src/devpilot_core/validators/frontmatter.py"
-      ],
-      "watched_paths": [
-        ".devpilot/validation/frontmatter_catalog.json",
-        "docs/schemas/frontmatter_metadata.schema.json",
-        "src/devpilot_core/validators/frontmatter_catalog.py",
-        "src/devpilot_core/validators/frontmatter.py",
-        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
-        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_frontmatter_schema_backed_validator.py tests/test_frontmatter_validator.py tests/test_artifact_validator.py tests/test_documentation_governance_validator.py tests/test_schema_validator.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-033-readiness-requirements-registry",
-      "scope": "integration",
-      "owner": "POST-H-033-C",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_033_readiness_requirements_registry.py"
-      ],
-      "validates": [
-        ".devpilot/readiness/readiness_requirements.json",
-        "docs/schemas/readiness_requirements.schema.json",
-        "src/devpilot_core/validators/readiness_requirements.py",
-        "src/devpilot_core/validators/readiness.py"
-      ],
-      "watched_paths": [
-        ".devpilot/readiness/readiness_requirements.json",
-        "docs/schemas/readiness_requirements.schema.json",
-        "src/devpilot_core/validators/readiness_requirements.py",
-        "src/devpilot_core/validators/readiness.py",
-        "tests/test_post_h_033_readiness_requirements_registry.py",
-        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_readiness_requirements_registry.py tests/test_precode_readiness.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_validation_gateway.py tests/test_schema_validator.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-033-miasi-semantic-rules-registry",
-      "scope": "safety",
-      "owner": "POST-H-033-D",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
-      ],
-      "validates": [
-        ".devpilot/miasi/semantic_rules.json",
-        "docs/schemas/miasi_semantic_rules.schema.json",
-        "src/devpilot_core/miasi/declarative_semantic_rules.py",
-        "src/devpilot_core/miasi/semantic.py"
-      ],
-      "watched_paths": [
-        ".devpilot/miasi/semantic_rules.json",
-        "docs/schemas/miasi_semantic_rules.schema.json",
-        "src/devpilot_core/miasi/declarative_semantic_rules.py",
-        "src/devpilot_core/miasi/semantic.py",
-        "tests/test_post_h_033_miasi_semantic_rules_registry.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_miasi_semantic_rules_registry.py tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py tests/test_policy_engine.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_018_connector_policy_binding.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-033-policy-guard-pattern-catalogs",
-      "scope": "safety",
-      "owner": "POST-H-033-E",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
-      ],
-      "validates": [
-        ".devpilot/policy/guard_pattern_catalog.json",
-        "docs/schemas/policy_guard_pattern_catalog.schema.json",
-        "src/devpilot_core/policy/guard_catalog.py",
-        "src/devpilot_core/policy/prompt_guard.py",
-        "src/devpilot_core/policy/tool_injection_guard.py",
-        "src/devpilot_core/policy/secrets.py"
-      ],
-      "watched_paths": [
-        ".devpilot/policy/guard_pattern_catalog.json",
-        "docs/schemas/policy_guard_pattern_catalog.schema.json",
-        "src/devpilot_core/policy/guard_catalog.py",
-        "src/devpilot_core/policy/prompt_guard.py",
-        "src/devpilot_core/policy/tool_injection_guard.py",
-        "src/devpilot_core/policy/secrets.py",
-        "tests/test_post_h_033_policy_guard_pattern_catalogs.py",
-        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_policy_guard_pattern_catalogs.py tests/test_prompt_injection_guard.py tests/test_secret_guard_hardening.py tests/test_policy_engine.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_post_h_032_tool_calling_contract.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-033-docs-governance-rule-registry",
-      "scope": "integration",
-      "owner": "POST-H-033-F",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py"
-      ],
-      "validates": [
-        ".devpilot/docs_governance/rule_registry.json",
-        "docs/schemas/docs_governance_rule_registry.schema.json",
-        "src/devpilot_core/docs_governance/rule_registry.py",
-        "src/devpilot_core/docs_governance/validator.py"
-      ],
-      "watched_paths": [
-        ".devpilot/docs_governance/rule_registry.json",
-        "docs/schemas/docs_governance_rule_registry.schema.json",
-        "src/devpilot_core/docs_governance/rule_registry.py",
-        "src/devpilot_core/docs_governance/validator.py",
-        "tests/test_post_h_033_docs_governance_rule_registry.py",
-        "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_033_docs_governance_rule_registry.py tests/test_documentation_governance_validator.py tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_schema_validator.py -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-034-connector-write-adr",
-      "scope": "safety",
-      "owner": "POST-H-034-A",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_034_connector_write_adr.py",
-        "tests/test_post_h_018_connector_sandbox_policy.py",
-        "tests/test_post_h_018_connector_sandbox_gate.py",
-        "tests/test_connector_registry.py",
-        "tests/test_policy_engine_approval_rbac_enforcement.py"
-      ],
-      "validates": [
-        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
-        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "docs/schemas/connector_write_decision.schema.json",
-        "docs/audits/post_h_034_a_connector_write_adr_report.md",
-        "docs/post_h_034_a_manifest.json"
-      ],
-      "watched_paths": [
-        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
-        ".devpilot/sensitive_capabilities/connector_write_enablement_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        ".devpilot/connectors/connector_sandbox_policy.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "src/devpilot_core/connectors/",
-        "tests/test_post_h_034_connector_write_adr.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_connector_write_adr.py -q",
-        "python -m devpilot_core schema validate --schema-id ConnectorWriteDecision --instance .devpilot/sensitive_capabilities/connector_write_enablement_checklist.json --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-034-plugin-execution-adr",
-      "scope": "safety",
-      "owner": "POST-H-034-B",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_034_plugin_execution_adr.py",
-        "tests/test_post_h_019_plugin_sandbox_design.py",
-        "tests/test_post_h_019_plugin_permission_model.py",
-        "tests/test_post_h_019_plugin_static_validator.py",
-        "tests/test_post_h_019_plugin_execution_blocked.py",
-        "tests/test_post_h_019_plugin_quality_gate.py",
-        "tests/test_plugin_registry.py",
-        "tests/test_secret_guard_hardening.py"
-      ],
-      "validates": [
-        "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
-        ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "docs/schemas/plugin_execution_decision.schema.json",
-        "docs/audits/post_h_034_b_plugin_execution_adr_report.md",
-        "docs/post_h_034_b_manifest.json",
-        ".devpilot/plugins/plugin_registry.json",
-        ".devpilot/plugins/plugin_permission_model.json"
-      ],
-      "watched_paths": [
-        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
-        ".devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        ".devpilot/plugins/plugin_registry.json",
-        ".devpilot/plugins/plugin_permission_model.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "src/devpilot_core/plugins/",
-        "tests/test_post_h_034_plugin_execution_adr.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_plugin_execution_adr.py -q",
-        "python -m devpilot_core schema validate --schema-id PluginExecutionDecision --instance .devpilot/sensitive_capabilities/plugin_execution_enablement_checklist.json --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-034-remote-execution-adr3",
-      "scope": "safety",
-      "owner": "POST-H-034-C",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_034_remote_execution_adr3.py",
-        "tests/test_post_h_021_remote_adr2.py",
-        "tests/test_post_h_021_remote_readiness_report.py",
-        "tests/test_post_h_021_remote_quality_gate.py",
-        "tests/test_post_h_021_remote_disabled_invariants.py",
-        "tests/test_post_h_023_secure_transport_design.py",
-        "tests/test_post_h_023_secure_transport_validator.py",
-        "tests/test_post_h_023_secure_transport_closure.py"
-      ],
-      "validates": [
-        "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
-        ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "docs/schemas/remote_execution_adr3_decision.schema.json",
-        "docs/audits/post_h_034_c_remote_execution_adr3_report.md",
-        "docs/post_h_034_c_manifest.json",
-        ".devpilot/remote/runner_registry.json",
-        ".devpilot/remote/remote_readiness_criteria.json",
-        ".devpilot/remote/secure_transport_protocol_decision_matrix.json"
-      ],
-      "watched_paths": [
-        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
-        ".devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        ".devpilot/remote/runner_registry.json",
-        ".devpilot/remote/remote_readiness_criteria.json",
-        ".devpilot/remote/secure_transport_protocol_decision_matrix.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "src/devpilot_core/remote/",
-        "tests/test_post_h_034_remote_execution_adr3.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_remote_execution_adr3.py -q",
-        "python -m devpilot_core schema validate --schema-id RemoteExecutionAdr3Decision --instance .devpilot/sensitive_capabilities/remote_execution_adr3_checklist.json --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-034-multiuser-auth-adr",
-      "scope": "safety",
-      "owner": "POST-H-034-D",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_034_multiuser_auth_adr.py",
-        "tests/test_api_security.py",
-        "tests/test_identity_rbac.py",
-        "tests/test_rbac_exposure.py",
-        "tests/test_approval_binding.py",
-        "tests/test_approval_policy_binding.py",
-        "tests/test_policy_engine_approval_rbac_enforcement.py",
-        "tests/test_application_boundary_policy.py"
-      ],
-      "validates": [
-        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
-        ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "docs/schemas/multiuser_auth_decision.schema.json",
-        "docs/audits/post_h_034_d_multiuser_auth_adr_report.md",
-        "docs/post_h_034_d_manifest.json",
-        ".devpilot/identity/identity_registry.json",
-        "docs/audits/post_h_028_b_local_auth_cors_hardening_report.md"
-      ],
-      "watched_paths": [
-        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
-        ".devpilot/sensitive_capabilities/multiuser_auth_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        ".devpilot/identity/identity_registry.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "src/devpilot_core/identity/",
-        "src/devpilot_core/interfaces/api/",
-        "tests/test_post_h_034_multiuser_auth_adr.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q",
-        "python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-034-enterprise-saas-boundary-adr",
-      "scope": "safety",
-      "owner": "POST-H-034-E",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py",
-        "tests/test_post_h_022_enterprise_threat_model.py",
-        "tests/test_post_h_022_enterprise_closure.py",
-        "tests/test_enterprise_reporting.py",
-        "tests/test_post_h_020_compliance_no_certification.py",
-        "tests/test_post_h_020_compliance_runbook_disclaimers.py",
-        "tests/test_post_h_025_production_ready_claims_validator.py",
-        "tests/test_post_h_025_production_ready_final_declaration.py"
-      ],
-      "validates": [
-        "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
-        ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "docs/schemas/enterprise_saas_boundary_decision.schema.json",
-        "docs/audits/post_h_034_e_enterprise_saas_boundary_adr_report.md",
-        "docs/post_h_034_e_manifest.json",
-        ".devpilot/enterprise/enterprise_threat_model.json",
-        ".devpilot/compliance/control_mappings.json"
-      ],
-      "watched_paths": [
-        "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/POST-H-034_sensitive_capabilities_adrs.md",
-        "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
-        ".devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json",
-        ".devpilot/sensitive_capabilities/capability_decision_matrix.json",
-        ".devpilot/enterprise/enterprise_threat_model.json",
-        ".devpilot/enterprise/enterprise_control_matrix.json",
-        ".devpilot/compliance/control_mappings.json",
-        ".devpilot/compliance/evidence_mappings.json",
-        "src/devpilot_core/sensitive_capabilities/",
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_enterprise_saas_boundary_adr.py -q",
-        "python -m devpilot_core schema validate --schema-id EnterpriseSaasBoundaryDecision --instance .devpilot/sensitive_capabilities/enterprise_saas_boundary_checklist.json --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-034-closure-final-regression-reconciliation",
-      "scope": "integration",
-      "owner": "POST-H-034-CLOSURE",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_connector_write_adr.py",
-        "tests/test_post_h_034_plugin_execution_adr.py",
-        "tests/test_post_h_034_remote_execution_adr3.py",
-        "tests/test_post_h_034_multiuser_auth_adr.py",
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
-      ],
-      "validates": [
-        "src/devpilot_core/cli_registry/registry.py",
-        ".devpilot/cli_registry/legacy_command_allowlist.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/testing/test_impact_rules.json",
-        ".devpilot/project_state.json",
-        "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
-        "docs/audits/post_h_034_closure_final_regression_report.md",
-        "src/devpilot_core/quality/gate.py"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/cli_registry/",
-        ".devpilot/cli_registry/",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/testing/test_impact_rules.json",
-        ".devpilot/project_state.json",
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "src/devpilot_core/quality/gate.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_connector_write_adr.py",
-        "tests/test_post_h_034_plugin_execution_adr.py",
-        "tests/test_post_h_034_remote_execution_adr3.py",
-        "tests/test_post_h_034_multiuser_auth_adr.py",
-        "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core release-candidate final --json",
-        "python -m pytest -p no:ddtrace --assert=plain -q"
-      ]
-    },
-    {
-      "contract_id": "post-h-034-closure-git-timeout-hardening",
-      "scope": "integration",
-      "owner": "POST-H-034-CLOSURE",
-      "phase": "POST-FASE-H",
-      "test_files": [
-        "tests/test_git_adapter_v2.py",
-        "tests/test_multiagent_coordinator.py",
-        "tests/test_multiagent_workflow.py"
-      ],
-      "validates": [
-        "src/devpilot_core/repo/git_adapter.py",
-        "GitAdapter bounded timeout configuration",
-        "controlled TimeoutExpired handling",
-        "status optional diff-stat degradation",
-        "diff-report status fallback",
-        "multiagent repo-review and sdlc-review continuity"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/repo/git_adapter.py",
-        "src/devpilot_core/repo/analyzer.py",
-        "src/devpilot_core/agents/repo_analysis_agent.py",
-        "src/devpilot_core/repo/architecture_drift.py",
-        "src/devpilot_core/multiagent/",
-        "tests/test_git_adapter_v2.py",
-        "tests/test_multiagent_coordinator.py",
-        "tests/test_multiagent_workflow.py",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/project_state.json"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_git_adapter_v2.py -q",
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_multiagent_coordinator.py tests/test_multiagent_workflow.py -q",
-        "python -m devpilot_core git diff-report --json --write-report",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ]
-    },
-    {
-      "contract_id": "post-h-eval-002-activation-governance",
-      "scope": "integration",
-      "owner": "POST-H-EVAL-002",
-      "phase": "POST-H-EVAL-002",
-      "test_files": [
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py"
-      ],
-      "validates": [
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
-        "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md"
-      ],
-      "watched_paths": [
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
-        "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/schemas/project_state.schema.json",
-        "docs/schemas/local_release_candidate_criteria.schema.json",
-        "src/devpilot_core/testing/contracts.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md"
-      ],
-      "mutable_global_state_allowed": false,
-      "global_state_source": null,
-      "critical": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json"
-      ],
-      "notes": [
-        "Activation remains valid; POST-H-EVAL-002-01-A is now a governed closure candidate and POST-H-EVAL-002-01-B is next."
-      ]
-    },
-    {
-      "contract_id": "post-h-eval-002-01-a-freeze-charter-evidence-control",
-      "scope": "integration",
-      "owner": "POST-H-EVAL-002-01-A",
-      "phase": "POST-H-EVAL-002",
-      "test_files": [
-        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py"
-      ],
-      "validates": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
-        "docs/post_h_eval_002_01_a_manifest.json",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
-        "docs/post_h_eval_002_01_a_manifest.json",
-        "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json"
-      ],
-      "notes": [
-        "Closes control/evidence preparation only; platform installation and workspace creation remain forbidden until 01-B/02-A."
-      ]
-    },
-    {
-      "contract_id": "post-h-eval-002-01-b-clean-install-baseline-verification",
-      "scope": "integration",
-      "owner": "POST-H-EVAL-002-01-B",
-      "phase": "POST-H-EVAL-002",
-      "test_files": [
-        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "validates": [
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
-        "docs/post_h_eval_002_01_b_manifest.json",
-        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "README.md",
-        "docs/05_operations/runbook.md"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
-        "docs/post_h_eval_002_01_b_manifest.json",
-        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json"
-      ],
-      "notes": [
-        "Closes Windows clean installation and baseline verification; API/UI startup remains scoped to 01-C."
-      ]
-    },
-    {
-      "contract_id": "post-h-eval-002-01-c-api-ui-startup-security-posture",
-      "scope": "integration",
-      "owner": "POST-H-EVAL-002-01-C",
-      "phase": "POST-H-EVAL-002",
-      "test_files": [
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
-        "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "validates": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
-        "docs/post_h_eval_002_01_c_manifest.json",
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "README.md",
-        "docs/05_operations/runbook.md"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
-        "docs/post_h_eval_002_01_c_manifest.json",
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py tests/test_post_h_034_closure_regression_reconciliation.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json",
-        "python -m devpilot_core rag query \"POST-H-EVAL-002-01-C API UI startup security posture closure\" --top-k 8 --json"
-      ],
-      "notes": [
-        "Closes Windows-authoritative localhost API/UI startup and security posture; formal browser acceptance remains scoped to 01-D.",
-        "Carries four static OpenAPI public-transport warnings as S3/non-blocking without changing the frozen platform."
-      ]
-    },
-    {
-      "contract_id": "post-h-eval-002-01-d-web-ui-acceptance-baseline",
-      "scope": "ui-smoke",
-      "owner": "POST-H-EVAL-002-01-D",
-      "phase": "POST-H-EVAL-002",
-      "test_files": [
-        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
-        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
-        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
-      ],
-      "validates": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "ui/web/src/main.ts",
-        "ui/web/src/api/client.ts",
-        "ui/web/src/styles.css",
-        "ui/web/scripts/acceptance-baseline.mjs",
-        "ui/web/package.json",
-        "ui/web/package-lock.json",
-        "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
-        "docs/post_h_eval_002_01_d_preparation_manifest.json",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md",
-        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "ui/web/src/pages/ReportsView.ts",
-        "ui/web/src/pages/TracesView.ts",
-        "ui/web/src/utils/async.ts",
-        "ui/web/scripts/acceptance-corrective.mjs",
-        "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
-        "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
-        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
-        "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
-        "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
-        "ui/web/scripts/browser-acceptance-corrective-325.mjs",
-        "src/devpilot_core/application/settings_service.py",
-        "src/devpilot_core/modeling/providers.py",
-        "ui/web/src/components/DryRunActionForm.ts",
-        "ui/web/src/pages/ApprovalCenterView.ts",
-        "ui/web/src/pages/SettingsView.ts",
-        "ui/web/src/pages/Dashboard.ts",
-        "ui/web/src/components/ContractBadges.ts",
-        "ui/web/scripts/run05b-integral-corrective-326.mjs",
-        "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
-        "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
-        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "ui/web/src/main.ts",
-        "ui/web/src/api/client.ts",
-        "ui/web/src/styles.css",
-        "ui/web/scripts/acceptance-baseline.mjs",
-        "ui/web/package.json",
-        "ui/web/package-lock.json",
-        "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
-        "docs/post_h_eval_002_01_d_preparation_manifest.json",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
-        "README.md",
-        "docs/05_operations/runbook.md",
-        "docs/release/CHANGELOG.md",
-        "tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py",
-        "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "ui/web/src/pages/ReportsView.ts",
-        "ui/web/src/pages/TracesView.ts",
-        "ui/web/src/utils/async.ts",
-        "ui/web/scripts/acceptance-corrective.mjs",
-        "docs/audits/post_h_eval_002_01_d_ui_corrective_patch_report.md",
-        "docs/post_h_eval_002_01_d_ui_corrective_manifest.json",
-        "tests/test_post_h_eval_002_01_d_ui_corrective_patch.py",
-        "tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py",
-        "docs/post_h_eval_002_01_d_browser_acceptance_corrective_325_manifest.json",
-        "docs/audits/post_h_eval_002_01_d_browser_acceptance_corrective_325_report.md",
-        "ui/web/scripts/browser-acceptance-corrective-325.mjs",
-        "src/devpilot_core/application/settings_service.py",
-        "src/devpilot_core/modeling/providers.py",
-        "ui/web/src/components/DryRunActionForm.ts",
-        "ui/web/src/pages/ApprovalCenterView.ts",
-        "ui/web/src/pages/SettingsView.ts",
-        "ui/web/src/pages/Dashboard.ts",
-        "ui/web/src/components/ContractBadges.ts",
-        "ui/web/scripts/run05b-integral-corrective-326.mjs",
-        "docs/audits/post_h_eval_002_01_d_run05b_forensic_and_integral_corrective_326_report.md",
-        "docs/post_h_eval_002_01_d_run05b_integral_corrective_326_manifest.json",
-        "tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_eval_002_01_d_web_ui_acceptance_baseline.py tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
-        "npm --prefix ui/web test",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json",
-        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_ui_corrective_patch.py -q",
-        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_browser_acceptance_corrective_325.py tests/test_api_settings.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q",
-        "python -m pytest --assert=plain tests/test_post_h_eval_002_01_d_run05b_integral_corrective_326.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q"
-      ],
-      "notes": [
-        "Corrects route dispatch and bounded timeout blockers without closing 01-D.",
-        "Formal Windows browser screenshots and matrices remain external evidence and must not be invented or versioned.",
-        "Corrective 325 remains a historical parent contract.",
-        "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
-        "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03."
-      ]
-    },
-    {
-      "contract_id": "post-h-eval-002-01-d-governance-closure-327",
-      "scope": "integration",
-      "owner": "POST-H-EVAL-002-01-D",
-      "phase": "POST-H-EVAL-002",
-      "test_files": [
-        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
-        "tests/test_post_h_eval_002_activation_contract.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "validates": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
-        "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
-        "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
-        "README.md",
-        "docs/release/CHANGELOG.md",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
-        "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
-        "docs/05_operations/POST_H_EVAL_002_01_D_SPRINT7_326_TO_327_IMPLEMENTATION_AND_VERIFICATION.md",
-        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
-        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
-        "README.md",
-        "docs/release/CHANGELOG.md",
-        "tests/test_post_h_034_closure_regression_reconciliation.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_closure_regression_reconciliation.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_activation_contract.py tests/test_project_global_state.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json",
-        "python -m pytest -p no:ddtrace --assert=plain -q"
-      ],
-      "notes": [
-        "Registers RUN05B RERUN-02 as forensic BLOCK and RERUN-03 as the only authoritative PASS.",
-        "Closes POST-H-EVAL-002-01-D and authorizes POST-H-EVAL-002-02-A without functional product changes.",
-        "The package remains implemented-pending-windows-validation until the full regression and validators pass on Windows.",
-        "Runs the POST-H-034 closure regression contract inside the early focal gate to prevent stale state allowlists from reaching the full regression."
-      ]
-    },
-    {
-      "contract_id": "post-h-eval-002-uoc-000-capability-contracts",
-      "scope": "integration",
-      "owner": "UOC-000",
-      "phase": "POST-H-EVAL-002",
-      "test_files": [
-        "tests/test_post_h_eval_002_uoc_000_contracts.py",
-        "tests/test_schema_registry.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_030_cli_command_ownership_matrix.py",
-        "tests/test_post_h_028_ui_route_registry_enforcement.py"
-      ],
-      "validates": [
-        ".devpilot/interfaces/ui_capability_registry.json",
-        ".devpilot/interfaces/ui_operational_console_flags.json",
-        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
-        "docs/07_interfaces/ui_capability_registry.md",
-        "docs/architecture/adr_ui_no_arbitrary_shell.md",
-        "docs/architecture/adr_ui_opaque_resource_identifiers.md",
-        "docs/architecture/adr_governed_job_execution.md",
-        "docs/audits/uoc_000_capability_inventory_report.md",
-        "docs/schemas/ui_capability_registry.schema.json",
-        "docs/schemas/ui_document_resource.schema.json",
-        "docs/schemas/ui_edit_plan.schema.json",
-        "docs/schemas/ui_approval_binding.schema.json",
-        "docs/schemas/ui_governed_job.schema.json",
-        "docs/schemas/ui_evidence_reference.schema.json",
-        "docs/schemas/ui_operational_console_flags.schema.json",
-        "docs/schemas/ui_operational_console_manifest.schema.json",
-        "docs/post_h_eval_002_uoc_000_manifest.json",
-        "tests/test_post_h_eval_002_uoc_000_contracts.py",
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/schemas/schema_catalog.json",
-        "tests/test_schema_registry.py"
-      ],
-      "watched_paths": [
-        ".devpilot/interfaces/ui_capability_registry.json",
-        ".devpilot/interfaces/ui_operational_console_flags.json",
-        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md",
-        "docs/07_interfaces/ui_capability_registry.md",
-        "docs/architecture/adr_ui_no_arbitrary_shell.md",
-        "docs/architecture/adr_ui_opaque_resource_identifiers.md",
-        "docs/architecture/adr_governed_job_execution.md",
-        "docs/audits/uoc_000_capability_inventory_report.md",
-        "docs/schemas/ui_capability_registry.schema.json",
-        "docs/schemas/ui_document_resource.schema.json",
-        "docs/schemas/ui_edit_plan.schema.json",
-        "docs/schemas/ui_approval_binding.schema.json",
-        "docs/schemas/ui_governed_job.schema.json",
-        "docs/schemas/ui_evidence_reference.schema.json",
-        "docs/schemas/ui_operational_console_flags.schema.json",
-        "docs/schemas/ui_operational_console_manifest.schema.json",
-        "docs/post_h_eval_002_uoc_000_manifest.json",
-        "tests/test_post_h_eval_002_uoc_000_contracts.py",
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/schemas/schema_catalog.json",
-        "tests/test_schema_registry.py"
-      ],
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "critical": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -o addopts= tests/test_post_h_eval_002_uoc_000_contracts.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_030_cli_command_ownership_matrix.py tests/test_post_h_028_ui_route_registry_enforcement.py -q",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json"
-      ],
-      "notes": [
-        "UOC-000 is metadata/schema/governance only and adds no runtime UI route.",
-        "Every CLI command and every current UI route must be represented exactly once.",
-        "Mutating and sensitive capabilities require policy; sensitive UI-NATIVE capabilities require approval."
       ]
     }
   ],

@@ -4,8 +4,61 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-03",
+  "updated": "2026-08-04",
   "routes": [
+    {
+      "route_id": "ui.approvals",
+      "title": "Approval Center y Action Launcher",
+      "path": "/approvals",
+      "page_component": "ApprovalCenterView",
+      "source_files": [
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "ui/web/src/components/DryRunActionForm.ts"
+      ],
+      "allowed_api_routes": [
+        "api.approvals.list",
+        "api.approvals.show",
+        "api.approvals.request",
+        "api.approvals.approve",
+        "api.approvals.deny",
+        "api.actions.dry_run",
+        "api.portfolio.status"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "Approval lifecycle updates are local state mutations already contract-registered in ApiRouteContractRegistry; destructive execution remains blocked."
+      },
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true
+      },
+      "status_visibility": [
+        "PASS",
+        "FAIL",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "Only local approval lifecycle and dry-run action launcher are visible; no patch apply, git push, rollback execute or deploy controls."
+      ]
+    },
     {
       "route_id": "ui.dashboard",
       "title": "Dashboard local",
@@ -106,102 +159,6 @@
       ]
     },
     {
-      "route_id": "ui.traces",
-      "title": "Trace viewer",
-      "path": "/traces",
-      "page_component": "TracesView",
-      "source_files": [
-        "ui/web/src/pages/TracesView.ts"
-      ],
-      "allowed_api_routes": [
-        "api.traces.list",
-        "api.traces.inspect",
-        "api.metrics.summary",
-        "api.portfolio.status"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": false,
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true
-      },
-      "status_visibility": [
-        "PASS",
-        "FAIL",
-        "BLOCK",
-        "ERROR",
-        "PENDING"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "Read-only route-specific trace list/detail viewer.",
-        "It does not query report index automatically."
-      ]
-    },
-    {
-      "route_id": "ui.approvals",
-      "title": "Approval Center y Action Launcher",
-      "path": "/approvals",
-      "page_component": "ApprovalCenterView",
-      "source_files": [
-        "ui/web/src/pages/ApprovalCenterView.ts",
-        "ui/web/src/components/DryRunActionForm.ts"
-      ],
-      "allowed_api_routes": [
-        "api.approvals.list",
-        "api.approvals.show",
-        "api.approvals.request",
-        "api.approvals.approve",
-        "api.approvals.deny",
-        "api.actions.dry_run",
-        "api.portfolio.status"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": true,
-      "mutation_controls": {
-        "local_state_mutation_only": true,
-        "approval_required": true,
-        "destructive_action_allowed": false,
-        "plan_only": false,
-        "justification": "Approval lifecycle updates are local state mutations already contract-registered in ApiRouteContractRegistry; destructive execution remains blocked."
-      },
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true
-      },
-      "status_visibility": [
-        "PASS",
-        "FAIL",
-        "BLOCK",
-        "ERROR",
-        "PENDING"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "Only local approval lifecycle and dry-run action launcher are visible; no patch apply, git push, rollback execute or deploy controls."
-      ]
-    },
-    {
       "route_id": "ui.settings",
       "title": "Settings UI",
       "path": "/settings",
@@ -254,25 +211,118 @@
         "POST-H-014-D surfaces protected security posture in Settings without exposing secrets.",
         "POST-H-EVAL-002-01-D corrective: settings phases are mutually exclusive and protected request concurrency is bounded to two."
       ]
+    },
+    {
+      "route_id": "ui.traces",
+      "title": "Trace viewer",
+      "path": "/traces",
+      "page_component": "TracesView",
+      "source_files": [
+        "ui/web/src/pages/TracesView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.traces.list",
+        "api.traces.inspect",
+        "api.metrics.summary",
+        "api.portfolio.status"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true
+      },
+      "status_visibility": [
+        "PASS",
+        "FAIL",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "Read-only route-specific trace list/detail viewer.",
+        "It does not query report index automatically."
+      ]
+    },
+    {
+      "route_id": "ui.workspace-documents",
+      "title": "Workspace Documents — explorador read-only",
+      "path": "/workspace/documents",
+      "page_component": "WorkspaceDocumentsView",
+      "source_files": [
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/components/DocumentTree.ts",
+        "ui/web/src/components/DocumentViewer.ts"
+      ],
+      "allowed_api_routes": [
+        "api.workspace.documents.list",
+        "api.workspace.documents.read",
+        "api.workspace.documents.metadata",
+        "api.portfolio.status"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "UOC-001 read-only document explorer for the explicitly active registered workspace.",
+        "The browser uses opaque document ids; absolute filesystem paths are never accepted as authority.",
+        "Markdown is rendered with DOM text nodes and no innerHTML; JSON raw content is displayed in textContent.",
+        "No write, shell, connector, plugin, remote execution or external API capability is exposed."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 5,
-    "critical_routes_total": 5,
-    "local_only_routes_total": 5,
-    "dry_run_badged_routes_total": 5,
-    "no_remote_badged_routes_total": 5,
+    "routes_total": 6,
+    "critical_routes_total": 6,
+    "local_only_routes_total": 6,
+    "dry_run_badged_routes_total": 6,
+    "no_remote_badged_routes_total": 6,
     "mutation_control_routes_total": 2,
-    "allowed_api_routes_unique_total": 22,
+    "allowed_api_routes_unique_total": 26,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
     "reports_traces_route_specific": true,
     "ui_first_gap_corrective": true,
-    "workspace_context_surface_routes_total": 5,
+    "workspace_context_surface_routes_total": 6,
     "recursive_report_discovery": true,
     "scoped_observability": true,
-    "governed_approval_request": true
+    "governed_approval_request": true,
+    "uoc_001_workspace_documents": true,
+    "read_only_document_routes_total": 1,
+    "opaque_document_identifiers": true
   },
   "safety": {
     "local_first": true,
@@ -291,6 +341,7 @@
     "POST-H-015-D extends ui.dashboard with the Operator Dashboard visual surface while preserving the POST-H-014-C critical-route set.",
     "POST-H-EVAL-002-01-D corrective removes eager embedded detail views, separates Reports/Traces and preserves all no-go gates.",
     "POST-H-EVAL-002-01-D repo 324 synchronizes separated ReportsView/TracesView and treats async.ts as shared infrastructure, not route-owned source.",
-    "POST-H-EVAL-002-02-A UI-first corrective adds shared read-only portfolio/workspace context to all five critical routes without adding a new top-level route."
+    "POST-H-EVAL-002-02-A UI-first corrective adds shared read-only portfolio/workspace context to all five critical routes without adding a new top-level route.",
+    "UOC-001 adds ui.workspace-documents as a read-only, opaque-id, active-workspace-bound surface with zero mutation controls."
   ]
 }

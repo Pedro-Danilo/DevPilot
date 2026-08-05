@@ -4,10 +4,10 @@
   "registry_id": "devpilot-ui-capability-registry",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "updated": "2026-08-04",
   "source_commits": {
-    "canonical_commit": "43254e3e61cdafe65e0ed2d773fe9032b0a81f05",
+    "canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
     "ui_corrective_commit": "84789e428246d732cf308d70aa965dfda291b09e",
     "api_security_commit": "43254e3e61cdafe65e0ed2d773fe9032b0a81f05"
   },
@@ -213,6 +213,31 @@
       "mapped_cli_capability_ids": [
         "cli.portfolio.status"
       ],
+      "shows_mutation_controls": false,
+      "local_only": true,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true
+      }
+    },
+    {
+      "route_id": "ui.workspace-documents",
+      "path": "/workspace/documents",
+      "title": "Workspace Documents — explorador read-only",
+      "page_component": "WorkspaceDocumentsView",
+      "allowed_api_route_ids": [
+        "api.workspace.documents.list",
+        "api.workspace.documents.read",
+        "api.workspace.documents.metadata",
+        "api.portfolio.status"
+      ],
+      "mapped_cli_capability_ids": [],
       "shows_mutation_controls": false,
       "local_only": true,
       "external_api_allowed": false,
@@ -10714,9 +10739,9 @@
     "cli_commands_total": 193,
     "cli_commands_classified_total": 193,
     "classification_complete": true,
-    "ui_routes_total": 5,
-    "ui_routes_mapped_total": 5,
-    "api_routes_total": 39,
+    "ui_routes_total": 6,
+    "ui_routes_mapped_total": 6,
+    "api_routes_total": 42,
     "risk_class_counts": {
       "forbidden": 5,
       "mutating": 130,
@@ -10740,19 +10765,22 @@
     "mutating_without_policy_total": 0,
     "sensitive_ui_native_without_approval_total": 0,
     "forbidden_capabilities_total": 5,
-    "current_ui_native_or_read_only_total": 4
+    "current_ui_native_or_read_only_total": 4,
+    "uoc_001_read_only_document_surface_total": 1
   },
   "safety": {
     "local_first": true,
-    "metadata_only": true,
-    "new_ui_routes_added": 0,
+    "metadata_only": false,
+    "new_ui_routes_added": 1,
     "runtime_execution_enabled": false,
     "arbitrary_shell_allowed": false,
     "remote_execution_enabled": false,
     "connector_write_enabled": false,
     "plugin_execution_enabled": false,
     "external_api_required": false,
-    "source_mutations_runtime": false
+    "source_mutations_runtime": false,
+    "workspace_documents_read_only_enabled": true,
+    "document_write_enabled": false
   },
   "notes": [
     "UOC-000 freezes architecture and classification only; no runtime route or executor is added.",

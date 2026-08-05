@@ -11,6 +11,9 @@ const reportsView = read('src/pages/ReportsView.ts');
 const tracesView = read('src/pages/TracesView.ts');
 const approvalCenterView = read('src/pages/ApprovalCenterView.ts');
 const settingsView = read('src/pages/SettingsView.ts');
+const workspaceDocumentsView = read('src/pages/WorkspaceDocumentsView.ts');
+const documentTree = read('src/components/DocumentTree.ts');
+const documentViewer = read('src/components/DocumentViewer.ts');
 const providerSettings = read('src/components/ProviderSettings.ts');
 const dryRunActionForm = read('src/components/DryRunActionForm.ts');
 const findingTable = read('src/components/FindingTable.ts');
@@ -23,7 +26,7 @@ const operatorNextActions = read('src/components/OperatorNextActions.ts');
 const uiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/ui_route_contract_registry.json'));
 const apiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/api_route_contract_registry.json'));
 const sanitizeUtils = read('src/utils/sanitize.ts');
-const filesToScan = [client, dashboard, statusCard, reportsView, tracesView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, read('src/main.ts')];
+const filesToScan = [client, dashboard, statusCard, reportsView, tracesView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, workspaceDocumentsView, documentTree, documentViewer, read('src/main.ts')];
 
 function assert(condition, message) {
   if (!condition) {
@@ -51,7 +54,7 @@ assert(packageJson.scripts.test === 'node scripts/smoke-test.mjs', 'npm test deb
 
 assert(uiContractRegistry.schema_id === 'SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1', 'UI registry schema_id inválido');
 assert(uiContractRegistry.created_by === 'POST-H-014-C', 'UI registry debe declarar POST-H-014-C');
-const expectedUiRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings'];
+const expectedUiRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents'];
 const apiRouteIds = new Set(apiContractRegistry.routes.map((route) => route.route_id));
 for (const routeId of expectedUiRoutes) {
   assert(uiContractRegistry.routes.some((route) => route.route_id === routeId), `Falta contrato UI ${routeId}`);
@@ -75,7 +78,7 @@ for (const source of filesToScan) {
   assert(!source.includes('outputs/'), 'La UI no debe leer outputs directamente');
 }
 
-for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan']) {
+for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan', '/workspace/documents']) {
   assert(client.includes(expectedPath), `El cliente API debe consumir ${expectedPath}`);
 }
 
@@ -90,6 +93,9 @@ assert(approvalCenterView.includes('ui.approvals'), 'ApprovalCenterView debe dec
 assert(settingsView.includes('ui.settings'), 'SettingsView debe declarar marker ui.settings');
 assert(reportsView.includes('No hay reportes locales') && tracesView.includes('No hay trazas disponibles'), 'Reportes/Trazas deben manejar estados vacíos');
 assert(approvalCenterView.includes('Approval Center') && approvalCenterView.includes('Action Launcher'), 'La UI debe incluir Approval Center y Action Launcher');
+assert(workspaceDocumentsView.includes('ui.workspace-documents') && workspaceDocumentsView.includes('identificadores opacos'), 'Workspace Documents debe declarar contrato read-only y opaque ids');
+assert(documentTree.includes("role', 'treeitem'"), 'DocumentTree debe declarar semántica treeitem');
+assert(documentViewer.includes('textContent') && !documentViewer.includes('innerHTML'), 'DocumentViewer debe renderizar contenido sin innerHTML');
 assert(settingsView.includes('Configuración') && settingsView.includes('Editor de provider — plan-only'), 'La UI debe incluir Configuración y editor plan-only');
 assert(settingsView.includes('Postura de seguridad') && settingsView.includes('securityPosture'), 'Configuración debe mostrar postura de seguridad');
 assert(dashboard.includes('renderOperatorDashboard'), 'Dashboard debe integrar OperatorDashboard POST-H-015-D');

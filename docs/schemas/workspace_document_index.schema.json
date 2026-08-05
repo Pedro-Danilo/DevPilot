@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WORKSPACE-DOCUMENT-INDEX-V1",
+  "title": "DevPilot Workspace Document Index v1",
+  "description": "UOC-001 bounded, read-only active-workspace document tree response data.",
+  "type": "object",
+  "required": [
+    "summary",
+    "nodes",
+    "ui_workspace_context",
+    "safety"
+  ],
+  "properties": {
+    "summary": {
+      "type": "object",
+      "required": [
+        "workspace_id",
+        "nodes_total",
+        "matching_total",
+        "returned_total",
+        "documents_total",
+        "folders_total",
+        "offset",
+        "limit",
+        "read_only",
+        "mutations_performed"
+      ],
+      "properties": {
+        "workspace_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_mode": {
+          "type": "string"
+        },
+        "nodes_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matching_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "returned_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "documents_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "folders_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 250
+        },
+        "next_offset": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "allowed_extensions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              ".md",
+              ".json",
+              ".yaml",
+              ".yml",
+              ".txt"
+            ]
+          }
+        },
+        "maximum_inline_bytes": {
+          "const": 1048576
+        },
+        "read_only": {
+          "const": true
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "nodes": {
+      "type": "array",
+      "maxItems": 250,
+      "items": {
+        "type": "object",
+        "required": [
+          "node_id",
+          "kind",
+          "name",
+          "relative_path",
+          "category",
+          "readable"
+        ],
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "pattern": "^(doc|dir)_[A-Za-z0-9_-]{16,64}$"
+          },
+          "document_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^doc_[A-Za-z0-9_-]{16,64}$"
+          },
+          "kind": {
+            "enum": [
+              "document",
+              "folder"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "relative_path": {
+            "type": "string",
+            "minLength": 1,
+            "not": {
+              "pattern": "(^[A-Za-z]:|^/|^\\\\|(^|/)\\.\\.(/|$)|:)"
+            }
+          },
+          "parent_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "extension": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              ".md",
+              ".json",
+              ".yaml",
+              ".yml",
+              ".txt",
+              null
+            ]
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1
+          },
+          "size_bytes": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "modified_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "readable": {
+            "type": "boolean"
+          },
+          "blocked_reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ui_workspace_context": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "read_only",
+        "mutations_performed",
+        "absolute_paths_accepted_from_browser",
+        "symlink_following",
+        "external_api_used"
+      ],
+      "properties": {
+        "read_only": {
+          "const": true
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "absolute_paths_accepted_from_browser": {
+          "const": false
+        },
+        "symlink_following": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-INDEX-V1",
+  "x-devpilot-sprint": "UOC-001",
+  "x-devpilot-status": "registered"
+}

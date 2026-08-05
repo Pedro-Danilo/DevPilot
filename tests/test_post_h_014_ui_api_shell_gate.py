@@ -25,8 +25,8 @@ def test_post_h_014_e_ui_api_shell_gate_passes_and_writes_schema_valid_report() 
     assert summary["ui_smoke_ok"] is True
     assert summary["documentation_ok"] is True
     assert summary["registries_synchronized"] is True
-    assert summary["api_routes_total"] == 39
-    assert summary["ui_routes_total"] == 5
+    assert summary["api_routes_total"] == 42
+    assert summary["ui_routes_total"] == 6
     assert summary["no_go_violations_total"] == 0
     assert summary["network_used"] is False
     assert summary["external_api_used"] is False

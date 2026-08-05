@@ -14,7 +14,7 @@
   "credentials_required": false,
   "current_micro_sprint": "POST-H-EVAL-002-02-B",
   "current_phase": "POST-H-EVAL-002",
-  "current_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
+  "current_repo": "repo_DevPilot_Local_328_POST_H_EVAL_002_UOC_000.zip",
   "enterprise_deployment_enabled": false,
   "enterprise_ready_claimed": false,
   "external_api_used": false,
@@ -332,7 +332,8 @@
     "POST-H-EVAL-002-01-D corrective 325 implements operation-specific browser budgets, exclusive dry-run/provider-plan states, synthetic provider proposal validation and explicit approvals.show evidence; 01-D remains open pending independent validation and RUN-04.",
     "RUN05B RERUN-02 is forensic-only BLOCK/product-contract-evidence: 21/23 UI operations, 4/8 valid negative screenshots and an incomplete 5/23 final HAR; Finalize is not authorized.",
     "Corrective 326 consumes and renders api.health before protected Dashboard calls, makes Approval Center notices conditional, fully redacts secret-like Settings fields and adds accessibility semantics; 01-D remains open pending complete validation and PILOT-E2E-001-RUN-05B-RERUN-03.",
-    "POST-H-EVAL-002-02-A closes PASS-WITH-GAPS; UI-first corrective closes nested Reports discoverability and authorizes 02-B."
+    "POST-H-EVAL-002-02-A closes PASS-WITH-GAPS; UI-first corrective closes nested Reports discoverability and authorizes 02-B.",
+    "UOC-001 implements the preliminary read-only Workspace Documents explorer with opaque ids, bounded server-side discovery, safe Markdown/JSON viewing and zero write capability; Windows browser acceptance remains required before UOC-002."
   ],
   "phase_h_status": "closed_implemented_initial",
   "plugin_execution_enabled": false,
@@ -1967,5 +1968,17 @@
   "uoc_000_s0_open": 0,
   "uoc_000_s1_open": 0,
   "uoc_001_authorized": true,
-  "uoc_001_authorization_reason": "UOC-000 registry, schemas and ADR gates implemented and validated; no runtime mutation enabled."
+  "uoc_001_authorization_reason": "UOC-000 registry, schemas and ADR gates implemented and validated; no runtime mutation enabled.",
+  "uoc_000_canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
+  "uoc_001_status": "implemented-initial/pending-windows-browser-acceptance",
+  "uoc_001_base_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
+  "uoc_001_read_only_workspace_documents_available": true,
+  "uoc_001_workspace_document_api_routes_total": 3,
+  "uoc_001_ui_routes_added_total": 1,
+  "uoc_001_write_enabled": false,
+  "uoc_001_external_api_required": false,
+  "uoc_001_s0_open": 0,
+  "uoc_001_s1_open": 0,
+  "uoc_002_authorized": false,
+  "uoc_002_authorization_reason": "Pending Windows API/UI/browser acceptance and exact-tree baseline for UOC-001."
 }

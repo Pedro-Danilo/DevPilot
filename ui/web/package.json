@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.6.8-post-h-eval-002-01-d-run05b-integral-corrective",
+  "version": "0.7.0-post-h-eval-002-uoc-001",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI for local operator console: dashboard, reports, traces, approvals, settings, operator dashboard, POST-H-028 visual smoke and operator-flow smoke contracts.",
+  "description": "DevPilot Local Web UI operational console with UOC-001 read-only Workspace Documents explorer.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -55,7 +55,8 @@
       "ui.reports",
       "ui.traces",
       "ui.approvals",
-      "ui.settings"
+      "ui.settings",
+      "ui.workspace-documents"
     ],
     "localFirstBadges": true,
     "dryRunBadges": true,
@@ -90,7 +91,8 @@
       "ui.traces",
       "ui.approvals",
       "ui.settings",
-      "ui.operator-dashboard-embedded"
+      "ui.operator-dashboard-embedded",
+      "ui.workspace-documents"
     ],
     "unauthorizedErrorVisible": true,
     "apiDownErrorVisible": true,
@@ -154,6 +156,23 @@
     "governedApprovalRequest": true,
     "approvalDemoOnly": false,
     "topLevelUiRoutesChanged": false,
-    "uiFirstGapDecision": "correct-before-post-h-eval-002-02-b"
+    "uiFirstGapDecision": "correct-before-post-h-eval-002-02-b",
+    "workspaceDocuments": true,
+    "workspaceDocumentsReadOnly": true,
+    "workspaceDocumentsRoute": "ui.workspace-documents",
+    "workspaceDocumentsOpaqueIds": true,
+    "workspaceDocumentsAllowedExtensions": [
+      ".md",
+      ".json",
+      ".yaml",
+      ".yml",
+      ".txt"
+    ],
+    "workspaceDocumentsMaximumInlineBytes": 1048576,
+    "workspaceDocumentsSymlinkFollowing": false,
+    "uoc001PreliminaryReadOnly": true,
+    "uoc001TopLevelUiRoutesAdded": 1,
+    "currentSprint": "POST-H-EVAL-002-UOC-001",
+    "uoc001Status": "implemented-initial/pending-browser-acceptance"
   }
 }

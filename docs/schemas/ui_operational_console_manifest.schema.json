@@ -70,11 +70,12 @@
       "type": "object"
     },
     "next_sprint": {
-      "const": "UOC-001"
+      "type": "string",
+      "pattern": "^UOC-[0-9]{3}$"
     }
   },
   "additionalProperties": true,
   "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-MANIFEST-V1",
-  "x-devpilot-sprint": "UOC-000",
+  "x-devpilot-sprint": "UOC-001",
   "x-devpilot-status": "registered"
 }

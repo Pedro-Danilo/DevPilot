@@ -4,6 +4,7 @@ import { renderReportsView } from './pages/ReportsView';
 import { renderTracesView } from './pages/TracesView';
 import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
+import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
 import './styles.css';
 
 const root = document.querySelector<HTMLElement>('#app');
@@ -12,6 +13,7 @@ if (!root) throw new Error('No se encontró el contenedor #app para DevPilot Web
 interface UiRoute { path: string; routeId: string; title: string; }
 const UI_ROUTES: UiRoute[] = [
   { path: '/', routeId: 'ui.dashboard', title: 'Dashboard' },
+  { path: '/workspace/documents', routeId: 'ui.workspace-documents', title: 'Documentos' },
   { path: '/reports', routeId: 'ui.reports', title: 'Reportes' },
   { path: '/traces', routeId: 'ui.traces', title: 'Trazas' },
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center' },
@@ -34,7 +36,8 @@ function renderApplication(target: HTMLElement): void {
   else if (route.path === '/') renderDashboard(page);
   else {
     page.append(renderRouteHeader(route));
-    if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
+    if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken()));
+    else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));
     else if (route.path === '/approvals') page.append(renderApprovalCenterView(() => readStoredToken()));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));

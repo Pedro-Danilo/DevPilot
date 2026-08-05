@@ -782,6 +782,58 @@
       "status_checked": true
     },
     {
+      "doc_id": "DEVPL-UOC-001-READ-ONLY-DOCUMENTS-REPORT",
+      "path": "docs/audits/uoc_001_read_only_documents_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-001",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "DEVPL-UOC-001-WORKSPACE-DOCUMENTS-API",
+      "path": "docs/07_interfaces/workspace_documents_api.md",
+      "classification": "source-of-truth",
+      "domain": "interfaces.api",
+      "owner": "UOC-001",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
       "domain": "operator-onboarding",
       "criticality": "P1",
       "roadmap_milestones": [
@@ -13667,6 +13719,190 @@
         "UOC-000",
         "UOC-001"
       ]
+    },
+    {
+      "doc_id": "UOC-001-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_001_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-001",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-001-SCHEMA-WORKSPACE-DOCUMENT-INDEX",
+      "path": "docs/schemas/workspace_document_index.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-001",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-001-SCHEMA-WORKSPACE-DOCUMENT-METADATA",
+      "path": "docs/schemas/workspace_document_metadata.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-001",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-001-SCHEMA-WORKSPACE-DOCUMENT-RESOURCE",
+      "path": "docs/schemas/workspace_document_resource.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-001",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-001-TEST-API",
+      "path": "tests/test_api_workspace_documents.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-001",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-001-TEST-CONTRACTS",
+      "path": "tests/test_post_h_eval_002_uoc_001_contracts.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-001",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-001-TEST-SERVICE",
+      "path": "tests/test_workspace_document_service.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-001",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-001-TEST-WEB",
+      "path": "tests/test_web_ui_workspace_documents.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-001",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_documents.py",
+        "tests/test_web_ui_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-001",
+        "UOC-002"
+      ]
     }
   ],
   "rules": {
@@ -13741,31 +13977,31 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 595,
-    "source_of_truth_total": 233,
-    "machine_readable_source_total": 279,
-    "derived_total": 83,
+    "documents_total": 605,
+    "source_of_truth_total": 235,
+    "machine_readable_source_total": 283,
+    "derived_total": 87,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 500,
+    "critical_sources_total": 510,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 595,
+    "documents_with_required_tests_total": 605,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "UOC-000",
+    "last_updated_by": "UOC-001",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "UOC-000",
-    "last_registered_sprint": "UOC-000",
+    "updated_by": "UOC-001",
+    "last_registered_sprint": "UOC-001",
     "updated": "2026-08-04",
-    "documents_checked_total": 595,
-    "documents_registered_total": 595
+    "documents_checked_total": 605,
+    "documents_registered_total": 605
   },
   "safety": {
     "local_first": true,

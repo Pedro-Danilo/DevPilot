@@ -197,3 +197,18 @@ POST-H-031 agrega vistas operacionales read-only/redacted mediante `ApplicationS
 | `api.operator.evidence_export` | `GET` | `/api/v1/operator/evidence-export` | `operator.evidence_export` | `ApplicationService.operator_evidence_export` | `outputs-only on explicit write_report` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; redacted export only; no patch execution; no raw payload export` |
 
 Regla: `operator.evidence_export` requiere export redactado y opera en `dry_run` por defecto. Cuando se solicita escritura explícita, solo escribe paquete regenerable bajo `outputs/audit_exports/operator_evidence_export/`; nunca escribe fuente versionada ni expone `.env`, `.devpilot/devpilot.db`, prompts crudos u outputs crudos.
+
+## UOC-001 — Workspace Documents read-only mapping
+
+UOC-001 amplía la superficie ApplicationService/API con tres operaciones
+estrictamente read-only. El root del workspace se resuelve en el servidor desde
+el contexto registrado; el navegador solo utiliza identificadores opacos.
+
+| API ID | Método | Path | Operation | Domain service | Side effect | Auth | Policy/gate |
+|---|---|---|---|---|---|---|---|
+| `API-WORKSPACE-DOCUMENTS-LIST` | `GET` | `/api/v1/workspace/documents` | `workspace.documents.list` | `WorkspaceDocumentsApplicationService` | `none` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine + active workspace + PathGuard + bounded no-follow discovery` |
+| `API-WORKSPACE-DOCUMENTS-READ` | `GET` | `/api/v1/workspace/documents/{document_id}` | `workspace.documents.read` | `WorkspaceDocumentsApplicationService` | `none` | `local-token-required` | `Policy/gate: opaque id + active workspace + PathGuard + no-follow safe open + size/encoding allowlist` |
+| `API-WORKSPACE-DOCUMENTS-METADATA` | `GET` | `/api/v1/workspace/documents/{document_id}/metadata` | `workspace.documents.metadata` | `WorkspaceDocumentsApplicationService` | `none` | `local-token-required` | `Policy/gate: opaque id + active workspace + PathGuard + bounded metadata/hash read` |
+
+No existe operación de escritura documental, shell, ejecución remota, connector
+write, plugin execution ni API externa en UOC-001.

@@ -168,6 +168,18 @@ export class DevPilotApiClient {
     });
   }
 
+  async listWorkspaceDocuments(filters: { limit?: number; offset?: number; query?: string; extension?: string; category?: string } = {}): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/documents${this.query(filters)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async readWorkspaceDocument(documentId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/documents/${encodeURIComponent(documentId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceDocumentMetadata(documentId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/documents/${encodeURIComponent(documentId)}/metadata`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
   private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' }, policy);
   }

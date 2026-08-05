@@ -86,7 +86,11 @@
     "visual_product_mvp_release": true,
     "web_real_evolution_planned": true,
     "post_h_031_b_operator_health_route": true,
-    "updated_by": "POST-H-031-E"
+    "updated_by": "UOC-001",
+    "workspace_documents_read_only": true,
+    "workspace_document_api_routes_total": 3,
+    "workspace_documents_opaque_ids": true,
+    "workspace_documents_write_enabled": false
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -3571,6 +3575,363 @@
         ],
         "x-devpilot-consumers": [
           "ui/web dashboard"
+        ]
+      }
+    },
+    "/api/v1/workspace/documents": {
+      "get": {
+        "operationId": "workspace_documents_list",
+        "summary": "Workspace Documents List",
+        "description": "UOC-001 bounded read-only index for the explicit active workspace. Browser paths are not accepted.",
+        "tags": [
+          "workspace-documents"
+        ],
+        "x-devpilot-api-id": "API-WORKSPACE-DOCUMENTS-LIST",
+        "x-devpilot-operation": "workspace.documents.list",
+        "x-devpilot-domain-service": "WorkspaceDocumentsApplicationService",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000,
+              "default": 0
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "extension",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 16
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            }
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
+        ]
+      }
+    },
+    "/api/v1/workspace/documents/{document_id}": {
+      "get": {
+        "operationId": "workspace_documents_read",
+        "summary": "Workspace Document Read",
+        "description": "UOC-001 safe UTF-8 document read through an opaque id. Symlinks, reparse points, binaries and over-budget files are blocked.",
+        "tags": [
+          "workspace-documents"
+        ],
+        "x-devpilot-api-id": "API-WORKSPACE-DOCUMENTS-READ",
+        "x-devpilot-operation": "workspace.documents.read",
+        "x-devpilot-domain-service": "WorkspaceDocumentsApplicationService",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^doc_[A-Za-z0-9_-]{16,128}$"
+            },
+            "description": "Opaque server-issued document identifier; never a filesystem path."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
+        ]
+      }
+    },
+    "/api/v1/workspace/documents/{document_id}/metadata": {
+      "get": {
+        "operationId": "workspace_documents_metadata",
+        "summary": "Workspace Document Metadata",
+        "description": "UOC-001 deterministic read-only metadata for an opaque document id.",
+        "tags": [
+          "workspace-documents"
+        ],
+        "x-devpilot-api-id": "API-WORKSPACE-DOCUMENTS-METADATA",
+        "x-devpilot-operation": "workspace.documents.metadata",
+        "x-devpilot-domain-service": "WorkspaceDocumentsApplicationService",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^doc_[A-Za-z0-9_-]{16,128}$"
+            },
+            "description": "Opaque server-issued document identifier; never a filesystem path."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
         ]
       }
     }
