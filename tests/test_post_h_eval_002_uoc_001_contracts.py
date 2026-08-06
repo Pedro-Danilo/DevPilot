@@ -22,17 +22,27 @@ def test_uoc_001_backlog_manifest_state_and_flags_are_synchronized() -> None:
     state = _json(".devpilot/project_state.json")
     flags = _json(".devpilot/interfaces/ui_operational_console_flags.json")
 
-    assert 'implementation_status: "UOC-001-functional-implemented/pending-browser-acceptance-corrective"' in backlog
-    assert 'canonical_baseline_commit: "a986f83a7c2da99a734c88feb80bf5d66cde2e4a"' in backlog
+    assert 'implementation_status: "UOC-001-closed/PASS"' in backlog
+    assert 'canonical_baseline_commit: "resolved-by-UOC_001_CANONICAL_INTEGRATION.json"' in backlog
     assert manifest["sprint_id"] == "UOC-001"
     assert manifest["base_commit"] == "a986f83a7c2da99a734c88feb80bf5d66cde2e4a"
     assert manifest["gates"]["read_only"] is True
     assert manifest["gates"]["mutations_enabled"] is False
-    assert manifest["gates"]["browser_acceptance_pending"] is True
+    assert manifest["status"] == "closed"
+    assert manifest["decision"] == "PASS"
+    assert manifest["gates"]["browser_acceptance_pending"] is False
+    assert manifest["gates"]["browser_acceptance_pass"] is True
+    assert manifest["gates"]["windows_path_security_pass"] is True
+    assert manifest["gates"]["ui_eligible_documents_visibility_pass"] is True
+    assert manifest["gates"]["policy_excluded_documents_hidden_pass"] is True
+    assert manifest["browser_acceptance_contract"]["version"] == "3.0"
+    assert manifest["browser_acceptance_contract"]["policy_aligned"] is True
     assert manifest["browser_acceptance_contract"]["sequence_aware"] is True
-    assert state["uoc_001_status"] == "functional-implemented/pending-browser-acceptance-corrective"
+    assert state["uoc_001_status"] == "closed/PASS"
+    assert state["uoc_001_ui_eligible_document_visibility_pass"] is True
+    assert state["uoc_001_policy_excluded_documents_hidden_pass"] is True
     assert state["uoc_001_write_enabled"] is False
-    assert state["uoc_002_authorized"] is False
+    assert state["uoc_002_authorized"] is True
     read_flag = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.documents.read_only")
     assert read_flag["enabled"] is True
     assert all(

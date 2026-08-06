@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-MANIFEST-V1",
   "sprint_id": "UOC-001",
   "title": "Workspace Documents: explorador read-only",
-  "status": "implemented-initial/pending-browser-acceptance-corrective",
+  "status": "closed",
   "implemented_at": "2026-08-04",
   "base_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
   "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
@@ -81,8 +81,15 @@
     "markdown_inner_html": false,
     "s0": 0,
     "s1": 0,
-    "browser_acceptance_pending": true,
-    "browser_acceptance_corrective_required": true
+    "browser_acceptance_pending": false,
+    "browser_acceptance_corrective_required": false,
+    "browser_acceptance_pass": true,
+    "windows_path_security_pass": true,
+    "zero_write_pass": true,
+    "ui_eligible_documents_visibility_pass": true,
+    "policy_excluded_documents_hidden_pass": true,
+    "future_02b_documents_are_not_uoc_001_prerequisites": true,
+    "future_02b_documents_fabricated": false
   },
   "tests": [
     "tests/test_workspace_document_service.py",
@@ -104,13 +111,13 @@
   },
   "next_sprint": "UOC-002",
   "limitations": [
-    "Preliminary safe Markdown renderer, not full CommonMark.",
-    "Git metadata/search remain UOC-002.",
-    "Actual symlink creation is host-capability dependent; deterministic link-guard tests and an actual Windows junction acceptance are mandatory.",
-    "Browser acceptance is pending.",
-    "No document mutation is enabled.",
-    "traceability_matrix.md and ADR documents are authored during POST-H-EVAL-002-02-B; UOC-001 verifies visibility of every materialized pre-code artifact without mutating the workspace.",
-    "Browser JSON evidence is required only when the active workspace contains an allowed JSON document; otherwise structured JSON remains covered by API/UI contract tests and browser evidence uses a safe YAML/raw document."
+    "UOC-001 is closed as a sprint, while the document renderer remains a preliminary first version rather than full CommonMark.",
+    "Git metadata, history, diff and indexed search remain UOC-002.",
+    "Validation and traceability actions remain UOC-003.",
+    "traceability_matrix.md and authored ADRs are created during POST-H-EVAL-002-02-B when not already materialized.",
+    "Visibility parity applies only to documents that satisfy the authoritative UOC-001 allow/deny policy; .devpilot control-plane registries other than project.yaml remain intentionally hidden.",
+    "No document mutation, shell, connector write, plugin execution or external API is enabled.",
+    "The Windows npm ci run reported one high-severity advisory; its identity and reachability remain a separate governed dependency assessment, and no automatic fix was applied."
   ],
   "test_contract": {
     "representative_suite_collected": 114,
@@ -124,16 +131,39 @@
     "windows_path_suite_allowed_skipped": 0,
     "result_source": "pytest JUnit XML, not stdout substring matching"
   },
-  "version": "1.1.0",
+  "version": "1.2.0",
   "browser_acceptance_contract": {
-    "version": "2.0",
+    "version": "3.0",
     "sequence_aware": true,
-    "materialized_precode_documents_required_visible": true,
     "future_02b_deliverables_may_be_planned": true,
     "reduced_viewport_minimum": "360x640 portrait at 100% zoom",
     "structured_evidence_modes": [
       "json-browser",
       "yaml-raw-browser+json-contract-tests"
-    ]
+    ],
+    "policy_aligned": true,
+    "ui_eligible_precode_documents_required_visible": true,
+    "policy_excluded_control_plane_files_required_hidden": true
+  },
+  "decision": "PASS",
+  "closed_at": "2026-08-05T19:18:35.626570-05:00",
+  "functional_commit": "6a089ce54d27d0e37621e8db6eaa6db465decaf5",
+  "accepted_source_commit": "e9fe717eb8eafaca40830c691a7efb7bb956b035",
+  "preliminary": true,
+  "acceptance": {
+    "browser_schema": "devpilot.post_h_eval_002.uoc_001.browser_acceptance.v3",
+    "browser_report": "D:\\Projects\\DevPilot_E2E_Evaluation\\control\\POST-H-EVAL-002\\UOC-001\\UOC_001_BROWSER_ACCEPTANCE.json",
+    "browser_report_sha256": "c826fbd0ba1c6bbd901f6bfce575073aa13a6f83bc8a21e6675455b5f47025eb",
+    "path_security_report": "D:\\Projects\\DevPilot_E2E_Evaluation\\control\\POST-H-EVAL-002\\UOC-001\\UOC_001_WINDOWS_PATH_SECURITY_ACCEPTANCE.json",
+    "path_security_report_sha256": "dd9a46cc80010eef4949eb1f575b8480d2dcd25b00b7cb80db1fbb3454a7c948",
+    "screenshots_total": 4,
+    "ui_eligible_documents_total": 8,
+    "policy_excluded_documents_total": 4,
+    "future_02b": {
+      "traceability_matrix.md": "PLANNED-FOR-02-B",
+      "authored_adrs": "PLANNED-FOR-02-B"
+    },
+    "structured_evidence": "YAML-RAW+BROWSER-AND-JSON-AUTOMATED-CONTRACTS",
+    "policy_source_sha256": "27584c30d01bf34fe00a52f54400908be4e16b88b45c2465e6f38d661092dc39"
   }
 }

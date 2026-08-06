@@ -2,19 +2,19 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-08-04"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-001-functional-implemented/pending-browser-acceptance-corrective"
-current_sprint: "UOC-001"
+implementation_status: "UOC-001-closed/PASS"
+current_sprint: "UOC-002"
 next_sprint: "UOC-002"
-completed_sprints: "UOC-000"
+completed_sprints: "UOC-000,UOC-001"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
-canonical_baseline_commit: "a986f83a7c2da99a734c88feb80bf5d66cde2e4a"
+canonical_baseline_commit: "resolved-by-UOC_001_CANONICAL_INTEGRATION.json"
 source_corrective_branch: "fix/post-h-eval-002-ui-first-operational-surfaces"
 source_corrective_commit: "84789e428246d732cf308d70aa965dfda291b09e"
 source_api_security_branch: "fix/post-h-eval-002-api-token-nonascii-401"
@@ -26,7 +26,8 @@ local_first: true
 ui_first: true
 dry_run_default: true
 external_api_required: false
-preliminary: false
+preliminary: "false"
+uoc_001_accepted_source_commit: "e9fe717eb8eafaca40830c691a7efb7bb956b035"
 ---
 
 
@@ -958,9 +959,21 @@ El programa no se considera cerrado hasta que:
 ## UOC-001 browser acceptance clarification
 
 UOC-001 precedes POST-H-EVAL-002-02-B and remains strictly read-only. Its
-browser gate therefore requires visibility parity for all currently materialized
-workspace documents. `traceability_matrix.md` and authored ADR documents are
-classified as `PLANNED-FOR-02-B` when they do not yet exist on disk; a file that
-exists but is omitted by the API/UI remains a blocker. Responsive evidence must
+browser gate requires visibility parity for every currently materialized
+document that satisfies the authoritative UOC-001 allow/deny policy. Files
+excluded by that policy, including private `.devpilot` control-plane registries,
+must remain absent from API/UI and are verified as negative security cases.
+`traceability_matrix.md` and authored ADR documents are classified as
+`PLANNED-FOR-02-B` when they do not yet exist as UI-eligible documents. Responsive evidence must
 show a genuine portrait viewport with legible controls and document access, not
 a scaled desktop screenshot.
+
+
+## Adjudicación UOC-001
+
+UOC-001 queda cerrado/PASS como sprint read-only. La capacidad sigue siendo una primera versión preliminar: no incluye Git metadata, full-text search, validaciones, edición, approval, escritura ni rollback.
+
+- Accepted source commit: `e9fe717eb8eafaca40830c691a7efb7bb956b035`.
+- Closure commit y baseline `repo_329`: resueltos por `UOC_001_CANONICAL_INTEGRATION.json` y `BASELINE_CURRENT.json`.
+- Browser acceptance: sequence-aware y policy-aligned v3; exige paridad exacta con documentos UI-eligible y confirma que los archivos control-plane excluidos no se exponen.
+- `traceability_matrix.md` y ADRs authored permanecen `PLANNED-FOR-02-B` cuando todavía no existen como documentos UI-eligible; UOC-001 no fabrica documentos futuros.
