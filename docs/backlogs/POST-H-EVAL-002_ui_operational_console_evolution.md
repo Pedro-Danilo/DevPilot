@@ -2,17 +2,17 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.5.3"
+version: "1.6.0"
 owner: "Ordóñez"
 updated: "2026-08-06"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-002-closure-continuation/pending-browser-and-canonical-closure"
-current_sprint: "UOC-002"
-next_sprint: "UOC-003-after-UOC-002-closure"
-completed_sprints: "UOC-000,UOC-001"
+implementation_status: "UOC-002-closed/PASS"
+current_sprint: "UOC-003"
+next_sprint: "UOC-003"
+completed_sprints: "UOC-000,UOC-001,UOC-002"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
 canonical_baseline_commit: "resolved-by-UOC_001_CANONICAL_INTEGRATION.json"
 source_corrective_branch: "fix/post-h-eval-002-ui-first-operational-surfaces"
@@ -29,7 +29,7 @@ external_api_required: false
 preliminary: "false"
 uoc_001_accepted_source_commit: "e9fe717eb8eafaca40830c691a7efb7bb956b035"
 uoc_002_base_commit: "9cb67b023c6ac909a2b492370632a3955a454e39"
-uoc_002_implementation_status: "implemented-initial/pending-browser-and-canonical-closure"
+uoc_002_implementation_status: "closed/PASS"
 ---
 
 
@@ -1021,3 +1021,12 @@ The v1.0.4 dry-run correctly detected `.devpilot/rag/docs_index.json` as an addi
 - Closure identity is lifecycle-aware: recovery identity while open; `UOC-002-CLOSURE` only after closure.
 - Repo 330 is generated only by `git archive` from the canonical closure commit.
 
+## 2026-08-06 — UOC-002 closure
+
+- Decision: `PASS`.
+- Accepted source commit: `bcb46779470d86d19a87e55a9f6d38297e2f7534`.
+- Regression adjudication: `1987 PASS` reused; selective recovery `16/16 PASS`, validators `7/7 PASS`, prior RAG `5/5 PASS`.
+- Browser acceptance: `PASS`, four screenshots, zero-write, `S0=0`, `S1=0`.
+- Selective evidence SHA-256: `c0ee693921e36de62d2acbc20d11255aad312726170dc27e40620d9548567cdd`.
+- Browser evidence SHA-256: `4fa6ef0f8857de34de2bf04fedf989464504f72bb7f1b50a7c0262cce2341674`.
+- Next authorized sprint: `UOC-003`.

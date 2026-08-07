@@ -2,15 +2,15 @@
   "schema_id": "devpilot.post_h_eval_002.uoc_002.manifest.v1",
   "sprint": "UOC-002",
   "title": "Metadata, Git history y búsqueda documental",
-  "status": "implemented-initial",
-  "decision": "PENDING-WINDOWS-ACCEPTANCE",
+  "status": "closed",
+  "decision": "PASS",
   "version": "1.0.0",
-  "updated": "2026-08-05",
+  "updated": "2026-08-06",
   "owner": "Ordóñez",
   "base_repo": "repo_DevPilot_Local_329_POST_H_EVAL_002_UOC_001.zip",
   "base_commit": "9cb67b023c6ac909a2b492370632a3955a454e39",
-  "closed": false,
-  "next_authorized": null,
+  "closed": true,
+  "next_authorized": "UOC-003",
   "capabilities": {
     "metadata_sha_frontmatter_badges": true,
     "typed_git_status_history_diff": true,
@@ -59,5 +59,12 @@
     "s0_open": 0,
     "s1_open": 0,
     "closure_status": "PENDING"
-  }
+  },
+  "source_commit": "bcb46779470d86d19a87e55a9f6d38297e2f7534",
+  "browser_acceptance": "PASS",
+  "regression_recovery": "PASS-selective-verification",
+  "selective_report_sha256": "c0ee693921e36de62d2acbc20d11255aad312726170dc27e40620d9548567cdd",
+  "browser_validation_report_sha256": "4fa6ef0f8857de34de2bf04fedf989464504f72bb7f1b50a7c0262cce2341674",
+  "s0": 0,
+  "s1": 0
 }

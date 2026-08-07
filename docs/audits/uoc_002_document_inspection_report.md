@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-UOC-002-DOCUMENT-INSPECTION-REPORT"
 title: "UOC-002 — Metadata, Git history y búsqueda documental"
-status: "implemented-initial"
-version: "1.0.0"
+status: "closed/PASS"
+version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-08-05"
-approval: "pending_windows_acceptance"
+updated: "2026-08-06"
+approval: "approved_by_operator_evidence"
 base_commit: "9cb67b023c6ac909a2b492370632a3955a454e39"
 preliminary: true
 ---
@@ -71,3 +71,13 @@ aceptación browser, seguridad negativa, zero-write, integración canónica,
 sincronización origin, baseline exact-tree y S0/S1=0. Cualquier fuga entre
 workspaces, lectura fuera del root, 2xx ante traversal, mutación o argumento Git
 libre produce BLOCK.
+
+## Cierre autoritativo UOC-002
+
+- Source commit: `bcb46779470d86d19a87e55a9f6d38297e2f7534`.
+- Selective regression recovery: `PASS` (`16/16` cases, `7/7` validators, prior RAG `5/5`).
+- Browser acceptance: `PASS`, four screenshots with SHA-256 in external control evidence.
+- Zero-write: `PASS`.
+- S0: `0`.
+- S1: `0`.
+- Next authorized: `UOC-003`.

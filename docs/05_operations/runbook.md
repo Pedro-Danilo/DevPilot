@@ -11752,3 +11752,7 @@ The v1.0.4 dry-run correctly detected `.devpilot/rag/docs_index.json` as an addi
 ## UOC-002 closure continuation v1.0.6
 
 For UOC-002 browser acceptance, never compare `git rev-parse --show-toplevel` to a PowerShell path as raw text. Git may emit forward slashes. Resolve both paths and compare filesystem identity. Manual observations must begin `PENDING`; closure requires 10/10 checks, four validated screenshots, zero-write, `S0=0`, `S1=0`, source/canonical fast-forward integration, closure verification and exact-tree repo 330.
+
+## UOC-002 — Metadata, Git history y búsqueda documental — CLOSED/PASS
+
+UOC-002 cerró con metadata, Git history/diff tipado, búsqueda lexical en memoria y relaciones documentales read-only. La recuperación v1.0.5 y el operador final de cierre v1.0.8 aprobaron evidencia selectiva y browser: zero-write, no shell, `S0=0`, `S1=0`. Source commit: `bcb46779470d86d19a87e55a9f6d38297e2f7534`. UOC-003 queda autorizado tras el baseline autoritativo repo 330.

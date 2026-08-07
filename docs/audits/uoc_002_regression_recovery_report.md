@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-UOC-002-REGRESSION-RECOVERY-REPORT"
 title: "UOC-002 — Recuperación de regresión general v1.0.1"
-status: "implemented-pending-windows-selective-verification"
+status: "closed/PASS"
 version: "1.0.3"
 owner: "Ordóñez"
 updated: "2026-08-06"
-approval: "pending_operator_verification"
+approval: "approved_by_operator_evidence"
 ---
 
 # UOC-002 — Recuperación de regresión general v1.0.1
@@ -54,3 +54,7 @@ La ejecución Windows v1.0.4 no aplicó archivos. Su dry-run bloqueó porque el 
 ## Continuación de cierre v1.0.6
 
 La continuación corrige la comparación literal `D:/...` frente a `D:\...` mediante equivalencia `samefile/resolved-path`, mantiene la identidad estable `UOC-002-REGRESSION-RECOVERY` mientras el sprint está abierto y autoriza `UOC-002-CLOSURE` únicamente después del cierre documental. También reemplaza la interfaz defectuosa del empaquetador por un contrato `git archive` con branch, commit, tracking y remote exactos.
+
+## Resultado autoritativo
+
+La recuperación selectiva concluyó `PASS`: `1987` pruebas aprobadas de la regresión general reutilizadas, `16/16` casos reanudados, `7/7` validadores y RAG previo `5/5`. Browser acceptance concluyó `PASS`, zero-write, source commit `bcb46779470d86d19a87e55a9f6d38297e2f7534`, `S0=0`, `S1=0`. UOC-003 queda autorizado exclusivamente después del commit documental y baseline exact-tree repo 330.

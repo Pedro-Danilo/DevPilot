@@ -843,7 +843,7 @@
       "classification": "source-of-truth",
       "domain": "audit.ui",
       "owner": "UOC-002",
-      "status_required": "implemented-initial",
+      "status_required": "closed/PASS",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_document_inspection_service.py",
@@ -13940,7 +13940,7 @@
       "classification": "machine-readable-source",
       "domain": "evaluation.pilot",
       "owner": "UOC-002",
-      "status_required": "implemented-initial",
+      "status_required": "closed",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_document_inspection_service.py",
@@ -14147,7 +14147,7 @@
       "classification": "source-of-truth",
       "domain": "quality.regression",
       "owner": "UOC-002",
-      "status_required": "implemented-pending-windows-selective-verification",
+      "status_required": "closed/PASS",
       "criticality": "P0",
       "required_tests": [
         "tests/test_post_h_eval_002_uoc_002_regression_recovery.py",
@@ -16319,5 +16319,5 @@
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
   "updated_at": "2026-08-06T16:45:00Z",
-  "last_registered_sprint": "UOC-002-REGRESSION-RECOVERY"
+  "last_registered_sprint": "UOC-002-CLOSURE"
 }
