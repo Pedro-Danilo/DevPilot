@@ -103,6 +103,10 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/workspace/documents"): ApiRoutePolicy("workspace.documents.list", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/workspace/documents/{document_id}"): ApiRoutePolicy("workspace.documents.read", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/workspace/documents/{document_id}/metadata"): ApiRoutePolicy("workspace.documents.metadata", "read", "protected-workspace-document-read"),
+    ("GET", "/api/v1/workspace/documents/{document_id}/history"): ApiRoutePolicy("workspace.documents.history", "read", "protected-workspace-document-read"),
+    ("GET", "/api/v1/workspace/documents/{document_id}/diff"): ApiRoutePolicy("workspace.documents.diff", "read", "protected-workspace-document-read"),
+    ("GET", "/api/v1/workspace/documents/search"): ApiRoutePolicy("workspace.documents.search", "read", "protected-workspace-document-read"),
+    ("GET", "/api/v1/workspace/documents/{document_id}/links"): ApiRoutePolicy("workspace.documents.links", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/application/contract"): ApiRoutePolicy("app.contract", "read", "protected-read"),
     ("GET", "/api/v1/miasi/status"): ApiRoutePolicy("miasi.validate", "read", "protected-read"),
     ("GET", "/api/v1/standards/status"): ApiRoutePolicy("standards.status", "read", "protected-read"),
@@ -380,8 +384,16 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
         return API_ROUTE_POLICIES[normalized]
     if method.upper() == "GET":
         if path.startswith("/api/v1/workspace/documents/"):
+            if path == "/api/v1/workspace/documents/search":
+                return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/documents/search"))
             if path.endswith("/metadata") and path.count("/") == 6:
                 return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/documents/{document_id}/metadata"))
+            if path.endswith("/history") and path.count("/") == 6:
+                return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/documents/{document_id}/history"))
+            if path.endswith("/diff") and path.count("/") == 6:
+                return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/documents/{document_id}/diff"))
+            if path.endswith("/links") and path.count("/") == 6:
+                return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/documents/{document_id}/links"))
             if path.count("/") == 5:
                 return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/documents/{document_id}"))
         if path.startswith("/api/v1/approvals/") and path.count("/") == 4:

@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-08-04",
+  "updated": "2026-08-06",
   "preliminary": true,
   "documents": [
     {
@@ -812,14 +812,18 @@
       "path": "docs/07_interfaces/workspace_documents_api.md",
       "classification": "source-of-truth",
       "domain": "interfaces.api",
-      "owner": "UOC-001",
+      "owner": "UOC-001/UOC-002",
       "status_required": "implemented-initial",
       "criticality": "P0",
       "required_tests": [
-        "tests/test_workspace_document_service.py",
+        "tests/test_api_workspace_document_inspection.py",
         "tests/test_api_workspace_documents.py",
+        "tests/test_post_h_eval_002_uoc_001_contracts.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
         "tests/test_web_ui_workspace_documents.py",
-        "tests/test_post_h_eval_002_uoc_001_contracts.py"
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_workspace_document_service.py"
       ],
       "sync_rules": [
         "frontmatter_status",
@@ -829,6 +833,32 @@
       "roadmap_milestones": [
         "UOC-001",
         "UOC-002"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "DEVPL-UOC-002-DOCUMENT-INSPECTION-REPORT",
+      "path": "docs/audits/uoc_002_document_inspection_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-002",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
       ],
       "frontmatter_required": true,
       "status_checked": true
@@ -13903,6 +13933,273 @@
         "UOC-001",
         "UOC-002"
       ]
+    },
+    {
+      "doc_id": "UOC-002-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_002_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-002",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-TEST-API",
+      "path": "tests/test_api_workspace_document_inspection.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-002",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-TEST-CONTRACTS",
+      "path": "tests/test_post_h_eval_002_uoc_002_contracts.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-002",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-TEST-SERVICE",
+      "path": "tests/test_workspace_document_inspection_service.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-002",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-TEST-WEB",
+      "path": "tests/test_web_ui_workspace_document_inspection.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-002",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-WORKSPACE-DOCUMENT-DIFF-V1",
+      "path": "docs/schemas/workspace_document_diff.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-002",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-WORKSPACE-DOCUMENT-HISTORY-V1",
+      "path": "docs/schemas/workspace_document_history.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-002",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-WORKSPACE-DOCUMENT-LINKS-V1",
+      "path": "docs/schemas/workspace_document_links.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-002",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-WORKSPACE-DOCUMENT-SEARCH-V1",
+      "path": "docs/schemas/workspace_document_search.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-002",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_document_inspection_service.py",
+        "tests/test_api_workspace_document_inspection.py",
+        "tests/test_web_ui_workspace_document_inspection.py",
+        "tests/test_post_h_eval_002_uoc_002_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002",
+        "UOC-003"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC-002-REGRESSION-RECOVERY-REPORT",
+      "path": "docs/audits/uoc_002_regression_recovery_report.md",
+      "classification": "source-of-truth",
+      "domain": "quality.regression",
+      "owner": "UOC-002",
+      "status_required": "implemented-pending-windows-selective-verification",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_002_regression_recovery.py",
+        "tests/test_rag_local.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-REGRESSION-RECOVERY-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_002_regression_recovery_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "quality.regression",
+      "owner": "UOC-002",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_002_regression_recovery.py",
+        "tests/test_rag_local.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002"
+      ]
+    },
+    {
+      "doc_id": "UOC-002-REGRESSION-RECOVERY-TEST",
+      "path": "tests/test_post_h_eval_002_uoc_002_regression_recovery.py",
+      "classification": "derived",
+      "domain": "quality.tests",
+      "owner": "UOC-002",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_002_regression_recovery.py",
+        "tests/test_rag_local.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-002"
+      ]
     }
   ],
   "rules": {
@@ -13977,31 +14274,31 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 605,
-    "source_of_truth_total": 235,
-    "machine_readable_source_total": 283,
-    "derived_total": 87,
+    "documents_total": 615,
+    "source_of_truth_total": 236,
+    "machine_readable_source_total": 288,
+    "derived_total": 91,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 510,
+    "critical_sources_total": 372,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 605,
+    "documents_with_required_tests_total": 615,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "UOC-001",
+    "last_updated_by": "UOC-002",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "UOC-001",
-    "last_registered_sprint": "UOC-001",
-    "updated": "2026-08-04",
+    "updated_by": "UOC-002",
+    "last_registered_sprint": "UOC-002",
+    "updated": "2026-08-05",
     "documents_checked_total": 605,
-    "documents_registered_total": 605
+    "documents_registered_total": 615
   },
   "safety": {
     "local_first": true,
@@ -16021,6 +16318,6 @@
     "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
-  "updated_at": "2026-08-04",
-  "last_registered_sprint": "UOC-000"
+  "updated_at": "2026-08-06T16:45:00Z",
+  "last_registered_sprint": "UOC-002-REGRESSION-RECOVERY"
 }

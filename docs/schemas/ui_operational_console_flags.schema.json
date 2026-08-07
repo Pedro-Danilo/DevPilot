@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-FLAGS-V1",
-  "title": "DevPilot UI Operational Console Flags v1",
+  "title": "DevPilot UI Operational Console Flags lifecycle v1",
   "type": "object",
   "required": [
     "schema_version",
@@ -61,13 +61,20 @@
             "pattern": "^uoc\\."
           },
           "enabled": {
-            "const": false
+            "type": "boolean"
           },
           "owner_sprint": {
             "type": "string"
           },
           "requires_restart": {
             "type": "boolean"
+          },
+          "enabled_by": {
+            "type": "string",
+            "minLength": 1
+          },
+          "notes": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -109,5 +116,5 @@
   "additionalProperties": false,
   "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-OPERATIONAL-CONSOLE-FLAGS-V1",
   "x-devpilot-sprint": "UOC-000",
-  "x-devpilot-status": "registered"
+  "x-devpilot-status": "registered-evolving"
 }

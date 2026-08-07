@@ -212,3 +212,85 @@ export interface WorkspaceDocumentResource extends WorkspaceDocumentNode {
   structured?: unknown;
   breadcrumbs?: WorkspaceDocumentBreadcrumb[];
 }
+
+export interface WorkspaceDocumentGitCommit {
+  commit: string;
+  short_commit: string;
+  author_name?: string | null;
+  author_email?: string | null;
+  authored_at?: string | null;
+  subject: string;
+}
+
+export interface WorkspaceDocumentInspectionMetadata extends WorkspaceDocumentNode {
+  sha256: string;
+  encoding: string;
+  frontmatter?: {
+    has_frontmatter: boolean;
+    fields: Record<string, unknown>;
+    parse_warnings?: string[];
+    source?: string;
+  };
+  classification?: {
+    level: 'required' | 'recommended' | 'optional' | string;
+    source?: string;
+    badges?: string[];
+  };
+  git?: {
+    is_git_repo: boolean;
+    status?: Record<string, unknown>;
+    last_commit?: WorkspaceDocumentGitCommit | null;
+    history_available?: boolean;
+    read_only?: boolean;
+  };
+}
+
+export interface WorkspaceDocumentHistoryData {
+  summary?: Record<string, unknown>;
+  document?: Record<string, unknown>;
+  commits?: WorkspaceDocumentGitCommit[];
+}
+
+export interface WorkspaceDocumentDiffData {
+  summary?: Record<string, unknown>;
+  document?: Record<string, unknown>;
+  git_status?: Record<string, unknown>;
+  diff?: string;
+}
+
+export interface WorkspaceDocumentLink {
+  label?: string;
+  target?: string;
+  kind?: string;
+  anchor?: string | null;
+  resolved?: boolean;
+  resolved_relative_path?: string;
+  document_id?: string | null;
+  source_document_id?: string;
+  source_relative_path?: string;
+  reason?: string;
+}
+
+export interface WorkspaceDocumentLinksData {
+  summary?: Record<string, unknown>;
+  outgoing?: WorkspaceDocumentLink[];
+  incoming?: WorkspaceDocumentLink[];
+}
+
+export interface WorkspaceDocumentSearchResult {
+  document_id: string;
+  relative_path: string;
+  title: string;
+  category: string;
+  classification: string;
+  sha256: string;
+  size_bytes: number;
+  match_count: number;
+  line_number?: number | null;
+  snippet?: string;
+}
+
+export interface WorkspaceDocumentSearchData {
+  summary?: Record<string, unknown>;
+  results?: WorkspaceDocumentSearchResult[];
+}

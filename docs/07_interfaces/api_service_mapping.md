@@ -212,3 +212,19 @@ el contexto registrado; el navegador solo utiliza identificadores opacos.
 
 No existe operación de escritura documental, shell, ejecución remota, connector
 write, plugin execution ni API externa en UOC-001.
+
+## UOC-002 — Metadata, Git history y búsqueda documental mapping
+
+UOC-002 añade cuatro operaciones estrictamente read-only sobre los IDs opacos
+de UOC-001. Git se invoca únicamente mediante `GitAdapter` tipado y la búsqueda
+no persiste contenido fuera de la memoria del proceso.
+
+| API ID | Método | Path | Operation | Domain service | Side effect | Auth | Policy/gate |
+|---|---|---|---|---|---|---|---|
+| `API-WORKSPACE-DOCUMENTS-HISTORY` (`api.workspace.documents.history`) | `GET` | `/api/v1/workspace/documents/{document_id}/history` | `workspace.documents.history` | `WorkspaceDocumentInspectionApplicationService` | `none` | `local-token-required` | opaque ID + active workspace + typed GitAdapter + bounded pagination |
+| `API-WORKSPACE-DOCUMENTS-DIFF` (`api.workspace.documents.diff`) | `GET` | `/api/v1/workspace/documents/{document_id}/diff` | `workspace.documents.diff` | `WorkspaceDocumentInspectionApplicationService` | `none` | `local-token-required` | validated HEAD/SHA ref + bounded diff bytes + explicit truncation |
+| `API-WORKSPACE-DOCUMENTS-SEARCH` (`api.workspace.documents.search`) | `GET` | `/api/v1/workspace/documents/search` | `workspace.documents.search` | `WorkspaceDocumentInspectionApplicationService` | `memory-only cache` | `local-token-required` | workspace-isolated index + bounded query/results + UOC-001 exclusions |
+| `API-WORKSPACE-DOCUMENTS-LINKS` (`api.workspace.documents.links`) | `GET` | `/api/v1/workspace/documents/{document_id}/links` | `workspace.documents.links` | `WorkspaceDocumentInspectionApplicationService` | `none` | `local-token-required` | opaque ID + in-root Markdown link resolution + no absolute/ADS escape |
+
+No se habilitan escritura documental, comandos Git libres, shell, red externa,
+connector write, plugin execution ni ejecución remota.

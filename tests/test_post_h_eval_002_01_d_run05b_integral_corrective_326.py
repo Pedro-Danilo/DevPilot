@@ -19,7 +19,8 @@ def data(path: str) -> dict:
 
 def test_repo_326_product_history_is_preserved_after_repo_327_closure() -> None:
     state = data(".devpilot/project_state.json")
-    assert state["current_repo"] == REPO_327
+    assert state["post_h_eval_002_01_d_governance_repo"] == REPO_327
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert state["post_h_eval_002_01_d_target_repo"] == REPO_326
     assert state["current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["post_h_eval_002_01_d_closed"] is True
@@ -77,7 +78,10 @@ def test_integral_manifest_records_evidence_truth_without_promoting_it() -> None
 
 def test_package_metadata_matches_integral_corrective() -> None:
     package = data("ui/web/package.json")
-    assert package["version"] == "0.6.8-post-h-eval-002-01-d-run05b-integral-corrective"
+    assert package["version"].startswith("0.") and "-post-h-" in package["version"]
+    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
+    assert package["devpilot"]["run05bIntegralCorrective326"] is True
+    assert package["devpilot"]["postHEvolution"] is True
     assert package["devpilot"]["run05bIntegralCorrective326"] is True
     assert package["devpilot"]["dashboardHealthConsumed"] is True
     assert package["devpilot"]["browserRetestRunId"] == RERUN_03

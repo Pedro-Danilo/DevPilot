@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.1.0",
-  "updated": "2026-08-04",
+  "version": "1.2.0",
+  "updated": "2026-08-05",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
@@ -18,9 +18,11 @@
     },
     {
       "flag_id": "uoc.documents.metadata_git_search",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-002",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-002",
+      "notes": "Read-only metadata, typed Git history/diff, memory-only full-text search and document links."
     },
     {
       "flag_id": "uoc.documents.validation_traceability",
@@ -119,6 +121,9 @@
     "external_api_required": false,
     "source_mutations_performed": false,
     "workspace_documents_read_only_enabled": true,
-    "document_write_enabled": false
+    "document_write_enabled": false,
+    "workspace_document_inspection_read_only_enabled": true,
+    "typed_git_read_only_enabled": true,
+    "document_search_persistence": "memory-only"
   }
 }

@@ -61,6 +61,7 @@ from .services import ApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
+from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
 
 __all__ = [
     "APPLICATION_SERVICE_BOUNDARY_REPORT_ID",
@@ -124,5 +125,6 @@ __all__ = [
     "ValidationApplicationService",
     "WorkspaceApplicationService",
     "WorkspaceDocumentsApplicationService",
+    "WorkspaceDocumentInspectionApplicationService",
     "render_application_service_boundary_markdown",
 ]

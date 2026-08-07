@@ -16,7 +16,8 @@ def _text(path: str) -> str:
 
 def test_01_c_state_closes_and_authorizes_01_d() -> None:
     state = _json(".devpilot/project_state.json")
-    assert state["current_repo"] in {"repo_DevPilot_Local_321_POST_H_EVAL_002_01_C.zip", "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip", "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip", "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip", "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"}
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
+    assert any(marker in state["current_repo"] for marker in ("POST_H_EVAL_002", "POST-H-EVAL-002"))
     assert state["current_micro_sprint"] in {"POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["next_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state["post_h_eval_002_01_c_closed"] is True
@@ -87,4 +88,4 @@ def test_01_c_governance_docs_are_synchronized() -> None:
     registry = _json(".devpilot/docs_governance/source_registry.json")
     snapshot = registry["project_state_snapshot"]
     assert snapshot["post_h_eval_002_01_c_evidence_package_sha256"] == "c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5"
-    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327"}
+    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327", "UOC-001", "UOC-002"}

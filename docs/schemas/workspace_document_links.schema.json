@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WORKSPACE-DOCUMENT-LINKS-V1",
+  "title": "DevPilot Workspace Document Links v1",
+  "description": "UOC-002 bounded incoming and outgoing document relationships.",
+  "type": "object",
+  "required": ["summary", "document", "outgoing", "incoming", "safety"],
+  "properties": {
+    "summary": {"type": "object", "required": ["workspace_id", "document_id", "outgoing_total", "incoming_total", "read_only", "mutations_performed"], "additionalProperties": true},
+    "document": {"type": "object", "required": ["document_id", "relative_path", "name"], "additionalProperties": true},
+    "outgoing": {"type": "array", "maxItems": 500, "items": {"type": "object", "additionalProperties": true}},
+    "incoming": {"type": "array", "maxItems": 500, "items": {"type": "object", "additionalProperties": true}},
+    "safety": {"type": "object", "required": ["read_only", "mutations_performed", "absolute_paths_accepted_from_browser"], "properties": {"read_only": {"const": true}, "mutations_performed": {"const": false}, "absolute_paths_accepted_from_browser": {"const": false}}, "additionalProperties": true}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-LINKS-V1",
+  "x-devpilot-sprint": "UOC-002",
+  "x-devpilot-status": "registered"
+}

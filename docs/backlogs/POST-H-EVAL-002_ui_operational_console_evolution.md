@@ -2,16 +2,16 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.3.0"
+version: "1.5.3"
 owner: "Ordóñez"
-updated: "2026-08-04"
+updated: "2026-08-06"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-001-closed/PASS"
+implementation_status: "UOC-002-closure-continuation/pending-browser-and-canonical-closure"
 current_sprint: "UOC-002"
-next_sprint: "UOC-002"
+next_sprint: "UOC-003-after-UOC-002-closure"
 completed_sprints: "UOC-000,UOC-001"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
 canonical_baseline_commit: "resolved-by-UOC_001_CANONICAL_INTEGRATION.json"
@@ -28,6 +28,8 @@ dry_run_default: true
 external_api_required: false
 preliminary: "false"
 uoc_001_accepted_source_commit: "e9fe717eb8eafaca40830c691a7efb7bb956b035"
+uoc_002_base_commit: "9cb67b023c6ac909a2b492370632a3955a454e39"
+uoc_002_implementation_status: "implemented-initial/pending-browser-and-canonical-closure"
 ---
 
 
@@ -977,3 +979,45 @@ UOC-001 queda cerrado/PASS como sprint read-only. La capacidad sigue siendo una 
 - Closure commit y baseline `repo_329`: resueltos por `UOC_001_CANONICAL_INTEGRATION.json` y `BASELINE_CURRENT.json`.
 - Browser acceptance: sequence-aware y policy-aligned v3; exige paridad exacta con documentos UI-eligible y confirma que los archivos control-plane excluidos no se exponen.
 - `traceability_matrix.md` y ADRs authored permanecen `PLANNED-FOR-02-B` cuando todavía no existen como documentos UI-eligible; UOC-001 no fabrica documentos futuros.
+
+## 25. Estado de implementación UOC-002 — 2026-08-05
+
+UOC-001 queda cerrado `PASS` sobre el commit canónico `9cb67b023c6ac909a2b492370632a3955a454e39` y el baseline
+exact-tree `repo_329`. UOC-002 se implementa sobre ese árbol como candidato
+`implemented-initial`, sin declarar aún cierre ni autorizar UOC-003.
+
+La implementación añade metadata SHA-256/frontmatter/clasificación, estado e
+historial Git tipados, diff read-only acotado, búsqueda full-text local con
+índice incremental exclusivamente en memoria y enlaces documentales internos.
+Todos los endpoints conservan los IDs opacos de UOC-001 y no aceptan rutas o
+argumentos Git libres.
+
+El cierre de UOC-002 permanece condicionado a la aplicación y validación
+autoritativa en Windows, build Vite, aceptación browser, integración Git,
+sincronización local/origin y generación del baseline limpio siguiente.
+
+## 26. Recuperación de regresión UOC-002 — v1.0.1
+
+La regresión general Windows obtuvo `1987 PASS / 58 FAIL / 0 ERROR / 0 SKIP`. Los 58 fallos se adjudican a cuatro contratos acumulativos: reconciliación `current_repo`/Evidence Freshness, conteos históricos congelados, schemas UOC-000 no evolutivos y confusión entre dependencias locales ignoradas y artefactos versionados.
+
+El correctivo v1.0.1 no modifica la funcionalidad documental UOC-002 ni relaja seguridad. Se autoriza reutilizar las 1987 pruebas PASS y ejecutar verificación selectiva sobre las causas raíz y una sola instancia de cada gate compuesto costoso. UOC-003 continúa bloqueado hasta aceptación browser, integración y baseline repo 330.
+
+## UOC-002 regression recovery v1.0.2 — RAG runtime isolation
+
+The full-regression test `tests/test_rag_local.py::test_rag_cli_index_and_query_json` is isolated in a disposable workspace. A previously regenerated `.devpilot/rag/docs_index.json` is accepted only when a complete in-memory rebuild produced by the checkout's real `LocalRagIndexer`, `PathGuard` and `SecretGuard` matches every field and chunk except the timestamp; the operator then restores the exact `HEAD` blob. The runtime index is never carried into the UOC-002 commit. Unknown, staged or tampered changes remain blocking.
+
+## UOC-002 regression recovery v1.0.3 — portable preimage validation
+
+The recovery preflight bundles the 42 v1.0.0 source preimages and accepts either byte-exact identity or UTF-8 content differing only by LF/CRLF materialization. This is required for Windows Git checkouts. BOM changes, whitespace/content edits, staged changes, unknown paths and non-UTF-8 mismatches remain blocking. Per-file equivalence is recorded in the apply report.
+
+## UOC-002 regression recovery v1.0.5 — Git-native RAG reconciliation and durable resume
+
+The v1.0.4 dry-run correctly detected `.devpilot/rag/docs_index.json` as an additional source change, but its expected-state contract was incomplete: it modeled the 71 v1.0.3 payload files and omitted the tracked RAG path present after the selective stop. The earlier recovery had restored raw `HEAD` bytes and the selective runner checked only hash stability, not Git worktree cleanliness. v1.0.5 classifies the index as either `HEAD`-equivalent or a canonically rebuilt local regeneration, backs it up, restores it with Git-native worktree materialization, refreshes and verifies the index/worktree state, and rolls back partial operator writes on failure. The selective runner now requires the RAG path to be Git-clean before execution and after every case. The accepted `5/5` RAG evidence is reused; verification resumes from `state_history_and_freshness`. UOC-002 remains open pending the resumed suite, browser acceptance and canonical closure.
+
+## UOC-002 closure continuation v1.0.6
+
+- Browser workspace authority uses filesystem identity, not raw slash-sensitive string comparison.
+- The manual observations template is fail-closed (`PENDING`) until all checks are observed.
+- Closure identity is lifecycle-aware: recovery identity while open; `UOC-002-CLOSURE` only after closure.
+- Repo 330 is generated only by `git archive` from the canonical closure commit.
+

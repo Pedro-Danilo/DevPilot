@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WORKSPACE-DOCUMENT-SEARCH-V1",
+  "title": "DevPilot Workspace Document Search v1",
+  "description": "UOC-002 active-workspace full-text search using an incremental in-memory index.",
+  "type": "object",
+  "required": ["summary", "results", "safety"],
+  "properties": {
+    "summary": {"type": "object", "required": ["workspace_id", "query", "matching_total", "indexed_documents", "cache_scope", "read_only", "mutations_performed", "external_persistence"], "properties": {"workspace_id": {"type": "string"}, "query": {"type": "string", "minLength": 2, "maxLength": 200}, "matching_total": {"type": "integer", "minimum": 0}, "indexed_documents": {"type": "integer", "minimum": 0}, "cache_scope": {"const": "in-memory-active-workspace"}, "read_only": {"const": true}, "mutations_performed": {"const": false}, "external_persistence": {"const": false}}, "additionalProperties": true},
+    "results": {"type": "array", "maxItems": 100, "items": {"type": "object", "required": ["document_id", "relative_path", "title", "category", "classification", "sha256", "size_bytes", "match_count"], "additionalProperties": true}},
+    "safety": {"type": "object", "required": ["read_only", "mutations_performed", "search_index_external_persistence", "cross_workspace_results_allowed"], "properties": {"read_only": {"const": true}, "mutations_performed": {"const": false}, "search_index_external_persistence": {"const": false}, "cross_workspace_results_allowed": {"const": false}}, "additionalProperties": true}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-SEARCH-V1",
+  "x-devpilot-sprint": "UOC-002",
+  "x-devpilot-status": "registered"
+}

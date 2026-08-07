@@ -17,7 +17,8 @@ def load(path: str) -> dict:
 
 def test_corrective_baseline_is_preserved_after_01_d_closure() -> None:
     state = load(".devpilot/project_state.json")
-    assert state["current_repo"] == TARGET_REPO
+    assert state["post_h_eval_002_01_d_governance_repo"] == TARGET_REPO
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert state["current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["post_h_eval_002_01_d_closed"] is True
     assert state["post_h_eval_002_01_d_browser_acceptance_executed"] is True

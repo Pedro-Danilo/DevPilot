@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WORKSPACE-DOCUMENT-HISTORY-V1",
+  "title": "DevPilot Workspace Document History v1",
+  "description": "UOC-002 bounded path-specific Git history for an opaque document id.",
+  "type": "object",
+  "required": ["summary", "document", "commits", "safety"],
+  "properties": {
+    "summary": {"type": "object", "required": ["is_git_repo", "relative_path", "commits_total", "limit", "offset", "read_only", "mutations_performed"], "properties": {"is_git_repo": {"type": "boolean"}, "relative_path": {"type": "string"}, "commits_total": {"type": "integer", "minimum": 0}, "limit": {"type": "integer", "minimum": 1, "maximum": 50}, "offset": {"type": "integer", "minimum": 0, "maximum": 1000}, "next_offset": {"type": ["integer", "null"]}, "read_only": {"const": true}, "mutations_performed": {"const": false}}, "additionalProperties": true},
+    "document": {"type": "object", "required": ["document_id", "relative_path", "name"], "additionalProperties": true},
+    "commits": {"type": "array", "maxItems": 50, "items": {"type": "object", "required": ["commit", "short_commit", "subject"], "properties": {"commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "short_commit": {"type": "string", "pattern": "^[a-f0-9]{7,40}$"}, "author_name": {"type": ["string", "null"]}, "author_email": {"type": ["string", "null"]}, "authored_at": {"type": ["string", "null"]}, "subject": {"type": "string"}}, "additionalProperties": false}},
+    "safety": {"type": "object", "required": ["read_only", "mutations_performed", "git_commands_typed"], "properties": {"read_only": {"const": true}, "mutations_performed": {"const": false}, "git_commands_typed": {"const": true}}, "additionalProperties": true}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-HISTORY-V1",
+  "x-devpilot-sprint": "UOC-002",
+  "x-devpilot-status": "registered"
+}

@@ -20,6 +20,12 @@ _DEFAULT_LOG_LIMIT = 20
 _MAX_LOG_LIMIT = 200
 _DEFAULT_DIFF_FILE_LIMIT = 200
 _MAX_DIFF_FILE_LIMIT = 1000
+_DEFAULT_FILE_HISTORY_LIMIT = 20
+_MAX_FILE_HISTORY_LIMIT = 50
+_MAX_FILE_HISTORY_OFFSET = 1000
+_DEFAULT_FILE_DIFF_BYTES = 262_144
+_MAX_FILE_DIFF_BYTES = 1_048_576
+_SAFE_GIT_OBJECT_RE = re.compile(r"^(?:HEAD|[0-9a-fA-F]{7,40})$")
 
 
 @dataclass(frozen=True)
@@ -494,6 +500,201 @@ class GitAdapter:
             findings=findings,
         )
 
+    def file_status(self, relative_path: str) -> CommandResult:
+        """Return staged/unstaged/untracked state for one validated relative path."""
+
+        command = "git file-status"
+        validated = _validate_relative_git_path(relative_path)
+        if isinstance(validated, CommandResult):
+            return validated
+        preflight = self._preflight(command=command)
+        if preflight is not None:
+            return preflight
+        repo_check, commands = self._repo_check(command=command)
+        if isinstance(repo_check, CommandResult):
+            return repo_check
+        result = self._run_allowed(("status", "--short"))
+        commands.append(result)
+        failure = self._required_command_failure(command=command, results=(result,), commands=commands)
+        if failure is not None:
+            return failure
+        state = _parse_file_status(result.stdout, validated)
+        return CommandResult(
+            command=command,
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Git file status collected in read-only mode.",
+            data={
+                "summary": {
+                    "is_git_repo": True,
+                    "relative_path": validated,
+                    "read_only": True,
+                    "mutations_performed": False,
+                    "network_used": False,
+                    "external_api_used": False,
+                    "preliminary": True,
+                },
+                "status": state,
+                "commands_executed": [cmd.to_dict() for cmd in commands],
+            },
+            findings=[Finding(id="GIT_FILE_STATUS_READ_ONLY_PASS", message="Git file status was collected through a typed read-only command.", severity=Severity.INFO, path=validated)],
+        )
+
+    def file_history(
+        self,
+        relative_path: str,
+        *,
+        limit: int = _DEFAULT_FILE_HISTORY_LIMIT,
+        offset: int = 0,
+    ) -> CommandResult:
+        """Return a bounded, path-specific history using ``git log --follow``."""
+
+        command = "git file-history"
+        validated = _validate_relative_git_path(relative_path)
+        if isinstance(validated, CommandResult):
+            return validated
+        if limit <= 0 or limit > _MAX_FILE_HISTORY_LIMIT or offset < 0 or offset > _MAX_FILE_HISTORY_OFFSET:
+            return CommandResult(
+                command=command,
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Git file history pagination is outside the allowed bounds.",
+                data={"summary": {"limit": limit, "offset": offset, "max_limit": _MAX_FILE_HISTORY_LIMIT, "max_offset": _MAX_FILE_HISTORY_OFFSET}},
+                findings=[Finding(id="GIT_FILE_HISTORY_PAGINATION_BLOCK", message="File history limit/offset exceeded the bounded contract.", severity=Severity.BLOCK, path=validated)],
+            )
+        preflight = self._preflight(command=command)
+        if preflight is not None:
+            return preflight
+        repo_check, commands = self._repo_check(command=command)
+        if isinstance(repo_check, CommandResult):
+            return repo_check
+        args = (
+            "log",
+            "--follow",
+            "--date=iso-strict",
+            "--pretty=format:%H%x1f%h%x1f%an%x1f%ae%x1f%ad%x1f%s",
+            "-n",
+            str(limit),
+            "--skip",
+            str(offset),
+            "--",
+            validated,
+        )
+        result = self._run_allowed(args)
+        commands.append(result)
+        if not result.ok and _is_empty_repository_git_error(result.stderr):
+            commits: list[GitCommitInfo] = []
+            findings = [Finding(id="GIT_FILE_HISTORY_EMPTY", message="The repository has no commits for this document yet.", severity=Severity.WARNING, path=validated)]
+        else:
+            failure = self._required_command_failure(command=command, results=(result,), commands=commands)
+            if failure is not None:
+                return failure
+            commits = _parse_commits(result.stdout)
+            findings = [Finding(id="GIT_FILE_HISTORY_READ_ONLY_PASS", message="Document history was collected through a bounded typed Git command.", severity=Severity.INFO, path=validated)]
+        return CommandResult(
+            command=command,
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Git document history collected in read-only mode.",
+            data={
+                "summary": {
+                    "is_git_repo": True,
+                    "relative_path": validated,
+                    "commits_total": len(commits),
+                    "limit": limit,
+                    "offset": offset,
+                    "next_offset": offset + len(commits) if len(commits) == limit else None,
+                    "read_only": True,
+                    "mutations_performed": False,
+                    "network_used": False,
+                    "external_api_used": False,
+                    "preliminary": True,
+                },
+                "commits": [commit.to_dict() for commit in commits],
+                "commands_executed": [cmd.to_dict() for cmd in commands],
+            },
+            findings=findings,
+        )
+
+    def file_diff(
+        self,
+        relative_path: str,
+        *,
+        base_ref: str = "HEAD",
+        max_bytes: int = _DEFAULT_FILE_DIFF_BYTES,
+    ) -> CommandResult:
+        """Return a bounded working-tree diff for one document and safe Git object."""
+
+        command = "git file-diff"
+        validated = _validate_relative_git_path(relative_path)
+        if isinstance(validated, CommandResult):
+            return validated
+        normalized_ref = str(base_ref or "HEAD").strip()
+        if not _SAFE_GIT_OBJECT_RE.fullmatch(normalized_ref):
+            return CommandResult(
+                command=command,
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Git diff base reference is not an allowed immutable object identifier.",
+                data={"summary": {"base_ref": normalized_ref, "allowed": "HEAD or 7-40 hexadecimal commit id"}},
+                findings=[Finding(id="GIT_FILE_DIFF_REF_BLOCK", message="Only HEAD or a hexadecimal commit id may be used as diff base.", severity=Severity.BLOCK, path=validated)],
+            )
+        if max_bytes <= 0 or max_bytes > _MAX_FILE_DIFF_BYTES:
+            return CommandResult(
+                command=command,
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Git file diff byte budget is outside the allowed bounds.",
+                data={"summary": {"max_bytes": max_bytes, "maximum": _MAX_FILE_DIFF_BYTES}},
+                findings=[Finding(id="GIT_FILE_DIFF_BUDGET_BLOCK", message="File diff byte budget exceeded the bounded contract.", severity=Severity.BLOCK, path=validated)],
+            )
+        preflight = self._preflight(command=command)
+        if preflight is not None:
+            return preflight
+        repo_check, commands = self._repo_check(command=command)
+        if isinstance(repo_check, CommandResult):
+            return repo_check
+        result = self._run_allowed(("diff", "--no-ext-diff", "--unified=3", normalized_ref, "--", validated))
+        commands.append(result)
+        if not result.ok and _is_empty_repository_git_error(result.stderr):
+            raw = b""
+            findings = [Finding(id="GIT_FILE_DIFF_EMPTY_REPOSITORY", message="No HEAD commit exists; document diff is empty.", severity=Severity.WARNING, path=validated)]
+        else:
+            failure = self._required_command_failure(command=command, results=(result,), commands=commands)
+            if failure is not None:
+                return failure
+            raw = result.stdout.encode("utf-8", errors="replace")
+            findings = [Finding(id="GIT_FILE_DIFF_READ_ONLY_PASS", message="Document diff was collected through a bounded typed Git command.", severity=Severity.INFO, path=validated)]
+        truncated = len(raw) > max_bytes
+        rendered = raw[:max_bytes].decode("utf-8", errors="replace")
+        if truncated:
+            findings.append(Finding(id="GIT_FILE_DIFF_TRUNCATED", message="Document diff exceeded the byte budget and was truncated.", severity=Severity.WARNING, path=validated, metadata={"max_bytes": max_bytes, "original_bytes": len(raw)}))
+        return CommandResult(
+            command=command,
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Git document diff collected in read-only mode.",
+            data={
+                "summary": {
+                    "is_git_repo": True,
+                    "relative_path": validated,
+                    "base_ref": normalized_ref,
+                    "diff_bytes": len(raw),
+                    "returned_bytes": len(rendered.encode("utf-8")),
+                    "max_bytes": max_bytes,
+                    "truncated": truncated,
+                    "read_only": True,
+                    "mutations_performed": False,
+                    "network_used": False,
+                    "external_api_used": False,
+                    "preliminary": True,
+                },
+                "diff": rendered,
+                "commands_executed": [cmd.to_dict() for cmd in commands],
+            },
+            findings=findings,
+        )
+
     def _preflight(self, *, command: str) -> CommandResult | None:
         policy_result = PolicyEngine(self.root, observability_enabled=False).evaluate(PolicyRequest(action="read", path="."))
         if not policy_result.ok:
@@ -644,6 +845,20 @@ class GitAdapter:
             return True
         if len(args) == 5 and args[:3] == ("log", "--date=iso-strict", "--pretty=format:%H%x1f%h%x1f%an%x1f%ae%x1f%ad%x1f%s") and args[3] == "-n":
             return args[4].isdigit() and 1 <= int(args[4]) <= _MAX_LOG_LIMIT
+        if len(args) == 4 and args[:3] == ("status", "--short", "--"):
+            return _is_valid_relative_git_path(args[3])
+        if len(args) == 10 and args[:5] == ("log", "--follow", "--date=iso-strict", "--pretty=format:%H%x1f%h%x1f%an%x1f%ae%x1f%ad%x1f%s", "-n"):
+            return (
+                args[5].isdigit()
+                and 1 <= int(args[5]) <= _MAX_FILE_HISTORY_LIMIT
+                and args[6] == "--skip"
+                and args[7].isdigit()
+                and 0 <= int(args[7]) <= _MAX_FILE_HISTORY_OFFSET
+                and args[8] == "--"
+                and _is_valid_relative_git_path(args[9])
+            )
+        if len(args) == 6 and args[:3] == ("diff", "--no-ext-diff", "--unified=3") and args[4] == "--":
+            return bool(_SAFE_GIT_OBJECT_RE.fullmatch(args[3])) and _is_valid_relative_git_path(args[5])
         return False
 
     @staticmethod
@@ -682,6 +897,76 @@ def _coerce_subprocess_text(value: str | bytes | None) -> str:
     if isinstance(value, bytes):
         return value.decode("utf-8", errors="replace")
     return value
+
+
+def _is_valid_relative_git_path(value: str) -> bool:
+    if not isinstance(value, str) or not value or len(value) > 4096 or "\x00" in value:
+        return False
+    normalized = value.replace("\\", "/")
+    if normalized.startswith(("/", "//")) or re.match(r"^[A-Za-z]:", normalized):
+        return False
+    parts = normalized.split("/")
+    return all(part not in {"", ".", ".."} and ":" not in part for part in parts)
+
+
+def _validate_relative_git_path(value: str) -> str | CommandResult:
+    normalized = str(value or "").replace("\\", "/").strip()
+    if _is_valid_relative_git_path(normalized):
+        return normalized
+    return CommandResult(
+        command="git file-read",
+        ok=False,
+        exit_code=ExitCode.BLOCK,
+        message="Git file operation requires a safe relative repository path.",
+        data={"summary": {"path_accepted": False, "read_only": True}},
+        findings=[Finding(id="GIT_FILE_PATH_BLOCK", message="Absolute, traversal, ADS-like or malformed Git path was rejected.", severity=Severity.BLOCK)],
+    )
+
+
+def _parse_file_status(stdout: str, relative_path: str) -> dict[str, Any]:
+    lines = [line for line in stdout.splitlines() if line.strip()]
+    matched = None
+    normalized = relative_path.replace("\\", "/")
+    for line in lines:
+        rendered = line[3:].strip().replace("\\", "/") if len(line) >= 3 else ""
+        candidates = [part.strip().strip('"') for part in rendered.split(" -> ")]
+        if normalized in candidates or rendered.endswith(normalized):
+            matched = line
+            break
+    if matched is None:
+        return {
+            "relative_path": relative_path,
+            "porcelain": "",
+            "staged": False,
+            "unstaged": False,
+            "untracked": False,
+            "renamed": False,
+            "deleted": False,
+            "clean": True,
+        }
+    line = matched
+    code = line[:2].ljust(2)
+    return {
+        "relative_path": relative_path,
+        "porcelain": code,
+        "staged": code[0] not in {" ", "?"},
+        "unstaged": code[1] not in {" ", "?"},
+        "untracked": code == "??",
+        "renamed": "R" in code,
+        "deleted": "D" in code,
+        "clean": False,
+    }
+
+
+def _is_empty_repository_git_error(stderr: str) -> bool:
+    lowered = str(stderr or "").lower()
+    markers = (
+        "does not have any commits yet",
+        "bad default revision 'head'",
+        "ambiguous argument 'head'",
+        "unknown revision or path not in the working tree",
+    )
+    return any(marker in lowered for marker in markers)
 
 
 def _optional_command_findings(results: Iterable[GitCommandResult], *, operation: str) -> list[Finding]:

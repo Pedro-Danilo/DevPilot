@@ -180,6 +180,22 @@ export class DevPilotApiClient {
     return this.get(`/workspace/documents/${encodeURIComponent(documentId)}/metadata`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }
 
+  async workspaceDocumentHistory(documentId: string, limit = 20, offset = 0): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/documents/${encodeURIComponent(documentId)}/history${this.query({ limit, offset })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceDocumentDiff(documentId: string, baseRef = 'HEAD', maxBytes = 262144): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/documents/${encodeURIComponent(documentId)}/diff${this.query({ base_ref: baseRef, max_bytes: maxBytes })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceDocumentLinks(documentId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/documents/${encodeURIComponent(documentId)}/links`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async searchWorkspaceDocuments(query: string, limit = 50, offset = 0): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/documents/search${this.query({ query, limit, offset })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
   private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' }, policy);
   }

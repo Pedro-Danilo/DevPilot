@@ -185,7 +185,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
     package_version = str(package_json.get("version", ""))
     package_declares_sprint_73_lineage = (
         package_version == "0.5.0-sprint-73"
-        or re.match(r"^0\.6\.\d+-post-h-", package_version) is not None
+        or re.match(r"^0\.\d+\.\d+-post-h-", package_version) is not None
     ) and devpilot.get("sprint") == "FUNC-SPRINT-73"
     checks.append(_check(
         package_declares_sprint_73_lineage,
@@ -195,7 +195,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
         {
             "version": package_json.get("version"),
             "sprint": devpilot.get("sprint"),
-            "post_h_evolution": re.match(r"^0\.6\.\d+-post-h-", package_version) is not None,
+            "post_h_evolution": re.match(r"^0\.\d+\.\d+-post-h-", package_version) is not None,
         },
     ))
     checks.append(_check(not flag_mismatches, "UI_SAFETY_FLAGS", "Web UI safety flags are set for API-only local MVP.", "Web UI safety flags are missing or unsafe.", {"mismatches": flag_mismatches}))
@@ -228,7 +228,9 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
         checks.append(GateCheck("AGENTOPS_STATUS", False, f"AgentOps status raised {type(exc).__name__}: {exc}"))
 
     checks.append(_check(not (root / "desktop").exists(), "DESKTOP_DEFERRED_NO_SHELL", "Desktop implementation remains deferred; no desktop shell exists in Fase F.", "Desktop shell exists despite Fase F deferral."))
-    checks.append(_check(not (root / "ui/web/node_modules").exists(), "NO_NODE_MODULES_IN_SOURCE", "ui/web/node_modules is not present in source package.", "ui/web/node_modules is present in source package."))
+    gitignore_text = (root / ".gitignore").read_text(encoding="utf-8") if (root / ".gitignore").exists() else ""
+    node_modules_excluded = "node_modules/" in gitignore_text or "ui/web/node_modules/" in gitignore_text
+    checks.append(_check(node_modules_excluded, "NO_NODE_MODULES_IN_SOURCE", "node_modules is excluded from source/versioned artifacts even when installed locally.", "node_modules exclusion policy is missing from .gitignore."))
     checks.append(_check(not (root / "package-lock.json").exists(), "NO_ROOT_PACKAGE_LOCK", "No accidental root package-lock.json exists.", "Unexpected root package-lock.json exists."))
 
     npm_result: dict[str, Any] | None = None

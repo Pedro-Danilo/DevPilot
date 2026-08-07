@@ -26,6 +26,7 @@ from .review_service import ReviewApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
+from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -63,6 +64,7 @@ class ApplicationService:
         self.ui_workspace_context = UiWorkspaceContextResolver(self.root)
         self.workspace = WorkspaceApplicationService(self.root)
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)
@@ -846,7 +848,19 @@ class ApplicationService:
         return self.workspace_documents.read_document(document_id)
 
     def workspace_documents_metadata(self, *, document_id: str) -> CommandResult:
-        return self.workspace_documents.document_metadata(document_id)
+        return self.workspace_document_inspection.metadata(document_id)
+
+    def workspace_documents_history(self, *, document_id: str, limit: int = 20, offset: int = 0) -> CommandResult:
+        return self.workspace_document_inspection.history(document_id, limit=limit, offset=offset)
+
+    def workspace_documents_diff(self, *, document_id: str, base_ref: str = "HEAD", max_bytes: int = 262144) -> CommandResult:
+        return self.workspace_document_inspection.diff(document_id, base_ref=base_ref, max_bytes=max_bytes)
+
+    def workspace_documents_search(self, *, query: str, limit: int = 50, offset: int = 0) -> CommandResult:
+        return self.workspace_document_inspection.search(query=query, limit=limit, offset=offset)
+
+    def workspace_documents_links(self, *, document_id: str) -> CommandResult:
+        return self.workspace_document_inspection.links(document_id)
 
     def reports_list(self, *, limit: int = 50, offset: int = 0, severity: str | None = None, status: str | None = None, command: str | None = None, query: str | None = None, scope: str | None = None) -> CommandResult:
         return self.reports.list_reports(limit=limit, offset=offset, severity=severity, status=status, command=command, query=query, scope=scope)
@@ -1051,6 +1065,10 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "workspace.documents.list": lambda payload: service.workspace_documents_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), query=payload.get("query"), extension=payload.get("extension"), category=payload.get("category")),
         "workspace.documents.read": lambda payload: service.workspace_documents_read(document_id=str(payload.get("document_id", ""))),
         "workspace.documents.metadata": lambda payload: service.workspace_documents_metadata(document_id=str(payload.get("document_id", ""))),
+        "workspace.documents.history": lambda payload: service.workspace_documents_history(document_id=str(payload.get("document_id", "")), limit=int(payload.get("limit", 20)), offset=int(payload.get("offset", 0))),
+        "workspace.documents.diff": lambda payload: service.workspace_documents_diff(document_id=str(payload.get("document_id", "")), base_ref=str(payload.get("base_ref", "HEAD")), max_bytes=int(payload.get("max_bytes", 262144))),
+        "workspace.documents.search": lambda payload: service.workspace_documents_search(query=str(payload.get("query", "")), limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0))),
+        "workspace.documents.links": lambda payload: service.workspace_documents_links(document_id=str(payload.get("document_id", ""))),
         "app.contract": lambda payload: service.application_contract(),
         "standards.status": lambda payload: service.standards_status(),
         "validators.validate_frontmatter": lambda payload: service.validate_frontmatter(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
@@ -1158,6 +1176,10 @@ def _capabilities() -> list[ServiceCapability]:
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),
         ("workspace.documents.read", "Read one allowlisted UTF-8 workspace document by opaque identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}"),
         ("workspace.documents.metadata", "Read deterministic metadata for one opaque workspace document identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}/metadata"),
+        ("workspace.documents.history", "Read bounded Git history for one opaque workspace document identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}/history"),
+        ("workspace.documents.diff", "Read a bounded document diff against HEAD or an immutable commit id.", "none", True, "GET /api/v1/workspace/documents/{document_id}/diff"),
+        ("workspace.documents.search", "Search active-workspace document content through an incremental in-memory index.", "none", True, "GET /api/v1/workspace/documents/search"),
+        ("workspace.documents.links", "Read incoming and outgoing document relationships within the active workspace.", "none", True, "GET /api/v1/workspace/documents/{document_id}/links"),
         ("workspace.init_plan", "Build a workspace initialization plan without writing files.", "none", True, "python -m devpilot_core workspace init --json"),
         ("validators.validate_frontmatter", "Legacy alias: validate Markdown frontmatter metadata for one artifact.", "none", True, "python -m devpilot_core validate-frontmatter <path> --json"),
         ("validators.validate_artifact", "Legacy alias: validate Markdown structure against MIPSoftware/MIASI profiles.", "none", True, "python -m devpilot_core validate-artifact <path> --json"),
@@ -1225,6 +1247,10 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-001-A", "GET", "/api/v1/workspace/documents", "workspace.documents.list", ["UOC-001 bounded read-only active-workspace document index."]),
         ("APP-ROUTE-UOC-001-B", "GET", "/api/v1/workspace/documents/{document_id}", "workspace.documents.read", ["UOC-001 opaque-id document viewer; no path authority accepted from browser."]),
         ("APP-ROUTE-UOC-001-C", "GET", "/api/v1/workspace/documents/{document_id}/metadata", "workspace.documents.metadata", ["UOC-001 read-only document metadata contract."]),
+        ("APP-ROUTE-UOC-002-A", "GET", "/api/v1/workspace/documents/{document_id}/history", "workspace.documents.history", ["UOC-002 bounded path-specific Git history through typed read-only adapter methods."]),
+        ("APP-ROUTE-UOC-002-B", "GET", "/api/v1/workspace/documents/{document_id}/diff", "workspace.documents.diff", ["UOC-002 bounded read-only diff against HEAD or a hexadecimal commit id."]),
+        ("APP-ROUTE-UOC-002-C", "GET", "/api/v1/workspace/documents/search", "workspace.documents.search", ["UOC-002 local full-text search with active-workspace in-memory cache."]),
+        ("APP-ROUTE-UOC-002-D", "GET", "/api/v1/workspace/documents/{document_id}/links", "workspace.documents.links", ["UOC-002 incoming/outgoing document relationship inspection."]),
         ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),

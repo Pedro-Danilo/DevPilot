@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-04",
+  "updated": "2026-08-05",
   "routes": [
     {
       "route_id": "ui.approvals",
@@ -263,13 +263,18 @@
       "source_files": [
         "ui/web/src/pages/WorkspaceDocumentsView.ts",
         "ui/web/src/components/DocumentTree.ts",
-        "ui/web/src/components/DocumentViewer.ts"
+        "ui/web/src/components/DocumentViewer.ts",
+        "ui/web/src/components/DocumentInspectionPanel.ts"
       ],
       "allowed_api_routes": [
         "api.workspace.documents.list",
         "api.workspace.documents.read",
         "api.workspace.documents.metadata",
-        "api.portfolio.status"
+        "api.portfolio.status",
+        "api.workspace.documents.history",
+        "api.workspace.documents.diff",
+        "api.workspace.documents.search",
+        "api.workspace.documents.links"
       ],
       "critical": true,
       "local_only": true,
@@ -297,8 +302,8 @@
       "owner": "ui.web",
       "notes": [
         "UOC-001 read-only document explorer for the explicitly active registered workspace.",
-        "The browser uses opaque document ids; absolute filesystem paths are never accepted as authority.",
-        "Markdown is rendered with DOM text nodes and no innerHTML; JSON raw content is displayed in textContent.",
+        "UOC-002 adds parsed frontmatter, SHA-256, typed Git status/history/diff, memory-only full-text search and workspace-scoped document links.",
+        "The browser uses opaque document ids; absolute filesystem paths and free-form Git commands are never accepted as authority.",
         "No write, shell, connector, plugin, remote execution or external API capability is exposed."
       ]
     }
@@ -310,7 +315,7 @@
     "dry_run_badged_routes_total": 6,
     "no_remote_badged_routes_total": 6,
     "mutation_control_routes_total": 2,
-    "allowed_api_routes_unique_total": 26,
+    "allowed_api_routes_unique_total": 30,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -322,7 +327,13 @@
     "governed_approval_request": true,
     "uoc_001_workspace_documents": true,
     "read_only_document_routes_total": 1,
-    "opaque_document_identifiers": true
+    "opaque_document_identifiers": true,
+    "uoc_002_document_inspection": true,
+    "document_inspection_api_routes_total": 4,
+    "workspace_document_api_routes_total": 7,
+    "typed_git_read_only": true,
+    "full_text_index_persistence": "memory-only",
+    "updated_by": "UOC-002"
   },
   "safety": {
     "local_first": true,

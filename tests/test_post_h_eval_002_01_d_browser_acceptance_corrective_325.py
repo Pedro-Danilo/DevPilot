@@ -18,7 +18,8 @@ def data(path: str) -> dict:
 
 def test_repo_325_history_is_preserved_after_01_d_closure() -> None:
     state = data(".devpilot/project_state.json")
-    assert state["current_repo"] == CURRENT_REPO
+    assert state["post_h_eval_002_01_d_governance_repo"] == CURRENT_REPO
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert state["post_h_eval_002_01_d_source_repo"] == REPO
     assert state["current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["post_h_eval_002_01_d_closed"] is True

@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.1.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-04",
-  "sprint": "UOC-001",
+  "updated": "2026-08-05",
+  "sprint": "UOC-002",
   "preliminary": true,
   "purpose": "Executable local schema registry updated through UOC-000 UI operational console capability and base resource contracts.",
   "schemas": [
@@ -2070,6 +2070,34 @@
       "validation_enabled_sprint": "POST-H-027-D"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-DIFF-V1",
+      "title": "Workspace Document Diff v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_document_diff.schema.json",
+      "description": "Bounded read-only diff against HEAD or a validated commit reference.",
+      "status": "registered",
+      "contract": "WorkspaceDocumentDiff",
+      "owner": "Ordóñez",
+      "sprint": "UOC-002",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-002"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-HISTORY-V1",
+      "title": "Workspace Document History v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_document_history.schema.json",
+      "description": "Bounded read-only Git history for an opaque workspace document id.",
+      "status": "registered",
+      "contract": "WorkspaceDocumentHistory",
+      "owner": "Ordóñez",
+      "sprint": "UOC-002",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-002"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-INDEX-V1",
       "title": "Workspace Document Index v1",
       "version": "1.0.0",
@@ -2082,6 +2110,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-001"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-LINKS-V1",
+      "title": "Workspace Document Links v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_document_links.schema.json",
+      "description": "Inbound and outbound Markdown links resolved inside the active workspace.",
+      "status": "registered",
+      "contract": "WorkspaceDocumentLinks",
+      "owner": "Ordóñez",
+      "sprint": "UOC-002",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-002"
     },
     {
       "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-METADATA-V1",
@@ -2112,6 +2154,20 @@
       "validation_enabled_sprint": "UOC-001"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-SEARCH-V1",
+      "title": "Workspace Document Search v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_document_search.schema.json",
+      "description": "Workspace-isolated memory-only full-text search response.",
+      "status": "registered",
+      "contract": "WorkspaceDocumentSearch",
+      "owner": "Ordóñez",
+      "sprint": "UOC-002",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-002"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-WORKSPACE-ISOLATION-REPORT-V1",
       "title": "DevPilot Workspace Isolation Report v1",
       "version": "1.0.0",
@@ -2140,5 +2196,5 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ],
-  "schemas_total": 147
+  "schemas_total": 151
 }

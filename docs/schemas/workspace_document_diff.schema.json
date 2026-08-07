@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WORKSPACE-DOCUMENT-DIFF-V1",
+  "title": "DevPilot Workspace Document Diff v1",
+  "description": "UOC-002 bounded read-only diff against HEAD or a hexadecimal commit id.",
+  "type": "object",
+  "required": ["summary", "document", "diff", "git_status", "safety"],
+  "properties": {
+    "summary": {"type": "object", "required": ["relative_path", "base_ref", "max_bytes", "truncated", "read_only", "mutations_performed"], "properties": {"relative_path": {"type": "string"}, "base_ref": {"type": "string", "pattern": "^(HEAD|[a-fA-F0-9]{7,40})$"}, "max_bytes": {"type": "integer", "minimum": 1, "maximum": 1048576}, "truncated": {"type": "boolean"}, "read_only": {"const": true}, "mutations_performed": {"const": false}}, "additionalProperties": true},
+    "document": {"type": "object", "required": ["document_id", "relative_path", "name"], "additionalProperties": true},
+    "git_status": {"type": "object"},
+    "diff": {"type": "string", "maxLength": 1100000},
+    "safety": {"type": "object", "required": ["read_only", "mutations_performed", "git_commands_typed"], "properties": {"read_only": {"const": true}, "mutations_performed": {"const": false}, "git_commands_typed": {"const": true}}, "additionalProperties": true}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-DIFF-V1",
+  "x-devpilot-sprint": "UOC-002",
+  "x-devpilot-status": "registered"
+}

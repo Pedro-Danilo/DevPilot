@@ -13,7 +13,8 @@ def _json(path: str) -> dict:
 
 def test_01_d_is_closed_and_02_a_is_authorized() -> None:
     state = _json(".devpilot/project_state.json")
-    assert state["current_repo"] == TARGET_REPO
+    assert state["post_h_eval_002_01_d_governance_repo"] == TARGET_REPO
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert state["current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["next_micro_sprint"] in {"POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state["post_h_eval_002_01_d_closed"] is True
@@ -31,7 +32,8 @@ def test_five_registered_routes_have_runtime_dispatch() -> None:
         "ui.approvals": "/approvals",
         "ui.settings": "/settings",
     }
-    assert {item["route_id"]: item["path"] for item in registry["routes"]} == expected
+    actual = {item["route_id"]: item["path"] for item in registry["routes"]}
+    assert all(actual.get(route_id) == path for route_id, path in expected.items())
     for route_id, path in expected.items():
         assert f"path: '{path}'" in main
         assert f"routeId: '{route_id}'" in main

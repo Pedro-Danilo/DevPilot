@@ -19,6 +19,8 @@ def test_01_b_state_closes_and_authorizes_01_c() -> None:
         "repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip",
         "repo_DevPilot_Local_323_POST_H_EVAL_002_01_D_UI_ACCEPTANCE_FIX.zip",
         "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip", "repo_DevPilot_Local_325_POST_H_EVAL_002_01_D_BROWSER_ACCEPTANCE_CORRECTIVE.zip", "repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip", "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
+        "repo_DevPilot_Local_328_POST_H_EVAL_002_UOC_000.zip",
+        "repo_DevPilot_Local_329_POST_H_EVAL_002_UOC_001.zip",
     }
     assert state["current_micro_sprint"] in {
         "POST-H-EVAL-002-01-C",

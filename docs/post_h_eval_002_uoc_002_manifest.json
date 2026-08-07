@@ -1,0 +1,63 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_002.manifest.v1",
+  "sprint": "UOC-002",
+  "title": "Metadata, Git history y búsqueda documental",
+  "status": "implemented-initial",
+  "decision": "PENDING-WINDOWS-ACCEPTANCE",
+  "version": "1.0.0",
+  "updated": "2026-08-05",
+  "owner": "Ordóñez",
+  "base_repo": "repo_DevPilot_Local_329_POST_H_EVAL_002_UOC_001.zip",
+  "base_commit": "9cb67b023c6ac909a2b492370632a3955a454e39",
+  "closed": false,
+  "next_authorized": null,
+  "capabilities": {
+    "metadata_sha_frontmatter_badges": true,
+    "typed_git_status_history_diff": true,
+    "full_text_search": "memory-only-incremental",
+    "document_links": true,
+    "opaque_ids_reused": true,
+    "write_enabled": false
+  },
+  "api_routes": [
+    "api.workspace.documents.history",
+    "api.workspace.documents.diff",
+    "api.workspace.documents.search",
+    "api.workspace.documents.links"
+  ],
+  "schemas": [
+    "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-HISTORY-V1",
+    "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-DIFF-V1",
+    "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-SEARCH-V1",
+    "SCHEMA-DEVPL-WORKSPACE-DOCUMENT-LINKS-V1"
+  ],
+  "tests": {
+    "focused_expected": "24 passed",
+    "windows_build_required": true,
+    "browser_acceptance_required": true,
+    "full_regression_required_by_default": false
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "zero_write": true,
+    "free_form_git_arguments": false,
+    "cross_workspace_search": false,
+    "external_api_required": false,
+    "network_runtime_allowed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "known_limits": [
+    "lexical memory-only search v1",
+    "bounded frontmatter parser",
+    "Windows Vite build and browser acceptance pending",
+    "UOC-003 validators and traceability not included"
+  ],
+  "pass_block": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "closure_status": "PENDING"
+  }
+}

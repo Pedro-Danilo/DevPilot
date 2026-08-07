@@ -46,6 +46,7 @@ _EXPECTED_CRITICAL_VIEW_FILES = {
     "ui/web/src/pages/WorkspaceDocumentsView.ts",
     "ui/web/src/components/DocumentTree.ts",
     "ui/web/src/components/DocumentViewer.ts",
+    "ui/web/src/components/DocumentInspectionPanel.ts",
 }
 
 _REQUIRED_STATE_FLAGS = ("loading", "empty", "error", "block_visible")
@@ -107,6 +108,10 @@ _CLIENT_METHOD_TO_API_ROUTES: dict[str, tuple[str, ...]] = {
     "listWorkspaceDocuments": ("api.workspace.documents.list",),
     "readWorkspaceDocument": ("api.workspace.documents.read",),
     "workspaceDocumentMetadata": ("api.workspace.documents.metadata",),
+    "workspaceDocumentHistory": ("api.workspace.documents.history",),
+    "workspaceDocumentDiff": ("api.workspace.documents.diff",),
+    "searchWorkspaceDocuments": ("api.workspace.documents.search",),
+    "workspaceDocumentLinks": ("api.workspace.documents.links",),
 }
 
 

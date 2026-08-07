@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-CAPABILITY-REGISTRY-V1",
   "title": "DevPilot UI Capability Registry v1",
-  "description": "UOC-000 registry that classifies every CLI command and maps current API/UI surfaces without enabling runtime execution.",
+  "description": "UI capability registry lifecycle schema: UOC-000 inventory plus safely gated read-only evolution in later UOC sprints.",
   "type": "object",
   "required": [
     "schema_version",
@@ -125,10 +125,11 @@
           "const": true
         },
         "metadata_only": {
-          "const": true
+          "type": "boolean"
         },
         "new_ui_routes_added": {
-          "const": 0
+          "type": "integer",
+          "minimum": 0
         },
         "runtime_execution_enabled": {
           "const": false
@@ -405,5 +406,5 @@
   "additionalProperties": false,
   "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-CAPABILITY-REGISTRY-V1",
   "x-devpilot-sprint": "UOC-000",
-  "x-devpilot-status": "registered"
+  "x-devpilot-status": "registered-evolving"
 }

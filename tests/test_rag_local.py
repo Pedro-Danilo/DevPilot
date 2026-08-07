@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -8,6 +9,8 @@ from pathlib import Path
 from devpilot_core.rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
 from devpilot_core.release.package_builder import _is_excluded
 from devpilot_core.release.verification import _contains_forbidden_marker
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_rag_indexer_creates_local_lexical_index_with_sources(tmp_path: Path) -> None:
@@ -68,20 +71,32 @@ def test_rag_query_fails_closed_without_sources(tmp_path: Path) -> None:
     assert result.findings[0].id == "RAG_QUERY_NO_SOURCES"
 
 
-def test_rag_cli_index_and_query_json() -> None:
-    root = Path.cwd()
+def test_rag_cli_index_and_query_json(tmp_path: Path) -> None:
+    # The CLI contract must never regenerate the tracked repository index.
+    # A dedicated disposable workspace makes the mutation explicit and isolated.
+    root = tmp_path / "rag-cli-workspace"
+    docs = root / "docs"
+    docs.mkdir(parents=True)
+    (docs / "readiness.md").write_text(
+        "# Readiness strict\n\nReadiness strict valida documentos aprobados, estándares, checklist y MIASI.\n",
+        encoding="utf-8",
+    )
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(ROOT / "src")
+
     index = subprocess.run(
         [sys.executable, "-m", "devpilot_core", "rag", "index", "--target", "docs", "--json"],
         cwd=root,
         text=True,
         capture_output=True,
         check=False,
-        env={"PYTHONPATH": "src"},
+        env=env,
     )
     assert index.returncode == 0, index.stderr or index.stdout
     index_payload = json.loads(index.stdout)
     assert index_payload["ok"] is True
     assert index_payload["data"]["summary"]["chunks_total"] > 0
+    assert (root / ".devpilot/rag/docs_index.json").is_file()
 
     query = subprocess.run(
         [sys.executable, "-m", "devpilot_core", "rag", "query", "Qué valida readiness strict", "--json"],
@@ -89,7 +104,7 @@ def test_rag_cli_index_and_query_json() -> None:
         text=True,
         capture_output=True,
         check=False,
-        env={"PYTHONPATH": "src"},
+        env=env,
     )
     assert query.returncode == 0, query.stderr or query.stdout
     query_payload = json.loads(query.stdout)

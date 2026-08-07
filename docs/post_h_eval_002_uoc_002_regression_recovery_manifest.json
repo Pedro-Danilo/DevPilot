@@ -1,0 +1,66 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_002.regression_recovery_manifest.v1",
+  "manifest_id": "UOC-002-REGRESSION-RECOVERY-v1.0.5",
+  "status": "implemented-pending-windows-selective-verification-resume-git-native-rag-reconciliation",
+  "decision": "PENDING-WINDOWS-GIT-NATIVE-RAG-RECONCILIATION-AND-SELECTIVE-RESUME",
+  "version": "1.0.5",
+  "updated": "2026-08-06",
+  "base_commit": "9cb67b023c6ac909a2b492370632a3955a454e39",
+  "current_repo": "repo_DevPilot_Local_329_POST_H_EVAL_002_UOC_001.zip",
+  "candidate_repo": "repo_DevPilot_Local_330_CANDIDATE_POST_H_EVAL_002_UOC_002.zip",
+  "observed_regression": {
+    "passed": 1987,
+    "failed": 58,
+    "errors": 0,
+    "skipped": 0
+  },
+  "full_regression_rerun_required": false,
+  "full_regression_evidence_reused": true,
+  "selective_verification_required": true,
+  "safety": {
+    "source_write_capability_enabled": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "external_api_required": false
+  },
+  "next_authorized": "UOC-002-browser-and-closure-after-selective-pass",
+  "supersedes": "1.0.4",
+  "v1_0_1_dry_run_block": "known-runtime-index-mutation-not-classified",
+  "known_runtime_mutation": {
+    "path": ".devpilot/rag/docs_index.json",
+    "producer_test": "tests/test_rag_local.py::test_rag_cli_index_and_query_json",
+    "cause": "CLI RAG index test used repository cwd during full pytest and regenerated the tracked conditional-source index.",
+    "validation": "exact-canonical-rebuild-with-real-indexer-pathguard-secretguard-ignore-timestamp",
+    "reconciliation": "classify-HEAD-equivalent-or-canonical-regeneration-then-git-native-restore-and-verify-clean",
+    "carry_into_commit": false,
+    "unrecognized_or_tampered_content_effect": "BLOCK"
+  },
+  "v1_0_2_dry_run_block": "raw-Git-blob-hash-compared-with-Windows-CRLF-working-tree",
+  "preflight_eol_policy": "UTF8-LF-CRLF-only",
+  "source_preimages_bundled": 42,
+  "v1_0_3_selective_block": {
+    "case": "state_history_and_freshness",
+    "result": "96 passed, 1 failed",
+    "failed_node": "tests/test_post_h_eval_002_activation_contract.py::test_post_h_eval_002_sources_are_canonical_in_documentation_registry",
+    "cause": "Documentation Source Registry used a versioned package/operator identifier instead of the stable sprint identifier.",
+    "corrective": "set last_registered_sprint to UOC-002-REGRESSION-RECOVERY and resume from the failed case",
+    "prior_pass_reused": "rag_cli_runtime_isolation 5/5 PASS"
+  },
+  "documentation_registry_identity": "UOC-002-REGRESSION-RECOVERY",
+  "selective_runner_contract": "partial-report-on-block-resume-from-first-failed-case-and-rag-git-clean-check-per-case",
+  "v1_0_4_dry_run_block": {
+    "stage": "working-tree-classification",
+    "result": "BLOCK before mutation",
+    "path": ".devpilot/rag/docs_index.json",
+    "cause": "v1.0.4 expected-state manifest omitted the known post-selective RAG worktree path and the previous runner verified only SHA stability, not Git cleanliness.",
+    "corrective": "allow only strictly classified RAG state, restore with git restore, refresh index metadata, verify clean status/diff, and rollback on partial failure."
+  },
+  "rag_git_clean_contract": "required-before-resume-and-after-every-case",
+  "operator_transaction_contract": "backup-all-destinations-and-rollback-on-write-failure",
+  "closure_continuation_version": "1.0.6",
+  "closure_continuation_status": "pending-browser-and-canonical-closure",
+  "browser_workspace_path_policy": "samefile/resolved-path; slash and case portable on Windows",
+  "closure_registry_identity": "UOC-002-CLOSURE only after uoc_002_closed=true",
+  "closure_archive_contract": "git archive exact canonical closure commit"
+}

@@ -23,7 +23,8 @@ def text(path: str) -> str:
 
 def test_project_state_closes_01_d_and_authorizes_02_a() -> None:
     state = data(".devpilot/project_state.json")
-    assert state["current_repo"] == REPO_327
+    assert state["post_h_eval_002_01_d_governance_repo"] == REPO_327
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert state["current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     if state["current_micro_sprint"] == "POST-H-EVAL-002-02-B":
         assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-C"
@@ -167,7 +168,8 @@ def test_tcr_v1_and_v2_register_closure_contract() -> None:
 def test_release_candidate_snapshot_matches_project_state() -> None:
     state = data(".devpilot/project_state.json")
     criteria = data(".devpilot/release/local_release_candidate_criteria.json")
-    assert criteria["expected_current_repo"] == state["current_repo"] == REPO_327
+    assert criteria["expected_current_repo"] == state["current_repo"]
+    assert state["post_h_eval_002_01_d_governance_repo"] == REPO_327
     assert criteria["expected_current_micro_sprint"] == state["current_micro_sprint"]
     assert criteria["expected_next_micro_sprint"] == state["next_micro_sprint"]
 

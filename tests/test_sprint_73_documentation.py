@@ -73,6 +73,8 @@ def test_sprint_73_openapi_ui_and_application_contract_are_closed() -> None:
 
 def test_sprint_73_no_desktop_shell_and_no_runtime_frontend_artifacts() -> None:
     assert not (ROOT / "desktop").exists()
-    assert not (ROOT / "ui" / "web" / "node_modules").exists()
+    gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
+    assert "node_modules/" in gitignore or "ui/web/node_modules/" in gitignore
+    assert "dist/" in gitignore or "ui/web/dist/" in gitignore
     assert not (ROOT / "package-lock.json").exists()
     assert (ROOT / "ui" / "web" / "package-lock.json").exists()

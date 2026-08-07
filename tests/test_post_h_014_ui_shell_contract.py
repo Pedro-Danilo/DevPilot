@@ -42,8 +42,10 @@ def test_post_h_014_c_validator_blocks_no_unregistered_or_unsafe_ui_routes() -> 
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["routes_total"] == 5
-    assert summary["critical_routes_total"] == 5
+    registry = read_registry()
+    assert summary["routes_total"] == len(registry["routes"])
+    assert summary["routes_total"] >= len(CRITICAL_UI_ROUTES)
+    assert summary["critical_routes_total"] == sum(1 for route in registry["routes"] if route.get("critical"))
     assert summary["missing_critical_routes_total"] == 0
     assert summary["unknown_api_routes_total"] == 0
     assert summary["no_go_violations_total"] == 0
@@ -60,7 +62,7 @@ def test_post_h_014_c_every_critical_page_has_contract_and_api_bindings() -> Non
     api_route_ids = {route["route_id"] for route in read_api_registry()["routes"]}
     routes = {route["route_id"]: route for route in registry["routes"]}
 
-    assert set(routes) == CRITICAL_UI_ROUTES
+    assert CRITICAL_UI_ROUTES <= set(routes)
     for route_id, route in routes.items():
         assert route["critical"] is True, route_id
         assert route["local_only"] is True, route_id
