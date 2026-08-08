@@ -11773,3 +11773,8 @@ The v1.0.2 browser root is retained as superseded incident evidence. Final accep
 ## UOC-003 v1.0.4 — browser navigation DOM recovery
 
 Do not close UOC-003 from the partial v1.0.3 browser run. Preserve that run as incident evidence. Apply the v1.0.4 incremental patch over the existing 54-path UOC-003 worktree, rerun the focused/global/TypeScript/Vite/smoke gates, and create a fresh browser root. Every finding or traceability source navigation must auto-scroll to the viewer, render an origin-aware status band, expose `Volver a findings` or `Volver a trazabilidad`, and complete without a viewer render-boundary error. Findings stay at 25/page but the list itself is height-bounded so pagination remains visible without page-scale scrolling. The traceability matrix is automatically loaded after `Ejecutar plan`; `Recargar trazabilidad` is optional and must appear enabled once execution finishes.
+
+
+## UOC-003 — CLOSED/PASS
+
+Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests, global validators, Vite/UI smokes and Chromium browser acceptance passed. Bounded findings pagination, DOM-safe finding/traceability navigation with return feedback, strict readiness and explicit traceability are available; zero-write source boundary, S0=0 and S1=0 were preserved. Browser evidence geometry was adjudicated in v1.0.5 using DPR anchored by the reduced viewport and a semantic desktop profile; original v1.0.4 screenshots were preserved byte-for-byte. Authoritative next baseline: `repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip`. UOC-004 is authorized.

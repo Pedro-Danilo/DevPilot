@@ -6250,3 +6250,8 @@ UOC-002 cerró con metadata, Git history/diff tipado, búsqueda lexical en memor
 ## POST-H-EVAL-002 UOC-003 — validation and traceability
 
 UOC-003 adds immutable validation plans, typed execution/status, severity-grouped findings, document/section navigation and an explicit-only requirement-story-risk/control-test matrix inside `/workspace/documents`. It reuses existing deterministic validators through an Application Service. Source documents remain read-only; execution writes only bounded local runtime report/trace evidence. Jobs are synchronous and preliminary in this version; queueing, heartbeat, cancellation and retry are deferred to UOC-007/UOC-008. UOC-003 is not closed until Windows/browser/Git/baseline evidence passes.
+
+
+## UOC-003 — CLOSED/PASS
+
+Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests, global validators, Vite/UI smokes and Chromium browser acceptance passed. Bounded findings pagination, DOM-safe finding/traceability navigation with return feedback, strict readiness and explicit traceability are available; zero-write source boundary, S0=0 and S1=0 were preserved. Browser evidence geometry was adjudicated in v1.0.5 using DPR anchored by the reduced viewport and a semantic desktop profile; original v1.0.4 screenshots were preserved byte-for-byte. Authoritative next baseline: `repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip`. UOC-004 is authorized.

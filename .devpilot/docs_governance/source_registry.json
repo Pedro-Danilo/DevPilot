@@ -5221,7 +5221,7 @@
       "classification": "source-of-truth",
       "domain": "audit.ui",
       "owner": "UOC-003",
-      "status_required": "implemented-initial/pending-windows-acceptance",
+      "status_required": "closed/PASS",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_validation_service.py",
@@ -5247,7 +5247,7 @@
       "classification": "source-of-truth",
       "domain": "audit.ui",
       "owner": "UOC-003",
-      "status_required": "implemented-initial/pending-windows-acceptance",
+      "status_required": "closed/PASS",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_validation_service.py",
@@ -8988,7 +8988,7 @@
       "classification": "machine-readable-source",
       "domain": "evaluation.pilot",
       "owner": "UOC-003",
-      "status_required": "implemented-initial",
+      "status_required": "closed",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_validation_service.py",
@@ -14547,15 +14547,15 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "UOC-003",
+    "last_updated_by": "UOC-003-CLOSURE",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "UOC-003",
-    "last_registered_sprint": "UOC-003",
+    "updated_by": "UOC-003-CLOSURE",
+    "last_registered_sprint": "UOC-003-CLOSURE",
     "updated": "2026-08-06",
     "documents_checked_total": 605,
     "documents_registered_total": 629,
@@ -16579,6 +16579,6 @@
     "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
-  "updated_at": "2026-08-06T20:35:00-05:00",
-  "last_registered_sprint": "UOC-003"
+  "updated_at": "2026-08-08T10:47:45.213275-05:00",
+  "last_registered_sprint": "UOC-003-CLOSURE"
 }

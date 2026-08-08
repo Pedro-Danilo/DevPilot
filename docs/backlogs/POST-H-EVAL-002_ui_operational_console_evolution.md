@@ -9,10 +9,10 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-003-implemented-initial/pending-windows-acceptance"
-current_sprint: "UOC-003"
+implementation_status: "UOC-003-closed/PASS"
+current_sprint: "UOC-004"
 next_sprint: "UOC-004"
-completed_sprints: "UOC-000,UOC-001,UOC-002"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -33,7 +33,7 @@ uoc_001_accepted_source_commit: "e9fe717eb8eafaca40830c691a7efb7bb956b035"
 uoc_002_base_commit: "9cb67b023c6ac909a2b492370632a3955a454e39"
 uoc_002_implementation_status: "closed/PASS"
 uoc_003_base_commit: "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913"
-uoc_003_implementation_status: "implemented-initial/pending-windows-acceptance"
+uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "implemented/pending-browser-retest"
 ---
 
@@ -1058,3 +1058,8 @@ v1.0.3 preserves the 54-file UOC-003 source contract and read-only boundary whil
 ## UOC-003 v1.0.4 — navigation DOM ownership and operator feedback corrective
 
 Windows browser acceptance of v1.0.3 confirmed 161 findings, bounded 25/page pagination and successful API/filter recovery, but found two UX defects and one deterministic viewer DOM defect: path-only navigation had no auto-scroll/return action, traceability navigation with line metadata triggered a `NotFoundError` because the viewer inserted a navigation notice relative to a node not yet attached, and the findings viewport could not show toolbar/cards/pagination together. v1.0.4 makes contextual navigation independent of line/section metadata, fixes DOM insertion order, adds finding/traceability return semantics and live feedback, bounds the findings list viewport, and clarifies that traceability is auto-loaded after Execute while the secondary button is an explicit reload. Final UOC-003 acceptance must use a fresh v1.0.4 browser root.
+
+
+## UOC-003 — CLOSED/PASS
+
+Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests, global validators, Vite/UI smokes and Chromium browser acceptance passed. Bounded findings pagination, DOM-safe finding/traceability navigation with return feedback, strict readiness and explicit traceability are available; zero-write source boundary, S0=0 and S1=0 were preserved. Browser evidence geometry was adjudicated in v1.0.5 using DPR anchored by the reduced viewport and a semantic desktop profile; original v1.0.4 screenshots were preserved byte-for-byte. Authoritative next baseline: `repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip`. UOC-004 is authorized.

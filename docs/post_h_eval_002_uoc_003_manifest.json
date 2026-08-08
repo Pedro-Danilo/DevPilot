@@ -3,9 +3,9 @@
   "version": "1.0.4",
   "sprint": "UOC-003",
   "title": "Validation y trazabilidad documental",
-  "status": "implemented-initial",
-  "decision": "PENDING-WINDOWS-ACCEPTANCE",
-  "closed": false,
+  "status": "closed",
+  "decision": "PASS",
+  "closed": true,
   "updated": "2026-08-08",
   "base_commit": "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913",
   "source_branch": "feat/post-h-eval-002-uoc-003-validation-traceability",
@@ -59,8 +59,8 @@
   },
   "tests": {
     "focused_status": "PASS-LOCAL",
-    "windows_status": "PENDING",
-    "browser_status": "PENDING-RETEST-AFTER-DOM-NAVIGATION-CORRECTIVE",
+    "windows_status": "PASS",
+    "browser_status": "PASS",
     "full_regression_required": false,
     "full_regression_reason": "UOC-003 is bounded to a new facade/UI panel/contracts; impacted suites and global validators are mandatory."
   },
@@ -75,8 +75,8 @@
   "pass_block": {
     "s0_open": 0,
     "s1_open": 0,
-    "closure_status": "PENDING",
-    "uoc_004_authorized": false
+    "closure_status": "PASS",
+    "uoc_004_authorized": true
   },
   "ux_correctives": {
     "browser_contrast_v1_0_2": {
@@ -140,5 +140,8 @@
       "runtime_semantics_changed": false,
       "source_write_boundary_changed": false
     }
-  }
+  },
+  "source_commit": "f8d53e4be53847c955f17192e588052dca3d9cc8",
+  "authoritative_output_repo": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip",
+  "browser_acceptance": "PASS"
 }

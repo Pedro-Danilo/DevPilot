@@ -1,7 +1,7 @@
 ---
 doc_id: "DEVPL-UOC-003-VALIDATION-TRACEABILITY-REPORT"
 title: "UOC-003 Validation and Traceability Implementation Report"
-status: "implemented-initial/pending-windows-acceptance"
+status: "closed/PASS"
 version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-08-07"
@@ -52,3 +52,8 @@ The v1.0.3 Windows acceptance confirmed the contrast patch, plan generation, 161
 v1.0.4 makes navigation context explicit (`finding` or `traceability`) independently of section/line metadata, appends the contextual notice safely before content, auto-scrolls/focuses the viewer for every contextual navigation, provides origin-aware return actions, and adds traceability navigation feedback. The findings list remains 25/page but is now height-bounded so toolbar, representative cards and pagination remain reachable in a desktop viewport. Traceability is documented as auto-loaded by Execute; the optional secondary action is labeled `Recargar trazabilidad`.
 
 Classification remains S2/browser-acceptance-blocking until a fresh browser root passes. Runtime validation semantics and the source read-only boundary are unchanged.
+
+
+## UOC-003 — CLOSED/PASS
+
+Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests, global validators, Vite/UI smokes and Chromium browser acceptance passed. Bounded findings pagination, DOM-safe finding/traceability navigation with return feedback, strict readiness and explicit traceability are available; zero-write source boundary, S0=0 and S1=0 were preserved. Browser evidence geometry was adjudicated in v1.0.5 using DPR anchored by the reduced viewport and a semantic desktop profile; original v1.0.4 screenshots were preserved byte-for-byte. Authoritative next baseline: `repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip`. UOC-004 is authorized.
