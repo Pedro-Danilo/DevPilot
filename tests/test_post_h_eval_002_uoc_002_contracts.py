@@ -26,7 +26,13 @@ def test_uoc_002_state_backlog_manifest_and_flags_are_synchronized() -> None:
     assert state["uoc_002_candidate_repo"] == "repo_DevPilot_Local_330_CANDIDATE_POST_H_EVAL_002_UOC_002.zip"
     if state["uoc_002_closed"]:
         assert "UOC-002-closed/PASS" in backlog
-        assert state["current_repo"] == "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+        assert state["uoc_002_authoritative_baseline"] == "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+        expected_current = (
+            "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
+            if state.get("uoc_003_closed")
+            else "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+        )
+        assert state["current_repo"] == expected_current
         assert state["uoc_002_status"] == "closed/PASS"
         assert state["uoc_003_authorized"] is True
         assert manifest["status"] == "closed"

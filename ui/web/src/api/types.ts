@@ -294,3 +294,85 @@ export interface WorkspaceDocumentSearchData {
   summary?: Record<string, unknown>;
   results?: WorkspaceDocumentSearchResult[];
 }
+
+export interface WorkspaceValidationNavigation {
+  relative_path?: string;
+  document_id?: string | null;
+  line?: number | null;
+  section?: string | null;
+}
+
+export interface WorkspaceValidationArtifact {
+  role: string;
+  relative_path: string;
+  document_id: string;
+  sha256: string;
+  size_bytes: number;
+  required: boolean;
+}
+
+export interface WorkspaceValidationPlan {
+  schema_id: string;
+  plan_id: string;
+  plan_hash: string;
+  workspace_id?: string;
+  strict: boolean;
+  scopes: string[];
+  artifacts: WorkspaceValidationArtifact[];
+  budgets?: Record<string, number>;
+  created_at?: string;
+  expires_after_seconds?: number;
+  preliminary?: boolean;
+}
+
+export interface WorkspaceValidationStep {
+  scope: string;
+  status: string;
+  ok: boolean;
+  exit_code: number;
+  message: string;
+  duration_ms?: number;
+  data?: Record<string, unknown>;
+  findings?: DevPilotFinding[];
+}
+
+export interface WorkspaceValidationJobData {
+  summary?: Record<string, unknown>;
+  job?: {
+    job_id: string;
+    status: string;
+    started_at?: string;
+    ended_at?: string;
+    trace_path?: string;
+    report_paths?: Record<string, string>;
+    event_ref?: Record<string, string>;
+  };
+  steps?: WorkspaceValidationStep[];
+  safety?: Record<string, unknown>;
+}
+
+export interface WorkspaceTraceabilitySource extends WorkspaceValidationNavigation {
+  excerpt?: string;
+}
+
+export interface WorkspaceTraceabilityRecord {
+  requirement_id: string;
+  story_ids: string[];
+  risk_ids: string[];
+  control_ids: string[];
+  test_ids: string[];
+  sources?: WorkspaceTraceabilitySource[];
+  navigation?: WorkspaceTraceabilitySource | null;
+  coverage?: Record<string, boolean>;
+}
+
+export interface WorkspaceTraceabilityData {
+  traceability?: {
+    schema_id?: string;
+    summary?: Record<string, unknown>;
+    matrix?: WorkspaceTraceabilityRecord[];
+    source_paths?: string[];
+    notes?: string[];
+  };
+  safety?: Record<string, unknown>;
+}

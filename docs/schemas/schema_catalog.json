@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-05",
-  "sprint": "UOC-002",
+  "updated": "2026-08-06",
+  "sprint": "UOC-003",
   "preliminary": true,
-  "purpose": "Executable local schema registry updated through UOC-000 UI operational console capability and base resource contracts.",
+  "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1",
@@ -2194,7 +2194,49 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-TRACEABILITY-V1",
+      "title": "Workspace Traceability v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_traceability.schema.json",
+      "description": "Explicit-only requirement-story-risk/control-test matrix with document and section navigation.",
+      "status": "registered",
+      "contract": "WorkspaceTraceability",
+      "owner": "Ordóñez",
+      "sprint": "UOC-003",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-003"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-VALIDATION-JOB-V1",
+      "title": "Workspace Validation Job v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_validation_job.schema.json",
+      "description": "Preliminary synchronous UOC-003 validation job with findings and local runtime evidence references.",
+      "status": "registered",
+      "contract": "WorkspaceValidationJob",
+      "owner": "Ordóñez",
+      "sprint": "UOC-003",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-003"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-VALIDATION-PLAN-V1",
+      "title": "Workspace Validation Plan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_validation_plan.schema.json",
+      "description": "Immutable bounded UOC-003 validation plan for active-workspace source-read-only execution.",
+      "status": "registered",
+      "contract": "WorkspaceValidationPlan",
+      "owner": "Ordóñez",
+      "sprint": "UOC-003",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-003"
     }
   ],
-  "schemas_total": 151
+  "schemas_total": 154
 }

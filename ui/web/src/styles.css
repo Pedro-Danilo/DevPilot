@@ -750,3 +750,180 @@ button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
     grid-column: 1;
   }
 }
+
+/* UOC-003 — deterministic document validation and traceability */
+/* UX contrast corrective v1.0.2: explicit light surfaces, readable status colors and keyboard focus. */
+.document-validation-panel {
+  --uoc003-surface-bg: #ffffff;
+  --uoc003-surface-text: #182033;
+  --uoc003-muted-text: #53627a;
+  --uoc003-subtle-bg: #f8fafc;
+  --uoc003-border: #d9e2f2;
+  --uoc003-link: #155eef;
+  --uoc003-pass: #0d6532;
+  --uoc003-warn: #725100;
+  --uoc003-block: #92211b;
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.document-validation-panel__header { display: flex; gap: 1rem; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
+.document-validation-panel__header h2, .document-validation-panel h3, .document-validation-panel h4 { margin-top: 0; }
+.document-validation-panel__controls { display: flex; flex-wrap: wrap; gap: .75rem; }
+.document-validation-plan, .document-validation-results, .document-traceability {
+  border: 1px solid var(--uoc003-border);
+  border-radius: .75rem;
+  padding: 1rem;
+  background: var(--uoc003-surface-bg);
+  color: var(--uoc003-surface-text);
+  box-shadow: 0 8px 22px rgba(18, 37, 66, .06);
+}
+.document-validation-plan > h3, .document-validation-results h3, .document-traceability > h3, .validation-findings > h4 { color: var(--uoc003-surface-text); }
+.document-validation-plan details, .document-validation-results details, .document-traceability details { color: var(--uoc003-surface-text); }
+.document-validation-plan details > summary, .document-validation-results details > summary, .document-traceability details > summary {
+  color: var(--uoc003-surface-text);
+  font-weight: 800;
+  cursor: pointer;
+  padding: .35rem 0;
+}
+.document-validation-plan details > summary:hover, .document-validation-results details > summary:hover, .document-traceability details > summary:hover { color: var(--uoc003-link); }
+.document-validation-plan details > summary:focus-visible, .document-validation-results details > summary:focus-visible, .document-traceability details > summary:focus-visible, .button-link:focus-visible {
+  outline: 3px solid #1f5eff;
+  outline-offset: 3px;
+  border-radius: .3rem;
+}
+.document-validation-plan code, .document-validation-results code, .document-traceability code {
+  color: #24324a;
+  background: #f3f6fb;
+  border-radius: .3rem;
+  padding: .08rem .25rem;
+  overflow-wrap: anywhere;
+}
+.document-validation-plan ul, .document-validation-results ul { padding-left: 1.4rem; }
+.document-validation-plan li, .document-validation-results li { margin: .35rem 0; color: var(--uoc003-surface-text); }
+.validation-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: .75rem; margin: .75rem 0 1rem; }
+.validation-metric {
+  --uoc003-metric-accent: #44506a;
+  display: grid;
+  gap: .2rem;
+  padding: .75rem;
+  border: 1px solid #e5ebf5;
+  border-left: .25rem solid var(--uoc003-metric-accent);
+  border-radius: .5rem;
+  background: var(--uoc003-subtle-bg);
+  color: var(--uoc003-surface-text);
+}
+.validation-metric span { color: var(--uoc003-muted-text); font-size: .78rem; opacity: 1; }
+.validation-metric strong { color: var(--uoc003-metric-accent); font-size: 1.2rem; }
+.validation-metric--pass { --uoc003-metric-accent: var(--uoc003-pass); }
+.validation-metric--warn { --uoc003-metric-accent: var(--uoc003-warn); }
+.validation-metric--block { --uoc003-metric-accent: var(--uoc003-block); }
+.document-validation-results__heading, .validation-finding > div { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.validation-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .75rem; }
+.validation-step { border: 1px solid var(--uoc003-border); border-radius: .5rem; padding: .75rem; background: var(--uoc003-subtle-bg); color: var(--uoc003-surface-text); }
+.validation-step--pass { border-left: .25rem solid var(--uoc003-pass); }
+.validation-step--block, .validation-step--error { border-left: .25rem solid var(--uoc003-block); }
+.validation-step p { margin-bottom: 0; color: var(--uoc003-muted-text); font-size: .9rem; }
+.validation-findings { display: grid; gap: .65rem; margin-top: 1rem; }
+.validation-finding { border: 1px solid var(--uoc003-border); border-radius: .5rem; padding: .75rem; background: var(--uoc003-surface-bg); color: var(--uoc003-surface-text); }
+.validation-finding--block, .validation-finding--error { border-left: .25rem solid var(--uoc003-block); }
+.validation-finding--warning { border-left: .25rem solid var(--uoc003-warn); }
+.validation-finding--info { border-left: .25rem solid var(--uoc003-pass); }
+.validation-finding p { margin: .45rem 0; color: var(--uoc003-muted-text); }
+.button-link { border: 0; background: transparent; color: var(--uoc003-link); text-align: left; padding: .2rem 0; text-decoration: underline; cursor: pointer; }
+.traceability-table-wrapper { overflow-x: auto; border: 1px solid var(--uoc003-border); border-radius: .5rem; background: var(--uoc003-surface-bg); }
+.traceability-table { width: 100%; border-collapse: collapse; min-width: 880px; color: var(--uoc003-surface-text); }
+.traceability-table th, .traceability-table td { padding: .65rem; border-bottom: 1px solid var(--uoc003-border); vertical-align: top; text-align: left; }
+.traceability-table th { position: sticky; top: 0; background: #f3f6fb; color: var(--uoc003-surface-text); z-index: 1; }
+.document-navigation-notice { border-left: .25rem solid var(--uoc003-link); padding: .65rem .8rem; background: #edf3ff; color: var(--uoc003-surface-text); }
+.document-navigation-target { outline: 3px solid #1f5eff; outline-offset: .2rem; border-radius: .2rem; }
+@media (max-width: 700px) { .document-validation-panel__controls > button { width: 100%; } .validation-summary-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 430px) { .validation-summary-grid { grid-template-columns: 1fr; } }
+
+
+/* POST-H-EVAL-002 UOC-003 v1.0.3 — findings scalability and navigation resilience */
+.workspace-documents-render-boundary {
+  margin: 1rem 0;
+  border: 1px solid #d9e2f2;
+  background: #fff8f8;
+}
+.validation-findings-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: .75rem;
+  align-items: end;
+  margin: .75rem 0;
+  padding: .75rem;
+  border: 1px solid var(--uoc003-border);
+  border-radius: .6rem;
+  background: var(--uoc003-subtle-bg);
+}
+.validation-findings-toolbar label {
+  display: grid;
+  gap: .35rem;
+  font-weight: 800;
+  color: var(--uoc003-surface-text);
+}
+.validation-findings-toolbar select {
+  width: 100%;
+  min-height: 2.5rem;
+}
+.validation-findings-toolbar p {
+  margin: 0;
+}
+.validation-findings-list {
+  display: grid;
+  gap: .65rem;
+  max-height: 28rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding-right: .25rem;
+}
+.validation-findings-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  margin-top: .9rem;
+  padding-top: .75rem;
+  border-top: 1px solid var(--uoc003-border);
+}
+.validation-findings-pagination span {
+  color: var(--uoc003-muted-text);
+  text-align: center;
+}
+.validation-findings-pagination button {
+  min-height: 2.5rem;
+}
+.document-navigation-notice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin: .75rem 1rem 0;
+}
+.document-navigation-back {
+  white-space: nowrap;
+}
+.document-navigation-target {
+  scroll-margin-top: 1rem;
+}
+
+.traceability-refresh-button:not(:disabled) {
+  background: #eef4ff;
+  color: #174ea6;
+  border: 1px solid #8db4ff;
+}
+.traceability-refresh-button:not(:disabled):hover { background: #dfeaff; }
+.traceability-refresh-button:disabled { opacity: .62; cursor: not-allowed; }
+.traceability-refresh-hint { margin: -.35rem 0 .1rem; color: var(--uoc003-muted-text); font-size: .88rem; }
+.document-navigation-notice:focus-within { outline: 2px solid #8db4ff; outline-offset: 2px; }
+@media (max-width: 700px) {
+  .validation-findings-toolbar { grid-template-columns: 1fr; }
+  .validation-findings-pagination { flex-wrap: wrap; }
+  .validation-findings-pagination span { order: -1; flex-basis: 100%; }
+  .validation-findings-pagination button { flex: 1 1 45%; }
+  .validation-findings-list { max-height: 24rem; }
+}

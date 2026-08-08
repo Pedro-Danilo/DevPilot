@@ -83,7 +83,7 @@ def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> No
         assert item["criticality"] == "P0"
         assert "tests/test_post_h_eval_002_activation_contract.py" in item["required_tests"]
         assert item["lifecycle"] == "active"
-    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327", "UOC-001", "UOC-002", "UOC-002-REGRESSION-RECOVERY", "UOC-002-CLOSURE"}
+    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002", "POST-H-EVAL-002-01-A", "POST-H-EVAL-002-01-B", "POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327", "UOC-001", "UOC-002", "UOC-002-REGRESSION-RECOVERY", "UOC-002-CLOSURE", "UOC-003", "UOC-003-CLOSURE"}
 
 
 def test_post_h_eval_002_test_contract_is_registered_in_v1_and_v2() -> None:

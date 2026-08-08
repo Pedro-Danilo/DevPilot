@@ -27,6 +27,7 @@ from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
+from .workspace_validation_service import WorkspaceValidationApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -65,6 +66,7 @@ class ApplicationService:
         self.workspace = WorkspaceApplicationService(self.root)
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
+        self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)
@@ -862,6 +864,25 @@ class ApplicationService:
     def workspace_documents_links(self, *, document_id: str) -> CommandResult:
         return self.workspace_document_inspection.links(document_id)
 
+    def workspace_validations_plan(
+        self,
+        *,
+        scopes: list[str] | None = None,
+        document_ids: list[str] | None = None,
+        strict: bool = True,
+        timeout_seconds: int = 45,
+    ) -> CommandResult:
+        return self.workspace_validation.plan(scopes=scopes, document_ids=document_ids, strict=strict, timeout_seconds=timeout_seconds)
+
+    def workspace_validations_execute(self, *, plan_id: str, plan_hash: str, plan: dict[str, Any] | None = None) -> CommandResult:
+        return self.workspace_validation.execute(plan_id=plan_id, plan_hash=plan_hash, plan=plan)
+
+    def workspace_validations_status(self, *, job_id: str) -> CommandResult:
+        return self.workspace_validation.get_job(job_id=job_id)
+
+    def workspace_traceability(self) -> CommandResult:
+        return self.workspace_validation.traceability()
+
     def reports_list(self, *, limit: int = 50, offset: int = 0, severity: str | None = None, status: str | None = None, command: str | None = None, query: str | None = None, scope: str | None = None) -> CommandResult:
         return self.reports.list_reports(limit=limit, offset=offset, severity=severity, status=status, command=command, query=query, scope=scope)
 
@@ -1069,6 +1090,19 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "workspace.documents.diff": lambda payload: service.workspace_documents_diff(document_id=str(payload.get("document_id", "")), base_ref=str(payload.get("base_ref", "HEAD")), max_bytes=int(payload.get("max_bytes", 262144))),
         "workspace.documents.search": lambda payload: service.workspace_documents_search(query=str(payload.get("query", "")), limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0))),
         "workspace.documents.links": lambda payload: service.workspace_documents_links(document_id=str(payload.get("document_id", ""))),
+        "workspace.validations.plan": lambda payload: service.workspace_validations_plan(
+            scopes=list(payload.get("scopes", [])) if isinstance(payload.get("scopes"), list) else None,
+            document_ids=list(payload.get("document_ids", [])) if isinstance(payload.get("document_ids"), list) else None,
+            strict=bool(payload.get("strict", True)),
+            timeout_seconds=int(payload.get("timeout_seconds", 45)),
+        ),
+        "workspace.validations.execute": lambda payload: service.workspace_validations_execute(
+            plan_id=str(payload.get("plan_id", "")),
+            plan_hash=str(payload.get("plan_hash", "")),
+            plan=payload.get("plan") if isinstance(payload.get("plan"), dict) else None,
+        ),
+        "workspace.validations.status": lambda payload: service.workspace_validations_status(job_id=str(payload.get("job_id", ""))),
+        "workspace.traceability": lambda payload: service.workspace_traceability(),
         "app.contract": lambda payload: service.application_contract(),
         "standards.status": lambda payload: service.standards_status(),
         "validators.validate_frontmatter": lambda payload: service.validate_frontmatter(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
@@ -1151,6 +1185,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
 def _domain_summaries() -> list[dict[str, Any]]:
     return [
         {"domain": "workspace", "service": "WorkspaceApplicationService", "status": "implemented-initial", "side_effects": "read_or_dry_run_plan"},
+        {"domain": "workspace-validation", "service": "WorkspaceValidationApplicationService", "status": "implemented-initial", "side_effects": "source_read_only_runtime_trace_report"},
         {"domain": "workspace-documents", "service": "WorkspaceDocumentsApplicationService", "status": "implemented-initial-uoc-001", "side_effects": "bounded_read_only"},
         {"domain": "validation", "service": "ValidationApplicationService", "status": "implemented", "side_effects": "none_or_explicit_report_by_adapter"},
         {"domain": "miasi", "service": "MiasiApplicationService", "status": "implemented", "side_effects": "none"},
@@ -1180,6 +1215,10 @@ def _capabilities() -> list[ServiceCapability]:
         ("workspace.documents.diff", "Read a bounded document diff against HEAD or an immutable commit id.", "none", True, "GET /api/v1/workspace/documents/{document_id}/diff"),
         ("workspace.documents.search", "Search active-workspace document content through an incremental in-memory index.", "none", True, "GET /api/v1/workspace/documents/search"),
         ("workspace.documents.links", "Read incoming and outgoing document relationships within the active workspace.", "none", True, "GET /api/v1/workspace/documents/{document_id}/links"),
+        ("workspace.validations.plan", "Build an immutable bounded UOC-003 validation plan for the active workspace.", "none", True, "POST /api/v1/workspace/validations/plan"),
+        ("workspace.validations.execute", "Execute deterministic UOC-003 validators as a source-read-only job with local trace/report evidence.", "runtime_evidence_only", False, "POST /api/v1/workspace/validations/execute"),
+        ("workspace.validations.status", "Read one bounded UOC-003 validation job by opaque job id.", "none", True, "GET /api/v1/workspace/validations/{job_id}"),
+        ("workspace.traceability", "Read the explicit-only requirement-story-risk/control-test traceability matrix.", "none", True, "GET /api/v1/workspace/traceability"),
         ("workspace.init_plan", "Build a workspace initialization plan without writing files.", "none", True, "python -m devpilot_core workspace init --json"),
         ("validators.validate_frontmatter", "Legacy alias: validate Markdown frontmatter metadata for one artifact.", "none", True, "python -m devpilot_core validate-frontmatter <path> --json"),
         ("validators.validate_artifact", "Legacy alias: validate Markdown structure against MIPSoftware/MIASI profiles.", "none", True, "python -m devpilot_core validate-artifact <path> --json"),
@@ -1251,6 +1290,10 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-002-B", "GET", "/api/v1/workspace/documents/{document_id}/diff", "workspace.documents.diff", ["UOC-002 bounded read-only diff against HEAD or a hexadecimal commit id."]),
         ("APP-ROUTE-UOC-002-C", "GET", "/api/v1/workspace/documents/search", "workspace.documents.search", ["UOC-002 local full-text search with active-workspace in-memory cache."]),
         ("APP-ROUTE-UOC-002-D", "GET", "/api/v1/workspace/documents/{document_id}/links", "workspace.documents.links", ["UOC-002 incoming/outgoing document relationship inspection."]),
+        ("APP-ROUTE-UOC-003-A", "POST", "/api/v1/workspace/validations/plan", "workspace.validations.plan", ["UOC-003 immutable bounded plan; no source mutation or runtime evidence write."]),
+        ("APP-ROUTE-UOC-003-B", "POST", "/api/v1/workspace/validations/execute", "workspace.validations.execute", ["UOC-003 synchronous preliminary job; writes only local runtime trace/report evidence."]),
+        ("APP-ROUTE-UOC-003-C", "GET", "/api/v1/workspace/validations/{job_id}", "workspace.validations.status", ["UOC-003 bounded status lookup by opaque job id."]),
+        ("APP-ROUTE-UOC-003-D", "GET", "/api/v1/workspace/traceability", "workspace.traceability", ["UOC-003 explicit-only traceability matrix with finding navigation."]),
         ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),

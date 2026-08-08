@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-capability-registry",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.2.0",
-  "updated": "2026-08-05",
+  "version": "1.3.0",
+  "updated": "2026-08-06",
   "source_commits": {
     "canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
     "ui_corrective_commit": "84789e428246d732cf308d70aa965dfda291b09e",
@@ -1960,19 +1960,26 @@
         "checklist-pre-code"
       ],
       "domain_owner": "documentation.governance",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
-      "read_write": "write-or-execute",
-      "risk_class": "mutating",
+      "application_service": "workspace.validations.execute",
+      "api_route_ids": [
+        "api.workspace.validations.plan",
+        "api.workspace.validations.execute",
+        "api.workspace.validations.status",
+        "api.workspace.traceability"
+      ],
+      "ui_route_ids": [
+        "ui.workspace-documents"
+      ],
+      "read_write": "runtime-evidence-only",
+      "risk_class": "read-only",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
-      "planned_sprint": "UOC-007",
+      "parity_status": "UI-READ-ONLY",
+      "planned_sprint": "CURRENT",
       "policy": {
         "required": true,
-        "currently_declared_by_cli": false,
+        "currently_declared_by_cli": true,
         "ui_exposure_requires_policy": true,
-        "default_decision": "plan-only"
+        "default_decision": "allow-runtime-evidence-only"
       },
       "requires_dry_run": true,
       "requires_approval": false,
@@ -2000,8 +2007,9 @@
         "token_or_secret_allowed": false
       },
       "notes": [
-        "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-003 reuses deterministic validators through a typed workspace facade.",
+        "The UI never executes free-form CLI text and never mutates source documents.",
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
       ]
     },
     {
@@ -4120,19 +4128,26 @@
         "validate"
       ],
       "domain_owner": "governance.miasi",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
-      "read_write": "write-or-execute",
-      "risk_class": "mutating",
+      "application_service": "workspace.validations.execute",
+      "api_route_ids": [
+        "api.workspace.validations.plan",
+        "api.workspace.validations.execute",
+        "api.workspace.validations.status",
+        "api.workspace.traceability"
+      ],
+      "ui_route_ids": [
+        "ui.workspace-documents"
+      ],
+      "read_write": "runtime-evidence-only",
+      "risk_class": "read-only",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
-      "planned_sprint": "UOC-003",
+      "parity_status": "UI-READ-ONLY",
+      "planned_sprint": "CURRENT",
       "policy": {
         "required": true,
-        "currently_declared_by_cli": false,
+        "currently_declared_by_cli": true,
         "ui_exposure_requires_policy": true,
-        "default_decision": "plan-only"
+        "default_decision": "allow-runtime-evidence-only"
       },
       "requires_dry_run": true,
       "requires_approval": false,
@@ -4160,8 +4175,9 @@
         "token_or_secret_allowed": false
       },
       "notes": [
-        "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-003 reuses deterministic validators through a typed workspace facade.",
+        "The UI never executes free-form CLI text and never mutates source documents.",
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
       ]
     },
     {
@@ -6414,19 +6430,26 @@
         "readiness-check"
       ],
       "domain_owner": "documentation.governance",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
-      "read_write": "write-or-execute",
-      "risk_class": "mutating",
+      "application_service": "workspace.validations.execute",
+      "api_route_ids": [
+        "api.workspace.validations.plan",
+        "api.workspace.validations.execute",
+        "api.workspace.validations.status",
+        "api.workspace.traceability"
+      ],
+      "ui_route_ids": [
+        "ui.workspace-documents"
+      ],
+      "read_write": "runtime-evidence-only",
+      "risk_class": "read-only",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
-      "planned_sprint": "UOC-007",
+      "parity_status": "UI-READ-ONLY",
+      "planned_sprint": "CURRENT",
       "policy": {
         "required": true,
-        "currently_declared_by_cli": false,
+        "currently_declared_by_cli": true,
         "ui_exposure_requires_policy": true,
-        "default_decision": "plan-only"
+        "default_decision": "allow-runtime-evidence-only"
       },
       "requires_dry_run": true,
       "requires_approval": false,
@@ -6454,8 +6477,9 @@
         "token_or_secret_allowed": false
       },
       "notes": [
-        "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-003 reuses deterministic validators through a typed workspace facade.",
+        "The UI never executes free-form CLI text and never mutates source documents.",
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
       ]
     },
     {
@@ -10098,19 +10122,26 @@
         "validate"
       ],
       "domain_owner": "documentation.governance",
-      "application_service": "validation.gateway",
-      "api_route_ids": [],
-      "ui_route_ids": [],
-      "read_write": "write-or-execute",
-      "risk_class": "mutating",
+      "application_service": "workspace.validations.execute",
+      "api_route_ids": [
+        "api.workspace.validations.plan",
+        "api.workspace.validations.execute",
+        "api.workspace.validations.status",
+        "api.workspace.traceability"
+      ],
+      "ui_route_ids": [
+        "ui.workspace-documents"
+      ],
+      "read_write": "runtime-evidence-only",
+      "risk_class": "read-only",
       "source_risk_level": "medium",
-      "parity_status": "PLANNED",
-      "planned_sprint": "UOC-003",
+      "parity_status": "UI-READ-ONLY",
+      "planned_sprint": "CURRENT",
       "policy": {
         "required": true,
-        "currently_declared_by_cli": false,
+        "currently_declared_by_cli": true,
         "ui_exposure_requires_policy": true,
-        "default_decision": "plan-only"
+        "default_decision": "allow-runtime-evidence-only"
       },
       "requires_dry_run": true,
       "requires_approval": false,
@@ -10138,8 +10169,9 @@
         "token_or_secret_allowed": false
       },
       "notes": [
-        "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-003 reuses deterministic validators through a typed workspace facade.",
+        "The UI never executes free-form CLI text and never mutates source documents.",
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
       ]
     },
     {
@@ -10151,19 +10183,26 @@
         "validate-artifact"
       ],
       "domain_owner": "documentation.governance",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
-      "read_write": "write-or-execute",
-      "risk_class": "mutating",
+      "application_service": "workspace.validations.execute",
+      "api_route_ids": [
+        "api.workspace.validations.plan",
+        "api.workspace.validations.execute",
+        "api.workspace.validations.status",
+        "api.workspace.traceability"
+      ],
+      "ui_route_ids": [
+        "ui.workspace-documents"
+      ],
+      "read_write": "runtime-evidence-only",
+      "risk_class": "read-only",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
-      "planned_sprint": "UOC-003",
+      "parity_status": "UI-READ-ONLY",
+      "planned_sprint": "CURRENT",
       "policy": {
         "required": true,
-        "currently_declared_by_cli": false,
+        "currently_declared_by_cli": true,
         "ui_exposure_requires_policy": true,
-        "default_decision": "plan-only"
+        "default_decision": "allow-runtime-evidence-only"
       },
       "requires_dry_run": true,
       "requires_approval": false,
@@ -10191,8 +10230,9 @@
         "token_or_secret_allowed": false
       },
       "notes": [
-        "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-003 reuses deterministic validators through a typed workspace facade.",
+        "The UI never executes free-form CLI text and never mutates source documents.",
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
       ]
     },
     {
@@ -10204,19 +10244,26 @@
         "validate-frontmatter"
       ],
       "domain_owner": "documentation.governance",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
-      "read_write": "write-or-execute",
-      "risk_class": "mutating",
+      "application_service": "workspace.validations.execute",
+      "api_route_ids": [
+        "api.workspace.validations.plan",
+        "api.workspace.validations.execute",
+        "api.workspace.validations.status",
+        "api.workspace.traceability"
+      ],
+      "ui_route_ids": [
+        "ui.workspace-documents"
+      ],
+      "read_write": "runtime-evidence-only",
+      "risk_class": "read-only",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
-      "planned_sprint": "UOC-003",
+      "parity_status": "UI-READ-ONLY",
+      "planned_sprint": "CURRENT",
       "policy": {
         "required": true,
-        "currently_declared_by_cli": false,
+        "currently_declared_by_cli": true,
         "ui_exposure_requires_policy": true,
-        "default_decision": "plan-only"
+        "default_decision": "allow-runtime-evidence-only"
       },
       "requires_dry_run": true,
       "requires_approval": false,
@@ -10244,8 +10291,9 @@
         "token_or_secret_allowed": false
       },
       "notes": [
-        "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-003 reuses deterministic validators through a typed workspace facade.",
+        "The UI never executes free-form CLI text and never mutates source documents.",
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
       ]
     },
     {
@@ -10754,37 +10802,40 @@
     "classification_complete": true,
     "ui_routes_total": 6,
     "ui_routes_mapped_total": 6,
-    "api_routes_total": 46,
+    "api_routes_total": 50,
     "risk_class_counts": {
       "forbidden": 5,
-      "mutating": 130,
-      "read-only": 2,
+      "mutating": 124,
+      "read-only": 8,
       "sensitive": 56
     },
     "parity_status_counts": {
-      "CLI-BRIDGE-REGISTERED": 181,
-      "PLANNED": 3,
+      "CLI-BRIDGE-REGISTERED": 176,
+      "PLANNED": 2,
       "POLICY-BLOCKED": 5,
-      "UI-READ-ONLY": 4
+      "UI-READ-ONLY": 10
     },
     "planned_sprint_counts": {
-      "CURRENT": 4,
-      "UOC-003": 16,
+      "CURRENT": 10,
+      "UOC-003": 12,
       "UOC-006": 10,
-      "UOC-007": 99,
+      "UOC-007": 97,
       "UOC-009": 35,
       "UOC-010": 29
     },
     "mutating_without_policy_total": 0,
     "sensitive_ui_native_without_approval_total": 0,
     "forbidden_capabilities_total": 5,
-    "current_ui_native_or_read_only_total": 4,
+    "current_ui_native_or_read_only_total": 10,
     "uoc_001_read_only_document_surface_total": 1,
     "uoc_002_document_inspection_routes_total": 4,
     "uoc_002_typed_git_read_only": true,
     "uoc_002_memory_only_search": true,
     "uoc_002_document_links": true,
-    "updated_by": "UOC-002"
+    "updated_by": "UOC-003",
+    "uoc_003_validation_capabilities_total": 6,
+    "uoc_003_residual_cli_bridge_inventory_required": true,
+    "uoc_003_jobs_mode": "synchronous-preliminary"
   },
   "safety": {
     "local_first": true,
@@ -10798,11 +10849,14 @@
     "external_api_required": false,
     "source_mutations_runtime": false,
     "workspace_documents_read_only_enabled": true,
-    "document_write_enabled": false
+    "document_write_enabled": false,
+    "workspace_validation_source_write_enabled": false,
+    "workspace_validation_runtime_evidence_only": true
   },
   "notes": [
     "UOC-000 freezes architecture and classification only; no runtime route or executor is added.",
     "A capability classified as CLI-BRIDGE-REGISTERED is not authorized for UI subprocess execution.",
-    "Future sprints must update this registry atomically with API/UI route contracts and Test Impact evidence."
+    "Future sprints must update this registry atomically with API/UI route contracts and Test Impact evidence.",
+    "UOC-003 changes six deterministic validation/checklist capabilities to UI-READ-ONLY through one typed facade; remaining UOC-003-tagged CLI bridges stay inventoried."
   ]
 }

@@ -1964,23 +1964,23 @@ python -m devpilot_core schema list --json
 
 Límites: POST-H-013-A no implementa builder v2, verifier v2, firma, cifrado ni redaction runtime. No habilita remote signing, KMS, APIs externas, connector write, plugin execution ni compliance certification claim.
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial + POST-H-012-C implemented-initial + POST-H-012-D implemented-initial + POST-H-012-E implemented-initial + POST-H-012 closed + POST-H-013-A implemented-initial + POST-H-013-B implemented-initial + POST-H-013-C implemented-initial + POST-H-013-D implemented-initial + POST-H-013-E implemented-initial + POST-H-013 closed`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial + POST-H-012-C implemented-initial + POST-H-012-D implemented-initial + POST-H-012-E implemented-initial + POST-H-012 closed + POST-H-013-A implemented-initial + POST-H-013-B implemented-initial + POST-H-013-C implemented-initial + POST-H-013-D implemented-initial + POST-H-013-E implemented-initial + POST-H-013 closed`
 Último hito: `POST-H-013 — Audit pack integrity`
 Hito activo: `POST-H-014 — UI/API industrial shell`
 Siguiente hito: `POST-H-015 — Local operator dashboard`
-Último hito cerrado: `POST-H-014 — UI/API industrial shell`  
-Siguiente hito: `POST-H-015 — Local operator dashboard`  
-Último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`  
-Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`
+Siguiente hito: `POST-H-015 — Local operator dashboard`
+Último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`
+Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`
 Hito cerrado: `POST-H-012 — Approval/RBAC hardening`
-Hito cerrado: `POST-H-011 — RAG groundedness evals`  
-Hito cerrado: `POST-H-010 — Observability retention local`  
-Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
-Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
-Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente hito recomendado: `POST-H-015 — Local operator dashboard`  
-Estándar rector: MIPSoftware  
-Extensión inteligente: MIASI  
+Hito cerrado: `POST-H-011 — RAG groundedness evals`
+Hito cerrado: `POST-H-010 — Observability retention local`
+Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`
+Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`
+Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`
+Siguiente hito recomendado: `POST-H-015 — Local operator dashboard`
+Estándar rector: MIPSoftware
+Extensión inteligente: MIASI
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
@@ -6245,3 +6245,8 @@ The browser and closure operator now compares Windows paths by filesystem identi
 ## UOC-002 — Metadata, Git history y búsqueda documental — CLOSED/PASS
 
 UOC-002 cerró con metadata, Git history/diff tipado, búsqueda lexical en memoria y relaciones documentales read-only. La recuperación v1.0.5 y el operador final de cierre v1.0.8 aprobaron evidencia selectiva y browser: zero-write, no shell, `S0=0`, `S1=0`. Source commit: `bcb46779470d86d19a87e55a9f6d38297e2f7534`. UOC-003 queda autorizado tras el baseline autoritativo repo 330.
+
+
+## POST-H-EVAL-002 UOC-003 — validation and traceability
+
+UOC-003 adds immutable validation plans, typed execution/status, severity-grouped findings, document/section navigation and an explicit-only requirement-story-risk/control-test matrix inside `/workspace/documents`. It reuses existing deterministic validators through an Application Service. Source documents remain read-only; execution writes only bounded local runtime report/trace evidence. Jobs are synchronous and preliminary in this version; queueing, heartbeat, cancellation and retry are deferred to UOC-007/UOC-008. UOC-003 is not closed until Windows/browser/Git/baseline evidence passes.

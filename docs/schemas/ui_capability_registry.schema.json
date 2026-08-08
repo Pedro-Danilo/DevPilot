@@ -313,7 +313,8 @@
               "enum": [
                 "allow-read-only",
                 "plan-only",
-                "deny"
+                "deny",
+                "allow-runtime-evidence-only"
               ]
             }
           },

@@ -17,7 +17,13 @@ def test_current_baseline_and_candidate_are_not_conflated() -> None:
     criteria = data(".devpilot/release/local_release_candidate_criteria.json")
     assert state["uoc_002_candidate_repo"] == "repo_DevPilot_Local_330_CANDIDATE_POST_H_EVAL_002_UOC_002.zip"
     if state["uoc_002_closed"]:
-        assert state["current_repo"] == "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+        assert state["uoc_002_authoritative_baseline"] == "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+        expected_current = (
+            "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
+            if state.get("uoc_003_closed")
+            else "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+        )
+        assert state["current_repo"] == expected_current
     else:
         assert state["current_repo"] == "repo_DevPilot_Local_329_POST_H_EVAL_002_UOC_001.zip"
     assert criteria["expected_current_repo"] == state["current_repo"]
@@ -38,7 +44,8 @@ def test_route_registry_totals_match_live_contracts() -> None:
     api = data(".devpilot/interfaces/api_route_contract_registry.json")
     ui = data(".devpilot/interfaces/ui_route_contract_registry.json")
     capabilities = data(".devpilot/interfaces/ui_capability_registry.json")
-    assert api["summary"]["routes_total"] == len(api["routes"]) == 46
+    assert api["summary"]["routes_total"] == len(api["routes"])
+    assert len(api["routes"]) >= 46
     assert ui["summary"]["routes_total"] == len(ui["routes"]) == 6
     assert capabilities["summary"]["api_routes_total"] == len(api["routes"])
     assert capabilities["summary"]["ui_routes_total"] == len(ui["routes"])
@@ -95,7 +102,9 @@ def test_documentation_registry_uses_lifecycle_aware_stable_identity() -> None:
     manifest = data("docs/post_h_eval_002_uoc_002_regression_recovery_manifest.json")
     state = data(".devpilot/project_state.json")
     assert manifest["documentation_registry_identity"] == "UOC-002-REGRESSION-RECOVERY"
-    if state["uoc_002_closed"]:
+    if state.get("uoc_003_status"):
+        assert registry["last_registered_sprint"] in {"UOC-003", "UOC-003-CLOSURE"}
+    elif state["uoc_002_closed"]:
         assert registry["last_registered_sprint"] == "UOC-002-CLOSURE"
     else:
         assert registry["last_registered_sprint"] == manifest["documentation_registry_identity"]

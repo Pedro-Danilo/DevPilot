@@ -25,6 +25,7 @@ const sources = [
   'src/pages/WorkspaceDocumentsView.ts',
   'src/components/DocumentTree.ts',
   'src/components/DocumentViewer.ts',
+  'src/components/DocumentValidationPanel.ts',
   'src/components/DryRunActionForm.ts',
   'src/components/ProviderSettings.ts',
   'src/components/OperatorGatePanel.ts',

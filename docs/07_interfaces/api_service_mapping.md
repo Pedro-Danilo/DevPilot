@@ -228,3 +228,15 @@ no persiste contenido fuera de la memoria del proceso.
 
 No se habilitan escritura documental, comandos Git libres, shell, red externa,
 connector write, plugin execution ni ejecución remota.
+
+
+## UOC-003 — Workspace validation and traceability
+
+| API route | Application operation | Mutation boundary | Evidence |
+|---|---|---|---|
+| `POST /api/v1/workspace/validations/plan` | `workspace.validations.plan` | none | immutable in-memory plan |
+| `POST /api/v1/workspace/validations/execute` | `workspace.validations.execute` | runtime evidence only | bounded report and trace under active workspace |
+| `GET /api/v1/workspace/validations/{job_id}` | `workspace.validations.status` | none | reads opaque validation job |
+| `GET /api/v1/workspace/traceability` | `workspace.traceability` | none | explicit-only navigable matrix |
+
+The facade reuses deterministic validators and never executes free-form shell or CLI text. Source documents remain read-only. The first UOC-003 job implementation is synchronous and preliminary; async queueing, heartbeat and cancellation remain assigned to UOC-007/UOC-008.

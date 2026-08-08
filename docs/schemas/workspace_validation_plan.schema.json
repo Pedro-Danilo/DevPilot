@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/workspace_validation_plan.schema.json",
+  "title": "WorkspaceValidationPlan",
+  "type": "object",
+  "required": ["schema_id", "plan_id", "plan_hash", "workspace_id", "strict", "scopes", "artifacts", "budgets", "safety", "preliminary"],
+  "properties": {
+    "schema_id": {"const": "devpilot.post_h_eval_002.uoc_003.validation_plan.v1"},
+    "plan_id": {"type": "string", "pattern": "^vplan_[0-9a-f]{32}$"},
+    "plan_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "workspace_root_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "strict": {"type": "boolean"},
+    "scopes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["frontmatter", "artifact_profile", "links", "miasi", "readiness_strict", "checklist_pre_code", "traceability"]}},
+    "artifacts": {"type": "array", "minItems": 1, "maxItems": 16, "items": {"type": "object", "required": ["role", "relative_path", "document_id", "sha256", "size_bytes", "required"], "properties": {"role": {"type": "string"}, "relative_path": {"type": "string", "not": {"pattern": "^(?:[A-Za-z]:|/|\\\\)"}}, "document_id": {"type": "string", "pattern": "^doc_"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "size_bytes": {"type": "integer", "minimum": 0}, "required": {"type": "boolean"}}, "additionalProperties": false}},
+    "budgets": {"type": "object"},
+    "safety": {"type": "object"},
+    "preliminary": {"const": true},
+    "created_at": {"type": "string"},
+    "expires_after_seconds": {"type": "integer", "minimum": 1}
+  },
+  "additionalProperties": true
+}

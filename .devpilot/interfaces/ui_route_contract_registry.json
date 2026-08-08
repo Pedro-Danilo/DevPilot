@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-05",
+  "updated": "2026-08-06",
   "routes": [
     {
       "route_id": "ui.approvals",
@@ -264,17 +264,22 @@
         "ui/web/src/pages/WorkspaceDocumentsView.ts",
         "ui/web/src/components/DocumentTree.ts",
         "ui/web/src/components/DocumentViewer.ts",
-        "ui/web/src/components/DocumentInspectionPanel.ts"
+        "ui/web/src/components/DocumentInspectionPanel.ts",
+        "ui/web/src/components/DocumentValidationPanel.ts"
       ],
       "allowed_api_routes": [
-        "api.workspace.documents.list",
-        "api.workspace.documents.read",
-        "api.workspace.documents.metadata",
         "api.portfolio.status",
-        "api.workspace.documents.history",
         "api.workspace.documents.diff",
+        "api.workspace.documents.history",
+        "api.workspace.documents.links",
+        "api.workspace.documents.list",
+        "api.workspace.documents.metadata",
+        "api.workspace.documents.read",
         "api.workspace.documents.search",
-        "api.workspace.documents.links"
+        "api.workspace.traceability",
+        "api.workspace.validations.execute",
+        "api.workspace.validations.plan",
+        "api.workspace.validations.status"
       ],
       "critical": true,
       "local_only": true,
@@ -286,7 +291,11 @@
         "loading": true,
         "empty": true,
         "error": true,
-        "block_visible": true
+        "block_visible": true,
+        "warn": true,
+        "job_running": true,
+        "findings_navigation": true,
+        "traceability_empty": true
       },
       "status_visibility": [
         "PASS",
@@ -304,7 +313,8 @@
         "UOC-001 read-only document explorer for the explicitly active registered workspace.",
         "UOC-002 adds parsed frontmatter, SHA-256, typed Git status/history/diff, memory-only full-text search and workspace-scoped document links.",
         "The browser uses opaque document ids; absolute filesystem paths and free-form Git commands are never accepted as authority.",
-        "No write, shell, connector, plugin, remote execution or external API capability is exposed."
+        "No write, shell, connector, plugin, remote execution or external API capability is exposed.",
+        "UOC-003 exposes deterministic validation jobs and explicit-only traceability in the same read-only document inspection context."
       ]
     }
   ],
@@ -315,7 +325,7 @@
     "dry_run_badged_routes_total": 6,
     "no_remote_badged_routes_total": 6,
     "mutation_control_routes_total": 2,
-    "allowed_api_routes_unique_total": 30,
+    "allowed_api_routes_unique_total": 34,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -333,7 +343,12 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "UOC-002"
+    "updated_by": "UOC-003",
+    "uoc_003_validation_traceability": true,
+    "workspace_validation_api_routes_total": 4,
+    "validation_jobs_preliminary_synchronous": true,
+    "source_write_enabled": false,
+    "runtime_evidence_only": true
   },
   "safety": {
     "local_first": true,
@@ -353,6 +368,7 @@
     "POST-H-EVAL-002-01-D corrective removes eager embedded detail views, separates Reports/Traces and preserves all no-go gates.",
     "POST-H-EVAL-002-01-D repo 324 synchronizes separated ReportsView/TracesView and treats async.ts as shared infrastructure, not route-owned source.",
     "POST-H-EVAL-002-02-A UI-first corrective adds shared read-only portfolio/workspace context to all five critical routes without adding a new top-level route.",
-    "UOC-001 adds ui.workspace-documents as a read-only, opaque-id, active-workspace-bound surface with zero mutation controls."
+    "UOC-001 adds ui.workspace-documents as a read-only, opaque-id, active-workspace-bound surface with zero mutation controls.",
+    "UOC-003 keeps /workspace/documents as the single progressive-disclosure surface for document validation, findings navigation and traceability."
   ]
 }

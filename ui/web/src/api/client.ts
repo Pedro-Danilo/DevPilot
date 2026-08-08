@@ -196,6 +196,30 @@ export class DevPilotApiClient {
     return this.get(`/workspace/documents/search${this.query({ query, limit, offset })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }
 
+  async planWorkspaceValidations(payload: { scopes?: string[]; document_ids?: string[]; strict?: boolean; timeout_seconds?: number } = {}): Promise<DevPilotApplicationResponse> {
+    return this.post('/workspace/validations/plan', {
+      operation: 'workspace.validations.plan',
+      payload,
+      dry_run: true,
+    }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async executeWorkspaceValidations(payload: { plan_id: string; plan_hash: string; plan: Record<string, unknown> }): Promise<DevPilotApplicationResponse> {
+    return this.post('/workspace/validations/execute', {
+      operation: 'workspace.validations.execute',
+      payload,
+      dry_run: false,
+    }, { timeoutMs: 120000 });
+  }
+
+  async workspaceValidationStatus(jobId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/validations/${encodeURIComponent(jobId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceTraceability(): Promise<DevPilotApplicationResponse> {
+    return this.get('/workspace/traceability', { timeoutMs: READINESS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
   private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' }, policy);
   }

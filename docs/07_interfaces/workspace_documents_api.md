@@ -68,3 +68,17 @@ Archivos secretos y plano de control excluido por UOC-001 continúan invisibles,
 incluso cuando estén versionados. Los budgets limitan commits, resultados y
 bytes de diff. UOC-003 será responsable de validación y trazabilidad; UOC-002 no
 reimplementa validators.
+
+
+## UOC-003 validation and traceability contracts
+
+UOC-003 adds an immutable `plan → execute → status` flow plus explicit-only traceability. Plans bind workspace fingerprint, artifact hashes, scopes and bounded budgets. Execution writes only runtime report/trace evidence under the active workspace; it never modifies source documents. Findings include opaque document identifiers, line and section navigation where available.
+
+Routes:
+
+- `POST /api/v1/workspace/validations/plan`
+- `POST /api/v1/workspace/validations/execute`
+- `GET /api/v1/workspace/validations/{job_id}`
+- `GET /api/v1/workspace/traceability`
+
+This is an initial synchronous implementation. Cancellation, heartbeat and durable asynchronous job recovery are deferred to UOC-007/UOC-008.

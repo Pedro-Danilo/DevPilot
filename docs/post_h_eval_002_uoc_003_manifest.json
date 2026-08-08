@@ -1,0 +1,144 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_003.manifest.v1",
+  "version": "1.0.4",
+  "sprint": "UOC-003",
+  "title": "Validation y trazabilidad documental",
+  "status": "implemented-initial",
+  "decision": "PENDING-WINDOWS-ACCEPTANCE",
+  "closed": false,
+  "updated": "2026-08-08",
+  "base_commit": "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913",
+  "source_branch": "feat/post-h-eval-002-uoc-003-validation-traceability",
+  "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
+  "authoritative_input_repo": "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip",
+  "candidate_output_repo": "repo_DevPilot_Local_331_CANDIDATE_POST_H_EVAL_002_UOC_003.zip",
+  "scope": {
+    "validation_scopes": [
+      "frontmatter",
+      "artifact_profile",
+      "links",
+      "miasi",
+      "readiness_strict",
+      "checklist_pre_code",
+      "traceability"
+    ],
+    "precode_artifacts_required": 8,
+    "api_routes": 4,
+    "ui_surface": "/workspace/documents",
+    "job_mode": "synchronous-preliminary",
+    "traceability_policy": "explicit-only"
+  },
+  "capabilities": {
+    "immutable_plan": true,
+    "typed_execute": true,
+    "opaque_job_status": true,
+    "findings_by_severity": true,
+    "finding_document_section_navigation": true,
+    "requirement_story_risk_control_test_matrix": true,
+    "runtime_report_trace_evidence": true,
+    "findings_bounded_pagination": true,
+    "finding_navigation_feedback": true,
+    "transactional_ui_render_boundary": true,
+    "stale_document_response_guard": true,
+    "navigation_context_independent_of_section_line": true,
+    "traceability_navigation_feedback": true,
+    "bounded_findings_viewport": true,
+    "safe_navigation_notice_dom_order": true
+  },
+  "safety": {
+    "local_first": true,
+    "external_api_required": false,
+    "arbitrary_shell_allowed": false,
+    "source_write_enabled": false,
+    "runtime_evidence_only": true,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "bounded_timeout_seconds_max": 120,
+    "bounded_plan_documents_max": 16
+  },
+  "tests": {
+    "focused_status": "PASS-LOCAL",
+    "windows_status": "PENDING",
+    "browser_status": "PENDING-RETEST-AFTER-DOM-NAVIGATION-CORRECTIVE",
+    "full_regression_required": false,
+    "full_regression_reason": "UOC-003 is bounded to a new facade/UI panel/contracts; impacted suites and global validators are mandatory."
+  },
+  "preliminary_limits": [
+    "Validation jobs execute synchronously in this first version.",
+    "Cancellation, heartbeat, retry and durable async scheduling are deferred to UOC-007/UOC-008.",
+    "Traceability is explicit-only and does not infer semantic relationships.",
+    "Artifact profile support reuses current deterministic profiles and may require future domain-specific expansion.",
+    "The UI render boundary isolates component failures but does not replace future browser-level telemetry/structured client error reporting.",
+    "Findings remain client-side paginated at 25/page; v1.0.4 additionally constrains the visible list height. Server-side pagination/virtualization remains a future scalability option."
+  ],
+  "pass_block": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "closure_status": "PENDING",
+    "uoc_004_authorized": false
+  },
+  "ux_correctives": {
+    "browser_contrast_v1_0_2": {
+      "status": "implemented/pending-browser-retest",
+      "surface": "/workspace/documents#validation-traceability",
+      "classification": "S2-browser-acceptance-blocking",
+      "cause": "dark UOC-003 fallback surface inherited global dark text",
+      "repository_files_changed": [
+        "ui/web/src/styles.css",
+        "tests/test_web_ui_workspace_validation.py",
+        "docs/post_h_eval_002_uoc_003_manifest.json",
+        "docs/audits/uoc_003_validation_traceability_report.md",
+        "docs/backlogs/POST-H-EVAL-002_ui_operational_console_evolution.md"
+      ],
+      "runtime_semantics_changed": false,
+      "source_write_boundary_changed": false,
+      "browser_acceptance_must_restart_from_new_preflight": true
+    },
+    "browser_navigation_v1_0_3": {
+      "status": "implemented/pending-browser-retest",
+      "surface": "/workspace/documents#findings-navigation",
+      "classification": "S2-browser-acceptance-blocking",
+      "observed_findings_total": 161,
+      "observed_problem_document_id": "doc_oWZ4BUcmeC7zFkwCVwCH6VkI",
+      "resolved_relative_path": "docs/02_architecture/architecture_document.md",
+      "evidence_summary": "API returned HTTP 200 for document, metadata, history, diff and links; browser later showed a partial top-of-page render and list filter remained in Consultando without a new list HTTP request.",
+      "systemic_correction": [
+        "transactional fragment render before DOM commit",
+        "per-surface render boundary",
+        "list/document request sequencing",
+        "finding pagination and severity filtering",
+        "explicit navigation feedback and automatic target/fallback focus",
+        "return-to-findings action"
+      ],
+      "exact_browser_exception_captured": false,
+      "runtime_semantics_changed": false,
+      "source_write_boundary_changed": false,
+      "browser_acceptance_must_restart_from_new_preflight": true
+    },
+    "browser_navigation_dom_v1_0_4": {
+      "status": "implemented/pending-browser-retest",
+      "surface": "/workspace/documents#finding-traceability-navigation",
+      "classification": "S2-browser-acceptance-blocking",
+      "confirmed_root_cause": "DocumentViewer called section.insertBefore(notice, content) before content was a child of section; DOM insertion therefore failed whenever section/line focus activated. Path-only navigation skipped the notice/scroll/back branch entirely.",
+      "observed_effects": [
+        "path-only finding navigation loaded the document but did not auto-scroll or expose return action",
+        "traceability source navigation with line context raised DOM insertBefore error inside the viewer render boundary",
+        "findings screenshot contract could not fit toolbar/cards/pagination in one 1440x900 viewport",
+        "traceability is automatically loaded by execute; secondary button styling looked disabled although it was an optional refresh"
+      ],
+      "systemic_correction": [
+        "navigation-origin context independent of line/section",
+        "append navigation notice only after safe DOM ownership is established",
+        "automatic viewer/target scroll and focus for all contextual navigation",
+        "origin-aware return action to findings or traceability",
+        "traceability navigation live feedback",
+        "bounded-height findings list with pagination always reachable",
+        "explicit Recargar trazabilidad semantics after automatic load"
+      ],
+      "browser_acceptance_must_restart_from_new_preflight": true,
+      "runtime_semantics_changed": false,
+      "source_write_boundary_changed": false
+    }
+  }
+}

@@ -6,6 +6,11 @@ export interface DocumentViewerOptions {
   document?: WorkspaceDocumentResource;
   loading?: boolean;
   error?: string;
+  focusLine?: number | null;
+  focusSection?: string | null;
+  navigationOrigin?: 'finding' | 'traceability';
+  navigationLabel?: string;
+  onReturnToValidation?: () => void;
 }
 
 export function renderDocumentViewer(options: DocumentViewerOptions): HTMLElement {
@@ -40,7 +45,7 @@ export function renderDocumentViewer(options: DocumentViewerOptions): HTMLElemen
   badges.append(
     badge('READ-ONLY', 'pass'),
     badge((resource.extension ?? 'text').toUpperCase(), 'pending'),
-    badge(resource.category.toUpperCase(), 'pending'),
+    badge(String(resource.category ?? 'documentation').toUpperCase(), 'pending'),
     badge(viewModeLabel(resource), 'pending'),
   );
   header.append(titleBlock, badges);
@@ -58,7 +63,7 @@ export function renderDocumentViewer(options: DocumentViewerOptions): HTMLElemen
 
   const content = document.createElement('article');
   content.className = 'document-viewer__content';
-  if (resource.extension === '.md') renderSafeMarkdown(content, resource.content ?? '');
+  if (resource.extension === '.md') renderSafeMarkdown(content, String(resource.content ?? ''), options.focusLine, options.focusSection);
   else if (resource.extension === '.json' && resource.structured !== null && resource.structured !== undefined) {
     const pre = document.createElement('pre');
     pre.className = 'document-viewer__code';
@@ -70,7 +75,39 @@ export function renderDocumentViewer(options: DocumentViewerOptions): HTMLElemen
     pre.textContent = resource.content ?? '';
     content.append(pre);
   }
+  const navigationActive = Boolean(options.navigationOrigin);
+  if (navigationActive) {
+    const notice = document.createElement('div');
+    notice.className = 'document-navigation-notice';
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+    const message = document.createElement('span');
+    const prefix = options.navigationOrigin === 'traceability' ? 'Fuente de trazabilidad abierta:' : 'Finding abierto:';
+    message.textContent = `${prefix} ${options.navigationLabel ?? resource.relative_path}${options.focusSection ? ` · sección “${options.focusSection}”` : ''}${options.focusLine ? ` · línea ${options.focusLine}` : ''}.`;
+    notice.append(message);
+    if (options.onReturnToValidation) {
+      const back = document.createElement('button');
+      back.type = 'button';
+      back.className = 'button-link document-navigation-back';
+      back.textContent = options.navigationOrigin === 'traceability' ? 'Volver a trazabilidad' : 'Volver a findings';
+      back.addEventListener('click', options.onReturnToValidation);
+      notice.append(back);
+    }
+    section.append(notice);
+  }
   section.append(content);
+  if (navigationActive) {
+    globalThis.requestAnimationFrame(() => {
+      const exactTarget = findNavigationTarget(content, options.focusLine, options.focusSection);
+      const fallbackTarget = content.querySelector<HTMLElement>('h1, h2, h3, p, li') ?? content;
+      const target = exactTarget ?? fallbackTarget;
+      target.classList.add('document-navigation-target');
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.scrollIntoView({ behavior: 'smooth', block: exactTarget ? 'center' : 'start' });
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    });
+  }
   return section;
 }
 
@@ -92,7 +129,7 @@ function renderBreadcrumbs(resource: WorkspaceDocumentResource): HTMLElement {
   return nav;
 }
 
-function renderSafeMarkdown(target: HTMLElement, source: string): void {
+function renderSafeMarkdown(target: HTMLElement, source: string, focusLine?: number | null, focusSection?: string | null): void {
   const parsed = splitFrontmatter(source);
   if (parsed.frontmatter.length) renderFrontmatter(target, parsed.frontmatter);
   source = parsed.body;
@@ -113,7 +150,8 @@ function renderSafeMarkdown(target: HTMLElement, source: string): void {
     codeLines = [];
   };
 
-  for (const rawLine of source.split(/\r?\n/)) {
+  for (const [lineIndex, rawLine] of source.split(/\r?\n/).entries()) {
+    const sourceLine = lineIndex + 1;
     if (rawLine.trim().startsWith('```')) {
       flushList();
       if (codeFence) flushCode();
@@ -129,6 +167,9 @@ function renderSafeMarkdown(target: HTMLElement, source: string): void {
       flushList();
       const element = document.createElement(`h${heading[1].length}`);
       element.textContent = heading[2];
+      element.id = slug(heading[2]);
+      element.dataset.sourceLine = String(sourceLine);
+      element.tabIndex = -1;
       target.append(element);
       continue;
     }
@@ -137,6 +178,8 @@ function renderSafeMarkdown(target: HTMLElement, source: string): void {
       if (!list) list = document.createElement('ul');
       const item = document.createElement('li');
       item.textContent = listItem[1];
+      item.dataset.sourceLine = String(sourceLine);
+      item.tabIndex = -1;
       list.append(item);
       continue;
     }
@@ -144,10 +187,29 @@ function renderSafeMarkdown(target: HTMLElement, source: string): void {
     if (!rawLine.trim()) continue;
     const paragraph = document.createElement('p');
     paragraph.textContent = rawLine;
+    paragraph.dataset.sourceLine = String(sourceLine);
+    paragraph.tabIndex = -1;
     target.append(paragraph);
   }
   flushList();
   if (codeFence || codeLines.length) flushCode();
+}
+
+
+function findNavigationTarget(content: HTMLElement, focusLine?: number | null, focusSection?: string | null): HTMLElement | null {
+  if (focusLine) {
+    const line = String(focusLine);
+    const byLine = Array.from(content.querySelectorAll<HTMLElement>('[data-source-line]')).find((item) => item.dataset.sourceLine === line);
+    if (byLine) return byLine;
+  }
+  if (focusSection) {
+    const sectionId = slug(focusSection);
+    if (sectionId) {
+      const bySection = Array.from(content.querySelectorAll<HTMLElement>('[id]')).find((item) => item.id === sectionId);
+      if (bySection) return bySection;
+    }
+  }
+  return null;
 }
 
 function badge(text: string, state: string): HTMLElement {
@@ -195,6 +257,10 @@ function renderFrontmatter(target: HTMLElement, lines: string[]): void {
   }
   details.append(summary, list);
   target.append(details);
+}
+
+function slug(value: string): string {
+  return value.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s_-]/g, '').replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 }
 
 function viewModeLabel(resource: WorkspaceDocumentResource): string {

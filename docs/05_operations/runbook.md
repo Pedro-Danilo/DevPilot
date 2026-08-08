@@ -11676,7 +11676,7 @@ python -m pytest -p no:ddtrace --assert=plain -q
 
 PASS final registrado: la suite general posterior al hardening pasó 1911/1911 pruebas; no hay rerun pendiente para POST-H-034-CLOSURE.
 
-PASS: no se propaga `TimeoutExpired`, el CLI conserva JSON parseable y los workflows dry-run terminan sin mutaciones.  
+PASS: no se propaga `TimeoutExpired`, el CLI conserva JSON parseable y los workflows dry-run terminan sin mutaciones.
 BLOCK: una lectura Git esencial no completa dentro del timeout, Git no está disponible o se solicita un comando fuera de allowlist.
 
 ## 2026-07-17 — POST-H-EVAL-002-01-D UI corrective baseline 323
@@ -11756,3 +11756,20 @@ For UOC-002 browser acceptance, never compare `git rev-parse --show-toplevel` to
 ## UOC-002 — Metadata, Git history y búsqueda documental — CLOSED/PASS
 
 UOC-002 cerró con metadata, Git history/diff tipado, búsqueda lexical en memoria y relaciones documentales read-only. La recuperación v1.0.5 y el operador final de cierre v1.0.8 aprobaron evidencia selectiva y browser: zero-write, no shell, `S0=0`, `S1=0`. Source commit: `bcb46779470d86d19a87e55a9f6d38297e2f7534`. UOC-003 queda autorizado tras el baseline autoritativo repo 330.
+
+
+## UOC-003 — deterministic workspace validation and traceability
+
+UOC-003 adds immutable validation plans, typed execution/status, severity-grouped findings, document/section navigation and an explicit-only requirement-story-risk/control-test matrix inside `/workspace/documents`. It reuses existing deterministic validators through an Application Service. Source documents remain read-only; execution writes only bounded local runtime report/trace evidence. Jobs are synchronous and preliminary in this version; queueing, heartbeat, cancellation and retry are deferred to UOC-007/UOC-008. UOC-003 is not closed until Windows/browser/Git/baseline evidence passes.
+
+
+## UOC-003 v1.0.3 — browser findings/navigation recovery
+
+For UOC-003 browser acceptance, do not accept a page that remains in `Consultando…` without a matching list request in the API log. The UI must preserve the validation result while navigating findings, show explicit navigation feedback, automatically focus the destination (or a safe document fallback), and render no more than 25 findings per page with a severity filter. A component render failure must be isolated into a visible error boundary instead of leaving a partially rebuilt `/workspace/documents` surface.
+
+The v1.0.2 browser root is retained as superseded incident evidence. Final acceptance must use a fresh v1.0.3 browser root and regenerate the findings, traceability and reduced screenshots. Source documents remain read-only and only bounded runtime report/trace evidence may be written.
+
+
+## UOC-003 v1.0.4 — browser navigation DOM recovery
+
+Do not close UOC-003 from the partial v1.0.3 browser run. Preserve that run as incident evidence. Apply the v1.0.4 incremental patch over the existing 54-path UOC-003 worktree, rerun the focused/global/TypeScript/Vite/smoke gates, and create a fresh browser root. Every finding or traceability source navigation must auto-scroll to the viewer, render an origin-aware status band, expose `Volver a findings` or `Volver a trazabilidad`, and complete without a viewer render-boundary error. Findings stay at 25/page but the list itself is height-bounded so pagination remains visible without page-scale scrolling. The traceability matrix is automatically loaded after `Ejecutar plan`; `Recargar trazabilidad` is optional and must appear enabled once execution finishes.

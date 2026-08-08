@@ -47,10 +47,13 @@ def test_uoc_001_backlog_manifest_state_and_flags_are_synchronized() -> None:
     assert read_flag["enabled"] is True
     metadata_flag = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.documents.metadata_git_search")
     assert metadata_flag["enabled"] is True
+    allowed_enabled = {"uoc.documents.read_only", "uoc.documents.metadata_git_search"}
+    if state.get("uoc_003_status"):
+        allowed_enabled.add("uoc.documents.validation_traceability")
     assert all(
         item["enabled"] is False
         for item in flags["feature_flags"]
-        if item["flag_id"] not in {"uoc.documents.read_only", "uoc.documents.metadata_git_search"}
+        if item["flag_id"] not in allowed_enabled
     )
     assert all(item["state"] == "engaged" for item in flags["kill_switches"])
 

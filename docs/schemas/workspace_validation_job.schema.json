@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/workspace_validation_job.schema.json",
+  "title": "WorkspaceValidationJob",
+  "type": "object",
+  "required": ["schema_id", "job_id", "plan_id", "plan_hash", "workspace_id", "status", "started_at", "steps", "safety"],
+  "properties": {
+    "schema_id": {"const": "devpilot.post_h_eval_002.uoc_003.validation_job.v1"},
+    "job_id": {"type": "string", "pattern": "^vjob_[0-9a-f]{32}$"},
+    "plan_id": {"type": "string", "pattern": "^vplan_[0-9a-f]{32}$"},
+    "plan_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "workspace_id": {"type": "string"},
+    "status": {"enum": ["running", "pass", "block", "error"]},
+    "started_at": {"type": "string"},
+    "ended_at": {"type": "string"},
+    "duration_ms": {"type": "number", "minimum": 0},
+    "summary": {"type": "object"},
+    "steps": {"type": "array", "items": {"type": "object", "required": ["scope", "status", "ok", "exit_code", "message"], "properties": {"scope": {"type": "string"}, "status": {"enum": ["PASS", "FAIL", "BLOCK", "ERROR"]}, "ok": {"type": "boolean"}, "exit_code": {"type": "integer"}, "message": {"type": "string"}, "duration_ms": {"type": "number"}, "data": {"type": "object"}, "findings": {"type": "array"}}, "additionalProperties": true}},
+    "findings": {"type": "array"},
+    "report_paths": {"type": "object"},
+    "event_ref": {"type": "object"},
+    "safety": {"type": "object"}
+  },
+  "additionalProperties": true
+}

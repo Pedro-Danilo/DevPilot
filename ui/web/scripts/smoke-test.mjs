@@ -14,6 +14,7 @@ const settingsView = read('src/pages/SettingsView.ts');
 const workspaceDocumentsView = read('src/pages/WorkspaceDocumentsView.ts');
 const documentTree = read('src/components/DocumentTree.ts');
 const documentViewer = read('src/components/DocumentViewer.ts');
+const documentValidationPanel = read('src/components/DocumentValidationPanel.ts');
 const providerSettings = read('src/components/ProviderSettings.ts');
 const dryRunActionForm = read('src/components/DryRunActionForm.ts');
 const findingTable = read('src/components/FindingTable.ts');
@@ -26,7 +27,7 @@ const operatorNextActions = read('src/components/OperatorNextActions.ts');
 const uiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/ui_route_contract_registry.json'));
 const apiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/api_route_contract_registry.json'));
 const sanitizeUtils = read('src/utils/sanitize.ts');
-const filesToScan = [client, dashboard, statusCard, reportsView, tracesView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, workspaceDocumentsView, documentTree, documentViewer, read('src/main.ts')];
+const filesToScan = [client, dashboard, statusCard, reportsView, tracesView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, workspaceDocumentsView, documentTree, documentViewer, documentValidationPanel, read('src/main.ts')];
 
 function assert(condition, message) {
   if (!condition) {
@@ -50,6 +51,8 @@ assert(packageJson.devpilot.securityPosture === true, 'La UI debe declarar secur
 assert(packageJson.devpilot.uiRouteContractRegistry === true, 'La UI debe declarar UI Route Contract Registry');
 assert(packageJson.devpilot.localFirstBadges === true, 'La UI debe declarar badges local-first');
 assert(packageJson.devpilot.noRemoteBadges === true, 'La UI debe declarar badges no-remote');
+assert(packageJson.devpilot.uoc003ValidationTraceability === true, 'La UI debe declarar UOC-003 validation/traceability');
+assert(packageJson.devpilot.uoc003SourceReadOnly === true, 'UOC-003 debe preservar source read-only');
 assert(packageJson.scripts.test === 'node scripts/smoke-test.mjs', 'npm test debe ser local y reproducible');
 
 assert(uiContractRegistry.schema_id === 'SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1', 'UI registry schema_id inválido');
@@ -78,7 +81,7 @@ for (const source of filesToScan) {
   assert(!source.includes('outputs/'), 'La UI no debe leer outputs directamente');
 }
 
-for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan', '/workspace/documents']) {
+for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan', '/workspace/documents', '/workspace/validations/plan', '/workspace/validations/execute', '/workspace/traceability']) {
   assert(client.includes(expectedPath), `El cliente API debe consumir ${expectedPath}`);
 }
 
@@ -95,6 +98,8 @@ assert(reportsView.includes('No hay reportes locales') && tracesView.includes('N
 assert(approvalCenterView.includes('Approval Center') && approvalCenterView.includes('Action Launcher'), 'La UI debe incluir Approval Center y Action Launcher');
 assert(workspaceDocumentsView.includes('ui.workspace-documents') && workspaceDocumentsView.includes('identificadores opacos'), 'Workspace Documents debe declarar contrato read-only y opaque ids');
 assert(documentTree.includes("role', 'treeitem'"), 'DocumentTree debe declarar semántica treeitem');
+assert(documentValidationPanel.includes('ui.workspace-documents') && documentValidationPanel.includes('planWorkspaceValidations') && documentValidationPanel.includes('executeWorkspaceValidations'), 'UOC-003 debe exponer plan/execute tipado');
+assert(documentValidationPanel.includes('workspaceTraceability') && documentValidationPanel.includes('Findings') && documentValidationPanel.includes('Trazabilidad'), 'UOC-003 debe exponer findings y trazabilidad');
 assert(documentViewer.includes('textContent') && !documentViewer.includes('innerHTML'), 'DocumentViewer debe renderizar contenido sin innerHTML');
 assert(settingsView.includes('Configuración') && settingsView.includes('Editor de provider — plan-only'), 'La UI debe incluir Configuración y editor plan-only');
 assert(settingsView.includes('Postura de seguridad') && settingsView.includes('securityPosture'), 'Configuración debe mostrar postura de seguridad');

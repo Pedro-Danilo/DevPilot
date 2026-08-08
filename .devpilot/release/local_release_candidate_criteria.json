@@ -680,7 +680,37 @@
         "target_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
         "decision": "PASS-EVIDENCE/IMPLEMENTED-PENDING-FULL-REGRESSION"
       }
+    },
+    {
+      "evidence_id": "uoc-003-manifest",
+      "title": "UOC-003 validation and traceability manifest",
+      "path": "docs/post_h_eval_002_uoc_003_manifest.json",
+      "category": "uoc-003",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "devpilot.post_h_eval_002.uoc_003.manifest.v1",
+      "producer_sprint": "UOC-003",
+      "freshness_policy": "contextual-field-match",
+      "expected_fields": {
+        "status": "implemented-initial",
+        "closed": false,
+        "decision": "PENDING-WINDOWS-ACCEPTANCE"
+      }
+    },
+    {
+      "evidence_id": "uoc-003-implementation-report",
+      "title": "UOC-003 implementation report",
+      "path": "docs/audits/uoc_003_validation_traceability_report.md",
+      "category": "uoc-003",
+      "critical": true,
+      "json_required": false,
+      "producer_sprint": "UOC-003",
+      "freshness_policy": "status-marker"
     }
   ],
-  "schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1"
+  "schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1",
+  "uoc_003_candidate_repo": "repo_DevPilot_Local_331_CANDIDATE_POST_H_EVAL_002_UOC_003.zip",
+  "uoc_003_status": "implemented-initial/pending-windows-acceptance",
+  "uoc_003_source_write_enabled": false,
+  "uoc_003_runtime_evidence_only": true
 }

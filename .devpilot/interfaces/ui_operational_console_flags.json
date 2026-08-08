@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.2.0",
-  "updated": "2026-08-05",
+  "version": "1.3.0",
+  "updated": "2026-08-06",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
@@ -26,9 +26,11 @@
     },
     {
       "flag_id": "uoc.documents.validation_traceability",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-003",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-003",
+      "notes": "Deterministic validation plan/execute/status and explicit-only traceability in the workspace documents surface; source read-only, runtime evidence only."
     },
     {
       "flag_id": "uoc.documents.edit_plan",
@@ -124,6 +126,10 @@
     "document_write_enabled": false,
     "workspace_document_inspection_read_only_enabled": true,
     "typed_git_read_only_enabled": true,
-    "document_search_persistence": "memory-only"
+    "document_search_persistence": "memory-only",
+    "workspace_validation_traceability_enabled": true,
+    "workspace_validation_source_write_enabled": false,
+    "workspace_validation_runtime_evidence_only": true,
+    "workspace_validation_job_mode": "synchronous-preliminary"
   }
 }

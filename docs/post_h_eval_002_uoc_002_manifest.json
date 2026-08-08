@@ -52,13 +52,12 @@
   "known_limits": [
     "lexical memory-only search v1",
     "bounded frontmatter parser",
-    "Windows Vite build and browser acceptance pending",
-    "UOC-003 validators and traceability not included"
+    "UOC-003 validation/traceability is implemented separately and is not part of the UOC-002 closure scope."
   ],
   "pass_block": {
     "s0_open": 0,
     "s1_open": 0,
-    "closure_status": "PENDING"
+    "closure_status": "PASS"
   },
   "source_commit": "bcb46779470d86d19a87e55a9f6d38297e2f7534",
   "browser_acceptance": "PASS",
@@ -66,5 +65,9 @@
   "selective_report_sha256": "c0ee693921e36de62d2acbc20d11255aad312726170dc27e40620d9548567cdd",
   "browser_validation_report_sha256": "4fa6ef0f8857de34de2bf04fedf989464504f72bb7f1b50a7c0262cce2341674",
   "s0": 0,
-  "s1": 0
+  "s1": 0,
+  "closure_commit": "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913",
+  "authoritative_baseline": "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip",
+  "browser_acceptance_status": "PASS",
+  "closure_evidence_sha256": "81dc477c83721fa876e705e2a3bac3a60c399b110b7310886b0c26f507959542"
 }

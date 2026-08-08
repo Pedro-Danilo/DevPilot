@@ -126,5 +126,6 @@ __all__ = [
     "WorkspaceApplicationService",
     "WorkspaceDocumentsApplicationService",
     "WorkspaceDocumentInspectionApplicationService",
+    "WorkspaceValidationApplicationService",
     "render_application_service_boundary_markdown",
 ]

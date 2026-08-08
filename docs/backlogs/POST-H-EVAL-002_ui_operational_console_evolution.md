@@ -2,17 +2,19 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.6.0"
+version: "1.7.1"
 owner: "Ordóñez"
-updated: "2026-08-06"
+updated: "2026-08-07"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-002-closed/PASS"
+implementation_status: "UOC-003-implemented-initial/pending-windows-acceptance"
 current_sprint: "UOC-003"
-next_sprint: "UOC-003"
+next_sprint: "UOC-004"
 completed_sprints: "UOC-000,UOC-001,UOC-002"
+uoc_001_status: "UOC-001-closed/PASS"
+uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
 canonical_baseline_commit: "resolved-by-UOC_001_CANONICAL_INTEGRATION.json"
 source_corrective_branch: "fix/post-h-eval-002-ui-first-operational-surfaces"
@@ -30,6 +32,9 @@ preliminary: "false"
 uoc_001_accepted_source_commit: "e9fe717eb8eafaca40830c691a7efb7bb956b035"
 uoc_002_base_commit: "9cb67b023c6ac909a2b492370632a3955a454e39"
 uoc_002_implementation_status: "closed/PASS"
+uoc_003_base_commit: "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913"
+uoc_003_implementation_status: "implemented-initial/pending-windows-acceptance"
+uoc_003_browser_ux_corrective_status: "implemented/pending-browser-retest"
 ---
 
 
@@ -55,9 +60,7 @@ S0: 0
 S1: 0
 ```
 
-`UOC-000` queda cerrado/PASS en `a986f83...`. `UOC-001` incorpora una primera
-versión read-only del explorador documental; UOC-002 permanece bloqueado hasta
-la aceptación Windows/API/UI/browser y la nueva baseline exact-tree.
+`UOC-000`, `UOC-001` y `UOC-002` están cerrados/PASS. La baseline canónica autoritativa de UOC-002 es repo 330 en `ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913`. UOC-003 queda implementado inicialmente y permanece abierto hasta su aceptación Windows/API/UI/browser, integración canónica y baseline exact-tree repo 331.
 
 ## 2. Problema que resuelve
 
@@ -456,6 +459,19 @@ PASS exige:
 - trazabilidad inicial visible;
 - bridge CLI residual inventariado;
 - S0=0, S1=0.
+
+---
+
+
+## Estado de implementación UOC-003
+
+`implemented-initial/pending-windows-acceptance`. Se implementan las cuatro rutas tipadas, plan inmutable, job local con evidencia runtime, findings navegables y matriz explícita requisito → historia → riesgo/control → prueba. La fuente permanece read-only. Los jobs son síncronos en esta primera versión; async, heartbeat, cancelación y retry se difieren a UOC-007/UOC-008. UOC-004 no está autorizado hasta el cierre canónico y repo 331.
+
+### UOC-003 browser UX corrective v1.0.2
+
+The initial Chromium acceptance identified an S2 contrast defect in the validation-plan surface: the deterministic plan was generated correctly, but dark fallback panels inherited the global dark foreground. The defect blocks browser acceptance because `Plan listo`, plan identity and artifact paths must be directly readable without text selection.
+
+The corrective does not change UOC-003 API/runtime semantics or the read-only source boundary. It applies explicit light-surface contrast tokens and keyboard focus styling, adds a deterministic contrast regression contract, and requires a fresh browser preflight before UOC-003 can close.
 
 ---
 
@@ -1030,3 +1046,15 @@ The v1.0.4 dry-run correctly detected `.devpilot/rag/docs_index.json` as an addi
 - Selective evidence SHA-256: `c0ee693921e36de62d2acbc20d11255aad312726170dc27e40620d9548567cdd`.
 - Browser evidence SHA-256: `4fa6ef0f8857de34de2bf04fedf989464504f72bb7f1b50a7c0262cce2341674`.
 - Next authorized sprint: `UOC-003`.
+
+
+## UOC-003 browser navigation recovery v1.0.3 — findings scalability and render containment
+
+The v1.0.2 Chrome acceptance validated the contrast corrective and executed the deterministic plan successfully. The resulting real workspace produced 161 findings. Two UX gaps were observed: all findings were rendered as one long card list, and navigation did not provide sufficient action feedback. A later finding navigation to `docs/02_architecture/architecture_document.md` returned HTTP 200 for document/metadata/history/diff/links but the browser surface collapsed to a partial upper render; the next list-filter action remained `Consultando…` without issuing a new list API request.
+
+v1.0.3 preserves the 54-file UOC-003 source contract and read-only boundary while adding bounded findings pagination/filtering, navigation feedback/focus, transactional DOM commit, render containment and stale-response guards. No document-specific allowlist exception is introduced. Browser acceptance must restart from a fresh v1.0.3 preflight and UOC-003 remains open until that evidence, canonical integration and repo 331 pass.
+
+
+## UOC-003 v1.0.4 — navigation DOM ownership and operator feedback corrective
+
+Windows browser acceptance of v1.0.3 confirmed 161 findings, bounded 25/page pagination and successful API/filter recovery, but found two UX defects and one deterministic viewer DOM defect: path-only navigation had no auto-scroll/return action, traceability navigation with line metadata triggered a `NotFoundError` because the viewer inserted a navigation notice relative to a node not yet attached, and the findings viewport could not show toolbar/cards/pagination together. v1.0.4 makes contextual navigation independent of line/section metadata, fixes DOM insertion order, adds finding/traceability return semantics and live feedback, bounds the findings list viewport, and clarifies that traceability is auto-loaded after Execute while the secondary button is an explicit reload. Final UOC-003 acceptance must use a fresh v1.0.4 browser root.

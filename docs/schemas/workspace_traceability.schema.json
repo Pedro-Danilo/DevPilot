@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/workspace_traceability.schema.json",
+  "title": "WorkspaceTraceability",
+  "type": "object",
+  "required": ["schema_id", "summary", "matrix", "source_paths", "notes"],
+  "properties": {
+    "schema_id": {"const": "devpilot.post_h_eval_002.uoc_003.workspace_traceability.v1"},
+    "summary": {"type": "object", "required": ["requirements_total", "complete_requirements_total", "coverage_percent", "explicit_links_only", "semantic_inference_used", "preliminary", "read_only", "source_mutations_performed", "network_used", "external_api_used"]},
+    "matrix": {"type": "array", "items": {"type": "object", "required": ["requirement_id", "story_ids", "risk_ids", "control_ids", "test_ids", "sources", "coverage"], "properties": {"requirement_id": {"type": "string"}, "story_ids": {"type": "array", "items": {"type": "string"}}, "risk_ids": {"type": "array", "items": {"type": "string"}}, "control_ids": {"type": "array", "items": {"type": "string"}}, "test_ids": {"type": "array", "items": {"type": "string"}}, "sources": {"type": "array"}, "navigation": {"type": ["object", "null"]}, "coverage": {"type": "object"}}, "additionalProperties": true}},
+    "source_paths": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
