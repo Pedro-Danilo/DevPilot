@@ -1926,7 +1926,7 @@
   "post_h_eval_002_01_status": "closed/PASS",
   "post_h_eval_002_02_a_authorized": true,
   "updated_at": "2026-08-08T10:47:45.199198-05:00",
-  "last_registered_sprint": "UOC-003-CLOSURE",
+  "last_registered_sprint": "UOC-004-IMPLEMENTATION",
   "post_h_eval_002_01_d_governance_operator_version": "2.1.0",
   "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
   "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation",
@@ -2049,5 +2049,13 @@
   "uoc_004_authorization_reason": "UOC-003 deterministic validation, findings navigation, strict readiness and explicit traceability passed Windows/browser/canonical closure with S0=0/S1=0.",
   "uoc_003_source_commit": "f8d53e4be53847c955f17192e588052dca3d9cc8",
   "uoc_003_browser_acceptance": "PASS",
-  "uoc_003_authoritative_baseline": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
+  "uoc_003_authoritative_baseline": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip",
+  "uoc_003_closure_commit": "40ba9e77276d97e69952a8e54c68b8943fd3e51d",
+  "uoc_004_status": "implemented-initial/pending-windows-browser-closure",
+  "uoc_004_base_commit": "40ba9e77276d97e69952a8e54c68b8943fd3e51d",
+  "uoc_004_source_write_enabled": false,
+  "uoc_004_plan_only": true,
+  "uoc_005_authorized": false,
+  "uoc_004_s0_open": 0,
+  "uoc_004_s1_open": 0
 }

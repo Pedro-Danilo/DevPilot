@@ -93,11 +93,14 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
 def test_api_service_mapping_covers_every_endpoint_and_blocks_dangerous_routes() -> None:
     spec = _openapi()
     mapping = MAPPING_PATH.read_text(encoding="utf-8")
-    forbidden_fragments = ["patch/apply", "rollback/execute", "refactor/execute", "/execute", "0.0.0.0"]
+    forbidden_fragments = ["patch/apply", "rollback/execute", "refactor/execute", "0.0.0.0"]
+    allowed_typed_execute_paths = {"/api/v1/workspace/validations/execute"}
 
     for path, methods in spec["paths"].items():
         assert path in mapping
         assert all(fragment not in path for fragment in forbidden_fragments)
+        if path.endswith("/execute"):
+            assert path in allowed_typed_execute_paths, path
         for operation in methods.values():
             assert operation["x-devpilot-operation"] in mapping
             assert operation["x-devpilot-api-id"] in mapping

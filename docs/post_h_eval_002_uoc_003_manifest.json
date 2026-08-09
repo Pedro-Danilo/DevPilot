@@ -143,5 +143,5 @@
   },
   "source_commit": "f8d53e4be53847c955f17192e588052dca3d9cc8",
   "authoritative_output_repo": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip",
-  "browser_acceptance": "PASS"
+  "browser_acceptance": "PASS-v1.0.5-authoritative"
 }

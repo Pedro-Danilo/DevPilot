@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-08-06",
+  "updated": "2026-08-08",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -1640,15 +1640,120 @@
       "notes": [
         "UOC-003 local-first validation/traceability facade; no source mutation, shell, remote execution, connector or external API."
       ]
+    },
+    {
+      "route_id": "api.workspace.edit-plans.plan",
+      "method": "POST",
+      "path": "/api/v1/workspace/edit-plans/plan",
+      "operation": "workspace.edits.plan",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "tags": [
+        "workspace",
+        "edit-plan",
+        "plan-only",
+        "read-only"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
+      "policy_action": "plan",
+      "policy_sensitivity": "protected-workspace-edit-plan",
+      "path_subject": null,
+      "notes": [
+        "UOC-004 plan-only document edit planning. No source mutation, apply, Git mutation, shell, remote execution, connector write or external API."
+      ]
+    },
+    {
+      "route_id": "api.workspace.edit-plans.status",
+      "method": "GET",
+      "path": "/api/v1/workspace/edit-plans/{plan_id}",
+      "operation": "workspace.edits.status",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "tags": [
+        "workspace",
+        "edit-plan",
+        "plan-only",
+        "read-only"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-edit-plan-read",
+      "path_subject": null,
+      "notes": [
+        "UOC-004 plan-only document edit planning. No source mutation, apply, Git mutation, shell, remote execution, connector write or external API."
+      ]
+    },
+    {
+      "route_id": "api.workspace.edit-plans.recheck",
+      "method": "POST",
+      "path": "/api/v1/workspace/edit-plans/{plan_id}/recheck",
+      "operation": "workspace.edits.recheck",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "tags": [
+        "workspace",
+        "edit-plan",
+        "plan-only",
+        "read-only"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-edit-plan-recheck",
+      "path_subject": null,
+      "notes": [
+        "UOC-004 plan-only document edit planning. No source mutation, apply, Git mutation, shell, remote execution, connector write or external API."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 50,
-    "protected_routes_total": 47,
+    "routes_total": 53,
+    "protected_routes_total": 50,
     "public_routes_total": 3,
     "mutating_routes_total": 4,
-    "application_service_routes_total": 46,
-    "policy_bound_routes_total": 47,
+    "application_service_routes_total": 49,
+    "policy_bound_routes_total": 50,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -1660,7 +1765,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "UOC-003",
+    "updated_by": "UOC-004",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -1677,7 +1782,8 @@
     "workspace_validation_status_routes_total": 1,
     "workspace_traceability_routes_total": 1,
     "source_write_routes_total": 0,
-    "runtime_evidence_only_routes_total": 1
+    "runtime_evidence_only_routes_total": 1,
+    "uoc_004_edit_plan_routes_total": 3
   },
   "safety": {
     "local_first": true,

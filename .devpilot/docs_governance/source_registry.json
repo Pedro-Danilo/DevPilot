@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-08-06",
+  "updated": "2026-08-08",
   "preliminary": true,
   "documents": [
     {
@@ -14460,6 +14460,112 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-UOC-004-GOVERNED-EDIT-PLANNING-REPORT",
+      "path": "docs/audits/uoc_004_governed_edit_planning_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-004",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_plan_service.py",
+        "tests/test_api_workspace_edit_plans.py",
+        "tests/test_web_ui_workspace_edit_planning.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-004",
+        "UOC-005"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "DEVPL-UOC-004-CLOSURE-REPORT",
+      "path": "docs/audits/uoc_004_closure_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-004",
+      "status_required": "pending",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_plan_service.py",
+        "tests/test_api_workspace_edit_plans.py",
+        "tests/test_web_ui_workspace_edit_planning.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-004",
+        "UOC-005"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "UOC-004-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_004_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-004",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_plan_service.py",
+        "tests/test_api_workspace_edit_plans.py",
+        "tests/test_web_ui_workspace_edit_planning.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-004",
+        "UOC-005"
+      ]
+    },
+    {
+      "doc_id": "UOC-004-WORKSPACE-EDIT-PLAN-V1",
+      "path": "docs/schemas/workspace_edit_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-004",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_plan_service.py",
+        "tests/test_api_workspace_edit_plans.py",
+        "tests/test_web_ui_workspace_edit_planning.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-004",
+        "UOC-005"
+      ]
     }
   ],
   "rules": {
@@ -14534,7 +14640,7 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 629,
+    "documents_total": 633,
     "source_of_truth_total": 240,
     "machine_readable_source_total": 293,
     "derived_total": 96,
@@ -14547,7 +14653,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "UOC-003-CLOSURE",
+    "last_updated_by": "UOC-004",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -16579,6 +16685,6 @@
     "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
-  "updated_at": "2026-08-08T10:47:45.213275-05:00",
-  "last_registered_sprint": "UOC-003-CLOSURE"
+  "updated_at": "2026-08-08",
+  "last_registered_sprint": "UOC-004-IMPLEMENTATION"
 }

@@ -111,6 +111,9 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/validations/execute"): ApiRoutePolicy("workspace.validations.execute", "read", "protected-workspace-validation-evidence"),
     ("GET", "/api/v1/workspace/validations/{job_id}"): ApiRoutePolicy("workspace.validations.status", "read", "protected-workspace-validation-read"),
     ("GET", "/api/v1/workspace/traceability"): ApiRoutePolicy("workspace.traceability", "read", "protected-workspace-traceability"),
+    ("POST", "/api/v1/workspace/edit-plans/plan"): ApiRoutePolicy("workspace.edits.plan", "read", "protected-workspace-edit-plan"),
+    ("GET", "/api/v1/workspace/edit-plans/{plan_id}"): ApiRoutePolicy("workspace.edits.status", "read", "protected-workspace-edit-plan-read"),
+    ("POST", "/api/v1/workspace/edit-plans/{plan_id}/recheck"): ApiRoutePolicy("workspace.edits.recheck", "read", "protected-workspace-edit-plan-recheck"),
     ("GET", "/api/v1/application/contract"): ApiRoutePolicy("app.contract", "read", "protected-read"),
     ("GET", "/api/v1/miasi/status"): ApiRoutePolicy("miasi.validate", "read", "protected-read"),
     ("GET", "/api/v1/standards/status"): ApiRoutePolicy("standards.status", "read", "protected-read"),
@@ -387,6 +390,8 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
     if normalized in API_ROUTE_POLICIES:
         return API_ROUTE_POLICIES[normalized]
     if method.upper() == "GET":
+        if path.startswith("/api/v1/workspace/edit-plans/") and path.count("/") == 5:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/edit-plans/{plan_id}"))
         if path.startswith("/api/v1/workspace/validations/") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/validations/{job_id}"))
         if path.startswith("/api/v1/workspace/documents/"):
@@ -408,6 +413,8 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/reports/{report_id}"))
         if path.startswith("/api/v1/traces/") and path.count("/") == 4:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/traces/{trace_id}"))
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/edit-plans/") and path.endswith("/recheck") and path.count("/") == 6:
+        return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-plans/{plan_id}/recheck"))
     if method.upper() == "POST" and path.startswith("/api/v1/approvals/"):
         if path.endswith("/approve") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/approvals/{approval_id}/approve"))

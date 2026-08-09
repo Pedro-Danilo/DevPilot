@@ -17343,6 +17343,104 @@
         "Migrated deterministically from v1 scope 'ui-smoke' during POST-H-003-B.",
         "UI smoke is local but not always required for every backend-only change."
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-004-governed-edit-planning",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-uoc-004-governed-edit-planning",
+      "domain": "product.ui",
+      "capability": "WorkspaceGovernedEditPlanning",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 600,
+      "test_files": [
+        "tests/test_workspace_edit_plan_service.py",
+        "tests/test_api_workspace_edit_plans.py",
+        "tests/test_web_ui_workspace_edit_planning.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/workspace_edit_plan_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/DocumentEditPlanner.ts",
+        "ui/web/src/components/DocumentValidationPanel.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        ".devpilot/interfaces/",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/post_h_eval_002_uoc_004_manifest.json",
+        "docs/audits/uoc_004_governed_edit_planning_report.md",
+        "docs/schemas/workspace_edit_plan.schema.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/workspace_edit_plan_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/application/services.py",
+        "ui/web/src/components/DocumentEditPlanner.ts",
+        "ui/web/src/components/DocumentValidationPanel.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/styles.css",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/post_h_eval_002_uoc_004_manifest.json",
+        "docs/audits/uoc_004_governed_edit_planning_report.md",
+        "docs/schemas/workspace_edit_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "trigger_hints": [
+        "uoc-004-edit-plan-change",
+        "workspace-editor-change",
+        "ui-plan-contract-change"
+      ],
+      "impact_scope": [
+        "workspace-edit-planning",
+        "ui",
+        "api-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "UOC-004",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_workspace_edit_plan_service.py tests/test_api_workspace_edit_plans.py tests/test_web_ui_workspace_edit_planning.py tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Plan-only operation; source mutation is prohibited.",
+        "Security tests cover stale base, secrets, scope, invalid syntax and oversized plans.",
+        "Future apply requires UOC-005 approval binding."
+      ],
+      "owner_domain": "product.ui",
+      "service_boundary": "application",
+      "subgate_id": "uoc-004-governed-edit-planning",
+      "schema_ids": [
+        "SCHEMA-DEVPL-WORKSPACE-EDIT-PLAN-V1"
+      ]
     }
   ],
   "migration_metadata": {

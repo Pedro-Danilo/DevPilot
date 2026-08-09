@@ -6255,3 +6255,8 @@ UOC-003 adds immutable validation plans, typed execution/status, severity-groupe
 ## UOC-003 — CLOSED/PASS
 
 Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests, global validators, Vite/UI smokes and Chromium browser acceptance passed. Bounded findings pagination, DOM-safe finding/traceability navigation with return feedback, strict readiness and explicit traceability are available; zero-write source boundary, S0=0 and S1=0 were preserved. Browser evidence geometry was adjudicated in v1.0.5 using DPR anchored by the reduced viewport and a semantic desktop profile; original v1.0.4 screenshots were preserved byte-for-byte. Authoritative next baseline: `repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip`. UOC-004 is authorized.
+
+
+### POST-H-EVAL-002 UOC-004 — governed edit planning (initial)
+
+`/workspace/documents` now contains a source-non-mutating Markdown/JSON/YAML edit planner: manual session draft, immutable SHA-bound plan, full diff, preview, risk/policy, expiry, concurrency recheck and non-executed patch export. Apply/filesystem write/Git mutation remain disabled until later governed sprints.

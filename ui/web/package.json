@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.9.0-post-h-eval-002-uoc-003",
+  "version": "0.10.0-post-h-eval-002-uoc-004",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI operational console with UOC-002 document metadata, Git history, diff, links and local full-text search.",
+  "description": "DevPilot Local Web UI operational console with UOC-004 governed source-non-mutating edit planning and full diff preview.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -172,7 +172,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "POST-H-EVAL-002-UOC-002",
+    "currentSprint": "POST-H-EVAL-002-UOC-004",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -183,11 +183,18 @@
     "uoc002PreliminaryReadOnly": true,
     "uoc002Status": "implemented-initial/pending-windows-acceptance",
     "postHEvolution": true,
-    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-002",
+    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-004",
     "runtimeArtifactsVersioned": false,
     "uoc003ValidationTraceability": true,
     "uoc003SourceReadOnly": true,
     "uoc003RuntimeEvidenceOnly": true,
-    "uoc003JobMode": "synchronous-preliminary"
+    "uoc003JobMode": "synchronous-preliminary",
+    "uoc003Status": "closed/PASS",
+    "uoc004GovernedEditPlanning": true,
+    "uoc004SourceWriteEnabled": false,
+    "uoc004DraftStorage": "sessionStorage-manual-only",
+    "uoc004ApplyEnabled": false,
+    "uoc004Status": "implemented-initial/pending-windows-browser-closure",
+    "traceabilityRefreshPrimaryStyling": true
   }
 }

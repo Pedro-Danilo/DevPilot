@@ -11778,3 +11778,15 @@ Do not close UOC-003 from the partial v1.0.3 browser run. Preserve that run as i
 ## UOC-003 — CLOSED/PASS
 
 Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests, global validators, Vite/UI smokes and Chromium browser acceptance passed. Bounded findings pagination, DOM-safe finding/traceability navigation with return feedback, strict readiness and explicit traceability are available; zero-write source boundary, S0=0 and S1=0 were preserved. Browser evidence geometry was adjudicated in v1.0.5 using DPR anchored by the reduced viewport and a semantic desktop profile; original v1.0.4 screenshots were preserved byte-for-byte. Authoritative next baseline: `repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip`. UOC-004 is authorized.
+
+
+## UOC-004 — plan-only document edits
+
+The Documents surface may create immutable edit plans for `.md`, `.json`, `.yaml` and `.yml`. Draft storage is manual `sessionStorage`; never treat it as evidence or authoritative state. Verify the visible base SHA before planning, review the entire diff and preview, and run the optimistic-concurrency recheck. Exported `.patch` files are evidence only and MUST NOT be applied during UOC-004. `.txt`, `.env`, secrets, binaries and out-of-root resources remain non-editable. Browser acceptance must demonstrate zero source writes.
+
+
+## UOC-004 — exportación `.patch` v1.0.2
+
+Al usar `Exportar .patch (no ejecutado)`, la UI debe mostrar junto al botón un estado accesible y persistente que contenga `NO EJECUTADA` antes de solicitar el diálogo de descarga. La formulación autoritativa es `Descarga solicitada`: DevPilot no puede saber si el operador confirmó o canceló `Save As`, pero sí garantiza que UOC-004 no aplica, no stagea y no escribe el patch.
+
+La evidencia browser debe comprobar por separado: mensaje visible, archivo `.patch` presente y unified-diff, `PATCH_EXECUTED=false`, Git/status y hashes del workspace sin cambios. La ausencia de cualquiera de estas tres pruebas bloquea el cierre.

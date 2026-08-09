@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DevPilot Local API Contract v1",
-    "version": "0.9.0-post-h-eval-002-uoc-003",
+    "version": "1.0.0-visual-mvp",
     "description": "Local secured MVP API for DevPilot visual dashboard, report/trace viewers, Approval Center, Settings UI and Fase F visual MVP closure. Sprint 73 implementation."
   },
   "servers": [
@@ -99,7 +99,8 @@
     "workspace_validation_traceability_routes": 4,
     "source_write_enabled": false,
     "runtime_evidence_only": true,
-    "preliminary_synchronous_jobs": true
+    "preliminary_synchronous_jobs": true,
+    "uoc004": "implemented-initial-plan-only"
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -4417,20 +4418,81 @@
         ],
         "security": [
           {
-            "DevPilotToken": []
+            "LocalTokenAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Typed DevPilot ApplicationResponse"
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Token missing or invalid"
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Policy or workspace boundary block"
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
-        }
+        },
+        "x-devpilot-api-id": "API-UOC003-TRACEABILITY",
+        "x-devpilot-operation": "workspace.traceability",
+        "x-devpilot-domain-service": "ApplicationService.workspace_traceability",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
       }
     },
     "/api/v1/workspace/validations/execute": {
@@ -4442,18 +4504,69 @@
         ],
         "security": [
           {
-            "DevPilotToken": []
+            "LocalTokenAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Typed DevPilot ApplicationResponse"
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Token missing or invalid"
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Policy or workspace boundary block"
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4461,12 +4574,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": true
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.validations.execute",
+                "payload": {
+                  "plan_id": "vplan_example",
+                  "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "plan": {}
+                },
+                "client": "web-ui",
+                "dry_run": true
               }
             }
           }
-        }
+        },
+        "x-devpilot-api-id": "API-UOC003-VALIDATION-EXECUTE",
+        "x-devpilot-operation": "workspace.validations.execute",
+        "x-devpilot-domain-service": "ApplicationService.workspace_validations_execute",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "runtime_evidence_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
       }
     },
     "/api/v1/workspace/validations/plan": {
@@ -4478,18 +4610,69 @@
         ],
         "security": [
           {
-            "DevPilotToken": []
+            "LocalTokenAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Typed DevPilot ApplicationResponse"
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Token missing or invalid"
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Policy or workspace boundary block"
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4497,12 +4680,33 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": true
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.validations.plan",
+                "payload": {
+                  "scopes": [
+                    "frontmatter",
+                    "traceability"
+                  ],
+                  "strict": true
+                },
+                "client": "web-ui",
+                "dry_run": true
               }
             }
           }
-        }
+        },
+        "x-devpilot-api-id": "API-UOC003-VALIDATION-PLAN",
+        "x-devpilot-operation": "workspace.validations.plan",
+        "x-devpilot-domain-service": "ApplicationService.workspace_validations_plan",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
       }
     },
     "/api/v1/workspace/validations/{job_id}": {
@@ -4514,18 +4718,69 @@
         ],
         "security": [
           {
-            "DevPilotToken": []
+            "LocalTokenAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Typed DevPilot ApplicationResponse"
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Token missing or invalid"
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Policy or workspace boundary block"
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -4538,7 +4793,335 @@
               "pattern": "^vjob_[0-9a-f]{32}$"
             }
           }
-        ]
+        ],
+        "x-devpilot-api-id": "API-UOC003-VALIDATION-STATUS",
+        "x-devpilot-operation": "workspace.validations.status",
+        "x-devpilot-domain-service": "ApplicationService.workspace_validations_status",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
+      }
+    },
+    "/api/v1/workspace/edit-plans/plan": {
+      "post": {
+        "summary": "Create immutable source-non-mutating document edit plan",
+        "operationId": "workspaceEditPlan",
+        "tags": [
+          "Workspace edit planning"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.edits.plan",
+                "payload": {
+                  "document_id": "doc_exampleopaque",
+                  "document_sha_before": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "proposed_content": "# Proposal\\n"
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC004-EDIT-PLAN",
+        "x-devpilot-operation": "workspace.edits.plan",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_plan",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
+      }
+    },
+    "/api/v1/workspace/edit-plans/{plan_id}": {
+      "get": {
+        "summary": "Read one in-memory immutable edit plan",
+        "operationId": "workspaceEditPlanStatus",
+        "tags": [
+          "Workspace edit planning"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC004-EDIT-PLAN-STATUS",
+        "x-devpilot-operation": "workspace.edits.status",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_plan_status",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
+      }
+    },
+    "/api/v1/workspace/edit-plans/{plan_id}/recheck": {
+      "post": {
+        "summary": "Recheck optimistic concurrency for immutable edit plan",
+        "operationId": "workspaceEditPlanRecheck",
+        "tags": [
+          "Workspace edit planning"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.edits.recheck",
+                "payload": {
+                  "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC004-EDIT-PLAN-RECHECK",
+        "x-devpilot-operation": "workspace.edits.recheck",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_plan_recheck",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
       }
     }
   },

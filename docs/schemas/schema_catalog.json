@@ -3,9 +3,9 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-06",
+  "updated": "2026-08-08",
   "sprint": "UOC-003",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
@@ -2168,6 +2168,20 @@
       "validation_enabled_sprint": "UOC-002"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-EDIT-PLAN-V1",
+      "title": "Workspace Edit Plan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_edit_plan.schema.json",
+      "description": "Immutable source-non-mutating UOC-004 document edit plan bound to base SHA with full unified diff, risk/policy and expiry.",
+      "status": "registered",
+      "contract": "WorkspaceEditPlan",
+      "owner": "Ordóñez",
+      "sprint": "UOC-004",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-004"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-WORKSPACE-ISOLATION-REPORT-V1",
       "title": "DevPilot Workspace Isolation Report v1",
       "version": "1.0.0",
@@ -2238,5 +2252,5 @@
       "validation_enabled_sprint": "UOC-003"
     }
   ],
-  "schemas_total": 154
+  "schemas_total": 155
 }

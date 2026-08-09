@@ -220,6 +220,18 @@ export class DevPilotApiClient {
     return this.get('/workspace/traceability', { timeoutMs: READINESS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }
 
+  async planWorkspaceEdit(payload: { document_id: string; document_sha_before: string; proposed_content: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/workspace/edit-plans/plan', { operation: 'workspace.edits.plan', payload, dry_run: true }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceEditPlanStatus(planId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/edit-plans/${encodeURIComponent(planId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async recheckWorkspaceEditPlan(planId: string, planHash: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/recheck`, { operation: 'workspace.edits.recheck', payload: { plan_hash: planHash }, dry_run: true }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' }, policy);
   }

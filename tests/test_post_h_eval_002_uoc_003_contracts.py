@@ -143,7 +143,7 @@ def test_uoc_003_testing_and_documentation_governance_are_registered() -> None:
         "tests/test_post_h_eval_002_uoc_003_contracts.py",
     ):
         assert path in paths
-    assert registry["last_registered_sprint"] in {"UOC-003", "UOC-003-CLOSURE"}
+    assert registry["last_registered_sprint"] in {"UOC-003", "UOC-003-CLOSURE", "UOC-004-IMPLEMENTATION", "UOC-004-CLOSURE"}
 
 
 def test_uoc_003_project_state_tracks_open_and_closed_lifecycle() -> None:
@@ -151,7 +151,12 @@ def test_uoc_003_project_state_tracks_open_and_closed_lifecycle() -> None:
     assert state["uoc_003_candidate_repo"] == "repo_DevPilot_Local_331_CANDIDATE_POST_H_EVAL_002_UOC_003.zip"
     assert state["uoc_003_source_write_enabled"] is False
     if state["uoc_003_closed"]:
-        assert state["current_repo"] == "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
+        expected_current = (
+            "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
+            if state.get("uoc_004_closed")
+            else "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
+        )
+        assert state["current_repo"] == expected_current
         assert state["uoc_003_status"] == "closed/PASS"
         assert state["uoc_003_authoritative_baseline"] == "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
         assert state["uoc_004_authorized"] is True
@@ -164,6 +169,12 @@ def test_uoc_003_project_state_tracks_open_and_closed_lifecycle() -> None:
 def test_uoc_003_ui_version_is_synchronized() -> None:
     package = load("ui/web/package.json")
     lock = load("ui/web/package-lock.json")
-    assert package["version"] == "0.9.0-post-h-eval-002-uoc-003"
+    state = load(".devpilot/project_state.json")
+    expected_version = (
+        "0.10.0-post-h-eval-002-uoc-004"
+        if state.get("uoc_004_status")
+        else "0.9.0-post-h-eval-002-uoc-003"
+    )
+    assert package["version"] == expected_version
     assert lock["version"] == package["version"]
     assert lock["packages"][""]["version"] == package["version"]

@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "criteria_id": "local-release-candidate-criteria-v1",
   "created_by": "POST-H-026-E",
-  "updated": "2026-08-06",
+  "updated": "2026-08-08",
   "status": "closed",
   "scope": "local-release-candidate",
   "preliminary": true,
@@ -712,5 +712,10 @@
   "uoc_003_candidate_repo": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip",
   "uoc_003_status": "closed/PASS",
   "uoc_003_source_write_enabled": false,
-  "uoc_003_runtime_evidence_only": true
+  "uoc_003_runtime_evidence_only": true,
+  "uoc_004_candidate_repo": "repo_DevPilot_Local_332_CANDIDATE_POST_H_EVAL_002_UOC_004.zip",
+  "uoc_004_status": "implemented-initial/pending-windows-browser-closure",
+  "uoc_004_source_write_enabled": false,
+  "uoc_004_plan_only": true,
+  "uoc_005_authorized": false
 }

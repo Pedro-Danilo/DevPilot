@@ -13,6 +13,7 @@ import { renderContractBadges, renderUiStateNotice } from '../components/Contrac
 import { renderDocumentInspectionPanel, renderFullTextSearchResults } from '../components/DocumentInspectionPanel';
 import { renderDocumentTree } from '../components/DocumentTree';
 import { createDocumentValidationPanel } from '../components/DocumentValidationPanel';
+import { createDocumentEditPlanner } from '../components/DocumentEditPlanner';
 import { renderDocumentViewer } from '../components/DocumentViewer';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 
@@ -84,6 +85,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
   };
   let listRequestSequence = 0;
   let documentRequestSequence = 0;
+  const editPlanner = createDocumentEditPlanner({ tokenProvider });
   const validationPanel = createDocumentValidationPanel({
     tokenProvider,
     onNavigate: async (navigation, origin) => {
@@ -299,6 +301,8 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
         }), 'Visor de documento'),
       );
       next.append(layout, renderPagination(state, () => void load(false)));
+      (editPlanner as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
+      next.append(editPlanner);
       next.append(renderGuarded(() => renderDocumentInspectionPanel({
         metadata: state.inspectionMetadata,
         history: state.inspectionHistory,
@@ -316,7 +320,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
     } catch (error) {
       state.renderError = `La UI aisló un error de render sin perder el estado operativo: ${error instanceof Error ? error.message : String(error)}`;
       const fallback = document.createDocumentFragment();
-      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), validationPanel);
+      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), editPlanner, validationPanel);
       root.replaceChildren(fallback);
     }
   }

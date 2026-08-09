@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-capability-registry",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "updated": "2026-08-08",
   "source_commits": {
     "canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
@@ -232,10 +232,13 @@
       "title": "Workspace Documents — explorador read-only",
       "page_component": "WorkspaceDocumentsView",
       "allowed_api_route_ids": [
+        "api.portfolio.status",
         "api.workspace.documents.list",
-        "api.workspace.documents.read",
         "api.workspace.documents.metadata",
-        "api.portfolio.status"
+        "api.workspace.documents.read",
+        "api.workspace.edit-plans.plan",
+        "api.workspace.edit-plans.recheck",
+        "api.workspace.edit-plans.status"
       ],
       "mapped_cli_capability_ids": [],
       "shows_mutation_controls": false,
@@ -256,7 +259,20 @@
         "api.workspace.documents.search",
         "api.workspace.documents.links"
       ],
-      "status": "implemented-initial"
+      "status": "implemented-initial-uoc-004-plan-only",
+      "native_capabilities": [
+        {
+          "capability_id": "ui.workspace-documents.edit-plan",
+          "application_service": "workspace.edits.plan",
+          "read_write": "plan-only",
+          "risk_class": "governed-plan",
+          "requires_dry_run": true,
+          "requires_approval_for_future_apply": true,
+          "source_write_enabled": false,
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "UOC-004"
+        }
+      ]
     }
   ],
   "capabilities": [
@@ -10832,11 +10848,13 @@
     "uoc_002_typed_git_read_only": true,
     "uoc_002_memory_only_search": true,
     "uoc_002_document_links": true,
-    "updated_by": "UOC-003-CLOSURE",
+    "updated_by": "UOC-004",
     "uoc_003_validation_capabilities_total": 6,
     "uoc_003_residual_cli_bridge_inventory_required": true,
     "uoc_003_jobs_mode": "synchronous-preliminary",
-    "uoc_003_closed": true
+    "uoc_003_closed": true,
+    "uoc_004_edit_planning_capabilities_total": 3,
+    "uoc_004_source_write_enabled": false
   },
   "safety": {
     "local_first": true,
@@ -10858,6 +10876,7 @@
     "UOC-000 freezes architecture and classification only; no runtime route or executor is added.",
     "A capability classified as CLI-BRIDGE-REGISTERED is not authorized for UI subprocess execution.",
     "Future sprints must update this registry atomically with API/UI route contracts and Test Impact evidence.",
-    "UOC-003 changes six deterministic validation/checklist capabilities to UI-READ-ONLY through one typed facade; remaining UOC-003-tagged CLI bridges stay inventoried."
+    "UOC-003 changes six deterministic validation/checklist capabilities to UI-READ-ONLY through one typed facade; remaining UOC-003-tagged CLI bridges stay inventoried.",
+    "UOC-004 UI-native plan capability is metadata on ui.workspace-documents; CLI command inventory remains truthful and unchanged until UOC-007 parity work."
   ]
 }

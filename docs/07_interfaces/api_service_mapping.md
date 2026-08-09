@@ -240,3 +240,29 @@ connector write, plugin execution ni ejecución remota.
 | `GET /api/v1/workspace/traceability` | `workspace.traceability` | none | explicit-only navigable matrix |
 
 The facade reuses deterministic validators and never executes free-form shell or CLI text. Source documents remain read-only. The first UOC-003 job implementation is synchronous and preliminary; async queueing, heartbeat and cancellation remain assigned to UOC-007/UOC-008.
+
+
+## UOC-004 — Workspace edit planning
+
+| Route | Application operation | Mutation |
+|---|---|---|
+| `POST /api/v1/workspace/edit-plans/plan` | `workspace.edits.plan` | none / plan-only |
+| `GET /api/v1/workspace/edit-plans/{plan_id}` | `workspace.edits.status` | none |
+| `POST /api/v1/workspace/edit-plans/{plan_id}/recheck` | `workspace.edits.recheck` | none |
+
+UOC-004 does not expose apply, filesystem write, Git stage or shell.
+
+
+## UOC-003/UOC-004 synchronized plan/read routes
+
+| API id | Route | Application operation | Application Service | Policy/gate | Side effect |
+|---|---|---|---|---|---|
+| `API-UOC003-VALIDATION-PLAN` | `POST /api/v1/workspace/validations/plan` | `workspace.validations.plan` | `ApplicationService.workspace_validations_plan` | Policy/gate: token + local policy | none |
+| `API-UOC003-VALIDATION-EXECUTE` | `POST /api/v1/workspace/validations/execute` | `workspace.validations.execute` | `ApplicationService.workspace_validations_execute` | Policy/gate: token + local policy | runtime evidence only |
+| `API-UOC003-VALIDATION-STATUS` | `GET /api/v1/workspace/validations/{job_id}` | `workspace.validations.status` | `ApplicationService.workspace_validations_status` | Policy/gate: token + local policy | none |
+| `API-UOC003-TRACEABILITY` | `GET /api/v1/workspace/traceability` | `workspace.traceability` | `ApplicationService.workspace_traceability` | Policy/gate: token + local policy | none |
+| `API-UOC004-EDIT-PLAN` | `POST /api/v1/workspace/edit-plans/plan` | `workspace.edits.plan` | `ApplicationService.workspace_edit_plan` | Policy/gate: token + PathGuard/SecretGuard + base SHA | plan-only |
+| `API-UOC004-EDIT-PLAN-STATUS` | `GET /api/v1/workspace/edit-plans/{plan_id}` | `workspace.edits.status` | `ApplicationService.workspace_edit_plan_status` | Policy/gate: token + opaque plan id | none |
+| `API-UOC004-EDIT-PLAN-RECHECK` | `POST /api/v1/workspace/edit-plans/{plan_id}/recheck` | `workspace.edits.recheck` | `ApplicationService.workspace_edit_plan_recheck` | Policy/gate: token + immutable plan hash + optimistic concurrency | none |
+
+UOC-004 is plan-only: no patch execution, filesystem write, stage or commit.

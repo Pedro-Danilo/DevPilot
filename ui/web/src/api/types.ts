@@ -376,3 +376,38 @@ export interface WorkspaceTraceabilityData {
   };
   safety?: Record<string, unknown>;
 }
+
+
+export interface WorkspaceEditPlanDocument {
+  document_id: string;
+  relative_path: string;
+  extension: string;
+  document_sha_before: string;
+  proposed_sha256: string;
+  size_before_bytes: number;
+  size_after_bytes: number;
+}
+
+export interface WorkspaceEditPlan {
+  schema_id: string;
+  plan_id: string;
+  plan_hash: string;
+  workspace_id?: string;
+  document: WorkspaceEditPlanDocument;
+  proposed_content: string;
+  diff: { format: 'unified'; content: string; sha256: string; bytes: number; additions: number; deletions: number; hunks: number; changed_lines: number; truncated: boolean };
+  validation: Record<string, unknown>;
+  risk: { level: string; score: number; reasons: string[]; approval_required_for_apply: boolean; apply_policy_deferred_to: string; source_write_enabled: boolean };
+  policy: Record<string, unknown>;
+  preview: { mode: string; content_sha256: string };
+  patch_evidence: { filename: string; sha256: string; executed: boolean; source_mutated: boolean };
+  created_at: string;
+  expires_at: string;
+  preliminary: boolean;
+}
+
+export interface WorkspaceEditPlanResponseData {
+  summary?: Record<string, unknown>;
+  plan?: WorkspaceEditPlan;
+  safety?: Record<string, unknown>;
+}

@@ -82,3 +82,12 @@ Routes:
 - `GET /api/v1/workspace/traceability`
 
 This is an initial synchronous implementation. Cancellation, heartbeat and durable asynchronous job recovery are deferred to UOC-007/UOC-008.
+
+
+## UOC-004 — governed edit planning routes
+
+- `POST /api/v1/workspace/edit-plans/plan` — creates an immutable plan bound to opaque document id and `document_sha_before`; no source write.
+- `GET /api/v1/workspace/edit-plans/{plan_id}` — reads the process-local immutable plan.
+- `POST /api/v1/workspace/edit-plans/{plan_id}/recheck` — rechecks optimistic concurrency against the current source SHA.
+
+The browser never submits an absolute path. Markdown/JSON/YAML only. `.txt`, secrets, binaries and out-of-root resources remain non-editable. Exported patches are evidence only and are not executed.

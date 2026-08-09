@@ -2,9 +2,9 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.7.1"
+version: "1.8.0"
 owner: "Ordóñez"
-updated: "2026-08-07"
+updated: "2026-08-08"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
@@ -34,7 +34,8 @@ uoc_002_base_commit: "9cb67b023c6ac909a2b492370632a3955a454e39"
 uoc_002_implementation_status: "closed/PASS"
 uoc_003_base_commit: "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913"
 uoc_003_implementation_status: "closed/PASS"
-uoc_003_browser_ux_corrective_status: "implemented/pending-browser-retest"
+uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
+uoc_004_browser_export_feedback_status: "implemented-initial-v1.0.2/pending-browser-closure"
 ---
 
 
@@ -60,7 +61,7 @@ S0: 0
 S1: 0
 ```
 
-`UOC-000`, `UOC-001` y `UOC-002` están cerrados/PASS. La baseline canónica autoritativa de UOC-002 es repo 330 en `ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913`. UOC-003 queda implementado inicialmente y permanece abierto hasta su aceptación Windows/API/UI/browser, integración canónica y baseline exact-tree repo 331.
+`UOC-000`, `UOC-001` y `UOC-002` están cerrados/PASS. La baseline canónica autoritativa de UOC-002 es repo 330 en `ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913`. UOC-003 está CLOSED/PASS en `40ba9e77276d97e69952a8e54c68b8943fd3e51d`, con browser acceptance v1.0.5 y baseline exact-tree repo 331. UOC-004 está autorizado y entra en implementación inicial sobre esa fuente de verdad.
 
 ## 2. Problema que resuelve
 
@@ -465,7 +466,7 @@ PASS exige:
 
 ## Estado de implementación UOC-003
 
-`implemented-initial/pending-windows-acceptance`. Se implementan las cuatro rutas tipadas, plan inmutable, job local con evidencia runtime, findings navegables y matriz explícita requisito → historia → riesgo/control → prueba. La fuente permanece read-only. Los jobs son síncronos en esta primera versión; async, heartbeat, cancelación y retry se difieren a UOC-007/UOC-008. UOC-004 no está autorizado hasta el cierre canónico y repo 331.
+`closed/PASS`. UOC-003 cerró en v1.0.5 con las cuatro rutas tipadas, validación determinística, findings navegables, readiness strict, trazabilidad explícita, zero-write y repo 331. UOC-004 está autorizado.
 
 ### UOC-003 browser UX corrective v1.0.2
 
@@ -1063,3 +1064,15 @@ Windows browser acceptance of v1.0.3 confirmed 161 findings, bounded 25/page pag
 ## UOC-003 — CLOSED/PASS
 
 Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests, global validators, Vite/UI smokes and Chromium browser acceptance passed. Bounded findings pagination, DOM-safe finding/traceability navigation with return feedback, strict readiness and explicit traceability are available; zero-write source boundary, S0=0 and S1=0 were preserved. Browser evidence geometry was adjudicated in v1.0.5 using DPR anchored by the reduced viewport and a semantic desktop profile; original v1.0.4 screenshots were preserved byte-for-byte. Authoritative next baseline: `repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip`. UOC-004 is authorized.
+
+
+## UOC-004 — Implementation status (2026-08-08)
+
+Estado: `implemented-initial/pending-windows-browser-closure`. Base canónica: `40ba9e77276d97e69952a8e54c68b8943fd3e51d`. Se implementa planificación de edición source-non-mutating para Markdown/JSON/YAML: draft manual sessionStorage, validación sintáctica/frontmatter, plan inmutable ligado a `document_sha_before`, diff unificado completo, preview seguro, risk/policy, expiración, optimistic concurrency y exportación `.patch` como evidencia no ejecutada. El filesystem fuente, Git stage/commit y apply permanecen bloqueados hasta UOC-005/UOC-006. La validación YAML inicial es un subset conservador dependency-free y se declara preliminar. Se corrige además el S3 cosmético heredado de `Recargar trazabilidad` para usar el styling primario de acciones vecinas. UOC-005 permanece NO autorizado hasta cierre browser/Git/repo332 de UOC-004.
+
+
+## UOC-004 — Browser export feedback corrective v1.0.2
+
+La aceptación parcial Windows verificó que la exportación `.patch` produce evidencia no ejecutada y preserva zero-write, pero reveló un gap de UX en la confirmación visible al operador. v1.0.2 mantiene el alcance UOC-004 plan-only y añade feedback persistente, accesible y adyacente al control de exportación antes de solicitar la descarga. La confirmación distingue explícitamente `descarga solicitada` de `archivo guardado`: el navegador no es autoridad sobre la decisión final del diálogo Save As.
+
+El gate de UOC-004 continúa exigiendo patch unified diff, evidencia `NO EJECUTADA`, zero-write, ausencia de Apply/Stage/Commit/shell, S0=0/S1=0 y cierre Git/baseline repo 332 antes de autorizar UOC-005.

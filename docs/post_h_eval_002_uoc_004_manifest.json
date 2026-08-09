@@ -1,0 +1,103 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_004.manifest.v1",
+  "version": "1.0.2",
+  "sprint": "UOC-004",
+  "title": "Governed edit planning y diff",
+  "status": "implemented-initial",
+  "decision": "PENDING-WINDOWS-BROWSER-CLOSURE",
+  "closed": false,
+  "updated": "2026-08-09",
+  "base_commit": "40ba9e77276d97e69952a8e54c68b8943fd3e51d",
+  "source_branch": "feat/post-h-eval-002-uoc-004-governed-edit-planning",
+  "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
+  "authoritative_input_repo": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip",
+  "candidate_output_repo": "repo_DevPilot_Local_332_CANDIDATE_POST_H_EVAL_002_UOC_004.zip",
+  "authoritative_output_repo": null,
+  "scope": {
+    "editable_extensions": [
+      ".md",
+      ".json",
+      ".yaml",
+      ".yml"
+    ],
+    "read_only_extensions": [
+      ".txt"
+    ],
+    "source_write_enabled": false,
+    "apply_enabled": false,
+    "git_mutation_enabled": false,
+    "draft_storage": "browser-sessionStorage-manual-only",
+    "plan_ttl_seconds": 1800,
+    "max_proposal_bytes": 262144,
+    "max_diff_bytes": 524288
+  },
+  "capabilities": {
+    "immutable_edit_plan": true,
+    "document_sha_before_binding": true,
+    "full_unified_diff": true,
+    "safe_preview": true,
+    "pre_apply_validation": true,
+    "risk_policy_projection": true,
+    "optimistic_concurrency_recheck": true,
+    "plan_expiration": true,
+    "manual_session_draft": true,
+    "patch_export_not_executed": true,
+    "traceability_refresh_styling_reconciled": true,
+    "explicit_patch_export_nonexecution_feedback": true
+  },
+  "api": {
+    "routes": [
+      "POST /api/v1/workspace/edit-plans/plan",
+      "GET /api/v1/workspace/edit-plans/{plan_id}",
+      "POST /api/v1/workspace/edit-plans/{plan_id}/recheck"
+    ],
+    "application_operations": [
+      "workspace.edits.plan",
+      "workspace.edits.status",
+      "workspace.edits.recheck"
+    ]
+  },
+  "safety": {
+    "local_first": true,
+    "no_shell": true,
+    "source_mutation": false,
+    "auto_save": false,
+    "external_api_required": false,
+    "connector_write": false,
+    "plugin_execution": false,
+    "secrets_in_draft_blocked": true,
+    "approval_apply_deferred_to": "UOC-005"
+  },
+  "preliminary_limits": [
+    "In-memory plans are process-local and expire after 30 minutes.",
+    "YAML syntax validation is a conservative dependency-free subset; advanced YAML features fail closed.",
+    "Draft persistence is browser sessionStorage only and manual; no authoritative server draft store.",
+    "Approval/apply/rollback are intentionally unavailable until UOC-005.",
+    "The browser cannot prove that the OS Save As dialog completed; DevPilot proves only that export requested a download and never executed/applied/staged the patch. File existence and zero-write are validated separately by the operator."
+  ],
+  "tests": {
+    "focused_status": "PASS-local-17",
+    "global_validators_status": "PASS-local-7-of-7",
+    "windows_status": "PENDING",
+    "browser_status": "PENDING",
+    "full_regression_required": false,
+    "full_regression_reason": "UOC-004 is isolated plan-only scope; impacted and cumulative contracts are executed before Windows delivery.",
+    "cumulative_impacted_status": "PASS-local-82",
+    "typescript_status": "PASS-local",
+    "node_smokes_status": "PASS-local-4-of-4"
+  },
+  "pass_block": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "closure_status": "PENDING",
+    "uoc_005_authorized": false
+  },
+  "browser_export_feedback_corrective": {
+    "version": "1.0.2",
+    "status": "implemented-initial/pending-Windows-browser-closure",
+    "reason": "v1.0.1 exported a correct non-executed patch but placed the feedback outside the operator's active viewport and updated it only after invoking the browser download flow.",
+    "ui_contract": "persistent adjacent aria-live feedback is rendered before the download request and explicitly states NO EJECUTADA",
+    "source_write_enabled": false,
+    "patch_execution_enabled": false
+  }
+}

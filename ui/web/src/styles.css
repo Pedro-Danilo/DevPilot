@@ -911,12 +911,6 @@ button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
   scroll-margin-top: 1rem;
 }
 
-.traceability-refresh-button:not(:disabled) {
-  background: #eef4ff;
-  color: #174ea6;
-  border: 1px solid #8db4ff;
-}
-.traceability-refresh-button:not(:disabled):hover { background: #dfeaff; }
 .traceability-refresh-button:disabled { opacity: .62; cursor: not-allowed; }
 .traceability-refresh-hint { margin: -.35rem 0 .1rem; color: var(--uoc003-muted-text); font-size: .88rem; }
 .document-navigation-notice:focus-within { outline: 2px solid #8db4ff; outline-offset: 2px; }
@@ -927,3 +921,28 @@ button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
   .validation-findings-pagination button { flex: 1 1 45%; }
   .validation-findings-list { max-height: 24rem; }
 }
+
+
+/* UOC-004 — governed edit planning: source-non-mutating, accessible progressive disclosure. */
+.document-edit-planner { display:grid; gap:1rem; border:1px solid #b8c9e6; background:#f8fbff; }
+.uoc004-heading { display:flex; gap:1rem; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
+.uoc004-heading h2 { margin:0; }
+.uoc004-badges { display:flex; gap:.4rem; flex-wrap:wrap; }
+.uoc004-badges span { background:#e8f2ff; color:#173e78; border:1px solid #a9c7ee; border-radius:999px; padding:.2rem .55rem; font-size:.76rem; font-weight:700; }
+.uoc004-identity { display:grid; gap:.35rem; padding:.75rem; background:#fff; border:1px solid #ccd8eb; border-radius:.65rem; }
+.uoc004-identity code, .uoc004-plan-summary code { overflow-wrap:anywhere; white-space:normal; }
+.uoc004-editor { width:100%; min-height:20rem; resize:vertical; font:500 .9rem/1.45 ui-monospace,SFMono-Regular,Consolas,monospace; color:#121a2b; background:#fff; border:1px solid #7186a6; border-radius:.55rem; padding:.8rem; }
+.uoc004-editor:focus-visible { outline:3px solid #8db6ff; outline-offset:2px; border-color:#1f5eff; }
+.uoc004-actions { display:flex; gap:.65rem; flex-wrap:wrap; align-items:center; }
+.uoc004-storage-note { margin:0; color:#52627c; }
+.uoc004-plan-summary, .uoc004-diff, .uoc004-preview-panel { border:1px solid #cad7ea; border-radius:.65rem; background:#fff; padding:1rem; }
+.uoc004-plan-summary dl { display:grid; grid-template-columns:minmax(8rem,auto) 1fr; gap:.5rem .8rem; margin:.5rem 0 0; }
+.uoc004-plan-summary dt { font-weight:700; }
+.uoc004-diff pre { max-height:32rem; overflow:auto; white-space:pre; border:1px solid #d3dceb; background:#101827; color:#f5f7fb; padding:.9rem; border-radius:.5rem; }
+.uoc004-preview { max-height:32rem; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; background:#f3f6fb; color:#172238; padding:.9rem; border-radius:.5rem; }
+.uoc004-no-go { border-left:4px solid #b54708; background:#fff4ed; color:#7a2e0e; padding:.75rem; font-weight:700; }
+.uoc004-export-feedback { border:1px solid #8bc9a2; border-left:4px solid #15803d; background:#eefbf3; color:#0b4d28; padding:.8rem .9rem; border-radius:.55rem; font-weight:800; line-height:1.45; }
+.uoc004-export-feedback:focus-visible { outline:3px solid #1f5eff; outline-offset:3px; }
+.traceability-refresh-button:not(:disabled) { background:#1f5eff; color:#fff; border-color:#1f5eff; }
+.traceability-refresh-button:not(:disabled):hover { background:#174ecc; border-color:#174ecc; }
+@media (max-width:720px){ .uoc004-plan-summary dl{grid-template-columns:1fr;} .uoc004-actions button{width:100%;} .uoc004-editor{min-height:16rem;} }

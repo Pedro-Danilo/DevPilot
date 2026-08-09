@@ -28,6 +28,7 @@ from .workspace_service import WorkspaceApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
 from .workspace_validation_service import WorkspaceValidationApplicationService
+from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -67,6 +68,7 @@ class ApplicationService:
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
+        self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)
@@ -883,6 +885,15 @@ class ApplicationService:
     def workspace_traceability(self) -> CommandResult:
         return self.workspace_validation.traceability()
 
+    def workspace_edit_plan(self, *, document_id: str, document_sha_before: str, proposed_content: str) -> CommandResult:
+        return self.workspace_edit_planning.plan(document_id=document_id, document_sha_before=document_sha_before, proposed_content=proposed_content)
+
+    def workspace_edit_plan_status(self, *, plan_id: str) -> CommandResult:
+        return self.workspace_edit_planning.get_plan(plan_id=plan_id)
+
+    def workspace_edit_plan_recheck(self, *, plan_id: str, plan_hash: str) -> CommandResult:
+        return self.workspace_edit_planning.recheck(plan_id=plan_id, plan_hash=plan_hash)
+
     def reports_list(self, *, limit: int = 50, offset: int = 0, severity: str | None = None, status: str | None = None, command: str | None = None, query: str | None = None, scope: str | None = None) -> CommandResult:
         return self.reports.list_reports(limit=limit, offset=offset, severity=severity, status=status, command=command, query=query, scope=scope)
 
@@ -1103,6 +1114,16 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         ),
         "workspace.validations.status": lambda payload: service.workspace_validations_status(job_id=str(payload.get("job_id", ""))),
         "workspace.traceability": lambda payload: service.workspace_traceability(),
+        "workspace.edits.plan": lambda payload: service.workspace_edit_plan(
+            document_id=str(payload.get("document_id", "")),
+            document_sha_before=str(payload.get("document_sha_before", "")),
+            proposed_content=str(payload.get("proposed_content", "")),
+        ),
+        "workspace.edits.status": lambda payload: service.workspace_edit_plan_status(plan_id=str(payload.get("plan_id", ""))),
+        "workspace.edits.recheck": lambda payload: service.workspace_edit_plan_recheck(
+            plan_id=str(payload.get("plan_id", "")),
+            plan_hash=str(payload.get("plan_hash", "")),
+        ),
         "app.contract": lambda payload: service.application_contract(),
         "standards.status": lambda payload: service.standards_status(),
         "validators.validate_frontmatter": lambda payload: service.validate_frontmatter(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
@@ -1224,6 +1245,9 @@ def _capabilities() -> list[ServiceCapability]:
         ("validators.validate_artifact", "Legacy alias: validate Markdown structure against MIPSoftware/MIASI profiles.", "none", True, "python -m devpilot_core validate-artifact <path> --json"),
         ("validators.checklist_pre_code", "Legacy alias: evaluate the executable pre-code checklist gate.", "none", True, "python -m devpilot_core checklist-pre-code --json"),
         ("validators.readiness", "Legacy alias: evaluate readiness gates for baseline artifacts.", "report_when_adapter_requests_it", True, "python -m devpilot_core readiness-check --strict --json"),
+        ("workspace.edits.plan", "Create immutable UOC-004 document edit plan, complete diff, preview and risk/policy without source mutation.", "plan_only", True, "POST /api/v1/workspace/edit-plans/plan"),
+        ("workspace.edits.status", "Inspect one in-memory immutable UOC-004 edit plan.", "none", True, "GET /api/v1/workspace/edit-plans/{plan_id}"),
+        ("workspace.edits.recheck", "Recheck base SHA optimistic concurrency for an immutable UOC-004 edit plan.", "none", True, "POST /api/v1/workspace/edit-plans/{plan_id}/recheck"),
         ("validation.frontmatter", "Validate Markdown frontmatter metadata for one artifact.", "none", True, "python -m devpilot_core validate-frontmatter <path> --json"),
         ("validation.artifact", "Validate Markdown structure against MIPSoftware/MIASI profiles.", "none", True, "python -m devpilot_core validate-artifact <path> --json"),
         ("validation.checklist_pre_code", "Evaluate the executable pre-code checklist gate.", "none", True, "python -m devpilot_core checklist-pre-code --json"),
@@ -1294,6 +1318,9 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-003-B", "POST", "/api/v1/workspace/validations/execute", "workspace.validations.execute", ["UOC-003 synchronous preliminary job; writes only local runtime trace/report evidence."]),
         ("APP-ROUTE-UOC-003-C", "GET", "/api/v1/workspace/validations/{job_id}", "workspace.validations.status", ["UOC-003 bounded status lookup by opaque job id."]),
         ("APP-ROUTE-UOC-003-D", "GET", "/api/v1/workspace/traceability", "workspace.traceability", ["UOC-003 explicit-only traceability matrix with finding navigation."]),
+        ("APP-ROUTE-UOC-004-A", "POST", "/api/v1/workspace/edit-plans/plan", "workspace.edits.plan", ["UOC-004 immutable source-non-mutating edit plan with complete unified diff and base SHA binding."]),
+        ("APP-ROUTE-UOC-004-B", "GET", "/api/v1/workspace/edit-plans/{plan_id}", "workspace.edits.status", ["UOC-004 in-memory immutable plan inspection; no source write."]),
+        ("APP-ROUTE-UOC-004-C", "POST", "/api/v1/workspace/edit-plans/{plan_id}/recheck", "workspace.edits.recheck", ["UOC-004 optimistic concurrency recheck against current document SHA."]),
         ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),

@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.3.0",
-  "updated": "2026-08-06",
+  "version": "1.4.0",
+  "updated": "2026-08-08",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
@@ -34,9 +34,11 @@
     },
     {
       "flag_id": "uoc.documents.edit_plan",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-004",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-004",
+      "notes": "Plan-only Markdown/JSON/YAML editor with manual session draft, immutable SHA-bound plan, full diff, preview and optimistic-concurrency recheck. No filesystem write/apply."
     },
     {
       "flag_id": "uoc.documents.apply_rollback",
@@ -130,6 +132,8 @@
     "workspace_validation_traceability_enabled": true,
     "workspace_validation_source_write_enabled": false,
     "workspace_validation_runtime_evidence_only": true,
-    "workspace_validation_job_mode": "synchronous-preliminary"
+    "workspace_validation_job_mode": "synchronous-preliminary",
+    "uoc_004_apply_enabled": false,
+    "uoc_004_draft_storage": "sessionStorage-manual-only"
   }
 }
