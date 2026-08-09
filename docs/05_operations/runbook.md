@@ -11790,3 +11790,8 @@ The Documents surface may create immutable edit plans for `.md`, `.json`, `.yaml
 Al usar `Exportar .patch (no ejecutado)`, la UI debe mostrar junto al botón un estado accesible y persistente que contenga `NO EJECUTADA` antes de solicitar el diálogo de descarga. La formulación autoritativa es `Descarga solicitada`: DevPilot no puede saber si el operador confirmó o canceló `Save As`, pero sí garantiza que UOC-004 no aplica, no stagea y no escribe el patch.
 
 La evidencia browser debe comprobar por separado: mensaje visible, archivo `.patch` presente y unified-diff, `PATCH_EXECUTED=false`, Git/status y hashes del workspace sin cambios. La ausencia de cualquiera de estas tres pruebas bloquea el cierre.
+
+## UOC-004 closure — 2026-08-09
+
+UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb764b32d`. La superficie conserva `source_write_enabled=false` y `apply_enabled=false`: el plan, preview, diff y patch exportado son propuestas no ejecutadas. Browser acceptance, zero-write, validadores, integración fast-forward y baseline repo 332 son gates de cierre. UOC-005 queda autorizado exclusivamente para approval/apply/rollback gobernados.
+

@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-capability-registry",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.4.0",
-  "updated": "2026-08-08",
+  "version": "1.4.1",
+  "updated": "2026-08-09",
   "source_commits": {
     "canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
     "ui_corrective_commit": "84789e428246d732cf308d70aa965dfda291b09e",
@@ -259,7 +259,7 @@
         "api.workspace.documents.search",
         "api.workspace.documents.links"
       ],
-      "status": "implemented-initial-uoc-004-plan-only",
+      "status": "closed/PASS-uoc-004-plan-only",
       "native_capabilities": [
         {
           "capability_id": "ui.workspace-documents.edit-plan",

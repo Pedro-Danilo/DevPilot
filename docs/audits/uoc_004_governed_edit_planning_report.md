@@ -57,3 +57,8 @@ v1.0.2 mantiene exactamente la capacidad plan-only y corrige únicamente la UX d
 El navegador no puede afirmar si el operador confirmó o canceló el diálogo `Save As`. Por ello la UI usa la formulación exacta `Descarga solicitada`; la existencia del archivo `.patch`, su formato unified diff y el zero-write se validan separadamente por el operador de browser acceptance.
 
 Este correctivo no habilita Apply, Stage, Commit, shell ni escritura de documentos.
+
+## UOC-004 closure — 2026-08-09
+
+UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb764b32d`. La superficie conserva `source_write_enabled=false` y `apply_enabled=false`: el plan, preview, diff y patch exportado son propuestas no ejecutadas. Browser acceptance, zero-write, validadores, integración fast-forward y baseline repo 332 son gates de cierre. UOC-005 queda autorizado exclusivamente para approval/apply/rollback gobernados.
+

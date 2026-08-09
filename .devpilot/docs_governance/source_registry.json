@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-08-08",
+  "updated": "2026-08-09",
   "preliminary": true,
   "documents": [
     {
@@ -14495,7 +14495,7 @@
       "classification": "source-of-truth",
       "domain": "audit.ui",
       "owner": "UOC-004",
-      "status_required": "pending",
+      "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_edit_plan_service.py",
@@ -14523,7 +14523,7 @@
       "classification": "machine-readable-source",
       "domain": "evaluation.pilot",
       "owner": "UOC-004",
-      "status_required": "implemented-initial",
+      "status_required": "closed/PASS",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_edit_plan_service.py",
@@ -16686,5 +16686,5 @@
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
   "updated_at": "2026-08-08",
-  "last_registered_sprint": "UOC-004-IMPLEMENTATION"
+  "last_registered_sprint": "UOC-004-CLOSURE"
 }

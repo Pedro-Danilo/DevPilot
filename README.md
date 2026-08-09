@@ -6260,3 +6260,8 @@ Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests
 ### POST-H-EVAL-002 UOC-004 — governed edit planning (initial)
 
 `/workspace/documents` now contains a source-non-mutating Markdown/JSON/YAML edit planner: manual session draft, immutable SHA-bound plan, full diff, preview, risk/policy, expiry, concurrency recheck and non-executed patch export. Apply/filesystem write/Git mutation remain disabled until later governed sprints.
+
+## UOC-004 closure — 2026-08-09
+
+UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb764b32d`. La superficie conserva `source_write_enabled=false` y `apply_enabled=false`: el plan, preview, diff y patch exportado son propuestas no ejecutadas. Browser acceptance, zero-write, validadores, integración fast-forward y baseline repo 332 son gates de cierre. UOC-005 queda autorizado exclusivamente para approval/apply/rollback gobernados.
+

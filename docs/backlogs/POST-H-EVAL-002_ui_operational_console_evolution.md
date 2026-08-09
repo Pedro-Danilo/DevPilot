@@ -1076,3 +1076,8 @@ Estado: `implemented-initial/pending-windows-browser-closure`. Base canónica: `
 La aceptación parcial Windows verificó que la exportación `.patch` produce evidencia no ejecutada y preserva zero-write, pero reveló un gap de UX en la confirmación visible al operador. v1.0.2 mantiene el alcance UOC-004 plan-only y añade feedback persistente, accesible y adyacente al control de exportación antes de solicitar la descarga. La confirmación distingue explícitamente `descarga solicitada` de `archivo guardado`: el navegador no es autoridad sobre la decisión final del diálogo Save As.
 
 El gate de UOC-004 continúa exigiendo patch unified diff, evidencia `NO EJECUTADA`, zero-write, ausencia de Apply/Stage/Commit/shell, S0=0/S1=0 y cierre Git/baseline repo 332 antes de autorizar UOC-005.
+
+## UOC-004 closure — 2026-08-09
+
+UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb764b32d`. La superficie conserva `source_write_enabled=false` y `apply_enabled=false`: el plan, preview, diff y patch exportado son propuestas no ejecutadas. Browser acceptance, zero-write, validadores, integración fast-forward y baseline repo 332 son gates de cierre. UOC-005 queda autorizado exclusivamente para approval/apply/rollback gobernados.
+
