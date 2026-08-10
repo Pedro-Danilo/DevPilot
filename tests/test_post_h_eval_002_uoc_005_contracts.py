@@ -168,11 +168,16 @@ def test_uoc005_inherited_docs_governance_reconciliation_is_explicit() -> None:
     assert 'approval: "approved_by_owner"' in t("docs/audits/uoc_004_closure_report.md")
 
 
-def test_uoc005_local_release_candidate_freshness_tracks_uoc004_authoritative_repo() -> None:
+def test_uoc005_local_release_candidate_freshness_tracks_lifecycle_authoritative_repo() -> None:
     criteria = j(".devpilot/release/local_release_candidate_criteria.json")
     state = j(".devpilot/project_state.json")
     evidence = next(item for item in criteria["evidence"] if item["evidence_id"] == "project-state-current-repo")
-    expected = "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
+    closed = state.get("uoc_005_closed") is True
+    expected = (
+        "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
+        if closed
+        else "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
+    )
     assert criteria["expected_current_repo"] == expected
     assert evidence["expected_fields"]["current_repo"] == expected
     assert state["current_repo"] == expected
@@ -194,7 +199,9 @@ def test_uoc005_historical_contract_reconciliation_keeps_evolving_registries_sch
 
     state = j(".devpilot/project_state.json")
     flags = j(".devpilot/interfaces/ui_operational_console_flags.json")
-    assert state["uoc_006_authorized"] is False
+    closed = state.get("uoc_005_closed") is True
+    assert state["uoc_006_authorized"] is closed
+    # Authorization to start UOC-006 does not implement or enable its Git mutation feature flag.
     assert next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.git.governed_operations")["enabled"] is False
 
 
