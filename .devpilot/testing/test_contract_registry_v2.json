@@ -17441,6 +17441,126 @@
       "schema_ids": [
         "SCHEMA-DEVPL-WORKSPACE-EDIT-PLAN-V1"
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-005-approval-apply-rollback",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-uoc-005-approval-apply-rollback",
+      "domain": "product.ui",
+      "capability": "WorkspaceApprovalBoundEditExecution",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "manual",
+      "cost_class": "medium",
+      "expected_duration_seconds": 900,
+      "test_files": [
+        "tests/test_workspace_edit_execution_service.py",
+        "tests/test_api_workspace_edit_execution.py",
+        "tests/test_web_ui_workspace_edit_execution.py",
+        "tests/test_web_ui_workspace_edit_planning.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_api_contract.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/workspace_edit_execution_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/approval/",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/miasi/policy_matrix.json",
+        "ui/web/src/components/DocumentEditPlanner.ts",
+        "ui/web/src/components/DocumentValidationPanel.ts",
+        ".devpilot/interfaces/",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/post_h_eval_002_uoc_005_manifest.json",
+        "docs/audits/uoc_005_approval_apply_rollback_report.md",
+        "docs/schemas/workspace_edit_execution.schema.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "docs/audits/uoc_004_closure_report.md",
+        "tests/test_api_contract.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/workspace_edit_execution_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/DocumentEditPlanner.ts",
+        "ui/web/src/components/DocumentValidationPanel.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/styles.css",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/miasi/policy_matrix.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/post_h_eval_002_uoc_005_manifest.json",
+        "docs/audits/uoc_005_approval_apply_rollback_report.md",
+        "docs/audits/uoc_005_closure_report.md",
+        "docs/schemas/workspace_edit_execution.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/audits/uoc_004_closure_report.md",
+        "tests/test_api_contract.py"
+      ],
+      "trigger_hints": [
+        "uoc-005-approval-binding-change",
+        "workspace-document-apply-change",
+        "workspace-document-rollback-change",
+        "approval-policy-change"
+      ],
+      "impact_scope": [
+        "workspace-edit-execution",
+        "approval-policy",
+        "filesystem-mutation",
+        "ui",
+        "api-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "requires_human_approval": true,
+      "owner": "UOC-005",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_workspace_edit_execution_service.py tests/test_api_workspace_edit_execution.py tests/test_web_ui_workspace_edit_execution.py tests/test_web_ui_workspace_edit_planning.py tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "First narrowly-scoped source-write UI capability.",
+        "Strong approval binding, optimistic concurrency, external backup, atomic replace, post-validation and bounded rollback are mandatory.",
+        "Generic patch.apply, generic rollback, Git mutation, shell and remote capabilities remain blocked."
+      ],
+      "owner_domain": "product.ui",
+      "service_boundary": "application",
+      "subgate_id": "uoc-005-approval-apply-rollback",
+      "schema_ids": [
+        "SCHEMA-DEVPL-WORKSPACE-EDIT-PLAN-V1",
+        "SCHEMA-DEVPL-WORKSPACE-EDIT-EXECUTION-V1"
+      ],
+      "safety_exception": {
+        "justification": "UOC-005 is the approved narrow source-mutation exception for one allowlisted workspace document: immutable plan, exact human approval, optimistic concurrency, external control backup, atomic replace, post-validation and bounded rollback are mandatory; generic patch/apply/rollback and Git mutation remain blocked.",
+        "approved_by": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION-v1.1.0/UOC-005",
+        "expires_at_utc": "2026-12-31T23:59:59Z",
+        "scope": "UOC-005 workspace document apply and pre-commit rollback only",
+        "rollback_or_cleanup": "Use the verified UOC-005 control-root backup for compensating rollback or separately approved pre-commit manual rollback; after stage/commit use the future UOC-006 governed Git workflow."
+      }
     }
   ],
   "migration_metadata": {

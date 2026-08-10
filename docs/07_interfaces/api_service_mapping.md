@@ -266,3 +266,15 @@ UOC-004 does not expose apply, filesystem write, Git stage or shell.
 | `API-UOC004-EDIT-PLAN-RECHECK` | `POST /api/v1/workspace/edit-plans/{plan_id}/recheck` | `workspace.edits.recheck` | `ApplicationService.workspace_edit_plan_recheck` | Policy/gate: token + immutable plan hash + optimistic concurrency | none |
 
 UOC-004 is plan-only: no patch execution, filesystem write, stage or commit.
+
+## UOC-005 — approval-bound document apply/rollback
+
+| API id | API route | Application operation | Application Service | Mutation boundary | Approval/policy |
+|---|---|---|---|---|---|
+| `API-UOC005-EDIT-APPLY-APPROVAL` | `POST /api/v1/workspace/edit-plans/{plan_id}/approval-request` | `workspace.edits.approval_request` | `ApplicationService.workspace_edit_apply_approval_request` | Local approval state only | Policy/gate: binds exact plan/hash/base/actor/scope/TTL; source unchanged |
+| `API-UOC005-EDIT-APPLY` | `POST /api/v1/workspace/edit-plans/{plan_id}/apply` | `workspace.edits.apply` | `ApplicationService.workspace_edit_apply` | Approval-gated atomic document source write | Policy/gate: exact approved binding + recheck + verified external backup + post-validation |
+| `API-UOC005-EDIT-EXECUTION-STATUS` | `GET /api/v1/workspace/edit-executions/{execution_id}` | `workspace.edits.execution_status` | `ApplicationService.workspace_edit_execution_status` | none | Policy/gate: protected opaque-id read; backup ref remains relative |
+| `API-UOC005-EDIT-ROLLBACK-APPROVAL` | `POST /api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request` | `workspace.edits.rollback_approval_request` | `ApplicationService.workspace_edit_rollback_approval_request` | Local approval state only | Policy/gate: new exact rollback binding; source unchanged |
+| `API-UOC005-EDIT-ROLLBACK` | `POST /api/v1/workspace/edit-executions/{execution_id}/rollback` | `workspace.edits.rollback` | `ApplicationService.workspace_edit_rollback` | Approval-gated bounded pre-commit source restore | Policy/gate: exact approval + post-hash + Git unstaged + verified backup |
+
+Transport middleware continues to enforce token/local policy. The request-specific sensitive action is enforced inside `WorkspaceEditExecutionApplicationService`, where the immutable plan/execution hash and approval id are available for StrongApprovalBinding. Generic patch/rollback executors and Git mutation remain disabled.

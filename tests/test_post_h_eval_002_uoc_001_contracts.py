@@ -52,6 +52,8 @@ def test_uoc_001_backlog_manifest_state_and_flags_are_synchronized() -> None:
         allowed_enabled.add("uoc.documents.validation_traceability")
     if state.get("uoc_004_status"):
         allowed_enabled.add("uoc.documents.edit_plan")
+    if state.get("uoc_005_status"):
+        allowed_enabled.add("uoc.documents.apply_rollback")
     assert all(
         item["enabled"] is False
         for item in flags["feature_flags"]
@@ -67,7 +69,13 @@ def test_uoc_001_route_registries_are_exact_and_read_only() -> None:
 
     ui_route = next(item for item in ui["routes"] if item["route_id"] == "ui.workspace-documents")
     assert ui_route["path"] == "/workspace/documents"
-    assert ui_route["shows_mutation_controls"] is False
+    state = _json(".devpilot/project_state.json")
+    if state.get("uoc_005_status"):
+        assert ui_route["shows_mutation_controls"] is True
+        assert ui_route["mutation_controls"]["approval_required"] is True
+        assert ui_route["mutation_controls"]["destructive_action_allowed"] is False
+    else:
+        assert ui_route["shows_mutation_controls"] is False
     assert {
         "api.workspace.documents.list",
         "api.workspace.documents.read",
@@ -93,7 +101,12 @@ def test_uoc_001_route_registries_are_exact_and_read_only() -> None:
     assert ui["summary"]["routes_total"] == 6
     assert capability["summary"]["api_routes_total"] >= 42
     assert capability["summary"]["ui_routes_total"] == 6
-    assert capability["safety"]["document_write_enabled"] is False
+    if state.get("uoc_005_status"):
+        assert capability["safety"]["document_write_enabled"] is True
+        assert capability["safety"]["document_write_mode"] == "approval-gated-atomic-uoc005"
+        assert capability["safety"]["generic_patch_apply_enabled"] is False
+    else:
+        assert capability["safety"]["document_write_enabled"] is False
 
 
 def test_uoc_001_schemas_are_registered_and_accept_minimal_contracts() -> None:

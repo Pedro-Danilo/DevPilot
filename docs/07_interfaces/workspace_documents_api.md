@@ -91,3 +91,9 @@ This is an initial synchronous implementation. Cancellation, heartbeat and durab
 - `POST /api/v1/workspace/edit-plans/{plan_id}/recheck` — rechecks optimistic concurrency against the current source SHA.
 
 The browser never submits an absolute path. Markdown/JSON/YAML only. `.txt`, secrets, binaries and out-of-root resources remain non-editable. Exported patches are evidence only and are not executed.
+
+## UOC-005 — governed mutation extension
+
+UOC-005 extends the UOC-004 opaque-plan surface with five typed routes for approval, atomic apply, execution status and bounded rollback. The browser still never supplies an absolute filesystem path as authority. The server resolves the active registered workspace and opaque document id, verifies the immutable plan/base hashes, validates StrongApprovalBinding and writes only after backup integrity succeeds.
+
+Apply is restricted to Markdown/JSON/YAML already accepted by UOC-004. Runtime backup/evidence lives in an allowed external control root; API payloads expose only a relative `backup_ref`. Manual rollback requires a separate approval and is intentionally unavailable after Git stage/commit or blob drift. UOC-006 owns Git write operations.

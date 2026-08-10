@@ -876,6 +876,24 @@
       "gate": "Unknown changed paths require full pytest recommendation rather than false confidence",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "WORKSPACE_DOCUMENT_APPLY_APPROVAL_GATED",
+      "domain": "Filesystem",
+      "action": "workspace_document_apply",
+      "default_effect": "allow",
+      "gate": "WorkspaceEditExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+PathGuard+SecretGuard+OptimisticConcurrency+AtomicReplace+PostValidation",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "WORKSPACE_DOCUMENT_ROLLBACK_APPROVAL_GATED",
+      "domain": "Filesystem",
+      "action": "workspace_document_rollback",
+      "default_effect": "allow",
+      "gate": "WorkspaceEditExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+GitAdapterReadOnly+BackupHash+AtomicReplace",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

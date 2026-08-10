@@ -32,8 +32,15 @@ def test_test_contract_registry_v2_validator_passes_migrated_registry_without_ex
     assert summary["needs_review_total"] == 2
     assert summary["network_allowed_total"] == 0
     assert summary["external_api_allowed_total"] == 0
-    assert summary["mutations_allowed_total"] == 0
-    assert summary["source_mutations_allowed_total"] == 1
+    registry = load_registry()
+    mutating_contracts = [item for item in registry["contracts"] if item.get("mutations_allowed")]
+    source_mutating_contracts = [item for item in registry["contracts"] if item.get("source_mutations_allowed")]
+    assert summary["mutations_allowed_total"] == len(mutating_contracts)
+    assert summary["source_mutations_allowed_total"] == len(source_mutating_contracts)
+    assert any(item["contract_id"] == "post-h-eval-002-uoc-005-approval-apply-rollback" for item in mutating_contracts)
+    assert any(item["contract_id"] == "project-global-state" for item in source_mutating_contracts)
+    assert all(item.get("network_allowed") is False for item in mutating_contracts)
+    assert all(item.get("external_api_allowed") is False for item in mutating_contracts)
     assert summary["tests_executed"] is False
     assert summary["mutations_performed"] is False
     assert any(finding.id == "TEST_CONTRACT_REGISTRY_V2_VALIDATION_PASS" for finding in result.findings)

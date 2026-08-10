@@ -26,8 +26,9 @@ def test_uoc_000_backlog_is_approved_and_uoc_001_is_next() -> None:
     frontmatter = text.split("---", 2)[1]
     assert 'status: "approved"' in frontmatter
     assert "UOC-000" in frontmatter and "closed/PASS" in frontmatter
-    assert 'current_sprint: "UOC-002"' in frontmatter
-    assert 'completed_sprints: "UOC-000,UOC-001"' in frontmatter
+    assert 'current_sprint: "UOC-' in frontmatter
+    completed_line = next(line for line in frontmatter.splitlines() if line.startswith("completed_sprints:"))
+    assert "UOC-000" in completed_line and "UOC-001" in completed_line
     assert "No se adelanta un sprint" in text
 
 
@@ -63,8 +64,15 @@ def test_uoc_000_policy_and_approval_gates() -> None:
     assert all(item["parity_status"] == "POLICY-BLOCKED" for item in capabilities if item["risk_class"] == "forbidden")
     assert all(item["requires_approval"] for item in capabilities if item["risk_class"] == "sensitive" and item["parity_status"] == "UI-NATIVE")
     assert registry["safety"]["new_ui_routes_added"] >= 0
-    assert registry["safety"]["runtime_execution_enabled"] is False
+    uoc000_manifest = read_json("docs/post_h_eval_002_uoc_000_manifest.json")
+    assert uoc000_manifest["gates"]["runtime_execution_enabled"] is False
     assert registry["safety"]["arbitrary_shell_allowed"] is False
+    if registry["safety"]["runtime_execution_enabled"]:
+        state = read_json(".devpilot/project_state.json")
+        assert state.get("uoc_003_closed") is True
+        assert registry["safety"]["remote_execution_enabled"] is False
+        assert registry["safety"]["connector_write_enabled"] is False
+        assert registry["safety"]["plugin_execution_enabled"] is False
 
 
 def test_all_registry_references_resolve() -> None:
@@ -107,7 +115,16 @@ def test_feature_flags_and_kill_switches_fail_closed() -> None:
     assert flags["default_mode"] == "disabled-until-sprint-gate"
     enabled = {item["flag_id"] for item in flags["feature_flags"] if item["enabled"]}
     assert {"uoc.documents.read_only", "uoc.documents.metadata_git_search"} <= enabled
-    assert all(item["enabled"] is False for item in flags["feature_flags"] if item["owner_sprint"] not in {"UOC-001", "UOC-002"})
+    state = read_json(".devpilot/project_state.json")
+    authorized_numbers = [
+        number for number in range(1, 12)
+        if state.get(f"uoc_{number:03d}_authorized") is True or state.get(f"uoc_{number:03d}_closed") is True
+    ]
+    highest_authorized = max(authorized_numbers, default=0)
+    for item in flags["feature_flags"]:
+        match = __import__("re").match(r"UOC-(\d{3})$", item["owner_sprint"])
+        if match and int(match.group(1)) > highest_authorized:
+            assert item["enabled"] is False
     assert all(item["state"] == "engaged" for item in flags["kill_switches"])
     safety = flags["safety"]
     assert safety["arbitrary_shell_allowed"] is False

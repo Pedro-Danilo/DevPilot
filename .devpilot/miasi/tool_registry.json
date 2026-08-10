@@ -1273,6 +1273,32 @@
         "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "workspace.edit.apply",
+      "name": "apply_approved_workspace_document_edit",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "WORKSPACE_DOCUMENT_APPLY_APPROVAL_GATED",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "workspace.edit.rollback",
+      "name": "rollback_approved_workspace_document_edit",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "WORKSPACE_DOCUMENT_ROLLBACK_APPROVAL_GATED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

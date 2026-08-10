@@ -14566,6 +14566,112 @@
         "UOC-004",
         "UOC-005"
       ]
+    },
+    {
+      "doc_id": "DEVPL-UOC-005-APPROVAL-APPLY-ROLLBACK-REPORT",
+      "path": "docs/audits/uoc_005_approval_apply_rollback_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-005",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_execution_service.py",
+        "tests/test_api_workspace_edit_execution.py",
+        "tests/test_web_ui_workspace_edit_execution.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-005",
+        "UOC-006"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "DEVPL-UOC-005-CLOSURE-REPORT",
+      "path": "docs/audits/uoc_005_closure_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-005",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_execution_service.py",
+        "tests/test_api_workspace_edit_execution.py",
+        "tests/test_web_ui_workspace_edit_execution.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-005",
+        "UOC-006"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "UOC-005-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_005_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-005",
+      "status_required": "implemented-initial/pending-windows-browser-closure",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_execution_service.py",
+        "tests/test_api_workspace_edit_execution.py",
+        "tests/test_web_ui_workspace_edit_execution.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-005",
+        "UOC-006"
+      ]
+    },
+    {
+      "doc_id": "UOC-005-WORKSPACE-EDIT-EXECUTION-V1",
+      "path": "docs/schemas/workspace_edit_execution.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-005",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_workspace_edit_execution_service.py",
+        "tests/test_api_workspace_edit_execution.py",
+        "tests/test_web_ui_workspace_edit_execution.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-005",
+        "UOC-006"
+      ]
     }
   ],
   "rules": {
@@ -14640,32 +14746,33 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 633,
-    "source_of_truth_total": 240,
-    "machine_readable_source_total": 293,
+    "documents_total": 637,
+    "source_of_truth_total": 244,
+    "machine_readable_source_total": 297,
     "derived_total": 96,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 372,
+    "critical_sources_total": 394,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 629,
+    "documents_with_required_tests_total": 637,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "UOC-004",
+    "last_updated_by": "UOC-005",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "UOC-003-CLOSURE",
-    "last_registered_sprint": "UOC-003-CLOSURE",
-    "updated": "2026-08-06",
+    "updated_by": "UOC-005",
+    "last_registered_sprint": "UOC-005",
+    "updated": "2026-08-09",
     "documents_checked_total": 605,
-    "documents_registered_total": 629,
-    "uoc_003_registered_documents_total": 10
+    "documents_registered_total": 637,
+    "uoc_003_registered_documents_total": 10,
+    "uoc_005_registered_documents_total": 4
   },
   "safety": {
     "local_first": true,
@@ -16685,6 +16792,6 @@
     "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
-  "updated_at": "2026-08-08",
-  "last_registered_sprint": "UOC-004-CLOSURE"
+  "updated_at": "2026-08-09",
+  "last_registered_sprint": "UOC-005"
 }

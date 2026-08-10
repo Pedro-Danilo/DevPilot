@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-08",
+  "updated": "2026-08-09",
   "routes": [
     {
       "route_id": "ui.approvals",
@@ -269,6 +269,8 @@
         "ui/web/src/components/DocumentEditPlanner.ts"
       ],
       "allowed_api_routes": [
+        "api.approvals.approve",
+        "api.approvals.deny",
         "api.portfolio.status",
         "api.workspace.documents.diff",
         "api.workspace.documents.history",
@@ -277,6 +279,11 @@
         "api.workspace.documents.metadata",
         "api.workspace.documents.read",
         "api.workspace.documents.search",
+        "api.workspace.edit-executions.rollback",
+        "api.workspace.edit-executions.rollback-approval-request",
+        "api.workspace.edit-executions.status",
+        "api.workspace.edit-plans.apply",
+        "api.workspace.edit-plans.approval-request",
         "api.workspace.edit-plans.plan",
         "api.workspace.edit-plans.recheck",
         "api.workspace.edit-plans.status",
@@ -290,7 +297,7 @@
       "local_first_badge_required": true,
       "dry_run_badge_required": true,
       "no_remote_badge_required": true,
-      "shows_mutation_controls": false,
+      "shows_mutation_controls": true,
       "state_contract": {
         "loading": true,
         "empty": true,
@@ -304,7 +311,16 @@
         "edit_plan_ready": true,
         "edit_plan_block": true,
         "edit_plan_stale": true,
-        "edit_plan_expired": true
+        "edit_plan_expired": true,
+        "approval_requested": true,
+        "approval_approved": true,
+        "approval_denied": true,
+        "approval_expired": true,
+        "apply_pass": true,
+        "apply_block": true,
+        "rollback_pending_approval": true,
+        "rollback_pass": true,
+        "rollback_block": true
       },
       "status_visibility": [
         "PASS",
@@ -322,10 +338,18 @@
         "UOC-001 read-only document explorer for the explicitly active registered workspace.",
         "UOC-002 adds parsed frontmatter, SHA-256, typed Git status/history/diff, memory-only full-text search and workspace-scoped document links.",
         "The browser uses opaque document ids; absolute filesystem paths and free-form Git commands are never accepted as authority.",
-        "No write, shell, connector, plugin, remote execution or external API capability is exposed.",
         "UOC-003 exposes deterministic validation jobs and explicit-only traceability in the same read-only document inspection context.",
-        "UOC-004 adds plan-only Markdown/JSON/YAML draft, immutable edit plan, full diff, preview, optimistic-concurrency recheck and non-executed patch export; source write remains disabled."
-      ]
+        "UOC-004 remains plan-only: immutable proposal, full diff, optimistic recheck and non-executed patch export.",
+        "UOC-005 adds only approval-bound atomic document apply and bounded rollback; no arbitrary shell, generic patch.apply, Git stage/commit/push, remote execution, connector write or plugin execution.",
+        "Mutation controls require explicit human approval and exact plan/base/current hashes; UI never supplies an absolute filesystem path as authority."
+      ],
+      "mutation_controls": {
+        "local_state_mutation_only": false,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "UOC-005 exposes only exact approval-bound atomic document apply and bounded rollback over immutable UOC-004 plans. Generic patch.apply/rollback, Git write, shell, remote, connector write and plugin execution remain blocked."
+      }
     }
   ],
   "summary": {
@@ -335,7 +359,7 @@
     "dry_run_badged_routes_total": 6,
     "no_remote_badged_routes_total": 6,
     "mutation_control_routes_total": 2,
-    "allowed_api_routes_unique_total": 37,
+    "allowed_api_routes_unique_total": 42,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -353,14 +377,19 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "UOC-004",
+    "updated_by": "UOC-005",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
-    "source_write_enabled": false,
+    "source_write_enabled": true,
     "runtime_evidence_only": true,
     "uoc_004_governed_edit_planning": true,
-    "uoc_004_source_write_enabled": false
+    "uoc_004_source_write_enabled": false,
+    "source_write_mode": "approval-gated-atomic-document-only",
+    "uoc_005_approval_apply_rollback": true,
+    "uoc_005_api_routes_total": 5,
+    "uoc_005_source_write_routes_total": 2,
+    "uoc_005_generic_patch_apply_enabled": false
   },
   "safety": {
     "local_first": true,

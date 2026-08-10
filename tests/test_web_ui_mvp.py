@@ -20,7 +20,13 @@ def test_web_ui_package_and_entrypoints_exist() -> None:
     assert package["name"] == "devpilot-local-web-ui"
     assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
     assert package["devpilot"]["apiOnly"] is True
-    assert package["devpilot"].get("dryRunOnly") is True
+    if package["devpilot"].get("uoc005ApprovalBinding"):
+        assert package["devpilot"].get("dryRunOnly") is False
+        assert package["devpilot"].get("documentWriteMode") == "approval-gated-atomic-uoc005"
+        assert package["devpilot"].get("genericPatchApplyEnabled") is False
+        assert package["devpilot"].get("genericRollbackEnabled") is False
+    else:
+        assert package["devpilot"].get("dryRunOnly") is True
     assert package["scripts"]["test"] == "node scripts/smoke-test.mjs"
 
     for path in [
@@ -65,7 +71,13 @@ def _assert_web_ui_smoke_contract_without_node() -> None:
 
     assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
     assert package["devpilot"]["apiOnly"] is True
-    assert package["devpilot"].get("dryRunOnly") is True
+    if package["devpilot"].get("uoc005ApprovalBinding"):
+        assert package["devpilot"].get("dryRunOnly") is False
+        assert package["devpilot"].get("documentWriteMode") == "approval-gated-atomic-uoc005"
+        assert package["devpilot"].get("genericPatchApplyEnabled") is False
+        assert package["devpilot"].get("genericRollbackEnabled") is False
+    else:
+        assert package["devpilot"].get("dryRunOnly") is True
     assert package["scripts"]["test"] == "node scripts/smoke-test.mjs"
 
     for source in sources:

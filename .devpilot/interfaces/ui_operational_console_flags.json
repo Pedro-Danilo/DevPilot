@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.4.0",
-  "updated": "2026-08-08",
+  "version": "1.5.0",
+  "updated": "2026-08-09",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
@@ -42,9 +42,11 @@
     },
     {
       "flag_id": "uoc.documents.apply_rollback",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-005",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-005",
+      "notes": "Approval-bound atomic apply and bounded rollback for immutable UOC-004 document plans. Separate approval required for manual rollback; generic patch.apply and generic rollback remain disabled."
     },
     {
       "flag_id": "uoc.git.governed_operations",
@@ -81,8 +83,9 @@
     {
       "switch_id": "uoc.global_mutations_disabled",
       "state": "engaged",
-      "scope": "all-mutating-capabilities",
-      "owner": "PolicyEngine"
+      "scope": "all-unregistered-or-unapproved-mutating-capabilities",
+      "owner": "PolicyEngine",
+      "notes": "Engaged for all mutation except explicitly registered PolicyEngine actions. UOC-005 document apply/rollback require exact human approval and hash binding."
     },
     {
       "switch_id": "uoc.arbitrary_shell_disabled",
@@ -125,7 +128,7 @@
     "external_api_required": false,
     "source_mutations_performed": false,
     "workspace_documents_read_only_enabled": true,
-    "document_write_enabled": false,
+    "document_write_enabled": true,
     "workspace_document_inspection_read_only_enabled": true,
     "typed_git_read_only_enabled": true,
     "document_search_persistence": "memory-only",
@@ -134,6 +137,13 @@
     "workspace_validation_runtime_evidence_only": true,
     "workspace_validation_job_mode": "synchronous-preliminary",
     "uoc_004_apply_enabled": false,
-    "uoc_004_draft_storage": "sessionStorage-manual-only"
+    "uoc_004_draft_storage": "sessionStorage-manual-only",
+    "document_write_mode": "approval-gated-atomic-uoc005",
+    "uoc_005_apply_enabled": true,
+    "uoc_005_rollback_enabled": true,
+    "uoc_005_manual_rollback_requires_separate_approval": true,
+    "uoc_005_automatic_rollback_is_compensating_transaction": true,
+    "generic_patch_apply_enabled": false,
+    "generic_rollback_enabled": false
   }
 }

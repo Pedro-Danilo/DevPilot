@@ -114,6 +114,11 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/edit-plans/plan"): ApiRoutePolicy("workspace.edits.plan", "read", "protected-workspace-edit-plan"),
     ("GET", "/api/v1/workspace/edit-plans/{plan_id}"): ApiRoutePolicy("workspace.edits.status", "read", "protected-workspace-edit-plan-read"),
     ("POST", "/api/v1/workspace/edit-plans/{plan_id}/recheck"): ApiRoutePolicy("workspace.edits.recheck", "read", "protected-workspace-edit-plan-recheck"),
+    ("POST", "/api/v1/workspace/edit-plans/{plan_id}/approval-request"): ApiRoutePolicy("workspace.edits.approval_request", "read", "protected-governed-approval-request"),
+    ("POST", "/api/v1/workspace/edit-plans/{plan_id}/apply"): ApiRoutePolicy("workspace.edits.apply", "read", "protected-governed-document-mutation"),
+    ("GET", "/api/v1/workspace/edit-executions/{execution_id}"): ApiRoutePolicy("workspace.edits.execution_status", "read", "protected-governed-document-execution-read"),
+    ("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request"): ApiRoutePolicy("workspace.edits.rollback_approval_request", "read", "protected-governed-approval-request"),
+    ("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback"): ApiRoutePolicy("workspace.edits.rollback", "read", "protected-governed-document-mutation"),
     ("GET", "/api/v1/application/contract"): ApiRoutePolicy("app.contract", "read", "protected-read"),
     ("GET", "/api/v1/miasi/status"): ApiRoutePolicy("miasi.validate", "read", "protected-read"),
     ("GET", "/api/v1/standards/status"): ApiRoutePolicy("standards.status", "read", "protected-read"),
@@ -392,6 +397,8 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
     if method.upper() == "GET":
         if path.startswith("/api/v1/workspace/edit-plans/") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/edit-plans/{plan_id}"))
+        if path.startswith("/api/v1/workspace/edit-executions/") and path.count("/") == 5:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/edit-executions/{execution_id}"))
         if path.startswith("/api/v1/workspace/validations/") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/validations/{job_id}"))
         if path.startswith("/api/v1/workspace/documents/"):
@@ -415,6 +422,16 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/traces/{trace_id}"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/edit-plans/") and path.endswith("/recheck") and path.count("/") == 6:
         return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-plans/{plan_id}/recheck"))
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/edit-plans/") and path.count("/") == 6:
+        if path.endswith("/approval-request"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-plans/{plan_id}/approval-request"))
+        if path.endswith("/apply"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-plans/{plan_id}/apply"))
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/edit-executions/") and path.count("/") == 6:
+        if path.endswith("/rollback-approval-request"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request"))
+        if path.endswith("/rollback"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback"))
     if method.upper() == "POST" and path.startswith("/api/v1/approvals/"):
         if path.endswith("/approve") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/approvals/{approval_id}/approve"))

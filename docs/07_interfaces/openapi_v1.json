@@ -90,17 +90,25 @@
     "visual_product_mvp_release": true,
     "web_real_evolution_planned": true,
     "post_h_031_b_operator_health_route": true,
-    "updated_by": "UOC-001",
+    "updated_by": "UOC-005",
     "workspace_documents_read_only": true,
     "workspace_document_api_routes_total": 3,
     "workspace_documents_opaque_ids": true,
-    "workspace_documents_write_enabled": false,
+    "workspace_documents_write_enabled": true,
     "uoc_003": true,
     "workspace_validation_traceability_routes": 4,
-    "source_write_enabled": false,
+    "source_write_enabled": true,
     "runtime_evidence_only": true,
     "preliminary_synchronous_jobs": true,
-    "uoc004": "implemented-initial-plan-only"
+    "uoc004": "closed/PASS-plan-only",
+    "uoc005": "implemented-initial/pending-windows-browser-closure",
+    "workspace_document_read_routes_total": 7,
+    "workspace_edit_plan_routes_total": 3,
+    "workspace_edit_execution_routes_total": 5,
+    "source_write_mode": "approval-gated-atomic-uoc005",
+    "generic_patch_apply_enabled": false,
+    "generic_rollback_enabled": false,
+    "workspace_documents_write_mode": "approval-gated-atomic-uoc005"
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -5122,6 +5130,575 @@
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true,
         "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine; local-only plan/read operations."
+      }
+    },
+    "/api/v1/workspace/edit-plans/{plan_id}/approval-request": {
+      "post": {
+        "summary": "Request exact human approval for immutable workspace edit plan",
+        "operationId": "workspaceEditApplyApprovalRequest",
+        "tags": [
+          "Workspace edit execution"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC005-EDIT-APPLY-APPROVAL",
+        "x-devpilot-operation": "workspace.edits.approval_request",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_apply_approval_request",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "approval_store_write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + request-specific PolicyEngine/StrongApprovalBinding; UOC-005 exact bounded workspace-document mutation only. Approval request writes only local approval state; source remains unchanged.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.edits.approval_request",
+                "payload": {
+                  "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "actor": "local-owner",
+                  "reason": "Reviewed exact immutable plan and diff.",
+                  "ttl_minutes": 15
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/edit-plans/{plan_id}/apply": {
+      "post": {
+        "summary": "Apply one exact approved workspace document plan atomically",
+        "operationId": "workspaceEditApply",
+        "tags": [
+          "Workspace edit execution"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC005-EDIT-APPLY",
+        "x-devpilot-operation": "workspace.edits.apply",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_apply",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "approval_gated_atomic_source_write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + request-specific PolicyEngine/StrongApprovalBinding; UOC-005 exact bounded workspace-document mutation only. Requires exact immutable plan/hash/base recheck, verified external control backup and post-validation. Generic patch.apply remains blocked.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.edits.apply",
+                "payload": {
+                  "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "approval_id": "apr_example",
+                  "actor": "local-owner"
+                },
+                "client": "web-ui",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": true,
+        "x-devpilot-atomic-write": true
+      }
+    },
+    "/api/v1/workspace/edit-executions/{execution_id}": {
+      "get": {
+        "summary": "Read UOC-005 workspace edit execution evidence",
+        "operationId": "workspaceEditExecutionStatus",
+        "tags": [
+          "Workspace edit execution"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC005-EDIT-EXECUTION-STATUS",
+        "x-devpilot-operation": "workspace.edits.execution_status",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_execution_status",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + request-specific PolicyEngine/StrongApprovalBinding; UOC-005 exact bounded workspace-document mutation only. Read-only opaque execution status; backup paths are exposed as safe control-root-relative references only.",
+        "parameters": [
+          {
+            "name": "execution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^uedit_[0-9a-f]{32}$"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request": {
+      "post": {
+        "summary": "Request separate approval for bounded pre-commit rollback",
+        "operationId": "workspaceEditRollbackApprovalRequest",
+        "tags": [
+          "Workspace edit execution"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC005-EDIT-ROLLBACK-APPROVAL",
+        "x-devpilot-operation": "workspace.edits.rollback_approval_request",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_rollback_approval_request",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "approval_store_write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + request-specific PolicyEngine/StrongApprovalBinding; UOC-005 exact bounded workspace-document mutation only. Creates a second exact approval binding; source remains unchanged.",
+        "parameters": [
+          {
+            "name": "execution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^uedit_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.edits.rollback_approval_request",
+                "payload": {
+                  "actor": "local-owner",
+                  "reason": "Reviewed exact pre-commit rollback scope.",
+                  "ttl_minutes": 15
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/edit-executions/{execution_id}/rollback": {
+      "post": {
+        "summary": "Restore exact verified UOC-005 backup before Git stage or commit",
+        "operationId": "workspaceEditRollback",
+        "tags": [
+          "Workspace edit execution"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC005-EDIT-ROLLBACK",
+        "x-devpilot-operation": "workspace.edits.rollback",
+        "x-devpilot-domain-service": "ApplicationService.workspace_edit_rollback",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "approval_gated_atomic_source_restore",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + request-specific PolicyEngine/StrongApprovalBinding; UOC-005 exact bounded workspace-document mutation only. Requires exact execution/post hash, separate approval, verified backup and Git unstaged eligibility. Generic rollback remains blocked.",
+        "parameters": [
+          {
+            "name": "execution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^uedit_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "workspace.edits.rollback",
+                "payload": {
+                  "approval_id": "apr_example",
+                  "actor": "local-owner"
+                },
+                "client": "web-ui",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": true,
+        "x-devpilot-atomic-write": true
       }
     }
   },

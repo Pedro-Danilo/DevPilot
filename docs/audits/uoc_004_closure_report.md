@@ -4,7 +4,8 @@ title: "UOC-004 Closure Report"
 status: "approved"
 version: "1.0.0"
 owner: "Ordóñez"
-updated: "2026-08-08"
+updated: "2026-08-09"
+approval: "approved_by_owner"
 ---
 
 # UOC-004 closure report

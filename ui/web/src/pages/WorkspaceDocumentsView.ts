@@ -85,7 +85,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
   };
   let listRequestSequence = 0;
   let documentRequestSequence = 0;
-  const editPlanner = createDocumentEditPlanner({ tokenProvider });
+  const editPlanner = createDocumentEditPlanner({ tokenProvider, onMutationComplete: async () => { if (state.selectedId) await loadDocument(state.selectedId, false); } });
   const validationPanel = createDocumentValidationPanel({
     tokenProvider,
     onNavigate: async (navigation, origin) => {

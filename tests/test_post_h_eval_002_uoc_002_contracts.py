@@ -28,12 +28,16 @@ def test_uoc_002_state_backlog_manifest_and_flags_are_synchronized() -> None:
         assert "UOC-002-closed/PASS" in backlog
         assert state["uoc_002_authoritative_baseline"] == "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
         expected_current = (
-            "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
-            if state.get("uoc_004_closed")
+            "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
+            if state.get("uoc_005_closed")
             else (
-                "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
-                if state.get("uoc_003_closed")
-                else "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+                "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
+                if state.get("uoc_004_closed")
+                else (
+                    "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"
+                    if state.get("uoc_003_closed")
+                    else "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
+                )
             )
         )
         assert state["current_repo"] == expected_current
@@ -79,7 +83,13 @@ def test_uoc_002_api_and_ui_route_contracts_are_read_only_and_complete() -> None
     ui_route = next(x for x in ui["routes"] if x["route_id"] == "ui.workspace-documents")
     assert route_ids <= set(ui_route["allowed_api_routes"])
     assert "ui/web/src/components/DocumentInspectionPanel.ts" in ui_route["source_files"]
-    assert ui_route["shows_mutation_controls"] is False
+    state = _json(".devpilot/project_state.json")
+    if state.get("uoc_005_status"):
+        assert ui_route["shows_mutation_controls"] is True
+        assert ui_route["mutation_controls"]["approval_required"] is True
+        assert ui_route["mutation_controls"]["destructive_action_allowed"] is False
+    else:
+        assert ui_route["shows_mutation_controls"] is False
 
 
 def test_uoc_002_schemas_are_registered_and_validate_minimal_payloads() -> None:

@@ -2,17 +2,17 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.8.0"
+version: "1.10.0"
 owner: "Ordóñez"
-updated: "2026-08-08"
+updated: "2026-08-09"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-003-closed/PASS"
-current_sprint: "UOC-004"
-next_sprint: "UOC-004"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003"
+implementation_status: "UOC-004-closed/PASS; UOC-005-implemented-initial/pending-Windows-browser-closure"
+current_sprint: "UOC-005"
+next_sprint: "UOC-006"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -33,6 +33,11 @@ uoc_001_accepted_source_commit: "e9fe717eb8eafaca40830c691a7efb7bb956b035"
 uoc_002_base_commit: "9cb67b023c6ac909a2b492370632a3955a454e39"
 uoc_002_implementation_status: "closed/PASS"
 uoc_003_base_commit: "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913"
+uoc_004_closure_commit: "12334ffa5ea181f7d72fd66e55fb383baed2195f"
+uoc_004_status: "closed/PASS"
+uoc_005_base_commit: "12334ffa5ea181f7d72fd66e55fb383baed2195f"
+uoc_005_implementation_status: "implemented-initial/apply-backend-PASS-ui-state-recovery-pending-rollback-browser-closure"
+uoc_006_authorized: false
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
 uoc_004_browser_export_feedback_status: "implemented-initial-v1.0.2/pending-browser-closure"
@@ -589,6 +594,10 @@ immutable plan
 - zero writes outside workspace;
 - S0=0, S1=0.
 
+### Reconciliación de regresión UOC-005
+
+Para el cierre UOC-005, después de cuatro corridas Windows costosas, la estrategia autoritativa es evidence-reuse selectivo: preservar evidencia PASS no invalidada, ejecutar Test Impact sobre el source contract vigente, ejecutar el historical-freeze sweep de registries globales y registrar una decisión explícita `HistoricalRegressionGuard` (`full` o `waiver`). Un waiver no permite omitir tests impactados ni browser acceptance; solo evita repetir contratos históricos no afectados que ya tienen evidencia PASS compatible. UOC-006 continúa fail-closed hasta el cierre formal.
+
 ---
 
 # 13. Sprint UOC-006 — Git operations gobernadas
@@ -1081,3 +1090,44 @@ El gate de UOC-004 continúa exigiendo patch unified diff, evidencia `NO EJECUTA
 
 UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb764b32d`. La superficie conserva `source_write_enabled=false` y `apply_enabled=false`: el plan, preview, diff y patch exportado son propuestas no ejecutadas. Browser acceptance, zero-write, validadores, integración fast-forward y baseline repo 332 son gates de cierre. UOC-005 queda autorizado exclusivamente para approval/apply/rollback gobernados.
 
+
+
+## UOC-005 — Implementation status (2026-08-09)
+
+Estado: `implemented-initial/pending-Windows-browser-closure` sobre el closure commit UOC-004 `12334ffa5ea181f7d72fd66e55fb383baed2195f`. Se implementa exclusivamente el flujo definido por este backlog: plan UOC-004 inmutable → solicitud de approval → decisión humana → recheck de plan/base/policy → backup externo de control → apply atómico → post-validación → PASS o rollback compensatorio; el rollback manual exige una segunda aprobación y solo existe antes de Git stage/commit.
+
+La mutación queda limitada a los documentos Markdown/JSON/YAML que UOC-004 ya autorizó por ID opaco y hash. `patch.apply` genérico, rollback genérico, shell, Git write, remote execution, connector write y plugin execution permanecen bloqueados. Los backups se almacenan fuera del workspace y la API solo expone referencias relativas al control root.
+
+Esta primera versión sigue siendo preliminar: planes process-local, control evidence local y rollback manual exclusivamente pre-commit. UOC-006 permanece NO autorizado hasta cerrar Windows/browser/Git/baseline repo 333 con apply/rollback PASS, negativos de approval/hash/TTL/stale PASS, zero unauthorized writes, S0=0 y S1=0.
+
+El S3 cosmético heredado de `Recargar trazabilidad` queda reconciliado mediante la misma clase visual de acciones vecinas; no se introduce un estilo privilegiado específico para ese botón.
+
+
+### UOC-005 — Reconciliación pre-full v1.0.2 (2026-08-09)
+
+La aceptación pre-full detectó tres drifts acumulativos que no pertenecen al runtime de apply/rollback: un detector de sync roadmap que evaluaba el lado incorrecto del par JSON/Markdown, un frontmatter UOC-004 `approved` sin campo `approval`, y freshness de Local Release Candidate todavía ligada a repo 331 aunque UOC-004 cerró sobre repo 332. Se corrigen sin relajar validators. El source contract UOC-005 se amplía de 58 a 60 paths para incorporar explícitamente `src/devpilot_core/docs_governance/drift.py` y `.devpilot/release/local_release_candidate_criteria.json`. UOC-006 continúa NO autorizado hasta full regression, browser acceptance, Git y baseline repo 333 PASS.
+
+
+## UOC-005 v1.0.5 — historical lifecycle freeze reconciliation
+
+El barrido histórico previo al cierre identificó, además del POST-H-014 y TCR/UOC-000, dos assertions del recovery UOC-002 congeladas en el estado UOC-003. Se actualizan a una semántica lifecycle-aware que reconoce UOC-004/UOC-005 sin debilitar los invariantes de baseline/candidate ni la identidad estable de Documentation Governance. El source contract final de UOC-005 queda en **67 paths**. La estrategia de cierre reutiliza el checkpoint Windows de 625 PASS y reejecuta únicamente el delta correctivo/historical-freeze coverage; cualquier omisión del full regression restante requiere `HistoricalRegressionGuard` waiver temporal, explícito y owner-approved. UOC-006 permanece fail-closed hasta browser, Git y closure final PASS.
+
+
+## UOC-005 v1.0.5 — 01-C documentation registry lifecycle reconciliation
+
+El barrido histórico ampliado detectó que el contrato de startup/security posture de POST-H-EVAL-002-01-C mantenía `last_registered_sprint` congelado hasta UOC-002. Se conserva intacto el snapshot 01-C, pero la assertion global se vuelve lifecycle-aware y reconoce el sprint UOC más avanzado registrado. El contrato UOC-005 queda en **67 paths** y el delta correctivo desde v1.0.4 en **12 paths**. La omisión del reinicio de full regression sigue condicionada a Test Impact sin unmatched, historical-freeze audit sin unresolved, `HistoricalRegressionGuard` owner-approved y browser acceptance completo. UOC-006 permanece fail-closed.
+
+
+### Test Impact v1.0.5 final
+
+Delta desde v1.0.4: 12 paths, 53 contratos matched, 0 unmatched. Contrato UOC-005 acumulativo: 67 paths, 154 contratos matched, 0 unmatched. La ejecución se deduplica por superficie y reutiliza evidencia PASS compatible; no se repiten wrappers históricos que cubren el mismo estado salvo que el delta toque su autoridad.
+
+
+### Evidencia controlada del historical-freeze sweep v1.0.5
+
+Sweep focal: 113/113 PASS. Static freeze audit: 399 archivos de test, 39 candidatos revisados, 0 unresolved. Documentation Governance: PASS, warnings=0, blocking=0. El resultado no se etiqueta como full regression; alimenta el `HistoricalRegressionGuard` junto con el checkpoint Windows de 625 PASS y Test Impact 12/67 sin unmatched.
+
+
+## UOC-005 browser state recovery — revisión 2026-08-09
+
+La evidencia browser v1.0.6 confirmó un apply backend `PASS` con execution record, backup y hashes persistidos, pero detectó pérdida de estado visual al recargar el documento después de la mutación. La revisión v1.0.7 corrige exclusivamente la continuidad UI: preserva la ejecución durante cargas transitorias y permite rehidratar el execution record por ID con verificación documento/hash, sin repetir apply y sin ampliar permisos. UOC-005 continúa abierto hasta demostrar rollback approval-bound, restauración exacta, evidencia browser completa, Git y cierre documental.

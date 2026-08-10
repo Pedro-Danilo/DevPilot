@@ -411,3 +411,46 @@ export interface WorkspaceEditPlanResponseData {
   plan?: WorkspaceEditPlan;
   safety?: Record<string, unknown>;
 }
+
+export interface WorkspaceEditExecutionRecord {
+  schema_id: string;
+  execution_id: string;
+  status: 'applied' | 'rolled-back-manual' | 'rolled-back-automatic' | 'post-validation-blocked' | string;
+  plan_id: string;
+  plan_hash: string;
+  approval_id: string;
+  approval?: WorkspaceEditApprovalRecord;
+  actor: string;
+  workspace_id?: string;
+  relative_path: string;
+  document_id: string;
+  pre_sha256: string;
+  post_sha256: string;
+  proposed_sha256: string;
+  backup_sha256: string;
+  backup_ref?: string;
+  evidence_ref?: string;
+  report_ref?: string;
+  trace_event_types?: string[];
+  duration_ms?: number;
+  applied_at: string;
+  rollback?: Record<string, unknown> | null;
+  source_write: boolean;
+  git_stage: boolean;
+  git_commit: boolean;
+  preliminary: boolean;
+}
+
+export interface WorkspaceEditApprovalRecord {
+  approval_id: string;
+  subject: string;
+  tool_id: string;
+  action: string;
+  status: string;
+  actor: string;
+  reason: string;
+  scope: Record<string, unknown>;
+  expires_at: string;
+  decision_at?: string | null;
+  decided_by?: string | null;
+}

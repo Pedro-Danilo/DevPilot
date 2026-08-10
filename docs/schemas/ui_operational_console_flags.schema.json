@@ -104,6 +104,9 @@
           },
           "owner": {
             "type": "string"
+          },
+          "notes": {
+            "type": "string"
           }
         },
         "additionalProperties": false

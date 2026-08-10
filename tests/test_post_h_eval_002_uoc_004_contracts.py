@@ -27,7 +27,8 @@ def test_uoc004_api_and_ui_registries_are_synchronized():
     ids={x['route_id'] for x in api['routes']}
     expected={'api.workspace.edit-plans.plan','api.workspace.edit-plans.status','api.workspace.edit-plans.recheck'}; assert expected <= ids
     route=next(x for x in ui['routes'] if x['route_id']=='ui.workspace-documents'); assert expected <= set(route['allowed_api_routes']); assert 'ui/web/src/components/DocumentEditPlanner.ts' in route['source_files']
-    flag=next(x for x in flags['feature_flags'] if x['flag_id']=='uoc.documents.edit_plan'); assert flag['enabled'] is True and flag['enabled_by']=='UOC-004'; assert flags['safety']['document_write_enabled'] is False
+    flag=next(x for x in flags['feature_flags'] if x['flag_id']=='uoc.documents.edit_plan'); assert flag['enabled'] is True and flag['enabled_by']=='UOC-004'; assert flags['safety']['uoc_004_apply_enabled'] is False
+    assert flags['safety']['document_write_enabled'] is True and flags['safety']['document_write_mode']=='approval-gated-atomic-uoc005'
 
 def test_uoc004_schema_and_test_contracts_are_registered():
     catalog=j('docs/schemas/schema_catalog.json'); assert any(x['schema_id']=='SCHEMA-DEVPL-WORKSPACE-EDIT-PLAN-V1' for x in catalog['schemas'])
@@ -49,5 +50,7 @@ def test_uoc004_openapi_has_typed_plan_status_recheck_paths():
 def test_uoc004_no_write_controls_are_visible_in_source():
     svc=t('src/devpilot_core/application/workspace_edit_plan_service.py'); ui=t('ui/web/src/components/DocumentEditPlanner.ts')
     assert 'never writes source documents' in svc and 'source_write_enabled' in svc and 'apply_available_in_uoc_004' in svc
-    assert 'sessionStorage.setItem' in ui and 'Exportar .patch (no ejecutado)' in ui and 'NO-GO UOC-004' in ui
+    assert 'sessionStorage.setItem' in ui and 'Exportar .patch (no ejecutado)' in ui
+    assert 'generic patch.apply' in ui.lower() or 'patch.apply' in ui
+    assert 'Aplicar cambio aprobado' in ui
     assert 'localStorage.setItem' not in ui

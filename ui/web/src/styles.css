@@ -943,6 +943,18 @@ button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
 .uoc004-no-go { border-left:4px solid #b54708; background:#fff4ed; color:#7a2e0e; padding:.75rem; font-weight:700; }
 .uoc004-export-feedback { border:1px solid #8bc9a2; border-left:4px solid #15803d; background:#eefbf3; color:#0b4d28; padding:.8rem .9rem; border-radius:.55rem; font-weight:800; line-height:1.45; }
 .uoc004-export-feedback:focus-visible { outline:3px solid #1f5eff; outline-offset:3px; }
-.traceability-refresh-button:not(:disabled) { background:#1f5eff; color:#fff; border-color:#1f5eff; }
-.traceability-refresh-button:not(:disabled):hover { background:#174ecc; border-color:#174ecc; }
 @media (max-width:720px){ .uoc004-plan-summary dl{grid-template-columns:1fr;} .uoc004-actions button{width:100%;} .uoc004-editor{min-height:16rem;} }
+
+/* POST-H-EVAL-002 UOC-005 — approval-bound document apply/rollback and S3 traceability styling reconciliation. */
+.validation-action-button { min-height: 2.6rem; font-weight: 700; }
+.document-validation-panel__controls .validation-action-button { flex: 0 1 auto; }
+.uoc005-governance { display:grid; gap:.85rem; border:1px solid #a9bfdf; border-left:4px solid #1f5eff; border-radius:.7rem; background:#f7faff; padding:1rem; }
+.uoc005-governance h3, .uoc005-governance h4 { margin:0; }
+.uoc005-governance label { display:grid; gap:.35rem; font-weight:700; }
+.uoc005-governance textarea { width:100%; resize:vertical; min-height:5rem; border:1px solid #7186a6; border-radius:.5rem; padding:.65rem; color:#172238; background:#fff; }
+.uoc005-approval-card, .uoc005-execution-card { border:1px solid #ccd8eb; border-radius:.65rem; background:#fff; padding:.85rem; }
+.uoc005-approval-card dl, .uoc005-execution-card dl { display:grid; grid-template-columns:minmax(8rem,auto) 1fr; gap:.4rem .75rem; margin:.5rem 0 0; }
+.uoc005-approval-card dt, .uoc005-execution-card dt { font-weight:800; }
+.uoc005-approval-card code, .uoc005-execution-card code { overflow-wrap:anywhere; white-space:normal; }
+.uoc005-actions { display:flex; gap:.65rem; flex-wrap:wrap; margin-top:.75rem; }
+@media (max-width:720px){ .uoc005-approval-card dl,.uoc005-execution-card dl{grid-template-columns:1fr;} .uoc005-governance > button,.uoc005-actions button{width:100%;} }

@@ -55,7 +55,14 @@ def test_application_contract_is_serializable_and_declares_web_ui_mvp() -> None:
     assert payload["data"]["summary"]["ui_implemented"] is True
     assert payload["data"]["summary"]["web_ui_local_implemented"] is True
     assert payload["data"]["summary"]["web_ui_api_only"] is True
-    assert payload["data"]["summary"]["web_ui_read_only"] is True
+    state = json.loads((ROOT / ".devpilot" / "project_state.json").read_text(encoding="utf-8"))
+    if state.get("uoc_005_status"):
+        assert payload["data"]["summary"]["web_ui_read_only"] is False
+        assert payload["data"]["summary"]["web_ui_source_write_mode"] == "approval-gated-atomic-uoc005"
+        assert payload["data"]["summary"]["web_ui_generic_patch_apply_enabled"] is False
+        assert payload["data"]["summary"]["web_ui_generic_rollback_enabled"] is False
+    else:
+        assert payload["data"]["summary"]["web_ui_read_only"] is True
     assert payload["data"]["summary"]["visual_strategy"] == "web_ui_first"
     assert payload["data"]["summary"]["api_local_planned"] is True
     assert payload["data"]["summary"]["web_ui_local_planned"] is True

@@ -112,19 +112,54 @@ def test_post_h_014_a_every_service_route_is_application_service_and_policy_boun
 def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() -> None:
     payload = read_registry()
     mutating = [route for route in payload["routes"] if route["mutations_allowed"]]
+    mutating_ids = {route["route_id"] for route in mutating}
 
-    assert {route["route_id"] for route in mutating} == {
+    # POST-H-014-A froze the original approval-store exceptions. Later UOC
+    # sprints may add typed local mutations, so this historical contract must
+    # preserve the safety invariant instead of freezing the route inventory.
+    legacy_approval_routes = {
         "api.approvals.request",
         "api.approvals.approve",
         "api.approvals.deny",
     }
+    assert legacy_approval_routes <= mutating_ids
+
+    # Until UOC-006 is explicitly authorized, the only source mutations
+    # allowed through the API are the two narrow UOC-005 document operations.
+    source_mutating = [route for route in mutating if route.get("source_mutation_allowed") is True]
+    assert {route["route_id"] for route in source_mutating} == {
+        "api.workspace.edit-plans.apply",
+        "api.workspace.edit-executions.rollback",
+    }
+
     for route in mutating:
+        assert route["local_only"] is True
         assert route["local_state_mutation_allowed"] is True
         assert route["destructive_action_allowed"] is False
         assert route["auth_required"] is True
         assert route["policy_check_required"] is True
-        assert route["policy_action"] == "approval"
+        assert route["external_api_allowed"] is False
+        assert route["remote_execution_allowed"] is False
+        assert route["connector_write_allowed"] is False
+        assert route["plugin_execution_allowed"] is False
         assert route["mutation_exception_justification"]
+
+    routes = {route["route_id"]: route for route in mutating}
+    for route_id in legacy_approval_routes:
+        assert routes[route_id]["policy_action"] == "approval"
+
+    validation_execute = routes["api.workspace.validations.execute"]
+    assert validation_execute.get("source_mutation_allowed") is not True
+    assert "runtime-evidence" in validation_execute["tags"]
+
+    for route in source_mutating:
+        assert route["risk_level"] == "high"
+        assert "uoc-005" in route["tags"]
+        assert str(route["policy_sensitivity"]).startswith("approval-bound-")
+        # The API front-door uses a non-mutating policy precheck; exact human
+        # approval is revalidated by the UOC-005 ApplicationService immediately
+        # before the source mutation.
+        assert route["policy_action"] == "read"
 
 
 def test_post_h_014_a_docs_contracts_and_backlog_are_synchronized() -> None:

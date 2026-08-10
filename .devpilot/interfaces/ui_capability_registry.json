@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-capability-registry",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "updated": "2026-08-09",
   "source_commits": {
     "canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
@@ -10818,7 +10818,7 @@
     "classification_complete": true,
     "ui_routes_total": 6,
     "ui_routes_mapped_total": 6,
-    "api_routes_total": 50,
+    "api_routes_total": 58,
     "risk_class_counts": {
       "forbidden": 5,
       "mutating": 124,
@@ -10848,35 +10848,45 @@
     "uoc_002_typed_git_read_only": true,
     "uoc_002_memory_only_search": true,
     "uoc_002_document_links": true,
-    "updated_by": "UOC-004",
+    "updated_by": "UOC-005",
     "uoc_003_validation_capabilities_total": 6,
     "uoc_003_residual_cli_bridge_inventory_required": true,
     "uoc_003_jobs_mode": "synchronous-preliminary",
     "uoc_003_closed": true,
     "uoc_004_edit_planning_capabilities_total": 3,
-    "uoc_004_source_write_enabled": false
+    "uoc_004_source_write_enabled": false,
+    "uoc_005_approval_apply_rollback_available": true,
+    "uoc_005_source_write_routes_total": 2,
+    "uoc_005_generic_patch_apply_enabled": false,
+    "uoc_005_generic_rollback_enabled": false,
+    "uoc_005_preliminary": true
   },
   "safety": {
     "local_first": true,
     "metadata_only": false,
     "new_ui_routes_added": 1,
-    "runtime_execution_enabled": false,
+    "runtime_execution_enabled": true,
     "arbitrary_shell_allowed": false,
     "remote_execution_enabled": false,
     "connector_write_enabled": false,
     "plugin_execution_enabled": false,
     "external_api_required": false,
-    "source_mutations_runtime": false,
+    "source_mutations_runtime": true,
     "workspace_documents_read_only_enabled": true,
-    "document_write_enabled": false,
+    "document_write_enabled": true,
     "workspace_validation_source_write_enabled": false,
-    "workspace_validation_runtime_evidence_only": true
+    "workspace_validation_runtime_evidence_only": true,
+    "document_write_mode": "approval-gated-atomic-uoc005",
+    "generic_patch_apply_enabled": false,
+    "generic_rollback_enabled": false
   },
   "notes": [
     "UOC-000 freezes architecture and classification only; no runtime route or executor is added.",
     "A capability classified as CLI-BRIDGE-REGISTERED is not authorized for UI subprocess execution.",
     "Future sprints must update this registry atomically with API/UI route contracts and Test Impact evidence.",
     "UOC-003 changes six deterministic validation/checklist capabilities to UI-READ-ONLY through one typed facade; remaining UOC-003-tagged CLI bridges stay inventoried.",
-    "UOC-004 UI-native plan capability is metadata on ui.workspace-documents; CLI command inventory remains truthful and unchanged until UOC-007 parity work."
+    "UOC-004 UI-native plan capability is metadata on ui.workspace-documents; CLI command inventory remains truthful and unchanged until UOC-007 parity work.",
+    "UOC-004 remains non-mutating. UOC-005 is the first narrow source-write exception: Markdown/JSON/YAML document apply/rollback bound to exact approval, plan hash, base hash, scope, actor and TTL.",
+    "Generic patch.apply, generic rollback, arbitrary shell, Git write, remote execution, connector write and plugin execution remain policy-blocked."
   ]
 }

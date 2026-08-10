@@ -424,7 +424,19 @@ class UiApiRcSmokeRunner:
         package = json.loads(package_path.read_text(encoding="utf-8")) if package_path.exists() else {}
         source_bundle = combined + "\n" + smoke
 
-        package_ok = package.get("scripts", {}).get("test") == "node scripts/smoke-test.mjs" and package.get("devpilot", {}).get("apiOnly") is True and package.get("devpilot", {}).get("dryRunOnly") is True
+        devpilot = package.get("devpilot", {}) if isinstance(package, dict) else {}
+        uoc005_active = bool(devpilot.get("uoc005ApprovalBinding"))
+        expected_dry_run_only = False if uoc005_active else True
+        package_ok = (
+            package.get("scripts", {}).get("test") == "node scripts/smoke-test.mjs"
+            and devpilot.get("apiOnly") is True
+            and devpilot.get("dryRunOnly") is expected_dry_run_only
+            and (not uoc005_active or (
+                devpilot.get("documentWriteMode") == "approval-gated-atomic-uoc005"
+                and devpilot.get("genericPatchApplyEnabled") is False
+                and devpilot.get("genericRollbackEnabled") is False
+            ))
+        )
         self._record(checks, "ui-package-local-smoke-script", package_ok, "Web UI exposes deterministic local npm smoke script.", category="ui", critical=True)
         if not package_ok:
             findings.append(Finding("UI_API_RC_UI_PACKAGE_SMOKE_BLOCK", "Web UI package metadata does not expose the local smoke script/API-only flags.", Severity.BLOCK, path="ui/web/package.json"))

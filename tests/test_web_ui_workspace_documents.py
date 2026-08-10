@@ -24,7 +24,13 @@ def test_workspace_documents_route_and_components_are_registered() -> None:
 
     route = next(item for item in registry["routes"] if item["route_id"] == "ui.workspace-documents")
     assert route["path"] == "/workspace/documents"
-    assert route["shows_mutation_controls"] is False
+    state = _json(".devpilot/project_state.json")
+    if state.get("uoc_005_status"):
+        assert route["shows_mutation_controls"] is True
+        assert route["mutation_controls"]["approval_required"] is True
+        assert route["mutation_controls"]["destructive_action_allowed"] is False
+    else:
+        assert route["shows_mutation_controls"] is False
     assert route["remote_execution_allowed"] is False
     assert "api.workspace.documents.list" in route["allowed_api_routes"]
     assert "api.workspace.documents.read" in route["allowed_api_routes"]
@@ -55,7 +61,11 @@ def test_workspace_documents_ui_has_required_states_and_responsive_contract() ->
     assert "grid-template-columns: repeat(2, minmax(0, 1fr))" in styles
     assert "min-height: 44px" in styles
     assert package["devpilot"]["workspaceDocuments"] is True
-    assert package["devpilot"]["workspaceDocumentsReadOnly"] is True
+    if package["devpilot"].get("uoc005ApprovalBinding"):
+        assert package["devpilot"]["workspaceDocumentsReadOnly"] is False
+        assert package["devpilot"]["documentWriteMode"] == "approval-gated-atomic-uoc005"
+    else:
+        assert package["devpilot"]["workspaceDocumentsReadOnly"] is True
     assert package["devpilot"]["workspaceDocumentsOpaqueIds"] is True
     assert package["devpilot"]["workspaceDocumentsSymlinkFollowing"] is False
     assert "Content-Security-Policy" in index

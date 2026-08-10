@@ -6265,3 +6265,9 @@ Source commit: `f8d53e4be53847c955f17192e588052dca3d9cc8`. Windows focused tests
 
 UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb764b32d`. La superficie conserva `source_write_enabled=false` y `apply_enabled=false`: el plan, preview, diff y patch exportado son propuestas no ejecutadas. Browser acceptance, zero-write, validadores, integración fast-forward y baseline repo 332 son gates de cierre. UOC-005 queda autorizado exclusivamente para approval/apply/rollback gobernados.
 
+
+## POST-H-EVAL-002 UOC-005 — approval-bound apply y rollback (implemented-initial)
+
+Sobre el baseline autoritativo repo 332, `/workspace/documents` incorpora el primer flujo de escritura documental gobernada: approval exacto ligado al plan/hash/blob base/actor/scope/TTL, backup externo de control, apply atómico, post-validación y rollback compensatorio. El rollback manual exige una segunda aprobación y falla cerrado después de Git stage/commit o de cualquier drift del blob post-apply.
+
+La capacidad permanece estrecha y preliminar: solo Markdown/JSON/YAML autorizados por UOC-004; `patch.apply` genérico, rollback genérico, shell, Git write, remote execution, connector write y plugin execution siguen bloqueados. UOC-006 no se autoriza hasta el cierre Windows/browser/Git y baseline repo 333. El botón `Recargar trazabilidad` comparte el styling de las acciones vecinas.

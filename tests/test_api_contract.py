@@ -85,7 +85,13 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 assert "requestBody" in operation, path
                 example = operation["requestBody"]["content"]["application/json"]["example"]
                 assert example["operation"] == operation["x-devpilot-operation"]
-                assert example["dry_run"] is True
+                source_mutation_ids = {"API-UOC005-EDIT-APPLY", "API-UOC005-EDIT-ROLLBACK"}
+                if operation["x-devpilot-api-id"] in source_mutation_ids:
+                    assert example["dry_run"] is False
+                    assert operation["x-devpilot-approval-required"] is True
+                    assert operation["x-devpilot-atomic-write"] is True
+                else:
+                    assert example["dry_run"] is True
             else:
                 assert "requestBody" not in operation
 

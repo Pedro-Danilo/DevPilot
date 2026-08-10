@@ -88,4 +88,18 @@ def test_01_c_governance_docs_are_synchronized() -> None:
     registry = _json(".devpilot/docs_governance/source_registry.json")
     snapshot = registry["project_state_snapshot"]
     assert snapshot["post_h_eval_002_01_c_evidence_package_sha256"] == "c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5"
-    assert registry["last_registered_sprint"] in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327", "UOC-001", "UOC-002"}
+    # The 01-C snapshot remains frozen, but the global documentation registry
+    # legitimately advances as later UOC sprints close. Derive the accepted
+    # lifecycle state instead of freezing this historical contract at UOC-002.
+    state = _json(".devpilot/project_state.json")
+    lifecycle = [
+        (state.get("uoc_005_status"), {"UOC-005", "UOC-005-CLOSURE"}),
+        (state.get("uoc_004_status"), {"UOC-004", "UOC-004-IMPLEMENTATION", "UOC-004-CLOSURE"}),
+        (state.get("uoc_003_status"), {"UOC-003", "UOC-003-CLOSURE"}),
+        (state.get("uoc_002_status"), {"UOC-002", "UOC-002-REGRESSION-RECOVERY", "UOC-002-CLOSURE"}),
+    ]
+    expected = next((allowed for marker, allowed in lifecycle if marker), None)
+    if expected is not None:
+        assert registry["last_registered_sprint"] in expected
+    else:
+        assert registry["last_registered_sprint"] in {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327", "UOC-001"}

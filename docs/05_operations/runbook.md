@@ -11795,3 +11795,11 @@ La evidencia browser debe comprobar por separado: mensaje visible, archivo `.pat
 
 UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb764b32d`. La superficie conserva `source_write_enabled=false` y `apply_enabled=false`: el plan, preview, diff y patch exportado son propuestas no ejecutadas. Browser acceptance, zero-write, validadores, integración fast-forward y baseline repo 332 son gates de cierre. UOC-005 queda autorizado exclusivamente para approval/apply/rollback gobernados.
 
+
+## UOC-005 — Approval binding, atomic apply y rollback
+
+UOC-005 parte exclusivamente del cierre UOC-004 repo 332. La operación normal exige revisar primero el plan/diff inmutable de UOC-004, solicitar approval con reason y TTL, aprobar o denegar explícitamente como actor humano y volver a validar plan/base/policy justo antes de escribir. Apply crea backup byte-exact en un control root externo al workspace, escribe por temporal + replace atómico, conserva permisos y ejecuta post-validación. Un bloqueo post-validación dispara rollback compensatorio automático al blob base.
+
+El rollback manual es una operación distinta y exige una segunda aprobación. Está permitido únicamente mientras el documento conserve el SHA post-apply y Git lo reporte como modificación unstaged; stage/commit/drift bloquean. Las operaciones Git pertenecen a UOC-006.
+
+La versión UOC-005 inicial no habilita generic patch apply, generic rollback, shell, remote execution, connector write ni plugin execution. Los planes continúan process-local; job persistence/reconciliation industrial quedan para UOC-007/UOC-008. La guía operativa específica del sprint es la única fuente de comandos de implementación y evidencia Windows.

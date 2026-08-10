@@ -37,7 +37,14 @@ function assert(condition, message) {
 
 assert(packageJson.devpilot.sprint === 'FUNC-SPRINT-73', 'package.json debe declarar FUNC-SPRINT-73');
 assert(packageJson.devpilot.apiOnly === true, 'La UI debe ser API-only');
-assert(packageJson.devpilot.dryRunOnly === true, 'La UI debe declarar dry-run only');
+const uoc005Active = packageJson.devpilot.uoc005ApprovalBinding === true;
+assert(packageJson.devpilot.dryRunOnly === (uoc005Active ? false : true), 'dryRunOnly debe reflejar la frontera UOC-005');
+if (uoc005Active) {
+  assert(packageJson.devpilot.documentWriteMode === 'approval-gated-atomic-uoc005', 'UOC-005 debe declarar documentWriteMode gobernado');
+  assert(packageJson.devpilot.genericPatchApplyEnabled === false, 'patch.apply genérico debe permanecer bloqueado');
+  assert(packageJson.devpilot.genericRollbackEnabled === false, 'rollback genérico debe permanecer bloqueado');
+  assert(packageJson.devpilot.uoc005AtomicDocumentApply === true && packageJson.devpilot.uoc005BoundedDocumentRollback === true, 'UOC-005 debe declarar apply/rollback acotados');
+}
 assert(packageJson.devpilot.phaseFClosed === true, 'La UI debe declarar cierre Fase F');
 assert(packageJson.devpilot.desktopDeferred === true, 'La UI debe declarar Desktop diferido');
 assert(packageJson.devpilot.webRealEvolutionPlanned === true, 'La UI debe declarar evolución Web real');
@@ -83,6 +90,15 @@ for (const source of filesToScan) {
 
 for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan', '/workspace/documents', '/workspace/validations/plan', '/workspace/validations/execute', '/workspace/traceability']) {
   assert(client.includes(expectedPath), `El cliente API debe consumir ${expectedPath}`);
+}
+if (uoc005Active) {
+  for (const marker of ['/approval-request', '/apply', '/workspace/edit-executions/', '/rollback-approval-request', '/rollback']) {
+    assert(client.includes(marker), `UOC-005 debe exponer cliente tipado ${marker}`);
+  }
+  const workspaceRoute = uiContractRegistry.routes.find((route) => route.route_id === 'ui.workspace-documents');
+  assert(workspaceRoute?.shows_mutation_controls === true, 'UOC-005 debe registrar mutation controls en Workspace Documents');
+  assert(workspaceRoute?.mutation_controls?.approval_required === true, 'UOC-005 debe exigir approval en UI route contract');
+  assert(workspaceRoute?.mutation_controls?.destructive_action_allowed === false, 'UOC-005 no debe habilitar acción destructiva libre');
 }
 
 assert(client.includes('X-DevPilot-Token'), 'El cliente debe enviar token local por header');

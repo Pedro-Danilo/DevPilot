@@ -36,7 +36,7 @@ def test_web_smoke_knows_sprint71_contract() -> None:
     assert "FUNC-SPRINT-73" in smoke
     assert '"sprint": "FUNC-SPRINT-73"' in package_json
     assert '"approvalCenter": true' in package_json
-    assert '"dryRunOnly": true' in package_json
+    assert '"dryRunOnly": false' in package_json if '"uoc005ApprovalBinding": true' in package_json else '"dryRunOnly": true' in package_json
 
 
 def test_browser_acceptance_corrective_325_exposes_dry_run_state_and_approval_detail() -> None:

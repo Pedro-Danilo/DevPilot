@@ -344,14 +344,22 @@ class UiVisualSmokeReporter:
         hits = [marker for marker in forbidden if marker in combined]
         devpilot = package.get("devpilot") if isinstance(package, dict) else {}
         flag_violations = []
+        uoc005_active = bool(devpilot.get("uoc005ApprovalBinding"))
         expected_flags = {
             "apiOnly": True,
-            "dryRunOnly": True,
+            "dryRunOnly": False if uoc005_active else True,
             "externalApiUsed": False,
             "remoteExecutionEnabled": False,
             "connectorWriteEnabled": False,
             "pluginExecutionEnabled": False,
         }
+        if uoc005_active:
+            expected_flags.update({
+                "genericPatchApplyEnabled": False,
+                "genericRollbackEnabled": False,
+            })
+            if devpilot.get("documentWriteMode") != "approval-gated-atomic-uoc005":
+                flag_violations.append("documentWriteMode")
         for key, value in expected_flags.items():
             if devpilot.get(key) is not value:
                 flag_violations.append(key)

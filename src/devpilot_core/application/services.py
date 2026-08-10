@@ -29,6 +29,7 @@ from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
 from .workspace_validation_service import WorkspaceValidationApplicationService
 from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
+from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -69,6 +70,7 @@ class ApplicationService:
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
+        self.workspace_edit_execution = WorkspaceEditExecutionApplicationService(self.root, documents=self.workspace_documents, plans=self.workspace_edit_planning)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)
@@ -894,6 +896,21 @@ class ApplicationService:
     def workspace_edit_plan_recheck(self, *, plan_id: str, plan_hash: str) -> CommandResult:
         return self.workspace_edit_planning.recheck(plan_id=plan_id, plan_hash=plan_hash)
 
+    def workspace_edit_apply_approval_request(self, *, plan_id: str, plan_hash: str, actor: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
+        return self.workspace_edit_execution.request_apply_approval(plan_id=plan_id, plan_hash=plan_hash, actor=actor, reason=reason, ttl_minutes=ttl_minutes)
+
+    def workspace_edit_apply(self, *, plan_id: str, plan_hash: str, approval_id: str, actor: str) -> CommandResult:
+        return self.workspace_edit_execution.apply(plan_id=plan_id, plan_hash=plan_hash, approval_id=approval_id, actor=actor)
+
+    def workspace_edit_execution_status(self, *, execution_id: str) -> CommandResult:
+        return self.workspace_edit_execution.get_execution(execution_id=execution_id)
+
+    def workspace_edit_rollback_approval_request(self, *, execution_id: str, actor: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
+        return self.workspace_edit_execution.request_rollback_approval(execution_id=execution_id, actor=actor, reason=reason, ttl_minutes=ttl_minutes)
+
+    def workspace_edit_rollback(self, *, execution_id: str, approval_id: str, actor: str) -> CommandResult:
+        return self.workspace_edit_execution.rollback(execution_id=execution_id, approval_id=approval_id, actor=actor)
+
     def reports_list(self, *, limit: int = 50, offset: int = 0, severity: str | None = None, status: str | None = None, command: str | None = None, query: str | None = None, scope: str | None = None) -> CommandResult:
         return self.reports.list_reports(limit=limit, offset=offset, severity=severity, status=status, command=command, query=query, scope=scope)
 
@@ -999,7 +1016,10 @@ class ApplicationService:
                 "web_ui_status": "implemented-initial",
                 "web_ui_path": "ui/web",
                 "web_ui_api_only": True,
-                "web_ui_read_only": True,
+                "web_ui_read_only": False,
+                "web_ui_source_write_mode": "approval-gated-atomic-uoc005",
+                "web_ui_generic_patch_apply_enabled": False,
+                "web_ui_generic_rollback_enabled": False,
                 "web_ui_real_future": True,
                 "desktop_deferred": True,
                 "desktop_ready_for_shell": False,
@@ -1011,8 +1031,10 @@ class ApplicationService:
                 "approval_center_implemented": True,
                 "approval_center_status": "implemented-initial",
                 "dry_run_action_launcher_implemented": True,
-                "web_ui_actions_dry_run_only": True,
-                "web_ui_critical_actions_blocked": True,
+                "web_ui_actions_dry_run_only": False,
+                "web_ui_critical_actions_blocked": False,
+                "web_ui_critical_actions_governed": True,
+                "web_ui_unregistered_critical_actions_blocked": True,
                 "settings_ui_implemented": True,
                 "settings_ui_status": "implemented-initial",
                 "settings_ui_read_only": True,
@@ -1124,6 +1146,19 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             plan_id=str(payload.get("plan_id", "")),
             plan_hash=str(payload.get("plan_hash", "")),
         ),
+        "workspace.edits.approval_request": lambda payload: service.workspace_edit_apply_approval_request(
+            plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "")), ttl_minutes=int(payload.get("ttl_minutes", 15))
+        ),
+        "workspace.edits.apply": lambda payload: service.workspace_edit_apply(
+            plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), approval_id=str(payload.get("approval_id", "")), actor=str(payload.get("actor", "local-owner"))
+        ),
+        "workspace.edits.execution_status": lambda payload: service.workspace_edit_execution_status(execution_id=str(payload.get("execution_id", ""))),
+        "workspace.edits.rollback_approval_request": lambda payload: service.workspace_edit_rollback_approval_request(
+            execution_id=str(payload.get("execution_id", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "")), ttl_minutes=int(payload.get("ttl_minutes", 15))
+        ),
+        "workspace.edits.rollback": lambda payload: service.workspace_edit_rollback(
+            execution_id=str(payload.get("execution_id", "")), approval_id=str(payload.get("approval_id", "")), actor=str(payload.get("actor", "local-owner"))
+        ),
         "app.contract": lambda payload: service.application_contract(),
         "standards.status": lambda payload: service.standards_status(),
         "validators.validate_frontmatter": lambda payload: service.validate_frontmatter(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
@@ -1207,6 +1242,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
     return [
         {"domain": "workspace", "service": "WorkspaceApplicationService", "status": "implemented-initial", "side_effects": "read_or_dry_run_plan"},
         {"domain": "workspace-validation", "service": "WorkspaceValidationApplicationService", "status": "implemented-initial", "side_effects": "source_read_only_runtime_trace_report"},
+        {"domain": "workspace-edit-execution", "service": "WorkspaceEditExecutionApplicationService", "status": "implemented-initial-uoc-005", "side_effects": "approval_bound_atomic_document_write_with_precommit_rollback"},
         {"domain": "workspace-documents", "service": "WorkspaceDocumentsApplicationService", "status": "implemented-initial-uoc-001", "side_effects": "bounded_read_only"},
         {"domain": "validation", "service": "ValidationApplicationService", "status": "implemented", "side_effects": "none_or_explicit_report_by_adapter"},
         {"domain": "miasi", "service": "MiasiApplicationService", "status": "implemented", "side_effects": "none"},
@@ -1248,6 +1284,11 @@ def _capabilities() -> list[ServiceCapability]:
         ("workspace.edits.plan", "Create immutable UOC-004 document edit plan, complete diff, preview and risk/policy without source mutation.", "plan_only", True, "POST /api/v1/workspace/edit-plans/plan"),
         ("workspace.edits.status", "Inspect one in-memory immutable UOC-004 edit plan.", "none", True, "GET /api/v1/workspace/edit-plans/{plan_id}"),
         ("workspace.edits.recheck", "Recheck base SHA optimistic concurrency for an immutable UOC-004 edit plan.", "none", True, "POST /api/v1/workspace/edit-plans/{plan_id}/recheck"),
+        ("workspace.edits.approval_request", "Request exact human approval for one immutable UOC-004 plan before UOC-005 apply.", "approval_store_write", False, "POST /api/v1/workspace/edit-plans/{plan_id}/approval-request"),
+        ("workspace.edits.apply", "Apply one approved immutable document plan atomically with backup, recheck and post-validation.", "approval_gated_source_write", False, "POST /api/v1/workspace/edit-plans/{plan_id}/apply"),
+        ("workspace.edits.execution_status", "Inspect one UOC-005 governed document execution record.", "none", True, "GET /api/v1/workspace/edit-executions/{execution_id}"),
+        ("workspace.edits.rollback_approval_request", "Request separate human approval for bounded pre-commit rollback.", "approval_store_write", False, "POST /api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request"),
+        ("workspace.edits.rollback", "Restore the exact pre-apply backup before Git stage/commit after separate approval.", "approval_gated_source_write", False, "POST /api/v1/workspace/edit-executions/{execution_id}/rollback"),
         ("validation.frontmatter", "Validate Markdown frontmatter metadata for one artifact.", "none", True, "python -m devpilot_core validate-frontmatter <path> --json"),
         ("validation.artifact", "Validate Markdown structure against MIPSoftware/MIASI profiles.", "none", True, "python -m devpilot_core validate-artifact <path> --json"),
         ("validation.checklist_pre_code", "Evaluate the executable pre-code checklist gate.", "none", True, "python -m devpilot_core checklist-pre-code --json"),
@@ -1321,6 +1362,11 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-004-A", "POST", "/api/v1/workspace/edit-plans/plan", "workspace.edits.plan", ["UOC-004 immutable source-non-mutating edit plan with complete unified diff and base SHA binding."]),
         ("APP-ROUTE-UOC-004-B", "GET", "/api/v1/workspace/edit-plans/{plan_id}", "workspace.edits.status", ["UOC-004 in-memory immutable plan inspection; no source write."]),
         ("APP-ROUTE-UOC-004-C", "POST", "/api/v1/workspace/edit-plans/{plan_id}/recheck", "workspace.edits.recheck", ["UOC-004 optimistic concurrency recheck against current document SHA."]),
+        ("APP-ROUTE-UOC-005-A", "POST", "/api/v1/workspace/edit-plans/{plan_id}/approval-request", "workspace.edits.approval_request", ["UOC-005 exact approval request bound to immutable plan/hash/base/actor/scope/TTL; local approval state only."]),
+        ("APP-ROUTE-UOC-005-B", "POST", "/api/v1/workspace/edit-plans/{plan_id}/apply", "workspace.edits.apply", ["UOC-005 narrow approval-gated atomic document source write; generic patch.apply remains blocked."]),
+        ("APP-ROUTE-UOC-005-C", "GET", "/api/v1/workspace/edit-executions/{execution_id}", "workspace.edits.execution_status", ["UOC-005 read-only execution/evidence status by opaque execution id."]),
+        ("APP-ROUTE-UOC-005-D", "POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request", "workspace.edits.rollback_approval_request", ["UOC-005 separate approval request for bounded pre-commit rollback; local approval state only."]),
+        ("APP-ROUTE-UOC-005-E", "POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback", "workspace.edits.rollback", ["UOC-005 approval-gated exact backup restore before Git stage/commit; generic rollback remains blocked."]),
         ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),

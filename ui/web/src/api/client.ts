@@ -232,6 +232,26 @@ export class DevPilotApiClient {
     return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/recheck`, { operation: 'workspace.edits.recheck', payload: { plan_hash: planHash }, dry_run: true }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
+  async requestWorkspaceEditApplyApproval(planId: string, payload: { plan_hash: string; actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/approval-request`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async applyWorkspaceEdit(planId: string, payload: { plan_hash: string; approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/apply`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceEditExecutionStatus(executionId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/edit-executions/${encodeURIComponent(executionId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async requestWorkspaceEditRollbackApproval(executionId: string, payload: { actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/edit-executions/${encodeURIComponent(executionId)}/rollback-approval-request`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async rollbackWorkspaceEdit(executionId: string, payload: { approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/edit-executions/${encodeURIComponent(executionId)}/rollback`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' }, policy);
   }

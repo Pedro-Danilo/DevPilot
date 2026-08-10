@@ -58,8 +58,15 @@ def test_sprint_71_application_contract_reports_approval_center() -> None:
     assert result.ok is True
     assert summary["approval_center_implemented"] is True
     assert summary["dry_run_action_launcher_implemented"] is True
-    assert summary["web_ui_actions_dry_run_only"] is True
-    assert summary["web_ui_critical_actions_blocked"] is True
+    state = json.loads((ROOT / ".devpilot" / "project_state.json").read_text(encoding="utf-8"))
+    if state.get("uoc_005_status"):
+        assert summary["web_ui_actions_dry_run_only"] is False
+        assert summary["web_ui_critical_actions_blocked"] is False
+        assert summary["web_ui_critical_actions_governed"] is True
+        assert summary["web_ui_unregistered_critical_actions_blocked"] is True
+    else:
+        assert summary["web_ui_actions_dry_run_only"] is True
+        assert summary["web_ui_critical_actions_blocked"] is True
     assert summary["routes_total"] >= 30
     assert any(route["operation"] == "portfolio.status" for route in result.data["routes"])
 

@@ -35,7 +35,7 @@
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-        "current_repo": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip",
+        "current_repo": "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip",
         "last_completed_sprint": "POST-H-034",
         "next_sprint": "POST-H-EVAL-002",
         "current_micro_sprint": "POST-H-EVAL-002-02-B",

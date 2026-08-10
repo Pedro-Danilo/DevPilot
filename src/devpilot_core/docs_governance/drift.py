@@ -297,7 +297,10 @@ def _roadmap_sync_passed(checks: list[dict[str, Any]]) -> bool:
     roadmap_checks = [
         item for item in checks
         if item.get("rule") in {"version_match", "milestones_match", "decisions_match"}
-        and "post_h_eval_001_prioritized_roadmap" in str(item.get("counterpart_path", ""))
+        and (
+            "prioritized_roadmap" in str(item.get("source_path", ""))
+            or "prioritized_roadmap" in str(item.get("counterpart_path", ""))
+        )
     ]
     return bool(roadmap_checks) and all(item.get("ok") is True for item in roadmap_checks)
 

@@ -94,7 +94,7 @@
   },
   "browser_export_feedback_corrective": {
     "version": "1.0.2",
-    "status": "implemented-initial/pending-Windows-browser-closure",
+    "status": "closed/PASS",
     "reason": "v1.0.1 exported a correct non-executed patch but placed the feedback outside the operator's active viewport and updated it only after invoking the browser download flow.",
     "ui_contract": "persistent adjacent aria-live feedback is rendered before the download request and explicitly states NO EJECUTADA",
     "source_write_enabled": false,

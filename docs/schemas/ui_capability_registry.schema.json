@@ -132,7 +132,8 @@
           "minimum": 0
         },
         "runtime_execution_enabled": {
-          "const": false
+          "type": "boolean",
+          "description": "Lifecycle value. UOC-000 froze this as false in its manifest; later approved UOC sprints may enable typed bounded runtime execution without enabling arbitrary shell, remote execution, connector write or plugin execution."
         },
         "arbitrary_shell_allowed": {
           "const": false
