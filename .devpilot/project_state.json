@@ -14,7 +14,7 @@
   "credentials_required": false,
   "current_micro_sprint": "POST-H-EVAL-002-02-B",
   "current_phase": "POST-H-EVAL-002",
-  "current_repo": "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip",
+  "current_repo": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
   "enterprise_deployment_enabled": false,
   "enterprise_ready_claimed": false,
   "external_api_used": false,
@@ -336,7 +336,8 @@
     "UOC-001 implements the preliminary read-only Workspace Documents explorer with opaque ids, bounded server-side discovery, safe Markdown/JSON viewing and zero write capability; Windows browser acceptance remains required before UOC-002.",
     "UOC-002 regression recovery v1.0.2 isolates the RAG CLI test and reconciles only a canonically rebuilt and exactly verified runtime-regenerated docs_index before restoring the exact HEAD blob.",
     "UOC-002 recovery v1.0.3 makes preflight portable across LF/CRLF Windows checkouts while blocking every non-EOL content difference.",
-    "UOC-002 recovery v1.0.5 fixes the v1.0.4 input-state defect by classifying the post-selective tracked RAG index, restoring it through Git-native worktree materialization, verifying Git cleanliness before and after every selective case, and rolling back partial writes on operator failure."
+    "UOC-002 recovery v1.0.5 fixes the v1.0.4 input-state defect by classifying the post-selective tracked RAG index, restoring it through Git-native worktree materialization, verifying Git cleanliness before and after every selective case, and rolling back partial writes on operator failure.",
+    "UOC-005 closes approval-bound atomic document apply and bounded pre-commit rollback on repo 333; generic patch/Git/shell mutations remain blocked and UOC-006 is authorized."
   ],
   "phase_h_status": "closed_implemented_initial",
   "plugin_execution_enabled": false,
@@ -2064,8 +2065,8 @@
   "uoc_004_browser_acceptance_pass": true,
   "uoc_005_authorization_reason": "UOC-004 immutable edit planning, full diff, preview, optimistic recheck and zero-write browser acceptance closed PASS with S0=0/S1=0.",
   "uoc_005_base_commit": "12334ffa5ea181f7d72fd66e55fb383baed2195f",
-  "uoc_005_status": "implemented-initial/pending-Windows-browser-closure",
-  "uoc_005_closed": false,
+  "uoc_005_status": "closed/PASS",
+  "uoc_005_closed": true,
   "uoc_005_approval_binding_available": true,
   "uoc_005_atomic_document_apply_available": true,
   "uoc_005_bounded_document_rollback_available": true,
@@ -2077,8 +2078,10 @@
   "uoc_005_automatic_post_validation_rollback": true,
   "uoc_005_s0_open": 0,
   "uoc_005_s1_open": 0,
-  "uoc_005_preliminary": true,
-  "uoc_006_authorized": false,
-  "uoc_006_authorization_reason": "BLOCKED until UOC-005 Windows/browser/canonical closure is PASS with apply and rollback evidence and S0=0/S1=0.",
-  "uoc_005_candidate_repo": "repo_DevPilot_Local_333_CANDIDATE_POST_H_EVAL_002_UOC_005.zip"
+  "uoc_005_preliminary": false,
+  "uoc_006_authorized": true,
+  "uoc_006_authorization_reason": "UOC-005 selective regression completion was accepted by HistoricalRegressionGuard waiver with 625-PASS checkpoint, delta-impact/historical-contract verification, browser apply/rollback, canonical integration and zero unauthorized writes closed PASS.",
+  "uoc_005_candidate_repo": "repo_DevPilot_Local_333_CANDIDATE_POST_H_EVAL_002_UOC_005.zip",
+  "uoc_005_source_commit": "ee9e4ddda7b7e49a65ed8ce495f0fecd82541156",
+  "uoc_005_authoritative_baseline": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
 }

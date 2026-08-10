@@ -3,9 +3,9 @@
   "version": "0.1.6",
   "sprint": "UOC-005",
   "title": "Approval binding, apply y rollback",
-  "status": "implemented-initial/pending-windows-browser-closure",
-  "decision": "PENDING",
-  "closed": false,
+  "status": "closed/PASS",
+  "decision": "PASS",
+  "closed": true,
   "updated": "2026-08-09",
   "base_commit": "12334ffa5ea181f7d72fd66e55fb383baed2195f",
   "source_branch": "feat/post-h-eval-002-uoc-005-approval-apply-rollback",
@@ -93,8 +93,8 @@
   },
   "tests": {
     "local_development_status": "PASS-selective-and-contract-gates",
-    "windows_authoritative_status": "pending-after-historical-contract-reconciliation-v1.0.4",
-    "browser_acceptance_status": "apply-backend-PASS; UI-state-recovery-corrective-v1.0.7-pending-rollback-browser-closure",
+    "windows_authoritative_status": "PASS",
+    "browser_acceptance_status": "PASS",
     "full_regression_required_by_default": true,
     "full_regression_policy": "Full regression remains required by default for this transversal sprint. v1.0.5 does not restart it after the 625-PASS checkpoint; completion may proceed only through an explicit, owner-approved, time-bounded HistoricalRegressionGuard waiver plus Test Impact, historical-freeze sweep, selective validation and mandatory browser/Git/closure gates.",
     "local_focused_tests": "24 passed, 0 failed, 0 errors, 0 skipped",
@@ -121,7 +121,12 @@
     "historical_freeze_static_audit": "399 test files scanned; 39 lifecycle/repo/runtime/count candidates manually classified; 0 unresolved.",
     "local_docs_governance_v105": "PASS; 637 documents checked; warnings=0; blocking=0; roadmap sync=true.",
     "ui_registry_schema_instances": "PASS for ui_capability_registry and ui_operational_console_flags.",
-    "ui_execution_state_recovery": "v1.0.7 corrects transient setDocument(undefined) state reset observed after successful apply; recovery rehydrates persisted execution without reapply."
+    "ui_execution_state_recovery": "v1.0.7 corrects transient setDocument(undefined) state reset observed after successful apply; recovery rehydrates persisted execution without reapply.",
+    "regression_completion_mode": "waiver/evidence-reuse-delta5-ui-recovery",
+    "checkpoint_passed_tests": 625,
+    "closure_lifecycle_contract_corrective": "v1.0.10-test-contract-only",
+    "runtime_source_changed_by_closure_corrective": false,
+    "browser_evidence_reused_after_closure_corrective": true
   },
   "safety": {
     "arbitrary_shell_allowed": false,
@@ -138,7 +143,7 @@
     "s1_open": 0
   },
   "next": {
-    "uoc_006_authorized": false,
+    "uoc_006_authorized": true,
     "authorization_condition": "UOC-005 Windows/browser/Git/baseline closure must be CLOSED/PASS with apply and rollback evidence, zero unauthorized writes and S0=0/S1=0."
   },
   "source_contract": {
@@ -152,5 +157,13 @@
     "v1.0.5 historical-freeze sweep reconciles UOC-002 recovery and POST-H-EVAL-002-01-C lifecycle assertions that were frozen before UOC-004/UOC-005; the source contract is therefore 67 paths.",
     "Full regression is not restarted after the 625-PASS v1.0.4 checkpoint; closure uses HistoricalRegressionGuard waiver plus selective delta-impact/historical-contract evidence and browser acceptance.",
     "v1.0.7 browser evidence proved apply backend PASS but exposed a UI-only state-loss defect during post-apply document reload; payload 1.0.5 preserves/rehydrates execution state without repeating apply."
-  ]
+  ],
+  "source_commit": "ee9e4ddda7b7e49a65ed8ce495f0fecd82541156",
+  "authoritative_repo": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
+  "evidence": {
+    "implementation_verification_report": "UOC_005_IMPLEMENTATION_VERIFICATION_REPORT_v1_0_7.json",
+    "browser_acceptance_report": "UOC_005_BROWSER_ACCEPTANCE_REPORT.json",
+    "s0": 0,
+    "s1": 0
+  }
 }

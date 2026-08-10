@@ -11803,3 +11803,8 @@ UOC-005 parte exclusivamente del cierre UOC-004 repo 332. La operación normal e
 El rollback manual es una operación distinta y exige una segunda aprobación. Está permitido únicamente mientras el documento conserve el SHA post-apply y Git lo reporte como modificación unstaged; stage/commit/drift bloquean. Las operaciones Git pertenecen a UOC-006.
 
 La versión UOC-005 inicial no habilita generic patch apply, generic rollback, shell, remote execution, connector write ni plugin execution. Los planes continúan process-local; job persistence/reconciliation industrial quedan para UOC-007/UOC-008. La guía operativa específica del sprint es la única fuente de comandos de implementación y evidencia Windows.
+
+
+## UOC-005 — CLOSED/PASS
+
+Approval binding, atomic document apply y bounded pre-commit rollback cerraron PASS sobre source commit `ee9e4ddda7b7e49a65ed8ce495f0fecd82541156`. Windows selective regression completion con HistoricalRegressionGuard y browser acceptance verificaron apply/rollback, zero unauthorized writes, S0=0/S1=0. Baseline autoritativo: `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`. Generic patch apply, generic rollback, Git write, shell, remote execution, connector write y plugin execution permanecen bloqueados. UOC-006 queda autorizado.

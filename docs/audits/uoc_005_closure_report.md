@@ -1,20 +1,20 @@
 ---
 doc_id: "DEVPL-UOC-005-CLOSURE-REPORT"
 title: "UOC-005 — Closure report"
-status: "implemented-initial"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-09"
-approval: "pending_windows_browser_git_closure"
+approval: "approved_by_windows_browser_git_gate"
 ---
 
 # UOC-005 — Closure report
 
 ## Estado
 
-**NO CERRADO todavía.** La implementación candidata está disponible sobre el baseline UOC-004 repo 332, pero el cierre requiere ejecutar en Windows los gates focales/globales impactados, browser acceptance con apply/rollback real sobre fixture controlado, source commit, fast-forward canónico, reconciliación final y baseline repo 333.
+**CLOSED/PASS.** Windows verificó el delta impactado y los contratos históricos bajo HistoricalRegressionGuard waiver; se preservó el checkpoint de 625 PASS sin reiniciar la regresión completa; browser acceptance ejecutó apply approval-bound y rollback approval-bound restaurando exactamente el hash base; la integración canónica quedó limpia. El baseline autoritativo se materializa como repo 333 desde el closure commit.
 
-UOC-006 permanece **NO autorizado** hasta que este documento sea promovido a `status: approved`, `version: 1.0.0` y la evidencia autoritativa registre `CLOSED/PASS`.
+UOC-006 queda **autorizado** únicamente después del closure commit y verificación final del baseline repo 333.
 
 ## Base
 
@@ -55,3 +55,13 @@ Esta versión es `implemented-initial`: process-local plan lifetime, rollback ex
 ## Comandos de verificación
 
 Los comandos autoritativos están únicamente en la guía operativa entregada con UOC-005.
+
+## Adjudicación autoritativa — 2026-08-09
+
+- Source commit UOC-005: `ee9e4ddda7b7e49a65ed8ce495f0fecd82541156`.
+- Regression decision Windows: `waiver/evidence-reuse-delta5-ui-recovery` con checkpoint `625 PASS`, recuperación UI focal PASS y HistoricalRegressionGuard PASS.
+- Browser apply/rollback: `PASS`.
+- S0: `0`; S1: `0`.
+- Baseline siguiente: `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`.
+- UOC-006: `AUTHORIZED after final closure verification`.
+- Closure lifecycle corrective: `v1.0.11 test-contract-only`; runtime source unchanged; browser evidence reused.

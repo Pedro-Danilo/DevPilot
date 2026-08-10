@@ -5,7 +5,7 @@ status: "implemented-initial"
 version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-08-09"
-approval: "pending_windows_browser_acceptance"
+approval: "approved_by_uoc005_closure_gate"
 ---
 
 # UOC-005 — Approval binding, apply y rollback
@@ -242,3 +242,7 @@ El delta correctivo real desde el checkpoint Windows v1.0.4 contiene **12 paths*
 ## 18. Validación controlada final del sweep histórico
 
 El sweep histórico/lifecycle consolidado ejecutado sobre el payload v1.0.4 obtuvo **113 passed, 0 failed, 0 errors, 0 skipped**. El audit estático ampliado inspeccionó **399 archivos de test**, clasificó **39 candidatos** sensibles a lifecycle/repos/rutas/runtime/counts y dejó **0 unresolved**. Documentation Governance pasó con 637 documentos revisados, 0 warnings, 0 blocking y `roadmap_markdown_json_sync_passed=true`. Los dos registries UOC-000 evolucionados validan contra sus schemas actuales sin errores.
+
+## 13. Evidencia autoritativa de cierre
+
+HistoricalRegressionGuard `waiver/evidence-reuse-delta5-ui-recovery`, recuperación UI post-apply, browser apply/rollback y canonical integration cerraron PASS sobre source commit `ee9e4ddda7b7e49a65ed8ce495f0fecd82541156`. El baseline autoritativo se genera como `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`. La capacidad continúa declarada `implemented-initial`; el cierre del sprint no elimina sus límites de primera versión. El correctivo de lifecycle `v1.0.11` modifica únicamente el contrato de prueba para hacerlo consciente del estado pre/post cierre; no cambia runtime y reutiliza la evidencia browser ya PASS.

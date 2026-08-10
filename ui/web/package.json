@@ -172,7 +172,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "POST-H-EVAL-002-UOC-005",
+    "currentSprint": "POST-H-EVAL-002-UOC-006",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -183,7 +183,7 @@
     "uoc002PreliminaryReadOnly": true,
     "uoc002Status": "closed/PASS",
     "postHEvolution": true,
-    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-005",
+    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-006",
     "runtimeArtifactsVersioned": false,
     "uoc003ValidationTraceability": true,
     "uoc003SourceReadOnly": true,
@@ -199,10 +199,11 @@
     "uoc005ApprovalBinding": true,
     "uoc005AtomicDocumentApply": true,
     "uoc005BoundedDocumentRollback": true,
-    "uoc005Status": "implemented-initial/pending-windows-browser-closure",
+    "uoc005Status": "closed/PASS",
     "documentWriteMode": "approval-gated-atomic-uoc005",
     "genericPatchApplyEnabled": false,
     "genericRollbackEnabled": false,
-    "sharedValidationActionStyling": true
+    "sharedValidationActionStyling": true,
+    "uoc006Authorized": true
   }
 }

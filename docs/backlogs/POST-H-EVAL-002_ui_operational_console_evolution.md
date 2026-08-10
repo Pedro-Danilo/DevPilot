@@ -9,10 +9,10 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-004-closed/PASS; UOC-005-implemented-initial/pending-Windows-browser-closure"
-current_sprint: "UOC-005"
-next_sprint: "UOC-006"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004"
+implementation_status: "UOC-005-closed/PASS; UOC-006-authorized"
+current_sprint: "UOC-006"
+next_sprint: "UOC-007"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -1131,3 +1131,7 @@ Sweep focal: 113/113 PASS. Static freeze audit: 399 archivos de test, 39 candida
 ## UOC-005 browser state recovery — revisión 2026-08-09
 
 La evidencia browser v1.0.6 confirmó un apply backend `PASS` con execution record, backup y hashes persistidos, pero detectó pérdida de estado visual al recargar el documento después de la mutación. La revisión v1.0.7 corrige exclusivamente la continuidad UI: preserva la ejecución durante cargas transitorias y permite rehidratar el execution record por ID con verificación documento/hash, sin repetir apply y sin ampliar permisos. UOC-005 continúa abierto hasta demostrar rollback approval-bound, restauración exacta, evidencia browser completa, Git y cierre documental.
+
+## UOC-005 closure — 2026-08-09
+
+UOC-005 **CLOSED/PASS** sobre source commit `ee9e4ddda7b7e49a65ed8ce495f0fecd82541156`. Approval binding exacto, apply atómico, backup externo de control, rollback compensatorio y rollback manual pre-commit fueron verificados; approval ausente/expirado/hash distinto y stale state bloquean. Selective regression completion/guard waiver Windows y browser acceptance PASS, S0=0/S1=0. Baseline: `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`. UOC-006 queda autorizado.

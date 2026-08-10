@@ -6271,3 +6271,8 @@ UOC-004 **CLOSED/PASS** sobre source commit `88ae91c316885e13b73382349520b13bb76
 Sobre el baseline autoritativo repo 332, `/workspace/documents` incorpora el primer flujo de escritura documental gobernada: approval exacto ligado al plan/hash/blob base/actor/scope/TTL, backup externo de control, apply atómico, post-validación y rollback compensatorio. El rollback manual exige una segunda aprobación y falla cerrado después de Git stage/commit o de cualquier drift del blob post-apply.
 
 La capacidad permanece estrecha y preliminar: solo Markdown/JSON/YAML autorizados por UOC-004; `patch.apply` genérico, rollback genérico, shell, Git write, remote execution, connector write y plugin execution siguen bloqueados. UOC-006 no se autoriza hasta el cierre Windows/browser/Git y baseline repo 333. El botón `Recargar trazabilidad` comparte el styling de las acciones vecinas.
+
+
+## UOC-005 — CLOSED/PASS
+
+Approval binding, atomic document apply y bounded pre-commit rollback cerraron PASS sobre source commit `ee9e4ddda7b7e49a65ed8ce495f0fecd82541156`. Windows selective regression completion con HistoricalRegressionGuard y browser acceptance verificaron apply/rollback, zero unauthorized writes, S0=0/S1=0. Baseline autoritativo: `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`. Generic patch apply, generic rollback, Git write, shell, remote execution, connector write y plugin execution permanecen bloqueados. UOC-006 queda autorizado.
