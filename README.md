@@ -6285,3 +6285,7 @@ UOC-006 parte del baseline autoritativo `repo_DevPilot_Local_333_POST_H_EVAL_002
 ## UOC-006 closure — 2026-08-10
 
 CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitrary Git, push/force-push/reset-hard/rebase/branch-delete remain blocked. Next authoritative baseline: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 is authorized but not implemented.
+
+### UOC-007 — CLI capability registry y governed job framework
+
+Implemented-initial from repo334: exact 193-capability registry, typed job envelopes, lifecycle, idempotency, correlation, heartbeat, cancel/rollback contracts and atomic local runtime state. No `/jobs` UI route and no canonical runtime adapter is enabled until later UOC gates.

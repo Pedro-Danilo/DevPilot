@@ -9,9 +9,9 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-006-closed/PASS; UOC-007-authorized/not-implemented"
+implementation_status: "UOC-007-implemented-initial/pending-authoritative-windows-closure"
 current_sprint: "UOC-007"
-next_sprint: "UOC-007"
+next_sprint: "UOC-008-after-UOC-007-closure"
 completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
@@ -42,6 +42,8 @@ uoc_005_authoritative_repo: "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip
 uoc_006_base_commit: "9dfb0f380c3a7dea11321a5b75d2923cd7529a68"
 uoc_006_implementation_status: "closed/PASS"
 uoc_007_authorized: true
+uoc_007_implementation_status: "implemented-initial/pending-authoritative-windows-closure"
+uoc_008_authorized: false
 uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
@@ -1154,3 +1156,13 @@ El S3 cosmético de `Recargar trazabilidad` queda reconciliado usando exactament
 ## UOC-006 closure — 2026-08-10
 
 UOC-006 **CLOSED/PASS** sobre source commit `0ea40b01700886db1e5bfeb636dbcf58a2838bdb`. Stage exacto, aprobación independiente de commit, commit local con identidad explícita, history/compare, branch local controlado, no-go Git y S0=0/S1=0 fueron verificados. Baseline final: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 queda autorizado exclusivamente para capability registry y governed job framework; no está implementado por este cierre.
+
+
+## 2026-08-10 — UOC-007 implementation candidate
+
+- Baseline autoritativa: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`.
+- CLI/governed-job registry: 193/193 capabilities covered.
+- Framework lifecycle: implemented-initial with idempotency, correlation, heartbeat, cancel token, artifact/evidence refs and rollback states.
+- Canonical registry runtime execution: `0` capabilities enabled / `0` adapters bound.
+- `/jobs` UI/API surface: not added; belongs to UOC-008.
+- UOC-008 remains unauthorized until Windows/canonical closure of UOC-007.

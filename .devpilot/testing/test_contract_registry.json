@@ -9991,6 +9991,55 @@
       "recommended_commands": [
         "python -m pytest tests/test_workspace_git_operations_service.py tests/test_api_workspace_git_operations.py tests/test_web_ui_workspace_git_operations.py tests/test_post_h_eval_002_uoc_006_contracts.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-007-governed-job-framework",
+      "scope": "integration",
+      "owner": "UOC-007",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_governed_job_capability_registry.py",
+        "tests/test_governed_job_framework.py",
+        "tests/test_post_h_eval_002_uoc_007_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/governed_job_capability_registry.py",
+        "src/devpilot_core/application/governed_jobs.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/__init__.py",
+        ".devpilot/interfaces/governed_job_capability_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        "docs/schemas/ui_governed_job_v2.schema.json",
+        "docs/schemas/governed_job_request.schema.json",
+        "docs/schemas/governed_job_result.schema.json",
+        "docs/schemas/governed_job_capability_registry.schema.json",
+        "docs/post_h_eval_002_uoc_007_manifest.json",
+        "docs/07_interfaces/governed_job_framework.md",
+        "docs/audits/uoc_007_cli_capability_registry_governed_job_framework_report.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/governed_job_",
+        "src/devpilot_core/application/services.py",
+        ".devpilot/interfaces/governed_job_capability_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        "docs/schemas/governed_job_",
+        "docs/schemas/ui_governed_job_v2.schema.json",
+        "docs/post_h_eval_002_uoc_007_manifest.json",
+        "docs/07_interfaces/governed_job_framework.md",
+        "tests/test_post_h_eval_002_uoc_007_contracts.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_governed_job_capability_registry.py tests/test_governed_job_framework.py tests/test_post_h_eval_002_uoc_007_contracts.py tests/test_schema_registry.py tests/test_project_global_state.py -q"
+      ]
     }
   ],
   "notes": [
@@ -10053,6 +10102,7 @@
     "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
     "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03.",
     "Governance closure 327 records the authoritative RERUN-03 PASS, closes 01-D, advances the current micro-sprint to 02-A and keeps the package pending full Windows validation.",
-    "UOC-000 registers complete CLI/UI capability classification and no-shell/opaque-ID/governed-job contracts."
+    "UOC-000 registers complete CLI/UI capability classification and no-shell/opaque-ID/governed-job contracts.",
+    "UOC-007 adds exact CLI capability job contracts and a no-shell governed lifecycle framework; canonical runtime adapters remain disabled."
   ]
 }

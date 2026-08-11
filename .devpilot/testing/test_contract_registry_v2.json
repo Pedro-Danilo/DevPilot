@@ -17673,6 +17673,95 @@
         "scope": "UOC-006 exact local stage, one approved local commit, and controlled local branch-ref creation only",
         "rollback_or_cleanup": "Before commit, failed validation compensates the exact staged set with restore --staged. After commit, UOC-006 does not expose reset/rewrite; follow-up corrections require a new governed change/commit workflow."
       }
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-007-governed-job-framework",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-uoc-007-governed-job-framework",
+      "domain": "product.ui",
+      "capability": "GovernedJobFramework",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "medium",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_governed_job_capability_registry.py",
+        "tests/test_governed_job_framework.py",
+        "tests/test_post_h_eval_002_uoc_007_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/governed_job_capability_registry.py",
+        "src/devpilot_core/application/governed_jobs.py",
+        "src/devpilot_core/application/services.py",
+        ".devpilot/interfaces/governed_job_capability_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        "docs/schemas/ui_governed_job_v2.schema.json",
+        "docs/schemas/governed_job_request.schema.json",
+        "docs/schemas/governed_job_result.schema.json",
+        "docs/schemas/governed_job_capability_registry.schema.json",
+        "docs/post_h_eval_002_uoc_007_manifest.json",
+        "docs/07_interfaces/governed_job_framework.md",
+        "tests/test_post_h_eval_002_uoc_007_contracts.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/governed_job_capability_registry.py",
+        "src/devpilot_core/application/governed_jobs.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/__init__.py",
+        ".devpilot/interfaces/governed_job_capability_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        "docs/schemas/ui_governed_job_v2.schema.json",
+        "docs/schemas/governed_job_request.schema.json",
+        "docs/schemas/governed_job_result.schema.json",
+        "docs/schemas/governed_job_capability_registry.schema.json",
+        "docs/post_h_eval_002_uoc_007_manifest.json",
+        "docs/07_interfaces/governed_job_framework.md",
+        "docs/audits/uoc_007_cli_capability_registry_governed_job_framework_report.md"
+      ],
+      "trigger_hints": [
+        "uoc-007-job-framework-change",
+        "capability-registry-change",
+        "job-lifecycle-contract-change"
+      ],
+      "impact_scope": [
+        "governed-jobs",
+        "ui-capability-registry",
+        "application-boundary",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "UOC-007",
+      "recommended_commands": [
+        "python -m pytest tests/test_governed_job_capability_registry.py tests/test_governed_job_framework.py tests/test_post_h_eval_002_uoc_007_contracts.py tests/test_schema_registry.py tests/test_project_global_state.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "UOC-007 allows atomic runtime-state writes under outputs/runtime/governed_jobs only.",
+        "Canonical capability execution stays disabled until a typed parameter schema and adapter are bound by a later approved sprint."
+      ],
+      "owner_domain": "product.ui",
+      "service_boundary": "application",
+      "subgate_id": "uoc-007-governed-job-framework",
+      "schema_ids": [
+        "SCHEMA-DEVPL-UI-GOVERNED-JOB-V2",
+        "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+        "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+        "SCHEMA-DEVPL-GOVERNED-JOB-CAPABILITY-REGISTRY-V1"
+      ]
     }
   ],
   "migration_metadata": {
@@ -17683,8 +17772,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 255,
-    "last_updated_by": "UOC-003"
+    "contracts_total": 259,
+    "last_updated_by": "UOC-007"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",

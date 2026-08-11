@@ -65,6 +65,8 @@ from .workspace_document_inspection_service import WorkspaceDocumentInspectionAp
 from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
+from .governed_job_capability_registry import GovernedJobCapabilityContract, GovernedJobCapabilityRegistry
+from .governed_jobs import GovernedJobConflict, GovernedJobError, GovernedJobFramework, GovernedJobHandle, GovernedJobPolicyBlock, GovernedJobStore
 
 __all__ = [
     "APPLICATION_SERVICE_BOUNDARY_REPORT_ID",
@@ -90,6 +92,14 @@ __all__ = [
     "normalize_interface_client",
     "PRIORITY_OPERATION_IDS",
     "ApplicationCapabilityRegistry",
+    "GovernedJobCapabilityContract",
+    "GovernedJobCapabilityRegistry",
+    "GovernedJobConflict",
+    "GovernedJobError",
+    "GovernedJobFramework",
+    "GovernedJobHandle",
+    "GovernedJobPolicyBlock",
+    "GovernedJobStore",
     "ApplicationOperationCatalog",
     "ApplicationOperationCatalogBuilder",
     "ApplicationOperationCatalogOptions",

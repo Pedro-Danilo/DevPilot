@@ -31,6 +31,8 @@ from .workspace_validation_service import WorkspaceValidationApplicationService
 from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
+from .governed_job_capability_registry import GovernedJobCapabilityRegistry
+from .governed_jobs import GovernedJobFramework
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -73,6 +75,8 @@ class ApplicationService:
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
         self.workspace_edit_execution = WorkspaceEditExecutionApplicationService(self.root, documents=self.workspace_documents, plans=self.workspace_edit_planning)
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
+        self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
+        self.governed_jobs = GovernedJobFramework(self.root, registry=self.governed_job_capabilities)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)

@@ -11817,3 +11817,7 @@ La UI no ejecuta Git libre ni una terminal. `WorkspaceGitOperationsApplicationSe
 ## UOC-006 closure — 2026-08-10
 
 CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitrary Git, push/force-push/reset-hard/rebase/branch-delete remain blocked. Next authoritative baseline: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 is authorized but not implemented.
+
+## UOC-007 — Governed job framework
+
+UOC-007 adds a local no-shell job lifecycle framework and exact CLI capability registry. Runtime state is under `outputs/runtime/governed_jobs`; raw parameter values, idempotency keys and cancel tokens are not persisted. UOC-008 remains blocked until authoritative UOC-007 closure.

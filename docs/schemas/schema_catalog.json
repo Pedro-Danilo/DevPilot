@@ -3,10 +3,10 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-09",
-  "sprint": "UOC-005",
+  "updated": "2026-08-10",
+  "sprint": "UOC-007",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -2292,7 +2292,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-006"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UI-GOVERNED-JOB-V2",
+      "title": "DevPilot UI Governed Job v2",
+      "version": "1.0.0",
+      "path": "docs/schemas/ui_governed_job_v2.schema.json",
+      "description": "Persisted UOC-007 job lifecycle with idempotency/correlation/heartbeat/cancel/rollback state.",
+      "status": "registered",
+      "contract": "UiGovernedJobV2",
+      "owner": "Ordóñez",
+      "sprint": "UOC-007",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-007"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+      "title": "DevPilot Governed Job Request v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/governed_job_request.schema.json",
+      "description": "Typed request envelope for governed-job planning.",
+      "status": "registered",
+      "contract": "GovernedJobRequest",
+      "owner": "Ordóñez",
+      "sprint": "UOC-007",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-007"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+      "title": "DevPilot Governed Job Result v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/governed_job_result.schema.json",
+      "description": "Typed result envelope for governed-job lifecycle operations.",
+      "status": "registered",
+      "contract": "GovernedJobResult",
+      "owner": "Ordóñez",
+      "sprint": "UOC-007",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-007"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-CAPABILITY-REGISTRY-V1",
+      "title": "DevPilot Governed Job Capability Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/governed_job_capability_registry.schema.json",
+      "description": "Exact CLI capability coverage with policies, budgets, contracts and evidence mapping.",
+      "status": "registered",
+      "contract": "GovernedJobCapabilityRegistry",
+      "owner": "Ordóñez",
+      "sprint": "UOC-007",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-007"
     }
   ],
-  "schemas_total": 158
+  "schemas_total": 162
 }

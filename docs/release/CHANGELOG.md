@@ -2990,3 +2990,5 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 ## UOC-006 closure — 2026-08-10
 
 CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitrary Git, push/force-push/reset-hard/rebase/branch-delete remain blocked. Next authoritative baseline: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 is authorized but not implemented.
+
+- uoc-007: implemented-initial CLI capability registry and governed job lifecycle framework; 193/193 capability coverage, typed envelopes, budgets, idempotency/correlation/heartbeat/cancel/rollback state, no arbitrary shell and no new UI route.

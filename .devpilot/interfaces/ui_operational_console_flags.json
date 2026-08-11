@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "updated": "2026-08-10",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
@@ -58,9 +58,11 @@
     },
     {
       "flag_id": "uoc.jobs.framework",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-007",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-007",
+      "notes": "Governed job registry/lifecycle framework enabled. No /jobs route and no canonical capability runtime adapter is enabled in UOC-007."
     },
     {
       "flag_id": "uoc.jobs.console",
@@ -128,7 +130,6 @@
     "connector_write_enabled": false,
     "plugin_execution_enabled": false,
     "external_api_required": false,
-    "source_mutations_performed": false,
     "workspace_documents_read_only_enabled": true,
     "document_write_enabled": true,
     "workspace_document_inspection_read_only_enabled": true,
@@ -153,6 +154,11 @@
     "git_force_push_enabled": false,
     "git_reset_hard_enabled": false,
     "git_rebase_enabled": false,
-    "git_branch_delete_enabled": false
+    "git_branch_delete_enabled": false,
+    "governed_job_framework_enabled": true,
+    "governed_job_runtime_execution_from_ui_enabled": false,
+    "governed_job_execution_adapter_bound_total": 0,
+    "governed_job_store": "outputs/runtime/governed_jobs",
+    "source_mutations_performed": false
   }
 }

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GOVERNED-JOB-CAPABILITY-REGISTRY-V1",
+  "title": "DevPilot Governed Job Capability Registry v1",
+  "description": "UOC-007 exact CLI capability coverage with policy, budgets, input/output contracts and evidence mapping. Registry classification is not runtime routing.",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "registry_id", "created_by", "status", "version", "updated", "source_registry", "capabilities", "summary", "safety"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-GOVERNED-JOB-CAPABILITY-REGISTRY-V1"},
+    "registry_id": {"const": "devpilot-governed-job-capability-registry"},
+    "created_by": {"const": "UOC-007"},
+    "status": {"enum": ["implemented-initial", "approved", "deprecated"]},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "updated": {"type": "string", "minLength": 1},
+    "source_registry": {"const": ".devpilot/interfaces/ui_capability_registry.json"},
+    "capabilities": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["capability_id", "cli_command_id", "cli_command", "application_service", "risk_class", "parity_status", "policy_binding", "budgets", "contracts", "controls", "evidence_mapping", "runtime"],
+        "properties": {
+          "capability_id": {"type": "string", "pattern": "^cli\\."},
+          "cli_command_id": {"type": "string", "minLength": 1},
+          "cli_command": {"type": "string", "minLength": 1},
+          "application_service": {"type": ["string", "null"]},
+          "risk_class": {"enum": ["read-only", "mutating", "sensitive", "forbidden"]},
+          "parity_status": {"enum": ["UI-NATIVE", "UI-READ-ONLY", "CLI-BRIDGE-REGISTERED", "POLICY-BLOCKED", "NOT-APPLICABLE", "PLANNED", "DEPRECATED"]},
+          "policy_binding": {
+            "type": "object", "required": ["source", "required", "default_decision", "approval_required"],
+            "properties": {
+              "source": {"const": ".devpilot/miasi/policy_matrix.json"},
+              "required": {"type": "boolean"},
+              "default_decision": {"enum": ["allow-read-only", "plan-only", "deny", "allow-runtime-evidence-only"]},
+              "approval_required": {"type": "boolean"}
+            }, "additionalProperties": false
+          },
+          "budgets": {
+            "type": "object", "required": ["timeout_seconds", "retry_limit", "heartbeat_interval_seconds"],
+            "properties": {
+              "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 7200},
+              "retry_limit": {"type": "integer", "minimum": 0, "maximum": 2},
+              "heartbeat_interval_seconds": {"type": "integer", "minimum": 1, "maximum": 60}
+            }, "additionalProperties": false
+          },
+          "contracts": {
+            "type": "object", "required": ["request_envelope_schema_id", "result_envelope_schema_id", "command_result_schema_id", "typed_parameters_schema_id"],
+            "properties": {
+              "request_envelope_schema_id": {"const": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1"},
+              "result_envelope_schema_id": {"const": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1"},
+              "command_result_schema_id": {"const": "SCHEMA-DEVPL-COMMAND-RESULT-V1"},
+              "typed_parameters_schema_id": {"type": ["string", "null"]}
+            }, "additionalProperties": false
+          },
+          "controls": {
+            "type": "object", "required": ["dry_run_required", "approval_required", "supports_cancel", "supports_rollback", "idempotency_required", "correlation_required"],
+            "properties": {
+              "dry_run_required": {"type": "boolean"}, "approval_required": {"type": "boolean"},
+              "supports_cancel": {"type": "boolean"}, "supports_rollback": {"type": "boolean"},
+              "idempotency_required": {"const": true}, "correlation_required": {"const": true}
+            }, "additionalProperties": false
+          },
+          "evidence_mapping": {"type": "object"},
+          "runtime": {
+            "type": "object", "required": ["registered", "planning_enabled", "execution_enabled", "adapter_bound", "adapter_id", "mode"],
+            "properties": {
+              "registered": {"const": true}, "planning_enabled": {"type": "boolean"},
+              "execution_enabled": {"type": "boolean"}, "adapter_bound": {"type": "boolean"},
+              "adapter_id": {"type": ["string", "null"]},
+              "mode": {"enum": ["registry-only", "typed-adapter"]}
+            }, "additionalProperties": false
+          }
+        }, "additionalProperties": false
+      }
+    },
+    "summary": {"type": "object"},
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "arbitrary_shell_allowed", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled", "external_api_required", "runtime_execution_from_ui_enabled"],
+      "properties": {
+        "local_first": {"const": true}, "arbitrary_shell_allowed": {"const": false},
+        "remote_execution_enabled": {"const": false}, "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false}, "external_api_required": {"const": false},
+        "runtime_execution_from_ui_enabled": {"const": false}
+      }, "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GOVERNED-JOB-CAPABILITY-REGISTRY-V1",
+  "x-devpilot-sprint": "UOC-007",
+  "x-devpilot-status": "registered"
+}

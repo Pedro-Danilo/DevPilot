@@ -26,7 +26,9 @@ def test_uoc006_manifest_state_backlog_and_next_gate_are_synchronized() -> None:
         assert manifest["preliminary"] is False
         assert manifest["authoritative_output_repo"] == "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip"
         assert manifest["next"]["uoc_007_authorized"] is True
-        assert state["current_repo"] == "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip"
+        current_repo = str(state["current_repo"])
+        assert current_repo.startswith("repo_DevPilot_Local_")
+        assert int(current_repo.split("_", 4)[3]) >= 334
         assert state["uoc_006_closed"] is True
         assert state["uoc_007_authorized"] is True
     else:
@@ -38,15 +40,20 @@ def test_uoc006_manifest_state_backlog_and_next_gate_are_synchronized() -> None:
         assert state["uoc_007_authorized"] is False
     assert state["uoc_006_status"] == manifest["status"]
     if manifest["closed"]:
-        assert state["last_registered_sprint"] == "UOC-006-CLOSURE"
-        assert 'current_sprint: "UOC-007"' in backlog
+        # UOC-006 owns immutable closure facts, not the mutable global current-sprint pointer.
+        # Later UOC sprints may legitimately advance last_registered_sprint/current_sprint.
+        registered = str(state["last_registered_sprint"])
+        assert registered.startswith("UOC-")
+        assert int(registered[4:7]) >= 6
         assert 'uoc_007_authorized: true' in backlog
     else:
         assert state["last_registered_sprint"] == "UOC-006"
         assert 'current_sprint: "UOC-006"' in backlog
         assert 'uoc_007_authorized: false' in backlog
     if manifest['closed']:
-        assert 'completed_sprints: \"UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006\"' in backlog
+        completed_line = next(line for line in backlog.splitlines() if line.startswith("completed_sprints:"))
+        completed = completed_line.split(":", 1)[1].strip().strip('"').split(",")
+        assert completed[:7] == ["UOC-000", "UOC-001", "UOC-002", "UOC-003", "UOC-004", "UOC-005", "UOC-006"]
     else:
         assert 'UOC-005-closed/PASS' in backlog
 

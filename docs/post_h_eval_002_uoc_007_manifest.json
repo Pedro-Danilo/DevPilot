@@ -1,0 +1,81 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_007.manifest.v1",
+  "sprint_id": "UOC-007",
+  "title": "CLI capability registry y governed job framework",
+  "status": "implemented-initial/pending-authoritative-windows-closure",
+  "decision": "PENDING",
+  "closed": false,
+  "preliminary": true,
+  "base_commit": "de811e2a0e368ca7f571067a074d14c233fda3d6",
+  "authoritative_input_repo": "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip",
+  "authoritative_input_repo_sha256": "b5b4ae70682a7da57de585b58e4b764f96a2d148b150f9d0c5deae2ac63b0b3a",
+  "candidate_output_repo": "repo_DevPilot_Local_335_CANDIDATE_POST_H_EVAL_002_UOC_007.zip",
+  "authoritative_output_repo": null,
+  "source_branch": "feat/post-h-eval-002-uoc-007-governed-job-framework",
+  "scope": {
+    "cli_capability_registry": true,
+    "input_output_schemas": true,
+    "risk_class": true,
+    "policy_binding": true,
+    "budgets": true,
+    "dry_run_approval_rollback_flags": true,
+    "job_lifecycle": true,
+    "cancel_token": true,
+    "heartbeat": true,
+    "artifact_evidence_references": true,
+    "idempotency_key": true,
+    "correlation_id": true,
+    "arbitrary_shell": false,
+    "new_ui_route": false,
+    "remote_execution": false,
+    "connector_write": false,
+    "plugin_execution": false,
+    "external_api_required": false
+  },
+  "registry": {
+    "source_capabilities_total": 193,
+    "governed_capabilities_total": 193,
+    "coverage_exact": true,
+    "planning_enabled_total": 188,
+    "execution_enabled_total": 0,
+    "adapter_bound_total": 0,
+    "forbidden_total": 5
+  },
+  "runtime": {
+    "store": "outputs/runtime/governed_jobs",
+    "atomic_replace": true,
+    "raw_idempotency_keys_persisted": false,
+    "raw_cancel_tokens_persisted": false,
+    "raw_parameter_values_persisted": false,
+    "single_process_writer_preliminary": true
+  },
+  "verification": {
+    "controlled_environment": "PASS/focused+schemas+TCR+ProjectState+DocsGovernance",
+    "focused_pytest": "57 passed, 0 failed, 0 errors, 0 skipped",
+    "schema_contracts": "PASS",
+    "tcr_v1": "PASS/259 contracts",
+    "tcr_v2": "PASS/259 contracts; 2 preexisting needs-review warnings",
+    "project_state": "PASS",
+    "docs_governance": "PASS/650 documents/0 blocking drift",
+    "test_impact": {
+      "status": "PASS",
+      "changed_paths_total": 30,
+      "contracts_total": 259,
+      "matched_contracts_total": 148,
+      "recommended_tests_total": 213,
+      "unmatched_paths_total": 0,
+      "full_regression_required": true
+    },
+    "windows_git_semantics": "PASS/controlled core.autocrlf=true staging simulation/30-of-30",
+    "git_diff_check": "PASS/core.autocrlf=true simulation",
+    "full_regression_controlled_environment": "NOT-ADJUDICATED/attempt exceeded 300s tool budget with no failure emitted before termination",
+    "full_regression_required": true,
+    "windows_authoritative": "PENDING",
+    "browser_acceptance_required": false,
+    "reason_browser_not_required": "No visible UI route or surface changed; UOC-008 owns /jobs browser acceptance."
+  },
+  "next": {
+    "uoc_008_authorized": false,
+    "authorization_condition": "UOC-007 must close registry/schema/lifecycle/negative tests/governance and canonical repo335 with S0=0/S1=0."
+  }
+}

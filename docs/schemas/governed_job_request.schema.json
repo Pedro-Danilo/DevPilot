@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+  "title": "DevPilot Governed Job Request v1",
+  "description": "Typed request envelope for creating one governed job plan. Raw idempotency keys are transport input and are hashed before persistence.",
+  "type": "object",
+  "required": ["schema_version", "capability_id", "workspace_id", "parameters", "dry_run", "idempotency_key"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "capability_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1, "maxLength": 256},
+    "parameters": {"type": "object"},
+    "dry_run": {"type": "boolean"},
+    "idempotency_key": {"type": "string", "minLength": 1, "maxLength": 256, "writeOnly": true},
+    "correlation_id": {"type": ["string", "null"], "pattern": "^corr_[A-Za-z0-9._:-]+$"},
+    "timeout_seconds": {"type": ["integer", "null"], "minimum": 1, "maximum": 7200},
+    "retry_limit": {"type": ["integer", "null"], "minimum": 0, "maximum": 2},
+    "approval_binding_id": {"type": ["string", "null"]},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+  "x-devpilot-sprint": "UOC-007",
+  "x-devpilot-status": "registered"
+}

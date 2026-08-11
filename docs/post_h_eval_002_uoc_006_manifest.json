@@ -59,11 +59,11 @@
     "targeted_python": {
       "status": "PASS/controlled-environment",
       "summary": "152 passed, 0 failed, 0 errors, 0 skipped",
-      "windows_authoritative": "PENDING",
+      "windows_authoritative": "PASS/152-passed",
       "cross_platform_fixture": "CRLF worktree + core.autocrlf=true"
     },
     "typescript": "PASS/5.8.3-noEmit",
-    "vite_build": "PENDING-WINDOWS-node_modules-not-present-in-controlled-source-tree",
+    "vite_build": "PASS/windows-authoritative",
     "ui_smokes": "PASS/4-of-4",
     "miasi_validate": "PASS",
     "miasi_semantic": "PASS-with-nonblocking-review-warnings",
@@ -71,7 +71,7 @@
     "tcr_v2": "PASS-with-2-preexisting-needs-review-warnings",
     "project_state": "PASS",
     "docs_governance": "PASS",
-    "windows_git_staging_portability": "PASS/controlled-environment; PENDING-WINDOWS-AUTHORITATIVE",
+    "windows_git_staging_portability": "PASS/windows-authoritative",
     "browser_checks": "30/30"
   },
   "next": {

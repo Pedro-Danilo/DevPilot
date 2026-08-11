@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+  "title": "DevPilot Governed Job Result v1",
+  "description": "Transport/result envelope for governed-job planning and lifecycle operations.",
+  "type": "object",
+  "required": ["schema_version", "job", "idempotent_replay", "cancel_token_issued"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "job": {"$ref": "ui_governed_job_v2.schema.json"},
+    "idempotent_replay": {"type": "boolean"},
+    "cancel_token_issued": {"type": "boolean"},
+    "cancel_token": {"type": ["string", "null"], "pattern": "^ct_", "writeOnly": true}
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+  "x-devpilot-sprint": "UOC-007",
+  "x-devpilot-status": "registered"
+}
