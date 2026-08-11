@@ -29,7 +29,8 @@ def test_uoc005_manifest_lifecycle_and_uoc006_gate_are_consistent() -> None:
         assert manifest["next"]["uoc_006_authorized"] is True
         assert state["uoc_005_closed"] is True
         assert state["uoc_006_authorized"] is True
-        assert state["current_repo"] == "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
+        expected_current = "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip" if state.get("uoc_006_closed") else "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
+        assert state["current_repo"] == expected_current
     else:
         assert manifest["status"] == "implemented-initial/pending-windows-browser-closure"
         assert manifest["decision"] in {"PENDING", "PENDING-WINDOWS-BROWSER-CLOSURE"}
@@ -119,7 +120,8 @@ def test_uoc005_ui_exposes_human_approval_and_shared_traceability_styling() -> N
     assert "Solicitar aprobación de rollback" in ui
     assert "Revertir cambio aprobado" in ui
     assert "Aprobar" in ui and "Denegar" in ui
-    assert "refreshButton.className = 'validation-action-button traceability-refresh-button'" in panel
+    assert "refreshButton.className = 'validation-action-button'" in panel
+    assert 'traceability-refresh-button' not in panel
     assert ".validation-action-button" in styles
     assert ".traceability-refresh-button:not(:disabled)" not in styles
 
@@ -174,9 +176,13 @@ def test_uoc005_local_release_candidate_freshness_tracks_lifecycle_authoritative
     evidence = next(item for item in criteria["evidence"] if item["evidence_id"] == "project-state-current-repo")
     closed = state.get("uoc_005_closed") is True
     expected = (
-        "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
-        if closed
-        else "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
+        "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip"
+        if state.get("uoc_006_closed")
+        else (
+            "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
+            if closed
+            else "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
+        )
     )
     assert criteria["expected_current_repo"] == expected
     assert evidence["expected_fields"]["current_repo"] == expected
@@ -201,14 +207,25 @@ def test_uoc005_historical_contract_reconciliation_keeps_evolving_registries_sch
     flags = j(".devpilot/interfaces/ui_operational_console_flags.json")
     closed = state.get("uoc_005_closed") is True
     assert state["uoc_006_authorized"] is closed
-    # Authorization to start UOC-006 does not implement or enable its Git mutation feature flag.
-    assert next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.git.governed_operations")["enabled"] is False
+    # Closure of UOC-005 authorizes UOC-006. The feature flag becomes enabled
+    # only when the UOC-006 source implementation is actually present.
+    git_flag = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.git.governed_operations")
+    if state.get("uoc_006_status"):
+        assert git_flag["enabled"] is True
+        assert git_flag["enabled_by"] == "UOC-006"
+    else:
+        assert git_flag["enabled"] is False
 
 
 def test_uoc005_historical_route_contract_allows_only_narrow_source_mutations():
     routes = {item["route_id"]: item for item in j(".devpilot/interfaces/api_route_contract_registry.json")["routes"]}
     source_mutating = {route_id for route_id, route in routes.items() if route.get("source_mutation_allowed") is True}
-    assert source_mutating == {"api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback"}
+    flags = j(".devpilot/interfaces/ui_operational_console_flags.json")
+    git_enabled = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.git.governed_operations")["enabled"] is True
+    expected = {"api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback"}
+    if git_enabled:
+        expected |= {"api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create"}
+    assert source_mutating == expected
     for route_id in source_mutating:
         route = routes[route_id]
         assert route["local_only"] is True

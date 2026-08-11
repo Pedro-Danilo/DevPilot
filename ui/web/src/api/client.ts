@@ -252,6 +252,58 @@ export class DevPilotApiClient {
     return this.post(`/workspace/edit-executions/${encodeURIComponent(executionId)}/rollback`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
+  async workspaceGitStatus(): Promise<DevPilotApplicationResponse> {
+    return this.get('/workspace/git/status', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async workspaceGitHistory(limit = 20): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/git/history${this.query({ limit })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceGitCompare(baseRef = 'HEAD', headRef = 'HEAD'): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/git/compare${this.query({ base_ref: baseRef, head_ref: headRef })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async planWorkspaceGitCommit(payload: { document_ids: string[]; commit_message: string; author_name: string; author_email: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/workspace/git/plans', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceGitPlanStatus(planId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/git/plans/${encodeURIComponent(planId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async requestWorkspaceGitStageApproval(planId: string, payload: { plan_hash: string; actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/git/plans/${encodeURIComponent(planId)}/stage-approval-request`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async stageWorkspaceGitPlan(planId: string, payload: { plan_hash: string; approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/git/plans/${encodeURIComponent(planId)}/stage`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async workspaceGitExecutionStatus(executionId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/git/executions/${encodeURIComponent(executionId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async requestWorkspaceGitCommitApproval(executionId: string, payload: { actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/git/stage-executions/${encodeURIComponent(executionId)}/commit-approval-request`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async commitWorkspaceGitExecution(executionId: string, payload: { approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/git/stage-executions/${encodeURIComponent(executionId)}/commit`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async planWorkspaceGitBranch(branchName: string): Promise<DevPilotApplicationResponse> {
+    return this.post('/workspace/git/branches/plan', { branch_name: branchName }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async requestWorkspaceGitBranchApproval(planId: string, payload: { plan_hash: string; actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/git/branches/${encodeURIComponent(planId)}/approval-request`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async createWorkspaceGitBranch(planId: string, payload: { plan_hash: string; approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/git/branches/${encodeURIComponent(planId)}/create`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' }, policy);
   }

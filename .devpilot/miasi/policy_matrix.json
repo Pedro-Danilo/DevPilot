@@ -894,6 +894,33 @@
       "gate": "WorkspaceEditExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+GitAdapterReadOnly+BackupHash+AtomicReplace",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "WORKSPACE_GIT_STAGE_APPROVAL_GATED",
+      "domain": "Git",
+      "action": "git.workspace_stage",
+      "default_effect": "allow",
+      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+OpaqueDocumentId+SecretGuard+ExactIndexSet+PreCommitValidation; no free Git args",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "WORKSPACE_GIT_COMMIT_APPROVAL_GATED",
+      "domain": "Git",
+      "action": "git.workspace_commit",
+      "default_effect": "allow",
+      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+ExactIndexFingerprint+ExplicitIdentity+HooksDisabled+PostCommitVerification; local commit only, push denied",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED",
+      "domain": "Git",
+      "action": "git.workspace_branch_create",
+      "default_effect": "allow",
+      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+SafeBranchName+CleanWorktree+CurrentHEAD; creates local ref only, no checkout/delete/push",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

@@ -119,6 +119,19 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/workspace/edit-executions/{execution_id}"): ApiRoutePolicy("workspace.edits.execution_status", "read", "protected-governed-document-execution-read"),
     ("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request"): ApiRoutePolicy("workspace.edits.rollback_approval_request", "read", "protected-governed-approval-request"),
     ("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback"): ApiRoutePolicy("workspace.edits.rollback", "read", "protected-governed-document-mutation"),
+    ("GET", "/api/v1/workspace/git/status"): ApiRoutePolicy("workspace.git.status", "read", "protected-workspace-git-read"),
+    ("GET", "/api/v1/workspace/git/history"): ApiRoutePolicy("workspace.git.history", "read", "protected-workspace-git-read"),
+    ("GET", "/api/v1/workspace/git/compare"): ApiRoutePolicy("workspace.git.compare", "read", "protected-workspace-git-read"),
+    ("POST", "/api/v1/workspace/git/plans"): ApiRoutePolicy("workspace.git.plan", "read", "protected-workspace-git-plan"),
+    ("GET", "/api/v1/workspace/git/plans/{plan_id}"): ApiRoutePolicy("workspace.git.plan_status", "read", "protected-workspace-git-plan-read"),
+    ("POST", "/api/v1/workspace/git/plans/{plan_id}/stage-approval-request"): ApiRoutePolicy("workspace.git.stage_approval_request", "read", "protected-governed-git-approval-request"),
+    ("POST", "/api/v1/workspace/git/plans/{plan_id}/stage"): ApiRoutePolicy("workspace.git.stage", "read", "protected-governed-git-stage"),
+    ("GET", "/api/v1/workspace/git/executions/{execution_id}"): ApiRoutePolicy("workspace.git.execution_status", "read", "protected-workspace-git-execution-read"),
+    ("POST", "/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request"): ApiRoutePolicy("workspace.git.commit_approval_request", "read", "protected-governed-git-approval-request"),
+    ("POST", "/api/v1/workspace/git/stage-executions/{execution_id}/commit"): ApiRoutePolicy("workspace.git.commit", "read", "protected-governed-git-commit"),
+    ("POST", "/api/v1/workspace/git/branches/plan"): ApiRoutePolicy("workspace.git.branch_plan", "read", "protected-workspace-git-branch-plan"),
+    ("POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request"): ApiRoutePolicy("workspace.git.branch_approval_request", "read", "protected-governed-git-approval-request"),
+    ("POST", "/api/v1/workspace/git/branches/{plan_id}/create"): ApiRoutePolicy("workspace.git.branch_create", "read", "protected-governed-git-branch-create"),
     ("GET", "/api/v1/application/contract"): ApiRoutePolicy("app.contract", "read", "protected-read"),
     ("GET", "/api/v1/miasi/status"): ApiRoutePolicy("miasi.validate", "read", "protected-read"),
     ("GET", "/api/v1/standards/status"): ApiRoutePolicy("standards.status", "read", "protected-read"),
@@ -401,6 +414,10 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/edit-executions/{execution_id}"))
         if path.startswith("/api/v1/workspace/validations/") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/validations/{job_id}"))
+        if path.startswith("/api/v1/workspace/git/plans/") and path.count("/") == 6:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/git/plans/{plan_id}"))
+        if path.startswith("/api/v1/workspace/git/executions/") and path.count("/") == 6:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/git/executions/{execution_id}"))
         if path.startswith("/api/v1/workspace/documents/"):
             if path == "/api/v1/workspace/documents/search":
                 return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/documents/search"))
@@ -432,6 +449,21 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request"))
         if path.endswith("/rollback"):
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback"))
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/git/plans/") and path.count("/") == 7:
+        if path.endswith("/stage-approval-request"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/plans/{plan_id}/stage-approval-request"))
+        if path.endswith("/stage"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/plans/{plan_id}/stage"))
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/git/stage-executions/") and path.count("/") == 7:
+        if path.endswith("/commit-approval-request"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request"))
+        if path.endswith("/commit"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/stage-executions/{execution_id}/commit"))
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/git/branches/") and path.count("/") == 7:
+        if path.endswith("/approval-request"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request"))
+        if path.endswith("/create"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/branches/{plan_id}/create"))
     if method.upper() == "POST" and path.startswith("/api/v1/approvals/"):
         if path.endswith("/approve") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/approvals/{approval_id}/approve"))

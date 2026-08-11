@@ -2264,7 +2264,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-005"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-GIT-PLAN-V1",
+      "title": "Workspace Git Plan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_git_plan.schema.json",
+      "description": "UOC-006 immutable commit/staging or branch-create plan bound to exact workspace HEAD and hashes.",
+      "status": "registered",
+      "contract": "WorkspaceGitPlan",
+      "owner": "Ordóñez",
+      "sprint": "UOC-006",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-006"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-GIT-EXECUTION-V1",
+      "title": "Workspace Git Execution v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_git_execution.schema.json",
+      "description": "UOC-006 approval-bound staging/commit/branch execution evidence with exact postconditions.",
+      "status": "registered",
+      "contract": "WorkspaceGitExecution",
+      "owner": "Ordóñez",
+      "sprint": "UOC-006",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-006"
     }
   ],
-  "schemas_total": 156
+  "schemas_total": 158
 }

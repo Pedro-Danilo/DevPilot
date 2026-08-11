@@ -1299,6 +1299,45 @@
         "WORKSPACE_DOCUMENT_ROLLBACK_APPROVAL_GATED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "git.workspace.stage",
+      "name": "stage_approved_workspace_documents",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "WORKSPACE_GIT_STAGE_APPROVAL_GATED",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "git.workspace.commit",
+      "name": "commit_approved_workspace_index",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "WORKSPACE_GIT_COMMIT_APPROVAL_GATED",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "git.workspace.branch_create",
+      "name": "create_approved_local_branch_ref",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

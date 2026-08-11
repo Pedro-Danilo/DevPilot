@@ -911,7 +911,6 @@ button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
   scroll-margin-top: 1rem;
 }
 
-.traceability-refresh-button:disabled { opacity: .62; cursor: not-allowed; }
 .traceability-refresh-hint { margin: -.35rem 0 .1rem; color: var(--uoc003-muted-text); font-size: .88rem; }
 .document-navigation-notice:focus-within { outline: 2px solid #8db4ff; outline-offset: 2px; }
 @media (max-width: 700px) {
@@ -958,3 +957,24 @@ button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
 .uoc005-approval-card code, .uoc005-execution-card code { overflow-wrap:anywhere; white-space:normal; }
 .uoc005-actions { display:flex; gap:.65rem; flex-wrap:wrap; margin-top:.75rem; }
 @media (max-width:720px){ .uoc005-approval-card dl,.uoc005-execution-card dl{grid-template-columns:1fr;} .uoc005-governance > button,.uoc005-actions button{width:100%;} }
+
+
+/* UOC-006 governed Git operations — implemented-initial, local-only. */
+.uoc006-git-panel { display: grid; gap: 1rem; }
+.uoc006-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.uoc006-heading h2 { margin-bottom: .25rem; }
+.uoc006-heading p { margin: 0; max-width: 62rem; }
+.uoc006-badges { display: flex; flex-wrap: wrap; gap: .4rem; }
+.uoc006-badges span { border: 1px solid var(--border); border-radius: 999px; padding: .28rem .58rem; font-size: .76rem; font-weight: 700; }
+.uoc006-no-go { border: 1px solid var(--border); border-radius: .7rem; padding: .75rem .9rem; font-weight: 650; }
+.uoc006-selected, .uoc006-read-card, .uoc006-plan-card, .uoc006-execution-card, .uoc006-approval-card, .uoc006-branch-panel { border: 1px solid var(--border); border-radius: .75rem; padding: 1rem; display: grid; gap: .75rem; }
+.uoc006-selected code { overflow-wrap: anywhere; }
+.uoc006-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .75rem; }
+.uoc006-field { display: grid; gap: .3rem; font-weight: 650; }
+.uoc006-field input { min-height: 2.55rem; width: 100%; }
+.uoc006-actions { display: flex; flex-wrap: wrap; gap: .55rem; }
+.uoc006-plan-card dl, .uoc006-execution-card dl, .uoc006-approval-card dl { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: .35rem .75rem; margin: 0; }
+.uoc006-plan-card dd, .uoc006-execution-card dd, .uoc006-approval-card dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.uoc006-plan-card pre, .uoc006-status-json, .uoc006-history-json, .uoc006-compare-json { max-height: 24rem; overflow: auto; white-space: pre-wrap; }
+.uoc006-commit-pass { border-width: 2px; }
+@media (max-width: 640px) { .uoc006-plan-card dl, .uoc006-execution-card dl, .uoc006-approval-card dl { grid-template-columns: 1fr; } }

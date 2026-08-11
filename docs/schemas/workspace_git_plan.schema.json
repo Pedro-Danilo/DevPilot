@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/workspace_git_plan.schema.json",
+  "title": "Workspace Git Plan v1",
+  "description": "UOC-006 immutable local Git commit/staging or branch-create plan bound to workspace, HEAD and exact hashes without arbitrary Git arguments.",
+  "oneOf": [
+    {"$ref": "#/$defs/commitPlan"},
+    {"$ref": "#/$defs/branchPlan"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitObject": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "document": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["document_id", "relative_path", "working_sha256", "diff_sha256"],
+      "properties": {
+        "document_id": {"type": "string", "minLength": 8},
+        "relative_path": {"type": "string", "minLength": 1, "not": {"pattern": "(^/|^[A-Za-z]:|\\.\\.)"}},
+        "working_sha256": {"$ref": "#/$defs/sha256"},
+        "diff_sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "commitPlan": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema_id", "plan_id", "plan_hash", "kind", "workspace_id", "branch", "head_before", "files", "commit", "created_at", "expires_at", "preliminary"],
+      "properties": {
+        "schema_id": {"const": "devpilot.post_h_eval_002.uoc_006.git_commit_plan.v1"},
+        "plan_id": {"type": "string", "pattern": "^gplan_[0-9a-f]{32}$"},
+        "plan_hash": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "commit"},
+        "workspace_id": {"type": "string", "minLength": 1},
+        "branch": {"type": "string", "minLength": 1},
+        "head_before": {"$ref": "#/$defs/gitObject"},
+        "files": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"$ref": "#/$defs/document"}},
+        "commit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["message", "author_name", "author_email"],
+          "properties": {
+            "message": {"type": "string", "minLength": 3, "maxLength": 500},
+            "author_name": {"type": "string", "minLength": 1, "maxLength": 128},
+            "author_email": {"type": "string", "minLength": 3, "maxLength": 254}
+          }
+        },
+        "created_at": {"type": "string", "minLength": 1},
+        "expires_at": {"type": "string", "minLength": 1},
+        "preliminary": {"const": true}
+      }
+    },
+    "branchPlan": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema_id", "plan_id", "plan_hash", "kind", "workspace_id", "branch_name", "head_before", "current_branch", "created_at", "expires_at", "preliminary"],
+      "properties": {
+        "schema_id": {"const": "devpilot.post_h_eval_002.uoc_006.git_branch_plan.v1"},
+        "plan_id": {"type": "string", "pattern": "^gbranch_[0-9a-f]{32}$"},
+        "plan_hash": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "branch-create"},
+        "workspace_id": {"type": "string", "minLength": 1},
+        "branch_name": {"type": "string", "pattern": "^(feat|fix|docs|chore|test|devpilot)/[A-Za-z0-9._/-]+$"},
+        "head_before": {"$ref": "#/$defs/gitObject"},
+        "current_branch": {"type": "string", "minLength": 1},
+        "created_at": {"type": "string", "minLength": 1},
+        "expires_at": {"type": "string", "minLength": 1},
+        "preliminary": {"const": true}
+      }
+    }
+  }
+}

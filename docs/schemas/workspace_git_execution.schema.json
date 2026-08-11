@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/workspace_git_execution.schema.json",
+  "title": "Workspace Git Execution v1",
+  "description": "UOC-006 approval-bound local Git staging, commit or branch-ref execution evidence with exact hashes and explicit no-push/no-free-Git invariants.",
+  "oneOf": [
+    {"$ref": "#/$defs/stage"},
+    {"$ref": "#/$defs/commit"},
+    {"$ref": "#/$defs/branch"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitObject": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "stage": {
+      "type": "object", "additionalProperties": true,
+      "required": ["schema_id", "stage_execution_id", "status", "plan_id", "plan_hash", "stage_approval_id", "head_before", "index_fingerprint", "commit_intent_hash", "git_stage", "git_commit", "source_content_mutated_by_git", "push_performed"],
+      "properties": {
+        "schema_id": {"const": "devpilot.post_h_eval_002.uoc_006.git_stage_execution.v1"},
+        "stage_execution_id": {"type": "string", "pattern": "^gstage_[0-9a-f]{32}$"},
+        "status": {"enum": ["staged", "committed"]},
+        "plan_hash": {"$ref": "#/$defs/sha256"},
+        "head_before": {"$ref": "#/$defs/gitObject"},
+        "index_fingerprint": {"$ref": "#/$defs/sha256"},
+        "commit_intent_hash": {"$ref": "#/$defs/sha256"},
+        "git_stage": {"const": true}, "git_commit": {"type": "boolean"},
+        "source_content_mutated_by_git": {"const": false}, "push_performed": {"const": false}
+      }
+    },
+    "commit": {
+      "type": "object", "additionalProperties": true,
+      "required": ["schema_id", "execution_id", "status", "stage_execution_id", "plan_id", "plan_hash", "stage_approval_id", "commit_approval_id", "head_before", "commit", "parent", "committed_paths", "index_fingerprint", "commit_intent_hash", "git_stage", "git_commit", "push_performed", "hooks_executed"],
+      "properties": {
+        "schema_id": {"const": "devpilot.post_h_eval_002.uoc_006.git_commit_execution.v1"},
+        "execution_id": {"type": "string", "pattern": "^gcommit_[0-9a-f]{32}$"},
+        "status": {"const": "committed"},
+        "plan_hash": {"$ref": "#/$defs/sha256"},
+        "head_before": {"$ref": "#/$defs/gitObject"},
+        "commit": {"$ref": "#/$defs/gitObject"},
+        "parent": {"$ref": "#/$defs/gitObject"},
+        "index_fingerprint": {"$ref": "#/$defs/sha256"},
+        "commit_intent_hash": {"$ref": "#/$defs/sha256"},
+        "committed_paths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "git_stage": {"const": true}, "git_commit": {"const": true},
+        "push_performed": {"const": false}, "hooks_executed": {"const": false}
+      }
+    },
+    "branch": {
+      "type": "object", "additionalProperties": true,
+      "required": ["schema_id", "execution_id", "status", "plan_id", "plan_hash", "approval_id", "branch_name", "head", "current_branch_unchanged", "checkout_performed", "push_performed"],
+      "properties": {
+        "schema_id": {"const": "devpilot.post_h_eval_002.uoc_006.git_branch_execution.v1"},
+        "execution_id": {"type": "string", "pattern": "^gbranch_exec_[0-9a-f]{24}$"},
+        "status": {"const": "branch-created"},
+        "plan_hash": {"$ref": "#/$defs/sha256"},
+        "branch_name": {"type": "string", "minLength": 3},
+        "head": {"$ref": "#/$defs/gitObject"},
+        "current_branch_unchanged": {"const": true},
+        "checkout_performed": {"const": false},
+        "push_performed": {"const": false}
+      }
+    }
+  }
+}

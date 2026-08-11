@@ -1,0 +1,88 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_006.manifest.v1",
+  "sprint_id": "UOC-006",
+  "title": "Git operations gobernadas",
+  "status": "implemented-initial/pending-windows-browser-closure",
+  "decision": "PENDING-WINDOWS-BROWSER-CLOSURE",
+  "closed": false,
+  "preliminary": true,
+  "base_commit": "9dfb0f380c3a7dea11321a5b75d2923cd7529a68",
+  "authoritative_input_repo": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
+  "authoritative_input_repo_sha256": "a528eb9ee5b1f676a1607b9c50256fa62596810647482b4f10cc68eb4ddeaabb",
+  "candidate_output_repo": "repo_DevPilot_Local_334_CANDIDATE_POST_H_EVAL_002_UOC_006.zip",
+  "authoritative_output_repo": null,
+  "source_branch": "feat/post-h-eval-002-uoc-006-governed-git-operations",
+  "scope": {
+    "status_diff_history_compare": true,
+    "immutable_staging_plan": true,
+    "allowlisted_documents_only": true,
+    "stage_approval_required": true,
+    "separate_commit_approval_required": true,
+    "explicit_commit_identity": true,
+    "pre_commit_validation": true,
+    "post_commit_verification": true,
+    "controlled_local_branch_creation": true,
+    "arbitrary_git_arguments": false,
+    "reset_hard": false,
+    "interactive_rebase": false,
+    "push": false,
+    "force_push": false,
+    "branch_delete": false,
+    "checkout_switch": false,
+    "secret_staging": false
+  },
+  "source_contract": {
+    "files_total": 60,
+    "added_total": 14,
+    "modified_total": 46,
+    "deleted_total": 0,
+    "payload_version": "1.0.2"
+  },
+  "verification": {
+    "controlled_environment": "PASS/targeted-governance-ui",
+    "windows": "PENDING",
+    "browser": "PENDING",
+    "s0": 0,
+    "s1": 0,
+    "test_impact": {
+      "status": "PASS",
+      "changed_paths_total": 60,
+      "contracts_total": 258,
+      "matched_contracts_total": 157,
+      "p0_selected_total": 62,
+      "p1_selected_total": 86,
+      "recommended_tests_total": 220,
+      "recommended_commands_total": 334,
+      "unmatched_paths_total": 0,
+      "tests_executed": false
+    },
+    "targeted_python": {
+      "status": "PASS/controlled-environment",
+      "summary": "152 passed, 0 failed, 0 errors, 0 skipped",
+      "windows_authoritative": "PENDING",
+      "cross_platform_fixture": "CRLF worktree + core.autocrlf=true"
+    },
+    "typescript": "PASS/5.8.3-noEmit",
+    "vite_build": "PENDING-WINDOWS-node_modules-not-present-in-controlled-source-tree",
+    "ui_smokes": "PASS/4-of-4",
+    "miasi_validate": "PASS",
+    "miasi_semantic": "PASS-with-nonblocking-review-warnings",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS-with-2-preexisting-needs-review-warnings",
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "windows_git_staging_portability": "PASS/controlled-environment; PENDING-WINDOWS-AUTHORITATIVE"
+  },
+  "next": {
+    "uoc_007_authorized": false,
+    "authorization_condition": "UOC-006 Windows/browser/Git/baseline closure must be CLOSED/PASS with exact stage/commit/branch evidence, no forbidden Git surface and S0=0/S1=0."
+  },
+  "source_payload_version": "1.0.2",
+  "windows_git_canonical_staging": {
+    "status": "corrected",
+    "raw_worktree_sha_retained_for_optimistic_concurrency": true,
+    "post_stage_identity": "git-worktree-index-semantic-equivalence+index-sha256-fingerprint",
+    "autocrlf_crlf_fixture": true,
+    "validators_relaxed": false
+  }
+}

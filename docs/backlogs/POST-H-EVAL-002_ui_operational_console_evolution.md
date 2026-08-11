@@ -2,14 +2,14 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.10.0"
+version: "1.11.0"
 owner: "Ordóñez"
-updated: "2026-08-09"
+updated: "2026-08-10"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-005-closed/PASS; UOC-006-authorized"
+implementation_status: "UOC-005-closed/PASS; UOC-006-implemented-initial/pending-Windows-browser-closure"
 current_sprint: "UOC-006"
 next_sprint: "UOC-007"
 completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005"
@@ -36,11 +36,16 @@ uoc_003_base_commit: "ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913"
 uoc_004_closure_commit: "12334ffa5ea181f7d72fd66e55fb383baed2195f"
 uoc_004_status: "closed/PASS"
 uoc_005_base_commit: "12334ffa5ea181f7d72fd66e55fb383baed2195f"
-uoc_005_implementation_status: "implemented-initial/apply-backend-PASS-ui-state-recovery-pending-rollback-browser-closure"
-uoc_006_authorized: false
+uoc_005_implementation_status: "closed/PASS"
+uoc_005_closure_commit: "9dfb0f380c3a7dea11321a5b75d2923cd7529a68"
+uoc_005_authoritative_repo: "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
+uoc_006_base_commit: "9dfb0f380c3a7dea11321a5b75d2923cd7529a68"
+uoc_006_implementation_status: "implemented-initial/pending-Windows-browser-closure"
+uoc_007_authorized: false
+uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
-uoc_004_browser_export_feedback_status: "implemented-initial-v1.0.2/pending-browser-closure"
+uoc_004_browser_export_feedback_status: "closed/PASS-v1.0.3"
 ---
 
 
@@ -66,7 +71,7 @@ S0: 0
 S1: 0
 ```
 
-`UOC-000`, `UOC-001` y `UOC-002` están cerrados/PASS. La baseline canónica autoritativa de UOC-002 es repo 330 en `ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913`. UOC-003 está CLOSED/PASS en `40ba9e77276d97e69952a8e54c68b8943fd3e51d`, con browser acceptance v1.0.5 y baseline exact-tree repo 331. UOC-004 está autorizado y entra en implementación inicial sobre esa fuente de verdad.
+`UOC-000`, `UOC-001` y `UOC-002` están cerrados/PASS. La baseline canónica autoritativa de UOC-002 es repo 330 en `ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913`. UOC-003 está CLOSED/PASS con baseline repo 331; UOC-004 está CLOSED/PASS con baseline repo 332; UOC-005 está CLOSED/PASS en closure commit `9dfb0f380c3a7dea11321a5b75d2923cd7529a68` y baseline autoritativa `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`. UOC-006 es el sprint actual, autorizado e implementado inicialmente, pendiente exclusivamente de aceptación Windows/browser/Git y baseline repo 334.
 
 ## 2. Problema que resuelve
 
@@ -1135,3 +1140,12 @@ La evidencia browser v1.0.6 confirmó un apply backend `PASS` con execution reco
 ## UOC-005 closure — 2026-08-09
 
 UOC-005 **CLOSED/PASS** sobre source commit `ee9e4ddda7b7e49a65ed8ce495f0fecd82541156`. Approval binding exacto, apply atómico, backup externo de control, rollback compensatorio y rollback manual pre-commit fueron verificados; approval ausente/expirado/hash distinto y stale state bloquean. Selective regression completion/guard waiver Windows y browser acceptance PASS, S0=0/S1=0. Baseline: `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`. UOC-006 queda autorizado.
+
+
+## UOC-006 — Implementation status (2026-08-10)
+
+Estado: `implemented-initial/pending-windows-browser-closure`. Base autoritativa: `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`, closure commit `9dfb0f380c3a7dea11321a5b75d2923cd7529a68`. La implementación expone status/history/compare read-only y un pipeline Git tipado `immutable commit plan → approval de staging → exact staging → pre-commit validation → approval independiente de commit → commit local con identidad explícita → postcondition verification`. La creación de branch local se planifica y aprueba de forma separada y no realiza checkout ni push.
+
+La superficie no acepta argumentos Git libres. `reset --hard`, rebase, push/force-push, branch delete, checkout/switch, tag creation y staging de secretos/paths no allowlisted permanecen bloqueados. El adapter Git histórico read-only no se modifica; UOC-006 introduce un boundary de mutación independiente y estrecho. La primera versión es preliminar: la UI opera inicialmente sobre el documento activo por plan aunque el Application Service admite un set acotado; jobs persistentes/heartbeat/cancelación pertenecen a UOC-007/UOC-008.
+
+El S3 cosmético de `Recargar trazabilidad` queda reconciliado usando exactamente la clase compartida `validation-action-button`, sin selector visual privilegiado. UOC-007 permanece NO autorizado hasta el cierre Windows/browser/Git/repo334 de UOC-006 con evidencia completa, no-go Git PASS y S0=0/S1=0.

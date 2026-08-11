@@ -21,30 +21,76 @@
     "notes"
   ],
   "properties": {
-    "schema_version": {"const": "1.0"},
-    "schema_id": {"const": "SCHEMA-DEVPL-SENSITIVE-ACTION-CATALOG-V1"},
-    "catalog_id": {"const": "devpilot-sensitive-actions"},
-    "created_by": {"const": "POST-H-012-A"},
-    "status": {"enum": ["approved", "implemented-initial", "draft"]},
-    "local_first": {"const": true},
-    "dry_run": {"const": true},
-    "default_effect": {"enum": ["block", "deny"]},
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-SENSITIVE-ACTION-CATALOG-V1"
+    },
+    "catalog_id": {
+      "const": "devpilot-sensitive-actions"
+    },
+    "created_by": {
+      "const": "POST-H-012-A"
+    },
+    "status": {
+      "enum": [
+        "approved",
+        "implemented-initial",
+        "draft"
+      ]
+    },
+    "local_first": {
+      "const": true
+    },
+    "dry_run": {
+      "const": true
+    },
+    "default_effect": {
+      "enum": [
+        "block",
+        "deny"
+      ]
+    },
     "required_domains": {
       "type": "array",
       "minItems": 11,
       "uniqueItems": true,
-      "items": {"enum": ["patch", "refactor", "release", "connector", "plugin", "remote", "filesystem", "model", "agent", "approval", "identity"]}
+      "items": {
+        "enum": [
+          "patch",
+          "refactor",
+          "release",
+          "connector",
+          "plugin",
+          "remote",
+          "filesystem",
+          "model",
+          "agent",
+          "approval",
+          "identity"
+        ]
+      }
     },
     "actions": {
       "type": "array",
       "minItems": 11,
-      "items": {"$ref": "#/$defs/action"}
+      "items": {
+        "$ref": "#/$defs/action"
+      }
     },
-    "safety": {"$ref": "#/$defs/safety"},
-    "summary": {"$ref": "#/$defs/summary"},
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
     "notes": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     }
   },
   "$defs": {
@@ -72,48 +118,138 @@
         "notes"
       ],
       "properties": {
-        "action_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]*$"},
-        "domain": {"enum": ["patch", "refactor", "release", "connector", "plugin", "remote", "filesystem", "model", "agent", "approval", "identity"]},
-        "description": {"type": "string", "minLength": 1},
-        "risk_level": {"enum": ["low", "medium", "high", "critical"]},
-        "status": {"enum": ["declared", "blocked", "implemented-initial", "planned"]},
-        "requires_approval": {"type": "boolean"},
-        "requires_rbac_role": {"type": "string", "minLength": 1},
-        "requires_tool_call_binding": {"type": "boolean"},
-        "requires_command_binding": {"type": "boolean"},
+        "action_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+        },
+        "domain": {
+          "enum": [
+            "patch",
+            "refactor",
+            "release",
+            "connector",
+            "plugin",
+            "remote",
+            "filesystem",
+            "model",
+            "agent",
+            "approval",
+            "identity",
+            "git"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk_level": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "status": {
+          "enum": [
+            "declared",
+            "blocked",
+            "implemented-initial",
+            "planned"
+          ]
+        },
+        "requires_approval": {
+          "type": "boolean"
+        },
+        "requires_rbac_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requires_tool_call_binding": {
+          "type": "boolean"
+        },
+        "requires_command_binding": {
+          "type": "boolean"
+        },
         "allowed_interfaces": {
           "type": "array",
-          "items": {"enum": ["cli", "api", "ui", "agent", "multiagent", "internal"]},
+          "items": {
+            "enum": [
+              "cli",
+              "api",
+              "ui",
+              "agent",
+              "multiagent",
+              "internal"
+            ]
+          },
           "uniqueItems": true
         },
         "blocked_interfaces": {
           "type": "array",
-          "items": {"enum": ["cli", "api", "ui", "agent", "multiagent", "internal", "remote", "connector", "plugin"]},
+          "items": {
+            "enum": [
+              "cli",
+              "api",
+              "ui",
+              "agent",
+              "multiagent",
+              "internal",
+              "remote",
+              "connector",
+              "plugin"
+            ]
+          },
           "uniqueItems": true
         },
-        "default_effect": {"enum": ["allow", "warn", "deny", "block"]},
-        "executable": {"type": "boolean"},
-        "source_mutation_allowed": {"type": "boolean"},
-        "workspace_scope_required": {"const": true},
+        "default_effect": {
+          "enum": [
+            "allow",
+            "warn",
+            "deny",
+            "block"
+          ]
+        },
+        "executable": {
+          "type": "boolean"
+        },
+        "source_mutation_allowed": {
+          "type": "boolean"
+        },
+        "workspace_scope_required": {
+          "const": true
+        },
         "miasi_policy_rule_ids": {
           "type": "array",
           "minItems": 1,
-          "items": {"type": "string", "minLength": 1},
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
           "uniqueItems": true
         },
         "tool_ids": {
           "type": "array",
-          "items": {"type": "string", "minLength": 1},
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
           "uniqueItems": true
         },
         "test_contract_ids": {
           "type": "array",
-          "items": {"type": "string", "minLength": 1},
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
           "uniqueItems": true
         },
         "notes": {
           "type": "array",
-          "items": {"type": "string", "minLength": 1}
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -133,16 +269,36 @@
         "deny_by_default"
       ],
       "properties": {
-        "remote_execution_enabled": {"const": false},
-        "connector_write_enabled": {"const": false},
-        "plugin_execution_enabled": {"const": false},
-        "network_used": {"const": false},
-        "external_api_used": {"const": false},
-        "llm_judge_used": {"const": false},
-        "mutations_performed": {"const": false},
-        "source_mutations_performed": {"const": false},
-        "dry_run_default": {"const": true},
-        "deny_by_default": {"const": true}
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "dry_run_default": {
+          "const": true
+        },
+        "deny_by_default": {
+          "const": true
+        }
       }
     },
     "summary": {
@@ -162,17 +318,49 @@
         "preliminary"
       ],
       "properties": {
-        "actions_total": {"type": "integer", "minimum": 1},
-        "domains_total": {"type": "integer", "minimum": 1},
-        "critical_actions_total": {"type": "integer", "minimum": 0},
-        "actions_requiring_approval_total": {"type": "integer", "minimum": 0},
-        "actions_requiring_rbac_total": {"type": "integer", "minimum": 0},
-        "blocked_actions_total": {"type": "integer", "minimum": 0},
-        "remote_actions_blocked_total": {"type": "integer", "minimum": 0},
-        "connector_write_actions_blocked_total": {"type": "integer", "minimum": 0},
-        "plugin_execution_actions_blocked_total": {"type": "integer", "minimum": 0},
-        "miasi_policy_links_total": {"type": "integer", "minimum": 0},
-        "preliminary": {"type": "boolean"}
+        "actions_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "domains_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "critical_actions_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "actions_requiring_approval_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "actions_requiring_rbac_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked_actions_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remote_actions_blocked_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "connector_write_actions_blocked_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "plugin_execution_actions_blocked_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "miasi_policy_links_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "preliminary": {
+          "type": "boolean"
+        }
       }
     }
   }

@@ -454,3 +454,72 @@ export interface WorkspaceEditApprovalRecord {
   decision_at?: string | null;
   decided_by?: string | null;
 }
+
+export interface WorkspaceGitPlanFile {
+  document_id: string;
+  relative_path: string;
+  working_sha256: string;
+  diff_sha256: string;
+  size_bytes: number;
+}
+
+export interface WorkspaceGitCommitPlan {
+  schema_id: string;
+  plan_id: string;
+  plan_hash: string;
+  kind: 'commit';
+  workspace_id: string;
+  branch: string;
+  head_before: string;
+  files: WorkspaceGitPlanFile[];
+  commit: { message: string; author_name: string; author_email: string };
+  combined_diff: string;
+  combined_diff_sha256: string;
+  created_at: string;
+  expires_at: string;
+  preliminary: boolean;
+}
+
+export interface WorkspaceGitStageExecution {
+  stage_execution_id: string;
+  status: 'staged' | 'committed' | string;
+  plan_id: string;
+  plan_hash: string;
+  stage_approval_id: string;
+  branch: string;
+  head_before: string;
+  index_fingerprint: string;
+  commit_intent_hash: string;
+  files: WorkspaceGitPlanFile[];
+  commit: { message: string; author_name: string; author_email: string };
+  git_stage: boolean;
+  git_commit: boolean;
+  push_performed: boolean;
+}
+
+export interface WorkspaceGitCommitExecution {
+  execution_id: string;
+  status: 'committed' | string;
+  stage_execution_id: string;
+  commit: string;
+  parent: string;
+  branch: string;
+  committed_paths: string[];
+  commit_identity: { message: string; author_name: string; author_email: string };
+  push_performed: boolean;
+  hooks_executed: boolean;
+}
+
+export interface WorkspaceGitBranchPlan {
+  schema_id: string;
+  plan_id: string;
+  plan_hash: string;
+  kind: 'branch-create';
+  workspace_id: string;
+  current_branch: string;
+  branch_name: string;
+  head_before: string;
+  created_at: string;
+  expires_at: string;
+  preliminary: boolean;
+}

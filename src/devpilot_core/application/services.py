@@ -30,6 +30,7 @@ from .workspace_document_inspection_service import WorkspaceDocumentInspectionAp
 from .workspace_validation_service import WorkspaceValidationApplicationService
 from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
+from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -71,6 +72,7 @@ class ApplicationService:
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
         self.workspace_edit_execution = WorkspaceEditExecutionApplicationService(self.root, documents=self.workspace_documents, plans=self.workspace_edit_planning)
+        self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
         self.maturity = MaturityApplicationService(self.root)
@@ -911,6 +913,45 @@ class ApplicationService:
     def workspace_edit_rollback(self, *, execution_id: str, approval_id: str, actor: str) -> CommandResult:
         return self.workspace_edit_execution.rollback(execution_id=execution_id, approval_id=approval_id, actor=actor)
 
+    def workspace_git_status(self) -> CommandResult:
+        return self.workspace_git_operations.status()
+
+    def workspace_git_history(self, *, limit: int = 20) -> CommandResult:
+        return self.workspace_git_operations.history(limit=limit)
+
+    def workspace_git_compare(self, *, base_ref: str = "HEAD", head_ref: str = "HEAD") -> CommandResult:
+        return self.workspace_git_operations.compare(base_ref=base_ref, head_ref=head_ref)
+
+    def workspace_git_plan(self, *, document_ids: list[str], commit_message: str, author_name: str, author_email: str) -> CommandResult:
+        return self.workspace_git_operations.plan_commit(document_ids=document_ids, commit_message=commit_message, author_name=author_name, author_email=author_email)
+
+    def workspace_git_plan_status(self, *, plan_id: str) -> CommandResult:
+        return self.workspace_git_operations.get_plan(plan_id=plan_id)
+
+    def workspace_git_stage_approval_request(self, *, plan_id: str, plan_hash: str, actor: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
+        return self.workspace_git_operations.request_stage_approval(plan_id=plan_id, plan_hash=plan_hash, actor=actor, reason=reason, ttl_minutes=ttl_minutes)
+
+    def workspace_git_stage(self, *, plan_id: str, plan_hash: str, approval_id: str, actor: str) -> CommandResult:
+        return self.workspace_git_operations.stage(plan_id=plan_id, plan_hash=plan_hash, approval_id=approval_id, actor=actor)
+
+    def workspace_git_execution_status(self, *, execution_id: str) -> CommandResult:
+        return self.workspace_git_operations.get_execution(execution_id=execution_id)
+
+    def workspace_git_commit_approval_request(self, *, stage_execution_id: str, actor: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
+        return self.workspace_git_operations.request_commit_approval(stage_execution_id=stage_execution_id, actor=actor, reason=reason, ttl_minutes=ttl_minutes)
+
+    def workspace_git_commit(self, *, stage_execution_id: str, approval_id: str, actor: str) -> CommandResult:
+        return self.workspace_git_operations.commit(stage_execution_id=stage_execution_id, approval_id=approval_id, actor=actor)
+
+    def workspace_git_branch_plan(self, *, branch_name: str) -> CommandResult:
+        return self.workspace_git_operations.plan_branch_create(branch_name=branch_name)
+
+    def workspace_git_branch_approval_request(self, *, plan_id: str, plan_hash: str, actor: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
+        return self.workspace_git_operations.request_branch_approval(plan_id=plan_id, plan_hash=plan_hash, actor=actor, reason=reason, ttl_minutes=ttl_minutes)
+
+    def workspace_git_branch_create(self, *, plan_id: str, plan_hash: str, approval_id: str, actor: str) -> CommandResult:
+        return self.workspace_git_operations.create_branch(plan_id=plan_id, plan_hash=plan_hash, approval_id=approval_id, actor=actor)
+
     def reports_list(self, *, limit: int = 50, offset: int = 0, severity: str | None = None, status: str | None = None, command: str | None = None, query: str | None = None, scope: str | None = None) -> CommandResult:
         return self.reports.list_reports(limit=limit, offset=offset, severity=severity, status=status, command=command, query=query, scope=scope)
 
@@ -1020,6 +1061,14 @@ class ApplicationService:
                 "web_ui_source_write_mode": "approval-gated-atomic-uoc005",
                 "web_ui_generic_patch_apply_enabled": False,
                 "web_ui_generic_rollback_enabled": False,
+                "web_ui_governed_git_write_enabled": True,
+                "web_ui_governed_git_write_mode": "approval-gated-typed-local-uoc006",
+                "web_ui_generic_git_write_enabled": False,
+                "web_ui_git_push_enabled": False,
+                "web_ui_git_force_push_enabled": False,
+                "web_ui_git_reset_hard_enabled": False,
+                "web_ui_git_rebase_enabled": False,
+                "web_ui_git_branch_delete_enabled": False,
                 "web_ui_real_future": True,
                 "desktop_deferred": True,
                 "desktop_ready_for_shell": False,
@@ -1159,6 +1208,19 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "workspace.edits.rollback": lambda payload: service.workspace_edit_rollback(
             execution_id=str(payload.get("execution_id", "")), approval_id=str(payload.get("approval_id", "")), actor=str(payload.get("actor", "local-owner"))
         ),
+        "workspace.git.status": lambda payload: service.workspace_git_status(),
+        "workspace.git.history": lambda payload: service.workspace_git_history(limit=int(payload.get("limit", 20))),
+        "workspace.git.compare": lambda payload: service.workspace_git_compare(base_ref=str(payload.get("base_ref", "HEAD")), head_ref=str(payload.get("head_ref", "HEAD"))),
+        "workspace.git.plan": lambda payload: service.workspace_git_plan(document_ids=list(payload.get("document_ids") or []), commit_message=str(payload.get("commit_message", "")), author_name=str(payload.get("author_name", "")), author_email=str(payload.get("author_email", ""))),
+        "workspace.git.plan_status": lambda payload: service.workspace_git_plan_status(plan_id=str(payload.get("plan_id", ""))),
+        "workspace.git.stage_approval_request": lambda payload: service.workspace_git_stage_approval_request(plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "")), ttl_minutes=int(payload.get("ttl_minutes", 15))),
+        "workspace.git.stage": lambda payload: service.workspace_git_stage(plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), approval_id=str(payload.get("approval_id", "")), actor=str(payload.get("actor", "local-owner"))),
+        "workspace.git.execution_status": lambda payload: service.workspace_git_execution_status(execution_id=str(payload.get("execution_id", ""))),
+        "workspace.git.commit_approval_request": lambda payload: service.workspace_git_commit_approval_request(stage_execution_id=str(payload.get("stage_execution_id", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "")), ttl_minutes=int(payload.get("ttl_minutes", 15))),
+        "workspace.git.commit": lambda payload: service.workspace_git_commit(stage_execution_id=str(payload.get("stage_execution_id", "")), approval_id=str(payload.get("approval_id", "")), actor=str(payload.get("actor", "local-owner"))),
+        "workspace.git.branch_plan": lambda payload: service.workspace_git_branch_plan(branch_name=str(payload.get("branch_name", ""))),
+        "workspace.git.branch_approval_request": lambda payload: service.workspace_git_branch_approval_request(plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "")), ttl_minutes=int(payload.get("ttl_minutes", 15))),
+        "workspace.git.branch_create": lambda payload: service.workspace_git_branch_create(plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), approval_id=str(payload.get("approval_id", "")), actor=str(payload.get("actor", "local-owner"))),
         "app.contract": lambda payload: service.application_contract(),
         "standards.status": lambda payload: service.standards_status(),
         "validators.validate_frontmatter": lambda payload: service.validate_frontmatter(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
@@ -1367,6 +1429,19 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-005-C", "GET", "/api/v1/workspace/edit-executions/{execution_id}", "workspace.edits.execution_status", ["UOC-005 read-only execution/evidence status by opaque execution id."]),
         ("APP-ROUTE-UOC-005-D", "POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request", "workspace.edits.rollback_approval_request", ["UOC-005 separate approval request for bounded pre-commit rollback; local approval state only."]),
         ("APP-ROUTE-UOC-005-E", "POST", "/api/v1/workspace/edit-executions/{execution_id}/rollback", "workspace.edits.rollback", ["UOC-005 approval-gated exact backup restore before Git stage/commit; generic rollback remains blocked."]),
+        ("APP-ROUTE-UOC-006-A", "GET", "/api/v1/workspace/git/status", "workspace.git.status", ["UOC-006 typed read-only Git status/diff projection; no free-form Git arguments."]),
+        ("APP-ROUTE-UOC-006-B", "GET", "/api/v1/workspace/git/history", "workspace.git.history", ["UOC-006 bounded read-only commit history."]),
+        ("APP-ROUTE-UOC-006-C", "GET", "/api/v1/workspace/git/compare", "workspace.git.compare", ["UOC-006 bounded compare over HEAD or immutable hexadecimal object identifiers."]),
+        ("APP-ROUTE-UOC-006-D", "POST", "/api/v1/workspace/git/plans", "workspace.git.plan", ["UOC-006 immutable staging/commit plan using opaque document ids and explicit commit identity; zero Git mutation."]),
+        ("APP-ROUTE-UOC-006-E", "GET", "/api/v1/workspace/git/plans/{plan_id}", "workspace.git.plan_status", ["UOC-006 immutable Git plan inspection."]),
+        ("APP-ROUTE-UOC-006-F", "POST", "/api/v1/workspace/git/plans/{plan_id}/stage-approval-request", "workspace.git.stage_approval_request", ["UOC-006 exact stage approval request; mutates only local ApprovalStore."]),
+        ("APP-ROUTE-UOC-006-G", "POST", "/api/v1/workspace/git/plans/{plan_id}/stage", "workspace.git.stage", ["UOC-006 exact approval-bound staging of allowlisted documents with compensation on failed pre-commit checks."]),
+        ("APP-ROUTE-UOC-006-H", "GET", "/api/v1/workspace/git/executions/{execution_id}", "workspace.git.execution_status", ["UOC-006 read-only execution record inspection."]),
+        ("APP-ROUTE-UOC-006-I", "POST", "/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request", "workspace.git.commit_approval_request", ["UOC-006 second human approval bound to exact staged index fingerprint and commit intent."]),
+        ("APP-ROUTE-UOC-006-J", "POST", "/api/v1/workspace/git/stage-executions/{execution_id}/commit", "workspace.git.commit", ["UOC-006 approval-bound local commit with explicit identity, no hooks and verified parent/files/index; push remains blocked."]),
+        ("APP-ROUTE-UOC-006-K", "POST", "/api/v1/workspace/git/branches/plan", "workspace.git.branch_plan", ["UOC-006 controlled local branch-ref plan from clean current HEAD; no checkout."]),
+        ("APP-ROUTE-UOC-006-L", "POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request", "workspace.git.branch_approval_request", ["UOC-006 approval request bound to exact branch plan/hash."]),
+        ("APP-ROUTE-UOC-006-M", "POST", "/api/v1/workspace/git/branches/{plan_id}/create", "workspace.git.branch_create", ["UOC-006 approval-bound local branch-ref creation only; no checkout, delete, push or force operation."]),
         ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),

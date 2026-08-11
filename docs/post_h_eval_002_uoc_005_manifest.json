@@ -12,8 +12,8 @@
   "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
   "authoritative_input_repo": "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip",
   "candidate_output_repo": "repo_DevPilot_Local_333_CANDIDATE_POST_H_EVAL_002_UOC_005.zip",
-  "authoritative_output_repo": null,
-  "preliminary": true,
+  "authoritative_output_repo": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
+  "preliminary": false,
   "scope": {
     "editable_extensions": [
       ".md",

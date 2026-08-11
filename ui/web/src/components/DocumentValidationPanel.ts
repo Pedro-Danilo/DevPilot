@@ -150,7 +150,7 @@ export function createDocumentValidationPanel(options: DocumentValidationPanelOp
     executeButton.addEventListener('click', () => void execute());
     const refreshButton = document.createElement('button');
     refreshButton.type = 'button';
-    refreshButton.className = 'validation-action-button traceability-refresh-button';
+    refreshButton.className = 'validation-action-button';
     refreshButton.textContent = state.loadingTraceability ? 'Actualizando trazabilidad…' : state.traceability ? 'Recargar trazabilidad' : 'Actualizar trazabilidad';
     refreshButton.disabled = state.loadingTraceability || state.executing;
     refreshButton.addEventListener('click', async () => { await loadTraceability(); draw(); });

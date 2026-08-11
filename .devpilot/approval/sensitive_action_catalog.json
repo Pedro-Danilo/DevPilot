@@ -506,6 +506,126 @@
       "notes": [
         "Bounded to the stored execution record and pre/post hashes; unavailable after stage/commit or source drift."
       ]
+    },
+    {
+      "action_id": "git.workspace_stage",
+      "domain": "git",
+      "description": "Stage the exact allowlisted workspace document set from an immutable UOC-006 plan after exact owner approval and recheck.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_GIT_STAGE_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "git.workspace.stage"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-006-governed-git-operations"
+      ],
+      "notes": [
+        "Exact index write only; pre-existing staged paths, secrets, deletes/renames and free Git arguments are blocked.",
+        "SensitiveActionCatalog source_mutation_allowed=true denotes this narrow explicitly approval-gated Git side effect; it does not authorize arbitrary filesystem mutation or generic Git write."
+      ]
+    },
+    {
+      "action_id": "git.workspace_commit",
+      "domain": "git",
+      "description": "Create one local commit from the exact UOC-006 staged execution after a separate exact owner approval.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_GIT_COMMIT_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "git.workspace.commit"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-006-governed-git-operations"
+      ],
+      "notes": [
+        "Explicit identity, repository hooks disabled, exact parent/path/index postcondition verification; push/force push remain blocked.",
+        "SensitiveActionCatalog source_mutation_allowed=true denotes this narrow explicitly approval-gated Git side effect; it does not authorize arbitrary filesystem mutation or generic Git write."
+      ]
+    },
+    {
+      "action_id": "git.workspace_branch_create",
+      "domain": "git",
+      "description": "Create one local branch ref from current HEAD after exact owner approval on a clean workspace.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "git.workspace.branch_create"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-006-governed-git-operations"
+      ],
+      "notes": [
+        "No checkout/switch, branch deletion, rebase, reset, tag, push or force operation is exposed.",
+        "SensitiveActionCatalog source_mutation_allowed=true denotes this narrow explicitly approval-gated Git side effect; it does not authorize arbitrary filesystem mutation or generic Git write."
+      ]
     }
   ],
   "safety": {
@@ -521,16 +641,16 @@
     "deny_by_default": true
   },
   "summary": {
-    "actions_total": 13,
-    "domains_total": 11,
+    "actions_total": 16,
+    "domains_total": 12,
     "critical_actions_total": 9,
-    "actions_requiring_approval_total": 13,
-    "actions_requiring_rbac_total": 13,
+    "actions_requiring_approval_total": 16,
+    "actions_requiring_rbac_total": 16,
     "blocked_actions_total": 11,
     "remote_actions_blocked_total": 1,
     "connector_write_actions_blocked_total": 1,
     "plugin_execution_actions_blocked_total": 1,
-    "miasi_policy_links_total": 18,
+    "miasi_policy_links_total": 21,
     "preliminary": true
   },
   "notes": [

@@ -9,6 +9,7 @@ from .git_adapter import (
     GitStatusSnapshot,
     GitTagInfo,
 )
+from .governed_git_mutation import GovernedGitMutationAdapter
 from .inventory import RepoInventory, RepoInventoryConfig, RepoInventoryItem
 from .dependency_graph import DependencyGraphBuilder
 from .analyzer import RepoAnalyzer, RepoAnalyzerConfig
@@ -28,6 +29,7 @@ from .models import (
 
 __all__ = [
     "GitAdapter",
+    "GovernedGitMutationAdapter",
     "GitBranchInfo",
     "GitCommandResult",
     "GitCommitInfo",

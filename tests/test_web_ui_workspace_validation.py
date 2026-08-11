@@ -128,4 +128,5 @@ def test_uoc003_v104_navigation_dom_order_context_and_traceability_feedback() ->
 
     assert "max-height: 28rem;" in css
     assert "overflow-y: auto;" in css
-    assert ".traceability-refresh-button:not(:disabled)" in css
+    assert ".traceability-refresh-button:not(:disabled)" not in css
+    assert "refreshButton.className = 'validation-action-button'" in component

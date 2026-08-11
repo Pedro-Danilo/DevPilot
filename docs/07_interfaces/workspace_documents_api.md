@@ -97,3 +97,7 @@ The browser never submits an absolute path. Markdown/JSON/YAML only. `.txt`, sec
 UOC-005 extends the UOC-004 opaque-plan surface with five typed routes for approval, atomic apply, execution status and bounded rollback. The browser still never supplies an absolute filesystem path as authority. The server resolves the active registered workspace and opaque document id, verifies the immutable plan/base hashes, validates StrongApprovalBinding and writes only after backup integrity succeeds.
 
 Apply is restricted to Markdown/JSON/YAML already accepted by UOC-004. Runtime backup/evidence lives in an allowed external control root; API payloads expose only a relative `backup_ref`. Manual rollback requires a separate approval and is intentionally unavailable after Git stage/commit or blob drift. UOC-006 owns Git write operations.
+
+## UOC-006 — Git gobernado desde Workspace Documents
+
+La superficie documental incorpora rutas tipadas `/api/v1/workspace/git/*` para status/history/compare, planes inmutables, approvals de staging/commit/branch y las tres mutaciones locales estrechas: stage exacto, commit exacto y creación de ref local. El browser aporta `document_id` opaco y datos estructurados; nunca path absoluto ni argumentos Git. Todas las rutas mutantes están token/policy-bound y las mutaciones de source control requieren approval exacto. No existe endpoint de push, force-push, reset, rebase, branch delete, checkout/switch, tag o comando Git libre.

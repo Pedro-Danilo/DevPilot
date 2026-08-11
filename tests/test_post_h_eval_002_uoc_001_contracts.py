@@ -54,6 +54,8 @@ def test_uoc_001_backlog_manifest_state_and_flags_are_synchronized() -> None:
         allowed_enabled.add("uoc.documents.edit_plan")
     if state.get("uoc_005_status"):
         allowed_enabled.add("uoc.documents.apply_rollback")
+    if state.get("uoc_006_status"):
+        allowed_enabled.add("uoc.git.governed_operations")
     assert all(
         item["enabled"] is False
         for item in flags["feature_flags"]

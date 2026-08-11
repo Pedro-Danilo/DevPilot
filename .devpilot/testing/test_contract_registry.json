@@ -9925,6 +9925,72 @@
         "Manual rollback requires a second approval and is bounded to the unstaged pre-commit window.",
         "Automatic rollback is a compensating transaction after post-validation BLOCK."
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-006-governed-git-operations",
+      "scope": "integration",
+      "owner": "UOC-006",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_workspace_git_operations_service.py",
+        "tests/test_api_workspace_git_operations.py",
+        "tests/test_web_ui_workspace_git_operations.py",
+        "tests/test_post_h_eval_002_uoc_006_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_028_api_contract_drift_guard.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "validates": [
+        "src/devpilot_core/repo/governed_git_mutation.py",
+        "src/devpilot_core/application/workspace_git_operations_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_git.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/application/services.py",
+        "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/miasi/policy_matrix.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_006_manifest.json",
+        "docs/audits/uoc_006_governed_git_operations_report.md",
+        "docs/schemas/workspace_git_plan.schema.json",
+        "docs/schemas/workspace_git_execution.schema.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/repo/governed_git_mutation.py",
+        "src/devpilot_core/application/workspace_git_operations_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_git.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/application/services.py",
+        "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api/",
+        ".devpilot/interfaces/",
+        ".devpilot/approval/",
+        ".devpilot/miasi/",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_006_manifest.json",
+        "docs/audits/uoc_006_governed_git_operations_report.md",
+        "docs/schemas/workspace_git_",
+        "docs/07_interfaces/openapi_v1.json",
+        "tests/test_post_h_eval_002_uoc_006_contracts.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_workspace_git_operations_service.py tests/test_api_workspace_git_operations.py tests/test_web_ui_workspace_git_operations.py tests/test_post_h_eval_002_uoc_006_contracts.py -q"
+      ]
     }
   ],
   "notes": [

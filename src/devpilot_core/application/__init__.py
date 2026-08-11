@@ -64,6 +64,7 @@ from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
 from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
+from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 
 __all__ = [
     "APPLICATION_SERVICE_BOUNDARY_REPORT_ID",
@@ -132,4 +133,5 @@ __all__ = [
     "render_application_service_boundary_markdown",
     "WorkspaceEditPlanApplicationService",
     "WorkspaceEditExecutionApplicationService",
+    "WorkspaceGitOperationsApplicationService",
 ]

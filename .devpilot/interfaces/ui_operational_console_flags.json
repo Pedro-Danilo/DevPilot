@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.5.0",
-  "updated": "2026-08-09",
+  "version": "1.6.0",
+  "updated": "2026-08-10",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
@@ -50,9 +50,11 @@
     },
     {
       "flag_id": "uoc.git.governed_operations",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-006",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-006",
+      "notes": "Implemented-initial local-only governed Git subset: typed status/history/compare, immutable exact-file staging/commit plans, separate approvals for stage/commit, explicit commit identity and approval-gated local branch-ref creation. Push/reset/rebase/branch-delete/free args remain blocked."
     },
     {
       "flag_id": "uoc.jobs.framework",
@@ -144,6 +146,13 @@
     "uoc_005_manual_rollback_requires_separate_approval": true,
     "uoc_005_automatic_rollback_is_compensating_transaction": true,
     "generic_patch_apply_enabled": false,
-    "generic_rollback_enabled": false
+    "generic_rollback_enabled": false,
+    "governed_git_write_enabled": true,
+    "generic_git_write_enabled": false,
+    "git_push_enabled": false,
+    "git_force_push_enabled": false,
+    "git_reset_hard_enabled": false,
+    "git_rebase_enabled": false,
+    "git_branch_delete_enabled": false
   }
 }

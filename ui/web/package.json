@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.11.0-post-h-eval-002-uoc-005",
+  "version": "0.12.0-post-h-eval-002-uoc-006",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — UOC-005 governed approval-bound document apply and rollback over immutable edit plans.",
+  "description": "DevPilot Local Web UI — UOC-006 governed local Git review, approval-bound staging/commit and controlled branch creation.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -195,7 +195,7 @@
     "uoc004DraftStorage": "sessionStorage-manual-only",
     "uoc004ApplyEnabled": false,
     "uoc004Status": "closed/PASS",
-    "traceabilityRefreshPrimaryStyling": false,
+    "traceabilityRefreshPrimaryStyling": true,
     "uoc005ApprovalBinding": true,
     "uoc005AtomicDocumentApply": true,
     "uoc005BoundedDocumentRollback": true,
@@ -204,6 +204,18 @@
     "genericPatchApplyEnabled": false,
     "genericRollbackEnabled": false,
     "sharedValidationActionStyling": true,
-    "uoc006Authorized": true
+    "uoc006Authorized": true,
+    "uoc006Status": "implemented-initial/pending-windows-browser-closure",
+    "uoc006GovernedGitOperations": true,
+    "uoc006StageApprovalRequired": true,
+    "uoc006CommitApprovalRequired": true,
+    "uoc006ControlledBranchCreation": true,
+    "uoc006GenericGitArgsEnabled": false,
+    "uoc006PushEnabled": false,
+    "uoc006ForcePushEnabled": false,
+    "uoc006ResetHardEnabled": false,
+    "uoc006RebaseEnabled": false,
+    "uoc006BranchDeleteEnabled": false,
+    "uoc007Authorized": false
   }
 }

@@ -124,13 +124,23 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
     }
     assert legacy_approval_routes <= mutating_ids
 
-    # Until UOC-006 is explicitly authorized, the only source mutations
-    # allowed through the API are the two narrow UOC-005 document operations.
+    # Preserve the POST-H-014 safety invariant while allowing later typed
+    # lifecycle capabilities. UOC-006 adds exactly three approval-gated Git
+    # mutations; it does not authorize arbitrary Git write.
     source_mutating = [route for route in mutating if route.get("source_mutation_allowed") is True]
-    assert {route["route_id"] for route in source_mutating} == {
+    flags = json.loads((ROOT / ".devpilot/interfaces/ui_operational_console_flags.json").read_text(encoding="utf-8"))
+    git_enabled = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.git.governed_operations")["enabled"] is True
+    expected_source_mutating = {
         "api.workspace.edit-plans.apply",
         "api.workspace.edit-executions.rollback",
     }
+    if git_enabled:
+        expected_source_mutating |= {
+            "api.workspace.git.stage",
+            "api.workspace.git.commit",
+            "api.workspace.git.branch-create",
+        }
+    assert {route["route_id"] for route in source_mutating} == expected_source_mutating
 
     for route in mutating:
         assert route["local_only"] is True
@@ -154,11 +164,11 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
 
     for route in source_mutating:
         assert route["risk_level"] == "high"
-        assert "uoc-005" in route["tags"]
+        assert any(tag in {"uoc-005", "uoc-006"} for tag in route["tags"])
         assert str(route["policy_sensitivity"]).startswith("approval-bound-")
         # The API front-door uses a non-mutating policy precheck; exact human
-        # approval is revalidated by the UOC-005 ApplicationService immediately
-        # before the source mutation.
+        # approval is revalidated by the owning ApplicationService immediately
+        # before the narrow source/index/ref mutation.
         assert route["policy_action"] == "read"
 
 

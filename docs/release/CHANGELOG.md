@@ -1,3 +1,11 @@
+## 2026-08-10 — POST-H-EVAL-002 UOC-006 governed Git operations (implemented-initial)
+
+- Parte del cierre autoritativo UOC-005 (`repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`).
+- Añade status/history/compare, plan inmutable, approval-bound staging, aprobación separada de commit, commit local con identidad explícita y branch-ref creation controlada.
+- Mantiene bloqueados shell/argumentos Git libres, push/force-push, reset hard, rebase, branch delete, checkout/switch, tags y hooks.
+- Corrige el S3 de `Recargar trazabilidad` para utilizar exactamente `validation-action-button`.
+- Estado: `implemented-initial/pending-windows-browser-closure`; `next_sprint=POST-H-EVAL-002`; UOC-007 continúa no autorizado hasta cierre UOC-006.
+
 ## 2026-07-31 — Sprint 7 v2.1.1 historical regression-contract recovery
 
 - Preserves the successful v2.1.0 Git-canonical preflight and transactional application of the 29-path governance overlay.

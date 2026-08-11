@@ -54,6 +54,10 @@
     {
       "name": "Workspace validations",
       "description": "UOC-003 deterministic validation jobs and explicit-only traceability."
+    },
+    {
+      "name": "Workspace governed Git",
+      "description": "UOC-006 typed local Git status/plan/stage/commit/branch operations with approval binding and explicit no-go controls."
     }
   ],
   "x-devpilot": {
@@ -90,7 +94,7 @@
     "visual_product_mvp_release": true,
     "web_real_evolution_planned": true,
     "post_h_031_b_operator_health_route": true,
-    "updated_by": "UOC-005",
+    "updated_by": "UOC-006",
     "workspace_documents_read_only": true,
     "workspace_document_api_routes_total": 3,
     "workspace_documents_opaque_ids": true,
@@ -101,14 +105,23 @@
     "runtime_evidence_only": true,
     "preliminary_synchronous_jobs": true,
     "uoc004": "closed/PASS-plan-only",
-    "uoc005": "implemented-initial/pending-windows-browser-closure",
+    "uoc005": "closed/PASS",
     "workspace_document_read_routes_total": 7,
     "workspace_edit_plan_routes_total": 3,
     "workspace_edit_execution_routes_total": 5,
     "source_write_mode": "approval-gated-atomic-uoc005",
     "generic_patch_apply_enabled": false,
     "generic_rollback_enabled": false,
-    "workspace_documents_write_mode": "approval-gated-atomic-uoc005"
+    "workspace_documents_write_mode": "approval-gated-atomic-uoc005",
+    "uoc006": "implemented-initial/pending-windows-browser-closure",
+    "workspace_git_routes_total": 13,
+    "governed_git_write_enabled": true,
+    "generic_git_args_enabled": false,
+    "git_push_enabled": false,
+    "git_force_push_enabled": false,
+    "git_reset_hard_enabled": false,
+    "git_rebase_enabled": false,
+    "git_branch_delete_enabled": false
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -5699,6 +5712,1717 @@
         },
         "x-devpilot-approval-required": true,
         "x-devpilot-atomic-write": true
+      }
+    },
+    "/api/v1/workspace/git/status": {
+      "get": {
+        "operationId": "uoc006_api_workspace_git_status",
+        "summary": "UOC-006 governed Git status",
+        "description": "UOC-001 bounded read-only index for the explicit active workspace. Browser paths are not accepted.",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "x-devpilot-api-id": "API-UOC006-STATUS",
+        "x-devpilot-operation": "workspace.git.status",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000,
+              "default": 0
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "extension",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 16
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            }
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
+        ],
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/history": {
+      "get": {
+        "operationId": "uoc006_api_workspace_git_history",
+        "summary": "UOC-006 governed Git history",
+        "description": "UOC-001 bounded read-only index for the explicit active workspace. Browser paths are not accepted.",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "x-devpilot-api-id": "API-UOC006-HISTORY",
+        "x-devpilot-operation": "workspace.git.history",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000,
+              "default": 0
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "extension",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 16
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            }
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
+        ],
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/compare": {
+      "get": {
+        "operationId": "uoc006_api_workspace_git_compare",
+        "summary": "UOC-006 governed Git compare",
+        "description": "UOC-001 bounded read-only index for the explicit active workspace. Browser paths are not accepted.",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "x-devpilot-api-id": "API-UOC006-COMPARE",
+        "x-devpilot-operation": "workspace.git.compare",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000,
+              "default": 0
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "extension",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 16
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            }
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
+        ],
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/plans": {
+      "post": {
+        "summary": "UOC-006 governed Git create",
+        "operationId": "uoc006_api_workspace_git_plans_create",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-PLANS-CREATE",
+        "x-devpilot-operation": "workspace.git.plan",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.plan",
+                "payload": {},
+                "client": "api",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/plans/{plan_id}": {
+      "get": {
+        "operationId": "uoc006_api_workspace_git_plans_read",
+        "summary": "UOC-006 governed Git read",
+        "description": "UOC-001 bounded read-only index for the explicit active workspace. Browser paths are not accepted.",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "x-devpilot-api-id": "API-UOC006-PLANS-READ",
+        "x-devpilot-operation": "workspace.git.plan_status",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000,
+              "default": 0
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "extension",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 16
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            }
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
+        ],
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/plans/{plan_id}/stage-approval-request": {
+      "post": {
+        "summary": "UOC-006 governed Git stage approval",
+        "operationId": "uoc006_api_workspace_git_stage_approval",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-STAGE-APPROVAL",
+        "x-devpilot-operation": "workspace.git.stage_approval_request",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.stage_approval_request",
+                "payload": {},
+                "client": "api",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/plans/{plan_id}/stage": {
+      "post": {
+        "summary": "UOC-006 governed Git stage",
+        "operationId": "uoc006_api_workspace_git_stage",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-STAGE",
+        "x-devpilot-operation": "workspace.git.stage",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "approval_gated_local_git_write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.stage",
+                "payload": {},
+                "client": "api",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": true,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/executions/{execution_id}": {
+      "get": {
+        "operationId": "uoc006_api_workspace_git_executions_read",
+        "summary": "UOC-006 governed Git read",
+        "description": "UOC-001 bounded read-only index for the explicit active workspace. Browser paths are not accepted.",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "x-devpilot-api-id": "API-UOC006-EXECUTIONS-READ",
+        "x-devpilot-operation": "workspace.git.execution_status",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "x-devpilot-command-equivalent": "No arbitrary CLI text; typed UOC-001 ApplicationService boundary.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000,
+              "default": 0
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "extension",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 16
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 64
+            }
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web WorkspaceDocumentsView"
+        ],
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request": {
+      "post": {
+        "summary": "UOC-006 governed Git commit approval",
+        "operationId": "uoc006_api_workspace_git_commit_approval",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-COMMIT-APPROVAL",
+        "x-devpilot-operation": "workspace.git.commit_approval_request",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.commit_approval_request",
+                "payload": {},
+                "client": "api",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/stage-executions/{execution_id}/commit": {
+      "post": {
+        "summary": "UOC-006 governed Git commit",
+        "operationId": "uoc006_api_workspace_git_commit",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-COMMIT",
+        "x-devpilot-operation": "workspace.git.commit",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "approval_gated_local_git_write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.commit",
+                "payload": {},
+                "client": "api",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": true,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/branches/plan": {
+      "post": {
+        "summary": "UOC-006 governed Git branch plan",
+        "operationId": "uoc006_api_workspace_git_branch_plan",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-BRANCH-PLAN",
+        "x-devpilot-operation": "workspace.git.branch_plan",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.branch_plan",
+                "payload": {},
+                "client": "api",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/branches/{plan_id}/approval-request": {
+      "post": {
+        "summary": "UOC-006 governed Git branch approval",
+        "operationId": "uoc006_api_workspace_git_branch_approval",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-BRANCH-APPROVAL",
+        "x-devpilot-operation": "workspace.git.branch_approval_request",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_or_plan_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.branch_approval_request",
+                "payload": {},
+                "client": "api",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": false,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
+      }
+    },
+    "/api/v1/workspace/git/branches/{plan_id}/create": {
+      "post": {
+        "summary": "UOC-006 governed Git branch create",
+        "operationId": "uoc006_api_workspace_git_branch_create",
+        "tags": [
+          "Workspace governed Git"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC006-BRANCH-CREATE",
+        "x-devpilot-operation": "workspace.git.branch_create",
+        "x-devpilot-domain-service": "ApplicationService.workspace_git_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "approval_gated_local_git_write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + typed ApplicationService; exact approval rechecked inside UOC-006 before any Git mutation.",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^eplan_[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "operation": "workspace.git.branch_create",
+                "payload": {},
+                "client": "api",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-approval-required": true,
+        "x-devpilot-git-arbitrary-args": false,
+        "x-devpilot-network-operation": false,
+        "x-devpilot-push-enabled": false
       }
     }
   },

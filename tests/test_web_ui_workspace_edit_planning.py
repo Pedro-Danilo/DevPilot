@@ -15,7 +15,7 @@ def test_uoc004_ui_is_integrated_and_traceability_refresh_s3_uses_same_shared_bu
     assert 'createDocumentEditPlanner' in view and 'editPlanner' in view
     assert "planButton.className = 'validation-action-button'" in validation
     assert "executeButton.className = 'validation-action-button'" in validation
-    assert "refreshButton.className = 'validation-action-button traceability-refresh-button'" in validation
+    assert "refreshButton.className = 'validation-action-button'" in validation
     assert '.validation-action-button' in css
     assert '.traceability-refresh-button:not(:disabled)' not in css
 

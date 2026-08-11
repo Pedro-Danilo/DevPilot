@@ -13,6 +13,7 @@ import { renderContractBadges, renderUiStateNotice } from '../components/Contrac
 import { renderDocumentInspectionPanel, renderFullTextSearchResults } from '../components/DocumentInspectionPanel';
 import { renderDocumentTree } from '../components/DocumentTree';
 import { createDocumentValidationPanel } from '../components/DocumentValidationPanel';
+import { createWorkspaceGitOperationsPanel } from '../components/WorkspaceGitOperationsPanel';
 import { createDocumentEditPlanner } from '../components/DocumentEditPlanner';
 import { renderDocumentViewer } from '../components/DocumentViewer';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
@@ -86,6 +87,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
   let listRequestSequence = 0;
   let documentRequestSequence = 0;
   const editPlanner = createDocumentEditPlanner({ tokenProvider, onMutationComplete: async () => { if (state.selectedId) await loadDocument(state.selectedId, false); } });
+  const gitOperationsPanel = createWorkspaceGitOperationsPanel({ tokenProvider, onCommitComplete: async () => { if (state.selectedId) await loadDocument(state.selectedId, false); } });
   const validationPanel = createDocumentValidationPanel({
     tokenProvider,
     onNavigate: async (navigation, origin) => {
@@ -303,6 +305,8 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
       next.append(layout, renderPagination(state, () => void load(false)));
       (editPlanner as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
       next.append(editPlanner);
+      (gitOperationsPanel as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
+      next.append(gitOperationsPanel);
       next.append(renderGuarded(() => renderDocumentInspectionPanel({
         metadata: state.inspectionMetadata,
         history: state.inspectionHistory,
@@ -320,7 +324,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
     } catch (error) {
       state.renderError = `La UI aisló un error de render sin perder el estado operativo: ${error instanceof Error ? error.message : String(error)}`;
       const fallback = document.createDocumentFragment();
-      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), editPlanner, validationPanel);
+      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), editPlanner, gitOperationsPanel, validationPanel);
       root.replaceChildren(fallback);
     }
   }
@@ -350,7 +354,7 @@ function renderIntroduction(): HTMLElement {
   title.textContent = 'Explorador de documentos';
   const description = document.createElement('p');
   description.textContent = 'Explorador read-only del workspace activo. El navegador usa identificadores opacos y nunca entrega rutas absolutas como autoridad.';
-  section.append(title, description, renderContractBadges('ui.workspace-documents', { dryRunLabel: 'Read-only', warning: 'UOC-003 preliminar: validación determinística y trazabilidad read-only; jobs asíncronos, cancelación y heartbeat llegan en UOC-007/UOC-008.' }));
+  section.append(title, description, renderContractBadges('ui.workspace-documents', { dryRunLabel: 'Read-only', warning: 'UOC-006 implemented-initial: staging, commit y branch local solo mediante planes tipados y approvals exactas; push/reset/rebase/branch delete siguen bloqueados. Jobs asíncronos llegan en UOC-007/UOC-008.' }));
   return section;
 }
 

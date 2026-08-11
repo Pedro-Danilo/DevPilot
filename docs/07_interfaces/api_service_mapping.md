@@ -278,3 +278,23 @@ UOC-004 is plan-only: no patch execution, filesystem write, stage or commit.
 | `API-UOC005-EDIT-ROLLBACK` | `POST /api/v1/workspace/edit-executions/{execution_id}/rollback` | `workspace.edits.rollback` | `ApplicationService.workspace_edit_rollback` | Approval-gated bounded pre-commit source restore | Policy/gate: exact approval + post-hash + Git unstaged + verified backup |
 
 Transport middleware continues to enforce token/local policy. The request-specific sensitive action is enforced inside `WorkspaceEditExecutionApplicationService`, where the immutable plan/execution hash and approval id are available for StrongApprovalBinding. Generic patch/rollback executors and Git mutation remain disabled.
+
+## UOC-006 — Governed Git operations
+
+All UOC-006 routes remain local-only and typed; no browser-provided Git command string is accepted. Policy/gate includes local token, explicit API route policy and the WorkspaceGitOperationsApplicationService.
+
+| API ID | Method / path | Application operation | Policy/gate |
+|---|---|---|---|
+| `API-UOC006-STATUS` | `GET /api/v1/workspace/git/status` | `workspace.git.status` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-HISTORY` | `GET /api/v1/workspace/git/history` | `workspace.git.history` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-COMPARE` | `GET /api/v1/workspace/git/compare` | `workspace.git.compare` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-PLANS-CREATE` | `POST /api/v1/workspace/git/plans` | `workspace.git.plan` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-PLANS-READ` | `GET /api/v1/workspace/git/plans/{plan_id}` | `workspace.git.plan_status` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-STAGE-APPROVAL` | `POST /api/v1/workspace/git/plans/{plan_id}/stage-approval-request` | `workspace.git.stage_approval_request` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-STAGE` | `POST /api/v1/workspace/git/plans/{plan_id}/stage` | `workspace.git.stage` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-EXECUTIONS-READ` | `GET /api/v1/workspace/git/executions/{execution_id}` | `workspace.git.execution_status` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-COMMIT-APPROVAL` | `POST /api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request` | `workspace.git.commit_approval_request` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-COMMIT` | `POST /api/v1/workspace/git/stage-executions/{execution_id}/commit` | `workspace.git.commit` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-BRANCH-PLAN` | `POST /api/v1/workspace/git/branches/plan` | `workspace.git.branch_plan` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-BRANCH-APPROVAL` | `POST /api/v1/workspace/git/branches/{plan_id}/approval-request` | `workspace.git.branch_approval_request` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+| `API-UOC006-BRANCH-CREATE` | `POST /api/v1/workspace/git/branches/{plan_id}/create` | `workspace.git.branch_create` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
