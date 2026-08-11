@@ -130,9 +130,10 @@ def test_source_registry_and_snapshot_include_closure_sources() -> None:
         "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327-TEST",
     } <= ids
     snapshot = registry["project_state_snapshot"]
-    assert snapshot["current_repo"] == REPO_327
-    assert snapshot["current_micro_sprint"] == "POST-H-EVAL-002-02-A"
-    assert snapshot["next_micro_sprint"] == "POST-H-EVAL-002-02-B"
+    # The registry snapshot is intentionally refreshed as the program advances.
+    # Freeze 01-D through its dedicated historical fields, not through mutable
+    # current_repo/current_micro_sprint pointers.
+    assert snapshot["post_h_eval_002_01_d_governance_repo"] == REPO_327
     assert snapshot["post_h_eval_002_01_d_closed"] is True
     assert snapshot["post_h_eval_002_01_d_run05b_rerun03_result"] == "CLOSED/PASS"
 
@@ -201,7 +202,9 @@ def test_all_release_candidate_evidence_contracts_pass_stdlib_preflight() -> Non
     payload = json.loads(completed.stdout)
     assert completed.returncode == 0, payload
     assert payload["decision"] == "PASS"
-    assert payload["evidence_total"] == 47
+    criteria = data(".devpilot/release/local_release_candidate_criteria.json")
+    assert payload["evidence_total"] == len(criteria["evidence"])
+    assert payload["evidence_total"] >= 47
     assert payload["critical_stale_total"] == 0
     assert payload["critical_missing_total"] == 0
     assert payload["critical_invalid_total"] == 0

@@ -29,8 +29,9 @@ def test_uoc005_manifest_lifecycle_and_uoc006_gate_are_consistent() -> None:
         assert manifest["next"]["uoc_006_authorized"] is True
         assert state["uoc_005_closed"] is True
         assert state["uoc_006_authorized"] is True
-        expected_current = "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip" if state.get("uoc_006_closed") else "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
-        assert state["current_repo"] == expected_current
+        current_repo = str(state["current_repo"])
+        assert current_repo.startswith("repo_DevPilot_Local_")
+        assert int(current_repo.split("_", 4)[3]) >= 333
     else:
         assert manifest["status"] == "implemented-initial/pending-windows-browser-closure"
         assert manifest["decision"] in {"PENDING", "PENDING-WINDOWS-BROWSER-CLOSURE"}
@@ -174,19 +175,14 @@ def test_uoc005_local_release_candidate_freshness_tracks_lifecycle_authoritative
     criteria = j(".devpilot/release/local_release_candidate_criteria.json")
     state = j(".devpilot/project_state.json")
     evidence = next(item for item in criteria["evidence"] if item["evidence_id"] == "project-state-current-repo")
-    closed = state.get("uoc_005_closed") is True
-    expected = (
-        "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip"
-        if state.get("uoc_006_closed")
-        else (
-            "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
-            if closed
-            else "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
-        )
-    )
-    assert criteria["expected_current_repo"] == expected
-    assert evidence["expected_fields"]["current_repo"] == expected
-    assert state["current_repo"] == expected
+    assert criteria["expected_current_repo"] == state["current_repo"]
+    assert evidence["expected_fields"]["current_repo"] == state["current_repo"]
+    if state.get("uoc_005_closed") is True:
+        current_repo = str(state["current_repo"])
+        assert current_repo.startswith("repo_DevPilot_Local_")
+        assert int(current_repo.split("_", 4)[3]) >= 333
+    else:
+        assert state["current_repo"] == "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"
 
 
 def test_uoc005_historical_contract_reconciliation_keeps_evolving_registries_schema_valid():

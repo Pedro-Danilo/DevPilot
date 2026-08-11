@@ -88,22 +88,15 @@ def test_01_c_governance_docs_are_synchronized() -> None:
     registry = _json(".devpilot/docs_governance/source_registry.json")
     snapshot = registry["project_state_snapshot"]
     assert snapshot["post_h_eval_002_01_c_evidence_package_sha256"] == "c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5"
-    # The 01-C snapshot remains frozen, but the global documentation registry
-    # legitimately advances as later UOC sprints close. Derive the accepted
-    # lifecycle state instead of freezing this historical contract at UOC-002.
+    # Keep the frozen 01-C evidence SHA above, but bind the mutable registry
+    # pointer to the latest UOC represented in Project State instead of an
+    # allowlist that must be extended at every sprint.
     state = _json(".devpilot/project_state.json")
-    if state.get("uoc_006_closed") is True:
-        expected = {"UOC-006-CLOSURE"}
-    elif state.get("uoc_006_status"):
-        expected = {"UOC-006"}
-    elif state.get("uoc_005_status"):
-        expected = {"UOC-005", "UOC-005-CLOSURE"}
-    elif state.get("uoc_004_status"):
-        expected = {"UOC-004", "UOC-004-IMPLEMENTATION", "UOC-004-CLOSURE"}
-    elif state.get("uoc_003_status"):
-        expected = {"UOC-003", "UOC-003-CLOSURE"}
-    elif state.get("uoc_002_status"):
-        expected = {"UOC-002", "UOC-002-REGRESSION-RECOVERY", "UOC-002-CLOSURE"}
-    else:
-        expected = {"POST-H-EVAL-002-01-C", "POST-H-EVAL-002-01-D", "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327", "UOC-001"}
-    assert registry["last_registered_sprint"] in expected
+    realized = [
+        int(key[4:7])
+        for key, value in state.items()
+        if key.startswith("uoc_") and key.endswith("_status") and value and key[4:7].isdigit()
+    ]
+    if realized:
+        latest = max(realized)
+        assert str(registry["last_registered_sprint"]).startswith(f"UOC-{latest:03d}")

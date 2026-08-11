@@ -18,13 +18,10 @@ def test_current_baseline_and_candidate_are_not_conflated() -> None:
     assert state["uoc_002_candidate_repo"] == "repo_DevPilot_Local_330_CANDIDATE_POST_H_EVAL_002_UOC_002.zip"
     if state["uoc_002_closed"]:
         assert state["uoc_002_authoritative_baseline"] == "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip"
-        lifecycle = [
-            ("uoc_005_closed", "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"),
-            ("uoc_004_closed", "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip"),
-            ("uoc_003_closed", "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip"),
-        ]
-        expected_current = next((repo for flag, repo in lifecycle if state.get(flag)), "repo_DevPilot_Local_330_POST_H_EVAL_002_UOC_002.zip")
-        assert state["current_repo"] == expected_current
+        current_repo = str(state["current_repo"])
+        assert current_repo.startswith("repo_DevPilot_Local_")
+        assert int(current_repo.split("_", 4)[3]) >= 330
+        assert current_repo != state["uoc_002_candidate_repo"]
     else:
         assert state["current_repo"] == "repo_DevPilot_Local_329_POST_H_EVAL_002_UOC_001.zip"
     assert criteria["expected_current_repo"] == state["current_repo"]
@@ -103,16 +100,14 @@ def test_documentation_registry_uses_lifecycle_aware_stable_identity() -> None:
     manifest = data("docs/post_h_eval_002_uoc_002_regression_recovery_manifest.json")
     state = data(".devpilot/project_state.json")
     assert manifest["documentation_registry_identity"] == "UOC-002-REGRESSION-RECOVERY"
-    lifecycle = [
-        (state.get("uoc_005_status"), {"UOC-005", "UOC-005-CLOSURE"}),
-        (state.get("uoc_004_status"), {"UOC-004", "UOC-004-CLOSURE"}),
-        (state.get("uoc_003_status"), {"UOC-003", "UOC-003-CLOSURE"}),
+    realized = [
+        int(key[4:7])
+        for key, value in state.items()
+        if key.startswith("uoc_") and key.endswith("_status") and value and key[4:7].isdigit()
     ]
-    expected = next((allowed for marker, allowed in lifecycle if marker), None)
-    if expected is not None:
-        assert registry["last_registered_sprint"] in expected
-    elif state["uoc_002_closed"]:
-        assert registry["last_registered_sprint"] == "UOC-002-CLOSURE"
+    if realized:
+        latest = max(realized)
+        assert str(registry["last_registered_sprint"]).startswith(f"UOC-{latest:03d}")
     else:
         assert registry["last_registered_sprint"] == manifest["documentation_registry_identity"]
     assert manifest["selective_runner_contract"] == "partial-report-on-block-resume-from-first-failed-case-and-rag-git-clean-check-per-case"

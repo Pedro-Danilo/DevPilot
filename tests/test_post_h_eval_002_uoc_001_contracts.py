@@ -47,20 +47,14 @@ def test_uoc_001_backlog_manifest_state_and_flags_are_synchronized() -> None:
     assert read_flag["enabled"] is True
     metadata_flag = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.documents.metadata_git_search")
     assert metadata_flag["enabled"] is True
-    allowed_enabled = {"uoc.documents.read_only", "uoc.documents.metadata_git_search"}
-    if state.get("uoc_003_status"):
-        allowed_enabled.add("uoc.documents.validation_traceability")
-    if state.get("uoc_004_status"):
-        allowed_enabled.add("uoc.documents.edit_plan")
-    if state.get("uoc_005_status"):
-        allowed_enabled.add("uoc.documents.apply_rollback")
-    if state.get("uoc_006_status"):
-        allowed_enabled.add("uoc.git.governed_operations")
-    assert all(
-        item["enabled"] is False
-        for item in flags["feature_flags"]
-        if item["flag_id"] not in allowed_enabled
-    )
+    for item in flags["feature_flags"]:
+        if not item["enabled"]:
+            continue
+        owner = str(item.get("owner_sprint", ""))
+        assert owner.startswith("UOC-") and owner[4:7].isdigit()
+        state_key = f"uoc_{owner[4:7]}_status"
+        assert state.get(state_key), (item["flag_id"], owner, state_key)
+        assert item.get("enabled_by") == owner
     assert all(item["state"] == "engaged" for item in flags["kill_switches"])
 
 
