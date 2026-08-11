@@ -11032,7 +11032,10 @@
     "uoc_009_typed_capabilities_total": 10,
     "uoc_009_api_routes_total": 6,
     "uoc_009_full_regression_confirmation_required": true,
-    "uoc_010_authorized": false
+    "uoc_010_authorized": true,
+    "uoc_009_closed": true,
+    "uoc_009_status": "closed/PASS",
+    "uoc_009_preliminary": true
   },
   "safety": {
     "local_first": true,

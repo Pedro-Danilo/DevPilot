@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.post_h_eval_002.uoc_009.manifest.v1",
   "sprint": "UOC-009",
-  "status": "implemented-initial/pending-windows-browser-closure",
+  "status": "closed/PASS",
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-08-11",
@@ -18,7 +18,7 @@
   "full_regression_requires_approval": true,
   "full_regression_requires_explicit_confirmation": true,
   "browser_acceptance_required": true,
-  "uoc_010_authorized": false,
+  "uoc_010_authorized": true,
   "criteria": {
     "test_impact_plan": "implemented",
     "focused_tests_by_registry": "implemented",
@@ -30,8 +30,9 @@
     "evidence_packaging": "implemented",
     "baseline_manifest_inspection": "implemented",
     "failure_replay_contract": "implemented",
-    "windows_browser_acceptance": "pending",
-    "canonical_closure": "pending"
+    "windows_browser_acceptance": "PASS",
+    "canonical_closure": "PASS",
+    "historical_regression_guard": "PASS/temporary-waiver-no-full-regression-claim"
   },
   "risks": [
     "implemented-initial local worker/process and JSON runtime state",
@@ -40,7 +41,7 @@
     "npm build, browser acceptance and canonical repo337 remain pending Windows"
   ],
   "preliminary": true,
-  "output_repo": null,
+  "output_repo": "repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip",
   "source_contract": {
     "files_total": 55,
     "added": 16,
@@ -87,5 +88,10 @@
     "new_source_paths_total": 0,
     "full_regression_repeat_required": false,
     "browser_revalidation_required": true
-  }
+  },
+  "source_commit": "e6b2cf8a3b2a5b308431e87b4176d95afb718ec0",
+  "closure_verification": "PASS",
+  "browser_acceptance": "PASS",
+  "browser_screenshots": "6/6",
+  "implementation_maturity": "implemented-initial"
 }

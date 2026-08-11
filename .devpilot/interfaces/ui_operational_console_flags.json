@@ -175,6 +175,10 @@
     "uoc_009_typed_quality_operations_enabled": true,
     "uoc_009_arbitrary_test_args_enabled": false,
     "uoc_009_full_regression_requires_approval": true,
-    "uoc_009_full_regression_requires_explicit_confirmation": true
+    "uoc_009_full_regression_requires_explicit_confirmation": true,
+    "uoc_009_closed": true,
+    "uoc_009_preliminary": true,
+    "uoc_010_authorized": true,
+    "arbitrary_shell_enabled": false
   }
 }

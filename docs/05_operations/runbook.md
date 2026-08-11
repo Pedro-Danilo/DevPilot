@@ -11840,3 +11840,7 @@ Baseline exclusiva: `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip` (`2a1e
 La selección de pruebas es registry-driven. Full regression exige Approval Center, budget y confirmación literal; nunca se dispara después de focused tests. El operador Windows debe ejecutar Test Impact con cero unmatched y todos los tests impactados en batches reanudables. Para evitar repetir innecesariamente `pytest -q`, el cierre usa `HistoricalRegressionGuard` con waiver temporal owner-approved únicamente después de que todo el scope impactado esté PASS; dicho waiver no transforma la regresión completa en PASS ni puede cubrir tests fallidos/unmatched.
 
 La aceptación browser debe demostrar catálogo/budgets, Test Impact, approval de una operación sensible, ejecución tipada observable en Job Console, resultados passed/failed/errors/skipped cuando aplique, evidence packaging y la protección de full regression. La primera versión preserva replay por nuevo plan/idempotency key; one-click clone/replay queda pendiente de evolución. UOC-010 continúa NO autorizado hasta cierre repo337.
+
+## 2026-08-11 — UOC-009 closure
+
+CLOSED/PASS sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. `/quality` usa IDs/registry y no shell. Test Impact completo PASS; full pytest omitido únicamente bajo waiver HistoricalRegressionGuard. Baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 autorizado.

@@ -58,3 +58,7 @@ El source candidate no autoriza UOC-010. Solo evidencia Windows con todos los te
 
 La aceptación browser detectó un defecto real de integración en `/quality`: el UI enviaba `scope=operation=quality-gate`, mientras `ApprovalService` exige que un scope explícito sea un objeto JSON serializado. El backend respondió correctamente `403 BLOCK` con `APPROVAL_SCOPE_JSON_INVALID`; el token seguía siendo válido, como demuestran los GET protegidos `200` en la misma sesión. El correctivo serializa un scope tipado `{operation_id, workspace_id, source}` y limita la mejora del mensaje 403 a `QualityOperationsView`, preservando el contrato histórico del cliente API compartido. Browser acceptance debe repetirse desde la primera captura sobre el source corregido; no se reutilizan capturas pre-patch.
 
+
+## Cierre autoritativo
+
+**CLOSED/PASS** sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. Test Impact 0 unmatched, todos los tests seleccionados PASS, browser/evidence packaging PASS y waiver temporal HistoricalRegressionGuard. Baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 autorizado. La capacidad conserva madurez `implemented-initial`.

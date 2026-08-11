@@ -231,13 +231,14 @@
     "uoc009Authorized": true,
     "uoc007Status": "closed/PASS",
     "uoc008Authorized": true,
-    "uoc009Status": "implemented-initial/pending-windows-browser-closure",
+    "uoc009Status": "closed/PASS",
     "uoc009QualityOperations": true,
     "uoc009ArbitraryShell": false,
     "uoc009FullRegressionRequiresApproval": true,
     "uoc009FullRegressionExplicitConfirmation": true,
-    "uoc010Authorized": false,
-    "qualityOperationsRoute": "ui.quality"
+    "uoc010Authorized": true,
+    "qualityOperationsRoute": "ui.quality",
+    "uoc010Status": "authorized-after-uoc-009-pass"
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

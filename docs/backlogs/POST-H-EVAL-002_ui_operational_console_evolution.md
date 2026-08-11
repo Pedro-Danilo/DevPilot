@@ -9,10 +9,10 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-009-implemented-initial/pending-windows-browser-closure"
-current_sprint: "UOC-009"
-next_sprint: "UOC-009"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008"
+implementation_status: "UOC-009-closed/PASS"
+current_sprint: "UOC-010"
+next_sprint: "UOC-010"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008,UOC-009"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -1189,3 +1189,7 @@ UOC-008 **CLOSED/PASS** sobre source commit `d8c2464db65624967b5c7aa81bd95ed8791
 UOC-009 se implementa inicialmente sobre repo336 autoritativo con `/quality`, seis rutas API tipadas y 11 perfiles de operación que habilitan únicamente 10 capabilities runtime registradas. Test Impact es plan-only; focused/full tests se seleccionan por Test Contract Registry y nunca por shell text. Full regression exige approval, presupuesto y confirmación explícita y no se encadena automáticamente.
 
 La estrategia de cierre Windows ejecuta el 100% de los tests impactados con Test Impact en batches reanudables. Si no se repite `pytest -q`, `HistoricalRegressionGuard` exige un waiver temporal owner-approved después de que todos los tests impactados estén PASS y exista 0 unmatched. Failure replay preserva el resultado previo mediante nuevo plan/idempotency key; clone one-click queda pendiente. UOC-010 permanece NO autorizado hasta browser, regression guard, cierre canónico y repo337 PASS.
+
+## 2026-08-11 — UOC-009 closure
+
+UOC-009 **CLOSED/PASS** sobre source commit `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. `/quality` queda aceptada con tests impactados PASS y HistoricalRegressionGuard waiver temporal sin declarar full pytest PASS. La implementación sigue `implemented-initial`. Baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 autorizado.

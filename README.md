@@ -6306,3 +6306,7 @@ Job Console y observabilidad operacional cerrados sobre `d8c2464db65624967b5c7aa
 UOC-009 parte exclusivamente del baseline autoritativo `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip` y añade `/quality` como superficie gobernada para Test Impact, focused tests seleccionados por Test Contract Registry, TCR v1/v2, Project State, Documentation Governance, quality-gate profiles, readiness, release verification dry-run, evidence packaging y baseline/manifest inspection. Las ejecuciones usan el framework UOC-007/UOC-008, heartbeat/timeout observables y un worker local tipado; la UI no acepta shell, ejecutables, rutas pytest ni argumentos CLI libres.
 
 La primera versión habilita exactamente 10 capabilities registradas mediante `uoc009.quality.typed-worker`. Full regression nunca se encadena automáticamente: exige approval, presupuesto y la confirmación literal `RUN FULL REGRESSION`. El failure replay preserva la evidencia previa mediante un nuevo plan/idempotency key; el clonado one-click del plan previo queda como evolución posterior. UOC-010 permanece NO autorizado hasta browser acceptance, regression guard, cierre canónico y baseline repo337 PASS.
+
+## UOC-009 — CLOSED/PASS
+
+Quality/Tests/Release cerró sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. Full regression no se falsea como PASS; waiver temporal tras todo Test Impact PASS. Baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`. UOC-010 autorizado; madurez `implemented-initial`.

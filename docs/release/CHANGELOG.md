@@ -3018,3 +3018,9 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 - Full regression requires explicit Approval Center authorization, budget and the exact `RUN FULL REGRESSION` confirmation; it is never automatically chained after focused tests.
 - Failure replay preserves previous evidence by creating a new governed plan/idempotency key. One-click cloned replay remains a later hardening item.
 - UOC-009 remains `implemented-initial/pending-windows-browser-closure`; UOC-010 is not authorized until canonical repo337 closure.
+
+### UOC-009 closure
+
+- CLOSED/PASS on `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`.
+- All Test Impact-selected tests PASS; full pytest not claimed as run and covered only by bounded HistoricalRegressionGuard waiver.
+- Next baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 authorized.
