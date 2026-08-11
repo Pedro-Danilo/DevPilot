@@ -14679,7 +14679,7 @@
       "classification": "source-of-truth",
       "domain": "audit.ui",
       "owner": "UOC-006",
-      "status_required": "implemented-initial",
+      "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_git_operations_service.py",
@@ -14708,7 +14708,7 @@
       "classification": "source-of-truth",
       "domain": "audit.ui",
       "owner": "UOC-006",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_git_operations_service.py",
@@ -14737,7 +14737,7 @@
       "classification": "machine-readable-source",
       "domain": "evaluation.pilot",
       "owner": "UOC-006",
-      "status_required": "implemented-initial/pending-windows-browser-closure",
+      "status_required": "closed/PASS",
       "criticality": "P0",
       "required_tests": [
         "tests/test_workspace_git_operations_service.py",
@@ -16929,5 +16929,5 @@
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation"
   },
   "updated_at": "2026-08-10",
-  "last_registered_sprint": "UOC-006"
+  "last_registered_sprint": "UOC-006-CLOSURE"
 }

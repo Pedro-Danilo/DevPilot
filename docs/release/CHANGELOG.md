@@ -2985,3 +2985,8 @@ Siguiente hito: `POST-H-032 — Agentes IA avanzados, LLM, RAG, memoria y tools`
 - Adds real Dashboard Health consumption, conditional Approval Center states, full Settings visual secret redaction, accessibility semantics and corrective gates.
 - Requires corrected operator/auditor tooling and `PILOT-E2E-001-RUN-05B-RERUN-03`.
 - Keeps `POST-H-EVAL-002-01-D` open and `POST-H-EVAL-002-02-A` unauthorized.
+
+
+## UOC-006 closure — 2026-08-10
+
+CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitrary Git, push/force-push/reset-hard/rebase/branch-delete remain blocked. Next authoritative baseline: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 is authorized but not implemented.

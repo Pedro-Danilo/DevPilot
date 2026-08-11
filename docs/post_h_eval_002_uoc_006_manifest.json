@@ -2,15 +2,15 @@
   "schema_id": "devpilot.post_h_eval_002.uoc_006.manifest.v1",
   "sprint_id": "UOC-006",
   "title": "Git operations gobernadas",
-  "status": "implemented-initial/pending-windows-browser-closure",
-  "decision": "PENDING-WINDOWS-BROWSER-CLOSURE",
-  "closed": false,
-  "preliminary": true,
+  "status": "closed/PASS",
+  "decision": "PASS",
+  "closed": true,
+  "preliminary": false,
   "base_commit": "9dfb0f380c3a7dea11321a5b75d2923cd7529a68",
   "authoritative_input_repo": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
   "authoritative_input_repo_sha256": "a528eb9ee5b1f676a1607b9c50256fa62596810647482b4f10cc68eb4ddeaabb",
-  "candidate_output_repo": "repo_DevPilot_Local_334_CANDIDATE_POST_H_EVAL_002_UOC_006.zip",
-  "authoritative_output_repo": null,
+  "candidate_output_repo": null,
+  "authoritative_output_repo": "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip",
   "source_branch": "feat/post-h-eval-002-uoc-006-governed-git-operations",
   "scope": {
     "status_diff_history_compare": true,
@@ -40,8 +40,8 @@
   },
   "verification": {
     "controlled_environment": "PASS/targeted-governance-ui",
-    "windows": "PENDING",
-    "browser": "PENDING",
+    "windows": "PASS",
+    "browser": "PASS",
     "s0": 0,
     "s1": 0,
     "test_impact": {
@@ -71,10 +71,11 @@
     "tcr_v2": "PASS-with-2-preexisting-needs-review-warnings",
     "project_state": "PASS",
     "docs_governance": "PASS",
-    "windows_git_staging_portability": "PASS/controlled-environment; PENDING-WINDOWS-AUTHORITATIVE"
+    "windows_git_staging_portability": "PASS/controlled-environment; PENDING-WINDOWS-AUTHORITATIVE",
+    "browser_checks": "30/30"
   },
   "next": {
-    "uoc_007_authorized": false,
+    "uoc_007_authorized": true,
     "authorization_condition": "UOC-006 Windows/browser/Git/baseline closure must be CLOSED/PASS with exact stage/commit/branch evidence, no forbidden Git surface and S0=0/S1=0."
   },
   "source_payload_version": "1.0.2",
@@ -84,5 +85,6 @@
     "post_stage_identity": "git-worktree-index-semantic-equivalence+index-sha256-fingerprint",
     "autocrlf_crlf_fixture": true,
     "validators_relaxed": false
-  }
+  },
+  "source_commit": "0ea40b01700886db1e5bfeb636dbcf58a2838bdb"
 }

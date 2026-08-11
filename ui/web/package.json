@@ -217,5 +217,9 @@
     "uoc006RebaseEnabled": false,
     "uoc006BranchDeleteEnabled": false,
     "uoc007Authorized": false
-  }
+  },
+  "uoc006Status": "closed/PASS",
+  "uoc006Preliminary": false,
+  "uoc007Authorized": true,
+  "browserAcceptanceExecuted": true
 }

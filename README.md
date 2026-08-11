@@ -6280,3 +6280,8 @@ Approval binding, atomic document apply y bounded pre-commit rollback cerraron P
 ## POST-H-EVAL-002 UOC-006 — governed local Git operations (implemented-initial)
 
 UOC-006 parte del baseline autoritativo `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip` y expone desde `/workspace/documents` un subset Git local tipado: status/history/compare read-only, plan inmutable por `document_id` opaco, aprobación separada de staging, staging exacto con compensación, aprobación independiente de commit, commit local con identidad explícita y verificación postcondición, y creación controlada de una ref de branch local sin checkout. `reset --hard`, rebase interactivo, push/force-push, branch delete, checkout/switch, tags, hooks y argumentos Git libres permanecen bloqueados. La implementación es una primera versión `implemented-initial`; UOC-007/UOC-008 deben evolucionar lifecycle persistente, jobs/heartbeat/cancelación y paridad CLI. UOC-007 no queda autorizado hasta el cierre Windows/browser/Git de UOC-006 y baseline repo 334. `Recargar trazabilidad` usa el mismo `validation-action-button` de las acciones vecinas.
+
+
+## UOC-006 closure — 2026-08-10
+
+CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitrary Git, push/force-push/reset-hard/rebase/branch-delete remain blocked. Next authoritative baseline: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 is authorized but not implemented.

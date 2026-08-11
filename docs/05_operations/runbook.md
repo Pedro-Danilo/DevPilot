@@ -11812,3 +11812,8 @@ Approval binding, atomic document apply y bounded pre-commit rollback cerraron P
 ## UOC-006 — operaciones Git gobernadas (primera versión)
 
 La UI no ejecuta Git libre ni una terminal. `WorkspaceGitOperationsApplicationService` orquesta `GovernedGitMutationAdapter` mediante planes inmutables y approvals exactos. El operador puede consultar status/history/compare, preparar un plan de staging/commit para documentos allowlisted, aprobar staging, verificar el índice, solicitar una segunda aprobación para commit y crear el commit con identidad explícita. La creación de branch está limitada a una nueva ref local aprobada y no realiza checkout. Push, force-push, reset hard, rebase, branch delete, tags, hooks y argumentos libres permanecen no-go. La aceptación Windows debe utilizar un repositorio fixture aislado bajo el control root para no introducir commits de prueba en `inventory-sales-local`. Esta capacidad es `implemented-initial`; jobs persistentes y operación prolongada se difieren a UOC-007/UOC-008.
+
+
+## UOC-006 closure — 2026-08-10
+
+CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitrary Git, push/force-push/reset-hard/rebase/branch-delete remain blocked. Next authoritative baseline: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 is authorized but not implemented.

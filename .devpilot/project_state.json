@@ -14,7 +14,7 @@
   "credentials_required": false,
   "current_micro_sprint": "POST-H-EVAL-002-02-B",
   "current_phase": "POST-H-EVAL-002",
-  "current_repo": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
+  "current_repo": "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip",
   "enterprise_deployment_enabled": false,
   "enterprise_ready_claimed": false,
   "external_api_used": false,
@@ -337,7 +337,8 @@
     "UOC-002 regression recovery v1.0.2 isolates the RAG CLI test and reconciles only a canonically rebuilt and exactly verified runtime-regenerated docs_index before restoring the exact HEAD blob.",
     "UOC-002 recovery v1.0.3 makes preflight portable across LF/CRLF Windows checkouts while blocking every non-EOL content difference.",
     "UOC-002 recovery v1.0.5 fixes the v1.0.4 input-state defect by classifying the post-selective tracked RAG index, restoring it through Git-native worktree materialization, verifying Git cleanliness before and after every selective case, and rolling back partial writes on operator failure.",
-    "UOC-005 closes approval-bound atomic document apply and bounded pre-commit rollback on repo 333; generic patch/Git/shell mutations remain blocked and UOC-006 is authorized."
+    "UOC-005 closes approval-bound atomic document apply and bounded pre-commit rollback on repo 333; generic patch/Git/shell mutations remain blocked and UOC-006 is authorized.",
+    "UOC-006 CLOSED/PASS on source commit 0ea40b01700886db1e5bfeb636dbcf58a2838bdb; governed local Git stage/commit/branch creation passed browser acceptance and repo 334 is the next authoritative baseline."
   ],
   "phase_h_status": "closed_implemented_initial",
   "plugin_execution_enabled": false,
@@ -1927,7 +1928,7 @@
   "post_h_eval_002_01_status": "closed/PASS",
   "post_h_eval_002_02_a_authorized": true,
   "updated_at": "2026-08-09T09:18:00-05:00",
-  "last_registered_sprint": "UOC-006",
+  "last_registered_sprint": "UOC-006-CLOSURE",
   "post_h_eval_002_01_d_governance_operator_version": "2.1.0",
   "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
   "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation",
@@ -2086,8 +2087,8 @@
   "uoc_005_authoritative_baseline": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
   "uoc_006_base_repo": "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip",
   "uoc_006_base_commit": "9dfb0f380c3a7dea11321a5b75d2923cd7529a68",
-  "uoc_006_status": "implemented-initial/pending-windows-browser-closure",
-  "uoc_006_closed": false,
+  "uoc_006_status": "closed/PASS",
+  "uoc_006_closed": true,
   "uoc_006_governed_git_operations_available": true,
   "uoc_006_git_status_compare_history_read_only": true,
   "uoc_006_staging_plan_immutable": true,
@@ -2105,6 +2106,7 @@
   "uoc_006_s0_open": 0,
   "uoc_006_s1_open": 0,
   "uoc_006_preliminary": true,
-  "uoc_007_authorized": false,
-  "uoc_007_authorization_reason": "UOC-006 must close Windows/browser/Git/baseline with governed stage/commit/branch evidence, no forbidden Git surface and S0=0/S1=0."
+  "uoc_007_authorized": true,
+  "uoc_007_authorization_reason": "UOC-006 must close Windows/browser/Git/baseline with governed stage/commit/branch evidence, no forbidden Git surface and S0=0/S1=0.",
+  "uoc_006_authoritative_baseline": "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip"
 }

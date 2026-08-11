@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-UOC-006-GOVERNED-GIT-OPERATIONS-REPORT"
 title: "UOC-006 — Governed Git Operations Implementation Report"
-status: "implemented-initial"
+status: "approved"
 version: "1.0.2"
 owner: "Ordóñez"
 updated: "2026-08-10"
-approval: "pending_windows_browser_closure"
+approval: "approved_by_owner"
 ---
 
 # UOC-006 — Governed Git Operations
@@ -107,3 +107,8 @@ equivalencia Git; la suite dirigida completa queda en 152 PASS / 0 FAIL /
 entorno de validación. MIASI structural/semantic, TCR v1/v2, Project State y
 Documentation Governance permanecen PASS; los warnings semánticos existentes
 continúan siendo no bloqueantes y no fueron ocultados.
+
+
+## Cierre Windows/browser/Git
+
+UOC-006 **CLOSED/PASS**. Source commit: `0ea40b01700886db1e5bfeb636dbcf58a2838bdb`. Browser acceptance: 30/30 checks, 6/6 screenshots, S0=0/S1=0. Baseline autoritativa después del closure commit: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 queda autorizado, pero todavía no implementado.

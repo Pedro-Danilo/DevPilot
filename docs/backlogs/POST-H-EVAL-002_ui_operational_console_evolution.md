@@ -9,10 +9,10 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-005-closed/PASS; UOC-006-implemented-initial/pending-Windows-browser-closure"
-current_sprint: "UOC-006"
+implementation_status: "UOC-006-closed/PASS; UOC-007-authorized/not-implemented"
+current_sprint: "UOC-007"
 next_sprint: "UOC-007"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -40,8 +40,8 @@ uoc_005_implementation_status: "closed/PASS"
 uoc_005_closure_commit: "9dfb0f380c3a7dea11321a5b75d2923cd7529a68"
 uoc_005_authoritative_repo: "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip"
 uoc_006_base_commit: "9dfb0f380c3a7dea11321a5b75d2923cd7529a68"
-uoc_006_implementation_status: "implemented-initial/pending-Windows-browser-closure"
-uoc_007_authorized: false
+uoc_006_implementation_status: "closed/PASS"
+uoc_007_authorized: true
 uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
@@ -1149,3 +1149,8 @@ Estado: `implemented-initial/pending-windows-browser-closure`. Base autoritativa
 La superficie no acepta argumentos Git libres. `reset --hard`, rebase, push/force-push, branch delete, checkout/switch, tag creation y staging de secretos/paths no allowlisted permanecen bloqueados. El adapter Git histórico read-only no se modifica; UOC-006 introduce un boundary de mutación independiente y estrecho. La primera versión es preliminar: la UI opera inicialmente sobre el documento activo por plan aunque el Application Service admite un set acotado; jobs persistentes/heartbeat/cancelación pertenecen a UOC-007/UOC-008.
 
 El S3 cosmético de `Recargar trazabilidad` queda reconciliado usando exactamente la clase compartida `validation-action-button`, sin selector visual privilegiado. UOC-007 permanece NO autorizado hasta el cierre Windows/browser/Git/repo334 de UOC-006 con evidencia completa, no-go Git PASS y S0=0/S1=0.
+
+
+## UOC-006 closure — 2026-08-10
+
+UOC-006 **CLOSED/PASS** sobre source commit `0ea40b01700886db1e5bfeb636dbcf58a2838bdb`. Stage exacto, aprobación independiente de commit, commit local con identidad explícita, history/compare, branch local controlado, no-go Git y S0=0/S1=0 fueron verificados. Baseline final: `repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip`. UOC-007 queda autorizado exclusivamente para capability registry y governed job framework; no está implementado por este cierre.
