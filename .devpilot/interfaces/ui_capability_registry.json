@@ -10902,7 +10902,9 @@
     "uoc_007_governed_job_capabilities_total": 193,
     "uoc_007_job_execution_enabled_total": 0,
     "uoc_007_new_ui_routes_total": 0,
-    "uoc_007_preliminary": true
+    "uoc_007_preliminary": false,
+    "uoc_007_closed": true,
+    "uoc_007_status": "closed/PASS"
   },
   "safety": {
     "local_first": true,

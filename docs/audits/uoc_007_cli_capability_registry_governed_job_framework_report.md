@@ -85,3 +85,6 @@ UOC-007 solo puede cambiar a `closed/PASS` y autorizar UOC-008 cuando la ejecuci
 
 La regresión completa se inició en el sandbox, pero excedió el presupuesto de 300 s de la herramienta antes de producir una adjudicación final; no se contabiliza como PASS ni como FAIL. Test Impact exige full regression por el alcance de Project State/docs/schema registries, por lo que el cierre Windows debe ejecutarla completa y conservar su log.
 
+## 8. Cierre autoritativo
+
+**CLOSED/PASS**. Source commit `e7197282133f4c53b5a813fde200c259a3c9c865`; full regression autoritativa `PASS`; no-go gates preservados; repo siguiente `repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip`. La infraestructura sigue siendo primera versión: el store mantiene single-writer local y no existe todavía Job Console, polling/streaming, orphan reconciliation ni process-tree cancellation; estas capacidades pertenecen a UOC-008.

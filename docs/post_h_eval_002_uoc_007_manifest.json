@@ -2,15 +2,15 @@
   "schema_id": "devpilot.post_h_eval_002.uoc_007.manifest.v1",
   "sprint_id": "UOC-007",
   "title": "CLI capability registry y governed job framework",
-  "status": "implemented-initial/pending-authoritative-windows-closure",
-  "decision": "PENDING",
-  "closed": false,
-  "preliminary": true,
+  "status": "closed/PASS",
+  "decision": "PASS",
+  "closed": true,
+  "preliminary": false,
   "base_commit": "de811e2a0e368ca7f571067a074d14c233fda3d6",
   "authoritative_input_repo": "repo_DevPilot_Local_334_POST_H_EVAL_002_UOC_006.zip",
   "authoritative_input_repo_sha256": "b5b4ae70682a7da57de585b58e4b764f96a2d148b150f9d0c5deae2ac63b0b3a",
-  "candidate_output_repo": "repo_DevPilot_Local_335_CANDIDATE_POST_H_EVAL_002_UOC_007.zip",
-  "authoritative_output_repo": null,
+  "candidate_output_repo": null,
+  "authoritative_output_repo": "repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip",
   "source_branch": "feat/post-h-eval-002-uoc-007-governed-job-framework",
   "scope": {
     "cli_capability_registry": true,
@@ -70,12 +70,15 @@
     "git_diff_check": "PASS/core.autocrlf=true simulation",
     "full_regression_controlled_environment": "NOT-ADJUDICATED/attempt exceeded 300s tool budget with no failure emitted before termination",
     "full_regression_required": true,
-    "windows_authoritative": "PENDING",
+    "windows_authoritative": "PASS",
     "browser_acceptance_required": false,
-    "reason_browser_not_required": "No visible UI route or surface changed; UOC-008 owns /jobs browser acceptance."
+    "reason_browser_not_required": "No visible UI route or surface changed; UOC-008 owns /jobs browser acceptance.",
+    "full_regression_windows_authoritative": "PASS",
+    "implementation_verification_report": "D:\\Projects\\DevPilot_E2E_Evaluation\\control\\POST-H-EVAL-002\\UOC-007\\uoc007_regression_recovery_v1_0_1\\UOC_007_IMPLEMENTATION_VERIFICATION_RECOVERY_CURRENT.json"
   },
   "next": {
-    "uoc_008_authorized": false,
-    "authorization_condition": "UOC-007 must close registry/schema/lifecycle/negative tests/governance and canonical repo335 with S0=0/S1=0."
-  }
+    "uoc_008_authorized": true,
+    "authorization_condition": "UOC-007 closed/PASS with registry/schema/lifecycle/negative tests/governance/full regression and canonical repo335; UOC-008 may implement Job Console only."
+  },
+  "source_commit": "e7197282133f4c53b5a813fde200c259a3c9c865"
 }

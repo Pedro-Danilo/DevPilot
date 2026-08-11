@@ -11821,3 +11821,7 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 ## UOC-007 — Governed job framework
 
 UOC-007 adds a local no-shell job lifecycle framework and exact CLI capability registry. Runtime state is under `outputs/runtime/governed_jobs`; raw parameter values, idempotency keys and cancel tokens are not persisted. UOC-008 remains blocked until authoritative UOC-007 closure.
+
+## UOC-007 closure — 2026-08-11
+
+CLOSED/PASS on `e7197282133f4c53b5a813fde200c259a3c9c865` after full regression and governance gates. UOC-008 is authorized. Runtime execution from UI remains disabled until typed adapters and UOC-008 operational controls are explicitly introduced.

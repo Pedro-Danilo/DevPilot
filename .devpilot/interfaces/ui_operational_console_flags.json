@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.7.0",
-  "updated": "2026-08-10",
+  "version": "1.7.1",
+  "updated": "2026-08-11",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
@@ -159,6 +159,7 @@
     "governed_job_runtime_execution_from_ui_enabled": false,
     "governed_job_execution_adapter_bound_total": 0,
     "governed_job_store": "outputs/runtime/governed_jobs",
-    "source_mutations_performed": false
+    "source_mutations_performed": false,
+    "uoc_007_closed": true
   }
 }

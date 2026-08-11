@@ -9,10 +9,10 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-007-implemented-initial/pending-authoritative-windows-closure"
-current_sprint: "UOC-007"
-next_sprint: "UOC-008-after-UOC-007-closure"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006"
+implementation_status: "UOC-007-closed/PASS"
+current_sprint: "UOC-008"
+next_sprint: "UOC-008"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -42,8 +42,8 @@ uoc_005_authoritative_repo: "repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip
 uoc_006_base_commit: "9dfb0f380c3a7dea11321a5b75d2923cd7529a68"
 uoc_006_implementation_status: "closed/PASS"
 uoc_007_authorized: true
-uoc_007_implementation_status: "implemented-initial/pending-authoritative-windows-closure"
-uoc_008_authorized: false
+uoc_007_implementation_status: "closed/PASS"
+uoc_008_authorized: true
 uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
@@ -1166,3 +1166,7 @@ UOC-006 **CLOSED/PASS** sobre source commit `0ea40b01700886db1e5bfeb636dbcf58a28
 - Canonical registry runtime execution: `0` capabilities enabled / `0` adapters bound.
 - `/jobs` UI/API surface: not added; belongs to UOC-008.
 - UOC-008 remains unauthorized until Windows/canonical closure of UOC-007.
+
+## 2026-08-11 — UOC-007 closure
+
+UOC-007 **CLOSED/PASS** sobre source commit `e7197282133f4c53b5a813fde200c259a3c9c865`. El registry cubre 193/193 capacidades; planning gobernado queda disponible para 188 capacidades no prohibidas, mientras `execution_enabled_total=0`, `adapter_bound_total=0`, arbitrary shell, remote execution, connector write y plugin execution permanecen bloqueados. El cierre autoritativo exige full regression Windows PASS y baseline limpio `repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip`. UOC-008 queda autorizado únicamente para Job Console y observabilidad operacional sobre este framework tipado.

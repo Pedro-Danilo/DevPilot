@@ -6289,3 +6289,7 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 ### UOC-007 — CLI capability registry y governed job framework
 
 Implemented-initial from repo334: exact 193-capability registry, typed job envelopes, lifecycle, idempotency, correlation, heartbeat, cancel/rollback contracts and atomic local runtime state. No `/jobs` UI route and no canonical runtime adapter is enabled until later UOC gates.
+
+## UOC-007 — CLOSED/PASS
+
+Capability registry 193/193 and the typed governed-job lifecycle are closed on `e7197282133f4c53b5a813fde200c259a3c9c865`. Canonical runtime adapters remain disabled (`0`) and UOC-008 is authorized for Job Console/operational observability. Baseline: `repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip`.
