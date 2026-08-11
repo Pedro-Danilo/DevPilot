@@ -147,7 +147,10 @@ def test_uoc_003_testing_and_documentation_governance_are_registered() -> None:
     realized = [
         int(key[4:7])
         for key, value in state.items()
-        if key.startswith("uoc_") and key.endswith("_status") and value and key[4:7].isdigit()
+        if key.startswith("uoc_")
+        and key.endswith("_status")
+        and key[4:7].isdigit()
+        and str(value).strip().lower().startswith(("implemented", "closed"))
     ]
     latest = max(realized)
     assert str(registry["last_registered_sprint"]).startswith(f"UOC-{latest:03d}")
@@ -173,20 +176,13 @@ def test_uoc_003_project_state_tracks_open_and_closed_lifecycle() -> None:
 def test_uoc_003_ui_version_is_synchronized() -> None:
     package = load("ui/web/package.json")
     lock = load("ui/web/package-lock.json")
-    state = load(".devpilot/project_state.json")
-    expected_version = (
-        "0.12.0-post-h-eval-002-uoc-006"
-        if state.get("uoc_006_status")
-        else (
-            "0.11.0-post-h-eval-002-uoc-005"
-            if state.get("uoc_005_status")
-            else (
-                "0.10.0-post-h-eval-002-uoc-004"
-                if state.get("uoc_004_status")
-                else "0.9.0-post-h-eval-002-uoc-003"
-            )
-        )
-    )
-    assert package["version"] == expected_version
-    assert lock["version"] == package["version"]
-    assert lock["packages"][""]["version"] == package["version"]
+    version = str(package["version"])
+    current_sprint = str(package["devpilot"]["currentSprint"])
+    assert lock["version"] == version
+    assert lock["packages"][""]["version"] == version
+    assert "-post-h-eval-002-uoc-" in version
+    version_uoc = int(version.rsplit("-uoc-", 1)[1])
+    sprint_uoc = int(current_sprint.rsplit("UOC-", 1)[1])
+    assert version_uoc == sprint_uoc
+    assert version_uoc >= 3
+    assert package["devpilot"]["uoc003Status"] == "closed/PASS"

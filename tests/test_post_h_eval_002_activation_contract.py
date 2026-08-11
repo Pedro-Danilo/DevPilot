@@ -87,7 +87,10 @@ def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> No
     realized = [
         int(key[4:7])
         for key, value in state.items()
-        if key.startswith("uoc_") and key.endswith("_status") and value and key[4:7].isdigit()
+        if key.startswith("uoc_")
+        and key.endswith("_status")
+        and key[4:7].isdigit()
+        and str(value).strip().lower().startswith(("implemented", "closed"))
     ]
     if realized:
         latest = max(realized)

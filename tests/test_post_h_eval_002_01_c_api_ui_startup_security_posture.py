@@ -95,7 +95,10 @@ def test_01_c_governance_docs_are_synchronized() -> None:
     realized = [
         int(key[4:7])
         for key, value in state.items()
-        if key.startswith("uoc_") and key.endswith("_status") and value and key[4:7].isdigit()
+        if key.startswith("uoc_")
+        and key.endswith("_status")
+        and key[4:7].isdigit()
+        and str(value).strip().lower().startswith(("implemented", "closed"))
     ]
     if realized:
         latest = max(realized)

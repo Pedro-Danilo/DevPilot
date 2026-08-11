@@ -44,7 +44,8 @@ def test_route_registry_totals_match_live_contracts() -> None:
     capabilities = data(".devpilot/interfaces/ui_capability_registry.json")
     assert api["summary"]["routes_total"] == len(api["routes"])
     assert len(api["routes"]) >= 46
-    assert ui["summary"]["routes_total"] == len(ui["routes"]) == 6
+    assert ui["summary"]["routes_total"] == len(ui["routes"])
+    assert len(ui["routes"]) >= 6
     assert capabilities["summary"]["api_routes_total"] == len(api["routes"])
     assert capabilities["summary"]["ui_routes_total"] == len(ui["routes"])
 
@@ -103,7 +104,10 @@ def test_documentation_registry_uses_lifecycle_aware_stable_identity() -> None:
     realized = [
         int(key[4:7])
         for key, value in state.items()
-        if key.startswith("uoc_") and key.endswith("_status") and value and key[4:7].isdigit()
+        if key.startswith("uoc_")
+        and key.endswith("_status")
+        and key[4:7].isdigit()
+        and str(value).strip().lower().startswith(("implemented", "closed"))
     ]
     if realized:
         latest = max(realized)

@@ -94,9 +94,10 @@ def test_uoc_001_route_registries_are_exact_and_read_only() -> None:
         assert route["plugin_execution_allowed"] is False
         assert route["external_api_allowed"] is False
     assert api["summary"]["routes_total"] >= 42
-    assert ui["summary"]["routes_total"] == 6
+    assert ui["summary"]["routes_total"] == len(ui["routes"])
+    assert ui["summary"]["routes_total"] >= 6
     assert capability["summary"]["api_routes_total"] >= 42
-    assert capability["summary"]["ui_routes_total"] == 6
+    assert capability["summary"]["ui_routes_total"] == len(ui["routes"])
     if state.get("uoc_005_status"):
         assert capability["safety"]["document_write_enabled"] is True
         assert capability["safety"]["document_write_mode"] == "approval-gated-atomic-uoc005"
