@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-JOB-OPERATIONAL-SNAPSHOT-V1",
+  "title": "DevPilot Job Operational Snapshot v1",
+  "type": "object",
+  "required": ["phase", "progress_percent", "duration_seconds", "heartbeat_age_seconds", "stale", "worker_pid_present", "reconciled_orphan"],
+  "properties": {
+    "phase": {"type": "string", "minLength": 1},
+    "progress_percent": {"type": "integer", "minimum": 0, "maximum": 100},
+    "duration_seconds": {"type": "integer", "minimum": 0},
+    "heartbeat_age_seconds": {"type": ["integer", "null"], "minimum": 0},
+    "stale": {"type": "boolean"},
+    "worker_pid_present": {"type": "boolean"},
+    "retry_of_job_id": {"type": ["string", "null"]},
+    "retry_job_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "reconciled_orphan": {"type": "boolean"}
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-JOB-OPERATIONAL-SNAPSHOT-V1",
+  "x-devpilot-sprint": "UOC-008",
+  "x-devpilot-status": "registered"
+}

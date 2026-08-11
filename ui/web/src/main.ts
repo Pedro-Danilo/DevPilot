@@ -2,6 +2,7 @@ import { DevPilotApiClient, readStoredToken, storeToken } from './api/client';
 import { renderDashboard } from './pages/Dashboard';
 import { renderReportsView } from './pages/ReportsView';
 import { renderTracesView } from './pages/TracesView';
+import { renderJobsView } from './pages/JobsView';
 import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
 import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
@@ -16,6 +17,7 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/workspace/documents', routeId: 'ui.workspace-documents', title: 'Documentos' },
   { path: '/reports', routeId: 'ui.reports', title: 'Reportes' },
   { path: '/traces', routeId: 'ui.traces', title: 'Trazas' },
+  { path: '/jobs', routeId: 'ui.jobs', title: 'Jobs' },
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center' },
   { path: '/settings', routeId: 'ui.settings', title: 'Configuración' },
 ];
@@ -24,7 +26,8 @@ renderApplication(root);
 
 function renderApplication(target: HTMLElement): void {
   const currentPath = normalizePath(globalThis.location.pathname);
-  const route = UI_ROUTES.find((item) => item.path === currentPath);
+  const jobsDetail = currentPath.match(/^\/jobs\/(job_[A-Za-z0-9_-]+)$/);
+  const route = UI_ROUTES.find((item) => item.path === currentPath) ?? (jobsDetail ? UI_ROUTES.find((item) => item.path === '/jobs') : undefined);
   target.replaceChildren();
   const shell = document.createElement('div');
   shell.className = 'app-shell';
@@ -39,6 +42,7 @@ function renderApplication(target: HTMLElement): void {
     if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken()));
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));
+    else if (route.path === '/jobs') page.append(renderJobsView(() => readStoredToken(), jobsDetail?.[1]));
     else if (route.path === '/approvals') page.append(renderApprovalCenterView(() => readStoredToken()));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));
   }
@@ -61,7 +65,7 @@ function renderPrimaryNavigation(currentPath: string): HTMLElement {
     link.href = route.path;
     link.textContent = route.title;
     link.dataset.routeId = route.routeId;
-    if (route.path === currentPath) {
+    if (route.path === currentPath || (route.path === '/jobs' && currentPath.startsWith('/jobs/'))) {
       link.classList.add('is-active');
       link.setAttribute('aria-current', 'page');
     }

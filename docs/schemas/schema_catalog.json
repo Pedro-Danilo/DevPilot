@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.5.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-10",
-  "sprint": "UOC-007",
+  "updated": "2026-08-11",
+  "sprint": "UOC-008",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -1971,9 +1971,9 @@
     {
       "schema_id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
       "title": "DevPilot UI Route Contract Registry v1",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "path": "docs/schemas/ui_route_contract.schema.json",
-      "description": "POST-H-014-C local-first schema for Web UI critical page contracts, allowed API bindings, local/dry-run/no-remote badges and product-state visibility.",
+      "description": "UI route contract registry; UOC-008 adds operational RUNNING/CANCELLED visibility while preserving local/no-go invariants.",
       "status": "registered",
       "owner": "Ordóñez",
       "sprint": "POST-H-014-C",
@@ -2348,7 +2348,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-007"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-JOB-OPERATIONAL-SNAPSHOT-V1",
+      "title": "DevPilot Job Operational Snapshot v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/job_operational_snapshot.schema.json",
+      "description": "Computed UOC-008 operational projection for heartbeat, progress, stale/retry/orphan state.",
+      "status": "registered",
+      "contract": "JobOperationalSnapshot",
+      "owner": "Ordóñez",
+      "sprint": "UOC-008",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-008"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-JOB-LOG-PAGE-V1",
+      "title": "DevPilot Job Log Page v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/job_log_page.schema.json",
+      "description": "Bounded cursor-based sanitized local job-log page contract.",
+      "status": "registered",
+      "contract": "JobLogPage",
+      "owner": "Ordóñez",
+      "sprint": "UOC-008",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-008"
     }
   ],
-  "schemas_total": 162
+  "schemas_total": 164
 }

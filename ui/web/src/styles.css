@@ -978,3 +978,16 @@ button[aria-busy="true"] { cursor: wait; opacity: 0.72; }
 .uoc006-plan-card pre, .uoc006-status-json, .uoc006-history-json, .uoc006-compare-json { max-height: 24rem; overflow: auto; white-space: pre-wrap; }
 .uoc006-commit-pass { border-width: 2px; }
 @media (max-width: 640px) { .uoc006-plan-card dl, .uoc006-execution-card dl, .uoc006-approval-card dl { grid-template-columns: 1fr; } }
+
+/* UOC-008 — Job Console */
+.jobs-grid { display: grid; grid-template-columns: minmax(18rem, .9fr) minmax(22rem, 1.4fr); gap: 1rem; }
+.jobs-filters { align-items: end; }
+.job-row { text-align: left; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.job-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; margin: .8rem 0; }
+.job-metric { border: 1px solid var(--border, #d6dbe3); border-radius: .6rem; padding: .7rem; display: grid; gap: .15rem; }
+.job-metric strong { font-size: 1rem; overflow-wrap: anywhere; }
+.job-metric span { font-size: .78rem; opacity: .72; }
+.job-actions { margin: .75rem 0; }
+.job-log-stream { max-height: 22rem; overflow: auto; white-space: pre-wrap; }
+@media (max-width: 900px) { .jobs-grid { grid-template-columns: 1fr; } .job-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .job-metrics { grid-template-columns: 1fr; } .jobs-filters { display: grid; grid-template-columns: 1fr; } }

@@ -17762,6 +17762,98 @@
         "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "SCHEMA-DEVPL-GOVERNED-JOB-CAPABILITY-REGISTRY-V1"
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-008-job-console",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-uoc-008-job-console",
+      "domain": "product.ui",
+      "capability": "JobConsoleOperationalObservability",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "manual",
+      "cost_class": "medium",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_governed_job_operations.py",
+        "tests/test_api_governed_jobs.py",
+        "tests/test_web_ui_job_console.py",
+        "tests/test_post_h_eval_002_uoc_008_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/governed_job_operations.py",
+        "src/devpilot_core/application/governed_jobs.py",
+        "src/devpilot_core/interfaces/api/routers/jobs.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/JobsView.ts",
+        "ui/web/src/api/",
+        ".devpilot/interfaces/",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_008_manifest.json",
+        "docs/07_interfaces/job_console_operational_observability.md",
+        "docs/schemas/job_operational_snapshot.schema.json",
+        "docs/schemas/job_log_page.schema.json",
+        "docs/audits/uoc_008_job_console_operational_observability_report.md"
+      ],
+      "validates": [
+        "src/devpilot_core/application/governed_job_operations.py",
+        "src/devpilot_core/interfaces/api/routers/jobs.py",
+        "ui/web/src/pages/JobsView.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_operational_console_flags.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_008_manifest.json",
+        "docs/audits/uoc_008_job_console_operational_observability_report.md"
+      ],
+      "trigger_hints": [
+        "uoc-008-job-console-change",
+        "job-observability-change",
+        "job-cancellation-retry-change"
+      ],
+      "impact_scope": [
+        "governed-jobs",
+        "ui",
+        "api-contracts",
+        "observability",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "UOC-008",
+      "recommended_commands": [
+        "python -m pytest tests/test_governed_job_operations.py tests/test_api_governed_jobs.py tests/test_web_ui_job_console.py tests/test_post_h_eval_002_uoc_008_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Cancel/retry mutate runtime job state only; generic capability execution remains disabled.",
+        "Logs are bounded and redacted; orphan reconciliation never turns stale work into PASS."
+      ],
+      "owner_domain": "product.ui",
+      "service_boundary": "application",
+      "subgate_id": "uoc-008-job-console",
+      "schema_ids": [
+        "SCHEMA-DEVPL-JOB-OPERATIONAL-SNAPSHOT-V1",
+        "SCHEMA-DEVPL-JOB-LOG-PAGE-V1"
+      ],
+      "safety_exception": {
+        "justification": "UOC-008 is the approved narrow local runtime-control exception: cancel/retry may mutate governed job runtime state and terminate only a worker PID recorded by trusted runtime metadata. No source mutation, arbitrary PID browser input, shell text, remote execution, connector write or plugin execution is enabled.",
+        "approved_by": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION-v1.1.0/UOC-008",
+        "expires_at_utc": "2026-12-31T23:59:59Z",
+        "scope": "UOC-008 local governed-job cancel/retry/orphan reconciliation/runtime metadata only",
+        "rollback_or_cleanup": "Runtime job state remains under outputs/runtime/governed_jobs and can be removed/rebuilt without source mutation; cancelled/retried jobs remain auditable and are never silently promoted to PASS."
+      }
     }
   ],
   "migration_metadata": {

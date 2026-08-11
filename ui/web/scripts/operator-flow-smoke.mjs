@@ -11,6 +11,7 @@ const files = [
   'src/pages/TracesView.ts',
   'src/pages/ApprovalCenterView.ts',
   'src/pages/SettingsView.ts',
+  'src/pages/JobsView.ts',
   'src/pages/OperatorDashboard.ts',
   'src/components/DryRunActionForm.ts',
   'src/components/OperatorGatePanel.ts',
@@ -28,6 +29,11 @@ const required = [
   'plan-only',
   'no-go visible',
   'recommended_next_actions',
+  'Job Console',
+  'STALE',
+  'Solicitar cancelación',
+  'Crear retry gobernado',
+  'Logs sanitizados',
 ];
 const forbidden = ['Traceback (most recent call last)', 'error.stack', 'console.trace', '0.0.0.0 como solución'];
 const missing = required.filter((marker) => !source.includes(marker));
@@ -48,6 +54,7 @@ const payload = {
     'forbidden_action_block',
     'settings_redacted_plan_only',
     'operator_dashboard_next_actions',
+    'governed_jobs_observe_cancel_retry',
   ],
 };
 console.log(JSON.stringify(payload, null, 2));

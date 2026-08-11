@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-10",
+  "updated": "2026-08-11",
   "routes": [
     {
       "route_id": "ui.approvals",
@@ -365,15 +365,74 @@
         "plan_only": false,
         "justification": "UOC-006 exposes only typed, exact approval-bound Git index/history/local-ref mutations. Source document writes remain UOC-005-only; generic Git command execution and network operations remain blocked."
       }
+    },
+    {
+      "route_id": "ui.jobs",
+      "title": "Job Console",
+      "path": "/jobs",
+      "page_component": "JobsView",
+      "source_files": [
+        "ui/web/src/pages/JobsView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.jobs.list",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.jobs.cancel",
+        "api.jobs.retry"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "Cancel/retry affect only governed runtime state/processes and remain policy-bound; no source mutation or arbitrary execution."
+      },
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "warn": true,
+        "running": true,
+        "cancelled": true,
+        "stale": true,
+        "api_down": true,
+        "unauthorized": true,
+        "timeout": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING",
+        "RUNNING",
+        "CANCELLED"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "UOC-008 local Job Console with bounded polling, sanitized logs, heartbeat/stale visibility, governed cancel/retry and no arbitrary shell."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 6,
-    "critical_routes_total": 6,
-    "local_only_routes_total": 6,
-    "dry_run_badged_routes_total": 6,
-    "no_remote_badged_routes_total": 6,
-    "mutation_control_routes_total": 2,
+    "routes_total": 7,
+    "critical_routes_total": 7,
+    "local_only_routes_total": 7,
+    "dry_run_badged_routes_total": 7,
+    "no_remote_badged_routes_total": 7,
+    "mutation_control_routes_total": 4,
     "allowed_api_routes_unique_total": 55,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
@@ -392,7 +451,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "UOC-006",
+    "updated_by": "UOC-008",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -408,7 +467,8 @@
     "uoc_006_governed_git_operations": true,
     "uoc_006_api_routes_total": 13,
     "uoc_006_push_enabled": false,
-    "uoc_006_generic_git_args_enabled": false
+    "uoc_006_generic_git_args_enabled": false,
+    "uoc_008_job_console": true
   },
   "safety": {
     "local_first": true,

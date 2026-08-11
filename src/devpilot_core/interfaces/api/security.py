@@ -141,6 +141,11 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/reports/{report_id}"): ApiRoutePolicy("reports.read", "read", "protected-read", path_subject="outputs/reports"),
     ("GET", "/api/v1/observability/traces"): ApiRoutePolicy("observability.trace_report", "read", "protected-read"),
     ("GET", "/api/v1/observability/metrics"): ApiRoutePolicy("observability.metrics_summary", "read", "protected-read"),
+    ("GET", "/api/v1/jobs"): ApiRoutePolicy("jobs.list", "read", "protected-governed-job-read"),
+    ("GET", "/api/v1/jobs/{job_id}"): ApiRoutePolicy("jobs.inspect", "read", "protected-governed-job-read"),
+    ("GET", "/api/v1/jobs/{job_id}/logs"): ApiRoutePolicy("jobs.logs", "read", "protected-governed-job-read"),
+    ("POST", "/api/v1/jobs/{job_id}/cancel"): ApiRoutePolicy("jobs.cancel", "approval", "protected-governed-job-control"),
+    ("POST", "/api/v1/jobs/{job_id}/retry"): ApiRoutePolicy("jobs.retry", "approval", "protected-governed-job-control"),
     ("GET", "/api/v1/traces"): ApiRoutePolicy("observability.trace_report", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
     ("GET", "/api/v1/traces/{trace_id}"): ApiRoutePolicy("observability.trace_inspect", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
     ("GET", "/api/v1/metrics/summary"): ApiRoutePolicy("observability.metrics_summary", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
@@ -437,6 +442,11 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/reports/{report_id}"))
         if path.startswith("/api/v1/traces/") and path.count("/") == 4:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/traces/{trace_id}"))
+        if path.startswith("/api/v1/jobs/"):
+            if path.endswith("/logs") and path.count("/") == 5:
+                return API_ROUTE_POLICIES.get(("GET", "/api/v1/jobs/{job_id}/logs"))
+            if path.count("/") == 4:
+                return API_ROUTE_POLICIES.get(("GET", "/api/v1/jobs/{job_id}"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/edit-plans/") and path.endswith("/recheck") and path.count("/") == 6:
         return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/edit-plans/{plan_id}/recheck"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/edit-plans/") and path.count("/") == 6:
@@ -464,6 +474,11 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request"))
         if path.endswith("/create"):
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/git/branches/{plan_id}/create"))
+    if method.upper() == "POST" and path.startswith("/api/v1/jobs/") and path.count("/") == 5:
+        if path.endswith("/cancel"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/jobs/{job_id}/cancel"))
+        if path.endswith("/retry"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/jobs/{job_id}/retry"))
     if method.upper() == "POST" and path.startswith("/api/v1/approvals/"):
         if path.endswith("/approve") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/approvals/{approval_id}/approve"))

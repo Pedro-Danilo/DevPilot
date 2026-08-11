@@ -1,0 +1,39 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_008.manifest.v1",
+  "sprint": "UOC-008",
+  "status": "implemented-initial/pending-windows-browser-closure",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-11",
+  "approval": "approved_by_owner",
+  "baseline_repo": "repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip",
+  "baseline_sha256": "5134ffb607ec65fa3c2a1a720505bcf6583fb3edcaacd66f6b65c883990ffde0",
+  "baseline_commit": "d2afb1381cfbfc6834274969e0f2e86b18526297",
+  "ui_route": "ui.jobs",
+  "ui_path": "/jobs",
+  "api_routes_total": 5,
+  "capability_execution_enabled_total": 0,
+  "arbitrary_shell": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "external_api_required": false,
+  "browser_acceptance_required": true,
+  "uoc_009_authorized": false,
+  "criteria": {
+    "jobs_list_detail": "implemented",
+    "heartbeat_duration_stale": "implemented",
+    "sanitized_bounded_logs": "implemented",
+    "governed_cancel": "implemented",
+    "governed_retry": "implemented",
+    "orphan_reconciliation": "implemented",
+    "responsive_job_console": "implemented",
+    "windows_browser_acceptance": "pending",
+    "canonical_closure": "pending"
+  },
+  "risks": [
+    "implemented-initial local JSON runtime store",
+    "no canonical capability execution adapters are enabled in UOC-008",
+    "browser acceptance and canonical repo336 remain pending"
+  ]
+}

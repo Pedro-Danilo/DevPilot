@@ -145,3 +145,5 @@ __all__ = [
     "WorkspaceEditExecutionApplicationService",
     "WorkspaceGitOperationsApplicationService",
 ]
+
+from .governed_job_operations import GovernedJobOperationsApplicationService

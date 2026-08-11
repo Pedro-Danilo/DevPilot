@@ -2,16 +2,16 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.11.0"
+version: "1.12.0"
 owner: "Ordóñez"
-updated: "2026-08-10"
+updated: "2026-08-11"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-007-closed/PASS"
+implementation_status: "UOC-008-implemented-initial/pending-windows-browser-closure"
 current_sprint: "UOC-008"
-next_sprint: "UOC-008"
+next_sprint: "UOC-008-CLOSURE"
 completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
@@ -44,6 +44,8 @@ uoc_006_implementation_status: "closed/PASS"
 uoc_007_authorized: true
 uoc_007_implementation_status: "closed/PASS"
 uoc_008_authorized: true
+uoc_008_implementation_status: "implemented-initial/pending-windows-browser-closure"
+uoc_009_authorized: false
 uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
@@ -1170,3 +1172,8 @@ UOC-006 **CLOSED/PASS** sobre source commit `0ea40b01700886db1e5bfeb636dbcf58a28
 ## 2026-08-11 — UOC-007 closure
 
 UOC-007 **CLOSED/PASS** sobre source commit `e7197282133f4c53b5a813fde200c259a3c9c865`. El registry cubre 193/193 capacidades; planning gobernado queda disponible para 188 capacidades no prohibidas, mientras `execution_enabled_total=0`, `adapter_bound_total=0`, arbitrary shell, remote execution, connector write y plugin execution permanecen bloqueados. El cierre autoritativo exige full regression Windows PASS y baseline limpio `repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip`. UOC-008 queda autorizado únicamente para Job Console y observabilidad operacional sobre este framework tipado.
+
+
+## 2026-08-11 — UOC-008 implementation candidate
+
+UOC-008 se implementa exclusivamente sobre repo335 autoritativo. Se añade `/jobs`, cinco rutas API tipadas, polling bounded, heartbeat/stale visibility, logs sanitizados, cancel/retry gobernados y orphan reconciliation. La ejecución genérica de capabilities permanece deshabilitada (`execution_enabled_total=0`); arbitrary shell, remote execution, connector write y plugin execution permanecen bloqueados. UOC-009 no se autoriza hasta browser acceptance Windows y cierre canónico repo336.

@@ -84,9 +84,16 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
             if method.upper() == "POST":
                 assert "requestBody" in operation, path
                 example = operation["requestBody"]["content"]["application/json"]["example"]
-                assert example["operation"] == operation["x-devpilot-operation"]
                 document_source_mutation_ids = {"API-UOC005-EDIT-APPLY", "API-UOC005-EDIT-ROLLBACK"}
                 governed_git_mutation_ids = {"API-UOC006-STAGE", "API-UOC006-COMMIT", "API-UOC006-BRANCH-CREATE"}
+                governed_job_control_ids = {"API-UOC008-JOBS-CANCEL", "API-UOC008-JOBS-RETRY"}
+                if operation["x-devpilot-api-id"] in governed_job_control_ids:
+                    assert set(example) == {"actor", "reason"}
+                    assert operation["x-devpilot-source-mutation"] is False
+                    assert operation["x-devpilot-arbitrary-shell"] is False
+                    assert operation["x-devpilot-remote-execution"] is False
+                else:
+                    assert example["operation"] == operation["x-devpilot-operation"]
                 if operation["x-devpilot-api-id"] in document_source_mutation_ids:
                     assert example["dry_run"] is False
                     assert operation["x-devpilot-approval-required"] is True
@@ -96,6 +103,8 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                     assert operation["x-devpilot-approval-required"] is True
                     assert operation["x-devpilot-git-arbitrary-args"] is False
                     assert operation["x-devpilot-push-enabled"] is False
+                elif operation["x-devpilot-api-id"] in governed_job_control_ids:
+                    assert operation["x-devpilot-side-effect"] == "local_runtime_job_control"
                 else:
                     assert example["dry_run"] is True
             else:

@@ -32,6 +32,7 @@ from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
+from .governed_job_operations import GovernedJobOperationsApplicationService
 from .governed_jobs import GovernedJobFramework
 from .ui_workspace_context import UiWorkspaceContextResolver
 
@@ -90,6 +91,7 @@ class ApplicationService:
         self.model = ModelApplicationService(self.root)
         self.history = HistoryApplicationService(self.root)
         self.observability = ObservabilityApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.governed_job_operations = GovernedJobOperationsApplicationService(self.root)
         self.operator_dashboard = OperatorDashboardApplicationService(self.root)
         self.portfolio = PortfolioApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
@@ -962,6 +964,27 @@ class ApplicationService:
     def reports_read(self, *, report_id: str, format: str = "json", max_chars: int = 20000) -> CommandResult:
         return self.reports.read_report(report_id, format=format, max_chars=max_chars)
 
+    def jobs_list(self, *, workspace_id: str | None = None, capability_id: str | None = None, status: str | None = None, limit: int = 50, offset: int = 0) -> CommandResult:
+        return self.governed_job_operations.list_jobs(workspace_id=workspace_id, capability_id=capability_id, status=status, limit=limit, offset=offset)
+
+    def jobs_inspect(self, *, job_id: str) -> CommandResult:
+        return self.governed_job_operations.inspect(job_id=job_id)
+
+    def jobs_logs(self, *, job_id: str, cursor: int = 0, limit: int = 100) -> CommandResult:
+        return self.governed_job_operations.read_logs(job_id=job_id, cursor=cursor, limit=limit)
+
+    def jobs_cancel(self, *, job_id: str, actor: str, reason: str) -> CommandResult:
+        return self.governed_job_operations.request_cancel(job_id=job_id, actor=actor, reason=reason)
+
+    def jobs_retry(self, *, job_id: str, actor: str, reason: str) -> CommandResult:
+        return self.governed_job_operations.retry(job_id=job_id, actor=actor, reason=reason)
+
+    def jobs_reconcile(self, *, stale_after_seconds: int = 120) -> CommandResult:
+        return self.governed_job_operations.reconcile_orphans(stale_after_seconds=stale_after_seconds)
+
+    def jobs_record_progress(self, *, job_id: str, phase: str, progress_percent: int, worker_pid: int | None = None, message: str | None = None) -> CommandResult:
+        return self.governed_job_operations.record_progress(job_id=job_id, phase=phase, progress_percent=progress_percent, worker_pid=worker_pid, message=message)
+
     def trace_report(self, *, limit: int = 20, include_events: bool = True, include_metrics: bool = True, scope: str = "active") -> CommandResult:
         return self.observability.trace_report(limit=limit, include_events=include_events, include_metrics=include_metrics, scope=scope)
 
@@ -1295,6 +1318,12 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
         "model.providers": lambda payload: service.model_providers(),
+        "jobs.list": lambda payload: service.jobs_list(workspace_id=payload.get("workspace_id"), capability_id=payload.get("capability_id"), status=payload.get("status"), limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0))),
+        "jobs.inspect": lambda payload: service.jobs_inspect(job_id=str(payload.get("job_id", ""))),
+        "jobs.logs": lambda payload: service.jobs_logs(job_id=str(payload.get("job_id", "")), cursor=int(payload.get("cursor", 0)), limit=int(payload.get("limit", 100))),
+        "jobs.cancel": lambda payload: service.jobs_cancel(job_id=str(payload.get("job_id", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "Operator cancellation"))),
+        "jobs.retry": lambda payload: service.jobs_retry(job_id=str(payload.get("job_id", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "Operator retry"))),
+        "jobs.reconcile": lambda payload: service.jobs_reconcile(stale_after_seconds=int(payload.get("stale_after_seconds", 120))),
         "observability.trace_report": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
         "observability.traces": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
         "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100)), scope=str(payload.get("scope", "active"))),
@@ -1446,6 +1475,11 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-006-K", "POST", "/api/v1/workspace/git/branches/plan", "workspace.git.branch_plan", ["UOC-006 controlled local branch-ref plan from clean current HEAD; no checkout."]),
         ("APP-ROUTE-UOC-006-L", "POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request", "workspace.git.branch_approval_request", ["UOC-006 approval request bound to exact branch plan/hash."]),
         ("APP-ROUTE-UOC-006-M", "POST", "/api/v1/workspace/git/branches/{plan_id}/create", "workspace.git.branch_create", ["UOC-006 approval-bound local branch-ref creation only; no checkout, delete, push or force operation."]),
+        ("APP-ROUTE-UOC-008-A", "GET", "/api/v1/jobs", "jobs.list", ["UOC-008 bounded local Job Console index with workspace/capability/status filters."]),
+        ("APP-ROUTE-UOC-008-B", "GET", "/api/v1/jobs/{job_id}", "jobs.inspect", ["UOC-008 governed-job detail projection with heartbeat/progress/stale metadata and internal hashes removed."]),
+        ("APP-ROUTE-UOC-008-C", "GET", "/api/v1/jobs/{job_id}/logs", "jobs.logs", ["UOC-008 bounded sanitized local job-log polling by opaque job id and cursor."]),
+        ("APP-ROUTE-UOC-008-D", "POST", "/api/v1/jobs/{job_id}/cancel", "jobs.cancel", ["UOC-008 policy-bound cancellation request with fixed-argv process-tree control; no arbitrary shell."]),
+        ("APP-ROUTE-UOC-008-E", "POST", "/api/v1/jobs/{job_id}/retry", "jobs.retry", ["UOC-008 governed retry creates a fresh job within retry budget and never autoexecutes it."]),
         ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
         ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),

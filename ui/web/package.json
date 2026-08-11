@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.12.0-post-h-eval-002-uoc-006",
+  "version": "0.13.0-post-h-eval-002-uoc-008",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — UOC-006 governed local Git review, approval-bound staging/commit and controlled branch creation.",
+  "description": "DevPilot Local Web UI — UOC-008 Job Console and governed operational observability.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -56,7 +56,8 @@
       "ui.traces",
       "ui.approvals",
       "ui.settings",
-      "ui.workspace-documents"
+      "ui.workspace-documents",
+      "ui.jobs"
     ],
     "localFirstBadges": true,
     "dryRunBadges": true,
@@ -92,7 +93,8 @@
       "ui.approvals",
       "ui.settings",
       "ui.operator-dashboard-embedded",
-      "ui.workspace-documents"
+      "ui.workspace-documents",
+      "ui.jobs"
     ],
     "unauthorizedErrorVisible": true,
     "apiDownErrorVisible": true,
@@ -172,7 +174,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "POST-H-EVAL-002-UOC-006",
+    "currentSprint": "POST-H-EVAL-002-UOC-008",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -183,7 +185,7 @@
     "uoc002PreliminaryReadOnly": true,
     "uoc002Status": "closed/PASS",
     "postHEvolution": true,
-    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-006",
+    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-008",
     "runtimeArtifactsVersioned": false,
     "uoc003ValidationTraceability": true,
     "uoc003SourceReadOnly": true,
@@ -205,7 +207,7 @@
     "genericRollbackEnabled": false,
     "sharedValidationActionStyling": true,
     "uoc006Authorized": true,
-    "uoc006Status": "implemented-initial/pending-windows-browser-closure",
+    "uoc006Status": "closed/PASS",
     "uoc006GovernedGitOperations": true,
     "uoc006StageApprovalRequired": true,
     "uoc006CommitApprovalRequired": true,
@@ -216,7 +218,17 @@
     "uoc006ResetHardEnabled": false,
     "uoc006RebaseEnabled": false,
     "uoc006BranchDeleteEnabled": false,
-    "uoc007Authorized": false
+    "uoc007Authorized": true,
+    "jobConsole": true,
+    "jobsRoute": "ui.jobs",
+    "jobsPollingIntervalMs": 3000,
+    "jobsSanitizedLogs": true,
+    "jobsOrphanReconciliation": true,
+    "jobsProcessTreeCancellation": true,
+    "uoc008Status": "implemented-initial/pending-windows-browser-closure",
+    "uoc009Authorized": false,
+    "uoc007Status": "closed/PASS",
+    "uoc008Authorized": true
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

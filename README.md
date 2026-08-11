@@ -6293,3 +6293,6 @@ Implemented-initial from repo334: exact 193-capability registry, typed job envel
 ## UOC-007 — CLOSED/PASS
 
 Capability registry 193/193 and the typed governed-job lifecycle are closed on `e7197282133f4c53b5a813fde200c259a3c9c865`. Canonical runtime adapters remain disabled (`0`) and UOC-008 is authorized for Job Console/operational observability. Baseline: `repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip`.
+
+### POST-H-EVAL-002 UOC-008 — Job Console
+UOC-008 introduces an implemented-initial local `/jobs` operational console over the governed job lifecycle. It adds bounded polling, heartbeat/stale visibility, sanitized logs, governed cancellation/retry and orphan reconciliation without enabling arbitrary shell or generic CLI execution. Canonical closure remains subject to Windows/browser evidence.

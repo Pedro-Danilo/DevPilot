@@ -523,3 +523,45 @@ export interface WorkspaceGitBranchPlan {
   expires_at: string;
   preliminary: boolean;
 }
+
+export interface GovernedJobOperationalSnapshot {
+  phase: string;
+  progress_percent: number;
+  duration_seconds: number;
+  heartbeat_age_seconds: number | null;
+  stale: boolean;
+  worker_pid_present: boolean;
+  retry_of_job_id?: string | null;
+  retry_job_ids?: string[];
+  reconciled_orphan: boolean;
+}
+
+export interface GovernedJobSnapshot {
+  job_id: string;
+  capability_id: string;
+  workspace_id: string;
+  status: string;
+  risk_class: string;
+  dry_run: boolean;
+  timeout_seconds: number;
+  retry_limit: number;
+  retry_count: number;
+  heartbeat_interval_seconds: number;
+  heartbeat_sequence: number;
+  created_at: string;
+  updated_at: string;
+  last_heartbeat_at: string | null;
+  approval_binding_id: string | null;
+  supports_cancel: boolean;
+  supports_rollback: boolean;
+  correlation_id: string;
+  parameter_keys: string[];
+  artifact_refs: string[];
+  evidence_refs: string[];
+  runtime_adapter_id: string | null;
+  errors: string[];
+  result_summary: Record<string, unknown>;
+  operational?: GovernedJobOperationalSnapshot;
+}
+
+export interface JobLogEntry { timestamp: string; level: string; phase: string; message: string; }

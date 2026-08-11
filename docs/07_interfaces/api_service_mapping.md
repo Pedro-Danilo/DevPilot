@@ -298,3 +298,18 @@ All UOC-006 routes remain local-only and typed; no browser-provided Git command 
 | `API-UOC006-BRANCH-PLAN` | `POST /api/v1/workspace/git/branches/plan` | `workspace.git.branch_plan` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
 | `API-UOC006-BRANCH-APPROVAL` | `POST /api/v1/workspace/git/branches/{plan_id}/approval-request` | `workspace.git.branch_approval_request` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
 | `API-UOC006-BRANCH-CREATE` | `POST /api/v1/workspace/git/branches/{plan_id}/create` | `workspace.git.branch_create` | Policy/gate: local token + route policy + typed UOC-006 service; arbitrary Git args/network/destructive commands blocked. |
+
+
+## UOC-008 — Job Console and operational observability
+
+UOC-008 exposes local governed-job observation/control only. It does **not** enable generic capability execution, browser shell text, remote execution, connector write or plugin execution. Runtime mutations are limited to bounded job lifecycle state, retry metadata and process-tree cancellation of a worker PID recorded by the trusted runtime.
+
+| API ID | Method / path | Application operation | Application Service | Policy/gate |
+|---|---|---|---|---|
+| `API-UOC008-JOBS-LIST` | `GET /api/v1/jobs` | `jobs.list` | `ApplicationService.jobs_list` | Policy/gate: local token + restricted CORS + typed ApplicationService + bounded filters/pagination. |
+| `API-UOC008-JOBS-INSPECT` | `GET /api/v1/jobs/{job_id}` | `jobs.inspect` | `ApplicationService.jobs_inspect` | Policy/gate: opaque job id + local token; internal integrity hashes are removed from browser projection. |
+| `API-UOC008-JOBS-LOGS` | `GET /api/v1/jobs/{job_id}/logs` | `jobs.logs` | `ApplicationService.jobs_logs` | Policy/gate: opaque job id + bounded cursor/page + backend redaction + per-job size limit. |
+| `API-UOC008-JOBS-CANCEL` | `POST /api/v1/jobs/{job_id}/cancel` | `jobs.cancel` | `ApplicationService.jobs_cancel` | Policy/gate: local token + protected job-control policy + lifecycle validation + fixed-argv process-tree termination only for recorded worker PID. |
+| `API-UOC008-JOBS-RETRY` | `POST /api/v1/jobs/{job_id}/retry` | `jobs.retry` | `ApplicationService.jobs_retry` | Policy/gate: local token + protected job-control policy + terminal-state/retry-budget validation; creates a fresh governed job and never autoexecutes it. |
+
+Startup calls `ApplicationService.jobs_reconcile` to adjudicate stale/orphan active jobs after restart. Trusted runtime workers can call `jobs_record_progress` internally to update phase/progress and heartbeat; no browser endpoint can inject a PID or arbitrary command.

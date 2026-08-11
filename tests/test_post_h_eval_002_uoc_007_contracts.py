@@ -114,8 +114,8 @@ def test_uoc007_schemas_docs_and_test_contract_are_registered() -> None:
         assert any(item['contract_id'] == 'post-h-eval-002-uoc-007-governed-job-framework' for item in j(rel)['contracts'])
 
 
-def test_uoc007_does_not_add_jobs_ui_route_before_uoc008() -> None:
-    ui_routes = j('.devpilot/interfaces/ui_route_contract_registry.json')['routes']
-    assert all(item.get('path') not in {'/jobs', '/jobs/{job_id}'} for item in ui_routes)
-    api_routes = j('.devpilot/interfaces/api_route_contract_registry.json')['routes']
-    assert all('/jobs' not in str(item.get('path', '')) for item in api_routes)
+def test_uoc007_does_not_claim_a_jobs_ui_route_in_its_immutable_manifest() -> None:
+    manifest = j('docs/post_h_eval_002_uoc_007_manifest.json')
+    assert manifest['scope']['new_ui_route'] is False
+    assert manifest['verification']['browser_acceptance_required'] is False
+    assert manifest['verification']['reason_browser_not_required'].startswith('No visible UI route')

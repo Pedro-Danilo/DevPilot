@@ -168,6 +168,26 @@ export class DevPilotApiClient {
     });
   }
 
+  async listJobs(filters: { workspace_id?: string; capability_id?: string; status?: string; limit?: number; offset?: number } = {}): Promise<DevPilotApplicationResponse> {
+    return this.get(`/jobs${this.query(filters)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async inspectJob(jobId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/jobs/${encodeURIComponent(jobId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async jobLogs(jobId: string, cursor = 0, limit = 100): Promise<DevPilotApplicationResponse> {
+    return this.get(`/jobs/${encodeURIComponent(jobId)}/logs${this.query({ cursor, limit })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async cancelJob(jobId: string, payload: { actor: string; reason: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/jobs/${encodeURIComponent(jobId)}/cancel`, payload, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async retryJob(jobId: string, payload: { actor: string; reason: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/jobs/${encodeURIComponent(jobId)}/retry`, payload, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
   async listWorkspaceDocuments(filters: { limit?: number; offset?: number; query?: string; extension?: string; category?: string } = {}): Promise<DevPilotApplicationResponse> {
     return this.get(`/workspace/documents${this.query(filters)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }

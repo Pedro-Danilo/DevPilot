@@ -15006,6 +15006,137 @@
         "UOC-007",
         "UOC-008"
       ]
+    },
+    {
+      "doc_id": "DEVPL-UOC-008-JOB-CONSOLE-OPERATIONAL-OBSERVABILITY",
+      "path": "docs/07_interfaces/job_console_operational_observability.md",
+      "classification": "source-of-truth",
+      "domain": "interfaces.application",
+      "owner": "UOC-008",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_governed_job_operations.py",
+        "tests/test_api_governed_jobs.py",
+        "tests/test_web_ui_job_console.py",
+        "tests/test_post_h_eval_002_uoc_008_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-008",
+        "UOC-009"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "DEVPL-UOC-008-JOB-CONSOLE-OPERATIONAL-REPORT",
+      "path": "docs/audits/uoc_008_job_console_operational_observability_report.md",
+      "classification": "source-of-truth",
+      "domain": "audit.ui",
+      "owner": "UOC-008",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_governed_job_operations.py",
+        "tests/test_api_governed_jobs.py",
+        "tests/test_web_ui_job_console.py",
+        "tests/test_post_h_eval_002_uoc_008_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-008",
+        "UOC-009"
+      ],
+      "frontmatter_required": true,
+      "status_checked": true
+    },
+    {
+      "doc_id": "UOC-008-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_008_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-008",
+      "status_required": "implemented-initial/pending-windows-browser-closure",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_governed_job_operations.py",
+        "tests/test_api_governed_jobs.py",
+        "tests/test_web_ui_job_console.py",
+        "tests/test_post_h_eval_002_uoc_008_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-008",
+        "UOC-009"
+      ]
+    },
+    {
+      "doc_id": "UOC-008-JOB-OPERATIONAL-SNAPSHOT-V1",
+      "path": "docs/schemas/job_operational_snapshot.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-008",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_governed_job_operations.py",
+        "tests/test_api_governed_jobs.py",
+        "tests/test_web_ui_job_console.py",
+        "tests/test_post_h_eval_002_uoc_008_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-008",
+        "UOC-009"
+      ]
+    },
+    {
+      "doc_id": "UOC-008-JOB-LOG-PAGE-V1",
+      "path": "docs/schemas/job_log_page.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-008",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_governed_job_operations.py",
+        "tests/test_api_governed_jobs.py",
+        "tests/test_web_ui_job_console.py",
+        "tests/test_post_h_eval_002_uoc_008_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-008",
+        "UOC-009"
+      ]
     }
   ],
   "rules": {
@@ -15080,7 +15211,7 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 650,
+    "documents_total": 655,
     "source_of_truth_total": 248,
     "machine_readable_source_total": 306,
     "derived_total": 96,
@@ -15093,15 +15224,15 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "UOC-007-CLOSURE",
+    "last_updated_by": "UOC-008",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": false,
-    "updated_by": "UOC-007",
-    "last_registered_sprint": "UOC-007-CLOSURE",
+    "updated_by": "UOC-008",
+    "last_registered_sprint": "UOC-008",
     "updated": "2026-08-10",
     "documents_checked_total": 650,
     "documents_registered_total": 650,
@@ -17150,7 +17281,7 @@
     "post_h_eval_002_01_status": "closed/PASS",
     "post_h_eval_002_02_a_authorized": true,
     "updated_at": "2026-08-09T09:18:00-05:00",
-    "last_registered_sprint": "UOC-007-CLOSURE",
+    "last_registered_sprint": "UOC-008",
     "post_h_eval_002_01_d_governance_operator_version": "2.1.0",
     "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
     "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation",
@@ -17352,8 +17483,10 @@
     "uoc_007_s1_open": 0,
     "uoc_008_authorized": true,
     "uoc_008_authorization_reason": "UOC-007 closed/PASS with exact capability coverage, typed governed-job lifecycle, no-shell/no-go controls and authoritative full regression.",
-    "uoc_007_authoritative_baseline": "repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip"
+    "uoc_007_authoritative_baseline": "repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip",
+    "uoc_008_status": "implemented-initial/pending-windows-browser-closure",
+    "uoc_009_authorized": false
   },
   "updated_at": "2026-08-11",
-  "last_registered_sprint": "UOC-007-CLOSURE"
+  "last_registered_sprint": "UOC-008"
 }

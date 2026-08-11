@@ -2998,3 +2998,8 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 - CLOSED/PASS on source commit `e7197282133f4c53b5a813fde200c259a3c9c865`.
 - Authoritative next baseline: `repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip`.
 - UOC-008 authorized; no generic CLI execution or shell surface enabled.
+
+### UOC-008 — Job Console (implemented-initial)
+- Adds `/jobs` and typed local API routes for job list/detail/logs/cancel/retry.
+- Adds heartbeat/stale visibility, bounded sanitized logs and orphan reconciliation.
+- Preserves no-shell/no-remote/no-connector-write/no-plugin-execution; canonical capability execution remains disabled pending later typed adapters.

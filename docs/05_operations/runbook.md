@@ -11825,3 +11825,6 @@ UOC-007 adds a local no-shell job lifecycle framework and exact CLI capability r
 ## UOC-007 closure — 2026-08-11
 
 CLOSED/PASS on `e7197282133f4c53b5a813fde200c259a3c9c865` after full regression and governance gates. UOC-008 is authorized. Runtime execution from UI remains disabled until typed adapters and UOC-008 operational controls are explicitly introduced.
+
+## UOC-008 — Job Console operational notes
+`/jobs` is local-only and token/policy protected. It does not create arbitrary jobs or accept shell input. Use the UOC-008 implementation/closure guide for Windows startup, browser acceptance, evidence packaging and repo336 generation.
