@@ -340,7 +340,8 @@
     "UOC-005 closes approval-bound atomic document apply and bounded pre-commit rollback on repo 333; generic patch/Git/shell mutations remain blocked and UOC-006 is authorized.",
     "UOC-006 CLOSED/PASS on source commit 0ea40b01700886db1e5bfeb636dbcf58a2838bdb; governed local Git stage/commit/branch creation passed browser acceptance and repo 334 is the next authoritative baseline.",
     "UOC-007 implements the CLI capability registry and governed job lifecycle framework from authoritative repo334; no UI job route or runtime capability adapter is enabled until later UOC gates.",
-    "UOC-008 implemented-initial from authoritative repo335; Job Console/browser closure remains pending and UOC-009 is not authorized."
+    "UOC-008 implemented-initial from authoritative repo335; Job Console/browser closure remains pending and UOC-009 is not authorized.",
+    "UOC-009 candidate adds typed Quality/Test/Release operations via governed jobs, Test Impact and explicit approval/budget controls; UOC-010 remains unauthorized until Windows/browser closure."
   ],
   "phase_h_status": "closed_implemented_initial",
   "plugin_execution_enabled": false,
@@ -1930,7 +1931,7 @@
   "post_h_eval_002_01_status": "closed/PASS",
   "post_h_eval_002_02_a_authorized": true,
   "updated_at": "2026-08-09T09:18:00-05:00",
-  "last_registered_sprint": "UOC-008-CLOSURE",
+  "last_registered_sprint": "UOC-009",
   "post_h_eval_002_01_d_governance_operator_version": "2.1.0",
   "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
   "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation",
@@ -2142,8 +2143,15 @@
   "uoc_008_process_tree_cancellation": true,
   "uoc_008_runtime_capability_execution_enabled_total": 0,
   "uoc_009_authorized": true,
-  "uoc_009_status": "authorized-after-uoc-008-pass",
+  "uoc_009_status": "implemented-initial/pending-windows-browser-closure",
   "uoc_008_closed": true,
   "uoc_008_authoritative_baseline": "repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip",
-  "uoc_009_authorization_reason": "UOC-008 closed/PASS with browser Job Console acceptance, bounded sanitized logs, cancel/retry/reconciliation controls and regression evidence reuse."
+  "uoc_009_authorization_reason": "UOC-008 closed/PASS with browser Job Console acceptance, bounded sanitized logs, cancel/retry/reconciliation controls and regression evidence reuse.",
+  "uoc_010_status": "not-authorized",
+  "uoc_010_authorized": false,
+  "uoc_009_quality_route": "/quality",
+  "uoc_009_typed_runtime_capabilities_total": 10,
+  "uoc_009_arbitrary_shell": false,
+  "uoc_009_full_regression_requires_approval": true,
+  "uoc_009_full_regression_requires_explicit_confirmation": true
 }

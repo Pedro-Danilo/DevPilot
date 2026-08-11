@@ -424,16 +424,81 @@
       "notes": [
         "UOC-008 local Job Console with bounded polling, sanitized logs, heartbeat/stale visibility, governed cancel/retry and no arbitrary shell."
       ]
+    },
+    {
+      "route_id": "ui.quality",
+      "title": "Quality, tests y release",
+      "path": "/quality",
+      "page_component": "QualityOperationsView",
+      "source_files": [
+        "ui/web/src/pages/QualityOperationsView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.quality.operations",
+        "api.quality.baseline",
+        "api.quality.test-impact-plan",
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute",
+        "api.quality.evidence-package",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.approvals.request",
+        "api.approvals.show"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "Only typed registry-selected quality operations may create runtime jobs/evidence. Full regression needs exact confirmation and approval; no source write or browser shell."
+      },
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "warn": true,
+        "planned": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "failed_counts": true,
+        "timeout": true,
+        "cancelled": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING",
+        "RUNNING",
+        "CANCELLED"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "UOC-009 exposes deterministic quality/test/release operations through typed profiles, approval/budget gates and UOC-007/008 jobs."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 7,
-    "critical_routes_total": 7,
-    "local_only_routes_total": 7,
-    "dry_run_badged_routes_total": 7,
-    "no_remote_badged_routes_total": 7,
-    "mutation_control_routes_total": 4,
-    "allowed_api_routes_unique_total": 55,
+    "routes_total": 8,
+    "critical_routes_total": 8,
+    "local_only_routes_total": 8,
+    "dry_run_badged_routes_total": 8,
+    "no_remote_badged_routes_total": 8,
+    "mutation_control_routes_total": 5,
+    "allowed_api_routes_unique_total": 66,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -451,7 +516,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "UOC-008",
+    "updated_by": "UOC-009",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -468,7 +533,8 @@
     "uoc_006_api_routes_total": 13,
     "uoc_006_push_enabled": false,
     "uoc_006_generic_git_args_enabled": false,
-    "uoc_008_job_console": true
+    "uoc_008_job_console": true,
+    "uoc_009_quality_operations": true
   },
   "safety": {
     "local_first": true,

@@ -1,0 +1,91 @@
+{
+  "schema_id": "devpilot.post_h_eval_002.uoc_009.manifest.v1",
+  "sprint": "UOC-009",
+  "status": "implemented-initial/pending-windows-browser-closure",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-11",
+  "approval": "approved_by_owner",
+  "baseline_repo": "repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip",
+  "baseline_sha256": "2a1e0e2501753431cc1ac8a685b4b597ac34ebf0e48dbec8d80715bb92c1a734",
+  "baseline_commit": "c454bd92f102ed4711098dc85249722ac24d022e",
+  "ui_route": "ui.quality",
+  "ui_path": "/quality",
+  "api_routes_total": 6,
+  "typed_runtime_capabilities_total": 10,
+  "arbitrary_shell": false,
+  "free_pytest_args": false,
+  "full_regression_requires_approval": true,
+  "full_regression_requires_explicit_confirmation": true,
+  "browser_acceptance_required": true,
+  "uoc_010_authorized": false,
+  "criteria": {
+    "test_impact_plan": "implemented",
+    "focused_tests_by_registry": "implemented",
+    "tcr_v1_v2": "implemented",
+    "project_state_docs_governance": "implemented",
+    "quality_gate_profiles": "implemented",
+    "readiness": "implemented",
+    "release_verification_dry_run": "implemented",
+    "evidence_packaging": "implemented",
+    "baseline_manifest_inspection": "implemented",
+    "failure_replay_contract": "implemented",
+    "windows_browser_acceptance": "pending",
+    "canonical_closure": "pending"
+  },
+  "risks": [
+    "implemented-initial local worker/process and JSON runtime state",
+    "full regression remains expensive and is never automatic; skipping it requires all impacted tests PASS plus temporary owner-approved HistoricalRegressionGuard waiver",
+    "one-click cloned failure replay is deferred; first version re-plans with new idempotency key while preserving prior evidence",
+    "npm build, browser acceptance and canonical repo337 remain pending Windows"
+  ],
+  "preliminary": true,
+  "output_repo": null,
+  "source_contract": {
+    "files_total": 55,
+    "added": 16,
+    "modified": 39,
+    "deleted": 0
+  },
+  "controlled_validation": {
+    "focused_and_historical_tests": "68/68 focused PASS; 150/150 POST-H-EVAL-002 historical PASS",
+    "worker_integration_smoke": "PASS",
+    "tcr_v1": "PASS/261",
+    "tcr_v2": "PASS/261; needs_review=2 preexisting",
+    "project_state": "PASS",
+    "docs_governance": "PASS/663 docs/0 blocking",
+    "ui_smokes": "PASS; visual=8/8",
+    "git_diff_check": "PASS",
+    "npm_build": "BLOCK in first Windows run; corrected by UOC-009 v1.0.1 source recovery before closure"
+  },
+  "test_impact": {
+    "changed_paths": 55,
+    "matched_contracts": 149,
+    "recommended_tests": 224,
+    "unmatched_paths": 0,
+    "residual_risk": "high",
+    "full_regression_required": true
+  },
+  "regression_strategy": {
+    "full_pytest_repeat_default": false,
+    "impacted_tests_required": true,
+    "batches_resumable": true,
+    "historical_regression_guard_waiver_required_when_skipping_full": true,
+    "waiver_cannot_cover_failures_or_unmatched": true
+  },
+  "failure_replay": "new-governed-plan/new-idempotency-key-preserves-prior-evidence; one-click-clone-deferred",
+  "limitations_and_residual_risks": [
+    "C6 browser approval binding defect is corrected in v1.0.4; authoritative Windows browser acceptance must be repeated with six fresh screenshots."
+  ],
+  "browser_approval_scope_correction": {
+    "version": "1.0.4",
+    "status": "implemented-pending-authoritative-browser-revalidation",
+    "root_cause": "/quality serialized explicit approval scope as non-JSON text; ApprovalService requires a JSON object string",
+    "backend_behavior": "403 BLOCK with APPROVAL_SCOPE_JSON_INVALID was correct; token remained valid",
+    "correction": "typed JSON scope with operation_id/workspace_id/source plus Quality-local 403 BLOCK rendering",
+    "source_paths_total": 6,
+    "new_source_paths_total": 0,
+    "full_regression_repeat_required": false,
+    "browser_revalidation_required": true
+  }
+}

@@ -33,6 +33,7 @@ from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationS
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
+from .quality_operations import QualityOperationsApplicationService
 from .governed_jobs import GovernedJobFramework
 from .ui_workspace_context import UiWorkspaceContextResolver
 
@@ -92,6 +93,7 @@ class ApplicationService:
         self.history = HistoryApplicationService(self.root)
         self.observability = ObservabilityApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.governed_job_operations = GovernedJobOperationsApplicationService(self.root)
+        self.quality_operations = QualityOperationsApplicationService(self.root)
         self.operator_dashboard = OperatorDashboardApplicationService(self.root)
         self.portfolio = PortfolioApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
@@ -985,6 +987,24 @@ class ApplicationService:
     def jobs_record_progress(self, *, job_id: str, phase: str, progress_percent: int, worker_pid: int | None = None, message: str | None = None) -> CommandResult:
         return self.governed_job_operations.record_progress(job_id=job_id, phase=phase, progress_percent=progress_percent, worker_pid=worker_pid, message=message)
 
+    def quality_operations_catalog(self) -> CommandResult:
+        return self.quality_operations.catalog()
+
+    def quality_baseline(self) -> CommandResult:
+        return self.quality_operations.baseline()
+
+    def quality_test_impact_plan(self, *, changed_paths: list[str]) -> CommandResult:
+        return self.quality_operations.test_impact_plan(changed_paths=changed_paths)
+
+    def quality_job_plan(self, *, operation_id: str, workspace_id: str, parameters: dict[str, Any], idempotency_key: str, approval_id: str | None = None, full_regression_confirmation: str | None = None) -> CommandResult:
+        return self.quality_operations.plan_job(operation_id=operation_id, workspace_id=workspace_id, parameters=parameters, idempotency_key=idempotency_key, approval_id=approval_id, full_regression_confirmation=full_regression_confirmation)
+
+    def quality_job_execute(self, *, job_id: str) -> CommandResult:
+        return self.quality_operations.execute_job(job_id=job_id)
+
+    def quality_evidence_package(self, *, limit: int = 100) -> CommandResult:
+        return self.quality_operations.package_evidence(limit=limit)
+
     def trace_report(self, *, limit: int = 20, include_events: bool = True, include_metrics: bool = True, scope: str = "active") -> CommandResult:
         return self.observability.trace_report(limit=limit, include_events=include_events, include_metrics=include_metrics, scope=scope)
 
@@ -1324,6 +1344,12 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "jobs.cancel": lambda payload: service.jobs_cancel(job_id=str(payload.get("job_id", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "Operator cancellation"))),
         "jobs.retry": lambda payload: service.jobs_retry(job_id=str(payload.get("job_id", "")), actor=str(payload.get("actor", "local-owner")), reason=str(payload.get("reason", "Operator retry"))),
         "jobs.reconcile": lambda payload: service.jobs_reconcile(stale_after_seconds=int(payload.get("stale_after_seconds", 120))),
+        "quality.operations": lambda payload: service.quality_operations_catalog(),
+        "quality.baseline": lambda payload: service.quality_baseline(),
+        "quality.test_impact_plan": lambda payload: service.quality_test_impact_plan(changed_paths=list(payload.get("changed_paths", []))),
+        "quality.jobs.plan": lambda payload: service.quality_job_plan(operation_id=str(payload.get("operation_id", "")), workspace_id=str(payload.get("workspace_id", "devpilot-local")), parameters=dict(payload.get("parameters", {})), idempotency_key=str(payload.get("idempotency_key", "")), approval_id=(str(payload["approval_id"]) if payload.get("approval_id") else None), full_regression_confirmation=(str(payload["full_regression_confirmation"]) if payload.get("full_regression_confirmation") else None)),
+        "quality.jobs.execute": lambda payload: service.quality_job_execute(job_id=str(payload.get("job_id", ""))),
+        "quality.evidence_package": lambda payload: service.quality_evidence_package(limit=int(payload.get("limit", 100))),
         "observability.trace_report": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
         "observability.traces": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
         "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100)), scope=str(payload.get("scope", "active"))),
@@ -1354,6 +1380,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "observability", "service": "ObservabilityApplicationService", "status": "implemented-initial", "side_effects": "read_or_dry_run_export"},
         {"domain": "operator", "service": "OperatorDashboardApplicationService", "status": "implemented-initial", "side_effects": "read_only_optional_outputs_reports"},
         {"domain": "portfolio", "service": "PortfolioApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
+        {"domain": "quality-operations", "service": "QualityOperationsApplicationService", "status": "implemented-initial-uoc-009", "side_effects": "typed_local_jobs_outputs_only"},
     ]
 
 
@@ -1384,6 +1411,12 @@ def _capabilities() -> list[ServiceCapability]:
         ("workspace.edits.execution_status", "Inspect one UOC-005 governed document execution record.", "none", True, "GET /api/v1/workspace/edit-executions/{execution_id}"),
         ("workspace.edits.rollback_approval_request", "Request separate human approval for bounded pre-commit rollback.", "approval_store_write", False, "POST /api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request"),
         ("workspace.edits.rollback", "Restore the exact pre-apply backup before Git stage/commit after separate approval.", "approval_gated_source_write", False, "POST /api/v1/workspace/edit-executions/{execution_id}/rollback"),
+        ("quality.operations", "List registered UOC-009 quality/test/release operations and budgets.", "none", True, "GET /api/v1/quality/operations"),
+        ("quality.baseline", "Inspect current project/release baseline and recent manifests read-only.", "none", True, "GET /api/v1/quality/baseline"),
+        ("quality.test_impact_plan", "Build Test Impact v2 plan from repository-relative changed paths without executing tests.", "none", True, "POST /api/v1/quality/test-impact/plan"),
+        ("quality.jobs.plan", "Plan one typed quality/test/release job by registered operation/profile id.", "runtime_plan_only", False, "POST /api/v1/quality/jobs/plan"),
+        ("quality.jobs.execute", "Start the fixed UOC-009 typed worker for an approved/eligible governed job.", "governed_runtime_outputs_only", False, "POST /api/v1/quality/jobs/{job_id}/execute"),
+        ("quality.evidence_package", "Create a bounded local evidence package from UOC-009 runtime results.", "local_outputs_only", False, "POST /api/v1/quality/evidence/package"),
         ("validation.frontmatter", "Validate Markdown frontmatter metadata for one artifact.", "none", True, "python -m devpilot_core validate-frontmatter <path> --json"),
         ("validation.artifact", "Validate Markdown structure against MIPSoftware/MIASI profiles.", "none", True, "python -m devpilot_core validate-artifact <path> --json"),
         ("validation.checklist_pre_code", "Evaluate the executable pre-code checklist gate.", "none", True, "python -m devpilot_core checklist-pre-code --json"),
@@ -1475,6 +1508,12 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-006-K", "POST", "/api/v1/workspace/git/branches/plan", "workspace.git.branch_plan", ["UOC-006 controlled local branch-ref plan from clean current HEAD; no checkout."]),
         ("APP-ROUTE-UOC-006-L", "POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request", "workspace.git.branch_approval_request", ["UOC-006 approval request bound to exact branch plan/hash."]),
         ("APP-ROUTE-UOC-006-M", "POST", "/api/v1/workspace/git/branches/{plan_id}/create", "workspace.git.branch_create", ["UOC-006 approval-bound local branch-ref creation only; no checkout, delete, push or force operation."]),
+        ("APP-ROUTE-UOC-009-A", "GET", "/api/v1/quality/operations", "quality.operations", ["UOC-009 typed quality/test/release operation catalog; no shell text or executable selection."]),
+        ("APP-ROUTE-UOC-009-B", "GET", "/api/v1/quality/baseline", "quality.baseline", ["UOC-009 read-only baseline/manifest inspection."]),
+        ("APP-ROUTE-UOC-009-C", "POST", "/api/v1/quality/test-impact/plan", "quality.test_impact_plan", ["UOC-009 Test Impact plan-only operation over repository-relative changed paths."]),
+        ("APP-ROUTE-UOC-009-D", "POST", "/api/v1/quality/jobs/plan", "quality.jobs.plan", ["UOC-009 governed quality job plan by registered operation/profile identifiers."]),
+        ("APP-ROUTE-UOC-009-E", "POST", "/api/v1/quality/jobs/{job_id}/execute", "quality.jobs.execute", ["UOC-009 fixed typed worker execution; approvals/confirmation/budgets enforced; no arbitrary shell."]),
+        ("APP-ROUTE-UOC-009-F", "POST", "/api/v1/quality/evidence/package", "quality.evidence_package", ["UOC-009 bounded local evidence packaging under outputs only."]),
         ("APP-ROUTE-UOC-008-A", "GET", "/api/v1/jobs", "jobs.list", ["UOC-008 bounded local Job Console index with workspace/capability/status filters."]),
         ("APP-ROUTE-UOC-008-B", "GET", "/api/v1/jobs/{job_id}", "jobs.inspect", ["UOC-008 governed-job detail projection with heartbeat/progress/stale metadata and internal hashes removed."]),
         ("APP-ROUTE-UOC-008-C", "GET", "/api/v1/jobs/{job_id}/logs", "jobs.logs", ["UOC-008 bounded sanitized local job-log polling by opaque job id and cursor."]),

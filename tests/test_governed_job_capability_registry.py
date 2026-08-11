@@ -16,22 +16,26 @@ def test_uoc007_governed_job_registry_covers_ui_capabilities_exactly() -> None:
     assert summary['ui_capabilities_total'] == 193
     assert summary['coverage_exact'] is True
     assert summary['planning_enabled_total'] == 188
-    assert summary['execution_enabled_total'] == 0
-    assert summary['adapter_bound_total'] == 0
     assert summary['forbidden_total'] == 5
+    historical = json.loads((ROOT / 'docs/post_h_eval_002_uoc_007_manifest.json').read_text(encoding='utf-8'))
+    assert historical['registry']['execution_enabled_total'] == 0
+    assert historical['registry']['adapter_bound_total'] == 0
 
 
-def test_uoc007_registry_blocks_forbidden_runtime_and_untyped_execution() -> None:
+def test_uoc007_registry_blocks_forbidden_runtime_and_requires_typed_execution_when_later_sprints_enable_it() -> None:
     payload = json.loads((ROOT / '.devpilot/interfaces/governed_job_capability_registry.json').read_text(encoding='utf-8'))
+    historical = json.loads((ROOT / 'docs/post_h_eval_002_uoc_007_manifest.json').read_text(encoding='utf-8'))
+    assert historical['registry']['execution_enabled_total'] == 0
+    assert historical['registry']['adapter_bound_total'] == 0
     for capability in payload['capabilities']:
         runtime = capability['runtime']
         if capability['risk_class'] == 'forbidden':
             assert runtime['planning_enabled'] is False
             assert runtime['execution_enabled'] is False
-        assert runtime['execution_enabled'] is False
-        assert runtime['adapter_bound'] is False
-        assert runtime['adapter_id'] is None
-        assert capability['contracts']['typed_parameters_schema_id'] is None
+        if runtime['execution_enabled']:
+            assert runtime['adapter_bound'] is True
+            assert runtime['adapter_id']
+            assert capability['contracts']['typed_parameters_schema_id']
         assert capability['policy_binding']['source'] == '.devpilot/miasi/policy_matrix.json'
         assert capability['controls']['idempotency_required'] is True
         assert capability['controls']['correlation_required'] is True

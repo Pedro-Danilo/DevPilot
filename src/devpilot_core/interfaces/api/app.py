@@ -13,7 +13,7 @@ from devpilot_core.application import ApplicationResponse, ApplicationService
 from devpilot_core.cli_models import CommandResult, ExitCode
 
 from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
-from .routers import actions, approvals, jobs, operator, portfolio, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
+from .routers import actions, approvals, jobs, operator, portfolio, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
 from .security import (
     API_ROUTE_POLICIES,
     DEFAULT_ALLOWED_ORIGINS,
@@ -176,6 +176,7 @@ def create_app(
     app.include_router(workspace_edits.router)
     app.include_router(workspace_git.router)
     app.include_router(jobs.router)
+    app.include_router(quality.router)
     app.include_router(validation.router)
     app.include_router(actions.router)
     app.include_router(approvals.router)

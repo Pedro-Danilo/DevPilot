@@ -188,6 +188,30 @@ export class DevPilotApiClient {
     return this.post(`/jobs/${encodeURIComponent(jobId)}/retry`, payload, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }
 
+  async qualityOperations(): Promise<DevPilotApplicationResponse> {
+    return this.get('/quality/operations', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async qualityBaseline(): Promise<DevPilotApplicationResponse> {
+    return this.get('/quality/baseline', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async qualityTestImpact(changedPaths: string[]): Promise<DevPilotApplicationResponse> {
+    return this.post('/quality/test-impact/plan', { changed_paths: changedPaths }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async qualityPlanJob(payload: { operation_id: string; workspace_id: string; parameters: Record<string, unknown>; idempotency_key: string; approval_id?: string; full_regression_confirmation?: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/quality/jobs/plan', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async qualityExecuteJob(jobId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/quality/jobs/${encodeURIComponent(jobId)}/execute`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async qualityEvidencePackage(limit = 100): Promise<DevPilotApplicationResponse> {
+    return this.post('/quality/evidence/package', { limit }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   async listWorkspaceDocuments(filters: { limit?: number; offset?: number; query?: string; extension?: string; category?: string } = {}): Promise<DevPilotApplicationResponse> {
     return this.get(`/workspace/documents${this.query(filters)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }

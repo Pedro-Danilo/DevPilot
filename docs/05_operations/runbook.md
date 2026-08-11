@@ -11832,3 +11832,11 @@ CLOSED/PASS on `e7197282133f4c53b5a813fde200c259a3c9c865` after full regression 
 ## UOC-008 closure — 2026-08-11
 
 CLOSED/PASS sobre `d8c2464db65624967b5c7aa81bd95ed87911f744`. `/jobs` es la superficie operacional para observar jobs, logs sanitizados, cancel/retry y stale/orphan states. UOC-009 autorizado; adapters de ejecución siguen en 0.
+
+## 2026-08-11 — UOC-009 implementation candidate
+
+Baseline exclusiva: `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip` (`2a1e0e2501753431cc1ac8a685b4b597ac34ebf0e48dbec8d80715bb92c1a734`), closure commit `c454bd92f102ed4711098dc85249722ac24d022e`. UOC-009 introduce `/quality`, seis rutas API tipadas, 11 perfiles operacionales y 10 capabilities de ejecución vinculadas a `uoc009.quality.typed-worker`.
+
+La selección de pruebas es registry-driven. Full regression exige Approval Center, budget y confirmación literal; nunca se dispara después de focused tests. El operador Windows debe ejecutar Test Impact con cero unmatched y todos los tests impactados en batches reanudables. Para evitar repetir innecesariamente `pytest -q`, el cierre usa `HistoricalRegressionGuard` con waiver temporal owner-approved únicamente después de que todo el scope impactado esté PASS; dicho waiver no transforma la regresión completa en PASS ni puede cubrir tests fallidos/unmatched.
+
+La aceptación browser debe demostrar catálogo/budgets, Test Impact, approval de una operación sensible, ejecución tipada observable en Job Console, resultados passed/failed/errors/skipped cuando aplique, evidence packaging y la protección de full regression. La primera versión preserva replay por nuevo plan/idempotency key; one-click clone/replay queda pendiente de evolución. UOC-010 continúa NO autorizado hasta cierre repo337.

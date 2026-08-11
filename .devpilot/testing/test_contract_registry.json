@@ -7610,8 +7610,7 @@
       "phase": "POST-H-EVAL-002",
       "test_files": [
         "tests/test_post_h_eval_002_uoc_002_regression_recovery.py",
-        "tests/test_rag_local.py",
-        ".devpilot/rag/docs_index.json"
+        "tests/test_rag_local.py"
       ],
       "validates": [
         ".devpilot/project_state.json",
@@ -10096,6 +10095,53 @@
       "critical": true,
       "recommended_commands": [
         "python -m pytest tests/test_governed_job_operations.py tests/test_api_governed_jobs.py tests/test_web_ui_job_console.py tests/test_post_h_eval_002_uoc_008_contracts.py -q"
+      ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-009-quality-operations",
+      "scope": "integration",
+      "owner": "UOC-009",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/quality_operations.py",
+        "src/devpilot_core/application/quality_job_worker.py",
+        "src/devpilot_core/interfaces/api/routers/quality.py",
+        "ui/web/src/pages/QualityOperationsView.ts",
+        ".devpilot/quality/ui_quality_operation_profiles.json",
+        ".devpilot/interfaces/governed_job_capability_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_009_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/quality_",
+        "src/devpilot_core/interfaces/api/routers/quality.py",
+        "ui/web/src/pages/QualityOperationsView.ts",
+        ".devpilot/quality/",
+        ".devpilot/interfaces/",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_009_manifest.json",
+        "docs/07_interfaces/quality_test_release_operations.md",
+        "docs/schemas/quality_",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_quality_operations_service.py tests/test_api_quality_operations.py tests/test_web_ui_quality_operations.py tests/test_post_h_eval_002_uoc_009_contracts.py -q"
       ]
     }
   ],

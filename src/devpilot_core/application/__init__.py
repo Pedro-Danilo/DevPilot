@@ -147,3 +147,5 @@ __all__ = [
 ]
 
 from .governed_job_operations import GovernedJobOperationsApplicationService
+
+from .quality_operations import QualityOperationProfileRegistry, QualityOperationsApplicationService

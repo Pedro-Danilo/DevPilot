@@ -4,8 +4,8 @@
   "registry_id": "devpilot-governed-job-capability-registry",
   "created_by": "UOC-007",
   "status": "implemented-initial",
-  "version": "1.0.0",
-  "updated": "2026-08-10",
+  "version": "1.1.0",
+  "updated": "2026-08-11",
   "source_registry": ".devpilot/interfaces/ui_capability_registry.json",
   "capabilities": [
     {
@@ -2168,9 +2168,9 @@
       "capability_id": "cli.docs-governance.validate",
       "cli_command_id": "docs-governance.validate",
       "cli_command": "python -m devpilot_core docs-governance validate",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -2178,7 +2178,7 @@
         "approval_required": false
       },
       "budgets": {
-        "timeout_seconds": 900,
+        "timeout_seconds": 300,
         "retry_limit": 0,
         "heartbeat_interval_seconds": 5
       },
@@ -2186,7 +2186,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -2207,10 +2207,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -4520,9 +4520,9 @@
       "capability_id": "cli.operator.evidence-export",
       "cli_command_id": "operator.evidence-export",
       "cli_command": "python -m devpilot_core operator evidence-export",
-      "application_service": "operator.evidence_export",
+      "application_service": "quality.operations",
       "risk_class": "mutating",
-      "parity_status": "PLANNED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -4538,7 +4538,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -4559,10 +4559,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -5157,9 +5157,9 @@
       "capability_id": "cli.project-state.validate",
       "cli_command_id": "project-state.validate",
       "cli_command": "python -m devpilot_core project-state validate",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -5175,7 +5175,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -5196,10 +5196,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -5353,9 +5353,9 @@
       "capability_id": "cli.quality-gate.run",
       "cli_command_id": "quality-gate.run",
       "cli_command": "python -m devpilot_core quality-gate run",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "sensitive",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -5363,7 +5363,7 @@
         "approval_required": true
       },
       "budgets": {
-        "timeout_seconds": 900,
+        "timeout_seconds": 1800,
         "retry_limit": 0,
         "heartbeat_interval_seconds": 5
       },
@@ -5371,7 +5371,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -5392,10 +5392,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -5549,9 +5549,9 @@
       "capability_id": "cli.readiness-check",
       "cli_command_id": "readiness-check",
       "cli_command": "python -m devpilot_core readiness-check",
-      "application_service": "workspace.validations.execute",
+      "application_service": "quality.operations",
       "risk_class": "read-only",
-      "parity_status": "UI-READ-ONLY",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -5567,7 +5567,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -5588,10 +5588,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -5843,9 +5843,9 @@
       "capability_id": "cli.release-candidate.profile",
       "cli_command_id": "release-candidate.profile",
       "cli_command": "python -m devpilot_core release-candidate profile",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "sensitive",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -5861,7 +5861,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -5882,10 +5882,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -7999,9 +7999,9 @@
       "capability_id": "cli.test-contracts.validate",
       "cli_command_id": "test-contracts.validate",
       "cli_command": "python -m devpilot_core test-contracts validate",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -8017,7 +8017,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -8038,19 +8038,19 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
       "capability_id": "cli.test-contracts.validate-v2",
       "cli_command_id": "test-contracts.validate-v2",
       "cli_command": "python -m devpilot_core test-contracts validate-v2",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -8066,7 +8066,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -8087,10 +8087,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -8146,9 +8146,9 @@
       "capability_id": "cli.test-impact.analyze-v2",
       "cli_command_id": "test-impact.analyze-v2",
       "cli_command": "python -m devpilot_core test-impact analyze-v2",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -8164,7 +8164,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -8185,10 +8185,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -8391,9 +8391,9 @@
       "capability_id": "cli.tests.run",
       "cli_command_id": "tests.run",
       "cli_command": "python -m devpilot_core tests run",
-      "application_service": null,
+      "application_service": "quality.operations",
       "risk_class": "sensitive",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -8401,7 +8401,7 @@
         "approval_required": true
       },
       "budgets": {
-        "timeout_seconds": 900,
+        "timeout_seconds": 10800,
         "retry_limit": 0,
         "heartbeat_interval_seconds": 5
       },
@@ -8409,7 +8409,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -8430,10 +8430,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc009.quality.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -9471,8 +9471,8 @@
     "source_ui_capabilities_total": 193,
     "coverage_exact": true,
     "planning_enabled_total": 188,
-    "execution_enabled_total": 0,
-    "adapter_bound_total": 0,
+    "execution_enabled_total": 10,
+    "adapter_bound_total": 10,
     "risk_class_counts": {
       "mutating": 121,
       "sensitive": 57,
@@ -9486,10 +9486,12 @@
       "UI-NATIVE": 1,
       "POLICY-BLOCKED": 5
     },
-    "typed_parameters_contracts_total": 0,
+    "typed_parameters_contracts_total": 10,
     "unregistered_total": 0,
     "forbidden_runtime_enabled_total": 0,
-    "runtime_execution_deferred_to_later_sprints": true
+    "runtime_execution_deferred_to_later_sprints": true,
+    "uoc_009_typed_execution_enabled_total": 10,
+    "updated_by": "UOC-009"
   },
   "safety": {
     "local_first": true,

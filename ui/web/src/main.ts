@@ -3,6 +3,7 @@ import { renderDashboard } from './pages/Dashboard';
 import { renderReportsView } from './pages/ReportsView';
 import { renderTracesView } from './pages/TracesView';
 import { renderJobsView } from './pages/JobsView';
+import { renderQualityOperationsView } from './pages/QualityOperationsView';
 import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
 import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
@@ -18,6 +19,7 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/reports', routeId: 'ui.reports', title: 'Reportes' },
   { path: '/traces', routeId: 'ui.traces', title: 'Trazas' },
   { path: '/jobs', routeId: 'ui.jobs', title: 'Jobs' },
+  { path: '/quality', routeId: 'ui.quality', title: 'Calidad / Tests' },
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center' },
   { path: '/settings', routeId: 'ui.settings', title: 'Configuración' },
 ];
@@ -43,6 +45,7 @@ function renderApplication(target: HTMLElement): void {
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));
     else if (route.path === '/jobs') page.append(renderJobsView(() => readStoredToken(), jobsDetail?.[1]));
+    else if (route.path === '/quality') page.append(renderQualityOperationsView(() => readStoredToken()));
     else if (route.path === '/approvals') page.append(renderApprovalCenterView(() => readStoredToken()));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));
   }

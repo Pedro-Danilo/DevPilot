@@ -1,0 +1,149 @@
+{
+  "schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PROFILES-V1",
+  "schema_version": "1.0",
+  "status": "implemented-initial",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-11",
+  "sprint": "UOC-009",
+  "operations": [
+    {
+      "operation_id": "test-impact",
+      "label": "Test Impact plan",
+      "capability_id": "cli.test-impact.analyze-v2",
+      "kind": "test-impact",
+      "risk_class": "read-only",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 120,
+      "allowed_keys": [
+        "changed_paths"
+      ]
+    },
+    {
+      "operation_id": "tcr-v1",
+      "label": "Test Contract Registry v1",
+      "capability_id": "cli.test-contracts.validate",
+      "kind": "tcr-v1",
+      "risk_class": "read-only",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 180,
+      "allowed_keys": []
+    },
+    {
+      "operation_id": "tcr-v2",
+      "label": "Test Contract Registry v2",
+      "capability_id": "cli.test-contracts.validate-v2",
+      "kind": "tcr-v2",
+      "risk_class": "read-only",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 240,
+      "allowed_keys": []
+    },
+    {
+      "operation_id": "project-state",
+      "label": "Project State",
+      "capability_id": "cli.project-state.validate",
+      "kind": "project-state",
+      "risk_class": "read-only",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 180,
+      "allowed_keys": []
+    },
+    {
+      "operation_id": "docs-governance",
+      "label": "Documentation Governance",
+      "capability_id": "cli.docs-governance.validate",
+      "kind": "docs-governance",
+      "risk_class": "read-only",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 300,
+      "allowed_keys": []
+    },
+    {
+      "operation_id": "quality-gate",
+      "label": "Quality Gate profile",
+      "capability_id": "cli.quality-gate.run",
+      "kind": "quality-gate",
+      "risk_class": "sensitive",
+      "requires_approval": true,
+      "supports_cancel": true,
+      "timeout_seconds": 1800,
+      "allowed_keys": [
+        "profile"
+      ]
+    },
+    {
+      "operation_id": "readiness-strict",
+      "label": "Readiness strict",
+      "capability_id": "cli.readiness-check",
+      "kind": "readiness",
+      "risk_class": "read-only",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 300,
+      "allowed_keys": []
+    },
+    {
+      "operation_id": "release-verification-dry-run",
+      "label": "Release verification dry-run",
+      "capability_id": "cli.release-candidate.profile",
+      "kind": "release-profile",
+      "risk_class": "sensitive",
+      "requires_approval": true,
+      "supports_cancel": true,
+      "timeout_seconds": 900,
+      "allowed_keys": []
+    },
+    {
+      "operation_id": "focused-tests",
+      "label": "Focused tests by TCR profile",
+      "capability_id": "cli.tests.run",
+      "kind": "tests-focused",
+      "risk_class": "sensitive",
+      "requires_approval": true,
+      "supports_cancel": true,
+      "timeout_seconds": 3600,
+      "allowed_keys": [
+        "tcr_profile"
+      ]
+    },
+    {
+      "operation_id": "full-regression",
+      "label": "Full regression",
+      "capability_id": "cli.tests.run",
+      "kind": "tests-full",
+      "risk_class": "sensitive",
+      "requires_approval": true,
+      "supports_cancel": true,
+      "timeout_seconds": 10800,
+      "allowed_keys": [
+        "confirmation"
+      ]
+    },
+    {
+      "operation_id": "evidence-package",
+      "label": "Quality evidence package",
+      "capability_id": "cli.operator.evidence-export",
+      "kind": "evidence-package",
+      "risk_class": "mutating",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 300,
+      "allowed_keys": [
+        "limit"
+      ]
+    }
+  ],
+  "safety": {
+    "arbitrary_shell": false,
+    "free_pytest_args": false,
+    "full_regression_explicit_confirmation": "RUN FULL REGRESSION",
+    "network_allowed": false,
+    "external_api_required": false
+  }
+}

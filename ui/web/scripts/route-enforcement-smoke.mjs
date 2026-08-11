@@ -11,7 +11,7 @@ const readRepoJson = (relative) => JSON.parse(readFileSync(join(repoRoot, relati
 const uiRegistry = readRepoJson('.devpilot/interfaces/ui_route_contract_registry.json');
 const apiRegistry = readRepoJson('.devpilot/interfaces/api_route_contract_registry.json');
 const apiRouteIds = new Set(apiRegistry.routes.map((route) => route.route_id));
-const requiredRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents', 'ui.jobs'];
+const requiredRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents', 'ui.jobs', 'ui.quality'];
 const forbidden = ['/patch/apply', 'patch-apply</option>', '/rollback/execute', '/refactor/execute', '/tests/run', '/git/push', '/deploy', 'child_process', 'devpilot_core', '.devpilot/', 'outputs/'];
 const sources = [
   'src/main.ts',
@@ -22,6 +22,7 @@ const sources = [
   'src/pages/ApprovalCenterView.ts',
   'src/pages/SettingsView.ts',
   'src/pages/JobsView.ts',
+  'src/pages/QualityOperationsView.ts',
   'src/pages/OperatorDashboard.ts',
   'src/pages/WorkspaceDocumentsView.ts',
   'src/components/DocumentTree.ts',

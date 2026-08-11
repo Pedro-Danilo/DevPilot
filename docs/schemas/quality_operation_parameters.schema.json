@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/uoc009-quality-operation-parameters-v1",
+  "title": "UOC-009 Quality Operation Parameters",
+  "type": "object",
+  "maxProperties": 4,
+  "additionalProperties": true
+}

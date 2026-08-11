@@ -15137,6 +15137,206 @@
         "UOC-008",
         "UOC-009"
       ]
+    },
+    {
+      "doc_id": "DEVPL-UOC-009-QUALITY-TEST-RELEASE-OPERATIONS",
+      "path": "docs/07_interfaces/quality_test_release_operations.md",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-009",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC-009-QUALITY-TEST-RELEASE-REPORT",
+      "path": "docs/audits/uoc_009_quality_tests_release_operations_report.md",
+      "classification": "source-of-truth",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-009",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "UOC-009-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_009_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "evaluation.pilot",
+      "owner": "UOC-009",
+      "status_required": "implemented-initial/pending-windows-browser-closure",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "UOC-009-PROFILE-SCHEMA",
+      "path": "docs/schemas/quality_operation_profiles.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-009",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "UOC-009-PARAMETERS-SCHEMA",
+      "path": "docs/schemas/quality_operation_parameters.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-009",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "UOC-009-PLAN-SCHEMA",
+      "path": "docs/schemas/quality_job_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-009",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "UOC-009-RESULT-SCHEMA",
+      "path": "docs/schemas/quality_job_result.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.ui",
+      "owner": "UOC-009",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "UOC-009-OPERATION-PROFILES",
+      "path": ".devpilot/quality/ui_quality_operation_profiles.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.quality",
+      "owner": "UOC-009",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_quality_operations_service.py",
+        "tests/test_api_quality_operations.py",
+        "tests/test_web_ui_quality_operations.py",
+        "tests/test_post_h_eval_002_uoc_009_contracts.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
     }
   ],
   "rules": {
@@ -15211,7 +15411,7 @@
     "post_h_034_e_enterprise_saas_boundary_registered": true
   },
   "summary": {
-    "documents_total": 655,
+    "documents_total": 663,
     "source_of_truth_total": 248,
     "machine_readable_source_total": 306,
     "derived_total": 96,
@@ -15220,25 +15420,26 @@
     "deprecated_total": 0,
     "critical_sources_total": 394,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 650,
+    "documents_with_required_tests_total": 663,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "UOC-008-CLOSURE",
+    "last_updated_by": "UOC-009",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": false,
-    "updated_by": "UOC-008",
-    "last_registered_sprint": "UOC-008-CLOSURE",
+    "updated_by": "UOC-009",
+    "last_registered_sprint": "UOC-009",
     "updated": "2026-08-10",
     "documents_checked_total": 650,
-    "documents_registered_total": 650,
+    "documents_registered_total": 663,
     "uoc_003_registered_documents_total": 10,
     "uoc_005_registered_documents_total": 4,
-    "uoc_007_registered_documents_total": 8
+    "uoc_007_registered_documents_total": 8,
+    "uoc_009_registered_documents_total": 8
   },
   "safety": {
     "local_first": true,
@@ -17500,5 +17701,5 @@
     "uoc_009_authorization_reason": "UOC-008 closed/PASS with browser Job Console acceptance, bounded sanitized logs, cancel/retry/reconciliation controls and regression evidence reuse."
   },
   "updated_at": "2026-08-11",
-  "last_registered_sprint": "UOC-008-CLOSURE"
+  "last_registered_sprint": "UOC-009"
 }

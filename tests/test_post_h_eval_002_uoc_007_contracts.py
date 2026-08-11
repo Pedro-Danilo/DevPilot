@@ -30,9 +30,10 @@ def test_uoc007_manifest_baseline_state_backlog_and_next_gate_are_synchronized()
         assert manifest['decision'] == 'PASS'
         assert manifest['preliminary'] is False
         assert manifest['next']['uoc_008_authorized'] is True
-        assert state['current_repo'] == 'repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip'
-        assert 'current_sprint: "UOC-008"' in backlog
-        assert 'uoc_008_authorized: true' in backlog
+        assert manifest['authoritative_output_repo'] == 'repo_DevPilot_Local_335_POST_H_EVAL_002_UOC_007.zip'
+        current_number = int(state['current_repo'].split('repo_DevPilot_Local_', 1)[1].split('_', 1)[0])
+        assert current_number >= 335
+        assert 'UOC-007' in backlog
     else:
         assert manifest['status'] == 'implemented-initial/pending-authoritative-windows-closure'
         assert manifest['decision'] == 'PENDING'
@@ -63,9 +64,11 @@ def test_uoc007_registry_flags_and_no_go_gates_are_explicit() -> None:
     ui = j('.devpilot/interfaces/ui_capability_registry.json')
     assert registry['summary']['capabilities_total'] == 193
     assert registry['summary']['coverage_exact'] is True
-    assert registry['summary']['execution_enabled_total'] == 0
-    assert registry['summary']['adapter_bound_total'] == 0
-    assert registry['safety']['runtime_execution_from_ui_enabled'] is False
+    manifest = j('docs/post_h_eval_002_uoc_007_manifest.json')
+    assert manifest['registry']['execution_enabled_total'] == 0
+    assert manifest['registry']['adapter_bound_total'] == 0
+    # Later UOC sprints may enable a typed subset; UOC-007's historical no-execution fact remains in its manifest.
+    assert registry['safety']['arbitrary_shell_allowed'] is False
     job_flag = next(item for item in flags['feature_flags'] if item['flag_id'] == 'uoc.jobs.framework')
     assert job_flag['enabled'] is True and job_flag['enabled_by'] == 'UOC-007'
     assert flags['safety']['governed_job_runtime_execution_from_ui_enabled'] is False

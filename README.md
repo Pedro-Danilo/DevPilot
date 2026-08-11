@@ -6300,3 +6300,9 @@ UOC-008 introduces an implemented-initial local `/jobs` operational console over
 ## UOC-008 — CLOSED/PASS
 
 Job Console y observabilidad operacional cerrados sobre `d8c2464db65624967b5c7aa81bd95ed87911f744`. Baseline siguiente `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip`; UOC-009 autorizado sin habilitar arbitrary shell ni execution adapters genéricos.
+
+## POST-H-EVAL-002 UOC-009 — Quality, Tests and Release Operations
+
+UOC-009 parte exclusivamente del baseline autoritativo `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip` y añade `/quality` como superficie gobernada para Test Impact, focused tests seleccionados por Test Contract Registry, TCR v1/v2, Project State, Documentation Governance, quality-gate profiles, readiness, release verification dry-run, evidence packaging y baseline/manifest inspection. Las ejecuciones usan el framework UOC-007/UOC-008, heartbeat/timeout observables y un worker local tipado; la UI no acepta shell, ejecutables, rutas pytest ni argumentos CLI libres.
+
+La primera versión habilita exactamente 10 capabilities registradas mediante `uoc009.quality.typed-worker`. Full regression nunca se encadena automáticamente: exige approval, presupuesto y la confirmación literal `RUN FULL REGRESSION`. El failure replay preserva la evidencia previa mediante un nuevo plan/idempotency key; el clonado one-click del plan previo queda como evolución posterior. UOC-010 permanece NO autorizado hasta browser acceptance, regression guard, cierre canónico y baseline repo337 PASS.

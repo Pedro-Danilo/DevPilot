@@ -8054,6 +8054,672 @@
         "x-devpilot-arbitrary-shell": false,
         "x-devpilot-remote-execution": false
       }
+    },
+    "/api/v1/quality/operations": {
+      "get": {
+        "summary": "UOC-009 quality operation catalog",
+        "operationId": "uoc009_quality_operations",
+        "tags": [
+          "Quality, tests and release"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success or governed product BLOCK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API policy block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC009-QUALITY-OPERATIONS",
+        "x-devpilot-operation": "quality.operations",
+        "x-devpilot-domain-service": "ApplicationService.quality_operations",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Typed UOC-009 quality operation selected by registry IDs; no arbitrary shell, free pytest args, remote execution, connector write or plugin execution.",
+        "x-devpilot-approval-required": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false
+      }
+    },
+    "/api/v1/quality/baseline": {
+      "get": {
+        "summary": "UOC-009 baseline and manifest inspection",
+        "operationId": "uoc009_quality_baseline",
+        "tags": [
+          "Quality, tests and release"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success or governed product BLOCK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API policy block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC009-QUALITY-BASELINE",
+        "x-devpilot-operation": "quality.baseline",
+        "x-devpilot-domain-service": "ApplicationService.quality_baseline",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Typed UOC-009 quality operation selected by registry IDs; no arbitrary shell, free pytest args, remote execution, connector write or plugin execution.",
+        "x-devpilot-approval-required": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false
+      }
+    },
+    "/api/v1/quality/test-impact/plan": {
+      "post": {
+        "summary": "UOC-009 Test Impact plan",
+        "operationId": "uoc009_quality_test_impact_plan",
+        "tags": [
+          "Quality, tests and release"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success or governed product BLOCK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API policy block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC009-QUALITY-TEST-IMPACT-PLAN",
+        "x-devpilot-operation": "quality.test_impact_plan",
+        "x-devpilot-domain-service": "ApplicationService.quality_test_impact_plan",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Typed UOC-009 quality operation selected by registry IDs; no arbitrary shell, free pytest args, remote execution, connector write or plugin execution.",
+        "x-devpilot-approval-required": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "changed_paths"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "changed_paths": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 200,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "example": {
+                "changed_paths": [
+                  "README.md"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quality/jobs/plan": {
+      "post": {
+        "summary": "UOC-009 governed quality job plan",
+        "operationId": "uoc009_quality_jobs_plan",
+        "tags": [
+          "Quality, tests and release"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success or governed product BLOCK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API policy block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC009-QUALITY-JOBS-PLAN",
+        "x-devpilot-operation": "quality.jobs.plan",
+        "x-devpilot-domain-service": "ApplicationService.quality_jobs_plan",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "local_runtime_plan",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Typed UOC-009 quality operation selected by registry IDs; no arbitrary shell, free pytest args, remote execution, connector write or plugin execution.",
+        "x-devpilot-approval-required": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "operation_id",
+                  "workspace_id",
+                  "parameters",
+                  "idempotency_key"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "operation_id": {
+                    "type": "string"
+                  },
+                  "workspace_id": {
+                    "type": "string"
+                  },
+                  "parameters": {
+                    "type": "object"
+                  },
+                  "idempotency_key": {
+                    "type": "string"
+                  },
+                  "approval_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "full_regression_confirmation": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "operation_id": "project-state",
+                "workspace_id": "devpilot-local",
+                "parameters": {},
+                "idempotency_key": "uoc009-example",
+                "approval_id": null,
+                "full_regression_confirmation": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quality/jobs/{job_id}/execute": {
+      "post": {
+        "summary": "UOC-009 governed quality job execute",
+        "operationId": "uoc009_quality_jobs_execute",
+        "tags": [
+          "Quality, tests and release"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success or governed product BLOCK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API policy block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC009-QUALITY-JOBS-EXECUTE",
+        "x-devpilot-operation": "quality.jobs.execute",
+        "x-devpilot-domain-service": "ApplicationService.quality_jobs_execute",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "local_runtime_job_execution",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Typed UOC-009 quality operation selected by registry IDs; no arbitrary shell, free pytest args, remote execution, connector write or plugin execution.",
+        "x-devpilot-approval-required": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 5,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false
+              },
+              "example": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quality/evidence/package": {
+      "post": {
+        "summary": "UOC-009 quality evidence package",
+        "operationId": "uoc009_quality_evidence_package",
+        "tags": [
+          "Quality, tests and release"
+        ],
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success or governed product BLOCK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API policy block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-UOC009-QUALITY-EVIDENCE-PACKAGE",
+        "x-devpilot-operation": "quality.evidence_package",
+        "x-devpilot-domain-service": "ApplicationService.quality_evidence_package",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "local_evidence_output",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Typed UOC-009 quality operation selected by registry IDs; no arbitrary shell, free pytest args, remote execution, connector write or plugin execution.",
+        "x-devpilot-approval-required": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 500,
+                    "default": 100
+                  }
+                },
+                "additionalProperties": false
+              },
+              "example": {
+                "limit": 100
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "updated": "2026-08-11",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
@@ -74,9 +74,11 @@
     },
     {
       "flag_id": "uoc.quality.release_operations",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-009",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-009",
+      "notes": "Typed Test Impact, focused tests, TCR, Project State, Docs Governance, quality profiles, readiness, release verification and evidence packaging through governed jobs; full regression requires approval + exact confirmation."
     },
     {
       "flag_id": "uoc.rag_agents_tools",
@@ -169,6 +171,10 @@
     "governed_job_process_tree_cancellation": "fixed-argv-recorded-worker-only",
     "uoc_008_preliminary": false,
     "uoc_008_closed": true,
-    "uoc_009_authorized": true
+    "uoc_009_authorized": true,
+    "uoc_009_typed_quality_operations_enabled": true,
+    "uoc_009_arbitrary_test_args_enabled": false,
+    "uoc_009_full_regression_requires_approval": true,
+    "uoc_009_full_regression_requires_explicit_confirmation": true
   }
 }

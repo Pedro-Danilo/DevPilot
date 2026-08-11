@@ -98,20 +98,32 @@ def test_uoc_003_feature_flag_and_capabilities_are_enabled_read_only() -> None:
 
     registry = load(".devpilot/interfaces/ui_capability_registry.json")
     capabilities = {item["capability_id"]: item for item in registry["capabilities"]}
-    covered = {
+    uoc003_read_only = {
         "cli.validate",
         "cli.validate-frontmatter",
         "cli.validate-artifact",
         "cli.miasi.validate",
-        "cli.readiness-check",
         "cli.checklist-pre-code",
     }
-    for capability_id in covered:
+    for capability_id in uoc003_read_only:
         item = capabilities[capability_id]
         assert item["parity_status"] == "UI-READ-ONLY"
         assert item["application_service"] == "workspace.validations.execute"
         assert item["source_risk_level"] in {"low", "medium", "high", "critical"}
         assert item["supports_cancel"] is False
+
+    # UOC-003 froze readiness as read-only at its own closure. Later UOC-009 is
+    # explicitly allowed to promote that same deterministic capability to the
+    # typed Quality UI without rewriting the UOC-003 historical manifest.
+    readiness = capabilities["cli.readiness-check"]
+    assert readiness["parity_status"] in {"UI-READ-ONLY", "UI-NATIVE"}
+    if readiness["parity_status"] == "UI-NATIVE":
+        assert readiness["application_service"] == "quality.operations"
+        assert load(".devpilot/project_state.json")["uoc_009_authorized"] is True
+    else:
+        assert readiness["application_service"] == "workspace.validations.execute"
+    assert readiness["source_risk_level"] in {"low", "medium", "high", "critical"}
+    assert readiness["supports_cancel"] is False
 
 
 def test_uoc_003_schemas_are_catalogued() -> None:

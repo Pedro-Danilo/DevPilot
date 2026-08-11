@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/uoc009-quality-job-plan-v1",
+  "title": "UOC-009 Quality Job Plan",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "job_id",
+    "operation_id",
+    "capability_id",
+    "parameters",
+    "workspace_id",
+    "timeout_seconds"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-UOC009-QUALITY-JOB-PLAN-V1"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "^job_"
+    },
+    "operation_id": {
+      "type": "string"
+    },
+    "capability_id": {
+      "type": "string",
+      "pattern": "^cli\\."
+    },
+    "parameters": {
+      "type": "object"
+    },
+    "approval_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "workspace_id": {
+      "type": "string"
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": true
+}

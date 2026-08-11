@@ -313,3 +313,21 @@ UOC-008 exposes local governed-job observation/control only. It does **not** ena
 | `API-UOC008-JOBS-RETRY` | `POST /api/v1/jobs/{job_id}/retry` | `jobs.retry` | `ApplicationService.jobs_retry` | Policy/gate: local token + protected job-control policy + terminal-state/retry-budget validation; creates a fresh governed job and never autoexecutes it. |
 
 Startup calls `ApplicationService.jobs_reconcile` to adjudicate stale/orphan active jobs after restart. Trusted runtime workers can call `jobs_record_progress` internally to update phase/progress and heartbeat; no browser endpoint can inject a PID or arbitrary command.
+
+
+## UOC-009 — Quality, tests y release operations
+
+UOC-009 adds six typed local API routes. The UI never supplies shell text, executable paths or free pytest arguments; all execution is selected by `operation_id`, capability registry, Test Contract Registry IDs and policy/approval contracts.
+
+| HTTP | Route | Application operation | Boundary |
+|---|---|---|---|
+| GET | `/api/v1/quality/operations` | `quality.operations` | typed operation/profile catalog |
+| GET | `/api/v1/quality/baseline` | `quality.baseline` | Project State + manifests/baseline inspection |
+| POST | `/api/v1/quality/test-impact/plan` | `quality.test_impact_plan` | deterministic Test Impact v2 |
+| POST | `/api/v1/quality/jobs/plan` | `quality.jobs.plan` | governed plan + budget/approval binding |
+| POST | `/api/v1/quality/jobs/{job_id}/execute` | `quality.jobs.execute` | fixed typed worker, `shell=False` |
+| POST | `/api/v1/quality/evidence/package` | `quality.evidence_package` | bounded local evidence export |
+
+Full regression remains a separate sensitive operation: it requires explicit approval plus the exact confirmation phrase and is never started automatically after focused tests.
+
+UOC-009 API contract identifiers: `API-UOC009-QUALITY-OPERATIONS`, `API-UOC009-QUALITY-BASELINE`, `API-UOC009-QUALITY-TEST-IMPACT-PLAN`, `API-UOC009-QUALITY-JOBS-PLAN`, `API-UOC009-QUALITY-JOBS-EXECUTE`, `API-UOC009-QUALITY-EVIDENCE-PACKAGE`.

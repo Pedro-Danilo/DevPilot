@@ -12,6 +12,7 @@ const tracesView = read('src/pages/TracesView.ts');
 const approvalCenterView = read('src/pages/ApprovalCenterView.ts');
 const settingsView = read('src/pages/SettingsView.ts');
 const jobsView = read('src/pages/JobsView.ts');
+const qualityView = read('src/pages/QualityOperationsView.ts');
 const workspaceDocumentsView = read('src/pages/WorkspaceDocumentsView.ts');
 const documentTree = read('src/components/DocumentTree.ts');
 const documentViewer = read('src/components/DocumentViewer.ts');
@@ -28,7 +29,7 @@ const operatorNextActions = read('src/components/OperatorNextActions.ts');
 const uiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/ui_route_contract_registry.json'));
 const apiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/api_route_contract_registry.json'));
 const sanitizeUtils = read('src/utils/sanitize.ts');
-const filesToScan = [client, dashboard, statusCard, reportsView, tracesView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, workspaceDocumentsView, documentTree, documentViewer, documentValidationPanel, read('src/main.ts')];
+const filesToScan = [client, dashboard, statusCard, reportsView, tracesView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, jobsView, qualityView, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, workspaceDocumentsView, documentTree, documentViewer, documentValidationPanel, read('src/main.ts')];
 
 function assert(condition, message) {
   if (!condition) {
@@ -65,7 +66,7 @@ assert(packageJson.scripts.test === 'node scripts/smoke-test.mjs', 'npm test deb
 
 assert(uiContractRegistry.schema_id === 'SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1', 'UI registry schema_id inválido');
 assert(uiContractRegistry.created_by === 'POST-H-014-C', 'UI registry debe declarar POST-H-014-C');
-const expectedUiRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents', 'ui.jobs'];
+const expectedUiRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents', 'ui.jobs', 'ui.quality'];
 const apiRouteIds = new Set(apiContractRegistry.routes.map((route) => route.route_id));
 for (const routeId of expectedUiRoutes) {
   assert(uiContractRegistry.routes.some((route) => route.route_id === routeId), `Falta contrato UI ${routeId}`);

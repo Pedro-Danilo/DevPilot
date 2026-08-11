@@ -33,6 +33,7 @@ CANONICAL_FASTAPI_ROUTER_MODULES = (
     "devpilot_core.interfaces.api.routers.workspace_edits",
     "devpilot_core.interfaces.api.routers.workspace_git",
     "devpilot_core.interfaces.api.routers.jobs",
+    "devpilot_core.interfaces.api.routers.quality",
 )
 ALLOWED_API_CONTRACT_METHODS = frozenset({"GET", "POST", "PUT", "PATCH", "DELETE"})
 

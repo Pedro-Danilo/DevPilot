@@ -6,7 +6,7 @@
   "version": "1.5.0",
   "owner": "Ordóñez",
   "updated": "2026-08-11",
-  "sprint": "UOC-008",
+  "sprint": "UOC-009",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -2376,7 +2376,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-008"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PROFILES-V1",
+      "title": "UOC-009 Quality Operation Profiles",
+      "version": "1.0.0",
+      "path": "docs/schemas/quality_operation_profiles.schema.json",
+      "description": "UOC-009 typed Quality/Test/Release contract.",
+      "status": "registered",
+      "contract": "QualityOperationProfiles",
+      "owner": "Ordóñez",
+      "sprint": "UOC-009",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-009"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-OPERATION-PARAMETERS-V1",
+      "title": "UOC-009 Quality Operation Parameters",
+      "version": "1.0.0",
+      "path": "docs/schemas/quality_operation_parameters.schema.json",
+      "description": "UOC-009 typed Quality/Test/Release contract.",
+      "status": "registered",
+      "contract": "QualityOperationParameters",
+      "owner": "Ordóñez",
+      "sprint": "UOC-009",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-009"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-JOB-PLAN-V1",
+      "title": "UOC-009 Quality Job Plan",
+      "version": "1.0.0",
+      "path": "docs/schemas/quality_job_plan.schema.json",
+      "description": "UOC-009 typed Quality/Test/Release contract.",
+      "status": "registered",
+      "contract": "QualityJobPlan",
+      "owner": "Ordóñez",
+      "sprint": "UOC-009",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-009"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC009-QUALITY-JOB-RESULT-V1",
+      "title": "UOC-009 Quality Job Result",
+      "version": "1.0.0",
+      "path": "docs/schemas/quality_job_result.schema.json",
+      "description": "UOC-009 typed Quality/Test/Release contract.",
+      "status": "registered",
+      "contract": "QualityJobResult",
+      "owner": "Ordóñez",
+      "sprint": "UOC-009",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-009"
     }
   ],
-  "schemas_total": 164
+  "schemas_total": 168
 }

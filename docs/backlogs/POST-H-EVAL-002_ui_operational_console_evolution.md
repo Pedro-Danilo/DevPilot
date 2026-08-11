@@ -2,14 +2,14 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.12.0"
+version: "1.13.0"
 owner: "Ordóñez"
 updated: "2026-08-11"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-008-closed/PASS"
+implementation_status: "UOC-009-implemented-initial/pending-windows-browser-closure"
 current_sprint: "UOC-009"
 next_sprint: "UOC-009"
 completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008"
@@ -45,7 +45,9 @@ uoc_007_authorized: true
 uoc_007_implementation_status: "closed/PASS"
 uoc_008_authorized: true
 uoc_008_implementation_status: "closed/PASS"
-uoc_009_authorized: "true"
+uoc_009_authorized: true
+uoc_009_implementation_status: "implemented-initial/pending-windows-browser-closure"
+uoc_010_authorized: false
 uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
@@ -75,7 +77,7 @@ S0: 0
 S1: 0
 ```
 
-`UOC-000`, `UOC-001` y `UOC-002` están cerrados/PASS. La baseline canónica autoritativa de UOC-002 es repo 330 en `ef9bf1a32395308d8ebbdc4b73fa75e94b5c3913`. UOC-003 está CLOSED/PASS con baseline repo 331; UOC-004 está CLOSED/PASS con baseline repo 332; UOC-005 está CLOSED/PASS en closure commit `9dfb0f380c3a7dea11321a5b75d2923cd7529a68` y baseline autoritativa `repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`. UOC-006 es el sprint actual, autorizado e implementado inicialmente, pendiente exclusivamente de aceptación Windows/browser/Git y baseline repo 334.
+`UOC-000` a `UOC-008` están cerrados/PASS. UOC-008 cerró en `c454bd92f102ed4711098dc85249722ac24d022e` con baseline autoritativa `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip`, browser acceptance PASS y S0=0/S1=0. UOC-009 está autorizado e implementado inicialmente sobre repo336; permanece pendiente de validación Windows/browser y baseline repo337. UOC-010 no está autorizado.
 
 ## 2. Problema que resuelve
 
@@ -1181,3 +1183,9 @@ UOC-008 se implementa exclusivamente sobre repo335 autoritativo. Se añade `/job
 ## 2026-08-11 — UOC-008 closure
 
 UOC-008 **CLOSED/PASS** sobre source commit `d8c2464db65624967b5c7aa81bd95ed87911f744`. Job Console `/jobs` queda aceptada con progreso/heartbeat, logs sanitizados, cancel/retry gobernados, persistencia local y reconciliación de huérfanos. La ejecución genérica de capabilities continúa deshabilitada (`execution_enabled_total=0`, `adapter_bound_total=0`); UOC-009 queda autorizado para integrar únicamente operaciones de quality/tests/release tipadas.
+
+## 2026-08-11 — UOC-009 implementation candidate
+
+UOC-009 se implementa inicialmente sobre repo336 autoritativo con `/quality`, seis rutas API tipadas y 11 perfiles de operación que habilitan únicamente 10 capabilities runtime registradas. Test Impact es plan-only; focused/full tests se seleccionan por Test Contract Registry y nunca por shell text. Full regression exige approval, presupuesto y confirmación explícita y no se encadena automáticamente.
+
+La estrategia de cierre Windows ejecuta el 100% de los tests impactados con Test Impact en batches reanudables. Si no se repite `pytest -q`, `HistoricalRegressionGuard` exige un waiver temporal owner-approved después de que todos los tests impactados estén PASS y exista 0 unmatched. Failure replay preserva el resultado previo mediante nuevo plan/idempotency key; clone one-click queda pendiente. UOC-010 permanece NO autorizado hasta browser, regression guard, cierre canónico y repo337 PASS.

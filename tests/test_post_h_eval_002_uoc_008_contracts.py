@@ -47,9 +47,14 @@ def test_uoc008_runtime_is_observability_and_lifecycle_not_generic_cli_execution
     capability = load_json(".devpilot/interfaces/governed_job_capability_registry.json")
     ui_capability = load_json(".devpilot/interfaces/ui_capability_registry.json")
     assert capability["summary"]["capabilities_total"] == 193
-    assert capability["summary"]["execution_enabled_total"] == 0
-    assert capability["summary"]["adapter_bound_total"] == 0
+    historical = load_json("docs/post_h_eval_002_uoc_008_manifest.json")
+    assert historical["capability_execution_enabled_total"] == 0
     assert ui_capability["summary"]["uoc_008_runtime_capability_execution_enabled_total"] == 0
+    # Later sprints may bind typed adapters, but arbitrary/remote execution remains prohibited.
+    for item in capability["capabilities"]:
+        if item["runtime"]["execution_enabled"]:
+            assert item["runtime"]["adapter_bound"] is True
+            assert item["contracts"]["typed_parameters_schema_id"]
     source = (ROOT / "src/devpilot_core/application/governed_job_operations.py").read_text(encoding="utf-8")
     assert "shell=False" in source
     assert "taskkill" in source

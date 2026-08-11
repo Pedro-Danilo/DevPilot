@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-capability-registry",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "updated": "2026-08-11",
   "source_commits": {
     "canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
@@ -319,6 +319,54 @@
         "block_visible": true,
         "stale": true,
         "cancelled": true
+      }
+    },
+    {
+      "route_id": "ui.quality",
+      "path": "/quality",
+      "title": "Quality, tests y release",
+      "page_component": "QualityOperationsView",
+      "allowed_api_route_ids": [
+        "api.quality.operations",
+        "api.quality.baseline",
+        "api.quality.test-impact-plan",
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute",
+        "api.quality.evidence-package",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.approvals.request",
+        "api.approvals.show"
+      ],
+      "mapped_cli_capability_ids": [
+        "cli.docs-governance.validate",
+        "cli.operator.evidence-export",
+        "cli.project-state.validate",
+        "cli.quality-gate.run",
+        "cli.readiness-check",
+        "cli.release-candidate.profile",
+        "cli.test-contracts.validate",
+        "cli.test-contracts.validate-v2",
+        "cli.test-impact.analyze-v2",
+        "cli.tests.run"
+      ],
+      "shows_mutation_controls": true,
+      "local_only": true,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "planned": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "failed_counts": true,
+        "full_regression_confirmation": true
       }
     }
   ],
@@ -2735,13 +2783,18 @@
         "validate"
       ],
       "domain_owner": "documentation.governance",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-003",
       "policy": {
         "required": true,
@@ -2776,7 +2829,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -5355,15 +5408,17 @@
         "evidence-export"
       ],
       "domain_owner": "product.operator",
-      "application_service": "operator.evidence_export",
+      "application_service": "quality.operations",
       "api_route_ids": [
-        "api.operator.evidence_export"
+        "api.quality.evidence-package"
       ],
-      "ui_route_ids": [],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "PLANNED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-007",
       "policy": {
         "required": true,
@@ -5398,7 +5453,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -6074,13 +6129,18 @@
         "validate"
       ],
       "domain_owner": "governance.project_state",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-007",
       "policy": {
         "required": true,
@@ -6115,7 +6175,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -6290,13 +6350,18 @@
         "run"
       ],
       "domain_owner": "quality.gate",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "sensitive",
       "source_risk_level": "high",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-009",
       "policy": {
         "required": true,
@@ -6332,7 +6397,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -6506,20 +6571,18 @@
         "readiness-check"
       ],
       "domain_owner": "documentation.governance",
-      "application_service": "workspace.validations.execute",
+      "application_service": "quality.operations",
       "api_route_ids": [
-        "api.workspace.validations.plan",
-        "api.workspace.validations.execute",
-        "api.workspace.validations.status",
-        "api.workspace.traceability"
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
       ],
       "ui_route_ids": [
-        "ui.workspace-documents"
+        "ui.quality"
       ],
       "read_write": "runtime-evidence-only",
       "risk_class": "read-only",
       "source_risk_level": "medium",
-      "parity_status": "UI-READ-ONLY",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "CURRENT",
       "policy": {
         "required": true,
@@ -6555,7 +6618,8 @@
       "notes": [
         "UOC-003 reuses deterministic validators through a typed workspace facade.",
         "The UI never executes free-form CLI text and never mutates source documents.",
-        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008.",
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -6837,13 +6901,18 @@
         "profile"
       ],
       "domain_owner": "release",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "sensitive",
       "source_risk_level": "high",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-009",
       "policy": {
         "required": true,
@@ -6878,7 +6947,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -9226,13 +9295,18 @@
         "validate"
       ],
       "domain_owner": "governance.testing",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-009",
       "policy": {
         "required": true,
@@ -9267,7 +9341,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -9280,13 +9354,18 @@
         "validate-v2"
       ],
       "domain_owner": "governance.testing",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-009",
       "policy": {
         "required": true,
@@ -9321,7 +9400,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -9388,13 +9467,17 @@
         "analyze-v2"
       ],
       "domain_owner": "interface.cli",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.test-impact-plan"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-007",
       "policy": {
         "required": true,
@@ -9429,7 +9512,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -9658,13 +9741,18 @@
         "run"
       ],
       "domain_owner": "governance.testing",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "quality.operations",
+      "api_route_ids": [
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.quality"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "sensitive",
       "source_risk_level": "high",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-009",
       "policy": {
         "required": true,
@@ -9700,7 +9788,7 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "UOC-009 exposes this capability only through a typed quality operation/profile and governed-job adapter; browser shell/pytest args remain forbidden."
       ]
     },
     {
@@ -10876,9 +10964,9 @@
     "cli_commands_total": 193,
     "cli_commands_classified_total": 193,
     "classification_complete": true,
-    "ui_routes_total": 7,
-    "ui_routes_mapped_total": 7,
-    "api_routes_total": 76,
+    "ui_routes_total": 8,
+    "ui_routes_mapped_total": 8,
+    "api_routes_total": 82,
     "risk_class_counts": {
       "mutating": 121,
       "sensitive": 57,
@@ -10886,10 +10974,10 @@
       "forbidden": 5
     },
     "parity_status_counts": {
-      "CLI-BRIDGE-REGISTERED": 173,
-      "PLANNED": 2,
-      "UI-READ-ONLY": 12,
-      "UI-NATIVE": 1,
+      "CLI-BRIDGE-REGISTERED": 165,
+      "PLANNED": 1,
+      "UI-READ-ONLY": 11,
+      "UI-NATIVE": 11,
       "POLICY-BLOCKED": 5
     },
     "planned_sprint_counts": {
@@ -10903,13 +10991,13 @@
     "mutating_without_policy_total": 0,
     "sensitive_ui_native_without_approval_total": 0,
     "forbidden_capabilities_total": 5,
-    "current_ui_native_or_read_only_total": 13,
+    "current_ui_native_or_read_only_total": 22,
     "uoc_001_read_only_document_surface_total": 1,
     "uoc_002_document_inspection_routes_total": 4,
     "uoc_002_typed_git_read_only": true,
     "uoc_002_memory_only_search": true,
     "uoc_002_document_links": true,
-    "updated_by": "UOC-008",
+    "updated_by": "UOC-009",
     "uoc_003_validation_capabilities_total": 6,
     "uoc_003_residual_cli_bridge_inventory_required": true,
     "uoc_003_jobs_mode": "synchronous-preliminary",
@@ -10939,7 +11027,12 @@
     "uoc_008_preliminary": false,
     "uoc_008_closed": true,
     "uoc_008_status": "closed/PASS",
-    "uoc_009_authorized": true
+    "uoc_009_authorized": true,
+    "uoc_009_quality_console_available": true,
+    "uoc_009_typed_capabilities_total": 10,
+    "uoc_009_api_routes_total": 6,
+    "uoc_009_full_regression_confirmation_required": true,
+    "uoc_010_authorized": false
   },
   "safety": {
     "local_first": true,

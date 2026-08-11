@@ -3009,3 +3009,12 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 - CLOSED/PASS on source commit `d8c2464db65624967b5c7aa81bd95ed87911f744`.
 - Authoritative next baseline: `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip`.
 - UOC-009 authorized; generic CLI execution remains disabled.
+
+## UOC-009 — Quality, tests and release operations
+
+- Added governed `/quality` UI plus six typed API routes for quality/test/release planning and execution.
+- Added 11 operation profiles covering Test Impact, TCR v1/v2, Project State, Docs Governance, quality gates, readiness, release verification dry-run, focused/full tests and evidence packaging.
+- Enabled exactly 10 registered runtime capabilities through `uoc009.quality.typed-worker`; arbitrary shell, free pytest arguments, remote execution, connector write and plugin execution remain blocked.
+- Full regression requires explicit Approval Center authorization, budget and the exact `RUN FULL REGRESSION` confirmation; it is never automatically chained after focused tests.
+- Failure replay preserves previous evidence by creating a new governed plan/idempotency key. One-click cloned replay remains a later hardening item.
+- UOC-009 remains `implemented-initial/pending-windows-browser-closure`; UOC-010 is not authorized until canonical repo337 closure.

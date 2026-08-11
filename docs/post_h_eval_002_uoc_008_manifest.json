@@ -34,7 +34,7 @@
   "risks": [
     "implemented-initial local JSON runtime store",
     "no canonical capability execution adapters are enabled in UOC-008",
-    "browser acceptance and canonical repo336 remain pending"
+    "browser acceptance and canonical repo336 are CLOSED/PASS; residual risk moves to UOC-009 typed execution coverage"
   ],
   "source_commit": "d8c2464db65624967b5c7aa81bd95ed87911f744",
   "closure_verification": "PASS",
