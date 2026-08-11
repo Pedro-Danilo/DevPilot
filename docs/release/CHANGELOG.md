@@ -3003,3 +3003,9 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 - Adds `/jobs` and typed local API routes for job list/detail/logs/cancel/retry.
 - Adds heartbeat/stale visibility, bounded sanitized logs and orphan reconciliation.
 - Preserves no-shell/no-remote/no-connector-write/no-plugin-execution; canonical capability execution remains disabled pending later typed adapters.
+
+### UOC-008 closure
+
+- CLOSED/PASS on source commit `d8c2464db65624967b5c7aa81bd95ed87911f744`.
+- Authoritative next baseline: `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip`.
+- UOC-009 authorized; generic CLI execution remains disabled.

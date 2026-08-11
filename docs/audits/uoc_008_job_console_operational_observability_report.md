@@ -40,3 +40,7 @@ UOC-008 permanece `implemented-initial/pending-windows-browser-closure` hasta qu
 ## 7. Comandos de verificación
 
 Consultar la guía operacional UOC-008 entregada con el operador. No se mantienen comandos duplicados en este reporte.
+
+## 8. Cierre autoritativo
+
+**CLOSED/PASS**. Source commit `d8c2464db65624967b5c7aa81bd95ed87911f744`; browser acceptance 12/12 + 6/6 screenshots; baseline full regression UOC-007 2159/2159 reutilizada conforme backlog con Test Impact y todos los tests impactados frescos PASS. Baseline siguiente: `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip`. UOC-009 queda autorizado; no se habilita shell ni ejecución genérica de capabilities.

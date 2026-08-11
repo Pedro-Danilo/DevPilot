@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "updated": "2026-08-11",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
@@ -167,7 +167,8 @@
     "governed_job_log_streaming": "cursor-polling-local-bounded",
     "governed_job_orphan_reconciliation": true,
     "governed_job_process_tree_cancellation": "fixed-argv-recorded-worker-only",
-    "uoc_008_preliminary": true,
-    "uoc_008_closed": false
+    "uoc_008_preliminary": false,
+    "uoc_008_closed": true,
+    "uoc_009_authorized": true
   }
 }

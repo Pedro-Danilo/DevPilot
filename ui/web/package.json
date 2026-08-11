@@ -225,10 +225,11 @@
     "jobsSanitizedLogs": true,
     "jobsOrphanReconciliation": true,
     "jobsProcessTreeCancellation": true,
-    "uoc008Status": "implemented-initial/pending-windows-browser-closure",
-    "uoc009Authorized": false,
+    "uoc008Status": "closed/PASS",
+    "uoc009Authorized": true,
     "uoc007Status": "closed/PASS",
-    "uoc008Authorized": true
+    "uoc008Authorized": true,
+    "uoc009Status": "authorized-after-uoc-008-pass"
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

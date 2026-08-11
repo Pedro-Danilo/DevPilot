@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.post_h_eval_002.uoc_008.manifest.v1",
   "sprint": "UOC-008",
-  "status": "implemented-initial/pending-windows-browser-closure",
+  "status": "closed/PASS",
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-08-11",
@@ -19,7 +19,7 @@
   "plugin_execution_enabled": false,
   "external_api_required": false,
   "browser_acceptance_required": true,
-  "uoc_009_authorized": false,
+  "uoc_009_authorized": true,
   "criteria": {
     "jobs_list_detail": "implemented",
     "heartbeat_duration_stale": "implemented",
@@ -28,12 +28,18 @@
     "governed_retry": "implemented",
     "orphan_reconciliation": "implemented",
     "responsive_job_console": "implemented",
-    "windows_browser_acceptance": "pending",
-    "canonical_closure": "pending"
+    "windows_browser_acceptance": "PASS",
+    "canonical_closure": "PASS"
   },
   "risks": [
     "implemented-initial local JSON runtime store",
     "no canonical capability execution adapters are enabled in UOC-008",
     "browser acceptance and canonical repo336 remain pending"
-  ]
+  ],
+  "source_commit": "d8c2464db65624967b5c7aa81bd95ed87911f744",
+  "closure_verification": "PASS",
+  "browser_acceptance": "PASS",
+  "browser_screenshots": "6/6",
+  "preliminary": false,
+  "output_repo": "repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip"
 }

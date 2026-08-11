@@ -11828,3 +11828,7 @@ CLOSED/PASS on `e7197282133f4c53b5a813fde200c259a3c9c865` after full regression 
 
 ## UOC-008 — Job Console operational notes
 `/jobs` is local-only and token/policy protected. It does not create arbitrary jobs or accept shell input. Use the UOC-008 implementation/closure guide for Windows startup, browser acceptance, evidence packaging and repo336 generation.
+
+## UOC-008 closure — 2026-08-11
+
+CLOSED/PASS sobre `d8c2464db65624967b5c7aa81bd95ed87911f744`. `/jobs` es la superficie operacional para observar jobs, logs sanitizados, cancel/retry y stale/orphan states. UOC-009 autorizado; adapters de ejecución siguen en 0.

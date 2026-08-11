@@ -10936,7 +10936,10 @@
     "uoc_008_job_console_available": true,
     "uoc_008_job_api_routes_total": 5,
     "uoc_008_runtime_capability_execution_enabled_total": 0,
-    "uoc_008_preliminary": true
+    "uoc_008_preliminary": false,
+    "uoc_008_closed": true,
+    "uoc_008_status": "closed/PASS",
+    "uoc_009_authorized": true
   },
   "safety": {
     "local_first": true,

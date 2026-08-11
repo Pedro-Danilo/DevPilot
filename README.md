@@ -6296,3 +6296,7 @@ Capability registry 193/193 and the typed governed-job lifecycle are closed on `
 
 ### POST-H-EVAL-002 UOC-008 — Job Console
 UOC-008 introduces an implemented-initial local `/jobs` operational console over the governed job lifecycle. It adds bounded polling, heartbeat/stale visibility, sanitized logs, governed cancellation/retry and orphan reconciliation without enabling arbitrary shell or generic CLI execution. Canonical closure remains subject to Windows/browser evidence.
+
+## UOC-008 — CLOSED/PASS
+
+Job Console y observabilidad operacional cerrados sobre `d8c2464db65624967b5c7aa81bd95ed87911f744`. Baseline siguiente `repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip`; UOC-009 autorizado sin habilitar arbitrary shell ni execution adapters genéricos.

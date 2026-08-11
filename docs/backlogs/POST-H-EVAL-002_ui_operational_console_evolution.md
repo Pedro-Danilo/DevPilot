@@ -9,10 +9,10 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-008-implemented-initial/pending-windows-browser-closure"
-current_sprint: "UOC-008"
-next_sprint: "UOC-008-CLOSURE"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007"
+implementation_status: "UOC-008-closed/PASS"
+current_sprint: "UOC-009"
+next_sprint: "UOC-009"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -44,8 +44,8 @@ uoc_006_implementation_status: "closed/PASS"
 uoc_007_authorized: true
 uoc_007_implementation_status: "closed/PASS"
 uoc_008_authorized: true
-uoc_008_implementation_status: "implemented-initial/pending-windows-browser-closure"
-uoc_009_authorized: false
+uoc_008_implementation_status: "closed/PASS"
+uoc_009_authorized: "true"
 uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
@@ -1177,3 +1177,7 @@ UOC-007 **CLOSED/PASS** sobre source commit `e7197282133f4c53b5a813fde200c259a3c
 ## 2026-08-11 — UOC-008 implementation candidate
 
 UOC-008 se implementa exclusivamente sobre repo335 autoritativo. Se añade `/jobs`, cinco rutas API tipadas, polling bounded, heartbeat/stale visibility, logs sanitizados, cancel/retry gobernados y orphan reconciliation. La ejecución genérica de capabilities permanece deshabilitada (`execution_enabled_total=0`); arbitrary shell, remote execution, connector write y plugin execution permanecen bloqueados. UOC-009 no se autoriza hasta browser acceptance Windows y cierre canónico repo336.
+
+## 2026-08-11 — UOC-008 closure
+
+UOC-008 **CLOSED/PASS** sobre source commit `d8c2464db65624967b5c7aa81bd95ed87911f744`. Job Console `/jobs` queda aceptada con progreso/heartbeat, logs sanitizados, cancel/retry gobernados, persistencia local y reconciliación de huérfanos. La ejecución genérica de capabilities continúa deshabilitada (`execution_enabled_total=0`, `adapter_bound_total=0`); UOC-009 queda autorizado para integrar únicamente operaciones de quality/tests/release tipadas.
