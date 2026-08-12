@@ -152,6 +152,12 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/quality/jobs/plan"): ApiRoutePolicy("quality.jobs.plan", "read", "protected-quality-operation"),
     ("POST", "/api/v1/quality/jobs/{job_id}/execute"): ApiRoutePolicy("quality.jobs.execute", "read", "protected-quality-operation"),
     ("POST", "/api/v1/quality/evidence/package"): ApiRoutePolicy("quality.evidence_package", "read", "protected-quality-operation"),
+    ("GET", "/api/v1/ai/operations"): ApiRoutePolicy("ai.operations", "read", "protected-ai-operation"),
+    ("GET", "/api/v1/ai/status"): ApiRoutePolicy("ai.status", "read", "protected-ai-operation"),
+    ("POST", "/api/v1/ai/jobs/plan"): ApiRoutePolicy("ai.jobs.plan", "read", "protected-ai-operation"),
+    ("POST", "/api/v1/ai/jobs/{job_id}/execute"): ApiRoutePolicy("ai.jobs.execute", "read", "protected-ai-operation"),
+    ("GET", "/api/v1/ai/jobs/{job_id}/result"): ApiRoutePolicy("ai.jobs.result", "read", "protected-ai-operation"),
+    ("POST", "/api/v1/ai/evidence/package"): ApiRoutePolicy("ai.evidence_package", "read", "protected-ai-operation"),
     ("GET", "/api/v1/traces"): ApiRoutePolicy("observability.trace_report", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
     ("GET", "/api/v1/traces/{trace_id}"): ApiRoutePolicy("observability.trace_inspect", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
     ("GET", "/api/v1/metrics/summary"): ApiRoutePolicy("observability.metrics_summary", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
@@ -487,6 +493,10 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/jobs/{job_id}/retry"))
     if method.upper() == "POST" and path.startswith("/api/v1/quality/jobs/") and path.endswith("/execute") and path.count("/") == 6:
         return API_ROUTE_POLICIES.get(("POST", "/api/v1/quality/jobs/{job_id}/execute"))
+    if method.upper() == "POST" and path.startswith("/api/v1/ai/jobs/") and path.endswith("/execute") and path.count("/") == 6:
+        return API_ROUTE_POLICIES.get(("POST", "/api/v1/ai/jobs/{job_id}/execute"))
+    if method.upper() == "GET" and path.startswith("/api/v1/ai/jobs/") and path.endswith("/result") and path.count("/") == 6:
+        return API_ROUTE_POLICIES.get(("GET", "/api/v1/ai/jobs/{job_id}/result"))
     if method.upper() == "POST" and path.startswith("/api/v1/approvals/"):
         if path.endswith("/approve") and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/approvals/{approval_id}/approve"))

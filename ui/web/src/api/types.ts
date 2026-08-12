@@ -575,3 +575,15 @@ export interface QualityJobPlanData {
   plan?: { job_id: string; operation_id: string; capability_id: string; parameters: Record<string, unknown>; approval_id?: string | null; timeout_seconds: number };
   plan_ref?: string;
 }
+
+export interface AiOperationItem {
+  operation_id: string;
+  label: string;
+  capability_id: string;
+  kind: string;
+  risk_class: string;
+  requires_approval: boolean;
+  supports_cancel: boolean;
+  timeout_seconds: number;
+  allowed_keys: string[];
+}

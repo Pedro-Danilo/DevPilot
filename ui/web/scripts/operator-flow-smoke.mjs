@@ -13,6 +13,7 @@ const files = [
   'src/pages/SettingsView.ts',
   'src/pages/JobsView.ts',
   'src/pages/QualityOperationsView.ts',
+  'src/pages/AiOperationsView.ts',
   'src/pages/OperatorDashboard.ts',
   'src/components/DryRunActionForm.ts',
   'src/components/OperatorGatePanel.ts',
@@ -37,6 +38,9 @@ const required = [
   'Logs sanitizados',
   'Quality, tests y release',
   'RUN FULL REGRESSION',
+  'IA / RAG gobernados',
+  'insufficient-evidence',
+  'Memoria local opt-in',
 ];
 const forbidden = ['Traceback (most recent call last)', 'error.stack', 'console.trace', '0.0.0.0 como solución'];
 const missing = required.filter((marker) => !source.includes(marker));
@@ -59,6 +63,7 @@ const payload = {
     'operator_dashboard_next_actions',
     'governed_jobs_observe_cancel_retry',
     'quality_test_release_plan_approve_observe',
+    'rag_agent_tool_handoff_governed',
   ],
 };
 console.log(JSON.stringify(payload, null, 2));

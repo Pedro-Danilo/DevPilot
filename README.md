@@ -6310,3 +6310,7 @@ La primera versión habilita exactamente 10 capabilities registradas mediante `u
 ## UOC-009 — CLOSED/PASS
 
 Quality/Tests/Release cerró sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. Full regression no se falsea como PASS; waiver temporal tras todo Test Impact PASS. Baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`. UOC-010 autorizado; madurez `implemented-initial`.
+
+### UOC-010 — IA / RAG gobernados
+
+La Web UI incorpora `/ai` como primera versión local-first para RAG citado, agentes mock/local opt-in, memoria redactada opt-in y handoffs supervisados. APIs externas, tools genéricas, connector write, plugins, remote execution y loops autónomos permanecen deshabilitados.

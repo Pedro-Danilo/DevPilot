@@ -3024,3 +3024,5 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 - CLOSED/PASS on `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`.
 - All Test Impact-selected tests PASS; full pytest not claimed as run and covered only by bounded HistoricalRegressionGuard waiver.
 - Next baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 authorized.
+
+- UOC-010 candidate: `/ai` RAG/agents/tools/handoffs governed console, four typed local adapters, mock mandatory, local-provider opt-in, external API blocked, citations/freshness/insufficient-evidence, memory opt-in and bounded supervisor handoffs.

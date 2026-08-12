@@ -17953,6 +17953,107 @@
         "scope": "UOC-009 local quality/test/release runtime outputs only",
         "rollback_or_cleanup": "Delete outputs/runtime/uoc009_quality and outputs/evidence_packages/uoc009_quality; source remains unchanged."
       }
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-010-ai-operations",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-uoc-010-ai-operations",
+      "domain": "product.ui",
+      "capability": "GovernedRagAgentsToolsHandoffs",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "manual",
+      "cost_class": "high",
+      "expected_duration_seconds": 600,
+      "test_files": [
+        "tests/test_ai_operations_service.py",
+        "tests/test_api_ai_operations.py",
+        "tests/test_web_ui_ai_operations.py",
+        "tests/test_post_h_eval_002_uoc_010_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/ai_operations.py",
+        "src/devpilot_core/application/ai_job_worker.py",
+        "src/devpilot_core/interfaces/api/routers/ai.py",
+        "ui/web/src/pages/AiOperationsView.ts",
+        ".devpilot/ai/ui_ai_operation_profiles.json",
+        ".devpilot/interfaces/governed_job_capability_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_010_manifest.json",
+        "docs/07_interfaces/rag_agents_tools_handoffs.md",
+        "docs/schemas/ai_operation_profiles.schema.json",
+        "docs/schemas/ai_operation_parameters.schema.json",
+        "docs/schemas/ai_job_plan.schema.json",
+        "docs/schemas/ai_job_result.schema.json",
+        "docs/audits/uoc_010_rag_agents_tools_handoffs_report.md"
+      ],
+      "validates": [
+        "src/devpilot_core/application/ai_operations.py",
+        "src/devpilot_core/application/ai_job_worker.py",
+        "src/devpilot_core/interfaces/api/routers/ai.py",
+        "ui/web/src/pages/AiOperationsView.ts",
+        ".devpilot/ai/ui_ai_operation_profiles.json",
+        ".devpilot/interfaces/governed_job_capability_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_010_manifest.json"
+      ],
+      "trigger_hints": [
+        "uoc-010-ai-change",
+        "rag-agent-ui-change",
+        "typed-ai-worker-change"
+      ],
+      "impact_scope": [
+        "rag",
+        "agents",
+        "modeling",
+        "multiagent",
+        "governed-jobs",
+        "ui",
+        "api-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "UOC-010",
+      "recommended_commands": [
+        "python -m pytest tests/test_ai_operations_service.py tests/test_api_ai_operations.py tests/test_web_ui_ai_operations.py tests/test_post_h_eval_002_uoc_010_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Runtime mutations are limited to local RAG index, agent/session trace, opt-in redacted memory and evidence outputs.",
+        "Mock is mandatory; local providers are opt-in and external API is blocked. Generic tools, remote, connector write and plugin execution remain disabled."
+      ],
+      "owner_domain": "product.ui",
+      "service_boundary": "application",
+      "subgate_id": "uoc-010-ai-operations",
+      "schema_ids": [
+        "SCHEMA-DEVPL-UOC010-AI-OPERATION-PROFILES-V1",
+        "SCHEMA-DEVPL-UOC010-AI-OPERATION-PARAMETERS-V1",
+        "SCHEMA-DEVPL-UOC010-AI-JOB-PLAN-V1",
+        "SCHEMA-DEVPL-UOC010-AI-JOB-RESULT-V1"
+      ],
+      "safety_exception": {
+        "justification": "UOC-010 executes only four typed local adapters through fixed workers. RAG indexing is runtime-only; agent and index mutations are approval-bound; no arbitrary shell/network/external API/connector/plugin/remote execution.",
+        "approved_by": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION-v1.1.0/UOC-010",
+        "expires_at_utc": "2026-12-31T23:59:59Z",
+        "scope": "UOC-010 local RAG/agent/handoff runtime outputs only",
+        "rollback_or_cleanup": "Delete outputs/runtime/uoc010_ai, outputs/evidence_packages/uoc010_ai and .devpilot/agents/memory; source remains unchanged."
+      }
     }
   ],
   "migration_metadata": {

@@ -93,12 +93,17 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                     "API-UOC009-QUALITY-JOBS-EXECUTE",
                     "API-UOC009-QUALITY-EVIDENCE-PACKAGE",
                 }
+                ai_typed_ids = {
+                    "API-UOC010-AI-JOBS-PLAN",
+                    "API-UOC010-AI-JOBS-EXECUTE",
+                    "API-UOC010-AI-EVIDENCE-PACKAGE",
+                }
                 if operation["x-devpilot-api-id"] in governed_job_control_ids:
                     assert set(example) == {"actor", "reason"}
                     assert operation["x-devpilot-source-mutation"] is False
                     assert operation["x-devpilot-arbitrary-shell"] is False
                     assert operation["x-devpilot-remote-execution"] is False
-                elif operation["x-devpilot-api-id"] in quality_typed_ids:
+                elif operation["x-devpilot-api-id"] in quality_typed_ids | ai_typed_ids:
                     assert operation["x-devpilot-source-mutation"] is False
                     assert operation["x-devpilot-arbitrary-shell"] is False
                     assert operation["x-devpilot-remote-execution"] is False
@@ -116,7 +121,7 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                     assert operation["x-devpilot-push-enabled"] is False
                 elif operation["x-devpilot-api-id"] in governed_job_control_ids:
                     assert operation["x-devpilot-side-effect"] == "local_runtime_job_control"
-                elif operation["x-devpilot-api-id"] in quality_typed_ids:
+                elif operation["x-devpilot-api-id"] in quality_typed_ids | ai_typed_ids:
                     assert operation["x-devpilot-side-effect"] in {"read_only", "local_runtime_plan", "local_runtime_job_execution", "local_evidence_output"}
                 else:
                     assert example["dry_run"] is True
@@ -128,7 +133,7 @@ def test_api_service_mapping_covers_every_endpoint_and_blocks_dangerous_routes()
     spec = _openapi()
     mapping = MAPPING_PATH.read_text(encoding="utf-8")
     forbidden_fragments = ["patch/apply", "rollback/execute", "refactor/execute", "0.0.0.0"]
-    allowed_typed_execute_paths = {"/api/v1/workspace/validations/execute", "/api/v1/quality/jobs/{job_id}/execute"}
+    allowed_typed_execute_paths = {"/api/v1/workspace/validations/execute", "/api/v1/quality/jobs/{job_id}/execute", "/api/v1/ai/jobs/{job_id}/execute"}
 
     for path, methods in spec["paths"].items():
         assert path in mapping

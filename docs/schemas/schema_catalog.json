@@ -2432,7 +2432,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-009"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PROFILES-V1",
+      "title": "UOC-010 AI Operation Profiles",
+      "version": "1.0.0",
+      "path": "docs/schemas/ai_operation_profiles.schema.json",
+      "description": "UOC-010 typed local-first RAG/agent/tool/handoff governance contract.",
+      "status": "registered",
+      "contract": "AiOperationProfiles",
+      "owner": "Ordóñez",
+      "sprint": "UOC-010",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-010"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PARAMETERS-V1",
+      "title": "UOC-010 AI Operation Parameters",
+      "version": "1.0.0",
+      "path": "docs/schemas/ai_operation_parameters.schema.json",
+      "description": "UOC-010 typed local-first RAG/agent/tool/handoff governance contract.",
+      "status": "registered",
+      "contract": "AiOperationParameters",
+      "owner": "Ordóñez",
+      "sprint": "UOC-010",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-010"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC010-AI-JOB-PLAN-V1",
+      "title": "UOC-010 AI Job Plan",
+      "version": "1.0.0",
+      "path": "docs/schemas/ai_job_plan.schema.json",
+      "description": "UOC-010 typed local-first RAG/agent/tool/handoff governance contract.",
+      "status": "registered",
+      "contract": "AiJobPlan",
+      "owner": "Ordóñez",
+      "sprint": "UOC-010",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-010"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC010-AI-JOB-RESULT-V1",
+      "title": "UOC-010 AI Job Result",
+      "version": "1.0.0",
+      "path": "docs/schemas/ai_job_result.schema.json",
+      "description": "UOC-010 typed local-first RAG/agent/tool/handoff governance contract.",
+      "status": "registered",
+      "contract": "AiJobResult",
+      "owner": "Ordóñez",
+      "sprint": "UOC-010",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "UOC-010"
     }
   ],
-  "schemas_total": 168
+  "schemas_total": 172
 }

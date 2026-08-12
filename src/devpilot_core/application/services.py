@@ -34,6 +34,7 @@ from .workspace_git_operations_service import WorkspaceGitOperationsApplicationS
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
 from .quality_operations import QualityOperationsApplicationService
+from .ai_operations import AiOperationsApplicationService
 from .governed_jobs import GovernedJobFramework
 from .ui_workspace_context import UiWorkspaceContextResolver
 
@@ -94,6 +95,7 @@ class ApplicationService:
         self.observability = ObservabilityApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.governed_job_operations = GovernedJobOperationsApplicationService(self.root)
         self.quality_operations = QualityOperationsApplicationService(self.root)
+        self.ai_operations = AiOperationsApplicationService(self.root)
         self.operator_dashboard = OperatorDashboardApplicationService(self.root)
         self.portfolio = PortfolioApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
@@ -1005,6 +1007,24 @@ class ApplicationService:
     def quality_evidence_package(self, *, limit: int = 100) -> CommandResult:
         return self.quality_operations.package_evidence(limit=limit)
 
+    def ai_operations_catalog(self) -> CommandResult:
+        return self.ai_operations.catalog()
+
+    def ai_status(self) -> CommandResult:
+        return self.ai_operations.status()
+
+    def ai_job_plan(self, *, operation_id: str, workspace_id: str, parameters: dict[str, Any], idempotency_key: str, approval_id: str | None = None) -> CommandResult:
+        return self.ai_operations.plan_job(operation_id=operation_id, workspace_id=workspace_id, parameters=parameters, idempotency_key=idempotency_key, approval_id=approval_id)
+
+    def ai_job_execute(self, *, job_id: str) -> CommandResult:
+        return self.ai_operations.execute_job(job_id=job_id)
+
+    def ai_job_result(self, *, job_id: str) -> CommandResult:
+        return self.ai_operations.result(job_id=job_id)
+
+    def ai_evidence_package(self, *, limit: int = 100) -> CommandResult:
+        return self.ai_operations.package_evidence(limit=limit)
+
     def trace_report(self, *, limit: int = 20, include_events: bool = True, include_metrics: bool = True, scope: str = "active") -> CommandResult:
         return self.observability.trace_report(limit=limit, include_events=include_events, include_metrics=include_metrics, scope=scope)
 
@@ -1350,6 +1370,12 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "quality.jobs.plan": lambda payload: service.quality_job_plan(operation_id=str(payload.get("operation_id", "")), workspace_id=str(payload.get("workspace_id", "devpilot-local")), parameters=dict(payload.get("parameters", {})), idempotency_key=str(payload.get("idempotency_key", "")), approval_id=(str(payload["approval_id"]) if payload.get("approval_id") else None), full_regression_confirmation=(str(payload["full_regression_confirmation"]) if payload.get("full_regression_confirmation") else None)),
         "quality.jobs.execute": lambda payload: service.quality_job_execute(job_id=str(payload.get("job_id", ""))),
         "quality.evidence_package": lambda payload: service.quality_evidence_package(limit=int(payload.get("limit", 100))),
+        "ai.operations": lambda payload: service.ai_operations_catalog(),
+        "ai.status": lambda payload: service.ai_status(),
+        "ai.jobs.plan": lambda payload: service.ai_job_plan(operation_id=str(payload.get("operation_id", "")), workspace_id=str(payload.get("workspace_id", "devpilot-local")), parameters=dict(payload.get("parameters", {})), idempotency_key=str(payload.get("idempotency_key", "")), approval_id=(str(payload["approval_id"]) if payload.get("approval_id") else None)),
+        "ai.jobs.execute": lambda payload: service.ai_job_execute(job_id=str(payload.get("job_id", ""))),
+        "ai.jobs.result": lambda payload: service.ai_job_result(job_id=str(payload.get("job_id", ""))),
+        "ai.evidence_package": lambda payload: service.ai_evidence_package(limit=int(payload.get("limit", 100))),
         "observability.trace_report": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
         "observability.traces": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True)), scope=str(payload.get("scope", "active"))),
         "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100)), scope=str(payload.get("scope", "active"))),
@@ -1514,6 +1540,12 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-UOC-009-D", "POST", "/api/v1/quality/jobs/plan", "quality.jobs.plan", ["UOC-009 governed quality job plan by registered operation/profile identifiers."]),
         ("APP-ROUTE-UOC-009-E", "POST", "/api/v1/quality/jobs/{job_id}/execute", "quality.jobs.execute", ["UOC-009 fixed typed worker execution; approvals/confirmation/budgets enforced; no arbitrary shell."]),
         ("APP-ROUTE-UOC-009-F", "POST", "/api/v1/quality/evidence/package", "quality.evidence_package", ["UOC-009 bounded local evidence packaging under outputs only."]),
+        ("APP-ROUTE-UOC-010-A", "GET", "/api/v1/ai/operations", "ai.operations", ["UOC-010 typed RAG/agent/handoff catalog; no free shell/tools/provider secrets."]),
+        ("APP-ROUTE-UOC-010-B", "GET", "/api/v1/ai/status", "ai.status", ["UOC-010 provider/RAG/tool/memory/handoff governance status; read-only and local-first."]),
+        ("APP-ROUTE-UOC-010-C", "POST", "/api/v1/ai/jobs/plan", "ai.jobs.plan", ["UOC-010 immutable typed AI job plan with approval binding where required."]),
+        ("APP-ROUTE-UOC-010-D", "POST", "/api/v1/ai/jobs/{job_id}/execute", "ai.jobs.execute", ["UOC-010 fixed local typed worker; external APIs and arbitrary shell blocked."]),
+        ("APP-ROUTE-UOC-010-E", "GET", "/api/v1/ai/jobs/{job_id}/result", "ai.jobs.result", ["UOC-010 bounded AI result projection with citations/provider/cost/memory/handoff governance."]),
+        ("APP-ROUTE-UOC-010-F", "POST", "/api/v1/ai/evidence/package", "ai.evidence_package", ["UOC-010 bounded local AI evidence packaging; memory never counts as formal evidence."]),
         ("APP-ROUTE-UOC-008-A", "GET", "/api/v1/jobs", "jobs.list", ["UOC-008 bounded local Job Console index with workspace/capability/status filters."]),
         ("APP-ROUTE-UOC-008-B", "GET", "/api/v1/jobs/{job_id}", "jobs.inspect", ["UOC-008 governed-job detail projection with heartbeat/progress/stale metadata and internal hashes removed."]),
         ("APP-ROUTE-UOC-008-C", "GET", "/api/v1/jobs/{job_id}/logs", "jobs.logs", ["UOC-008 bounded sanitized local job-log polling by opaque job id and cursor."]),

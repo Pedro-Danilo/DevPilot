@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.14.0-post-h-eval-002-uoc-009",
+  "version": "0.15.0-post-h-eval-002-uoc-010",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — UOC-008 Job Console and governed operational observability.",
+  "description": "DevPilot Local Web UI — UOC-010 governed RAG, agents, tools and handoffs.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -58,7 +58,8 @@
       "ui.settings",
       "ui.workspace-documents",
       "ui.jobs",
-      "ui.quality"
+      "ui.quality",
+      "ui.ai"
     ],
     "localFirstBadges": true,
     "dryRunBadges": true,
@@ -96,7 +97,8 @@
       "ui.operator-dashboard-embedded",
       "ui.workspace-documents",
       "ui.jobs",
-      "ui.quality"
+      "ui.quality",
+      "ui.ai"
     ],
     "unauthorizedErrorVisible": true,
     "apiDownErrorVisible": true,
@@ -176,7 +178,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "POST-H-EVAL-002-UOC-009",
+    "currentSprint": "POST-H-EVAL-002-UOC-010",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -187,7 +189,7 @@
     "uoc002PreliminaryReadOnly": true,
     "uoc002Status": "closed/PASS",
     "postHEvolution": true,
-    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-009",
+    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-010",
     "runtimeArtifactsVersioned": false,
     "uoc003ValidationTraceability": true,
     "uoc003SourceReadOnly": true,
@@ -238,7 +240,8 @@
     "uoc009FullRegressionExplicitConfirmation": true,
     "uoc010Authorized": true,
     "qualityOperationsRoute": "ui.quality",
-    "uoc010Status": "authorized-after-uoc-009-pass"
+    "uoc010Status": "implemented-initial/pending-windows-browser-closure",
+    "uoc010AiConsole": true
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

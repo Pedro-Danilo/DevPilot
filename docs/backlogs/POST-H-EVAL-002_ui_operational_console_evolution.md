@@ -1193,3 +1193,7 @@ La estrategia de cierre Windows ejecuta el 100% de los tests impactados con Test
 ## 2026-08-11 — UOC-009 closure
 
 UOC-009 **CLOSED/PASS** sobre source commit `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. `/quality` queda aceptada con tests impactados PASS y HistoricalRegressionGuard waiver temporal sin declarar full pytest PASS. La implementación sigue `implemented-initial`. Baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 autorizado.
+
+## UOC-010 implementation note
+
+Candidate `implemented-initial`: `/ai` exposes four typed local adapters over existing RAG/AgentRuntime/MultiAgent infrastructure. Mock is mandatory, local models remain opt-in, external APIs remain disabled, memory is opt-in/non-evidence and generic tool execution remains blocked. UOC-011 is not authorized until Windows/browser closure.

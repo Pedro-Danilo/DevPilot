@@ -331,3 +331,17 @@ UOC-009 adds six typed local API routes. The UI never supplies shell text, execu
 Full regression remains a separate sensitive operation: it requires explicit approval plus the exact confirmation phrase and is never started automatically after focused tests.
 
 UOC-009 API contract identifiers: `API-UOC009-QUALITY-OPERATIONS`, `API-UOC009-QUALITY-BASELINE`, `API-UOC009-QUALITY-TEST-IMPACT-PLAN`, `API-UOC009-QUALITY-JOBS-PLAN`, `API-UOC009-QUALITY-JOBS-EXECUTE`, `API-UOC009-QUALITY-EVIDENCE-PACKAGE`.
+
+
+## UOC-010 — RAG, agents, tools and handoffs
+
+UOC-010 exposes exactly six typed local API routes. Browser input selects registered operation/provider/agent/workflow identifiers only; no command text, arbitrary tool, remote execution, connector write, plugin execution or external API is enabled.
+
+| API ID | Method / path | Application operation | Application Service | Policy/gate |
+|---|---|---|---|---|
+| `API-UOC010-AI-OPERATIONS` | `GET /api/v1/ai/operations` | `ai.operations` | `ApplicationService.ai_operations` | Policy/gate: local token + typed UOC-010 registry. |
+| `API-UOC010-AI-STATUS` | `GET /api/v1/ai/status` | `ai.status` | `ApplicationService.ai_status` | Policy/gate: provider/RAG/tool/memory/handoff status only. |
+| `API-UOC010-AI-JOBS-PLAN` | `POST /api/v1/ai/jobs/plan` | `ai.jobs.plan` | `ApplicationService.ai_jobs_plan` | Policy/gate: registered operation + provider/tool allowlist + budgets + approval binding when required. |
+| `API-UOC010-AI-JOBS-EXECUTE` | `POST /api/v1/ai/jobs/{job_id}/execute` | `ai.jobs.execute` | `ApplicationService.ai_jobs_execute` | Policy/gate: fixed typed worker, `shell=False`, mock/local only. |
+| `API-UOC010-AI-JOBS-RESULT` | `GET /api/v1/ai/jobs/{job_id}/result` | `ai.jobs.result` | `ApplicationService.ai_jobs_result` | Policy/gate: bounded local result projection with citations/provider/cost visibility. |
+| `API-UOC010-AI-EVIDENCE-PACKAGE` | `POST /api/v1/ai/evidence/package` | `ai.evidence_package` | `ApplicationService.ai_evidence_package` | Policy/gate: bounded local evidence export; memory is excluded as formal evidence. |

@@ -82,9 +82,11 @@
     },
     {
       "flag_id": "uoc.rag_agents_tools",
-      "enabled": false,
+      "enabled": true,
       "owner_sprint": "UOC-010",
-      "requires_restart": false
+      "requires_restart": false,
+      "enabled_by": "UOC-010",
+      "notes": "Implemented-initial /ai local-first AI console: RAG citations/freshness, mock/local opt-in agents, redacted memory opt-in, contract-only tools and supervised bounded handoffs. External API remains disabled."
     }
   ],
   "kill_switches": [
@@ -179,6 +181,15 @@
     "uoc_009_closed": true,
     "uoc_009_preliminary": true,
     "uoc_010_authorized": true,
-    "arbitrary_shell_enabled": false
+    "arbitrary_shell_enabled": false,
+    "uoc_010_ai_console_enabled": true,
+    "uoc_010_mock_mandatory": true,
+    "uoc_010_local_provider_opt_in": true,
+    "uoc_010_external_api_enabled": false,
+    "uoc_010_memory_enabled_by_default": false,
+    "uoc_010_memory_counts_as_formal_evidence": false,
+    "uoc_010_generic_tool_execution_enabled": false,
+    "uoc_010_max_agent_turns": 1,
+    "uoc_010_max_handoff_steps": 3
   }
 }

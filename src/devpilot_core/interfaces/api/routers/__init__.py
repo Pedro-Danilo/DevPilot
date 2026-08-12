@@ -2,3 +2,5 @@
 
 from . import jobs
 from . import quality
+
+from . import ai

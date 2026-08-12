@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/ai_job_plan.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UOC010-AI-JOB-PLAN-V1",
+  "title": "UOC-010 governed AI job plan",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_id", "job_id", "operation_id", "capability_id", "parameters", "workspace_id", "timeout_seconds"],
+  "properties": {"schema_id": {"const": "SCHEMA-DEVPL-UOC010-AI-JOB-PLAN-V1"}}
+}

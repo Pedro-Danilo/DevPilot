@@ -15337,6 +15337,146 @@
         "UOC-009",
         "UOC-010"
       ]
+    },
+    {
+      "doc_id": "DEVPL-UOC-010-RAG-AGENTS-TOOLS-HANDOFFS",
+      "path": "docs/07_interfaces/rag_agents_tools_handoffs.md",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-010",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_010_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC-010-AUDIT",
+      "path": "docs/audits/uoc_010_rag_agents_tools_handoffs_report.md",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-010",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_010_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC010-POST-H-EVAL-002-UOC-010-MANIFEST",
+      "path": "docs/post_h_eval_002_uoc_010_manifest.json",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-010",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_010_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC010-AI-OPERATION-PROFILES.SCHEMA",
+      "path": "docs/schemas/ai_operation_profiles.schema.json",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-010",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_010_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC010-AI-OPERATION-PARAMETERS.SCHEMA",
+      "path": "docs/schemas/ai_operation_parameters.schema.json",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-010",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_010_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC010-AI-JOB-PLAN.SCHEMA",
+      "path": "docs/schemas/ai_job_plan.schema.json",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-010",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_010_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-UOC010-AI-JOB-RESULT.SCHEMA",
+      "path": "docs/schemas/ai_job_result.schema.json",
+      "classification": "source-of-truth",
+      "domain": "interfaces.ui",
+      "owner": "UOC-010",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_002_uoc_010_contracts.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active",
+      "roadmap_milestones": [
+        "UOC-009",
+        "UOC-010"
+      ]
     }
   ],
   "rules": {
@@ -15431,7 +15571,7 @@
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": false,
-    "updated_by": "UOC-009",
+    "updated_by": "UOC-010",
     "last_registered_sprint": "UOC-009-CLOSURE",
     "updated": "2026-08-10",
     "documents_checked_total": 650,
@@ -15439,7 +15579,8 @@
     "uoc_003_registered_documents_total": 10,
     "uoc_005_registered_documents_total": 4,
     "uoc_007_registered_documents_total": 8,
-    "uoc_009_registered_documents_total": 8
+    "uoc_009_registered_documents_total": 8,
+    "sources_total": 670
   },
   "safety": {
     "local_first": true,
@@ -17716,5 +17857,5 @@
     "uoc_009_s1_open": 0
   },
   "updated_at": "2026-08-11",
-  "last_registered_sprint": "UOC-009-CLOSURE"
+  "last_registered_sprint": "UOC-010"
 }

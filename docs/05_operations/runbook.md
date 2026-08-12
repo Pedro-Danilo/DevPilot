@@ -11844,3 +11844,7 @@ La aceptación browser debe demostrar catálogo/budgets, Test Impact, approval d
 ## 2026-08-11 — UOC-009 closure
 
 CLOSED/PASS sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. `/quality` usa IDs/registry y no shell. Test Impact completo PASS; full pytest omitido únicamente bajo waiver HistoricalRegressionGuard. Baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 autorizado.
+
+## UOC-010 — IA / RAG
+
+`/ai` usa únicamente perfiles tipados. `mock` es la ruta obligatoria de aceptación. Providers locales requieren habilitación explícita localhost-only; providers externos no se habilitan. Las operaciones sensibles requieren Approval Center. La memoria es opt-in, redactada y no cuenta como evidencia formal. La ejecución se observa desde Job Console.

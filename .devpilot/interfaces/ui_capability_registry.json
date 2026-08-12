@@ -81,6 +81,51 @@
   "feature_flags_registry": ".devpilot/interfaces/ui_operational_console_flags.json",
   "ui_routes": [
     {
+      "route_id": "ui.ai",
+      "path": "/ai",
+      "title": "IA / RAG gobernados",
+      "page_component": "AiOperationsView",
+      "allowed_api_route_ids": [
+        "api.ai.operations",
+        "api.ai.status",
+        "api.ai.jobs.plan",
+        "api.ai.jobs.execute",
+        "api.ai.jobs.result",
+        "api.ai.evidence-package",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.approvals.request",
+        "api.approvals.show"
+      ],
+      "mapped_cli_capability_ids": [
+        "cli.rag.index",
+        "cli.rag.query",
+        "cli.agent.run",
+        "cli.multiagent.run"
+      ],
+      "shows_mutation_controls": true,
+      "local_only": true,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "warn": true,
+        "planned": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "pass_with_gaps": true,
+        "insufficient_evidence": true,
+        "timeout": true,
+        "cancelled": true
+      }
+    },
+    {
       "route_id": "ui.approvals",
       "path": "/approvals",
       "title": "Approval Center y Action Launcher",
@@ -141,6 +186,82 @@
         "empty": true,
         "error": true,
         "block_visible": true
+      }
+    },
+    {
+      "route_id": "ui.jobs",
+      "path": "/jobs",
+      "title": "Job Console",
+      "page_component": "JobsView",
+      "allowed_api_route_ids": [
+        "api.jobs.list",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.jobs.cancel",
+        "api.jobs.retry"
+      ],
+      "mapped_cli_capability_ids": [],
+      "shows_mutation_controls": true,
+      "local_only": true,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "stale": true,
+        "cancelled": true
+      }
+    },
+    {
+      "route_id": "ui.quality",
+      "path": "/quality",
+      "title": "Quality, tests y release",
+      "page_component": "QualityOperationsView",
+      "allowed_api_route_ids": [
+        "api.quality.operations",
+        "api.quality.baseline",
+        "api.quality.test-impact-plan",
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute",
+        "api.quality.evidence-package",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.approvals.request",
+        "api.approvals.show"
+      ],
+      "mapped_cli_capability_ids": [
+        "cli.docs-governance.validate",
+        "cli.operator.evidence-export",
+        "cli.project-state.validate",
+        "cli.quality-gate.run",
+        "cli.readiness-check",
+        "cli.release-candidate.profile",
+        "cli.test-contracts.validate",
+        "cli.test-contracts.validate-v2",
+        "cli.test-impact.analyze-v2",
+        "cli.tests.run"
+      ],
+      "shows_mutation_controls": true,
+      "local_only": true,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "planned": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "failed_counts": true,
+        "full_regression_confirmation": true
       }
     },
     {
@@ -292,82 +413,6 @@
         "api.workspace.git.branch-create"
       ],
       "mutation_controls": true
-    },
-    {
-      "route_id": "ui.jobs",
-      "path": "/jobs",
-      "title": "Job Console",
-      "page_component": "JobsView",
-      "allowed_api_route_ids": [
-        "api.jobs.list",
-        "api.jobs.inspect",
-        "api.jobs.logs",
-        "api.jobs.cancel",
-        "api.jobs.retry"
-      ],
-      "mapped_cli_capability_ids": [],
-      "shows_mutation_controls": true,
-      "local_only": true,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "stale": true,
-        "cancelled": true
-      }
-    },
-    {
-      "route_id": "ui.quality",
-      "path": "/quality",
-      "title": "Quality, tests y release",
-      "page_component": "QualityOperationsView",
-      "allowed_api_route_ids": [
-        "api.quality.operations",
-        "api.quality.baseline",
-        "api.quality.test-impact-plan",
-        "api.quality.jobs.plan",
-        "api.quality.jobs.execute",
-        "api.quality.evidence-package",
-        "api.jobs.inspect",
-        "api.jobs.logs",
-        "api.approvals.request",
-        "api.approvals.show"
-      ],
-      "mapped_cli_capability_ids": [
-        "cli.docs-governance.validate",
-        "cli.operator.evidence-export",
-        "cli.project-state.validate",
-        "cli.quality-gate.run",
-        "cli.readiness-check",
-        "cli.release-candidate.profile",
-        "cli.test-contracts.validate",
-        "cli.test-contracts.validate-v2",
-        "cli.test-impact.analyze-v2",
-        "cli.tests.run"
-      ],
-      "shows_mutation_controls": true,
-      "local_only": true,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "planned": true,
-        "pending_approval": true,
-        "running": true,
-        "pass": true,
-        "failed_counts": true,
-        "full_regression_confirmation": true
-      }
     }
   ],
   "capabilities": [
@@ -599,13 +644,19 @@
         "run"
       ],
       "domain_owner": "agentic.runtime",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "ai.operations",
+      "api_route_ids": [
+        "api.ai.jobs.plan",
+        "api.ai.jobs.execute",
+        "api.ai.jobs.result"
+      ],
+      "ui_route_ids": [
+        "ui.ai"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "sensitive",
       "source_risk_level": "high",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-010",
       "policy": {
         "required": true,
@@ -641,7 +692,8 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented.",
+        "UOC-010 exposes only allowlisted agents/tasks/targets with mock mandatory, local opt-in and external API blocked."
       ]
     },
     {
@@ -5078,14 +5130,20 @@
         "run"
       ],
       "domain_owner": "agentic.multiagent",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "ai.operations",
+      "api_route_ids": [
+        "api.ai.jobs.plan",
+        "api.ai.jobs.execute",
+        "api.ai.jobs.result"
+      ],
+      "ui_route_ids": [
+        "ui.ai"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
-      "planned_sprint": "UOC-007",
+      "parity_status": "UI-NATIVE",
+      "planned_sprint": "UOC-010",
       "policy": {
         "required": true,
         "currently_declared_by_cli": false,
@@ -5094,7 +5152,7 @@
       },
       "requires_dry_run": true,
       "requires_approval": false,
-      "supports_cancel": false,
+      "supports_cancel": true,
       "supports_rollback": false,
       "current_cli_contract": {
         "migration_state": "deferred-cli-only",
@@ -5119,7 +5177,8 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented.",
+        "UOC-010 exposes only repo-review dry-run with explicit supervisor, max three steps and traced handoffs."
       ]
     },
     {
@@ -6464,13 +6523,18 @@
         "index"
       ],
       "domain_owner": "knowledge.rag",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "ai.operations",
+      "api_route_ids": [
+        "api.ai.jobs.plan",
+        "api.ai.jobs.execute"
+      ],
+      "ui_route_ids": [
+        "ui.ai"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-010",
       "policy": {
         "required": true,
@@ -6479,8 +6543,8 @@
         "default_decision": "plan-only"
       },
       "requires_dry_run": true,
-      "requires_approval": false,
-      "supports_cancel": false,
+      "requires_approval": true,
+      "supports_cancel": true,
       "supports_rollback": false,
       "current_cli_contract": {
         "migration_state": "deferred-cli-only",
@@ -6505,7 +6569,8 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented.",
+        "UOC-010 binds runtime-only RAG indexing to a typed local worker and exact approval; canonical source index is never overwritten."
       ]
     },
     {
@@ -6518,13 +6583,19 @@
         "query"
       ],
       "domain_owner": "knowledge.rag",
-      "application_service": null,
-      "api_route_ids": [],
-      "ui_route_ids": [],
+      "application_service": "ai.operations",
+      "api_route_ids": [
+        "api.ai.jobs.plan",
+        "api.ai.jobs.execute",
+        "api.ai.jobs.result"
+      ],
+      "ui_route_ids": [
+        "ui.ai"
+      ],
       "read_write": "write-or-execute",
       "risk_class": "mutating",
       "source_risk_level": "medium",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "planned_sprint": "UOC-010",
       "policy": {
         "required": true,
@@ -6559,7 +6630,8 @@
       },
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
-        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented."
+        "CLI remains the registered bridge until a typed Application Service and UI contract are implemented.",
+        "UOC-010 exposes cited local lexical retrieval with freshness and explicit insufficient-evidence behavior."
       ]
     },
     {
@@ -10964,9 +11036,9 @@
     "cli_commands_total": 193,
     "cli_commands_classified_total": 193,
     "classification_complete": true,
-    "ui_routes_total": 8,
-    "ui_routes_mapped_total": 8,
-    "api_routes_total": 82,
+    "ui_routes_total": 9,
+    "ui_routes_mapped_total": 9,
+    "api_routes_total": 88,
     "risk_class_counts": {
       "mutating": 121,
       "sensitive": 57,
@@ -10991,13 +11063,13 @@
     "mutating_without_policy_total": 0,
     "sensitive_ui_native_without_approval_total": 0,
     "forbidden_capabilities_total": 5,
-    "current_ui_native_or_read_only_total": 22,
+    "current_ui_native_or_read_only_total": 26,
     "uoc_001_read_only_document_surface_total": 1,
     "uoc_002_document_inspection_routes_total": 4,
     "uoc_002_typed_git_read_only": true,
     "uoc_002_memory_only_search": true,
     "uoc_002_document_links": true,
-    "updated_by": "UOC-009",
+    "updated_by": "UOC-010",
     "uoc_003_validation_capabilities_total": 6,
     "uoc_003_residual_cli_bridge_inventory_required": true,
     "uoc_003_jobs_mode": "synchronous-preliminary",
@@ -11035,7 +11107,14 @@
     "uoc_010_authorized": true,
     "uoc_009_closed": true,
     "uoc_009_status": "closed/PASS",
-    "uoc_009_preliminary": true
+    "uoc_009_preliminary": true,
+    "uoc_010_ai_console_available": true,
+    "uoc_010_typed_capabilities_total": 4,
+    "uoc_010_api_routes_total": 6,
+    "uoc_010_external_api_enabled": false,
+    "uoc_010_memory_enabled_by_default": false,
+    "uoc_010_generic_tool_execution_enabled": false,
+    "uoc_011_authorized": false
   },
   "safety": {
     "local_first": true,

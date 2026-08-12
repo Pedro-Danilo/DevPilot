@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PROFILES-V1",
+  "created_by": "UOC-010",
+  "status": "implemented-initial",
+  "operations": [
+    {
+      "operation_id": "rag-index",
+      "label": "RAG index local · runtime-only",
+      "capability_id": "cli.rag.index",
+      "kind": "rag-index",
+      "risk_class": "mutating",
+      "requires_approval": true,
+      "supports_cancel": true,
+      "timeout_seconds": 180,
+      "allowed_keys": ["target_id"]
+    },
+    {
+      "operation_id": "rag-query",
+      "label": "RAG query · citas y freshness",
+      "capability_id": "cli.rag.query",
+      "kind": "rag-query",
+      "risk_class": "read-only",
+      "requires_approval": false,
+      "supports_cancel": false,
+      "timeout_seconds": 60,
+      "allowed_keys": ["query", "top_k", "index_source"]
+    },
+    {
+      "operation_id": "agent-run",
+      "label": "Agente gobernado · mock/local",
+      "capability_id": "cli.agent.run",
+      "kind": "agent-run",
+      "risk_class": "sensitive",
+      "requires_approval": true,
+      "supports_cancel": true,
+      "timeout_seconds": 180,
+      "allowed_keys": ["agent_id", "task_id", "target_id", "provider_id", "memory_opt_in"]
+    },
+    {
+      "operation_id": "handoff-run",
+      "label": "Handoff supervisor · repo-review dry-run",
+      "capability_id": "cli.multiagent.run",
+      "kind": "handoff-run",
+      "risk_class": "mutating",
+      "requires_approval": false,
+      "supports_cancel": true,
+      "timeout_seconds": 180,
+      "allowed_keys": ["workflow_id", "target_id", "max_steps"]
+    }
+  ],
+  "selectors": {
+    "rag_targets": ["docs", "requirements", "architecture"],
+    "rag_index_sources": ["canonical", "runtime"],
+    "agents": ["requirements.agent", "architecture.agent", "security.agent", "testplanner.agent", "repo.analysis"],
+    "agent_tasks": ["summarize-gaps", "review-context", "identify-risks"],
+    "agent_targets": ["docs", "requirements", "architecture", "security"],
+    "workflows": ["repo-review"],
+    "handoff_targets": ["src", "docs"]
+  },
+  "budgets": {
+    "max_agent_turns": 1,
+    "max_handoff_steps": 3,
+    "max_query_top_k": 10,
+    "max_cost_usd": 0.0,
+    "memory_retention_days": 14
+  },
+  "safety": {
+    "local_first": true,
+    "mock_provider_mandatory": true,
+    "local_providers_opt_in": true,
+    "external_api_enabled": false,
+    "external_api_required": false,
+    "remote_execution": false,
+    "connector_write": false,
+    "plugin_execution": false,
+    "arbitrary_shell": false,
+    "unregistered_tools": false,
+    "tool_execution_mode": "contract-only-dry-run",
+    "memory_enabled_by_default": false,
+    "memory_counts_as_formal_evidence": false,
+    "unbounded_loops": false
+  },
+  "limitations": [
+    "UOC-010 is an implemented-initial UI/application boundary over existing local RAG and agent infrastructure.",
+    "External API model providers remain visible but disabled and cannot be selected or executed.",
+    "Generic tool execution is not exposed; the UI surfaces the allowlisted tool-call contract only.",
+    "Local providers require an explicit enabled localhost configuration and remain opt-in."
+  ]
+}

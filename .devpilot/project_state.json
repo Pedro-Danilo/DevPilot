@@ -341,7 +341,8 @@
     "UOC-006 CLOSED/PASS on source commit 0ea40b01700886db1e5bfeb636dbcf58a2838bdb; governed local Git stage/commit/branch creation passed browser acceptance and repo 334 is the next authoritative baseline.",
     "UOC-007 implements the CLI capability registry and governed job lifecycle framework from authoritative repo334; no UI job route or runtime capability adapter is enabled until later UOC gates.",
     "UOC-008 implemented-initial from authoritative repo335; Job Console/browser closure remains pending and UOC-009 is not authorized.",
-    "UOC-009 candidate adds typed Quality/Test/Release operations via governed jobs, Test Impact and explicit approval/budget controls; UOC-010 remains unauthorized until Windows/browser closure."
+    "UOC-009 candidate adds typed Quality/Test/Release operations via governed jobs, Test Impact and explicit approval/budget controls; UOC-010 remains unauthorized until Windows/browser closure.",
+    "UOC-010 candidate adds /ai with four typed local-first RAG/agent/handoff adapters; UOC-011 remains unauthorized until authoritative Windows/browser closure."
   ],
   "phase_h_status": "closed_implemented_initial",
   "plugin_execution_enabled": false,
@@ -1931,7 +1932,7 @@
   "post_h_eval_002_01_status": "closed/PASS",
   "post_h_eval_002_02_a_authorized": true,
   "updated_at": "2026-08-09T09:18:00-05:00",
-  "last_registered_sprint": "UOC-009-CLOSURE",
+  "last_registered_sprint": "UOC-010",
   "post_h_eval_002_01_d_governance_operator_version": "2.1.0",
   "post_h_eval_002_01_d_governance_preflight_identity": "git-canonical-blob",
   "post_h_eval_002_evaluation_root": "D:\\Projects\\DevPilot_E2E_Evaluation",
@@ -2147,7 +2148,7 @@
   "uoc_008_closed": true,
   "uoc_008_authoritative_baseline": "repo_DevPilot_Local_336_POST_H_EVAL_002_UOC_008.zip",
   "uoc_009_authorization_reason": "UOC-008 closed/PASS with browser Job Console acceptance, bounded sanitized logs, cancel/retry/reconciliation controls and regression evidence reuse.",
-  "uoc_010_status": "authorized-after-uoc-009-pass",
+  "uoc_010_status": "implemented-initial/pending-windows-browser-closure",
   "uoc_010_authorized": true,
   "uoc_009_quality_route": "/quality",
   "uoc_009_typed_runtime_capabilities_total": 10,
@@ -2160,5 +2161,17 @@
   "uoc_009_preliminary": true,
   "uoc_009_implementation_maturity": "implemented-initial",
   "uoc_009_s0_open": 0,
-  "uoc_009_s1_open": 0
+  "uoc_009_s1_open": 0,
+  "uoc_011_authorized": false,
+  "uoc_011_status": "not-authorized",
+  "uoc_010_authoritative_baseline": "repo_DevPilot_Local_338_POST_H_EVAL_002_UOC_010.zip",
+  "uoc_010_input_repo": "repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip",
+  "uoc_010_input_repo_sha256": "4832eb5a058940a40458eea97c93104f4fa9ac05ebf3cadd9874694797d64a24",
+  "uoc_010_implementation_maturity": "implemented-initial",
+  "uoc_010_preliminary": true,
+  "uoc_010_s0_open": 0,
+  "uoc_010_s1_open": 0,
+  "uoc_010_ai_route": "/ai",
+  "uoc_010_external_api_enabled": false,
+  "uoc_010_mock_route_mandatory": true
 }

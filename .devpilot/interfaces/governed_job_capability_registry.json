@@ -208,9 +208,9 @@
       "capability_id": "cli.agent.run",
       "cli_command_id": "agent.run",
       "cli_command": "python -m devpilot_core agent run",
-      "application_service": null,
+      "application_service": "ai.operations",
       "risk_class": "sensitive",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -218,7 +218,7 @@
         "approval_required": true
       },
       "budgets": {
-        "timeout_seconds": 900,
+        "timeout_seconds": 180,
         "retry_limit": 0,
         "heartbeat_interval_seconds": 5
       },
@@ -226,7 +226,7 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
@@ -247,10 +247,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc010.ai.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -4226,9 +4226,9 @@
       "capability_id": "cli.multiagent.run",
       "cli_command_id": "multiagent.run",
       "cli_command": "python -m devpilot_core multiagent run",
-      "application_service": null,
+      "application_service": "ai.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -4236,7 +4236,7 @@
         "approval_required": false
       },
       "budgets": {
-        "timeout_seconds": 900,
+        "timeout_seconds": 180,
         "retry_limit": 0,
         "heartbeat_interval_seconds": 5
       },
@@ -4244,12 +4244,12 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
         "approval_required": false,
-        "supports_cancel": false,
+        "supports_cancel": true,
         "supports_rollback": false,
         "idempotency_required": true,
         "correlation_required": true
@@ -4265,10 +4265,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc010.ai.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -5451,17 +5451,17 @@
       "capability_id": "cli.rag.index",
       "cli_command_id": "rag.index",
       "cli_command": "python -m devpilot_core rag index",
-      "application_service": null,
+      "application_service": "ai.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
-        "default_decision": "plan-only",
-        "approval_required": false
+        "default_decision": "deny",
+        "approval_required": true
       },
       "budgets": {
-        "timeout_seconds": 900,
+        "timeout_seconds": 180,
         "retry_limit": 0,
         "heartbeat_interval_seconds": 5
       },
@@ -5469,12 +5469,12 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
-        "approval_required": false,
-        "supports_cancel": false,
+        "approval_required": true,
+        "supports_cancel": true,
         "supports_rollback": false,
         "idempotency_required": true,
         "correlation_required": true
@@ -5490,19 +5490,19 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc010.ai.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
       "capability_id": "cli.rag.query",
       "cli_command_id": "rag.query",
       "cli_command": "python -m devpilot_core rag query",
-      "application_service": null,
+      "application_service": "ai.operations",
       "risk_class": "mutating",
-      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "parity_status": "UI-NATIVE",
       "policy_binding": {
         "source": ".devpilot/miasi/policy_matrix.json",
         "required": true,
@@ -5510,7 +5510,7 @@
         "approval_required": false
       },
       "budgets": {
-        "timeout_seconds": 900,
+        "timeout_seconds": 60,
         "retry_limit": 0,
         "heartbeat_interval_seconds": 5
       },
@@ -5518,12 +5518,12 @@
         "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
         "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
         "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-        "typed_parameters_schema_id": null
+        "typed_parameters_schema_id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PARAMETERS-V1"
       },
       "controls": {
         "dry_run_required": true,
         "approval_required": false,
-        "supports_cancel": false,
+        "supports_cancel": true,
         "supports_rollback": false,
         "idempotency_required": true,
         "correlation_required": true
@@ -5539,10 +5539,10 @@
       "runtime": {
         "registered": true,
         "planning_enabled": true,
-        "execution_enabled": false,
-        "adapter_bound": false,
-        "adapter_id": null,
-        "mode": "registry-only"
+        "execution_enabled": true,
+        "adapter_bound": true,
+        "adapter_id": "uoc010.ai.typed-worker",
+        "mode": "typed-local-worker"
       }
     },
     {
@@ -9471,8 +9471,8 @@
     "source_ui_capabilities_total": 193,
     "coverage_exact": true,
     "planning_enabled_total": 188,
-    "execution_enabled_total": 10,
-    "adapter_bound_total": 10,
+    "execution_enabled_total": 14,
+    "adapter_bound_total": 14,
     "risk_class_counts": {
       "mutating": 121,
       "sensitive": 57,
@@ -9491,7 +9491,9 @@
     "forbidden_runtime_enabled_total": 0,
     "runtime_execution_deferred_to_later_sprints": true,
     "uoc_009_typed_execution_enabled_total": 10,
-    "updated_by": "UOC-009"
+    "updated_by": "UOC-010",
+    "uoc_010_typed_adapter_id": "uoc010.ai.typed-worker",
+    "uoc_010_execution_enabled_total": 4
   },
   "safety": {
     "local_first": true,

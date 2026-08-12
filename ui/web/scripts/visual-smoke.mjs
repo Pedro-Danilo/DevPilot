@@ -27,6 +27,7 @@ const sourceFiles = [
   'src/pages/SettingsView.ts',
   'src/pages/JobsView.ts',
   'src/pages/QualityOperationsView.ts',
+  'src/pages/AiOperationsView.ts',
   'src/pages/OperatorDashboard.ts',
   'src/components/StatusCard.ts',
   'src/components/ContractBadges.ts',
@@ -44,7 +45,7 @@ assert(packageJson.devpilot.postH028C === true, 'package.json debe declarar post
 assert(packageJson.devpilot.uiVisualSmoke === true, 'package.json debe declarar uiVisualSmoke=true');
 assert(packageJson.scripts['test:visual'] === 'node scripts/visual-smoke.mjs', 'npm run test:visual debe ser dependency-light');
 
-const expectedRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents', 'ui.jobs', 'ui.quality'];
+const expectedRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents', 'ui.jobs', 'ui.quality', 'ui.ai'];
 for (const routeId of expectedRoutes) {
   assert(uiRegistry.routes.some((route) => route.route_id === routeId), `Falta contrato UI ${routeId}`);
 }
@@ -68,6 +69,7 @@ const visualMarkers = [
   ['settings', 'src/pages/SettingsView.ts', ['Configuración', 'ui.settings', 'Editor de provider — plan-only', 'Postura de seguridad']],
   ['job console', 'src/pages/JobsView.ts', ['Job Console', 'ui.jobs', 'Heartbeat', 'Solicitar cancelación', 'Crear retry gobernado']],
   ['quality console', 'src/pages/QualityOperationsView.ts', ['Quality, tests y release', 'ui.quality', 'Planificar Test Impact', 'Full regression', 'Approval requerido']],
+  ['ai console', 'src/pages/AiOperationsView.ts', ['IA / RAG gobernados', 'ui.ai', 'Mock obligatorio', 'insufficient-evidence', 'Memoria local opt-in']],
   ['operator dashboard', 'src/pages/OperatorDashboard.ts', ['Operator Dashboard', 'POST-H-015-D']],
 ];
 for (const [view, file, markers] of visualMarkers) {

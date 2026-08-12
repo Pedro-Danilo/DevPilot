@@ -489,16 +489,82 @@
       "notes": [
         "UOC-009 exposes deterministic quality/test/release operations through typed profiles, approval/budget gates and UOC-007/008 jobs."
       ]
+    },
+    {
+      "route_id": "ui.ai",
+      "title": "IA / RAG gobernados",
+      "path": "/ai",
+      "page_component": "AiOperationsView",
+      "source_files": [
+        "ui/web/src/pages/AiOperationsView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.ai.operations",
+        "api.ai.status",
+        "api.ai.jobs.plan",
+        "api.ai.jobs.execute",
+        "api.ai.jobs.result",
+        "api.ai.evidence-package",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.approvals.request",
+        "api.approvals.show"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "Only four typed AI adapters are exposed. RAG runtime index/agent memory are local runtime state; agent and RAG index require approval. External APIs and generic tools remain blocked."
+      },
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "warn": true,
+        "planned": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "pass_with_gaps": true,
+        "insufficient_evidence": true,
+        "timeout": true,
+        "cancelled": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING",
+        "RUNNING",
+        "CANCELLED"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "UOC-010 exposes RAG citations/freshness, provider visibility, mock/local agents, memory opt-in and bounded supervisor handoffs."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 8,
-    "critical_routes_total": 8,
-    "local_only_routes_total": 8,
-    "dry_run_badged_routes_total": 8,
-    "no_remote_badged_routes_total": 8,
-    "mutation_control_routes_total": 5,
-    "allowed_api_routes_unique_total": 66,
+    "routes_total": 9,
+    "critical_routes_total": 9,
+    "local_only_routes_total": 9,
+    "dry_run_badged_routes_total": 9,
+    "no_remote_badged_routes_total": 9,
+    "mutation_control_routes_total": 6,
+    "allowed_api_routes_unique_total": 72,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -516,7 +582,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "UOC-009",
+    "updated_by": "UOC-010",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -534,7 +600,8 @@
     "uoc_006_push_enabled": false,
     "uoc_006_generic_git_args_enabled": false,
     "uoc_008_job_console": true,
-    "uoc_009_quality_operations": true
+    "uoc_009_quality_operations": true,
+    "uoc_010_ai_operations": true
   },
   "safety": {
     "local_first": true,

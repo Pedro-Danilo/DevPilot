@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/ai_job_result.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UOC010-AI-JOB-RESULT-V1",
+  "title": "UOC-010 governed AI job result",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_id", "job_id", "operation_id", "result", "governance"],
+  "properties": {"schema_id": {"const": "SCHEMA-DEVPL-UOC010-AI-JOB-RESULT-V1"}}
+}

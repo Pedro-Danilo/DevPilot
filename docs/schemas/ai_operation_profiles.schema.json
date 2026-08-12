@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/ai_operation_profiles.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PROFILES-V1",
+  "title": "UOC-010 AI operation profiles",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "schema_id", "created_by", "status", "operations", "selectors", "budgets", "safety"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-UOC010-AI-OPERATION-PROFILES-V1"},
+    "created_by": {"const": "UOC-010"},
+    "status": {"enum": ["implemented-initial", "closed/PASS"]},
+    "operations": {"type": "array", "minItems": 4, "items": {"type": "object", "required": ["operation_id", "label", "capability_id", "kind", "risk_class", "requires_approval", "supports_cancel", "timeout_seconds", "allowed_keys"]}},
+    "safety": {"type": "object", "required": ["local_first", "mock_provider_mandatory", "local_providers_opt_in", "external_api_enabled", "arbitrary_shell", "memory_counts_as_formal_evidence", "unbounded_loops"]}
+  }
+}

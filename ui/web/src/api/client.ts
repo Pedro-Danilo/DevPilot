@@ -212,6 +212,30 @@ export class DevPilotApiClient {
     return this.post('/quality/evidence/package', { limit }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
+  async aiOperations(): Promise<DevPilotApplicationResponse> {
+    return this.get('/ai/operations', { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async aiStatus(): Promise<DevPilotApplicationResponse> {
+    return this.get('/ai/status', { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async aiPlanJob(payload: { operation_id: string; workspace_id: string; parameters: Record<string, unknown>; idempotency_key: string; approval_id?: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/ai/jobs/plan', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async aiExecuteJob(jobId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/ai/jobs/${encodeURIComponent(jobId)}/execute`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async aiJobResult(jobId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/ai/jobs/${encodeURIComponent(jobId)}/result`, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async aiEvidencePackage(limit = 100): Promise<DevPilotApplicationResponse> {
+    return this.post('/ai/evidence/package', { limit }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   async listWorkspaceDocuments(filters: { limit?: number; offset?: number; query?: string; extension?: string; category?: string } = {}): Promise<DevPilotApplicationResponse> {
     return this.get(`/workspace/documents${this.query(filters)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }
