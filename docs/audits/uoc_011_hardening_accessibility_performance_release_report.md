@@ -22,3 +22,6 @@ updated: 2026-08-12
 ## Limitations
 
 Final browser, build, install and upgrade/rollback acceptance is authoritative only on Windows. This implementation is a local industrial hardening baseline, not enterprise certification.
+
+## Authoritative closure
+Windows/browser/release closure: **PASS**. S0=0/S1=0; local release declaration approved.

@@ -15545,7 +15545,7 @@
         "UOC-010",
         "UOC-011"
       ],
-      "status_required": "implemented-initial/pending-windows-closure",
+      "status_required": "closed/PASS",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -15571,7 +15571,7 @@
       ]
     }
   ],
-  "last_registered_sprint": "UOC-011",
+  "last_registered_sprint": "UOC-011-CLOSURE",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -15684,7 +15684,7 @@
     "credentials_required": false,
     "current_micro_sprint": "POST-H-EVAL-002-02-B",
     "current_phase": "POST-H-EVAL-002",
-    "current_repo": "repo_DevPilot_Local_338_POST_H_EVAL_002_UOC_010.zip",
+    "current_repo": "repo_DevPilot_Local_339_POST_H_EVAL_002_UOC_011.zip",
     "dynamic_import_allowed": false,
     "enterprise_deployment_enabled": false,
     "enterprise_ready_claimed": false,
@@ -15700,7 +15700,7 @@
     "industrial_baseline_ready": true,
     "last_completed_sprint": "POST-H-034",
     "last_functional_sprint": "FUNC-SPRINT-99",
-    "last_registered_sprint": "UOC-010-CLOSURE",
+    "last_registered_sprint": "UOC-011-CLOSURE",
     "legal_advice_claimed": false,
     "maturity_level": "industrial-baseline-under-e2e-evaluation",
     "multiuser_auth_enabled": false,
@@ -17629,7 +17629,7 @@
     "ui_operational_console_backlog_approved": true,
     "ui_operational_console_current_sprint": "UOC-011",
     "ui_operational_console_next_sprint": "UOC-011",
-    "ui_operational_console_program_status": "UOC-010-closed/PASS; UOC-011-implemented-initial/pending-Windows-closure",
+    "ui_operational_console_program_status": "UOC-011-closed/PASS",
     "uoc_000_api_routes_inventory_total": 39,
     "uoc_000_base_commit": "43254e3e61cdafe65e0ed2d773fe9032b0a81f05",
     "uoc_000_canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
@@ -17937,7 +17937,7 @@
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 0,
-    "last_registered_sprint": "UOC-011",
+    "last_registered_sprint": "UOC-011-CLOSURE",
     "last_updated_by": "UOC-009-CLOSURE",
     "machine_readable_source_total": 306,
     "markdown_json_pairs_total": 30,
@@ -17954,7 +17954,7 @@
     "uoc_007_registered_documents_total": 8,
     "uoc_009_registered_documents_total": 8,
     "updated": "2026-08-12",
-    "updated_by": "UOC-011"
+    "updated_by": "UOC-011-CLOSURE"
   },
   "updated": "2026-08-12",
   "updated_at": "2026-08-12"

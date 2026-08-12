@@ -6321,3 +6321,5 @@ La Web UI incorpora `/ai` como primera versión local-first para RAG citado, age
 ## POST-H-EVAL-002 UOC-011 — Operational hardening candidate
 
 UOC-011 adds local security/session/request budgets, accessibility and performance contracts, the 9×12 browser state matrix, and release/install/backup/upgrade gates. Final release declaration remains pending authoritative Windows closure.
+
+- UOC-011: CLOSED/PASS — local operational hardening and local release declaration approved; product remains local-first and preliminary where explicitly documented.

@@ -11856,3 +11856,6 @@ UOC-010 is CLOSED/PASS. `/ai` remains local-first; mock is mandatory, local mode
 ## UOC-011 operational hardening
 
 See `docs/05_operations/uoc_011_release_operator_runbook.md`. Final closure requires Windows browser, performance/build, install, backup/restore and upgrade/rollback evidence.
+
+## UOC-011 authoritative closure
+UOC-011 is CLOSED/PASS with local release declaration approved. Use the UOC-011 operator runbook for security, browser matrix, backup/restore, install and rollback support.

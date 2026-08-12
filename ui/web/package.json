@@ -252,7 +252,7 @@
     "uoc011BrowserStateMatrixCases": 108,
     "uoc011AccessibilitySmoke": true,
     "uoc011PerformanceSmoke": true,
-    "uoc011ReleaseCandidate": false
+    "uoc011ReleaseCandidate": true
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

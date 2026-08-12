@@ -9,10 +9,10 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-010-closed/PASS; UOC-011-implemented-initial/pending-windows-closure"
+implementation_status: "UOC-011-closed/PASS"
 current_sprint: "UOC-011"
 next_sprint: "UOC-011"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008,UOC-009,UOC-010"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008,UOC-009,UOC-010,UOC-011"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -54,7 +54,7 @@ uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
 uoc_004_browser_export_feedback_status: "closed/PASS-v1.0.3"
 uoc_010_implementation_status: "closed/PASS"
 uoc_011_authorized: true
-uoc_011_implementation_status: "implemented-initial/pending-windows-closure"
+uoc_011_implementation_status: "closed/PASS"
 ---
 
 # POST-H-EVAL-002 — UI Operational Console Evolution

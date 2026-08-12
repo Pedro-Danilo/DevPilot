@@ -1,723 +1,723 @@
 {
-  "schema_version": "1.0",
-  "criteria_id": "local-release-candidate-criteria-v1",
   "created_by": "POST-H-026-E",
-  "updated": "2026-08-11",
-  "status": "closed",
-  "scope": "local-release-candidate",
-  "preliminary": true,
-  "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-  "expected_current_repo": "repo_DevPilot_Local_338_POST_H_EVAL_002_UOC_010.zip",
-  "expected_last_completed_sprint": "POST-H-034",
-  "expected_current_micro_sprint": "POST-H-EVAL-002-02-B",
-  "expected_next_micro_sprint": "POST-H-EVAL-002-02-C",
-  "freshness_policy": "contextual-signature",
-  "no_go_gates": {
-    "remote_execution_enabled": false,
-    "connector_write_enabled": false,
-    "plugin_execution_enabled": false,
-    "external_apis_required": false,
-    "compliance_certification_claim": false,
-    "enterprise_ready_claim": false,
-    "remote_ready_claim": false,
-    "saas_ready_claim": false
-  },
+  "criteria_id": "local-release-candidate-criteria-v1",
   "evidence": [
     {
-      "evidence_id": "project-state-current-repo",
-      "title": "Project state source/current repo freshness for current local implementation",
-      "path": ".devpilot/project_state.json",
       "category": "project-state",
       "critical": true,
-      "json_required": true,
-      "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-EVAL-002",
-      "freshness_policy": "contextual-field-match",
+      "evidence_id": "project-state-current-repo",
       "expected_fields": {
-        "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
-        "current_repo": "repo_DevPilot_Local_338_POST_H_EVAL_002_UOC_010.zip",
-        "last_completed_sprint": "POST-H-034",
-        "next_sprint": "POST-H-EVAL-002",
         "current_micro_sprint": "POST-H-EVAL-002-02-B",
+        "current_repo": "repo_DevPilot_Local_339_POST_H_EVAL_002_UOC_011.zip",
+        "last_completed_sprint": "POST-H-034",
+        "next_backlog_planned": true,
         "next_micro_sprint": "POST-H-EVAL-002-02-C",
+        "next_sprint": "POST-H-EVAL-002",
         "post_h_026_status": "closed/local-release-candidate-pass",
         "post_h_027_status": "closed/packaging-local-ready",
         "post_h_028_status": "closed/ui-api-local-hardening",
         "post_h_029_status": "closed/testing-tiers-ready",
         "post_h_030_status": "closed/cli-boundary-hotspot-reduction",
         "post_h_031_status": "closed/redacted-evidence-export-ux",
-        "next_backlog_planned": true,
         "post_h_eval_002_activated": true,
-        "post_h_eval_002_status": "approved/active-evaluation"
-      }
+        "post_h_eval_002_status": "approved/active-evaluation",
+        "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
+      },
+      "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
+      "freshness_policy": "contextual-field-match",
+      "json_required": true,
+      "path": ".devpilot/project_state.json",
+      "producer_sprint": "POST-H-EVAL-002",
+      "title": "Project state source/current repo freshness for current local implementation"
     },
     {
-      "evidence_id": "production-ready-local-criteria",
-      "title": "Production-ready-local criteria remain versioned and readable",
-      "path": ".devpilot/production/production_ready_local_criteria.json",
       "category": "production-ready",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "production-ready-local-criteria",
       "expected_schema_id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-CRITERIA-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": ".devpilot/production/production_ready_local_criteria.json",
       "producer_sprint": "POST-H-025-A",
-      "freshness_policy": "schema-id"
+      "title": "Production-ready-local criteria remain versioned and readable"
     },
     {
-      "evidence_id": "production-ready-local-final-audit",
-      "title": "Final production-ready-local declaration audit is present",
-      "path": "docs/audits/devpilot_local_production_ready_declaration.md",
       "category": "audit",
       "critical": true,
-      "producer_sprint": "POST-H-025-E",
+      "evidence_id": "production-ready-local-final-audit",
       "freshness_policy": "required-marker",
+      "path": "docs/audits/devpilot_local_production_ready_declaration.md",
+      "producer_sprint": "POST-H-025-E",
       "required_markers": [
         "production-ready-local",
         "POST-H-025-E",
         "`enterprise_ready`: `false`"
-      ]
+      ],
+      "title": "Final production-ready-local declaration audit is present"
     },
     {
-      "evidence_id": "post-h-026-backlog",
-      "title": "POST-H-026 backlog is closed and points to POST-H-027",
-      "path": "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
       "category": "backlog",
       "critical": true,
-      "producer_sprint": "POST-H-026-E",
+      "evidence_id": "post-h-026-backlog",
       "freshness_policy": "required-marker",
+      "path": "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+      "producer_sprint": "POST-H-026-E",
       "required_markers": [
         "current_micro_sprint: \"POST-H-026-E\"",
         "next_micro_sprint: \"POST-H-027\"",
         "implementation_status: \"closed\""
-      ]
+      ],
+      "title": "POST-H-026 backlog is closed and points to POST-H-027"
     },
     {
-      "evidence_id": "evidence-freshness-schema",
-      "title": "EvidenceFreshnessReport schema registered source file",
-      "path": "docs/schemas/evidence_freshness_report.schema.json",
       "category": "schema",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "evidence-freshness-schema",
       "expected_schema_id": "SCHEMA-DEVPL-EVIDENCE-FRESHNESS-REPORT-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": "docs/schemas/evidence_freshness_report.schema.json",
       "producer_sprint": "POST-H-026-A",
-      "freshness_policy": "schema-id"
+      "title": "EvidenceFreshnessReport schema registered source file"
     },
     {
-      "evidence_id": "schema-catalog-registration",
-      "title": "Schema catalog includes EvidenceFreshnessReport",
-      "path": "docs/schemas/schema_catalog.json",
       "category": "schema-catalog",
       "critical": true,
-      "json_required": true,
-      "producer_sprint": "POST-H-026-A",
+      "evidence_id": "schema-catalog-registration",
       "freshness_policy": "required-marker",
+      "json_required": true,
+      "path": "docs/schemas/schema_catalog.json",
+      "producer_sprint": "POST-H-026-A",
       "required_markers": [
         "SCHEMA-DEVPL-EVIDENCE-FRESHNESS-REPORT-V1",
         "EvidenceFreshnessReport"
-      ]
+      ],
+      "title": "Schema catalog includes EvidenceFreshnessReport"
     },
     {
+      "category": "operator-docs",
+      "critical": true,
       "evidence_id": "readme-runbook-sync",
-      "title": "README and runbook document POST-H-026-A",
+      "freshness_policy": "required-marker",
       "path": "README.md",
-      "category": "operator-docs",
-      "critical": true,
       "producer_sprint": "POST-H-026-D",
-      "freshness_policy": "required-marker",
       "required_markers": [
         "POST-H-026-D — Local install and run verification",
         "release-candidate install-smoke"
-      ]
+      ],
+      "title": "README and runbook document POST-H-026-A"
     },
     {
+      "category": "operator-docs",
+      "critical": true,
       "evidence_id": "runbook-sync",
-      "title": "Operations runbook documents POST-H-026-A",
-      "path": "docs/05_operations/runbook.md",
-      "category": "operator-docs",
-      "critical": true,
-      "producer_sprint": "POST-H-026-D",
       "freshness_policy": "required-marker",
+      "path": "docs/05_operations/runbook.md",
+      "producer_sprint": "POST-H-026-D",
       "required_markers": [
         "POST-H-026-D — Local install and run verification",
         "release-candidate install-smoke"
-      ]
+      ],
+      "title": "Operations runbook documents POST-H-026-A"
     },
     {
+      "category": "test-contract",
+      "critical": true,
       "evidence_id": "tcr-v1-registration",
-      "title": "TCR v1 registers POST-H-026-A",
-      "path": ".devpilot/testing/test_contract_registry.json",
-      "category": "test-contract",
-      "critical": true,
-      "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
-      "producer_sprint": "POST-H-026-A",
       "freshness_policy": "required-marker",
+      "json_required": true,
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "producer_sprint": "POST-H-026-A",
       "required_markers": [
         "post-h-026-evidence-freshness",
         "post-h-026-install-smoke"
-      ]
+      ],
+      "title": "TCR v1 registers POST-H-026-A"
     },
     {
-      "evidence_id": "tcr-v2-registration",
-      "title": "TCR v2 registers POST-H-026-A",
-      "path": ".devpilot/testing/test_contract_registry_v2.json",
       "category": "test-contract",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "tcr-v2-registration",
       "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
-      "producer_sprint": "POST-H-026-A",
       "freshness_policy": "required-marker",
+      "json_required": true,
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "producer_sprint": "POST-H-026-A",
       "required_markers": [
         "post-h-026-evidence-freshness",
         "post-h-026-install-smoke"
-      ]
+      ],
+      "title": "TCR v2 registers POST-H-026-A"
     },
     {
-      "evidence_id": "production-ready-runtime-report",
-      "title": "Production-ready-local runtime report if generated locally",
-      "path": "outputs/reports/production_ready_local_report.json",
       "category": "runtime-report",
       "critical": false,
-      "runtime_optional": true,
-      "json_required": true,
+      "evidence_id": "production-ready-runtime-report",
       "expected_schema_id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-REPORT-V1",
+      "freshness_policy": "optional-runtime-schema-id",
+      "json_required": true,
+      "path": "outputs/reports/production_ready_local_report.json",
       "producer_sprint": "POST-H-025-E",
-      "freshness_policy": "optional-runtime-schema-id"
+      "runtime_optional": true,
+      "title": "Production-ready-local runtime report if generated locally"
     },
     {
-      "evidence_id": "release-candidate-profile-schema",
-      "title": "ReleaseCandidateVerificationProfile schema registered source file",
-      "path": "docs/schemas/release_candidate_verification_profile.schema.json",
       "category": "schema",
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "release-candidate-profile-schema",
       "expected_schema_id": "SCHEMA-DEVPL-RELEASE-CANDIDATE-VERIFICATION-PROFILE-V1",
-      "producer_sprint": "POST-H-026-B",
       "freshness_policy": "schema-id",
-      "json_required": true
+      "json_required": true,
+      "path": "docs/schemas/release_candidate_verification_profile.schema.json",
+      "producer_sprint": "POST-H-026-B",
+      "runtime_optional": false,
+      "title": "ReleaseCandidateVerificationProfile schema registered source file"
     },
     {
-      "evidence_id": "release-candidate-profile-contract",
-      "title": "RC profile command and docs are registered",
-      "path": ".devpilot/testing/test_profiles.json",
       "category": "test-profile",
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "release-candidate-profile-contract",
       "expected_schema_id": null,
-      "producer_sprint": "POST-H-026-B",
       "freshness_policy": "required-marker",
       "json_required": true,
+      "path": ".devpilot/testing/test_profiles.json",
+      "producer_sprint": "POST-H-026-B",
       "required_markers": [
         "release-candidate-local",
         "requires_approval_for_pytest",
         "allow_shell"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "RC profile command and docs are registered"
     },
     {
-      "evidence_id": "ui-api-rc-smoke-schema",
-      "title": "UiApiRcSmokeReport schema registered source file",
-      "path": "docs/schemas/ui_api_rc_smoke_report.schema.json",
       "category": "schema",
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "ui-api-rc-smoke-schema",
       "expected_schema_id": "SCHEMA-DEVPL-UI-API-RC-SMOKE-REPORT-V1",
-      "producer_sprint": "POST-H-026-C",
       "freshness_policy": "schema-id",
-      "json_required": true
+      "json_required": true,
+      "path": "docs/schemas/ui_api_rc_smoke_report.schema.json",
+      "producer_sprint": "POST-H-026-C",
+      "runtime_optional": false,
+      "title": "UiApiRcSmokeReport schema registered source file"
     },
     {
-      "evidence_id": "ui-api-rc-smoke-contract",
-      "title": "UI/API RC smoke command and contracts are registered",
-      "path": ".devpilot/testing/test_contract_registry_v2.json",
       "category": "test-contract",
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "ui-api-rc-smoke-contract",
       "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
-      "producer_sprint": "POST-H-026-C",
       "freshness_policy": "required-marker",
       "json_required": true,
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "producer_sprint": "POST-H-026-C",
       "required_markers": [
         "post-h-026-ui-api-rc-smoke",
         "release-candidate ui-api-smoke",
         "UiApiRcSmokeReport"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "UI/API RC smoke command and contracts are registered"
     },
     {
-      "evidence_id": "ui-api-rc-smoke-docs",
-      "title": "README/runbook document POST-H-026-C",
-      "path": "README.md",
       "category": "operator-docs",
       "critical": true,
-      "producer_sprint": "POST-H-026-C",
+      "evidence_id": "ui-api-rc-smoke-docs",
       "freshness_policy": "required-marker",
+      "path": "README.md",
+      "producer_sprint": "POST-H-026-C",
       "required_markers": [
         "POST-H-026-C — UI/API local smoke under RC",
         "release-candidate ui-api-smoke"
-      ]
+      ],
+      "title": "README/runbook document POST-H-026-C"
     },
     {
-      "evidence_id": "local-install-smoke-schema",
-      "title": "LocalInstallSmokeReport schema registered source file",
-      "path": "docs/schemas/local_install_smoke_report.schema.json",
       "category": "schema",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "local-install-smoke-schema",
       "expected_schema_id": "SCHEMA-DEVPL-LOCAL-INSTALL-SMOKE-REPORT-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": "docs/schemas/local_install_smoke_report.schema.json",
       "producer_sprint": "POST-H-026-D",
-      "freshness_policy": "schema-id"
+      "title": "LocalInstallSmokeReport schema registered source file"
     },
     {
-      "evidence_id": "local-install-smoke-contract",
-      "title": "TCR registers POST-H-026-D install smoke contract",
-      "path": ".devpilot/testing/test_contract_registry_v2.json",
       "category": "test-contract",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "local-install-smoke-contract",
       "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
-      "producer_sprint": "POST-H-026-D",
       "freshness_policy": "required-marker",
+      "json_required": true,
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "producer_sprint": "POST-H-026-D",
       "required_markers": [
         "post-h-026-install-smoke",
         "release-candidate install-smoke"
-      ]
+      ],
+      "title": "TCR registers POST-H-026-D install smoke contract"
     },
     {
-      "evidence_id": "local-install-smoke-docs",
-      "title": "Install smoke audit and manifest are present",
-      "path": "docs/audits/post_h_026_d_install_smoke_report.md",
       "category": "audit",
       "critical": true,
-      "producer_sprint": "POST-H-026-D",
+      "evidence_id": "local-install-smoke-docs",
       "freshness_policy": "required-marker",
+      "path": "docs/audits/post_h_026_d_install_smoke_report.md",
+      "producer_sprint": "POST-H-026-D",
       "required_markers": [
         "POST-H-026-D",
         "release-candidate install-smoke",
         "implemented-initial"
-      ]
+      ],
+      "title": "Install smoke audit and manifest are present"
     },
     {
+      "category": "schema",
+      "critical": true,
       "evidence_id": "local-release-candidate-criteria-schema",
-      "title": "LocalReleaseCandidateCriteria schema registered source file",
-      "path": "docs/schemas/local_release_candidate_criteria.schema.json",
-      "category": "schema",
-      "critical": true,
-      "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": "docs/schemas/local_release_candidate_criteria.schema.json",
       "producer_sprint": "POST-H-026-E",
-      "freshness_policy": "schema-id"
+      "title": "LocalReleaseCandidateCriteria schema registered source file"
     },
     {
-      "evidence_id": "local-release-candidate-report-schema",
-      "title": "LocalReleaseCandidateReport schema registered source file",
-      "path": "docs/schemas/local_release_candidate_report.schema.json",
       "category": "schema",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "local-release-candidate-report-schema",
       "expected_schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-REPORT-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": "docs/schemas/local_release_candidate_report.schema.json",
       "producer_sprint": "POST-H-026-E",
-      "freshness_policy": "schema-id"
+      "title": "LocalReleaseCandidateReport schema registered source file"
     },
     {
-      "evidence_id": "local-release-candidate-final-contract",
-      "title": "TCR registers POST-H-026-E final RC report contract",
-      "path": ".devpilot/testing/test_contract_registry_v2.json",
       "category": "test-contract",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "local-release-candidate-final-contract",
       "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
-      "producer_sprint": "POST-H-026-E",
       "freshness_policy": "required-marker",
+      "json_required": true,
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "producer_sprint": "POST-H-026-E",
       "required_markers": [
         "post-h-026-release-candidate-report",
         "release-candidate final",
         "LocalReleaseCandidateReport"
-      ]
+      ],
+      "title": "TCR registers POST-H-026-E final RC report contract"
     },
     {
-      "evidence_id": "local-release-candidate-final-docs",
-      "title": "Final RC closure audit and manifest are present",
-      "path": "docs/audits/post_h_026_e_release_candidate_closure_report.md",
       "category": "audit",
       "critical": true,
-      "producer_sprint": "POST-H-026-E",
+      "evidence_id": "local-release-candidate-final-docs",
       "freshness_policy": "required-marker",
+      "path": "docs/audits/post_h_026_e_release_candidate_closure_report.md",
+      "producer_sprint": "POST-H-026-E",
       "required_markers": [
         "POST-H-026-E",
         "release-candidate final",
         "LocalReleaseCandidateReport",
         "PASS/BLOCK"
-      ]
+      ],
+      "title": "Final RC closure audit and manifest are present"
     },
     {
+      "category": "schema",
+      "critical": true,
       "evidence_id": "source-zip-release-policy-schema",
-      "title": "SourceZipReleasePolicy schema registered source file",
-      "path": "docs/schemas/source_zip_release_policy.schema.json",
-      "category": "schema",
-      "critical": true,
-      "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": "docs/schemas/source_zip_release_policy.schema.json",
       "producer_sprint": "POST-H-027-A",
-      "freshness_policy": "schema-id"
+      "title": "SourceZipReleasePolicy schema registered source file"
     },
     {
-      "evidence_id": "source-zip-release-report-schema",
-      "title": "SourceZipReleaseReport schema registered source file",
-      "path": "docs/schemas/source_zip_release_report.schema.json",
       "category": "schema",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "source-zip-release-report-schema",
       "expected_schema_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-REPORT-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": "docs/schemas/source_zip_release_report.schema.json",
       "producer_sprint": "POST-H-027-A",
-      "freshness_policy": "schema-id"
+      "title": "SourceZipReleaseReport schema registered source file"
     },
     {
-      "evidence_id": "source-zip-release-policy-json",
-      "title": "Versioned source ZIP release policy",
-      "path": ".devpilot/release/source_zip_release_policy.json",
       "category": "release-policy",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "source-zip-release-policy-json",
       "expected_schema_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1",
-      "producer_sprint": "POST-H-027-A",
       "freshness_policy": "required-marker",
+      "json_required": true,
+      "path": ".devpilot/release/source_zip_release_policy.json",
+      "producer_sprint": "POST-H-027-A",
       "required_markers": [
         "POST-H-027-A",
         "local-source-zip-release",
         "SecretGuard"
-      ]
+      ],
+      "title": "Versioned source ZIP release policy"
     },
     {
-      "evidence_id": "source-zip-release-policy-contract",
-      "title": "TCR registers POST-H-027-A source ZIP policy contract",
-      "path": ".devpilot/testing/test_contract_registry_v2.json",
       "category": "test-contract",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "source-zip-release-policy-contract",
       "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
-      "producer_sprint": "POST-H-027-A",
       "freshness_policy": "required-marker",
+      "json_required": true,
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "producer_sprint": "POST-H-027-A",
       "required_markers": [
         "post-h-027-source-zip-policy",
         "package source-zip-policy",
         "SourceZipReleaseReport"
-      ]
+      ],
+      "title": "TCR registers POST-H-027-A source ZIP policy contract"
     },
     {
-      "evidence_id": "source-zip-release-policy-docs",
-      "title": "Source ZIP policy audit and manifest are present",
-      "path": "docs/audits/post_h_027_a_source_zip_policy_report.md",
       "category": "audit",
       "critical": true,
-      "producer_sprint": "POST-H-027-A",
+      "evidence_id": "source-zip-release-policy-docs",
       "freshness_policy": "required-marker",
+      "path": "docs/audits/post_h_027_a_source_zip_policy_report.md",
+      "producer_sprint": "POST-H-027-A",
       "required_markers": [
         "POST-H-027-A",
         "Source ZIP release policy",
         "implemented-initial"
-      ]
+      ],
+      "title": "Source ZIP policy audit and manifest are present"
     },
     {
-      "evidence_id": "post-h-027-b-python-artifact-install-schema",
-      "title": "POST-H-027-B Python artifact install verification schema is registered",
-      "path": "docs/schemas/python_artifact_install_verification.schema.json",
       "category": "schema",
       "critical": true,
-      "json_required": true,
+      "evidence_id": "post-h-027-b-python-artifact-install-schema",
       "expected_schema_id": "SCHEMA-DEVPL-PYTHON-ARTIFACT-INSTALL-VERIFICATION-V1",
+      "freshness_policy": "schema-id",
+      "json_required": true,
+      "path": "docs/schemas/python_artifact_install_verification.schema.json",
       "producer_sprint": "POST-H-027-B",
-      "freshness_policy": "schema-id"
+      "title": "POST-H-027-B Python artifact install verification schema is registered"
     },
     {
-      "evidence_id": "post-h-027-b-python-artifact-verify-module",
-      "title": "POST-H-027-B PythonArtifactInstallVerifier module is present",
-      "path": "src/devpilot_core/release/python_artifact_verify.py",
       "category": "source",
       "critical": true,
-      "producer_sprint": "POST-H-027-B",
+      "evidence_id": "post-h-027-b-python-artifact-verify-module",
       "freshness_policy": "required-marker",
+      "path": "src/devpilot_core/release/python_artifact_verify.py",
+      "producer_sprint": "POST-H-027-B",
       "required_markers": [
         "PythonArtifactInstallVerifier",
         "POST-H-027-B",
         "--no-index"
-      ]
+      ],
+      "title": "POST-H-027-B PythonArtifactInstallVerifier module is present"
     },
     {
-      "evidence_id": "post-h-027-b-audit-report",
-      "title": "POST-H-027-B audit report documents limitations and verification commands",
-      "path": "docs/audits/post_h_027_b_python_artifact_install_report.md",
       "category": "audit",
       "critical": true,
-      "producer_sprint": "POST-H-027-B",
+      "evidence_id": "post-h-027-b-audit-report",
       "freshness_policy": "required-marker",
+      "path": "docs/audits/post_h_027_b_python_artifact_install_report.md",
+      "producer_sprint": "POST-H-027-B",
       "required_markers": [
         "POST-H-027-B",
         "Wheel/sdist install verification",
         "python-artifact-verify"
-      ]
+      ],
+      "title": "POST-H-027-B audit report documents limitations and verification commands"
     },
     {
-      "evidence_id": "post-h-027-c-artifact-manifest-schema",
-      "title": "POST-H-027-C ReleaseArtifactManifest schema is present",
-      "path": "docs/schemas/release_artifact_manifest.schema.json",
       "category": "schema",
       "critical": true,
-      "producer_sprint": "POST-H-027-C",
+      "evidence_id": "post-h-027-c-artifact-manifest-schema",
       "freshness_policy": "required-marker",
+      "path": "docs/schemas/release_artifact_manifest.schema.json",
+      "producer_sprint": "POST-H-027-C",
       "required_markers": [
         "SCHEMA-DEVPL-RELEASE-ARTIFACT-MANIFEST-V1",
         "POST-H-027-C",
         "ReleaseArtifactManifest"
-      ]
+      ],
+      "title": "POST-H-027-C ReleaseArtifactManifest schema is present"
     },
     {
-      "evidence_id": "post-h-027-c-artifact-manifest-module",
-      "title": "POST-H-027-C artifact manifest module is present",
-      "path": "src/devpilot_core/release/artifact_manifest.py",
       "category": "source",
       "critical": true,
-      "producer_sprint": "POST-H-027-C",
+      "evidence_id": "post-h-027-c-artifact-manifest-module",
       "freshness_policy": "required-marker",
+      "path": "src/devpilot_core/release/artifact_manifest.py",
+      "producer_sprint": "POST-H-027-C",
       "required_markers": [
         "ReleaseArtifactManifestBuilder",
         "ReleaseArtifactManifestOptions",
         "POST-H-027-C"
-      ]
+      ],
+      "title": "POST-H-027-C artifact manifest module is present"
     },
     {
-      "evidence_id": "post-h-027-c-artifact-manifest-test",
-      "title": "POST-H-027-C artifact manifest tests are present",
-      "path": "tests/test_post_h_027_artifact_manifest_checksums.py",
       "category": "test",
       "critical": true,
-      "producer_sprint": "POST-H-027-C",
+      "evidence_id": "post-h-027-c-artifact-manifest-test",
       "freshness_policy": "required-marker",
+      "path": "tests/test_post_h_027_artifact_manifest_checksums.py",
+      "producer_sprint": "POST-H-027-C",
       "required_markers": [
         "test_release_artifact_manifest_passes_and_writes_checksums",
         "test_release_artifact_manifest_detects_checksum_mismatch"
-      ]
+      ],
+      "title": "POST-H-027-C artifact manifest tests are present"
     },
     {
-      "evidence_id": "post-h-027-d-windows-install-smoke-schema",
-      "title": "POST-H-027-D Windows install smoke schema",
-      "path": "docs/schemas/windows_install_smoke_report.schema.json",
       "category": "schema",
+      "checks": [],
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "post-h-027-d-windows-install-smoke-schema",
       "expected_schema_id": "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1",
-      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
-      "checks": []
+      "path": "docs/schemas/windows_install_smoke_report.schema.json",
+      "producer_sprint": "POST-H-027-E",
+      "runtime_optional": false,
+      "title": "POST-H-027-D Windows install smoke schema"
     },
     {
-      "evidence_id": "post-h-027-d-windows-install-smoke-module",
-      "title": "POST-H-027-D Windows install smoke module",
-      "path": "src/devpilot_core/release/windows_install_smoke.py",
       "category": "implementation",
+      "checks": [],
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "post-h-027-d-windows-install-smoke-module",
       "expected_schema_id": null,
-      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
-      "checks": []
+      "path": "src/devpilot_core/release/windows_install_smoke.py",
+      "producer_sprint": "POST-H-027-E",
+      "runtime_optional": false,
+      "title": "POST-H-027-D Windows install smoke module"
     },
     {
-      "evidence_id": "post-h-027-d-windows-install-guide",
-      "title": "POST-H-027-D Windows install guide",
-      "path": "docs/05_operations/install_guide.md",
       "category": "documentation",
+      "checks": [],
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "post-h-027-d-windows-install-guide",
       "expected_schema_id": null,
-      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
-      "checks": []
+      "path": "docs/05_operations/install_guide.md",
+      "producer_sprint": "POST-H-027-E",
+      "runtime_optional": false,
+      "title": "POST-H-027-D Windows install guide"
     },
     {
-      "evidence_id": "post-h-027-d-windows-install-smoke-test",
-      "title": "POST-H-027-D Windows install smoke tests",
-      "path": "tests/test_post_h_027_windows_install_smoke.py",
       "category": "test",
+      "checks": [],
       "critical": true,
-      "runtime_optional": false,
+      "evidence_id": "post-h-027-d-windows-install-smoke-test",
       "expected_schema_id": null,
-      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
-      "checks": []
+      "path": "tests/test_post_h_027_windows_install_smoke.py",
+      "producer_sprint": "POST-H-027-E",
+      "runtime_optional": false,
+      "title": "POST-H-027-D Windows install smoke tests"
     },
     {
-      "evidence_id": "post-h-eval-002-e2e-pilot-ui-first-runbook",
-      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK",
-      "path": "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
       "category": "evaluation-planning",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002",
+      "evidence_id": "post-h-eval-002-e2e-pilot-ui-first-runbook",
       "freshness_policy": "required-marker",
+      "path": "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+      "producer_sprint": "POST-H-EVAL-002",
       "required_markers": [
         "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK",
         "status: \"approved\"",
         "POST-H-EVAL-002"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
     },
     {
-      "evidence_id": "post-h-eval-002-pilot-roadmap",
-      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-PILOT-ROADMAP",
-      "path": "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
       "category": "evaluation-planning",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002",
+      "evidence_id": "post-h-eval-002-pilot-roadmap",
       "freshness_policy": "required-marker",
+      "path": "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+      "producer_sprint": "POST-H-EVAL-002",
       "required_markers": [
         "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP",
         "status: \"approved\"",
         "POST-H-EVAL-002"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
     },
     {
-      "evidence_id": "post-h-eval-002-01-backlog",
-      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-01-BACKLOG",
-      "path": "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
       "category": "evaluation-planning",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002",
+      "evidence_id": "post-h-eval-002-01-backlog",
       "freshness_policy": "required-marker",
+      "path": "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+      "producer_sprint": "POST-H-EVAL-002",
       "required_markers": [
         "DEVPL-POST-H-EVAL-002-01-BACKLOG",
         "status: \"approved\"",
         "POST-H-EVAL-002"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-01-BACKLOG"
     },
     {
-      "evidence_id": "post-h-eval-002-02-backlog",
-      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-02-BACKLOG",
-      "path": "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
       "category": "evaluation-planning",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002",
+      "evidence_id": "post-h-eval-002-02-backlog",
       "freshness_policy": "required-marker",
+      "path": "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+      "producer_sprint": "POST-H-EVAL-002",
       "required_markers": [
         "DEVPL-POST-H-EVAL-002-02-BACKLOG",
         "status: \"approved\"",
         "POST-H-EVAL-002"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-02-BACKLOG"
     },
     {
-      "evidence_id": "post-h-eval-002-03-backlog",
-      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-03-BACKLOG",
-      "path": "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
       "category": "evaluation-planning",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002",
+      "evidence_id": "post-h-eval-002-03-backlog",
       "freshness_policy": "required-marker",
+      "path": "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
+      "producer_sprint": "POST-H-EVAL-002",
       "required_markers": [
         "DEVPL-POST-H-EVAL-002-03-BACKLOG",
         "status: \"approved\"",
         "POST-H-EVAL-002"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002 canonical source: DEVPL-POST-H-EVAL-002-03-BACKLOG"
     },
     {
-      "evidence_id": "post-h-eval-002-01-d-acceptance-readiness",
-      "title": "POST-H-EVAL-002-01-D acceptance readiness report",
-      "path": "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
       "category": "evaluation-readiness",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002-01-D",
+      "evidence_id": "post-h-eval-002-01-d-acceptance-readiness",
       "freshness_policy": "required-marker",
+      "path": "docs/audits/post_h_eval_002_01_d_acceptance_readiness_report.md",
+      "producer_sprint": "POST-H-EVAL-002-01-D",
       "required_markers": [
         "POST-H-EVAL-002-01-D-ACCEPTANCE-READINESS",
         "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE",
         "EVAL-002-01-D-S1-001",
         "EVAL-002-01-D-S1-002"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002-01-D acceptance readiness report"
     },
     {
-      "evidence_id": "post-h-eval-002-01-d-preparation-manifest",
-      "title": "POST-H-EVAL-002-01-D active preparation manifest",
-      "path": "docs/post_h_eval_002_01_d_preparation_manifest.json",
       "category": "evaluation-readiness",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002-01-D",
+      "evidence_id": "post-h-eval-002-01-d-preparation-manifest",
       "freshness_policy": "json-field-match",
       "json_fields": {
+        "decision": "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE",
         "manifest_id": "POST-H-EVAL-002-01-D-PREPARATION-MANIFEST",
         "status": "active",
-        "target_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip",
-        "decision": "IMPLEMENTED-PENDING-WINDOWS-BROWSER-EVIDENCE"
-      }
+        "target_repo": "repo_DevPilot_Local_324_POST_H_EVAL_002_01_D_RUNTIME_CORRECTIVE.zip"
+      },
+      "path": "docs/post_h_eval_002_01_d_preparation_manifest.json",
+      "producer_sprint": "POST-H-EVAL-002-01-D",
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002-01-D active preparation manifest"
     },
     {
-      "evidence_id": "post-h-eval-002-01-d-governance-closure-327-report",
-      "title": "POST-H-EVAL-002-01-D authoritative governance closure report",
-      "path": "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
       "category": "evaluation-closure",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+      "evidence_id": "post-h-eval-002-01-d-governance-closure-327-report",
       "freshness_policy": "required-marker",
+      "path": "docs/audits/post_h_eval_002_01_d_governance_closure_327_report.md",
+      "producer_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
       "required_markers": [
         "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
         "closed/PASS-authoritative-rerun03",
         "POST-H-EVAL-002-02-A"
-      ]
+      ],
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002-01-D authoritative governance closure report"
     },
     {
-      "evidence_id": "post-h-eval-002-01-d-governance-closure-327-manifest",
-      "title": "POST-H-EVAL-002-01-D governance closure machine-readable manifest",
-      "path": "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
       "category": "evaluation-closure",
       "critical": true,
-      "runtime_optional": false,
-      "producer_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+      "evidence_id": "post-h-eval-002-01-d-governance-closure-327-manifest",
       "freshness_policy": "json-field-match",
       "json_fields": {
+        "decision": "PASS-EVIDENCE/IMPLEMENTED-PENDING-FULL-REGRESSION",
         "manifest_id": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
         "status": "implemented-pending-windows-validation",
-        "target_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip",
-        "decision": "PASS-EVIDENCE/IMPLEMENTED-PENDING-FULL-REGRESSION"
-      }
+        "target_repo": "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+      },
+      "path": "docs/post_h_eval_002_01_d_governance_closure_327_manifest.json",
+      "producer_sprint": "POST-H-EVAL-002-01-D-GOVERNANCE-CLOSURE-327",
+      "runtime_optional": false,
+      "title": "POST-H-EVAL-002-01-D governance closure machine-readable manifest"
     },
     {
+      "category": "uoc-003",
+      "critical": true,
       "evidence_id": "uoc-003-manifest",
-      "title": "UOC-003 validation and traceability manifest",
-      "path": "docs/post_h_eval_002_uoc_003_manifest.json",
-      "category": "uoc-003",
-      "critical": true,
-      "json_required": true,
-      "expected_schema_id": "devpilot.post_h_eval_002.uoc_003.manifest.v1",
-      "producer_sprint": "UOC-003",
-      "freshness_policy": "contextual-field-match",
       "expected_fields": {
-        "status": "closed",
         "closed": true,
-        "decision": "PASS"
-      }
+        "decision": "PASS",
+        "status": "closed"
+      },
+      "expected_schema_id": "devpilot.post_h_eval_002.uoc_003.manifest.v1",
+      "freshness_policy": "contextual-field-match",
+      "json_required": true,
+      "path": "docs/post_h_eval_002_uoc_003_manifest.json",
+      "producer_sprint": "UOC-003",
+      "title": "UOC-003 validation and traceability manifest"
     },
     {
-      "evidence_id": "uoc-003-implementation-report",
-      "title": "UOC-003 implementation report",
-      "path": "docs/audits/uoc_003_validation_traceability_report.md",
       "category": "uoc-003",
       "critical": true,
+      "evidence_id": "uoc-003-implementation-report",
+      "freshness_policy": "status-marker",
       "json_required": false,
+      "path": "docs/audits/uoc_003_validation_traceability_report.md",
       "producer_sprint": "UOC-003",
-      "freshness_policy": "status-marker"
+      "title": "UOC-003 implementation report"
     }
   ],
+  "expected_current_micro_sprint": "POST-H-EVAL-002-02-B",
+  "expected_current_repo": "repo_DevPilot_Local_339_POST_H_EVAL_002_UOC_011.zip",
+  "expected_last_completed_sprint": "POST-H-034",
+  "expected_next_micro_sprint": "POST-H-EVAL-002-02-C",
+  "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
+  "freshness_policy": "contextual-signature",
+  "no_go_gates": {
+    "compliance_certification_claim": false,
+    "connector_write_enabled": false,
+    "enterprise_ready_claim": false,
+    "external_apis_required": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false,
+    "remote_ready_claim": false,
+    "saas_ready_claim": false
+  },
+  "preliminary": true,
   "schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1",
+  "schema_version": "1.0",
+  "scope": "local-release-candidate",
+  "status": "closed",
   "uoc_003_candidate_repo": "repo_DevPilot_Local_331_POST_H_EVAL_002_UOC_003.zip",
-  "uoc_003_status": "closed/PASS",
-  "uoc_003_source_write_enabled": false,
   "uoc_003_runtime_evidence_only": true,
-  "uoc_004_candidate_repo": "repo_DevPilot_Local_332_CANDIDATE_POST_H_EVAL_002_UOC_004.zip",
-  "uoc_004_status": "closed/PASS",
-  "uoc_004_source_write_enabled": false,
-  "uoc_004_plan_only": true,
-  "uoc_005_authorized": true,
+  "uoc_003_source_write_enabled": false,
+  "uoc_003_status": "closed/PASS",
   "uoc_004_authoritative_baseline": "repo_DevPilot_Local_332_POST_H_EVAL_002_UOC_004.zip",
-  "uoc_004_source_commit": "88ae91c316885e13b73382349520b13bb764b32d"
+  "uoc_004_candidate_repo": "repo_DevPilot_Local_332_CANDIDATE_POST_H_EVAL_002_UOC_004.zip",
+  "uoc_004_plan_only": true,
+  "uoc_004_source_commit": "88ae91c316885e13b73382349520b13bb764b32d",
+  "uoc_004_source_write_enabled": false,
+  "uoc_004_status": "closed/PASS",
+  "uoc_005_authorized": true,
+  "updated": "2026-08-12"
 }
