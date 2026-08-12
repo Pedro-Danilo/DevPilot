@@ -3026,3 +3026,5 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 - Next baseline `repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip`; UOC-010 authorized.
 
 - UOC-010 candidate: `/ai` RAG/agents/tools/handoffs governed console, four typed local adapters, mock mandatory, local-provider opt-in, external API blocked, citations/freshness/insufficient-evidence, memory opt-in and bounded supervisor handoffs.
+
+- UOC-010 CLOSED/PASS: governed `/ai` RAG/mock-local agents/tool contracts/supervised handoffs; UOC-011 authorized.

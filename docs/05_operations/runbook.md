@@ -11848,3 +11848,6 @@ CLOSED/PASS sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. `/quality` usa IDs
 ## UOC-010 — IA / RAG
 
 `/ai` usa únicamente perfiles tipados. `mock` es la ruta obligatoria de aceptación. Providers locales requieren habilitación explícita localhost-only; providers externos no se habilitan. Las operaciones sensibles requieren Approval Center. La memoria es opt-in, redactada y no cuenta como evidencia formal. La ejecución se observa desde Job Console.
+
+## UOC-010 closure
+UOC-010 is CLOSED/PASS. `/ai` remains local-first; mock is mandatory, local models are opt-in, external APIs/tools/connectors/plugins/remote execution remain disabled by default. UOC-011 is authorized.

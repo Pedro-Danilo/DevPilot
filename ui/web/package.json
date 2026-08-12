@@ -240,8 +240,9 @@
     "uoc009FullRegressionExplicitConfirmation": true,
     "uoc010Authorized": true,
     "qualityOperationsRoute": "ui.quality",
-    "uoc010Status": "implemented-initial/pending-windows-browser-closure",
-    "uoc010AiConsole": true
+    "uoc010Status": "closed/PASS",
+    "uoc010AiConsole": true,
+    "uoc011Authorized": true
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

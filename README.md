@@ -6314,3 +6314,5 @@ Quality/Tests/Release cerró sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. F
 ### UOC-010 — IA / RAG gobernados
 
 La Web UI incorpora `/ai` como primera versión local-first para RAG citado, agentes mock/local opt-in, memoria redactada opt-in y handoffs supervisados. APIs externas, tools genéricas, connector write, plugins, remote execution y loops autónomos permanecen deshabilitados.
+
+- UOC-010: CLOSED/PASS — governed RAG, mock/local agents, contract-only tools and supervised bounded handoffs; UOC-011 authorized.

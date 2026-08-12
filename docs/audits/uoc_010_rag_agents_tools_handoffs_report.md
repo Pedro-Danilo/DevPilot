@@ -32,3 +32,6 @@ Se implementa una primera versión de `/ai` con cuatro adapters tipados (`rag-in
 ## B1 Windows recovery reconciliation v1.0.1
 
 La primera verificación Windows detectó dos clases de defectos previos al cierre: (1) el launcher npm del operador no preservaba correctamente una ruta `npm.cmd` bajo `C:\Program Files`; (2) cinco artefactos globales UOC-010 quedaron parcialmente desincronizados (puntero `last_registered_sprint`, `schemas_total`, mapping `ui.ai`, metadata top-level no permitida en operational flags y `currentSprint`). La recuperación v1.0.1 corrige esas inconsistencias sin ampliar el alcance funcional del sprint y sin repetir `pytest -q`; los tests históricos afectados se vuelven a ejecutar de forma focal.
+
+## Authoritative closure
+Windows/browser/canonical closure: **PASS**. UOC-011 authorized; S0=0/S1=0.

@@ -1197,3 +1197,5 @@ UOC-009 **CLOSED/PASS** sobre source commit `e6b2cf8a3b2a5b308431e87b4176d95afb7
 ## UOC-010 implementation note
 
 Candidate `implemented-initial`: `/ai` exposes four typed local adapters over existing RAG/AgentRuntime/MultiAgent infrastructure. Mock is mandatory, local models remain opt-in, external APIs remain disabled, memory is opt-in/non-evidence and generic tool execution remains blocked. UOC-011 is not authorized until Windows/browser closure.
+
+<!-- UOC-010 authoritative closure: CLOSED/PASS; UOC-011 authorized -->

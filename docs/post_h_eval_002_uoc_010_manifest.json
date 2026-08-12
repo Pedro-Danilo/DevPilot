@@ -1,13 +1,13 @@
 {
   "schema_id": "devpilot.post_h_eval_002.uoc_010.manifest.v1",
   "sprint": "UOC-010",
-  "status": "implemented-initial/pending-windows-browser-closure",
+  "status": "closed/PASS",
   "input_repo": "repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip",
   "input_repo_sha256": "4832eb5a058940a40458eea97c93104f4fa9ac05ebf3cadd9874694797d64a24",
-  "output_repo": null,
-  "source_commit": null,
+  "output_repo": "repo_DevPilot_Local_338_POST_H_EVAL_002_UOC_010.zip",
+  "source_commit": "d9e38378d3eaca4e7408c8c40585f03c6f74dac2",
   "closure_commit": null,
-  "uoc_011_authorized": false,
+  "uoc_011_authorized": true,
   "implementation_maturity": "implemented-initial",
   "ui_route": "/ai",
   "typed_capabilities": [
@@ -45,5 +45,7 @@
   "source_paths_total": 52,
   "recovery_files_total": 7,
   "npm_windows_program_files_portability_fix": true,
-  "historical_contract_reconciliation": "source-of-truth synchronization; historical tests unchanged"
+  "historical_contract_reconciliation": "source-of-truth synchronization; historical tests unchanged",
+  "browser_acceptance": "PASS",
+  "closure_verification": "PASS"
 }
