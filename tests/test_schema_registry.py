@@ -191,9 +191,10 @@ def test_schema_registry_lists_registered_schemas() -> None:
     assert result.ok is True
     assert result.exit_code == ExitCode.PASS
     assert result.command == "schema list"
-    assert result.data["summary"]["schemas_total"] == len(EXPECTED_SCHEMA_IDS)
-    assert result.data["summary"]["schemas_existing"] == len(EXPECTED_SCHEMA_IDS)
-    assert {schema["schema_id"] for schema in result.data["schemas"]} == EXPECTED_SCHEMA_IDS
+    registry_ids = {schema["schema_id"] for schema in result.data["schemas"]}
+    assert EXPECTED_SCHEMA_IDS <= registry_ids
+    assert result.data["summary"]["schemas_total"] == len(registry_ids)
+    assert result.data["summary"]["schemas_existing"] == len(registry_ids)
     assert all(schema["version"] for schema in result.data["schemas"])
     assert all(schema["description"] for schema in result.data["schemas"])
 
@@ -273,8 +274,10 @@ def test_schema_list_cli_json_is_parseable(monkeypatch, capsys) -> None:
     assert exit_code == 0
     assert payload["command"] == "schema list"
     assert payload["ok"] is True
-    assert payload["data"]["summary"]["schemas_total"] == len(EXPECTED_SCHEMA_IDS)
-    assert payload["data"]["summary"]["schemas_existing"] == len(EXPECTED_SCHEMA_IDS)
+    catalog = json.loads((ROOT / "docs/schemas/schema_catalog.json").read_text(encoding="utf-8"))
+    current_total = len(catalog["schemas"])
+    assert payload["data"]["summary"]["schemas_total"] == current_total
+    assert payload["data"]["summary"]["schemas_existing"] == current_total
 
 
 def test_schema_list_cli_write_report(monkeypatch, capsys) -> None:

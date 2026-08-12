@@ -1,0 +1,525 @@
+{
+  "schema_id": "SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1",
+  "schema_version": "1.0",
+  "matrix_id": "uoc011-browser-state-matrix",
+  "status": "implemented-initial",
+  "created_by": "UOC-011",
+  "updated": "2026-08-12",
+  "required_states": [
+    "loading",
+    "empty",
+    "ready",
+    "warn",
+    "block",
+    "error",
+    "api_down",
+    "unauthorized",
+    "forbidden",
+    "timeout",
+    "cancelled",
+    "stale_data"
+  ],
+  "routes": [
+    {
+      "route_id": "ui.dashboard",
+      "path": "/",
+      "label": "Dashboard",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.workspace-documents",
+      "path": "/workspace/documents",
+      "label": "Documentos",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.reports",
+      "path": "/reports",
+      "label": "Reports",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.traces",
+      "path": "/traces",
+      "label": "Traces",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.approvals",
+      "path": "/approvals",
+      "label": "Approval Center",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.jobs",
+      "path": "/jobs",
+      "label": "Jobs",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.quality",
+      "path": "/quality",
+      "label": "Quality/Tests",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.ai",
+      "path": "/ai",
+      "label": "IA/RAG",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    },
+    {
+      "route_id": "ui.settings",
+      "path": "/settings",
+      "label": "Configuration",
+      "states": {
+        "loading": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "empty": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "ready": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "warn": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "block": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "error": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "api_down": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "unauthorized": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "forbidden": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "timeout": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "cancelled": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        },
+        "stale_data": {
+          "required": true,
+          "evidence": "browser-or-contract"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "routes_total": 9,
+    "states_per_route": 12,
+    "cases_total": 108
+  },
+  "preliminary": true
+}

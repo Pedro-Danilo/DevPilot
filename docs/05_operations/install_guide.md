@@ -245,3 +245,8 @@ El comando es plan-only: no llama `pip`, no crea venvs, no modifica archivos y n
 - Firma de instaladores.
 - Instalador desktop real si se aprueba en una fase futura.
 - Política de distribución externa.
+
+
+## UOC-011 release gate
+
+Clean-install verification is a mandatory UOC-011 closure gate. The sprint does not authorize network installers or remote dependencies.

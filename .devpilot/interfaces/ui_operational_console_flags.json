@@ -4,8 +4,8 @@
   "registry_id": "devpilot-ui-operational-console-flags",
   "created_by": "UOC-000",
   "status": "approved",
-  "version": "1.9.0",
-  "updated": "2026-08-11",
+  "version": "2.0.0",
+  "updated": "2026-08-12",
   "default_mode": "disabled-until-sprint-gate",
   "feature_flags": [
     {
@@ -87,6 +87,14 @@
       "requires_restart": false,
       "enabled_by": "UOC-010",
       "notes": "Implemented-initial /ai local-first AI console: RAG citations/freshness, mock/local opt-in agents, redacted memory opt-in, contract-only tools and supervised bounded handoffs. External API remains disabled."
+    },
+    {
+      "flag_id": "uoc.operational_hardening_release",
+      "enabled": true,
+      "owner_sprint": "UOC-011",
+      "requires_restart": true,
+      "enabled_by": "UOC-011",
+      "notes": "Final local operational hardening: CSP/security headers, bounded token session, rate/size limits, WCAG-oriented keyboard/focus, responsive/performance budgets, 9x12 browser state matrix, backup/install/upgrade verification and release support."
     }
   ],
   "kill_switches": [
@@ -190,6 +198,14 @@
     "uoc_010_memory_counts_as_formal_evidence": false,
     "uoc_010_generic_tool_execution_enabled": false,
     "uoc_010_max_agent_turns": 1,
-    "uoc_010_max_handoff_steps": 3
+    "uoc_010_max_handoff_steps": 3,
+    "uoc_011_authorized": true,
+    "uoc_011_operational_hardening_enabled": true,
+    "uoc_011_csp_enabled": true,
+    "uoc_011_request_body_limit_bytes": 1048576,
+    "uoc_011_rate_limit_requests_per_minute": 600,
+    "uoc_011_token_session_ttl_seconds": 28800,
+    "uoc_011_browser_matrix_cases_total": 108,
+    "uoc_011_release_candidate_declared": false
   }
 }

@@ -204,3 +204,8 @@ python -m pytest tests/test_sprint_64_documentation.py -q
 - bloqueo de host remoto desde CLI.
 
 Limitación: este control reduce exposición accidental local, pero no reemplaza RBAC, TLS, sesiones, multiusuario ni hardening de una Web UI real pública.
+
+
+## UOC-011 final local hardening
+
+UOC-011 adds bounded request size/rate, browser token maximum age, local CSP/security headers and a 9×12 browser failure-state matrix. See `docs/03_security/uoc_011_operational_threat_model.md`.

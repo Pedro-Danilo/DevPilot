@@ -1,0 +1,7 @@
+import fs from 'node:fs'; import path from 'node:path'; import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'); const src=path.join(root,'src');
+function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);}
+const files=walk(src).filter(p=>/\.(ts|css)$/.test(p)); const bytes=files.reduce((n,p)=>n+fs.statSync(p).size,0); const largest=Math.max(...files.map(p=>fs.statSync(p).size));
+let build={available:false,js_bytes:0,css_bytes:0}; const assets=path.join(root,'dist','assets'); if(fs.existsSync(assets)){build.available=true; for(const p of walk(assets)){const s=fs.statSync(p).size;if(p.endsWith('.js'))build.js_bytes+=s;if(p.endsWith('.css'))build.css_bytes+=s;}}
+const checks={source_ui_total:bytes<=524288,single_source_file:largest<=65536,build_js:!build.available||build.js_bytes<=786432,build_css:!build.available||build.css_bytes<=131072}; const failed=Object.entries(checks).filter(([,v])=>!v).map(([k])=>k);
+console.log(JSON.stringify({schema_id:'devpilot.uoc011.performance_smoke.v1',status:failed.length?'BLOCK':'PASS',metrics:{source_ui_bytes:bytes,largest_source_bytes:largest,...build},budgets:{source_ui_max:524288,single_source_max:65536,build_js_max:786432,build_css_max:131072},checks,failed},null,2)); process.exit(failed.length?2:0);

@@ -2,17 +2,17 @@
 doc_id: "DEVPL-POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-EVOLUTION"
 title: "POST-H-EVAL-002 — UI Operational Console Evolution"
 status: "approved"
-version: "1.13.0"
+version: "1.14.0"
 owner: "Ordóñez"
-updated: "2026-08-11"
+updated: "2026-08-12"
 approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-009-closed/PASS"
-current_sprint: "UOC-010"
-next_sprint: "UOC-010"
-completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008,UOC-009"
+implementation_status: "UOC-010-closed/PASS; UOC-011-implemented-initial/pending-windows-closure"
+current_sprint: "UOC-011"
+next_sprint: "UOC-011"
+completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008,UOC-009,UOC-010"
 uoc_001_status: "UOC-001-closed/PASS"
 uoc_002_status: "UOC-002-closed/PASS"
 canonical_branch: "eval/post-h-eval-002-02-a-onboarding"
@@ -46,14 +46,16 @@ uoc_007_implementation_status: "closed/PASS"
 uoc_008_authorized: true
 uoc_008_implementation_status: "closed/PASS"
 uoc_009_authorized: true
-uoc_009_implementation_status: "implemented-initial/pending-windows-browser-closure"
-uoc_010_authorized: false
+uoc_009_implementation_status: "closed/PASS"
+uoc_010_authorized: true
 uoc_006_authorized: true
 uoc_003_implementation_status: "closed/PASS"
 uoc_003_browser_ux_corrective_status: "closed/PASS-v1.0.5"
 uoc_004_browser_export_feedback_status: "closed/PASS-v1.0.3"
+uoc_010_implementation_status: "closed/PASS"
+uoc_011_authorized: true
+uoc_011_implementation_status: "implemented-initial/pending-windows-closure"
 ---
-
 
 # POST-H-EVAL-002 — UI Operational Console Evolution
 
@@ -1199,3 +1201,6 @@ UOC-009 **CLOSED/PASS** sobre source commit `e6b2cf8a3b2a5b308431e87b4176d95afb7
 Candidate `implemented-initial`: `/ai` exposes four typed local adapters over existing RAG/AgentRuntime/MultiAgent infrastructure. Mock is mandatory, local models remain opt-in, external APIs remain disabled, memory is opt-in/non-evidence and generic tool execution remains blocked. UOC-011 is not authorized until Windows/browser closure.
 
 <!-- UOC-010 authoritative closure: CLOSED/PASS; UOC-011 authorized -->
+
+
+<!-- UOC-011 implementation candidate: operational hardening materialized from repo338; authoritative closure pending Windows evidence. -->

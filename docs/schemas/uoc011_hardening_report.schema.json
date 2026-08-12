@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UOC011-HARDENING-REPORT-V1",
+  "title": "UOC-011 Hardening Report",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "status",
+    "checks",
+    "summary",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-UOC011-HARDENING-REPORT-V1"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "check_id",
+          "status"
+        ],
+        "properties": {
+          "check_id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "BLOCK"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "summary": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UOC011-HARDENING-REPORT-V1",
+  "x-devpilot-sprint": "UOC-011",
+  "x-devpilot-status": "registered"
+}

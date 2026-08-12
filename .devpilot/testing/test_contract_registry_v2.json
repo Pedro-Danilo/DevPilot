@@ -18054,6 +18054,102 @@
         "scope": "UOC-010 local RAG/agent/handoff runtime outputs only",
         "rollback_or_cleanup": "Delete outputs/runtime/uoc010_ai, outputs/evidence_packages/uoc010_ai and .devpilot/agents/memory; source remains unchanged."
       }
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-011-operational-hardening",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-eval-002-uoc-011-operational-hardening",
+      "domain": "product.ui",
+      "capability": "OperationalHardeningAccessibilityPerformanceRelease",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "manual",
+      "cost_class": "high",
+      "expected_duration_seconds": 900,
+      "test_files": [
+        "tests/test_uoc011_api_hardening.py",
+        "tests/test_uoc011_ui_accessibility_performance.py",
+        "tests/test_uoc011_release_hardening.py",
+        "tests/test_post_h_eval_002_uoc_011_contracts.py",
+        "tests/test_api_security.py",
+        "tests/test_post_h_028_api_contract_drift_guard.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_backup_upgrade.py",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/uoc011_hardening.py",
+        "src/devpilot_core/release/uoc011_hardening.py",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "ui/web/vite.config.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/interfaces/uoc011_operational_hardening_profile.json",
+        ".devpilot/interfaces/uoc011_browser_state_matrix.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_011_manifest.json",
+        "docs/03_security/uoc_011_operational_threat_model.md",
+        "docs/05_operations/uoc_011_release_operator_runbook.md",
+        "docs/release/uoc_011_release_notes.md",
+        "docs/audits/uoc_011_hardening_accessibility_performance_release_report.md"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/uoc011_hardening.py",
+        "src/devpilot_core/release/uoc011_hardening.py",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "ui/web/vite.config.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/interfaces/uoc011_operational_hardening_profile.json",
+        ".devpilot/interfaces/uoc011_browser_state_matrix.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_011_manifest.json"
+      ],
+      "trigger_hints": [
+        "uoc-011-hardening-change",
+        "security-header-change",
+        "ui-accessibility-change",
+        "release-process-change"
+      ],
+      "impact_scope": [
+        "security",
+        "ui",
+        "accessibility",
+        "performance",
+        "release",
+        "backup-restore",
+        "install",
+        "upgrade-rollback",
+        "api-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "UOC-011",
+      "recommended_commands": [
+        "python -m pytest tests/test_uoc011_api_hardening.py tests/test_uoc011_ui_accessibility_performance.py tests/test_uoc011_release_hardening.py tests/test_post_h_eval_002_uoc_011_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Final hardening remains local-first and does not enable remote/external/connector/plugin execution.",
+        "Windows browser/build/install/upgrade acceptance remains authoritative for closure."
+      ],
+      "owner_domain": "product.ui",
+      "service_boundary": "interface+release",
+      "subgate_id": "uoc-011-operational-hardening",
+      "schema_ids": [
+        "SCHEMA-DEVPL-UOC011-OPERATIONAL-HARDENING-PROFILE-V1",
+        "SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1",
+        "SCHEMA-DEVPL-UOC011-HARDENING-REPORT-V1"
+      ]
     }
   ],
   "migration_metadata": {

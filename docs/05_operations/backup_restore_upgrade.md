@@ -174,3 +174,8 @@ Para nivel industrial posterior se recomienda agregar:
 - verificación post-restore;
 - integración con ReleaseAgent;
 - política explícita para incluir o excluir secretos reales según entorno.
+
+
+## UOC-011 release gate
+
+Backup/restore dry-run and upgrade/rollback dry-run are mandatory before the final local release declaration. Destructive restore remains confirmation-gated.

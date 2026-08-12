@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.15.0-post-h-eval-002-uoc-010",
+  "version": "0.16.0-post-h-eval-002-uoc-011",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — UOC-010 governed RAG, agents, tools and handoffs.",
+  "description": "DevPilot Local Web UI — UOC-011 operational hardening, accessibility, performance and release.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -16,7 +16,10 @@
     "test:acceptance-corrective": "node scripts/acceptance-corrective.mjs",
     "test:runtime-corrective": "node scripts/runtime-corrective-contract.mjs",
     "test:browser-acceptance-corrective-325": "node scripts/browser-acceptance-corrective-325.mjs",
-    "test:run05b-integral-corrective-326": "node scripts/run05b-integral-corrective-326.mjs"
+    "test:run05b-integral-corrective-326": "node scripts/run05b-integral-corrective-326.mjs",
+    "test:accessibility": "node scripts/uoc011-accessibility-smoke.mjs",
+    "test:performance": "node scripts/uoc011-performance-smoke.mjs",
+    "test:state-matrix": "node scripts/uoc011-state-matrix-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -178,7 +181,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "POST-H-EVAL-002-UOC-010",
+    "currentSprint": "UOC-011",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -189,7 +192,7 @@
     "uoc002PreliminaryReadOnly": true,
     "uoc002Status": "closed/PASS",
     "postHEvolution": true,
-    "postHEvolutionCurrent": "POST-H-EVAL-002-UOC-010",
+    "postHEvolutionCurrent": "UOC-011",
     "runtimeArtifactsVersioned": false,
     "uoc003ValidationTraceability": true,
     "uoc003SourceReadOnly": true,
@@ -242,7 +245,14 @@
     "qualityOperationsRoute": "ui.quality",
     "uoc010Status": "closed/PASS",
     "uoc010AiConsole": true,
-    "uoc011Authorized": true
+    "uoc011Authorized": true,
+    "postHEval002Uoc011": true,
+    "uoc011OperationalHardening": true,
+    "uoc011TokenSessionTtlSeconds": 28800,
+    "uoc011BrowserStateMatrixCases": 108,
+    "uoc011AccessibilitySmoke": true,
+    "uoc011PerformanceSmoke": true,
+    "uoc011ReleaseCandidate": false
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

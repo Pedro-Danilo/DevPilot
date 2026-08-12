@@ -10191,6 +10191,55 @@
       "recommended_commands": [
         "python -m pytest tests/test_ai_operations_service.py tests/test_api_ai_operations.py tests/test_web_ui_ai_operations.py tests/test_post_h_eval_002_uoc_010_contracts.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-eval-002-uoc-011-operational-hardening",
+      "scope": "integration",
+      "owner": "UOC-011",
+      "phase": "POST-H-EVAL-002",
+      "test_files": [
+        "tests/test_uoc011_api_hardening.py",
+        "tests/test_uoc011_ui_accessibility_performance.py",
+        "tests/test_uoc011_release_hardening.py",
+        "tests/test_post_h_eval_002_uoc_011_contracts.py",
+        "tests/test_api_security.py",
+        "tests/test_post_h_028_api_contract_drift_guard.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_backup_upgrade.py",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/uoc011_hardening.py",
+        "src/devpilot_core/release/uoc011_hardening.py",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "ui/web/vite.config.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/interfaces/uoc011_operational_hardening_profile.json",
+        ".devpilot/interfaces/uoc011_browser_state_matrix.json",
+        ".devpilot/project_state.json",
+        "docs/post_h_eval_002_uoc_011_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/",
+        "src/devpilot_core/release/",
+        "ui/web/",
+        ".devpilot/interfaces/",
+        ".devpilot/project_state.json",
+        "docs/03_security/",
+        "docs/05_operations/",
+        "docs/release/",
+        "docs/post_h_eval_002_uoc_011_manifest.json",
+        "tests/test_post_h_eval_002_uoc_011_contracts.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_uoc011_api_hardening.py tests/test_uoc011_ui_accessibility_performance.py tests/test_uoc011_release_hardening.py tests/test_post_h_eval_002_uoc_011_contracts.py -q"
+      ]
     }
   ],
   "notes": [

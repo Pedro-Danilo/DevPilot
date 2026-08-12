@@ -2488,7 +2488,58 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-010"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC011-OPERATIONAL-HARDENING-PROFILE-V1",
+      "title": "UOC-011 Operational Hardening Profile",
+      "version": "1.0.0",
+      "path": "docs/schemas/uoc011_operational_hardening_profile.schema.json",
+      "description": "UOC-011 contract: UOC-011 Operational Hardening Profile.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "UOC-011",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "Uoc011OperationalHardeningProfile",
+      "validation_enabled_sprint": "UOC-011",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1",
+      "title": "UOC-011 Browser State Matrix",
+      "version": "1.0.0",
+      "path": "docs/schemas/uoc011_browser_state_matrix.schema.json",
+      "description": "UOC-011 contract: UOC-011 Browser State Matrix.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "UOC-011",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "Uoc011BrowserStateMatrix",
+      "validation_enabled_sprint": "UOC-011",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UOC011-HARDENING-REPORT-V1",
+      "title": "UOC-011 Hardening Report",
+      "version": "1.0.0",
+      "path": "docs/schemas/uoc011_hardening_report.schema.json",
+      "description": "UOC-011 contract: UOC-011 Hardening Report.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "UOC-011",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "Uoc011HardeningReport",
+      "validation_enabled_sprint": "UOC-011",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
     }
   ],
-  "schemas_total": 172
+  "schemas_total": 175
 }

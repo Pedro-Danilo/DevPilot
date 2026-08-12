@@ -11851,3 +11851,8 @@ CLOSED/PASS sobre `e6b2cf8a3b2a5b308431e87b4176d95afb718ec0`. `/quality` usa IDs
 
 ## UOC-010 closure
 UOC-010 is CLOSED/PASS. `/ai` remains local-first; mock is mandatory, local models are opt-in, external APIs/tools/connectors/plugins/remote execution remain disabled by default. UOC-011 is authorized.
+
+
+## UOC-011 operational hardening
+
+See `docs/05_operations/uoc_011_release_operator_runbook.md`. Final closure requires Windows browser, performance/build, install, backup/restore and upgrade/rollback evidence.

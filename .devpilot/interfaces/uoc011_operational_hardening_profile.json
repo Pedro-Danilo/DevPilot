@@ -1,0 +1,95 @@
+{
+  "schema_id": "SCHEMA-DEVPL-UOC011-OPERATIONAL-HARDENING-PROFILE-V1",
+  "schema_version": "1.0",
+  "profile_id": "uoc011-operational-hardening-v1",
+  "status": "implemented-initial",
+  "created_by": "UOC-011",
+  "updated": "2026-08-12",
+  "local_first": true,
+  "external_api_required": false,
+  "security": {
+    "token_session_ttl_seconds": 28800,
+    "max_request_body_bytes": 1048576,
+    "rate_limit_window_seconds": 60,
+    "rate_limit_requests_per_window": 600,
+    "required_response_headers": [
+      "Content-Security-Policy",
+      "X-Content-Type-Options",
+      "X-Frame-Options",
+      "Referrer-Policy",
+      "Cache-Control",
+      "Permissions-Policy",
+      "Cross-Origin-Opener-Policy",
+      "X-Permitted-Cross-Domain-Policies"
+    ],
+    "csp_required": true,
+    "non_local_bind_allowed": false,
+    "wildcard_cors_allowed": false
+  },
+  "accessibility": {
+    "wcag_target": "WCAG-2.2-AA-oriented-initial",
+    "keyboard_navigation_required": true,
+    "skip_link_required": true,
+    "focus_visible_required": true,
+    "reduced_motion_required": true,
+    "minimum_interactive_target_px": 44
+  },
+  "performance": {
+    "build_js_total_max_bytes": 786432,
+    "build_css_total_max_bytes": 131072,
+    "source_ui_total_max_bytes": 524288,
+    "single_source_file_max_bytes": 65536,
+    "api_default_timeout_ms": 8000,
+    "route_initial_fetch_budget_ms": 30000
+  },
+  "browser": {
+    "routes": [
+      "ui.dashboard",
+      "ui.workspace-documents",
+      "ui.reports",
+      "ui.traces",
+      "ui.approvals",
+      "ui.jobs",
+      "ui.quality",
+      "ui.ai",
+      "ui.settings"
+    ],
+    "states": [
+      "loading",
+      "empty",
+      "ready",
+      "warn",
+      "block",
+      "error",
+      "api_down",
+      "unauthorized",
+      "forbidden",
+      "timeout",
+      "cancelled",
+      "stale_data"
+    ],
+    "route_state_cases_total": 108
+  },
+  "release": {
+    "backup_restore_dry_run_required": true,
+    "clean_install_smoke_required": true,
+    "upgrade_rollback_dry_run_required": true,
+    "clean_zip_required": true,
+    "release_notes_required": true,
+    "operator_runbook_required": true
+  },
+  "safety": {
+    "arbitrary_shell_allowed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "external_api_enabled": false,
+    "source_mutation_by_hardening_gate": false
+  },
+  "limitations": [
+    "Browser state matrix is contract-driven and requires Windows/browser acceptance for final adjudication.",
+    "Rate limiting is process-local and is not a distributed/enterprise quota system.",
+    "Token lifecycle is browser-session-local; enterprise identity/session federation remains out of scope."
+  ],
+  "preliminary": true
+}

@@ -2,6 +2,8 @@ import type { DevPilotApplicationResponse, OperatorDashboardResponseData } from 
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
+export const TOKEN_STORED_AT_KEY = 'devpilot.apiTokenStoredAt';
+export const TOKEN_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 export const DEFAULT_REQUEST_TIMEOUT_MS = 8000;
 export const PROTECTED_WARMUP_TIMEOUT_MS = 15000;
 export const REPORTS_REQUEST_TIMEOUT_MS = 15000;
@@ -470,12 +472,35 @@ export class DevPilotApiClient {
 }
 
 export function readStoredToken(): string {
-  return globalThis.sessionStorage?.getItem(TOKEN_STORAGE_KEY) ?? '';
+  const storage = globalThis.sessionStorage;
+  if (!storage) return '';
+  const token = storage.getItem(TOKEN_STORAGE_KEY) ?? '';
+  if (!token) return '';
+  const rawStoredAt = storage.getItem(TOKEN_STORED_AT_KEY);
+  if (!rawStoredAt) {
+    storage.setItem(TOKEN_STORED_AT_KEY, String(Date.now()));
+    return token;
+  }
+  const storedAt = Number(rawStoredAt);
+  if (!Number.isFinite(storedAt) || Date.now() - storedAt >= TOKEN_SESSION_TTL_MS) {
+    clearExpiredStoredToken();
+    return '';
+  }
+  return token;
 }
 
 export function storeToken(token: string): void {
-  if (token.trim()) globalThis.sessionStorage?.setItem(TOKEN_STORAGE_KEY, token.trim());
-  else globalThis.sessionStorage?.removeItem(TOKEN_STORAGE_KEY);
+  const storage = globalThis.sessionStorage;
+  if (!storage) return;
+  if (token.trim()) {
+    storage.setItem(TOKEN_STORAGE_KEY, token.trim());
+    storage.setItem(TOKEN_STORED_AT_KEY, String(Date.now()));
+  } else clearExpiredStoredToken();
+}
+
+export function clearExpiredStoredToken(): void {
+  globalThis.sessionStorage?.removeItem(TOKEN_STORAGE_KEY);
+  globalThis.sessionStorage?.removeItem(TOKEN_STORED_AT_KEY);
 }
 
 export function isTransientNetworkError(error: unknown): error is DevPilotApiError {

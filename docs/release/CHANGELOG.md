@@ -3028,3 +3028,9 @@ CLOSED/PASS. Governed local Git stage/commit/branch creation is accepted; arbitr
 - UOC-010 candidate: `/ai` RAG/agents/tools/handoffs governed console, four typed local adapters, mock mandatory, local-provider opt-in, external API blocked, citations/freshness/insufficient-evidence, memory opt-in and bounded supervisor handoffs.
 
 - UOC-010 CLOSED/PASS: governed `/ai` RAG/mock-local agents/tool contracts/supervised handoffs; UOC-011 authorized.
+
+
+## UOC-011 — Operational hardening candidate
+
+- Added CSP/security headers, bounded local request/token budgets, accessibility/performance smokes, 108-case browser state matrix and mandatory local release recovery gates.
+- Release declaration remains pending Windows closure.

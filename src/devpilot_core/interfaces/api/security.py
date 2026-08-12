@@ -31,6 +31,7 @@ PUBLIC_API_PATHS: tuple[str, ...] = (
     "/api/v1/openapi.json",
 )
 SECURITY_HEADERS: dict[str, str] = {
+    "Content-Security-Policy": "default-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self' http://127.0.0.1:8787 http://localhost:8787",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "no-referrer",

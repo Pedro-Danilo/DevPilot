@@ -35,9 +35,16 @@ function renderApplication(target: HTMLElement): void {
   target.replaceChildren();
   const shell = document.createElement('div');
   shell.className = 'app-shell';
-  shell.append(renderPrimaryNavigation(currentPath));
+  const skipLink = document.createElement('a');
+  skipLink.className = 'skip-link';
+  skipLink.href = '#route-main';
+  skipLink.textContent = 'Saltar al contenido principal';
+  shell.append(skipLink, renderPrimaryNavigation(currentPath));
   const page = document.createElement('div');
   page.className = 'route-page';
+  page.id = 'route-main';
+  page.setAttribute('role', 'main');
+  page.setAttribute('tabindex', '-1');
   page.dataset.routePath = currentPath;
   if (!route) page.append(renderNotFound(currentPath));
   else if (route.path === '/') renderDashboard(page);
@@ -88,7 +95,7 @@ function renderRouteHeader(route: UiRoute): HTMLElement {
   const title = document.createElement('h1');
   title.textContent = route.title;
   const meta = document.createElement('p');
-  meta.textContent = `${route.routeId} · ${route.path} · local-first · no-remote · token en sessionStorage.`;
+  meta.textContent = `${route.routeId} · ${route.path} · local-first · no-remote · token en sessionStorage con TTL máximo de 8h.`;
   heading.append(title, meta);
   const form = document.createElement('form');
   form.className = 'token-form route-token-form';

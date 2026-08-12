@@ -13,6 +13,7 @@ from devpilot_core.application import ApplicationResponse, ApplicationService
 from devpilot_core.cli_models import CommandResult, ExitCode
 
 from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
+from .uoc011_hardening import FixedWindowRateLimiter, UOC011_API_HARDENING_HEADERS, Uoc011ApiHardeningConfig, inspect_request_hardening
 from .routers import actions, ai, approvals, jobs, operator, portfolio, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
 from .security import (
     API_ROUTE_POLICIES,
@@ -88,6 +89,8 @@ def create_app(
     # retained for diagnostics; reconciliation never promotes an orphan to PASS.
     app.state.governed_job_reconciliation = app.state.application_service.jobs_reconcile(stale_after_seconds=120).to_dict()
     app.state.api_security = security_config
+    app.state.uoc011_hardening_config = Uoc011ApiHardeningConfig()
+    app.state.uoc011_rate_limiter = FixedWindowRateLimiter()
 
     def _api_error_json_response(request: Request, payload: dict[str, Any], status_code: int) -> JSONResponse:
         headers = dict(SECURITY_HEADERS)
@@ -122,7 +125,7 @@ def create_app(
             allow_credentials=False,
             allow_methods=["GET", "POST", "OPTIONS"],
             allow_headers=["Authorization", "Content-Type", "X-DevPilot-Token"],
-            expose_headers=["X-DevPilot-Policy", "X-DevPilot-Api-Security"],
+            expose_headers=["X-DevPilot-Policy", "X-DevPilot-Api-Security", "X-DevPilot-RateLimit-Remaining", "X-DevPilot-UOC011-Hardening"],
             max_age=600,
         )
 
@@ -131,6 +134,14 @@ def create_app(
         config: ApiSecurityConfig = request.app.state.api_security
         path = request.url.path
         method = request.method.upper()
+        hardening = await inspect_request_hardening(request, config=request.app.state.uoc011_hardening_config, limiter=request.app.state.uoc011_rate_limiter)
+        if not hardening.get("ok", False):
+            payload, status_code = build_security_error_response(status_code=int(hardening.get("status_code", 429)), message=str(hardening.get("message", "Local request hardening blocked the request.")), finding_id=str(hardening.get("finding_id", "API_UOC011_HARDENING_BLOCK")), operation="api.uoc011.hardening")
+            response = _security_json_response(request, payload, status_code)
+            if hardening.get("retry_after") is not None:
+                response.headers["Retry-After"] = str(hardening["retry_after"])
+            response.headers["X-DevPilot-RateLimit-Remaining"] = str(hardening.get("remaining", 0))
+            return response
         if path.startswith("/api/v1/") and not is_public_api_path(path, method=method, config=config):
             token_ok, finding_id = validate_api_token(config, extract_request_token(request.headers))
             if not token_ok:
@@ -165,6 +176,9 @@ def create_app(
         response = await call_next(request)
         for header, value in SECURITY_HEADERS.items():
             response.headers.setdefault(header, value)
+        for header, value in UOC011_API_HARDENING_HEADERS.items():
+            response.headers.setdefault(header, value)
+        response.headers.setdefault("X-DevPilot-RateLimit-Remaining", str(hardening.get("remaining", 0)))
         response.headers.setdefault("X-DevPilot-Api-Security", "token+cors+policy")
         if hasattr(request.state, "devpilot_policy"):
             response.headers.setdefault("X-DevPilot-Policy", "allowed")

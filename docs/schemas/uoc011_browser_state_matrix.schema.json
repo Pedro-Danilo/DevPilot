@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1",
+  "title": "UOC-011 Browser State Matrix",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "schema_version",
+    "matrix_id",
+    "status",
+    "required_states",
+    "routes",
+    "summary",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "matrix_id": {
+      "const": "uoc011-browser-state-matrix"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "closed/PASS"
+      ]
+    },
+    "required_states": {
+      "type": "array",
+      "minItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 9,
+      "items": {
+        "type": "object",
+        "required": [
+          "route_id",
+          "path",
+          "states"
+        ],
+        "properties": {
+          "route_id": {
+            "type": "string",
+            "pattern": "^ui\\."
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^/"
+          },
+          "states": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "routes_total",
+        "states_per_route",
+        "cases_total"
+      ]
+    },
+    "preliminary": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1",
+  "x-devpilot-sprint": "UOC-011",
+  "x-devpilot-status": "registered"
+}

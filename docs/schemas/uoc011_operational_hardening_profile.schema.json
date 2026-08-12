@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UOC011-OPERATIONAL-HARDENING-PROFILE-V1",
+  "title": "UOC-011 Operational Hardening Profile",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "schema_version",
+    "profile_id",
+    "status",
+    "security",
+    "accessibility",
+    "performance",
+    "browser",
+    "release",
+    "safety",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-UOC011-OPERATIONAL-HARDENING-PROFILE-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "profile_id": {
+      "const": "uoc011-operational-hardening-v1"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "closed/PASS"
+      ]
+    },
+    "security": {
+      "type": "object",
+      "required": [
+        "token_session_ttl_seconds",
+        "max_request_body_bytes",
+        "rate_limit_window_seconds",
+        "rate_limit_requests_per_window",
+        "required_response_headers",
+        "csp_required",
+        "non_local_bind_allowed",
+        "wildcard_cors_allowed"
+      ],
+      "properties": {
+        "token_session_ttl_seconds": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 86400
+        },
+        "max_request_body_bytes": {
+          "type": "integer",
+          "minimum": 1024
+        },
+        "rate_limit_window_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rate_limit_requests_per_window": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "required_response_headers": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "csp_required": {
+          "const": true
+        },
+        "non_local_bind_allowed": {
+          "const": false
+        },
+        "wildcard_cors_allowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "accessibility": {
+      "type": "object",
+      "required": [
+        "keyboard_navigation_required",
+        "skip_link_required",
+        "focus_visible_required",
+        "reduced_motion_required",
+        "minimum_interactive_target_px"
+      ],
+      "properties": {
+        "keyboard_navigation_required": {
+          "const": true
+        },
+        "skip_link_required": {
+          "const": true
+        },
+        "focus_visible_required": {
+          "const": true
+        },
+        "reduced_motion_required": {
+          "const": true
+        },
+        "minimum_interactive_target_px": {
+          "type": "integer",
+          "minimum": 44
+        }
+      },
+      "additionalProperties": true
+    },
+    "performance": {
+      "type": "object",
+      "required": [
+        "build_js_total_max_bytes",
+        "build_css_total_max_bytes",
+        "source_ui_total_max_bytes",
+        "single_source_file_max_bytes"
+      ],
+      "properties": {
+        "build_js_total_max_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "build_css_total_max_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_ui_total_max_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "single_source_file_max_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "browser": {
+      "type": "object",
+      "required": [
+        "routes",
+        "states",
+        "route_state_cases_total"
+      ],
+      "properties": {
+        "routes": {
+          "type": "array",
+          "minItems": 9,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^ui\\."
+          }
+        },
+        "states": {
+          "type": "array",
+          "minItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "route_state_cases_total": {
+          "type": "integer",
+          "minimum": 108
+        }
+      },
+      "additionalProperties": false
+    },
+    "release": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "arbitrary_shell_allowed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "external_api_enabled"
+      ],
+      "properties": {
+        "arbitrary_shell_allowed": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "external_api_enabled": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "preliminary": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UOC011-OPERATIONAL-HARDENING-PROFILE-V1",
+  "x-devpilot-sprint": "UOC-011",
+  "x-devpilot-status": "registered"
+}
