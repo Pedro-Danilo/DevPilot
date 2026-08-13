@@ -20,4 +20,4 @@ UOC-011 closure is **CLOSED/PASS** and the local release declaration is approved
 
 ## Final program reconciliation
 
-UOC-011 remains functionally CLOSED/PASS. Administrative closure of the UI Operational Console program is gated by 108/108 real-browser state cases, reconciled capability metrics and one final full regression. No enterprise/SaaS/remote claim is introduced.
+UOC-011 remains functionally `CLOSED/PASS`, and the program-level final reconciliation is now `CLOSED/PASS` on source commit `1c986daf1e6a9703c7fde2a560367167805f1cff` after 108/108 real-browser route/state cases, reconciled 193-capability parity metrics and one final full regression. The final authoritative baseline is `repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip`. No Enterprise/SaaS/remote claim is introduced.
