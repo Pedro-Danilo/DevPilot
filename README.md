@@ -8,9 +8,9 @@ Siguiente hito: `POST-H-EVAL-002`
 
 Micro-sprint activo: `POST-H-EVAL-002-02-B`. Siguiente micro-sprint: `POST-H-EVAL-002-02-C`.
 
-Repo de gobernanza vigente: `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`. Repo funcional aceptado: `repo_DevPilot_Local_326_POST_H_EVAL_002_01_D_RUN05B_INTEGRAL_CORRECTIVE.zip`. Baseline ejecutable instalado y congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`. Repo padre operativo: `repo_DevPilot_Local_317_POST_H_EVAL_002_BASELINE_READY.zip`; activación histórica: `repo_DevPilot_Local_316_POST_H_EVAL_002_ACTIVATION.zip`.
+Repo operativo vigente para reanudar el piloto: `repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip`. Cierre UI Operational Console histórico autoritativo: `repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip`. Cierre de gobernanza de la ola 01 histórico: `repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip`. Baseline ejecutable original congelado: `repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip`.
 
-Estado: `active/02-b-authorized-after-02-a-pass-with-gaps`. `POST-H-EVAL-002-02-A` cerró `PASS-WITH-GAPS`, creó el workspace aislado `inventory-sales-local`, fijó su commit de onboarding `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y autorizó 02-B. El corrective patch UI-first cierra antes de 02-B la discoverability recursiva de Reports y explicita el contexto plataforma/workspace.
+Estado: `active/02-b-authorized-after-02-a-pass-with-gaps/post-UOC-rebound`. `POST-H-EVAL-002-02-A` permanece cerrado `PASS-WITH-GAPS`; el workspace conserva el commit `a10d97f425c31300860de7ef5a3c9fd82d6d6f59`. UOC-000→UOC-011 y su reconciliación final quedaron `CLOSED/PASS`; no se reejecuta 02-A. Repo341 solo reconcilia la transición documental/gobernada para ejecutar 02-B contra la consola operacional vigente.
 
 Documentos de entrada:
 

@@ -3051,3 +3051,12 @@ Program-level closure reconciliation after UOC-011: fixes closure metadata/parit
 - Administrative backlog status: `CLOSED/PASS`.
 - Target authoritative baseline: `repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip`.
 - No Enterprise/SaaS/remote readiness claim is introduced.
+
+
+## 2026-08-13 — POST-H-EVAL-002 pilot transition rebind 341
+
+- Preserves repo340 as the immutable UI Operational Console final closure baseline.
+- Rebinds active pilot planning documents to `repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip` for `POST-H-EVAL-002-02-B`.
+- Preserves historical repo327 wave-01 evidence and the `inventory-sales-local` onboarding commit without rerun.
+- Fixes historical tests that incorrectly froze the active `current_repo` at repo327/repo340.
+- No runtime feature, sensitive capability or no-go policy is enabled by this reconciliation.

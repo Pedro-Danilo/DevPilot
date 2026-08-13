@@ -2,15 +2,15 @@
 doc_id: "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK"
 title: "POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.7.0"
+version: "1.8.0"
 owner: "Ordóñez"
-updated: "2026-07-30"
+updated: "2026-08-13"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 roadmap_path: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
 planning_backlogs_total: 3
-implementation_status: "active/02-a-authorized-after-01-d-closure"
-source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+implementation_status: "active/02-b-authorized-post-uoc-rebind"
+source_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
 baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 baseline_test_evidence: "1919 passed, 0 failed, 0 errors, 0 skipped"
 recommended_repo_path: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
@@ -261,6 +261,36 @@ CLI únicamente como bridge para capacidades todavía no expuestas en UI.
 ```
 
 Todo bridge CLI debe quedar registrado como evidencia de UX y candidato de evolución.
+
+### 5.1. Sucesión UI después de UOC-000→UOC-011
+
+La lista anterior de cinco rutas describe la **baseline histórica aceptada en la ola 01**. No debe reescribirse retroactivamente. Después del programa UI Operational Console, la superficie operacional vigente en repo340/repo341 es:
+
+```text
+ui.dashboard            → /
+ui.workspace-documents  → /workspace/documents
+ui.reports              → /reports
+ui.traces               → /traces
+ui.approvals            → /approvals
+ui.jobs                 → /jobs
+ui.quality              → /quality
+ui.ai                   → /ai
+ui.settings             → /settings
+```
+
+La aceptación final UOC acreditó 108/108 combinaciones route/state en navegador real controlado y una regresión final 2229/2229. Esto sustituye el corrective UI-first como **precondición de plataforma** para 02-B, pero no invalida ni obliga a repetir el cierre histórico de 01 ni el onboarding de 02-A.
+
+Regla operacional desde 02-B:
+
+```text
+UI disponible y tipada       → usar UI y conservar evidence refs
+UI read-only                 → usarla para inspección/validación
+capability sin paridad UI    → CLI-BRIDGE-REGISTERED y registrar uso real
+capability POLICY-BLOCKED    → no buscar workaround por shell o subprocess
+autoría de ingeniería        → IDE/Git salvo superficie gobernada explícita
+```
+
+`/ai` se reserva para 02-C y posteriores salvo smoke read-only; 02-B no debe adelantar asistencia agentic. `/quality` y `/workspace/documents` sí son superficies preferentes para readiness, validación, findings y trazabilidad pre-code.
 
 ---
 
@@ -2465,3 +2495,12 @@ El éxito del piloto no se medirá por evitar la CLI a toda costa. Se medirá po
 - Operator/auditor tooling must be corrected before a new run.
 - Required retest: `PILOT-E2E-001-RUN-05B-RERUN-03`.
 - `POST-H-EVAL-002-01-D` remains open and `POST-H-EVAL-002-02-A` remains unauthorized.
+
+
+## 2026-08-13 — Post-UOC pilot transition rebind 341
+
+- UI Operational Console Evolution permanece `CLOSED/PASS`; no se reabre UOC-011.
+- Repo340 permanece como cierre UOC autoritativo histórico; repo341 es un sucesor exclusivamente documental/gobernado para retomar 02-B.
+- `inventory-sales-local` conserva el commit de onboarding `a10d97f425c31300860de7ef5a3c9fd82d6d6f59`; no se reejecuta 02-A.
+- El baseline de 02-B se resuelve desde `current_repo`, Git HEAD limpio y el manifest/sidecar autoritativo de repo341.
+- No se repite full regression DevPilot por esta transición si los contratos focales, Project State, Documentation Governance, TCR y Evidence Freshness pasan y Test Impact no exige mayor alcance.

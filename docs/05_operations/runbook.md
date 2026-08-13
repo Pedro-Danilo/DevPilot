@@ -11864,3 +11864,8 @@ UOC-011 is CLOSED/PASS with local release declaration approved. Use the UOC-011 
 ## UI Operational Console final closure reconciliation
 
 Final reconciliation completed on source commit `1c986daf1e6a9703c7fde2a560367167805f1cff`. The authoritative closure requires the stored 108/108 real-browser route/state report, the final full-regression PASS report, reconciled capability parity and repo340 (`repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip`). Subsequent operation uses repo340 as source of truth; the 02-B → 02-C pilot pointers remain independent.
+
+
+## POST-H-EVAL-002 — transición post-UOC a 02-B (repo341)
+
+Repo340 permanece como cierre autoritativo histórico de UI Operational Console Evolution. La reanudación del piloto usa `repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip`, que solo reconcilia documentación, Project State y contratos históricos para permitir la sucesión del baseline. El workspace `inventory-sales-local` conserva `a10d97f425c31300860de7ef5a3c9fd82d6d6f59`; 01 y 02-A no se reabren. La siguiente operación sustantiva es `POST-H-EVAL-002-02-B`.

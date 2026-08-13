@@ -12491,7 +12491,8 @@
       "capability": "PostHEval002ActivationGovernance",
       "classification_notes": [
         "Registers the approved runbook, roadmap and three executable backlogs as canonical planning sources.",
-        "Transitions Project State to POST-H-EVAL-002 without reopening POST-H-034 or enabling sensitive capabilities."
+        "Preserves repo327 and repo340 as historical governed baselines while allowing a later current_repo for the active pilot.",
+        "Transitions planning to POST-H-EVAL-002-02-B without reopening POST-H-034, wave 01 or 02-A and without enabling sensitive capabilities."
       ],
       "classification_status": "explicit",
       "contract_id": "post-h-eval-002-activation-governance",

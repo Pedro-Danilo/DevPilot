@@ -100,21 +100,32 @@ def test_final_package_hashes_are_frozen() -> None:
 
 
 def test_canonical_documents_are_synchronized() -> None:
-    paths = (
+    # 01-D is a historical closure contract.  Freeze repo327/RERUN-03 only in
+    # the artifacts that own that closure; do not force future active backlogs
+    # to keep repo327 as their operational baseline after a governed successor.
+    historical_paths = (
+        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
+        "docs/01_requirements/traceability_matrix.md",
+    )
+    for path in historical_paths:
+        content = text(path)
+        assert REPO_327 in content, path
+        assert RUN_03 in content, path
+
+    state = data(".devpilot/project_state.json")
+    current_repo = state["current_repo"]
+    active_paths = (
         "README.md",
         "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
-        "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
         "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
         "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
         "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
         "docs/05_operations/runbook.md",
-        "docs/01_requirements/traceability_matrix.md",
         "docs/release/CHANGELOG.md",
     )
-    for path in paths:
-        content = text(path)
-        assert REPO_327 in content, path
-        assert RUN_03 in content, path
+    for path in active_paths:
+        assert current_repo in text(path), path
+
     backlog = text("docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md")
     assert "closed/PASS-authoritative-rerun03" in backlog
     assert 'current_micro_sprint: "POST-H-EVAL-002-02-A"' in backlog

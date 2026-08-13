@@ -3,17 +3,17 @@ doc_id: "DEVPL-POST-H-EVAL-002-03-BACKLOG"
 id: "POST-H-EVAL-002-03"
 title: "POST-H-EVAL-002-03 — Release, clean install y assessment industrial"
 status: "approved"
-version: "1.6.1"
+version: "1.7.0"
 owner: "Ordóñez"
-updated: "2026-08-02"
+updated: "2026-08-13"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-03"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-minimum_source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
-minimum_source_repo_identity_policy: "resolve-from-external-immutable-baseline-manifest"
-minimum_source_repo_manifest_path: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002\\baselines\\repo_327\\BASELINE_CURRENT.json"
+minimum_source_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
+minimum_source_repo_identity_policy: "project-state+02-E-closure-manifest+external-immutable-baseline-manifest"
+minimum_source_repo_manifest_path: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002\\baselines\\repo_341\\BASELINE_CURRENT.json"
 minimum_source_repo_manifest_schema: "devpilot.post_h_eval_002.operational_baseline.v1"
 minimum_source_repo_sha256_embedded: false
 source_repo_resolution: "resolve-latest-governed-DevPilot-baseline-from-POST-H-EVAL-002-02-closure-manifest"
@@ -38,10 +38,10 @@ dry_run_default: true
 
 `approved/not-started`.
 
-Este backlog depende del cierre `PASS` o `PASS-WITH-GAPS` no bloqueante de `POST-H-EVAL-002-02`. Repo 327 es el baseline mínimo lógico de plataforma. Su identidad física mínima se resuelve desde:
+Este backlog depende del cierre `PASS` o `PASS-WITH-GAPS` no bloqueante de `POST-H-EVAL-002-02`. Repo341 es el baseline mínimo lógico de plataforma después del cierre UOC y de la reconciliación de transición a 02-B. Su identidad física mínima se resuelve desde:
 
 ```text
-D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002\baselines\repo_327\BASELINE_CURRENT.json
+D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002\baselines\repo_341\BASELINE_CURRENT.json
 ```
 
 03-A debe resolver y verificar el baseline DevPilot efectivo más reciente declarado por el manifest de cierre de 02-E cuando durante la ola 02 se haya producido un patch de plataforma. El SHA-256 no se incrusta en este backlog porque el documento puede formar parte del propio `git archive`; la identidad verificable reside en manifests externos inmutables.
@@ -80,7 +80,7 @@ Clean install:  D:\Projects\DevPilot_E2E_Evaluation\validation\POST-H-EVAL-002-0
 ## 6. Política de pruebas y artefactos
 
 - El workspace Git y el release manifest identifican la fuente exacta del RC.
-- El baseline mínimo 327 debe verificarse contra `BASELINE_CURRENT.json`; el baseline efectivo de 03-A debe verificarse contra el manifest autoritativo de cierre de 02-E.
+- El baseline mínimo 341 debe verificarse contra `BASELINE_CURRENT.json`; el baseline efectivo de 03-A debe verificarse contra el manifest autoritativo de cierre de 02-E.
 - Ningún SHA-256 de un ZIP se considera válido por estar escrito en este backlog: siempre debe recalcularse sobre el artefacto y compararse con su manifest externo.
 - La regresión del piloto puede reutilizarse en 03-A únicamente si corresponde al mismo commit y no cambiaron código, tests, dependencias, configuración o migraciones.
 - Cualquier cambio que invalide esa evidencia obliga a ejecutar las pruebas afectadas y, cuando corresponda, la regresión completa del piloto.
@@ -193,14 +193,20 @@ verificar artefacto y checksum
 → repetir verificación crítica
 ```
 
-Además, verificar desde Web UI DevPilot:
+Además, verificar desde Web UI DevPilot las superficies pertinentes del baseline vigente:
 
-- workspace/status;
+- Dashboard/workspace status;
+- Workspace Documents;
 - Reports;
 - Traces;
-- Operator Dashboard;
-- no-go gates;
+- Approval Center;
+- Jobs;
+- Quality/tests/release;
+- AI/RAG solo en el alcance local/mock permitido;
+- Settings/security posture y no-go gates;
 - RC evidence.
+
+No es requisito que las 193 capabilities sean UI-native. El assessment debe medir la distribución real `UI-NATIVE`/`UI-READ-ONLY`/`CLI-BRIDGE-REGISTERED`/`POLICY-BLOCKED` y el uso observado durante el piloto.
 
 PASS:
 

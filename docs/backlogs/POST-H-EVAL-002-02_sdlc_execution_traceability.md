@@ -3,17 +3,17 @@ doc_id: "DEVPL-POST-H-EVAL-002-02-BACKLOG"
 id: "POST-H-EVAL-002-02"
 title: "POST-H-EVAL-002-02 — SDLC real, implementación y trazabilidad"
 status: "approved"
-version: "1.6.2"
+version: "1.7.0"
 owner: "Ordóñez"
-updated: "2026-08-03"
+updated: "2026-08-13"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
 roadmap_wave: "EVAL-002-02"
 roadmap_source: "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md"
-source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
-source_repo_identity_policy: "resolve-from-external-immutable-baseline-manifest"
-source_repo_manifest_path: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002\\baselines\\repo_327\\BASELINE_CURRENT.json"
+source_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
+source_repo_identity_policy: "project-state+git-head+external-immutable-baseline-manifest"
+source_repo_manifest_path: "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002\\baselines\\repo_341\\BASELINE_CURRENT.json"
 source_repo_manifest_schema: "devpilot.post_h_eval_002.operational_baseline.v1"
 source_repo_sha256_embedded: false
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
@@ -37,16 +37,22 @@ dry_run_default: true
 
 `active/02-b-authorized-after-02-a-pass-with-gaps`.
 
-`POST-H-EVAL-002-02-A` cerró `PASS-WITH-GAPS` con `S0=0`, `S1=0`, workspace Git independiente y evidencia autoritativa `POST_H_EVAL_002_02_A_EVIDENCE.zip` (`SHA-256=cbd00d7d278050b36a1f6bf919567a6c33263e940d72aa5484941890ff198e2f`). El único gap de cierre fue `UX-GAP-02-A-001`: Reports UI no descubría reportes anidados. El corrective patch UI-first de DevPilot debe cerrar ese gap antes de iniciar la ejecución sustantiva de 02-B.
+`POST-H-EVAL-002-02-A` cerró `PASS-WITH-GAPS` con `S0=0`, `S1=0`, workspace Git independiente y evidencia autoritativa `POST_H_EVAL_002_02_A_EVIDENCE.zip` (`SHA-256=cbd00d7d278050b36a1f6bf919567a6c33263e940d72aa5484941890ff198e2f`). El único gap de cierre fue `UX-GAP-02-A-001`: Reports UI no descubría reportes anidados. Ese gap fue cerrado por el corrective UI-first y posteriormente absorbido por UOC-000→UOC-011, cuyo programa cerró `CLOSED/PASS`. No se reejecuta 02-A: la transición requerida es únicamente re-vincular la plataforma vigente antes de 02-B.
 
-La dependencia `POST-H-EVAL-002-01` cerró `CLOSED/PASS` mediante `PILOT-E2E-001-RUN-05B-RERUN-03` y el Sprint 7 de cierre de gobernanza 326 → 327. La entrada mínima gobernada permanece:
+La dependencia `POST-H-EVAL-002-01` cerró `CLOSED/PASS` mediante `PILOT-E2E-001-RUN-05B-RERUN-03` y el cierre de gobernanza 326 → 327. Después, UOC-000→UOC-011 evolucionó la consola operacional y cerró sobre repo340. La reconciliación de transición a 02-B produce repo341 sin cambiar runtime funcional del piloto:
 
 ```text
-Artefacto lógico:
-repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip
+Baseline operativo vigente para 02-B:
+repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip
 
-Manifest autoritativo externo:
-D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002\baselines\repo_327\BASELINE_CURRENT.json
+Manifest autoritativo externo esperado:
+D:\Projects\DevPilot_Artifacts\POST-H-EVAL-002\baselines\repo_341\BASELINE_CURRENT.json
+
+Cierre UOC histórico inmediatamente anterior:
+repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip
+
+Cierre ola 01 histórico:
+repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip
 
 DevPilot:
 D:\Projects\DevPilot_Local
@@ -55,7 +61,7 @@ Workspace:
 D:\Projects\DevPilot_Workspaces\inventory-sales-local
 ```
 
-El commit Git, la ruta física y el SHA-256 del baseline operativo deben resolverse y verificarse desde `BASELINE_CURRENT.json`. El hash del ZIP no se incrusta en este backlog porque el documento forma parte del propio archivo generado mediante `git archive`; hacerlo produciría una referencia circular e inestable.
+El commit Git, la ruta física y el SHA-256 del baseline operativo deben resolverse y verificarse desde `BASELINE_CURRENT.json`, `git rev-parse HEAD`, `git status --porcelain` y el sidecar del ZIP. El hash del ZIP no se incrusta en este backlog porque el documento forma parte del propio archivo generado mediante `git archive`; hacerlo produciría una referencia circular e inestable.
 
 `inventory-sales-local` existe en `D:\Projects\DevPilot_Workspaces\inventory-sales-local`, conserva el commit de onboarding `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y debe permanecer limpio antes de 02-B. El micro-sprint autorizado es `POST-H-EVAL-002-02-B`; C–E permanecen secuenciales y no pueden adelantarse.
 
@@ -63,14 +69,14 @@ El manifest externo debe declarar, como mínimo:
 
 ```text
 schema_id = devpilot.post_h_eval_002.operational_baseline.v1
-artifact_name = repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip
+artifact_name = repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip
 git_commit = commit gobernado de entrada
 sha256 = hash real del artefacto
 worktree_clean_at_generation = true
-authorized_micro_sprint = POST-H-EVAL-002-02-A
+authorized_micro_sprint = POST-H-EVAL-002-02-B
 ```
 
-Si el manifest falta, es inválido, no coincide con el artefacto o declara un repositorio no limpio, 02-A queda en `BLOCK`.
+Si el manifest falta, es inválido, no coincide con el artefacto o declara un repositorio no limpio, 02-B queda en `BLOCK` antes de crear o modificar artefactos pre-code.
 
 ## 2. Precedencia documental
 
@@ -130,6 +136,17 @@ El repositorio DevPilot y el repositorio del workspace deben permanecer físicam
 7. No se genera un nuevo ZIP de DevPilot si la plataforma no cambió.
 8. Se conserva un único paquete de evidencia autoritativo por micro-sprint. Los intentos BLOCK conservan JSON/log mínimo y no multiplican copias completas.
 9. Los ZIP limpios excluyen `.git`, `.venv`, `node_modules`, caches, `outputs`, SQLite operativa, secretos, tokens, HAR bruto y backups runtime.
+
+
+## 6.1. Contrato UI post-UOC para la ola 02
+
+La superficie vigente tiene nueve rutas. No todas equivalen a ejecución nativa: el registry final conserva 161 bridges CLI registrados y cinco capacidades bloqueadas por policy. Por ello:
+
+- 02-B usa preferentemente `/workspace/documents`, `/quality`, `/reports`, `/traces` y `/approvals`; `/ai` solo smoke/read-only y se reserva para 02-C.
+- 02-C usa `/ai`, `/jobs`, `/reports`, `/traces` y approvals para RAG/agentes/handoffs gobernados.
+- 02-D usa `/quality`, `/jobs`, `/reports`, `/traces`, `/approvals` y las superficies documentales/Git disponibles; cualquier CLI bridge se registra por historia.
+- 02-E consolida métricas de paridad real, frecuencia de bridges, tiempos y fallos; no se considera defecto que una capability permanezca `POLICY-BLOCKED`.
+- Está prohibido reemplazar un bridge o bloqueo con shell arbitrario desde UI.
 
 ## 7. Micro-sprints
 

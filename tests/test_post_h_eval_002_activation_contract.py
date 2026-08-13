@@ -8,7 +8,9 @@ from devpilot_core.testing.project_state_progress import post_h_progress_rank
 ROOT = Path(__file__).resolve().parents[1]
 
 SOURCE_REPO = "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
-TARGET_REPO = "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+ENTRY_GOVERNANCE_REPO = "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+UOC_CLOSURE_REPO = "repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip"
+CURRENT_REPO = "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
 CURRENT_MICRO = "POST-H-EVAL-002-02-B"
 NEXT_MICRO = "POST-H-EVAL-002-02-C"
 CONTRACT_ID = "post-h-eval-002-activation-governance"
@@ -51,10 +53,17 @@ def test_post_h_eval_002_documents_are_approved_and_cross_linked() -> None:
     for path in list(CANONICAL_DOCS.values())[2:]:
         assert Path(path).name in roadmap
 
-    # Every active source identifies current governance repo and frozen executable baseline.
-    for path in CANONICAL_DOCS.values():
-        text = _text(path)
-        assert TARGET_REPO in text
+    # Closed wave-01 evidence remains bound to repo327; active pilot sources use the current successor.
+    backlog01 = _text(CANONICAL_DOCS["DEVPL-POST-H-EVAL-002-01-BACKLOG"])
+    assert ENTRY_GOVERNANCE_REPO in backlog01
+    for doc_id in (
+        "DEVPL-POST-H-EVAL-002-E2E-PILOT-UI-FIRST-RUNBOOK",
+        "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP",
+        "DEVPL-POST-H-EVAL-002-02-BACKLOG",
+        "DEVPL-POST-H-EVAL-002-03-BACKLOG",
+    ):
+        text = _text(CANONICAL_DOCS[doc_id])
+        assert CURRENT_REPO in text
         assert "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip" in text
 
 
@@ -92,7 +101,9 @@ def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> No
         and key[4:7].isdigit()
         and str(value).strip().lower().startswith(("implemented", "closed"))
     ]
-    if realized:
+    if state.get("ui_operational_console_program_administrative_closure") is True:
+        assert registry["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
+    elif realized:
         latest = max(realized)
         assert str(registry["last_registered_sprint"]).startswith(f"UOC-{latest:03d}")
     else:
@@ -121,7 +132,9 @@ def test_project_state_activates_eval_without_reopening_post_h_034() -> None:
     assert state["current_phase"] == "POST-H-EVAL-002"
     assert state["next_sprint"] == "POST-H-EVAL-002"
     assert state["source_repo"] == SOURCE_REPO
-    assert state["post_h_eval_002_01_d_governance_repo"] == TARGET_REPO
+    assert state["post_h_eval_002_01_d_governance_repo"] == ENTRY_GOVERNANCE_REPO
+    assert state["ui_operational_console_authoritative_baseline"] == UOC_CLOSURE_REPO
+    assert state["current_repo"] == CURRENT_REPO
     assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert state["current_micro_sprint"] == CURRENT_MICRO
     assert state["next_micro_sprint"] == NEXT_MICRO
@@ -143,7 +156,7 @@ def test_rc_criteria_and_operator_docs_follow_activation_state() -> None:
     changelog = _text("docs/release/CHANGELOG.md")
     for text in (readme, runbook, changelog):
         assert "POST-H-EVAL-002" in text
-        assert TARGET_REPO in text
+        assert CURRENT_REPO in text
 
 
 def test_sensitive_capability_no_go_flags_remain_disabled() -> None:

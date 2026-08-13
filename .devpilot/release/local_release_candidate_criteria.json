@@ -8,7 +8,7 @@
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
         "current_micro_sprint": "POST-H-EVAL-002-02-B",
-        "current_repo": "repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip",
+        "current_repo": "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
         "next_micro_sprint": "POST-H-EVAL-002-02-C",
@@ -688,7 +688,7 @@
     }
   ],
   "expected_current_micro_sprint": "POST-H-EVAL-002-02-B",
-  "expected_current_repo": "repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_next_micro_sprint": "POST-H-EVAL-002-02-C",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",

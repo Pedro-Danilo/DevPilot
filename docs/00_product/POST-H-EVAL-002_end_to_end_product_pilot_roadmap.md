@@ -3,13 +3,13 @@ doc_id: "DEVPL-POST-H-EVAL-002-PILOT-ROADMAP"
 id: "POST-H-EVAL-002"
 title: "POST-H-EVAL-002 — Roadmap del piloto real end-to-end UI-first"
 status: "approved"
-version: "1.9.0"
+version: "2.0.0"
 owner: "Ordóñez"
-updated: "2026-08-03"
+updated: "2026-08-13"
 approval: "approved_by_owner"
 phase: "POST-H-EVAL-002"
 priority: "P0"
-source_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
+source_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
 implementation_status: "active/02-b-authorized-after-02-a-pass-with-gaps"
@@ -29,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`active/02-B-authorized-after-02-A-pass-with-gaps`. `POST-H-EVAL-002-02-A` cerró `PASS-WITH-GAPS`, creó el workspace aislado `inventory-sales-local`, fijó el commit `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y autorizó 02-B. Antes de ejecutar 02-B se aplica el corrective patch UI-first que cierra la discoverability recursiva de Reports y hace explícito el contexto plataforma/workspace en las cinco rutas críticas.
+`active/02-B-authorized-after-02-A-pass-with-gaps/post-UOC-rebound`. `POST-H-EVAL-002-02-A` permanece cerrado `PASS-WITH-GAPS`, el workspace `inventory-sales-local` conserva el commit `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y 02-B continúa autorizado. El programa UOC-000→UOC-011 quedó `CLOSED/PASS`; su cierre final produjo repo340, 108/108 casos browser, regresión 2229/2229 y `S0=0/S1=0`. Esta reconciliación documental/gobernada genera repo341 como baseline de transición para retomar 02-B sin reabrir 01 ni repetir 02-A.
 
 ## 2. Propósito
 
@@ -65,6 +65,22 @@ repo:                         repo_DevPilot_Local_320_POST_H_EVAL_002_01_B.zip
 ```
 
 `0c7741f` identifica la superficie ejecutable validada; `2c5f209` identifica el commit documental R1 desde el cual se generó la copia exacta congelada. No son el mismo artefacto y no se presentan como hashes Git completos.
+
+
+### 2.1. Baseline operacional vigente después de UOC
+
+La cadena de precedencia operativa para retomar el piloto es:
+
+```text
+repo318  = baseline ejecutable congelado histórico del piloto
+repo327  = cierre histórico de gobernanza de POST-H-EVAL-002-01
+repo340  = cierre autoritativo de UI Operational Console Evolution
+repo341  = reconciliación documental/gobernada para reanudar 02-B
+```
+
+`repo327` y `repo340` permanecen como hitos históricos inmutables. Para 02-B y posteriores, `current_repo` y el baseline verificable deben resolver a `repo341` o a un sucesor gobernado explícitamente por un cierre posterior. La UI actual registra nueve rutas (`/`, `/workspace/documents`, `/reports`, `/traces`, `/approvals`, `/jobs`, `/quality`, `/ai`, `/settings`); esto **no** reescribe la evidencia histórica 5/5 de la ola 01.
+
+La evolución UOC no autoriza por sí sola ejecución arbitraria desde UI: el Capability Registry final conserva 193 capacidades clasificadas, con 15 `UI-NATIVE`, 11 `UI-READ-ONLY`, 161 `CLI-BRIDGE-REGISTERED`, 5 `POLICY-BLOCKED` y 1 `PLANNED`. El piloto debe medir uso real y no maquillar esa brecha.
 
 ## 3. Principios de ejecución
 

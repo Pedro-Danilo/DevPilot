@@ -7234,7 +7234,8 @@
       "mutations_allowed": false,
       "network_allowed": false,
       "notes": [
-        "Activation remains valid; POST-H-EVAL-002-01-A is now a governed closure candidate and POST-H-EVAL-002-01-B is next."
+        "Activation remains valid; wave 01 and 02-A are closed historical evidence.",
+        "Active pilot planning is rebound after UI Operational Console final closure; current_repo may advance beyond repo340 while repo327/repo340 remain immutable historical baselines."
       ],
       "owner": "POST-H-EVAL-002",
       "phase": "POST-H-EVAL-002",
