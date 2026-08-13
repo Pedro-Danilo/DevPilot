@@ -24,7 +24,7 @@ def test_uoc011_profile_no_go_and_release_assets() -> None:
         assert (ROOT/path).is_file()
 
 def test_uoc011_manifest_freezes_repo338_and_does_not_overclaim() -> None:
-    m=j('docs/post_h_eval_002_uoc_011_manifest.json'); assert m['input_repo']=='repo_DevPilot_Local_338_POST_H_EVAL_002_UOC_010.zip'; assert m['input_repo_sha256']=='ee6756961d25a067e5be71e0c2b57fd16237ccf413f18c3684b89765d644b4fa'; assert m['preliminary'] is True
+    m=j('docs/post_h_eval_002_uoc_011_manifest.json'); assert m['input_repo']=='repo_DevPilot_Local_338_POST_H_EVAL_002_UOC_010.zip'; assert m['input_repo_sha256']=='ee6756961d25a067e5be71e0c2b57fd16237ccf413f18c3684b89765d644b4fa'; assert m['preliminary'] is True; assert m['closure_commit']=='4ce3c2f851bc572a7b014b5e7aed423f15e3e30c'; assert m['browser_matrix_runtime_required'] is True; assert m['browser_matrix_contract_only_sufficient'] is False
     if str(m['status']).startswith('implemented-initial'):
         assert m['release_claim']=='pending-authoritative-windows-closure'
     else:

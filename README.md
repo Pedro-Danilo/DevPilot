@@ -6320,6 +6320,11 @@ La Web UI incorpora `/ai` como primera versión local-first para RAG citado, age
 
 ## POST-H-EVAL-002 UOC-011 — Operational hardening candidate
 
-UOC-011 adds local security/session/request budgets, accessibility and performance contracts, the 9×12 browser state matrix, and release/install/backup/upgrade gates. Final release declaration remains pending authoritative Windows closure.
+UOC-011 adds local security/session/request budgets, accessibility and performance contracts, the 9×12 browser state matrix, and release/install/backup/upgrade gates. Its authoritative Windows closure completed on `4ce3c2f851bc572a7b014b5e7aed423f15e3e30c` with `repo_DevPilot_Local_339_POST_H_EVAL_002_UOC_011.zip`. A final program-level reconciliation now requires 108/108 browser-runtime state cases, derived capability-parity totals and one final full regression before administrative backlog closure.
 
 - UOC-011: CLOSED/PASS — local operational hardening and local release declaration approved; product remains local-first and preliminary where explicitly documented.
+
+
+## POST-H-EVAL-002 UI Operational Console — final closure reconciliation candidate
+
+Status: `implemented-initial/pending-authoritative-windows-final-closure`. Base: `repo_DevPilot_Local_339_POST_H_EVAL_002_UOC_011.zip` / `4ce3c2f851bc572a7b014b5e7aed423f15e3e30c`. Target after authoritative Windows validation: `repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip`. This is a closure reconciliation, not a new functional sprint.

@@ -15571,7 +15571,7 @@
       ]
     }
   ],
-  "last_registered_sprint": "UOC-011-CLOSURE",
+  "last_registered_sprint": "UOC-011-FINAL-RECONCILIATION-CANDIDATE",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -15700,7 +15700,7 @@
     "industrial_baseline_ready": true,
     "last_completed_sprint": "POST-H-034",
     "last_functional_sprint": "FUNC-SPRINT-99",
-    "last_registered_sprint": "UOC-011-CLOSURE",
+    "last_registered_sprint": "UOC-011-FINAL-RECONCILIATION-CANDIDATE",
     "legal_advice_claimed": false,
     "maturity_level": "industrial-baseline-under-e2e-evaluation",
     "multiuser_auth_enabled": false,
@@ -17629,7 +17629,7 @@
     "ui_operational_console_backlog_approved": true,
     "ui_operational_console_current_sprint": "UOC-011",
     "ui_operational_console_next_sprint": "UOC-011",
-    "ui_operational_console_program_status": "UOC-011-closed/PASS",
+    "ui_operational_console_program_status": "UOC-011-closed/PASS; final-reconciliation-pending",
     "uoc_000_api_routes_inventory_total": 39,
     "uoc_000_base_commit": "43254e3e61cdafe65e0ed2d773fe9032b0a81f05",
     "uoc_000_canonical_commit": "a986f83a7c2da99a734c88feb80bf5d66cde2e4a",
@@ -17937,8 +17937,8 @@
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 0,
-    "last_registered_sprint": "UOC-011-CLOSURE",
-    "last_updated_by": "UOC-009-CLOSURE",
+    "last_registered_sprint": "UOC-011-FINAL-RECONCILIATION-CANDIDATE",
+    "last_updated_by": "UOC-011-FINAL-RECONCILIATION-CANDIDATE",
     "machine_readable_source_total": 306,
     "markdown_json_pairs_total": 30,
     "markdown_json_sync_checks_enabled": true,
@@ -17954,7 +17954,7 @@
     "uoc_007_registered_documents_total": 8,
     "uoc_009_registered_documents_total": 8,
     "updated": "2026-08-12",
-    "updated_by": "UOC-011-CLOSURE"
+    "updated_by": "UOC-011-FINAL-RECONCILIATION-CANDIDATE"
   },
   "updated": "2026-08-12",
   "updated_at": "2026-08-12"

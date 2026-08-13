@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { DevPilotApplicationResponse, GovernedJobSnapshot, QualityOperationItem } from '../api/types';
 import { renderContractBadges } from '../components/ContractBadges';
@@ -12,6 +13,7 @@ interface State {
 
 export function renderQualityOperationsView(tokenProvider: () => string): HTMLElement {
   const section=document.createElement('section'); section.className='panel quality-console';
+  const uoc011Fixture=renderUoc011BrowserStateFixture('ui.quality'); if(uoc011Fixture)return uoc011Fixture;
   const state: State={loading:false,operationId:'test-impact',workspaceId:'devpilot-local',qualityProfile:'fast',tcrProfile:'p0-critical',changedPaths:'README.md',approvalId:'',fullConfirmation:'',errors:{}};
 
   const client=()=>new DevPilotApiClient({token:tokenProvider()});

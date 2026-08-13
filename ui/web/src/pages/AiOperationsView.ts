@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { AiOperationItem, DevPilotApplicationResponse, GovernedJobSnapshot } from '../api/types';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
@@ -12,6 +13,7 @@ interface State {
 
 export function renderAiOperationsView(tokenProvider:()=>string):HTMLElement {
   const section=document.createElement('section'); section.className='panel ai-console';
+  const uoc011Fixture=renderUoc011BrowserStateFixture('ui.ai'); if(uoc011Fixture)return uoc011Fixture;
   const state:State={loading:false,operationId:sessionStorage.getItem(OP_KEY)||'rag-query',workspaceId:'devpilot-local',ragTarget:'docs',query:'¿Qué objetivo tiene DevPilot Local?',topK:5,indexSource:'canonical',agentId:'requirements.agent',taskId:'summarize-gaps',agentTarget:'requirements',providerId:'mock',memoryOptIn:false,workflowId:'repo-review',handoffTarget:'src',maxSteps:2,approvalId:sessionStorage.getItem(APPROVAL_KEY)||'',errors:{}};
   const client=()=>new DevPilotApiClient({token:tokenProvider()});
 

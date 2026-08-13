@@ -1,10 +1,7 @@
 {
-  "schema_id": "SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1",
-  "schema_version": "1.0",
-  "matrix_id": "uoc011-browser-state-matrix",
-  "status": "implemented-initial",
   "created_by": "UOC-011",
-  "updated": "2026-08-12",
+  "matrix_id": "uoc011-browser-state-matrix",
+  "preliminary": true,
   "required_states": [
     "loading",
     "empty",
@@ -21,505 +18,621 @@
   ],
   "routes": [
     {
-      "route_id": "ui.dashboard",
-      "path": "/",
       "label": "Dashboard",
+      "path": "/",
+      "route_id": "ui.dashboard",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.workspace-documents",
-      "path": "/workspace/documents",
       "label": "Documentos",
+      "path": "/workspace/documents",
+      "route_id": "ui.workspace-documents",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.reports",
-      "path": "/reports",
       "label": "Reports",
+      "path": "/reports",
+      "route_id": "ui.reports",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.traces",
-      "path": "/traces",
       "label": "Traces",
+      "path": "/traces",
+      "route_id": "ui.traces",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.approvals",
-      "path": "/approvals",
       "label": "Approval Center",
+      "path": "/approvals",
+      "route_id": "ui.approvals",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.jobs",
-      "path": "/jobs",
       "label": "Jobs",
+      "path": "/jobs",
+      "route_id": "ui.jobs",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.quality",
-      "path": "/quality",
       "label": "Quality/Tests",
+      "path": "/quality",
+      "route_id": "ui.quality",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.ai",
-      "path": "/ai",
       "label": "IA/RAG",
+      "path": "/ai",
+      "route_id": "ui.ai",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     },
     {
-      "route_id": "ui.settings",
-      "path": "/settings",
       "label": "Configuration",
+      "path": "/settings",
+      "route_id": "ui.settings",
       "states": {
-        "loading": {
+        "api_down": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "empty": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "ready": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "warn": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "block": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "error": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "api_down": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "unauthorized": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "forbidden": {
-          "required": true,
-          "evidence": "browser-or-contract"
-        },
-        "timeout": {
-          "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
         },
         "cancelled": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "empty": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "error": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "forbidden": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "loading": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "ready": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         },
         "stale_data": {
+          "evidence": "browser-runtime-controlled-fixture",
           "required": true,
-          "evidence": "browser-or-contract"
+          "runtime_required": true
+        },
+        "timeout": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "unauthorized": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
+        },
+        "warn": {
+          "evidence": "browser-runtime-controlled-fixture",
+          "required": true,
+          "runtime_required": true
         }
       }
     }
   ],
+  "schema_id": "SCHEMA-DEVPL-UOC011-BROWSER-STATE-MATRIX-V1",
+  "schema_version": "1.0",
+  "status": "implemented-initial",
   "summary": {
+    "cases_total": 108,
+    "contract_only_is_sufficient": false,
     "routes_total": 9,
-    "states_per_route": 12,
-    "cases_total": 108
+    "runtime_cases_required": 108,
+    "runtime_execution_required": true,
+    "runtime_report_schema_id": "devpilot.uoc011.browser_runtime_matrix.v1",
+    "states_per_route": 12
   },
-  "preliminary": true
+  "updated": "2026-08-12",
+  "verification_mode": "browser-runtime-controlled-fixture"
 }

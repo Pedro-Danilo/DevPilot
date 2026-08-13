@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient } from '../api/client';
 import type { DevPilotApplicationResponse, GovernedJobSnapshot, JobLogEntry } from '../api/types';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
@@ -23,6 +24,8 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
   const section = document.createElement('section');
   section.className = 'viewer-panel jobs-console';
   section.dataset.devpilotUiContract = 'ui.jobs';
+  const uoc011Fixture = renderUoc011BrowserStateFixture('ui.jobs');
+  if (uoc011Fixture) return uoc011Fixture;
   const state: JobsState = { loading: false, errors: {}, workspace: '', capability: '', status: '', polling: false, logCursor: 0 };
   let pollHandle: number | undefined;
 

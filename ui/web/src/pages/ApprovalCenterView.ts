@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient } from '../api/client';
 import type { ApprovalRecordItem, DevPilotApplicationResponse } from '../api/types';
 import { idleOutcome, renderDryRunActionForm } from '../components/DryRunActionForm';
@@ -22,6 +23,8 @@ interface ApprovalState {
 export function renderApprovalCenterView(tokenProvider: () => string): HTMLElement {
   const section = document.createElement('section');
   section.className = 'approval-panel';
+  const uoc011Fixture = renderUoc011BrowserStateFixture('ui.approvals');
+  if (uoc011Fixture) return uoc011Fixture;
   const state: ApprovalState = { errors: {}, statusFilter: '', actionOutcome: idleOutcome(), durations: {} };
 
   async function loadApprovals(): Promise<void> {

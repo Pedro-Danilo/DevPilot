@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient, DevPilotApiError, readStoredToken, storeToken } from '../api/client';
 import type { DashboardSnapshot, DevPilotApplicationResponse } from '../api/types';
 import { renderFindingList } from '../components/FindingList';
@@ -33,6 +34,8 @@ const DASHBOARD_KEYS: Array<keyof DashboardSnapshot> = ['operator', 'workspace',
 const DASHBOARD_TOTAL = DASHBOARD_KEYS.length + 1;
 
 export function renderDashboard(root: HTMLElement): void {
+  const uoc011Fixture = renderUoc011BrowserStateFixture('ui.dashboard');
+  if (uoc011Fixture) { root.append(uoc011Fixture); return; }
   const state: DashboardState = {
     loading: false,
     warming: false,

@@ -33,6 +33,8 @@ def evaluate_uoc011_hardening(root: Path) -> dict[str, Any]:
     flags = _load(root, ".devpilot/interfaces/ui_operational_console_flags.json")
     state = _load(root, ".devpilot/project_state.json")
     package = _load(root, "ui/web/package.json")
+    capabilities = _load(root, ".devpilot/interfaces/ui_capability_registry.json")
+    manifest = _load(root, "docs/post_h_eval_002_uoc_011_manifest.json")
 
     route_items = {item["route_id"]: item for item in routes.get("routes", [])}
     record("ui-route-coverage", REQUIRED_UI_ROUTES <= set(route_items), "All nine operational UI routes are governed.")
@@ -46,7 +48,9 @@ def evaluate_uoc011_hardening(root: Path) -> dict[str, Any]:
 
     matrix_routes = {item.get("route_id") for item in matrix.get("routes", [])}
     matrix_states = set(matrix.get("required_states", []))
-    record("browser-state-matrix", matrix_routes == REQUIRED_UI_ROUTES and matrix_states == REQUIRED_STATES and matrix.get("summary", {}).get("cases_total") == 108, "Browser matrix is 9 routes x 12 states = 108 cases.")
+    runtime_matrix_ok = matrix_routes == REQUIRED_UI_ROUTES and matrix_states == REQUIRED_STATES and matrix.get("summary", {}).get("cases_total") == 108 and matrix.get("summary", {}).get("runtime_execution_required") is True and matrix.get("summary", {}).get("contract_only_is_sufficient") is False
+    runtime_matrix_ok = runtime_matrix_ok and all((item.get("evidence") == "browser-runtime-controlled-fixture" and item.get("runtime_required") is True) for route in matrix.get("routes", []) for item in (route.get("states") or {}).values())
+    record("browser-state-matrix", runtime_matrix_ok, "Browser matrix is 9 routes x 12 states = 108 runtime-required browser cases; contract-only evidence is insufficient.")
 
     required_headers = set(profile["security"]["required_response_headers"])
     record("api-security-headers", required_headers <= set(SECURITY_HEADERS), "API header set includes CSP and the UOC-011 required security headers.")
@@ -61,7 +65,7 @@ def evaluate_uoc011_hardening(root: Path) -> dict[str, Any]:
     record("wcag-keyboard-focus", ":focus-visible" in styles and ".skip-link" in styles and "prefers-reduced-motion" in styles, "Keyboard focus, skip link and reduced-motion contracts are present.")
 
     scripts = package.get("scripts", {})
-    record("ui-hardening-smokes", all(name in scripts for name in ("test:accessibility", "test:performance", "test:state-matrix")), "Accessibility, performance and state-matrix smokes are registered.")
+    record("ui-hardening-smokes", all(name in scripts for name in ("test:accessibility", "test:performance", "test:state-matrix", "test:browser-runtime-matrix-contract")), "Accessibility, performance, state-matrix and runtime-matrix contract smokes are registered.")
 
     safety = flags.get("safety", {})
     record("no-go-preserved", all(safety.get(key) is False for key in ("arbitrary_shell_allowed", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled")) and safety.get("uoc_010_external_api_enabled") is False, "No-go invariants remain engaged.")
@@ -77,6 +81,11 @@ def evaluate_uoc011_hardening(root: Path) -> dict[str, Any]:
     record("release-recovery-assets", all((root / path).is_file() for path in release_paths), "Install, backup/restore, upgrade/rollback, runbook and release notes are present.")
 
     record("project-lifecycle", state.get("uoc_011_authorized") is True and state.get("uoc_011_status") in {"implemented-initial/pending-windows-closure", "closed/PASS"}, "UOC-011 lifecycle is explicit without advancing pilot micro-sprint pointers.")
+    parity_actual: dict[str, int] = {}
+    for capability in capabilities.get("capabilities", []):
+        key = str(capability.get("parity_status")); parity_actual[key] = parity_actual.get(key, 0) + 1
+    record("capability-parity-derived", capabilities.get("summary", {}).get("parity_status_counts", {}) == parity_actual and sum(parity_actual.values()) == 193 and capabilities.get("summary", {}).get("uoc_011_authorized") is True, "Capability parity summary is derived from all 193 registry entries.")
+    record("uoc011-historical-closure-recorded", manifest.get("closure_commit") == "4ce3c2f851bc572a7b014b5e7aed423f15e3e30c" and manifest.get("status") == "closed/PASS", "UOC-011 manifest records its authoritative historical closure commit instead of null.")
 
     status = "PASS" if all(item["status"] == "PASS" for item in checks) else "BLOCK"
     return {

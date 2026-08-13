@@ -11859,3 +11859,8 @@ See `docs/05_operations/uoc_011_release_operator_runbook.md`. Final closure requ
 
 ## UOC-011 authoritative closure
 UOC-011 is CLOSED/PASS with local release declaration approved. Use the UOC-011 operator runbook for security, browser matrix, backup/restore, install and rollback support.
+
+
+## UI Operational Console final closure reconciliation
+
+After the UOC-011 repo339 closure, run the dedicated final-reconciliation operator. It must execute Test Impact, the 108-case browser-runtime matrix and one final full regression before creating repo340 and declaring the UI Operational Console backlog administratively CLOSED/PASS.

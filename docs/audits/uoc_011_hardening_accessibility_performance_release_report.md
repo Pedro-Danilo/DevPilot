@@ -25,3 +25,8 @@ Final browser, build, install and upgrade/rollback acceptance is authoritative o
 
 ## Authoritative closure
 Windows/browser/release closure: **PASS**. S0=0/S1=0; local release declaration approved.
+
+
+## Final closure reconciliation candidate
+
+The original UOC-011 Windows closure remains valid (`4ce3c2f851bc572a7b014b5e7aed423f15e3e30c` / repo339). Independent audit found three program-level closure gaps: contract-only 9×12 state evidence, stale closure metadata/parity summary, and absence of one final full regression for the transversal release. This reconciliation adds browser-runtime controlled fixtures for all 108 route/state cases, derives parity totals from registry entries and requires a single full-regression PASS before administrative program closure. It does not add product capabilities or relax no-go gates.

@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient } from '../api/client';
 import type {
   DevPilotApplicationResponse,
@@ -62,6 +63,8 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
   const root = document.createElement('div');
   root.className = 'workspace-documents-view';
   root.dataset.devpilotUiContract = 'ui.workspace-documents';
+  const uoc011Fixture = renderUoc011BrowserStateFixture('ui.workspace-documents');
+  if (uoc011Fixture) return uoc011Fixture;
   const deepLinkedId = new URLSearchParams(globalThis.location.search).get('document') ?? undefined;
   const state: WorkspaceDocumentsState = {
     loading: false,

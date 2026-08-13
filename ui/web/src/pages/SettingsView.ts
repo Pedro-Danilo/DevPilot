@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import {
   DevPilotApiClient,
   DevPilotApiError,
@@ -36,6 +37,8 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   const root = document.createElement('section');
   root.className = 'panel settings-panel';
   root.dataset.devpilotUiContract = 'ui.settings';
+  const uoc011Fixture = renderUoc011BrowserStateFixture('ui.settings');
+  if (uoc011Fixture) return uoc011Fixture;
   const state: SettingsState = {
     phase: 'idle',
     providerPlanPhase: 'idle',

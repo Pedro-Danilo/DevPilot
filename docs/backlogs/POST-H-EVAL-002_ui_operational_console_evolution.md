@@ -9,7 +9,7 @@ approval: "approved_by_owner"
 approved_at: "2026-08-04"
 program: "POST-H-EVAL-002"
 priority: "P0"
-implementation_status: "UOC-011-closed/PASS"
+implementation_status: "UOC-011-closed/PASS; final-program-reconciliation-pending"
 current_sprint: "UOC-011"
 next_sprint: "UOC-011"
 completed_sprints: "UOC-000,UOC-001,UOC-002,UOC-003,UOC-004,UOC-005,UOC-006,UOC-007,UOC-008,UOC-009,UOC-010,UOC-011"
@@ -55,6 +55,8 @@ uoc_004_browser_export_feedback_status: "closed/PASS-v1.0.3"
 uoc_010_implementation_status: "closed/PASS"
 uoc_011_authorized: true
 uoc_011_implementation_status: "closed/PASS"
+final_closure_reconciliation_status: "implemented-initial/pending-authoritative-windows-final-closure"
+final_closure_target_repo: "repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip"
 ---
 
 # POST-H-EVAL-002 — UI Operational Console Evolution
@@ -1203,4 +1205,8 @@ Candidate `implemented-initial`: `/ai` exposes four typed local adapters over ex
 <!-- UOC-010 authoritative closure: CLOSED/PASS; UOC-011 authorized -->
 
 
-<!-- UOC-011 implementation candidate: operational hardening materialized from repo338; authoritative closure pending Windows evidence. -->
+## 2026-08-12 — UOC-011 authoritative Windows closure and final reconciliation
+
+UOC-011 **CLOSED/PASS** historically on closure commit `4ce3c2f851bc572a7b014b5e7aed423f15e3e30c` with repo339. The final program-level reconciliation is not a new UOC sprint: it corrects stale closure metadata, derives the UI parity summary from all 193 capability entries, upgrades the 9×12 matrix from contract-only evidence to 108/108 real-browser controlled-fixture execution, and requires one final full regression before the backlog can be administratively CLOSED/PASS.
+
+Final reconciliation status: `implemented-initial/pending-authoritative-windows-final-closure`. Target baseline after PASS: `repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip`.

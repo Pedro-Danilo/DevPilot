@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient } from '../api/client';
 import type { DevPilotApplicationResponse, TraceSummaryItem } from '../api/types';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
@@ -22,6 +23,8 @@ export function renderTracesView(tokenProvider: () => string): HTMLElement {
   const section = document.createElement('section');
   section.className = 'viewer-panel';
   section.dataset.devpilotUiContract = 'ui.traces';
+  const uoc011Fixture = renderUoc011BrowserStateFixture('ui.traces');
+  if (uoc011Fixture) return uoc011Fixture;
   const state: TracesState = { loading: false, errors: {}, durations: {}, scope: 'active', query: '', page: 0, pageSize: 20 };
 
   async function refresh(): Promise<void> {

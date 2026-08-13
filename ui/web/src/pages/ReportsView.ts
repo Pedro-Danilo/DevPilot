@@ -1,3 +1,4 @@
+import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient } from '../api/client';
 import type { DevPilotApplicationResponse, ReportIndexItem } from '../api/types';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
@@ -25,6 +26,8 @@ export function renderReportsView(tokenProvider: () => string): HTMLElement {
   const section = document.createElement('section');
   section.className = 'viewer-panel';
   section.dataset.devpilotUiContract = 'ui.reports';
+  const uoc011Fixture = renderUoc011BrowserStateFixture('ui.reports');
+  if (uoc011Fixture) return uoc011Fixture;
   const state: ReportsState = {
     loading: false,
     errors: {},

@@ -19,7 +19,8 @@
     "test:run05b-integral-corrective-326": "node scripts/run05b-integral-corrective-326.mjs",
     "test:accessibility": "node scripts/uoc011-accessibility-smoke.mjs",
     "test:performance": "node scripts/uoc011-performance-smoke.mjs",
-    "test:state-matrix": "node scripts/uoc011-state-matrix-smoke.mjs"
+    "test:state-matrix": "node scripts/uoc011-state-matrix-smoke.mjs",
+    "test:browser-runtime-matrix-contract": "node scripts/uoc011-browser-runtime-matrix-contract.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -252,7 +253,11 @@
     "uoc011BrowserStateMatrixCases": 108,
     "uoc011AccessibilitySmoke": true,
     "uoc011PerformanceSmoke": true,
-    "uoc011ReleaseCandidate": true
+    "uoc011ReleaseCandidate": true,
+    "uoc011BrowserRuntimeMatrixRequired": true,
+    "uoc011BrowserRuntimeMatrixCases": 108,
+    "uoc011BrowserRuntimeMatrixContractOnlySufficient": false,
+    "uiOperationalConsoleFinalReconciliationStatus": "implemented-initial/pending-authoritative-windows-final-closure"
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,
