@@ -18071,15 +18071,104 @@
         "ui/web/scripts/uoc011-browser-runtime-matrix-contract.mjs",
         ".devpilot/interfaces/ui_capability_registry.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-00-a-program-activation",
+      "source_contract_id": "devpl-gsdlc-00-a-program-activation",
+      "schema_version": "2.0",
+      "domain": "governance.project_state",
+      "capability": "GuidedSdlcProgramActivationPilotPause",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_devpl_gsdlc_00_a_program_activation.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_eval_002_uoc_011_final_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/gsdlc/repo341_parent_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/00_product/DEVPL_GSDLC_program_charter.md",
+        "docs/00_product/DEVPL_GSDLC_legacy_preservation_matrix.md",
+        "docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md",
+        "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        "docs/audits/devpl_gsdlc_00_a_historical_contract_sweep.json",
+        "README.md",
+        "tests/test_devpl_gsdlc_00_a_program_activation.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/gsdlc/repo341_parent_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
+        "docs/00_product/DEVPL_GSDLC_program_charter.md",
+        "docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md",
+        "docs/00_product/DEVPL_GSDLC_legacy_preservation_matrix.md",
+        "docs/audits/devpl_gsdlc_00_a_historical_contract_sweep.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-00-A",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_a_program_activation.py tests/test_project_global_state.py tests/test_post_h_eval_002_activation_contract.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_uoc_011_final_reconciliation.py tests/test_documentation_source_registry_schema.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Governance-only activation: no runtime capability is enabled.",
+        "repo341 remains immutable parent until GSDLC-00-E.",
+        "POST-H-EVAL-002 is paused before 02-B while historical evidence remains unchanged."
+      ],
+      "trigger_hints": [
+        "gsdlc-program-activation",
+        "pilot-pause",
+        "repo341-parent"
+      ],
+      "impact_scope": [
+        "project-state",
+        "documentation-governance",
+        "historical-contracts",
+        "pilot-evidence"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
-  "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage.",
+  "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
-    "contracts_total": 259,
+    "contracts_total": 264,
     "external_api_used": false,
-    "last_updated_by": "UOC-007",
+    "last_updated_by": "DEVPL-GSDLC-00-A",
     "migrator": "TestContractRegistryV2Migrator",
     "mutations_performed_by_default": false,
     "network_used": false,
@@ -18134,7 +18223,8 @@
     "Corrective 326 adds a real Dashboard Health consumer, truthful Approval Center states, full Settings visual redaction and accessibility semantics.",
     "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03.",
     "Governance closure 327 adds the release-scoped contract that freezes RERUN-03 hashes, closes 01-D and advances the project state to 02-A.",
-    "UOC-000 operational-console capability contract registered as P0 impact/security metadata gate."
+    "UOC-000 operational-console capability contract registered as P0 impact/security metadata gate.",
+    "DEVPL-GSDLC-00-A keeps network/external API/runtime mutation disabled and creates successor governance coverage."
   ],
   "profiles": [
     {

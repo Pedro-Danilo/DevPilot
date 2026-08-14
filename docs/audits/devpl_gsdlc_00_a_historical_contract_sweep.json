@@ -1,0 +1,104 @@
+{
+  "schema_id": "devpilot.gsdlc.historical_contract_sweep.v1",
+  "schema_version": "1.0",
+  "program_id": "DEVPL-GSDLC",
+  "micro_sprint": "DEVPL-GSDLC-00-A",
+  "generated_at": "2026-08-14",
+  "status": "reviewed",
+  "rules": {
+    "historical-freeze": "verify past fact only",
+    "current-active": "follows current operational authority",
+    "successor-needed": "preserve history and add successor semantics",
+    "deprecated-after-proof": "removal only after equivalent replacement proof"
+  },
+  "items": [
+    {
+      "path": "tests/test_post_h_eval_002_activation_contract.py",
+      "markers": [
+        "current_phase == POST-H-EVAL-002",
+        "current_micro_sprint == POST-H-EVAL-002-02-B",
+        "current_repo repo341"
+      ],
+      "classification": "successor-needed",
+      "action_00_a": "preserve test; add dedicated GSDLC successor test and explicit pilot pause fields",
+      "reason": "activation contract remains historical/transition evidence and must not become owner of GSDLC state"
+    },
+    {
+      "path": "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+      "markers": [
+        "repo327",
+        "mutable current_repo/current_micro_sprint comments"
+      ],
+      "classification": "historical-freeze",
+      "action_00_a": "no rewrite",
+      "reason": "already freezes 01-D through dedicated historical fields"
+    },
+    {
+      "path": "tests/test_post_h_eval_002_uoc_011_final_reconciliation.py",
+      "markers": [
+        "9 routes",
+        "108 cases",
+        "current_micro_sprint POST-H-EVAL-002-02-B"
+      ],
+      "classification": "successor-needed",
+      "action_00_a": "preserve UOC closure; future GSDLC contracts must not reinterpret 9 routes as permanent maximum",
+      "reason": "UOC final state is immutable historical acceptance"
+    },
+    {
+      "path": "tests/test_project_global_state.py",
+      "markers": [
+        "current_micro_sprint allowlists limited to POST-H-EVAL-002"
+      ],
+      "classification": "successor-needed",
+      "action_00_a": "do not force legacy global pointers; introduce separate active_program fields and new focal contract",
+      "reason": "legacy global state schema/validators do not yet model independent program/workspace engineering state"
+    },
+    {
+      "path": ".devpilot/release/local_release_candidate_criteria.json",
+      "markers": [
+        "expected_current_micro_sprint POST-H-EVAL-002-02-B"
+      ],
+      "classification": "historical-freeze",
+      "action_00_a": "no change",
+      "reason": "repo341 remains parent/current release-candidate artifact until GSDLC-00-E baseline successor"
+    },
+    {
+      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-enable-or-continue-blocked.md",
+      "markers": [
+        "continue-blocked"
+      ],
+      "classification": "historical-freeze",
+      "action_00_a": "preserve",
+      "reason": "GSDLC-02 may create local authenticated-operator successor without rewriting enterprise boundary"
+    },
+    {
+      "path": ".devpilot/interfaces/uoc011_browser_state_matrix.json",
+      "markers": [
+        "routes=9",
+        "cases_total=108"
+      ],
+      "classification": "historical-freeze",
+      "action_00_a": "preserve",
+      "reason": "browser matrix proves UOC closure only"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "markers": [
+        "current_phase POST-H-EVAL-002",
+        "current_micro_sprint POST-H-EVAL-002-02-B"
+      ],
+      "classification": "current-active",
+      "action_00_a": "preserve legacy activation/current checkpoint fields; add independent gsdlc_* authority and post_h_eval_002_execution_status=paused-before-02-b",
+      "reason": "avoids semantic overloading before GSDLC-00-D successor contract migration"
+    }
+  ],
+  "summary": {
+    "historical_freeze": 4,
+    "current_active": 1,
+    "successor_needed": 3,
+    "deprecated_after_proof": 0,
+    "tests_rewritten_only_to_pass": 0,
+    "network_used": false,
+    "external_api_used": false
+  }
+}

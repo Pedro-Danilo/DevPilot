@@ -18,7 +18,7 @@ source_repo_manifest_schema: "devpilot.post_h_eval_002.operational_baseline.v1"
 source_repo_sha256_embedded: false
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 depends_on: "POST-H-EVAL-002-01 closed/pass"
-implementation_status: "active/02-b-authorized-after-02-a-pass-with-gaps"
+implementation_status: "paused-before-02-b/by-DEVPL-GSDLC-00-A"
 current_micro_sprint: "POST-H-EVAL-002-02-B"
 next_micro_sprint: "POST-H-EVAL-002-02-C"
 workspace_id: "inventory-sales-local"
@@ -35,7 +35,10 @@ dry_run_default: true
 
 ## 1. Estado vigente y autorización
 
-`active/02-b-authorized-after-02-a-pass-with-gaps`.
+`paused-before-02-b/by-DEVPL-GSDLC-00-A`.
+
+
+> **Execution gate vigente:** `POST-H-EVAL-002-02-B` no puede ejecutarse durante DEVPL-GSDLC. La autorización previa a la pausa se conserva como hecho histórico. El paquete `POST_H_EVAL_002_02_B_PRECODE_BASELINE_v1_0_1.zip` queda `REFERENCE/ORACLE`; no debe inyectar artifacts del proyecto. Reanudación prevista: `DEVPL-GSDLC-13`.
 
 `POST-H-EVAL-002-02-A` cerró `PASS-WITH-GAPS` con `S0=0`, `S1=0`, workspace Git independiente y evidencia autoritativa `POST_H_EVAL_002_02_A_EVIDENCE.zip` (`SHA-256=cbd00d7d278050b36a1f6bf919567a6c33263e940d72aa5484941890ff198e2f`). El único gap de cierre fue `UX-GAP-02-A-001`: Reports UI no descubría reportes anidados. Ese gap fue cerrado por el corrective UI-first y posteriormente absorbido por UOC-000→UOC-011, cuyo programa cerró `CLOSED/PASS`. No se reejecuta 02-A: la transición requerida es únicamente re-vincular la plataforma vigente antes de 02-B.
 

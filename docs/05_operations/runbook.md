@@ -14,6 +14,12 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+
+## DEVPL-GSDLC-00-A — Activación de programa y pausa del piloto
+
+Estado operativo: `DEVPL-GSDLC active/00-a`; POST-H-EVAL-002 queda `PAUSED_BEFORE_02_B`. `repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip` sigue siendo parent histórico y baseline vigente hasta GSDLC-00-E. No ejecutar el paquete 02-B; no modificar `inventory-sales-local`; no habilitar runtime nuevo. GSDLC-00-B y GSDLC-R01-A quedan autorizados únicamente después de evidencia PASS de 00-A.
+
+
 ## 2026-07-16 — POST-H-EVAL-002-01-D acceptance-ready baseline
 
 - Current repository: `repo_DevPilot_Local_322_POST_H_EVAL_002_01_D_ACCEPTANCE_READY.zip`.

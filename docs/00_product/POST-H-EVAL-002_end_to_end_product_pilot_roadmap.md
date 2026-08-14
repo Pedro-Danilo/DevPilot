@@ -12,7 +12,7 @@ priority: "P0"
 source_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
 pilot_baseline_repo: "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
 source_runbook: "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md"
-implementation_status: "active/02-b-authorized-after-02-a-pass-with-gaps"
+implementation_status: "paused-before-02-b/by-DEVPL-GSDLC-00-A"
 current_wave: "EVAL-002-02"
 next_wave: "EVAL-002-03"
 local_first: true
@@ -29,7 +29,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
  
-`active/02-B-authorized-after-02-A-pass-with-gaps/post-UOC-rebound`. `POST-H-EVAL-002-02-A` permanece cerrado `PASS-WITH-GAPS`, el workspace `inventory-sales-local` conserva el commit `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y 02-B continúa autorizado. El programa UOC-000→UOC-011 quedó `CLOSED/PASS`; su cierre final produjo repo340, 108/108 casos browser, regresión 2229/2229 y `S0=0/S1=0`. Esta reconciliación documental/gobernada genera repo341 como baseline de transición para retomar 02-B sin reabrir 01 ni repetir 02-A.
+`paused-before-02-B/by-DEVPL-GSDLC-00-A`. `POST-H-EVAL-002-02-A` permanece cerrado `PASS-WITH-GAPS`, el workspace `inventory-sales-local` conserva el commit `a10d97f425c31300860de7ef5a3c9fd82d6d6f59` y **02-B no se ejecuta mientras la pausa esté vigente**. La autorización previa se conserva como hecho histórico; la reanudación operativa queda reservada a `DEVPL-GSDLC-13`. El programa UOC-000→UOC-011 quedó `CLOSED/PASS`; su cierre final produjo repo340, 108/108 casos browser, regresión 2229/2229 y `S0=0/S1=0`. Esta reconciliación documental/gobernada genera repo341 como baseline de transición para retomar 02-B sin reabrir 01 ni repetir 02-A.
 
 ## 2. Propósito
 
@@ -75,12 +75,16 @@ La cadena de precedencia operativa para retomar el piloto es:
 repo318  = baseline ejecutable congelado histórico del piloto
 repo327  = cierre histórico de gobernanza de POST-H-EVAL-002-01
 repo340  = cierre autoritativo de UI Operational Console Evolution
-repo341  = reconciliación documental/gobernada para reanudar 02-B
+repo341  = parent histórico inmutable de DEVPL-GSDLC; 02-B queda pausado antes de ejecución
 ```
 
 `repo327` y `repo340` permanecen como hitos históricos inmutables. Para 02-B y posteriores, `current_repo` y el baseline verificable deben resolver a `repo341` o a un sucesor gobernado explícitamente por un cierre posterior. La UI actual registra nueve rutas (`/`, `/workspace/documents`, `/reports`, `/traces`, `/approvals`, `/jobs`, `/quality`, `/ai`, `/settings`); esto **no** reescribe la evidencia histórica 5/5 de la ola 01.
 
 La evolución UOC no autoriza por sí sola ejecución arbitraria desde UI: el Capability Registry final conserva 193 capacidades clasificadas, con 15 `UI-NATIVE`, 11 `UI-READ-ONLY`, 161 `CLI-BRIDGE-REGISTERED`, 5 `POLICY-BLOCKED` y 1 `PLANNED`. El piloto debe medir uso real y no maquillar esa brecha.
+
+### 2.2. Pausa administrativa DEVPL-GSDLC
+
+Desde DEVPL-GSDLC-00-A, el piloto queda `PAUSED_BEFORE_02_B`. Repo341 permanece como parent verificable; los cierres 01-A→01-D, 02-A y UOC se conservan. El paquete pre-code 02-B v1.0.1 es `REFERENCE/ORACLE`, no autoridad ejecutable. La pausa no cancela el piloto y solo puede levantarse por `DEVPL-GSDLC-13` o successor decision aprobada por el owner.
 
 ## 3. Principios de ejecución
 

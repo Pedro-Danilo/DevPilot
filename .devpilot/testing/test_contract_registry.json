@@ -10248,10 +10248,74 @@
         "ui/web/scripts/uoc011-browser-runtime-matrix-contract.mjs",
         ".devpilot/interfaces/ui_capability_registry.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-00-a-program-activation",
+      "scope": "integration",
+      "owner": "DEVPL-GSDLC-00-A",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_gsdlc_00_a_program_activation.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_eval_002_activation_contract.py",
+        "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+        "tests/test_post_h_eval_002_uoc_011_final_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        ".devpilot/gsdlc/repo341_parent_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
+        "docs/00_product/DEVPL_GSDLC_program_charter.md",
+        "docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md",
+        "docs/00_product/DEVPL_GSDLC_legacy_preservation_matrix.md",
+        "docs/audits/devpl_gsdlc_00_a_historical_contract_sweep.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/gsdlc/repo341_parent_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/00_product/DEVPL_GSDLC_program_charter.md",
+        "docs/00_product/DEVPL_GSDLC_legacy_preservation_matrix.md",
+        "docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md",
+        "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
+        "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
+        "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
+        "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        "docs/audits/devpl_gsdlc_00_a_historical_contract_sweep.json",
+        "README.md",
+        "tests/test_devpl_gsdlc_00_a_program_activation.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_a_program_activation.py tests/test_project_global_state.py tests/test_post_h_eval_002_activation_contract.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_uoc_011_final_reconciliation.py tests/test_documentation_source_registry_schema.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage.",
   "notes": [
     "The registry documents and validates test intent; it does not dynamically execute pytest from JSON.",
     "Historical sprint contracts must not validate mutable global project state.",
@@ -10313,7 +10377,8 @@
     "RUN05B RERUN-02 remains forensic-only BLOCK; 01-D requires independent validation plus PILOT-E2E-001-RUN-05B-RERUN-03.",
     "Governance closure 327 records the authoritative RERUN-03 PASS, closes 01-D, advances the current micro-sprint to 02-A and keeps the package pending full Windows validation.",
     "UOC-000 registers complete CLI/UI capability classification and no-shell/opaque-ID/governed-job contracts.",
-    "UOC-007 adds exact CLI capability job contracts and a no-shell governed lifecycle framework; canonical runtime adapters remain disabled."
+    "UOC-007 adds exact CLI capability job contracts and a no-shell governed lifecycle framework; canonical runtime adapters remain disabled.",
+    "DEVPL-GSDLC-00-A registers a successor governance contract without making historical POST-H-EVAL/UOC tests own the new program state."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",

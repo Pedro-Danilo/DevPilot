@@ -25,6 +25,10 @@ plugin_execution_enabled: false
 production_multiuser_enabled: false
 ---
 
+
+> **PAUSED BEFORE 02-B — DEVPL-GSDLC-00-A.** No ejecutar 02-B mientras la pausa esté vigente. 01-A→01-D y 02-A se preservan; reanudación prevista únicamente en DEVPL-GSDLC-13. Repo341 `repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip` permanece parent histórico inmutable.
+
+
 # POST-H-EVAL-002 — Runbook altamente detallado del piloto real end-to-end UI-first
 
 ## 0. Decisión ejecutiva

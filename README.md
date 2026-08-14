@@ -1,3 +1,15 @@
+## DEVPL-GSDLC — Guided SDLC Product Evolution
+
+Programa activo: `DEVPL-GSDLC`; micro-sprint de activación: `DEVPL-GSDLC-00-A`; siguiente: `DEVPL-GSDLC-00-B`.
+
+POST-H-EVAL-002 permanece **pausado antes de 02-B**. Repo341 (`e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b`, commit `cff43e8d992ff6139bd13bb1809ce4d497ae0952`) es parent histórico inmutable. El workspace `inventory-sales-local` no se modifica. Guided SDLC runtime aún no está implementado.
+
+Fuentes canónicas del programa:
+- `docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md`
+- `docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md`
+- `docs/00_product/DEVPL_GSDLC_program_charter.md`
+- `docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md`
+
 ## POST-H-EVAL-002 — Activación del piloto real end-to-end UI-first
 
 Último hito: `POST-H-034`

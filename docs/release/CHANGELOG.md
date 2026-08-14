@@ -1,3 +1,11 @@
+## 2026-08-14 — DEVPL-GSDLC-00-A program activation and pilot pause
+
+- Activates DEVPL-GSDLC as the governed Guided SDLC Product Evolution program.
+- Records repo341 (`cff43e8d992ff6139bd13bb1809ce4d497ae0952`, SHA-256 `e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b`) as immutable parent.
+- Pauses POST-H-EVAL-002 before 02-B without changing `inventory-sales-local`; 01-A→01-D and 02-A remain historical evidence.
+- Classifies the prepared 02-B pre-code package as REFERENCE/ORACLE, not executable authority.
+- Adds no Guided SDLC runtime, authentication, network/provider, filesystem-write or other sensitive capability.
+
 ## 2026-08-10 — POST-H-EVAL-002 UOC-006 governed Git operations (implemented-initial)
 
 - Parte del cierre autoritativo UOC-005 (`repo_DevPilot_Local_333_POST_H_EVAL_002_UOC_005.zip`).
