@@ -11875,3 +11875,8 @@ Final reconciliation completed on source commit `1c986daf1e6a9703c7fde2a56036716
 ## POST-H-EVAL-002 — transición post-UOC a 02-B (repo341)
 
 Repo340 permanece como cierre autoritativo histórico de UI Operational Console Evolution. La reanudación del piloto usa `repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip`, que solo reconcilia documentación, Project State y contratos históricos para permitir la sucesión del baseline. El workspace `inventory-sales-local` conserva `a10d97f425c31300860de7ef5a3c9fd82d6d6f59`; 01 y 02-A no se reabren. La siguiente operación sustantiva es `POST-H-EVAL-002-02-B`.
+
+
+## DEVPL-GSDLC-00 — cierre y baseline successor
+
+GSDLC-00 closes the governance-only program activation wave. Parent repo341 remains immutable; POST-H-EVAL-002 stays paused before 02-B. The successor canonical source archive is `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`, produced only with `git archive HEAD` after the final Windows gates and one required full regression. `DEVPL-GSDLC-01` is the next authorized backlog; Guided SDLC runtime/auth/filesystem-write/provider capabilities remain unimplemented/disabled.

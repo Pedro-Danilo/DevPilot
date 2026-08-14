@@ -107,9 +107,9 @@ def test_00_d_no_go_flags_remain_false_and_auth_is_not_enabled():
     assert state["gsdlc_00_c_implementation_commit"] == "3c2dbff91eaddbbb92af41bc7ac6b9aacb309ba0"
     assert state["gsdlc_00_c_adrs_owner_approved"] is False
     assert state["gsdlc_00_c_adrs_review_status"] == "reviewed/pending-owner-adjudication"
-    assert state["gsdlc_program_status"] == "active/00-d"
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-00-D"
-    assert state["gsdlc_next_micro_sprint"] == "DEVPL-GSDLC-00-E"
+    assert state["gsdlc_00_d_program_status_at_close"] == "active/00-d"
+    assert state["gsdlc_00_d_current_micro_sprint_at_close"] == "DEVPL-GSDLC-00-D"
+    assert state["gsdlc_00_d_next_micro_sprint_at_close"] == "DEVPL-GSDLC-00-E"
     for key in (
         "multiuser_auth_enabled", "filesystem_write_allowed", "external_api_allowed",
         "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled"
@@ -148,7 +148,7 @@ def test_00_d_source_registry_and_tcr_register_successor_governance():
         "DEVPL-GSDLC-00-D-TEST-IMPACT-BASELINE",
     }
     assert required <= ids
-    assert registry["gsdlc_last_registered_micro_sprint"] == "DEVPL-GSDLC-00-D"
+    assert registry["gsdlc_00_d_last_registered_micro_sprint_at_close"] == "DEVPL-GSDLC-00-D"
     assert registry["gsdlc_00_c_last_registered_micro_sprint_at_close"] == "DEVPL-GSDLC-00-C"
     v1 = data(".devpilot/testing/test_contract_registry.json")
     v2 = data(".devpilot/testing/test_contract_registry_v2.json")

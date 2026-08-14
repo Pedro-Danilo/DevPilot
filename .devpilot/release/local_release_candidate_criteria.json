@@ -8,7 +8,7 @@
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
         "current_micro_sprint": "POST-H-EVAL-002-02-B",
-        "current_repo": "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip",
+        "current_repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
         "next_micro_sprint": "POST-H-EVAL-002-02-C",
@@ -27,8 +27,8 @@
       "freshness_policy": "contextual-field-match",
       "json_required": true,
       "path": ".devpilot/project_state.json",
-      "producer_sprint": "POST-H-EVAL-002",
-      "title": "Project state source/current repo freshness for current local implementation"
+      "producer_sprint": "DEVPL-GSDLC-00-E",
+      "title": "Project state current canonical repo freshness after DEVPL-GSDLC-00 closure"
     },
     {
       "category": "production-ready",
@@ -719,5 +719,6 @@
   "uoc_004_source_write_enabled": false,
   "uoc_004_status": "closed/PASS",
   "uoc_005_authorized": true,
-  "updated": "2026-08-12"
+  "updated": "2026-08-14",
+  "updated_by": "DEVPL-GSDLC-00-E"
 }

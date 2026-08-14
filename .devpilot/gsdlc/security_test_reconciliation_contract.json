@@ -2,7 +2,7 @@
   "schema_id": "devpilot.gsdlc.00d.security_test_reconciliation.v1",
   "program_id": "DEVPL-GSDLC",
   "micro_sprint": "DEVPL-GSDLC-00-D",
-  "status": "implemented-controlled/pending-windows-validation",
+  "status": "closed/PASS",
   "source_commit_expected": "3c2dbff91eaddbbb92af41bc7ac6b9aacb309ba0",
   "security": {
     "threats_total": 18,
@@ -136,5 +136,8 @@
   },
   "network_used": false,
   "external_api_used": false,
-  "runtime_source_changed": false
+  "runtime_source_changed": false,
+  "closed_by": "DEVPL-GSDLC-00-E",
+  "implementation_commit": "f932496a1163ab8f60ccb640d675dde61ed8fbe2",
+  "windows_evidence_sha256": "52c2fc60e761e3fb836fdf30573b9cfd2893bd0fcb505675fc80bd5133329ec4"
 }

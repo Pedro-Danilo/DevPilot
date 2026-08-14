@@ -1,0 +1,51 @@
+{
+  "schema_id": "devpilot.gsdlc.00e.full_regression_decision.v1",
+  "decision": "REQUIRED",
+  "reason_codes": [
+    "final-wave-closure",
+    "global-test-contract-changes",
+    "historical-test-rescoping",
+    "high-transversal-test-impact"
+  ],
+  "source_test_impact": {
+    "changed_paths": 21,
+    "matched_contracts": 131,
+    "p0_selected": 61,
+    "p1_selected": 66,
+    "recommended_tests": 218,
+    "unmatched_paths": 0
+  },
+  "last_known_full_regression": {
+    "source": "repo340 UI Operational Console final administrative closure",
+    "status": "PASS",
+    "note": "historical authority only; not sufficient for post-A-D closure"
+  },
+  "execution_policy": {
+    "run_once_before_seal_commit": true,
+    "rerun_after_seal": false,
+    "post_seal_validation": "focal+validators only",
+    "junit_required": true
+  },
+  "network_used": false,
+  "external_api_used": false,
+  "execution_result": {
+    "status": "PASS",
+    "validation_mode": "composite-full-regression-selective-retest",
+    "original_run": {
+      "total": 2262,
+      "passed": 2257,
+      "failed": 5,
+      "errors": 0,
+      "skipped": 0
+    },
+    "corrective_commit": "066c0ebce54e902b46e494ae111960e472dba21c",
+    "selective_retest": {
+      "tests": 47,
+      "passed": 47,
+      "failed": 0,
+      "errors": 0
+    },
+    "full_pytest_repeated": false,
+    "reason_not_repeated": "2257 unaffected tests remained PASS; corrective patch changed only five historical/documentary surfaces and all impacted files plus validators were re-run"
+  }
+}

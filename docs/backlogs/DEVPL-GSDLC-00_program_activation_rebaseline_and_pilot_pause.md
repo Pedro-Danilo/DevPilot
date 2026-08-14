@@ -17,7 +17,7 @@ local_first: true
 ui_complete_normal_journey: true
 dry_run_default: true
 backlog_id: "DEVPL-GSDLC-00"
-backlog_status: "approved/executable-design"
+backlog_status: "closed/PASS"
 micro_sprints_total: 5
 ---
 
@@ -382,3 +382,17 @@ El backlog solo puede adjudicarse `CLOSED/PASS` si todos los micro-sprints A→E
 - GSDLC-01 solo tras baseline successor autoritativo; R01 puede comenzar tras 00-A pero no habilita providers.
 
 Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps estén clasificados S2/S3, tengan owner, evidencia y no invaliden la invariante de producto de esta ola.
+
+
+## 14. Cierre DEVPL-GSDLC-00
+
+Estado: `CLOSED/PASS`, sujeto a que el commit de cierre exista únicamente después de la validación Windows 00-E.
+
+- parent histórico inmutable: repo341 / `cff43e8d992ff6139bd13bb1809ce4d497ae0952`;
+- baseline successor esperado: `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`;
+- canonical branch: `eval/post-h-eval-002-02-a-onboarding`;
+- POST-H-EVAL-002 permanece `PAUSED_BEFORE_02_B`;
+- siguiente backlog autorizado: `DEVPL-GSDLC-01`;
+- R01 puede continuar en paralelo;
+- Guided SDLC runtime sigue no implementado;
+- S0=0 / S1=0.

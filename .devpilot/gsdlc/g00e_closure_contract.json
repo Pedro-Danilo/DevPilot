@@ -1,0 +1,75 @@
+{
+  "schema_id": "devpilot.gsdlc.00e.closure_contract.v1",
+  "program_id": "DEVPL-GSDLC",
+  "backlog_id": "DEVPL-GSDLC-00",
+  "micro_sprint": "DEVPL-GSDLC-00-E",
+  "status": "closed/PASS",
+  "source_commit": "f932496a1163ab8f60ccb640d675dde61ed8fbe2",
+  "parent_repo341": {
+    "artifact": "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip",
+    "git_commit": "cff43e8d992ff6139bd13bb1809ce4d497ae0952",
+    "sha256": "e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b",
+    "immutable": true
+  },
+  "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
+  "baseline_artifact_name": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+  "baseline_identity_authority": [
+    "git_commit",
+    "sha256",
+    "BASELINE_CURRENT.json"
+  ],
+  "full_regression": {
+    "required": true,
+    "reason": "cumulative-global-contract-risk",
+    "result_must_be": "PASS-composite-before-seal",
+    "evidence_location": "external-windows-evidence",
+    "result": "PASS",
+    "validation_mode": "composite-full-regression-selective-retest"
+  },
+  "pilot": {
+    "status": "PAUSED_BEFORE_02_B",
+    "workspace_commit": "a10d97f425c31300860de7ef5a3c9fd82d6d6f59",
+    "mutated": false,
+    "resume_authority": "DEVPL-GSDLC-13"
+  },
+  "next": {
+    "backlog_authorized": "DEVPL-GSDLC-01",
+    "r01_may_continue": true,
+    "post_h_eval_002_02_b_authorized": false
+  },
+  "safety": {
+    "runtime_guided_sdlc_implemented": false,
+    "multiuser_auth_enabled": false,
+    "generic_filesystem_write_enabled": false,
+    "external_api_enabled": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "arbitrary_shell_enabled": false,
+    "network_used_runtime": false,
+    "secrets_expected": 0
+  },
+  "s0": 0,
+  "s1": 0,
+  "preseal_recovery": {
+    "required": true,
+    "corrective_commit": "066c0ebce54e902b46e494ae111960e472dba21c",
+    "parent_commit": "f932496a1163ab8f60ccb640d675dde61ed8fbe2",
+    "trigger": "full-regression-5-contractual-documentary-failures",
+    "original_full_regression": {
+      "total": 2262,
+      "passed": 2257,
+      "failed": 5,
+      "errors": 0,
+      "skipped": 0
+    },
+    "selective_retest": {
+      "tests": 47,
+      "passed": 47,
+      "failed": 0,
+      "errors": 0
+    },
+    "validation_mode": "composite-full-regression-selective-retest",
+    "full_pytest_repeated": false
+  }
+}

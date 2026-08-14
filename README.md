@@ -6344,3 +6344,8 @@ Status: `CLOSED/PASS`. Historical UOC-011 closure: `4ce3c2f851bc572a7b014b5e7aed
 ## UI Operational Console final administrative closure
 
 POST-H-EVAL-002 UI Operational Console Evolution is administratively `CLOSED/PASS` after the final reconciliation source commit, 108/108 browser-runtime route/state verification, one final full regression, reconciled capability parity and creation of repo340. The release is local operational and remains explicitly non-Enterprise, non-SaaS and non-remote.
+
+
+## DEVPL-GSDLC-00 — Program activation/rebaseline closure
+
+GSDLC-00 closes the governance-only program activation wave. Parent repo341 remains immutable; POST-H-EVAL-002 stays paused before 02-B. The successor canonical source archive is `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`, produced only with `git archive HEAD` after the final Windows gates and one required full regression. `DEVPL-GSDLC-01` is the next authorized backlog; Guided SDLC runtime/auth/filesystem-write/provider capabilities remain unimplemented/disabled.

@@ -18461,6 +18461,97 @@
       ],
       "security_negative_required": true,
       "approval_scope": "owner-adjudication-before-00-e"
+    },
+    {
+      "contract_id": "devpl-gsdlc-00-e-baseline-closure",
+      "source_contract_id": "devpl-gsdlc-00-e-baseline-closure",
+      "schema_version": "2.0",
+      "domain": "release",
+      "capability": "GuidedSdlcProgramActivationBaselineClosure",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "high",
+      "expected_duration_seconds": 7200,
+      "test_files": [
+        "tests/test_devpl_gsdlc_00_e_baseline_closure.py",
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_026_evidence_freshness.py"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/g00e_closure_contract.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
+        "docs/audits/devpl_gsdlc_00_e_full_regression_decision.json",
+        "docs/audits/devpl_gsdlc_00_e_historical_contract_sweep_final.json",
+        "docs/audits/devpl_gsdlc_00_e_closure_report.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py",
+        "tests/test_devpl_gsdlc_00_e_baseline_closure.py"
+      ],
+      "validates": [
+        ".devpilot/gsdlc/g00e_closure_contract.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
+        "docs/audits/devpl_gsdlc_00_e_full_regression_decision.json",
+        "docs/audits/devpl_gsdlc_00_e_historical_contract_sweep_final.json",
+        "docs/audits/devpl_gsdlc_00_e_closure_report.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-00-E",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_e_baseline_closure.py tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m pytest -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "00-E seals governance-only GSDLC-00 after one required cumulative full regression.",
+        "The baseline is generated from git archive HEAD only after ff-only canonical promotion.",
+        "Guided SDLC runtime and all sensitive successor capabilities remain disabled."
+      ],
+      "trigger_hints": [
+        "gsdlc-closure",
+        "baseline-change",
+        "current-repo-change",
+        "release-candidate-change"
+      ],
+      "impact_scope": [
+        "governance",
+        "release",
+        "project-state",
+        "historical-contracts",
+        "evidence-freshness"
+      ],
+      "security_negative_required": true,
+      "approval_scope": "owner-adjudication-and-canonical-promotion"
     }
   ],
   "created_by": "POST-H-003-E",

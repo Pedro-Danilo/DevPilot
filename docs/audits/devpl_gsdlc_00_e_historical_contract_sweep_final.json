@@ -1,0 +1,37 @@
+{
+  "schema_id": "devpilot.gsdlc.00e.historical_contract_sweep_final.v1",
+  "program_id": "DEVPL-GSDLC",
+  "backlog_id": "DEVPL-GSDLC-00",
+  "micro_sprint": "DEVPL-GSDLC-00-E",
+  "source_sweep_path": "docs/audits/devpl_gsdlc_00_d_historical_contract_sweep.json",
+  "source_sweep_sha256": "201ae7e227a320f116e21122e085c61068ee428fe1adfdc9e7cf02cbad7f4302",
+  "matches_total": 546,
+  "classified_total": 546,
+  "unclassified_total": 0,
+  "classification_counts": {
+    "current-active": 202,
+    "historical-freeze": 322,
+    "successor-needed": 22
+  },
+  "successor_needed_total": 22,
+  "tests_rewritten_only_to_pass": false,
+  "no_go_flags_weakened": false,
+  "repo341_preserved_as_historical_parent": true,
+  "uoc_route_count_historical_not_future_maximum": true,
+  "pilot_pause_preserved": true,
+  "status": "closure-ready",
+  "preseal_residual_reconciliation": {
+    "triggered_by_full_regression": true,
+    "residual_failures_total": 5,
+    "missed_patterns": [
+      "last_registered_sprint",
+      "frontmatter phase"
+    ],
+    "corrective_commit": "066c0ebce54e902b46e494ae111960e472dba21c",
+    "historical_contract_tests_corrected": 4,
+    "historical_document_regressions_corrected": 1,
+    "selective_retest_passed": 47,
+    "full_pytest_repeated": false,
+    "status": "reconciled-before-baseline"
+  }
+}

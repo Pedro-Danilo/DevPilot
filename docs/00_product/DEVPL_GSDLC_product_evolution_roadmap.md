@@ -384,3 +384,15 @@ DEVPL-GSDLC solo puede cerrar si:
 La aprobación de v1.1.0 autoriza **solo el programa y sus backlogs**. No autoriza aplicar source changes todavía.
 
 La implementación comienza con un prompt operativo separado de GSDLC-00.
+
+
+## 18. Estado de ejecución después de GSDLC-00
+
+`DEVPL-GSDLC-00 = CLOSED/PASS` una vez sellado por 00-E con baseline autoritativo.
+
+- baseline successor: `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`;
+- repo341 permanece parent histórico inmutable;
+- `DEVPL-GSDLC-01` queda autorizado;
+- `DEVPL-GSDLC-R01` puede continuar según su secuencia;
+- `POST-H-EVAL-002-02-B` permanece pausado;
+- ninguna capability Guided SDLC runtime fue implementada por GSDLC-00.

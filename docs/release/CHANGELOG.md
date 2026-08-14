@@ -1,3 +1,11 @@
+## 2026-08-14 — DEVPL-GSDLC-00-E preseal regression reconciliation
+
+- Final full regression on 00-D produced `2257 passed, 5 failed, 0 errors, 0 skipped` across 2262 tests.
+- Reconciles four stale historical tests that still owned mutable global pointers and restores the historical `FUNC-SPRINT-20` creation phase in `c4_component.md`.
+- Corrective commit: `066c0ebce54e902b46e494ae111960e472dba21c`.
+- Selective impact revalidation: `47/47 PASS` plus Project State, Docs Governance, TCR v1/v2, Evidence Freshness and Test Impact PASS.
+- Full pytest is not repeated; closure uses an auditable composite regression marker before the final seal.
+
 ## 2026-08-14 — DEVPL-GSDLC-00-A program activation and pilot pause
 
 - Activates DEVPL-GSDLC as the governed Guided SDLC Product Evolution program.
@@ -3068,3 +3076,8 @@ Program-level closure reconciliation after UOC-011: fixes closure metadata/parit
 - Preserves historical repo327 wave-01 evidence and the `inventory-sales-local` onboarding commit without rerun.
 - Fixes historical tests that incorrectly froze the active `current_repo` at repo327/repo340.
 - No runtime feature, sensitive capability or no-go policy is enabled by this reconciliation.
+
+
+## 2026-08-14 — DEVPL-GSDLC-00 closure
+
+GSDLC-00 closes the governance-only program activation wave. Parent repo341 remains immutable; POST-H-EVAL-002 stays paused before 02-B. The successor canonical source archive is `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`, produced only with `git archive HEAD` after the final Windows gates and one required full regression. `DEVPL-GSDLC-01` is the next authorized backlog; Guided SDLC runtime/auth/filesystem-write/provider capabilities remain unimplemented/disabled.
