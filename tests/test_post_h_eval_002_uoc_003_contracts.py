@@ -165,7 +165,12 @@ def test_uoc_003_testing_and_documentation_governance_are_registered() -> None:
         and str(value).strip().lower().startswith(("implemented", "closed"))
     ]
     latest = max(realized)
-    assert str(registry["last_registered_sprint"]).startswith(f"UOC-{latest:03d}")
+    status_key = f"uoc_{latest:03d}_status"
+    # The UOC-003 contract freezes UOC lifecycle facts, not the mutable global
+    # last_registered_sprint pointer used by later closures/programs.
+    assert str(state[status_key]).lower().startswith("closed")
+    assert registry["project_state_snapshot"][status_key] == state[status_key]
+    assert registry["last_registered_sprint"] == state["last_registered_sprint"]
 
 
 def test_uoc_003_project_state_tracks_open_and_closed_lifecycle() -> None:

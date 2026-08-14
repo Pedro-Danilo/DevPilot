@@ -40,11 +40,11 @@ def test_uoc006_manifest_state_backlog_and_next_gate_are_synchronized() -> None:
         assert state["uoc_007_authorized"] is False
     assert state["uoc_006_status"] == manifest["status"]
     if manifest["closed"]:
-        # UOC-006 owns immutable closure facts, not the mutable global current-sprint pointer.
-        # Later UOC sprints may legitimately advance last_registered_sprint/current_sprint.
-        registered = str(state["last_registered_sprint"])
-        assert registered.startswith("UOC-")
-        assert int(registered[4:7]) >= 6
+        # UOC-006 owns immutable closure facts, not the mutable global
+        # last_registered_sprint/current_sprint pointer. Later UOC closures and
+        # successor programs may legitimately replace that global pointer.
+        assert state["uoc_006_status"] == "closed/PASS"
+        assert state["uoc_007_authorized"] is True
         assert 'uoc_007_authorized: true' in backlog
     else:
         assert state["last_registered_sprint"] == "UOC-006"

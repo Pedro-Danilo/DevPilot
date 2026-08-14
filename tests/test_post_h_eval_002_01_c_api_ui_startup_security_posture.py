@@ -77,10 +77,14 @@ def test_01_c_preserves_freeze_and_scope_boundary() -> None:
 
 
 def test_01_c_governance_docs_are_synchronized() -> None:
-    roadmap = _text("docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md")
+    # 01-C owns immutable closure facts; it must not own the mutable current
+    # roadmap status after the pilot is paused or successor programs advance.
+    manifest = _json("docs/post_h_eval_002_01_c_manifest.json")
     backlog = _text("docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md")
     audit = _text("docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md")
-    assert any(marker in roadmap for marker in ("active/02-A-authorized", "active/02-b-authorized-after-02-a-pass-with-gaps"))
+    assert manifest["status"] == "closed"
+    assert manifest["decision"] == "PASS-WITH-GAPS"
+    assert manifest["evidence"]["final_package"]["sha256"] == "c962739b1c9f9045ea872be9b576f6045aa41268261b1aab5bc3ae629824d8a5"
     assert 'current_micro_sprint: "POST-H-EVAL-002-02-A"' in backlog
     assert 'next_micro_sprint: "POST-H-EVAL-002-02-B"' in backlog
     assert "`PASS-WITH-GAPS`" in audit
@@ -102,4 +106,7 @@ def test_01_c_governance_docs_are_synchronized() -> None:
     ]
     if realized:
         latest = max(realized)
-        assert str(registry["last_registered_sprint"]).startswith(f"UOC-{latest:03d}")
+        status_key = f"uoc_{latest:03d}_status"
+        assert str(state[status_key]).lower().startswith("closed")
+        assert registry["project_state_snapshot"][status_key] == state[status_key]
+        assert registry["last_registered_sprint"] == state["last_registered_sprint"]
