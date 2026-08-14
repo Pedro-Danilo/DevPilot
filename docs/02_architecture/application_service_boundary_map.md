@@ -107,3 +107,29 @@ CLI Command Registry
 Esta ruta permite detectar comandos registrados o grupos que requieren `ApplicationService` pero aún no tienen operación de aplicación explícita. Los gaps se reportan como warning no bloqueante salvo cuando una operación API/UI carece de contrato explícito o una metadata CLI apunta a una operación inexistente.
 
 No se habilita `dynamic_handler_loading`, no se activa runtime registry routing, no se agregan rutas HTTP y no se agregan comandos públicos.
+
+## DEVPL-GSDLC-00-C — Successor boundary project-centric
+
+El boundary actual permanece válido. GSDLC añade detrás de `ApplicationService` una capa de orquestación **planned**, no un bypass:
+
+```text
+UI project-centric
+→ API local
+→ ApplicationService
+→ GuidedSDLCService
+→ WorkflowEngine / StepActionAdvisor
+→ typed domain services
+→ Policy / Approval / GovernedJob
+→ Evidence / Trace
+```
+
+### Invariantes successor
+
+- `GuidedSDLCService` nunca es llamado directamente por React.
+- Una operación que toca filesystem/Git pasa por un application operation tipado.
+- StepActionAdvisor solo recomienda modos permitidos por contratos determinísticos.
+- El actor de approval futuro se deriva de sesión autenticada, no del payload.
+- CLI puede seguir siendo expert automation/diagnóstico, pero no es requisito del normal journey cerrado.
+- Los 193 comandos/9 rutas UOC son inventario histórico/current, no un límite futuro.
+
+Estado: `planned-GSDLC`; ningún routing runtime cambia en 00-C.

@@ -2,12 +2,12 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.9.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-64"
-updated: "2026-06-15"
+phase: "DEVPL-GSDLC-00-C"
+updated: "2026-08-14"
 approval: "approved_by_owner_direction"
 change_reason: "Reconciled by FUNC-SPRINT-20 to mark real container states after Sprint 18/19 closure."
 approved_by: "Ordóñez"
@@ -368,3 +368,45 @@ La arquitectura de contenedores incorpora, como objetivos planificados, los sigu
 | Remote Runner Stub | `experimental/future` | Evaluación de ejecución remota. | Disabled-by-default. |
 
 Estos contenedores no se consideran implementados por Sprint 85. Su habilitación requiere ADR/threat model, tests, MIASI/policy y documentación operacional por sprint.
+
+## Actualización DEVPL-GSDLC-00-C — C4 Container target
+
+### Leyenda
+
+`implemented-current` · `planned-GSDLC` · `blocked-by-policy` · `future-out-of-scope`.
+
+```mermaid
+flowchart TD
+  Browser[Web UI / ProjectShell<br/>UI implemented-current; ProjectShell planned-GSDLC]
+  API[FastAPI local /api/v1<br/>implemented-current]
+  App[ApplicationService + boundary policy<br/>implemented-current]
+  Guided[GuidedSDLCService<br/>planned-GSDLC]
+  Workflow[WorkflowEngine<br/>planned-GSDLC]
+  Advisor[StepActionAdvisor<br/>planned-GSDLC]
+  Domain[Artifacts / Git / Jobs / Quality / Agents / Release<br/>mixed implemented-current]
+  Policy[PolicyEngine + approvals<br/>implemented-current; authenticated binding planned]
+  EngState[WorkspaceEngineeringState store<br/>planned-GSDLC]
+  Runtime[(Runtime store SQLite/JSONL<br/>implemented-current + planned extension)]
+  Evidence[Reports / Traces / Evidence<br/>implemented-current]
+  Auth[Local session/auth service<br/>planned-GSDLC]
+  Enterprise[Enterprise IAM/tenancy/SSO<br/>future-out-of-scope]
+
+  Browser --> API --> App --> Guided
+  Guided --> Workflow
+  Guided --> Advisor
+  Guided --> Domain
+  Workflow --> EngState
+  Domain --> Policy --> Runtime
+  Domain --> Evidence
+  API -. future local login .-> Auth
+  Auth --> Policy
+```
+
+### Reglas de comunicación
+
+1. Browser no llama filesystem/Git/core.
+2. `ApplicationService` sigue siendo frontera obligatoria.
+3. `GuidedSDLCService` orquesta; no sustituye PolicyEngine ni domain services.
+4. Toda mutación no trivial se expresa como typed operation/GovernedJob.
+5. Auth local futura deriva actor/rol server-side; enterprise IAM no forma parte de este contenedor.
+6. LLM no controla transitions ni approvals.

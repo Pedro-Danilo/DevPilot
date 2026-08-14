@@ -2,12 +2,12 @@
 title: "C4 Component — DevPilot Core after Sprint 20"
 doc_id: "DEVPL-ARCH-004"
 status: "approved"
-version: "1.0.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-20"
-updated: "2026-06-10"
+phase: "DEVPL-GSDLC-00-C"
+updated: "2026-08-14"
 approval: "approved_by_owner"
 change_reason: "Created by FUNC-SPRINT-20 to represent the real component state after Sprint 18/19 closure."
 approval_scope: "Fase A — Reconciliación documental post-18"
@@ -232,3 +232,43 @@ BLOCK:
 - Marcar MultiAgentCoordinator, RAG, MCP, plugins, RBAC o remote runners como implementados antes de sus sprints.
 - Omitir deny-by-default para conectores/MCP.
 - Omitir fuentes/citas para RAG.
+
+## 15. Actualización DEVPL-GSDLC-00-C — C4 Component target
+
+Leyenda de esta vista: `implemented-current` · `planned-GSDLC` · `blocked-by-policy` · `future-out-of-scope`.
+
+### 15.1 Componentes successor
+
+| Componente | Estado 00-C | Owner | Responsabilidad | No-go |
+|---|---|---|---|---|
+| `ApplicationService` | `implemented-current` | application boundary | entrada UI/API/CLI y contratos | no bypass |
+| `GuidedSDLCService` | `planned-GSDLC` | guided application domain | coordinar journey project-centric | no mutación directa |
+| `WorkflowEngine` | `planned-GSDLC` | guided workflow | prerequisites/transitions/next action | LLM no authority |
+| `WorkspaceEngineeringStateRepository` | `planned-GSDLC` | guided state | persistir/reconciliar engineering state | no secrets/sessions |
+| `RuntimeOperationalState` services | `implemented-current + planned-GSDLC` | runtime | jobs/approvals/agent runs/sessions futuras | no canonical source |
+| `StepActionAdvisor` | `planned-GSDLC` | guided workflow | modos disponibles y disabled reasons | determinístico |
+| `ProjectShell/ProjectStatus` | `planned-GSDLC` | product UI | navegación y estado persistente | no shell |
+| `LocalIdentity/SessionService` | `planned-GSDLC` | security/application | login local y principal server-side | no enterprise IAM |
+| `PolicyEngine/Approval/GovernedJob` | `implemented-current` | policy/runtime | side effects y approvals | deny-by-default |
+| `ModelAdapter/CostGuard` | `implemented-current/partial` | modeling/policy | modelos desacoplados/costo | external API optional |
+
+### 15.2 Cadena de control
+
+```text
+ProjectShell
+→ Local API
+→ ApplicationService
+→ GuidedSDLCService
+→ WorkflowEngine / StepActionAdvisor
+→ typed domain operation
+→ Policy / authenticated role / Approval / GovernedJob
+→ postcondition
+→ Evidence + Trace
+→ state transition
+```
+
+No existe ruta alternativa mediante shell libre o decisión de LLM.
+
+### 15.3 Reconciliación externa
+
+`WorkspaceEngineeringStateRepository` almacena fingerprints suficientes para detectar cambios IDE/Git. Un mismatch no se autocorrige por overwrite: produce `REVALIDATION_REQUIRED` y recalcula gates.

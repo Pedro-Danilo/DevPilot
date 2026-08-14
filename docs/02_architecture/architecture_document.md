@@ -2,15 +2,15 @@
 title: "Architecture Document — DevPilot Local"
 doc_id: "DEVPL-ARCH-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-03"
-updated: "2026-06-14"
+phase: "DEVPL-GSDLC-00-C"
+updated: "2026-08-14"
 approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved + SPRINT-PRECODE-02 requirements baseline approved"
-change_reason: "Architecture audit after owner feedback: hybrid LLM strategy, persistence, industrial agents, security and technology stack expanded."
+change_reason: "Guided SDLC successor architecture contract; no runtime enablement."
 approved_by: "Ordóñez"
 approved_at: "2026-06-04"
 approval_scope: "SPRINT-PRECODE-03 architecture baseline"
@@ -337,3 +337,49 @@ architecture_status: reviewed
 ready_for_owner_approval: true
 approval_recommendation: "approve_after_owner_review_of_ADR_0006_to_ADR_0009"
 ```
+
+## 18. Actualización DEVPL-GSDLC-00-C — Arquitectura objetivo Guided SDLC
+
+### 18.1 Alcance y estado
+
+Esta actualización es un **successor architecture contract** de GSDLC-00-C. No declara runtime nuevo. Usa la leyenda:
+
+- `implemented-current`: capacidad ya disponible antes de 00-C;
+- `planned-GSDLC`: diseño contratado para backlogs GSDLC;
+- `blocked-by-policy`: no-go que permanece deshabilitado;
+- `future-out-of-scope`: fuera del programa actual.
+
+### 18.2 Boundary objetivo
+
+```text
+DevPilot UI local [implemented-current]
+→ Local API [implemented-current]
+→ ApplicationService [implemented-current]
+→ GuidedSDLCService [planned-GSDLC]
+→ WorkflowEngine [planned-GSDLC]
+→ typed domain services [implemented-current + planned extensions]
+→ Policy / Approval / GovernedJob [implemented-current + planned auth binding]
+→ Evidence / Traces [implemented-current]
+```
+
+`GuidedSDLCService` no reemplaza `ApplicationService`: se ubica **detrás** de esa frontera y coordina casos de uso project-centric. React nunca accede directamente a filesystem, Git o core.
+
+### 18.3 Estado separado
+
+`PlatformState`, `WorkspaceEngineeringState` y `RuntimeOperationalState` son agregados distintos conforme ADR-GSDLC-002. `.devpilot/project_state.json` continúa describiendo la plataforma DevPilot, no los workflows de todos los proyectos administrados.
+
+### 18.4 Autenticación local futura
+
+ADR-GSDLC-003 diseña autenticación local de operadores como successor `planned-GSDLC`; no habilita sesiones ni cambia `POST-H-034-D continue-blocked`. Enterprise IAM/tenancy/SSO/public API permanecen `blocked-by-policy` o `future-out-of-scope`.
+
+### 18.5 UI project-centric
+
+ADR-GSDLC-004 define `ProjectShell`, `Project Status` persistente y `StepActionAdvisor`. Las rutas UOC actuales permanecen `implemented-current`; nuevas rutas project-centric son `planned-GSDLC` y deberán registrarse/probarse en sus backlogs.
+
+### 18.6 Agentes
+
+LLM/agents colaboran con drafting, revisión, planificación y coding, pero PASS/BLOCK, permisos, approvals y transiciones pertenecen a lógica determinística y políticas.
+
+### 18.7 No-go
+
+Permanecen bloqueados arbitrary shell, remote execution, public/non-local API, enterprise IAM/tenancy/SSO, agent self-approval, force-push/reset-hard automáticos y loops/costo ilimitados.

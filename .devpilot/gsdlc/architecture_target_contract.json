@@ -1,0 +1,194 @@
+{
+  "schema_id": "devpilot.gsdlc.architecture_target.v1",
+  "created_by": "DEVPL-GSDLC-00-C",
+  "status": "planned-contract-only",
+  "runtime_implemented": false,
+  "source_commit_authority": "a2eebf734784eb1f07a3cec3fd1b5cfe32468567",
+  "status_legend": {
+    "implemented-current": "available and tested before GSDLC-00-C",
+    "planned-GSDLC": "architecturally contracted; runtime not yet implemented",
+    "blocked-by-policy": "explicitly prohibited or disabled until successor gate",
+    "future-out-of-scope": "not part of current GSDLC implementation program"
+  },
+  "entry_boundary": {
+    "normal_user_surface": "DevPilot Web UI local",
+    "expert_surfaces": [
+      "CLI",
+      "local API diagnostics"
+    ],
+    "mandatory_chain": [
+      "DevPilot UI",
+      "Local API",
+      "ApplicationService",
+      "GuidedSDLCService",
+      "Typed Domain Services",
+      "Policy/Approval/Jobs",
+      "Evidence/Traces"
+    ],
+    "forbidden_bypasses": [
+      "React->filesystem",
+      "React->Git",
+      "React->core",
+      "browser->arbitrary shell",
+      "LLM->state transition authority"
+    ]
+  },
+  "state_domains": [
+    {
+      "name": "PlatformState",
+      "owner": "DevPilot platform governance",
+      "status": "implemented-current+successor-contract",
+      "persistence": "DevPilot repository .devpilot/project_state.json for platform development state",
+      "contains": [
+        "platform baseline",
+        "program/micro-sprint governance",
+        "platform capabilities"
+      ],
+      "must_not_contain": [
+        "managed-project workflow sessions",
+        "managed-project approvals",
+        "managed-project agent runs"
+      ]
+    },
+    {
+      "name": "WorkspaceEngineeringState",
+      "owner": "GuidedSDLCService/WorkflowEngine",
+      "status": "planned-GSDLC",
+      "persistence": "local workspace engineering store keyed by workspace_id; reconstructible from workspace metadata, source artifacts and Git",
+      "contains": [
+        "phase",
+        "step",
+        "artifact lifecycle",
+        "planning lifecycle",
+        "quality gates",
+        "next action",
+        "source fingerprints"
+      ],
+      "must_not_contain": [
+        "credentials",
+        "session tokens",
+        "ephemeral job logs"
+      ],
+      "reconciliation": "on open/resume compare Git HEAD/branch/status and governed artifact hashes; external drift marks affected items REVALIDATION_REQUIRED before transition"
+    },
+    {
+      "name": "RuntimeOperationalState",
+      "owner": "runtime services",
+      "status": "implemented-current+planned-GSDLC-extension",
+      "persistence": "local SQLite/JSONL/runtime stores outside versioned project source",
+      "contains": [
+        "authenticated sessions when enabled",
+        "jobs",
+        "approvals",
+        "locks",
+        "agent runs",
+        "retries",
+        "correlation ids"
+      ],
+      "must_not_contain": [
+        "canonical product requirements",
+        "canonical source documents as sole copy"
+      ]
+    }
+  ],
+  "guided_sdlc": {
+    "service": "GuidedSDLCService",
+    "workflow_engine": "WorkflowEngine",
+    "status": "planned-GSDLC",
+    "deterministic_transitions": true,
+    "llm_transition_authority": false,
+    "application_service_required": true
+  },
+  "local_auth_successor": {
+    "status": "planned-GSDLC",
+    "runtime_enabled": false,
+    "scope": "single-machine local authenticated operators",
+    "identity_source": "LocalIdentityRepository successor to current identity registry",
+    "credential_target": "salted password verifier; no plaintext; OS-protected secret storage where available",
+    "session_target": "opaque server-issued local session with expiration/revocation and CSRF protection for mutations",
+    "role_derivation": "server-side from authenticated principal",
+    "approval_actor_binding": "server derives actor_id and effective_role from authenticated session; client cannot assert approver identity",
+    "enterprise_iam": false,
+    "tenancy": false,
+    "sso": false,
+    "oidc": false,
+    "public_api": false,
+    "non_local_api": false,
+    "historical_post_h_034_d": "continue-blocked until GSDLC-02 successor capability closes"
+  },
+  "step_action_advisor": {
+    "status": "planned-GSDLC",
+    "deterministic": true,
+    "inputs": [
+      "workspace engineering state",
+      "current step",
+      "authenticated role when available",
+      "policy decision",
+      "capability registry",
+      "provider availability",
+      "token/cost budget",
+      "risk/side effects"
+    ],
+    "modes": [
+      "MANUAL",
+      "PASTE",
+      "UPLOAD_IMPORT",
+      "EXTERNAL_EDITOR",
+      "AGENT",
+      "RAG",
+      "TYPED_OPERATION"
+    ],
+    "outputs": [
+      "available modes",
+      "disabled reasons",
+      "required approvals",
+      "dry-run requirement",
+      "cost/token estimate",
+      "expected evidence"
+    ],
+    "llm_decides_availability": false
+  },
+  "project_shell": {
+    "status": "planned-GSDLC",
+    "primary_views": [
+      "Home",
+      "Project Status",
+      "Engineering",
+      "Planning",
+      "Stories",
+      "Release"
+    ],
+    "transversal_views": [
+      "Reports",
+      "Traces",
+      "Approvals",
+      "Jobs",
+      "Quality",
+      "AI/Agent tools",
+      "Settings"
+    ],
+    "persistent_status": [
+      "phase",
+      "step",
+      "progress",
+      "blockers",
+      "pending approvals",
+      "quality signal",
+      "Git state",
+      "model/token budget",
+      "next action",
+      "available execution modes"
+    ]
+  },
+  "no_go": {
+    "arbitrary_shell": false,
+    "remote_execution": false,
+    "public_api": false,
+    "enterprise_iam": false,
+    "agent_self_approval": false,
+    "llm_gate_authority": false,
+    "force_push": false,
+    "automatic_reset_hard": false,
+    "unbounded_loops_or_cost": false
+  }
+}

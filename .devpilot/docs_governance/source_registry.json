@@ -15844,6 +15844,274 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ],
+      "doc_id": "DEVPL-ARCH-001",
+      "path": "docs/02_architecture/architecture_document.md",
+      "domain": "architecture.reference",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ],
+      "doc_id": "DEVPL-ARCH-002",
+      "path": "docs/02_architecture/c4_context.md",
+      "domain": "architecture.c4",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ],
+      "doc_id": "DEVPL-ARCH-003",
+      "path": "docs/02_architecture/c4_container.md",
+      "domain": "architecture.c4",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ],
+      "doc_id": "DEVPL-ARCH-004",
+      "path": "docs/02_architecture/c4_component.md",
+      "domain": "architecture.c4",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-ARCH-APPLICATION-BOUNDARY",
+      "path": "docs/02_architecture/application_service_boundary_map.md",
+      "domain": "architecture.application-boundary",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "implemented-initial"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "ADR-GSDLC-001",
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md",
+      "domain": "architecture.adr",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "reviewed"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "ADR-GSDLC-002",
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-002-state-separation.md",
+      "domain": "architecture.adr",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "reviewed"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "ADR-GSDLC-003",
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
+      "domain": "architecture.adr",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "reviewed"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "ADR-GSDLC-004",
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-004-ui-complete-normal-journey.md",
+      "domain": "architecture.adr",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "reviewed"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-ARCHITECTURE-TARGET-V1",
+      "domain": "architecture.guided-sdlc",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-00-C",
+      "path": ".devpilot/gsdlc/architecture_target_contract.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "planned-contract-only",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-C-ARCHITECTURE-DECISION-REGISTER",
+      "path": "docs/audits/devpl_gsdlc_00_c_architecture_decision_register.md",
+      "domain": "architecture.audit",
+      "owner": "DEVPL-GSDLC-00-C",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "implemented-initial"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-C-C4-DELTA",
+      "path": "docs/audits/devpl_gsdlc_00_c_c4_delta.md",
+      "domain": "architecture.audit",
+      "owner": "DEVPL-GSDLC-00-C",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "implemented-initial"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-00-C-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "governance.contracts",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-00-C",
+      "path": "docs/audits/devpl_gsdlc_00_c_historical_contract_sweep.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-C"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -18284,11 +18552,13 @@
     "gsdlc_active_program": "DEVPL-GSDLC"
   },
   "updated": "2026-08-14",
-  "updated_at": "2026-08-14",
-  "updated_by": "DEVPL-GSDLC-00-A",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-B",
+  "updated_at": "2026-08-14T09:42:00-05:00",
+  "updated_by": "DEVPL-GSDLC-00-C",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-C",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "active/00-b",
+  "gsdlc_program_status": "active/00-c",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
-  "gsdlc_00_a_program_status_at_close": "active/00-a"
+  "gsdlc_00_a_program_status_at_close": "active/00-a",
+  "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
+  "gsdlc_00_b_program_status_at_close": "active/00-b"
 }

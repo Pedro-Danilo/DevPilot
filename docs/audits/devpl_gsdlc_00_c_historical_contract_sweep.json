@@ -1,0 +1,74 @@
+{
+  "schema_id": "devpilot.gsdlc.00c.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-00-C",
+  "status": "implemented-initial",
+  "classifications": [
+    {
+      "path": "docs/02_architecture/adrs/ADR-0013-web-ui-first.md",
+      "classification": "successor-needed",
+      "reason": "web-first remains historical/current foundation; GSDLC adds UI-complete project-centric successor"
+    },
+    {
+      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+      "classification": "historical-freeze",
+      "reason": "continue-blocked remains true; ADR-GSDLC-003 is planned local-only successor"
+    },
+    {
+      "path": "docs/architecture/adr_ui_no_arbitrary_shell.md",
+      "classification": "current-active",
+      "reason": "binding invariant for all future project-centric UI"
+    },
+    {
+      "path": "docs/architecture/adr_governed_job_execution.md",
+      "classification": "current-active",
+      "reason": "typed governed jobs remain execution substrate"
+    },
+    {
+      "path": "docs/02_architecture/application_service_boundary_map.md",
+      "classification": "current-active",
+      "reason": "ApplicationService remains mandatory boundary"
+    },
+    {
+      "path": "docs/02_architecture/c4_context.md",
+      "classification": "successor-needed",
+      "reason": "historical future-Web labels are preserved; target section distinguishes actual UOC UI from planned GSDLC"
+    },
+    {
+      "path": "docs/02_architecture/c4_container.md",
+      "classification": "successor-needed",
+      "reason": "target Guided containers added without rewriting historical sections"
+    },
+    {
+      "path": "docs/02_architecture/c4_component.md",
+      "classification": "successor-needed",
+      "reason": "new planned components scoped in target section"
+    },
+    {
+      "path": ".devpilot/identity/identity_registry.json",
+      "classification": "historical-freeze",
+      "reason": "identity/RBAC initial does not imply authenticated sessions"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "classification": "historical-freeze",
+      "reason": "nine UOC routes remain valid baseline but not future maximum"
+    },
+    {
+      "path": "tests/test_post_h_034_multiuser_auth_adr.py",
+      "classification": "historical-freeze",
+      "reason": "must continue proving multiuser/auth disabled during 00-C"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_00_b_product_requirements.py",
+      "classification": "successor-needed",
+      "reason": "00-B current pointers become historical-at-close while 00-C advances program"
+    }
+  ],
+  "runtime_source_changed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "multiuser_auth_enabled": false,
+  "session_management_enabled": false,
+  "public_api_enabled": false,
+  "uoc_route_count_frozen_as_future_max": false
+}

@@ -2,14 +2,14 @@
 title: "C4 Context — DevPilot Local"
 doc_id: "DEVPL-ARCH-002"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-20"
-updated: "2026-06-10"
+phase: "DEVPL-GSDLC-00-C"
+updated: "2026-08-14"
 approval: "approved_by_owner_direction"
-change_reason: "Reconciled by FUNC-SPRINT-20 to distinguish implemented, partial, planned, disabled and future nodes."
+change_reason: "Add GSDLC target context without rewriting historical C4 states."
 approved_by: "Ordóñez"
 approved_at: "2026-06-04"
 approval_scope: "SPRINT-PRECODE-03 architecture baseline"
@@ -157,3 +157,26 @@ Fase H amplía el contexto de DevPilot hacia capacidades avanzadas, pero mantien
 | Remote runners/cloud | `experimental/future` | Disabled-by-default y sin ejecución real. |
 
 Criterio de bloqueo: ninguna integración externa o avanzada puede operar sin pasar por `PolicyEngine`, MIASI, Approval cuando aplique, TraceEngine, EvalHarness y ReportEngine.
+
+## Actualización DEVPL-GSDLC-00-C — C4 Context target
+
+### Leyenda GSDLC
+
+`implemented-current` · `planned-GSDLC` · `blocked-by-policy` · `future-out-of-scope`.
+
+```mermaid
+flowchart LR
+  User[Local operator<br/>implemented-current identity / planned authenticated session] --> UI[DevPilot Web UI local<br/>implemented-current]
+  UI --> API[Local API 127.0.0.1<br/>implemented-current]
+  API --> App[ApplicationService<br/>implemented-current]
+  App --> Guided[GuidedSDLCService<br/>planned-GSDLC]
+  Guided --> Workspace[Managed project workspace<br/>implemented-current + planned engineering state]
+  Guided --> Standards[MIPSoftware + MIASI<br/>implemented-current standards / planned executable workflow]
+  Guided --> Evidence[Evidence + Traces + Quality<br/>implemented-current]
+  Guided -. optional .-> Models[Model Gateway<br/>mock/local/API policy-controlled]
+  Models -. blocked/default .-> External[External providers<br/>blocked-by-policy until configured]
+  Guided -. forbidden .-> Shell[Arbitrary shell / remote execution<br/>blocked-by-policy]
+  Enterprise[Enterprise IAM / tenancy / SSO<br/>future-out-of-scope]
+```
+
+La cifra histórica UOC de nueve rutas UI describe el baseline `implemented-current`; no constituye un máximo contractual futuro. La experiencia objetivo es project-centric y UI-complete, pero sus nuevas vistas permanecen `planned-GSDLC`.
