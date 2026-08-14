@@ -15716,6 +15716,134 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-PROD-001",
+      "path": "docs/00_product/product_vision.md",
+      "domain": "product.vision",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py",
+        "tests/test_artifact_profile_registry.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-00-B"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-REQ-001",
+      "path": "docs/01_requirements/requirements_specification.md",
+      "domain": "requirements.specification",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py",
+        "tests/test_artifact_validator.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-00-B"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-REQ-005",
+      "path": "docs/01_requirements/traceability_matrix.md",
+      "domain": "requirements.traceability",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py",
+        "tests/test_traceability_extractors.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-00-B"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-B-REQUIREMENTS-DELTA",
+      "path": "docs/audits/devpl_gsdlc_00_b_requirements_delta_report.md",
+      "domain": "governance.requirements",
+      "owner": "DEVPL-GSDLC-00-B",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-B"
+      ],
+      "status_required": "implemented-initial"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-00-B-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "governance.contracts",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-00-B",
+      "path": "docs/audits/devpl_gsdlc_00_b_historical_contract_sweep.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-B"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-00-B-TRACEABILITY-DELTA",
+      "domain": "requirements.traceability",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-00-B",
+      "path": "docs/audits/devpl_gsdlc_00_b_traceability_delta.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-B"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -18158,7 +18286,9 @@
   "updated": "2026-08-14",
   "updated_at": "2026-08-14",
   "updated_by": "DEVPL-GSDLC-00-A",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-A",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-B",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "active/00-a"
+  "gsdlc_program_status": "active/00-b",
+  "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
+  "gsdlc_00_a_program_status_at_close": "active/00-a"
 }

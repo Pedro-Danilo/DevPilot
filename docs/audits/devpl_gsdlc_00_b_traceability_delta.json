@@ -1,0 +1,261 @@
+{
+  "schema_id": "devpilot.gsdlc.00b.traceability_delta.v1",
+  "micro_sprint": "DEVPL-GSDLC-00-B",
+  "source_commit": "5c6d0b2f060a5845769505d650754ef786542e99",
+  "requirements_total": 31,
+  "requirements_traced": 31,
+  "coverage_percent": 100,
+  "orphans": [],
+  "entries": [
+    {
+      "requirement_id": "GSDLC-FR-001",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-01",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-001"
+    },
+    {
+      "requirement_id": "GSDLC-FR-002",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-01",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-001"
+    },
+    {
+      "requirement_id": "GSDLC-FR-003",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-02",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-SEC-001",
+      "type": "SEC",
+      "backlog_owner": "DEVPL-GSDLC-02",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-SEC-002",
+      "type": "SEC",
+      "backlog_owner": "DEVPL-GSDLC-02",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-FR-004",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-03",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-002"
+    },
+    {
+      "requirement_id": "GSDLC-FR-005",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-03",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-002"
+    },
+    {
+      "requirement_id": "GSDLC-SEC-003",
+      "type": "SEC",
+      "backlog_owner": "DEVPL-GSDLC-03",
+      "milestone": "M1",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-FR-006",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-04",
+      "milestone": "M2",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-003"
+    },
+    {
+      "requirement_id": "GSDLC-FR-007",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-04",
+      "milestone": "M2",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-003"
+    },
+    {
+      "requirement_id": "GSDLC-FR-008",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-12",
+      "milestone": "M6",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-001"
+    },
+    {
+      "requirement_id": "GSDLC-GOV-001",
+      "type": "GOV",
+      "backlog_owner": "DEVPL-GSDLC-05",
+      "milestone": "M2",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-003"
+    },
+    {
+      "requirement_id": "GSDLC-GOV-002",
+      "type": "GOV",
+      "backlog_owner": "DEVPL-GSDLC-05",
+      "milestone": "M2",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-003"
+    },
+    {
+      "requirement_id": "GSDLC-FR-009",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-05",
+      "milestone": "M2",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-003"
+    },
+    {
+      "requirement_id": "GSDLC-NFR-001",
+      "type": "NFR",
+      "backlog_owner": "DEVPL-GSDLC-05",
+      "milestone": "M2",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-FR-010",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-06",
+      "milestone": "M3",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-NFR-002",
+      "type": "NFR",
+      "backlog_owner": "DEVPL-GSDLC-06",
+      "milestone": "M3",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-FR-011",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-07",
+      "milestone": "M3",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-003"
+    },
+    {
+      "requirement_id": "GSDLC-FR-012",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-07",
+      "milestone": "M3",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-003"
+    },
+    {
+      "requirement_id": "GSDLC-GOV-003",
+      "type": "GOV",
+      "backlog_owner": "DEVPL-GSDLC-07",
+      "milestone": "M3",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-FR-013",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-08",
+      "milestone": "M4",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-004"
+    },
+    {
+      "requirement_id": "GSDLC-FR-014",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-09",
+      "milestone": "M5",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-004"
+    },
+    {
+      "requirement_id": "GSDLC-FR-015",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-09",
+      "milestone": "M5",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-004"
+    },
+    {
+      "requirement_id": "GSDLC-FR-016",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-10",
+      "milestone": "M5",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-004"
+    },
+    {
+      "requirement_id": "GSDLC-FR-017",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-10",
+      "milestone": "M5",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-004"
+    },
+    {
+      "requirement_id": "GSDLC-GOV-004",
+      "type": "GOV",
+      "backlog_owner": "DEVPL-GSDLC-10",
+      "milestone": "M5",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-004"
+    },
+    {
+      "requirement_id": "GSDLC-FR-018",
+      "type": "FR",
+      "backlog_owner": "DEVPL-GSDLC-11",
+      "milestone": "M6",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-004"
+    },
+    {
+      "requirement_id": "GSDLC-NFR-003",
+      "type": "NFR",
+      "backlog_owner": "DEVPL-GSDLC-12",
+      "milestone": "M6",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-001"
+    },
+    {
+      "requirement_id": "GSDLC-UX-001",
+      "type": "UX",
+      "backlog_owner": "DEVPL-GSDLC-12",
+      "milestone": "M6",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-001"
+    },
+    {
+      "requirement_id": "GSDLC-GOV-005",
+      "type": "GOV",
+      "backlog_owner": "DEVPL-GSDLC-12",
+      "milestone": "M6",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-005"
+    },
+    {
+      "requirement_id": "GSDLC-GOV-006",
+      "type": "GOV",
+      "backlog_owner": "DEVPL-GSDLC-13",
+      "milestone": "M7",
+      "status": "planned",
+      "objective": "GSDLC-OBJ-006"
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false
+}

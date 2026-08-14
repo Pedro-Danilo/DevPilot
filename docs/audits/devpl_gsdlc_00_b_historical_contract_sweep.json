@@ -1,0 +1,53 @@
+{
+  "schema_id": "devpilot.gsdlc.00b.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-00-B",
+  "generated_at": "2026-08-14",
+  "source_commit": "5c6d0b2f060a5845769505d650754ef786542e99",
+  "classifications": [
+    {
+      "subject": "FR-MVP/FR-PLUS/FR-POST and NFR historical requirement IDs",
+      "classification": "historical-freeze",
+      "action": "preserve IDs and semantics; add GSDLC successor IDs without renumbering"
+    },
+    {
+      "subject": "Product Vision historical CLI→API→Web evolution",
+      "classification": "historical-freeze",
+      "action": "preserve as path already travelled; successor normal-journey contract is UI-complete"
+    },
+    {
+      "subject": "ADR-0013 web-ui-first",
+      "classification": "successor-needed",
+      "action": "00-B requirements reference successor UI-complete contract; architecture decision itself evolves in 00-C, not here"
+    },
+    {
+      "subject": "ADR-0006 local-first ModelAdapter/CostGuard",
+      "classification": "current-active",
+      "action": "preserve local/mock/default and external API optional/cost-aware"
+    },
+    {
+      "subject": "POST-H-034-D multiuser.auth continue-blocked",
+      "classification": "historical-freeze",
+      "action": "local operator auth remains planned successor under GSDLC-02; enterprise IAM remains blocked"
+    },
+    {
+      "subject": "POST-H-EVAL-002 and UOC closure contracts",
+      "classification": "historical-freeze",
+      "action": "preserve evidence/route counts; do not use them as future maximum capability assertions"
+    },
+    {
+      "subject": "product/requirements/traceability canonical text",
+      "classification": "current-active",
+      "action": "evolve canonical direction while retaining historical sections"
+    },
+    {
+      "subject": "tests/test_devpl_gsdlc_00_a_program_activation.py mutable current pointers",
+      "classification": "successor-needed",
+      "action": "freeze A facts in *_at_close fields; current gsdlc_program_status and last_registered_micro_sprint may advance to 00-B"
+    }
+  ],
+  "s0": 0,
+  "s1": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "runtime_source_changed": false
+}

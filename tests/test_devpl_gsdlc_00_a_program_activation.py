@@ -17,9 +17,12 @@ def t(path: str) -> str:
 def test_gsdlc_00_a_program_is_active_without_overclaiming_runtime() -> None:
     state=j(".devpilot/project_state.json")
     assert state["gsdlc_program_id"] == "DEVPL-GSDLC"
-    assert state["gsdlc_program_status"] == "active/00-a"
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-00-A"
-    assert state["gsdlc_next_micro_sprint"] == "DEVPL-GSDLC-00-B"
+    assert state["gsdlc_00_a_program_status_at_close"] == "active/00-a"
+    assert state["gsdlc_00_a_current_micro_sprint_at_close"] == "DEVPL-GSDLC-00-A"
+    assert state["gsdlc_program_status"] in {"active/00-a", "active/00-b"}
+    assert state["gsdlc_00_a_next_micro_sprint_candidate_at_close"] == "DEVPL-GSDLC-00-B"
+    assert state["gsdlc_current_micro_sprint"] in {"DEVPL-GSDLC-00-A", "DEVPL-GSDLC-00-B"}
+    assert state["gsdlc_next_micro_sprint"] in {"DEVPL-GSDLC-00-B", "DEVPL-GSDLC-00-C"}
     assert state["gsdlc_r01_a_authorized"] is True
     assert state["gsdlc_runtime_implemented"] is False
     assert state["gsdlc_auth_runtime_enabled"] is False
@@ -59,7 +62,9 @@ def test_gsdlc_canonical_sources_are_registered_and_owner_approved_scope_is_pres
     }
     assert expected <= set(ids)
     assert registry["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
-    assert registry["gsdlc_last_registered_micro_sprint"] == "DEVPL-GSDLC-00-A"
+    assert registry["gsdlc_00_a_last_registered_micro_sprint_at_close"] == "DEVPL-GSDLC-00-A"
+    assert registry["gsdlc_00_a_program_status_at_close"] == "active/00-a"
+    assert registry["gsdlc_last_registered_micro_sprint"] in {"DEVPL-GSDLC-00-A", "DEVPL-GSDLC-00-B"}
     assert 'status: "approved"' in t("docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md")
     assert 'approval: "approved_by_owner"' in t("docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md")
     assert 'status: "approved"' in t("docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md")

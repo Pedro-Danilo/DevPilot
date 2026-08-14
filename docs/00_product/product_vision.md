@@ -2,17 +2,17 @@
 title: "Product Vision — DevPilot Local"
 doc_id: "DEVPL-PROD-001"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-01"
-updated: "2026-06-14"
+phase: "DEVPL-GSDLC-00-B"
+updated: "2026-08-14"
 approval: "approved_by_owner"
-refinement: "DEVPL-PRE-0107 — MVP+ y visión completa de plataforma"
+refinement: "DEVPL-GSDLC-00-B — Guided SDLC successor product contract"
 approved_by: "Ordóñez"
 approved_at: "2026-06-02"
-approval_scope: "SPRINT-PRECODE-01 product baseline"
+approval_scope: "DEVPL-GSDLC product-direction controlled evolution"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
 # Product Vision — DevPilot Local
@@ -26,7 +26,7 @@ El producto nace para aplicar, validar y operacionalizar dos estándares creados
 - **MIPSoftware — Modelo de Ingeniería Profesional de Software**, como estándar general para el ciclo de vida de cualquier aplicación profesional.
 - **MIASI — Modelo de Ingeniería de Sistemas Agénticos Inteligentes**, como extensión obligatoria para proyectos que incorporen IA, agentes, LLMs, RAG, memoria, tool calling, evaluación agentic, trazas o automatización asistida por modelos.
 
-La visión de largo plazo se ajusta a una estrategia **web-first**: **DevPilot Local evolucionará desde un núcleo CLI local hacia una Web UI local, posteriormente hacia una Web UI real, y solo más adelante —si una ADR posterior lo justifica— hacia un shell Desktop**. El CLI y el core siguen siendo la base operativa, automatizable, testeable y reutilizable.
+La evolución histórica CLI → API → Web UI se conserva como evidencia del camino ya recorrido. El **contrato sucesor DEVPL-GSDLC** eleva la Web UI de superficie visual prioritaria a **camino normal completo de producto**: el usuario debe poder crear, abrir o importar un proyecto y recorrer idea → pre-code → planning → implementación → verificación → release sin PowerShell obligatorio ni operadores externos que escriban el proyecto. El core y la CLI permanecen como fronteras técnicas reutilizables para automatización, CI y diagnóstico; ya no constituyen la interfaz normal que debe conocer el usuario.
 
 ## 2. Problema
 
@@ -86,6 +86,12 @@ En la etapa inicial, el usuario primario es el owner/desarrollador. En fases pos
 | OBJ-08 | Apoyar despliegue y release | Validar readiness, changelog, rollback, pruebas y evidencias. |
 | OBJ-09 | Semiautomatizar con agentes | Usar agentes IA en dry-run, con políticas, evaluación y aprobación humana. |
 | OBJ-10 | Evolucionar a escritorio y web | Mantener CLI/core como base y agregar UX visual para workspaces, reportes y flujos SDLC. |
+| GSDLC-OBJ-001 | Convertir DevPilot en Guided SDLC Workbench | El usuario avanza por un workflow idea→release gobernado y resumible desde UI. |
+| GSDLC-OBJ-002 | Hacer UI-complete el normal journey | Cada milestone cerrado requiere PowerShell normal = 0, operator project writes = 0 y bridges obligatorios no clasificados = 0. |
+| GSDLC-OBJ-003 | Hacer ejecutables MIPSoftware y MIASI | Standards determinan pasos, dependencias, gates, approvals y próximas acciones. |
+| GSDLC-OBJ-004 | Integrar autoría humana y agent-assisted | Manual/Paste/Upload/External Editor/Agent/RAG conviven bajo un advisor determinístico. |
+| GSDLC-OBJ-005 | Integrar planning, coding, quality, Git y release | Roadmap→backlog→sprint→story→code→tests→commit→release queda trazado en una sola experiencia. |
+| GSDLC-OBJ-006 | Mantener control local, costo y autoridad humana | Local-first, multi-modelo, presupuestos y approvals RBAC continúan como invariantes.
 
 ## 7. Propuesta de valor
 
@@ -167,14 +173,14 @@ DevPilot será una aplicación híbrida.
 
 | Componente | Función |
 |---|---|
-| CLI | Interfaz inicial, automatizable y testeable. |
+| CLI | Interfaz técnica para expert automation, CI y diagnóstico; no es requisito del normal journey UI-complete. |
 | Core | Motor de reglas, validación y orquestación. |
 | Workspace Manager | Gestión de proyectos y `.devpilot/`. |
 | Git Adapter | Lectura de status, diff, ramas, commits y tags. |
 | Report Engine | Reportes JSON, Markdown y JSONL. |
 | Validator Engine | Validación de documentos, schemas y checklists. |
 | Policy Engine | Reglas de permisos, rutas, dry-run y acciones. |
-| Web UI local/web real | Interfaz visual prioritaria sobre el mismo core, API-first. |
+| Web UI / Project Workbench | Interfaz normal de producto: Project Status, Engineering, Planning, Stories, Quality, Git, Release, Reports, Traces y Approvals sobre API/ApplicationService. |
 | Desktop opcional | Shell futuro diferido; no forma parte de Fase F salvo ADR posterior. |
 
 ### 10.2 Componentes agénticos
@@ -204,58 +210,72 @@ Humano → aprobación de acciones sensibles
 Git → trazabilidad de cambios
 ```
 
-## 11. MVP, MVP+ y visión post-MVP
+## 11. MVP, MVP+ y visión post-MVP — baseline histórica y programa sucesor DEVPL-GSDLC
 
-### MVP
+### 11.1 Baseline histórica preservada
 
-El MVP inicial se concentra en:
+El MVP/MVP+ histórico construyó CLI, validadores, ApplicationService, API/Web UI local, workspace governance, Git gobernado, Jobs, Quality, Approval, RAG, agentes y evidencia. Esos hitos permanecen válidos como **capacidades acumulativas** y no se reescriben para simular que la experiencia Guided SDLC ya existía.
 
-- CLI local.
-- Validadores documentales.
-- Readiness pre-code.
-- Detección MIASI.
-- Reportes JSON/Markdown.
-- Checklists.
-- Tests offline.
+### 11.2 Successor product contract
 
-### MVP+
-
-El MVP+ expande el núcleo hacia capacidades reales de SDLC:
-
-- integración Git local;
-- análisis de repos;
-- validación de patches;
-- code review asistido en dry-run;
-- propuestas de refactor seguro;
-- generación de backlog técnico;
-- validación de entornos virtuales;
-- primeros agentes controlados;
-- policy gates;
-- trazas JSONL;
-- human approval.
-
-### Post-MVP
-
-El post-MVP consolida:
-
-- aplicación de escritorio;
-- aplicación web;
-- workspaces visuales;
-- dashboard de gates;
-- integración con modelos locales/API externa opcional;
-- operación sobre múltiples proyectos;
-- colaboración futura;
-- despliegue asistido.
-
-## 12. Compromiso de evolución de interfaz
-
-La evolución de interfaz es un compromiso de producto:
+DEVPL-GSDLC convierte esas primitivas en un producto guiado. El target operativo es:
 
 ```text
-CLI local → CLI + API local → CLI + Web UI local → Web UI real futura → Desktop opcional posterior
+Instalar/abrir DevPilot
+→ login local
+→ Crear / Abrir / Importar Git
+→ parámetros + plan de bootstrap
+→ dry-run + approval
+→ workspace + Git + .venv + dependencias
+→ Project Status
+→ MIPSoftware/MIASI paso a paso
+→ Manual / Paste / Upload / External Editor / Agent / RAG
+→ validate → remediate → approve → freeze
+→ roadmap → backlog → sprints
+→ story → code/diff → approve/apply
+→ tests → quality → governed commit
+→ release readiness → package/install/rollback/tag
 ```
 
-El CLI seguirá siendo el core operativo. La primera interfaz visual fuerte será la Web UI local, porque permite aprovechar `ApplicationService`, contratos API, reportes y AgentOps sin introducir todavía packaging desktop ni permisos nativos. La Web UI real llegará después, cuando seguridad, contratos y operación estén suficientemente maduros. Desktop queda como posibilidad posterior, no como compromiso de Fase F.
+Las capacidades anteriores que aún no soporten esta experiencia quedan `implemented-initial`, `partial` o `planned`; nunca se promueven por documentación.
+
+### 11.3 Milestones de producto
+
+| Milestone | Resultado verificable |
+|---|---|
+| M1 | Login → Create/Open/Import → bootstrap → Project Status sin PowerShell. |
+| M2 | Baseline pre-code MIPSoftware/MIASI completada manual/import desde UI. |
+| M3 | Mismo flujo con Agent/RAG opcional, provenance y costo controlado. |
+| M4 | Requirements → roadmap → backlog → sprints desde UI. |
+| M5 | Story → code → tests → quality → commit desde UI. |
+| M6 | Release local guiado, resumible y reconciliable. |
+| M7 | `inventory-sales-local` completa 02-B sin operador externo escribiendo artefactos. |
+
+## 12. Compromiso de interfaz: UI-complete normal journey
+
+La evolución histórica se conserva:
+
+```text
+CLI local → API local → Web UI local → UOC operacional
+```
+
+El contrato sucesor es:
+
+```text
+Project-centric Web UI = normal journey
+CLI/API = expert automation / CI / diagnostics
+Core/ApplicationService = implementation boundary común
+```
+
+Para una vertical slice declarada cerrada:
+
+```text
+PowerShell required by normal user = 0
+External operator project writes = 0
+Required unclassified CLI bridge = 0
+```
+
+La UI no puede saltarse ApplicationService/PolicyEngine y no puede incorporar shell arbitrario. Las operaciones mutantes deben ser tipadas, evaluadas por policy, dry-run-first y vinculadas a approval cuando corresponda.
 
 ## 13. Indicadores de éxito
 
@@ -269,6 +289,11 @@ El CLI seguirá siendo el core operativo. La primera interfaz visual fuerte ser�
 | MVP+ readiness | Git integration y patch review diseñados antes de implementación. |
 | Seguridad | No hay acciones destructivas sin dry-run/aprobación. |
 | Trazabilidad | Producto → requerimiento → prueba → release. |
+| UI-complete journey | En cada milestone cerrado: PowerShell normal = 0 y operator writes = 0. |
+| Project Status | Fase, paso, blockers, approvals, Git, budget y next action disponibles. |
+| Autoría | Manual/import debe funcionar sin LLM; Agent/RAG es opt-in. |
+| Cost governance | Uso externo/local medido por request/artifact/story/sprint/project. |
+| Reconciliación | Restart y cambios externos IDE/Git producen estado consistente y revalidación cuando aplique. |
 
 ## 14. Criterios de bloqueo
 
@@ -281,8 +306,10 @@ El producto no debe avanzar a desarrollo funcional fuerte si:
 - MIASI no está activado;
 - no existe estrategia de workspaces;
 - no se diferencian componentes tradicionales y agénticos;
-- la evolución visual queda sin estrategia web-first, sin criterios de seguridad o con duplicación entre Web y Desktop.
+- el normal journey requiere PowerShell u operador externo para una vertical slice que se declare UI-complete;
+- una transición o PASS/BLOCK depende de decisión del LLM en vez de estado/validators/policy determinísticos;
+- la evolución visual queda sin contrato project-centric, sin criterios de seguridad o con duplicación de lógica fuera de ApplicationService.
 
 ## 15. Veredicto
 
-Con los refinamientos de DEVPL-PRE-0107, `product_vision.md` queda en estado **reviewed** y listo para aprobación del owner.
+Con DEVPL-GSDLC-00-B, `product_vision.md` conserva su baseline histórica y adopta el **successor product contract Guided SDLC** como dirección canónica aprobada por el programa. El runtime correspondiente permanece `planned` y debe implementarse exclusivamente en los backlogs GSDLC asignados.

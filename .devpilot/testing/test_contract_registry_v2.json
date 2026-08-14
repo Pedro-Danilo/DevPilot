@@ -18160,6 +18160,88 @@
         "historical-contracts",
         "pilot-evidence"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-00-b-product-requirements",
+      "source_contract_id": "devpl-gsdlc-00-b-product-requirements",
+      "schema_version": "2.0",
+      "domain": "documentation.governance",
+      "capability": "GuidedSdlcSuccessorProductRequirements",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 90,
+      "test_files": [
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py",
+        "tests/test_artifact_validator.py",
+        "tests/test_artifact_profile_registry.py",
+        "tests/test_traceability_extractors.py",
+        "tests/test_project_global_state.py",
+        "tests/test_devpl_gsdlc_00_a_program_activation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        "docs/00_product/product_vision.md",
+        "docs/01_requirements/requirements_specification.md",
+        "docs/01_requirements/traceability_matrix.md",
+        "docs/audits/devpl_gsdlc_00_b_requirements_delta_report.md",
+        "docs/audits/devpl_gsdlc_00_b_traceability_delta.json",
+        "docs/audits/devpl_gsdlc_00_b_historical_contract_sweep.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_devpl_gsdlc_00_b_product_requirements.py"
+      ],
+      "validates": [
+        "docs/00_product/product_vision.md",
+        "docs/01_requirements/requirements_specification.md",
+        "docs/01_requirements/traceability_matrix.md",
+        "docs/audits/devpl_gsdlc_00_b_requirements_delta_report.md",
+        "docs/audits/devpl_gsdlc_00_b_traceability_delta.json",
+        "docs/audits/devpl_gsdlc_00_b_historical_contract_sweep.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-00-B",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_b_product_requirements.py tests/test_artifact_validator.py tests/test_artifact_profile_registry.py tests/test_traceability_extractors.py tests/test_project_global_state.py tests/test_devpl_gsdlc_00_a_program_activation.py tests/test_documentation_source_registry_schema.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Governance/docs-only successor contract; no Guided SDLC runtime is enabled.",
+        "Historical requirement IDs remain stable and successor IDs are planned.",
+        "00-A pilot pause remains authoritative while GSDLC advances to 00-B."
+      ],
+      "trigger_hints": [
+        "product-vision",
+        "requirements",
+        "traceability",
+        "gsdlc-00-b"
+      ],
+      "impact_scope": [
+        "product-vision",
+        "requirements",
+        "traceability",
+        "project-state",
+        "documentation-governance",
+        "historical-contracts"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",

@@ -2,16 +2,19 @@
 title: "Traceability Matrix — DevPilot Local"
 doc_id: "DEVPL-REQ-005"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-EVAL-002"
-updated: "2026-07-30"
+phase: "DEVPL-GSDLC-00-B"
+updated: "2026-08-14"
 approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved"
-current_repo: "repo_DevPilot_Local_327_POST_H_EVAL_002_01_D_GOVERNANCE_CLOSURE.zip"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+current_repo: "WORKING descendant of repo341; GSDLC-00-A commit 5c6d0b2f060a5845769505d650754ef786542e99"
+change_policy: "controlled_changes_via_DEVPL-GSDLC"
+program_id: "DEVPL-GSDLC"
+source_parent_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
+source_working_commit: "5c6d0b2f060a5845769505d650754ef786542e99"
 ---
 # Traceability Matrix — DevPilot Local
 
@@ -30,6 +33,12 @@ Este documento conecta objetivos de producto, requerimientos, historias, casos d
 | BG-005 | Usar workspaces como unidad operativa de proyectos gestionados. |
 | BG-006 | Incorporar Git, repos reales, patches, code review, refactor y despliegue progresivamente. |
 | BG-007 | Activar MIASI y agentes controlados cuando haya IA, automatización inteligente o tool calling. |
+| GSDLC-OBJ-001 | Conducir el normal journey completo desde UI con estado/next action persistentes. |
+| GSDLC-OBJ-002 | Crear/abrir/importar y bootstrappear proyectos desde DevPilot. |
+| GSDLC-OBJ-003 | Ejecutar MIPSoftware/MIASI y autoría manual/import/agent-assisted como workflows gobernados. |
+| GSDLC-OBJ-004 | Integrar planning, coding, tests, quality, Git, evidence y release. |
+| GSDLC-OBJ-005 | Mantener local-first, seguridad, RBAC, costos y autoridad humana. |
+| GSDLC-OBJ-006 | Demostrar el producto mediante el piloto `inventory-sales-local`. |
 
 ## 3. Matriz producto → requisito → historia → caso → aceptación → prueba
 
@@ -91,10 +100,69 @@ Este documento conecta objetivos de producto, requerimientos, historias, casos d
 
 ```yaml
 traceability_status: approved
-ready_for_architecture_sprint: true
+gsdlc_delta_coverage: 100%
+gsdlc_orphan_requirements: 0
+gsdlc_requirements_total: 31
+source_working_commit: 5c6d0b2f060a5845769505d650754ef786542e99
+ready_for_gsdlc_00_c_after_00_b_closure: true
 ```
 
-## 6. Trazabilidad de cierre POST-H-EVAL-002-01-D
+## 6. Trazabilidad DEVPL-GSDLC — vision → requirement → backlog → acceptance gate
+
+Esta matriz cubre **exclusivamente el delta successor DEVPL-GSDLC**. La matriz histórica de secciones 3–4 permanece como evidencia acumulativa.
+
+| Requisito | Objetivo GSDLC | Backlog owner | Milestone | Future acceptance gate | Security/control/test owner | Status |
+|---|---|---|---|---|---|---|
+| GSDLC-FR-001 | GSDLC-OBJ-001 | DEVPL-GSDLC-01 | M1 | Al abrir o reanudar un proyecto la UI muestra todos los campos mínimos y el next action coincide con el workflow determinístico. | DEVPL-GSDLC-01 / security focal | planned |
+| GSDLC-FR-002 | GSDLC-OBJ-001 | DEVPL-GSDLC-01 | M1 | Restart conserva fase/paso; estados de plataforma/runtime no sobrescriben el estado de ingeniería. | DEVPL-GSDLC-01 / focal acceptance | planned |
+| GSDLC-FR-003 | GSDLC-OBJ-005 | DEVPL-GSDLC-02 | M1 | Login/logout/session expiry/revocation PASS; identidad del actor deriva de sesión. | DEVPL-GSDLC-02 / focal acceptance | planned |
+| GSDLC-SEC-001 | GSDLC-OBJ-005 | DEVPL-GSDLC-02 | M1 | Wrong role, revoked/expired session, scope mismatch y actor spoofing quedan BLOCK; approval válido queda auditado. | DEVPL-GSDLC-02 / security focal | planned |
+| GSDLC-SEC-002 | GSDLC-OBJ-005 | DEVPL-GSDLC-02 | M1 | Bind local-only; enterprise capabilities continúan POLICY-BLOCKED y tests históricos PASS. | DEVPL-GSDLC-02 / security focal | planned |
+| GSDLC-FR-004 | GSDLC-OBJ-002 | DEVPL-GSDLC-03 | M1 | Las tres opciones son accesibles desde UI y conducen a flujos tipados sin shell arbitrario. | DEVPL-GSDLC-03 / focal acceptance | planned |
+| GSDLC-FR-005 | GSDLC-OBJ-002 | DEVPL-GSDLC-03 | M1 | Dry-run no muta; execute solo dentro del workspace; Git/venv/deps verificados; rollback/evidence disponibles. | DEVPL-GSDLC-03 / security focal | planned |
+| GSDLC-SEC-003 | GSDLC-OBJ-005 | DEVPL-GSDLC-03 | M1 | No existe endpoint/UI que acepte comandos arbitrarios; path traversal y command injection quedan BLOCK. | DEVPL-GSDLC-03 / security focal | planned |
+| GSDLC-FR-006 | GSDLC-OBJ-003 | DEVPL-GSDLC-04 | M2 | Editor guarda draft gobernado, validators actualizan lifecycle y no se puede saltar un gate obligatorio. | DEVPL-GSDLC-04 / security focal | planned |
+| GSDLC-FR-007 | GSDLC-OBJ-003 | DEVPL-GSDLC-04 | M2 | Import no sobrescribe aprobado sin review; archivos inválidos/maliciosos quedan bloqueados; provenance persistida. | DEVPL-GSDLC-04 / focal acceptance | planned |
+| GSDLC-FR-008 | GSDLC-OBJ-001 | DEVPL-GSDLC-12 | M6 | Cambio externo detectado; aprobación no permanece vigente silenciosamente; diff y revalidación visibles. | DEVPL-GSDLC-12 / focal acceptance | planned |
+| GSDLC-GOV-001 | GSDLC-OBJ-003 | DEVPL-GSDLC-05 | M2 | No se avanza a un step con prerequisitos/gates incumplidos; registry versionado y validado. | DEVPL-GSDLC-05 / security focal | planned |
+| GSDLC-GOV-002 | GSDLC-OBJ-003 | DEVPL-GSDLC-05 | M2 | Agent/tool no registrado o sin policy/eval queda bloqueado; human approval se respeta. | DEVPL-GSDLC-05 / security focal | planned |
+| GSDLC-FR-009 | GSDLC-OBJ-003 | DEVPL-GSDLC-05 | M2 | Advisor nunca inventa capabilities; opciones bloqueadas explican razón; salida estable para mismo estado. | DEVPL-GSDLC-05 / security focal | planned |
+| GSDLC-NFR-001 | GSDLC-OBJ-005 | DEVPL-GSDLC-05 | M2 | Proyecto puede alcanzar PRE_CODE_READY por Manual/Paste/Upload con network_used=false y external_cost=0. | DEVPL-GSDLC-05 / focal acceptance | planned |
+| GSDLC-FR-010 | GSDLC-OBJ-005 | DEVPL-GSDLC-06 | M3 | Sin provider configurado existe fallback mock/local; rutas externas requieren opt-in/policy y dejan trazabilidad. | DEVPL-GSDLC-06 / focal acceptance | planned |
+| GSDLC-NFR-002 | GSDLC-OBJ-005 | DEVPL-GSDLC-06 | M3 | Budget excedido bloquea o requiere approval según policy; UI muestra estimación y consumo. | DEVPL-GSDLC-06 / security focal | planned |
+| GSDLC-FR-011 | GSDLC-OBJ-003 | DEVPL-GSDLC-07 | M3 | Draft incluye provenance/model/context; apply requiere review/policy/approval; agent self-approval bloqueado. | DEVPL-GSDLC-07 / security focal | planned |
+| GSDLC-FR-012 | GSDLC-OBJ-003 | DEVPL-GSDLC-07 | M3 | Respuesta sin evidencia suficiente no promueve afirmación a artefacto aprobado; citations navegables. | DEVPL-GSDLC-07 / security focal | planned |
+| GSDLC-GOV-003 | GSDLC-OBJ-005 | DEVPL-GSDLC-07 | M3 | Tests demuestran que outputs LLM no pueden sobreescribir gate/policy/state machine. | DEVPL-GSDLC-07 / security focal | planned |
+| GSDLC-FR-013 | GSDLC-OBJ-004 | DEVPL-GSDLC-08 | M4 | Coverage de requisitos planificados =100% o gaps explícitos; owner puede editar/rechazar antes de freeze. | DEVPL-GSDLC-08 / focal acceptance | planned |
+| GSDLC-FR-014 | GSDLC-OBJ-004 | DEVPL-GSDLC-09 | M5 | Cada story mantiene context pack, plan, diff y estado; no aplica cambios fuera de manifest. | DEVPL-GSDLC-09 / focal acceptance | planned |
+| GSDLC-FR-015 | GSDLC-OBJ-004 | DEVPL-GSDLC-09 | M5 | Apply solo tras validación/approval requerido; diff exacto y rollback evidence disponibles. | DEVPL-GSDLC-09 / security focal | planned |
+| GSDLC-FR-016 | GSDLC-OBJ-004 | DEVPL-GSDLC-10 | M5 | Tests seleccionados ejecutan; blockers=0; resultados correlacionados a story y requirement. | DEVPL-GSDLC-10 / focal acceptance | planned |
+| GSDLC-FR-017 | GSDLC-OBJ-004 | DEVPL-GSDLC-10 | M5 | Commit contiene solo paths autorizados; force-push/reset-hard/rebase automáticos siguen bloqueados. | DEVPL-GSDLC-10 / focal acceptance | planned |
+| GSDLC-GOV-004 | GSDLC-OBJ-004 | DEVPL-GSDLC-10 | M5 | Evidence coverage del flujo cerrado=100%; ids permiten navegar acción→policy→approval→result→commit. | DEVPL-GSDLC-10 / security focal | planned |
+| GSDLC-FR-018 | GSDLC-OBJ-004 | DEVPL-GSDLC-11 | M6 | Release no progresa con blockers; package reproducible, rollback verificable y tag gobernado. | DEVPL-GSDLC-11 / focal acceptance | planned |
+| GSDLC-NFR-003 | GSDLC-OBJ-001 | DEVPL-GSDLC-12 | M6 | Restart conserva progreso; divergencias producen reconciliación/REVALIDATION_REQUIRED, no estado silenciosamente inválido. | DEVPL-GSDLC-12 / focal acceptance | planned |
+| GSDLC-UX-001 | GSDLC-OBJ-001 | DEVPL-GSDLC-12 | M6 | Browser acceptance demuestra flujo completo sin comandos de usuario; bridges restantes son opcionales/diagnóstico y clasificados. | DEVPL-GSDLC-12 / security focal | planned |
+| GSDLC-GOV-005 | GSDLC-OBJ-005 | DEVPL-GSDLC-12 | M6 | Historical sweep clasifica impacted contracts; 0 global assertions sin scope; history facts permanecen verificables. | DEVPL-GSDLC-12 / focal acceptance | planned |
+| GSDLC-GOV-006 | GSDLC-OBJ-006 | DEVPL-GSDLC-13 | M7 | 02-B alcanza sus gates desde Guided SDLC UI; operator solo audita/evidence; workspace source attribution documentada. | DEVPL-GSDLC-13 / focal acceptance | planned |
+
+### 6.1 Cobertura del delta
+
+```yaml
+gsdlc_requirements_total: 31
+gsdlc_requirements_traced: 31
+gsdlc_traceability_coverage: 100%
+gsdlc_orphan_requirements: 0
+source_working_commit: 5c6d0b2f060a5845769505d650754ef786542e99
+```
+
+### 6.2 Reglas de seguridad de trazabilidad
+
+- `SEC` y requisitos agentic mantienen owner de control/prueba explícito.
+- Un requisito `planned` no acredita capability implementada.
+- La trazabilidad futura deberá extenderse a story/test/trace/commit conforme cierren GSDLC-08→13.
+- Los contratos históricos continúan scoped a su hito y no pueden reemplazar el successor gate.
+
+## 7. Trazabilidad histórica de cierre POST-H-EVAL-002-01-D
 
 | Requisito de cierre | Evidencia autoritativa | Contrato | Resultado |
 |---|---|---|---|
