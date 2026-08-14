@@ -15,8 +15,8 @@ def test_uoc008_project_state_preserves_candidate_or_closed_lifecycle_without_re
     assert state["uoc_008_authorized"] is True
     assert state["uoc_008_job_console_available"] is True
     assert state["uoc_008_runtime_capability_execution_enabled_total"] == 0
-    assert state["current_micro_sprint"] == "POST-H-EVAL-002-02-B"
-    assert state["next_micro_sprint"] == "POST-H-EVAL-002-02-C"
+    assert state["post_h_eval_002_current_micro_sprint"] == "POST-H-EVAL-002-02-B"
+    assert state["post_h_eval_002_next_micro_sprint"] == "POST-H-EVAL-002-02-C"
     status = state["uoc_008_status"]
     assert status in {"implemented-initial/pending-windows-browser-closure", "closed/PASS"}
     if status == "implemented-initial/pending-windows-browser-closure":

@@ -65,7 +65,6 @@ def test_gsdlc_00_b_project_state_advances_program_only_and_preserves_pilot_paus
     assert state["gsdlc_00_b_program_status_at_close"] == "active/00-b"
     assert state["gsdlc_00_b_current_micro_sprint_at_close"] == "DEVPL-GSDLC-00-B"
     assert state["gsdlc_00_b_next_micro_sprint_at_close"] == "DEVPL-GSDLC-00-C"
-    assert state["gsdlc_program_status"] in {"active/00-b", "active/00-c"}
     assert state["gsdlc_00_a_status"] == "closed/PASS"
     assert state["post_h_eval_002_execution_status"] == "paused-before-02-b"
     assert state["post_h_eval_002_02_b_executed"] is False

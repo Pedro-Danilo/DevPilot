@@ -134,10 +134,10 @@ def test_project_state_activates_eval_without_reopening_post_h_034() -> None:
     assert state["source_repo"] == SOURCE_REPO
     assert state["post_h_eval_002_01_d_governance_repo"] == ENTRY_GOVERNANCE_REPO
     assert state["ui_operational_console_authoritative_baseline"] == UOC_CLOSURE_REPO
-    assert state["current_repo"] == CURRENT_REPO
-    assert state["current_repo"].startswith("repo_DevPilot_Local_")
-    assert state["current_micro_sprint"] == CURRENT_MICRO
-    assert state["next_micro_sprint"] == NEXT_MICRO
+    assert state["post_h_eval_002_02_b_platform_baseline"] == CURRENT_REPO
+    assert state["post_h_eval_002_02_b_platform_baseline"].startswith("repo_DevPilot_Local_")
+    assert state["post_h_eval_002_current_micro_sprint"] == CURRENT_MICRO
+    assert state["post_h_eval_002_next_micro_sprint"] == NEXT_MICRO
     assert state["next_backlog_planned"] is True
     assert state["post_h_eval_002_activated"] is True
     assert state["post_h_eval_002_status"] == "approved/active-evaluation"
@@ -147,9 +147,9 @@ def test_rc_criteria_and_operator_docs_follow_activation_state() -> None:
     state = _json(".devpilot/project_state.json")
     criteria = _json(".devpilot/release/local_release_candidate_criteria.json")
     assert criteria["expected_source_repo"] == state["source_repo"]
-    assert criteria["expected_current_repo"] == state["current_repo"]
-    assert criteria["expected_current_micro_sprint"] == state["current_micro_sprint"]
-    assert criteria["expected_next_micro_sprint"] == state["next_micro_sprint"]
+    assert criteria["expected_current_repo"] == state["post_h_eval_002_02_b_platform_baseline"]
+    assert criteria["expected_current_micro_sprint"] == state["post_h_eval_002_current_micro_sprint"]
+    assert criteria["expected_next_micro_sprint"] == state["post_h_eval_002_next_micro_sprint"]
 
     readme = _text("README.md")
     runbook = _text("docs/05_operations/runbook.md")

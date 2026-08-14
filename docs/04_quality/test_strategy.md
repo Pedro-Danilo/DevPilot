@@ -2,15 +2,15 @@
 title: "Test Strategy — DevPilot Local"
 doc_id: "DEVPL-QUAL-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-05"
-updated: "2026-06-05"
+phase: "DEVPL-GSDLC-00-D"
+updated: "2026-08-14"
 approval: "approved_by_owner"
-source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+source_baseline: "DEVPL-GSDLC-00-C CLOSED/PASS + security successor model"
+change_policy: "controlled_changes_via_DEVPL-GSDLC"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
@@ -783,3 +783,107 @@ python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_workspace_on
 ```
 
 Regresión focal recomendada: incluir `tests/test_post_h_024_project_bootstrap.py`, `tests/test_post_h_024_onboarding_readiness_preview.py`, `tests/test_post_h_024_onboarding_quality_gate.py`, `tests/test_post_h_016_workspace_registry_v2.py` y los tests POST-H-030-A/B/C. No se requiere `pytest -q` completo para este micro-sprint; se preserva para cierre mayor del backlog o release candidate.
+
+## 19. DEVPL-GSDLC — estrategia successor por capas
+
+00-D formaliza una estrategia de pruebas para un producto guiado y no para una colección de comandos. La regla central es:
+
+> la misma ola que introduce una capability introduce sus contratos, negative tests, observabilidad y evidence expectations.
+
+| Layer | Tipo | Qué valida | Condición | Owner temporal |
+|---|---|---|---|---|
+| L1 | Deterministic unit | State transitions, workflow predicates, validators, policies, budget arithmetic | mock/local; no network | GSDLC-01+ |
+| L2 | Schema/contract | Registries, typed operations, evidence schemas, frontmatter and machine-readable workflow definitions | deterministic | same wave as contract |
+| L3 | ApplicationService integration | UI/API request → ApplicationService → domain service; no bypass | local | GSDLC-01+ |
+| L4 | Security negative | Auth/RBAC/approval/path/import/injection/no-go bypass cases | fail-closed | same wave that introduces capability |
+| L5 | Browser acceptance | Normal journey vertical slice, accessibility and operational state | real browser/Windows when required | each UI milestone |
+| L6 | Restart/resume/reconciliation | App restart, Git branch change, external IDE edit, stale state/approval | local reproducible fixtures | GSDLC-01/GSDLC-11 |
+| L7 | Model/provider | Adapter capability, structured output/tool call, local/API fallback | separate from deterministic gates | GSDLC-06/R01 |
+| L8 | Cost/token | Budgets per request/artifact/story/sprint/project; retry/loop limits | mock billing + controlled providers | GSDLC-06 |
+| L9 | Evidence integrity | Hash/provenance/freshness/tamper/correlation completeness | local | every mutating vertical |
+| L10 | Pilot acceptance | inventory-sales-local genuine UI-first execution | independent evidence | GSDLC-13 |
+| L11 | Industrial regression | Cross-domain regression, Windows/browser matrix, recovery and hardening | escalation + final hardening | GSDLC-12 and release gates |
+
+### 19.1 Regla de determinismo
+
+Los modelos y agentes pueden ser objeto de pruebas, pero **ningún benchmark/model-provider test sustituye**:
+
+- state-machine tests;
+- policy/RBAC tests;
+- schema/contract tests;
+- approval binding;
+- deterministic quality/readiness gates.
+
+### 19.2 Política Test Impact → focal → escalation
+
+Para cada micro-sprint:
+
+1. registrar manifest exacto de paths;
+2. ejecutar Test Impact v2;
+3. ejecutar primero el focal de contratos modificados;
+4. ejecutar security negatives correspondientes;
+5. ejecutar validators globales afectados;
+6. escalar a full regression solo si el impacto real cruza boundaries/runtime o un gate focal detecta incertidumbre no acotada.
+
+En `GSDLC-00 A→D`, cambios documentation/contracts-only no disparan full regression por rutina. `GSDLC-00-E` decide una única regresión de cierre si el delta acumulado lo exige. El hardening final del programa conserva una full regression/matrix obligatoria según roadmap.
+
+### 19.3 Browser acceptance
+
+Browser acceptance se exige **solo** en la ola que introduce o cierra una UX. Un sprint documental como 00-D no fabrica screenshots.
+
+Cuando aplica, la evidencia debe ser real:
+
+```text
+route/state
+actor/role
+operation or next_action
+expected result
+observed result
+screenshot/trace correlation
+PASS/BLOCK
+```
+
+### 19.4 Restart/resume/reconciliation
+
+Debe cubrir, como mínimo:
+
+- restart con workflow en curso;
+- branch checkout;
+- external edit;
+- Git revert;
+- approval invalidado;
+- missing runtime job;
+- stale artifact hash;
+- disagreement between source state / engineering state / runtime state.
+
+### 19.5 Provider y costo
+
+Provider tests se separan de gates determinísticos. Deben cubrir:
+
+- mock mandatory route;
+- local provider route;
+- external provider route solo con autorización;
+- unavailable provider;
+- budget exceeded;
+- token estimate drift;
+- secret blocked before egress;
+- fallback policy.
+
+### 19.6 Evidence integrity
+
+Toda transición crítica debe poder reconstruirse mediante:
+
+```text
+request/operation
+→ policy decision
+→ approval (if required)
+→ job/execution
+→ result
+→ test/quality
+→ trace/evidence
+→ Git/release identity when applicable
+```
+
+### 19.7 Criterio de regresión
+
+`pytest -q` completo no es un ritual por sprint. Es un gate de escalamiento/hardening. La ausencia de full regression debe quedar justificada por Test Impact y por focales que cubran las superficies mutadas.

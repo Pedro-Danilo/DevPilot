@@ -2,15 +2,15 @@
 title: "Security Threat Model — DevPilot Local"
 doc_id: "DEVPL-SEC-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-04"
-updated: "2026-06-05"
+phase: "DEVPL-GSDLC-00-D"
+updated: "2026-08-14"
 approval: "approved_by_owner_direction"
-source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+source_baseline: "DEVPL-GSDLC-00-C CLOSED/PASS architecture target"
+change_policy: "controlled_changes_via_DEVPL-GSDLC"
 ---
 
 # Security Threat Model — DevPilot Local
@@ -271,3 +271,117 @@ Controles agregados:
 - findings accionables con categorías y rule IDs, sin almacenar el payload crudo en metadata.
 
 Limitación: estos controles son pattern-based y `implemented-initial`. No sustituyen red teaming, SAST/SCA, secret scanning industrial, sandboxing ni revisión humana.
+
+## 18. DEVPL-GSDLC — successor threat model
+
+### 18.1 Alcance de esta evolución
+
+Este bloque es **successor** del threat model pre-code original. No borra los riesgos históricos de CLI/MVP; actualiza la amenaza objetivo para el normal journey UI-complete aprobado en `DEVPL-GSDLC`.
+
+00-D sigue siendo documental/contracts-only:
+
+```text
+auth runtime enabled = false
+generic filesystem write = false
+external API by default = false
+remote execution = false
+connector generic write = false
+plugin arbitrary execution = false
+```
+
+Los controles aquí definidos son requisitos para las olas que introduzcan cada capability; describirlos no equivale a habilitarlos.
+
+### 18.2 Nuevos límites de confianza
+
+```text
+Authenticated Local Operator (planned)
+        │
+        ▼
+ProjectShell / Project Status (planned)
+        │
+        ▼
+ApplicationService (implemented-current boundary)
+        │
+        ▼
+GuidedSDLCService / WorkflowEngine (planned, deterministic)
+        │
+        ├── Artifact / Bootstrap / Planning / Story typed services
+        ├── PolicyEngine / RBAC / Approval
+        ├── Governed Jobs / Git / Quality
+        ├── Evidence / Trace / Provenance
+        └── Model Gateway (mock/local/API optional, future)
+```
+
+El límite crítico es que **ningún actor, UI, agente o modelo puede saltarse ApplicationService/Policy/Approval para mutar proyecto o estado**.
+
+### 18.3 Threat register GSDLC
+
+| Threat ID | Amenaza | Severidad | Control ID | Control preventivo/detector | Backlog owner | Prueba/evidencia futura |
+|---|---|---|---|---|---|---|
+| GSDLC-TM-001 | Local session theft, fixation or replay | critical | GSDLC-CTRL-001 | Local session lifecycle with rotation, expiry, revocation, secure cookie/session binding and replay detection | GSDLC-02 | auth/session negative suite + revocation evidence |
+| GSDLC-TM-002 | RBAC privilege escalation and approval identity spoofing | critical | GSDLC-CTRL-002 | Server-side principal derivation, role authorization and non-spoofable approval actor binding | GSDLC-02 | RBAC/approval bypass negatives + actor/role evidence |
+| GSDLC-TM-003 | CSRF or local-origin confusion against local web UI/API | high | GSDLC-CTRL-003 | Loopback binding, strict Origin/CORS policy and CSRF/session protections appropriate to authenticated local web flows | GSDLC-02 | origin/CSRF negative browser/API tests |
+| GSDLC-TM-004 | Path traversal or workspace escape | critical | GSDLC-CTRL-004 | Canonical path resolution, workspace root containment, deny symlink/junction escape where unsafe, typed path operations | GSDLC-03 | path traversal/junction/symlink negative tests |
+| GSDLC-TM-005 | Malicious uploaded or imported artifact | high | GSDLC-CTRL-005 | Import quarantine, content/type/size validation, provenance, no implicit execution, SecretGuard scan | GSDLC-04 | malicious upload/import fixtures + provenance evidence |
+| GSDLC-TM-006 | External editor drift or time-of-check/time-of-use race | high | GSDLC-CTRL-006 | Content fingerprinting, optimistic concurrency, revalidation and approval invalidation on external change | GSDLC-04/GSDLC-11 | external edit race/restart reconciliation tests |
+| GSDLC-TM-007 | Dependency supply-chain compromise during bootstrap | critical | GSDLC-CTRL-007 | Explicit dependency plan, registry/source visibility, lock/pin policy, approval for network/install, hashes where available | GSDLC-03 | dependency-plan negative tests + lock/source evidence |
+| GSDLC-TM-008 | Unsafe agent-generated content or code | critical | GSDLC-CTRL-008 | Agent output is proposal/diff only; deterministic validation, tests, policy and human approval before write | GSDLC-07/GSDLC-09 | unsafe patch rejection + review/approval evidence |
+| GSDLC-TM-009 | Prompt injection or tool injection | critical | GSDLC-CTRL-009 | PromptInjectionGuard, trusted/untrusted source labels, tool allowlist, instruction/data separation and policy gate | GSDLC-07 | prompt/tool injection negative suite |
+| GSDLC-TM-010 | Confused-deputy tool or typed-operation abuse | critical | GSDLC-CTRL-010 | Capability-scoped typed operations, explicit subject/workspace, least privilege and PolicyEngine binding | GSDLC-03/GSDLC-09 | cross-workspace/capability misuse negatives |
+| GSDLC-TM-011 | Secret exfiltration to external model/provider | critical | GSDLC-CTRL-011 | SecretGuard before egress, provider privacy policy, redaction, local fallback and explicit external-provider consent | GSDLC-06/GSDLC-07 | secret egress negatives + provider routing evidence |
+| GSDLC-TM-012 | Unbounded tokens, cost, retries or autonomous loops | high | GSDLC-CTRL-012 | CostGuard hard budgets, bounded retries/steps, per-task/artifact/story/sprint/project accounting and stop conditions | GSDLC-06/GSDLC-07 | budget/loop exhaustion tests |
+| GSDLC-TM-013 | Stale approval after content hash, role or session changes | critical | GSDLC-CTRL-013 | Approval binds plan/content hash + actor + effective role + session and is invalidated on relevant change | GSDLC-02/GSDLC-09 | stale approval negative matrix |
+| GSDLC-TM-014 | Destructive Git operation or repository corruption | critical | GSDLC-CTRL-014 | Governed Git typed operations; no force-push/reset-hard/automatic rebase; backups/snapshots and verify-before-commit | GSDLC-09 | Git no-go/rollback/corruption tests |
+| GSDLC-TM-015 | Evidence tampering or provenance loss | high | GSDLC-CTRL-015 | Evidence hashes, immutable historical packages, provenance/correlation IDs and freshness/integrity gates | GSDLC-09/GSDLC-11 | evidence tamper/freshness tests |
+| GSDLC-TM-016 | Platform/workspace/runtime state desynchronization | high | GSDLC-CTRL-016 | Three-state ownership model, deterministic reconciliation, restart recovery and conflict/block rules | GSDLC-01/GSDLC-11 | restart/state reconciliation tests |
+| GSDLC-TM-017 | Malicious or deceptive Git repository import | high | GSDLC-CTRL-017 | Import plan, repository inspection before execution, path/size/submodule/hook policy and no automatic hook execution | GSDLC-03 | malicious repo import fixtures |
+| GSDLC-TM-018 | Release/package substitution or rollback artifact mismatch | critical | GSDLC-CTRL-018 | Release manifest + SHA, reproducible archive, install/rollback verification and governed tag/release approval | GSDLC-10/GSDLC-11 | package substitution/rollback/reproducibility tests |
+
+### 18.4 Gates de seguridad por enablement
+
+Una capability futura solo puede cambiar de `planned-GSDLC` a implementada si, en la misma ola:
+
+1. existe threat/control owner;
+2. los negative tests de bypass están activos;
+3. Policy/RBAC/Approval aplica server-side;
+4. el evidence contract identifica actor/subject/hash/operation;
+5. existe rollback o estrategia de recuperación cuando la mutación sea reversible;
+6. los no-go ajenos a la capability permanecen bloqueados;
+7. no se habilita red/API/secrets implícitamente;
+8. Test Impact y TCR registran el nuevo dominio.
+
+### 18.5 Invariantes de aprobación
+
+Una aprobación futura no será válida únicamente por existir un `approval_id`. Debe quedar ligada, como mínimo, a:
+
+```text
+actor_id
+effective_role
+session_id or equivalent local authenticated context
+workspace/project
+operation_id
+subject/plan/content hash
+policy decision
+expiry/revocation state
+```
+
+Cambio de hash, rol, sesión, workspace o plan relevante ⇒ `APPROVAL_INVALIDATED` / revalidación.
+
+### 18.6 Importación y supply chain
+
+`UPLOAD_IMPORT`, `Import Git` y bootstrap de dependencias son entradas **no confiables**. La UI debe mostrar plan/fuentes/efectos antes de cualquier ejecución. Archivos importados, repositorios, submódulos, hooks, lockfiles y paquetes no se ejecutan por el hecho de haber sido seleccionados.
+
+### 18.7 LLM/provider
+
+Los modelos pueden proponer, resumir, clasificar o generar contenido. No pueden:
+
+- decidir PASS/BLOCK;
+- autoaprobar;
+- elegir una tool fuera del catálogo permitido;
+- ampliar presupuesto;
+- saltar SecretGuard/policy;
+- convertir una fuente RAG en instrucción confiable.
+
+### 18.8 Cobertura de riesgos críticos
+
+Todos los threats `critical` de la tabla tienen `control_id`, `backlog owner` y estrategia de prueba/evidencia. `critical_without_owner = 0`.

@@ -1,0 +1,154 @@
+{
+  "schema_id": "devpilot.gsdlc.00d.security_control_traceability.v1",
+  "threats_total": 18,
+  "threats_traced": 18,
+  "coverage_percent": 100,
+  "critical_without_control": 0,
+  "critical_without_test_owner": 0,
+  "entries": [
+    {
+      "threat_id": "GSDLC-TM-001",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-001",
+      "requirement_id": "GSDLC-SEC-001",
+      "backlog_owner": "GSDLC-02",
+      "test_evidence_strategy": "auth/session negative suite + revocation evidence"
+    },
+    {
+      "threat_id": "GSDLC-TM-002",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-002",
+      "requirement_id": "GSDLC-SEC-002",
+      "backlog_owner": "GSDLC-02",
+      "test_evidence_strategy": "RBAC/approval bypass negatives + actor/role evidence"
+    },
+    {
+      "threat_id": "GSDLC-TM-003",
+      "severity": "high",
+      "control_id": "GSDLC-CTRL-003",
+      "requirement_id": "GSDLC-SEC-001",
+      "backlog_owner": "GSDLC-02",
+      "test_evidence_strategy": "origin/CSRF negative browser/API tests"
+    },
+    {
+      "threat_id": "GSDLC-TM-004",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-004",
+      "requirement_id": "GSDLC-SEC-003",
+      "backlog_owner": "GSDLC-03",
+      "test_evidence_strategy": "path traversal/junction/symlink negative tests"
+    },
+    {
+      "threat_id": "GSDLC-TM-005",
+      "severity": "high",
+      "control_id": "GSDLC-CTRL-005",
+      "requirement_id": "GSDLC-FR-007",
+      "backlog_owner": "GSDLC-04",
+      "test_evidence_strategy": "malicious upload/import fixtures + provenance evidence"
+    },
+    {
+      "threat_id": "GSDLC-TM-006",
+      "severity": "high",
+      "control_id": "GSDLC-CTRL-006",
+      "requirement_id": "GSDLC-FR-010",
+      "backlog_owner": "GSDLC-04/GSDLC-11",
+      "test_evidence_strategy": "external edit race/restart reconciliation tests"
+    },
+    {
+      "threat_id": "GSDLC-TM-007",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-007",
+      "requirement_id": "GSDLC-FR-005",
+      "backlog_owner": "GSDLC-03",
+      "test_evidence_strategy": "dependency-plan negative tests + lock/source evidence"
+    },
+    {
+      "threat_id": "GSDLC-TM-008",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-008",
+      "requirement_id": "GSDLC-GOV-002",
+      "backlog_owner": "GSDLC-07/GSDLC-09",
+      "test_evidence_strategy": "unsafe patch rejection + review/approval evidence"
+    },
+    {
+      "threat_id": "GSDLC-TM-009",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-009",
+      "requirement_id": "GSDLC-GOV-002",
+      "backlog_owner": "GSDLC-07",
+      "test_evidence_strategy": "prompt/tool injection negative suite"
+    },
+    {
+      "threat_id": "GSDLC-TM-010",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-010",
+      "requirement_id": "GSDLC-SEC-003",
+      "backlog_owner": "GSDLC-03/GSDLC-09",
+      "test_evidence_strategy": "cross-workspace/capability misuse negatives"
+    },
+    {
+      "threat_id": "GSDLC-TM-011",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-011",
+      "requirement_id": "GSDLC-NFR-002",
+      "backlog_owner": "GSDLC-06/GSDLC-07",
+      "test_evidence_strategy": "secret egress negatives + provider routing evidence"
+    },
+    {
+      "threat_id": "GSDLC-TM-012",
+      "severity": "high",
+      "control_id": "GSDLC-CTRL-012",
+      "requirement_id": "GSDLC-GOV-003",
+      "backlog_owner": "GSDLC-06/GSDLC-07",
+      "test_evidence_strategy": "budget/loop exhaustion tests"
+    },
+    {
+      "threat_id": "GSDLC-TM-013",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-013",
+      "requirement_id": "GSDLC-SEC-002",
+      "backlog_owner": "GSDLC-02/GSDLC-09",
+      "test_evidence_strategy": "stale approval negative matrix"
+    },
+    {
+      "threat_id": "GSDLC-TM-014",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-014",
+      "requirement_id": "GSDLC-FR-017",
+      "backlog_owner": "GSDLC-09",
+      "test_evidence_strategy": "Git no-go/rollback/corruption tests"
+    },
+    {
+      "threat_id": "GSDLC-TM-015",
+      "severity": "high",
+      "control_id": "GSDLC-CTRL-015",
+      "requirement_id": "GSDLC-GOV-004",
+      "backlog_owner": "GSDLC-09/GSDLC-11",
+      "test_evidence_strategy": "evidence tamper/freshness tests"
+    },
+    {
+      "threat_id": "GSDLC-TM-016",
+      "severity": "high",
+      "control_id": "GSDLC-CTRL-016",
+      "requirement_id": "GSDLC-FR-002",
+      "backlog_owner": "GSDLC-01/GSDLC-11",
+      "test_evidence_strategy": "restart/state reconciliation tests"
+    },
+    {
+      "threat_id": "GSDLC-TM-017",
+      "severity": "high",
+      "control_id": "GSDLC-CTRL-017",
+      "requirement_id": "GSDLC-FR-004",
+      "backlog_owner": "GSDLC-03",
+      "test_evidence_strategy": "malicious repo import fixtures"
+    },
+    {
+      "threat_id": "GSDLC-TM-018",
+      "severity": "critical",
+      "control_id": "GSDLC-CTRL-018",
+      "requirement_id": "GSDLC-FR-018",
+      "backlog_owner": "GSDLC-10/GSDLC-11",
+      "test_evidence_strategy": "package substitution/rollback/reproducibility tests"
+    }
+  ]
+}

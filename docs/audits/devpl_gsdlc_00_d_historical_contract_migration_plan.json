@@ -1,0 +1,96 @@
+{
+  "schema_id": "devpilot.gsdlc.00d.historical_contract_migration_plan.v1",
+  "micro_sprint": "DEVPL-GSDLC-00-D",
+  "source_sweep": "docs/audits/devpl_gsdlc_00_d_historical_contract_sweep.json",
+  "search_matches_total": 546,
+  "unclassified_total": 0,
+  "migration_items": [
+    {
+      "migration_id": "GSDLC-HCM-001",
+      "source": "tests/test_project_global_state.py",
+      "classification": "successor-needed",
+      "problem": "multiple historical allowlists constrain global current_micro_sprint/next_micro_sprint to pre-GSDLC values",
+      "action": "scope global legacy pointers to post_h_eval_002_current_micro_sprint/post_h_eval_002_next_micro_sprint; GSDLC progression remains in gsdlc_*",
+      "risk": "high",
+      "required_before": "GSDLC-00-E"
+    },
+    {
+      "migration_id": "GSDLC-HCM-002",
+      "source": "tests/test_post_h_eval_002_activation_contract.py",
+      "classification": "successor-needed",
+      "problem": "pilot activation contract binds current_repo/current_micro_sprint globals",
+      "action": "bind to post_h_eval_002_02_b_platform_baseline and post_h_eval_002_* checkpoint fields",
+      "risk": "high",
+      "required_before": "GSDLC-00-E"
+    },
+    {
+      "migration_id": "GSDLC-HCM-003",
+      "source": "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+      "classification": "successor-needed",
+      "problem": "historical 01-D test inspects mutable global pointers",
+      "action": "use pilot-scoped checkpoint and historical 01-D fields; preserve repo327 evidence",
+      "risk": "high",
+      "required_before": "GSDLC-00-E"
+    },
+    {
+      "migration_id": "GSDLC-HCM-004",
+      "source": "tests/test_post_h_eval_002_uoc_008_contracts.py",
+      "classification": "successor-needed",
+      "problem": "UOC-008 test owns global current/next pilot pointers",
+      "action": "use post_h_eval_002_current_micro_sprint/post_h_eval_002_next_micro_sprint",
+      "risk": "medium",
+      "required_before": "GSDLC-00-E"
+    },
+    {
+      "migration_id": "GSDLC-HCM-005",
+      "source": "tests/test_post_h_eval_002_uoc_011_final_reconciliation.py",
+      "classification": "successor-needed",
+      "problem": "UOC final closure owns global progression",
+      "action": "use pilot-scoped checkpoint while freezing REPO340 and 108/108 as historical evidence",
+      "risk": "high",
+      "required_before": "GSDLC-00-E"
+    },
+    {
+      "migration_id": "GSDLC-HCM-006",
+      "source": "tests/test_devpl_gsdlc_00_a_program_activation.py + 00-B + 00-C",
+      "classification": "successor-needed",
+      "problem": "prior GSDLC tests assert mutable current program values",
+      "action": "freeze *_at_close metadata and stop owning future gsdlc_current_* pointers",
+      "risk": "high",
+      "required_before": "GSDLC-00-E"
+    },
+    {
+      "migration_id": "GSDLC-HCM-007",
+      "source": "tests/test_devpl_gsdlc_00_c_architecture_contracts.py",
+      "classification": "successor-needed",
+      "problem": "ui_routes_total == 9 can freeze UOC route count as future maximum",
+      "action": "require current registry >=9 and mapped_total == total; historical 9-route/108-case matrices remain frozen in UOC evidence",
+      "risk": "high",
+      "required_before": "GSDLC-00-E"
+    },
+    {
+      "migration_id": "GSDLC-HCM-008",
+      "source": "global no-go flags",
+      "classification": "current-active",
+      "problem": "future typed/provider-scoped capabilities must not be implemented by flipping broad historical false flags",
+      "action": "keep multiuser_auth/filesystem_write/external_api/remote/connector/plugin generic flags false; future backlogs add scoped successor contracts",
+      "risk": "critical",
+      "required_before": "future capability enablement"
+    }
+  ],
+  "change_required_paths": [
+    "tests/test_devpl_gsdlc_00_a_program_activation.py",
+    "tests/test_devpl_gsdlc_00_c_architecture_contracts.py",
+    "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+    "tests/test_post_h_eval_002_activation_contract.py",
+    "tests/test_post_h_eval_002_uoc_008_contracts.py",
+    "tests/test_post_h_eval_002_uoc_011_final_reconciliation.py",
+    "tests/test_project_global_state.py"
+  ],
+  "policy": {
+    "no_history_rewrite": true,
+    "no_test_change_only_to_make_pytest_pass": true,
+    "successor_required_before_deprecation": true,
+    "global_false_not_flipped_for_future_capability": true
+  }
+}

@@ -71,8 +71,8 @@ def test_gsdlc_00_c_c4_target_uses_explicit_status_legend_and_current_ui_is_not_
         for status in ["implemented-current","planned-GSDLC","blocked-by-policy","future-out-of-scope"]:
             assert status in value
     ui=data(".devpilot/interfaces/ui_capability_registry.json")
-    assert ui["summary"]["ui_routes_total"] == 9
-    assert ui["summary"]["ui_routes_mapped_total"] == 9
+    assert ui["summary"]["ui_routes_total"] >= 9
+    assert ui["summary"]["ui_routes_mapped_total"] == ui["summary"]["ui_routes_total"]
 
 def test_gsdlc_00_c_application_boundary_and_no_arbitrary_shell_are_preserved():
     boundary=text("docs/02_architecture/application_service_boundary_map.md")
@@ -88,9 +88,10 @@ def test_gsdlc_00_c_project_state_advances_only_contract_state():
     state=data(".devpilot/project_state.json")
     assert state["gsdlc_00_b_status"]=="closed/PASS"
     assert state["gsdlc_00_b_implementation_commit"]=="a2eebf734784eb1f07a3cec3fd1b5cfe32468567"
-    assert state["gsdlc_program_status"]=="active/00-c"
-    assert state["gsdlc_current_micro_sprint"]=="DEVPL-GSDLC-00-C"
-    assert state["gsdlc_next_micro_sprint"]=="DEVPL-GSDLC-00-D"
+    assert state["gsdlc_00_c_status"]=="closed/PASS"
+    assert state["gsdlc_00_c_program_status_at_close"]=="active/00-c"
+    assert state["gsdlc_00_c_current_micro_sprint_at_close"]=="DEVPL-GSDLC-00-C"
+    assert state["gsdlc_00_c_next_micro_sprint_at_close"]=="DEVPL-GSDLC-00-D"
     assert state["gsdlc_00_c_architecture_adrs_total"]==4
     assert state["gsdlc_00_c_state_domains_total"]==3
     assert state["gsdlc_runtime_implemented"] is False

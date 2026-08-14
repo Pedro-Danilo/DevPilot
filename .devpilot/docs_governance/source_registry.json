@@ -15778,11 +15778,13 @@
       "owner": "Ordóñez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_b_product_requirements.py",
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py",
         "tests/test_traceability_extractors.py"
       ],
       "roadmap_milestones": [
         "DEVPL-GSDLC",
-        "DEVPL-GSDLC-00-B"
+        "DEVPL-GSDLC-00-B",
+        "DEVPL-GSDLC-00-D"
       ],
       "status_required": "approved"
     },
@@ -15966,7 +15968,8 @@
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-00-C"
+        "DEVPL-GSDLC-00-C",
+        "DEVPL-GSDLC-00-D"
       ],
       "status_required": "reviewed"
     },
@@ -15987,7 +15990,8 @@
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-00-C"
+        "DEVPL-GSDLC-00-C",
+        "DEVPL-GSDLC-00-D"
       ],
       "status_required": "reviewed"
     },
@@ -16008,7 +16012,8 @@
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-00-C"
+        "DEVPL-GSDLC-00-C",
+        "DEVPL-GSDLC-00-D"
       ],
       "status_required": "reviewed"
     },
@@ -16029,7 +16034,8 @@
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-00-C"
+        "DEVPL-GSDLC-00-C",
+        "DEVPL-GSDLC-00-D"
       ],
       "status_required": "reviewed"
     },
@@ -16069,7 +16075,8 @@
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-00-C"
+        "DEVPL-GSDLC-00-C",
+        "DEVPL-GSDLC-00-D"
       ],
       "status_required": "implemented-initial"
     },
@@ -16112,6 +16119,143 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-SEC-001",
+      "path": "docs/03_security/security_threat_model.md",
+      "domain": "security.threat-model",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-D"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-QUAL-001",
+      "path": "docs/04_quality/test_strategy.md",
+      "domain": "quality.test-strategy",
+      "owner": "Ordóñez",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-D"
+      ],
+      "status_required": "approved"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-D-SECURITY-TEST-RECONCILIATION",
+      "path": ".devpilot/gsdlc/security_test_reconciliation_contract.json",
+      "domain": "security.testing.governance",
+      "owner": "DEVPL-GSDLC-00-D",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-D"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-D-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/devpl_gsdlc_00_d_historical_contract_sweep.json",
+      "domain": "governance.contracts",
+      "owner": "DEVPL-GSDLC-00-D",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-D"
+      ],
+      "status_required": "implemented-controlled"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-D-HISTORICAL-CONTRACT-MIGRATION-PLAN",
+      "path": "docs/audits/devpl_gsdlc_00_d_historical_contract_migration_plan.json",
+      "domain": "governance.contracts",
+      "owner": "DEVPL-GSDLC-00-D",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-D"
+      ],
+      "status_required": "implemented-controlled"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-D-SECURITY-CONTROL-TRACEABILITY",
+      "path": "docs/audits/devpl_gsdlc_00_d_security_control_traceability.json",
+      "domain": "security.traceability",
+      "owner": "DEVPL-GSDLC-00-D",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-D"
+      ],
+      "status_required": "implemented-controlled"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-00-D-TEST-IMPACT-BASELINE",
+      "path": "docs/audits/devpl_gsdlc_00_d_test_impact_baseline.json",
+      "domain": "quality.test-impact",
+      "owner": "DEVPL-GSDLC-00-D",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-00-D"
+      ],
+      "status_required": "implemented-controlled"
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -16203,7 +16347,8 @@
     "POST-H-EVAL-002-01-D UI corrective artifacts registered; RUN-02 remains mandatory.",
     "UOC-000 registers the approved Operational Console backlog, complete capability registry, base schemas, ADRs, audit and manifest without enabling runtime execution.",
     "UOC-007 registers governed-job capability coverage, typed job schemas and framework documentation without adding a /jobs UI route or enabling arbitrary runtime adapters.",
-    "DEVPL-GSDLC-00-A registers the approved Guided SDLC roadmap/backlog, program charter, pilot pause decision, repo341 immutable parent manifest, legacy preservation matrix and historical contract sweep without runtime changes."
+    "DEVPL-GSDLC-00-A registers the approved Guided SDLC roadmap/backlog, program charter, pilot pause decision, repo341 immutable parent manifest, legacy preservation matrix and historical contract sweep without runtime changes.",
+    "DEVPL-GSDLC-00-D registers the successor threat model, layered test strategy, 546-assertion historical contract sweep, migration plan, security-control traceability and test-impact baseline without enabling runtime capabilities."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -16571,7 +16716,8 @@
       "UOC-009 candidate adds typed Quality/Test/Release operations via governed jobs, Test Impact and explicit approval/budget controls; UOC-010 remains unauthorized until Windows/browser closure.",
       "UOC-010 candidate adds /ai with four typed local-first RAG/agent/handoff adapters; UOC-011 remains unauthorized until authoritative Windows/browser closure.",
       "UOC-011 authoritative Windows closure completed on 4ce3c2f851bc572a7b014b5e7aed423f15e3e30c with repo339. Final program reconciliation remains pending only for 108/108 runtime browser-state execution, capability-summary reconciliation and one final full regression.",
-      "POST-H-EVAL-002 UI Operational Console final reconciliation: 108/108 browser-runtime matrix PASS, final full regression PASS, capability parity reconciled, repo340 authoritative baseline pending external CURRENT hash binding."
+      "POST-H-EVAL-002 UI Operational Console final reconciliation: 108/108 browser-runtime matrix PASS, final full regression PASS, capability parity reconciled, repo340 authoritative baseline pending external CURRENT hash binding.",
+      "DEVPL-GSDLC-00-A activates the Guided SDLC program, records repo341 as immutable parent, pauses POST-H-EVAL-002 before 02-B, preserves the pilot workspace and introduces no runtime capability changes."
     ],
     "phase_h_status": "closed_implemented_initial",
     "plugin_code_loading_enabled": false,
@@ -18408,24 +18554,94 @@
     "ui_operational_console_program_administrative_closure": true,
     "post_h_eval_002_02_b_platform_baseline": "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip",
     "post_h_eval_002_pilot_transition_rebind_status": "prepared/02-B-authorized",
+    "post_h_eval_002_pilot_transition_rebind_source_repo": "repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip",
+    "post_h_eval_002_pilot_transition_rebind_governance_only": true,
     "gsdlc_program_id": "DEVPL-GSDLC",
-    "gsdlc_program_status": "active/00-a",
+    "gsdlc_program_status": "active/00-d",
     "gsdlc_backlog": "DEVPL-GSDLC-00",
-    "gsdlc_current_micro_sprint": "DEVPL-GSDLC-00-A",
-    "gsdlc_next_micro_sprint": "DEVPL-GSDLC-00-B",
+    "gsdlc_current_micro_sprint": "DEVPL-GSDLC-00-D",
+    "gsdlc_next_micro_sprint": "DEVPL-GSDLC-00-E",
     "gsdlc_r01_a_authorized": true,
     "gsdlc_source_parent_repo": "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip",
+    "gsdlc_source_parent_sha256": "e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b",
+    "gsdlc_source_parent_git_commit": "cff43e8d992ff6139bd13bb1809ce4d497ae0952",
     "gsdlc_parent_immutable": true,
+    "gsdlc_roadmap_path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+    "gsdlc_backlog_00_path": "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
+    "gsdlc_program_charter_path": "docs/00_product/DEVPL_GSDLC_program_charter.md",
+    "gsdlc_legacy_preservation_matrix_path": "docs/00_product/DEVPL_GSDLC_legacy_preservation_matrix.md",
+    "gsdlc_runtime_implemented": false,
+    "gsdlc_auth_runtime_enabled": false,
+    "gsdlc_provider_runtime_enabled": false,
+    "gsdlc_filesystem_write_enabled": false,
+    "post_h_eval_002_pilot_pause_decision_path": "docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md",
     "post_h_eval_002_02_b_execution_status": "PAUSED_BEFORE_EXECUTION",
     "post_h_eval_002_02_b_executed": false,
+    "post_h_eval_002_02_b_reference_oracle_only": true,
     "post_h_eval_002_resume_authority": "DEVPL-GSDLC-13",
-    "post_h_eval_002_execution_status": "paused-before-02-b"
+    "post_h_eval_002_pilot_pause_reversible": true,
+    "gsdlc_00_a_pilot_workspace_mutated": false,
+    "gsdlc_00_a_network_used": false,
+    "gsdlc_00_a_external_api_used": false,
+    "gsdlc_00_a_runtime_source_changed": false,
+    "gsdlc_00_a_s0_open": 0,
+    "gsdlc_00_a_s1_open": 0,
+    "gsdlc_00_a_historical_contract_sweep_path": "docs/audits/devpl_gsdlc_00_a_historical_contract_sweep.json",
+    "post_h_eval_002_execution_status": "paused-before-02-b",
+    "gsdlc_00_a_status": "closed/PASS",
+    "gsdlc_00_a_implementation_commit": "5c6d0b2f060a5845769505d650754ef786542e99",
+    "gsdlc_00_a_evidence_sha256": "a66ed2f74e7a2b5b416819a683d1d6ca7cd6ebd060d9b4615cfd4cfac7b4d61c",
+    "gsdlc_00_a_working_snapshot_sha256": "382d06b5c940ec72bc3711696f0a8a243ae7f5c2a53b6dbe155d5f0c11877bd6",
+    "gsdlc_00_b_status": "closed/PASS",
+    "gsdlc_00_b_runtime_source_changed": false,
+    "gsdlc_00_b_network_used": false,
+    "gsdlc_00_b_external_api_used": false,
+    "gsdlc_00_b_requirements_total": 31,
+    "gsdlc_00_b_orphan_requirements": 0,
+    "gsdlc_00_b_traceability_coverage": "100%",
+    "gsdlc_00_b_historical_contract_sweep_path": "docs/audits/devpl_gsdlc_00_b_historical_contract_sweep.json",
+    "gsdlc_00_a_program_status_at_close": "active/00-a",
+    "gsdlc_00_a_current_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
+    "gsdlc_00_a_next_micro_sprint_candidate_at_close": "DEVPL-GSDLC-00-B",
+    "gsdlc_00_b_implementation_commit": "a2eebf734784eb1f07a3cec3fd1b5cfe32468567",
+    "gsdlc_00_b_program_status_at_close": "active/00-b",
+    "gsdlc_00_b_current_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
+    "gsdlc_00_b_next_micro_sprint_at_close": "DEVPL-GSDLC-00-C",
+    "gsdlc_00_c_status": "closed/PASS",
+    "gsdlc_00_c_architecture_adrs_total": 4,
+    "gsdlc_00_c_state_domains_total": 3,
+    "gsdlc_00_c_runtime_source_changed": false,
+    "gsdlc_00_c_auth_successor_status": "planned-GSDLC",
+    "gsdlc_00_c_ui_complete_status": "planned-GSDLC",
+    "gsdlc_00_c_implementation_commit": "3c2dbff91eaddbbb92af41bc7ac6b9aacb309ba0",
+    "gsdlc_00_c_evidence_sha256": "437fc8f98995096d515bd52a37f97cb0dc8ae76fb1d4d857267b588ae6e86332",
+    "gsdlc_00_c_working_snapshot_sha256": "8115ef1bf67d8706238afd7fe47bf729da83bfb8174c25ed1c57e9d0fe9a1536",
+    "gsdlc_00_c_program_status_at_close": "active/00-c",
+    "gsdlc_00_c_current_micro_sprint_at_close": "DEVPL-GSDLC-00-C",
+    "gsdlc_00_c_next_micro_sprint_at_close": "DEVPL-GSDLC-00-D",
+    "gsdlc_00_c_adrs_owner_approved": true,
+    "gsdlc_00_d_status": "implemented-controlled/pending-windows-validation",
+    "gsdlc_00_d_threats_total": 18,
+    "gsdlc_00_d_critical_threats_without_owner": 0,
+    "gsdlc_00_d_test_layers_total": 11,
+    "gsdlc_00_d_historical_contract_matches_total": 546,
+    "gsdlc_00_d_historical_contract_unclassified": 0,
+    "gsdlc_00_d_historical_successor_assertions_total": 22,
+    "gsdlc_00_d_historical_contract_sweep_path": "docs/audits/devpl_gsdlc_00_d_historical_contract_sweep.json",
+    "gsdlc_00_d_historical_contract_migration_plan_path": "docs/audits/devpl_gsdlc_00_d_historical_contract_migration_plan.json",
+    "gsdlc_00_d_security_test_contract_path": ".devpilot/gsdlc/security_test_reconciliation_contract.json",
+    "gsdlc_00_d_test_impact_baseline_path": "docs/audits/devpl_gsdlc_00_d_test_impact_baseline.json",
+    "gsdlc_00_d_runtime_source_changed": false,
+    "gsdlc_00_d_network_used": false,
+    "gsdlc_00_d_external_api_used": false,
+    "gsdlc_00_d_s0_open": 0,
+    "gsdlc_00_d_s1_open": 0
   },
   "registry_id": "devpilot-documentation-source-registry",
   "rules": {
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true,
     "POST-H-025-C registers production-ready-local declaration gate CLI/API, manifest, audit report and focused tests.": true,
-    "active_micro_sprint": "POST-H-021-E",
+    "active_micro_sprint": "DEVPL-GSDLC-00-D",
     "approved_backlogs_require_observability_retention_hygiene_gate": true,
     "approved_backlogs_require_runtime_policy_tests": true,
     "approved_docs_require_frontmatter": true,
@@ -18440,7 +18656,7 @@
     "compliance_mapping_quality_gate_subgate": "compliance-mapping-pack",
     "compliance_pack_integrity_fixture_path": "evals/fixtures/compliance_pack_integrity_eval_cases.json",
     "critical_sources_total": 95,
-    "current_micro_sprint": "POST-H-021-E",
+    "current_micro_sprint": "DEVPL-GSDLC-00-D",
     "docs_governance_quality_gate_profiles": [
       "hardening",
       "industrial"
@@ -18520,45 +18736,49 @@
   "summary": {
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
-    "critical_sources_total": 438,
+    "critical_sources_total": 464,
     "deprecated_total": 0,
     "derived_total": 96,
-    "documents_checked_total": 682,
-    "documents_registered_total": 682,
-    "documents_total": 682,
-    "documents_with_required_tests_total": 682,
+    "documents_checked_total": 708,
+    "documents_registered_total": 708,
+    "documents_total": 708,
+    "documents_with_required_tests_total": 708,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
-    "last_updated_by": "DEVPL-GSDLC-00-A",
-    "machine_readable_source_total": 318,
+    "last_updated_by": "DEVPL-GSDLC-00-D",
+    "machine_readable_source_total": 327,
     "markdown_json_pairs_total": 30,
     "markdown_json_sync_checks_enabled": true,
     "mutations_performed": false,
     "network_used": false,
     "preliminary": false,
     "roadmap_derived_backlog_governance_enabled": true,
-    "source_of_truth_total": 268,
-    "sources_total": 682,
+    "source_of_truth_total": 285,
+    "sources_total": 708,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "uoc_003_registered_documents_total": 10,
     "uoc_005_registered_documents_total": 4,
     "uoc_007_registered_documents_total": 8,
     "uoc_009_registered_documents_total": 8,
     "updated": "2026-08-14",
-    "updated_by": "DEVPL-GSDLC-00-A",
-    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-A",
+    "updated_by": "DEVPL-GSDLC-00-D",
+    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-D",
     "gsdlc_active_program": "DEVPL-GSDLC"
   },
   "updated": "2026-08-14",
-  "updated_at": "2026-08-14T09:42:00-05:00",
-  "updated_by": "DEVPL-GSDLC-00-C",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-C",
+  "updated_at": "2026-08-14T10:29:00-05:00",
+  "updated_by": "DEVPL-GSDLC-00-D",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-D",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "active/00-c",
+  "gsdlc_program_status": "active/00-d",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
-  "gsdlc_00_b_program_status_at_close": "active/00-b"
+  "gsdlc_00_b_program_status_at_close": "active/00-b",
+  "gsdlc_00_c_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-C",
+  "gsdlc_00_c_program_status_at_close": "active/00-c",
+  "gsdlc_00_c_adrs_owner_approved": false,
+  "gsdlc_00_c_adrs_review_status": "reviewed/pending-owner-adjudication"
 }

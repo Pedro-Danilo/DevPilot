@@ -2,19 +2,19 @@
 title: "Traceability Matrix — DevPilot Local"
 doc_id: "DEVPL-REQ-005"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "DEVPL-GSDLC-00-B"
+phase: "DEVPL-GSDLC-00-D"
 updated: "2026-08-14"
 approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved"
-current_repo: "WORKING descendant of repo341; GSDLC-00-A commit 5c6d0b2f060a5845769505d650754ef786542e99"
+current_repo: "WORKING descendant of 00-C commit 3c2dbff91eaddbbb92af41bc7ac6b9aacb309ba0"
 change_policy: "controlled_changes_via_DEVPL-GSDLC"
 program_id: "DEVPL-GSDLC"
 source_parent_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
-source_working_commit: "5c6d0b2f060a5845769505d650754ef786542e99"
+source_working_commit: "3c2dbff91eaddbbb92af41bc7ac6b9aacb309ba0"
 ---
 # Traceability Matrix — DevPilot Local
 
@@ -188,3 +188,42 @@ Transición autorizada:
 current_micro_sprint = POST-H-EVAL-002-02-A
 next_micro_sprint = POST-H-EVAL-002-02-B
 ```
+
+## 9. DEVPL-GSDLC-00-D — Security/control/test traceability
+
+La arquitectura objetivo de 00-C se transforma aquí en obligaciones de seguridad y prueba. Cada amenaza crítica debe tener control, owner de implementación futura y estrategia verificable.
+
+| Threat | Control | Requisito relacionado | Backlog owner | Test/evidence future |
+|---|---|---|---|---|
+| GSDLC-TM-001 | GSDLC-CTRL-001 | GSDLC-SEC-001 | GSDLC-02 | auth/session negative suite + revocation evidence |
+| GSDLC-TM-002 | GSDLC-CTRL-002 | GSDLC-SEC-002 | GSDLC-02 | RBAC/approval bypass negatives + actor/role evidence |
+| GSDLC-TM-003 | GSDLC-CTRL-003 | GSDLC-SEC-001 | GSDLC-02 | origin/CSRF negative browser/API tests |
+| GSDLC-TM-004 | GSDLC-CTRL-004 | GSDLC-SEC-003 | GSDLC-03 | path traversal/junction/symlink negative tests |
+| GSDLC-TM-005 | GSDLC-CTRL-005 | GSDLC-FR-007 | GSDLC-04 | malicious upload/import fixtures + provenance evidence |
+| GSDLC-TM-006 | GSDLC-CTRL-006 | GSDLC-FR-010 | GSDLC-04/GSDLC-11 | external edit race/restart reconciliation tests |
+| GSDLC-TM-007 | GSDLC-CTRL-007 | GSDLC-FR-005 | GSDLC-03 | dependency-plan negative tests + lock/source evidence |
+| GSDLC-TM-008 | GSDLC-CTRL-008 | GSDLC-GOV-002 | GSDLC-07/GSDLC-09 | unsafe patch rejection + review/approval evidence |
+| GSDLC-TM-009 | GSDLC-CTRL-009 | GSDLC-GOV-002 | GSDLC-07 | prompt/tool injection negative suite |
+| GSDLC-TM-010 | GSDLC-CTRL-010 | GSDLC-SEC-003 | GSDLC-03/GSDLC-09 | cross-workspace/capability misuse negatives |
+| GSDLC-TM-011 | GSDLC-CTRL-011 | GSDLC-NFR-002 | GSDLC-06/GSDLC-07 | secret egress negatives + provider routing evidence |
+| GSDLC-TM-012 | GSDLC-CTRL-012 | GSDLC-GOV-003 | GSDLC-06/GSDLC-07 | budget/loop exhaustion tests |
+| GSDLC-TM-013 | GSDLC-CTRL-013 | GSDLC-SEC-002 | GSDLC-02/GSDLC-09 | stale approval negative matrix |
+| GSDLC-TM-014 | GSDLC-CTRL-014 | GSDLC-FR-017 | GSDLC-09 | Git no-go/rollback/corruption tests |
+| GSDLC-TM-015 | GSDLC-CTRL-015 | GSDLC-GOV-004 | GSDLC-09/GSDLC-11 | evidence tamper/freshness tests |
+| GSDLC-TM-016 | GSDLC-CTRL-016 | GSDLC-FR-002 | GSDLC-01/GSDLC-11 | restart/state reconciliation tests |
+| GSDLC-TM-017 | GSDLC-CTRL-017 | GSDLC-FR-004 | GSDLC-03 | malicious repo import fixtures |
+| GSDLC-TM-018 | GSDLC-CTRL-018 | GSDLC-FR-018 | GSDLC-10/GSDLC-11 | package substitution/rollback/reproducibility tests |
+
+### 9.1 Cobertura
+
+```text
+gsdlc_security_threats_total: 18
+gsdlc_security_threats_traced: 18
+gsdlc_security_traceability_coverage: 100%
+gsdlc_critical_threats_without_control: 0
+gsdlc_critical_threats_without_test_owner: 0
+```
+
+### 9.2 Historical-contract transition
+
+Los tests históricos se enlazan a `docs/audits/devpl_gsdlc_00_d_historical_contract_sweep.json`. Un test histórico no se modifica por “hacer pasar pytest”; cualquier cambio requiere `classification=successor-needed` y aparece en el migration plan.

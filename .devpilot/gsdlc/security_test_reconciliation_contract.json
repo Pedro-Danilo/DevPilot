@@ -1,0 +1,140 @@
+{
+  "schema_id": "devpilot.gsdlc.00d.security_test_reconciliation.v1",
+  "program_id": "DEVPL-GSDLC",
+  "micro_sprint": "DEVPL-GSDLC-00-D",
+  "status": "implemented-controlled/pending-windows-validation",
+  "source_commit_expected": "3c2dbff91eaddbbb92af41bc7ac6b9aacb309ba0",
+  "security": {
+    "threats_total": 18,
+    "critical_without_control": 0,
+    "critical_without_test_owner": 0,
+    "threat_ids": [
+      "GSDLC-TM-001",
+      "GSDLC-TM-002",
+      "GSDLC-TM-003",
+      "GSDLC-TM-004",
+      "GSDLC-TM-005",
+      "GSDLC-TM-006",
+      "GSDLC-TM-007",
+      "GSDLC-TM-008",
+      "GSDLC-TM-009",
+      "GSDLC-TM-010",
+      "GSDLC-TM-011",
+      "GSDLC-TM-012",
+      "GSDLC-TM-013",
+      "GSDLC-TM-014",
+      "GSDLC-TM-015",
+      "GSDLC-TM-016",
+      "GSDLC-TM-017",
+      "GSDLC-TM-018"
+    ],
+    "control_ids": [
+      "GSDLC-CTRL-001",
+      "GSDLC-CTRL-002",
+      "GSDLC-CTRL-003",
+      "GSDLC-CTRL-004",
+      "GSDLC-CTRL-005",
+      "GSDLC-CTRL-006",
+      "GSDLC-CTRL-007",
+      "GSDLC-CTRL-008",
+      "GSDLC-CTRL-009",
+      "GSDLC-CTRL-010",
+      "GSDLC-CTRL-011",
+      "GSDLC-CTRL-012",
+      "GSDLC-CTRL-013",
+      "GSDLC-CTRL-014",
+      "GSDLC-CTRL-015",
+      "GSDLC-CTRL-016",
+      "GSDLC-CTRL-017",
+      "GSDLC-CTRL-018"
+    ],
+    "auth_runtime_enabled": false,
+    "multiuser_auth_enabled": false,
+    "generic_filesystem_write_enabled": false,
+    "external_api_allowed_by_default": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_arbitrary_execution_enabled": false,
+    "arbitrary_shell_allowed": false
+  },
+  "testing": {
+    "layers_total": 11,
+    "layers": [
+      {
+        "layer_id": "L1",
+        "name": "Deterministic unit",
+        "owner": "GSDLC-01+"
+      },
+      {
+        "layer_id": "L2",
+        "name": "Schema/contract",
+        "owner": "same wave as contract"
+      },
+      {
+        "layer_id": "L3",
+        "name": "ApplicationService integration",
+        "owner": "GSDLC-01+"
+      },
+      {
+        "layer_id": "L4",
+        "name": "Security negative",
+        "owner": "same wave that introduces capability"
+      },
+      {
+        "layer_id": "L5",
+        "name": "Browser acceptance",
+        "owner": "each UI milestone"
+      },
+      {
+        "layer_id": "L6",
+        "name": "Restart/resume/reconciliation",
+        "owner": "GSDLC-01/GSDLC-11"
+      },
+      {
+        "layer_id": "L7",
+        "name": "Model/provider",
+        "owner": "GSDLC-06/R01"
+      },
+      {
+        "layer_id": "L8",
+        "name": "Cost/token",
+        "owner": "GSDLC-06"
+      },
+      {
+        "layer_id": "L9",
+        "name": "Evidence integrity",
+        "owner": "every mutating vertical"
+      },
+      {
+        "layer_id": "L10",
+        "name": "Pilot acceptance",
+        "owner": "GSDLC-13"
+      },
+      {
+        "layer_id": "L11",
+        "name": "Industrial regression",
+        "owner": "GSDLC-12 and release gates"
+      }
+    ],
+    "full_regression_policy": "test-impact-escalation; no routine repeat in GSDLC-00 A-D; 00-E decides accumulated close",
+    "browser_acceptance_required_for_00_d": false,
+    "provider_tests_do_not_decide_deterministic_gates": true
+  },
+  "historical_contracts": {
+    "search_matches_total": 546,
+    "classified_total": 546,
+    "unclassified_total": 0,
+    "historical_freeze": 322,
+    "current_active": 202,
+    "successor_needed": 22,
+    "generic_false_flags_remain_false": true
+  },
+  "evidence": {
+    "historical_contract_sweep": "docs/audits/devpl_gsdlc_00_d_historical_contract_sweep.json",
+    "migration_plan": "docs/audits/devpl_gsdlc_00_d_historical_contract_migration_plan.json",
+    "test_impact_baseline": "docs/audits/devpl_gsdlc_00_d_test_impact_baseline.json"
+  },
+  "network_used": false,
+  "external_api_used": false,
+  "runtime_source_changed": false
+}
