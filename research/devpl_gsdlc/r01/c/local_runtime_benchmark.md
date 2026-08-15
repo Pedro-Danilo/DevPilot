@@ -23,13 +23,37 @@ The benchmark is local-only, zero external API and zero API cost. No raw prompts
 
 | Candidate | Runtime | Model | License | Result | Median tok/s | Tested prompt tokens |
 |---|---|---|---|---|---:|---:|
-| ollama-mistral7b-v03-existing | ollama | mistral:7b | Apache-2.0 | VIABLE | None | 2051 |
+| ollama-mistral7b-v03-existing | ollama | mistral:7b | Apache-2.0 | VIABLE | 4.8297 | 2051 |
 | ollama-phi4-mini-q4 | ollama | phi4-mini:3.8b-q4_K_M | MIT | NOT-SELECTED | None | None |
 | ollama-qwen3-4b-q4 | ollama | qwen3:4b-instruct-2507-q4_K_M | Apache-2.0 | NOT-SELECTED | None | None |
 | ollama-gpt-oss-20b | ollama | gpt-oss:20b | Apache-2.0 | NOT-SELECTED | None | None |
 | lmstudio-phi4-mini-q4 | lmstudio | microsoft/phi-4-mini | MIT | NOT-SELECTED | None | None |
 | lmstudio-qwen3-4b-q4 | lmstudio | qwen/qwen3-4b-2507 | Apache-2.0 | NOT-SELECTED | None | None |
 | lmstudio-gpt-oss-20b | lmstudio | openai/gpt-oss-20b | Apache-2.0 | NOT-SELECTED | None | None |
+
+
+## Reconciled measured metrics
+
+The immutable raw benchmark contains three successful throughput samples:
+
+```text
+4.635882
+4.938898
+4.829656
+```
+
+The reconciled median is **4.829656 tok/s**.
+
+Cold-start model load measured **9.944 s**. The two warm load durations were approximately
+`0.053 s` and `0.050 s`, with median **0.052 s**.
+
+### Context interpretation
+
+The local probe successfully processed **2051 prompt tokens** while the runtime was configured with a
+**4096-token context window**. This is the *tested local point* for this sprint. It is **not**
+presented as proof of the model vendor's maximum context ceiling. A higher-context stress characterization is an optional future
+benchmark and is not used to overstate the R01-C PASS decision.
+
 
 ## Interpretation
 

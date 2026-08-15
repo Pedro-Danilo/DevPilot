@@ -6,10 +6,27 @@
     {
       "candidate_id": "ollama-mistral7b-v03-existing",
       "successful_repeats": 3,
-      "median_tokens_per_second": null,
+      "median_tokens_per_second": 4.829655631064538,
       "median_elapsed_seconds": 8.55602869996801,
-      "status": "VIABLE"
+      "status": "VIABLE",
+      "tokens_per_second_samples": [
+        4.635881631107136,
+        4.938898418219003,
+        4.829655631064538
+      ],
+      "cold_start_load_seconds": 9.9435994,
+      "median_warm_load_seconds": 0.0516714
     }
   ],
-  "raw_evidence": "benchmark_raw_results.json"
+  "raw_evidence": "benchmark_raw_results.json",
+  "reconciliation": {
+    "reason": "Derived throughput summary repaired from immutable benchmark_raw_results.json.",
+    "raw_runs_used": 3,
+    "raw_evidence_changed": false,
+    "context_semantics": {
+      "tested_prompt_tokens": 2051,
+      "configured_context_tokens": 4096,
+      "vendor_maximum_context_claimed_as_measured": false
+    }
+  }
 }

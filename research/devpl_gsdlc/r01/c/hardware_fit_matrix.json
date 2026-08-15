@@ -221,12 +221,21 @@
       "status": "VIABLE",
       "summary": {
         "successful_repeats": 3,
-        "median_tokens_per_second": null,
+        "median_tokens_per_second": 4.829655631064538,
         "median_elapsed_seconds": 8.55602869996801,
         "structured_output_pass": true,
         "tool_call_pass": true,
         "context_probe_pass": true,
-        "tested_context_prompt_tokens": 2051
+        "tested_context_prompt_tokens": 2051,
+        "tokens_per_second_samples": [
+          4.635881631107136,
+          4.938898418219003,
+          4.829655631064538
+        ],
+        "cold_start_load_seconds": 9.9435994,
+        "median_warm_load_seconds": 0.0516714,
+        "configured_context_tokens": 4096,
+        "vendor_maximum_context_claimed_as_measured": false
       },
       "resource_before": {
         "process": {
@@ -260,5 +269,10 @@
     "recommended_for_this_host": [
       "ollama-mistral7b-v03-existing"
     ]
+  },
+  "reconciliation": {
+    "derived_metrics_source": "benchmark_raw_results.json",
+    "raw_evidence_changed": false,
+    "median_tokens_per_second": 4.829655631064538
   }
 }
