@@ -1,0 +1,47 @@
+{
+  "schema_id": "devpilot.gsdlc.r01c.historical_contract_sweep.v1",
+  "status": "implemented-controlled/pending-windows-validation",
+  "classifications": [
+    {
+      "subject": "repo341 and DEVPL-GSDLC-00 history",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo342 / R01-A historical parent",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo343 / R01-A successor",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo344 / R01-B successor and current R01-C input",
+      "classification": "current-active"
+    },
+    {
+      "subject": "R01-B owner adjudication",
+      "classification": "current-active"
+    },
+    {
+      "subject": "local_llm_provider_health_policy.json",
+      "classification": "historical-freeze/read-only"
+    },
+    {
+      "subject": "external_api_provider_pilot_policy.json",
+      "classification": "historical-freeze/read-only"
+    },
+    {
+      "subject": "Ollama/LM Studio adapters",
+      "classification": "historical-freeze/read-only"
+    },
+    {
+      "subject": "Source Registry",
+      "classification": "successor-needed/additive-only"
+    },
+    {
+      "subject": "downloaded model binaries",
+      "classification": "machine-local/never-versioned"
+    }
+  ],
+  "historical_contracts_extended": false
+}

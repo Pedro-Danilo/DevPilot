@@ -1,0 +1,352 @@
+{
+  "schema_id": "devpilot.gsdlc.r01c.benchmark_raw_results.v1",
+  "status": "implemented-controlled/pending-windows-validation",
+  "decision": "PASS-CANDIDATE",
+  "created_at": "2026-08-15T12:14:56.728346+00:00",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_344_DEVPL_GSDLC_R01_B_AUTH_TERMS_DATA.zip",
+    "commit": "e4c22c5e95fe856dec9fc3d1767aab3a4ebd3af0",
+    "sha256": "767d788506deed31787c32271165b97c5c9a68f64c259b4a196ca9bb6efc7b80"
+  },
+  "owner_approval": {
+    "schema_id": "devpilot.gsdlc.r01c.owner_candidate_approval.v1",
+    "decision": "APPROVED",
+    "approved_at": "2026-08-15T12:12:03.961629+00:00",
+    "approved_by": "Ordóñez",
+    "selected": [
+      {
+        "candidate_id": "ollama-mistral7b-v03-existing",
+        "allow_download": false,
+        "approved_by": "Ordóñez"
+      }
+    ],
+    "runtime_installation_approved": false,
+    "download_approved": false,
+    "note": "Human execution of this command is the explicit candidate/download approval. Runtime installers remain manual and are never downloaded by the operator."
+  },
+  "results": [
+    {
+      "candidate_id": "ollama-mistral7b-v03-existing",
+      "runtime": "ollama",
+      "model_id": "mistral:7b",
+      "license": "Apache-2.0",
+      "source": "https://ollama.com/library/mistral",
+      "status": "VIABLE",
+      "reason": "local benchmark criteria met",
+      "download_performed": false,
+      "measurements": {
+        "runtime": "ollama",
+        "model_id": "mistral:7b",
+        "runs": [
+          {
+            "run": 1,
+            "http_status": 200,
+            "elapsed_seconds": 20.244026700034738,
+            "response_sha256": "e437bf25bda928cb56b52b44f5a57a90e32184fdde85d22f37e27c30799dfd33",
+            "metrics": {
+              "total_duration": 20240821800,
+              "load_duration": 9943599400,
+              "prompt_eval_count": 41,
+              "prompt_eval_duration": 1662643000,
+              "eval_count": 40,
+              "eval_duration": 8628348000
+            },
+            "tokens_per_second": 4.635881631107136
+          },
+          {
+            "run": 2,
+            "http_status": 200,
+            "elapsed_seconds": 8.40660399995977,
+            "response_sha256": "e437bf25bda928cb56b52b44f5a57a90e32184fdde85d22f37e27c30799dfd33",
+            "metrics": {
+              "total_duration": 8384747600,
+              "load_duration": 53202500,
+              "prompt_eval_count": 41,
+              "prompt_eval_duration": 228174000,
+              "eval_count": 40,
+              "eval_duration": 8098972000
+            },
+            "tokens_per_second": 4.938898418219003
+          },
+          {
+            "run": 3,
+            "http_status": 200,
+            "elapsed_seconds": 8.55602869996801,
+            "response_sha256": "e437bf25bda928cb56b52b44f5a57a90e32184fdde85d22f37e27c30799dfd33",
+            "metrics": {
+              "total_duration": 8553339400,
+              "load_duration": 50140300,
+              "prompt_eval_count": 41,
+              "prompt_eval_duration": 216107000,
+              "eval_count": 40,
+              "eval_duration": 8282164000
+            },
+            "tokens_per_second": 4.829655631064538
+          }
+        ],
+        "structured_output": {
+          "http_status": 200,
+          "elapsed_seconds": 3.4766219000448473,
+          "pass": true
+        },
+        "tool_call": {
+          "http_status": 200,
+          "elapsed_seconds": 12.319963399961125,
+          "pass": true,
+          "tool_names": [
+            "get_local_temperature"
+          ]
+        },
+        "context_probe": {
+          "http_status": 200,
+          "elapsed_seconds": 97.39215749996947,
+          "pass": true,
+          "actual_prompt_tokens": 2051,
+          "configured_context_tokens": 4096
+        },
+        "unload_before": {
+          "http_status": 200,
+          "elapsed_seconds": 0.08309139998164028,
+          "body_keys": [
+            "created_at",
+            "done",
+            "done_reason",
+            "model",
+            "response"
+          ]
+        },
+        "runtime_memory": {
+          "api_ps": [
+            {
+              "name": "mistral:7b",
+              "model": "mistral:7b",
+              "size": 5034905434,
+              "digest": "6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+              "details": {
+                "parent_model": "",
+                "format": "gguf",
+                "family": "llama",
+                "families": [
+                  "llama"
+                ],
+                "parameter_size": "7.2B",
+                "quantization_level": "Q4_K_M"
+              },
+              "expires_at": "2026-08-15T07:19:56.4509959-05:00",
+              "size_vram": 0,
+              "context_length": 4096
+            }
+          ]
+        },
+        "unload_after": {
+          "http_status": 200,
+          "elapsed_seconds": 0.02462139999261126,
+          "body_keys": [
+            "created_at",
+            "done",
+            "done_reason",
+            "model",
+            "response"
+          ]
+        }
+      },
+      "environment_before": {
+        "cli_path": "C:\\Users\\Pedro\\AppData\\Local\\Programs\\Ollama\\ollama.EXE",
+        "cli_installed": true,
+        "version": "ollama version is 0.32.13",
+        "server_http_status": 200,
+        "server_responding": true,
+        "health_latency_seconds": 0.05859470000723377,
+        "bindings": [
+          {
+            "local": "127.0.0.1:11434",
+            "host": "127.0.0.1",
+            "pid": 4536,
+            "loopback": true
+          }
+        ],
+        "loopback_only": true,
+        "models": [
+          {
+            "name": "nomic-embed-text:latest",
+            "model": "nomic-embed-text:latest",
+            "modified_at": "2026-05-20T13:56:19.745449-05:00",
+            "size": 274302450,
+            "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "nomic-bert",
+              "families": [
+                "nomic-bert"
+              ],
+              "parameter_size": "137M",
+              "quantization_level": "F16",
+              "context_length": 2048,
+              "embedding_length": 768
+            },
+            "capabilities": [
+              "embedding"
+            ]
+          },
+          {
+            "name": "mistral:7b",
+            "model": "mistral:7b",
+            "modified_at": "2026-05-18T16:03:01.3072194-05:00",
+            "size": 4372824384,
+            "digest": "6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "llama",
+              "families": [
+                "llama"
+              ],
+              "parameter_size": "7.2B",
+              "quantization_level": "Q4_K_M",
+              "context_length": 32768,
+              "embedding_length": 4096
+            },
+            "capabilities": [
+              "completion",
+              "tools"
+            ]
+          },
+          {
+            "name": "llama3.1:8b",
+            "model": "llama3.1:8b",
+            "modified_at": "2026-05-18T15:53:39.6595027-05:00",
+            "size": 4920753328,
+            "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "llama",
+              "families": [
+                "llama"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M",
+              "context_length": 131072,
+              "embedding_length": 4096
+            },
+            "capabilities": [
+              "completion",
+              "tools"
+            ]
+          },
+          {
+            "name": "gemma3:4b",
+            "model": "gemma3:4b",
+            "modified_at": "2026-05-18T15:31:03.3538251-05:00",
+            "size": 3338801804,
+            "digest": "a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma3",
+              "families": [
+                "gemma3"
+              ],
+              "parameter_size": "4.3B",
+              "quantization_level": "Q4_K_M"
+            },
+            "capabilities": [
+              "completion"
+            ]
+          },
+          {
+            "name": "qwen2.5:1.5b-instruct",
+            "model": "qwen2.5:1.5b-instruct",
+            "modified_at": "2026-05-18T15:21:16.2919741-05:00",
+            "size": 986061892,
+            "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "qwen2",
+              "families": [
+                "qwen2"
+              ],
+              "parameter_size": "1.5B",
+              "quantization_level": "Q4_K_M",
+              "context_length": 32768,
+              "embedding_length": 1536
+            },
+            "capabilities": [
+              "completion",
+              "tools"
+            ]
+          },
+          {
+            "name": "qwen2.5:3b-instruct",
+            "model": "qwen2.5:3b-instruct",
+            "modified_at": "2026-05-18T08:36:56.5483001-05:00",
+            "size": 1929912432,
+            "digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "qwen2",
+              "families": [
+                "qwen2"
+              ],
+              "parameter_size": "3.1B",
+              "quantization_level": "Q4_K_M",
+              "context_length": 32768,
+              "embedding_length": 2048
+            },
+            "capabilities": [
+              "completion",
+              "tools"
+            ]
+          }
+        ]
+      },
+      "resource_before": {
+        "process": {
+          "pid": 4536,
+          "image": "ollama.exe",
+          "working_set_kb": 36776
+        },
+        "gpu": {
+          "pid": 4536,
+          "used_vram_mb": null,
+          "source": "unavailable"
+        }
+      },
+      "resource_after": {
+        "process": {
+          "pid": 4536,
+          "image": "ollama.exe",
+          "working_set_kb": 41852
+        },
+        "gpu": {
+          "pid": 4536,
+          "used_vram_mb": null,
+          "source": "unavailable"
+        }
+      },
+      "summary": {
+        "successful_repeats": 3,
+        "median_tokens_per_second": null,
+        "median_elapsed_seconds": 8.55602869996801,
+        "structured_output_pass": true,
+        "tool_call_pass": true,
+        "context_probe_pass": true,
+        "tested_context_prompt_tokens": 2051
+      }
+    }
+  ],
+  "summary": {
+    "selected": 1,
+    "viable": 1,
+    "blocked_or_not_viable": 0,
+    "approved_downloads_executed": 0,
+    "external_provider_calls": 0,
+    "api_cost_usd": 0,
+    "raw_prompts_persisted": false,
+    "raw_outputs_persisted": false,
+    "localhost_only_required": true
+  }
+}

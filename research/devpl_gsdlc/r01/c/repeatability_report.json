@@ -1,0 +1,15 @@
+{
+  "schema_id": "devpilot.gsdlc.r01c.repeatability_report.v1",
+  "status": "implemented-controlled/pending-windows-validation",
+  "minimum_repeats_required": 3,
+  "results": [
+    {
+      "candidate_id": "ollama-mistral7b-v03-existing",
+      "successful_repeats": 3,
+      "median_tokens_per_second": null,
+      "median_elapsed_seconds": 8.55602869996801,
+      "status": "VIABLE"
+    }
+  ],
+  "raw_evidence": "benchmark_raw_results.json"
+}

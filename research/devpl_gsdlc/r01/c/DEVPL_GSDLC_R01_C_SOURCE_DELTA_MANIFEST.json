@@ -1,0 +1,31 @@
+{
+  "schema_id": "devpilot.gsdlc.r01c.source_delta_manifest.v1",
+  "status": "implemented-controlled",
+  "source_commit": "e4c22c5e95fe856dec9fc3d1767aab3a4ebd3af0",
+  "planned_create": 13,
+  "planned_modify": 1,
+  "planned_delete": 0,
+  "create_paths": [
+    "research/devpl_gsdlc/r01/c/local_runtime_benchmark.md",
+    "research/devpl_gsdlc/r01/c/hardware_fit_matrix.json",
+    "research/devpl_gsdlc/r01/c/local_candidate_license_matrix.json",
+    "research/devpl_gsdlc/r01/c/benchmark_raw_results.json",
+    "research/devpl_gsdlc/r01/c/environment_snapshot.json",
+    "research/devpl_gsdlc/r01/c/repeatability_report.json",
+    "research/devpl_gsdlc/r01/c/DEVPL_GSDLC_R01_C_HISTORICAL_CONTRACT_SWEEP.json",
+    "research/devpl_gsdlc/r01/c/DEVPL_GSDLC_R01_C_CLOSURE_REPORT.md",
+    "research/devpl_gsdlc/r01/c/DEVPL_GSDLC_R01_C_CURRENT.json",
+    "research/devpl_gsdlc/r01/c/benchmark_plan.json",
+    "research/devpl_gsdlc/r01/c/DEVPL_GSDLC_R01_C_OPERATION_DECLARATION.json",
+    "research/devpl_gsdlc/r01/c/DEVPL_GSDLC_R01_C_SOURCE_DELTA_MANIFEST.json",
+    "research/devpl_gsdlc/r01/c/DEVPL_GSDLC_R01_C_ARTIFACT_HASHES.sha256"
+  ],
+  "modify_paths": [
+    ".devpilot/docs_governance/source_registry.json"
+  ],
+  "delete_paths": [],
+  "runtime_source_changed": false,
+  "ui_changed": false,
+  "project_state_changed": false,
+  "tcr_changed": false
+}

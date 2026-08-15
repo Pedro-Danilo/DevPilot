@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-C-CURRENT",
+  "micro_sprint": "DEVPL-GSDLC-R01-C",
+  "decision": "PASS-CANDIDATE",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "owner_adjudication": "PENDING",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_344_DEVPL_GSDLC_R01_B_AUTH_TERMS_DATA.zip",
+    "commit": "e4c22c5e95fe856dec9fc3d1767aab3a4ebd3af0",
+    "sha256": "767d788506deed31787c32271165b97c5c9a68f64c259b4a196ca9bb6efc7b80",
+    "predecessor": "DEVPL-GSDLC-R01-B",
+    "predecessor_decision": "CLOSED/PASS"
+  },
+  "benchmark": {
+    "selected": 1,
+    "viable": 1,
+    "viable_candidate_ids": [
+      "ollama-mistral7b-v03-existing"
+    ],
+    "external_provider_calls": 0,
+    "api_cost_usd": 0
+  },
+  "safety": {
+    "runtime_source_changed": false,
+    "ui_changed": false,
+    "external_provider_runtime_enabled": false,
+    "real_api_keys_used": false,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "next": {
+    "r01_d_authorized": false,
+    "authorization_requires": "R01-C owner adjudication CLOSED/PASS"
+  }
+}

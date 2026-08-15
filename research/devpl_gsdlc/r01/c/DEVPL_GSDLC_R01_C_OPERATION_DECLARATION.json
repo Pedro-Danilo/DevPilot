@@ -1,0 +1,17 @@
+{
+  "schema_id": "devpilot.gsdlc.r01c.operation_declaration.v1",
+  "status": "candidate",
+  "network_used": {
+    "model_download": false,
+    "localhost_inference": true,
+    "external_provider_api": false
+  },
+  "external_provider_calls": 0,
+  "real_credentials_read": 0,
+  "paid_activity_usd": 0,
+  "model_downloads": 0,
+  "repo_runtime_source_mutations": 0,
+  "ui_mutations": 0,
+  "raw_prompts_versioned": false,
+  "raw_outputs_versioned": false
+}

@@ -1,0 +1,70 @@
+{
+  "schema_id": "devpilot.gsdlc.r01c.local_candidate_license_matrix.v1",
+  "status": "implemented-controlled/pending-windows-validation",
+  "candidates": [
+    {
+      "candidate_id": "ollama-mistral7b-v03-existing",
+      "model_id": "mistral:7b",
+      "license": "Apache-2.0",
+      "license_source": "https://ollama.com/library/mistral:latest",
+      "official_source": "https://ollama.com/library/mistral",
+      "runtime": "ollama",
+      "benchmark_disposition": "selected"
+    },
+    {
+      "candidate_id": "ollama-phi4-mini-q4",
+      "model_id": "phi4-mini:3.8b-q4_K_M",
+      "license": "MIT",
+      "license_source": "https://huggingface.co/microsoft/Phi-4-mini-instruct",
+      "official_source": "https://ollama.com/library/phi4-mini",
+      "runtime": "ollama",
+      "benchmark_disposition": "not-selected"
+    },
+    {
+      "candidate_id": "ollama-qwen3-4b-q4",
+      "model_id": "qwen3:4b-instruct-2507-q4_K_M",
+      "license": "Apache-2.0",
+      "license_source": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507",
+      "official_source": "https://ollama.com/library/qwen3",
+      "runtime": "ollama",
+      "benchmark_disposition": "not-selected"
+    },
+    {
+      "candidate_id": "ollama-gpt-oss-20b",
+      "model_id": "gpt-oss:20b",
+      "license": "Apache-2.0",
+      "license_source": "https://huggingface.co/openai/gpt-oss-20b",
+      "official_source": "https://ollama.com/library/gpt-oss",
+      "runtime": "ollama",
+      "benchmark_disposition": "not-selected"
+    },
+    {
+      "candidate_id": "lmstudio-phi4-mini-q4",
+      "model_id": "microsoft/phi-4-mini",
+      "license": "MIT",
+      "license_source": "https://huggingface.co/microsoft/Phi-4-mini-instruct",
+      "official_source": "https://model.lmstudio.ai/download/microsoft/phi-4-mini",
+      "runtime": "lmstudio",
+      "benchmark_disposition": "not-selected"
+    },
+    {
+      "candidate_id": "lmstudio-qwen3-4b-q4",
+      "model_id": "qwen/qwen3-4b-2507",
+      "license": "Apache-2.0",
+      "license_source": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507",
+      "official_source": "https://model.lmstudio.ai/download/qwen/qwen3-4b-2507",
+      "runtime": "lmstudio",
+      "benchmark_disposition": "not-selected"
+    },
+    {
+      "candidate_id": "lmstudio-gpt-oss-20b",
+      "model_id": "openai/gpt-oss-20b",
+      "license": "Apache-2.0",
+      "license_source": "https://huggingface.co/openai/gpt-oss-20b",
+      "official_source": "https://model.lmstudio.ai/download/openai/gpt-oss-20b",
+      "runtime": "lmstudio",
+      "benchmark_disposition": "not-selected"
+    }
+  ],
+  "note": "Exact model/version/quantization source is frozen per candidate catalog; future model substitutions require a new license/source check."
+}
