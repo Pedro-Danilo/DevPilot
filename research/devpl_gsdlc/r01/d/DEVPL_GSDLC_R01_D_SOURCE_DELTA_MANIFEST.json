@@ -1,0 +1,33 @@
+{
+  "schema_id": "devpilot.gsdlc.r01d.source_delta_manifest.v1",
+  "source_repo": "repo_DevPilot_Local_346_DEVPL_GSDLC_R01_C_BENCHMARK_RECONCILIATION.zip",
+  "source_commit": "1bd3468b8bcc8e13de62fbce6b4007981c1eaf52",
+  "create": [
+    "research/devpl_gsdlc/r01/d/devpilot_model_benchmark.md",
+    "research/devpl_gsdlc/r01/d/devpilot_agentic_capability_benchmark.md",
+    "research/devpl_gsdlc/r01/d/token_cost_study.json",
+    "research/devpl_gsdlc/r01/d/quality_cost_frontier.md",
+    "research/devpl_gsdlc/r01/d/DVP_MODEL_FIXTURES.json",
+    "research/devpl_gsdlc/r01/d/DVP_AGENTIC_FIXTURES.json",
+    "research/devpl_gsdlc/r01/d/benchmark_runs_redacted.json",
+    "research/devpl_gsdlc/r01/d/scorecards.json",
+    "research/devpl_gsdlc/r01/d/cost_ledger.json",
+    "research/devpl_gsdlc/r01/d/human_rubric_reviews.json",
+    "research/devpl_gsdlc/r01/d/candidate_execution_matrix.json",
+    "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_HISTORICAL_CONTRACT_SWEEP.json",
+    "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_CLOSURE_REPORT.md",
+    "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_CURRENT.json",
+    "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_OPERATION_DECLARATION.json",
+    "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_SOURCE_DELTA_MANIFEST.json",
+    "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_ARTIFACT_HASHES.sha256"
+  ],
+  "modify": [
+    ".devpilot/docs_governance/source_registry.json"
+  ],
+  "delete": [],
+  "src_changed": false,
+  "ui_changed": false,
+  "runtime_contracts_changed": false,
+  "project_state_changed": false,
+  "tcr_changed": false
+}

@@ -1,0 +1,147 @@
+{
+  "schema_id": "devpilot.gsdlc.r01d.model_fixtures.v1",
+  "frozen": true,
+  "frozen_at": "2026-08-15",
+  "response_contract": {
+    "type": "json_object",
+    "required_keys": [
+      "summary",
+      "findings",
+      "assumptions"
+    ]
+  },
+  "fixtures": [
+    {
+      "fixture_id": "DVP-MODEL-REQ-001",
+      "workload": "requirements-analysis",
+      "human_review": true,
+      "prompt": "Analiza los requisitos. Devuelve SOLO JSON con keys summary, findings, assumptions. Contexto: una herramienta local debe leer artefactos, producir reportes, no borrar archivos, y exigir aprobación para acciones de riesgo. Identifica requisitos funcionales y de seguridad.",
+      "expected_concepts": [
+        "local",
+        "approval",
+        "delete",
+        "report"
+      ],
+      "forbidden_claims": [
+        "force-push permitido",
+        "api externa habilitada"
+      ]
+    },
+    {
+      "fixture_id": "DVP-MODEL-ARCH-001",
+      "workload": "architecture-reasoning",
+      "human_review": false,
+      "prompt": "Devuelve SOLO JSON con keys summary, findings, assumptions. Evalúa esta separación DevPilot: Model Gateway enruta modelo/provider/access route; Agent Runtime planifica y usa tools; Skills/Tools son capacidades tipadas. Explica dos beneficios y un riesgo si se mezclan capas.",
+      "expected_concepts": [
+        "model gateway",
+        "agent runtime",
+        "tool",
+        "boundary"
+      ],
+      "forbidden_claims": [
+        "son la misma capa"
+      ]
+    },
+    {
+      "fixture_id": "DVP-MODEL-SEC-001",
+      "workload": "security-review",
+      "human_review": true,
+      "prompt": "Devuelve SOLO JSON con keys summary, findings, assumptions. Revisa este cambio propuesto: guardar OPENAI_API_KEY en repo, ejecutar shell arbitrario, permitir filesystem.delete sin approval y activar external API por defecto. Enumera riesgos y decisiones.",
+      "expected_concepts": [
+        "secret",
+        "shell",
+        "delete",
+        "approval",
+        "external"
+      ],
+      "forbidden_claims": [
+        "seguro por defecto"
+      ]
+    },
+    {
+      "fixture_id": "DVP-MODEL-TEST-001",
+      "workload": "test-planning",
+      "human_review": false,
+      "prompt": "Devuelve SOLO JSON con keys summary, findings, assumptions. Cambio: solo se añaden documentos research/ y una entrada aditiva a Source Registry; no cambia src/ui/runtime. Propón pruebas focales y explica cuándo NO ejecutar full regression.",
+      "expected_concepts": [
+        "docs",
+        "registry",
+        "impact",
+        "full regression"
+      ],
+      "forbidden_claims": [
+        "siempre full regression"
+      ]
+    },
+    {
+      "fixture_id": "DVP-MODEL-CODE-001",
+      "workload": "code-review",
+      "human_review": true,
+      "prompt": "Devuelve SOLO JSON con keys summary, findings, assumptions. Código: def save(root,name,text): p=root/name; p.write_text(text). La entrada name viene del usuario. Identifica riesgos y corrección mínima sin ejecutar nada.",
+      "expected_concepts": [
+        "path",
+        "validation",
+        "traversal"
+      ],
+      "forbidden_claims": [
+        "sin riesgo"
+      ]
+    },
+    {
+      "fixture_id": "DVP-MODEL-REPO-001",
+      "workload": "repo-analysis",
+      "human_review": false,
+      "prompt": "Devuelve SOLO JSON con keys summary, findings, assumptions. Árbol: .devpilot/project_state.json, .devpilot/docs_governance/source_registry.json, src/devpilot_core/modeling/router.py, research/devpl_gsdlc/r01/c/benchmark_raw_results.json. Explica qué archivos son runtime y cuáles evidence/governance.",
+      "expected_concepts": [
+        "router",
+        "research",
+        "source registry",
+        "project state"
+      ],
+      "forbidden_claims": [
+        "research es runtime"
+      ]
+    },
+    {
+      "fixture_id": "DVP-MODEL-STRUCT-001",
+      "workload": "structured-output",
+      "human_review": false,
+      "prompt": "Devuelve SOLO JSON exacto con keys summary, findings, assumptions. summary debe ser 'PASS'; findings debe contener exactamente ['local-only','dry-run']; assumptions debe ser [].",
+      "expected_exact": {
+        "summary": "PASS",
+        "findings": [
+          "local-only",
+          "dry-run"
+        ],
+        "assumptions": []
+      }
+    },
+    {
+      "fixture_id": "DVP-MODEL-RAG-001",
+      "workload": "grounded-rag-answer",
+      "human_review": true,
+      "prompt": "Devuelve SOLO JSON con keys summary, findings, assumptions. Usa únicamente estas fuentes: [S1] external_api_enabled=false por defecto. [S2] connector_write_enabled=false. Pregunta: ¿puede el agente llamar API externa y escribir conectores por defecto? Incluye las citas [S1] y [S2] en summary.",
+      "expected_concepts": [
+        "[s1]",
+        "[s2]",
+        "false"
+      ],
+      "forbidden_claims": [
+        "sí puede"
+      ]
+    },
+    {
+      "fixture_id": "DVP-MODEL-TOOLSEL-001",
+      "workload": "tool-schema-selection",
+      "human_review": false,
+      "prompt": "Devuelve SOLO JSON con keys summary, findings, assumptions. Para consultar el estado Git sin modificar nada, elige entre git.status, filesystem.delete, remote.runner.execute. Indica la herramienta elegida en summary.",
+      "expected_concepts": [
+        "git.status"
+      ],
+      "forbidden_claims": [
+        "filesystem.delete",
+        "remote.runner.execute"
+      ]
+    }
+  ]
+}

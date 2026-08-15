@@ -17222,6 +17222,354 @@
         "DEVPL-GSDLC-R01-C"
       ],
       "status_required": "implemented-controlled"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPILOT-MODEL-BENCHMARK-MD",
+      "path": "research/devpl_gsdlc/r01/d/devpilot_model_benchmark.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "pass-candidate/integration-pending",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPILOT-AGENTIC-CAPABILITY-BENCHMARK-MD",
+      "path": "research/devpl_gsdlc/r01/d/devpilot_agentic_capability_benchmark.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "pass-candidate/integration-pending",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-TOKEN-COST-STUDY-JSON",
+      "path": "research/devpl_gsdlc/r01/d/token_cost_study.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "pass-candidate/integration-pending"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-QUALITY-COST-FRONTIER-MD",
+      "path": "research/devpl_gsdlc/r01/d/quality_cost_frontier.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "pass-candidate/integration-pending",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DVP-MODEL-FIXTURES-JSON",
+      "path": "research/devpl_gsdlc/r01/d/DVP_MODEL_FIXTURES.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DVP-AGENTIC-FIXTURES-JSON",
+      "path": "research/devpl_gsdlc/r01/d/DVP_AGENTIC_FIXTURES.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-BENCHMARK-RUNS-REDACTED-JSON",
+      "path": "research/devpl_gsdlc/r01/d/benchmark_runs_redacted.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-SCORECARDS-JSON",
+      "path": "research/devpl_gsdlc/r01/d/scorecards.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-COST-LEDGER-JSON",
+      "path": "research/devpl_gsdlc/r01/d/cost_ledger.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-HUMAN-RUBRIC-REVIEWS-JSON",
+      "path": "research/devpl_gsdlc/r01/d/human_rubric_reviews.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-CANDIDATE-EXECUTION-MATRIX-JSON",
+      "path": "research/devpl_gsdlc/r01/d/candidate_execution_matrix.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPL-GSDLC-R01-D-HISTORICAL-CONTRACT-SWEEP-JSON",
+      "path": "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_HISTORICAL_CONTRACT_SWEEP.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "pass-candidate/integration-pending"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPL-GSDLC-R01-D-CLOSURE-REPORT-MD",
+      "path": "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_CLOSURE_REPORT.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "pass-candidate/integration-pending",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPL-GSDLC-R01-D-CURRENT-JSON",
+      "path": "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_CURRENT.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "PASS-CANDIDATE/INTEGRATION-PENDING"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPL-GSDLC-R01-D-OPERATION-DECLARATION-JSON",
+      "path": "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_OPERATION_DECLARATION.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPL-GSDLC-R01-D-SOURCE-DELTA-MANIFEST-JSON",
+      "path": "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_SOURCE_DELTA_MANIFEST.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-D-DEVPL-GSDLC-R01-D-ARTIFACT-HASHES-SHA256",
+      "path": "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_ARTIFACT_HASHES.sha256",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-D",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-D"
+      ],
+      "status_required": "implemented-controlled/pending-owner-adjudication"
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -17314,7 +17662,8 @@
     "UOC-000 registers the approved Operational Console backlog, complete capability registry, base schemas, ADRs, audit and manifest without enabling runtime execution.",
     "UOC-007 registers governed-job capability coverage, typed job schemas and framework documentation without adding a /jobs UI route or enabling arbitrary runtime adapters.",
     "DEVPL-GSDLC-00-A registers the approved Guided SDLC roadmap/backlog, program charter, pilot pause decision, repo341 immutable parent manifest, legacy preservation matrix and historical contract sweep without runtime changes.",
-    "DEVPL-GSDLC-00-D registers the successor threat model, layered test strategy, 546-assertion historical contract sweep, migration plan, security-control traceability and test-impact baseline without enabling runtime capabilities."
+    "DEVPL-GSDLC-00-D registers the successor threat model, layered test strategy, 546-assertion historical contract sweep, migration plan, security-control traceability and test-impact baseline without enabling runtime capabilities.",
+    "DEVPL-GSDLC-R01-D registers frozen model/agentic fixtures and local zero-cost benchmark evidence; reconciles gsdlc_last_registered_micro_sprint metadata without changing runtime/provider no-go contracts."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -19735,8 +20084,8 @@
   },
   "updated": "2026-08-15",
   "updated_at": "2026-08-15",
-  "updated_by": "DEVPL-GSDLC-R01-C",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-E",
+  "updated_by": "DEVPL-GSDLC-R01-D",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-R01-D",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "active/post-00-closed/01-authorized",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",

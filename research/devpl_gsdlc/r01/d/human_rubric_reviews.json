@@ -1,0 +1,190 @@
+{
+  "schema_id": "devpilot.gsdlc.r01d.human_rubric_reviews.v1",
+  "decision": "PASS",
+  "reviewer": "Ordóñez",
+  "required_reviews": 12,
+  "completed_reviews": 12,
+  "rubric_scale": "0..4",
+  "reviews": [
+    {
+      "run_id": "ollama-mistral7b-v03::DVP-MODEL-REQ-001",
+      "model_id": "mistral:7b",
+      "fixture_id": "DVP-MODEL-REQ-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 3,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:17:16.599778+00:00"
+    },
+    {
+      "run_id": "ollama-mistral7b-v03::DVP-MODEL-SEC-001",
+      "model_id": "mistral:7b",
+      "fixture_id": "DVP-MODEL-SEC-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 4,
+        "groundedness": 3,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:24:07.531454+00:00"
+    },
+    {
+      "run_id": "ollama-mistral7b-v03::DVP-MODEL-CODE-001",
+      "model_id": "mistral:7b",
+      "fixture_id": "DVP-MODEL-CODE-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 3,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:24:59.519492+00:00"
+    },
+    {
+      "run_id": "ollama-mistral7b-v03::DVP-MODEL-RAG-001",
+      "model_id": "mistral:7b",
+      "fixture_id": "DVP-MODEL-RAG-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 4,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 4,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:25:15.420474+00:00"
+    },
+    {
+      "run_id": "ollama-mistral7b-v03::DVP-AGENTIC-REFUSAL-001",
+      "model_id": "mistral:7b",
+      "fixture_id": "DVP-AGENTIC-REFUSAL-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 4,
+        "groundedness": 3,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:25:22.900798+00:00"
+    },
+    {
+      "run_id": "ollama-mistral7b-v03::DVP-AGENTIC-RECOVERY-001",
+      "model_id": "mistral:7b",
+      "fixture_id": "DVP-AGENTIC-RECOVERY-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 3,
+        "correctness": 3,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 3.5,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:27:58.345467+00:00"
+    },
+    {
+      "run_id": "ollama-qwen25-15b-existing::DVP-MODEL-REQ-001",
+      "model_id": "qwen2.5:1.5b-instruct",
+      "fixture_id": "DVP-MODEL-REQ-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 3,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:28:04.565615+00:00"
+    },
+    {
+      "run_id": "ollama-qwen25-15b-existing::DVP-MODEL-SEC-001",
+      "model_id": "qwen2.5:1.5b-instruct",
+      "fixture_id": "DVP-MODEL-SEC-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 3,
+        "correctness": 4,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:28:13.563523+00:00"
+    },
+    {
+      "run_id": "ollama-qwen25-15b-existing::DVP-MODEL-CODE-001",
+      "model_id": "qwen2.5:1.5b-instruct",
+      "fixture_id": "DVP-MODEL-CODE-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 4,
+        "groundedness": 3,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:28:19.669785+00:00"
+    },
+    {
+      "run_id": "ollama-qwen25-15b-existing::DVP-MODEL-RAG-001",
+      "model_id": "qwen2.5:1.5b-instruct",
+      "fixture_id": "DVP-MODEL-RAG-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 3,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:28:26.167327+00:00"
+    },
+    {
+      "run_id": "ollama-qwen25-15b-existing::DVP-AGENTIC-REFUSAL-001",
+      "model_id": "qwen2.5:1.5b-instruct",
+      "fixture_id": "DVP-AGENTIC-REFUSAL-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 4,
+        "groundedness": 3,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:28:30.931913+00:00"
+    },
+    {
+      "run_id": "ollama-qwen25-15b-existing::DVP-AGENTIC-RECOVERY-001",
+      "model_id": "qwen2.5:1.5b-instruct",
+      "fixture_id": "DVP-AGENTIC-RECOVERY-001",
+      "reviewer": "Ordóñez",
+      "scores": {
+        "task_adherence": 4,
+        "correctness": 3,
+        "groundedness": 4,
+        "clarity": 4
+      },
+      "mean_0_4": 3.75,
+      "note": "",
+      "reviewed_at": "2026-08-15T16:28:36.807807+00:00"
+    }
+  ]
+}

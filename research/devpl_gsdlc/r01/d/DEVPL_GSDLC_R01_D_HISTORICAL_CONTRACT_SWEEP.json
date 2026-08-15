@@ -1,0 +1,40 @@
+{
+  "schema_id": "devpilot.gsdlc.r01d.historical_contract_sweep.v1",
+  "status": "pass-candidate/integration-pending",
+  "classifications": [
+    {
+      "subject": "repo341 and DEVPL-GSDLC-00 historical facts",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "R01-A/B/C research and owner adjudications",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo346",
+      "classification": "current-active"
+    },
+    {
+      "subject": ".devpilot/modeling/* policies",
+      "classification": "historical-freeze/read-only"
+    },
+    {
+      "subject": ".devpilot/agents/* policies",
+      "classification": "historical-freeze/read-only"
+    },
+    {
+      "subject": ".devpilot/mcp/*",
+      "classification": "historical-freeze/read-only"
+    },
+    {
+      "subject": ".devpilot/docs_governance/source_registry.json",
+      "classification": "successor-needed/additive-plus-metadata-reconciliation"
+    },
+    {
+      "subject": "research/devpl_gsdlc/r01/d",
+      "classification": "successor-needed"
+    }
+  ],
+  "historical_contracts_extended": false,
+  "runtime_contracts_changed": false
+}

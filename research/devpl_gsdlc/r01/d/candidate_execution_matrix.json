@@ -1,0 +1,66 @@
+{
+  "schema_id": "devpilot.gsdlc.r01d.candidate_matrix.v1",
+  "status": "implemented-controlled/pending-owner-adjudication",
+  "retrieved_at": "2026-08-15",
+  "target_region": "CO",
+  "candidates": [
+    {
+      "candidate_id": "ollama-mistral7b-v03",
+      "provider": "ollama",
+      "runtime": "ollama",
+      "access_route": "ollama-localhost",
+      "model_id": "mistral:7b",
+      "expected_digest": "6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+      "license": "Apache-2.0",
+      "license_source": "https://ollama.com/library/mistral:latest",
+      "source_basis": "R01-C measured/selected",
+      "ranking_class": "local-medium",
+      "download_allowed": false,
+      "api_cost_usd": 0
+    },
+    {
+      "candidate_id": "ollama-qwen25-15b-existing",
+      "provider": "ollama",
+      "runtime": "ollama",
+      "access_route": "ollama-localhost",
+      "model_id": "qwen2.5:1.5b-instruct",
+      "expected_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "license": "Apache-2.0",
+      "license_source": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/blob/main/LICENSE",
+      "official_runtime_source": "https://ollama.com/library/qwen2.5:1.5b-instruct",
+      "source_basis": "R01-C installed inventory + R01-D official-license verification",
+      "ranking_class": "local-small",
+      "download_allowed": false,
+      "api_cost_usd": 0
+    }
+  ],
+  "controls": [
+    {
+      "candidate_id": "mock-scorer-control",
+      "route": "in-process-deterministic",
+      "purpose": "scorer self-test only",
+      "ranked": false
+    }
+  ],
+  "external_routes": {
+    "status": "not-executed",
+    "budget_usd": 0,
+    "approval": false
+  },
+  "execution": [
+    {
+      "model_id": "mistral:7b",
+      "status": "executed-local",
+      "runs": 15,
+      "score_mean": 71.45,
+      "cost_usd": 0.0
+    },
+    {
+      "model_id": "qwen2.5:1.5b-instruct",
+      "status": "executed-local",
+      "runs": 15,
+      "score_mean": 64.8,
+      "cost_usd": 0.0
+    }
+  ]
+}

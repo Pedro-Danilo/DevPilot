@@ -1,0 +1,30 @@
+{
+  "schema_id": "devpilot.gsdlc.r01d.current.v1",
+  "micro_sprint": "DEVPL-GSDLC-R01-D",
+  "decision": "PASS-CANDIDATE",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_346_DEVPL_GSDLC_R01_C_BENCHMARK_RECONCILIATION.zip",
+    "commit": "1bd3468b8bcc8e13de62fbce6b4007981c1eaf52",
+    "sha256": "51cfe335a8d7d3fbfb6254388861f9d52956868356b8a0b98c9f821b2f3cb9b7"
+  },
+  "benchmark": {
+    "models_executed": 2,
+    "model_fixture_count": 9,
+    "agentic_fixture_count": 6,
+    "external_provider_calls": 0,
+    "api_cost_usd": 0,
+    "human_review_complete": true
+  },
+  "safety": {
+    "runtime_source_changed": false,
+    "ui_changed": false,
+    "tools_executed": false,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "next": {
+    "r01_e_authorized": false,
+    "owner_adjudication_required": true
+  }
+}

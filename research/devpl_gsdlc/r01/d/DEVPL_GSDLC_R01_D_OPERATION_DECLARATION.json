@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc.r01d.operation_declaration.v1",
+  "decision": "PASS-CANDIDATE",
+  "external_api_used": false,
+  "external_provider_calls": 0,
+  "downloads": 0,
+  "api_cost_usd": 0,
+  "real_secrets_read": false,
+  "raw_secret_storage": false,
+  "tool_execution_performed": false,
+  "shell_execution": false,
+  "filesystem_delete": false,
+  "connector_write": false,
+  "plugin_execution": false,
+  "remote_execution": false,
+  "runtime_source_changed": false,
+  "ui_changed": false,
+  "max_agentic_steps": 1
+}
