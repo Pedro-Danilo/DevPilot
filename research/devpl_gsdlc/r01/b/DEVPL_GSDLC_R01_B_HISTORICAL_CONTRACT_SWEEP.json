@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-B-HISTORICAL-CONTRACT-SWEEP",
+  "micro_sprint": "DEVPL-GSDLC-R01-B",
+  "status": "implemented-controlled/pending-windows-validation",
+  "source_commit": "316f616263a74916e9a35ce1596f70e86952ebaa",
+  "contracts": [
+    {
+      "subject": "repo341 and DEVPL-GSDLC-00 facts/no-go",
+      "classification": "historical-freeze",
+      "action": "no mutation"
+    },
+    {
+      "subject": "repo342 / 90d4f4b76168aab1f2e74c86213cf7d4e4831186",
+      "classification": "historical-freeze",
+      "action": "retain as R01-A parent only"
+    },
+    {
+      "subject": "repo343 / 316f616263a74916e9a35ce1596f70e86952ebaa",
+      "classification": "current-active",
+      "action": "execution authority for R01-B"
+    },
+    {
+      "subject": "R01-A owner adjudication CLOSED/PASS",
+      "classification": "current-active",
+      "action": "predecessor authority; do not rewrite R01-A CURRENT snapshot"
+    },
+    {
+      "subject": "R01-A pre-owner CURRENT inside repo343",
+      "classification": "historical-freeze",
+      "action": "retain as integration-time snapshot; not a contradiction"
+    },
+    {
+      "subject": ".devpilot/docs_governance/source_registry.json",
+      "classification": "successor-needed",
+      "action": "additive registration of R01-B artifacts only"
+    },
+    {
+      "subject": "research/devpl_gsdlc/r01/b/*",
+      "classification": "successor-needed",
+      "action": "new evidence/materialization"
+    },
+    {
+      "subject": "provider/no-go tests and runtime policies",
+      "classification": "historical-freeze",
+      "action": "no changes to make research pass"
+    }
+  ],
+  "deprecated_after_proof": [],
+  "runtime_source_changed": false,
+  "ui_changed": false,
+  "project_state_changed": false,
+  "tcr_changed": false,
+  "historical_fact_rewritten": false,
+  "s0_open": 0,
+  "s1_open": 0
+}

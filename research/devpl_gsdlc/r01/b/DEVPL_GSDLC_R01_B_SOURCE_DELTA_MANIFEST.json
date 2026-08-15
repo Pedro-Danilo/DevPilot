@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-B-SOURCE-DELTA-MANIFEST",
+  "micro_sprint": "DEVPL-GSDLC-R01-B",
+  "status": "implemented-controlled",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_343_DEVPL_GSDLC_R01_A_LANDSCAPE.zip",
+    "commit": "316f616263a74916e9a35ce1596f70e86952ebaa",
+    "sha256": "fcb853ea37f02e2d820bd26b12a883157c01581966b429acb221e0ee73eafa01"
+  },
+  "delta": {
+    "create": [
+      "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_CLOSURE_REPORT.md",
+      "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_CURRENT.json",
+      "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_OPERATION_DECLARATION.json",
+      "research/devpl_gsdlc/r01/b/R01-B_ACTION_PLAN.md",
+      "research/devpl_gsdlc/r01/b/R01-B_AUTH_POLICIES_AND_TEMPLATES.md",
+      "research/devpl_gsdlc/r01/b/R01-B_RESEARCH_REPORT.md",
+      "research/devpl_gsdlc/r01/b/R01-B_RISK_MATRIX.csv",
+      "research/devpl_gsdlc/r01/b/R01-B_SOURCE_LIST.json",
+      "research/devpl_gsdlc/r01/b/agentic_access_constraints.md",
+      "research/devpl_gsdlc/r01/b/auth_access_matrix.md",
+      "research/devpl_gsdlc/r01/b/auth_decision_evidence.json",
+      "research/devpl_gsdlc/r01/b/data_handling_matrix.md",
+      "research/devpl_gsdlc/r01/b/regional_jurisdiction_matrix.md",
+      "research/devpl_gsdlc/r01/b/terms_constraints.md",
+      "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_SOURCE_DELTA_MANIFEST.json",
+      "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_ARTIFACT_HASHES.sha256"
+    ],
+    "modify": [
+      ".devpilot/docs_governance/source_registry.json"
+    ],
+    "delete": [],
+    "create_total": 17,
+    "modify_total": 1,
+    "delete_total": 0,
+    "total_paths": 18
+  },
+  "impact": {
+    "runtime_source_changed": false,
+    "ui_changed": false,
+    "project_state_changed": false,
+    "tcr_changed": false,
+    "provider_no_go_changed": false
+  },
+  "materialized_content_hashes_excluding_manifest_and_hash_file": [
+    {
+      "file": "DEVPL_GSDLC_R01_B_CLOSURE_REPORT.md",
+      "sha256": "eee062b00ebfe12c509ec74d4b742b1c750ca1114b49164cad765faa897ba4b7",
+      "size": 2467
+    },
+    {
+      "file": "DEVPL_GSDLC_R01_B_CURRENT.json",
+      "sha256": "d9d7949e270efe8f3a41dd74e0ff036a54cef111e611147bada0689509079a63",
+      "size": 1546
+    },
+    {
+      "file": "DEVPL_GSDLC_R01_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "sha256": "d8330436a79dc63daaf0bfb123eb51d5efc92ea52be62e208cb22fe8b146f99a",
+      "size": 1891
+    },
+    {
+      "file": "DEVPL_GSDLC_R01_B_OPERATION_DECLARATION.json",
+      "sha256": "e3eb6cc5999d177b52376022d0075420ad116fb842d611a21270f7ee8a602123",
+      "size": 1255
+    },
+    {
+      "file": "R01-B_ACTION_PLAN.md",
+      "sha256": "cbb2f0d09a85841b1dacb8ae83b281076048e257d566e86cdd9cfcec6040ed48",
+      "size": 2228
+    },
+    {
+      "file": "R01-B_AUTH_POLICIES_AND_TEMPLATES.md",
+      "sha256": "4f8b4c22e8bf9589f4d9b0c8afe609b9de28934275dc123eb467f8d3868d791d",
+      "size": 3046
+    },
+    {
+      "file": "R01-B_RESEARCH_REPORT.md",
+      "sha256": "0d18267654beb1fde7bfb72b07df0676c6f5264c0c3dfda5d3b24b0bcfb7faa9",
+      "size": 4086
+    },
+    {
+      "file": "R01-B_RISK_MATRIX.csv",
+      "sha256": "34af8f6d60a12dc181d121d640b33ca983d1241c1103c276fbe69d4f84a9679a",
+      "size": 4351
+    },
+    {
+      "file": "R01-B_SOURCE_LIST.json",
+      "sha256": "3f7a61a6d47a0603be8763a307800cdf31a91057ed30d04670e3fcecb23a38b4",
+      "size": 29866
+    },
+    {
+      "file": "agentic_access_constraints.md",
+      "sha256": "f172d18a205712809f6c029daadd52d504667418198004663ab03c15aa1aabcd",
+      "size": 1860
+    },
+    {
+      "file": "auth_access_matrix.md",
+      "sha256": "991118b04d147149ec577eac246201cb6578c90217803bfaf872c6d72e53df78",
+      "size": 4755
+    },
+    {
+      "file": "auth_decision_evidence.json",
+      "sha256": "00b71209c41c0556a93cdd5be0abdfbbc41d055876253bd6befe16ad1a334267",
+      "size": 11835
+    },
+    {
+      "file": "data_handling_matrix.md",
+      "sha256": "47a2d3aed5190cfcd263773623820c647ac795e262708c046b7b1438ee7de9a4",
+      "size": 3538
+    },
+    {
+      "file": "regional_jurisdiction_matrix.md",
+      "sha256": "d087cf3dea839f78d634779a827ee2d77bc2630b6fa496e875369aae6bf65178",
+      "size": 3655
+    },
+    {
+      "file": "terms_constraints.md",
+      "sha256": "7104bc04facecddd339b4fd7da7bd125f7f454cb189d49f9797cab5bcea39e86",
+      "size": 4452
+    }
+  ],
+  "research_source_ledger": {
+    "report_declared_original_records": 61,
+    "materialized_reference_records": 52,
+    "exact_original_ledger_recovered": false,
+    "missing_urls_fabricated": false
+  },
+  "s0_open": 0,
+  "s1_open": 0
+}

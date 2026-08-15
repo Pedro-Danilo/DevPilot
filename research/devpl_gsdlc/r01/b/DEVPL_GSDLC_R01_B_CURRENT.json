@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-B-CURRENT",
+  "micro_sprint": "DEVPL-GSDLC-R01-B",
+  "decision": "PASS-CANDIDATE",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "owner_adjudication": "PENDING",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_343_DEVPL_GSDLC_R01_A_LANDSCAPE.zip",
+    "commit": "316f616263a74916e9a35ce1596f70e86952ebaa",
+    "sha256": "fcb853ea37f02e2d820bd26b12a883157c01581966b429acb221e0ee73eafa01",
+    "predecessor": "DEVPL-GSDLC-R01-A",
+    "predecessor_decision": "CLOSED/PASS"
+  },
+  "research": {
+    "scope": "PASS",
+    "route_decisions_total": 14,
+    "allowed": 2,
+    "conditional": 6,
+    "blocked": 3,
+    "unknown": 3,
+    "source_records_declared_by_report": 61,
+    "materialized_source_reference_records": 52,
+    "original_61_row_ledger_exactly_recovered": false,
+    "source_ledger_limitation_disclosed": true
+  },
+  "safety": {
+    "real_provider_api_calls": 0,
+    "real_credentials_read_or_tested": 0,
+    "paid_tests": 0,
+    "models_downloaded": 0,
+    "external_provider_runtime_enabled": false,
+    "runtime_source_changed": false,
+    "ui_changed": false,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "repository_integration": {
+    "status": "PENDING",
+    "planned_delta_create": 17,
+    "planned_delta_modify": 1,
+    "planned_delta_delete": 0
+  },
+  "next": {
+    "r01_c_authorized": false,
+    "authorization_requires": "R01-B owner adjudication CLOSED/PASS",
+    "r01_c_route_gate": [
+      "ollama-localhost",
+      "lmstudio-localhost"
+    ]
+  }
+}

@@ -1,0 +1,719 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-B-SOURCE-LIST",
+  "micro_sprint": "DEVPL-GSDLC-R01-B",
+  "status": "implemented-controlled/pending-windows-validation",
+  "target_region_primary": "CO",
+  "materialization_basis": "attached-report-only; no new web research performed",
+  "research_report": {
+    "artifact": "deep-research-report_GSDLC-R01-B.md",
+    "sha256": "75180cea1d5755254b7b8db959eba16ff4e626869d41ab93aa4caff698a8a23e",
+    "declared_original_source_records": 61,
+    "exact_original_61_row_ledger_embedded_in_attached_report": false,
+    "reconstruction_policy": "do-not-fabricate-missing-URLs"
+  },
+  "sources": [
+    {
+      "source_id": "SRC-OPENAI-GPT54",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://openai.com/es-ES/index/introducing-gpt-5-4/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-OPENAI-GPT54-MINI-NANO",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-OPENAI-GPT-OSS",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "license",
+        "local-availability",
+        "capabilities"
+      ],
+      "url": "https://openai.com/pt-PT/index/introducing-gpt-oss/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-OPENAI-ENTERPRISE-PRIVACY",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "privacy",
+        "training",
+        "retention"
+      ],
+      "url": "https://openai.com/enterprise-privacy/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-ANTHROPIC-MODELS",
+      "provider_id": "anthropic",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-catalog",
+        "capabilities",
+        "deprecations"
+      ],
+      "url": "https://platform.claude.com/docs/es/about-claude/models/overview",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-ANTHROPIC-DATA-LOCATION",
+      "provider_id": "anthropic",
+      "source_class": "official-primary",
+      "claim_types": [
+        "privacy",
+        "processing-region"
+      ],
+      "url": "https://privacy.claude.com/es/articles/7996890-donde-estan-ubicados-sus-servidores-aloja-sus-modelos-en-servidores-de-la-ue",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-GOOGLE-GEMINI-LATEST",
+      "provider_id": "google",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-catalog",
+        "capabilities"
+      ],
+      "url": "https://ai.google.dev/gemini-api/docs/latest-model",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-GOOGLE-GEMMA3",
+      "provider_id": "google",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "local-availability",
+        "capabilities"
+      ],
+      "url": "https://ai.google.dev/gemma/docs/core/model_card_3",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-GOOGLE-GEMINI-TERMS",
+      "provider_id": "google",
+      "source_class": "official-primary",
+      "claim_types": [
+        "terms",
+        "privacy",
+        "billing-class"
+      ],
+      "url": "https://ai.google.dev/gemini-api/terms-archive/terms_02_05_25",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-XAI-GROK420",
+      "provider_id": "xai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "capabilities",
+        "hosting-region"
+      ],
+      "url": "https://docs.x.ai/developers/models/grok-4.20",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-MISTRAL-SMALL4",
+      "provider_id": "mistral",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "capabilities",
+        "access"
+      ],
+      "url": "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-ALIBABA-MODEL-STUDIO",
+      "provider_id": "alibaba",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-catalog",
+        "deployment-region",
+        "access"
+      ],
+      "url": "https://www.alibabacloud.com/help/en/model-studio/vision-model",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-ALIBABA-MODEL-STUDIO-PRIVACY",
+      "provider_id": "alibaba",
+      "source_class": "official-primary",
+      "claim_types": [
+        "privacy",
+        "training",
+        "processing"
+      ],
+      "url": "https://www.alibabacloud.com/help/en/model-studio/privacy-notice",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-MOONSHOT-KIMI-K3",
+      "provider_id": "moonshot",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "capabilities",
+        "local-availability"
+      ],
+      "url": "https://github.com/MoonshotAI/Kimi-K3",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-ZAI-GLM-RELEASES",
+      "provider_id": "zai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://docs.bigmodel.cn/cn/update/new-releases",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-MINIMAX-M3",
+      "provider_id": "minimax",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://www.minimax.io/blog/minimax-m3",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-IBM-GRANITE",
+      "provider_id": "ibm",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-family",
+        "license",
+        "capabilities",
+        "local-availability"
+      ],
+      "url": "https://www.ibm.com/es-es/granite",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-COHERE-CHANGELOG",
+      "provider_id": "cohere",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "retrieval",
+        "embeddings"
+      ],
+      "url": "https://docs.cohere.com/v2/changelog",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-META-LLAMA",
+      "provider_id": "meta",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "local-availability"
+      ],
+      "url": "https://github.com/meta-llama/llama-models",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-MICROSOFT-PHI4",
+      "provider_id": "microsoft",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "local-availability"
+      ],
+      "url": "https://huggingface.co/microsoft/phi-4",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-OLLAMA-OPENAI-COMPAT",
+      "provider_id": "ollama",
+      "source_class": "official-primary",
+      "claim_types": [
+        "runtime",
+        "openai-compatible",
+        "tools",
+        "embeddings"
+      ],
+      "url": "https://docs.ollama.com/api/openai-compatibility",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-LMSTUDIO-APP",
+      "provider_id": "lmstudio",
+      "source_class": "official-primary",
+      "claim_types": [
+        "runtime",
+        "local-serving",
+        "offline"
+      ],
+      "url": "https://lmstudio.ai/docs/app",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-VLLM-OPENAI-COMPAT",
+      "provider_id": "vllm",
+      "source_class": "official-primary",
+      "claim_types": [
+        "runtime",
+        "openai-compatible",
+        "serving"
+      ],
+      "url": "https://docs.vllm.ai/en/latest/serving/online_serving/openai_compatible_server/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-OPENROUTER-PRIVACY",
+      "provider_id": "openrouter",
+      "source_class": "official-primary",
+      "claim_types": [
+        "broker",
+        "privacy"
+      ],
+      "url": "https://openrouter.ai/privacy/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-OPENROUTER-PROVIDER-LOGGING",
+      "provider_id": "openrouter",
+      "source_class": "official-primary",
+      "claim_types": [
+        "broker",
+        "provider-logging",
+        "privacy"
+      ],
+      "url": "https://openrouter.ai/docs/guides/privacy/provider-logging/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-OPENROUTER-ZDR",
+      "provider_id": "openrouter",
+      "source_class": "official-primary",
+      "claim_types": [
+        "broker",
+        "zero-data-retention"
+      ],
+      "url": "https://openrouter.ai/docs/guides/features/zdr",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "SRC-EU-AI-ACT",
+      "provider_id": null,
+      "source_class": "regulatory-primary",
+      "claim_types": [
+        "regulation"
+      ],
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F4-stable",
+      "record_origin": "inherited-from-R01-A-source-register"
+    },
+    {
+      "source_id": "RPT-WEB-turn19search1",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search1",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Google Gemini API paid/unpaid data-use/terms distinction (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search2",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search2",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Google Gemini API paid/unpaid data-use/terms distinction (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search3",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search3",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Mistral Workspace API key lifecycle/auth documentation (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search5",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search5",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "AWS Bedrock invocation logging controls (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search10",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search10",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "AWS Bedrock retention/model-route exceptions (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search6",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search6",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "AWS Bedrock cross-region inference behavior (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search14",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search14",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "AWS service/region exceptions relevant to processing route (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search7",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search7",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Google developer logging/dataset sharing conditions (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn19search13",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn19search13",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Mistral API key management supporting reference (official source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn20search0",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn20search0",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "China CAC covered AI/synthetic content obligations (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn20search1",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn20search1",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "UK ICO restricted transfers / safeguards / IDTA/Addendum (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn20search3",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn20search3",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "China public-offering scope explanation for labeling regulation (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn20search8",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn20search8",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "China personal information protection compliance audit rules (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn21search1",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn21search1",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Colombia SIC international-transfer framework reference (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn21search20",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn21search20",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Colombia SIC AI/data-protection technology-neutral obligation supporting reference (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn21search5",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn21search5",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Colombia SIC AI/data-protection guidelines supporting reference (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn21search6",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn21search6",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "US FTC business privacy/security guidance (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "RPT-WEB-turn21search7",
+      "record_origin": "attached-R01-B-report-citation-reference",
+      "source_reference": "turn21search7",
+      "url": null,
+      "source_class": "official-or-regulatory-primary-as-characterized-by-attached-report",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO where applicable; otherwise jurisdiction-specific per claim",
+      "freshness_policy": "changing contractual/privacy/regulatory fact; revalidate before external enablement or benchmark",
+      "claim_summary": "Colombia SIC AI/data-protection guidelines / habeas-data continuity (regulatory primary source per attached report)",
+      "exact_url_embedded_in_attached_report": false
+    },
+    {
+      "source_id": "R01B-PROMPT",
+      "record_origin": "internal-authority",
+      "source_reference": "02_PROMPT_DEVPL_GSDLC_R01_B_v1_0_1.md",
+      "url": null,
+      "source_class": "approved internal operational prompt",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_policy": "internal immutable/versioned source; rebind only after adjudicated successor",
+      "sha256": "0e779806b6585849a2dfb3f6e5377af4e1b4ace0d46a7ed44ca94ac9a65de7f6"
+    },
+    {
+      "source_id": "R01-BACKLOG",
+      "record_origin": "internal-authority",
+      "source_reference": "DEVPL-GSDLC-R01_advanced_multi_model_ecosystem_and_access_strategy_research_v1_2_0_APPROVED.md",
+      "url": null,
+      "source_class": "approved internal backlog",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_policy": "internal immutable/versioned source; rebind only after adjudicated successor",
+      "sha256": "cf33f129f29c3f799a178e6fd409ec9126df7582efb3cc895b8686c02ccca522"
+    },
+    {
+      "source_id": "R01A-CLOSURE",
+      "record_origin": "internal-authority",
+      "source_reference": "DEVPL_GSDLC_R01_A_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "url": null,
+      "source_class": "owner closure adjudication",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_policy": "internal immutable/versioned source; rebind only after adjudicated successor",
+      "sha256": "95e78aa75d0022a4e25cfbbf6747ec2303ea38b61200ee766d466caeb13d61a0"
+    },
+    {
+      "source_id": "R01A-OWNER",
+      "record_origin": "internal-authority",
+      "source_reference": "DEVPL_GSDLC_R01_A_OWNER_ADJUDICATION_v1_0_0.json",
+      "url": null,
+      "source_class": "machine-readable owner adjudication",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_policy": "internal immutable/versioned source; rebind only after adjudicated successor",
+      "sha256": "2e7e4b22a96cfba556f5ecf68a8e96fc644b98aed8b13a8f72ef2418318cd863"
+    },
+    {
+      "source_id": "R01B-REPORT",
+      "record_origin": "internal-authority",
+      "source_reference": "deep-research-report_GSDLC-R01-B.md",
+      "url": null,
+      "source_class": "attached deep-research synthesis",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_policy": "internal immutable/versioned source; rebind only after adjudicated successor",
+      "sha256": "75180cea1d5755254b7b8db959eba16ff4e626869d41ab93aa4caff698a8a23e"
+    },
+    {
+      "source_id": "R01A-SOURCE-REGISTER",
+      "record_origin": "internal-authority",
+      "source_reference": "research/devpl_gsdlc/r01/a/source_register.json",
+      "url": null,
+      "source_class": "canonical R01-A source register",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_policy": "internal immutable/versioned source; rebind only after adjudicated successor",
+      "sha256": "824d1b29d22cd89f3e891c36789b305d4325b8357be9d350ac15ec1d98dfd6d5"
+    },
+    {
+      "source_id": "R01A-LANDSCAPE",
+      "record_origin": "internal-authority",
+      "source_reference": "research/devpl_gsdlc/r01/a/landscape_snapshot.json",
+      "url": null,
+      "source_class": "canonical R01-A landscape",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_policy": "internal immutable/versioned source; rebind only after adjudicated successor",
+      "sha256": "39f1c88f403ef5007d9b53cd7592cbadaa26ad9f248279b2d11d23bc7ca8019e"
+    }
+  ],
+  "metrics": {
+    "materialized_source_records": 52,
+    "inherited_r01a_records": 27,
+    "recoverable_report_web_citation_handles": 18,
+    "internal_authority_records": 7,
+    "original_report_declared_records": 61,
+    "original_ledger_exactly_recovered": false
+  },
+  "audit_note": "This file is the exact source/reference register used by the materialized R01-B artifacts. It is not represented as a byte-identical recovery of the unavailable 61-row source artifact from the original research session."
+}

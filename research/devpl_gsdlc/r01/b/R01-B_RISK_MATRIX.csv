@@ -1,0 +1,25 @@
+risk_id,category,route_scope,scenario,governance_severity,disposition,evidence_ref,derivation
+R01B-RISK-001,auth,consumer-session,Consumer browser session reused as provider integration,P1,blocked,R01B-PROMPT,derived-from-attached-research-report
+R01B-RISK-002,auth,consumer-seat,Consumer subscription assumed to grant API entitlement,P1,blocked,R01B-PROMPT,derived-from-attached-research-report
+R01B-RISK-003,secrets,all-external,Real API key/token/cookie committed or read during validation,P1,blocked,R01B-PROMPT,derived-from-attached-research-report
+R01B-RISK-004,runtime,all-external,Research classification accidentally flips external_api_enabled or other no-go flags,P1,blocked,R01B-PROMPT,derived-from-attached-research-report
+R01B-RISK-005,privacy,gemini-unpaid,Confidential/PII/non-public data sent under unpaid Gemini regime,P1,blocked,RPT-WEB-turn19search1,derived-from-attached-research-report
+R01B-RISK-006,logging,gemini,Developer content logging/dataset sharing enabled without approval,P2,conditional-control,RPT-WEB-turn19search7,derived-from-attached-research-report
+R01B-RISK-007,logging,aws-bedrock,Invocation logging enabled and request/response stored without explicit data review,P1,conditional-control,RPT-WEB-turn19search5,derived-from-attached-research-report
+R01B-RISK-008,residency,aws-bedrock,Cross-region inference changes processing region unexpectedly,P1,conditional-control,RPT-WEB-turn19search6,derived-from-attached-research-report
+R01B-RISK-009,retention,aws-bedrock,Model/route-specific retention exception not frozen,P2,conditional-control,RPT-WEB-turn19search10,derived-from-attached-research-report
+R01B-RISK-010,jurisdiction,mistral,CO processing/residency/contract regime assumed from auth documentation alone,P1,unknown-blocks-allow,RPT-WEB-turn19search3,derived-from-attached-research-report
+R01B-RISK-011,protocol,generic-openai-compatible,Protocol compatibility mistaken for contractual/privacy equivalence,P1,unknown-blocks-allow,RPT-DECISION-TABLE,derived-from-attached-research-report
+R01B-RISK-012,broker,openrouter,Dynamic fallback routes workload to unreviewed downstream provider,P1,blocked-by-policy,RPT-BROKER-PINNING,derived-from-attached-research-report
+R01B-RISK-013,broker,openrouter,Provider logging/ZDR configuration differs from assumed route policy,P1,conditional-control,SRC-OPENROUTER-PROVIDER-LOGGING,derived-from-attached-research-report
+R01B-RISK-014,privacy,all-external,PII/sensitive/regulated data sent before Privacy/Legal gate,P1,blocked,RPT-CO-PRIVACY-GATE,derived-from-attached-research-report
+R01B-RISK-015,transfer,all-external,Cross-border transfer/transmission mechanism not documented,P1,conditional-control,RPT-CO-PRIVACY-GATE,derived-from-attached-research-report
+R01B-RISK-016,license,local-models,Model download proceeds before exact license/model ID is frozen,P1,blocked-before-download,RPT-R01C-GATE,derived-from-attached-research-report
+R01B-RISK-017,hardware,local-models,Local candidate downloaded without RAM/VRAM/disk fit proposal,P2,blocked-before-download,RPT-R01C-GATE,derived-from-attached-research-report
+R01B-RISK-018,cost,external-paid,Paid benchmark runs without price freeze and CostGuard,P1,blocked,RPT-R01D-GATE,derived-from-attached-research-report
+R01B-RISK-019,cost,external-paid,Unbounded requests/tokens/tool loops create uncontrolled spend,P1,blocked,RPT-R01D-GATE,derived-from-attached-research-report
+R01B-RISK-020,agentic,hosted-agent-surface,Hosted agent/tool surface bypasses same provider auth/privacy/region gate,P1,blocked-until-reviewed,RPT-AGENTIC-BOUNDARY,derived-from-attached-research-report
+R01B-RISK-021,governance,all,Provider nationality used as allow/block shortcut,P1,blocked,R01B-PROMPT,derived-from-attached-research-report
+R01B-RISK-022,evidence,long-tail,Long-tail route promoted from unknown without provider-specific official evidence,P1,unknown-blocks-allow,RPT-DECISION-TABLE,derived-from-attached-research-report
+R01B-RISK-023,evidence,all,Changing contractual/privacy claim reused after freshness window without revalidation,P2,refresh-required,R01-BACKLOG,derived-from-attached-research-report
+R01B-RISK-024,audit,source-ledger,Original deep-research report declares 61 records but attached MD does not embed the full 61-row URL ledger,P2,disclosed-owner-review,R01B-REPORT,derived-from-attached-research-report

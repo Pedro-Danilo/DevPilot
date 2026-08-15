@@ -16600,6 +16600,364 @@
         "DEVPL-GSDLC-R01-A"
       ],
       "status_required": "implemented-controlled/pending-windows-validation"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-DEVPL-GSDLC-R01-B-ARTIFACT-HASHES-SHA256",
+      "path": "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_ARTIFACT_HASHES.sha256",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-DEVPL-GSDLC-R01-B-CLOSURE-REPORT-MD",
+      "path": "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_CLOSURE_REPORT.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "pass-candidate/integration-pending",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-DEVPL-GSDLC-R01-B-CURRENT-JSON",
+      "path": "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_CURRENT.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "PASS-CANDIDATE/INTEGRATION-PENDING"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-DEVPL-GSDLC-R01-B-HISTORICAL-CONTRACT-SWEEP-JSON",
+      "path": "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-DEVPL-GSDLC-R01-B-OPERATION-DECLARATION-JSON",
+      "path": "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_OPERATION_DECLARATION.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "candidate"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-DEVPL-GSDLC-R01-B-SOURCE-DELTA-MANIFEST-JSON",
+      "path": "research/devpl_gsdlc/r01/b/DEVPL_GSDLC_R01_B_SOURCE_DELTA_MANIFEST.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-R01-B-ACTION-PLAN-MD",
+      "path": "research/devpl_gsdlc/r01/b/R01-B_ACTION_PLAN.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-R01-B-AUTH-POLICIES-AND-TEMPLATES-MD",
+      "path": "research/devpl_gsdlc/r01/b/R01-B_AUTH_POLICIES_AND_TEMPLATES.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-R01-B-RESEARCH-REPORT-MD",
+      "path": "research/devpl_gsdlc/r01/b/R01-B_RESEARCH_REPORT.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-R01-B-RISK-MATRIX-CSV",
+      "path": "research/devpl_gsdlc/r01/b/R01-B_RISK_MATRIX.csv",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation"
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-R01-B-SOURCE-LIST-JSON",
+      "path": "research/devpl_gsdlc/r01/b/R01-B_SOURCE_LIST.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-AGENTIC-ACCESS-CONSTRAINTS-MD",
+      "path": "research/devpl_gsdlc/r01/b/agentic_access_constraints.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-AUTH-ACCESS-MATRIX-MD",
+      "path": "research/devpl_gsdlc/r01/b/auth_access_matrix.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-AUTH-DECISION-EVIDENCE-JSON",
+      "path": "research/devpl_gsdlc/r01/b/auth_decision_evidence.json",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "PASS-CANDIDATE/INTEGRATION-PENDING"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-DATA-HANDLING-MATRIX-MD",
+      "path": "research/devpl_gsdlc/r01/b/data_handling_matrix.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-REGIONAL-JURISDICTION-MATRIX-MD",
+      "path": "research/devpl_gsdlc/r01/b/regional_jurisdiction_matrix.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "doc_id": "DEVPL-GSDLC-R01-B-TERMS-CONSTRAINTS-MD",
+      "path": "research/devpl_gsdlc/r01/b/terms_constraints.md",
+      "domain": "research.model-ecosystem",
+      "owner": "DEVPL-GSDLC-R01-B",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-R01",
+        "DEVPL-GSDLC-R01-B"
+      ],
+      "status_required": "implemented-controlled/pending-windows-validation",
+      "frontmatter_required": true
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -19113,7 +19471,7 @@
   },
   "updated": "2026-08-14",
   "updated_at": "2026-08-14",
-  "updated_by": "DEVPL-GSDLC-R01-A",
+  "updated_by": "DEVPL-GSDLC-R01-B",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-00-E",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "active/post-00-closed/01-authorized",
