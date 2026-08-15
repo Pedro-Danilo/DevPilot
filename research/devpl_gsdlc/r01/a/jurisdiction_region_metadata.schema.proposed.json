@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/research/r01/a/jurisdiction_region_metadata.schema.proposed.json",
+  "title": "DEVPL-GSDLC-R01-A Proposed Jurisdiction/Region Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "provider_id",
+    "model_origin_country",
+    "contracting_entity_jurisdiction",
+    "hosting_regions",
+    "processing_regions",
+    "target_region",
+    "target_region_availability",
+    "data_transfer_review",
+    "source",
+    "retrieved_at"
+  ],
+  "properties": {
+    "provider_id": {
+      "type": "string"
+    },
+    "model_origin_country": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "contracting_entity_jurisdiction": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "hosting_regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "processing_regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target_region": {
+      "const": "CO"
+    },
+    "target_region_availability": {
+      "enum": [
+        "confirmed",
+        "conditional",
+        "unknown",
+        "blocked"
+      ]
+    },
+    "data_transfer_review": {
+      "enum": [
+        "required",
+        "not-required",
+        "unknown"
+      ]
+    },
+    "source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "x-origin-policy": "metadata-only; never standalone allow/block",
+  "x-runtime-enablement": false
+}

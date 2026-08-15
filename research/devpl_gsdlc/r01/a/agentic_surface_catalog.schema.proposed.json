@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/research/r01/a/agentic_surface_catalog.schema.proposed.json",
+  "title": "DEVPL-GSDLC-R01-A Proposed Agentic Surface Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "provider_id",
+    "surface_id",
+    "surface_type",
+    "separate_from_model_gateway",
+    "official_support",
+    "network_required",
+    "tool_execution",
+    "human_approval_support",
+    "source",
+    "retrieved_at"
+  ],
+  "properties": {
+    "provider_id": {
+      "type": "string"
+    },
+    "surface_id": {
+      "type": "string"
+    },
+    "surface_type": {
+      "enum": [
+        "agent_runtime",
+        "orchestration_sdk",
+        "tool_api",
+        "skill_package",
+        "mcp",
+        "observability"
+      ]
+    },
+    "separate_from_model_gateway": {
+      "const": true
+    },
+    "official_support": {
+      "type": "boolean"
+    },
+    "network_required": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "tool_execution": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "human_approval_support": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "x-devpilot-status": "proposed-research-contract-only",
+  "x-runtime-enablement": false
+}

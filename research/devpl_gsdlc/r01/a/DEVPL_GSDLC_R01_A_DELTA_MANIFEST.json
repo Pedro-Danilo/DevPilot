@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-A-DELTA-MANIFEST",
+  "version": "1.0.0",
+  "source_baseline": {
+    "repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+    "commit": "90d4f4b76168aab1f2e74c86213cf7d4e4831186",
+    "sha256": "265c237d24c50cc11751f0035cd9f0217c36e6abf762e4285e568e284c390a49"
+  },
+  "research_root": "research/devpl_gsdlc/r01/a",
+  "create_paths": [
+    "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_CLOSURE_REPORT.md",
+    "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_CURRENT.json",
+    "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_DELTA_MANIFEST.json",
+    "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_HISTORICAL_CONTRACT_SWEEP.json",
+    "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_OPERATION_DECLARATION.json",
+    "research/devpl_gsdlc/r01/a/agentic_surface_catalog.schema.proposed.json",
+    "research/devpl_gsdlc/r01/a/jurisdiction_region_metadata.schema.proposed.json",
+    "research/devpl_gsdlc/r01/a/landscape_snapshot.json",
+    "research/devpl_gsdlc/r01/a/model_capability_catalog.schema.proposed.json",
+    "research/devpl_gsdlc/r01/a/provider_access_taxonomy.md",
+    "research/devpl_gsdlc/r01/a/refresh_protocol.md",
+    "research/devpl_gsdlc/r01/a/source_freshness_report.json",
+    "research/devpl_gsdlc/r01/a/source_register.json"
+  ],
+  "modify_paths": [
+    ".devpilot/docs_governance/source_registry.json"
+  ],
+  "delete_paths": [],
+  "runtime_source_changed": false,
+  "ui_changed": false,
+  "project_state_changed": false,
+  "tcr_changed": false,
+  "registry_patch": "integration/source_registry_entries.json",
+  "mandatory_deliverables": [
+    "provider_access_taxonomy.md",
+    "model_capability_catalog.schema.proposed.json",
+    "agentic_surface_catalog.schema.proposed.json",
+    "jurisdiction_region_metadata.schema.proposed.json",
+    "refresh_protocol.md",
+    "source_register.json",
+    "landscape_snapshot.json",
+    "source_freshness_report.json",
+    "DEVPL_GSDLC_R01_A_HISTORICAL_CONTRACT_SWEEP.json",
+    "DEVPL_GSDLC_R01_A_CLOSURE_REPORT.md",
+    "DEVPL_GSDLC_R01_A_CURRENT.json"
+  ],
+  "files": [
+    {
+      "path": "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_CLOSURE_REPORT.md",
+      "sha256": "698974dfe246656faf25443f8bd11442421e647b43ba07d6be57aa66324fbfe6",
+      "size": 3007
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_CURRENT.json",
+      "sha256": "bf6c3ed33221bf43d63f8a4d5e1f1003608621f063c4ce3df4f1b76c54a2b0de",
+      "size": 1571
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_HISTORICAL_CONTRACT_SWEEP.json",
+      "sha256": "7fd1c0166f491de3495f2515afc5154f816f7a33dd9c6c6ebda59984799e0530",
+      "size": 2581
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/DEVPL_GSDLC_R01_A_OPERATION_DECLARATION.json",
+      "sha256": "3c1f726122ad2961d338f939a9fb206be4863e78c0b87cd97bbe56b85f520825",
+      "size": 1180
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/agentic_surface_catalog.schema.proposed.json",
+      "sha256": "f177816b7f3cc98effee268af27dce1aefc51fd583426b04866950e76f68434f",
+      "size": 1482
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/jurisdiction_region_metadata.schema.proposed.json",
+      "sha256": "d93d91198a09a2022e1d5cf7d5ce31dfd8d8523a0032cf88ebcd944d2ec350c4",
+      "size": 1622
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/landscape_snapshot.json",
+      "sha256": "ef9e5a0b7ab6e0374be86e8a3bab82d083f1a6b792bae47c03527c5222e4b6db",
+      "size": 27116
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/model_capability_catalog.schema.proposed.json",
+      "sha256": "19cb988dc1a5aa1e0acb65ed3b0f6fe62c70f1d543d3b4854eb4a964566ab60f",
+      "size": 3042
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/provider_access_taxonomy.md",
+      "sha256": "d03aa995a514fb1fef29f43c75c00d928bea190c9abc78def069d89086d5c750",
+      "size": 5389
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/refresh_protocol.md",
+      "sha256": "9bd2778a6e2a267241f513e38b98c6341689cd6b67171de395d0f7c12be7b01e",
+      "size": 3401
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/source_freshness_report.json",
+      "sha256": "1e3c139e1d69154ba7ebe762eef8cb73c8d889d61d69b61a4f13b8d10d37ba93",
+      "size": 1581
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/source_register.json",
+      "sha256": "7098b0df0829ae6db3c8fa66ced4b1af6bbde6dd0f911bd6e7e027e7920eb006",
+      "size": 11910
+    }
+  ]
+}

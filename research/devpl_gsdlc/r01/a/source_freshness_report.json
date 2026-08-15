@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-A-SOURCE-FRESHNESS-REPORT",
+  "status": "PASS-CANDIDATE",
+  "as_of": "2026-08-14",
+  "target_region": "CO",
+  "policy": {
+    "F0-volatile": {
+      "max_age_days": 7
+    },
+    "F1-route": {
+      "max_age_days": 14
+    },
+    "F2-contractual": {
+      "max_age_days": 30
+    },
+    "F3-license": {
+      "max_age_days": 30
+    },
+    "F4-stable": {
+      "max_age_days": 90
+    }
+  },
+  "metrics": {
+    "official_source_ratio": 1.0,
+    "fresh_claim_ratio": 1.0,
+    "class_coverage": 1.0,
+    "route_coverage": 1.0,
+    "region_resolution": 0.4118,
+    "license_resolution": 0.7059,
+    "unresolved_critical_count": 5,
+    "stale_critical_count": 0,
+    "unsupported_route_count": 0,
+    "sources_total": 27,
+    "models_total": 17
+  },
+  "gates": {
+    "official_source_ratio_min": 0.95,
+    "class_coverage_required": 1.0,
+    "route_coverage_required": 1.0,
+    "stale_critical_count_required": 0,
+    "unsupported_route_count_required": 0,
+    "s0_required": 0,
+    "s1_required": 0
+  },
+  "result": "PASS-CANDIDATE",
+  "notes": [
+    "All source records in this materialized snapshot are official-provider or regulatory-primary records preserved by the deep-research report.",
+    "DeepSeek concrete official URL was not preserved in the final source list; that candidate remains evidence_status=unknown and is not counted as a supported route claim.",
+    "route_coverage means every mandatory taxonomy class is represented with a policy/evidence disposition; it does not mean every route is allowed."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-A-OPERATION-DECLARATION",
+  "micro_sprint": "DEVPL-GSDLC-R01-A",
+  "status": "candidate",
+  "research_activity": {
+    "research_mode": "deep-research",
+    "network_used": true,
+    "external_provider_api_used": false,
+    "real_credentials_used": false,
+    "consumer_session_piggyback_used": false,
+    "devpilot_runtime_mutations_performed": false
+  },
+  "repository_integration": {
+    "source_mutations_planned": true,
+    "allowed_paths": [
+      "research/devpl_gsdlc/r01/a/",
+      ".devpilot/docs_governance/source_registry.json"
+    ],
+    "runtime_source_changed": false,
+    "ui_changed": false,
+    "project_state_changed": false,
+    "tcr_changed": false,
+    "git_network_expected_for_push": true,
+    "external_model_api_expected": false
+  },
+  "security": {
+    "secrets_exposed": false,
+    "api_keys_committed": false,
+    "cookies_committed": false,
+    "tokens_committed": false,
+    "external_api_enabled": false,
+    "connector_write_enabled_by_delta": false,
+    "plugin_execution_enabled_by_delta": false,
+    "remote_execution_enabled_by_delta": false
+  },
+  "s0_open": 0,
+  "s1_open": 0
+}

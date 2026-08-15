@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-A-HISTORICAL-CONTRACT-SWEEP",
+  "micro_sprint": "DEVPL-GSDLC-R01-A",
+  "status": "implemented-controlled/pending-windows-validation",
+  "source_baseline": {
+    "repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+    "commit": "90d4f4b76168aab1f2e74c86213cf7d4e4831186",
+    "sha256": "265c237d24c50cc11751f0035cd9f0217c36e6abf762e4285e568e284c390a49"
+  },
+  "classification_legend": [
+    "historical-freeze",
+    "current-active",
+    "successor-needed",
+    "deprecated-after-proof"
+  ],
+  "contracts": [
+    {
+      "path": "repo342 baseline identity",
+      "classification": "historical-freeze",
+      "decision": "immutable source authority for R01-A"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "current-active",
+      "decision": "untouched by R01-A integration"
+    },
+    {
+      "path": ".devpilot/modeling/external_api_provider_pilot_policy.json",
+      "classification": "current-active",
+      "decision": "external providers remain disabled"
+    },
+    {
+      "path": ".devpilot/modeling/local_llm_provider_health_policy.json",
+      "classification": "current-active",
+      "decision": "local provider contracts preserved; disabled-by-default semantics unchanged"
+    },
+    {
+      "path": ".devpilot/agents/agent_capability_inventory.json",
+      "classification": "current-active",
+      "decision": "agent runtime contract preserved"
+    },
+    {
+      "path": ".devpilot/agents/tool_call_policy.json",
+      "classification": "current-active",
+      "decision": "typed/governed tool policy preserved"
+    },
+    {
+      "path": ".devpilot/agents/multiagent_handoff_policy.json",
+      "classification": "current-active",
+      "decision": "explicit handoff policy preserved"
+    },
+    {
+      "path": ".devpilot/mcp/mcp_fake_server_contract.json",
+      "classification": "current-active",
+      "decision": "fake/read-only MCP remains; real transport not enabled"
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "classification": "successor-needed",
+      "decision": "additive registration of new research authority only; no historical entry rewritten"
+    },
+    {
+      "path": "research/devpl_gsdlc/r01/a/",
+      "classification": "current-active",
+      "decision": "new R01-A versioned research authority"
+    }
+  ],
+  "deprecated_after_proof": [],
+  "s0_open": 0,
+  "s1_open": 0,
+  "runtime_source_changed": false,
+  "ui_changed": false,
+  "historical_facts_rewritten": false
+}

@@ -1,0 +1,405 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-A-SOURCE-REGISTER",
+  "micro_sprint": "DEVPL-GSDLC-R01-A",
+  "status": "implemented-controlled/pending-windows-validation",
+  "research_basis": "deep-research-report_DEVPL-GSDLC-R01-A-PROMP.md",
+  "source_baseline": {
+    "repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+    "commit": "90d4f4b76168aab1f2e74c86213cf7d4e4831186",
+    "sha256": "265c237d24c50cc11751f0035cd9f0217c36e6abf762e4285e568e284c390a49"
+  },
+  "retrieved_at": "2026-08-14",
+  "target_region_primary": "CO",
+  "source_policy": {
+    "hierarchy": [
+      "official provider/runtime documentation",
+      "official repositories/model cards",
+      "reproducible DevPilot measurements",
+      "independent sources for discovery/cross-validation only"
+    ],
+    "independent_overrides_contractual_fact": false,
+    "unknown_policy": "Preserve unknown/unresolved; never infer contractual or regional facts."
+  },
+  "sources": [
+    {
+      "source_id": "SRC-OPENAI-GPT54",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://openai.com/es-ES/index/introducing-gpt-5-4/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-OPENAI-GPT54-MINI-NANO",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-OPENAI-GPT-OSS",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "license",
+        "local-availability",
+        "capabilities"
+      ],
+      "url": "https://openai.com/pt-PT/index/introducing-gpt-oss/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license"
+    },
+    {
+      "source_id": "SRC-OPENAI-ENTERPRISE-PRIVACY",
+      "provider_id": "openai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "privacy",
+        "training",
+        "retention"
+      ],
+      "url": "https://openai.com/enterprise-privacy/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual"
+    },
+    {
+      "source_id": "SRC-ANTHROPIC-MODELS",
+      "provider_id": "anthropic",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-catalog",
+        "capabilities",
+        "deprecations"
+      ],
+      "url": "https://platform.claude.com/docs/es/about-claude/models/overview",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-ANTHROPIC-DATA-LOCATION",
+      "provider_id": "anthropic",
+      "source_class": "official-primary",
+      "claim_types": [
+        "privacy",
+        "processing-region"
+      ],
+      "url": "https://privacy.claude.com/es/articles/7996890-donde-estan-ubicados-sus-servidores-aloja-sus-modelos-en-servidores-de-la-ue",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual"
+    },
+    {
+      "source_id": "SRC-GOOGLE-GEMINI-LATEST",
+      "provider_id": "google",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-catalog",
+        "capabilities"
+      ],
+      "url": "https://ai.google.dev/gemini-api/docs/latest-model",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-GOOGLE-GEMMA3",
+      "provider_id": "google",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "local-availability",
+        "capabilities"
+      ],
+      "url": "https://ai.google.dev/gemma/docs/core/model_card_3",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license"
+    },
+    {
+      "source_id": "SRC-GOOGLE-GEMINI-TERMS",
+      "provider_id": "google",
+      "source_class": "official-primary",
+      "claim_types": [
+        "terms",
+        "privacy",
+        "billing-class"
+      ],
+      "url": "https://ai.google.dev/gemini-api/terms-archive/terms_02_05_25",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual"
+    },
+    {
+      "source_id": "SRC-XAI-GROK420",
+      "provider_id": "xai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "capabilities",
+        "hosting-region"
+      ],
+      "url": "https://docs.x.ai/developers/models/grok-4.20",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-MISTRAL-SMALL4",
+      "provider_id": "mistral",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "capabilities",
+        "access"
+      ],
+      "url": "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-ALIBABA-MODEL-STUDIO",
+      "provider_id": "alibaba",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-catalog",
+        "deployment-region",
+        "access"
+      ],
+      "url": "https://www.alibabacloud.com/help/en/model-studio/vision-model",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route"
+    },
+    {
+      "source_id": "SRC-ALIBABA-MODEL-STUDIO-PRIVACY",
+      "provider_id": "alibaba",
+      "source_class": "official-primary",
+      "claim_types": [
+        "privacy",
+        "training",
+        "processing"
+      ],
+      "url": "https://www.alibabacloud.com/help/en/model-studio/privacy-notice",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual"
+    },
+    {
+      "source_id": "SRC-MOONSHOT-KIMI-K3",
+      "provider_id": "moonshot",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "capabilities",
+        "local-availability"
+      ],
+      "url": "https://github.com/MoonshotAI/Kimi-K3",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license"
+    },
+    {
+      "source_id": "SRC-ZAI-GLM-RELEASES",
+      "provider_id": "zai",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://docs.bigmodel.cn/cn/update/new-releases",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-MINIMAX-M3",
+      "provider_id": "minimax",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "capabilities"
+      ],
+      "url": "https://www.minimax.io/blog/minimax-m3",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-IBM-GRANITE",
+      "provider_id": "ibm",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-family",
+        "license",
+        "capabilities",
+        "local-availability"
+      ],
+      "url": "https://www.ibm.com/es-es/granite",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license"
+    },
+    {
+      "source_id": "SRC-COHERE-CHANGELOG",
+      "provider_id": "cohere",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-release",
+        "retrieval",
+        "embeddings"
+      ],
+      "url": "https://docs.cohere.com/v2/changelog",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F0-volatile"
+    },
+    {
+      "source_id": "SRC-META-LLAMA",
+      "provider_id": "meta",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "local-availability"
+      ],
+      "url": "https://github.com/meta-llama/llama-models",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license"
+    },
+    {
+      "source_id": "SRC-MICROSOFT-PHI4",
+      "provider_id": "microsoft",
+      "source_class": "official-primary",
+      "claim_types": [
+        "model-card",
+        "license",
+        "local-availability"
+      ],
+      "url": "https://huggingface.co/microsoft/phi-4",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F3-license"
+    },
+    {
+      "source_id": "SRC-OLLAMA-OPENAI-COMPAT",
+      "provider_id": "ollama",
+      "source_class": "official-primary",
+      "claim_types": [
+        "runtime",
+        "openai-compatible",
+        "tools",
+        "embeddings"
+      ],
+      "url": "https://docs.ollama.com/api/openai-compatibility",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route"
+    },
+    {
+      "source_id": "SRC-LMSTUDIO-APP",
+      "provider_id": "lmstudio",
+      "source_class": "official-primary",
+      "claim_types": [
+        "runtime",
+        "local-serving",
+        "offline"
+      ],
+      "url": "https://lmstudio.ai/docs/app",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route"
+    },
+    {
+      "source_id": "SRC-VLLM-OPENAI-COMPAT",
+      "provider_id": "vllm",
+      "source_class": "official-primary",
+      "claim_types": [
+        "runtime",
+        "openai-compatible",
+        "serving"
+      ],
+      "url": "https://docs.vllm.ai/en/latest/serving/online_serving/openai_compatible_server/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F1-route"
+    },
+    {
+      "source_id": "SRC-OPENROUTER-PRIVACY",
+      "provider_id": "openrouter",
+      "source_class": "official-primary",
+      "claim_types": [
+        "broker",
+        "privacy"
+      ],
+      "url": "https://openrouter.ai/privacy/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual"
+    },
+    {
+      "source_id": "SRC-OPENROUTER-PROVIDER-LOGGING",
+      "provider_id": "openrouter",
+      "source_class": "official-primary",
+      "claim_types": [
+        "broker",
+        "provider-logging",
+        "privacy"
+      ],
+      "url": "https://openrouter.ai/docs/guides/privacy/provider-logging/",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual"
+    },
+    {
+      "source_id": "SRC-OPENROUTER-ZDR",
+      "provider_id": "openrouter",
+      "source_class": "official-primary",
+      "claim_types": [
+        "broker",
+        "zero-data-retention"
+      ],
+      "url": "https://openrouter.ai/docs/guides/features/zdr",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F2-contractual"
+    },
+    {
+      "source_id": "SRC-EU-AI-ACT",
+      "provider_id": null,
+      "source_class": "regulatory-primary",
+      "claim_types": [
+        "regulation"
+      ],
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "retrieved_at": "2026-08-14",
+      "target_region": "CO",
+      "freshness_class": "F4-stable"
+    }
+  ],
+  "human_verification": {
+    "required_for_closure": false,
+    "supplemental_only": true,
+    "screenshots_must_not_expose_secrets": true,
+    "verified_sources": []
+  }
+}

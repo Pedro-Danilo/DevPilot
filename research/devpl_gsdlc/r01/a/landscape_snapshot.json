@@ -1,0 +1,885 @@
+{
+  "schema_version": "1.0",
+  "snapshot_id": "DEVPL-GSDLC-R01-A-20260814",
+  "status": "implemented-controlled/pending-windows-validation",
+  "research_basis": "deep-research-report_DEVPL-GSDLC-R01-A-PROMP.md",
+  "source_baseline": {
+    "repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+    "commit": "90d4f4b76168aab1f2e74c86213cf7d4e4831186",
+    "sha256": "265c237d24c50cc11751f0035cd9f0217c36e6abf762e4285e568e284c390a49"
+  },
+  "retrieved_at": "2026-08-14",
+  "target_region_primary": "CO",
+  "research_mode": "deep-research",
+  "production_provider_calls": false,
+  "credentials_used": false,
+  "devpilot_runtime_mutations": false,
+  "product_invariants": {
+    "vendor_neutral": true,
+    "origin_neutral": true,
+    "local_mock_default": true,
+    "consumer_session_piggyback_prohibited": true,
+    "external_runtime_enabled": false,
+    "separation": "model != provider != access route != model gateway adapter != agent runtime != skill/tool/protocol"
+  },
+  "required_model_classes": [
+    "reasoning/general",
+    "coding",
+    "multimodal/vision",
+    "embeddings",
+    "reranking/retrieval",
+    "tool/function-capable"
+  ],
+  "required_route_classes": [
+    "local-native",
+    "local-openai-compatible",
+    "remote-openai-compatible",
+    "vendor-api",
+    "broker-aggregator",
+    "cloud-catalog",
+    "official-programmatic-subscription-client"
+  ],
+  "models": [
+    {
+      "catalog_id": "openai-gpt-5-4",
+      "model_id": "gpt-5.4",
+      "model_family": "GPT-5.4",
+      "provider_id": "openai",
+      "origin_country": "US",
+      "license_class": "proprietary-api",
+      "access_routes": [
+        "vendor-api"
+      ],
+      "context_tokens": 1000000,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": true,
+        "tool_calling": true,
+        "structured_output": true,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-OPENAI-GPT54",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "verified",
+      "target_region_availability": "unknown",
+      "priority": "P0",
+      "notes": [
+        "Consumer subscription is not treated as API access.",
+        "No DevPilot fitness claim until R01-D."
+      ]
+    },
+    {
+      "catalog_id": "openai-gpt-5-4-mini-nano",
+      "model_id": "gpt-5.4-mini/nano-family",
+      "model_family": "GPT-5.4 mini/nano",
+      "provider_id": "openai",
+      "origin_country": "US",
+      "license_class": "proprietary-api",
+      "access_routes": [
+        "vendor-api"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": null,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-OPENAI-GPT54-MINI-NANO",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "conditional",
+      "target_region_availability": "unknown",
+      "priority": "P0",
+      "notes": [
+        "Exact SKU choice remains R01-B/R01-D work."
+      ]
+    },
+    {
+      "catalog_id": "openai-gpt-oss",
+      "model_id": "gpt-oss-120b/20b",
+      "model_family": "gpt-oss",
+      "provider_id": "openai",
+      "origin_country": "US",
+      "license_class": "Apache-2.0",
+      "access_routes": [
+        "local-native",
+        "local-openai-compatible"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": true,
+        "coding": null,
+        "vision": false,
+        "tool_calling": true,
+        "structured_output": true,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-OPENAI-GPT-OSS",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F3-license",
+      "evidence_status": "verified",
+      "target_region_availability": "confirmed",
+      "priority": "P0",
+      "notes": [
+        "Hardware fit must be measured in R01-C."
+      ]
+    },
+    {
+      "catalog_id": "anthropic-claude-current",
+      "model_id": "claude-family-current-unresolved",
+      "model_family": "Claude 5 / Haiku family vigente",
+      "provider_id": "anthropic",
+      "origin_country": "US",
+      "license_class": "proprietary-api",
+      "access_routes": [
+        "vendor-api",
+        "cloud-catalog"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": true,
+        "tool_calling": true,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-ANTHROPIC-MODELS",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "conditional",
+      "target_region_availability": "unknown",
+      "priority": "P0",
+      "notes": [
+        "Exact model ID and route-specific region/terms remain R01-B."
+      ]
+    },
+    {
+      "catalog_id": "google-gemini-current",
+      "model_id": "gemini-3.7-flash",
+      "model_family": "Gemini",
+      "provider_id": "google",
+      "origin_country": "US",
+      "license_class": "proprietary-api",
+      "access_routes": [
+        "vendor-api",
+        "cloud-catalog"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": true,
+        "tool_calling": true,
+        "structured_output": true,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-GOOGLE-GEMINI-LATEST",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "verified",
+      "target_region_availability": "unknown",
+      "priority": "P0",
+      "notes": [
+        "Paid/non-paid terms must remain route-specific."
+      ]
+    },
+    {
+      "catalog_id": "google-gemma3",
+      "model_id": "gemma-3-family",
+      "model_family": "Gemma 3",
+      "provider_id": "google",
+      "origin_country": "US",
+      "license_class": "Gemma-Terms/open-weights",
+      "access_routes": [
+        "local-native",
+        "local-openai-compatible"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": null,
+        "coding": null,
+        "vision": true,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-GOOGLE-GEMMA3",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F3-license",
+      "evidence_status": "verified",
+      "target_region_availability": "confirmed",
+      "priority": "P1",
+      "notes": [
+        "Do not normalize custom Gemma terms into Apache/MIT."
+      ]
+    },
+    {
+      "catalog_id": "xai-grok420",
+      "model_id": "grok-4.20",
+      "model_family": "Grok",
+      "provider_id": "xai",
+      "origin_country": "US",
+      "license_class": "proprietary-api",
+      "access_routes": [
+        "vendor-api"
+      ],
+      "context_tokens": 1000000,
+      "capabilities": {
+        "reasoning": true,
+        "coding": null,
+        "vision": null,
+        "tool_calling": true,
+        "structured_output": true,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-XAI-GROK420",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "verified",
+      "target_region_availability": "unknown",
+      "priority": "P2",
+      "notes": [
+        "Contractual availability from CO remains unresolved."
+      ]
+    },
+    {
+      "catalog_id": "mistral-small4",
+      "model_id": "mistral-small-4-0-26-03",
+      "model_family": "Mistral Small 4",
+      "provider_id": "mistral",
+      "origin_country": "FR",
+      "license_class": "open-weights-license-exact-unresolved",
+      "access_routes": [
+        "vendor-api",
+        "local-native",
+        "local-openai-compatible"
+      ],
+      "context_tokens": 256000,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": null,
+        "tool_calling": true,
+        "structured_output": true,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-MISTRAL-SMALL4",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "conditional",
+      "target_region_availability": "conditional",
+      "priority": "P1",
+      "notes": [
+        "Exact weight license must be frozen from primary model card before use."
+      ]
+    },
+    {
+      "catalog_id": "deepseek-v4",
+      "model_id": "deepseek-v4-family-unresolved",
+      "model_family": "DeepSeek V4 family",
+      "provider_id": "deepseek",
+      "origin_country": "CN",
+      "license_class": "open-weights-license-exact-unresolved",
+      "access_routes": [
+        "vendor-api",
+        "remote-openai-compatible",
+        "local-native",
+        "local-openai-compatible"
+      ],
+      "context_tokens": 1000000,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": null,
+        "tool_calling": true,
+        "structured_output": true,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": null,
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "unknown",
+      "target_region_availability": "unknown",
+      "priority": "P1",
+      "notes": [
+        "Research report identified official DeepSeek documentation but did not preserve a concrete URL in its final source list; keep unresolved until refresh."
+      ]
+    },
+    {
+      "catalog_id": "qwen37",
+      "model_id": "qwen-3.7-family-unresolved",
+      "model_family": "Qwen 3.7 family",
+      "provider_id": "alibaba",
+      "origin_country": "CN",
+      "license_class": "model-specific-unresolved",
+      "access_routes": [
+        "cloud-catalog",
+        "vendor-api",
+        "local-native"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": true,
+        "tool_calling": true,
+        "structured_output": true,
+        "embeddings": null,
+        "reranking": null,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-ALIBABA-MODEL-STUDIO",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F1-route",
+      "evidence_status": "conditional",
+      "target_region_availability": "unknown",
+      "priority": "P1",
+      "notes": [
+        "Model, Model Studio service and deployment region are separate identities."
+      ]
+    },
+    {
+      "catalog_id": "kimi-k3",
+      "model_id": "kimi-k3",
+      "model_family": "Kimi K3",
+      "provider_id": "moonshot",
+      "origin_country": "CN",
+      "license_class": "Kimi-K3-License",
+      "access_routes": [
+        "vendor-api",
+        "local-native"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": true,
+        "coding": true,
+        "vision": true,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-MOONSHOT-KIMI-K3",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F3-license",
+      "evidence_status": "verified",
+      "target_region_availability": "conditional",
+      "priority": "P2",
+      "notes": [
+        "Custom license and hardware footprint require later review."
+      ]
+    },
+    {
+      "catalog_id": "glm52",
+      "model_id": "glm-5.2",
+      "model_family": "GLM",
+      "provider_id": "zai",
+      "origin_country": "CN",
+      "license_class": "open-model-license-exact-unresolved",
+      "access_routes": [
+        "vendor-api",
+        "local-native"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": null,
+        "coding": true,
+        "vision": null,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-ZAI-GLM-RELEASES",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "conditional",
+      "target_region_availability": "unknown",
+      "priority": "P2",
+      "notes": [
+        "Separate GLM model from ZCode/agent runtime."
+      ]
+    },
+    {
+      "catalog_id": "minimax-m3",
+      "model_id": "minimax-m3",
+      "model_family": "MiniMax M3",
+      "provider_id": "minimax",
+      "origin_country": "CN",
+      "license_class": "api-terms/weights-unresolved",
+      "access_routes": [
+        "vendor-api"
+      ],
+      "context_tokens": 1000000,
+      "capabilities": {
+        "reasoning": null,
+        "coding": true,
+        "vision": true,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-MINIMAX-M3",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "conditional",
+      "target_region_availability": "unknown",
+      "priority": "P2",
+      "notes": [
+        "Jurisdiction/API region unresolved in A."
+      ]
+    },
+    {
+      "catalog_id": "ibm-granite41",
+      "model_id": "granite-4.1-family",
+      "model_family": "Granite 4.1 family",
+      "provider_id": "ibm",
+      "origin_country": "US",
+      "license_class": "Apache-2.0",
+      "access_routes": [
+        "local-native",
+        "local-openai-compatible",
+        "cloud-catalog"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": null,
+        "coding": null,
+        "vision": true,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": true,
+        "reranking": null,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-IBM-GRANITE",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F3-license",
+      "evidence_status": "verified",
+      "target_region_availability": "confirmed",
+      "priority": "P1",
+      "notes": [
+        "Candidate for local generation/embedding paths; fitness requires R01-C/D."
+      ]
+    },
+    {
+      "catalog_id": "cohere-command-embed",
+      "model_id": "command-a-plus/embed-family",
+      "model_family": "Command / Embed",
+      "provider_id": "cohere",
+      "origin_country": "CA",
+      "license_class": "route-and-model-specific",
+      "access_routes": [
+        "vendor-api"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": null,
+        "coding": null,
+        "vision": null,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": true,
+        "reranking": true,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-COHERE-CHANGELOG",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F0-volatile",
+      "evidence_status": "conditional",
+      "target_region_availability": "unknown",
+      "priority": "P1",
+      "notes": [
+        "Exact reranking SKU remains unresolved; do not extrapolate one model license to all APIs."
+      ]
+    },
+    {
+      "catalog_id": "meta-llama4",
+      "model_id": "llama-4-scout/maverick",
+      "model_family": "Llama 4",
+      "provider_id": "meta",
+      "origin_country": "US",
+      "license_class": "Llama-4-Community-License",
+      "access_routes": [
+        "local-native",
+        "local-openai-compatible",
+        "cloud-catalog"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": null,
+        "coding": true,
+        "vision": true,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-META-LLAMA",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F3-license",
+      "evidence_status": "verified",
+      "target_region_availability": "confirmed",
+      "priority": "P1",
+      "notes": [
+        "Custom community license; hardware fit remains R01-C."
+      ]
+    },
+    {
+      "catalog_id": "microsoft-phi4",
+      "model_id": "phi-4-family",
+      "model_family": "Phi-4",
+      "provider_id": "microsoft",
+      "origin_country": "US",
+      "license_class": "MIT",
+      "access_routes": [
+        "local-native",
+        "local-openai-compatible"
+      ],
+      "context_tokens": null,
+      "capabilities": {
+        "reasoning": true,
+        "coding": null,
+        "vision": null,
+        "tool_calling": null,
+        "structured_output": null,
+        "embeddings": false,
+        "reranking": false,
+        "streaming": null,
+        "batching": null
+      },
+      "official_source": "SRC-MICROSOFT-PHI4",
+      "retrieved_at": "2026-08-14",
+      "freshness_class": "F3-license",
+      "evidence_status": "verified",
+      "target_region_availability": "confirmed",
+      "priority": "P1",
+      "notes": [
+        "Compact local candidate for resource-constrained tests."
+      ]
+    }
+  ],
+  "access_routes": [
+    {
+      "route_class": "local-native",
+      "examples": [
+        "Ollama",
+        "LM Studio",
+        "vLLM/native model serving"
+      ],
+      "auth": "local/none-or-runtime-local",
+      "cost_model": "hardware/local electricity; model license specific",
+      "region": "local host",
+      "capabilities": "runtime/model specific",
+      "official_support": "documented",
+      "enablement": "disabled-by-default until R01-C/explicit backlog"
+    },
+    {
+      "route_class": "local-openai-compatible",
+      "examples": [
+        "Ollama OpenAI compatibility",
+        "LM Studio local compatible server",
+        "vLLM OpenAI-compatible server"
+      ],
+      "auth": "localhost/runtime-specific",
+      "cost_model": "local hardware",
+      "region": "local host",
+      "capabilities": "compatibility surface is not semantic equivalence",
+      "official_support": "documented",
+      "enablement": "localhost_only; disabled-by-default"
+    },
+    {
+      "route_class": "remote-openai-compatible",
+      "examples": [
+        "vendor compatibility endpoints"
+      ],
+      "auth": "route-specific",
+      "cost_model": "provider-specific",
+      "region": "provider-specific",
+      "capabilities": "syntax-compatible only; semantics must be benchmarked",
+      "official_support": "candidate-specific",
+      "enablement": "blocked pending R01-B + enablement ADR"
+    },
+    {
+      "route_class": "vendor-api",
+      "examples": [
+        "OpenAI",
+        "Anthropic",
+        "Google Gemini",
+        "Mistral",
+        "xAI",
+        "Cohere"
+      ],
+      "auth": "provider-specific",
+      "cost_model": "provider-specific",
+      "region": "provider-specific",
+      "capabilities": "model/provider specific",
+      "official_support": "documented per provider",
+      "enablement": "blocked pending R01-B + enablement ADR"
+    },
+    {
+      "route_class": "broker-aggregator",
+      "examples": [
+        "OpenRouter"
+      ],
+      "auth": "broker-specific",
+      "cost_model": "broker/provider specific",
+      "region": "broker + downstream provider",
+      "capabilities": "downstream provider dependent",
+      "official_support": "documented",
+      "enablement": "research-only; not a privacy shortcut"
+    },
+    {
+      "route_class": "cloud-catalog",
+      "examples": [
+        "Alibaba Model Studio and other provider/cloud catalogs identified by research"
+      ],
+      "auth": "cloud IAM/service-specific",
+      "cost_model": "deployment specific",
+      "region": "deployment specific",
+      "capabilities": "model/deployment specific",
+      "official_support": "documented per catalog",
+      "enablement": "blocked pending R01-B"
+    },
+    {
+      "route_class": "official-programmatic-subscription-client",
+      "examples": [
+        "official provider SDK/client only when programmatic support is explicit"
+      ],
+      "auth": "provider-specific",
+      "cost_model": "must be distinguished from consumer seat/subscription",
+      "region": "provider-specific",
+      "capabilities": "client-specific",
+      "official_support": "conditional; concrete route requires official evidence",
+      "enablement": "no consumer-session piggyback"
+    }
+  ],
+  "agentic_surfaces": [
+    {
+      "surface_id": "openai-agent-runtime-family",
+      "provider_id": "openai",
+      "surface_type": "agent_runtime",
+      "separate_from_model_gateway": true,
+      "official_support": true,
+      "network_required": null,
+      "tool_execution": true,
+      "human_approval_support": null,
+      "source": null,
+      "retrieved_at": "2026-08-14",
+      "evidence_status": "conditional",
+      "notes": [
+        "Research report cites OpenAI Agents SDK with tools, handoffs, guardrails, sessions, tracing and MCP; concrete source URL should be refreshed before R01-E."
+      ]
+    },
+    {
+      "surface_id": "anthropic-mcp-connector-family",
+      "provider_id": "anthropic",
+      "surface_type": "mcp",
+      "separate_from_model_gateway": true,
+      "official_support": true,
+      "network_required": true,
+      "tool_execution": null,
+      "human_approval_support": null,
+      "source": null,
+      "retrieved_at": "2026-08-14",
+      "evidence_status": "conditional",
+      "notes": [
+        "Research report identifies a documented MCP connector; concrete source URL is not preserved in final source list."
+      ]
+    },
+    {
+      "surface_id": "mistral-agents-conversations-family",
+      "provider_id": "mistral",
+      "surface_type": "orchestration_sdk",
+      "separate_from_model_gateway": true,
+      "official_support": true,
+      "network_required": true,
+      "tool_execution": null,
+      "human_approval_support": null,
+      "source": "SRC-MISTRAL-SMALL4",
+      "retrieved_at": "2026-08-14",
+      "evidence_status": "conditional",
+      "notes": [
+        "Keep agent/conversation surfaces separate from model routing."
+      ]
+    },
+    {
+      "surface_id": "devpilot-governed-agent-runtime-baseline",
+      "provider_id": "devpilot-local",
+      "surface_type": "agent_runtime",
+      "separate_from_model_gateway": true,
+      "official_support": true,
+      "network_required": false,
+      "tool_execution": true,
+      "human_approval_support": true,
+      "source": "repo342-baseline-contracts",
+      "retrieved_at": "2026-08-14",
+      "evidence_status": "verified",
+      "notes": [
+        "Existing DevPilot agent capability, tool policy and handoff contracts do not imply external API enablement."
+      ]
+    },
+    {
+      "surface_id": "devpilot-mcp-fake-readonly",
+      "provider_id": "devpilot-local",
+      "surface_type": "mcp",
+      "separate_from_model_gateway": true,
+      "official_support": true,
+      "network_required": false,
+      "tool_execution": false,
+      "human_approval_support": true,
+      "source": "repo342-baseline-contracts",
+      "retrieved_at": "2026-08-14",
+      "evidence_status": "verified",
+      "notes": [
+        "Real MCP network transport remains disabled in R01-A."
+      ]
+    }
+  ],
+  "unknown_unresolved": [
+    {
+      "id": "UNK-001",
+      "topic": "contractual availability from Colombia for each external API",
+      "reason": "Research report explicitly leaves route-specific CO availability unresolved.",
+      "owner": "R01-B",
+      "resolution_phase": "DEVPL-GSDLC-R01-B",
+      "blocking_for_allowed": true
+    },
+    {
+      "id": "UNK-002",
+      "topic": "actual processing region per provider/product/plan",
+      "reason": "Route-specific contractual/processing evidence incomplete in A.",
+      "owner": "R01-B",
+      "resolution_phase": "DEVPL-GSDLC-R01-B",
+      "blocking_for_allowed": true
+    },
+    {
+      "id": "UNK-003",
+      "topic": "exact licenses for selected recent open-weight candidates",
+      "reason": "Some analyzed pages confirm open weights without an unambiguous license.",
+      "owner": "R01-B",
+      "resolution_phase": "DEVPL-GSDLC-R01-B",
+      "blocking_for_allowed": true
+    },
+    {
+      "id": "UNK-004",
+      "topic": "current reranking SKU to adopt",
+      "reason": "Research snapshot does not establish a single exact current SKU.",
+      "owner": "R01-B",
+      "resolution_phase": "DEVPL-GSDLC-R01-B",
+      "blocking_for_allowed": true
+    },
+    {
+      "id": "UNK-005",
+      "topic": "semantic equivalence across OpenAI-compatible implementations",
+      "reason": "Protocol compatibility does not prove model/tool behavior equivalence.",
+      "owner": "R01-C",
+      "resolution_phase": "DEVPL-GSDLC-R01-C",
+      "blocking_for_allowed": false
+    },
+    {
+      "id": "UNK-006",
+      "topic": "tool calling/structured output behavior of open weights under each runtime",
+      "reason": "Requires executable local measurements.",
+      "owner": "R01-C",
+      "resolution_phase": "DEVPL-GSDLC-R01-C",
+      "blocking_for_allowed": false
+    },
+    {
+      "id": "UNK-007",
+      "topic": "benchmark costs",
+      "reason": "Must be frozen immediately before controlled R01-D tests.",
+      "owner": "R01-D",
+      "resolution_phase": "DEVPL-GSDLC-R01-D",
+      "blocking_for_allowed": false
+    },
+    {
+      "id": "UNK-008",
+      "topic": "effective broker privacy",
+      "reason": "Depends on selected downstream provider/endpoint and its policy.",
+      "owner": "R01-B",
+      "resolution_phase": "DEVPL-GSDLC-R01-B",
+      "blocking_for_allowed": true
+    },
+    {
+      "id": "UNK-009",
+      "topic": "fitness of any model for DevPilot",
+      "reason": "Only reproducible R01-C/R01-D workloads can establish fitness.",
+      "owner": "R01-D",
+      "resolution_phase": "DEVPL-GSDLC-R01-D",
+      "blocking_for_allowed": false
+    }
+  ],
+  "priority_policy": {
+    "meaning": "Priority indicates candidate worth DevPilot evaluation, never production approval.",
+    "P0": [
+      "Ollama",
+      "LM Studio",
+      "gpt-oss",
+      "GPT-5.4",
+      "Claude",
+      "Gemini"
+    ],
+    "P1": [
+      "Mistral",
+      "Qwen",
+      "DeepSeek",
+      "Granite",
+      "Phi",
+      "Gemma"
+    ],
+    "P2": [
+      "Kimi",
+      "GLM",
+      "MiniMax",
+      "xAI",
+      "OpenRouter"
+    ]
+  },
+  "decision": "NO_UNIVERSAL_WINNER; route/model fitness deferred to DevPilot measurements."
+}

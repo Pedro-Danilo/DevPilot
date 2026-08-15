@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "DEVPL-GSDLC-R01-A-CURRENT",
+  "program_id": "DEVPL-GSDLC",
+  "backlog_id": "DEVPL-GSDLC-R01",
+  "micro_sprint": "DEVPL-GSDLC-R01-A",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "decision": "PASS-CANDIDATE",
+  "owner_adjudication": "PENDING",
+  "source_baseline": {
+    "repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+    "commit": "90d4f4b76168aab1f2e74c86213cf7d4e4831186",
+    "sha256": "265c237d24c50cc11751f0035cd9f0217c36e6abf762e4285e568e284c390a49"
+  },
+  "research_basis": "deep-research-report_DEVPL-GSDLC-R01-A-PROMP.md",
+  "target_region": "CO",
+  "retrieved_at": "2026-08-14",
+  "coverage": {
+    "model_classes": 1.0,
+    "route_classes": 1.0,
+    "origin_neutral": true,
+    "model_provider_route_separated": true,
+    "agentic_gateway_separated": true,
+    "unknowns_explicit": true
+  },
+  "safety": {
+    "external_provider_enabled": false,
+    "real_credentials_used": false,
+    "devpilot_runtime_network_enabled": false,
+    "runtime_source_changed": false,
+    "ui_changed": false,
+    "project_state_changed": false,
+    "tcr_changed": false,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "integration": {
+    "repository_paths_materialized": false,
+    "source_registry_registered": false,
+    "windows_validators_passed": false,
+    "git_commit": null,
+    "canonical_promoted": false,
+    "successor_baseline": null,
+    "evidence_zip": null
+  },
+  "next": {
+    "r01_b_authorized": false,
+    "condition": "R01-A CLOSED/PASS after Windows/Git evidence"
+  }
+}
