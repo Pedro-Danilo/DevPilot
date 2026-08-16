@@ -1,0 +1,62 @@
+{
+  "schema_id": "devpilot.gsdlc.r01e.selective_regression_reconciliation.v1",
+  "micro_sprint": "DEVPL-GSDLC-R01-E",
+  "status": "PASS-COMPOSITE",
+  "validation_mode": "composite-full-regression-selective-retest",
+  "original_full_regression": {
+    "passed": 2263,
+    "failed": 6,
+    "errors": 0,
+    "skipped": 0,
+    "sha256": "266a34088455aa2f3420b9424caf6c5eb87b50a3bfb60cb13bfdb9bff68d9a6f",
+    "full_pytest_repeated": false
+  },
+  "inherited_drift_preexisting_on_repo347": true,
+  "residual_failed_nodes": [
+    "tests/test_devpl_gsdlc_00_e_baseline_closure.py::test_00_e_docs_and_registry_are_synchronized",
+    "tests/test_post_h_034_closure_regression_reconciliation.py::test_closure_release_candidate_evidence_is_current_and_passes",
+    "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py::test_01_b_state_closes_and_authorizes_01_c",
+    "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py::test_01_c_state_closes_and_authorizes_01_d",
+    "tests/test_post_h_eval_002_uoc_002_regression_recovery.py::test_current_baseline_and_candidate_are_not_conflated",
+    "tests/test_post_h_eval_002_uoc_005_contracts.py::test_uoc005_local_release_candidate_freshness_tracks_lifecycle_authoritative_repo"
+  ],
+  "selective_validation": {
+    "61_residual_6.log": {
+      "rc": 0,
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reused_pass_evidence": false
+    },
+    "61_modified_historical_files.log": {
+      "rc": 0,
+      "passed": 16,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reused_pass_evidence": false
+    },
+    "61_evidence_freshness.log": {
+      "rc": 0,
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reused_pass_evidence": false
+    }
+  },
+  "corrective_repo_paths": [
+    ".devpilot/release/local_release_candidate_criteria.json",
+    "tests/test_devpl_gsdlc_00_e_baseline_closure.py",
+    "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py",
+    "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
+  ],
+  "generated_audit_paths": [
+    "docs/audits/devpl_gsdlc_r01_e_selective_regression_reconciliation.md",
+    "docs/audits/devpl_gsdlc_r01_e_selective_regression_reconciliation.json"
+  ],
+  "final_staged_paths": 25,
+  "s0_open": 0,
+  "s1_open": 0
+}

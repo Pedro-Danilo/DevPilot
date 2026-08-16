@@ -1,0 +1,60 @@
+{
+  "schema_id": "devpilot.gsdlc.r01e.historical_contract_sweep.v1",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "classifications": [
+    {
+      "subject": "repo341 and POST-H-EVAL-002 pause facts",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo342 GSDLC-00 closure",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo343 R01-A evidence",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo344 R01-B evidence",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo346 R01-C evidence",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "repo347 R01-D evidence and current R01-E input",
+      "classification": "current-active"
+    },
+    {
+      "subject": "R01-A→D owner adjudications",
+      "classification": "current-active/external-authority"
+    },
+    {
+      "subject": "provider no-go/runtime policies",
+      "classification": "historical-freeze/read-only"
+    },
+    {
+      "subject": "Source Registry",
+      "classification": "successor-needed/additive-only"
+    },
+    {
+      "subject": "Project State GSDLC-00 fields",
+      "classification": "historical-freeze"
+    },
+    {
+      "subject": "Project State R01 successor metadata",
+      "classification": "successor-needed/additive-only"
+    },
+    {
+      "subject": "R01-E research artifacts",
+      "classification": "successor-needed"
+    }
+  ],
+  "historical_contracts_rewritten": false,
+  "runtime_policy_changed": false,
+  "tcr_changed": false,
+  "src_changed": false,
+  "ui_changed": false,
+  "unclassified": 0
+}

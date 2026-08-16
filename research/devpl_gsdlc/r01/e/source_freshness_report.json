@@ -1,0 +1,76 @@
+{
+  "schema_id": "devpilot.gsdlc.r01e.source_freshness_report.v1",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "as_of": "2026-08-15",
+  "target_region": "CO",
+  "policy": {
+    "F0": "same-day/high-volatility",
+    "F1": "<=30d ecosystem docs",
+    "F2": "<=90d slow-moving docs",
+    "historical": "immutable versioned evidence"
+  },
+  "checks": [
+    {
+      "source_id": "INT-R01-A",
+      "result": "PASS",
+      "freshness": "historical-evidence"
+    },
+    {
+      "source_id": "INT-R01-B",
+      "result": "PASS",
+      "freshness": "historical-evidence"
+    },
+    {
+      "source_id": "INT-R01-C",
+      "result": "PASS",
+      "freshness": "historical-evidence"
+    },
+    {
+      "source_id": "INT-R01-D",
+      "result": "PASS",
+      "freshness": "historical-evidence"
+    },
+    {
+      "source_id": "OFF-OPENAI-AGENTS",
+      "result": "PASS",
+      "freshness": "F1"
+    },
+    {
+      "source_id": "OFF-OPENAI-HITL",
+      "result": "PASS",
+      "freshness": "F1"
+    },
+    {
+      "source_id": "OFF-MS-AGENT-FRAMEWORK",
+      "result": "PASS",
+      "freshness": "F1"
+    },
+    {
+      "source_id": "OFF-MS-ORCHESTRATIONS",
+      "result": "PASS",
+      "freshness": "F1"
+    },
+    {
+      "source_id": "OFF-LANGGRAPH",
+      "result": "PASS",
+      "freshness": "F1"
+    },
+    {
+      "source_id": "OFF-MCP-SPEC",
+      "result": "PASS",
+      "freshness": "F1"
+    },
+    {
+      "source_id": "OFF-MCP-AUTH",
+      "result": "PASS",
+      "freshness": "F1"
+    },
+    {
+      "source_id": "OFF-ANTHROPIC-MCP-CONNECTOR",
+      "result": "PASS",
+      "freshness": "F1"
+    }
+  ],
+  "critical_stale_count": 0,
+  "external_enablement_caveat": "Provider auth/terms/privacy/pricing must be refreshed again immediately before any future GSDLC-06 enablement; R01-E does not authorize enablement."
+}

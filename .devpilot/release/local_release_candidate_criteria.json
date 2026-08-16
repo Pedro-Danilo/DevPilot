@@ -688,7 +688,7 @@
     }
   ],
   "expected_current_micro_sprint": "POST-H-EVAL-002-02-B",
-  "expected_current_repo": "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip",
+  "expected_current_repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_next_micro_sprint": "POST-H-EVAL-002-02-C",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
@@ -719,6 +719,6 @@
   "uoc_004_source_write_enabled": false,
   "uoc_004_status": "closed/PASS",
   "uoc_005_authorized": true,
-  "updated": "2026-08-14",
-  "updated_by": "DEVPL-GSDLC-00-E"
+  "updated": "2026-08-15",
+  "updated_by": "DEVPL-GSDLC-R01-E-SELECTIVE-REGRESSION-RECONCILIATION"
 }

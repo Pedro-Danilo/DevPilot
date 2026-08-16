@@ -1,0 +1,47 @@
+{
+  "schema_id": "devpilot.gsdlc.r01e.source_delta_manifest.v1",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_347_DEVPL_GSDLC_R01_D_MODEL_AGENTIC_BENCHMARK.zip",
+    "commit": "3027baffc9ffe7c96850783cb2adc61d531fd8e1",
+    "sha256": "b88a962952b3a80abbdcc6aa18ced89e608816589fb51583f68a497983079751"
+  },
+  "delta": {
+    "create": 17,
+    "modify": 2,
+    "delete": 0,
+    "total": 19,
+    "src_changes": 0,
+    "ui_changes": 0,
+    "tcr_changes": 0,
+    "provider_runtime_policy_changes": 0
+  },
+  "paths": [
+    "research/devpl_gsdlc/r01/e/model_gateway_v2_recommendation.md",
+    "research/devpl_gsdlc/r01/e/provider_route_decision_matrix.json",
+    "research/devpl_gsdlc/r01/e/agent_runtime_skill_boundary_recommendation.md",
+    "research/devpl_gsdlc/r01/e/provider_enablement_adr_inputs.md",
+    "research/devpl_gsdlc/r01/e/agentic_experiment_adr_inputs.md",
+    "research/devpl_gsdlc/r01/e/reevaluation_protocol.md",
+    "research/devpl_gsdlc/r01/e/research_closure_report.md",
+    "research/devpl_gsdlc/r01/e/DEVPL_GSDLC_R01_E_HISTORICAL_CONTRACT_SWEEP.json",
+    "research/devpl_gsdlc/r01/e/DEVPL_GSDLC_R01_E_CURRENT.json",
+    "research/devpl_gsdlc/r01/e/DEVPL_GSDLC_R01_BACKLOG_CLOSURE_REPORT.md",
+    "research/devpl_gsdlc/r01/e/DEVPL_GSDLC_R01_E_SOURCE_DELTA_MANIFEST.json",
+    "research/devpl_gsdlc/r01/e/DEVPL_GSDLC_R01_E_ARTIFACT_HASHES.sha256",
+    "research/devpl_gsdlc/r01/e/evidence_map.json",
+    "research/devpl_gsdlc/r01/e/source_register.json",
+    "research/devpl_gsdlc/r01/e/source_freshness_report.json",
+    "research/devpl_gsdlc/r01/e/DEVPL_GSDLC_R01_E_OPERATION_DECLARATION.json",
+    "research/devpl_gsdlc/r01/e/policy_simulation.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json"
+  ],
+  "hash_contract": {
+    "manifest_file": "research/devpl_gsdlc/r01/e/DEVPL_GSDLC_R01_E_ARTIFACT_HASHES.sha256",
+    "entries_expected": 16,
+    "canonical_domain": "staged Git blob bytes during Windows integration",
+    "candidate_preview_domain": "source-file bytes only; non-authoritative"
+  },
+  "rollback": "exact-path only; no git clean/reset --hard"
+}

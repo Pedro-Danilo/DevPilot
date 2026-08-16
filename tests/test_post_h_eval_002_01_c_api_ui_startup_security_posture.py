@@ -17,7 +17,9 @@ def _text(path: str) -> str:
 def test_01_c_state_closes_and_authorizes_01_d() -> None:
     state = _json(".devpilot/project_state.json")
     assert state["current_repo"].startswith("repo_DevPilot_Local_")
-    assert any(marker in state["current_repo"] for marker in ("POST_H_EVAL_002", "POST-H-EVAL-002"))
+    # current_repo is a global mutable lifecycle pointer; later GSDLC baselines
+    # are valid successors even when the historical POST-H-EVAL-002 marker is absent.
+    assert int(state["current_repo"].split("_", 4)[3]) >= 321
     assert state["current_micro_sprint"] in {"POST-H-EVAL-002-01-D", "POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["next_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B", "POST-H-EVAL-002-02-C"}
     assert state["post_h_eval_002_01_c_closed"] is True

@@ -1,0 +1,125 @@
+{
+  "schema_id": "devpilot.gsdlc.r01e.source_register.v1",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "micro_sprint": "DEVPL-GSDLC-R01-E",
+  "target_region": "CO",
+  "retrieved_at": "2026-08-15",
+  "sources": [
+    {
+      "source_id": "INT-R01-A",
+      "kind": "internal-versioned",
+      "path": "research/devpl_gsdlc/r01/a/",
+      "retrieved_at": "2026-08-15",
+      "freshness": "historical-evidence",
+      "authority": "repo347"
+    },
+    {
+      "source_id": "INT-R01-B",
+      "kind": "internal-versioned",
+      "path": "research/devpl_gsdlc/r01/b/",
+      "retrieved_at": "2026-08-15",
+      "freshness": "historical-evidence",
+      "authority": "repo347"
+    },
+    {
+      "source_id": "INT-R01-C",
+      "kind": "internal-versioned",
+      "path": "research/devpl_gsdlc/r01/c/",
+      "retrieved_at": "2026-08-15",
+      "freshness": "historical-evidence",
+      "authority": "repo347"
+    },
+    {
+      "source_id": "INT-R01-D",
+      "kind": "internal-versioned",
+      "path": "research/devpl_gsdlc/r01/d/",
+      "retrieved_at": "2026-08-15",
+      "freshness": "historical-evidence",
+      "authority": "repo347"
+    },
+    {
+      "source_id": "OFF-OPENAI-AGENTS",
+      "kind": "official-primary",
+      "url": "https://openai.github.io/openai-agents-python/",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "agent runtime candidate; tools/handoffs/tracing"
+    },
+    {
+      "source_id": "OFF-OPENAI-HITL",
+      "kind": "official-primary",
+      "url": "https://openai.github.io/openai-agents-python/human_in_the_loop/",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "approval-sensitive tool-call comparison"
+    },
+    {
+      "source_id": "OFF-MS-AGENT-FRAMEWORK",
+      "kind": "official-primary",
+      "url": "https://learn.microsoft.com/en-us/agent-framework/overview/",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "agent/workflow runtime candidate"
+    },
+    {
+      "source_id": "OFF-MS-ORCHESTRATIONS",
+      "kind": "official-primary",
+      "url": "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "explicit orchestration patterns"
+    },
+    {
+      "source_id": "OFF-LANGGRAPH",
+      "kind": "official-primary",
+      "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "orchestration runtime candidate; persistence/HITL"
+    },
+    {
+      "source_id": "OFF-MCP-SPEC",
+      "kind": "official-primary",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "skills/protocol boundary"
+    },
+    {
+      "source_id": "OFF-MCP-AUTH",
+      "kind": "official-primary",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "MCP auth belongs to protocol/transport boundary"
+    },
+    {
+      "source_id": "OFF-ANTHROPIC-MCP-CONNECTOR",
+      "kind": "official-primary",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/mcp-connector",
+      "retrieved_at": "2026-08-15",
+      "target_region": "CO",
+      "freshness_class": "F1",
+      "use": "hosted/provider-bound MCP surface; observe/conditional"
+    }
+  ],
+  "rules": {
+    "official_primary_for_changing_claims": true,
+    "independent_sources_discovery_only": true,
+    "no_missing_url_invention": true,
+    "enablement_requires_refresh": true
+  },
+  "summary": {
+    "sources_total": 12,
+    "official_primary_current": 8,
+    "internal_versioned": 4,
+    "critical_stale": 0
+  }
+}

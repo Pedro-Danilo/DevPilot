@@ -1,0 +1,425 @@
+{
+  "schema_id": "devpilot.gsdlc.r01e.provider_route_decision_matrix.v1",
+  "schema_version": "1.0",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "micro_sprint": "DEVPL-GSDLC-R01-E",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_347_DEVPL_GSDLC_R01_D_MODEL_AGENTIC_BENCHMARK.zip",
+    "commit": "3027baffc9ffe7c96850783cb2adc61d531fd8e1",
+    "sha256": "b88a962952b3a80abbdcc6aa18ced89e608816589fb51583f68a497983079751"
+  },
+  "decision_vocabulary": [
+    "default-safe",
+    "allowed",
+    "conditional",
+    "blocked",
+    "unknown",
+    "candidate-for-experiment",
+    "observe"
+  ],
+  "routing_principles": {
+    "mock_local_default": true,
+    "external_provider_runtime_enabled": false,
+    "browser_session_piggyback": false,
+    "origin_neutral": true,
+    "model_route_decision_can_grant_tool_execution": false,
+    "unsupported_evidence_never_promoted_to_allowed": true
+  },
+  "routes": [
+    {
+      "route_id": "mock",
+      "label": "Deterministic mock",
+      "provider": "DevPilot local",
+      "route_class": "mock-local",
+      "decision": "default-safe",
+      "authorized_now": "default design route",
+      "r01e_runtime_enablement": "available-local",
+      "reason": "Zero external dependency/cost and deterministic baseline."
+    },
+    {
+      "route_id": "ollama-localhost",
+      "label": "Ollama localhost",
+      "provider": "Ollama",
+      "route_class": "local-native/openai-compatible-local",
+      "auth": [
+        "anonymous/local"
+      ],
+      "billing": "hardware-local",
+      "decision": "allowed",
+      "authorized_now": "R01-C controlled local benchmark only",
+      "reason": "The attached research report explicitly allows this local route for R01-C only; model license, hardware fit, loopback and owner approval before download remain mandatory.",
+      "evidence": [
+        "SRC-OLLAMA-OPENAI-COMPAT",
+        "RPT-DECISION-TABLE",
+        "RPT-R01C-GATE"
+      ],
+      "data_gate": "local data path; exact model license and dataset classification still apply",
+      "r01e_runtime_enablement": "local-opt-in-only",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "lmstudio-localhost",
+      "label": "LM Studio localhost",
+      "provider": "LM Studio",
+      "route_class": "local-native/openai-compatible-local",
+      "auth": [
+        "anonymous/local",
+        "local token optional"
+      ],
+      "billing": "hardware-local",
+      "decision": "allowed",
+      "authorized_now": "R01-C controlled local benchmark only",
+      "reason": "The attached report explicitly allows LM Studio localhost for R01-C only, with no external network/API requirement and approval before model download.",
+      "evidence": [
+        "SRC-LMSTUDIO-APP",
+        "RPT-DECISION-TABLE",
+        "RPT-R01C-GATE"
+      ],
+      "data_gate": "local data path; exact model license and dataset classification still apply",
+      "r01e_runtime_enablement": "local-opt-in-only",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "openai-api-direct",
+      "label": "OpenAI API directa",
+      "provider": "OpenAI",
+      "route_class": "vendor-api",
+      "auth": [
+        "project/service-account API key"
+      ],
+      "billing": "API usage/prepaid",
+      "decision": "conditional",
+      "authorized_now": "none",
+      "reason": "Technical authentication does not establish contractual entitlement, data handling suitability or budget approval; external provider runtime remains disabled.",
+      "evidence": [
+        "SRC-OPENAI-ENTERPRISE-PRIVACY",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "fresh terms/privacy/region + data classification + secret injection + owner budget approval",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "anthropic-api-direct",
+      "label": "Anthropic API directa",
+      "provider": "Anthropic",
+      "route_class": "vendor-api",
+      "auth": [
+        "API key"
+      ],
+      "billing": "API usage/credits",
+      "decision": "conditional",
+      "authorized_now": "none",
+      "reason": "External API route remains conditional pending provider-specific fresh terms/privacy/region freeze and controlled credentials/budget.",
+      "evidence": [
+        "SRC-ANTHROPIC-MODELS",
+        "SRC-ANTHROPIC-DATA-LOCATION",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "fresh terms/privacy/region + data classification + approved secret handling",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "gemini-api-paid",
+      "label": "Gemini API paid",
+      "provider": "Google",
+      "route_class": "vendor-api",
+      "auth": [
+        "API key",
+        "OAuth"
+      ],
+      "billing": "Cloud Billing",
+      "decision": "conditional",
+      "authorized_now": "none",
+      "reason": "Attached research distinguishes paid services from unpaid services and states a different data-use regime; paid access still requires provider-specific contractual/privacy/region gates.",
+      "evidence": [
+        "SRC-GOOGLE-GEMINI-LATEST",
+        "SRC-GOOGLE-GEMINI-TERMS",
+        "RPT-WEB-turn19search1",
+        "RPT-WEB-turn19search2",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "DPA/terms/privacy/region freeze + data classification + logging controls",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "gemini-api-unpaid",
+      "label": "Gemini API unpaid",
+      "provider": "Google",
+      "route_class": "vendor-api-free-tier",
+      "auth": [
+        "API key"
+      ],
+      "billing": "free quota",
+      "decision": "blocked",
+      "authorized_now": "none",
+      "reason": "The attached report explicitly blocks unpaid Gemini for confidential code, PII and non-public DevPilot datasets due to the documented unpaid-service data-use regime.",
+      "evidence": [
+        "SRC-GOOGLE-GEMINI-TERMS",
+        "RPT-WEB-turn19search1",
+        "RPT-WEB-turn19search2",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "BLOCK for non-public/confidential/PII; no DevPilot external runtime enablement",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "azure-openai",
+      "label": "Azure OpenAI",
+      "provider": "Microsoft Azure",
+      "route_class": "cloud-catalog/vendor-service",
+      "auth": [
+        "Entra/managed identity preferred"
+      ],
+      "billing": "Azure usage",
+      "decision": "conditional",
+      "authorized_now": "none",
+      "reason": "Cloud route requires exact subscription/region/data-processing configuration and contractual review; report does not authorize runtime enablement.",
+      "evidence": [
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "exact Azure region, identity, DPA, retention/logging and dataset classification",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "aws-bedrock",
+      "label": "AWS Bedrock",
+      "provider": "AWS",
+      "route_class": "cloud-catalog",
+      "auth": [
+        "IAM",
+        "short-lived credentials preferred"
+      ],
+      "billing": "AWS usage",
+      "decision": "conditional",
+      "authorized_now": "none",
+      "reason": "Report identifies invocation logging, retention and cross-region behavior as configuration-sensitive; route must pin model, retention mode, source region and inference profile.",
+      "evidence": [
+        "RPT-WEB-turn19search5",
+        "RPT-WEB-turn19search10",
+        "RPT-WEB-turn19search6",
+        "RPT-WEB-turn19search14",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "provider+model+retention_mode+source_region+inference_profile must be frozen",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "mistral-api",
+      "label": "Mistral API",
+      "provider": "Mistral",
+      "route_class": "vendor-api",
+      "auth": [
+        "Workspace API key"
+      ],
+      "billing": "free/paid",
+      "decision": "unknown",
+      "authorized_now": "none",
+      "reason": "The attached report explicitly states that authentication is documented but evidence was insufficient to freeze all Colombia processing/residency/contract variables; unknown is retained rather than inferred.",
+      "evidence": [
+        "SRC-MISTRAL-SMALL4",
+        "RPT-WEB-turn19search3",
+        "RPT-WEB-turn19search13",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "BLOCK from allow until CO contractual/processing/residency evidence is frozen",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "openrouter",
+      "label": "OpenRouter",
+      "provider": "OpenRouter",
+      "route_class": "broker-aggregator",
+      "auth": [
+        "broker API key",
+        "BYOK where supported"
+      ],
+      "billing": "broker + downstream model",
+      "decision": "conditional",
+      "authorized_now": "none",
+      "reason": "Broker route is conditional and must pin the downstream provider; dynamic fallback to unevaluated providers is not allowed.",
+      "evidence": [
+        "SRC-OPENROUTER-PRIVACY",
+        "SRC-OPENROUTER-PROVIDER-LOGGING",
+        "SRC-OPENROUTER-ZDR",
+        "RPT-DECISION-TABLE",
+        "RPT-BROKER-PINNING"
+      ],
+      "data_gate": "downstream provider/route, logging, ZDR/retention and data policy must be frozen",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "remote-openai-compatible-generic",
+      "label": "Remote OpenAI-compatible genérico",
+      "provider": "unknown provider",
+      "route_class": "remote-openai-compatible",
+      "auth": [
+        "provider-specific"
+      ],
+      "billing": "provider-specific",
+      "decision": "unknown",
+      "authorized_now": "none",
+      "reason": "Protocol compatibility does not inherit OpenAI terms, privacy, region or behavior. Provider identity and contract/data path are unresolved.",
+      "evidence": [
+        "SRC-VLLM-OPENAI-COMPAT",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "provider identity + official terms/privacy/region required before any allow",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "consumer-web-session-piggyback",
+      "label": "Consumer web session piggyback",
+      "provider": "consumer web surface",
+      "route_class": "consumer-session-reuse",
+      "auth": [
+        "cookies/session token"
+      ],
+      "billing": "consumer subscription",
+      "decision": "blocked",
+      "authorized_now": "prohibited",
+      "reason": "Prompt and report explicitly prohibit browser/DOM/cookie piggyback and reuse of consumer sessions as provider integration.",
+      "evidence": [
+        "R01B-PROMPT",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "BLOCK; no exception in R01-B",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "consumer-subscription-as-api",
+      "label": "Consumer subscription como API",
+      "provider": "consumer web surface",
+      "route_class": "consumer-seat-as-programmatic",
+      "auth": [
+        "consumer login"
+      ],
+      "billing": "seat/subscription",
+      "decision": "blocked",
+      "authorized_now": "prohibited",
+      "reason": "Consumer subscription is not evidence of API/programmatic entitlement; the prompt explicitly forbids this equivalence.",
+      "evidence": [
+        "R01B-PROMPT",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "BLOCK unless an official supported programmatic mechanism is separately reviewed",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    },
+    {
+      "route_id": "long-tail-r01a-unfrozen",
+      "label": "Long-tail R01-A no congelado contractualmente",
+      "provider": "multiple",
+      "route_class": "multiple",
+      "auth": [
+        "provider-specific",
+        "unsupported/unknown"
+      ],
+      "billing": "provider-specific",
+      "decision": "unknown",
+      "authorized_now": "none",
+      "reason": "The report retains long-tail routes as unknown until provider-specific auth/terms/privacy/region evidence is frozen. Unknown is not a failure and does not authorize use.",
+      "evidence": [
+        "R01A-SOURCE-REGISTER",
+        "R01A-LANDSCAPE",
+        "RPT-DECISION-TABLE"
+      ],
+      "data_gate": "route-specific review required",
+      "r01e_runtime_enablement": "disabled",
+      "r01e_notes": "R01-E preserves R01-B decision; no external route is promoted."
+    }
+  ],
+  "agentic_capabilities": [
+    {
+      "capability_id": "autonomous-forbidden-tool-handling",
+      "decision": "blocked",
+      "production_allowed": false,
+      "reason": "R01-D showed both tested models selected filesystem.delete in DVP-AGENTIC-REFUSAL-001; deterministic DevPilot policy blocked execution."
+    },
+    {
+      "capability_id": "bounded-agentic-tool-proposal",
+      "decision": "conditional",
+      "guard": "deterministic-policy+approval",
+      "production_allowed": false,
+      "reason": "Model may propose ToolIntent; only ToolExecutionDecision can authorize execution."
+    },
+    {
+      "capability_id": "autonomous-recovery-after-tool-error",
+      "decision": "blocked",
+      "production_allowed": false,
+      "experiment_status": "candidate-for-experiment",
+      "reason": "R01-D recovery score was 40.0 for both models and does not prove reliable autonomous recovery."
+    },
+    {
+      "capability_id": "real-mcp",
+      "decision": "candidate-for-experiment",
+      "production_allowed": false,
+      "reason": "MCP belongs to Skills/Protocols boundary and needs separate auth/transport/tool-policy experiment."
+    },
+    {
+      "capability_id": "fake-in-process-mcp",
+      "decision": "default-safe",
+      "production_allowed": false,
+      "reason": "Preserve current contract/evaluation baseline without external side effects."
+    }
+  ],
+  "auth_adapter_recommendations": [
+    {
+      "adapter_id": "LocalLoopbackNoSecretAdapter",
+      "decision": "recommended",
+      "stores_secret": false,
+      "scope": "local-only"
+    },
+    {
+      "adapter_id": "EnvApiKeyAdapter",
+      "decision": "conditional",
+      "stores_secret": false,
+      "rule": "store env-var name only; inject secret at runtime after future provider enablement"
+    },
+    {
+      "adapter_id": "AzureEntraIdentityAdapter",
+      "decision": "conditional",
+      "stores_secret": false,
+      "scope": "future provider-specific enablement"
+    },
+    {
+      "adapter_id": "AwsIamRoleAdapter",
+      "decision": "conditional",
+      "stores_secret": false,
+      "scope": "future provider-specific enablement"
+    },
+    {
+      "adapter_id": "McpOAuthAdapter",
+      "decision": "future-protocol-layer",
+      "stores_secret": false,
+      "scope": "MCP Skills/Protocols boundary, not Model Gateway"
+    },
+    {
+      "adapter_id": "ConsumerSessionAdapter",
+      "decision": "blocked",
+      "stores_secret": true,
+      "reason": "consumer session/cookie piggyback prohibited"
+    }
+  ],
+  "summary": {
+    "inherited_routes_total": 14,
+    "inherited_decisions": {
+      "allowed": 2,
+      "conditional": 6,
+      "blocked": 3,
+      "unknown": 3
+    },
+    "external_routes_enabled": 0,
+    "s0_open": 0,
+    "s1_open": 0
+  }
+}

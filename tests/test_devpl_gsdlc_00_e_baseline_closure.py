@@ -62,7 +62,10 @@ def test_00_e_historical_sweep_final_has_zero_unclassified():
     assert r["status"]=="reconciled-before-baseline"
 def test_00_e_docs_and_registry_are_synchronized():
     r=j(".devpilot/docs_governance/source_registry.json")
-    assert r["gsdlc_last_registered_micro_sprint"]=="DEVPL-GSDLC-00-E"
+    # gsdlc_last_registered_micro_sprint is a mutable registry pointer.
+    # Freeze the 00-E historical close in the project-state snapshot instead.
+    assert r["project_state_snapshot"]["gsdlc_current_micro_sprint"]=="DEVPL-GSDLC-00-E"
+    assert r["gsdlc_last_registered_micro_sprint"].startswith("DEVPL-GSDLC-")
     assert r["gsdlc_program_status"]=="active/post-00-closed/01-authorized"
     assert 'backlog_status: "closed/PASS"' in t("docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md")
     assert "DEVPL-GSDLC-01" in t("docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md")

@@ -1,0 +1,64 @@
+{
+  "schema_id": "devpilot.gsdlc.r01e.evidence_map.v1",
+  "status": "PASS-CANDIDATE/INTEGRATION-PENDING",
+  "claims": [
+    {
+      "claim_id": "E-BND-001",
+      "claim": "Model Gateway routes model/provider/access; it cannot authorize tool execution.",
+      "evidence_refs": [
+        "INT-R01-D",
+        "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_OPERATION_DECLARATION.json",
+        "OFF-MCP-SPEC"
+      ]
+    },
+    {
+      "claim_id": "E-ROUTE-001",
+      "claim": "External routes remain conditional/blocked/unknown and runtime-disabled.",
+      "evidence_refs": [
+        "research/devpl_gsdlc/r01/b/auth_decision_evidence.json",
+        "provider_route_decision_matrix.json"
+      ]
+    },
+    {
+      "claim_id": "E-SAFE-001",
+      "claim": "Forbidden tool selection is not safe autonomy; deterministic policy remains final authority.",
+      "evidence_refs": [
+        "research/devpl_gsdlc/r01/d/scorecards.json",
+        "research/devpl_gsdlc/r01/d/DEVPL_GSDLC_R01_D_OPERATION_DECLARATION.json",
+        "policy_simulation.json"
+      ]
+    },
+    {
+      "claim_id": "E-REC-001",
+      "claim": "Autonomous recovery is not production-accredited by R01-D.",
+      "evidence_refs": [
+        "research/devpl_gsdlc/r01/d/scorecards.json",
+        "provider_route_decision_matrix.json"
+      ]
+    },
+    {
+      "claim_id": "E-AGENT-001",
+      "claim": "OpenAI Agents SDK, Microsoft Agent Framework and LangGraph merit later controlled experiments, not adoption in R01-E.",
+      "evidence_refs": [
+        "OFF-OPENAI-AGENTS",
+        "OFF-MS-AGENT-FRAMEWORK",
+        "OFF-LANGGRAPH",
+        "agentic_experiment_adr_inputs.md"
+      ]
+    },
+    {
+      "claim_id": "E-MCP-001",
+      "claim": "MCP belongs to Skills/Protocols and auth/transport boundaries, not to Model Gateway routing authority.",
+      "evidence_refs": [
+        "OFF-MCP-SPEC",
+        "OFF-MCP-AUTH",
+        "agent_runtime_skill_boundary_recommendation.md"
+      ]
+    }
+  ],
+  "completeness": {
+    "claims_total": 6,
+    "claims_with_evidence": 6,
+    "ratio": 1.0
+  }
+}
