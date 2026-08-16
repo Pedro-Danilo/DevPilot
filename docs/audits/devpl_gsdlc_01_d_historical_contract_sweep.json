@@ -1,0 +1,72 @@
+{
+  "schema_id": "devpilot.gsdlc01d.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-D",
+  "status": "PASS-CANDIDATE",
+  "source_repo": "repo_DevPilot_Local_351_DEVPL_GSDLC_01_C_PROJECT_STATUS_PROJECTION.zip",
+  "classifications": [
+    {
+      "path": "docs/audits/DEVPL_GSDLC_01_C_CURRENT.json",
+      "classification": "historical-freeze",
+      "reason": "01-C CURRENT remains its pre-owner PASS-CANDIDATE snapshot; final closure is successor adjudication."
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_01_C_CLOSURE_REPORT.md",
+      "classification": "historical-freeze",
+      "reason": "01-C candidate closure report is not rewritten after owner adjudication."
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "successor-needed",
+      "reason": "Preserve 01-C pre-owner fields and add final-owner plus 01-D successor fields; current_repo/GSDLC-00/R01 snapshots stay untouched."
+    },
+    {
+      "path": ".devpilot/gsdlc/architecture_target_contract.json",
+      "classification": "current-active",
+      "reason": "Add implemented reconciliation boundary while preserving earlier planned/historical contracts."
+    },
+    {
+      "path": "src/devpilot_core/guided_sdlc/project_progress.py",
+      "classification": "current-active",
+      "reason": "01-D consumes the single 01-C projection semantics; it does not duplicate status logic."
+    },
+    {
+      "path": "src/devpilot_core/guided_sdlc/repository.py",
+      "classification": "historical-freeze",
+      "reason": "01-D uses the existing A atomic repository contract without weakening concurrency or store boundaries."
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "classification": "current-active",
+      "reason": "Register reconciliation preview/execute in the canonical ApplicationService facade and capability catalog; no HTTP/UI route is introduced."
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "classification": "current-active",
+      "reason": "Register 01-C final adjudication and D reconciliation contract."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "classification": "current-active",
+      "reason": "Append D reconciliation contract; preserve A-C identities."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "classification": "current-active",
+      "reason": "Append D impact/security classification; preserve A-C contracts."
+    },
+    {
+      "path": "ui_operational_console_final_*",
+      "classification": "historical-freeze",
+      "reason": "01-D adds no UI route and does not modify nine UOC historical routes."
+    }
+  ],
+  "tests_rewritten_only_to_pass": false,
+  "historical_facts_rewritten": false,
+  "current_repo_rewritten": false,
+  "uoc_contracts_modified": false,
+  "http_api_routes_added": 0,
+  "ui_routes_added": 0,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+  "s0_open": 0,
+  "s1_open": 0
+}

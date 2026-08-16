@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc01d.operation_declaration.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-D",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "pilot_workspace_mutated": false,
+  "managed_workspace_source_mutation_by_reconciler": false,
+  "git_mutating_commands_by_reconciler": false,
+  "engineering_state_mutation_possible": true,
+  "engineering_state_mutation_boundary": "WorkspaceEngineeringStateRepository atomic save only",
+  "llm_authority_used": false,
+  "remote_execution_used": false,
+  "force_push_allowed": false,
+  "engineering_state_execute_requires_explicit_invocation": true,
+  "engineering_state_mutation_tcr_profile": "manual",
+  "engineering_state_mutation_requires_human_approval": true,
+  "source_mutations_allowed": false
+}

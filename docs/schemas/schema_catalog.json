@@ -3,10 +3,10 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "owner": "Ordóñez",
   "updated": "2026-08-16",
-  "sprint": "DEVPL-GSDLC-01-B",
+  "sprint": "DEVPL-GSDLC-01-D",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -2609,7 +2609,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-01-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-RECONCILIATION-REPORT-V1",
+      "title": "DevPilot Guided SDLC ReconciliationReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/guided_sdlc_reconciliation_report.schema.json",
+      "description": "DEVPL-GSDLC-01-D deterministic read-only filesystem/Git drift report with controlled engineering-state revalidation.",
+      "status": "registered",
+      "contract": "ReconciliationReport",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-01-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-01-D"
     }
   ],
-  "schemas_total": 180
+  "schemas_total": 181
 }

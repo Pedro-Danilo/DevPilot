@@ -615,6 +615,32 @@ class ApplicationService:
             expected_state_fingerprint=expected_state_fingerprint,
         )
 
+    def guided_sdlc_reconcile_preview(
+        self,
+        *,
+        workspace_id: str,
+        updated_at_utc: str,
+        observed_at_utc: str,
+    ) -> CommandResult:
+        return self.guided_sdlc.reconcile_preview(
+            workspace_id=workspace_id,
+            updated_at_utc=updated_at_utc,
+            observed_at_utc=observed_at_utc,
+        )
+
+    def guided_sdlc_reconcile_execute(
+        self,
+        *,
+        workspace_id: str,
+        updated_at_utc: str,
+        observed_at_utc: str,
+    ) -> CommandResult:
+        return self.guided_sdlc.reconcile_execute(
+            workspace_id=workspace_id,
+            updated_at_utc=updated_at_utc,
+            observed_at_utc=observed_at_utc,
+        )
+
     def workspace_status(self) -> CommandResult:
         return self.workspace.status()
 
@@ -1399,6 +1425,8 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "guided_sdlc.transition.preview": lambda payload: service.guided_sdlc_transition_preview(workspace_id=str(payload.get("workspace_id", "")), transition_id=str(payload.get("transition_id", "")), evidence=dict(payload.get("evidence") or {}), updated_at_utc=str(payload.get("updated_at_utc", ""))),
         "guided_sdlc.project.status": lambda payload: service.guided_sdlc_project_status(workspace_id=str(payload.get("workspace_id", "")), observed_at_utc=str(payload.get("observed_at_utc", "")), expected_state_fingerprint=(str(payload.get("expected_state_fingerprint")) if payload.get("expected_state_fingerprint") else None)),
         "guided_sdlc.next_action": lambda payload: service.guided_sdlc_next_action(workspace_id=str(payload.get("workspace_id", "")), observed_at_utc=str(payload.get("observed_at_utc", "")), expected_state_fingerprint=(str(payload.get("expected_state_fingerprint")) if payload.get("expected_state_fingerprint") else None)),
+        "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
+        "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
                 "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
         "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command"), query=payload.get("query"), scope=payload.get("scope")),
@@ -1477,6 +1505,8 @@ def _capabilities() -> list[ServiceCapability]:
         ("guided_sdlc.transition.preview", "Preview the exact successor WorkspaceEngineeringState for one allowed transition without persisting it.", "none", True, "ApplicationService read-only preview; no HTTP route in GSDLC-01-B"),
         ("guided_sdlc.project.status", "Derive deterministic ProjectStatus from authoritative WorkspaceEngineeringState without direct Git/filesystem reads.", "none", True, "ApplicationService read-only projection; HTTP route deferred to GSDLC-01-E"),
         ("guided_sdlc.next_action", "Derive deterministic explainable NextAction recommendation without executing or persisting it.", "none", True, "ApplicationService read-only recommendation; execution surfaces deferred"),
+        ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
+        ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),
         ("workspace.documents.read", "Read one allowlisted UTF-8 workspace document by opaque identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}"),
         ("workspace.documents.metadata", "Read deterministic metadata for one opaque workspace document identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}/metadata"),

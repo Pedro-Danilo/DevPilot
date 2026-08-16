@@ -16,6 +16,18 @@ from .project_progress import (
     ProjectProjection,
     ProjectStatus,
 )
+from .reconciler import (
+    RECONCILIATION_SCHEMA_ID,
+    DriftEntry,
+    GitObservation,
+    GitObservationError,
+    ReadOnlyGitObserver,
+    ReconciliationError,
+    ReconciliationLimits,
+    ReconciliationReport,
+    ReconciliationResult,
+    WorkspaceReconciler,
+)
 from .registry_binding import WorkspaceBinding, WorkspaceBindingError, WorkspaceRegistryBindingResolver
 from .repository import (
     WorkspaceEngineeringStateConflict,
@@ -36,6 +48,16 @@ from .workflow_engine import (
 )
 
 __all__ = [
+    "RECONCILIATION_SCHEMA_ID",
+    "DriftEntry",
+    "GitObservation",
+    "GitObservationError",
+    "ReadOnlyGitObserver",
+    "ReconciliationError",
+    "ReconciliationLimits",
+    "ReconciliationReport",
+    "ReconciliationResult",
+    "WorkspaceReconciler",
     "NEXT_ACTION_SCHEMA_ID",
     "PROJECT_STATUS_SCHEMA_ID",
     "NextAction",

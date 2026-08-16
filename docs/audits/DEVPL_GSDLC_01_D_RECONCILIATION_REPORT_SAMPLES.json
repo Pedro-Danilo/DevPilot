@@ -1,0 +1,219 @@
+{
+  "schema_id": "devpilot.gsdlc01d.reconciliation_report_samples.v1",
+  "generated_from": "real temporary Git workspaces",
+  "generated_at": "2026-08-16",
+  "network_used": false,
+  "external_api_used": false,
+  "managed_source_writes_by_reconciler": false,
+  "samples": [
+    {
+      "case": "clean",
+      "report": {
+        "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-RECONCILIATION-REPORT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "ws-1",
+        "project_id": "project-1",
+        "decision": "NO_DRIFT",
+        "drift_entries": [],
+        "prior_git": {
+          "head": "e3458767b8bc3a2404cb6e182fae7ed35f08ac6a",
+          "branch": "master",
+          "dirty": false,
+          "fingerprint": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "observed_git": {
+          "head": "e3458767b8bc3a2404cb6e182fae7ed35f08ac6a",
+          "branch": "master",
+          "dirty": false,
+          "status_lines": [],
+          "rename_pairs": []
+        },
+        "required_revalidation": false,
+        "source_refs": [
+          "requirements.md"
+        ],
+        "mutation_declaration": {
+          "filesystem_source_written": false,
+          "git_mutating_command_executed": false,
+          "engineering_state_save_allowed": true,
+          "engineering_state_saved": false
+        },
+        "network_used": false,
+        "external_api_used": false,
+        "source_mutations_performed": false
+      },
+      "successor_lifecycle": "IN_PROGRESS"
+    },
+    {
+      "case": "approved-external-edit",
+      "report": {
+        "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-RECONCILIATION-REPORT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "ws-1",
+        "project_id": "project-1",
+        "decision": "REVALIDATION_REQUIRED",
+        "drift_entries": [
+          {
+            "drift_id": "drift-77b2b86307a11311156c",
+            "kind": "APPROVED_ARTIFACT_DRIFT",
+            "severity": "BLOCK",
+            "reason_code": "APPROVED_ARTIFACT_HASH_CHANGED",
+            "source_ref": "requirements.md",
+            "artifact_id": "requirements",
+            "old_fingerprint": "ec6c636ca9f939074fe0bb1d8f52ded03e73b313b1139851e303b48a6522cae4",
+            "new_fingerprint": "c4ee6be032b0a90bab0319f637f07647f010d0bb1c9d954cf43e394d82de3ddb",
+            "required_revalidation": true,
+            "recommended_recovery": "Review the external edit and rerun the governed validation/approval path.",
+            "source_refs": [
+              "requirements.md"
+            ],
+            "metadata": {
+              "prior_lifecycle": "APPROVED"
+            }
+          },
+          {
+            "drift_id": "drift-9053df82dae9509d13c3",
+            "kind": "DIRTY_WORKSPACE",
+            "severity": "WARN",
+            "reason_code": "GIT_WORKTREE_DIRTY",
+            "source_ref": null,
+            "artifact_id": null,
+            "old_fingerprint": "clean",
+            "new_fingerprint": "dirty",
+            "required_revalidation": true,
+            "recommended_recovery": "Review working-tree changes; do not auto-reset or discard them.",
+            "source_refs": [],
+            "metadata": {
+              "status_entries": 1
+            }
+          }
+        ],
+        "prior_git": {
+          "head": "5177b9c14049076bb5be6851e7d9723ef6d0f955",
+          "branch": "master",
+          "dirty": false,
+          "fingerprint": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "observed_git": {
+          "head": "5177b9c14049076bb5be6851e7d9723ef6d0f955",
+          "branch": "master",
+          "dirty": true,
+          "status_lines": [
+            " M requirements.md"
+          ],
+          "rename_pairs": []
+        },
+        "required_revalidation": true,
+        "source_refs": [
+          "requirements.md"
+        ],
+        "mutation_declaration": {
+          "filesystem_source_written": false,
+          "git_mutating_command_executed": false,
+          "engineering_state_save_allowed": true,
+          "engineering_state_saved": false
+        },
+        "network_used": false,
+        "external_api_used": false,
+        "source_mutations_performed": false
+      },
+      "successor_lifecycle": "REVALIDATION_REQUIRED"
+    },
+    {
+      "case": "rename",
+      "report": {
+        "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-RECONCILIATION-REPORT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "ws-1",
+        "project_id": "project-1",
+        "decision": "REVALIDATION_REQUIRED",
+        "drift_entries": [
+          {
+            "drift_id": "drift-114b0fe2e4316e24f285",
+            "kind": "MISSING_ARTIFACT",
+            "severity": "BLOCK",
+            "reason_code": "GOVERNED_ARTIFACT_MISSING",
+            "source_ref": "requirements.md",
+            "artifact_id": "requirements",
+            "old_fingerprint": "ec6c636ca9f939074fe0bb1d8f52ded03e73b313b1139851e303b48a6522cae4",
+            "new_fingerprint": null,
+            "required_revalidation": true,
+            "recommended_recovery": "Restore or explicitly replace the governed artifact, then revalidate.",
+            "source_refs": [
+              "requirements.md"
+            ],
+            "metadata": {}
+          },
+          {
+            "drift_id": "drift-3a01084242e3f5981b90",
+            "kind": "RENAME",
+            "severity": "BLOCK",
+            "reason_code": "GOVERNED_ARTIFACT_RENAMED",
+            "source_ref": "requirements.md",
+            "artifact_id": "requirements",
+            "old_fingerprint": "ec6c636ca9f939074fe0bb1d8f52ded03e73b313b1139851e303b48a6522cae4",
+            "new_fingerprint": null,
+            "required_revalidation": true,
+            "recommended_recovery": "Review and explicitly rebind the governed artifact to the new path; history is preserved.",
+            "source_refs": [
+              "requirements.md"
+            ],
+            "metadata": {
+              "renamed_to": "requirements-renamed.md"
+            }
+          },
+          {
+            "drift_id": "drift-9053df82dae9509d13c3",
+            "kind": "DIRTY_WORKSPACE",
+            "severity": "WARN",
+            "reason_code": "GIT_WORKTREE_DIRTY",
+            "source_ref": null,
+            "artifact_id": null,
+            "old_fingerprint": "clean",
+            "new_fingerprint": "dirty",
+            "required_revalidation": true,
+            "recommended_recovery": "Review working-tree changes; do not auto-reset or discard them.",
+            "source_refs": [],
+            "metadata": {
+              "status_entries": 1
+            }
+          }
+        ],
+        "prior_git": {
+          "head": "9a628bb851fd983a8164303160a7c4eacbf81104",
+          "branch": "master",
+          "dirty": false,
+          "fingerprint": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "observed_git": {
+          "head": "9a628bb851fd983a8164303160a7c4eacbf81104",
+          "branch": "master",
+          "dirty": true,
+          "status_lines": [
+            "R  requirements.md -> requirements-renamed.md"
+          ],
+          "rename_pairs": [
+            {
+              "old": "requirements.md",
+              "new": "requirements-renamed.md"
+            }
+          ]
+        },
+        "required_revalidation": true,
+        "source_refs": [
+          "requirements.md"
+        ],
+        "mutation_declaration": {
+          "filesystem_source_written": false,
+          "git_mutating_command_executed": false,
+          "engineering_state_save_allowed": true,
+          "engineering_state_saved": false
+        },
+        "network_used": false,
+        "external_api_used": false,
+        "source_mutations_performed": false
+      },
+      "successor_lifecycle": "REVALIDATION_REQUIRED"
+    }
+  ]
+}

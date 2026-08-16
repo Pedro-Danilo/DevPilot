@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/guided_sdlc_reconciliation_report.schema.json",
+  "title": "DevPilot Guided SDLC Reconciliation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "workspace_id",
+    "project_id",
+    "decision",
+    "drift_entries",
+    "prior_git",
+    "observed_git",
+    "required_revalidation",
+    "source_refs",
+    "mutation_declaration",
+    "network_used",
+    "external_api_used",
+    "source_mutations_performed"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GUIDED-SDLC-RECONCILIATION-REPORT-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "decision": {
+      "enum": [
+        "NO_DRIFT",
+        "REVALIDATION_REQUIRED"
+      ]
+    },
+    "drift_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "drift_id",
+          "kind",
+          "severity",
+          "reason_code",
+          "source_ref",
+          "artifact_id",
+          "old_fingerprint",
+          "new_fingerprint",
+          "required_revalidation",
+          "recommended_recovery",
+          "source_refs",
+          "metadata"
+        ],
+        "properties": {
+          "drift_id": {
+            "type": "string",
+            "pattern": "^drift-[0-9a-f]{20}$"
+          },
+          "kind": {
+            "enum": [
+              "HEAD_CHANGE",
+              "BRANCH_SWITCH",
+              "DIRTY_WORKSPACE",
+              "RENAME",
+              "MISSING_ARTIFACT",
+              "APPROVED_ARTIFACT_DRIFT",
+              "EXTERNAL_EDIT",
+              "STALE_SOURCE_FINGERPRINT"
+            ]
+          },
+          "severity": {
+            "enum": [
+              "INFO",
+              "WARN",
+              "BLOCK"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "source_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1024
+          },
+          "artifact_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 256
+          },
+          "old_fingerprint": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 256
+          },
+          "new_fingerprint": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 256
+          },
+          "required_revalidation": {
+            "const": true
+          },
+          "recommended_recovery": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "source_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "maxLength": 1024
+            }
+          },
+          "metadata": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "prior_git": {
+      "type": "object"
+    },
+    "observed_git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "head",
+        "branch",
+        "dirty",
+        "status_lines",
+        "rename_pairs"
+      ],
+      "properties": {
+        "head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{7,64}$"
+        },
+        "branch": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "dirty": {
+          "type": "boolean"
+        },
+        "status_lines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 1024
+          }
+        },
+        "rename_pairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "old",
+              "new"
+            ],
+            "properties": {
+              "old": {
+                "type": "string",
+                "maxLength": 1024
+              },
+              "new": {
+                "type": "string",
+                "maxLength": 1024
+              }
+            }
+          }
+        }
+      }
+    },
+    "required_revalidation": {
+      "type": "boolean"
+    },
+    "source_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "maxLength": 1024
+      }
+    },
+    "mutation_declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "filesystem_source_written",
+        "git_mutating_command_executed",
+        "engineering_state_save_allowed",
+        "engineering_state_saved"
+      ],
+      "properties": {
+        "filesystem_source_written": {
+          "const": false
+        },
+        "git_mutating_command_executed": {
+          "const": false
+        },
+        "engineering_state_save_allowed": {
+          "const": true
+        },
+        "engineering_state_saved": {
+          "type": "boolean"
+        }
+      }
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "source_mutations_performed": {
+      "const": false
+    }
+  }
+}

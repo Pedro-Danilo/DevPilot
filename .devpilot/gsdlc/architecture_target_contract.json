@@ -129,7 +129,16 @@
     "project_status_http_route_added_in_01_c": false,
     "project_status_ui_added_in_01_c": false,
     "projection_source_mutation": false,
-    "projection_llm_authority": false
+    "projection_llm_authority": false,
+    "reconciler": "WorkspaceReconciler",
+    "reconciliation_status": "implemented-initial/DEVPL-GSDLC-01-D",
+    "reconciliation_implementation": "src/devpilot_core/guided_sdlc/reconciler.py",
+    "reconciliation_report_schema": "docs/schemas/guided_sdlc_reconciliation_report.schema.json",
+    "reconciliation_git_boundary": "fixed read-only allow-list with bounded timeout",
+    "reconciliation_filesystem_boundary": "registered governed source_refs only; no crawl; no path escape/symlink",
+    "reconciliation_execute_mutation": "WorkspaceEngineeringStateRepository atomic save only",
+    "reconciliation_source_mutation": false,
+    "revalidation_status_projection": true
   },
   "local_auth_successor": {
     "status": "planned-GSDLC",
@@ -284,5 +293,23 @@
     "validation_mode": "cumulative-selective",
     "full_regression_enforced": false,
     "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+  },
+  "gsdlc_01_d_successor": {
+    "status": "pass-candidate/pre-windows",
+    "reconciler_implemented": true,
+    "git_read_only": true,
+    "filesystem_source_read_only": true,
+    "approved_drift_forces_revalidation": true,
+    "application_capabilities": [
+      "guided_sdlc.reconcile.preview",
+      "guided_sdlc.reconcile.execute"
+    ],
+    "api_routes_added": 0,
+    "ui_routes_added": 0,
+    "validation_mode": "cumulative-selective",
+    "full_regression_enforced": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+    "predecessor_final_owner_status": "closed/PASS",
+    "predecessor_final_owner_adjudication": "DEVPL_GSDLC_01_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md"
   }
 }

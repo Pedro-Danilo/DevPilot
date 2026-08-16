@@ -1,0 +1,22 @@
+{
+  "schema_id": "devpilot.gsdlc01c.final_owner_adjudication.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-C",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-16",
+  "source_repo": "repo_DevPilot_Local_350_DEVPL_GSDLC_01_B_DETERMINISTIC_WORKFLOW_ENGINE.zip",
+  "successor_repo": "repo_DevPilot_Local_351_DEVPL_GSDLC_01_C_PROJECT_STATUS_PROJECTION.zip",
+  "successor_commit": "d617171e5c666a8d5de5de95df8f7bc02a3b078b",
+  "successor_sha256": "8413ac2ad8bcd8b2cf83df2a9ec419ebb77fa4f1f3e0df918f9da2967e7b9c3b",
+  "windows_evidence_sha256": "01612bca9555d87302aad083cd1cbcef32d8ff9373d895153fb6df267b3c12dc",
+  "validation": {
+    "mode": "cumulative-selective",
+    "independent_focal_passed": 52,
+    "full_regression_executed": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+  },
+  "pilot_preserved": true,
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-01-D"
+}

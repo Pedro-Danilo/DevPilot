@@ -4,15 +4,17 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.guided_sdlc import GuidedSDLCService, ProjectProgressEngine, WorkflowEngineError
+from devpilot_core.guided_sdlc import GuidedSDLCService, ProjectProgressEngine, ReconciliationError, WorkflowEngineError
 from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreError
 
 
 class GuidedSDLCApplicationService:
-    """Application boundary for deterministic transition evaluate/preview.
+    """Application boundary for Guided SDLC deterministic services.
 
-    GSDLC-01-B exposes no HTTP route. These operations are read-only application
-    capabilities used by tests and future API/UI adapters.
+    B/C operations are read-only. GSDLC-01-D adds bounded reconciliation:
+    preview remains source/state read-only; execute may persist only the local
+    WorkspaceEngineeringState through its atomic repository. No HTTP route is
+    exposed before GSDLC-01-E and managed workspace source/Git stay read-only.
     """
 
     def __init__(self, root: Path) -> None:
@@ -36,7 +38,7 @@ class GuidedSDLCApplicationService:
                 transition_id=transition_id,
                 evidence=evidence,
             )
-        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, KeyError) as exc:
+        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, ReconciliationError, KeyError) as exc:
             return self._error("guided_sdlc.transition.evaluate", exc)
         return self._result("guided_sdlc.transition.evaluate", result.to_payload())
 
@@ -55,7 +57,7 @@ class GuidedSDLCApplicationService:
                 evidence=evidence,
                 updated_at_utc=updated_at_utc,
             )
-        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, KeyError) as exc:
+        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, ReconciliationError, KeyError) as exc:
             return self._error("guided_sdlc.transition.preview", exc)
         return self._result("guided_sdlc.transition.preview", preview.to_payload())
 
@@ -98,6 +100,67 @@ class GuidedSDLCApplicationService:
                 observed_at_utc=observed_at_utc,
             )
         return self._projection_result("guided_sdlc.next_action", projection.next_action.to_payload())
+
+    def reconcile_preview(
+        self,
+        *,
+        workspace_id: str,
+        updated_at_utc: str,
+        observed_at_utc: str,
+    ) -> CommandResult:
+        try:
+            reconciliation, projection = self._service().reconcile_project_status(
+                workspace_id=workspace_id,
+                updated_at_utc=updated_at_utc,
+                observed_at_utc=observed_at_utc,
+                execute=False,
+            )
+        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, ReconciliationError, KeyError, ValueError) as exc:
+            return self._error("guided_sdlc.reconcile.preview", exc)
+        return CommandResult(
+            command="guided_sdlc.reconcile.preview",
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Guided SDLC reconciliation preview completed deterministically.",
+            data={
+                "reconciliation": reconciliation.to_payload(),
+                "project_status": projection.status.to_payload(),
+                "next_action": projection.next_action.to_payload(),
+                "execute": False,
+            },
+            findings=[],
+        )
+
+    def reconcile_execute(
+        self,
+        *,
+        workspace_id: str,
+        updated_at_utc: str,
+        observed_at_utc: str,
+    ) -> CommandResult:
+        try:
+            reconciliation, projection = self._service().reconcile_project_status(
+                workspace_id=workspace_id,
+                updated_at_utc=updated_at_utc,
+                observed_at_utc=observed_at_utc,
+                execute=True,
+            )
+        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, ReconciliationError, KeyError, ValueError) as exc:
+            return self._error("guided_sdlc.reconcile.execute", exc)
+        return CommandResult(
+            command="guided_sdlc.reconcile.execute",
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Guided SDLC reconciliation persisted engineering-state only.",
+            data={
+                "reconciliation": reconciliation.to_payload(),
+                "project_status": projection.status.to_payload(),
+                "next_action": projection.next_action.to_payload(),
+                "execute": True,
+                "managed_workspace_source_mutated": False,
+            },
+            findings=[],
+        )
 
     def _projection_result(self, command: str, payload: dict[str, Any]) -> CommandResult:
         unknown = payload.get("reason") == "unknown" or payload.get("reason_code") in {
@@ -148,7 +211,7 @@ class GuidedSDLCApplicationService:
             command=command,
             ok=False,
             exit_code=ExitCode.BLOCK,
-            message="Guided SDLC transition request could not be evaluated.",
+            message="Guided SDLC request could not be evaluated.",
             data={"network_used": False, "external_api_used": False},
             findings=[
                 Finding(

@@ -1,0 +1,72 @@
+{
+  "schema_id": "devpilot.gsdlc01d.reconciliation_cases.v1",
+  "cases": [
+    {
+      "id": "clean",
+      "expected_decision": "NO_DRIFT",
+      "reason_codes": []
+    },
+    {
+      "id": "external-edit-approved",
+      "expected_decision": "REVALIDATION_REQUIRED",
+      "reason_codes": [
+        "APPROVED_ARTIFACT_HASH_CHANGED",
+        "GIT_WORKTREE_DIRTY"
+      ]
+    },
+    {
+      "id": "delete",
+      "expected_decision": "REVALIDATION_REQUIRED",
+      "reason_codes": [
+        "GOVERNED_ARTIFACT_MISSING"
+      ]
+    },
+    {
+      "id": "rename",
+      "expected_decision": "REVALIDATION_REQUIRED",
+      "reason_codes": [
+        "GOVERNED_ARTIFACT_RENAMED"
+      ]
+    },
+    {
+      "id": "branch-switch",
+      "expected_decision": "REVALIDATION_REQUIRED",
+      "reason_codes": [
+        "GIT_BRANCH_CHANGED"
+      ]
+    },
+    {
+      "id": "head-change",
+      "expected_decision": "REVALIDATION_REQUIRED",
+      "reason_codes": [
+        "GIT_HEAD_CHANGED"
+      ]
+    },
+    {
+      "id": "dirty",
+      "expected_decision": "REVALIDATION_REQUIRED",
+      "reason_codes": [
+        "GIT_WORKTREE_DIRTY"
+      ]
+    },
+    {
+      "id": "path-escape",
+      "expected": "BLOCK"
+    },
+    {
+      "id": "symlink",
+      "expected": "BLOCK"
+    },
+    {
+      "id": "unregistered",
+      "expected": "BLOCK"
+    },
+    {
+      "id": "git-timeout",
+      "expected": "BLOCK"
+    }
+  ],
+  "git_mutating_commands_allowed": [],
+  "managed_workspace_source_writes_allowed": false,
+  "engineering_state_atomic_save_only": true
+}

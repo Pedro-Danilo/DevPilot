@@ -1,0 +1,20 @@
+{
+  "schema_id": "devpilot.gsdlc01d.current.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-D",
+  "status": "PASS-CANDIDATE/PRE-WINDOWS",
+  "source_repo": "repo_DevPilot_Local_351_DEVPL_GSDLC_01_C_PROJECT_STATUS_PROJECTION.zip",
+  "source_commit": "d617171e5c666a8d5de5de95df8f7bc02a3b078b",
+  "source_sha256": "8413ac2ad8bcd8b2cf83df2a9ec419ebb77fa4f1f3e0df918f9da2967e7b9c3b",
+  "predecessor_owner_adjudication": "DEVPL_GSDLC_01_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "reconciler_implemented": true,
+  "git_read_only": true,
+  "source_write": false,
+  "state_atomic_save_only": true,
+  "api_routes_added": 0,
+  "ui_routes_added": 0,
+  "validation_mode": "cumulative-selective",
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+  "owner_adjudication": "PENDING",
+  "s0_open": 0,
+  "s1_open": 0
+}
