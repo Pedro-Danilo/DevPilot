@@ -1,0 +1,21 @@
+{
+  "schema_id": "devpilot.gsdlc01b.operation_declaration.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-B",
+  "status": "candidate-pre-windows",
+  "source_repo": "repo_DevPilot_Local_349_DEVPL_GSDLC_01_A_WORKSPACE_ENGINEERING_STATE.zip",
+  "source_commit": "bbb00547a087bd35f92623e6180ba98c170849ba",
+  "source_sha256": "55155735a0ec15942befc933720482ceb879546ebbba7f9e2ae9fb80094f74e1",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "pilot_workspace_mutated": false,
+  "runtime_source_changed": true,
+  "application_service_changed": true,
+  "api_changed": false,
+  "ui_changed": false,
+  "workflow_engine_implemented": true,
+  "workspace_state_persistence_mutation_from_engine": false,
+  "validation_mode": "cumulative-selective",
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+}

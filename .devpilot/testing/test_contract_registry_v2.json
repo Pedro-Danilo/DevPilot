@@ -18722,6 +18722,95 @@
       ],
       "security_negative_required": false,
       "approval_scope": "owner-approved-transversal-policy"
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-b-deterministic-workflow-engine",
+      "source_contract_id": "devpl-gsdlc-01-b-deterministic-workflow-engine",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "DeterministicGuidedSDLCWorkflowEngine",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 120,
+      "test_files": [
+        "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
+        "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
+        "tests/test_application_services.py",
+        "tests/test_application_services_v2.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/guided_sdlc",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        ".devpilot/gsdlc/workflow_transition_catalog.json",
+        "docs/schemas/guided_sdlc_transition_catalog.schema.json",
+        "docs/schemas/guided_sdlc_transition_report.schema.json",
+        "docs/02_architecture/guided_sdlc/workflow_engine_contract.md",
+        "tests/fixtures/gsdlc01b",
+        "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json"
+      ],
+      "validates": [
+        "src/devpilot_core/guided_sdlc/workflow_engine.py",
+        "src/devpilot_core/guided_sdlc/service.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        ".devpilot/gsdlc/workflow_transition_catalog.json",
+        "docs/schemas/guided_sdlc_transition_catalog.schema.json",
+        "docs/schemas/guided_sdlc_transition_report.schema.json",
+        "docs/02_architecture/guided_sdlc/workflow_engine_contract.md",
+        "docs/audits/devpl_gsdlc_01_b_historical_contract_sweep.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-01-B",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
+        "python -m pytest tests/test_application_services.py tests/test_application_services_v2.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "01-B implements deterministic evaluate/preview only; no HTTP/UI route and no state persistence mutation.",
+        "LLM/model/agent inputs are not accepted as transition authority.",
+        "Generic sequential MIPSoftware phase catalog is an initial kernel; artifact-specific executable workflow remains owned by GSDLC-05.",
+        "Full regression is deferred to GSDLC-01-E by transversal validation policy unless an owner-approved hard trigger exists."
+      ],
+      "trigger_hints": [
+        "guided-sdlc-workflow",
+        "transition-engine",
+        "application-service",
+        "workflow-catalog",
+        "reason-codes",
+        "gates"
+      ],
+      "impact_scope": [
+        "guided-sdlc",
+        "application-service",
+        "schemas",
+        "project-state",
+        "documentation-governance",
+        "historical-contracts"
+      ],
+      "security_negative_required": true,
+      "approval_scope": "owner-adjudication-before-01-c"
     }
   ],
   "created_by": "POST-H-003-E",

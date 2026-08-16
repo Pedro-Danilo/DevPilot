@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/guided_sdlc_transition_report.schema.json",
+  "title": "DevPilot Guided SDLC Transition Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "transition_id",
+    "decision",
+    "reason_codes",
+    "blockers",
+    "approval",
+    "source_state_fingerprint",
+    "source",
+    "target",
+    "preview_allowed",
+    "network_used",
+    "external_api_used",
+    "source_mutations_performed"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GUIDED-SDLC-TRANSITION-REPORT-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "transition_id": {
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "category",
+          "subject",
+          "message",
+          "priority"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "key",
+        "status"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source_state_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source": {
+      "type": "object"
+    },
+    "target": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "preview_allowed": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "source_mutations_performed": {
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_id": "devpilot.gsdlc01b.current.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-B",
+  "decision": "PASS-CANDIDATE/PRE-WINDOWS",
+  "owner_adjudication": "PENDING",
+  "source_repo": "repo_DevPilot_Local_349_DEVPL_GSDLC_01_A_WORKSPACE_ENGINEERING_STATE.zip",
+  "source_commit": "bbb00547a087bd35f92623e6180ba98c170849ba",
+  "source_sha256": "55155735a0ec15942befc933720482ceb879546ebbba7f9e2ae9fb80094f74e1",
+  "predecessor_adjudication": "DEVPL_GSDLC_01_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "workflow_engine": "implemented-initial",
+  "guided_sdlc_service": "implemented-initial",
+  "application_service_capabilities": [
+    "guided_sdlc.transition.evaluate",
+    "guided_sdlc.transition.preview"
+  ],
+  "transition_catalog": ".devpilot/gsdlc/workflow_transition_catalog.json",
+  "transition_catalog_count": 26,
+  "http_api_routes_added": 0,
+  "ui_routes_added": 0,
+  "source_mutation_by_evaluate_preview": false,
+  "validation_mode": "cumulative-selective",
+  "full_regression_enforced": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+  "hard_trigger_present": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "next_micro_sprint": "DEVPL-GSDLC-01-C",
+  "next_micro_sprint_authorized": false
+}

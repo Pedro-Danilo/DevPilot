@@ -1,0 +1,56 @@
+{
+  "schema_id": "devpilot.gsdlc01a.owner_adjudication.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-A",
+  "decision": "CLOSED/PASS",
+  "adjudicated_at": "2026-08-16",
+  "source": {
+    "repo": "repo_DevPilot_Local_348_DEVPL_GSDLC_R01_E_RESEARCH_CLOSURE.zip",
+    "commit": "3d7fda44d7ab5feefadd2eb4a7b9d20680eb1b5d"
+  },
+  "successor": {
+    "repo": "repo_DevPilot_Local_349_DEVPL_GSDLC_01_A_WORKSPACE_ENGINEERING_STATE.zip",
+    "commit": "bbb00547a087bd35f92623e6180ba98c170849ba",
+    "sha256": "55155735a0ec15942befc933720482ceb879546ebbba7f9e2ae9fb80094f74e1",
+    "canonical_branch": "eval/post-h-eval-002-02-a-onboarding"
+  },
+  "windows_evidence": {
+    "artifact": "DEVPL_GSDLC_01_A_WINDOWS_EVIDENCE_v1_0_3.zip",
+    "sha256": "2e775e440a3f93d70d2afc89886e8051a7850a4d9edc37d1c2b47f192e3dc611"
+  },
+  "validation": {
+    "mode": "cumulative-selective",
+    "windows_tests": {
+      "passed": 88,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "independent_repo_extract_tests": {
+      "passed": 90,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "regression_guard": "PASS/VALID-WAIVER",
+    "full_regression_executed": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+    "hard_trigger_present": false
+  },
+  "integrity": {
+    "delta_paths": 30,
+    "artifact_hashes_git": "29/29",
+    "artifact_hashes_archive": "29/29",
+    "worktree": "CLEAN",
+    "pilot_preserved": true,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "authorization": {
+    "DEVPL-GSDLC-01-B": true,
+    "DEVPL-GSDLC-01-C": false
+  }
+}

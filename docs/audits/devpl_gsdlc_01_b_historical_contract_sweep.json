@@ -1,0 +1,62 @@
+{
+  "schema_id": "devpilot.gsdlc01b.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-B",
+  "status": "PASS-CANDIDATE",
+  "source_repo": "repo_DevPilot_Local_349_DEVPL_GSDLC_01_A_WORKSPACE_ENGINEERING_STATE.zip",
+  "classifications": [
+    {
+      "path": "docs/audits/DEVPL_GSDLC_01_A_CURRENT.json",
+      "classification": "historical-freeze",
+      "reason": "01-A CURRENT preserves pre-owner PASS-CANDIDATE and is not rewritten."
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_01_A_CLOSURE_REPORT.md",
+      "classification": "historical-freeze",
+      "reason": "01-A closure candidate report remains a pre-adjudication historical fact."
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "successor-needed",
+      "reason": "Add 01-A at-close identity and 01-B successor fields without changing current_repo or GSDLC-00/R01 historical pointers."
+    },
+    {
+      "path": ".devpilot/gsdlc/architecture_target_contract.json",
+      "classification": "current-active",
+      "reason": "Advance current GuidedSDLC/WorkflowEngine implementation status while retaining 00-C ADR frontmatter as planned-at-that-time."
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md",
+      "classification": "historical-freeze",
+      "reason": "ADR was written in 00-C with runtime_implemented=false; 01-B proves successor implementation rather than editing history."
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "classification": "current-active",
+      "reason": "Register 01-A adjudication and 01-B workflow contracts as current sources."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "classification": "current-active",
+      "reason": "Append B contract; do not alter A contract identity."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "classification": "current-active",
+      "reason": "Append B impact contract and preserve A classification."
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "classification": "current-active",
+      "reason": "Register two new 01-B schemas; absolute historical counts are not future invariants."
+    }
+  ],
+  "tests_rewritten_only_to_pass": false,
+  "historical_facts_rewritten": false,
+  "current_repo_rewritten": false,
+  "uoc_contracts_modified": false,
+  "api_routes_modified": false,
+  "ui_routes_modified": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+  "s0_open": 0,
+  "s1_open": 0
+}

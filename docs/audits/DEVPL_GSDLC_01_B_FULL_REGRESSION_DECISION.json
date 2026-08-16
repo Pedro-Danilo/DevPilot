@@ -1,0 +1,15 @@
+{
+  "schema_id": "devpilot.gsdlc01b.full_regression_decision.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-B",
+  "policy_id": "DEVPL-GSDLC-TRANSVERSAL-VALIDATION-POLICY",
+  "policy_version": "1.0.0",
+  "micro_sprint_kind": "intermediate",
+  "validation_mode": "cumulative-selective",
+  "test_impact_full_regression_flag_semantics": "recommendation-not-automatic-execution",
+  "full_regression_enforced": false,
+  "full_regression_supported_by_operator": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+  "hard_trigger_present": false,
+  "exception_decision_required": false,
+  "reason": "01-B changes bounded GuidedSDLC transition/application services without API/UI, auth/RBAC, dependency-platform or cross-domain runtime topology changes."
+}

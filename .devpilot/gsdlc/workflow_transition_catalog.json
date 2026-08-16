@@ -1,0 +1,1039 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-TRANSITION-CATALOG-V1",
+  "schema_version": "1.0",
+  "catalog_id": "DEVPL-GSDLC-01-B-BASELINE",
+  "catalog_version": "1.0.0",
+  "source_standard": "MIPS-DOC-003",
+  "scope": "generic sequential phase transitions only; artifact-specific executable workflow is deferred to DEVPL-GSDLC-05",
+  "transitions": [
+    {
+      "transition_id": "gsdlc.phase.start-intake",
+      "version": "1.0.0",
+      "source": {
+        "phase": "NOT_STARTED",
+        "current_step": "idea-intake",
+        "lifecycle_statuses": [
+          "NEW"
+        ]
+      },
+      "target": {
+        "phase": "INTAKE",
+        "current_step": "intake",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [],
+      "required_gates": [],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.intake.problem-discovery",
+      "version": "1.0.0",
+      "source": {
+        "phase": "INTAKE",
+        "current_step": "intake",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "PROBLEM_DISCOVERY",
+        "current_step": "problem-discovery",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:intake:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:intake:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.problem-discovery.business-analysis",
+      "version": "1.0.0",
+      "source": {
+        "phase": "PROBLEM_DISCOVERY",
+        "current_step": "problem-discovery",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "BUSINESS_ANALYSIS",
+        "current_step": "business-analysis",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:problem-discovery:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:problem-discovery:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.business-analysis.stakeholders",
+      "version": "1.0.0",
+      "source": {
+        "phase": "BUSINESS_ANALYSIS",
+        "current_step": "business-analysis",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "STAKEHOLDERS",
+        "current_step": "stakeholders",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:business-analysis:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:business-analysis:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.stakeholders.requirements",
+      "version": "1.0.0",
+      "source": {
+        "phase": "STAKEHOLDERS",
+        "current_step": "stakeholders",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "REQUIREMENTS",
+        "current_step": "requirements",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:stakeholders:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:stakeholders:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.requirements.risk-analysis",
+      "version": "1.0.0",
+      "source": {
+        "phase": "REQUIREMENTS",
+        "current_step": "requirements",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "RISK_ANALYSIS",
+        "current_step": "risk-analysis",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:requirements:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:requirements:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.risk-analysis.architecture",
+      "version": "1.0.0",
+      "source": {
+        "phase": "RISK_ANALYSIS",
+        "current_step": "risk-analysis",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "ARCHITECTURE",
+        "current_step": "architecture",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:risk-analysis:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:risk-analysis:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.architecture.domain-design",
+      "version": "1.0.0",
+      "source": {
+        "phase": "ARCHITECTURE",
+        "current_step": "architecture",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "DOMAIN_DESIGN",
+        "current_step": "domain-design",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:architecture:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:architecture:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.domain-design.data-design",
+      "version": "1.0.0",
+      "source": {
+        "phase": "DOMAIN_DESIGN",
+        "current_step": "domain-design",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "DATA_DESIGN",
+        "current_step": "data-design",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:domain-design:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:domain-design:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.data-design.interface-design",
+      "version": "1.0.0",
+      "source": {
+        "phase": "DATA_DESIGN",
+        "current_step": "data-design",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "INTERFACE_DESIGN",
+        "current_step": "interface-design",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:data-design:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:data-design:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.interface-design.ux-ui-design",
+      "version": "1.0.0",
+      "source": {
+        "phase": "INTERFACE_DESIGN",
+        "current_step": "interface-design",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "UX_UI_DESIGN",
+        "current_step": "ux-ui-design",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:interface-design:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:interface-design:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.ux-ui-design.quality-plan",
+      "version": "1.0.0",
+      "source": {
+        "phase": "UX_UI_DESIGN",
+        "current_step": "ux-ui-design",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "QUALITY_PLAN",
+        "current_step": "quality-plan",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:ux-ui-design:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:ux-ui-design:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.quality-plan.security-plan",
+      "version": "1.0.0",
+      "source": {
+        "phase": "QUALITY_PLAN",
+        "current_step": "quality-plan",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "SECURITY_PLAN",
+        "current_step": "security-plan",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:quality-plan:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:quality-plan:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.security-plan.test-plan",
+      "version": "1.0.0",
+      "source": {
+        "phase": "SECURITY_PLAN",
+        "current_step": "security-plan",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "TEST_PLAN",
+        "current_step": "test-plan",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:security-plan:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:security-plan:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.test-plan.implementation",
+      "version": "1.0.0",
+      "source": {
+        "phase": "TEST_PLAN",
+        "current_step": "test-plan",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "IMPLEMENTATION",
+        "current_step": "implementation",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:test-plan:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:test-plan:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "medium",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.implementation.integration",
+      "version": "1.0.0",
+      "source": {
+        "phase": "IMPLEMENTATION",
+        "current_step": "implementation",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "INTEGRATION",
+        "current_step": "integration",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:implementation:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:implementation:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.integration.verification",
+      "version": "1.0.0",
+      "source": {
+        "phase": "INTEGRATION",
+        "current_step": "integration",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "VERIFICATION",
+        "current_step": "verification",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:integration:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:integration:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.verification.validation",
+      "version": "1.0.0",
+      "source": {
+        "phase": "VERIFICATION",
+        "current_step": "verification",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "VALIDATION",
+        "current_step": "validation",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "required_prerequisites": [
+        "phase:verification:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:verification:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.validation.release",
+      "version": "1.0.0",
+      "source": {
+        "phase": "VALIDATION",
+        "current_step": "validation",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "RELEASE",
+        "current_step": "release",
+        "lifecycle_status": "READY_FOR_RELEASE"
+      },
+      "required_prerequisites": [
+        "phase:validation:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:validation:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "medium",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.release.deployment",
+      "version": "1.0.0",
+      "source": {
+        "phase": "RELEASE",
+        "current_step": "release",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "DEPLOYMENT",
+        "current_step": "deployment",
+        "lifecycle_status": "RELEASED"
+      },
+      "required_prerequisites": [
+        "phase:release:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:release:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "medium",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.deployment.operation",
+      "version": "1.0.0",
+      "source": {
+        "phase": "DEPLOYMENT",
+        "current_step": "deployment",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "OPERATION",
+        "current_step": "operation",
+        "lifecycle_status": "RELEASED"
+      },
+      "required_prerequisites": [
+        "phase:deployment:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:deployment:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.operation.monitoring",
+      "version": "1.0.0",
+      "source": {
+        "phase": "OPERATION",
+        "current_step": "operation",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "MONITORING",
+        "current_step": "monitoring",
+        "lifecycle_status": "RELEASED"
+      },
+      "required_prerequisites": [
+        "phase:operation:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:operation:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.monitoring.incident-management",
+      "version": "1.0.0",
+      "source": {
+        "phase": "MONITORING",
+        "current_step": "monitoring",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "INCIDENT_MANAGEMENT",
+        "current_step": "incident-management",
+        "lifecycle_status": "RELEASED"
+      },
+      "required_prerequisites": [
+        "phase:monitoring:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:monitoring:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.incident-management.maintenance",
+      "version": "1.0.0",
+      "source": {
+        "phase": "INCIDENT_MANAGEMENT",
+        "current_step": "incident-management",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "MAINTENANCE",
+        "current_step": "maintenance",
+        "lifecycle_status": "RELEASED"
+      },
+      "required_prerequisites": [
+        "phase:incident-management:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:incident-management:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.maintenance.audit",
+      "version": "1.0.0",
+      "source": {
+        "phase": "MAINTENANCE",
+        "current_step": "maintenance",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "AUDIT",
+        "current_step": "audit",
+        "lifecycle_status": "RELEASED"
+      },
+      "required_prerequisites": [
+        "phase:maintenance:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:maintenance:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    },
+    {
+      "transition_id": "gsdlc.phase.audit.retirement",
+      "version": "1.0.0",
+      "source": {
+        "phase": "AUDIT",
+        "current_step": "audit",
+        "lifecycle_statuses": [
+          "IN_PROGRESS",
+          "READY_FOR_RELEASE",
+          "RELEASED"
+        ]
+      },
+      "target": {
+        "phase": "RETIREMENT",
+        "current_step": "retirement",
+        "lifecycle_status": "RELEASED"
+      },
+      "required_prerequisites": [
+        "phase:audit:complete"
+      ],
+      "required_gates": [
+        {
+          "gate_id": "gate:audit:exit",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "required_artifacts": [],
+      "approval": {
+        "required": false,
+        "approval_key": null,
+        "accepted_statuses": []
+      },
+      "risk_classification": "low",
+      "preview_allowed": true,
+      "evidence_refs": [
+        "MIPS-DOC-003"
+      ]
+    }
+  ]
+}

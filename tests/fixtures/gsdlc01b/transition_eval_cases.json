@@ -1,0 +1,139 @@
+{
+  "schema_id": "devpilot.gsdlc01b.transition_eval_cases.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-B",
+  "cases": [
+    {
+      "case_id": "start-pass",
+      "state": {},
+      "transition_id": "gsdlc.phase.start-intake",
+      "evidence": {},
+      "expected_decision": "PASS",
+      "expected_reason_codes": [
+        "TRANSITION_ALLOWED"
+      ]
+    },
+    {
+      "case_id": "intake-missing-prereq",
+      "state": {
+        "phase": "INTAKE",
+        "current_step": "intake"
+      },
+      "transition_id": "gsdlc.phase.intake.problem-discovery",
+      "evidence": {},
+      "expected_decision": "BLOCK",
+      "expected_reason_codes": [
+        "PREREQUISITE_NOT_SATISFIED",
+        "GATE_NOT_SATISFIED"
+      ]
+    },
+    {
+      "case_id": "intake-gate-pass",
+      "state": {
+        "phase": "INTAKE",
+        "current_step": "intake"
+      },
+      "transition_id": "gsdlc.phase.intake.problem-discovery",
+      "evidence": {
+        "prerequisites": {
+          "phase:intake:complete": true
+        },
+        "gates": {
+          "gate:intake:exit": "PASS"
+        }
+      },
+      "expected_decision": "PASS",
+      "expected_reason_codes": [
+        "TRANSITION_ALLOWED"
+      ]
+    },
+    {
+      "case_id": "intake-gate-warn",
+      "state": {
+        "phase": "INTAKE",
+        "current_step": "intake"
+      },
+      "transition_id": "gsdlc.phase.intake.problem-discovery",
+      "evidence": {
+        "prerequisites": {
+          "phase:intake:complete": true
+        },
+        "gates": {
+          "gate:intake:exit": "WARN"
+        }
+      },
+      "expected_decision": "BLOCK",
+      "expected_reason_codes": [
+        "GATE_NOT_SATISFIED"
+      ]
+    },
+    {
+      "case_id": "intake-gate-block",
+      "state": {
+        "phase": "INTAKE",
+        "current_step": "intake"
+      },
+      "transition_id": "gsdlc.phase.intake.problem-discovery",
+      "evidence": {
+        "prerequisites": {
+          "phase:intake:complete": true
+        },
+        "gates": {
+          "gate:intake:exit": "BLOCK"
+        }
+      },
+      "expected_decision": "BLOCK",
+      "expected_reason_codes": [
+        "GATE_BLOCK"
+      ]
+    },
+    {
+      "case_id": "unknown",
+      "state": {},
+      "transition_id": "gsdlc.unknown",
+      "evidence": {},
+      "expected_decision": "BLOCK",
+      "expected_reason_codes": [
+        "TRANSITION_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "illegal-skip",
+      "state": {},
+      "transition_id": "gsdlc.phase.requirements.risk-analysis",
+      "evidence": {
+        "prerequisites": {
+          "phase:requirements:complete": true
+        },
+        "gates": {
+          "gate:requirements:exit": "PASS"
+        }
+      },
+      "expected_decision": "BLOCK",
+      "expected_reason_codes": [
+        "SOURCE_PHASE_MISMATCH"
+      ]
+    },
+    {
+      "case_id": "revalidation-block",
+      "state": {
+        "phase": "INTAKE",
+        "current_step": "intake",
+        "lifecycle_status": "REVALIDATION_REQUIRED"
+      },
+      "transition_id": "gsdlc.phase.intake.problem-discovery",
+      "evidence": {
+        "prerequisites": {
+          "phase:intake:complete": true
+        },
+        "gates": {
+          "gate:intake:exit": "PASS"
+        }
+      },
+      "expected_decision": "BLOCK",
+      "expected_reason_codes": [
+        "STATE_REVALIDATION_REQUIRED"
+      ]
+    }
+  ],
+  "cases_total": 8
+}

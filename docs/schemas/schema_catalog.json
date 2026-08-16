@@ -6,7 +6,7 @@
   "version": "1.6.0",
   "owner": "Ordóñez",
   "updated": "2026-08-16",
-  "sprint": "DEVPL-GSDLC-01-A",
+  "sprint": "DEVPL-GSDLC-01-B",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -2553,7 +2553,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-01-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-TRANSITION-CATALOG-V1",
+      "title": "DevPilot Guided SDLC Transition Catalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/guided_sdlc_transition_catalog.schema.json",
+      "description": "DEVPL-GSDLC-01-B versioned deterministic transition catalog contract.",
+      "status": "registered",
+      "contract": "GuidedSDLCTransitionCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-01-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-01-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-TRANSITION-REPORT-V1",
+      "title": "DevPilot Guided SDLC Transition Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/guided_sdlc_transition_report.schema.json",
+      "description": "DEVPL-GSDLC-01-B deterministic PASS/BLOCK, blockers, reason codes and preview authority report.",
+      "status": "registered",
+      "contract": "GuidedSDLCTransitionReport",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-01-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-01-B"
     }
   ],
-  "schemas_total": 176
+  "schemas_total": 178
 }

@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/guided_sdlc_transition_catalog.schema.json",
+  "title": "DevPilot Guided SDLC Transition Catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalog_id",
+    "catalog_version",
+    "transitions"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GUIDED-SDLC-TRANSITION-CATALOG-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "catalog_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "catalog_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "source_standard": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "transitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "transition_id",
+          "version",
+          "source",
+          "target",
+          "required_prerequisites",
+          "required_gates",
+          "required_artifacts",
+          "approval",
+          "risk_classification",
+          "preview_allowed",
+          "evidence_refs"
+        ],
+        "properties": {
+          "transition_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.:-]{1,160}$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "phase",
+              "current_step",
+              "lifecycle_statuses"
+            ],
+            "properties": {
+              "phase": {
+                "type": "string"
+              },
+              "current_step": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+              },
+              "lifecycle_statuses": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "enum": [
+                    "NEW",
+                    "IN_PROGRESS",
+                    "READY_FOR_RELEASE",
+                    "RELEASED"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            }
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "phase",
+              "current_step",
+              "lifecycle_status"
+            ],
+            "properties": {
+              "phase": {
+                "type": "string"
+              },
+              "current_step": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+              },
+              "lifecycle_status": {
+                "enum": [
+                  "IN_PROGRESS",
+                  "READY_FOR_RELEASE",
+                  "RELEASED"
+                ]
+              }
+            }
+          },
+          "required_prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+            },
+            "uniqueItems": true
+          },
+          "required_gates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "gate_id",
+                "accepted_statuses"
+              ],
+              "properties": {
+                "gate_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+                },
+                "accepted_statuses": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "enum": [
+                      "PASS",
+                      "WARN"
+                    ]
+                  },
+                  "uniqueItems": true
+                }
+              }
+            }
+          },
+          "required_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "artifact_id",
+                "accepted_statuses"
+              ],
+              "properties": {
+                "artifact_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+                },
+                "accepted_statuses": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "enum": [
+                      "DRAFT",
+                      "VALIDATING",
+                      "FINDINGS",
+                      "READY_FOR_REVIEW",
+                      "APPROVAL_REQUIRED",
+                      "APPROVED",
+                      "FROZEN"
+                    ]
+                  },
+                  "uniqueItems": true
+                }
+              }
+            }
+          },
+          "approval": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "required",
+              "approval_key",
+              "accepted_statuses"
+            ],
+            "properties": {
+              "required": {
+                "type": "boolean"
+              },
+              "approval_key": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "accepted_statuses": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "APPROVED"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            }
+          },
+          "risk_classification": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "preview_allowed": {
+            "type": "boolean"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

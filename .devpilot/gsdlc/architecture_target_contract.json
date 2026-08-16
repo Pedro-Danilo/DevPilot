@@ -53,7 +53,7 @@
     {
       "name": "WorkspaceEngineeringState",
       "owner": "GuidedSDLCService/WorkflowEngine",
-      "status": "planned-GSDLC",
+      "status": "implemented-current/DEVPL-GSDLC-01-A",
       "persistence": "local workspace engineering store keyed by workspace_id; reconstructible from workspace metadata, source artifacts and Git",
       "contains": [
         "phase",
@@ -100,10 +100,23 @@
   "guided_sdlc": {
     "service": "GuidedSDLCService",
     "workflow_engine": "WorkflowEngine",
-    "status": "planned-GSDLC",
+    "status": "implemented-initial/DEVPL-GSDLC-01-B",
     "deterministic_transitions": true,
     "llm_transition_authority": false,
-    "application_service_required": true
+    "application_service_required": true,
+    "service_implementation": "src/devpilot_core/guided_sdlc/service.py",
+    "workflow_engine_implementation": "src/devpilot_core/guided_sdlc/workflow_engine.py",
+    "transition_catalog": ".devpilot/gsdlc/workflow_transition_catalog.json",
+    "transition_catalog_schema": "docs/schemas/guided_sdlc_transition_catalog.schema.json",
+    "transition_report_schema": "docs/schemas/guided_sdlc_transition_report.schema.json",
+    "application_capabilities": [
+      "guided_sdlc.transition.evaluate",
+      "guided_sdlc.transition.preview"
+    ],
+    "http_routes_added_in_01_b": 0,
+    "ui_routes_added_in_01_b": 0,
+    "source_mutation_by_evaluate_preview": false,
+    "artifact_specific_workflow_deferred_to": "DEVPL-GSDLC-05"
   },
   "local_auth_successor": {
     "status": "planned-GSDLC",
@@ -205,7 +218,13 @@
     "ui_project_status_implemented": false,
     "validation_mode": "cumulative-selective",
     "full_regression_enforced": false,
-    "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+    "owner_adjudication": "DEVPL_GSDLC_01_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+    "successor_repo": "repo_DevPilot_Local_349_DEVPL_GSDLC_01_A_WORKSPACE_ENGINEERING_STATE.zip",
+    "successor_commit": "bbb00547a087bd35f92623e6180ba98c170849ba",
+    "successor_sha256": "55155735a0ec15942befc933720482ceb879546ebbba7f9e2ae9fb80094f74e1",
+    "final_owner_status": "closed/PASS",
+    "final_owner_adjudication": "DEVPL_GSDLC_01_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md"
   },
   "transversal_validation_policy": {
     "status": "approved/active",
@@ -218,5 +237,17 @@
     "hard_trigger_exception_requires_owner_decision": true,
     "effective_from": "DEVPL-GSDLC-01-A",
     "historical_regression_guard_bridge": "bounded-native-waiver-after-cumulative-pass"
+  },
+  "gsdlc_01_b_successor": {
+    "status": "pass-candidate/pending-windows-owner-adjudication",
+    "workflow_engine_implemented": true,
+    "guided_sdlc_service_implemented": true,
+    "application_service_capabilities_implemented": true,
+    "transition_catalog_count": 26,
+    "api_routes_added": 0,
+    "ui_routes_added": 0,
+    "validation_mode": "cumulative-selective",
+    "full_regression_enforced": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
   }
 }

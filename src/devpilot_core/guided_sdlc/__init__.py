@@ -14,7 +14,28 @@ from .repository import (
     WorkspaceEngineeringStateStoreError,
 )
 
+from .service import GuidedSDLCService
+from .workflow_engine import (
+    TransitionBlocker,
+    TransitionCatalog,
+    TransitionEvaluation,
+    TransitionEvidence,
+    TransitionPreview,
+    TransitionSpec,
+    WorkflowEngine,
+    WorkflowEngineError,
+)
+
 __all__ = [
+    "WorkflowEngineError",
+    "WorkflowEngine",
+    "TransitionSpec",
+    "TransitionPreview",
+    "TransitionEvidence",
+    "TransitionEvaluation",
+    "TransitionCatalog",
+    "TransitionBlocker",
+    "GuidedSDLCService",
     "ArtifactLifecycleStatus",
     "CURRENT_SCHEMA_VERSION",
     "EngineeringLifecycleStatus",

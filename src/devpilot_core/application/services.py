@@ -36,6 +36,7 @@ from .governed_job_operations import GovernedJobOperationsApplicationService
 from .quality_operations import QualityOperationsApplicationService
 from .ai_operations import AiOperationsApplicationService
 from .governed_jobs import GovernedJobFramework
+from .guided_sdlc_service import GuidedSDLCApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -71,6 +72,7 @@ class ApplicationService:
         self.root = root.resolve()
         self.enforce_workspace_paths = enforce_workspace_paths
         self.ui_workspace_context = UiWorkspaceContextResolver(self.root)
+        self.guided_sdlc = GuidedSDLCApplicationService(self.root)
         self.workspace = WorkspaceApplicationService(self.root)
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
@@ -559,6 +561,34 @@ class ApplicationService:
         return self.validation.standards_status()
 
     # Domain shortcuts intended for CLI reuse and future API route handlers.
+    def guided_sdlc_transition_evaluate(
+        self,
+        *,
+        workspace_id: str,
+        transition_id: str,
+        evidence: dict[str, Any] | None = None,
+    ) -> CommandResult:
+        return self.guided_sdlc.evaluate_transition(
+            workspace_id=workspace_id,
+            transition_id=transition_id,
+            evidence=evidence,
+        )
+
+    def guided_sdlc_transition_preview(
+        self,
+        *,
+        workspace_id: str,
+        transition_id: str,
+        evidence: dict[str, Any] | None = None,
+        updated_at_utc: str,
+    ) -> CommandResult:
+        return self.guided_sdlc.preview_transition(
+            workspace_id=workspace_id,
+            transition_id=transition_id,
+            evidence=evidence,
+            updated_at_utc=updated_at_utc,
+        )
+
     def workspace_status(self) -> CommandResult:
         return self.workspace.status()
 
@@ -1339,6 +1369,8 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             observability_limit=int(payload.get("observability_limit", 100)),
         ),
         "portfolio.status": lambda payload: service.portfolio_status(registry_path=(str(payload.get("registry_path")) if payload.get("registry_path") else None)),
+        "guided_sdlc.transition.evaluate": lambda payload: service.guided_sdlc_transition_evaluate(workspace_id=str(payload.get("workspace_id", "")), transition_id=str(payload.get("transition_id", "")), evidence=dict(payload.get("evidence") or {})),
+        "guided_sdlc.transition.preview": lambda payload: service.guided_sdlc_transition_preview(workspace_id=str(payload.get("workspace_id", "")), transition_id=str(payload.get("transition_id", "")), evidence=dict(payload.get("evidence") or {}), updated_at_utc=str(payload.get("updated_at_utc", ""))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
         "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command"), query=payload.get("query"), scope=payload.get("scope")),
@@ -1413,6 +1445,8 @@ def _domain_summaries() -> list[dict[str, Any]]:
 def _capabilities() -> list[ServiceCapability]:
     rows = [
         ("workspace.status", "Report workspace initialization/readiness state.", "none", True, "python -m devpilot_core workspace status --json"),
+        ("guided_sdlc.transition.evaluate", "Evaluate one versioned Guided SDLC transition deterministically without mutating engineering state.", "none", True, "ApplicationService read-only; no HTTP route in GSDLC-01-B"),
+        ("guided_sdlc.transition.preview", "Preview the exact successor WorkspaceEngineeringState for one allowed transition without persisting it.", "none", True, "ApplicationService read-only preview; no HTTP route in GSDLC-01-B"),
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),
         ("workspace.documents.read", "Read one allowlisted UTF-8 workspace document by opaque identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}"),
         ("workspace.documents.metadata", "Read deterministic metadata for one opaque workspace document identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}/metadata"),

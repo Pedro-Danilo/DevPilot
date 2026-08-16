@@ -1,0 +1,33 @@
+{
+  "schema_id": "devpilot.gsdlc01b.transition_matrix_coverage.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-B",
+  "catalog_id": "DEVPL-GSDLC-01-B-BASELINE",
+  "catalog_version": "1.0.0",
+  "catalog_transitions_total": 26,
+  "nominal_mipsoftware_phase_edges_total": 26,
+  "nominal_mipsoftware_phase_edges_covered": 26,
+  "fixture_cases_total": 8,
+  "predicate_classes_covered": [
+    "valid-transition",
+    "mandatory-prerequisite",
+    "gate-pass",
+    "gate-warn",
+    "gate-block",
+    "unknown-transition",
+    "illegal-skip/source-mismatch",
+    "revalidation-block",
+    "approval-required",
+    "artifact-readiness",
+    "idempotency",
+    "preview-no-mutation",
+    "stable-blocker-order",
+    "reason-code-stability",
+    "model-agent-authority-rejection",
+    "secret-evidence-rejection",
+    "application-boundary-no-http-route"
+  ],
+  "llm_transition_authority": false,
+  "source_mutation_by_engine": false,
+  "scope_note": "Generic phase catalog only; artifact-specific executable MIPSoftware workflow remains deferred to DEVPL-GSDLC-05.",
+  "status": "PASS-CANDIDATE/PRE-WINDOWS"
+}
