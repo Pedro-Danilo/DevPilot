@@ -100,7 +100,7 @@
   "guided_sdlc": {
     "service": "GuidedSDLCService",
     "workflow_engine": "WorkflowEngine",
-    "status": "implemented-initial/DEVPL-GSDLC-01-B",
+    "status": "implemented-initial/DEVPL-GSDLC-01-C",
     "deterministic_transitions": true,
     "llm_transition_authority": false,
     "application_service_required": true,
@@ -111,12 +111,25 @@
     "transition_report_schema": "docs/schemas/guided_sdlc_transition_report.schema.json",
     "application_capabilities": [
       "guided_sdlc.transition.evaluate",
-      "guided_sdlc.transition.preview"
+      "guided_sdlc.transition.preview",
+      "guided_sdlc.project.status",
+      "guided_sdlc.next_action"
     ],
     "http_routes_added_in_01_b": 0,
     "ui_routes_added_in_01_b": 0,
     "source_mutation_by_evaluate_preview": false,
-    "artifact_specific_workflow_deferred_to": "DEVPL-GSDLC-05"
+    "artifact_specific_workflow_deferred_to": "DEVPL-GSDLC-05",
+    "project_progress_engine": "ProjectProgressEngine",
+    "project_progress_implementation": "src/devpilot_core/guided_sdlc/project_progress.py",
+    "project_status_projection": true,
+    "next_action_projection": true,
+    "project_status_schema": "docs/schemas/guided_sdlc_project_status.schema.json",
+    "next_action_schema": "docs/schemas/guided_sdlc_next_action.schema.json",
+    "project_progress_contract": "docs/02_architecture/guided_sdlc/project_progress_contract.md",
+    "project_status_http_route_added_in_01_c": false,
+    "project_status_ui_added_in_01_c": false,
+    "projection_source_mutation": false,
+    "projection_llm_authority": false
   },
   "local_auth_successor": {
     "status": "planned-GSDLC",
@@ -197,7 +210,9 @@
       "model/token budget",
       "next action",
       "available execution modes"
-    ]
+    ],
+    "project_status_projection": "implemented-initial/DEVPL-GSDLC-01-C",
+    "project_status_http_ui": "planned-DEVPL-GSDLC-01-E"
   },
   "no_go": {
     "arbitrary_shell": false,
@@ -246,6 +261,26 @@
     "transition_catalog_count": 26,
     "api_routes_added": 0,
     "ui_routes_added": 0,
+    "validation_mode": "cumulative-selective",
+    "full_regression_enforced": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+    "final_owner_status": "closed/PASS",
+    "final_owner_adjudication": "DEVPL_GSDLC_01_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+    "successor_repo": "repo_DevPilot_Local_350_DEVPL_GSDLC_01_B_DETERMINISTIC_WORKFLOW_ENGINE.zip",
+    "successor_commit": "c6a720d1c8b329566bdd56af79ff23a4f6582c33",
+    "successor_sha256": "f293f8e314fed766f410413fa47b094ee00f017436fb668fbccd33467c3cffda"
+  },
+  "gsdlc_01_c_successor": {
+    "status": "pass-candidate/pending-windows-owner-adjudication",
+    "project_progress_engine_implemented": true,
+    "project_status_projection_implemented": true,
+    "next_action_projection_implemented": true,
+    "application_service_capabilities_implemented": true,
+    "api_routes_added": 0,
+    "ui_routes_added": 0,
+    "git_reconciliation_authority": "deferred-to-DEVPL-GSDLC-01-D",
+    "project_status_api_ui": "deferred-to-DEVPL-GSDLC-01-E",
+    "model_budget": "not-available-until-DEVPL-GSDLC-06",
     "validation_mode": "cumulative-selective",
     "full_regression_enforced": false,
     "full_regression_deferred_to": "DEVPL-GSDLC-01-E"

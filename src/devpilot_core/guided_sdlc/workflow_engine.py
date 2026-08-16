@@ -182,6 +182,10 @@ class TransitionCatalog:
     def ids(self) -> tuple[str, ...]:
         return tuple(sorted(self._specs))
 
+    def specs(self) -> tuple[TransitionSpec, ...]:
+        """Return catalog specs in stable transition_id order for read-only projections."""
+        return tuple(self._specs[key] for key in sorted(self._specs))
+
 
 @dataclass(frozen=True)
 class TransitionEvaluation:

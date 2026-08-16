@@ -1,0 +1,35 @@
+{
+  "schema_id": "devpilot.gsdlc01c.status_snapshot_coverage.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-C",
+  "status": "PASS-CANDIDATE",
+  "macro_phases": [
+    "NOT_STARTED",
+    "INTAKE",
+    "PROBLEM_DISCOVERY",
+    "REQUIREMENTS",
+    "ARCHITECTURE",
+    "PLANNING",
+    "IMPLEMENTATION",
+    "VERIFICATION",
+    "RELEASE",
+    "OPERATIONS",
+    "RETIREMENT"
+  ],
+  "semantic_edge_snapshots": [
+    "new",
+    "gate-pass-transition",
+    "revalidation-required",
+    "released-terminal"
+  ],
+  "next_action_priority_order": [
+    "INSPECT_STATE",
+    "REVALIDATE",
+    "RESOLVE_BLOCKER",
+    "OBTAIN_APPROVAL",
+    "CONTINUE_STEP",
+    "ADVANCE_TRANSITION",
+    "COMPLETE"
+  ],
+  "deterministic": true,
+  "golden_timestamp_free": true
+}

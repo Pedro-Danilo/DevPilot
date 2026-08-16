@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .repository import WorkspaceEngineeringStateRepository
+from .project_progress import ProjectProgressEngine, ProjectProjection
 from .workflow_engine import TransitionEvidence, TransitionEvaluation, TransitionPreview, WorkflowEngine
 
 
@@ -61,4 +62,33 @@ class GuidedSDLCService:
             transition_id,
             evidence,
             updated_at_utc=updated_at_utc,
+        )
+
+    def project_status(
+        self,
+        *,
+        workspace_id: str,
+        observed_at_utc: str,
+        expected_state_fingerprint: str | None = None,
+    ) -> ProjectProjection:
+        state = self.repository.load(workspace_id)
+        return ProjectProgressEngine(self.workflow_engine).project(
+            state,
+            observed_at_utc=observed_at_utc,
+            expected_state_fingerprint=expected_state_fingerprint,
+        )
+
+    def next_action(
+        self,
+        *,
+        workspace_id: str,
+        observed_at_utc: str,
+        expected_state_fingerprint: str | None = None,
+    ) -> ProjectProjection:
+        # Same deterministic projection source as project_status. Keeping one
+        # implementation prevents future API/UI semantic drift.
+        return self.project_status(
+            workspace_id=workspace_id,
+            observed_at_utc=observed_at_utc,
+            expected_state_fingerprint=expected_state_fingerprint,
         )

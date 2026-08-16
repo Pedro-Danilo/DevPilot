@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:devpilot:schema:guided-sdlc-next-action:v1",
+  "title": "DevPilot Guided SDLC NextAction v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "action_id",
+    "kind",
+    "priority",
+    "reason_code",
+    "explanation",
+    "target_phase",
+    "target_step",
+    "transition_id",
+    "navigation_target",
+    "required_prerequisites",
+    "approval_needed",
+    "mutating",
+    "dry_run_required",
+    "available",
+    "disabled_reason",
+    "expected_evidence",
+    "source_state_fingerprint",
+    "executes_action",
+    "network_used",
+    "external_api_used",
+    "source_mutations_performed"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GUIDED-SDLC-NEXT-ACTION-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "INSPECT_STATE",
+        "REVALIDATE",
+        "RESOLVE_BLOCKER",
+        "OBTAIN_APPROVAL",
+        "CONTINUE_STEP",
+        "ADVANCE_TRANSITION",
+        "COMPLETE"
+      ]
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 70
+    },
+    "reason_code": {
+      "type": "string",
+      "minLength": 1
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_phase": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "target_step": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "transition_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "navigation_target": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "approval_needed": {
+      "type": "boolean"
+    },
+    "mutating": {
+      "type": "boolean"
+    },
+    "dry_run_required": {
+      "type": "boolean"
+    },
+    "available": {
+      "type": "boolean"
+    },
+    "disabled_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expected_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "source_state_fingerprint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "executes_action": {
+      "const": false
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "source_mutations_performed": {
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_id": "devpilot.gsdlc01c.current.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-C",
+  "decision": "PASS-CANDIDATE/PRE-WINDOWS",
+  "owner_adjudication": "PENDING",
+  "source_repo": "repo_DevPilot_Local_350_DEVPL_GSDLC_01_B_DETERMINISTIC_WORKFLOW_ENGINE.zip",
+  "source_commit": "c6a720d1c8b329566bdd56af79ff23a4f6582c33",
+  "source_sha256": "f293f8e314fed766f410413fa47b094ee00f017436fb668fbccd33467c3cffda",
+  "predecessor_adjudication": "DEVPL_GSDLC_01_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "project_progress_engine": "implemented-initial",
+  "project_status_projection": "implemented-initial",
+  "next_action_projection": "implemented-initial",
+  "application_service_capabilities": [
+    "guided_sdlc.project.status",
+    "guided_sdlc.next_action"
+  ],
+  "http_api_routes_added": 0,
+  "ui_routes_added": 0,
+  "reconciler": "NOT_IMPLEMENTED/DEVPL-GSDLC-01-D",
+  "project_status_http_ui": "NOT_IMPLEMENTED/DEVPL-GSDLC-01-E",
+  "model_budget": "NOT_AVAILABLE/DEVPL-GSDLC-06",
+  "miasi_projection": "UNKNOWN/no-canonical-state-field",
+  "validation_mode": "cumulative-selective",
+  "full_regression_enforced": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+  "hard_trigger_present": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "next_micro_sprint": "DEVPL-GSDLC-01-D",
+  "next_micro_sprint_authorized": false
+}

@@ -10757,6 +10757,66 @@
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
       "domain": "guided-sdlc.workflow"
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-c-project-progress-next-action",
+      "scope": "integration",
+      "owner": "DEVPL-GSDLC-01-C",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
+        "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
+        "tests/test_application_services.py",
+        "tests/test_application_services_v2.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ],
+      "validates": [
+        "src/devpilot_core/guided_sdlc/project_progress.py",
+        "src/devpilot_core/guided_sdlc/service.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/guided_sdlc_project_status.schema.json",
+        "docs/schemas/guided_sdlc_next_action.schema.json",
+        "docs/02_architecture/guided_sdlc/project_progress_contract.md",
+        "docs/audits/devpl_gsdlc_01_c_historical_contract_sweep.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/guided_sdlc/project_progress.py",
+        "src/devpilot_core/guided_sdlc/service.py",
+        "src/devpilot_core/guided_sdlc/workflow_engine.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/guided_sdlc_project_status.schema.json",
+        "docs/schemas/guided_sdlc_next_action.schema.json",
+        "docs/02_architecture/guided_sdlc/project_progress_contract.md",
+        "tests/fixtures/gsdlc01c",
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_01_c_project_progress.py tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
+        "python -m pytest tests/test_application_services.py tests/test_application_services_v2.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "application.service"
     }
   ],
   "created_by": "POST-H-001",

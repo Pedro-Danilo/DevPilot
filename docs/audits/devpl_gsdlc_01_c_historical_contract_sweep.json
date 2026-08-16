@@ -1,0 +1,67 @@
+{
+  "schema_id": "devpilot.gsdlc01c.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-C",
+  "status": "PASS-CANDIDATE",
+  "source_repo": "repo_DevPilot_Local_350_DEVPL_GSDLC_01_B_DETERMINISTIC_WORKFLOW_ENGINE.zip",
+  "classifications": [
+    {
+      "path": "docs/audits/DEVPL_GSDLC_01_B_CURRENT.json",
+      "classification": "historical-freeze",
+      "reason": "01-B CURRENT remains the pre-owner PASS-CANDIDATE snapshot; owner closure is a successor adjudication."
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_01_B_CLOSURE_REPORT.md",
+      "classification": "historical-freeze",
+      "reason": "01-B candidate report is not rewritten after owner adjudication."
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "successor-needed",
+      "reason": "Preserve 01-B pre-owner fields and add final-owner plus 01-C successor fields; current_repo/GSDLC-00/R01 snapshots stay untouched."
+    },
+    {
+      "path": ".devpilot/gsdlc/architecture_target_contract.json",
+      "classification": "current-active",
+      "reason": "Advance current GuidedSDLC projection capability while preserving ADR historical frontmatter and 01-B pre-owner status."
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-004-ui-complete-normal-journey.md",
+      "classification": "historical-freeze",
+      "reason": "01-C adds only backend projection; it does not rewrite the earlier planned UI history."
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "classification": "current-active",
+      "reason": "Register 01-B final adjudication and 01-C projection contract as successor sources."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "classification": "current-active",
+      "reason": "Append C contract; preserve A/B identities."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "classification": "current-active",
+      "reason": "Append C impact classification; preserve A/B contracts."
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "classification": "current-active",
+      "reason": "Register ProjectStatus/NextAction schemas; historical absolute schema counts are not future invariants."
+    },
+    {
+      "path": "ui_operational_console_final_*",
+      "classification": "historical-freeze",
+      "reason": "01-C adds no UI route and does not modify the nine UOC historical routes."
+    }
+  ],
+  "tests_rewritten_only_to_pass": false,
+  "historical_facts_rewritten": false,
+  "current_repo_rewritten": false,
+  "uoc_contracts_modified": false,
+  "http_api_routes_added": 0,
+  "ui_routes_added": 0,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
+  "s0_open": 0,
+  "s1_open": 0
+}

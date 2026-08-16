@@ -18811,6 +18811,96 @@
       ],
       "security_negative_required": true,
       "approval_scope": "owner-adjudication-before-01-c"
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-c-project-progress-next-action",
+      "source_contract_id": "devpl-gsdlc-01-c-project-progress-next-action",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "DeterministicProjectStatusAndNextActionProjection",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 150,
+      "test_files": [
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
+        "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
+        "tests/test_application_services.py",
+        "tests/test_application_services_v2.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/guided_sdlc/project_progress.py",
+        "src/devpilot_core/guided_sdlc/service.py",
+        "src/devpilot_core/guided_sdlc/workflow_engine.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/guided_sdlc_project_status.schema.json",
+        "docs/schemas/guided_sdlc_next_action.schema.json",
+        "docs/02_architecture/guided_sdlc/project_progress_contract.md",
+        "tests/fixtures/gsdlc01c",
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json"
+      ],
+      "validates": [
+        "src/devpilot_core/guided_sdlc/project_progress.py",
+        "src/devpilot_core/guided_sdlc/service.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/guided_sdlc_project_status.schema.json",
+        "docs/schemas/guided_sdlc_next_action.schema.json",
+        "docs/02_architecture/guided_sdlc/project_progress_contract.md",
+        "docs/audits/devpl_gsdlc_01_c_historical_contract_sweep.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-01-C",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_01_c_project_progress.py tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
+        "python -m pytest tests/test_application_services.py tests/test_application_services_v2.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "01-C is intermediate and uses cumulative-selective validation.",
+        "ProjectStatus/NextAction are read-only; no HTTP/UI route is introduced.",
+        "Test Impact full-regression recommendation is advisory unless owner-approved hard trigger exists.",
+        "Full regression is deferred to DEVPL-GSDLC-01-E."
+      ],
+      "trigger_hints": [
+        "guided-sdlc-project-status",
+        "next-action",
+        "application-service",
+        "project-state",
+        "schema-catalog"
+      ],
+      "impact_scope": [
+        "guided-sdlc",
+        "application-service",
+        "schemas",
+        "project-state",
+        "documentation-governance"
+      ],
+      "security_negative_required": true,
+      "approval_scope": "owner-adjudication-after-windows"
     }
   ],
   "created_by": "POST-H-003-E",

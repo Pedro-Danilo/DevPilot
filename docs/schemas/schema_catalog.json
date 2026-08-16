@@ -2581,7 +2581,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-01-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-PROJECT-STATUS-V1",
+      "title": "DevPilot Guided SDLC ProjectStatus v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/guided_sdlc_project_status.schema.json",
+      "description": "DEVPL-GSDLC-01-C deterministic read-only project status projection contract.",
+      "status": "registered",
+      "contract": "ProjectStatus",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-01-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-01-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-NEXT-ACTION-V1",
+      "title": "DevPilot Guided SDLC NextAction v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/guided_sdlc_next_action.schema.json",
+      "description": "DEVPL-GSDLC-01-C deterministic explainable next-action recommendation contract.",
+      "status": "registered",
+      "contract": "NextAction",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-01-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-01-C"
     }
   ],
-  "schemas_total": 178
+  "schemas_total": 180
 }

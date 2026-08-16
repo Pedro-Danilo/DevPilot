@@ -1,0 +1,55 @@
+{
+  "schema_id": "devpilot.gsdlc01c.semantic_snapshots.v1",
+  "cases": [
+    {
+      "id": "new",
+      "state": {
+        "phase": "NOT_STARTED",
+        "current_step": "idea-intake",
+        "lifecycle_status": "NEW"
+      },
+      "expected": {
+        "progress_percent": 0.0,
+        "next_kind": "ADVANCE_TRANSITION",
+        "reason_code": "TRANSITION_READY"
+      }
+    },
+    {
+      "id": "intake-gate-missing",
+      "state": {
+        "phase": "INTAKE",
+        "current_step": "intake",
+        "lifecycle_status": "IN_PROGRESS"
+      },
+      "expected": {
+        "next_kind": "RESOLVE_BLOCKER",
+        "reason_code": "GATE_NOT_SATISFIED"
+      }
+    },
+    {
+      "id": "revalidation",
+      "state": {
+        "phase": "REQUIREMENTS",
+        "current_step": "requirements",
+        "lifecycle_status": "REVALIDATION_REQUIRED"
+      },
+      "expected": {
+        "next_kind": "REVALIDATE",
+        "reason_code": "REVALIDATION_REQUIRED"
+      }
+    },
+    {
+      "id": "terminal",
+      "state": {
+        "phase": "RETIREMENT",
+        "current_step": "retirement",
+        "lifecycle_status": "RELEASED"
+      },
+      "expected": {
+        "progress_percent": 100.0,
+        "next_kind": "COMPLETE",
+        "reason_code": "LIFECYCLE_COMPLETE"
+      }
+    }
+  ]
+}

@@ -18305,6 +18305,55 @@
         "DEVPL-GSDLC-01-B"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-01-B-FINAL-OWNER-ADJUDICATION",
+      "path": "docs/audits/DEVPL_GSDLC_01_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-01-B",
+      "status_required": "closed-pass",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-01",
+        "DEVPL-GSDLC-01-B",
+        "DEVPL-GSDLC-01-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-01-C-PROJECT-PROGRESS-CONTRACT",
+      "path": "docs/02_architecture/guided_sdlc/project_progress_contract.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.guided-sdlc",
+      "owner": "DEVPL-GSDLC-01-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-01",
+        "DEVPL-GSDLC-01-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -20856,12 +20905,16 @@
   "gsdlc_00_d_program_status_at_close": "active/00-d",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closure-candidate/pending-owner-adjudication",
-  "gsdlc_01_last_registered_micro_sprint": "DEVPL-GSDLC-01-A",
-  "gsdlc_01_program_status": "implementation/01-a/pass-candidate-pending-owner",
+  "gsdlc_01_last_registered_micro_sprint": "DEVPL-GSDLC-01-C",
+  "gsdlc_01_program_status": "implementation/01-c/pass-candidate-pre-windows",
   "gsdlc_validation_policy_version": "1.0.0",
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_01_a_status_at_close": "closed/PASS",
   "gsdlc_01_a_successor_repo_at_close": "repo_DevPilot_Local_349_DEVPL_GSDLC_01_A_WORKSPACE_ENGINEERING_STATE.zip",
   "gsdlc_01_a_successor_commit_at_close": "bbb00547a087bd35f92623e6180ba98c170849ba",
-  "gsdlc_01_b_status": "pass-candidate/pre-windows"
+  "gsdlc_01_b_status": "pass-candidate/pre-windows",
+  "gsdlc_01_b_final_owner_status": "closed/PASS",
+  "gsdlc_01_b_successor_repo_at_close": "repo_DevPilot_Local_350_DEVPL_GSDLC_01_B_DETERMINISTIC_WORKFLOW_ENGINE.zip",
+  "gsdlc_01_b_successor_commit_at_close": "c6a720d1c8b329566bdd56af79ff23a4f6582c33",
+  "gsdlc_01_c_status": "pass-candidate/pre-windows"
 }

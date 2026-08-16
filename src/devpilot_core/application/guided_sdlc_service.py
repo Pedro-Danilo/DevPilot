@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.guided_sdlc import GuidedSDLCService, WorkflowEngineError
+from devpilot_core.guided_sdlc import GuidedSDLCService, ProjectProgressEngine, WorkflowEngineError
 from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreError
 
 
@@ -58,6 +58,66 @@ class GuidedSDLCApplicationService:
         except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, KeyError) as exc:
             return self._error("guided_sdlc.transition.preview", exc)
         return self._result("guided_sdlc.transition.preview", preview.to_payload())
+
+    def project_status(
+        self,
+        *,
+        workspace_id: str,
+        observed_at_utc: str,
+        expected_state_fingerprint: str | None = None,
+    ) -> CommandResult:
+        try:
+            projection = self._service().project_status(
+                workspace_id=workspace_id,
+                observed_at_utc=observed_at_utc,
+                expected_state_fingerprint=expected_state_fingerprint,
+            )
+        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, KeyError, ValueError):
+            projection = ProjectProgressEngine.unknown(
+                workspace_id=workspace_id,
+                observed_at_utc=observed_at_utc,
+            )
+        return self._projection_result("guided_sdlc.project.status", projection.status.to_payload())
+
+    def next_action(
+        self,
+        *,
+        workspace_id: str,
+        observed_at_utc: str,
+        expected_state_fingerprint: str | None = None,
+    ) -> CommandResult:
+        try:
+            projection = self._service().next_action(
+                workspace_id=workspace_id,
+                observed_at_utc=observed_at_utc,
+                expected_state_fingerprint=expected_state_fingerprint,
+            )
+        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, KeyError, ValueError):
+            projection = ProjectProgressEngine.unknown(
+                workspace_id=workspace_id,
+                observed_at_utc=observed_at_utc,
+            )
+        return self._projection_result("guided_sdlc.next_action", projection.next_action.to_payload())
+
+    def _projection_result(self, command: str, payload: dict[str, Any]) -> CommandResult:
+        unknown = payload.get("reason") == "unknown" or payload.get("reason_code") in {
+            "WORKSPACE_ENGINEERING_STATE_UNKNOWN",
+            "NEXT_ACTION_UNKNOWN",
+        }
+        return CommandResult(
+            command=command,
+            ok=not unknown,
+            exit_code=ExitCode.PASS if not unknown else ExitCode.BLOCK,
+            message="Guided SDLC projection derived deterministically." if not unknown else "Guided SDLC projection is unknown.",
+            data=payload,
+            findings=[] if not unknown else [
+                Finding(
+                    id=str(payload.get("reason_code") or "WORKSPACE_ENGINEERING_STATE_UNKNOWN"),
+                    message="Project status/next action could not be derived from authoritative state.",
+                    severity=Severity.BLOCK,
+                )
+            ],
+        )
 
     def _result(self, command: str, payload: dict[str, Any]) -> CommandResult:
         evaluation = payload.get("evaluation", payload)

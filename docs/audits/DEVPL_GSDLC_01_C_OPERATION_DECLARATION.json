@@ -1,0 +1,14 @@
+{
+  "schema_id": "devpilot.gsdlc01c.operation_declaration.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-C",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": "repo-candidate-files-only",
+  "pilot_workspace_mutated": false,
+  "http_api_routes_added": 0,
+  "ui_routes_added": 0,
+  "agent_or_llm_authority": false,
+  "full_regression_executed": false,
+  "validation_mode": "cumulative-selective"
+}

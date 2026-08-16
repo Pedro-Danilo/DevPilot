@@ -7,6 +7,15 @@ from .models import (
     WorkspaceEngineeringStateError,
     contains_secret_like_material,
 )
+from .project_progress import (
+    NEXT_ACTION_SCHEMA_ID,
+    PROJECT_STATUS_SCHEMA_ID,
+    NextAction,
+    ProjectProgressEngine,
+    ProjectProgressError,
+    ProjectProjection,
+    ProjectStatus,
+)
 from .registry_binding import WorkspaceBinding, WorkspaceBindingError, WorkspaceRegistryBindingResolver
 from .repository import (
     WorkspaceEngineeringStateConflict,
@@ -27,6 +36,13 @@ from .workflow_engine import (
 )
 
 __all__ = [
+    "NEXT_ACTION_SCHEMA_ID",
+    "PROJECT_STATUS_SCHEMA_ID",
+    "NextAction",
+    "ProjectProgressEngine",
+    "ProjectProgressError",
+    "ProjectProjection",
+    "ProjectStatus",
     "WorkflowEngineError",
     "WorkflowEngine",
     "TransitionSpec",

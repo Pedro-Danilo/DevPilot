@@ -1,0 +1,70 @@
+{
+  "schema_id": "devpilot.gsdlc01b.owner_adjudication.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-B",
+  "decision": "CLOSED/PASS",
+  "adjudicated_at": "2026-08-16",
+  "predecessor": {
+    "repo": "repo_DevPilot_Local_349_DEVPL_GSDLC_01_A_WORKSPACE_ENGINEERING_STATE.zip",
+    "commit": "bbb00547a087bd35f92623e6180ba98c170849ba",
+    "decision": "CLOSED/PASS"
+  },
+  "successor": {
+    "repo": "repo_DevPilot_Local_350_DEVPL_GSDLC_01_B_DETERMINISTIC_WORKFLOW_ENGINE.zip",
+    "commit": "c6a720d1c8b329566bdd56af79ff23a4f6582c33",
+    "sha256": "f293f8e314fed766f410413fa47b094ee00f017436fb668fbccd33467c3cffda",
+    "canonical_branch": "eval/post-h-eval-002-02-a-onboarding"
+  },
+  "windows_evidence": {
+    "artifact": "DEVPL_GSDLC_01_B_WINDOWS_EVIDENCE_v1_0_1.zip",
+    "sha256": "2490a83717dc24d7b9640a6ad9ae8492e17c5db93282ffce79ed44bc86408656"
+  },
+  "validation": {
+    "mode": "cumulative-selective",
+    "windows_tests": {
+      "passed": 119,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "independent_repo_extract_tests": {
+      "passed": 121,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "regression_guard": "PASS/VALID-WAIVER",
+    "test_impact_full_regression_recommended": true,
+    "hard_trigger_present": false,
+    "full_regression_executed": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+  },
+  "integrity": {
+    "delta_paths": 29,
+    "artifact_hashes_git": "28/28",
+    "artifact_hashes_archive": "28/28",
+    "worktree": "CLEAN",
+    "pilot_preserved": true,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "scope": {
+    "workflow_engine_deterministic": true,
+    "application_operations_read_only": true,
+    "http_routes_added": 0,
+    "ui_routes_added": 0,
+    "llm_transition_authority": false,
+    "state_mutation_by_evaluate_preview": false
+  },
+  "limitations": {
+    "transition_catalog": "initial generic 26-phase kernel",
+    "artifact_dependency_workflow_deferred_to": "DEVPL-GSDLC-05"
+  },
+  "authorization": {
+    "DEVPL-GSDLC-01-C": true,
+    "DEVPL-GSDLC-01-D": false
+  }
+}
