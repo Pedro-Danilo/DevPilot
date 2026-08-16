@@ -1,0 +1,57 @@
+{
+  "schema_id": "devpilot.gsdlc01a.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-A",
+  "status": "PASS-CANDIDATE",
+  "generated_from_repo": "repo_DevPilot_Local_348_DEVPL_GSDLC_R01_E_RESEARCH_CLOSURE.zip",
+  "classifications": [
+    {
+      "path": "tests/test_devpl_gsdlc_00_a_program_activation.py",
+      "classification": "historical-freeze",
+      "reason": "GSDLC-00 closed before runtime implementation; global gsdlc_runtime_implemented=false is preserved as historical close fact."
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_00_c_architecture_contracts.py",
+      "classification": "historical-freeze",
+      "reason": "00-C ADR files remain planned-at-00-C; 01-A adds successor implementation markers without rewriting ADR frontmatter."
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_00_e_baseline_closure.py",
+      "classification": "historical-freeze",
+      "reason": "00-E authorizes GSDLC-01 and freezes repo342 program-activation baseline; 01-A authority is external repo348."
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "successor-needed",
+      "reason": "Add gsdlc_01_a_* successor fields; do not rewrite GSDLC-00/R01 snapshots/current_repo history."
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "classification": "current-active",
+      "reason": "Mutable last-registered pointer may advance to 01-A while 00/R01 close snapshots remain unchanged."
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "classification": "current-active",
+      "reason": "Catalog grows by one registered WorkspaceEngineeringState schema; absolute historical counts are not future invariants."
+    },
+    {
+      "path": ".devpilot/gsdlc/transversal_validation_policy.json",
+      "classification": "current-active",
+      "reason": "Owner-approved transversal testing policy is active for intermediate GSDLC micro-sprints and preserves Test Impact recommendation without auto-running the full suite."
+    }
+  ],
+  "tests_rewritten_only_to_pass": false,
+  "historical_facts_rewritten": false,
+  "current_repo_rewritten": false,
+  "uoc_contracts_modified": false,
+  "runtime_scope": "workspace-engineering-state-contract/repository only",
+  "workflow_engine_implemented": false,
+  "api_ui_modified": false,
+  "network_used": false,
+  "external_api_used": false,
+  "pilot_workspace_mutated": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "validation_policy_version": "1.0.0",
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+}

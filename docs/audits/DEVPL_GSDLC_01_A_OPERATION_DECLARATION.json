@@ -1,0 +1,21 @@
+{
+  "schema_id": "devpilot.gsdlc01a.operation_declaration.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-A",
+  "status": "candidate-pre-windows",
+  "source_repo": "repo_DevPilot_Local_348_DEVPL_GSDLC_R01_E_RESEARCH_CLOSURE.zip",
+  "source_commit": "3d7fda44d7ab5feefadd2eb4a7b9d20680eb1b5d",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "pilot_workspace_mutated": false,
+  "runtime_source_changed": true,
+  "api_changed": false,
+  "ui_changed": false,
+  "workflow_engine_implemented": false,
+  "mutations_performed": "candidate-filesystem-only",
+  "dry_run_default": true,
+  "validation_policy": ".devpilot/gsdlc/transversal_validation_policy.json",
+  "validation_mode": "cumulative-selective",
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+}

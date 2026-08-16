@@ -69,7 +69,13 @@
         "session tokens",
         "ephemeral job logs"
       ],
-      "reconciliation": "on open/resume compare Git HEAD/branch/status and governed artifact hashes; external drift marks affected items REVALIDATION_REQUIRED before transition"
+      "reconciliation": "on open/resume compare Git HEAD/branch/status and governed artifact hashes; external drift marks affected items REVALIDATION_REQUIRED before transition",
+      "implementation_status": "implemented-initial/DEVPL-GSDLC-01-A",
+      "schema_contract": "docs/schemas/workspace_engineering_state.schema.json",
+      "persistence_contract": "outputs/workspaces/<workspace_id>/engineering_state.json",
+      "persistence_source_controlled": false,
+      "optimistic_concurrency": "sequence/exact-successor",
+      "migration_contract": "docs/02_architecture/guided_sdlc/workspace_engineering_state_migration_contract.md"
     },
     {
       "name": "RuntimeOperationalState",
@@ -190,5 +196,27 @@
     "force_push": false,
     "automatic_reset_hard": false,
     "unbounded_loops_or_cost": false
+  },
+  "gsdlc_01_a_successor": {
+    "status": "pass-candidate/pending-owner-adjudication",
+    "workspace_engineering_state_contract_implemented": true,
+    "workflow_engine_implemented": false,
+    "api_project_status_implemented": false,
+    "ui_project_status_implemented": false,
+    "validation_mode": "cumulative-selective",
+    "full_regression_enforced": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+  },
+  "transversal_validation_policy": {
+    "status": "approved/active",
+    "version": "1.0.0",
+    "machine_contract": ".devpilot/gsdlc/transversal_validation_policy.json",
+    "human_contract": "docs/02_architecture/governance/DEVPL_GSDLC_TRANSVERSAL_VALIDATION_POLICY_v1_0_0_APPROVED.md",
+    "intermediate_mode": "cumulative-selective",
+    "closing_full_regression": "exactly-once",
+    "test_impact_full_regression_flag": "recommendation-not-automatic-execution",
+    "hard_trigger_exception_requires_owner_decision": true,
+    "effective_from": "DEVPL-GSDLC-01-A",
+    "historical_regression_guard_bridge": "bounded-native-waiver-after-cumulative-pass"
   }
 }

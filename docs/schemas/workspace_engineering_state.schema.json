@@ -1,0 +1,428 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WORKSPACE-ENGINEERING-STATE-V1",
+  "title": "DevPilot WorkspaceEngineeringState v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "workspace_id",
+    "project_id",
+    "workspace_root_fingerprint",
+    "lifecycle_status",
+    "phase",
+    "current_step",
+    "sequence",
+    "created_at_utc",
+    "updated_at_utc",
+    "git",
+    "artifacts",
+    "planning",
+    "quality",
+    "gates",
+    "blockers",
+    "revalidation",
+    "source_fingerprints",
+    "next_action_ref"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-WORKSPACE-ENGINEERING-STATE-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "workspace_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]{1,256}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+    },
+    "workspace_root_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "lifecycle_status": {
+      "enum": [
+        "NEW",
+        "IN_PROGRESS",
+        "BLOCKED",
+        "REVALIDATION_REQUIRED",
+        "READY_FOR_RELEASE",
+        "RELEASED"
+      ]
+    },
+    "phase": {
+      "enum": [
+        "NOT_STARTED",
+        "INTAKE",
+        "PROBLEM_DISCOVERY",
+        "BUSINESS_ANALYSIS",
+        "STAKEHOLDERS",
+        "REQUIREMENTS",
+        "RISK_ANALYSIS",
+        "ARCHITECTURE",
+        "DOMAIN_DESIGN",
+        "DATA_DESIGN",
+        "INTERFACE_DESIGN",
+        "UX_UI_DESIGN",
+        "QUALITY_PLAN",
+        "SECURITY_PLAN",
+        "TEST_PLAN",
+        "IMPLEMENTATION",
+        "INTEGRATION",
+        "VERIFICATION",
+        "VALIDATION",
+        "RELEASE",
+        "DEPLOYMENT",
+        "OPERATION",
+        "MONITORING",
+        "INCIDENT_MANAGEMENT",
+        "MAINTENANCE",
+        "AUDIT",
+        "RETIREMENT"
+      ]
+    },
+    "current_step": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "created_at_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "head",
+        "branch",
+        "dirty",
+        "fingerprint"
+      ],
+      "properties": {
+        "head": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{7,64}$"
+        },
+        "branch": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 256
+        },
+        "dirty": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "fingerprint": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "lifecycle",
+          "source_ref",
+          "fingerprint"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "lifecycle": {
+            "enum": [
+              "MISSING",
+              "DRAFT",
+              "VALIDATING",
+              "FINDINGS",
+              "READY_FOR_REVIEW",
+              "APPROVAL_REQUIRED",
+              "APPROVED",
+              "FROZEN",
+              "REVALIDATION_REQUIRED"
+            ]
+          },
+          "source_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1024
+          },
+          "fingerprint": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "planning": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "planning_id",
+          "lifecycle",
+          "source_ref"
+        ],
+        "properties": {
+          "planning_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "lifecycle": {
+            "enum": [
+              "NOT_STARTED",
+              "DRAFT",
+              "READY_FOR_REVIEW",
+              "APPROVAL_REQUIRED",
+              "APPROVED",
+              "FROZEN",
+              "REVALIDATION_REQUIRED"
+            ]
+          },
+          "source_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1024
+          }
+        }
+      }
+    },
+    "quality": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "quality_id",
+          "status",
+          "evidence_ref"
+        ],
+        "properties": {
+          "quality_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "status": {
+            "enum": [
+              "NOT_EVALUATED",
+              "PASS",
+              "WARN",
+              "BLOCK",
+              "REVALIDATION_REQUIRED"
+            ]
+          },
+          "evidence_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1024
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gate_id",
+          "status",
+          "reason_code",
+          "evidence_ref"
+        ],
+        "properties": {
+          "gate_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "status": {
+            "enum": [
+              "UNKNOWN",
+              "PASS",
+              "WARN",
+              "BLOCK"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "evidence_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1024
+          }
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "blocker_id",
+          "severity",
+          "reason_code",
+          "source_ref"
+        ],
+        "properties": {
+          "blocker_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "severity": {
+            "enum": [
+              "S0",
+              "S1",
+              "S2",
+              "S3"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "source_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1024
+          }
+        }
+      }
+    },
+    "revalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason_codes"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_REQUIRED",
+            "REQUIRED",
+            "IN_PROGRESS",
+            "RESOLVED"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        }
+      }
+    },
+    "source_fingerprints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_ref",
+          "sha256"
+        ],
+        "properties": {
+          "source_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "next_action_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lifecycle_status": {
+            "const": "REVALIDATION_REQUIRED"
+          }
+        },
+        "required": [
+          "lifecycle_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "revalidation": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "REQUIRED",
+                  "IN_PROGRESS"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

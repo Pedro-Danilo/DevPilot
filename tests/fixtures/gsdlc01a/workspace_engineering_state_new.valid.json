@@ -1,0 +1,30 @@
+{
+  "schema_id": "SCHEMA-DEVPL-WORKSPACE-ENGINEERING-STATE-V1",
+  "schema_version": "1.0",
+  "workspace_id": "fixture-workspace",
+  "project_id": "fixture-project",
+  "workspace_root_fingerprint": "0000000000000000000000000000000000000000000000000000000000000000",
+  "lifecycle_status": "NEW",
+  "phase": "NOT_STARTED",
+  "current_step": "idea-intake",
+  "sequence": 0,
+  "created_at_utc": "2026-08-16T00:00:00Z",
+  "updated_at_utc": "2026-08-16T00:00:00Z",
+  "git": {
+    "head": null,
+    "branch": null,
+    "dirty": null,
+    "fingerprint": null
+  },
+  "artifacts": [],
+  "planning": [],
+  "quality": [],
+  "gates": [],
+  "blockers": [],
+  "revalidation": {
+    "status": "NOT_REQUIRED",
+    "reason_codes": []
+  },
+  "source_fingerprints": [],
+  "next_action_ref": null
+}

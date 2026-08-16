@@ -1,0 +1,167 @@
+{
+  "schema_id": "devpilot.gsdlc.transversal_validation_policy.v1",
+  "policy_id": "DEVPL-GSDLC-TRANSVERSAL-VALIDATION-POLICY",
+  "status": "APPROVED/ACTIVE",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "approved_at": "2026-08-16",
+  "effective_from": "DEVPL-GSDLC-01-A",
+  "scope": {
+    "program": "DEVPL-GSDLC",
+    "backlogs": "01..13",
+    "successors": "unless explicitly superseded"
+  },
+  "observed_cost": {
+    "full_regression_windows": "GT_3_HOURS",
+    "cost_class": "very-high"
+  },
+  "default": {
+    "intermediate_validation_mode": "cumulative-selective",
+    "intermediate_full_regression_enforced": false,
+    "closing_validation_mode": "full-regression-once",
+    "closing_full_regression_runs": 1,
+    "full_regression_rerun_after_failure": false,
+    "residual_policy": "root-cause-fix-plus-selective-retest"
+  },
+  "levels": [
+    {
+      "id": "L0",
+      "name": "structural-integrity",
+      "required": "always"
+    },
+    {
+      "id": "L1",
+      "name": "current-focal",
+      "required": "always"
+    },
+    {
+      "id": "L2",
+      "name": "cumulative-backlog",
+      "required": "always"
+    },
+    {
+      "id": "L3",
+      "name": "test-impact",
+      "required": "always",
+      "full_flag_semantics": "recommendation-not-automatic-execution"
+    },
+    {
+      "id": "L4",
+      "name": "transversal-deterministic-validators",
+      "required": "when-impacted"
+    },
+    {
+      "id": "L5",
+      "name": "capability-specific-acceptance",
+      "required": "when-applicable"
+    },
+    {
+      "id": "L6",
+      "name": "full-regression",
+      "required": "closing-micro-sprint-or-approved-hard-trigger"
+    }
+  ],
+  "test_impact": {
+    "full_regression_required_field_interpretation": "recommendation/escalation-signal",
+    "intermediate_auto_enforce": false,
+    "must_preserve_recommendation_evidence": true
+  },
+  "hard_triggers": [
+    {
+      "id": "HT-01",
+      "description": "incompatible persistence/data migration across multiple bounded contexts"
+    },
+    {
+      "id": "HT-02",
+      "description": "transversal auth/RBAC/PolicyEngine/approval-authority change"
+    },
+    {
+      "id": "HT-03",
+      "description": "incompatible global ApplicationService/API contract with broad fan-out"
+    },
+    {
+      "id": "HT-04",
+      "description": "cross-domain plugin/connector/tool-execution infrastructure change"
+    },
+    {
+      "id": "HT-05",
+      "description": "major runtime/dependency-platform upgrade"
+    },
+    {
+      "id": "HT-06",
+      "description": "packaging/startup/runtime topology change with broad blast radius"
+    },
+    {
+      "id": "HT-07",
+      "description": "selective failures in unrelated domains invalidate impact bounds"
+    },
+    {
+      "id": "HT-08",
+      "description": "material mid-backlog source baseline/rebase drift"
+    },
+    {
+      "id": "HT-09",
+      "description": "other documented systemic change where selective validation is insufficient"
+    }
+  ],
+  "exception_decision_required": {
+    "required": true,
+    "fields": [
+      "policy_version",
+      "micro_sprint",
+      "hard_trigger_id",
+      "observed_evidence",
+      "why_selective_insufficient",
+      "estimated_cost",
+      "approved_by",
+      "approved_at",
+      "run_exactly_once"
+    ],
+    "run_exactly_once_must_be": true
+  },
+  "closing_failure_policy": {
+    "preserve_original_full_log": true,
+    "rerun_full": false,
+    "selective_retest": true,
+    "validation_mode": "composite-full-regression-selective-retest",
+    "full_pytest_repeated": false
+  },
+  "gsdlc_01": {
+    "A": {
+      "mode": "cumulative-selective",
+      "full_regression_enforced": false,
+      "deferred_to": "DEVPL-GSDLC-01-E"
+    },
+    "B": {
+      "mode": "cumulative-selective",
+      "full_regression_enforced": false,
+      "deferred_to": "DEVPL-GSDLC-01-E"
+    },
+    "C": {
+      "mode": "cumulative-selective",
+      "full_regression_enforced": false,
+      "deferred_to": "DEVPL-GSDLC-01-E"
+    },
+    "D": {
+      "mode": "cumulative-selective",
+      "full_regression_enforced": false,
+      "deferred_to": "DEVPL-GSDLC-01-E"
+    },
+    "E": {
+      "mode": "backlog-closure",
+      "full_regression_enforced": true,
+      "runs": 1
+    }
+  },
+  "precedence": "supersedes intermediate-micro-sprint automatic full-regression execution based solely on Test Impact full_regression_required=true",
+  "legacy_guard_bridge": {
+    "historical_regression_guard_behavior": "may still require waiver for sensitive/unmatched paths",
+    "intermediate_compatibility_decision": "waiver",
+    "waiver_scope": "validation-execution-policy-only; not a waiver of failed tests/security findings",
+    "precondition": "cumulative focal tests and deterministic validators PASS",
+    "owner_authority": "this approved transversal policy",
+    "waiver_expiry_days": 7,
+    "must_attach_test_evidence": true,
+    "core_guard_bypass_allowed": false
+  }
+}

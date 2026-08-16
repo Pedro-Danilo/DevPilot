@@ -1,0 +1,50 @@
+{
+  "schema_id": "devpilot.gsdlc01a.full_regression_decision.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-A",
+  "decision": "DEFERRED-TO-BACKLOG-CLOSURE",
+  "reason": "Owner-approved DEVPL-GSDLC transversal validation policy makes Test Impact full-regression output advisory for intermediate micro-sprints. 01-A has bounded scope and no approved hard trigger; full regression is deferred to DEVPL-GSDLC-01-E.",
+  "test_impact": {
+    "changed_paths_total": 27,
+    "matched_contracts_total": 121,
+    "p0_selected_total": 63,
+    "p1_selected_total": 55,
+    "recommended_tests_total": 199,
+    "unmatched_paths_total": 6,
+    "pre_windows_recomputed_on_final_delta": true,
+    "full_regression_recommended": true,
+    "recommendation_preserved": true
+  },
+  "historical_regression_guard": {
+    "decision": "PASS",
+    "regression_decision": "focal-expanded",
+    "note": "Guard had no Git changed-path input in PRE-WINDOWS sandbox; Test Impact is the controlling explicit requirement."
+  },
+  "execution_policy": {
+    "validation_mode": "cumulative-selective",
+    "full_regression_enforced": false,
+    "hard_trigger_present": false,
+    "hard_trigger_exception_artifact": null,
+    "deferred_to": "DEVPL-GSDLC-01-E",
+    "intermediate_full_regression_blocked": true,
+    "closing_full_regression_runs": 1,
+    "rerun_after_closing_failure": false,
+    "residual_policy": "root-cause-fix-plus-selective-retest",
+    "historical_regression_guard_decision": "waiver",
+    "guard_waiver_scope": "cadence-only; tests/security findings cannot be waived",
+    "guard_waiver_expiry_days": 7
+  },
+  "execution_result": {
+    "status": "NOT-EXECUTED/BY-POLICY",
+    "authoritative_result": "NOT-REQUIRED-FOR-01-A",
+    "full_pytest_repeated": false,
+    "note": "The earlier sandbox timeout is superseded as non-authoritative exploratory evidence. Windows 01-A must not execute the full suite."
+  },
+  "network_used": false,
+  "external_api_used": false,
+  "policy": {
+    "id": "DEVPL-GSDLC-TRANSVERSAL-VALIDATION-POLICY",
+    "version": "1.0.0",
+    "machine_contract": ".devpilot/gsdlc/transversal_validation_policy.json",
+    "human_contract": "docs/02_architecture/governance/DEVPL_GSDLC_TRANSVERSAL_VALIDATION_POLICY_v1_0_0_APPROVED.md"
+  }
+}

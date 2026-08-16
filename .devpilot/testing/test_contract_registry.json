@@ -10589,6 +10589,115 @@
         "python -m pytest -q"
       ],
       "domain": "governance.release"
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-a-workspace-engineering-state",
+      "scope": "integration",
+      "owner": "DEVPL-GSDLC-01-A",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py",
+        "tests/test_devpl_gsdlc_00_e_baseline_closure.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ],
+      "validates": [
+        "src/devpilot_core/guided_sdlc",
+        "docs/schemas/workspace_engineering_state.schema.json",
+        "docs/02_architecture/guided_sdlc",
+        "docs/backlogs/DEVPL-GSDLC-01_guided_sdlc_state_engine_and_project_status_v1_2_0_APPROVED.md",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/audits/devpl_gsdlc_01_a_historical_contract_sweep.json",
+        "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
+        ".devpilot/gsdlc/transversal_validation_policy.json",
+        "docs/02_architecture/governance/DEVPL_GSDLC_TRANSVERSAL_VALIDATION_POLICY_v1_0_0_APPROVED.md",
+        "docs/audits/DEVPL_GSDLC_01_A_FULL_REGRESSION_DECISION.json",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/guided_sdlc",
+        "docs/schemas/workspace_engineering_state.schema.json",
+        "docs/02_architecture/guided_sdlc",
+        "docs/backlogs/DEVPL-GSDLC-01_guided_sdlc_state_engine_and_project_status_v1_2_0_APPROVED.md",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json",
+        "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
+        "tests/fixtures/gsdlc01a",
+        "docs/audits/devpl_gsdlc_01_a_historical_contract_sweep.json",
+        ".devpilot/gsdlc/transversal_validation_policy.json",
+        "docs/02_architecture/governance/DEVPL_GSDLC_TRANSVERSAL_VALIDATION_POLICY_v1_0_0_APPROVED.md",
+        "docs/audits/DEVPL_GSDLC_01_A_FULL_REGRESSION_DECISION.json",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_transversal_validation_policy.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py tests/test_devpl_gsdlc_00_c_architecture_contracts.py tests/test_devpl_gsdlc_00_e_baseline_closure.py -q",
+        "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_path_guard.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "guided-sdlc.state"
+    },
+    {
+      "contract_id": "devpl-gsdlc-transversal-validation-policy",
+      "scope": "integration",
+      "owner": "DEVPL-GSDLC",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        ".devpilot/gsdlc/transversal_validation_policy.json",
+        "docs/02_architecture/governance/DEVPL_GSDLC_TRANSVERSAL_VALIDATION_POLICY_v1_0_0_APPROVED.md",
+        ".devpilot/project_state.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        "docs/audits/DEVPL_GSDLC_01_A_FULL_REGRESSION_DECISION.json"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/transversal_validation_policy.json",
+        "docs/02_architecture/governance/DEVPL_GSDLC_TRANSVERSAL_VALIDATION_POLICY_v1_0_0_APPROVED.md",
+        ".devpilot/project_state.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        "docs/audits/DEVPL_GSDLC_01_A_FULL_REGRESSION_DECISION.json",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_transversal_validation_policy.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "governance.testing"
     }
   ],
   "created_by": "POST-H-001",
