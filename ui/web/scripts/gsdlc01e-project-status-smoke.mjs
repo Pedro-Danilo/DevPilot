@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const web=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const repo=path.resolve(web,'../..');
+const read=(p)=>fs.readFileSync(path.join(web,p),'utf8');
+const registry=JSON.parse(fs.readFileSync(path.join(repo,'.devpilot/interfaces/ui_route_contract_registry.json'),'utf8'));
+const frozen=JSON.parse(fs.readFileSync(path.join(repo,'.devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json'),'utf8'));
+const api=JSON.parse(fs.readFileSync(path.join(repo,'.devpilot/interfaces/api_route_contract_registry.json'),'utf8'));
+const main=read('src/main.ts'); const view=read('src/pages/ProjectStatusView.ts'); const client=read('src/api/client.ts'); const pkg=JSON.parse(read('package.json'));
+const failures=[]; const check=(ok,id)=>{if(!ok)failures.push(id);};
+check(registry.routes.length===10,'current-routes-10'); check(frozen.routes.length===9,'uoc-frozen-routes-9');
+check(registry.routes.some(r=>r.route_id==='ui.project-status'&&r.path==='/project/status'),'ui-project-status');
+check(api.routes.some(r=>r.route_id==='api.guided-sdlc.project-status'&&r.path==='/api/v1/guided-sdlc/status'),'api-project-status');
+check(main.includes("'/project/status'")&&main.includes('renderProjectStatusView'),'main-route');
+check(client.includes('/guided-sdlc/status'),'typed-client');
+for(const marker of ['loading','empty','blocked','revalidation','stale','api_down','unauthorized','forbidden','timeout','unknown']) check(view.toLowerCase().includes(marker),`state:${marker}`);
+check(view.includes('textContent')&&!view.includes('innerHTML'),'xss-text-content');
+check(!view.includes('devpilot_core')&&!view.includes('child_process')&&!view.includes('outputs/')&&!view.includes('.devpilot/'),'no-direct-core');
+check(view.includes("globalThis.location.assign")&&view.includes("action.mutating !== true"),'continue-safe-navigation');
+check(pkg.devpilot.topLevelUiRoutesChanged===false,'historical-top-level-flag'); check(pkg.devpilot.gsdlc01eTopLevelUiRoutesChanged===true,'successor-top-level-flag');
+console.log(JSON.stringify({schema_id:'devpilot.gsdlc01e.project_status_smoke.v1',status:failures.length?'BLOCK':'PASS',current_routes_total:registry.routes.length,uoc_routes_at_close:frozen.routes.length,failures},null,2)); process.exit(failures.length?2:0);

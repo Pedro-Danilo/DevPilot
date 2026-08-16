@@ -1,4 +1,4 @@
-import type { DevPilotApplicationResponse, OperatorDashboardResponseData } from './types';
+import type { DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
@@ -118,6 +118,11 @@ export class DevPilotApiClient {
   async portfolioStatus(): Promise<DevPilotApplicationResponse> {
     return this.get('/portfolio/status', { retryNetworkErrors: true });
   }
+
+  async projectStatus(filters: { workspace_id?: string; expected_state_fingerprint?: string } = {}): Promise<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>> {
+    return this.get(`/guided-sdlc/status${this.query(filters)}`, { retryNetworkErrors: true }) as unknown as Promise<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>>;
+  }
+
 
   async listApprovals(filters: { status?: string; limit?: number } = {}): Promise<DevPilotApplicationResponse> {
     return this.get(`/approvals${this.query(filters)}`);

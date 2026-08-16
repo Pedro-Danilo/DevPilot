@@ -10878,6 +10878,69 @@
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
       "domain": "application.service"
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-e-project-status-closure",
+      "scope": "integration",
+      "owner": "DEVPL-GSDLC-01-E",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_gsdlc_01_e_project_status.py",
+        "tests/test_devpl_gsdlc_01_d_reconciliation.py",
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        "tests/test_post_h_eval_002_uoc_011_contracts.py",
+        "tests/test_post_h_014_ui_api_shell_gate.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json",
+        ".devpilot/project_state.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json",
+        ".devpilot/project_state.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_01_e_project_status.py tests/test_post_h_eval_002_uoc_011_contracts.py -q",
+        "npm --prefix ui/web test",
+        "npm --prefix ui/web run test:project-status",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -10949,5 +11012,6 @@
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
-  "status": "implemented-initial"
+  "status": "implemented-initial",
+  "contracts_total": null
 }

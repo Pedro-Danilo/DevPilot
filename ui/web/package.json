@@ -20,7 +20,8 @@
     "test:accessibility": "node scripts/uoc011-accessibility-smoke.mjs",
     "test:performance": "node scripts/uoc011-performance-smoke.mjs",
     "test:state-matrix": "node scripts/uoc011-state-matrix-smoke.mjs",
-    "test:browser-runtime-matrix-contract": "node scripts/uoc011-browser-runtime-matrix-contract.mjs"
+    "test:browser-runtime-matrix-contract": "node scripts/uoc011-browser-runtime-matrix-contract.mjs",
+    "test:project-status": "node scripts/gsdlc01e-project-status-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -63,7 +64,8 @@
       "ui.workspace-documents",
       "ui.jobs",
       "ui.quality",
-      "ui.ai"
+      "ui.ai",
+      "ui.project-status"
     ],
     "localFirstBadges": true,
     "dryRunBadges": true,
@@ -261,7 +263,14 @@
     "uiOperationalConsoleAdministrativeClosure": true,
     "uoc011BrowserRuntimeMatrixPass": true,
     "uoc011FinalFullRegressionPass": true,
-    "uiOperationalConsoleAuthoritativeRepo": "repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip"
+    "uiOperationalConsoleAuthoritativeRepo": "repo_DevPilot_Local_340_POST_H_EVAL_002_UI_OPERATIONAL_CONSOLE_FINAL_CLOSURE.zip",
+    "gsdlc01eProjectStatus": true,
+    "gsdlc01eProjectStatusRoute": "ui.project-status",
+    "gsdlc01eProjectStatusApiRoute": "api.guided-sdlc.project-status",
+    "gsdlc01eTopLevelUiRoutesChanged": true,
+    "currentTopLevelUiRoutesTotal": 10,
+    "uoc011RoutesTotalAtClose": 9,
+    "gsdlc01eContinueMutatesState": false
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

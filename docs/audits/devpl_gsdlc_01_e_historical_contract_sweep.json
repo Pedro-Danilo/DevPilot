@@ -1,0 +1,63 @@
+{
+  "schema_id": "devpilot.gsdlc01e.historical_contract_sweep.v1",
+  "status": "PASS-CANDIDATE/SELECTIVE-RECOVERY",
+  "classifications": [
+    {
+      "path": ".devpilot/interfaces/uoc011_browser_state_matrix.json",
+      "classification": "historical-freeze",
+      "reason": "UOC-011 9x12=108 fact remains immutable."
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+      "classification": "successor-needed",
+      "reason": "Frozen nine-route registry introduced so historical UOC validation is independent of current route growth."
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "classification": "current-active",
+      "reason": "Successor registry legitimately grows to ten routes."
+    },
+    {
+      "path": "tests/test_post_h_eval_002_uoc_011_contracts.py",
+      "classification": "successor-needed",
+      "reason": "Historical test is rebound to frozen snapshot; historical assertions remain 9x12."
+    },
+    {
+      "path": "ui/web/scripts/uoc011-state-matrix-smoke.mjs",
+      "classification": "successor-needed",
+      "reason": "Historical smoke validates frozen snapshot and separately acknowledges current successor."
+    },
+    {
+      "path": "ui/web/package.json",
+      "classification": "historical-freeze",
+      "reason": "Historical topLevelUiRoutesChanged=false is preserved; new successor flags record E growth."
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "current-active",
+      "reason": "Adds successor E fields without rewriting A-D pre-owner snapshots."
+    },
+    {
+      "path": "tests/test_post_h_eval_002_activation_contract.py",
+      "classification": "successor-needed",
+      "reason": "R01-E synchronized release-candidate expected_current_repo to project_state.current_repo (repo342) while repo341 remains the pilot checkpoint; stale assertion discovered by E full run #1 is corrected without changing either historical value."
+    },
+    {
+      "path": "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
+      "classification": "successor-needed",
+      "reason": "Historical 01-D test must distinguish release-candidate current repo from immutable POST-H-EVAL-002 pilot baseline; exact historical repo327/repo341 assertions remain preserved."
+    }
+  ],
+  "historical_uoc_routes_at_close": 9,
+  "current_routes_candidate": 10,
+  "history_rewritten": false,
+  "full_regression_run_1": {
+    "passed": 2346,
+    "failed": 2,
+    "errors": 0,
+    "skipped": 2,
+    "repeated": false
+  },
+  "selective_recovery_required": true,
+  "controlled_selective_validation": "PASS"
+}

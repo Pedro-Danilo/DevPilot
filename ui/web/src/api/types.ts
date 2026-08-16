@@ -587,3 +587,54 @@ export interface AiOperationItem {
   timeout_seconds: number;
   allowed_keys: string[];
 }
+
+
+// DEVPL-GSDLC-01-E — actor-neutral Project Status API contract.
+export interface GuidedSdlcNextAction {
+  action_id?: string;
+  kind?: string;
+  priority?: number;
+  reason_code?: string;
+  explanation?: string;
+  navigation_target?: string;
+  approval_needed?: boolean;
+  mutating?: boolean;
+  dry_run_required?: boolean;
+  available?: boolean;
+  disabled_reason?: string | null;
+  expected_evidence?: string[];
+}
+
+export interface GuidedSdlcProjectStatus {
+  workspace_id?: string;
+  project_id?: string;
+  phase?: string;
+  current_step?: string;
+  lifecycle_status?: string;
+  progress?: Record<string, unknown>;
+  mipsoftware?: Record<string, unknown>;
+  miasi?: Record<string, unknown>;
+  artifact_readiness?: Record<string, unknown>;
+  planning?: Record<string, unknown>;
+  blockers?: Array<Record<string, unknown>>;
+  pending_approvals?: Array<Record<string, unknown>>;
+  quality?: Record<string, unknown>;
+  git?: Record<string, unknown>;
+  revalidation?: Record<string, unknown>;
+  model_budget?: Record<string, unknown>;
+  freshness?: Record<string, unknown>;
+  source_refs?: string[];
+  reason?: string | null;
+}
+
+export interface GuidedSdlcProjectStatusResponseData {
+  ui_state: 'READY' | 'EMPTY' | 'BLOCKED' | 'REVALIDATION_REQUIRED' | 'STALE' | 'UNKNOWN' | string;
+  workspace_id?: string | null;
+  project_status: GuidedSdlcProjectStatus;
+  next_action: GuidedSdlcNextAction;
+  read_only: boolean;
+  actor_neutral: boolean;
+  network_used: boolean;
+  external_api_used: boolean;
+  mutations_performed: boolean;
+}

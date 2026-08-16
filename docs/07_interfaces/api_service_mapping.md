@@ -345,3 +345,10 @@ UOC-010 exposes exactly six typed local API routes. Browser input selects regist
 | `API-UOC010-AI-JOBS-EXECUTE` | `POST /api/v1/ai/jobs/{job_id}/execute` | `ai.jobs.execute` | `ApplicationService.ai_jobs_execute` | Policy/gate: fixed typed worker, `shell=False`, mock/local only. |
 | `API-UOC010-AI-JOBS-RESULT` | `GET /api/v1/ai/jobs/{job_id}/result` | `ai.jobs.result` | `ApplicationService.ai_jobs_result` | Policy/gate: bounded local result projection with citations/provider/cost visibility. |
 | `API-UOC010-AI-EVIDENCE-PACKAGE` | `POST /api/v1/ai/evidence/package` | `ai.evidence_package` | `ApplicationService.ai_evidence_package` | Policy/gate: bounded local evidence export; memory is excluded as formal evidence. |
+
+
+## DEVPL-GSDLC-01-E successor route
+
+| Endpoint | Operation | Service mapping | Control |
+|---|---|---|---|
+| `GET /api/v1/guided-sdlc/status` | `guided_sdlc.project_status` / `API-GSDLC-01-E-PROJECT-STATUS` | `ApplicationService.guided_sdlc_project_status_primary` → `GuidedSDLCApplicationService.project_status_primary` → `GuidedSDLCService` / `ProjectProgressEngine` | Policy/gate: local token required; actor-neutral read-only DTO; no source/Git/state mutation; no direct UI filesystem access. |

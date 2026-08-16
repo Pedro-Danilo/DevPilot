@@ -1,0 +1,65 @@
+{
+  "schema_id": "devpilot.gsdlc01e.full_regression_decision.v1",
+  "status": "RUN-1-FAILED/SELECTIVE-RETEST-READY",
+  "micro_sprint": "DEVPL-GSDLC-01-E",
+  "closing_micro_sprint": true,
+  "policy": "exactly-one-full-regression-per-backlog",
+  "pre_windows_full_regression_executed": false,
+  "authoritative_full_regression_runs_allowed": 1,
+  "required_order": [
+    "focal-api-ui",
+    "npm-test-build",
+    "governance",
+    "test-impact",
+    "real-browser",
+    "historical-sweep",
+    "full-regression-once",
+    "packaging"
+  ],
+  "on_failure": "preserve original full regression log; correct residuals; selective retest only; never rerun full regression",
+  "deferred_to_windows": false,
+  "test_impact": {
+    "changed_paths_total": 40,
+    "matched_contracts_total": 148,
+    "recommended_tests_total": 240,
+    "unmatched_paths_total": 10,
+    "manual_review_required": true,
+    "full_regression_required": true,
+    "residual_risk": "high"
+  },
+  "windows_guard": "operator creates immutable started marker before pytest; a second full-regression execute is blocked whether first run passes or fails",
+  "historical_regression_guard_after_full": "backlog-closure + regression-decision=full + full-regression-run",
+  "authoritative_full_regression_runs_consumed": 1,
+  "full_regression_repeated": false,
+  "validation_mode_after_failure": "composite-full-regression-selective-retest",
+  "run_1_result": {
+    "passed": 2346,
+    "failed": 2,
+    "errors": 0,
+    "skipped": 2,
+    "log_sha256": "88b72c0f8280c14c0c73abc06013e2f735ccb44bf6a6342c14001db207f772e6"
+  },
+  "residuals": [
+    {
+      "test": "tests/test_post_h_eval_002_01_d_governance_closure_327.py::test_release_candidate_snapshot_matches_project_state",
+      "classification": "inherited-historical-contract-drift",
+      "cause": "expected_current_repo was compared to immutable repo341 pilot checkpoint after R01 synchronized release-candidate freshness to project_state.current_repo=repo342"
+    },
+    {
+      "test": "tests/test_post_h_eval_002_activation_contract.py::test_rc_criteria_and_operator_docs_follow_activation_state",
+      "classification": "inherited-historical-contract-drift",
+      "cause": "same stale repo341-vs-repo342 contract coupling"
+    }
+  ],
+  "recovery_rule": "patch only the two stale historical assertions; run selective retest; never rerun full regression",
+  "controlled_selective_validation": {
+    "exact_residuals": "2/2 PASS",
+    "bounded_impacted": "92/92 PASS",
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "historical_regression_guard": "PASS",
+    "full_regression_repeated": false
+  }
+}

@@ -9377,6 +9377,94 @@
         "x-devpilot-plugin-execution": false,
         "x-devpilot-external-api": false
       }
+    },
+    "/api/v1/guided-sdlc/status": {
+      "get": {
+        "operationId": "guided_sdlc_project_status",
+        "summary": "Project Status",
+        "description": "Actor-neutral read-only Project Status + NextAction projection through ApplicationService.",
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-operation": "guided_sdlc.project_status",
+        "x-devpilot-status": "visual-mvp-closed",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "Policy/gate: local token + restricted CORS + API_ROUTE_POLICIES + PolicyEngine; actor-neutral read-only Project Status.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse with Project Status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy blocked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-successor": "DEVPL-GSDLC-01-E",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-01-E-PROJECT-STATUS",
+        "x-devpilot-domain-service": "ApplicationService -> GuidedSDLCApplicationService -> GuidedSDLCService",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true
+      }
     }
   },
   "components": {

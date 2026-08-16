@@ -180,7 +180,10 @@ def test_tcr_v1_and_v2_register_closure_contract() -> None:
 def test_release_candidate_snapshot_matches_project_state() -> None:
     state = data(".devpilot/project_state.json")
     criteria = data(".devpilot/release/local_release_candidate_criteria.json")
-    assert criteria["expected_current_repo"] == state["post_h_eval_002_02_b_platform_baseline"]
+    # Release-candidate freshness follows the canonical platform successor, not the
+    # immutable POST-H-EVAL-002 pilot checkpoint retained in post_h_eval_002_02_b_platform_baseline.
+    assert criteria["expected_current_repo"] == state["current_repo"]
+    assert state["post_h_eval_002_02_b_platform_baseline"].startswith("repo_DevPilot_Local_341_")
     assert state["post_h_eval_002_01_d_governance_repo"] == REPO_327
     assert criteria["expected_current_micro_sprint"] == state["post_h_eval_002_current_micro_sprint"]
     assert criteria["expected_next_micro_sprint"] == state["post_h_eval_002_next_micro_sprint"]

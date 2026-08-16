@@ -1,0 +1,25 @@
+{
+  "schema_id": "devpilot.gsdlc01e.browser_acceptance_spec.v1",
+  "status": "PENDING-WINDOWS-REAL-BROWSER",
+  "route": "/project/status",
+  "required_screenshots": [
+    "01_project_status_ready_desktop.png",
+    "02_project_status_ready_mobile.png",
+    "03_project_status_blocked.png",
+    "04_project_status_revalidation_required.png",
+    "05_project_status_empty_workspace.png",
+    "06_project_status_api_error.png",
+    "07_project_status_continue_navigation.png"
+  ],
+  "required_outputs": [
+    "screenshot_hashes.sha256",
+    "browser_scenario_records.json",
+    "sanitized_har_summary.json",
+    "state_api_ui_parity_matrix.json",
+    "accessibility_result.json",
+    "browser_console_summary.json"
+  ],
+  "raw_har_forbidden": true,
+  "tokens_cookies_headers_in_evidence_forbidden": true,
+  "real_browser_required": true
+}

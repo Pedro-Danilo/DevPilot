@@ -133,6 +133,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/git/branches/plan"): ApiRoutePolicy("workspace.git.branch_plan", "read", "protected-workspace-git-branch-plan"),
     ("POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request"): ApiRoutePolicy("workspace.git.branch_approval_request", "read", "protected-governed-git-approval-request"),
     ("POST", "/api/v1/workspace/git/branches/{plan_id}/create"): ApiRoutePolicy("workspace.git.branch_create", "read", "protected-governed-git-branch-create"),
+    ("GET", "/api/v1/guided-sdlc/status"): ApiRoutePolicy("guided_sdlc.project_status", "read", "protected-guided-sdlc-project-status"),
     ("GET", "/api/v1/application/contract"): ApiRoutePolicy("app.contract", "read", "protected-read"),
     ("GET", "/api/v1/miasi/status"): ApiRoutePolicy("miasi.validate", "read", "protected-read"),
     ("GET", "/api/v1/standards/status"): ApiRoutePolicy("standards.status", "read", "protected-read"),

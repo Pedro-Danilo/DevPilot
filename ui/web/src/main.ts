@@ -8,6 +8,7 @@ import { renderAiOperationsView } from './pages/AiOperationsView';
 import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
 import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
+import { renderProjectStatusView } from './pages/ProjectStatusView';
 import './styles.css';
 
 const root = document.querySelector<HTMLElement>('#app');
@@ -16,6 +17,7 @@ if (!root) throw new Error('No se encontró el contenedor #app para DevPilot Web
 interface UiRoute { path: string; routeId: string; title: string; }
 const UI_ROUTES: UiRoute[] = [
   { path: '/', routeId: 'ui.dashboard', title: 'Dashboard' },
+  { path: '/project/status', routeId: 'ui.project-status', title: 'Estado del proyecto' },
   { path: '/workspace/documents', routeId: 'ui.workspace-documents', title: 'Documentos' },
   { path: '/reports', routeId: 'ui.reports', title: 'Reportes' },
   { path: '/traces', routeId: 'ui.traces', title: 'Trazas' },
@@ -50,7 +52,8 @@ function renderApplication(target: HTMLElement): void {
   else if (route.path === '/') renderDashboard(page);
   else {
     page.append(renderRouteHeader(route));
-    if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken()));
+    if (route.path === '/project/status') page.append(renderProjectStatusView(() => readStoredToken()));
+    else if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken()));
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));
     else if (route.path === '/jobs') page.append(renderJobsView(() => readStoredToken(), jobsDetail?.[1]));

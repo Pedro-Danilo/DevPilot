@@ -19002,6 +19002,99 @@
         "rollback_or_cleanup": "The EngineeringState repository uses atomic replace and optimistic sequence control. Recovery uses the prior durable state/evidence or reconstructs state from canonical governed artifacts; no managed workspace source or Git history is rolled back or rewritten.",
         "scope": "DEVPL-GSDLC-01-D explicit reconcile execute: local durable WorkspaceEngineeringState atomic save only"
       }
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-e-project-status-closure",
+      "source_contract_id": "devpl-gsdlc-01-e-project-status-closure",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "ProjectStatusApiUiAndBacklogClosure",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "manual",
+      "cost_class": "high",
+      "expected_duration_seconds": 14400,
+      "test_files": [
+        "tests/test_devpl_gsdlc_01_e_project_status.py",
+        "tests/test_devpl_gsdlc_01_d_reconciliation.py",
+        "tests/test_devpl_gsdlc_01_c_project_progress.py",
+        "tests/test_post_h_eval_002_uoc_011_contracts.py",
+        "tests/test_post_h_014_ui_api_shell_gate.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/openapi_v1.json",
+        ".devpilot/project_state.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-01-E",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_01_e_project_status.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "E adds one protected read-only API route and one successor UI route.",
+        "UOC-011 9-route history is preserved through a frozen snapshot.",
+        "Real browser acceptance and exactly one full regression are mandatory Windows closure gates.",
+        "Frontend npm smoke/build commands are mandatory Windows closure steps executed by the micro-sprint operator, not TCR-v2 recommended shell commands."
+      ],
+      "trigger_hints": [
+        "project-status",
+        "ui-route",
+        "api-route",
+        "browser-acceptance",
+        "full-regression"
+      ],
+      "impact_scope": [
+        "guided-sdlc",
+        "application-service",
+        "api",
+        "ui",
+        "historical-contracts",
+        "backlog-closure"
+      ],
+      "security_negative_required": true,
+      "approval_scope": "owner-adjudication-after-windows-full-regression"
     }
   ],
   "created_by": "POST-H-003-E",
@@ -19158,5 +19251,6 @@
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
-  "status": "implemented-initial"
+  "status": "implemented-initial",
+  "contracts_total": null
 }

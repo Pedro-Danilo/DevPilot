@@ -14,7 +14,7 @@ from devpilot_core.cli_models import CommandResult, ExitCode
 
 from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
 from .uoc011_hardening import FixedWindowRateLimiter, UOC011_API_HARDENING_HEADERS, Uoc011ApiHardeningConfig, inspect_request_hardening
-from .routers import actions, ai, approvals, jobs, operator, portfolio, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
+from .routers import actions, ai, approvals, guided_sdlc, jobs, operator, portfolio, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
 from .security import (
     API_ROUTE_POLICIES,
     DEFAULT_ALLOWED_ORIGINS,
@@ -244,6 +244,7 @@ def create_app(
         payload.update(summary)  # backward-compatible health fields for existing UI/tests.
         return payload
 
+    app.include_router(guided_sdlc.router)
     return app
 
 

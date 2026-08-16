@@ -1,0 +1,29 @@
+{
+  "schema_id": "devpilot.gsdlc01d.final_owner_adjudication.v1",
+  "micro_sprint": "DEVPL-GSDLC-01-D",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-16",
+  "source_repo": "repo_DevPilot_Local_351_DEVPL_GSDLC_01_C_PROJECT_STATUS_PROJECTION.zip",
+  "successor_repo": "repo_DevPilot_Local_352_DEVPL_GSDLC_01_D_FILESYSTEM_GIT_RECONCILIATION.zip",
+  "successor_commit": "7c050d12d9641642aae971f0d32934f5af5a9557",
+  "successor_sha256": "d5722222d1b0e9675f3c136df12df0310224450467332e13b9222ea2c4ade4f8",
+  "windows_evidence_sha256": "9f96d020f0673b2aa0891477ad7da3db53bb6cecd0c9493fb2bda6a5361bed68",
+  "validation": {
+    "mode": "cumulative-selective",
+    "windows_passed": 168,
+    "windows_skipped": 2,
+    "independent_focal_passed": 69,
+    "full_regression_executed": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-01-E"
+  },
+  "service_eof_recovery": {
+    "bytes_removed": 1,
+    "other_paths_modified": 0,
+    "functional_behavior_changed": false
+  },
+  "pilot_preserved": true,
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-01-E"
+}

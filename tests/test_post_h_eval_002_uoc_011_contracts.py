@@ -13,9 +13,11 @@ def test_uoc011_candidate_lifecycle_preserves_pilot_and_repo338() -> None:
         assert s['current_repo'].startswith('repo_DevPilot_Local_')
 
 def test_uoc011_browser_matrix_is_9_by_12_and_routes_match() -> None:
-    m=j('.devpilot/interfaces/uoc011_browser_state_matrix.json'); r=j('.devpilot/interfaces/ui_route_contract_registry.json'); expected=set(m['required_states']); assert len(m['routes'])==9 and len(expected)==12 and m['summary']['cases_total']==108
-    assert {x['route_id'] for x in m['routes']}=={x['route_id'] for x in r['routes']}
-    for route in r['routes']: assert all(route['state_contract'].get(state) is True for state in expected)
+    m=j('.devpilot/interfaces/uoc011_browser_state_matrix.json'); frozen=j('.devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json'); current=j('.devpilot/interfaces/ui_route_contract_registry.json'); expected=set(m['required_states']); assert len(m['routes'])==9 and len(expected)==12 and m['summary']['cases_total']==108
+    assert {x['route_id'] for x in m['routes']}=={x['route_id'] for x in frozen['routes']}
+    for route in frozen['routes']: assert all(route['state_contract'].get(state) is True for state in expected)
+    assert {x['route_id'] for x in frozen['routes']} < {x['route_id'] for x in current['routes']}
+    assert any(x['route_id']=='ui.project-status' for x in current['routes'])
 
 def test_uoc011_profile_no_go_and_release_assets() -> None:
     p=j('.devpilot/interfaces/uoc011_operational_hardening_profile.json'); assert p['security']['max_request_body_bytes']==1048576; assert p['security']['token_session_ttl_seconds']==28800; assert p['browser']['route_state_cases_total']==108

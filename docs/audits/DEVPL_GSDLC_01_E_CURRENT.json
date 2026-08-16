@@ -1,0 +1,44 @@
+{
+  "schema_id": "devpilot.gsdlc01e.current.v1",
+  "status": "PASS-CANDIDATE/SELECTIVE-RECOVERY-PREWINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-01-E",
+  "source_repo": "repo_DevPilot_Local_352_DEVPL_GSDLC_01_D_FILESYSTEM_GIT_RECONCILIATION.zip",
+  "source_commit": "7c050d12d9641642aae971f0d32934f5af5a9557",
+  "source_sha256": "d5722222d1b0e9675f3c136df12df0310224450467332e13b9222ea2c4ade4f8",
+  "api_route": "GET /api/v1/guided-sdlc/status",
+  "ui_route": "/project/status",
+  "current_ui_routes_total": 10,
+  "historical_uoc_routes_at_close": 9,
+  "browser_acceptance": "PASS/REAL-BROWSER-7-OF-7",
+  "full_regression": "RUN-1-CONSUMED-2346-PASS-2-FAIL/SELECTIVE-RETEST-ONLY",
+  "owner_adjudication": "PENDING-SELECTIVE-RECOVERY",
+  "backlog_closure": "PENDING-SELECTIVE-RECOVERY",
+  "controlled_python_tests": "207/207 PASS",
+  "npm_smokes": [
+    "npm test PASS",
+    "npm run test:project-status PASS",
+    "npm run test:state-matrix PASS"
+  ],
+  "typescript_static_check": "PASS",
+  "npm_build_pre_windows": "PENDING-WINDOWS (Vite package-local tooling unavailable in sandbox)",
+  "governance_validators": "PASS",
+  "test_impact": {
+    "changed_paths_total": 40,
+    "matched_contracts_total": 148,
+    "recommended_tests_total": 240,
+    "unmatched_paths_total": 10,
+    "full_regression_required": true,
+    "residual_risk": "high"
+  },
+  "authoritative_full_regression_runs_allowed": 1,
+  "full_regression_repeated": false,
+  "browser_capture_mode": "full-page",
+  "authoritative_full_regression_runs_consumed": 1,
+  "validation_mode": "composite-full-regression-selective-retest",
+  "selective_recovery_paths": [
+    "tests/test_post_h_eval_002_activation_contract.py",
+    "tests/test_post_h_eval_002_01_d_governance_closure_327.py"
+  ],
+  "selective_retest_controlled": "2 exact + 92 bounded PASS",
+  "historical_regression_guard": "PASS"
+}

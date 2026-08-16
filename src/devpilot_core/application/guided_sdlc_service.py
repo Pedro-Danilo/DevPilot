@@ -7,6 +7,8 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.guided_sdlc import GuidedSDLCService, ProjectProgressEngine, ReconciliationError, WorkflowEngineError
 from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreError
 
+from .portfolio_service import PortfolioApplicationService
+
 
 class GuidedSDLCApplicationService:
     """Application boundary for Guided SDLC deterministic services.
@@ -100,6 +102,100 @@ class GuidedSDLCApplicationService:
                 observed_at_utc=observed_at_utc,
             )
         return self._projection_result("guided_sdlc.next_action", projection.next_action.to_payload())
+
+    def project_status_primary(
+        self,
+        *,
+        workspace_id: str | None,
+        observed_at_utc: str,
+        expected_state_fingerprint: str | None = None,
+    ) -> CommandResult:
+        """Return the actor-neutral Project Status payload for API/UI consumption.
+
+        GSDLC-01-E keeps this operation read-only. If workspace_id is omitted,
+        the active registered workspace is resolved through the existing
+        PortfolioApplicationService. Missing engineering state is represented
+        honestly as EMPTY/UNKNOWN instead of being synthesized as PASS.
+        """
+
+        explicit = str(workspace_id or "").strip()
+        portfolio = PortfolioApplicationService(self.root).status()
+        active = ""
+        if isinstance(portfolio.data, dict):
+            active = str((portfolio.data.get("summary") or {}).get("active_workspace_id") or "").strip()
+        resolved = explicit or active
+        if not resolved:
+            unknown = ProjectProgressEngine.unknown(workspace_id="unknown", observed_at_utc=observed_at_utc)
+            return CommandResult(
+                command="guided_sdlc.project_status",
+                ok=True,
+                exit_code=ExitCode.PASS,
+                message="No active registered workspace is available for Project Status.",
+                data={
+                    "ui_state": "EMPTY",
+                    "workspace_id": None,
+                    "project_status": unknown.status.to_payload(),
+                    "next_action": unknown.next_action.to_payload(),
+                    "read_only": True,
+                    "actor_neutral": True,
+                    "network_used": False,
+                    "external_api_used": False,
+                    "mutations_performed": False,
+                },
+                findings=[],
+            )
+
+        try:
+            projection = self._service().project_status(
+                workspace_id=resolved,
+                observed_at_utc=observed_at_utc,
+                expected_state_fingerprint=expected_state_fingerprint,
+            )
+            next_projection = self._service().next_action(
+                workspace_id=resolved,
+                observed_at_utc=observed_at_utc,
+                expected_state_fingerprint=expected_state_fingerprint,
+            )
+            status_payload = projection.status.to_payload()
+            next_payload = next_projection.next_action.to_payload()
+            freshness = str((status_payload.get("freshness") or {}).get("status") or "UNKNOWN").upper()
+            revalidation = str((status_payload.get("revalidation") or {}).get("status") or "UNKNOWN").upper()
+            lifecycle = str(status_payload.get("lifecycle_status") or "UNKNOWN").upper()
+            if revalidation in {"REQUIRED", "IN_PROGRESS"} or lifecycle == "REVALIDATION_REQUIRED":
+                ui_state = "REVALIDATION_REQUIRED"
+            elif lifecycle == "BLOCKED" or status_payload.get("blockers"):
+                ui_state = "BLOCKED"
+            elif freshness == "STALE":
+                ui_state = "STALE"
+            elif status_payload.get("reason") == "unknown":
+                ui_state = "UNKNOWN"
+            else:
+                ui_state = "READY"
+        except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, ReconciliationError, KeyError, ValueError):
+            unknown = ProjectProgressEngine.unknown(workspace_id=resolved, observed_at_utc=observed_at_utc)
+            status_payload = unknown.status.to_payload()
+            next_payload = unknown.next_action.to_payload()
+            ui_state = "EMPTY"
+
+        return CommandResult(
+            command="guided_sdlc.project_status",
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Project Status projected through the Guided SDLC application boundary.",
+            data={
+                "ui_state": ui_state,
+                "workspace_id": resolved,
+                "project_status": status_payload,
+                "next_action": next_payload,
+                "read_only": True,
+                "actor_neutral": True,
+                "network_used": False,
+                "external_api_used": False,
+                "mutations_performed": False,
+                "source_mutations_performed": False,
+            },
+            findings=[],
+        )
 
     def reconcile_preview(
         self,

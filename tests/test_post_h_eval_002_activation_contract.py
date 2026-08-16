@@ -147,7 +147,10 @@ def test_rc_criteria_and_operator_docs_follow_activation_state() -> None:
     state = _json(".devpilot/project_state.json")
     criteria = _json(".devpilot/release/local_release_candidate_criteria.json")
     assert criteria["expected_source_repo"] == state["source_repo"]
-    assert criteria["expected_current_repo"] == state["post_h_eval_002_02_b_platform_baseline"]
+    # Release-candidate freshness follows the canonical platform successor (repo342+),
+    # while post_h_eval_002_02_b_platform_baseline remains the immutable repo341 pilot checkpoint.
+    assert criteria["expected_current_repo"] == state["current_repo"]
+    assert state["post_h_eval_002_02_b_platform_baseline"] == CURRENT_REPO
     assert criteria["expected_current_micro_sprint"] == state["post_h_eval_002_current_micro_sprint"]
     assert criteria["expected_next_micro_sprint"] == state["post_h_eval_002_next_micro_sprint"]
 

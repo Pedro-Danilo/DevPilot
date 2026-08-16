@@ -2,148 +2,10 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
   "registry_id": "devpilot-ui-route-contract-registry",
-  "status": "implemented-initial",
+  "status": "closed",
   "created_by": "POST-H-014-C",
   "updated": "2026-08-16",
   "routes": [
-    {
-      "route_id": "ui.dashboard",
-      "title": "Dashboard local",
-      "path": "/",
-      "page_component": "Dashboard",
-      "source_files": [
-        "ui/web/src/pages/Dashboard.ts",
-        "ui/web/src/components/StatusCard.ts",
-        "ui/web/src/pages/OperatorDashboard.ts",
-        "ui/web/src/components/OperatorStatusCard.ts",
-        "ui/web/src/components/OperatorGatePanel.ts",
-        "ui/web/src/components/OperatorNextActions.ts"
-      ],
-      "allowed_api_routes": [
-        "api.health",
-        "api.workspace.status",
-        "api.validation.readiness",
-        "api.standards.status",
-        "api.miasi.status",
-        "api.operator.dashboard",
-        "api.portfolio.status"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": false,
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "ready": true,
-        "warn": true,
-        "block": true,
-        "api_down": true,
-        "unauthorized": true,
-        "forbidden": true,
-        "timeout": true,
-        "cancelled": true,
-        "stale_data": true
-      },
-      "status_visibility": [
-        "PASS",
-        "WARN",
-        "BLOCK",
-        "ERROR",
-        "PENDING"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "Single page dashboard shell for local status/readiness/standards/MIASI signals.",
-        "POST-H-015-D embeds the local Operator Dashboard surface in ui.dashboard.",
-        "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser.",
-        "POST-H-EVAL-002-01-D corrective: dashboard no longer embeds Reports, Traces, Approvals or Settings.",
-        "Protected API fan-out is bounded to two concurrent requests with progressive rendering.",
-        "Corrective 326 executes and renders api.health as a preflight before the five protected data operations.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
-      ]
-    },
-    {
-      "route_id": "ui.ai",
-      "title": "IA / RAG gobernados",
-      "path": "/ai",
-      "page_component": "AiOperationsView",
-      "source_files": [
-        "ui/web/src/pages/AiOperationsView.ts"
-      ],
-      "allowed_api_routes": [
-        "api.ai.operations",
-        "api.ai.status",
-        "api.ai.jobs.plan",
-        "api.ai.jobs.execute",
-        "api.ai.jobs.result",
-        "api.ai.evidence-package",
-        "api.jobs.inspect",
-        "api.jobs.logs",
-        "api.approvals.request",
-        "api.approvals.show"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": true,
-      "mutation_controls": {
-        "local_state_mutation_only": true,
-        "approval_required": true,
-        "destructive_action_allowed": false,
-        "plan_only": false,
-        "justification": "Only four typed AI adapters are exposed. RAG runtime index/agent memory are local runtime state; agent and RAG index require approval. External APIs and generic tools remain blocked."
-      },
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "warn": true,
-        "planned": true,
-        "pending_approval": true,
-        "running": true,
-        "pass": true,
-        "pass_with_gaps": true,
-        "insufficient_evidence": true,
-        "timeout": true,
-        "cancelled": true,
-        "ready": true,
-        "block": true,
-        "api_down": true,
-        "unauthorized": true,
-        "forbidden": true,
-        "stale_data": true
-      },
-      "status_visibility": [
-        "PASS",
-        "WARN",
-        "BLOCK",
-        "ERROR",
-        "PENDING",
-        "RUNNING",
-        "CANCELLED"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "UOC-010 exposes RAG citations/freshness, provider visibility, mock/local agents, memory opt-in and bounded supervisor handoffs.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
-      ]
-    },
     {
       "route_id": "ui.approvals",
       "title": "Approval Center y Action Launcher",
@@ -208,79 +70,26 @@
       ]
     },
     {
-      "route_id": "ui.jobs",
-      "title": "Job Console",
-      "path": "/jobs",
-      "page_component": "JobsView",
+      "route_id": "ui.dashboard",
+      "title": "Dashboard local",
+      "path": "/",
+      "page_component": "Dashboard",
       "source_files": [
-        "ui/web/src/pages/JobsView.ts"
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/components/StatusCard.ts",
+        "ui/web/src/pages/OperatorDashboard.ts",
+        "ui/web/src/components/OperatorStatusCard.ts",
+        "ui/web/src/components/OperatorGatePanel.ts",
+        "ui/web/src/components/OperatorNextActions.ts"
       ],
       "allowed_api_routes": [
-        "api.jobs.list",
-        "api.jobs.inspect",
-        "api.jobs.logs",
-        "api.jobs.cancel",
-        "api.jobs.retry"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": true,
-      "mutation_controls": {
-        "local_state_mutation_only": true,
-        "approval_required": true,
-        "destructive_action_allowed": false,
-        "plan_only": false,
-        "justification": "Cancel/retry affect only governed runtime state/processes and remain policy-bound; no source mutation or arbitrary execution."
-      },
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "warn": true,
-        "running": true,
-        "cancelled": true,
-        "stale": true,
-        "api_down": true,
-        "unauthorized": true,
-        "timeout": true,
-        "ready": true,
-        "block": true,
-        "forbidden": true,
-        "stale_data": true
-      },
-      "status_visibility": [
-        "PASS",
-        "WARN",
-        "BLOCK",
-        "ERROR",
-        "PENDING",
-        "RUNNING",
-        "CANCELLED"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "UOC-008 local Job Console with bounded polling, sanitized logs, heartbeat/stale visibility, governed cancel/retry and no arbitrary shell.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
-      ]
-    },
-    {
-      "route_id": "ui.project-status",
-      "title": "Estado del proyecto",
-      "path": "/project/status",
-      "page_component": "ProjectStatusView",
-      "source_files": [
-        "ui/web/src/pages/ProjectStatusView.ts"
-      ],
-      "allowed_api_routes": [
-        "api.guided-sdlc.project-status"
+        "api.health",
+        "api.workspace.status",
+        "api.validation.readiness",
+        "api.standards.status",
+        "api.miasi.status",
+        "api.operator.dashboard",
+        "api.portfolio.status"
       ],
       "critical": true,
       "local_only": true,
@@ -301,9 +110,7 @@
         "forbidden": true,
         "timeout": true,
         "cancelled": true,
-        "stale_data": true,
-        "revalidation_required": true,
-        "unknown": true
+        "stale_data": true
       },
       "status_visibility": [
         "PASS",
@@ -318,80 +125,12 @@
       "external_api_allowed": false,
       "owner": "ui.web",
       "notes": [
-        "GSDLC-01-E primary read-only Project Status surface; status/next-action semantics are supplied by API/ApplicationService.",
-        "Continue never mutates engineering state in GSDLC-01; unsupported/future destinations are disabled with an explicit reason.",
-        "Successor route added after UOC-011; historical nine-route matrix remains frozen separately."
-      ]
-    },
-    {
-      "route_id": "ui.quality",
-      "title": "Quality, tests y release",
-      "path": "/quality",
-      "page_component": "QualityOperationsView",
-      "source_files": [
-        "ui/web/src/pages/QualityOperationsView.ts"
-      ],
-      "allowed_api_routes": [
-        "api.quality.operations",
-        "api.quality.baseline",
-        "api.quality.test-impact-plan",
-        "api.quality.jobs.plan",
-        "api.quality.jobs.execute",
-        "api.quality.evidence-package",
-        "api.jobs.inspect",
-        "api.jobs.logs",
-        "api.approvals.request",
-        "api.approvals.show"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": true,
-      "mutation_controls": {
-        "local_state_mutation_only": true,
-        "approval_required": true,
-        "destructive_action_allowed": false,
-        "plan_only": false,
-        "justification": "Only typed registry-selected quality operations may create runtime jobs/evidence. Full regression needs exact confirmation and approval; no source write or browser shell."
-      },
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "warn": true,
-        "planned": true,
-        "pending_approval": true,
-        "running": true,
-        "pass": true,
-        "failed_counts": true,
-        "timeout": true,
-        "cancelled": true,
-        "ready": true,
-        "block": true,
-        "api_down": true,
-        "unauthorized": true,
-        "forbidden": true,
-        "stale_data": true
-      },
-      "status_visibility": [
-        "PASS",
-        "WARN",
-        "BLOCK",
-        "ERROR",
-        "PENDING",
-        "RUNNING",
-        "CANCELLED"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "UOC-009 exposes deterministic quality/test/release operations through typed profiles, approval/budget gates and UOC-007/008 jobs.",
+        "Single page dashboard shell for local status/readiness/standards/MIASI signals.",
+        "POST-H-015-D embeds the local Operator Dashboard surface in ui.dashboard.",
+        "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser.",
+        "POST-H-EVAL-002-01-D corrective: dashboard no longer embeds Reports, Traces, Approvals or Settings.",
+        "Protected API fan-out is bounded to two concurrent requests with progressive rendering.",
+        "Corrective 326 executes and renders api.health as a preflight before the five protected data operations.",
         "UOC-011: route participates in the 12-state operational browser hardening matrix."
       ]
     },
@@ -685,16 +424,225 @@
         "plan_only": false,
         "justification": "UOC-006 exposes only typed, exact approval-bound Git index/history/local-ref mutations. Source document writes remain UOC-005-only; generic Git command execution and network operations remain blocked."
       }
+    },
+    {
+      "route_id": "ui.jobs",
+      "title": "Job Console",
+      "path": "/jobs",
+      "page_component": "JobsView",
+      "source_files": [
+        "ui/web/src/pages/JobsView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.jobs.list",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.jobs.cancel",
+        "api.jobs.retry"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "Cancel/retry affect only governed runtime state/processes and remain policy-bound; no source mutation or arbitrary execution."
+      },
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "warn": true,
+        "running": true,
+        "cancelled": true,
+        "stale": true,
+        "api_down": true,
+        "unauthorized": true,
+        "timeout": true,
+        "ready": true,
+        "block": true,
+        "forbidden": true,
+        "stale_data": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING",
+        "RUNNING",
+        "CANCELLED"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "UOC-008 local Job Console with bounded polling, sanitized logs, heartbeat/stale visibility, governed cancel/retry and no arbitrary shell.",
+        "UOC-011: route participates in the 12-state operational browser hardening matrix."
+      ]
+    },
+    {
+      "route_id": "ui.quality",
+      "title": "Quality, tests y release",
+      "path": "/quality",
+      "page_component": "QualityOperationsView",
+      "source_files": [
+        "ui/web/src/pages/QualityOperationsView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.quality.operations",
+        "api.quality.baseline",
+        "api.quality.test-impact-plan",
+        "api.quality.jobs.plan",
+        "api.quality.jobs.execute",
+        "api.quality.evidence-package",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.approvals.request",
+        "api.approvals.show"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "Only typed registry-selected quality operations may create runtime jobs/evidence. Full regression needs exact confirmation and approval; no source write or browser shell."
+      },
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "warn": true,
+        "planned": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "failed_counts": true,
+        "timeout": true,
+        "cancelled": true,
+        "ready": true,
+        "block": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "stale_data": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING",
+        "RUNNING",
+        "CANCELLED"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "UOC-009 exposes deterministic quality/test/release operations through typed profiles, approval/budget gates and UOC-007/008 jobs.",
+        "UOC-011: route participates in the 12-state operational browser hardening matrix."
+      ]
+    },
+    {
+      "route_id": "ui.ai",
+      "title": "IA / RAG gobernados",
+      "path": "/ai",
+      "page_component": "AiOperationsView",
+      "source_files": [
+        "ui/web/src/pages/AiOperationsView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.ai.operations",
+        "api.ai.status",
+        "api.ai.jobs.plan",
+        "api.ai.jobs.execute",
+        "api.ai.jobs.result",
+        "api.ai.evidence-package",
+        "api.jobs.inspect",
+        "api.jobs.logs",
+        "api.approvals.request",
+        "api.approvals.show"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "justification": "Only four typed AI adapters are exposed. RAG runtime index/agent memory are local runtime state; agent and RAG index require approval. External APIs and generic tools remain blocked."
+      },
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "warn": true,
+        "planned": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "pass_with_gaps": true,
+        "insufficient_evidence": true,
+        "timeout": true,
+        "cancelled": true,
+        "ready": true,
+        "block": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "stale_data": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING",
+        "RUNNING",
+        "CANCELLED"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "UOC-010 exposes RAG citations/freshness, provider visibility, mock/local agents, memory opt-in and bounded supervisor handoffs.",
+        "UOC-011: route participates in the 12-state operational browser hardening matrix."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 10,
-    "critical_routes_total": 10,
-    "local_only_routes_total": 10,
-    "dry_run_badged_routes_total": 10,
-    "no_remote_badged_routes_total": 10,
+    "routes_total": 9,
+    "critical_routes_total": 9,
+    "local_only_routes_total": 9,
+    "dry_run_badged_routes_total": 9,
+    "no_remote_badged_routes_total": 9,
     "mutation_control_routes_total": 6,
-    "allowed_api_routes_unique_total": 73,
+    "allowed_api_routes_unique_total": 72,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -712,7 +660,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-01-E",
+    "updated_by": "UOC-010",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -734,10 +682,7 @@
     "uoc_010_ai_operations": true,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "uoc_011_matrix_cases_total": 108,
-    "gsdlc_01_e_project_status_route_registered": true,
-    "current_routes_total": 10,
-    "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json"
+    "uoc_011_matrix_cases_total": 108
   },
   "safety": {
     "local_first": true,
@@ -759,6 +704,9 @@
     "POST-H-EVAL-002-02-A UI-first corrective adds shared read-only portfolio/workspace context to all five critical routes without adding a new top-level route.",
     "UOC-001 adds ui.workspace-documents as a read-only, opaque-id, active-workspace-bound surface with zero mutation controls.",
     "UOC-003 keeps /workspace/documents as the single progressive-disclosure surface for document validation, findings navigation and traceability.",
-    "UOC-011 hardens all nine current UI routes against a 12-state operational matrix."
-  ]
+    "UOC-011 hardens all nine current UI routes against a 12-state operational matrix.",
+    "GSDLC-01-E successor: immutable nine-route UOC-011 snapshot; current-active registry may grow without rewriting UOC history."
+  ],
+  "historical_snapshot": "UOC-011-at-close",
+  "current_active_registry": ".devpilot/interfaces/ui_route_contract_registry.json"
 }
