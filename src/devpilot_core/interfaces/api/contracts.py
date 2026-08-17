@@ -22,6 +22,7 @@ CANONICAL_FASTAPI_ROUTER_MODULES = (
     "devpilot_core.interfaces.api.routers.validation",
     "devpilot_core.interfaces.api.routers.actions",
     "devpilot_core.interfaces.api.routers.approvals",
+    "devpilot_core.interfaces.api.routers.auth",
     "devpilot_core.interfaces.api.routers.reports",
     "devpilot_core.interfaces.api.routers.traces",
     "devpilot_core.interfaces.api.routers.settings",
@@ -287,8 +288,11 @@ class ApiRouteContractRegistryValidator:
             if sensitive and not public and (not auth_required or not policy_check_required):
                 summary["sensitive_routes_missing_auth_or_policy_total"] += 1
                 findings.append(Finding("API_ROUTE_SENSITIVE_AUTH_POLICY_BLOCK", "Sensitive API route must require both auth and policy binding.", Severity.BLOCK, metadata={"route_id": route_id, "path": route.get("path"), "risk_level": risk}))
-            if app_required and route.get("response_contract") != "ApplicationResponse":
-                findings.append(Finding("API_ROUTE_APP_RESPONSE_CONTRACT_BLOCK", "ApplicationService-backed API route must declare ApplicationResponse as response_contract.", Severity.BLOCK, metadata={"route_id": route_id, "path": route.get("path"), "response_contract": route.get("response_contract")}))
+            allowed_response_contracts = {"ApplicationResponse"}
+            if str(route.get("owner")) == "interfaces.api.auth":
+                allowed_response_contracts.update({"AuthBootstrapStatus", "AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope"})
+            if app_required and route.get("response_contract") not in allowed_response_contracts:
+                findings.append(Finding("API_ROUTE_APP_RESPONSE_CONTRACT_BLOCK", "ApplicationService-backed API route declares an unsupported response contract.", Severity.BLOCK, metadata={"route_id": route_id, "path": route.get("path"), "response_contract": route.get("response_contract")}))
 
         ok = not any(f.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR} for f in findings)
         return self._result(ok, findings, summary, payload)

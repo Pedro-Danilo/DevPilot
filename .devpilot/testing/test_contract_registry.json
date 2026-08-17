@@ -11006,6 +11006,63 @@
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
       "domain": "security.rbac"
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-b-local-auth-sessions",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-02-B",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
+        "tests/test_devpl_gsdlc_02_b_api_auth.py",
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_api_security.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ],
+      "validates": [
+        "src/devpilot_core/identity/auth_models.py",
+        "src/devpilot_core/identity/credential_kdf.py",
+        "src/devpilot_core/identity/auth_store.py",
+        "src/devpilot_core/identity/session_service.py",
+        "src/devpilot_core/application/auth_service.py",
+        "src/devpilot_core/interfaces/api/routers/auth.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "docs/03_security/local_identity_session_contract.md",
+        "docs/03_security/credential_kdf_decision.md",
+        "docs/03_security/session_lifecycle_matrix.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/identity",
+        "src/devpilot_core/application/auth_service.py",
+        "src/devpilot_core/interfaces/api",
+        "docs/03_security",
+        "docs/05_operations/local_auth_session_runbook.md",
+        ".gitignore",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_devpl_gsdlc_02_b_api_auth.py tests/test_devpl_gsdlc_02_b_contracts.py tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py -q",
+        "python -m pytest tests/test_api_security.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_028_api_contract_drift_guard.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "security.identity"
     }
   ],
   "created_by": "POST-H-001",
@@ -11073,10 +11130,11 @@
     "UOC-000 registers complete CLI/UI capability classification and no-shell/opaque-ID/governed-job contracts.",
     "UOC-007 adds exact CLI capability job contracts and a no-shell governed lifecycle framework; canonical runtime adapters remain disabled.",
     "DEVPL-GSDLC-00-A registers a successor governance contract without making historical POST-H-EVAL/UOC tests own the new program state.",
-    "DEVPL-GSDLC-00-D classifies 546 historical/current assertions, scopes 22 successor-needed assertions, expands threat/test strategy and preserves all deny-by-default no-go flags."
+    "DEVPL-GSDLC-00-D classifies 546 historical/current assertions, scopes 22 successor-needed assertions, expands threat/test strategy and preserves all deny-by-default no-go flags.",
+    "DEVPL-GSDLC-02-B adds isolated local auth/session security tests; canonical source is not mutated by tests and full regression remains deferred to 02-E."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": null
+  "contracts_total": 276
 }

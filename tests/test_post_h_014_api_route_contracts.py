@@ -91,7 +91,9 @@ def test_post_h_014_a_contract_validator_blocks_no_unregistered_or_unsafe_routes
     assert summary["connector_write_allowed_total"] == 0
     assert summary["plugin_execution_allowed_total"] == 0
     assert summary["sensitive_routes_missing_auth_or_policy_total"] == 0
-    assert summary["public_routes_total"] == 3
+    assert summary["public_routes_total"] == 6
+    public_auth = {r["route_id"] for r in read_registry()["routes"] if r.get("public") and r.get("owner") == "interfaces.api.auth"}
+    assert public_auth == {"api.auth.bootstrap-status", "api.auth.bootstrap-owner", "api.auth.login"}
     assert summary["application_service_routes_total"] == sum(1 for route in read_registry()["routes"] if route.get("application_service_required"))
 
 
@@ -103,7 +105,12 @@ def test_post_h_014_a_every_service_route_is_application_service_and_policy_boun
 
     assert protected_routes
     assert service_routes
-    assert all(route["response_contract"] == "ApplicationResponse" for route in protected_routes)
+    auth_response_contracts = {"AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope"}
+    assert all(
+        route["response_contract"] == "ApplicationResponse"
+        or (route.get("owner") == "interfaces.api.auth" and route["response_contract"] in auth_response_contracts)
+        for route in protected_routes
+    )
     assert all(route["auth_required"] is True for route in protected_routes)
     assert all(route["policy_check_required"] is True for route in protected_routes)
     assert any(route["route_id"] == "api.security.posture" and route["application_service_required"] is False for route in protected_routes)
@@ -146,8 +153,15 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
         assert route["local_only"] is True
         assert route["local_state_mutation_allowed"] is True
         assert route["destructive_action_allowed"] is False
-        assert route["auth_required"] is True
-        assert route["policy_check_required"] is True
+        if route.get("public"):
+            assert route["route_id"] in {"api.auth.bootstrap-owner", "api.auth.login"}
+            assert route.get("owner") == "interfaces.api.auth"
+        else:
+            assert route["auth_required"] is True
+        if route.get("public"):
+            assert route["policy_check_required"] is False
+        else:
+            assert route["policy_check_required"] is True
         assert route["external_api_allowed"] is False
         assert route["remote_execution_allowed"] is False
         assert route["connector_write_allowed"] is False

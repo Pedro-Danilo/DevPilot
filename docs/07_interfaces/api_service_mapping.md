@@ -352,3 +352,20 @@ UOC-010 exposes exactly six typed local API routes. Browser input selects regist
 | Endpoint | Operation | Service mapping | Control |
 |---|---|---|---|
 | `GET /api/v1/guided-sdlc/status` | `guided_sdlc.project_status` / `API-GSDLC-01-E-PROJECT-STATUS` | `ApplicationService.guided_sdlc_project_status_primary` → `GuidedSDLCApplicationService.project_status_primary` → `GuidedSDLCService` / `ProjectProgressEngine` | Policy/gate: local token required; actor-neutral read-only DTO; no source/Git/state mutation; no direct UI filesystem access. |
+
+
+## DEVPL-GSDLC-02-B — local identity/session transport
+
+Authentication routes use the typed `AuthApplicationService` instead of the generic `ApplicationService.execute()` envelope so raw credential/session material cannot enter generic command logs or evidence. Route metadata is still exposed in the ApplicationService route contract for OpenAPI/inventory synchronization.
+
+| API ID | Method / path | Operation | Service mapping | Policy/gate |
+|---|---|---|---|---|
+| `API-GSDLC02B-AUTH-BOOTSTRAP-STATUS` | `GET /api/v1/auth/bootstrap/status` | `auth.bootstrap.status` | `AuthApplicationService.bootstrap_status` | Policy/gate: public localhost-only read; no secrets. |
+| `API-GSDLC02B-AUTH-BOOTSTRAP-OWNER` | `POST /api/v1/auth/bootstrap/owner` | `auth.bootstrap.owner` | `AuthApplicationService.bootstrap_owner` | Policy/gate: localhost-only first-run mutation; available exactly once; local Origin enforced for browser requests. |
+| `API-GSDLC02B-AUTH-LOGIN` | `POST /api/v1/auth/login` | `auth.login` | `AuthApplicationService.login` | Policy/gate: localhost-only credential verification; local Origin enforced for browser requests; secret delivered only as HttpOnly cookie. |
+| `API-GSDLC02B-AUTH-SESSION` | `GET /api/v1/auth/session` | `auth.session.inspect` | `AuthApplicationService.resolve` | Policy/gate: authenticated human session required; legacy local token is insufficient. |
+| `API-GSDLC02B-AUTH-ROTATE` | `POST /api/v1/auth/session/rotate` | `auth.session.rotate` | `AuthApplicationService.rotate` | Policy/gate: human session + CSRF + local Origin; old session revoked before replacement. |
+| `API-GSDLC02B-AUTH-LOGOUT` | `POST /api/v1/auth/logout` | `auth.logout` | `AuthApplicationService.logout` | Policy/gate: human session + CSRF + local Origin; current session revoked and cookies cleared. |
+| `API-GSDLC02B-AUTH-REVOKE` | `POST /api/v1/auth/session/revoke` | `auth.session.revoke` | `AuthApplicationService.revoke_current` | Policy/gate: human session + CSRF + local Origin; current session only in 02-B. |
+
+`legacy-local-token` remains compatibility-only. It is not a human principal and cannot authorize approval decisions or any endpoint marked `human-session-required`. Full RBAC enforcement by action/workspace remains GSDLC-02-C; authenticated approval actor binding remains GSDLC-02-D.

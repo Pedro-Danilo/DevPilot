@@ -9,12 +9,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from devpilot_core.application import ApplicationResponse, ApplicationService
+from devpilot_core.application import ApplicationResponse, ApplicationService, AuthApplicationService
 from devpilot_core.cli_models import CommandResult, ExitCode
 
 from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
 from .uoc011_hardening import FixedWindowRateLimiter, UOC011_API_HARDENING_HEADERS, Uoc011ApiHardeningConfig, inspect_request_hardening
-from .routers import actions, ai, approvals, guided_sdlc, jobs, operator, portfolio, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
+from .routers import actions, ai, approvals, auth, guided_sdlc, jobs, operator, portfolio, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
 from .security import (
     API_ROUTE_POLICIES,
     DEFAULT_ALLOWED_ORIGINS,
@@ -23,14 +23,23 @@ from .security import (
     build_security_error_response,
     evaluate_api_policy,
     extract_request_token,
+    human_session_required_path,
     is_public_api_path,
     resolve_api_security_config,
     resolve_route_policy,
     validate_api_token,
 )
+from devpilot_core.identity.auth_models import CSRF_HEADER_NAME, SESSION_COOKIE_NAME
+from devpilot_core.identity.session_service import CsrfInvalid, SessionInvalid
 
 DEFAULT_API_HOST = "127.0.0.1"
 DEFAULT_API_PORT = 8787
+
+PUBLIC_AUTH_MUTATION_PATHS: frozenset[str] = frozenset({
+    "/api/v1/auth/bootstrap/owner",
+    "/api/v1/auth/login",
+})
+
 
 
 def _origin_is_allowed(origin: str | None, config: ApiSecurityConfig) -> bool:
@@ -64,6 +73,7 @@ def create_app(
     *,
     api_token: str | None = None,
     allowed_origins: tuple[str, ...] | list[str] | None = None,
+    auth_service: AuthApplicationService | None = None,
 ) -> FastAPI:
     """Create the local FastAPI app for FUNC-SPRINT-67/68.
 
@@ -85,6 +95,7 @@ def create_app(
     )
     app.state.devpilot_root = resolved_root
     app.state.application_service = ApplicationService(resolved_root, enforce_workspace_paths=True)
+    app.state.auth_service = auth_service or AuthApplicationService(resolved_root)
     # UOC-008: reconcile stale/orphan governed jobs at API startup. The result is
     # retained for diagnostics; reconciliation never promotes an orphan to PASS.
     app.state.governed_job_reconciliation = app.state.application_service.jobs_reconcile(stale_after_seconds=120).to_dict()
@@ -122,9 +133,9 @@ def create_app(
         app.add_middleware(
             CORSMiddleware,
             allow_origins=list(security_config.allowed_origins),
-            allow_credentials=False,
+            allow_credentials=True,
             allow_methods=["GET", "POST", "OPTIONS"],
-            allow_headers=["Authorization", "Content-Type", "X-DevPilot-Token"],
+            allow_headers=["Authorization", "Content-Type", "X-DevPilot-Token", "X-DevPilot-CSRF"],
             expose_headers=["X-DevPilot-Policy", "X-DevPilot-Api-Security", "X-DevPilot-RateLimit-Remaining", "X-DevPilot-UOC011-Hardening"],
             max_age=600,
         )
@@ -142,16 +153,46 @@ def create_app(
                 response.headers["Retry-After"] = str(hardening["retry_after"])
             response.headers["X-DevPilot-RateLimit-Remaining"] = str(hardening.get("remaining", 0))
             return response
-        if path.startswith("/api/v1/") and not is_public_api_path(path, method=method, config=config):
-            token_ok, finding_id = validate_api_token(config, extract_request_token(request.headers))
-            if not token_ok:
+        if path in PUBLIC_AUTH_MUTATION_PATHS and method == "POST":
+            origin = request.headers.get("origin")
+            if origin and not _origin_is_allowed(origin, config):
                 payload, status_code = build_security_error_response(
-                    status_code=401,
-                    message="API token is required for protected local API endpoints." if finding_id == "API_TOKEN_MISSING_BLOCK" else "API token is invalid for protected local API endpoints.",
-                    finding_id=finding_id or "API_TOKEN_INVALID_BLOCK",
-                    operation="api.token",
+                    status_code=403,
+                    message="Public local authentication mutation requires an allow-listed local browser origin.",
+                    finding_id="AUTH_PUBLIC_ORIGIN_BLOCK",
+                    operation="api.auth.origin",
                 )
                 return _security_json_response(request, payload, status_code)
+
+        if path.startswith("/api/v1/") and not is_public_api_path(path, method=method, config=config):
+            human_session = None
+            supplied_session = request.cookies.get(SESSION_COOKIE_NAME, "")
+            if supplied_session:
+                try:
+                    human_session = request.app.state.auth_service.resolve(supplied_session)
+                    request.state.authenticated_principal = human_session.principal
+                    request.state.auth_method = "human-session"
+                except SessionInvalid:
+                    human_session = None
+
+            token_ok, finding_id = validate_api_token(config, extract_request_token(request.headers))
+            session_required = human_session_required_path(path, method)
+            if session_required and human_session is None:
+                payload, status_code = build_security_error_response(status_code=401, message="Authenticated human session is required for this local API endpoint.", finding_id="AUTH_HUMAN_SESSION_REQUIRED_BLOCK", operation="api.human_session")
+                return _security_json_response(request, payload, status_code)
+            if human_session is None and not token_ok:
+                payload, status_code = build_security_error_response(status_code=401, message="Human session or legacy local API token is required for protected local API endpoints.", finding_id=finding_id or "API_TOKEN_INVALID_BLOCK", operation="api.token")
+                return _security_json_response(request, payload, status_code)
+            if human_session is not None and method in {"POST","PUT","PATCH","DELETE"}:
+                origin = request.headers.get("origin")
+                if origin and not _origin_is_allowed(origin, config):
+                    payload, status_code = build_security_error_response(status_code=403, message="Browser origin is not allowed for authenticated session mutation.", finding_id="AUTH_ORIGIN_BLOCK", operation="api.csrf")
+                    return _security_json_response(request, payload, status_code)
+                try:
+                    request.app.state.auth_service.require_csrf(supplied_session, request.headers.get(CSRF_HEADER_NAME, ""))
+                except (CsrfInvalid, SessionInvalid):
+                    payload, status_code = build_security_error_response(status_code=403, message="CSRF validation failed for authenticated session mutation.", finding_id="AUTH_CSRF_BLOCK", operation="api.csrf")
+                    return _security_json_response(request, payload, status_code)
 
             route_policy = resolve_route_policy(method, path)
             if route_policy is None:
@@ -184,6 +225,7 @@ def create_app(
             response.headers.setdefault("X-DevPilot-Policy", "allowed")
         return response
 
+    app.include_router(auth.router)
     app.include_router(status.router)
     app.include_router(workspace_documents.router)
     app.include_router(workspace_validations.router)

@@ -151,3 +151,5 @@ from .governed_job_operations import GovernedJobOperationsApplicationService
 from .quality_operations import QualityOperationProfileRegistry, QualityOperationsApplicationService
 
 from .ai_operations import AiOperationProfileRegistry, AiOperationsApplicationService
+
+from .auth_service import AuthApplicationService

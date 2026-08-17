@@ -1,0 +1,33 @@
+{
+  "schema_id": "devpilot.gsdlc02a.final_owner_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-16",
+  "successor_repo": "repo_DevPilot_Local_354_DEVPL_GSDLC_02_A_AUTH_THREAT_BOUNDARY.zip",
+  "successor_commit": "6f338a25b5463742576c82aa7dbee958fbca8587",
+  "successor_sha256": "17f193313ee186478c1b39bd168aecd94481c636e6b3070478a74d874efde95d",
+  "windows_evidence_sha256": "e6aee985383fe4b3351349c0264f39313a967bad54a586ec5d23d7d89546e180",
+  "delta_paths": 31,
+  "artifact_hashes_git": 30,
+  "artifact_hashes_archive": 30,
+  "security_expanded": {
+    "passed": 105,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "validators": {
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS"
+  },
+  "historical_regression_guard": "PASS",
+  "runtime_auth_enabled": false,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "pilot_preserved": true,
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-02-B"
+}

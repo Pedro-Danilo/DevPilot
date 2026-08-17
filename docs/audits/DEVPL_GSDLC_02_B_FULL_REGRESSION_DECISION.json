@@ -1,0 +1,31 @@
+{
+  "schema_id": "devpilot.gsdlc02b.full_regression_decision.v1",
+  "status": "approved-cadence-decision",
+  "micro_sprint": "DEVPL-GSDLC-02-B",
+  "validation_mode": "cumulative-selective",
+  "test_impact_required": true,
+  "test_impact_full_regression_flag": true,
+  "hard_trigger_present": false,
+  "hard_trigger_review": {
+    "incompatible_persistence_migration": false,
+    "transversal_rbac_policy_change": false,
+    "incompatible_global_api_contract": false,
+    "cross_domain_plugin_tool_infra": false,
+    "major_runtime_dependency_upgrade": false,
+    "broad_packaging_topology": false,
+    "unrelated_selective_failures": false,
+    "baseline_rebase_drift": false,
+    "owner_explicit_systemic_trigger": false
+  },
+  "rationale": "02-B is a bounded additive localhost-only auth/session successor using stdlib scrypt and seven typed auth routes. It does not complete global RBAC enforcement (02-C), authenticated approval binding (02-D), login UI/browser journey (02-E), dependencies, public/remote auth, plugin/tool topology, or unrelated runtime surfaces. Security-expanded cumulative validation is the authoritative intermediate gate; the backlog-wide full regression remains exactly-once in 02-E.",
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "full_regression_repeat_allowed": false,
+  "test_impact_residual_risk": "high",
+  "test_impact_changed_paths_total": 58,
+  "test_impact_matched_contracts_total": 156,
+  "test_impact_recommended_tests_total": 254,
+  "test_impact_unmatched_paths_total": 19,
+  "test_impact_waiver_required": true,
+  "waiver_reason": "Owner-approved backlog cadence for intermediate micro-sprints A-D; Test Impact recommendation is acknowledged and covered by security-expanded cumulative validation plus Historical Regression Guard."
+}

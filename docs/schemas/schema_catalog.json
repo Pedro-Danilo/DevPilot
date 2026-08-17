@@ -6,7 +6,7 @@
   "version": "1.7.0",
   "owner": "Ordóñez",
   "updated": "2026-08-16",
-  "sprint": "DEVPL-GSDLC-01-D",
+  "sprint": "DEVPL-GSDLC-02-B",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -2665,7 +2665,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-02-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-B-LOCAL-IDENTITY-V1",
+      "title": "Local Identity",
+      "version": "1.0.0",
+      "path": "docs/schemas/local_identity.schema.json",
+      "description": "DEVPL-GSDLC-02-B Local Identity contract.",
+      "status": "registered",
+      "contract": "LocalIdentity",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-B-CREDENTIAL-RECORD-V1",
+      "title": "Credential Record",
+      "version": "1.0.0",
+      "path": "docs/schemas/credential_record.schema.json",
+      "description": "DEVPL-GSDLC-02-B Credential Record contract.",
+      "status": "registered",
+      "contract": "CredentialRecord",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-B-SESSION-RECORD-V1",
+      "title": "Session Record Safe Metadata",
+      "version": "1.0.0",
+      "path": "docs/schemas/session_record.schema.json",
+      "description": "DEVPL-GSDLC-02-B Session Record Safe Metadata contract.",
+      "status": "registered",
+      "contract": "SessionRecordSafeMetadata",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-B-AUTH-PRINCIPAL-V1",
+      "title": "Authenticated Principal",
+      "version": "1.0.0",
+      "path": "docs/schemas/authenticated_principal.schema.json",
+      "description": "DEVPL-GSDLC-02-B Authenticated Principal contract.",
+      "status": "registered",
+      "contract": "AuthenticatedPrincipal",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-B"
     }
   ],
-  "schemas_total": 181
+  "schemas_total": 188
 }

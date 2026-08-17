@@ -1,0 +1,29 @@
+{
+  "schema_id": "devpilot.gsdlc02b.operation_declaration.v1",
+  "status": "pass-candidate/pre-windows",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "source_mutations_performed_in_candidate_build": true,
+  "runtime_auth_store_created_in_source_tree": false,
+  "pilot_workspace_mutated": false,
+  "ui_changed": false,
+  "browser_acceptance_required": false,
+  "runtime_mutations_enabled_by_product": [
+    "ignored local auth SQLite bootstrap/login/session lifecycle only"
+  ],
+  "public_or_remote_auth_enabled": false,
+  "enterprise_iam_enabled": false,
+  "full_regression_executed": false,
+  "test_impact_full_regression_required": true,
+  "hard_trigger_present": false,
+  "historical_regression_guard": "PASS",
+  "cadence_waiver_valid": true,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "source_delta_paths_total": 59,
+  "recovery_v1_0_1": {
+    "runtime_security_weakened": false,
+    "current_active_smoke_evolved": true,
+    "windows_symlink_test_capability_aware": true
+  }
+}

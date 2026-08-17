@@ -1,0 +1,54 @@
+{
+  "schema_id": "devpilot.gsdlc02b.auth_session_test_report.v1",
+  "status": "pass-candidate/pre-windows",
+  "created_by": "DEVPL-GSDLC-02-B",
+  "runtime_auth_implemented": true,
+  "ui_login_implemented": false,
+  "kdf": "scrypt-v1",
+  "tests": {
+    "identity_session_threat_rbac_approval": {
+      "passed": 72,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "api_security_contract_drift": {
+      "passed": 61,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "application_secret_readiness": {
+      "passed": 17,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "aggregate_non_overlapping_groups": {
+      "passed": 150,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "security_assertions": [
+    "raw-password-not-persisted",
+    "raw-session-not-persisted",
+    "raw-csrf-not-persisted",
+    "revoke-immediate",
+    "rotation-old-invalid",
+    "restart-recovery",
+    "corrupt-store-fail-closed",
+    "legacy-token-not-human-approval-authority",
+    "remote-origin-blocked"
+  ],
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "preliminary": true,
+  "recovery_v1_0_1": {
+    "windows_path_escape_test": "PASS; symlink case capability-aware and skips only WinError 1314",
+    "operator_flow_smoke": "PASS with temporary human-session + CSRF approval decision",
+    "ui_api_local_hardening": "PASS",
+    "runtime_security_weakened": false
+  }
+}

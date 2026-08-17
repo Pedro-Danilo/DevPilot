@@ -1,0 +1,72 @@
+{
+  "schema_id": "devpilot.gsdlc02b.historical_contract_sweep.v1",
+  "status": "PASS-CANDIDATE",
+  "micro_sprint": "DEVPL-GSDLC-02-B",
+  "classifications": [
+    {
+      "path": "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "class": "historical-freeze",
+      "action": "preserve"
+    },
+    {
+      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+      "class": "historical-freeze",
+      "action": "preserve continue-blocked"
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
+      "class": "historical-freeze",
+      "action": "preserve planning boundary"
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+      "class": "current-active",
+      "action": "consume; runtime successor implemented incrementally"
+    },
+    {
+      "path": ".devpilot/identity/identity_registry.json",
+      "class": "successor-needed",
+      "action": "do not rewrite in 02-B; full role enforcement/migration owned by 02-C"
+    },
+    {
+      "path": ".devpilot/identity/role_authority_matrix.json",
+      "class": "current-active",
+      "action": "consume without claiming enforcement complete"
+    },
+    {
+      "path": ".devpilot/identity/legacy_role_migration_map.json",
+      "class": "current-active",
+      "action": "reviewer alias and maintainer fail-closed remain"
+    },
+    {
+      "path": ".devpilot/approval/sensitive_action_catalog.json",
+      "class": "successor-needed",
+      "action": "approval authority completion owned by 02-C/02-D"
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "class": "current-active",
+      "action": "add seven auth successor routes"
+    },
+    {
+      "path": "docs/07_interfaces/openapi_v1.json",
+      "class": "current-active",
+      "action": "add auth routes without removing historical x-devpilot metadata"
+    },
+    {
+      "path": "ui/web",
+      "class": "successor-needed",
+      "action": "login/first-run UX deferred to 02-E; no UI mutation in 02-B"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+      "class": "current-active",
+      "action": "evolve sandbox lifecycle to use human-session + CSRF for approval decision; preserve POST-H-028-D purpose"
+    }
+  ],
+  "historical_fact_rewrites": 0,
+  "runtime_registry_role_migration_applied": false,
+  "uoc_historical_routes_rewritten": false,
+  "result": "PASS",
+  "recovery_v1_0_1": "No historical fact rewritten; current-active smoke adapted to successor auth authority."
+}

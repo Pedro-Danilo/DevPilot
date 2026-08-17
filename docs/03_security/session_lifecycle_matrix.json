@@ -1,0 +1,88 @@
+{
+  "schema_id": "devpilot.gsdlc02b.session_lifecycle_matrix.v1",
+  "status": "pass-candidate/pre-windows",
+  "created_by": "DEVPL-GSDLC-02-B",
+  "defaults": {
+    "idle_timeout_seconds": 1800,
+    "absolute_timeout_seconds": 28800
+  },
+  "transitions": [
+    {
+      "from": "NO_OWNER",
+      "event": "bootstrap-owner",
+      "to": "ACTIVE_SESSION",
+      "control": "first owner exactly once + scrypt + transaction",
+      "expected": "PASS first time; BLOCK thereafter"
+    },
+    {
+      "from": "NO_SESSION",
+      "event": "login-valid",
+      "to": "ACTIVE_SESSION",
+      "control": "credential verify + opaque issue",
+      "expected": "PASS"
+    },
+    {
+      "from": "NO_SESSION",
+      "event": "login-invalid",
+      "to": "NO_SESSION",
+      "control": "generic invalid credentials + sanitized audit",
+      "expected": "BLOCK"
+    },
+    {
+      "from": "ACTIVE_SESSION",
+      "event": "inspect",
+      "to": "ACTIVE_SESSION",
+      "control": "server digest lookup + timeout checks",
+      "expected": "PASS"
+    },
+    {
+      "from": "ACTIVE_SESSION",
+      "event": "rotate",
+      "to": "ACTIVE_SESSION_REPLACED",
+      "control": "CSRF + revoke-old-before-new transaction",
+      "expected": "PASS; old token BLOCK"
+    },
+    {
+      "from": "ACTIVE_SESSION",
+      "event": "logout",
+      "to": "REVOKED",
+      "control": "CSRF + immediate revoke",
+      "expected": "PASS; subsequent use BLOCK"
+    },
+    {
+      "from": "ACTIVE_SESSION",
+      "event": "revoke-current",
+      "to": "REVOKED",
+      "control": "CSRF + immediate revoke",
+      "expected": "PASS; subsequent use BLOCK"
+    },
+    {
+      "from": "ACTIVE_SESSION",
+      "event": "idle-timeout",
+      "to": "REVOKED",
+      "control": "last_seen + idle threshold",
+      "expected": "BLOCK"
+    },
+    {
+      "from": "ACTIVE_SESSION",
+      "event": "absolute-timeout",
+      "to": "REVOKED",
+      "control": "absolute expiry",
+      "expected": "BLOCK"
+    },
+    {
+      "from": "ACTIVE_SESSION",
+      "event": "restart",
+      "to": "ACTIVE_SESSION",
+      "control": "versioned SQLite persistence",
+      "expected": "PASS if not expired/revoked"
+    },
+    {
+      "from": "ANY",
+      "event": "corrupt-store",
+      "to": "FAIL_CLOSED",
+      "control": "AuthStoreError",
+      "expected": "BLOCK"
+    }
+  ]
+}

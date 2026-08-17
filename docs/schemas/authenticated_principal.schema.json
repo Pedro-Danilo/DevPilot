@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/authenticated_principal/v1",
+  "title": "AuthenticatedPrincipal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "actor_id",
+    "username",
+    "display_name",
+    "roles",
+    "workspace_scopes",
+    "auth_method"
+  ],
+  "properties": {
+    "actor_id": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "workspace_scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "auth_method": {
+      "const": "human-session"
+    }
+  }
+}

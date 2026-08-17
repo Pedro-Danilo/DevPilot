@@ -94,7 +94,7 @@
     "visual_product_mvp_release": true,
     "web_real_evolution_planned": true,
     "post_h_031_b_operator_health_route": true,
-    "updated_by": "UOC-006",
+    "updated_by": "DEVPL-GSDLC-02-B",
     "workspace_documents_read_only": true,
     "workspace_document_api_routes_total": 3,
     "workspace_documents_opaque_ids": true,
@@ -124,7 +124,13 @@
     "git_branch_delete_enabled": false,
     "uoc_008_job_console": true,
     "uoc_008_jobs_routes_total": 5,
-    "uoc_008_generic_capability_execution_enabled": false
+    "uoc_008_generic_capability_execution_enabled": false,
+    "gsdlc_02_b_local_auth_sessions": true,
+    "gsdlc_02_b_auth_routes_total": 7,
+    "gsdlc_02_b_human_session_authority_initial": true,
+    "legacy_local_token_human_authority": false,
+    "production_multiuser_enabled": false,
+    "remote_login_enabled": false
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -9465,6 +9471,728 @@
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true
       }
+    },
+    "/api/v1/auth/bootstrap/status": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Bootstrap status",
+        "operationId": "auth_bootstrap_status",
+        "x-devpilot-operation": "auth.bootstrap.status",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-B",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-api-id": "API-GSDLC02B-AUTH-BOOTSTRAP-STATUS",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-b-initial",
+        "x-devpilot-auth": "public-local-auth",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService only; no credential echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthBootstrapStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/bootstrap/owner": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Bootstrap first local owner",
+        "operationId": "auth_bootstrap_owner",
+        "x-devpilot-operation": "auth.bootstrap.owner",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-B",
+        "x-devpilot-side-effect": "local_runtime_auth_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-api-id": "API-GSDLC02B-AUTH-BOOTSTRAP-OWNER",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-b-initial",
+        "x-devpilot-auth": "public-local-auth",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService only; no credential echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionSafeEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthBootstrapOwnerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Local login",
+        "operationId": "auth_login",
+        "x-devpilot-operation": "auth.login",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-B",
+        "x-devpilot-side-effect": "local_runtime_auth_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-api-id": "API-GSDLC02B-AUTH-LOGIN",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-b-initial",
+        "x-devpilot-auth": "public-local-auth",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService only; no credential echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionSafeEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLoginRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/session": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Inspect local human session",
+        "operationId": "auth_session_inspect",
+        "x-devpilot-operation": "auth.session.inspect",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-B",
+        "x-devpilot-side-effect": "local_runtime_session_touch",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-api-id": "API-GSDLC02B-AUTH-SESSION",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-b-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService only; no credential echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [
+          {
+            "LocalHumanSession": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionSafeEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/session/rotate": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Rotate local human session",
+        "operationId": "auth_session_rotate",
+        "x-devpilot-operation": "auth.session.rotate",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-B",
+        "x-devpilot-side-effect": "local_runtime_auth_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-api-id": "API-GSDLC02B-AUTH-ROTATE",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-b-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService only; no credential echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [
+          {
+            "LocalHumanSession": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionSafeEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout current local session",
+        "operationId": "auth_logout",
+        "x-devpilot-operation": "auth.logout",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-B",
+        "x-devpilot-side-effect": "local_runtime_auth_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-api-id": "API-GSDLC02B-AUTH-LOGOUT",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-b-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService only; no credential echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [
+          {
+            "LocalHumanSession": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthRevocationSafeEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/session/revoke": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Revoke current local session",
+        "operationId": "auth_session_revoke",
+        "x-devpilot-operation": "auth.session.revoke",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-B",
+        "x-devpilot-side-effect": "local_runtime_auth_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-api-id": "API-GSDLC02B-AUTH-REVOKE",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-b-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService only; no credential echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [
+          {
+            "LocalHumanSession": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthRevocationSafeEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -9592,6 +10320,135 @@
           }
         ],
         "description": "Error envelope preserving ApplicationResponse semantics. Non-2xx responses must still carry operation, exit_code and findings."
+      },
+      "AuthBootstrapStatus": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "bootstrap_required": {
+            "type": "boolean"
+          },
+          "owner_exists": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ok",
+          "bootstrap_required"
+        ]
+      },
+      "AuthSessionSafeEnvelope": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "session": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "csrf_delivery": {
+            "type": "string"
+          },
+          "session_cookie": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "ok"
+        ]
+      },
+      "AuthRevocationSafeEnvelope": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "revoked": {
+            "type": "boolean"
+          },
+          "secret_exposed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ok",
+          "revoked"
+        ]
+      },
+      "AuthErrorEnvelope": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "secret_exposed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ok",
+          "error"
+        ]
+      },
+      "AuthBootstrapOwnerRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "password": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128,
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "username",
+          "display_name",
+          "password"
+        ]
+      },
+      "AuthLoginRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
       }
     },
     "securitySchemes": {
@@ -9600,6 +10457,12 @@
         "in": "header",
         "name": "X-DevPilot-Token",
         "description": "FUNC-SPRINT-68 local session token. Use `python -m devpilot_core api token --json` and set DEVPILOT_API_TOKEN before serving."
+      },
+      "LocalHumanSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "devpilot_session",
+        "description": "Opaque local human session cookie. Server stores only its SHA-256 digest."
       }
     }
   }

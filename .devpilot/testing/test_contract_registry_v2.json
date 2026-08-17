@@ -19185,13 +19185,99 @@
       ],
       "security_negative_required": true,
       "approval_scope": "owner-adjudication-after-windows"
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-b-local-auth-sessions",
+      "source_contract_id": "devpl-gsdlc-02-b-local-auth-sessions",
+      "schema_version": "2.0",
+      "domain": "security.rbac",
+      "capability": "LocalIdentityCredentialAndRevocableSessionLifecycle",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
+        "tests/test_devpl_gsdlc_02_b_api_auth.py",
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_api_security.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/identity",
+        "src/devpilot_core/application/auth_service.py",
+        "src/devpilot_core/interfaces/api",
+        "docs/03_security",
+        "docs/05_operations/local_auth_session_runbook.md",
+        ".gitignore",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json"
+      ],
+      "validates": [
+        "src/devpilot_core/identity/auth_models.py",
+        "src/devpilot_core/identity/credential_kdf.py",
+        "src/devpilot_core/identity/auth_store.py",
+        "src/devpilot_core/identity/session_service.py",
+        "src/devpilot_core/application/auth_service.py",
+        "src/devpilot_core/interfaces/api/routers/auth.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "docs/03_security/local_identity_session_contract.md",
+        "docs/03_security/credential_kdf_decision.md",
+        "docs/03_security/session_lifecycle_matrix.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-02-B",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_devpl_gsdlc_02_b_api_auth.py tests/test_devpl_gsdlc_02_b_contracts.py tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py -q",
+        "python -m pytest tests/test_api_security.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_028_api_contract_drift_guard.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "02-B introduces preliminary local runtime identity/credential/session lifecycle only; RBAC completion is deferred to 02-C and approval actor binding to 02-D.",
+        "Tests use isolated temporary/ignored SQLite stores and do not mutate canonical source/runtime state.",
+        "Scrypt parameters are versioned; Argon2id remains a documented future hardening option.",
+        "Full regression is deferred to 02-E unless an owner-approved systemic hard trigger is documented."
+      ],
+      "trigger_hints": [
+        "local-auth",
+        "credentials",
+        "scrypt",
+        "session",
+        "csrf",
+        "login",
+        "bootstrap-owner"
+      ],
+      "impact_scope": [
+        "security",
+        "identity",
+        "api",
+        "sessions",
+        "historical-contracts",
+        "documentation-governance"
+      ],
+      "security_negative_required": true,
+      "approval_scope": "owner-adjudication-after-windows"
     }
   ],
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
-    "contracts_total": 273,
+    "contracts_total": 276,
     "external_api_used": false,
     "last_updated_by": "DEVPL-GSDLC-01-A",
     "migrator": "TestContractRegistryV2Migrator",
@@ -19250,7 +19336,8 @@
     "Governance closure 327 adds the release-scoped contract that freezes RERUN-03 hashes, closes 01-D and advances the project state to 02-A.",
     "UOC-000 operational-console capability contract registered as P0 impact/security metadata gate.",
     "DEVPL-GSDLC-00-A keeps network/external API/runtime mutation disabled and creates successor governance coverage.",
-    "DEVPL-GSDLC-00-D adds a P0 security/test reconciliation contract; network/external API/runtime mutation remain disabled."
+    "DEVPL-GSDLC-00-D adds a P0 security/test reconciliation contract; network/external API/runtime mutation remain disabled.",
+    "DEVPL-GSDLC-02-B adds preliminary local identity/session security contract; no intermediate full regression by owner-approved cadence."
   ],
   "profiles": [
     {
@@ -19342,5 +19429,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": null
+  "contracts_total": 276
 }

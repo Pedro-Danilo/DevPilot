@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/session_record/v1",
+  "title": "SessionRecordSafeMetadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "actor_id",
+    "roles",
+    "workspace_scopes",
+    "created_at",
+    "last_seen_at",
+    "absolute_expires_at",
+    "idle_timeout_seconds",
+    "revoked",
+    "rotation_counter",
+    "secret_material_in_source"
+  ],
+  "properties": {
+    "actor_id": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "workspace_scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_seen_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "absolute_expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "idle_timeout_seconds": {
+      "type": "integer",
+      "minimum": 60
+    },
+    "revoked": {
+      "type": "boolean"
+    },
+    "rotation_counter": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "secret_material_in_source": {
+      "const": false
+    }
+  },
+  "$comment": "token_hash/csrf_hash exist only in ignored runtime SQLite and are intentionally excluded from source/evidence schema."
+}

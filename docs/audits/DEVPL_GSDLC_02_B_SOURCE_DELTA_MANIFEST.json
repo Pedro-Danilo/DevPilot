@@ -1,0 +1,321 @@
+{
+  "schema_id": "devpilot.gsdlc02b.source_delta_manifest.v1",
+  "status": "pass-candidate/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-02-B",
+  "source_repo": "repo_DevPilot_Local_354_DEVPL_GSDLC_02_A_AUTH_THREAT_BOUNDARY.zip",
+  "source_commit": "6f338a25b5463742576c82aa7dbee958fbca8587",
+  "source_sha256": "17f193313ee186478c1b39bd168aecd94481c636e6b3070478a74d874efde95d",
+  "delta_paths_total": 59,
+  "create_total": 36,
+  "modify_total": 23,
+  "delete_total": 0,
+  "delta_paths": [
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/gsdlc/architecture_target_contract.json",
+    ".devpilot/interfaces/api_route_contract_registry.json",
+    ".devpilot/interfaces/ui_capability_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".gitignore",
+    "02_PROMPT_DEVPL_GSDLC_02_B_v1_1_0.md",
+    "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.json",
+    "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.json.sha256",
+    "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+    "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md.sha256",
+    "docs/03_security/credential_kdf_decision.md",
+    "docs/03_security/local_identity_session_contract.md",
+    "docs/03_security/session_lifecycle_matrix.json",
+    "docs/03_security/session_lifecycle_matrix.md",
+    "docs/05_operations/local_auth_session_runbook.md",
+    "docs/07_interfaces/api_service_mapping.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/audits/DEVPL_GSDLC_02_B_ARTIFACT_HASHES.sha256",
+    "docs/audits/DEVPL_GSDLC_02_B_AUTH_SESSION_TEST_REPORT.json",
+    "docs/audits/DEVPL_GSDLC_02_B_CLOSURE_REPORT.md",
+    "docs/audits/DEVPL_GSDLC_02_B_CURRENT.json",
+    "docs/audits/DEVPL_GSDLC_02_B_FIRST_RUN_BOOTSTRAP_EVIDENCE.json",
+    "docs/audits/DEVPL_GSDLC_02_B_FULL_REGRESSION_DECISION.json",
+    "docs/audits/DEVPL_GSDLC_02_B_OPERATION_DECLARATION.json",
+    "docs/audits/DEVPL_GSDLC_02_B_REGRESSION_GUARD.json",
+    "docs/audits/DEVPL_GSDLC_02_B_RUNTIME_STORE_EXCLUSION.json",
+    "docs/audits/DEVPL_GSDLC_02_B_SECRET_SCAN.json",
+    "docs/audits/DEVPL_GSDLC_02_B_SOURCE_DELTA_MANIFEST.json",
+    "docs/audits/DEVPL_GSDLC_02_B_TEST_IMPACT.json",
+    "docs/audits/devpl_gsdlc_02_b_historical_contract_sweep.json",
+    "docs/schemas/authenticated_principal.schema.json",
+    "docs/schemas/credential_record.schema.json",
+    "docs/schemas/local_identity.schema.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/schemas/session_record.schema.json",
+    "src/devpilot_core/application/__init__.py",
+    "src/devpilot_core/application/auth_service.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/identity/__init__.py",
+    "src/devpilot_core/identity/auth_models.py",
+    "src/devpilot_core/identity/auth_store.py",
+    "src/devpilot_core/identity/credential_kdf.py",
+    "src/devpilot_core/identity/session_service.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/contract_drift.py",
+    "src/devpilot_core/interfaces/api/contracts.py",
+    "src/devpilot_core/interfaces/api/dependencies.py",
+    "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+    "src/devpilot_core/interfaces/api/routers/auth.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    "tests/test_api_approvals_actions.py",
+    "tests/test_api_contract.py",
+    "tests/test_devpl_gsdlc_02_b_api_auth.py",
+    "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
+    "tests/test_devpl_gsdlc_02_b_contracts.py",
+    "tests/test_post_h_014_api_route_contracts.py"
+  ],
+  "entries": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": ".devpilot/gsdlc/architecture_target_contract.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": ".gitignore",
+      "action": "MODIFY"
+    },
+    {
+      "path": "02_PROMPT_DEVPL_GSDLC_02_B_v1_1_0.md",
+      "action": "CREATE"
+    },
+    {
+      "path": "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.json.sha256",
+      "action": "CREATE"
+    },
+    {
+      "path": "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "action": "CREATE"
+    },
+    {
+      "path": "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md.sha256",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/03_security/credential_kdf_decision.md",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/03_security/local_identity_session_contract.md",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/03_security/session_lifecycle_matrix.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/03_security/session_lifecycle_matrix.md",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/05_operations/local_auth_session_runbook.md",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/07_interfaces/api_service_mapping.md",
+      "action": "MODIFY"
+    },
+    {
+      "path": "docs/07_interfaces/openapi_v1.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_ARTIFACT_HASHES.sha256",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_AUTH_SESSION_TEST_REPORT.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_CLOSURE_REPORT.md",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_CURRENT.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_FIRST_RUN_BOOTSTRAP_EVIDENCE.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_FULL_REGRESSION_DECISION.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_OPERATION_DECLARATION.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_REGRESSION_GUARD.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_RUNTIME_STORE_EXCLUSION.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_SECRET_SCAN.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_SOURCE_DELTA_MANIFEST.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_02_B_TEST_IMPACT.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_02_b_historical_contract_sweep.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/schemas/authenticated_principal.schema.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/schemas/credential_record.schema.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/schemas/local_identity.schema.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "action": "MODIFY"
+    },
+    {
+      "path": "docs/schemas/session_record.schema.json",
+      "action": "CREATE"
+    },
+    {
+      "path": "src/devpilot_core/application/__init__.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/application/auth_service.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/identity/__init__.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/identity/auth_models.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "src/devpilot_core/identity/auth_store.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "src/devpilot_core/identity/credential_kdf.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "src/devpilot_core/identity/session_service.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/app.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/contract_drift.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/contracts.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/dependencies.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/auth.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/security.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "tests/test_api_approvals_actions.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "tests/test_api_contract.py",
+      "action": "MODIFY"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_02_b_api_auth.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_02_b_contracts.py",
+      "action": "CREATE"
+    },
+    {
+      "path": "tests/test_post_h_014_api_route_contracts.py",
+      "action": "MODIFY"
+    }
+  ],
+  "runtime_auth_store_in_delta": false,
+  "ui_paths_total": 0,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "recovery_v1_0_1": {
+    "reason": "Windows portability + current-active operator-flow auth compatibility",
+    "symlink_test": "skip only when WinError 1314 prevents symlink creation; path-escape remains separately tested",
+    "operator_flow_smoke": "uses temporary human owner session + CSRF for approval decision",
+    "product_security_weakened": false
+  }
+}

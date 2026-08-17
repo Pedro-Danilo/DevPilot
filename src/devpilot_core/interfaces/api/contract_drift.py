@@ -107,7 +107,9 @@ class ApiContractDriftGuard:
         response_contract_violations = [
             self._route_key(route)
             for route in routes
-            if bool(route.get("application_service_required")) and route.get("response_contract") != "ApplicationResponse" and self._route_key(route)
+            if bool(route.get("application_service_required"))
+            and not self._response_contract_allowed(route)
+            and self._route_key(route)
         ]
         mutating_without_justification = [
             self._route_key(route)
@@ -357,8 +359,8 @@ class ApiContractDriftGuard:
                     findings.append(Finding("API_CONTRACT_DRIFT_PROTECTED_ROUTE_AUTH_POLICY_BLOCK", "Protected API route must declare auth_required=true and policy_check_required=true.", Severity.BLOCK, metadata={"route_key": key, "route_id": route.get("route_id")}))
                 if key not in policy_keys:
                     findings.append(Finding("API_CONTRACT_DRIFT_POLICY_BINDING_MISSING", "Protected API route is missing API_ROUTE_POLICIES binding.", Severity.BLOCK, metadata={"route_key": key, "route_id": route.get("route_id")}))
-            if bool(route.get("application_service_required")) and route.get("response_contract") != "ApplicationResponse":
-                findings.append(Finding("API_CONTRACT_DRIFT_RESPONSE_CONTRACT_BLOCK", "ApplicationService-backed route must declare response_contract=ApplicationResponse.", Severity.BLOCK, metadata={"route_key": key, "route_id": route.get("route_id"), "response_contract": route.get("response_contract")}))
+            if bool(route.get("application_service_required")) and not self._response_contract_allowed(route):
+                findings.append(Finding("API_CONTRACT_DRIFT_RESPONSE_CONTRACT_BLOCK", "ApplicationService-backed route declares an unsupported response contract.", Severity.BLOCK, metadata={"route_key": key, "route_id": route.get("route_id"), "response_contract": route.get("response_contract")}))
             if bool(route.get("mutations_allowed")) and not str(route.get("mutation_exception_justification", "")).strip():
                 findings.append(Finding("API_CONTRACT_DRIFT_MUTATION_UNJUSTIFIED_BLOCK", "Mutating API route lacks explicit local-state mutation justification.", Severity.BLOCK, metadata={"route_key": key, "route_id": route.get("route_id")}))
             for field_name in ("remote_execution_allowed", "connector_write_allowed", "plugin_execution_allowed", "external_api_allowed", "destructive_action_allowed"):
@@ -373,6 +375,15 @@ class ApiContractDriftGuard:
             findings.append(Finding("API_CONTRACT_DRIFT_OPENAPI_MISSING_PROTECTED_PATH_BLOCK", "Static OpenAPI document is missing a non-public registry path.", Severity.BLOCK, metadata={"route_key": key}))
         for key in sorted([key for key in registry_keys - static_openapi_keys if key in public_keys or key in OPTIONAL_STATIC_OPENAPI_ROUTE_KEYS]):
             findings.append(Finding("API_CONTRACT_DRIFT_OPENAPI_PUBLIC_TRANSPORT_MISSING_WARNING", "Static OpenAPI document omits a public FastAPI transport path; this is tracked but not blocking.", Severity.WARNING, metadata={"route_key": key}))
+
+    @staticmethod
+    def _response_contract_allowed(route: Mapping[str, Any]) -> bool:
+        contract = str(route.get("response_contract", ""))
+        if contract == "ApplicationResponse":
+            return True
+        if str(route.get("owner", "")) == "interfaces.api.auth":
+            return contract in {"AuthBootstrapStatus", "AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope"}
+        return False
 
     @staticmethod
     def _route_key(route: dict[str, Any]) -> str:

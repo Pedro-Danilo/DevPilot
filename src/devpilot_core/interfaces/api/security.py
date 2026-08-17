@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 import secrets
 from urllib.parse import urlparse
 from dataclasses import dataclass
@@ -27,6 +28,9 @@ DEFAULT_ALLOWED_ORIGINS: tuple[str, ...] = (
 )
 PUBLIC_API_PATHS: tuple[str, ...] = (
     "/api/v1/health",
+    "/api/v1/auth/bootstrap/status",
+    "/api/v1/auth/bootstrap/owner",
+    "/api/v1/auth/login",
     "/api/v1/docs",
     "/api/v1/openapi.json",
 )
@@ -100,6 +104,10 @@ class ApiRoutePolicy:
 
 
 API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
+    ("GET", "/api/v1/auth/session"): ApiRoutePolicy("auth.session.inspect", "read", "protected-human-session"),
+    ("POST", "/api/v1/auth/session/rotate"): ApiRoutePolicy("auth.session.rotate", "read", "protected-human-session-mutation"),
+    ("POST", "/api/v1/auth/logout"): ApiRoutePolicy("auth.logout", "read", "protected-human-session-mutation"),
+    ("POST", "/api/v1/auth/session/revoke"): ApiRoutePolicy("auth.session.revoke", "read", "protected-human-session-mutation"),
     ("GET", "/api/v1/workspace/status"): ApiRoutePolicy("workspace.status", "read", "protected-read"),
     ("GET", "/api/v1/workspace/documents"): ApiRoutePolicy("workspace.documents.list", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/workspace/documents/{document_id}"): ApiRoutePolicy("workspace.documents.read", "read", "protected-workspace-document-read"),
@@ -187,6 +195,24 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/operator/evidence-export"): ApiRoutePolicy("operator.evidence_export", "read", "protected-operator-evidence-export", path_subject="outputs/audit_exports/operator_evidence_export"),
     ("GET", "/api/v1/portfolio/status"): ApiRoutePolicy("portfolio.status", "read", "protected-portfolio-status", path_subject=".devpilot/workspaces/workspace_registry.json"),
 }
+
+
+
+HUMAN_SESSION_REQUIRED_EXACT_PATHS: tuple[str, ...] = (
+    "/api/v1/auth/session",
+    "/api/v1/auth/session/rotate",
+    "/api/v1/auth/logout",
+    "/api/v1/auth/session/revoke",
+)
+_HUMAN_SESSION_APPROVAL_DECISION_RE = re.compile(r"^/api/v1/approvals/[^/]+/(approve|deny)$")
+
+
+def human_session_required_path(path: str, method: str) -> bool:
+    """Return whether a route cannot be authorized by the legacy local token."""
+
+    if path in HUMAN_SESSION_REQUIRED_EXACT_PATHS:
+        return True
+    return method.upper() == "POST" and _HUMAN_SESSION_APPROVAL_DECISION_RE.match(path) is not None
 
 
 def generate_api_token(*, nbytes: int = 32) -> str:

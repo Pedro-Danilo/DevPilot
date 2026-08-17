@@ -90,3 +90,6 @@ ui/web/test-results/
 
 # UOC-010 local opt-in redacted agent memory runtime
 .devpilot/agents/memory/
+
+# DEVPL-GSDLC-02-B local human authentication runtime (credentials/sessions)
+.devpilot/auth/

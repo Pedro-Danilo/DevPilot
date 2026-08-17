@@ -67,9 +67,45 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
     assert "ApplicationRequest" in schemas
     assert "ApplicationResponse" in schemas
     assert "ErrorApplicationResponse" in schemas
+    assert "AuthBootstrapStatus" in schemas
+    assert "AuthSessionSafeEnvelope" in schemas
+    assert "AuthRevocationSafeEnvelope" in schemas
+    assert "AuthErrorEnvelope" in schemas
+
+    auth_operations = {
+        "auth.bootstrap.status",
+        "auth.bootstrap.owner",
+        "auth.login",
+        "auth.session.inspect",
+        "auth.session.rotate",
+        "auth.logout",
+        "auth.session.revoke",
+    }
+    public_auth = {"auth.bootstrap.status", "auth.bootstrap.owner", "auth.login"}
 
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
+            op_id = operation["x-devpilot-operation"]
+            if op_id in auth_operations:
+                assert operation["x-devpilot-status"] == "gsdlc-02-b-initial"
+                assert operation["x-devpilot-domain-service"] == "AuthApplicationService"
+                assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
+                assert operation["x-devpilot-security-headers"] is True
+                assert operation["x-devpilot-secret-in-response"] is False
+                if op_id in public_auth:
+                    assert operation["security"] == []
+                    assert operation["x-devpilot-auth"] == "public-local-auth"
+                else:
+                    assert operation["security"] == [{"LocalHumanSession": []}]
+                    assert operation["x-devpilot-auth"] == "human-session-required"
+                assert any(code in operation["responses"] for code in {"200", "201"})
+                assert operation["responses"]["403"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/AuthErrorEnvelope"
+                if method.upper() == "POST" and op_id in {"auth.bootstrap.owner", "auth.login"}:
+                    assert "requestBody" in operation
+                elif method.upper() == "GET" or op_id in {"auth.session.rotate", "auth.logout", "auth.session.revoke"}:
+                    assert "requestBody" not in operation
+                continue
+
             assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial", "approval-center-initial", "settings-ui-initial", "visual-mvp-closed"}
             assert operation["security"] == [{"LocalTokenAuth": []}]
             assert operation["x-devpilot-auth"] == "local-token-required"

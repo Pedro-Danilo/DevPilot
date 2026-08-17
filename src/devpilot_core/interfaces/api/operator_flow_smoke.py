@@ -11,6 +11,7 @@ from typing import Any
 from fastapi.testclient import TestClient
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
+from devpilot_core.identity.auth_models import CSRF_COOKIE_NAME, CSRF_HEADER_NAME
 from devpilot_core.schemas import SchemaValidator
 
 from .app import create_app
@@ -371,10 +372,28 @@ class OperatorFlowSmokeRunner:
                 ),
             )
             client = TestClient(create_app(temp_root, api_token=self.options.token, allowed_origins=[self.options.local_origin]))
-            headers = {API_TOKEN_HEADER: self.options.token, "Origin": self.options.local_origin}
+            legacy_headers = {API_TOKEN_HEADER: self.options.token, "Origin": self.options.local_origin}
+
+            bootstrap = client.post(
+                "/api/v1/auth/bootstrap/owner",
+                headers={"Origin": self.options.local_origin},
+                json={
+                    "username": "operator.flow.owner",
+                    "display_name": "Operator Flow Owner",
+                    "password": "operator-flow-smoke-password-2026",
+                },
+            )
+            csrf_token = client.cookies.get(CSRF_COOKIE_NAME)
+            human_session_ready = bootstrap.status_code == 201 and bool(csrf_token)
+            session_headers = {
+                API_TOKEN_HEADER: self.options.token,
+                "Origin": self.options.local_origin,
+                CSRF_HEADER_NAME: str(csrf_token or ""),
+            }
+
             request = client.post(
                 "/api/v1/approvals/request",
-                headers=headers,
+                headers=session_headers if human_session_ready else legacy_headers,
                 json={
                     "tool_id": "tests.run",
                     "action": "execute",
@@ -387,11 +406,20 @@ class OperatorFlowSmokeRunner:
             approval_id = None
             if request.status_code == 200:
                 approval_id = ((request.json().get("data") or {}).get("approval") or {}).get("approval_id")
-            listed = client.get("/api/v1/approvals?status=requested&limit=20", headers=headers)
-            shown = client.get(f"/api/v1/approvals/{approval_id}", headers=headers) if approval_id else None
-            decided = client.post(f"/api/v1/approvals/{approval_id}/deny", headers=headers, json={"actor": "local-owner", "reason": "operator flow denial"}) if approval_id else None
+            listed = client.get("/api/v1/approvals?status=requested&limit=20", headers=legacy_headers)
+            shown = client.get(f"/api/v1/approvals/{approval_id}", headers=legacy_headers) if approval_id else None
+            decided = (
+                client.post(
+                    f"/api/v1/approvals/{approval_id}/deny",
+                    headers=session_headers,
+                    json={"actor": "local-owner", "reason": "operator flow denial"},
+                )
+                if approval_id and human_session_ready
+                else None
+            )
         lifecycle_passed = (
-            request.status_code == 200
+            human_session_ready
+            and request.status_code == 200
             and listed.status_code == 200
             and shown is not None
             and shown.status_code == 200
@@ -399,11 +427,14 @@ class OperatorFlowSmokeRunner:
             and decided.status_code == 200
             and ((decided.json().get("data") or {}).get("approval") or {}).get("status") == "denied"
         )
+        _finding_if_false(findings, human_session_ready, "OPERATOR_FLOW_HUMAN_SESSION_BOOTSTRAP_FAILED", "Approval flow sandbox could not bootstrap a local human owner session.")
         _finding_if_false(findings, lifecycle_passed, "OPERATOR_FLOW_APPROVAL_LIFECYCLE_FAILED", "Approval Center create/list/show/decision flow failed in the runtime sandbox.")
         return {
             "ok": lifecycle_passed,
             "approval_lifecycle_passed": lifecycle_passed,
             "runtime_sandbox_used": True,
+            "human_session_used": human_session_ready,
+            "bootstrap_status": bootstrap.status_code,
             "request_status": request.status_code,
             "list_status": listed.status_code,
             "show_status": shown.status_code if shown is not None else None,

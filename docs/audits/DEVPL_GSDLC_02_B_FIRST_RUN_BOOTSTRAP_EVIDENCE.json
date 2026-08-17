@@ -1,0 +1,18 @@
+{
+  "schema_id": "devpilot.gsdlc02b.first_run_evidence.v1",
+  "status": "sanitized-fixture-evidence",
+  "first_bootstrap": "PASS",
+  "duplicate_bootstrap": "BLOCK",
+  "actor_id": "local-owner",
+  "roles": [
+    "owner"
+  ],
+  "workspace_scopes": [
+    "devpilot-local"
+  ],
+  "password_recorded": false,
+  "password_hash_recorded": false,
+  "session_secret_recorded": false,
+  "csrf_secret_recorded": false,
+  "runtime_store_source_controlled": false
+}

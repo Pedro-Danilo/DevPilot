@@ -1,0 +1,11 @@
+{
+  "schema_id": "devpilot.gsdlc02b.runtime_store_exclusion.v1",
+  "status": "pass-candidate/pre-windows",
+  "runtime_root": ".devpilot/auth/",
+  "gitignore_rule": ".devpilot/auth/",
+  "source_zip_allowed": false,
+  "evidence_zip_allowed": false,
+  "runtime_only": true,
+  "migration_schema_version": 1,
+  "automatic_delete_recovery": false
+}

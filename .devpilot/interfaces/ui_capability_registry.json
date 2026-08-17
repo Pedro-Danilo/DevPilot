@@ -10686,7 +10686,8 @@
     "UOC-004 UI-native plan capability is metadata on ui.workspace-documents; CLI command inventory remains truthful and unchanged until UOC-007 parity work.",
     "UOC-004 remains non-mutating. UOC-005 is the first narrow source-write exception: Markdown/JSON/YAML document apply/rollback bound to exact approval, plan hash, base hash, scope, actor and TTL.",
     "Generic patch.apply, generic rollback, arbitrary shell, Git write, remote execution, connector write and plugin execution remain policy-blocked.",
-    "UOC-011 final reconciliation derives parity_status_counts from the 193 capability entries; summary values are not an independent authority."
+    "UOC-011 final reconciliation derives parity_status_counts from the 193 capability entries; summary values are not an independent authority.",
+    "DEVPL-GSDLC-02-B adds seven local auth/session API routes; no new UI route is introduced in this micro-sprint."
   ],
   "registry_id": "devpilot-ui-capability-registry",
   "safety": {
@@ -10734,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 89,
+    "api_routes_total": 96,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10815,9 +10816,10 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-01-E",
+    "updated_by": "DEVPL-GSDLC-02-B",
     "gsdlc_01_e_project_status": true,
-    "uoc_011_ui_routes_at_close": 9
+    "uoc_011_ui_routes_at_close": 9,
+    "gsdlc_02_b_auth_api_routes_total": 7
   },
   "ui_routes": [
     {

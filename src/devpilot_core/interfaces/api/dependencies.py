@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import Request
 
-from devpilot_core.application import ApplicationService
+from devpilot_core.application import ApplicationService, AuthApplicationService
 
 
 def get_application_service(request: Request) -> ApplicationService:
@@ -13,3 +13,8 @@ def get_application_service(request: Request) -> ApplicationService:
     """
 
     return request.app.state.application_service
+
+
+def get_auth_service(request: Request) -> AuthApplicationService:
+    """Return the per-app local human authentication application service."""
+    return request.app.state.auth_service

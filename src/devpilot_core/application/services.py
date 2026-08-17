@@ -1610,6 +1610,13 @@ def _capabilities() -> list[ServiceCapability]:
 
 def _routes() -> list[InterfaceRouteContract]:
     route_specs = [
+        ("APP-ROUTE-GSDLC-02-B-AUTH-BOOTSTRAP-STATUS", "GET", "/api/v1/auth/bootstrap/status", "auth.bootstrap.status", ["GSDLC-02-B public localhost-only bootstrap status; exposes no credential/session secret."]),
+        ("APP-ROUTE-GSDLC-02-B-AUTH-BOOTSTRAP-OWNER", "POST", "/api/v1/auth/bootstrap/owner", "auth.bootstrap.owner", ["GSDLC-02-B first-run owner bootstrap through AuthApplicationService; local runtime auth state only."]),
+        ("APP-ROUTE-GSDLC-02-B-AUTH-LOGIN", "POST", "/api/v1/auth/login", "auth.login", ["GSDLC-02-B local credential verification through AuthApplicationService; opaque secrets delivered only as cookies."]),
+        ("APP-ROUTE-GSDLC-02-B-AUTH-SESSION", "GET", "/api/v1/auth/session", "auth.session.inspect", ["GSDLC-02-B human-session inspection; safe principal/session metadata only."]),
+        ("APP-ROUTE-GSDLC-02-B-AUTH-ROTATE", "POST", "/api/v1/auth/session/rotate", "auth.session.rotate", ["GSDLC-02-B session rotation; old token revoked before opaque replacement is issued."]),
+        ("APP-ROUTE-GSDLC-02-B-AUTH-LOGOUT", "POST", "/api/v1/auth/logout", "auth.logout", ["GSDLC-02-B current-session logout/revocation with cookie clearing."]),
+        ("APP-ROUTE-GSDLC-02-B-AUTH-REVOKE", "POST", "/api/v1/auth/session/revoke", "auth.session.revoke", ["GSDLC-02-B explicit current-session revocation; administrative revocation remains future."]),
         ("APP-ROUTE-GSDLC-01-E", "GET", "/api/v1/guided-sdlc/status", "guided_sdlc.project_status", ["GSDLC-01-E actor-neutral read-only Project Status + NextAction route; all semantics delegate through ApplicationService."]),
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
         ("APP-ROUTE-UOC-001-A", "GET", "/api/v1/workspace/documents", "workspace.documents.list", ["UOC-001 bounded read-only active-workspace document index."]),

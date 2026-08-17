@@ -18739,6 +18739,182 @@
         "DEVPL-GSDLC-02-A"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-A-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_02_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-B-LOCAL-IDENTITY-SESSION-CONTRACT",
+      "path": "docs/03_security/local_identity_session_contract.md",
+      "classification": "source-of-truth",
+      "domain": "security.identity",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-B-CREDENTIAL-KDF-DECISION",
+      "path": "docs/03_security/credential_kdf_decision.md",
+      "classification": "source-of-truth",
+      "domain": "security.identity",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-B-SESSION-LIFECYCLE-MATRIX",
+      "path": "docs/03_security/session_lifecycle_matrix.json",
+      "classification": "machine-readable-source",
+      "domain": "security.identity",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-B-AUTH-RUNBOOK",
+      "path": "docs/05_operations/local_auth_session_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "operations.auth",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-B-AUTH-SESSION-TEST-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_02_B_AUTH_SESSION_TEST_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "security.identity",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-B-RUNTIME-STORE-EXCLUSION",
+      "path": "docs/audits/DEVPL_GSDLC_02_B_RUNTIME_STORE_EXCLUSION.json",
+      "classification": "machine-readable-source",
+      "domain": "security.identity",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-B-SECRET-SCAN",
+      "path": "docs/audits/DEVPL_GSDLC_02_B_SECRET_SCAN.json",
+      "classification": "machine-readable-source",
+      "domain": "security.identity",
+      "owner": "DEVPL-GSDLC-02-B",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_b_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-B"
+      ],
+      "lifecycle": "active"
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -18833,7 +19009,8 @@
     "DEVPL-GSDLC-00-A registers the approved Guided SDLC roadmap/backlog, program charter, pilot pause decision, repo341 immutable parent manifest, legacy preservation matrix and historical contract sweep without runtime changes.",
     "DEVPL-GSDLC-00-D registers the successor threat model, layered test strategy, 546-assertion historical contract sweep, migration plan, security-control traceability and test-impact baseline without enabling runtime capabilities.",
     "DEVPL-GSDLC-R01-D registers frozen model/agentic fixtures and local zero-cost benchmark evidence; reconciles gsdlc_last_registered_micro_sprint metadata without changing runtime/provider no-go contracts.",
-    "DEVPL-GSDLC-02-A registers a design-only local operator authentication boundary, 18-threat control matrix, nine-role authority matrix and explicit legacy role migration; runtime login/session remains disabled until successor micro-sprints."
+    "DEVPL-GSDLC-02-A registers a design-only local operator authentication boundary, 18-threat control matrix, nine-role authority matrix and explicit legacy role migration; runtime login/session remains disabled until successor micro-sprints.",
+    "DEVPL-GSDLC-02-B registers preliminary local runtime identity/session contracts, scrypt-v1 credential decision, runtime-only SQLite exclusion, seven local auth API routes, CSRF/origin controls and sanitized evidence; RBAC completion is deferred to 02-C and authenticated approval binding to 02-D."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -21247,7 +21424,7 @@
     "derived_total": 96,
     "documents_checked_total": 712,
     "documents_registered_total": 818,
-    "documents_total": 818,
+    "documents_total": 833,
     "documents_with_required_tests_total": 791,
     "external_api_used": false,
     "generated_runtime_total": 0,
@@ -21274,9 +21451,9 @@
     "gsdlc_active_program": "DEVPL-GSDLC"
   },
   "updated": "2026-08-16",
-  "updated_at": "2026-08-16T23:00:00Z",
-  "updated_by": "DEVPL-GSDLC-02-A",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-A",
+  "updated_at": "2026-08-16T23:59:00Z",
+  "updated_by": "DEVPL-GSDLC-02-B",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-B",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "active/post-00-closed/01-authorized",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
@@ -21309,7 +21486,8 @@
   "gsdlc_01_d_status": "pass-candidate/pre-windows",
   "gsdlc_01_d_final_owner_status": "closed/PASS",
   "gsdlc_01_e_status": "pass-candidate/pre-windows",
-  "gsdlc_02_last_registered_micro_sprint": "DEVPL-GSDLC-02-A",
-  "gsdlc_02_program_status": "implementation/02-a-pass-candidate",
-  "gsdlc_02_a_status": "pass-candidate/pre-windows"
+  "gsdlc_02_last_registered_micro_sprint": "DEVPL-GSDLC-02-B",
+  "gsdlc_02_program_status": "implementation/02-b-pass-candidate",
+  "gsdlc_02_a_status": "closed/PASS",
+  "gsdlc_02_b_status": "pass-candidate/pre-windows"
 }
