@@ -377,5 +377,18 @@
     "approval_binding_successor": "DEVPL-GSDLC-02-D",
     "ui_role_ux_complete": false,
     "ui_successor": "DEVPL-GSDLC-02-E"
+  },
+  "gsdlc_02_d_successor": {
+    "status": "implemented-initial/DEVPL-GSDLC-02-D",
+    "authority_matrix": ".devpilot/approval/approval_authority_matrix.json",
+    "binding_implementation": "src/devpilot_core/approval/authenticated_binding.py",
+    "actor_authority": "AuthenticatedPrincipal from human session only",
+    "caller_actor_authoritative": false,
+    "legacy_token_human_authority": false,
+    "decision_session_revalidation": true,
+    "critical_self_approval": "DENY",
+    "high_workspace_single_owner_exception": "bounded-local-only",
+    "approval_center_authority_projection": true,
+    "login_ui_deferred_to": "DEVPL-GSDLC-02-E"
   }
 }

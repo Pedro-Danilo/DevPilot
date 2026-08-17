@@ -1,0 +1,30 @@
+{
+  "schema_id": "devpilot.gsdlc02c.final_owner_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "successor_repo": "repo_DevPilot_Local_357_DEVPL_GSDLC_02_C_SERVER_RBAC_ENFORCEMENT.zip",
+  "successor_commit": "1c7789f6a3b67055f6c1811196b006e2d9b989e9",
+  "successor_sha256": "ce052373c1864ef0f5c782c4f9d543540ffdb68bc3476ca4d74f012681d41a73",
+  "windows_evidence_sha256": "45d5b161380eb1a06278ed37ff194a6431695fbe03d954a6835f80f5ff4a6d66",
+  "delta_paths": 51,
+  "artifact_hashes_git": 50,
+  "artifact_hashes_archive": 50,
+  "windows_validation": {
+    "passed": 129,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "independent_validation": {
+    "passed": 79,
+    "failed": 0
+  },
+  "route_policies": 97,
+  "sensitive_actions": 16,
+  "unmapped_sensitive_actions": 0,
+  "pilot_preserved": true,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-02-D"
+}

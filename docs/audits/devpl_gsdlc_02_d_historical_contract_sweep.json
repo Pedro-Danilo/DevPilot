@@ -1,0 +1,81 @@
+{
+  "schema_id": "devpilot.gsdlc02d.historical_contract_sweep.v1",
+  "status": "pass-candidate/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-02-D",
+  "classifications": [
+    {
+      "artifact": "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+      "class": "historical-freeze",
+      "rationale": "Preserve original Approval/RBAC hardening evidence; D adds successor authenticated authority."
+    },
+    {
+      "artifact": "src/devpilot_core/approval/binding.py",
+      "class": "current-active",
+      "rationale": "StrongApprovalBinding remains authoritative and is extended only for current executable actions to require D binding."
+    },
+    {
+      "artifact": "tests/test_approval_binding.py",
+      "class": "historical-freeze",
+      "rationale": "Historical exact-scope actor/role/tool/action/subject/hash/command/tool-call semantics remain intact."
+    },
+    {
+      "artifact": "src/devpilot_core/approval/service.py",
+      "class": "historical-freeze",
+      "rationale": "Actor-based low-level service is retained for historical/internal compatibility; current API does not use it as authority."
+    },
+    {
+      "artifact": "src/devpilot_core/application/approval_service.py",
+      "class": "current-active",
+      "rationale": "Successor authenticated request/decision methods derive actor and role from human session."
+    },
+    {
+      "artifact": "src/devpilot_core/interfaces/api/routers/approvals.py",
+      "class": "current-active",
+      "rationale": "Approval mutations evolve to human-session authority and caller actor becomes non-authoritative."
+    },
+    {
+      "artifact": "docs/07_interfaces/openapi_v1.json",
+      "class": "current-active",
+      "rationale": "Approval mutation operations evolve additively to HumanSessionCookie authority while other historical routes remain unchanged."
+    },
+    {
+      "artifact": "ui/web/src/pages/ApprovalCenterView.ts",
+      "class": "current-active",
+      "rationale": "Current Approval Center removes actor input and displays server-derived authority; login shell remains successor E."
+    },
+    {
+      "artifact": ".devpilot/approval/sensitive_action_catalog.json",
+      "class": "historical-freeze",
+      "rationale": "D does not change executable/default-effect decisions; authority is a separate successor matrix."
+    },
+    {
+      "artifact": ".devpilot/approval/approval_authority_matrix.json",
+      "class": "successor-needed",
+      "rationale": "D machine-readable successor for authenticated role/risk/domain/SoD authority."
+    },
+    {
+      "artifact": ".devpilot/identity/server_rbac_policy_catalog.json",
+      "class": "current-active",
+      "rationale": "Approval mutation route transport roles/auth requirements evolve with D while deny-by-default C semantics remain."
+    },
+    {
+      "artifact": "tests/test_api_approvals_actions.py",
+      "class": "current-active",
+      "rationale": "Current API acceptance must use session+CSRF and no longer assert legacy token authority."
+    },
+    {
+      "artifact": "tests/test_web_ui_approval_center.py",
+      "class": "historical-freeze",
+      "rationale": "Historical UOC snapshot remains evidence of prior Approval Center; D adds successor UI contract test."
+    },
+    {
+      "artifact": "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+      "class": "successor-needed",
+      "rationale": "Successor contract for D Approval Center authority semantics without browser-real closure."
+    }
+  ],
+  "historical_assertions_relaxed_only_for_green": false,
+  "post_h_012_rewritten": false,
+  "uoc_history_rewritten": false,
+  "browser_real_deferred_to": "DEVPL-GSDLC-02-E"
+}

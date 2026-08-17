@@ -425,7 +425,7 @@
         "summary": "Request Approval",
         "operationId": "approvals_request",
         "x-devpilot-operation": "approvals.request",
-        "x-devpilot-sprint": "FUNC-SPRINT-71",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-D",
         "x-devpilot-side-effect": "approval_store_write",
         "x-devpilot-dry-run-default": false,
         "responses": {
@@ -507,18 +507,20 @@
           }
         },
         "x-devpilot-api-id": "API-APPROVALS-REQUEST",
-        "x-devpilot-domain-service": "ApprovalApplicationService.request",
+        "x-devpilot-domain-service": "ApprovalApplicationService.request_authenticated",
         "x-devpilot-status": "approval-center-initial",
-        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-auth": "human-session-required",
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true,
-        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --actor ui-local --reason \"...\" --json",
+        "x-devpilot-policy": "Human session + CSRF + server RBAC + approval_authority_matrix; caller actor is non-authoritative.",
+        "x-devpilot-command-equivalent": "Authenticated local API/Approval Center only; actor-based CLI request is legacy/internal.",
         "security": [
           {
-            "LocalTokenAuth": []
+            "HumanSessionCookie": []
           }
-        ]
+        ],
+        "x-devpilot-approval-actor-authority": "authenticated-session",
+        "x-devpilot-legacy-token-human-authority": false
       }
     },
     "/api/v1/approvals/{approval_id}": {
@@ -627,7 +629,7 @@
         "summary": "Approve Approval",
         "operationId": "approvals_approve",
         "x-devpilot-operation": "approvals.approve",
-        "x-devpilot-sprint": "FUNC-SPRINT-71",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-D",
         "x-devpilot-side-effect": "approval_store_write",
         "x-devpilot-dry-run-default": false,
         "responses": {
@@ -719,18 +721,20 @@
           }
         },
         "x-devpilot-api-id": "API-APPROVALS-APPROVE",
-        "x-devpilot-domain-service": "ApprovalApplicationService.decide",
+        "x-devpilot-domain-service": "ApprovalApplicationService.decide_authenticated",
         "x-devpilot-status": "approval-center-initial",
-        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-auth": "human-session-required",
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true,
-        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core approval approve <approval_id> --actor ui-local --reason \"...\" --json",
+        "x-devpilot-policy": "Human session + CSRF + server RBAC + approval_authority_matrix; caller actor is non-authoritative.",
+        "x-devpilot-command-equivalent": "Authenticated local API/Approval Center only; actor-based CLI decisions disabled by GSDLC-02-D.",
         "security": [
           {
-            "LocalTokenAuth": []
+            "HumanSessionCookie": []
           }
-        ]
+        ],
+        "x-devpilot-approval-actor-authority": "authenticated-session",
+        "x-devpilot-legacy-token-human-authority": false
       }
     },
     "/api/v1/approvals/{approval_id}/deny": {
@@ -741,7 +745,7 @@
         "summary": "Deny Approval",
         "operationId": "approvals_deny",
         "x-devpilot-operation": "approvals.deny",
-        "x-devpilot-sprint": "FUNC-SPRINT-71",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-D",
         "x-devpilot-side-effect": "approval_store_write",
         "x-devpilot-dry-run-default": false,
         "responses": {
@@ -833,18 +837,20 @@
           }
         },
         "x-devpilot-api-id": "API-APPROVALS-DENY",
-        "x-devpilot-domain-service": "ApprovalApplicationService.decide",
+        "x-devpilot-domain-service": "ApprovalApplicationService.decide_authenticated",
         "x-devpilot-status": "approval-center-initial",
-        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-auth": "human-session-required",
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true,
-        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core approval deny <approval_id> --actor ui-local --reason \"...\" --json",
+        "x-devpilot-policy": "Human session + CSRF + server RBAC + approval_authority_matrix; caller actor is non-authoritative.",
+        "x-devpilot-command-equivalent": "Authenticated local API/Approval Center only; actor-based CLI decisions disabled by GSDLC-02-D.",
         "security": [
           {
-            "LocalTokenAuth": []
+            "HumanSessionCookie": []
           }
-        ]
+        ],
+        "x-devpilot-approval-actor-authority": "authenticated-session",
+        "x-devpilot-legacy-token-human-authority": false
       }
     },
     "/api/v1/history/runs": {
@@ -10619,6 +10625,12 @@
         "in": "cookie",
         "name": "devpilot_session",
         "description": "Opaque local human session cookie. Server stores only its SHA-256 digest."
+      },
+      "HumanSessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "devpilot_session",
+        "description": "Opaque HttpOnly local human session cookie; mutating requests also require X-DevPilot-CSRF."
       }
     }
   }

@@ -4,6 +4,8 @@ import subprocess
 from pathlib import Path
 
 from devpilot_core.application.workspace_git_operations_service import WorkspaceGitOperationsApplicationService
+from devpilot_core.application.approval_service import ApprovalApplicationService
+from devpilot_core.application.auth_service import AuthApplicationService
 
 from uoc006_fixtures import find_approval_id, git, uoc006_env
 
@@ -14,16 +16,35 @@ def _document_id(service: WorkspaceGitOperationsApplicationService) -> str:
     return next(str(node["document_id"]) for node in result.data["nodes"] if node.get("relative_path") == "docs/review.md")
 
 
-def _approve(service: WorkspaceGitOperationsApplicationService, result) -> str:
+def _authenticated_service(platform: Path):
+    auth = AuthApplicationService(platform)
+    issue = auth.bootstrap_owner(username="owner", display_name="DevPilot Owner", password="TestOwnerPassword!2026")
+    service = WorkspaceGitOperationsApplicationService(platform, approval_auth_store=auth.store)
+    return service, auth, issue
+
+
+def _approve(
+    service: WorkspaceGitOperationsApplicationService,
+    auth: AuthApplicationService,
+    issue,
+    result,
+) -> str:
     approval_id = find_approval_id(result.data)
     assert approval_id
-    decided = service.approvals.approve(approval_id, actor="owner", reason="Fixture approval")
-    assert decided.ok
+    decided = ApprovalApplicationService(service.platform_root, auth_store=auth.store).decide_authenticated(
+        approval_id=approval_id,
+        decision="approved",
+        principal=issue.context.principal,
+        session=issue.context,
+        caller_actor=None,
+        reason="Fixture authenticated human approval",
+    )
+    assert decided.ok, [f.to_dict() for f in decided.findings]
     return approval_id
 
 
 def test_plan_is_immutable_zero_git_mutation_and_rejects_stale_hash(uoc006_env):
-    service = WorkspaceGitOperationsApplicationService(uoc006_env["platform"])
+    service, auth, issue = _authenticated_service(uoc006_env["platform"])
     workspace = uoc006_env["workspace"]
     before_head = git(workspace, "rev-parse", "HEAD")
     document_id = _document_id(service)
@@ -40,7 +61,7 @@ def test_plan_is_immutable_zero_git_mutation_and_rejects_stale_hash(uoc006_env):
 
 
 def test_stage_requires_exact_approval_and_compensates_failed_precommit(uoc006_env):
-    service = WorkspaceGitOperationsApplicationService(uoc006_env["platform"])
+    service, auth, issue = _authenticated_service(uoc006_env["platform"])
     workspace = uoc006_env["workspace"]
     document_id = _document_id(service)
     plan = service.plan_commit(document_ids=[document_id], commit_message="docs: governed review", author_name="DevPilot Owner", author_email="devpilot-owner@local.invalid").data["plan"]
@@ -48,7 +69,7 @@ def test_stage_requires_exact_approval_and_compensates_failed_precommit(uoc006_e
     assert not blocked.ok
     assert git(workspace, "diff", "--cached", "--name-only") == ""
     approval = service.request_stage_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="owner", reason="Stage reviewed document")
-    approval_id = _approve(service, approval)
+    approval_id = _approve(service, auth, issue, approval)
     staged = service.stage(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], approval_id=approval_id, actor="owner")
     assert staged.ok
     assert git(workspace, "diff", "--cached", "--name-only") == "docs/review.md"
@@ -60,7 +81,7 @@ def test_stage_requires_exact_approval_and_compensates_failed_precommit(uoc006_e
 
 
 def test_stage_uses_git_semantic_equivalence_under_autocrlf(uoc006_env):
-    service = WorkspaceGitOperationsApplicationService(uoc006_env["platform"])
+    service, auth, issue = _authenticated_service(uoc006_env["platform"])
     workspace = uoc006_env["workspace"]
     document_id = _document_id(service)
     plan = service.plan_commit(
@@ -72,7 +93,7 @@ def test_stage_uses_git_semantic_equivalence_under_autocrlf(uoc006_env):
     raw_worktree = (workspace / "docs" / "review.md").read_bytes()
     assert b"\r\n" in raw_worktree
     stage_approval_id = _approve(
-        service,
+        service, auth, issue,
         service.request_stage_approval(
             plan_id=plan["plan_id"],
             plan_hash=plan["plan_hash"],
@@ -94,7 +115,7 @@ def test_stage_uses_git_semantic_equivalence_under_autocrlf(uoc006_env):
     assert equivalence["working_sha256"] != equivalence["index_sha256"]
 
 def test_commit_requires_second_approval_explicit_identity_and_skips_hooks(uoc006_env):
-    service = WorkspaceGitOperationsApplicationService(uoc006_env["platform"])
+    service, auth, issue = _authenticated_service(uoc006_env["platform"])
     workspace = uoc006_env["workspace"]
     hook_marker = workspace / "hook-ran.txt"
     hook = workspace / ".git" / "hooks" / "pre-commit"
@@ -102,13 +123,13 @@ def test_commit_requires_second_approval_explicit_identity_and_skips_hooks(uoc00
     hook.chmod(0o755)
     document_id = _document_id(service)
     plan = service.plan_commit(document_ids=[document_id], commit_message="docs: governed review", author_name="DevPilot Owner", author_email="devpilot-owner@local.invalid").data["plan"]
-    stage_approval_id = _approve(service, service.request_stage_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="owner", reason="Stage reviewed document"))
+    stage_approval_id = _approve(service, auth, issue, service.request_stage_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="owner", reason="Stage reviewed document"))
     staged = service.stage(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], approval_id=stage_approval_id, actor="owner")
     assert staged.ok
     stage_id = staged.data["stage_execution"]["stage_execution_id"]
     denied = service.commit(stage_execution_id=stage_id, approval_id=stage_approval_id, actor="owner")
     assert not denied.ok
-    commit_approval_id = _approve(service, service.request_commit_approval(stage_execution_id=stage_id, actor="owner", reason="Commit exact staged content"))
+    commit_approval_id = _approve(service, auth, issue, service.request_commit_approval(stage_execution_id=stage_id, actor="owner", reason="Commit exact staged content"))
     committed = service.commit(stage_execution_id=stage_id, approval_id=commit_approval_id, actor="owner")
     assert committed.ok
     execution = committed.data["execution"]
@@ -123,7 +144,7 @@ def test_commit_requires_second_approval_explicit_identity_and_skips_hooks(uoc00
 
 
 def test_branch_create_is_local_ref_only_and_requires_clean_workspace(uoc006_env):
-    service = WorkspaceGitOperationsApplicationService(uoc006_env["platform"])
+    service, auth, issue = _authenticated_service(uoc006_env["platform"])
     blocked = service.plan_branch_create(branch_name="feat/uoc006-safe")
     assert not blocked.ok  # document is intentionally dirty before commit
     workspace = uoc006_env["workspace"]
@@ -131,7 +152,7 @@ def test_branch_create_is_local_ref_only_and_requires_clean_workspace(uoc006_env
     plan_result = service.plan_branch_create(branch_name="feat/uoc006-safe")
     assert plan_result.ok
     plan = plan_result.data["plan"]
-    approval_id = _approve(service, service.request_branch_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="owner", reason="Create local review branch"))
+    approval_id = _approve(service, auth, issue, service.request_branch_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="owner", reason="Create local review branch"))
     created = service.create_branch(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], approval_id=approval_id, actor="owner")
     assert created.ok
     assert git(workspace, "branch", "--show-current") in {"master", "main"}
@@ -147,7 +168,7 @@ def test_free_git_arguments_and_dangerous_operations_are_not_exposed():
 
 
 def test_secret_like_content_is_blocked_before_staging_plan(uoc006_env):
-    service = WorkspaceGitOperationsApplicationService(uoc006_env["platform"])
+    service, auth, issue = _authenticated_service(uoc006_env["platform"])
     workspace = uoc006_env["workspace"]
     document_id = _document_id(service)
     review = workspace / "docs" / "review.md"

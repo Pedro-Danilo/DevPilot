@@ -156,6 +156,7 @@ class ApprovalDecision:
     actor: str
     reason: str
     metadata: dict[str, Any] = field(default_factory=dict)
+    scope_updates: dict[str, Any] = field(default_factory=dict)
 
     def validate(self) -> list[Finding]:
         findings: list[Finding] = []
@@ -183,6 +184,7 @@ class ApprovalDecision:
             "actor": self.actor,
             "reason": self.reason,
             "metadata": self.metadata,
+            "scope_updates": self.scope_updates,
         }
 
 

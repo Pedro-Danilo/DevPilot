@@ -270,7 +270,10 @@
     "gsdlc01eTopLevelUiRoutesChanged": true,
     "currentTopLevelUiRoutesTotal": 10,
     "uoc011RoutesTotalAtClose": 9,
-    "gsdlc01eContinueMutatesState": false
+    "gsdlc01eContinueMutatesState": false,
+    "gsdlc02dAuthenticatedApprovalBinding": true,
+    "approvalActorAuthority": "human-session",
+    "approvalCallerActorAuthoritative": false
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

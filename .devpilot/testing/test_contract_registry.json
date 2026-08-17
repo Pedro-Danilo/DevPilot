@@ -11113,6 +11113,58 @@
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
       "domain": "security.rbac"
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-d-authenticated-approval-binding",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-02-D",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
+        "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+        "tests/test_approval_binding.py",
+        "tests/test_approval_policy_binding.py",
+        "tests/test_policy_engine_approval_rbac_enforcement.py",
+        "tests/test_api_approvals_actions.py",
+        "tests/test_api_security.py",
+        "tests/test_api_contract.py"
+      ],
+      "validates": [
+        ".devpilot/approval/approval_authority_matrix.json",
+        "src/devpilot_core/approval/authenticated_binding.py",
+        "src/devpilot_core/approval/binding.py",
+        "src/devpilot_core/application/approval_service.py",
+        "src/devpilot_core/interfaces/api/routers/approvals.py",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "docs/audits/DEVPL_GSDLC_02_D_APPROVAL_BINDING_SECURITY_REPORT.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/approval",
+        "src/devpilot_core/application/approval_service.py",
+        "src/devpilot_core/interfaces/api",
+        "src/devpilot_core/identity/auth_store.py",
+        ".devpilot/approval",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "docs/03_security",
+        "docs/07_interfaces"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "security.approval"
     }
   ],
   "created_by": "POST-H-001",
@@ -11186,5 +11238,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 277
+  "contracts_total": 278
 }

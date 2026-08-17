@@ -1,6 +1,6 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "micro_sprint": "DEVPL-GSDLC-02-C",
   "status": "pass-candidate/pre-windows",
   "runtime_enforced": true,
@@ -241,7 +241,7 @@
       "method": "POST",
       "path": "/api/v1/approvals/request",
       "operation": "approvals.request",
-      "access_class": "system/legacy-compatibility",
+      "access_class": "authenticated-action",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -254,8 +254,8 @@
         "agent-supervisor"
       ],
       "public": false,
-      "human_session_required": false,
-      "legacy_token_allowed": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "workspace_scope_required": false,
       "risk_level": "high",
       "deny_by_default": true
@@ -291,7 +291,12 @@
       "operation": "approvals.approve",
       "access_class": "approval-authority",
       "allowed_roles": [
-        "owner"
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "release-manager",
+        "agent-supervisor"
       ],
       "public": false,
       "human_session_required": true,
@@ -307,7 +312,12 @@
       "operation": "approvals.deny",
       "access_class": "approval-authority",
       "allowed_roles": [
-        "owner"
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "release-manager",
+        "agent-supervisor"
       ],
       "public": false,
       "human_session_required": true,
@@ -1649,7 +1659,7 @@
       "method": "POST",
       "path": "/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request",
       "operation": "workspace.edits.rollback_approval_request",
-      "access_class": "system/legacy-compatibility",
+      "access_class": "authenticated-action",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -1662,8 +1672,8 @@
         "agent-supervisor"
       ],
       "public": false,
-      "human_session_required": false,
-      "legacy_token_allowed": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "workspace_scope_required": true,
       "risk_level": "high",
       "deny_by_default": true
@@ -1737,7 +1747,7 @@
       "method": "POST",
       "path": "/api/v1/workspace/edit-plans/{plan_id}/approval-request",
       "operation": "workspace.edits.approval_request",
-      "access_class": "system/legacy-compatibility",
+      "access_class": "authenticated-action",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -1750,8 +1760,8 @@
         "agent-supervisor"
       ],
       "public": false,
-      "human_session_required": false,
-      "legacy_token_allowed": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "workspace_scope_required": true,
       "risk_level": "high",
       "deny_by_default": true
@@ -1809,7 +1819,7 @@
       "method": "POST",
       "path": "/api/v1/workspace/git/branches/{plan_id}/approval-request",
       "operation": "workspace.git.branch_approval_request",
-      "access_class": "system/legacy-compatibility",
+      "access_class": "authenticated-action",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -1822,8 +1832,8 @@
         "agent-supervisor"
       ],
       "public": false,
-      "human_session_required": false,
-      "legacy_token_allowed": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "workspace_scope_required": true,
       "risk_level": "high",
       "deny_by_default": true
@@ -1985,7 +1995,7 @@
       "method": "POST",
       "path": "/api/v1/workspace/git/plans/{plan_id}/stage-approval-request",
       "operation": "workspace.git.stage_approval_request",
-      "access_class": "system/legacy-compatibility",
+      "access_class": "authenticated-action",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -1998,8 +2008,8 @@
         "agent-supervisor"
       ],
       "public": false,
-      "human_session_required": false,
-      "legacy_token_allowed": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "workspace_scope_required": true,
       "risk_level": "high",
       "deny_by_default": true
@@ -2025,7 +2035,7 @@
       "method": "POST",
       "path": "/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request",
       "operation": "workspace.git.commit_approval_request",
-      "access_class": "system/legacy-compatibility",
+      "access_class": "authenticated-action",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -2038,8 +2048,8 @@
         "agent-supervisor"
       ],
       "public": false,
-      "human_session_required": false,
-      "legacy_token_allowed": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "workspace_scope_required": true,
       "risk_level": "high",
       "deny_by_default": true
@@ -2438,5 +2448,10 @@
     "unknown_action_effect": "DENY",
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
-  }
+  },
+  "updated_by": "DEVPL-GSDLC-02-D",
+  "notes": [
+    "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
+    "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization."
+  ]
 }

@@ -166,7 +166,7 @@ class ApprovalStore:
             status=decision.status,
             actor=existing.actor,
             reason=decision.reason,
-            scope=existing.scope,
+            scope={**existing.scope, **decision.scope_updates},
             created_at=existing.created_at,
             updated_at=utc_now_iso(),
             expires_at=existing.expires_at,

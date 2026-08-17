@@ -1,0 +1,34 @@
+{
+  "schema_id": "devpilot.gsdlc02d.approval_center_parity.v1",
+  "status": "pass-candidate/pre-windows",
+  "ui_changed": true,
+  "browser_real_required_in_d": false,
+  "browser_real_deferred_to": "DEVPL-GSDLC-02-E",
+  "ui_contract": {
+    "actor_input_present": false,
+    "authenticated_authority_panel_present": true,
+    "server_capability_view_consumed": true,
+    "request_sends_actor": false,
+    "decision_sends_actor": false,
+    "credentials_include": true,
+    "csrf_header_from_local_cookie_for_post": true,
+    "login_ui_implemented": false
+  },
+  "api_contract": {
+    "approval_request_human_session_required": true,
+    "approval_approve_human_session_required": true,
+    "approval_deny_human_session_required": true,
+    "caller_actor_nonauthoritative": true,
+    "legacy_token_human_authority": false
+  },
+  "parity_decision": "PASS-CANDIDATE/PRE-WINDOWS",
+  "windows_requirements": [
+    "npm test",
+    "npm run build"
+  ],
+  "screenshots_required": false,
+  "har_required": false,
+  "npm_smoke_controlled": "PASS",
+  "npm_build_controlled": "BLOCKED_BY_MISSING_LOCAL_VITE_DEPENDENCY",
+  "npm_build_windows_required": true
+}

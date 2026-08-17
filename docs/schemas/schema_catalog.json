@@ -3,10 +3,10 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-16",
-  "sprint": "DEVPL-GSDLC-02-B",
+  "updated": "2026-08-17",
+  "sprint": "DEVPL-GSDLC-02-D",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -2735,7 +2735,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-02-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-D-APPROVAL-AUTHORITY-MATRIX-V1",
+      "title": "Authenticated Approval Authority Matrix",
+      "version": "1.0.0",
+      "path": "docs/schemas/approval_authority_matrix.schema.json",
+      "description": "DEVPL-GSDLC-02-D role/risk/domain/separation-of-duties and safe session-binding authority contract.",
+      "status": "registered",
+      "contract": "ApprovalAuthorityMatrix",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-D"
     }
   ],
-  "schemas_total": 189
+  "schemas_total": 190
 }

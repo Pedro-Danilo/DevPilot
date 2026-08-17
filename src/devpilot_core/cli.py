@@ -4684,6 +4684,17 @@ def approval_decision_command(
     """Approve, deny or revoke one approval through controlled transitions."""
 
     root = project_root()
+    if (root / ".devpilot" / "approval" / "approval_authority_matrix.json").is_file():
+        result = CommandResult(
+            command=f"approval {action}",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Approval decisions require an authenticated human session; actor-based CLI decision authority is disabled by DEVPL-GSDLC-02-D.",
+            data={"summary":{"authenticated_session_required":True,"legacy_cli_decision_authority":False,"mutations_performed":False}},
+            findings=[Finding("APPROVAL_CLI_ACTOR_AUTHORITY_DISABLED_BLOCK","Use the authenticated local API/Approval Center for approve/deny/revoke decisions.",Severity.BLOCK)],
+        )
+        print_result(result,json_output=json_output)
+        return int(result.exit_code)
     service = ApprovalService(root)
     if action == "approve":
         result = service.approve(approval_id, actor=actor, reason=reason)

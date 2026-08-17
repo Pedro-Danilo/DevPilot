@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/approval_authority_matrix.schema.json",
+  "title": "ApprovalAuthorityMatrix",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "version",
+    "deny_by_default",
+    "human_session_required",
+    "legacy_token_human_authority",
+    "risk_levels",
+    "domain_roles",
+    "separation_of_duties",
+    "session_binding"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc02d.approval_authority_matrix.v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "deny_by_default": {
+      "const": true
+    },
+    "human_session_required": {
+      "const": true
+    },
+    "legacy_token_human_authority": {
+      "const": false
+    },
+    "risk_levels": {
+      "type": "object"
+    },
+    "domain_roles": {
+      "type": "object"
+    },
+    "separation_of_duties": {
+      "type": "object"
+    },
+    "session_binding": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

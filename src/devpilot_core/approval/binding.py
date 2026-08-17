@@ -7,7 +7,9 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.identity.auth_store import LocalAuthStore
 from .models import ApprovalRecord, ApprovalStatus, is_expired
+from .authenticated_binding import AuthenticatedApprovalAuthority
 
 POST_H_012_B_CREATED_BY = "POST-H-012-B"
 APPROVAL_BINDING_COMMAND = "approval binding-validate"
@@ -50,9 +52,10 @@ class StrongApprovalBindingValidator:
     conservative for legacy approvals.
     """
 
-    def __init__(self, root: Path, *, options: ApprovalBindingOptions | None = None) -> None:
+    def __init__(self, root: Path, *, options: ApprovalBindingOptions | None = None, auth_store: LocalAuthStore | None = None) -> None:
         self.root = Path(root).resolve()
         self.options = options or ApprovalBindingOptions()
+        self.auth_store = auth_store
 
     @property
     def catalog_path(self) -> Path:
@@ -124,6 +127,15 @@ class StrongApprovalBindingValidator:
             findings.append(_block("APPROVAL_BINDING_EXPIRED", "Expired approval cannot authorize any action.", approval_id=record.approval_id, expires_at=record.expires_at))
         elif record.status != ApprovalStatus.APPROVED.value:
             findings.append(_block("APPROVAL_BINDING_NOT_APPROVED", "Approval must be approved before it can authorize a bound action.", approval_id=record.approval_id, status=record.status))
+
+        if action_entry and bool(action_entry.get("executable")):
+            authority_ok, authority_reason = AuthenticatedApprovalAuthority(self.root, auth_store=self.auth_store).revalidate_persisted_binding(record)
+            summary["authenticated_decision_binding_required"] = True
+            summary["authenticated_decision_binding_reason"] = authority_reason
+            if not authority_ok:
+                findings.append(_block(authority_reason, "Current executable sensitive action requires a live authenticated approval decision binding.", approval_id=record.approval_id))
+        else:
+            summary["authenticated_decision_binding_required"] = False
 
         scope = _binding_scope(record)
         summary["approval_scope_keys"] = sorted(scope.keys())
@@ -263,16 +275,40 @@ def compute_subject_hash(subject: str) -> str:
 
 
 def _binding_scope(record: ApprovalRecord) -> dict[str, Any]:
+    """Return the authoritative strong-binding scope for an approval record.
+
+    POST-H-012 historically stored most binding fields in ``scope`` (with a
+    few flat metadata fallbacks).  DEVPL-GSDLC-02-D adds an authenticated
+    decision binding under ``metadata.authenticated_approval_binding``.  That
+    successor binding is itself server-generated from the authenticated
+    principal and therefore is an authoritative fallback for role/actor
+    authority when a historical store/fixture did not project those fields
+    back into the legacy flat scope.
+
+    Caller supplied values are never consulted here.
+    """
+
     scope = dict(record.scope or {})
     metadata = dict(record.metadata or {})
+    authenticated = dict(metadata.get("authenticated_approval_binding") or {})
+
     scope.setdefault("approval_id", record.approval_id)
-    scope.setdefault("actor_id", metadata.get("actor_id") or record.actor)
+    scope.setdefault(
+        "actor_id",
+        authenticated.get("actor_id") or metadata.get("actor_id") or record.actor,
+    )
     scope.setdefault("tool_id", metadata.get("tool_id") or record.tool_id)
     scope.setdefault("action", metadata.get("action") or record.action)
     scope.setdefault("subject", metadata.get("subject") or record.subject)
+
     for key in ("role_at_decision", "command_id", "tool_call_id", "subject_hash", "interface"):
-        if key not in scope and key in metadata:
-            scope[key] = metadata[key]
+        if key in scope and scope[key] not in {None, ""}:
+            continue
+        value = authenticated.get(key)
+        if value in {None, ""}:
+            value = metadata.get(key)
+        if value not in {None, ""}:
+            scope[key] = value
     return scope
 
 

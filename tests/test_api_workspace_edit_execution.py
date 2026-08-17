@@ -43,19 +43,19 @@ def test_api_approval_apply_and_rollback_flow(tmp_path: Path, monkeypatch: pytes
     assert plan_res.status_code == 200, plan_res.text; plan = plan_res.json()["data"]["plan"]
     denied = client.post(f"/api/v1/workspace/edit-plans/{plan['plan_id']}/apply", json={"plan_hash":plan["plan_hash"],"approval_id":"missing","actor":"local-owner"})
     assert denied.status_code in {400,401,403}, denied.text; assert sha(path) == base
-    req = client.post(f"/api/v1/workspace/edit-plans/{plan['plan_id']}/approval-request", json={"plan_hash":plan["plan_hash"],"actor":"local-owner","reason":"Review API apply","ttl_minutes":15})
-    assert req.status_code == 200, req.text; approval = req.json()["data"]["approval"]["approval_id"]
     boot=client.post("/api/v1/auth/bootstrap/owner",json={"username":"owner.local","display_name":"Local Owner","password":"correct horse battery staple"},headers={"Origin":"http://127.0.0.1:5173"}); assert boot.status_code==201,boot.text
     csrf=client.cookies.get(CSRF_COOKIE_NAME); secured={CSRF_HEADER_NAME:csrf,"Origin":"http://127.0.0.1:5173"}
-    approve = client.post(f"/api/v1/approvals/{approval}/approve", headers=secured, json={"actor":"local-owner","reason":"Approved in API fixture"}); assert approve.status_code == 200, approve.text
-    applied = client.post(f"/api/v1/workspace/edit-plans/{plan['plan_id']}/apply", headers=secured, json={"plan_hash":plan["plan_hash"],"approval_id":approval,"actor":"local-owner"})
+    req = client.post(f"/api/v1/workspace/edit-plans/{plan['plan_id']}/approval-request", headers=secured, json={"plan_hash":plan["plan_hash"],"reason":"Review API apply","ttl_minutes":15})
+    assert req.status_code == 200, req.text; approval = req.json()["data"]["approval"]["approval_id"]
+    approve = client.post(f"/api/v1/approvals/{approval}/approve", headers=secured, json={"reason":"Approved in API fixture"}); assert approve.status_code == 200, approve.text
+    applied = client.post(f"/api/v1/workspace/edit-plans/{plan['plan_id']}/apply", headers=secured, json={"plan_hash":plan["plan_hash"],"approval_id":approval})
     assert applied.status_code == 200, applied.text; execution = applied.json()["data"]["execution"]
     assert sha(path) == plan["document"]["proposed_sha256"]
     status = client.get(f"/api/v1/workspace/edit-executions/{execution['execution_id']}"); assert status.status_code == 200
-    rr = client.post(f"/api/v1/workspace/edit-executions/{execution['execution_id']}/rollback-approval-request", headers=secured, json={"actor":"local-owner","reason":"Restore API fixture","ttl_minutes":15})
+    rr = client.post(f"/api/v1/workspace/edit-executions/{execution['execution_id']}/rollback-approval-request", headers=secured, json={"reason":"Restore API fixture","ttl_minutes":15})
     assert rr.status_code == 200, rr.text; rb_approval = rr.json()["data"]["approval"]["approval_id"]
-    assert client.post(f"/api/v1/approvals/{rb_approval}/approve", headers=secured, json={"actor":"local-owner","reason":"Approved rollback"}).status_code == 200
-    rolled = client.post(f"/api/v1/workspace/edit-executions/{execution['execution_id']}/rollback", headers=secured, json={"approval_id":rb_approval,"actor":"local-owner"})
+    assert client.post(f"/api/v1/approvals/{rb_approval}/approve", headers=secured, json={"reason":"Approved rollback"}).status_code == 200
+    rolled = client.post(f"/api/v1/workspace/edit-executions/{execution['execution_id']}/rollback", headers=secured, json={"approval_id":rb_approval})
     assert rolled.status_code == 200, rolled.text; assert sha(path) == base
 
 

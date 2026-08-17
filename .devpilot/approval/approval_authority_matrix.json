@@ -1,0 +1,123 @@
+{
+  "schema_id": "devpilot.gsdlc02d.approval_authority_matrix.v1",
+  "version": "1.0.0",
+  "status": "implemented-initial",
+  "created_by": "DEVPL-GSDLC-02-D",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_357_DEVPL_GSDLC_02_C_SERVER_RBAC_ENFORCEMENT.zip",
+    "commit": "1c7789f6a3b67055f6c1811196b006e2d9b989e9"
+  },
+  "deny_by_default": true,
+  "human_session_required": true,
+  "legacy_token_human_authority": false,
+  "caller_actor_authoritative": false,
+  "risk_levels": {
+    "low": {
+      "roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "self_approval": "allow"
+    },
+    "medium": {
+      "roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "qa-reviewer",
+        "release-manager",
+        "agent-supervisor"
+      ],
+      "self_approval": "allow"
+    },
+    "high": {
+      "roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "release-manager",
+        "agent-supervisor"
+      ],
+      "self_approval": "deny-except-bounded-owner-local-workspace"
+    },
+    "critical": {
+      "roles": [
+        "owner",
+        "security-reviewer",
+        "release-manager",
+        "agent-supervisor"
+      ],
+      "self_approval": "deny"
+    }
+  },
+  "domain_roles": {
+    "workspace": [
+      "owner"
+    ],
+    "filesystem": [
+      "owner"
+    ],
+    "git": [
+      "owner"
+    ],
+    "product": [
+      "owner",
+      "product-owner"
+    ],
+    "architecture": [
+      "owner",
+      "architect"
+    ],
+    "security": [
+      "owner",
+      "security-reviewer"
+    ],
+    "release": [
+      "owner",
+      "release-manager"
+    ],
+    "agent": [
+      "owner",
+      "agent-supervisor"
+    ],
+    "general": [
+      "owner"
+    ]
+  },
+  "separation_of_duties": {
+    "critical_self_approval": "deny",
+    "high_self_approval_default": "deny",
+    "bounded_local_single_owner_exception": {
+      "enabled": true,
+      "risk": "high",
+      "domains": [
+        "workspace",
+        "filesystem",
+        "git"
+      ],
+      "required_role": "owner",
+      "reason": "Single-installation local-first bootstrap currently creates one owner; exception is narrow, auditable and does not apply to critical."
+    }
+  },
+  "session_binding": {
+    "safe_id": "sha256(actor_id|session_created_at|rotation_counter)",
+    "raw_session_token_persisted": false,
+    "cookie_persisted_in_approval": false,
+    "csrf_persisted_in_approval": false,
+    "revalidate_session_on_sensitive_execution": true,
+    "revalidate_current_roles_scopes": true
+  },
+  "notes": [
+    "This matrix is local-only and does not enable enterprise IAM, tenancy or remote login.",
+    "Critical actions remain bounded by SensitiveActionCatalog executable/default-effect controls; this matrix never makes blocked actions executable."
+  ]
+}

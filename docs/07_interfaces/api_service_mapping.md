@@ -370,3 +370,9 @@ Authentication routes use the typed `AuthApplicationService` instead of the gene
 | `API-GSDLC02B-AUTH-REVOKE` | `POST /api/v1/auth/session/revoke` | `auth.session.revoke` | `AuthApplicationService.revoke_current` | Policy/gate: human session + CSRF + local Origin; current session only in 02-B. |
 
 `legacy-local-token` remains compatibility-only. It is not a human principal and cannot authorize approval decisions or any endpoint marked `human-session-required`. Full RBAC enforcement by action/workspace remains GSDLC-02-C; authenticated approval actor binding remains GSDLC-02-D.
+
+## DEVPL-GSDLC-02-D authenticated approval authority
+
+Approval request/approve/deny current-active routes require a human session. The authenticated principal is the authority; caller `actor` is a deprecated compatibility hint and cannot override the session. `ApprovalApplicationService.request_authenticated` and `decide_authenticated` persist safe request/decision binding metadata without session token/cookie/CSRF secrets. Legacy local token remains read compatibility only and cannot request or decide identity-bound approvals.
+
+Workspace edit/Git approval-request and execution routes derive actor from the authenticated session in their API routers. The server remains authoritative; Approval Center only reflects this authority.

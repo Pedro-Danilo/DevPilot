@@ -10,6 +10,7 @@ import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel
 interface ApprovalState {
   approvals?: DevPilotApplicationResponse;
   portfolio?: DevPilotApplicationResponse;
+  capabilities?: DevPilotApplicationResponse;
   selected?: DevPilotApplicationResponse;
   actionResult?: DevPilotApplicationResponse;
   requestResult?: DevPilotApplicationResponse;
@@ -43,6 +44,17 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     delete state.errors.portfolio;
   }
 
+
+  async function loadCapabilities(): Promise<void> {
+    const client = new DevPilotApiClient({ token: tokenProvider() });
+    try {
+      state.capabilities = await client.authCapabilities('devpilot-local');
+      delete state.errors.capabilities;
+    } catch (error) {
+      state.errors.capabilities = error instanceof Error ? error.message : String(error);
+    }
+  }
+
   async function runPending(action: string, work: () => Promise<void>, errorKey: string): Promise<void> {
     if (state.pendingAction) return;
     state.pendingAction = action;
@@ -59,7 +71,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   }
 
   async function refresh(): Promise<void> {
-    await runPending('refresh', async () => { await Promise.all([loadApprovals(), loadPortfolio()]); }, 'approvals');
+    await runPending('refresh', async () => { await Promise.all([loadApprovals(), loadPortfolio(), loadCapabilities()]); }, 'approvals');
   }
 
   async function selectApproval(approvalId: string): Promise<void> {
@@ -71,7 +83,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   async function decide(approvalId: string, decision: 'approve' | 'deny'): Promise<void> {
     await runPending(`${decision}:${approvalId}`, async () => {
       const client = new DevPilotApiClient({ token: tokenProvider() });
-      state.selected = await client.decideApproval(approvalId, decision, { actor: 'local-owner', reason: `${decision} from Approval Center` });
+      state.selected = await client.decideApproval(approvalId, decision, { reason: `${decision} from authenticated Approval Center` });
       await loadApprovals();
     }, 'selected');
   }
@@ -82,7 +94,6 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
       tool_id: value('approval-tool-id') || 'docs.review',
       action: value('approval-action') || 'approve',
       subject: value('approval-subject'),
-      actor: value('approval-actor') || 'local-owner',
       reason: value('approval-reason'),
       scope: value('approval-scope') || undefined,
       ttl_minutes: Number(value('approval-ttl') || '120'),
@@ -109,7 +120,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     const title = document.createElement('h2');
     title.textContent = 'Approval Center y Action Launcher';
     const subtitle = document.createElement('p');
-    subtitle.textContent = 'Approvals locales trazables, scope de workspace explícito y acciones estrictamente dry-run.';
+    subtitle.textContent = 'Approvals locales ligados a sesión humana, roles efectivos, scope y separación de funciones.';
     titleBlock.append(title, subtitle, renderContractBadges('ui.approvals', { warning: 'Mutaciones limitadas al lifecycle local de approvals; ejecución destructiva bloqueada.' }));
 
     const controls = document.createElement('div');
@@ -133,6 +144,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     section.append(header);
 
     section.append(renderWorkspaceContextPanel(state.portfolio, state.errors.portfolio, state.durations.portfolio));
+    section.append(renderApprovalAuthorityPanel(state.capabilities, state.errors.capabilities));
     section.append(renderApprovalRequestForm(state, requestApprovalFromForm));
 
     const actionStatus = document.createElement('p');
@@ -150,7 +162,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     if (state.pendingAction) section.append(renderUiStateNotice('loading', `Acción en curso ${state.pendingAction}. Los controles permanecen deshabilitados hasta finalizar.`));
     if (state.actionOutcome.phase === 'block') section.append(renderUiStateNotice('block', 'La última acción fue bloqueada y no se presenta como éxito.'));
     if (approvalItems(state).some((approval) => approval.status === 'requested')) section.append(renderUiStateNotice('pending', 'Existe al menos un approval requested con acciones Approve/Deny disponibles.'));
-    if (state.errors.approvals || state.errors.selected || state.errors.requestResult || state.errors.actionResult || state.errors.portfolio) section.append(renderUiStateNotice('error', 'Approval Center mantiene BLOCK/ERROR visibles.'));
+    if (state.errors.approvals || state.errors.selected || state.errors.requestResult || state.errors.actionResult || state.errors.portfolio || state.errors.capabilities) section.append(renderUiStateNotice('error', 'Approval Center mantiene BLOCK/ERROR visibles.'));
     section.append(renderApprovalDetailPanel(state.selected, state.errors.selected));
     section.append(renderDetailPanel('Última solicitud approval', state.requestResult, state.errors.requestResult));
   }
@@ -160,18 +172,38 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   return section;
 }
 
+function renderApprovalAuthorityPanel(response: DevPilotApplicationResponse | undefined, error: string | undefined): HTMLElement {
+  const panel = document.createElement('section');
+  panel.className = 'viewer-card approval-authority-panel';
+  const title = document.createElement('h3');
+  title.textContent = 'Autoridad autenticada';
+  panel.append(title);
+  if (error) {
+    panel.append(renderUiStateNotice('block', 'Sesión humana/capability view no disponible. Crear o decidir approvals permanece bloqueado hasta autenticarse; Login UI llega en GSDLC-02-E.'));
+    return panel;
+  }
+  const data = (response?.data ?? {}) as Record<string, unknown>;
+  const identity = (data.identity ?? {}) as Record<string, unknown>;
+  const roles = Array.isArray(data.effective_roles) ? data.effective_roles.map(String) : [];
+  const p = document.createElement('p');
+  p.textContent = response
+    ? `Principal: ${String(identity.display_name ?? identity.actor_id ?? 'authenticated')} · Roles: ${roles.join(', ') || 'sin rol'} · El servidor es la autoridad.`
+    : 'Se requiere sesión humana para solicitar o decidir approvals. El token local no es autoridad humana.';
+  panel.append(p);
+  return panel;
+}
+
 function renderApprovalRequestForm(state: ApprovalState, onRequest: () => Promise<void>): HTMLElement {
   const panel = document.createElement('section');
   panel.className = 'viewer-card approval-request-form';
   panel.innerHTML = `
     <h3>Solicitar approval gobernado</h3>
-    <p>Registra una solicitud real en el store local. El campo scope debe identificar el workspace o artefacto; no ejecuta la acción aprobada.</p>
+    <p>Registra una solicitud ligada al principal autenticado. El caller no elige actor; el servidor deriva identidad, roles y autoridad de la sesión.</p>
     <div class="grid two-cols">
       <label>Tool id<input id="approval-tool-id" value="docs.review" /></label>
       <label>Action<input id="approval-action" value="approve" /></label>
       <label>Subject<input id="approval-subject" placeholder="docs/00_product/product_vision.md" /></label>
       <label>Scope<input id="approval-scope" placeholder="workspace:inventory-sales-local" /></label>
-      <label>Actor<input id="approval-actor" value="local-owner" /></label>
       <label>TTL minutos<input id="approval-ttl" type="number" min="1" max="1440" value="120" /></label>
     </div>
     <label>Reason<input id="approval-reason" placeholder="Aprobar artefacto después de revisión humana y validaciones." /></label>

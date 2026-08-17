@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
@@ -18,9 +18,18 @@ def _json(payload: dict[str, Any], status_code: int) -> JSONResponse:
     return JSONResponse(content=payload, status_code=status_code)
 
 
+def _session_actor(request: Request, supplied: str | None) -> tuple[str | None, JSONResponse | None]:
+    principal=getattr(request.state,"authenticated_principal",None)
+    if principal is None:
+        return None,_json({"operation":"workspace.approval","ok":False,"exit_code":4,"message":"Authenticated human session required.","data":{},"findings":[{"id":"AUTH_HUMAN_SESSION_REQUIRED_BLOCK","severity":"block","message":"Workspace approval/mutation requires authenticated session."}]},401)
+    if supplied and supplied.strip() and supplied.strip()!=principal.actor_id:
+        return None,_json({"operation":"workspace.approval","ok":False,"exit_code":4,"message":"Caller actor cannot override authenticated principal.","data":{},"findings":[{"id":"APPROVAL_ACTOR_SPOOF_BLOCK","severity":"block","message":"Caller actor does not match authenticated principal."}]},403)
+    return principal.actor_id,None
+
+
 class ApplyApprovalRequestBody(BaseModel):
     plan_hash: str
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
     reason: str = Field(min_length=3, max_length=1000)
     ttl_minutes: int = Field(default=15, ge=1, le=30)
 
@@ -28,18 +37,18 @@ class ApplyApprovalRequestBody(BaseModel):
 class ApplyRequestBody(BaseModel):
     plan_hash: str
     approval_id: str = Field(min_length=1, max_length=128)
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
 
 
 class RollbackApprovalRequestBody(BaseModel):
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
     reason: str = Field(min_length=3, max_length=1000)
     ttl_minutes: int = Field(default=15, ge=1, le=30)
 
 
 class RollbackRequestBody(BaseModel):
     approval_id: str = Field(min_length=1, max_length=128)
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
 
 
 @router.post("/api/v1/workspace/edit-plans/plan")
@@ -72,20 +81,28 @@ def workspace_edit_plan_recheck(
 
 @router.post("/api/v1/workspace/edit-plans/{plan_id}/approval-request")
 def workspace_edit_apply_approval_request(
+    request: Request,
     plan_id: str,
     body: ApplyApprovalRequestBody,
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.edits.approval_request", payload={"plan_id": plan_id, **body.model_dump()}))
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.edits.approval_request", payload={"plan_id": plan_id, **payload}))
 
 
 @router.post("/api/v1/workspace/edit-plans/{plan_id}/apply")
 def workspace_edit_apply(
+    request: Request,
     plan_id: str,
     body: ApplyRequestBody,
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.edits.apply", payload={"plan_id": plan_id, **body.model_dump()}))
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.edits.apply", payload={"plan_id": plan_id, **payload}))
 
 
 @router.get("/api/v1/workspace/edit-executions/{execution_id}")
@@ -98,17 +115,25 @@ def workspace_edit_execution_status(
 
 @router.post("/api/v1/workspace/edit-executions/{execution_id}/rollback-approval-request")
 def workspace_edit_rollback_approval_request(
+    request: Request,
     execution_id: str,
     body: RollbackApprovalRequestBody,
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.edits.rollback_approval_request", payload={"execution_id": execution_id, **body.model_dump()}))
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.edits.rollback_approval_request", payload={"execution_id": execution_id, **payload}))
 
 
 @router.post("/api/v1/workspace/edit-executions/{execution_id}/rollback")
 def workspace_edit_rollback(
+    request: Request,
     execution_id: str,
     body: RollbackRequestBody,
     service: ApplicationService = Depends(get_application_service),
 ) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.edits.rollback", payload={"execution_id": execution_id, **body.model_dump()}))
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.edits.rollback", payload={"execution_id": execution_id, **payload}))

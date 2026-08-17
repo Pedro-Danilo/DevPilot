@@ -60,6 +60,7 @@ class WorkspaceGitOperationsApplicationService:
         *,
         context_resolver: UiWorkspaceContextResolver | None = None,
         documents: WorkspaceDocumentsApplicationService | None = None,
+        approval_auth_store: LocalAuthStore | None = None,
     ) -> None:
         self.platform_root = Path(platform_root).resolve()
         self.context_resolver = context_resolver or UiWorkspaceContextResolver(self.platform_root)
@@ -67,6 +68,7 @@ class WorkspaceGitOperationsApplicationService:
         self.approvals = ApprovalService(self.platform_root)
         self.secret_guard = SecretGuard(self.platform_root)
         self.validation = ValidationApplicationService(self.platform_root, enforce_workspace_paths=True)
+        self.approval_auth_store = approval_auth_store
 
     # ------------------------------------------------------------------ reads
     def status(self) -> CommandResult:
@@ -309,7 +311,7 @@ class WorkspaceGitOperationsApplicationService:
             return failure
         assert root is not None
         actor = _actor(actor)
-        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots()).evaluate(
+        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots(), approval_auth_store=self.approval_auth_store).evaluate(
             PolicyRequest(action=STAGE_ACTION, path=str(root), text=str(plan.get("commit", {}).get("message") or ""), dry_run=False, approval_id=str(approval_id or ""), tool_id=STAGE_TOOL, subject=plan_id, actor=actor, role_at_decision="owner", subject_hash=plan_hash, interface="ui", metadata=self._stage_scope(plan, actor=actor))
         )
         if not policy.ok:
@@ -400,7 +402,7 @@ class WorkspaceGitOperationsApplicationService:
         assert root is not None
         actor = _actor(actor)
         binding_hash = str(stage_record["commit_intent_hash"])
-        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots()).evaluate(
+        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots(), approval_auth_store=self.approval_auth_store).evaluate(
             PolicyRequest(action=COMMIT_ACTION, path=str(root), text=str(stage_record.get("commit", {}).get("message") or ""), dry_run=False, approval_id=str(approval_id or ""), tool_id=COMMIT_TOOL, subject=stage_execution_id, actor=actor, role_at_decision="owner", subject_hash=binding_hash, interface="ui", metadata=self._commit_scope(stage_record, actor=actor))
         )
         if not policy.ok:
@@ -535,7 +537,7 @@ class WorkspaceGitOperationsApplicationService:
         except RuntimeError as exc:
             return self._block("workspace git branch create", "UOC006_BRANCH_STATUS_BLOCK", str(exc))
         actor = _actor(actor)
-        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots()).evaluate(PolicyRequest(action=BRANCH_ACTION, path=str(root), text=str(plan["branch_name"]), dry_run=False, approval_id=str(approval_id or ""), tool_id=BRANCH_TOOL, subject=plan_id, actor=actor, role_at_decision="owner", subject_hash=plan_hash, interface="ui", metadata=self._branch_scope(plan, actor=actor)))
+        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots(), approval_auth_store=self.approval_auth_store).evaluate(PolicyRequest(action=BRANCH_ACTION, path=str(root), text=str(plan["branch_name"]), dry_run=False, approval_id=str(approval_id or ""), tool_id=BRANCH_TOOL, subject=plan_id, actor=actor, role_at_decision="owner", subject_hash=plan_hash, interface="ui", metadata=self._branch_scope(plan, actor=actor)))
         if not policy.ok:
             return CommandResult("workspace git branch create", False, ExitCode.BLOCK, "Approval/policy binding blocked branch creation.", data={"policy": policy.to_dict()}, findings=policy.findings)
         executed = mutation.create_branch(branch_name=str(plan["branch_name"]), expected_head=str(plan["head_before"]))
@@ -686,15 +688,15 @@ class WorkspaceGitOperationsApplicationService:
 
     @staticmethod
     def _stage_scope(plan: dict[str, Any], *, actor: str) -> dict[str, Any]:
-        return {"actor_id": actor, "role_at_decision": "owner", "tool_id": STAGE_TOOL, "action": STAGE_ACTION, "action_id": STAGE_ACTION, "subject": plan["plan_id"], "subject_hash": plan["plan_hash"], "plan_id": plan["plan_id"], "plan_hash": plan["plan_hash"], "head_before": plan["head_before"], "branch": plan["branch"], "paths": [item["relative_path"] for item in plan["files"]], "interface": "ui", "scope_type": "uoc006-exact-staging-plan"}
+        return {"actor_id": actor, "tool_id": STAGE_TOOL, "action": STAGE_ACTION, "action_id": STAGE_ACTION, "subject": plan["plan_id"], "subject_hash": plan["plan_hash"], "plan_id": plan["plan_id"], "plan_hash": plan["plan_hash"], "head_before": plan["head_before"], "branch": plan["branch"], "paths": [item["relative_path"] for item in plan["files"]], "interface": "ui", "scope_type": "uoc006-exact-staging-plan"}
 
     @staticmethod
     def _commit_scope(record: dict[str, Any], *, actor: str) -> dict[str, Any]:
-        return {"actor_id": actor, "role_at_decision": "owner", "tool_id": COMMIT_TOOL, "action": COMMIT_ACTION, "action_id": COMMIT_ACTION, "subject": record["stage_execution_id"], "subject_hash": record["commit_intent_hash"], "stage_execution_id": record["stage_execution_id"], "plan_id": record["plan_id"], "plan_hash": record["plan_hash"], "head_before": record["head_before"], "branch": record["branch"], "index_fingerprint": record["index_fingerprint"], "paths": [item["relative_path"] for item in record["files"]], "interface": "ui", "scope_type": "uoc006-exact-commit-intent"}
+        return {"actor_id": actor, "tool_id": COMMIT_TOOL, "action": COMMIT_ACTION, "action_id": COMMIT_ACTION, "subject": record["stage_execution_id"], "subject_hash": record["commit_intent_hash"], "stage_execution_id": record["stage_execution_id"], "plan_id": record["plan_id"], "plan_hash": record["plan_hash"], "head_before": record["head_before"], "branch": record["branch"], "index_fingerprint": record["index_fingerprint"], "paths": [item["relative_path"] for item in record["files"]], "interface": "ui", "scope_type": "uoc006-exact-commit-intent"}
 
     @staticmethod
     def _branch_scope(plan: dict[str, Any], *, actor: str) -> dict[str, Any]:
-        return {"actor_id": actor, "role_at_decision": "owner", "tool_id": BRANCH_TOOL, "action": BRANCH_ACTION, "action_id": BRANCH_ACTION, "subject": plan["plan_id"], "subject_hash": plan["plan_hash"], "branch_name": plan["branch_name"], "head_before": plan["head_before"], "interface": "ui", "scope_type": "uoc006-local-branch-create"}
+        return {"actor_id": actor, "tool_id": BRANCH_TOOL, "action": BRANCH_ACTION, "action_id": BRANCH_ACTION, "subject": plan["plan_id"], "subject_hash": plan["plan_hash"], "branch_name": plan["branch_name"], "head_before": plan["head_before"], "interface": "ui", "scope_type": "uoc006-local-branch-create"}
 
     @staticmethod
     def _decorate_approval(result: CommandResult, *, phase: str, binding_hash: str) -> CommandResult:

@@ -1,0 +1,76 @@
+{
+  "schema_id": "devpilot.gsdlc02d.negative_approval_matrix.v1",
+  "status": "pass-candidate/pre-windows",
+  "cases": [
+    {
+      "case": "caller-actor-request-spoof",
+      "expected": "DENY",
+      "reason": "APPROVAL_REQUEST_ACTOR_SPOOF_BLOCK"
+    },
+    {
+      "case": "caller-actor-decision-spoof",
+      "expected": "DENY",
+      "reason": "APPROVAL_ACTOR_SPOOF_BLOCK"
+    },
+    {
+      "case": "legacy-token-approval-mutation",
+      "expected": "DENY",
+      "reason": "AUTH_HUMAN_SESSION_REQUIRED_BLOCK/RBAC_LEGACY_TOKEN_DENY"
+    },
+    {
+      "case": "wrong-role",
+      "expected": "DENY",
+      "reason": "APPROVAL_ROLE_DENY"
+    },
+    {
+      "case": "cross-workspace",
+      "expected": "DENY",
+      "reason": "APPROVAL_WORKSPACE_SCOPE_DENY"
+    },
+    {
+      "case": "critical-self-approval",
+      "expected": "DENY",
+      "reason": "APPROVAL_SOD_CRITICAL_SELF_APPROVAL_DENY"
+    },
+    {
+      "case": "high-self-approval-non-bounded-domain",
+      "expected": "DENY",
+      "reason": "APPROVAL_SOD_HIGH_SELF_APPROVAL_DENY"
+    },
+    {
+      "case": "revoked-decision-session",
+      "expected": "DENY",
+      "reason": "APPROVAL_DECISION_SESSION_REVOKED"
+    },
+    {
+      "case": "stale-role-session",
+      "expected": "DENY",
+      "reason": "APPROVAL_DECISION_AUTHORITY_STALE/session authority-changed"
+    },
+    {
+      "case": "missing-authenticated-binding-current-executable",
+      "expected": "DENY",
+      "reason": "APPROVAL_AUTHENTICATED_DECISION_BINDING_REQUIRED"
+    },
+    {
+      "case": "subject-hash-mismatch",
+      "expected": "DENY",
+      "reason": "APPROVAL_BINDING_SUBJECT_HASH_MISMATCH"
+    },
+    {
+      "case": "command-id-mismatch",
+      "expected": "DENY",
+      "reason": "APPROVAL_BINDING_COMMAND_ID_MISMATCH"
+    },
+    {
+      "case": "tool-call-id-mismatch",
+      "expected": "DENY",
+      "reason": "APPROVAL_BINDING_TOOL_CALL_ID_MISMATCH"
+    }
+  ],
+  "cases_total": 13,
+  "caller_actor_authoritative": false,
+  "legacy_token_human_authority": false,
+  "critical_wildcard_authority": false,
+  "public_or_remote_auth_enabled": false
+}

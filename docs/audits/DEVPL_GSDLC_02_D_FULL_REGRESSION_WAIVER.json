@@ -1,0 +1,38 @@
+{
+  "schema_id": "devpilot.gsdlc02d.full_regression_waiver.v1",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-02-D",
+  "status": "approved-cadence-waiver",
+  "decision": "WAIVER",
+  "valid_for": "intermediate-micro-sprint-only",
+  "reason": "Owner-approved GSDLC-02 A-D cadence requires cumulative-selective validation. 02-D is a security-critical authority change, but no explicit owner-approved intermediate full-regression exception was granted; full remains reserved for 02-E.",
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "conditions": [
+    "focal D security PASS",
+    "A+B+C+D cumulative PASS",
+    "API/approval/UI contract PASS",
+    "governance validators PASS",
+    "Test Impact reviewed",
+    "Historical Regression Guard PASS"
+  ],
+  "expires_after_micro_sprint": "DEVPL-GSDLC-02-D",
+  "risk": "high",
+  "systemic_risk_signal": "authenticated-approval-authority",
+  "hard_trigger_candidate": true,
+  "owner_approved_intermediate_full_exception": false,
+  "tests_executed": [
+    "A+B+C+D core: 56 PASS",
+    "approval/security/API contracts: 77 PASS",
+    "workspace edit/git services: 12 PASS",
+    "workspace edit/git API: 4 PASS",
+    "UOC historical + web UI contracts: 42 PASS",
+    "no-go/secret/application boundary: 19 PASS",
+    "npm smoke: PASS",
+    "Project State: PASS",
+    "Docs Governance: PASS",
+    "TCR v1: PASS",
+    "TCR v2: PASS"
+  ],
+  "expires_at": "2026-08-24T23:59:59Z"
+}

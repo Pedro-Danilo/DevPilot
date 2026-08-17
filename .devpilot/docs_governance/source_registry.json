@@ -19025,6 +19025,121 @@
         "DEVPL-GSDLC-02-C"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-D-AUTHORITY-MATRIX",
+      "path": ".devpilot/approval/approval_authority_matrix.json",
+      "classification": "machine-readable-source",
+      "domain": "security.approval",
+      "owner": "DEVPL-GSDLC-02-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
+        "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-D-BINDING-SECURITY",
+      "path": "docs/audits/DEVPL_GSDLC_02_D_APPROVAL_BINDING_SECURITY_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "security.approval",
+      "owner": "DEVPL-GSDLC-02-D",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
+        "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-D-NEGATIVE-APPROVAL",
+      "path": "docs/audits/DEVPL_GSDLC_02_D_NEGATIVE_APPROVAL_MATRIX.json",
+      "classification": "machine-readable-source",
+      "domain": "security.approval",
+      "owner": "DEVPL-GSDLC-02-D",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
+        "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-D-APPROVAL-CENTER-PARITY",
+      "path": "docs/audits/DEVPL_GSDLC_02_D_APPROVAL_CENTER_PARITY.json",
+      "classification": "machine-readable-source",
+      "domain": "security.approval",
+      "owner": "DEVPL-GSDLC-02-D",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
+        "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-D-CLOSURE",
+      "path": "docs/audits/DEVPL_GSDLC_02_D_CLOSURE_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "security.approval",
+      "owner": "DEVPL-GSDLC-02-D",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
+        "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-D"
+      ],
+      "lifecycle": "active"
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -19121,7 +19236,8 @@
     "DEVPL-GSDLC-R01-D registers frozen model/agentic fixtures and local zero-cost benchmark evidence; reconciles gsdlc_last_registered_micro_sprint metadata without changing runtime/provider no-go contracts.",
     "DEVPL-GSDLC-02-A registers a design-only local operator authentication boundary, 18-threat control matrix, nine-role authority matrix and explicit legacy role migration; runtime login/session remains disabled until successor micro-sprints.",
     "DEVPL-GSDLC-02-B registers preliminary local runtime identity/session contracts, scrypt-v1 credential decision, runtime-only SQLite exclusion, seven local auth API routes, CSRF/origin controls and sanitized evidence; RBAC completion is deferred to 02-C and authenticated approval binding to 02-D.",
-    "DEVPL-GSDLC-02-C registers deterministic server-side RBAC, complete route/sensitive-action coverage, workspace-scope enforcement and sanitized capability projection; approval binding remains successor 02-D and browser UX successor 02-E."
+    "DEVPL-GSDLC-02-C registers deterministic server-side RBAC, complete route/sensitive-action coverage, workspace-scope enforcement and sanitized capability projection; approval binding remains successor 02-D and browser UX successor 02-E.",
+    "DEVPL-GSDLC-02-D registers authenticated approval authority, role/risk/domain/SoD matrix, secret-free session binding, stale/revoked authority revalidation and Approval Center successor contracts; browser-real auth UX remains successor 02-E."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -21534,8 +21650,8 @@
     "deprecated_total": 0,
     "derived_total": 96,
     "documents_checked_total": 712,
-    "documents_registered_total": 818,
-    "documents_total": 838,
+    "documents_registered_total": 843,
+    "documents_total": 843,
     "documents_with_required_tests_total": 791,
     "external_api_used": false,
     "generated_runtime_total": 0,
@@ -21563,8 +21679,8 @@
   },
   "updated": "2026-08-17",
   "updated_at": "2026-08-17",
-  "updated_by": "DEVPL-GSDLC-02-C",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-B",
+  "updated_by": "DEVPL-GSDLC-02-D",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-D",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "active/post-00-closed/01-authorized",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
@@ -21597,9 +21713,10 @@
   "gsdlc_01_d_status": "pass-candidate/pre-windows",
   "gsdlc_01_d_final_owner_status": "closed/PASS",
   "gsdlc_01_e_status": "pass-candidate/pre-windows",
-  "gsdlc_02_last_registered_micro_sprint": "DEVPL-GSDLC-02-C",
+  "gsdlc_02_last_registered_micro_sprint": "DEVPL-GSDLC-02-D",
   "gsdlc_02_program_status": "implementation/02-b-pass-candidate",
   "gsdlc_02_a_status": "closed/PASS",
   "gsdlc_02_b_status": "pass-candidate/pre-windows",
-  "gsdlc_02_c_status": "pass-candidate/pre-windows"
+  "gsdlc_02_c_status": "pass-candidate/pre-windows",
+  "gsdlc_02_d_status": "pass-candidate/pre-windows"
 }

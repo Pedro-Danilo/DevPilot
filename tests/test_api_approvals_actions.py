@@ -24,9 +24,13 @@ def _client() -> TestClient:
 
 def test_approval_center_can_request_list_show_approve_and_deny_controlled_records() -> None:
     client = _client()
+    boot = client.post("/api/v1/auth/bootstrap/owner", json={"username":"owner.local","display_name":"Local Owner","password":"correct horse battery staple"}, headers={"Origin":"http://127.0.0.1:5173"})
+    assert boot.status_code == 201
+    csrf = client.cookies.get(CSRF_COOKIE_NAME)
     request = client.post(
         "/api/v1/approvals/request",
-        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71", "actor": "local-owner", "reason": "sprint 71 test", "ttl_minutes": 30},
+        headers={CSRF_HEADER_NAME: csrf, "Origin":"http://127.0.0.1:5173"},
+        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71", "reason": "sprint 71 test", "ttl_minutes": 30},
     )
     assert request.status_code == 200
     approval = request.json()["data"]["approval"]
@@ -41,20 +45,17 @@ def test_approval_center_can_request_list_show_approve_and_deny_controlled_recor
     assert shown.status_code == 200
     assert shown.json()["data"]["approval"]["approval_id"] == approval_id
 
-    boot = client.post("/api/v1/auth/bootstrap/owner", json={"username":"owner.local","display_name":"Local Owner","password":"correct horse battery staple"})
-    assert boot.status_code == 201
-    csrf = client.cookies.get(CSRF_COOKIE_NAME)
-    approved = client.post(f"/api/v1/approvals/{approval_id}/approve", headers={CSRF_HEADER_NAME: csrf, "Origin":"http://127.0.0.1:5173"}, json={"actor": "local-owner", "reason": "approved for test"})
+    approved = client.post(f"/api/v1/approvals/{approval_id}/approve", headers={CSRF_HEADER_NAME: csrf, "Origin":"http://127.0.0.1:5173"}, json={"reason": "approved for test"})
     assert approved.status_code == 200
     assert approved.json()["data"]["approval"]["status"] == "approved"
 
     second = client.post(
         "/api/v1/approvals/request",
         headers={CSRF_HEADER_NAME: csrf, "Origin":"http://127.0.0.1:5173"},
-        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71-deny", "actor": "local-owner", "reason": "sprint 71 deny", "ttl_minutes": 30},
+        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71-deny", "reason": "sprint 71 deny", "ttl_minutes": 30},
     )
     second_id = second.json()["data"]["approval"]["approval_id"]
-    denied = client.post(f"/api/v1/approvals/{second_id}/deny", headers={CSRF_HEADER_NAME: csrf, "Origin":"http://127.0.0.1:5173"}, json={"actor": "local-owner", "reason": "denied for test"})
+    denied = client.post(f"/api/v1/approvals/{second_id}/deny", headers={CSRF_HEADER_NAME: csrf, "Origin":"http://127.0.0.1:5173"}, json={"reason": "denied for test"})
     assert denied.status_code == 200
     assert denied.json()["data"]["approval"]["status"] == "denied"
 

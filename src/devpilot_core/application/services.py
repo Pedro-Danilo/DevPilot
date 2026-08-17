@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from devpilot_core.identity.auth_models import AuthenticatedPrincipal, SessionContext
+from devpilot_core.identity.auth_store import LocalAuthStore
+
 from pathlib import Path
 from typing import Any, Callable
 
@@ -69,9 +72,10 @@ class ApplicationService:
     future API/Web boundary.
     """
 
-    def __init__(self, root: Path, *, enforce_workspace_paths: bool = False) -> None:
+    def __init__(self, root: Path, *, enforce_workspace_paths: bool = False, approval_auth_store: LocalAuthStore | None = None) -> None:
         self.root = root.resolve()
         self.enforce_workspace_paths = enforce_workspace_paths
+        self.approval_auth_store = approval_auth_store
         self.ui_workspace_context = UiWorkspaceContextResolver(self.root)
         self.guided_sdlc = GuidedSDLCApplicationService(self.root)
         self.workspace = WorkspaceApplicationService(self.root)
@@ -79,8 +83,8 @@ class ApplicationService:
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
-        self.workspace_edit_execution = WorkspaceEditExecutionApplicationService(self.root, documents=self.workspace_documents, plans=self.workspace_edit_planning)
-        self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
+        self.workspace_edit_execution = WorkspaceEditExecutionApplicationService(self.root, documents=self.workspace_documents, plans=self.workspace_edit_planning, approval_auth_store=approval_auth_store)
+        self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
         self.governed_jobs = GovernedJobFramework(self.root, registry=self.governed_job_capabilities)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
@@ -89,7 +93,7 @@ class ApplicationService:
         self.evals = EvaluationApplicationService(self.root)
         self.repo = RepoApplicationService(self.root)
         self.reports = ReportsApplicationService(self.root, context_resolver=self.ui_workspace_context)
-        self.approvals = ApprovalApplicationService(self.root)
+        self.approvals = ApprovalApplicationService(self.root, auth_store=approval_auth_store)
         self.settings = SettingsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.review = ReviewApplicationService(self.root)
         self.refactor = RefactorApplicationService(self.root)
@@ -845,6 +849,54 @@ class ApplicationService:
     def approvals_decide(self, *, approval_id: str, decision: str, actor: str, reason: str) -> CommandResult:
         return self.approvals.decide(approval_id=approval_id, decision=decision, actor=actor, reason=reason)
 
+    def approvals_request_authenticated(
+        self,
+        *,
+        principal: AuthenticatedPrincipal,
+        session: SessionContext,
+        tool_id: str,
+        action: str,
+        subject: str,
+        caller_actor: str | None,
+        reason: str,
+        scope: str | None = None,
+        expires_at: str | None = None,
+        ttl_minutes: int = 60,
+        workspace_id: str | None = None,
+    ) -> CommandResult:
+        return self.approvals.request_authenticated(
+            principal=principal,
+            session=session,
+            tool_id=tool_id,
+            action=action,
+            subject=subject,
+            caller_actor=caller_actor,
+            reason=reason,
+            scope=scope,
+            expires_at=expires_at,
+            ttl_minutes=ttl_minutes,
+            workspace_id=workspace_id,
+        )
+
+    def approvals_decide_authenticated(
+        self,
+        *,
+        approval_id: str,
+        decision: str,
+        principal: AuthenticatedPrincipal,
+        session: SessionContext,
+        caller_actor: str | None,
+        reason: str,
+    ) -> CommandResult:
+        return self.approvals.decide_authenticated(
+            approval_id=approval_id,
+            decision=decision,
+            principal=principal,
+            session=session,
+            caller_actor=caller_actor,
+            reason=reason,
+        )
+
     def ui_action_dry_run(self, *, action_id: str, payload: dict[str, Any] | None = None) -> CommandResult:
         """Run a UI-launched safe action in dry-run/read-only mode only.
 
@@ -881,7 +933,7 @@ class ApplicationService:
         }
         if normalized in safe_actions:
             operation, runner, tool_id = safe_actions[normalized]
-            policy_result = PolicyEngine(self.root).evaluate(
+            policy_result = PolicyEngine(self.root, approval_auth_store=self.approval_auth_store).evaluate(
                 PolicyRequest(
                     action="read",
                     path=target if target else None,
@@ -919,7 +971,7 @@ class ApplicationService:
 
         if normalized in critical_actions:
             tool_id = critical_actions[normalized]
-            policy_result = PolicyEngine(self.root).evaluate(
+            policy_result = PolicyEngine(self.root, approval_auth_store=self.approval_auth_store).evaluate(
                 PolicyRequest(
                     action="execute",
                     path=target if target else None,

@@ -166,7 +166,7 @@ def test_security_error_keeps_restricted_cors_for_browser_clients() -> None:
 
     assert response.status_code == 401
     assert response.headers["access-control-allow-origin"] == "http://127.0.0.1:5173"
-    assert response.headers["x-devpilot-api-security"] == "token+cors+policy"
+    assert response.headers["x-devpilot-api-security"] == "session+rbac+token-compat+cors+policy"
     assert response.json()["findings"][0]["id"] == "API_TOKEN_MISSING_BLOCK"
 
 

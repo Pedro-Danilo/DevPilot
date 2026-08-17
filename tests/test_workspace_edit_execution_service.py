@@ -9,6 +9,8 @@ import pytest
 
 from devpilot_core.application.workspace_documents_service import WorkspaceDocumentsApplicationService
 from devpilot_core.application.workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
+from devpilot_core.application.approval_service import ApprovalApplicationService
+from devpilot_core.application.auth_service import AuthApplicationService
 from devpilot_core.application.workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from devpilot_core.cli_models import Finding, Severity
 from devpilot_core.schemas import SchemaValidator
@@ -19,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def make_platform(tmp_path: Path) -> Path:
     platform = tmp_path / "platform"
-    for rel in [".devpilot/approval/sensitive_action_catalog.json", ".devpilot/identity/identity_registry.json"]:
+    for rel in [".devpilot/approval/sensitive_action_catalog.json", ".devpilot/approval/approval_authority_matrix.json", ".devpilot/identity/identity_registry.json", ".devpilot/identity/server_rbac_policy_catalog.json"]:
         target = platform / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / rel, target)
@@ -38,12 +40,16 @@ def make_service(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setenv("DEVPILOT_ALLOWED_WORKSPACE_ROOTS", str(ws))
     monkeypatch.setenv("DEVPILOT_UI_ACTIVE_WORKSPACE_ROOT", str(ws))
     monkeypatch.setenv("DEVPILOT_UOC005_CONTROL_ROOT", str(control))
+    auth = AuthApplicationService(platform)
+    issue = auth.bootstrap_owner(username="owner", display_name="DevPilot Owner", password="TestOwnerPassword!2026")
     docs = WorkspaceDocumentsApplicationService(platform)
     plans = WorkspaceEditPlanApplicationService(platform, documents=docs)
-    execs = WorkspaceEditExecutionApplicationService(platform, documents=docs, plans=plans)
+    execs = WorkspaceEditExecutionApplicationService(
+        platform, documents=docs, plans=plans, approval_auth_store=auth.store
+    )
     listing = docs.list_documents(limit=100)
     ids = {n["relative_path"]: n["document_id"] for n in listing.data["nodes"] if n.get("kind") == "document"}
-    return platform, ws, control, plans, execs, ids
+    return platform, ws, control, plans, execs, ids, auth, issue
 
 
 def plan_markdown(plans: WorkspaceEditPlanApplicationService, ws: Path, document_id: str):
@@ -54,13 +60,32 @@ def plan_markdown(plans: WorkspaceEditPlanApplicationService, ws: Path, document
     return result.data["plan"], path
 
 
-def approve(execs: WorkspaceEditExecutionApplicationService, approval_id: str):
-    result = execs.approvals.approve(approval_id, actor="local-owner", reason="Fixture human approval")
+def approve(
+    platform: Path,
+    auth: AuthApplicationService,
+    issue,
+    approval_id: str,
+):
+    """Decide a historical low-level fixture request through current D authority.
+
+    These service tests continue exercising the UOC-005 mutation machinery
+    directly, but an executable sensitive action is never authorized by the
+    legacy actor-only decision path after GSDLC-02-D.
+    """
+    approvals = ApprovalApplicationService(platform, auth_store=auth.store)
+    result = approvals.decide_authenticated(
+        approval_id=approval_id,
+        decision="approved",
+        principal=issue.context.principal,
+        session=issue.context,
+        caller_actor=None,
+        reason="Fixture authenticated human approval",
+    )
     assert result.ok, [f.to_dict() for f in result.findings]
 
 
 def test_apply_requires_exact_approved_binding_and_supports_manual_rollback(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    _, ws, control, plans, execs, ids = make_service(tmp_path, monkeypatch)
+    platform, ws, control, plans, execs, ids, auth, issue = make_service(tmp_path, monkeypatch)
     plan, path = plan_markdown(plans, ws, ids["docs/00_product/product_vision.md"])
     base = sha(path)
     blocked = execs.apply(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], approval_id="", actor="local-owner")
@@ -68,7 +93,7 @@ def test_apply_requires_exact_approved_binding_and_supports_manual_rollback(tmp_
     request = execs.request_apply_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="local-owner", reason="Apply reviewed plan")
     assert request.ok
     approval_id = request.data["approval"]["approval_id"]
-    approve(execs, approval_id)
+    approve(platform, auth, issue, approval_id)
     applied = execs.apply(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], approval_id=approval_id, actor="local-owner")
     assert applied.ok, [f.to_dict() for f in applied.findings]
     execution = applied.data["execution"]
@@ -89,7 +114,7 @@ def test_apply_requires_exact_approved_binding_and_supports_manual_rollback(tmp_
     rb_req = execs.request_rollback_approval(execution_id=execution["execution_id"], actor="local-owner", reason="Restore fixture")
     assert rb_req.ok
     rb_approval = rb_req.data["approval"]["approval_id"]
-    approve(execs, rb_approval)
+    approve(platform, auth, issue, rb_approval)
     rolled = execs.rollback(execution_id=execution["execution_id"], approval_id=rb_approval, actor="local-owner")
     assert rolled.ok and sha(path) == base
     assert rolled.data["execution"]["rollback"]["approval"]["status"] == "approved"
@@ -98,12 +123,12 @@ def test_apply_requires_exact_approved_binding_and_supports_manual_rollback(tmp_
 
 
 def test_absent_expired_hash_mismatch_and_stale_source_block_without_write(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    _, ws, _, plans, execs, ids = make_service(tmp_path, monkeypatch)
+    platform, ws, _, plans, execs, ids, auth, issue = make_service(tmp_path, monkeypatch)
     plan, path = plan_markdown(plans, ws, ids["docs/00_product/product_vision.md"])
     base = sha(path)
     req = execs.request_apply_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="local-owner", reason="Review")
     approval_id = req.data["approval"]["approval_id"]
-    approve(execs, approval_id)
+    approve(platform, auth, issue, approval_id)
     mismatch = execs.apply(plan_id=plan["plan_id"], plan_hash="0" * 64, approval_id=approval_id, actor="local-owner")
     assert not mismatch.ok and sha(path) == base
     path.write_text(path.read_text(encoding="utf-8") + "\nexternal drift\n", encoding="utf-8")
@@ -113,12 +138,12 @@ def test_absent_expired_hash_mismatch_and_stale_source_block_without_write(tmp_p
 
 
 def test_expired_approved_binding_is_rejected_without_write(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    _, ws, _, plans, execs, ids = make_service(tmp_path, monkeypatch)
+    platform, ws, _, plans, execs, ids, auth, issue = make_service(tmp_path, monkeypatch)
     plan, path = plan_markdown(plans, ws, ids["docs/00_product/product_vision.md"])
     base = sha(path)
     req = execs.request_apply_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="local-owner", reason="Review")
     approval_id = req.data["approval"]["approval_id"]
-    approve(execs, approval_id)
+    approve(platform, auth, issue, approval_id)
     record = execs.approvals.store.get(approval_id)
     assert record is not None
     payload = record.to_dict(); payload["expires_at"] = "2020-01-01T00:00:00Z"
@@ -128,12 +153,12 @@ def test_expired_approved_binding_is_rejected_without_write(tmp_path: Path, monk
 
 
 def test_post_validation_block_triggers_automatic_rollback(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    _, ws, _, plans, execs, ids = make_service(tmp_path, monkeypatch)
+    platform, ws, _, plans, execs, ids, auth, issue = make_service(tmp_path, monkeypatch)
     plan, path = plan_markdown(plans, ws, ids["docs/00_product/product_vision.md"])
     base = sha(path)
     req = execs.request_apply_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="local-owner", reason="Review")
     approval_id = req.data["approval"]["approval_id"]
-    approve(execs, approval_id)
+    approve(platform, auth, issue, approval_id)
     monkeypatch.setattr(execs, "_post_validate", lambda plan, target: [Finding("FORCED_POST_BLOCK", "forced", Severity.BLOCK)])
     result = execs.apply(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], approval_id=approval_id, actor="local-owner")
     assert not result.ok
@@ -142,11 +167,11 @@ def test_post_validation_block_triggers_automatic_rollback(tmp_path: Path, monke
 
 
 def test_manual_rollback_is_blocked_after_staging(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    _, ws, _, plans, execs, ids = make_service(tmp_path, monkeypatch)
+    platform, ws, _, plans, execs, ids, auth, issue = make_service(tmp_path, monkeypatch)
     plan, path = plan_markdown(plans, ws, ids["docs/00_product/product_vision.md"])
     req = execs.request_apply_approval(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], actor="local-owner", reason="Review")
     approval_id = req.data["approval"]["approval_id"]
-    approve(execs, approval_id)
+    approve(platform, auth, issue, approval_id)
     applied = execs.apply(plan_id=plan["plan_id"], plan_hash=plan["plan_hash"], approval_id=approval_id, actor="local-owner")
     assert applied.ok
     subprocess.run(["git", "add", "docs/00_product/product_vision.md"], cwd=ws, check=True)

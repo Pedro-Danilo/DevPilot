@@ -14,6 +14,7 @@ from devpilot_core.policy.prompt_guard import PromptInjectionGuard
 from devpilot_core.policy.secrets import REDACTED, SecretGuard
 from devpilot_core.policy.tool_injection_guard import ToolInjectionGuard
 from devpilot_core.identity import IdentityRegistry, RbacCheckInput, permission_for_action
+from devpilot_core.identity.auth_store import LocalAuthStore
 
 POST_H_012_D_CREATED_BY = "POST-H-012-D"
 
@@ -84,6 +85,7 @@ class PolicyEngine:
         cost_policy: CostPolicy | None = None,
         observability_enabled: bool = True,
         allowed_external_roots: tuple[Path, ...] = (),
+        approval_auth_store: LocalAuthStore | None = None,
     ) -> None:
         self.root = root.resolve()
         self.observability_enabled = observability_enabled
@@ -96,7 +98,7 @@ class PolicyEngine:
         self.prompt_injection_guard = PromptInjectionGuard(self.root)
         self.tool_injection_guard = ToolInjectionGuard(self.root)
         self.cost_guard = CostGuard(policy=cost_policy)
-        self.approval_checker = ApprovalPolicyChecker(self.root)
+        self.approval_checker = ApprovalPolicyChecker(self.root, auth_store=approval_auth_store)
         self.sensitive_action_catalog_path = self.root / ".devpilot" / "approval" / "sensitive_action_catalog.json"
         self.identity_registry_path = self.root / ".devpilot" / "identity" / "identity_registry.json"
 

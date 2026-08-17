@@ -19330,13 +19330,88 @@
         "api",
         "identity"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-d-authenticated-approval-binding",
+      "source_contract_id": "devpl-gsdlc-02-d-authenticated-approval-binding",
+      "schema_version": "2.0",
+      "domain": "security.approval",
+      "capability": "AuthenticatedApprovalBinding",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
+        "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
+        "tests/test_approval_binding.py",
+        "tests/test_approval_policy_binding.py",
+        "tests/test_policy_engine_approval_rbac_enforcement.py",
+        "tests/test_api_approvals_actions.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/approval",
+        "src/devpilot_core/application/approval_service.py",
+        "src/devpilot_core/interfaces/api",
+        "src/devpilot_core/identity/auth_store.py",
+        ".devpilot/approval",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "docs/03_security",
+        "docs/07_interfaces"
+      ],
+      "validates": [
+        ".devpilot/approval/approval_authority_matrix.json",
+        "src/devpilot_core/approval/authenticated_binding.py",
+        "src/devpilot_core/approval/binding.py",
+        "src/devpilot_core/application/approval_service.py",
+        "src/devpilot_core/interfaces/api/routers/approvals.py",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "docs/audits/DEVPL_GSDLC_02_D_APPROVAL_BINDING_SECURITY_REPORT.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-02-D",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Actor/role authority is derived exclusively from human-session principal on current approval mutation API paths.",
+        "Historical POST-H-012 exact binding remains preserved; current executable sensitive actions require successor authenticated decision binding.",
+        "Critical self-approval and stale/revoked authority fail closed.",
+        "Full regression remains deferred to 02-E under approved A-D cadence; no intermediate exception was approved."
+      ],
+      "trigger_hints": [
+        "approval",
+        "authenticated-principal",
+        "role-at-decision",
+        "session-revocation",
+        "separation-of-duties",
+        "actor-spoof"
+      ],
+      "impact_tags": [
+        "security",
+        "approval",
+        "identity",
+        "api",
+        "ui-contract"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
-    "contracts_total": 276,
+    "contracts_total": 278,
     "external_api_used": false,
     "last_updated_by": "DEVPL-GSDLC-01-A",
     "migrator": "TestContractRegistryV2Migrator",
@@ -19488,5 +19563,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 277
+  "contracts_total": 278
 }

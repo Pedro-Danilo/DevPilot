@@ -124,6 +124,10 @@ export class DevPilotApiClient {
   }
 
 
+  async authCapabilities(workspaceId = 'devpilot-local'): Promise<DevPilotApplicationResponse> {
+    return this.get(`/auth/capabilities${this.query({ workspace_id: workspaceId })}`, { retryNetworkErrors: true });
+  }
+
   async listApprovals(filters: { status?: string; limit?: number } = {}): Promise<DevPilotApplicationResponse> {
     return this.get(`/approvals${this.query(filters)}`);
   }
@@ -132,11 +136,11 @@ export class DevPilotApiClient {
     return this.get(`/approvals/${encodeURIComponent(approvalId)}`);
   }
 
-  async requestApproval(payload: { tool_id: string; action: string; subject: string; actor: string; reason: string; scope?: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+  async requestApproval(payload: { tool_id: string; action: string; subject: string; actor?: string; reason: string; scope?: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
     return this.post('/approvals/request', payload);
   }
 
-  async decideApproval(approvalId: string, decision: 'approve' | 'deny', payload: { actor: string; reason: string }): Promise<DevPilotApplicationResponse> {
+  async decideApproval(approvalId: string, decision: 'approve' | 'deny', payload: { actor?: string; reason: string }): Promise<DevPilotApplicationResponse> {
     return this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, payload);
   }
 
@@ -423,12 +427,15 @@ export class DevPilotApiClient {
     const controller = new AbortController();
     const timeoutId = globalThis.setTimeout(() => controller.abort(), timeoutMs);
     try {
+      const csrf = init.method === 'POST' ? readBrowserCookie('devpilot_csrf') : '';
       response = await fetch(endpoint, {
         ...init,
+        credentials: 'include',
         signal: controller.signal,
         headers: {
           ...(init.headers ?? {}),
           ...this.authHeaders(),
+          ...(csrf ? { 'X-DevPilot-CSRF': csrf } : {}),
         },
       });
     } catch (error) {
@@ -474,6 +481,16 @@ export class DevPilotApiClient {
     if (!this.token) return {};
     return { 'X-DevPilot-Token': this.token };
   }
+}
+
+export function readBrowserCookie(name: string): string {
+  if (!globalThis.document?.cookie) return '';
+  const prefix = `${encodeURIComponent(name)}=`;
+  for (const part of globalThis.document.cookie.split(';')) {
+    const item = part.trim();
+    if (item.startsWith(prefix)) return decodeURIComponent(item.slice(prefix.length));
+  }
+  return '';
 }
 
 export function readStoredToken(): string {

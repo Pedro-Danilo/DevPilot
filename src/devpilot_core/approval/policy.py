@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
+from devpilot_core.identity.auth_store import LocalAuthStore
 
 from .binding import ApprovalBindingRequest, StrongApprovalBindingValidator
 from .models import ApprovalStatus
@@ -41,8 +42,9 @@ class ApprovalPolicyChecker:
 
     critical_actions = {"execute", "shell", "external-api", "network-call", "deploy", "commit", "push", "apply"}
 
-    def __init__(self, root: Path, *, store: "ApprovalStore | None" = None) -> None:
+    def __init__(self, root: Path, *, store: "ApprovalStore | None" = None, auth_store: LocalAuthStore | None = None) -> None:
         self.root = root.resolve()
+        self.auth_store = auth_store
         if store is None:
             from .store import ApprovalStore
 
@@ -145,7 +147,7 @@ class ApprovalPolicyChecker:
                 metadata=metadata,
             )
 
-        binding_validator = StrongApprovalBindingValidator(self.root)
+        binding_validator = StrongApprovalBindingValidator(self.root, auth_store=self.auth_store)
         sensitive_action = binding_validator._resolve_sensitive_action(tool_id or record.tool_id, action)
         if sensitive_action is not None:
             binding_result = binding_validator.evaluate(

@@ -116,8 +116,15 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 continue
 
             assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial", "approval-center-initial", "settings-ui-initial", "visual-mvp-closed"}
-            assert operation["security"] == [{"LocalTokenAuth": []}]
-            assert operation["x-devpilot-auth"] == "local-token-required"
+            if op_id in {"approvals.request", "approvals.approve", "approvals.deny"}:
+                assert operation["x-devpilot-sprint"] == "DEVPL-GSDLC-02-D"
+                assert operation["security"] == [{"HumanSessionCookie": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-approval-actor-authority"] == "authenticated-session"
+                assert operation["x-devpilot-legacy-token-human-authority"] is False
+            else:
+                assert operation["security"] == [{"LocalTokenAuth": []}]
+                assert operation["x-devpilot-auth"] == "local-token-required"
             assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
             assert operation["x-devpilot-security-headers"] is True
             assert operation["x-devpilot-domain-service"].endswith(("Service", "application_contract")) or "ApplicationService" in operation["x-devpilot-domain-service"]

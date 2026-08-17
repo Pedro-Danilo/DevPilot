@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
@@ -18,6 +18,15 @@ def _json(payload: dict[str, Any], status_code: int) -> JSONResponse:
     return JSONResponse(content=payload, status_code=status_code)
 
 
+def _session_actor(request: Request, supplied: str | None) -> tuple[str | None, JSONResponse | None]:
+    principal=getattr(request.state,"authenticated_principal",None)
+    if principal is None:
+        return None,_json({"operation":"workspace.approval","ok":False,"exit_code":4,"message":"Authenticated human session required.","data":{},"findings":[{"id":"AUTH_HUMAN_SESSION_REQUIRED_BLOCK","severity":"block","message":"Workspace approval/mutation requires authenticated session."}]},401)
+    if supplied and supplied.strip() and supplied.strip()!=principal.actor_id:
+        return None,_json({"operation":"workspace.approval","ok":False,"exit_code":4,"message":"Caller actor cannot override authenticated principal.","data":{},"findings":[{"id":"APPROVAL_ACTOR_SPOOF_BLOCK","severity":"block","message":"Caller actor does not match authenticated principal."}]},403)
+    return principal.actor_id,None
+
+
 class GitCommitPlanBody(BaseModel):
     document_ids: list[str] = Field(min_length=1, max_length=20)
     commit_message: str = Field(min_length=3, max_length=500)
@@ -27,7 +36,7 @@ class GitCommitPlanBody(BaseModel):
 
 class GitStageApprovalBody(BaseModel):
     plan_hash: str = Field(min_length=64, max_length=64)
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
     reason: str = Field(min_length=3, max_length=1000)
     ttl_minutes: int = Field(default=15, ge=1, le=30)
 
@@ -35,18 +44,18 @@ class GitStageApprovalBody(BaseModel):
 class GitStageBody(BaseModel):
     plan_hash: str = Field(min_length=64, max_length=64)
     approval_id: str = Field(min_length=1, max_length=128)
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
 
 
 class GitCommitApprovalBody(BaseModel):
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
     reason: str = Field(min_length=3, max_length=1000)
     ttl_minutes: int = Field(default=15, ge=1, le=30)
 
 
 class GitCommitBody(BaseModel):
     approval_id: str = Field(min_length=1, max_length=128)
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
 
 
 class GitBranchPlanBody(BaseModel):
@@ -55,7 +64,7 @@ class GitBranchPlanBody(BaseModel):
 
 class GitBranchApprovalBody(BaseModel):
     plan_hash: str = Field(min_length=64, max_length=64)
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
     reason: str = Field(min_length=3, max_length=1000)
     ttl_minutes: int = Field(default=15, ge=1, le=30)
 
@@ -63,7 +72,7 @@ class GitBranchApprovalBody(BaseModel):
 class GitBranchCreateBody(BaseModel):
     plan_hash: str = Field(min_length=64, max_length=64)
     approval_id: str = Field(min_length=1, max_length=128)
-    actor: str = Field(default="local-owner", min_length=1, max_length=128)
+    actor: str | None = Field(default=None, min_length=1, max_length=128)
 
 
 @router.get("/api/v1/workspace/git/status")
@@ -92,13 +101,19 @@ def workspace_git_plan_status(plan_id: str, service: ApplicationService = Depend
 
 
 @router.post("/api/v1/workspace/git/plans/{plan_id}/stage-approval-request")
-def workspace_git_stage_approval(plan_id: str, body: GitStageApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.git.stage_approval_request", payload={"plan_id": plan_id, **body.model_dump()}))
+def workspace_git_stage_approval(request: Request, plan_id: str, body: GitStageApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.git.stage_approval_request", payload={"plan_id": plan_id, **payload}))
 
 
 @router.post("/api/v1/workspace/git/plans/{plan_id}/stage")
-def workspace_git_stage(plan_id: str, body: GitStageBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.git.stage", payload={"plan_id": plan_id, **body.model_dump()}))
+def workspace_git_stage(request: Request, plan_id: str, body: GitStageBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.git.stage", payload={"plan_id": plan_id, **payload}))
 
 
 @router.get("/api/v1/workspace/git/executions/{execution_id}")
@@ -107,13 +122,19 @@ def workspace_git_execution(execution_id: str, service: ApplicationService = Dep
 
 
 @router.post("/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request")
-def workspace_git_commit_approval(execution_id: str, body: GitCommitApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.git.commit_approval_request", payload={"stage_execution_id": execution_id, **body.model_dump()}))
+def workspace_git_commit_approval(request: Request, execution_id: str, body: GitCommitApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.git.commit_approval_request", payload={"stage_execution_id": execution_id, **payload}))
 
 
 @router.post("/api/v1/workspace/git/stage-executions/{execution_id}/commit")
-def workspace_git_commit(execution_id: str, body: GitCommitBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.git.commit", payload={"stage_execution_id": execution_id, **body.model_dump()}))
+def workspace_git_commit(request: Request, execution_id: str, body: GitCommitBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.git.commit", payload={"stage_execution_id": execution_id, **payload}))
 
 
 @router.post("/api/v1/workspace/git/branches/plan")
@@ -122,10 +143,16 @@ def workspace_git_branch_plan(body: GitBranchPlanBody, service: ApplicationServi
 
 
 @router.post("/api/v1/workspace/git/branches/{plan_id}/approval-request")
-def workspace_git_branch_approval(plan_id: str, body: GitBranchApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.git.branch_approval_request", payload={"plan_id": plan_id, **body.model_dump()}))
+def workspace_git_branch_approval(request: Request, plan_id: str, body: GitBranchApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.git.branch_approval_request", payload={"plan_id": plan_id, **payload}))
 
 
 @router.post("/api/v1/workspace/git/branches/{plan_id}/create")
-def workspace_git_branch_create(plan_id: str, body: GitBranchCreateBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
-    return _json(*dispatch_application_request(service, operation="workspace.git.branch_create", payload={"plan_id": plan_id, **body.model_dump()}))
+def workspace_git_branch_create(request: Request, plan_id: str, body: GitBranchCreateBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    actor,error=_session_actor(request,body.actor)
+    if error:return error
+    payload=body.model_dump();payload["actor"]=actor
+    return _json(*dispatch_application_request(service, operation="workspace.git.branch_create", payload={"plan_id": plan_id, **payload}))

@@ -44,3 +44,5 @@ def __getattr__(name: str):
 
         return getattr(_service, name)
     raise AttributeError(name)
+
+from .authenticated_binding import AuthenticatedApprovalAuthority, AuthenticatedApprovalDecision, safe_session_binding_id

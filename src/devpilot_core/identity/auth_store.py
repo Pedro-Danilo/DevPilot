@@ -167,6 +167,19 @@ class LocalAuthStore:
             if row is None: return None
             return SessionRecord(row[0], row[1], row[2], tuple(json.loads(row[3])), tuple(json.loads(row[4])), row[5], row[6], row[7], int(row[8]), row[9], row[10], int(row[11]))
 
+    def find_session_by_authority(self, *, actor_id: str, created_at: str, rotation_counter: int) -> SessionRecord | None:
+        """Resolve one session by non-secret authority coordinates for approval revalidation."""
+        self.initialize()
+        with self._connect() as con:
+            row = con.execute(
+                "SELECT token_hash,csrf_hash,actor_id,roles_json,workspace_scopes_json,created_at,last_seen_at,absolute_expires_at,idle_timeout_seconds,revoked_at,revoke_reason,rotation_counter "
+                "FROM sessions WHERE actor_id=? AND created_at=? AND rotation_counter=? ORDER BY rowid DESC LIMIT 1",
+                (actor_id, created_at, int(rotation_counter)),
+            ).fetchone()
+            if row is None:
+                return None
+            return SessionRecord(row[0], row[1], row[2], tuple(json.loads(row[3])), tuple(json.loads(row[4])), row[5], row[6], row[7], int(row[8]), row[9], row[10], int(row[11]))
+
     def touch_session(self, token_hash: str, last_seen_at: str) -> None:
         self.initialize()
         with self._connect() as con:

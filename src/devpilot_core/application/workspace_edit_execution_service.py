@@ -49,6 +49,7 @@ class WorkspaceEditExecutionApplicationService:
         *,
         documents: WorkspaceDocumentsApplicationService | None = None,
         plans: WorkspaceEditPlanApplicationService | None = None,
+        approval_auth_store: LocalAuthStore | None = None,
     ) -> None:
         self.platform_root = Path(platform_root).resolve()
         self.documents = documents or WorkspaceDocumentsApplicationService(self.platform_root)
@@ -56,6 +57,7 @@ class WorkspaceEditExecutionApplicationService:
         self.approvals = ApprovalService(self.platform_root)
         self.secret_guard = SecretGuard(self.platform_root)
         self.events = EventLogger(self.platform_root)
+        self.approval_auth_store = approval_auth_store
 
     def request_apply_approval(
         self,
@@ -124,7 +126,7 @@ class WorkspaceEditExecutionApplicationService:
             return self._block("workspace edit apply", "UOC005_CONTROL_ROOT_SCOPE_BLOCK", "UOC-005 control root must be outside the active workspace.")
 
         proposed = str(plan.get("proposed_content") or "")
-        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots()).evaluate(
+        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots(), approval_auth_store=self.approval_auth_store).evaluate(
             PolicyRequest(
                 action=APPLY_ACTION,
                 path=str(target),
@@ -309,7 +311,7 @@ class WorkspaceEditExecutionApplicationService:
         binding_hash = _rollback_binding_hash(record)
         workspace_root = self.documents.context_resolver.resolve().effective_workspace_root
         target = (workspace_root / str(record["relative_path"])).resolve()
-        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots()).evaluate(
+        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots(), approval_auth_store=self.approval_auth_store).evaluate(
             PolicyRequest(
                 action=ROLLBACK_ACTION,
                 path=str(target),

@@ -64,7 +64,7 @@ def _security_json_response(request: Request, payload: dict[str, Any], status_co
         headers["Access-Control-Allow-Origin"] = str(origin)
         headers["Vary"] = "Origin"
         headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
-    headers["X-DevPilot-Api-Security"] = "token+cors+policy"
+    headers["X-DevPilot-Api-Security"] = "session+rbac+token-compat+cors+policy"
     return JSONResponse(content=payload, status_code=status_code, headers=headers)
 
 
@@ -94,8 +94,12 @@ def create_app(
         redoc_url=None,
     )
     app.state.devpilot_root = resolved_root
-    app.state.application_service = ApplicationService(resolved_root, enforce_workspace_paths=True)
     app.state.auth_service = auth_service or AuthApplicationService(resolved_root)
+    app.state.application_service = ApplicationService(
+        resolved_root,
+        enforce_workspace_paths=True,
+        approval_auth_store=app.state.auth_service.store,
+    )
     # UOC-008: reconcile stale/orphan governed jobs at API startup. The result is
     # retained for diagnostics; reconciliation never promotes an orphan to PASS.
     app.state.governed_job_reconciliation = app.state.application_service.jobs_reconcile(stale_after_seconds=120).to_dict()
@@ -110,7 +114,7 @@ def create_app(
             headers["Access-Control-Allow-Origin"] = str(origin)
             headers["Vary"] = "Origin"
             headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
-        headers["X-DevPilot-Api-Security"] = "token+cors+policy"
+        headers["X-DevPilot-Api-Security"] = "session+rbac+token-compat+cors+policy"
         return JSONResponse(content=payload, status_code=status_code, headers=headers)
 
     @app.exception_handler(RequestValidationError)
@@ -171,6 +175,7 @@ def create_app(
                 try:
                     human_session = request.app.state.auth_service.resolve(supplied_session)
                     request.state.authenticated_principal = human_session.principal
+                    request.state.authenticated_session_context = human_session
                     request.state.auth_method = "human-session"
                 except SessionInvalid:
                     human_session = None
