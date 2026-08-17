@@ -1,0 +1,103 @@
+{
+  "schema_id": "devpilot.gsdlc02a.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-02-A",
+  "status": "PASS-CANDIDATE",
+  "classification_counts": {
+    "historical-freeze": 4,
+    "current-active": 8,
+    "successor-needed": 4,
+    "deprecated-after-proof": 0
+  },
+  "contracts": [
+    {
+      "path": "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+      "classification": "historical-freeze",
+      "decision": "consume closed baseline; do not rewrite evidence"
+    },
+    {
+      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+      "classification": "historical-freeze",
+      "decision": "preserve continue-blocked enterprise/multiuser boundary"
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
+      "classification": "historical-freeze",
+      "decision": "preserve planned predecessor; successor ADR-GSDLC-005 carries 02-A decision"
+    },
+    {
+      "path": "DEVPL_GSDLC_01_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "classification": "historical-freeze",
+      "decision": "external predecessor authority imported as immutable successor evidence"
+    },
+    {
+      "path": ".devpilot/identity/identity_registry.json",
+      "classification": "successor-needed",
+      "decision": "runtime registry unchanged in 02-A; snapshot at close and migration map govern B/C evolution"
+    },
+    {
+      "path": ".devpilot/approval/sensitive_action_catalog.json",
+      "classification": "successor-needed",
+      "decision": "runtime catalog unchanged; maintainer role explicitly fail-closed until 02-C"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/security.py",
+      "classification": "successor-needed",
+      "decision": "legacy local token remains; human-session middleware belongs to 02-B/C"
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "classification": "successor-needed",
+      "decision": "02-A snapshot proves no login/session route; current registry may evolve in B/E"
+    },
+    {
+      "path": ".devpilot/gsdlc/architecture_target_contract.json",
+      "classification": "current-active",
+      "decision": "add 02-A designed successor while runtime_enabled=false"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "current-active",
+      "decision": "add 02-A candidate fields; preserve historical current_repo"
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "classification": "current-active",
+      "decision": "register 02-A sources"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "classification": "current-active",
+      "decision": "register security design contract"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "classification": "current-active",
+      "decision": "register P0 impact security contract"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "classification": "current-active",
+      "decision": "register three 02-A schemas"
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+      "classification": "current-active",
+      "decision": "02-A successor decision"
+    },
+    {
+      "path": ".devpilot/identity/auth_threat_matrix.json",
+      "classification": "current-active",
+      "decision": "machine authority threat→control coverage"
+    }
+  ],
+  "frozen_hashes": {
+    "post_h_012": "e20b2d3eecd5d75071c3f04e7371605a6178a12ecd7343347f183f5e6d74cfca",
+    "adr_posth_034_d": "eca822d29e3c024c1cd894fa14797971a6bdeebb4f090714a95b3f48588281af",
+    "adr_gsdlc_003": "2c30534da5ee04f9e0eb36033202fa29b07d311bea196ab059b91d9acfb0bb8d",
+    "identity_registry_at_entry": "cea4055e1c7ed23fd7e6057e62a7747a9c64e2e4e6f325b2620803bf9f269799",
+    "sensitive_action_catalog_at_entry": "df93533193c1bc143c019f5a2dec79644599f11fa30d3bde03eeb8468c239585",
+    "api_route_registry_at_entry": "788304e1eb81b77594ab10cad2aa993f04ee353adb9a13408dc4a71a21ef94d3"
+  },
+  "historical_tests_relaxed_to_pass": false,
+  "runtime_contracts_rewritten": false
+}

@@ -2475,5 +2475,16 @@
   "gsdlc_01_e_full_regression_required": true,
   "gsdlc_01_e_full_regression_runs_allowed": 1,
   "gsdlc_01_e_full_regression_executed": false,
-  "gsdlc_01_e_backlog_closure": "pending-windows-owner-adjudication"
+  "gsdlc_01_e_backlog_closure": "pending-windows-owner-adjudication",
+  "gsdlc_02_status": "implementation/02-a-pass-candidate",
+  "gsdlc_02_a_status": "pass-candidate/pre-windows",
+  "gsdlc_02_a_runtime_auth_enabled": false,
+  "gsdlc_02_a_login_routes_added": 0,
+  "gsdlc_02_a_session_runtime_enabled": false,
+  "gsdlc_02_a_full_regression_enforced": false,
+  "gsdlc_02_a_full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "gsdlc_02_b_authorized": false,
+  "gsdlc_02_a_predecessor_backlog": "DEVPL-GSDLC-01 CLOSED/PASS",
+  "gsdlc_02_a_execution_source_repo": "repo_DevPilot_Local_353_DEVPL_GSDLC_01_E_PROJECT_STATUS_BACKLOG_CLOSURE.zip",
+  "gsdlc_02_a_execution_source_commit": "a0b503ae36cdfda77279bb66c40b4f6b32f8856f"
 }

@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-02-A-AUTH-THREAT-MATRIX-V1",
+  "title": "DEVPL-GSDLC-02-A Auth Threat Matrix",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "version",
+    "micro_sprint",
+    "runtime_auth_enabled",
+    "threats",
+    "controls",
+    "coverage"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-02-A-AUTH-THREAT-MATRIX-V1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "micro_sprint": {
+      "const": "DEVPL-GSDLC-02-A"
+    },
+    "runtime_auth_enabled": {
+      "const": false
+    },
+    "remote_login_enabled": {
+      "const": false
+    },
+    "public_api_enabled": {
+      "const": false
+    },
+    "enterprise_iam_enabled": {
+      "const": false
+    },
+    "tenancy_enabled": {
+      "const": false
+    },
+    "threats": {
+      "type": "array",
+      "minItems": 18,
+      "items": {
+        "type": "object",
+        "required": [
+          "threat_id",
+          "name",
+          "severity",
+          "controls",
+          "implementation_sprints",
+          "test_evidence",
+          "status",
+          "runtime_enforced_in_02_a"
+        ],
+        "properties": {
+          "threat_id": {
+            "pattern": "^AUTH-T[0-9]{2}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "severity": {
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "controls": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "implementation_sprints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "test_evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "const": "CONTROL-DESIGNED"
+          },
+          "runtime_enforced_in_02_a": {
+            "const": false
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 18,
+      "items": {
+        "type": "object",
+        "required": [
+          "control_id",
+          "description",
+          "implementation_sprint",
+          "status",
+          "runtime_enforced_in_02_a"
+        ],
+        "properties": {
+          "control_id": {
+            "pattern": "^C-AUTH-[0-9]{2}$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          },
+          "implementation_sprint": {
+            "type": "string"
+          },
+          "status": {
+            "const": "DESIGNED"
+          },
+          "runtime_enforced_in_02_a": {
+            "const": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "coverage_percent",
+        "threats_without_control"
+      ],
+      "properties": {
+        "coverage_percent": {
+          "const": 100.0
+        },
+        "threats_without_control": {
+          "const": 0
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

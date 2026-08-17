@@ -1,0 +1,37 @@
+{
+  "schema_id": "devpilot.gsdlc01e.final_owner_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-16",
+  "successor_repo": "repo_DevPilot_Local_353_DEVPL_GSDLC_01_E_PROJECT_STATUS_BACKLOG_CLOSURE.zip",
+  "successor_commit": "a0b503ae36cdfda77279bb66c40b4f6b32f8856f",
+  "successor_sha256": "0c235819633b7e34fa47ed2c28e5dc6028e7e21655e54eb35ac5f6749f08816a",
+  "windows_evidence_sha256": "deef8030c63452fc5eb4cd715876a6a5f421fef0424f821baa207b7acd9cf9b6",
+  "validation": {
+    "mode": "composite-full-regression-selective-retest",
+    "browser": "PASS/7-full-page",
+    "full_run_1": {
+      "passed": 2346,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 2
+    },
+    "selective_exact": {
+      "passed": 2,
+      "failed": 0
+    },
+    "selective_impacted": {
+      "passed": 92,
+      "failed": 0
+    },
+    "full_regression_repeated": false,
+    "regression_guard": "PASS"
+  },
+  "artifact_hashes_git": 41,
+  "artifact_hashes_archive": 41,
+  "delta_paths": 42,
+  "pilot_preserved": true,
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-01 backlog closure"
+}

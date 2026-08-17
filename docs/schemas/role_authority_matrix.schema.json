@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-02-A-ROLE-AUTHORITY-MATRIX-V1",
+  "title": "DEVPL-GSDLC-02-A Role Authority Matrix",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "version",
+    "micro_sprint",
+    "runtime_enforced",
+    "deny_by_default",
+    "roles",
+    "constraints"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-02-A-ROLE-AUTHORITY-MATRIX-V1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "micro_sprint": {
+      "const": "DEVPL-GSDLC-02-A"
+    },
+    "runtime_enforced": {
+      "const": false
+    },
+    "deny_by_default": {
+      "const": true
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "required": [
+          "role_id",
+          "purpose",
+          "permissions",
+          "workspace_scope",
+          "max_approval_risk",
+          "self_approval",
+          "separation_of_duties",
+          "self_modification",
+          "recovery"
+        ],
+        "properties": {
+          "role_id": {
+            "enum": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 3
+          },
+          "permissions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "workspace_scope": {
+            "type": "string",
+            "minLength": 3
+          },
+          "max_approval_risk": {
+            "type": "string"
+          },
+          "self_approval": {
+            "type": "string"
+          },
+          "separation_of_duties": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "self_modification": {
+            "type": "string"
+          },
+          "recovery": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "required": [
+        "role_self_escalation_allowed",
+        "unknown_role_effect",
+        "unknown_action_effect",
+        "legacy_token_human_authority",
+        "client_actor_authoritative"
+      ],
+      "properties": {
+        "role_self_escalation_allowed": {
+          "const": false
+        },
+        "unknown_role_effect": {
+          "const": "DENY"
+        },
+        "unknown_action_effect": {
+          "const": "DENY"
+        },
+        "legacy_token_human_authority": {
+          "const": false
+        },
+        "client_actor_authoritative": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

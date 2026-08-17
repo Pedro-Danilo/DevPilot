@@ -1,0 +1,206 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-02-A-ROLE-AUTHORITY-MATRIX-V1",
+  "version": "1.0.0",
+  "micro_sprint": "DEVPL-GSDLC-02-A",
+  "status": "pass-candidate/pre-windows",
+  "runtime_enforced": false,
+  "deny_by_default": true,
+  "roles": [
+    {
+      "role_id": "owner",
+      "purpose": "local installation governance and recovery",
+      "permissions": [
+        "identity.bootstrap_owner",
+        "identity.manage_roles",
+        "policy.admin",
+        "approval.decide.high",
+        "approval.decide.critical",
+        "workspace.admin",
+        "release.authorize"
+      ],
+      "workspace_scope": "explicit-or-installation",
+      "max_approval_risk": "critical",
+      "self_approval": "deny-critical-by-default",
+      "separation_of_duties": [
+        "critical requester != approver when an independent authorized principal exists",
+        "owner recovery is separate audited flow"
+      ],
+      "self_modification": "deny-normal-path",
+      "recovery": "governed-owner-recovery-only"
+    },
+    {
+      "role_id": "product-owner",
+      "purpose": "product requirements and product decisions",
+      "permissions": [
+        "product.requirements.manage",
+        "planning.priority.manage",
+        "approval.request",
+        "approval.decide.product"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "high",
+      "self_approval": "deny-high-by-default",
+      "separation_of_duties": [
+        "cannot grant own roles",
+        "cannot approve security-critical or identity changes"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    },
+    {
+      "role_id": "architect",
+      "purpose": "architecture/policy review",
+      "permissions": [
+        "architecture.review",
+        "policy.evaluate",
+        "workspace.read",
+        "report.read",
+        "approval.request",
+        "approval.decide.architecture"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "high",
+      "self_approval": "deny-high-by-default",
+      "separation_of_duties": [
+        "cannot self-grant identity roles",
+        "critical security decisions require owner/security-reviewer"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    },
+    {
+      "role_id": "security-reviewer",
+      "purpose": "security and critical-control review",
+      "permissions": [
+        "security.review",
+        "policy.evaluate",
+        "approval.request",
+        "approval.decide.security",
+        "audit.read"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "critical",
+      "self_approval": "deny-critical",
+      "separation_of_duties": [
+        "must not approve own critical request",
+        "cannot self-grant roles"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    },
+    {
+      "role_id": "developer",
+      "purpose": "code/test development without approval authority",
+      "permissions": [
+        "code.read",
+        "tests.run",
+        "workspace.read",
+        "report.read",
+        "approval.request"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "none",
+      "self_approval": "deny",
+      "separation_of_duties": [
+        "no approval decision authority",
+        "no role mutation"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    },
+    {
+      "role_id": "qa-reviewer",
+      "purpose": "quality/code review and noncritical acceptance",
+      "permissions": [
+        "code.review",
+        "quality.review",
+        "policy.read",
+        "report.read",
+        "approval.request",
+        "approval.decide.noncritical"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "medium",
+      "self_approval": "deny-medium-by-default",
+      "separation_of_duties": [
+        "no critical approval",
+        "no role mutation"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    },
+    {
+      "role_id": "release-manager",
+      "purpose": "release readiness and governed release decisions",
+      "permissions": [
+        "release.review",
+        "release.authorize",
+        "quality.read",
+        "report.read",
+        "approval.request",
+        "approval.decide.release"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "high",
+      "self_approval": "deny-high-by-default",
+      "separation_of_duties": [
+        "cannot grant roles",
+        "critical destructive filesystem actions require separate authority"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    },
+    {
+      "role_id": "operator",
+      "purpose": "routine local operation and read-only status",
+      "permissions": [
+        "workspace.read",
+        "portfolio.status",
+        "state.read",
+        "report.read",
+        "approval.request"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "none",
+      "self_approval": "deny",
+      "separation_of_duties": [
+        "no approval decision authority",
+        "no role mutation"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    },
+    {
+      "role_id": "agent-supervisor",
+      "purpose": "supervise agent/tool activity without becoming human owner",
+      "permissions": [
+        "agent.supervise",
+        "policy.evaluate",
+        "approval.request",
+        "approval.decide.agent",
+        "tool.execute.approve",
+        "workspace.select",
+        "portfolio.status"
+      ],
+      "workspace_scope": "required",
+      "max_approval_risk": "critical-agent-domain-only",
+      "self_approval": "deny-critical",
+      "separation_of_duties": [
+        "cannot impersonate human requester",
+        "cannot self-grant roles",
+        "critical non-agent actions require their domain authority"
+      ],
+      "self_modification": "deny",
+      "recovery": "none"
+    }
+  ],
+  "constraints": {
+    "workspace_scope_required_for_workspace_actions": true,
+    "role_self_escalation_allowed": false,
+    "unknown_role_effect": "DENY",
+    "unknown_action_effect": "DENY",
+    "legacy_token_human_authority": false,
+    "client_actor_authoritative": false
+  },
+  "source_registry_snapshot": ".devpilot/identity/identity_registry_gsdlc02a_at_close.json"
+}

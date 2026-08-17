@@ -145,7 +145,7 @@
     "project_status_http_ui": "implemented-initial/DEVPL-GSDLC-01-E"
   },
   "local_auth_successor": {
-    "status": "planned-GSDLC",
+    "status": "designed/DEVPL-GSDLC-02-A/pass-candidate-pre-windows",
     "runtime_enabled": false,
     "scope": "single-machine local authenticated operators",
     "identity_source": "LocalIdentityRepository successor to current identity registry",
@@ -159,7 +159,25 @@
     "oidc": false,
     "public_api": false,
     "non_local_api": false,
-    "historical_post_h_034_d": "continue-blocked until GSDLC-02 successor capability closes"
+    "historical_post_h_034_d": "continue-blocked until GSDLC-02 successor capability closes",
+    "enablement_adr": "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+    "threat_model": "docs/03_security/auth_threat_model.md",
+    "threat_matrix": ".devpilot/identity/auth_threat_matrix.json",
+    "role_authority_matrix": ".devpilot/identity/role_authority_matrix.json",
+    "legacy_role_migration_map": ".devpilot/identity/legacy_role_migration_map.json",
+    "canonical_roles": [
+      "owner",
+      "product-owner",
+      "architect",
+      "security-reviewer",
+      "developer",
+      "qa-reviewer",
+      "release-manager",
+      "operator",
+      "agent-supervisor"
+    ],
+    "legacy_local_token_human_authority": false,
+    "runtime_implementation_deferred_to": "DEVPL-GSDLC-02-B..E"
   },
   "step_action_advisor": {
     "status": "planned-GSDLC",
@@ -317,5 +335,17 @@
     "full_regression_deferred_to": "DEVPL-GSDLC-01-E",
     "predecessor_final_owner_status": "closed/PASS",
     "predecessor_final_owner_adjudication": "DEVPL_GSDLC_01_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md"
+  },
+  "gsdlc_02_a_successor": {
+    "status": "pass-candidate/pending-windows-owner-adjudication",
+    "runtime_auth_implemented": false,
+    "api_login_routes_added": 0,
+    "ui_login_routes_added": 0,
+    "threat_coverage_percent": 100.0,
+    "canonical_roles_total": 9,
+    "legacy_source_roles_classified": 7,
+    "validation_mode": "cumulative-selective",
+    "full_regression_enforced": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-02-E"
   }
 }

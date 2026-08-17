@@ -1,0 +1,498 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-02-A-AUTH-THREAT-MATRIX-V1",
+  "version": "1.0.0",
+  "micro_sprint": "DEVPL-GSDLC-02-A",
+  "status": "pass-candidate/pre-windows",
+  "runtime_auth_enabled": false,
+  "remote_login_enabled": false,
+  "public_api_enabled": false,
+  "enterprise_iam_enabled": false,
+  "tenancy_enabled": false,
+  "threats": [
+    {
+      "threat_id": "AUTH-T01",
+      "name": "credential-theft-disclosure",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-01",
+        "C-AUTH-02"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T02",
+      "name": "offline-credential-store-theft-cracking",
+      "severity": "high",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-01",
+        "C-AUTH-02",
+        "C-AUTH-16"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T03",
+      "name": "brute-force-local-guessing",
+      "severity": "high",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-03"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T04",
+      "name": "session-fixation",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-04"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T05",
+      "name": "session-theft-replay",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-05"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T06",
+      "name": "csrf-on-authenticated-mutation",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-06"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T07",
+      "name": "cors-or-nonlocal-origin-abuse",
+      "severity": "high",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-07"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T08",
+      "name": "privilege-escalation",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-08",
+        "C-AUTH-09"
+      ],
+      "implementation_sprints": [
+        "02-C"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_c_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T09",
+      "name": "role-self-escalation",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-09"
+      ],
+      "implementation_sprints": [
+        "02-C"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_c_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T10",
+      "name": "stale-role-or-session-privilege",
+      "severity": "high",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-10"
+      ],
+      "implementation_sprints": [
+        "02-C"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_c_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T11",
+      "name": "approval-actor-spoofing",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-11"
+      ],
+      "implementation_sprints": [
+        "02-D"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_d_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T12",
+      "name": "cross-workspace-access",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-12"
+      ],
+      "implementation_sprints": [
+        "02-C"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_c_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T13",
+      "name": "legacy-local-token-bypass",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-13"
+      ],
+      "implementation_sprints": [
+        "02-C"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_c_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T14",
+      "name": "direct-url-or-api-bypass",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-14"
+      ],
+      "implementation_sprints": [
+        "02-C/02-E"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_c_e_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T15",
+      "name": "secret-leak-in-logs-or-evidence",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-15"
+      ],
+      "implementation_sprints": [
+        "02-B/02-E"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_e_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T16",
+      "name": "identity-session-store-corruption-or-tamper",
+      "severity": "high",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-16"
+      ],
+      "implementation_sprints": [
+        "02-B"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T17",
+      "name": "owner-recovery-abuse",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-17"
+      ],
+      "implementation_sprints": [
+        "02-B/02-C"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_b_c_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    },
+    {
+      "threat_id": "AUTH-T18",
+      "name": "remote-public-enterprise-auth-accidental-enablement",
+      "severity": "critical",
+      "trust_boundary": "local-operator-auth",
+      "attack_precondition": "local process/browser/client can reach DevPilot local surfaces or auth/runtime store",
+      "controls": [
+        "C-AUTH-18"
+      ],
+      "implementation_sprints": [
+        "02-A..02-E"
+      ],
+      "test_evidence": [
+        "tests/test_devpl_gsdlc_02_a..e_*.py"
+      ],
+      "status": "CONTROL-DESIGNED",
+      "runtime_enforced_in_02_a": false,
+      "residual_if_unimplemented": "BLOCK-GSDLC-02-CLOSURE"
+    }
+  ],
+  "controls": [
+    {
+      "control_id": "C-AUTH-01",
+      "description": "Credential material never stored/logged/evidenced in plaintext; KDF strategy versioned",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-02",
+      "description": "Credential store outside source ZIP/Git with integrity/version/recovery semantics",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-03",
+      "description": "Local rate/backoff policy and audit for repeated invalid login",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-04",
+      "description": "Server rotates session identity on authentication and privilege change",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-05",
+      "description": "Opaque revocable sessions with idle+absolute expiry and replay-resistant rotation",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-06",
+      "description": "CSRF defense for cookie-authenticated mutations",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-07",
+      "description": "Loopback-only CORS/origin and no remote/public auth listeners",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-08",
+      "description": "Server-side role derivation and deny-by-default RBAC",
+      "implementation_sprint": "02-C",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-09",
+      "description": "Role mutation is privileged; no self-escalation; session privileges re-evaluated",
+      "implementation_sprint": "02-C",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-10",
+      "description": "Session role/version binding detects stale privilege",
+      "implementation_sprint": "02-C",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-11",
+      "description": "Approval actor derived only from AuthenticatedPrincipal",
+      "implementation_sprint": "02-D",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-12",
+      "description": "Workspace scope mandatory for workspace-bound actions",
+      "implementation_sprint": "02-C",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-13",
+      "description": "Legacy local token cannot act as human-session or approve identity-bound actions",
+      "implementation_sprint": "02-C",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-14",
+      "description": "Protected routes enforce session/RBAC server-side regardless of UI visibility",
+      "implementation_sprint": "02-C/02-E",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-15",
+      "description": "Central secret redaction and sanitized evidence policy",
+      "implementation_sprint": "02-B/02-E",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-16",
+      "description": "Auth stores versioned/atomic/tamper-detected; corruption fails closed",
+      "implementation_sprint": "02-B",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-17",
+      "description": "Owner recovery separate, governed, audited and cannot bypass SoD silently",
+      "implementation_sprint": "02-B/02-C",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    },
+    {
+      "control_id": "C-AUTH-18",
+      "description": "Enterprise IAM, tenancy, federation, remote/public login remain explicit no-go",
+      "implementation_sprint": "02-A..02-E",
+      "status": "DESIGNED",
+      "runtime_enforced_in_02_a": false
+    }
+  ],
+  "coverage": {
+    "required_threats": 18,
+    "covered_threats": 18,
+    "coverage_percent": 100.0,
+    "threats_without_control": 0,
+    "controls_runtime_enforced_in_02_a": 0
+  },
+  "authority": {
+    "adr": "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+    "historical_boundary": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md"
+  }
+}

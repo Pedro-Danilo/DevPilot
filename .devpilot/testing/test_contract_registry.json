@@ -10941,6 +10941,71 @@
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-a-auth-threat-boundary",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-02-A",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_012_approval_rbac_hardening.py",
+        "tests/test_identity_rbac.py",
+        "tests/test_approval_binding.py",
+        "tests/test_devpl_gsdlc_transversal_validation_policy.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "validates": [
+        "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+        "docs/03_security/auth_threat_model.md",
+        ".devpilot/identity/auth_threat_matrix.json",
+        ".devpilot/identity/role_authority_matrix.json",
+        ".devpilot/identity/legacy_role_migration_map.json",
+        "docs/02_architecture/governance/role_decision_record.md",
+        "docs/schemas/auth_threat_matrix.schema.json",
+        "docs/schemas/role_authority_matrix.schema.json",
+        "docs/schemas/legacy_role_migration_map.schema.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json"
+      ],
+      "watched_paths": [
+        "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+        "docs/03_security/auth_threat_model.md",
+        ".devpilot/identity/auth_threat_matrix.json",
+        ".devpilot/identity/role_authority_matrix.json",
+        ".devpilot/identity/legacy_role_migration_map.json",
+        "docs/02_architecture/governance/role_decision_record.md",
+        "docs/schemas/auth_threat_matrix.schema.json",
+        "docs/schemas/role_authority_matrix.schema.json",
+        "docs/schemas/legacy_role_migration_map.schema.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json",
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        ".devpilot/identity/identity_registry.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py tests/test_post_h_034_multiuser_auth_adr.py tests/test_post_h_012_approval_rbac_hardening.py tests/test_identity_rbac.py tests/test_approval_binding.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "security.rbac"
     }
   ],
   "created_by": "POST-H-001",

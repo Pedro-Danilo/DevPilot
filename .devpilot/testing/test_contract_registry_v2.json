@@ -19095,6 +19095,96 @@
       ],
       "security_negative_required": true,
       "approval_scope": "owner-adjudication-after-windows-full-regression"
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-a-auth-threat-boundary",
+      "source_contract_id": "devpl-gsdlc-02-a-auth-threat-boundary",
+      "schema_version": "2.0",
+      "domain": "security.rbac",
+      "capability": "LocalOperatorAuthThreatBoundary",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_post_h_034_multiuser_auth_adr.py",
+        "tests/test_post_h_012_approval_rbac_hardening.py",
+        "tests/test_identity_rbac.py",
+        "tests/test_approval_binding.py"
+      ],
+      "watched_paths": [
+        "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+        "docs/03_security/auth_threat_model.md",
+        ".devpilot/identity/auth_threat_matrix.json",
+        ".devpilot/identity/role_authority_matrix.json",
+        ".devpilot/identity/legacy_role_migration_map.json",
+        "docs/02_architecture/governance/role_decision_record.md",
+        "docs/schemas/auth_threat_matrix.schema.json",
+        "docs/schemas/role_authority_matrix.schema.json",
+        "docs/schemas/legacy_role_migration_map.schema.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json",
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        ".devpilot/identity/identity_registry.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/schema_catalog.json"
+      ],
+      "validates": [
+        "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+        "docs/03_security/auth_threat_model.md",
+        ".devpilot/identity/auth_threat_matrix.json",
+        ".devpilot/identity/role_authority_matrix.json",
+        ".devpilot/identity/legacy_role_migration_map.json",
+        "docs/02_architecture/governance/role_decision_record.md",
+        "docs/schemas/auth_threat_matrix.schema.json",
+        "docs/schemas/role_authority_matrix.schema.json",
+        "docs/schemas/legacy_role_migration_map.schema.json",
+        ".devpilot/gsdlc/architecture_target_contract.json",
+        ".devpilot/project_state.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-02-A",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py tests/test_post_h_034_multiuser_auth_adr.py tests/test_post_h_012_approval_rbac_hardening.py tests/test_identity_rbac.py tests/test_approval_binding.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "02-A is architecture/governance only: no login/session runtime is enabled.",
+        "Historical POST-H-034-D continue-blocked and ADR-GSDLC-003 are preserved byte-for-byte.",
+        "Full regression is deferred to DEVPL-GSDLC-02-E unless owner approves an explicit hard trigger.",
+        "The catalog-only maintainer role remains fail-closed until 02-C assigns explicit canonical authority."
+      ],
+      "trigger_hints": [
+        "authentication",
+        "rbac",
+        "approval-actor",
+        "threat-model",
+        "role-migration"
+      ],
+      "impact_scope": [
+        "security",
+        "identity",
+        "approval",
+        "schemas",
+        "project-state",
+        "documentation-governance"
+      ],
+      "security_negative_required": true,
+      "approval_scope": "owner-adjudication-after-windows"
     }
   ],
   "created_by": "POST-H-003-E",

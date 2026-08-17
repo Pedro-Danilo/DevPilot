@@ -1,0 +1,96 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-02-A-LEGACY-ROLE-MIGRATION-MAP-V1",
+  "version": "1.0.0",
+  "micro_sprint": "DEVPL-GSDLC-02-A",
+  "status": "pass-candidate/pre-windows",
+  "runtime_applied": false,
+  "source_identity_registry_sha256": "cea4055e1c7ed23fd7e6057e62a7747a9c64e2e4e6f325b2620803bf9f269799",
+  "source_sensitive_action_catalog_sha256": "df93533193c1bc143c019f5a2dec79644599f11fa30d3bde03eeb8468c239585",
+  "mappings": [
+    {
+      "source_role": "owner",
+      "source_kind": "identity-registry",
+      "target_roles": [
+        "owner"
+      ],
+      "decision": "PRESERVE_ID",
+      "permission_review": "required-in-02-C",
+      "runtime_enabled": false
+    },
+    {
+      "source_role": "architect",
+      "source_kind": "identity-registry",
+      "target_roles": [
+        "architect"
+      ],
+      "decision": "PRESERVE_ID",
+      "permission_review": "required-in-02-C",
+      "runtime_enabled": false
+    },
+    {
+      "source_role": "developer",
+      "source_kind": "identity-registry",
+      "target_roles": [
+        "developer"
+      ],
+      "decision": "PRESERVE_ID",
+      "permission_review": "required-in-02-C",
+      "runtime_enabled": false
+    },
+    {
+      "source_role": "reviewer",
+      "source_kind": "identity-registry",
+      "target_roles": [
+        "qa-reviewer"
+      ],
+      "decision": "PROPOSED_ALIAS_NOT_APPLIED",
+      "permission_review": "preserve code.review/policy.read/report.read/approval.request/noncritical-decision only; does not imply security-reviewer",
+      "runtime_enabled": false
+    },
+    {
+      "source_role": "operator",
+      "source_kind": "identity-registry",
+      "target_roles": [
+        "operator"
+      ],
+      "decision": "PRESERVE_ID",
+      "permission_review": "required-in-02-C",
+      "runtime_enabled": false
+    },
+    {
+      "source_role": "agent-supervisor",
+      "source_kind": "identity-registry",
+      "target_roles": [
+        "agent-supervisor"
+      ],
+      "decision": "PRESERVE_ID_BUT_NARROW_DOMAIN_REVIEW",
+      "permission_review": "critical permissions require action-domain review in 02-C",
+      "runtime_enabled": false
+    },
+    {
+      "source_role": "maintainer",
+      "source_kind": "sensitive-action-catalog-only",
+      "target_roles": [],
+      "decision": "NO_DIRECT_MAPPING_FAIL_CLOSED",
+      "permission_review": "patch.apply/refactor.execute/filesystem.delete are blocked/non-executable; 02-C must assign canonical domain authority before any enablement",
+      "runtime_enabled": false
+    }
+  ],
+  "new_roles_without_legacy_equivalent": [
+    "product-owner",
+    "security-reviewer",
+    "release-manager"
+  ],
+  "coverage": {
+    "identity_registry_roles_total": 6,
+    "identity_registry_roles_mapped": 6,
+    "catalog_only_roles_total": 1,
+    "catalog_only_roles_explicitly_classified": 1,
+    "unclassified_source_roles": 0
+  },
+  "safety": {
+    "maintainer_actions_must_remain_blocked_until_02_c": true,
+    "silent_rename_allowed": false,
+    "role_self_escalation_allowed": false
+  }
+}

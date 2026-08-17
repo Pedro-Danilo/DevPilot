@@ -1,0 +1,20 @@
+{
+  "schema_id": "devpilot.gsdlc01.backlog_closure_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-16",
+  "micro_sprints": {
+    "DEVPL-GSDLC-01-A": "CLOSED/PASS",
+    "DEVPL-GSDLC-01-B": "CLOSED/PASS",
+    "DEVPL-GSDLC-01-C": "CLOSED/PASS",
+    "DEVPL-GSDLC-01-D": "CLOSED/PASS",
+    "DEVPL-GSDLC-01-E": "CLOSED/PASS"
+  },
+  "canonical_repo": "repo_DevPilot_Local_353_DEVPL_GSDLC_01_E_PROJECT_STATUS_BACKLOG_CLOSURE.zip",
+  "canonical_commit": "a0b503ae36cdfda77279bb66c40b4f6b32f8856f",
+  "canonical_repo_sha256": "0c235819633b7e34fa47ed2c28e5dc6028e7e21655e54eb35ac5f6749f08816a",
+  "canonical_branch": "eval/post-h-eval-002-02-a-onboarding",
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-02"
+}

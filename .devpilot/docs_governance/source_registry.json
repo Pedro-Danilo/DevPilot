@@ -18585,6 +18585,160 @@
         "DEVPL-GSDLC-01-E"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02",
+      "path": "docs/backlogs/DEVPL-GSDLC-02_local_identity_authenticated_sessions_and_rbac_v1_2_0_APPROVED.md",
+      "classification": "source-of-truth",
+      "domain": "governance.program",
+      "owner": "DEVPL-GSDLC-02-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "ADR-GSDLC-005",
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md",
+      "classification": "source-of-truth",
+      "domain": "security.auth",
+      "owner": "DEVPL-GSDLC-02-A",
+      "status_required": "reviewed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-A-AUTH-THREAT-MODEL",
+      "path": "docs/03_security/auth_threat_model.md",
+      "classification": "source-of-truth",
+      "domain": "security.auth",
+      "owner": "DEVPL-GSDLC-02-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-A-AUTH-THREAT-MATRIX",
+      "path": ".devpilot/identity/auth_threat_matrix.json",
+      "classification": "machine-readable-source",
+      "domain": "security.auth",
+      "owner": "DEVPL-GSDLC-02-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-A-ROLE-AUTHORITY-MATRIX",
+      "path": ".devpilot/identity/role_authority_matrix.json",
+      "classification": "machine-readable-source",
+      "domain": "security.rbac",
+      "owner": "DEVPL-GSDLC-02-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-A-LEGACY-ROLE-MIGRATION",
+      "path": ".devpilot/identity/legacy_role_migration_map.json",
+      "classification": "machine-readable-source",
+      "domain": "security.rbac",
+      "owner": "DEVPL-GSDLC-02-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-A-ROLE-DECISION",
+      "path": "docs/02_architecture/governance/role_decision_record.md",
+      "classification": "source-of-truth",
+      "domain": "security.rbac",
+      "owner": "DEVPL-GSDLC-02-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-A"
+      ],
+      "lifecycle": "active"
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -18678,7 +18832,8 @@
     "UOC-007 registers governed-job capability coverage, typed job schemas and framework documentation without adding a /jobs UI route or enabling arbitrary runtime adapters.",
     "DEVPL-GSDLC-00-A registers the approved Guided SDLC roadmap/backlog, program charter, pilot pause decision, repo341 immutable parent manifest, legacy preservation matrix and historical contract sweep without runtime changes.",
     "DEVPL-GSDLC-00-D registers the successor threat model, layered test strategy, 546-assertion historical contract sweep, migration plan, security-control traceability and test-impact baseline without enabling runtime capabilities.",
-    "DEVPL-GSDLC-R01-D registers frozen model/agentic fixtures and local zero-cost benchmark evidence; reconciles gsdlc_last_registered_micro_sprint metadata without changing runtime/provider no-go contracts."
+    "DEVPL-GSDLC-R01-D registers frozen model/agentic fixtures and local zero-cost benchmark evidence; reconciles gsdlc_last_registered_micro_sprint metadata without changing runtime/provider no-go contracts.",
+    "DEVPL-GSDLC-02-A registers a design-only local operator authentication boundary, 18-threat control matrix, nine-role authority matrix and explicit legacy role migration; runtime login/session remains disabled until successor micro-sprints."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -21119,9 +21274,9 @@
     "gsdlc_active_program": "DEVPL-GSDLC"
   },
   "updated": "2026-08-16",
-  "updated_at": "2026-08-16T00:00:00Z",
-  "updated_by": "DEVPL-GSDLC-01-E",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-01-E",
+  "updated_at": "2026-08-16T23:00:00Z",
+  "updated_by": "DEVPL-GSDLC-02-A",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-A",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "active/post-00-closed/01-authorized",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
@@ -21153,5 +21308,8 @@
   "gsdlc_01_c_successor_commit_at_close": "d617171e5c666a8d5de5de95df8f7bc02a3b078b",
   "gsdlc_01_d_status": "pass-candidate/pre-windows",
   "gsdlc_01_d_final_owner_status": "closed/PASS",
-  "gsdlc_01_e_status": "pass-candidate/pre-windows"
+  "gsdlc_01_e_status": "pass-candidate/pre-windows",
+  "gsdlc_02_last_registered_micro_sprint": "DEVPL-GSDLC-02-A",
+  "gsdlc_02_program_status": "implementation/02-a-pass-candidate",
+  "gsdlc_02_a_status": "pass-candidate/pre-windows"
 }

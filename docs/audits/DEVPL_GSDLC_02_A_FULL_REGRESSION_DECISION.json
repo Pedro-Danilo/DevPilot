@@ -1,0 +1,30 @@
+{
+  "schema_id": "devpilot.gsdlc02a.full_regression_decision.v1",
+  "micro_sprint": "DEVPL-GSDLC-02-A",
+  "policy_version": "1.0.0",
+  "validation_mode": "cumulative-selective",
+  "test_impact_full_regression_recommendation": true,
+  "hard_trigger_present": false,
+  "hard_trigger_assessment": {
+    "HT-02": "NOT_TRIGGERED: design/governance only; no runtime auth/RBAC/PolicyEngine/approval-authority behavior changed",
+    "other": "no runtime/dependency/topology changes"
+  },
+  "full_regression_enforced": false,
+  "full_regression_executed": false,
+  "full_pytest_repeated": false,
+  "deferred_to": "DEVPL-GSDLC-02-E",
+  "test_impact_changed_paths": 31,
+  "test_impact_matched_contracts": 142,
+  "test_impact_p0_selected": 74,
+  "test_impact_p1_selected": 64,
+  "test_impact_recommended_tests": 235,
+  "test_impact_unmatched_paths": 12,
+  "test_impact_residual_risk": "critical",
+  "test_impact_waiver_required": true,
+  "historical_regression_guard": "PASS",
+  "historical_regression_guard_decision": "waiver",
+  "historical_regression_guard_waiver_valid": true,
+  "historical_regression_guard_components": "5/5",
+  "historical_regression_guard_blocking_findings": 0,
+  "expanded_security_tests": "105/105 PASS"
+}

@@ -2623,6 +2623,48 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-01-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-A-AUTH-THREAT-MATRIX-V1",
+      "title": "DEVPL GSDLC-02-A Auth Threat Matrix",
+      "version": "1.0.0",
+      "path": "docs/schemas/auth_threat_matrix.schema.json",
+      "description": "DEVPL-GSDLC-02-A DEVPL GSDLC-02-A Auth Threat Matrix contract.",
+      "status": "registered",
+      "contract": "AuthThreatMatrix",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-A-ROLE-AUTHORITY-MATRIX-V1",
+      "title": "DEVPL GSDLC-02-A Role Authority Matrix",
+      "version": "1.0.0",
+      "path": "docs/schemas/role_authority_matrix.schema.json",
+      "description": "DEVPL-GSDLC-02-A DEVPL GSDLC-02-A Role Authority Matrix contract.",
+      "status": "registered",
+      "contract": "RoleAuthorityMatrix",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-A-LEGACY-ROLE-MIGRATION-MAP-V1",
+      "title": "DEVPL GSDLC-02-A Legacy Role Migration Map",
+      "version": "1.0.0",
+      "path": "docs/schemas/legacy_role_migration_map.schema.json",
+      "description": "DEVPL-GSDLC-02-A DEVPL GSDLC-02-A Legacy Role Migration Map contract.",
+      "status": "registered",
+      "contract": "LegacyRoleMigrationMap",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-A"
     }
   ],
   "schemas_total": 181

@@ -1,0 +1,663 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-SENSITIVE-ACTION-CATALOG-V1",
+  "catalog_id": "devpilot-sensitive-actions",
+  "created_by": "POST-H-012-A",
+  "status": "implemented-initial",
+  "local_first": true,
+  "dry_run": true,
+  "default_effect": "block",
+  "required_domains": [
+    "patch",
+    "refactor",
+    "release",
+    "connector",
+    "plugin",
+    "remote",
+    "filesystem",
+    "model",
+    "agent",
+    "approval",
+    "identity"
+  ],
+  "actions": [
+    {
+      "action_id": "patch.apply",
+      "domain": "patch",
+      "description": "Apply a patch or changeset to source files. POST-H-012-A keeps this catalog-only and blocks execution unless later binding/RBAC enforcement approves exact scope.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "maintainer",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [
+        "cli"
+      ],
+      "blocked_interfaces": [
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "block",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "PATCH_APPLY_DENY"
+      ],
+      "tool_ids": [
+        "patch.sandbox"
+      ],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "A/B/C/D/E must add binding, exposure and enforcement before any source mutation path is promoted."
+      ]
+    },
+    {
+      "action_id": "refactor.execute",
+      "domain": "refactor",
+      "description": "Execute a refactor plan. Current baseline remains dry-run/sandbox-oriented and does not grant workspace mutation authority.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "maintainer",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [
+        "cli"
+      ],
+      "blocked_interfaces": [
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "block",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "REFACTOR_SANDBOX_EXECUTE_GATED"
+      ],
+      "tool_ids": [
+        "rollback.plan"
+      ],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "Future POST-H-012-B/D must bind actor, subject, command_id and tool_call_id before execution."
+      ]
+    },
+    {
+      "action_id": "release.publish_deploy_tag",
+      "domain": "release",
+      "description": "Publish, deploy or tag a release. The local baseline denies this path; release dry-runs stay allowed elsewhere.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "deny",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "RELEASE_PUBLISH_DEPLOY_TAG_DENY",
+        "GIT_WRITE_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "No publish/deploy/tag capability is enabled by POST-H-012-A."
+      ]
+    },
+    {
+      "action_id": "connector.write_execute",
+      "domain": "connector",
+      "description": "Execute a connector in write or side-effect mode. POST-H-012-A explicitly blocks connector write.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "block",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "CONNECTOR_CALL_EXECUTE_DENY",
+        "CONNECTOR_EXTERNAL_API_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "Read-only connector dry-runs remain separately governed; write execution is not enabled."
+      ]
+    },
+    {
+      "action_id": "plugin.execute_code",
+      "domain": "plugin",
+      "description": "Load or execute plugin code. The current architecture permits metadata/dry-run checks only.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "block",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "PLUGIN_EXECUTE_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "Plugin execution remains disabled; only schema/metadata reads are allowed elsewhere."
+      ]
+    },
+    {
+      "action_id": "remote.execute",
+      "domain": "remote",
+      "description": "Execute work on a remote runner or cloud control plane. POST-H-012-A keeps remote execution blocked.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "block",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "Remote status/read-only metadata is separate; remote execution remains a no-go gate."
+      ]
+    },
+    {
+      "action_id": "filesystem.delete",
+      "domain": "filesystem",
+      "description": "Delete files or directories. POST-H-012-A declares this as blocked and non-executable.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "maintainer",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "deny",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "FILESYSTEM_DELETE_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "No destructive filesystem operation is authorized by this catalog."
+      ]
+    },
+    {
+      "action_id": "model.external_api_call",
+      "domain": "model",
+      "description": "Call an external model API. POST-H-012-A documents the sensitive path and leaves it blocked by default.",
+      "risk_level": "high",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "deny",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "MODEL_EXTERNAL_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "Local/mock model paths remain separate; no API key or paid provider is required."
+      ]
+    },
+    {
+      "action_id": "agent.execute_critical_tool",
+      "domain": "agent",
+      "description": "Allow an agent or multiagent workflow to execute a critical tool. POST-H-012-A blocks autonomous critical tool execution.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "agent-supervisor",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "block",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "AGENT_CRITICAL_TOOL_DENY",
+        "MULTIAGENT_EXECUTE_DENY",
+        "MULTIAGENT_WORKFLOW_EXECUTE_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "Agentic suggestions and read-only analyses remain governed elsewhere; critical execution is blocked."
+      ]
+    },
+    {
+      "action_id": "approval.record_decision",
+      "domain": "approval",
+      "description": "Record an approval decision. It is sensitive because it can authorize future actions and must be actor/RBAC-bound in later micro-sprints.",
+      "risk_level": "high",
+      "status": "declared",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [
+        "cli"
+      ],
+      "blocked_interfaces": [
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "block",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "APPROVAL_ACTOR_BINDING_REQUIRED"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "POST-H-012-B must harden exact binding before this can authorize any critical action."
+      ]
+    },
+    {
+      "action_id": "identity.remote_authentication",
+      "domain": "identity",
+      "description": "Enable or use remote authentication. This is explicitly out of scope for the local baseline.",
+      "risk_level": "critical",
+      "status": "blocked",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": true,
+      "requires_command_binding": true,
+      "allowed_interfaces": [],
+      "blocked_interfaces": [
+        "cli",
+        "api",
+        "ui",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "deny",
+      "executable": false,
+      "source_mutation_allowed": false,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "REMOTE_AUTH_DENY"
+      ],
+      "tool_ids": [],
+      "test_contract_ids": [
+        "post-h-012-sensitive-action-catalog"
+      ],
+      "notes": [
+        "No OAuth/OIDC/SSO or remote auth is introduced by POST-H-012."
+      ]
+    },
+    {
+      "action_id": "filesystem.workspace_document_apply",
+      "domain": "filesystem",
+      "description": "Apply exactly one immutable UOC-004 document edit plan after exact human approval, optimistic concurrency recheck, backup and policy validation.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_DOCUMENT_APPLY_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "workspace.edit.apply"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-005-approval-apply-rollback"
+      ],
+      "notes": [
+        "Does not enable generic patch.apply, arbitrary filesystem writes, Git stage/commit or shell execution."
+      ]
+    },
+    {
+      "action_id": "filesystem.workspace_document_rollback",
+      "domain": "filesystem",
+      "description": "Restore the exact UOC-005 pre-apply backup for one still-unstaged document before commit after a separate exact human approval.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_DOCUMENT_ROLLBACK_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "workspace.edit.rollback"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-005-approval-apply-rollback"
+      ],
+      "notes": [
+        "Bounded to the stored execution record and pre/post hashes; unavailable after stage/commit or source drift."
+      ]
+    },
+    {
+      "action_id": "git.workspace_stage",
+      "domain": "git",
+      "description": "Stage the exact allowlisted workspace document set from an immutable UOC-006 plan after exact owner approval and recheck.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_GIT_STAGE_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "git.workspace.stage"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-006-governed-git-operations"
+      ],
+      "notes": [
+        "Exact index write only; pre-existing staged paths, secrets, deletes/renames and free Git arguments are blocked.",
+        "SensitiveActionCatalog source_mutation_allowed=true denotes this narrow explicitly approval-gated Git side effect; it does not authorize arbitrary filesystem mutation or generic Git write."
+      ]
+    },
+    {
+      "action_id": "git.workspace_commit",
+      "domain": "git",
+      "description": "Create one local commit from the exact UOC-006 staged execution after a separate exact owner approval.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_GIT_COMMIT_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "git.workspace.commit"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-006-governed-git-operations"
+      ],
+      "notes": [
+        "Explicit identity, repository hooks disabled, exact parent/path/index postcondition verification; push/force push remain blocked.",
+        "SensitiveActionCatalog source_mutation_allowed=true denotes this narrow explicitly approval-gated Git side effect; it does not authorize arbitrary filesystem mutation or generic Git write."
+      ]
+    },
+    {
+      "action_id": "git.workspace_branch_create",
+      "domain": "git",
+      "description": "Create one local branch ref from current HEAD after exact owner approval on a clean workspace.",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED"
+      ],
+      "tool_ids": [
+        "git.workspace.branch_create"
+      ],
+      "test_contract_ids": [
+        "post-h-eval-002-uoc-006-governed-git-operations"
+      ],
+      "notes": [
+        "No checkout/switch, branch deletion, rebase, reset, tag, push or force operation is exposed.",
+        "SensitiveActionCatalog source_mutation_allowed=true denotes this narrow explicitly approval-gated Git side effect; it does not authorize arbitrary filesystem mutation or generic Git write."
+      ]
+    }
+  ],
+  "safety": {
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "llm_judge_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "dry_run_default": true,
+    "deny_by_default": true
+  },
+  "summary": {
+    "actions_total": 16,
+    "domains_total": 12,
+    "critical_actions_total": 9,
+    "actions_requiring_approval_total": 16,
+    "actions_requiring_rbac_total": 16,
+    "blocked_actions_total": 11,
+    "remote_actions_blocked_total": 1,
+    "connector_write_actions_blocked_total": 1,
+    "plugin_execution_actions_blocked_total": 1,
+    "miasi_policy_links_total": 21,
+    "preliminary": true
+  },
+  "notes": [
+    "POST-H-012-A is declarative and validation-only: it does not enforce PolicyEngine decisions yet.",
+    "POST-H-012-B/C/D/E must add strong binding, exposure reporting, enforcement and quality-gate integration.",
+    "Remote execution, connector write and plugin execution remain blocked and non-executable.",
+    "UOC-005 enables only exact approval-bound workspace document apply/rollback; all historical no-go actions remain blocked.",
+    "UOC-005 extends this POST-H-012-A catalog with two narrowly scoped filesystem document actions; catalog provenance remains POST-H-012-A and the extension is governed by the UOC-005 manifest/TCR."
+  ]
+}

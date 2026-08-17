@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc02a.operation_declaration.v1",
+  "micro_sprint": "DEVPL-GSDLC-02-A",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": "source-controlled design/docs/contracts only during implementation package apply",
+  "runtime_auth_mutations": false,
+  "credential_store_created": false,
+  "session_store_created": false,
+  "api_login_routes_added": 0,
+  "ui_login_routes_added": 0,
+  "pilot_workspace_mutation_allowed": false,
+  "llm_authority_used": false,
+  "destructive_git_used": false
+}

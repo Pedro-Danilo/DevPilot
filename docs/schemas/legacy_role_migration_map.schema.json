@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-02-A-LEGACY-ROLE-MIGRATION-MAP-V1",
+  "title": "DEVPL-GSDLC-02-A Legacy Role Migration Map",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "version",
+    "micro_sprint",
+    "runtime_applied",
+    "mappings",
+    "coverage",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-02-A-LEGACY-ROLE-MIGRATION-MAP-V1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "micro_sprint": {
+      "const": "DEVPL-GSDLC-02-A"
+    },
+    "runtime_applied": {
+      "const": false
+    },
+    "mappings": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "source_role",
+          "source_kind",
+          "target_roles",
+          "decision",
+          "permission_review",
+          "runtime_enabled"
+        ],
+        "properties": {
+          "source_role": {
+            "type": "string",
+            "minLength": 2
+          },
+          "source_kind": {
+            "enum": [
+              "identity-registry",
+              "sensitive-action-catalog-only"
+            ]
+          },
+          "target_roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "decision": {
+            "type": "string"
+          },
+          "permission_review": {
+            "type": "string"
+          },
+          "runtime_enabled": {
+            "const": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "unclassified_source_roles"
+      ],
+      "properties": {
+        "unclassified_source_roles": {
+          "const": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "maintainer_actions_must_remain_blocked_until_02_c",
+        "silent_rename_allowed",
+        "role_self_escalation_allowed"
+      ],
+      "properties": {
+        "maintainer_actions_must_remain_blocked_until_02_c": {
+          "const": true
+        },
+        "silent_rename_allowed": {
+          "const": false
+        },
+        "role_self_escalation_allowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}
