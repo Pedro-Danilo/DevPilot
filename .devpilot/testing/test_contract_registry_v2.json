@@ -19271,6 +19271,65 @@
       ],
       "security_negative_required": true,
       "approval_scope": "owner-adjudication-after-windows"
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-c-server-rbac",
+      "source_contract_id": "devpl-gsdlc-02-c-server-rbac",
+      "schema_version": "2.0",
+      "domain": "security.rbac",
+      "capability": "ServerSideLocalRBAC",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_devpl_gsdlc_02_c_api_rbac.py",
+        "tests/test_api_security.py",
+        "tests/test_api_contract.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/identity/server_rbac.py",
+        "src/devpilot_core/application/rbac_service.py",
+        "src/devpilot_core/interfaces/api",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json"
+      ],
+      "validates": [
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/audits/DEVPL_GSDLC_02_C_RBAC_COVERAGE.json",
+        "docs/audits/DEVPL_GSDLC_02_C_NEGATIVE_ACCESS_MATRIX.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-02-C",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Transversal RBAC is server-side and deny-by-default.",
+        "Intermediate full regression remains deferred under owner-approved A-D cadence; no exception was approved."
+      ],
+      "trigger_hints": [
+        "rbac",
+        "authorization",
+        "workspace-scope",
+        "capability-view",
+        "legacy-token"
+      ],
+      "impact_tags": [
+        "security",
+        "api",
+        "identity"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -19429,5 +19488,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 276
+  "contracts_total": 277
 }

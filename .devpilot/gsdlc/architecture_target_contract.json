@@ -364,5 +364,18 @@
     "validation_mode": "cumulative-selective",
     "full_regression_enforced": false,
     "full_regression_deferred_to": "DEVPL-GSDLC-02-E"
+  },
+  "gsdlc_02_c_successor": {
+    "status": "implemented-initial/pass-candidate",
+    "server_authority": "AuthenticatedPrincipal -> RBACApplicationService -> ServerRBACEnforcer -> PolicyEngine -> handler",
+    "policy_catalog": ".devpilot/identity/server_rbac_policy_catalog.json",
+    "deny_by_default": true,
+    "workspace_scope": true,
+    "capability_view": "GET /api/v1/auth/capabilities",
+    "legacy_token_human_authority": false,
+    "approval_binding_complete": false,
+    "approval_binding_successor": "DEVPL-GSDLC-02-D",
+    "ui_role_ux_complete": false,
+    "ui_successor": "DEVPL-GSDLC-02-E"
   }
 }

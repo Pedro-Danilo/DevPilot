@@ -3,12 +3,21 @@ from __future__ import annotations
 from fastapi.testclient import TestClient
 
 from devpilot_core.interfaces.api.app import create_app
+from devpilot_core.identity.auth_models import CSRF_COOKIE_NAME, CSRF_HEADER_NAME
 
 from uoc006_fixtures import find_approval_id, uoc006_env
 
 TOKEN = "uoc006-test-token"
 HEADERS = {"X-DevPilot-Token": TOKEN}
 
+
+
+
+def _human_headers(client: TestClient) -> dict[str,str]:
+    if not client.cookies.get("devpilot_session"):
+        boot=client.post("/api/v1/auth/bootstrap/owner",json={"username":"owner.local","display_name":"Local Owner","password":"correct horse battery staple"},headers={"Origin":"http://127.0.0.1:5173"})
+        assert boot.status_code==201,boot.text
+    return {CSRF_HEADER_NAME:str(client.cookies.get(CSRF_COOKIE_NAME)),"Origin":"http://127.0.0.1:5173"}
 
 def _document_id(client: TestClient) -> str:
     response = client.get("/api/v1/workspace/documents?limit=100", headers=HEADERS)
@@ -19,7 +28,7 @@ def _document_id(client: TestClient) -> str:
 def _approve(client: TestClient, payload: dict) -> str:
     approval_id = find_approval_id(payload)
     assert approval_id
-    response = client.post(f"/api/v1/approvals/{approval_id}/approve", headers=HEADERS, json={"actor": "owner", "reason": "Approved UOC-006 fixture"})
+    response = client.post(f"/api/v1/approvals/{approval_id}/approve", headers=_human_headers(client), json={"actor": "owner", "reason": "Approved UOC-006 fixture"})
     assert response.status_code == 200
     assert response.json()["ok"] is True
     return approval_id
@@ -38,18 +47,18 @@ def test_uoc006_api_end_to_end_stage_and_commit(uoc006_env):
     assert plan_response.status_code == 200
     plan = plan_response.json()["data"]["plan"]
     missing = client.post(f"/api/v1/workspace/git/plans/{plan['plan_id']}/stage", headers=HEADERS, json={"plan_hash": plan["plan_hash"], "approval_id": "APPROVAL-MISSING", "actor": "owner"})
-    assert missing.status_code in {403, 409, 422}
+    assert missing.status_code in {401, 403, 409, 422}
     assert missing.json()["ok"] is False
     request = client.post(f"/api/v1/workspace/git/plans/{plan['plan_id']}/stage-approval-request", headers=HEADERS, json={"plan_hash": plan["plan_hash"], "actor": "owner", "reason": "Stage reviewed API fixture", "ttl_minutes": 15})
     assert request.status_code == 200
     stage_approval = _approve(client, request.json()["data"])
-    staged_response = client.post(f"/api/v1/workspace/git/plans/{plan['plan_id']}/stage", headers=HEADERS, json={"plan_hash": plan["plan_hash"], "approval_id": stage_approval, "actor": "owner"})
+    staged_response = client.post(f"/api/v1/workspace/git/plans/{plan['plan_id']}/stage", headers=_human_headers(client), json={"plan_hash": plan["plan_hash"], "approval_id": stage_approval, "actor": "owner"})
     assert staged_response.status_code == 200
     stage = staged_response.json()["data"]["stage_execution"]
-    commit_request = client.post(f"/api/v1/workspace/git/stage-executions/{stage['stage_execution_id']}/commit-approval-request", headers=HEADERS, json={"actor": "owner", "reason": "Commit reviewed API fixture", "ttl_minutes": 15})
+    commit_request = client.post(f"/api/v1/workspace/git/stage-executions/{stage['stage_execution_id']}/commit-approval-request", headers=_human_headers(client), json={"actor": "owner", "reason": "Commit reviewed API fixture", "ttl_minutes": 15})
     assert commit_request.status_code == 200
     commit_approval = _approve(client, commit_request.json()["data"])
-    committed = client.post(f"/api/v1/workspace/git/stage-executions/{stage['stage_execution_id']}/commit", headers=HEADERS, json={"approval_id": commit_approval, "actor": "owner"})
+    committed = client.post(f"/api/v1/workspace/git/stage-executions/{stage['stage_execution_id']}/commit", headers=_human_headers(client), json={"approval_id": commit_approval, "actor": "owner"})
     assert committed.status_code == 200
     execution = committed.json()["data"]["execution"]
     assert execution["status"] == "committed"
@@ -69,7 +78,7 @@ def test_uoc006_api_branch_control_and_security(uoc006_env):
     plan = response.json()["data"]["plan"]
     request = client.post(f"/api/v1/workspace/git/branches/{plan['plan_id']}/approval-request", headers=HEADERS, json={"plan_hash": plan["plan_hash"], "actor": "owner", "reason": "Create safe local branch", "ttl_minutes": 15})
     approval_id = _approve(client, request.json()["data"])
-    created = client.post(f"/api/v1/workspace/git/branches/{plan['plan_id']}/create", headers=HEADERS, json={"plan_hash": plan["plan_hash"], "approval_id": approval_id, "actor": "owner"})
+    created = client.post(f"/api/v1/workspace/git/branches/{plan['plan_id']}/create", headers=_human_headers(client), json={"plan_hash": plan["plan_hash"], "approval_id": approval_id, "actor": "owner"})
     assert created.status_code == 200
     assert created.json()["ok"] is True
     assert created.json()["data"]["summary"]["checkout_performed"] is False

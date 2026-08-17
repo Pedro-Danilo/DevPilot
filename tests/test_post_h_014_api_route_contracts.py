@@ -105,7 +105,7 @@ def test_post_h_014_a_every_service_route_is_application_service_and_policy_boun
 
     assert protected_routes
     assert service_routes
-    auth_response_contracts = {"AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope"}
+    auth_response_contracts = {"AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope", "RBACCapabilityView"}
     assert all(
         route["response_contract"] == "ApplicationResponse"
         or (route.get("owner") == "interfaces.api.auth" and route["response_contract"] in auth_response_contracts)

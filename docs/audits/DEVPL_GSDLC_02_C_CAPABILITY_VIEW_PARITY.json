@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc02c.capability_view_parity.v1",
+  "status": "pass-candidate/pre-windows",
+  "server_authoritative": true,
+  "frontend_authoritative": false,
+  "capability_endpoint": "GET /api/v1/auth/capabilities",
+  "checks": [
+    "developer capability view denies approval decision and direct API returns 403",
+    "cross-workspace query returns 403",
+    "legacy token cannot fetch human capability view"
+  ],
+  "test_file": "tests/test_devpl_gsdlc_02_c_api_rbac.py",
+  "ui_changed": false,
+  "browser_acceptance_required": false,
+  "ui_integration_deferred_to": "DEVPL-GSDLC-02-E"
+}

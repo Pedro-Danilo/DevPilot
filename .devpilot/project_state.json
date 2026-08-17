@@ -2523,5 +2523,17 @@
   "uoc_011_s1": 0,
   "uoc_011_source_commit": "5560e03f7a7c013c85f0fc9cf6075d2a651eb3a2",
   "uoc_011_status": "closed/PASS",
-  "updated_at": "2026-08-09T09:18:00-05:00"
+  "updated_at": "2026-08-09T09:18:00-05:00",
+  "gsdlc_02_c_status": "pass-candidate/pre-windows",
+  "gsdlc_02_c_source_repo": "repo_DevPilot_Local_356_DEVPL_GSDLC_02_B_HISTORICAL_CONTRACT_RECONCILIATION.zip",
+  "gsdlc_02_c_source_commit": "e795e4982b984a9727dd458c71ecd0a5b05e2557",
+  "gsdlc_02_c_runtime_rbac_enabled": true,
+  "gsdlc_02_c_server_authority": "AuthenticatedPrincipal+ServerRBACEnforcer",
+  "gsdlc_02_c_routes_total": 97,
+  "gsdlc_02_c_sensitive_actions_mapped": 16,
+  "gsdlc_02_c_unmapped_sensitive_actions": 0,
+  "gsdlc_02_c_s0_open": 0,
+  "gsdlc_02_c_s1_open": 0,
+  "gsdlc_02_c_full_regression_executed": false,
+  "gsdlc_02_c_full_regression_deferred_to": "DEVPL-GSDLC-02-E"
 }

@@ -19,6 +19,7 @@ from .operator_dashboard_service import OperatorDashboardApplicationService
 from .portfolio_service import PortfolioApplicationService
 from .policy import ApplicationBoundaryPolicy
 from .refactor_service import RefactorApplicationService
+from .rbac_service import RBACApplicationService
 from .repo_service import RepoApplicationService
 from .reports_service import ReportsApplicationService
 from .settings_service import SettingsApplicationService
@@ -101,6 +102,7 @@ class ApplicationService:
         self.operator_dashboard = OperatorDashboardApplicationService(self.root)
         self.portfolio = PortfolioApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
+        self.rbac = RBACApplicationService(self.root)
 
     def evidence_graph(
         self,
@@ -1614,6 +1616,7 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-02-B-AUTH-BOOTSTRAP-OWNER", "POST", "/api/v1/auth/bootstrap/owner", "auth.bootstrap.owner", ["GSDLC-02-B first-run owner bootstrap through AuthApplicationService; local runtime auth state only."]),
         ("APP-ROUTE-GSDLC-02-B-AUTH-LOGIN", "POST", "/api/v1/auth/login", "auth.login", ["GSDLC-02-B local credential verification through AuthApplicationService; opaque secrets delivered only as cookies."]),
         ("APP-ROUTE-GSDLC-02-B-AUTH-SESSION", "GET", "/api/v1/auth/session", "auth.session.inspect", ["GSDLC-02-B human-session inspection; safe principal/session metadata only."]),
+        ("APP-ROUTE-GSDLC-02-C-RBAC-CAPABILITIES", "GET", "/api/v1/auth/capabilities", "auth.capabilities", ["GSDLC-02-C server-derived sanitized capability view; human-session only and frontend is not authorization authority."]),
         ("APP-ROUTE-GSDLC-02-B-AUTH-ROTATE", "POST", "/api/v1/auth/session/rotate", "auth.session.rotate", ["GSDLC-02-B session rotation; old token revoked before opaque replacement is issued."]),
         ("APP-ROUTE-GSDLC-02-B-AUTH-LOGOUT", "POST", "/api/v1/auth/logout", "auth.logout", ["GSDLC-02-B current-session logout/revocation with cookie clearing."]),
         ("APP-ROUTE-GSDLC-02-B-AUTH-REVOKE", "POST", "/api/v1/auth/session/revoke", "auth.session.revoke", ["GSDLC-02-B explicit current-session revocation; administrative revocation remains future."]),

@@ -176,7 +176,7 @@ def create_app(
                     human_session = None
 
             token_ok, finding_id = validate_api_token(config, extract_request_token(request.headers))
-            session_required = human_session_required_path(path, method)
+            session_required = request.app.state.application_service.rbac.human_session_required(method=method, path=path) or human_session_required_path(path, method)
             if session_required and human_session is None:
                 payload, status_code = build_security_error_response(status_code=401, message="Authenticated human session is required for this local API endpoint.", finding_id="AUTH_HUMAN_SESSION_REQUIRED_BLOCK", operation="api.human_session")
                 return _security_json_response(request, payload, status_code)
@@ -193,6 +193,17 @@ def create_app(
                 except (CsrfInvalid, SessionInvalid):
                     payload, status_code = build_security_error_response(status_code=403, message="CSRF validation failed for authenticated session mutation.", finding_id="AUTH_CSRF_BLOCK", operation="api.csrf")
                     return _security_json_response(request, payload, status_code)
+
+            workspace_id = request.query_params.get("workspace_id") or "devpilot-local"
+            if human_session is not None:
+                rbac_decision = request.app.state.application_service.rbac.authorize_route(human_session.principal, method=method, path=path, workspace_id=workspace_id)
+                request.state.devpilot_rbac = rbac_decision
+                if not rbac_decision.allowed:
+                    payload, status_code = build_security_error_response(status_code=403, message="Server-side RBAC denied the local API request.", finding_id=rbac_decision.reason_code, operation=rbac_decision.operation)
+                    return _security_json_response(request, payload, status_code)
+            elif token_ok and not request.app.state.application_service.rbac.legacy_token_allowed(method=method, path=path):
+                payload, status_code = build_security_error_response(status_code=403, message="Legacy local API token is not authorized for this RBAC-protected operation.", finding_id="RBAC_LEGACY_TOKEN_DENY", operation="api.rbac")
+                return _security_json_response(request, payload, status_code)
 
             route_policy = resolve_route_policy(method, path)
             if route_policy is None:
@@ -220,7 +231,7 @@ def create_app(
         for header, value in UOC011_API_HARDENING_HEADERS.items():
             response.headers.setdefault(header, value)
         response.headers.setdefault("X-DevPilot-RateLimit-Remaining", str(hardening.get("remaining", 0)))
-        response.headers.setdefault("X-DevPilot-Api-Security", "token+cors+policy")
+        response.headers.setdefault("X-DevPilot-Api-Security", "session+rbac+token-compat+cors+policy")
         if hasattr(request.state, "devpilot_policy"):
             response.headers.setdefault("X-DevPilot-Policy", "allowed")
         return response

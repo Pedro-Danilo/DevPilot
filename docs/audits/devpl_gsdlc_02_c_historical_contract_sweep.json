@@ -1,0 +1,62 @@
+{
+  "schema_id": "devpilot.gsdlc02c.historical_contract_sweep.v1",
+  "status": "pass-candidate/pre-windows",
+  "classifications": [
+    {
+      "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+      "class": "historical-freeze",
+      "action": "preserve continue-blocked enterprise/multiuser decision"
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
+      "class": "historical-freeze",
+      "action": "preserve planning boundary"
+    },
+    {
+      "path": ".devpilot/identity/identity_registry_gsdlc02a_at_close.json",
+      "class": "historical-freeze",
+      "action": "preserve six-role legacy snapshot"
+    },
+    {
+      "path": ".devpilot/approval/sensitive_action_catalog_gsdlc02a_at_close.json",
+      "class": "historical-freeze",
+      "action": "preserve original maintainer references and blocked state"
+    },
+    {
+      "path": ".devpilot/identity/role_authority_matrix.json",
+      "class": "historical-freeze",
+      "action": "02-A design artifact preserved; runtime successor lives in server_rbac_policy_catalog"
+    },
+    {
+      "path": ".devpilot/identity/legacy_role_migration_map.json",
+      "class": "historical-freeze",
+      "action": "02-A proposed mapping preserved; runtime alias/resolution lives in C successor catalog"
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "class": "current-active",
+      "action": "add auth.capabilities route, total 97"
+    },
+    {
+      "path": "docs/07_interfaces/openapi_v1.json",
+      "class": "current-active",
+      "action": "add C capability route/security metadata"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_02_b_contracts.py",
+      "class": "current-active",
+      "action": "B seven-route subset remains true while C adds successor route"
+    },
+    {
+      "path": "tests/test_post_h_014_api_route_contracts.py",
+      "class": "current-active",
+      "action": "recognize RBACCapabilityView successor response contract"
+    },
+    {
+      "path": "tests/test_api_security.py",
+      "class": "current-active",
+      "action": "security header reflects session+RBAC+bounded-token compatibility"
+    }
+  ],
+  "historical_assertions_relaxed_without_successor": 0
+}

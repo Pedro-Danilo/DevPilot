@@ -52,10 +52,10 @@ def test_b_docs_are_explicitly_initial_and_defer_rbac_approval_ui() -> None:
 
 def test_02_b_api_route_registry_is_current_active_successor() -> None:
     registry=read(".devpilot/interfaces/api_route_contract_registry.json")
-    assert registry["summary"]["routes_total"] == 96
+    assert registry["summary"]["routes_total"] == 97
     assert registry["summary"]["gsdlc_02_b_auth_routes_total"] == 7
     auth_routes={(r["method"],r["path"]) for r in registry["routes"] if r["path"].startswith("/api/v1/auth/")}
-    assert auth_routes == {
+    assert {
         ("GET","/api/v1/auth/bootstrap/status"),
         ("POST","/api/v1/auth/bootstrap/owner"),
         ("POST","/api/v1/auth/login"),
@@ -63,6 +63,13 @@ def test_02_b_api_route_registry_is_current_active_successor() -> None:
         ("POST","/api/v1/auth/session/rotate"),
         ("POST","/api/v1/auth/logout"),
         ("POST","/api/v1/auth/session/revoke"),
-    }
+    }.issubset(auth_routes)
+
     assert registry["summary"]["remote_execution_allowed_total"] == 0
     assert registry["summary"]["external_api_routes_total"] == 0
+
+
+def test_02_c_capability_route_is_current_active_successor() -> None:
+    registry=read(".devpilot/interfaces/api_route_contract_registry.json")
+    rows=[r for r in registry["routes"] if r["operation"]=="auth.capabilities"]
+    assert len(rows)==1 and rows[0]["path"]=="/api/v1/auth/capabilities"

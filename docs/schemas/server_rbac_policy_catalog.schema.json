@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/server_rbac_policy_catalog.schema.json",
+  "title": "DevPilot server RBAC policy catalog",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "version",
+    "runtime_enforced",
+    "deny_by_default",
+    "canonical_roles",
+    "route_policies",
+    "sensitive_action_policies",
+    "summary",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "runtime_enforced": {
+      "const": true
+    },
+    "deny_by_default": {
+      "const": true
+    },
+    "canonical_roles": {
+      "type": "array",
+      "minItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "route_policies": {
+      "type": "array",
+      "minItems": 97,
+      "items": {
+        "type": "object",
+        "required": [
+          "route_id",
+          "method",
+          "path",
+          "operation",
+          "access_class",
+          "allowed_roles",
+          "legacy_token_allowed",
+          "workspace_scope_required",
+          "deny_by_default"
+        ]
+      }
+    },
+    "sensitive_action_policies": {
+      "type": "array",
+      "minItems": 16,
+      "items": {
+        "type": "object",
+        "required": [
+          "action_id",
+          "allowed_roles",
+          "legacy_token_allowed",
+          "deny_by_default"
+        ]
+      }
+    },
+    "summary": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -86,6 +86,15 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
             op_id = operation["x-devpilot-operation"]
+            if op_id == "auth.capabilities":
+                assert operation["x-devpilot-status"] == "gsdlc-02-c-rbac"
+                assert operation["x-devpilot-domain-service"] == "RBACApplicationService"
+                assert operation["security"] == [{"LocalHumanSession": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-secret-in-response"] is False
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/RBACCapabilityView"
+                continue
+
             if op_id in auth_operations:
                 assert operation["x-devpilot-status"] == "gsdlc-02-b-initial"
                 assert operation["x-devpilot-domain-service"] == "AuthApplicationService"

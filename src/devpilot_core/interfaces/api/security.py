@@ -105,6 +105,7 @@ class ApiRoutePolicy:
 
 API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/auth/session"): ApiRoutePolicy("auth.session.inspect", "read", "protected-human-session"),
+    ("GET", "/api/v1/auth/capabilities"): ApiRoutePolicy("auth.capabilities", "read", "protected-human-session"),
     ("POST", "/api/v1/auth/session/rotate"): ApiRoutePolicy("auth.session.rotate", "read", "protected-human-session-mutation"),
     ("POST", "/api/v1/auth/logout"): ApiRoutePolicy("auth.logout", "read", "protected-human-session-mutation"),
     ("POST", "/api/v1/auth/session/revoke"): ApiRoutePolicy("auth.session.revoke", "read", "protected-human-session-mutation"),

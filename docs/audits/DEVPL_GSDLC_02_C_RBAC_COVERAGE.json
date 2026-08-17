@@ -1,0 +1,28 @@
+{
+  "schema_id": "devpilot.gsdlc02c.rbac_coverage.v1",
+  "status": "pass-candidate/pre-windows",
+  "roles_total": 9,
+  "route_policies_total": 97,
+  "sensitive_action_policies_total": 16,
+  "unmapped_routes_total": 0,
+  "unmapped_sensitive_actions_total": 0,
+  "route_access_class_counts": {
+    "system/legacy-compatibility": 24,
+    "authenticated-action": 12,
+    "authenticated-read": 53,
+    "approval-authority": 2,
+    "public-local-bootstrap": 6
+  },
+  "legacy_token_allowed_routes_total": 75,
+  "human_session_required_routes_total": 16,
+  "workspace_scoped_routes_total": 50,
+  "role_route_decisions_total": 819,
+  "role_sensitive_action_decisions_total": 144,
+  "deny_by_default": true,
+  "unknown_route_effect": "DENY",
+  "unknown_action_effect": "DENY",
+  "tests": [
+    "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+    "tests/test_devpl_gsdlc_02_c_api_rbac.py"
+  ]
+}

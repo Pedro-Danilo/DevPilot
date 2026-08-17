@@ -1,0 +1,54 @@
+{
+  "schema_id": "devpilot.gsdlc02c.negative_access_matrix.v1",
+  "status": "pass-candidate/pre-windows",
+  "cases": [
+    {
+      "case": "unknown-route",
+      "expected": "DENY",
+      "reason": "RBAC_UNKNOWN_ROUTE_DENY"
+    },
+    {
+      "case": "unknown-action",
+      "expected": "DENY",
+      "reason": "RBAC_UNKNOWN_ACTION_DENY"
+    },
+    {
+      "case": "unknown-role",
+      "expected": "DENY",
+      "reason": "RBAC_UNKNOWN_ROLE_DENY"
+    },
+    {
+      "case": "cross-workspace",
+      "expected": "DENY",
+      "reason": "RBAC_WORKSPACE_SCOPE_DENY"
+    },
+    {
+      "case": "developer-approval-decision",
+      "expected": "DENY",
+      "reason": "RBAC_ROLE_DENY"
+    },
+    {
+      "case": "legacy-token-approval-decision",
+      "expected": "DENY",
+      "reason": "AUTH_HUMAN_SESSION_REQUIRED_BLOCK/RBAC_LEGACY_TOKEN_DENY"
+    },
+    {
+      "case": "legacy-token-capability-view",
+      "expected": "DENY",
+      "reason": "AUTH_HUMAN_SESSION_REQUIRED_BLOCK/RBAC_LEGACY_TOKEN_DENY"
+    },
+    {
+      "case": "stale-role-session",
+      "expected": "DENY+REVOKE",
+      "reason": "authority-changed"
+    },
+    {
+      "case": "reviewer-alias-security-reviewer",
+      "expected": "DENY",
+      "reason": "reviewer aliases qa-reviewer only"
+    }
+  ],
+  "role_self_escalation_endpoint_present": false,
+  "remote_auth_enabled": false,
+  "public_api_enabled": false
+}

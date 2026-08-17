@@ -58,8 +58,11 @@ class LocalAuthService:
         if now - self._parse(record.last_seen_at) > timedelta(seconds=record.idle_timeout_seconds): self.store.revoke_session(token_hash,revoked_at=now_iso,reason="idle-timeout"); raise SessionInvalid("session idle timeout")
         identity=self.store.get_identity(record.actor_id)
         if identity is None or identity.status!="active": raise SessionInvalid("session principal inactive")
+        if tuple(identity.roles)!=tuple(record.roles) or tuple(identity.workspace_scopes)!=tuple(record.workspace_scopes):
+            self.store.revoke_session(token_hash,revoked_at=now_iso,reason="authority-changed")
+            raise SessionInvalid("session authority is stale")
         if touch: self.store.touch_session(token_hash,now_iso)
-        principal=AuthenticatedPrincipal(identity.actor_id,identity.username,identity.display_name,record.roles,record.workspace_scopes)
+        principal=AuthenticatedPrincipal(identity.actor_id,identity.username,identity.display_name,identity.roles,identity.workspace_scopes)
         return SessionContext(principal,record.created_at,now_iso if touch else record.last_seen_at,record.absolute_expires_at,record.idle_timeout_seconds,record.rotation_counter)
 
     def require_csrf(self, token: str, csrf_token: str) -> None:

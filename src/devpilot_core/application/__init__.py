@@ -153,3 +153,5 @@ from .quality_operations import QualityOperationProfileRegistry, QualityOperatio
 from .ai_operations import AiOperationProfileRegistry, AiOperationsApplicationService
 
 from .auth_service import AuthApplicationService
+
+from .rbac_service import RBACApplicationService

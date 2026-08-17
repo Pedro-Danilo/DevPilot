@@ -57,7 +57,7 @@ def test_protected_endpoint_accepts_header_token_and_policy_binding() -> None:
 
     assert response.status_code == 200
     assert response.headers["X-DevPilot-Policy"] == "allowed"
-    assert response.headers["X-DevPilot-Api-Security"] == "token+cors+policy"
+    assert response.headers["X-DevPilot-Api-Security"] == "session+rbac+token-compat+cors+policy"
     assert response.headers["X-Content-Type-Options"] == "nosniff"
 
 

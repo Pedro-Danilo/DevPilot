@@ -115,6 +115,22 @@ class LocalAuthStore:
             row = con.execute("SELECT actor_id,username,display_name,roles_json,workspace_scopes_json,status,created_at FROM identities WHERE actor_id=?", (actor_id,)).fetchone()
             return self._identity(row) if row else None
 
+    def update_identity_authority(self, actor_id: str, *, roles: tuple[str, ...], workspace_scopes: tuple[str, ...], changed_at: str) -> int:
+        """Internal governed authority update; no HTTP self-service endpoint exists in 02-C.
+
+        Role/scope changes revoke all active sessions atomically so stale privilege
+        snapshots cannot survive an authority mutation.
+        """
+        self.initialize()
+        if not roles:
+            raise AuthStoreError("identity must retain at least one role")
+        with self.transaction() as con:
+            cur=con.execute("UPDATE identities SET roles_json=?, workspace_scopes_json=? WHERE actor_id=? AND status='active'", (json.dumps(list(roles)), json.dumps(list(workspace_scopes)), actor_id))
+            if cur.rowcount != 1:
+                raise AuthStoreError("identity authority update target not found")
+            revoked=con.execute("UPDATE sessions SET revoked_at=?, revoke_reason='authority-changed' WHERE actor_id=? AND revoked_at IS NULL", (changed_at, actor_id)).rowcount
+        return int(revoked)
+
     def get_credential(self, actor_id: str) -> CredentialRecord | None:
         self.initialize()
         with self._connect() as con:

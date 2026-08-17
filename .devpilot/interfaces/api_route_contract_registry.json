@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-08-16",
+  "updated": "2026-08-17",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -501,6 +501,41 @@
       ],
       "source_mutation_allowed": false,
       "owner": "interfaces.api.auth"
+    },
+    {
+      "route_id": "api.auth.capabilities",
+      "method": "GET",
+      "path": "/api/v1/auth/capabilities",
+      "operation": "auth.capabilities",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "source_mutation_allowed": false,
+      "tags": [
+        "auth",
+        "rbac",
+        "gsdlc-02-c"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "RBACCapabilityView",
+      "risk_level": "low",
+      "owner": "interfaces.api.auth",
+      "router_module": "auth",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-human-session",
+      "path_subject": null,
+      "notes": [
+        "GSDLC-02-C sanitized server-derived capability view. Human-session only; frontend is never authority."
+      ]
     },
     {
       "route_id": "api.auth.login",
@@ -3286,7 +3321,7 @@
     }
   ],
   "summary": {
-    "routes_total": 96,
+    "routes_total": 97,
     "protected_routes_total": 90,
     "public_routes_total": 6,
     "mutating_routes_total": 30,

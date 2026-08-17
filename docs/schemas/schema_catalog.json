@@ -2721,7 +2721,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-02-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
+      "title": "Server RBAC Policy Catalog",
+      "version": "1.0.0",
+      "path": "docs/schemas/server_rbac_policy_catalog.schema.json",
+      "description": "DEVPL-GSDLC-02-C deterministic server-side RBAC policy catalog.",
+      "status": "registered",
+      "contract": "ServerRBACPolicyCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-C"
     }
   ],
-  "schemas_total": 188
+  "schemas_total": 189
 }

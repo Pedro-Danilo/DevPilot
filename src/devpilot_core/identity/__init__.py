@@ -26,3 +26,5 @@ def __getattr__(name: str):
         from .exposure import RbacExposureOptions, RbacExposureReporter
         return {"RbacExposureOptions": RbacExposureOptions, "RbacExposureReporter": RbacExposureReporter}[name]
     raise AttributeError(name)
+
+from .server_rbac import RBACDecision, ServerRBACEnforcer

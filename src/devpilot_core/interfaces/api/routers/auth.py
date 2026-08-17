@@ -124,3 +124,13 @@ def revoke_current(request: Request, service: AuthApplicationService = Depends(g
     response = JSONResponse({"ok": result.revoked, "revoked": result.revoked, "secret_exposed": False}, status_code=200)
     _clear_session_cookies(response, request)
     return response
+
+
+@router.get("/api/v1/auth/capabilities")
+def capabilities(request: Request) -> JSONResponse:
+    principal = getattr(request.state, "authenticated_principal", None)
+    if principal is None:
+        return _error("authenticated human session required", 401, "AUTH_SESSION_REQUIRED")
+    workspace_id = request.query_params.get("workspace_id") or "devpilot-local"
+    view = request.app.state.application_service.rbac.capability_view(principal, workspace_id=workspace_id)
+    return JSONResponse({"ok": True, "capability_view": view}, status_code=200)

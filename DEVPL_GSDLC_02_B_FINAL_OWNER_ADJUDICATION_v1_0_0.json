@@ -1,0 +1,43 @@
+{
+  "schema_id": "devpilot.gsdlc02b.final_owner_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-17",
+  "successor_repo": "repo_DevPilot_Local_356_DEVPL_GSDLC_02_B_HISTORICAL_CONTRACT_RECONCILIATION.zip",
+  "successor_commit": "e795e4982b984a9727dd458c71ecd0a5b05e2557",
+  "successor_sha256": "f500f9d74f7012d6750a58e6415e18d41642419a887b40f1dcdd954c8323ab5c",
+  "windows_evidence_sha256": "8a054d49e3f0a3640220a06e7dbc6fe3f63ec21662aa07ad71882bc4b826864e",
+  "validation": {
+    "mode": "cumulative-selective",
+    "windows_security_expanded": {
+      "passed": 147,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "independent_critical_ab": {
+      "passed": 50,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "historical_regression_guard": "PASS",
+    "full_regression_executed": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-02-E"
+  },
+  "delta_paths": 60,
+  "artifact_hashes_git": 59,
+  "artifact_hashes_archive": 59,
+  "pilot_preserved": true,
+  "runtime_auth_enabled": true,
+  "login_ui_enabled": false,
+  "rbac_complete": false,
+  "authenticated_approval_binding_complete": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-02-C"
+}

@@ -10193,6 +10193,109 @@
           }
         }
       }
+    },
+    "/api/v1/auth/capabilities": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "RBAC capability view",
+        "operationId": "auth_capabilities_api_v1_auth_capabilities_get",
+        "x-devpilot-operation": "auth.capabilities",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-C",
+        "x-devpilot-side-effect": "read-only-capability-projection",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-api-id": "API-GSDLC02C-RBAC-CAPABILITIES",
+        "x-devpilot-domain-service": "RBACApplicationService",
+        "x-devpilot-status": "gsdlc-02-c-rbac",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "ServerRBACEnforcer deny-by-default + localhost + PolicyEngine; frontend is never authorization authority.",
+        "x-devpilot-command-equivalent": "Typed RBACApplicationService capability view only.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [
+          {
+            "LocalHumanSession": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Successful local authentication response; no credential/session secret appears in body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RBACCapabilityView"
+                }
+              }
+            }
+          }
+        },
+        "description": "GSDLC-02-C sanitized server-derived capability view for authenticated human sessions."
+      }
     }
   },
   "components": {
@@ -10449,6 +10552,59 @@
           "username",
           "password"
         ]
+      },
+      "RBACCapabilityView": {
+        "type": "object",
+        "required": [
+          "ok",
+          "capability_view"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "capability_view": {
+            "type": "object",
+            "required": [
+              "identity",
+              "effective_roles",
+              "workspace_id",
+              "capabilities",
+              "server_authoritative",
+              "legacy_token_human_authority",
+              "secret_exposed"
+            ],
+            "properties": {
+              "identity": {
+                "type": "object"
+              },
+              "effective_roles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "workspace_id": {
+                "type": "string"
+              },
+              "capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "server_authoritative": {
+                "const": true
+              },
+              "legacy_token_human_authority": {
+                "const": false
+              },
+              "secret_exposed": {
+                "const": false
+              }
+            }
+          }
+        }
       }
     },
     "securitySchemes": {

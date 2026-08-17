@@ -1,0 +1,37 @@
+{
+  "schema_id": "devpilot.gsdlc02c.full_regression_decision.v1",
+  "status": "owner-cadence-applied/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-02-C",
+  "validation_mode": "cumulative-selective",
+  "systemic_risk_signal": "transversal-rbac",
+  "hard_trigger_candidate": true,
+  "owner_approved_intermediate_full_exception": false,
+  "test_impact_required": true,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
+  "rationale": "02-C is intentionally the transversal RBAC micro-sprint. The approved backlog/prompt still requires A-D cumulative-selective and permits an intermediate full regression only after explicit owner approval. No such exception was approved. Expanded auth/RBAC/API/workspace/approval validation and Historical Regression Guard are required; the backlog-wide full run remains exactly once in 02-E.",
+  "test_impact_decision": "REVIEW_REQUIRED",
+  "test_impact_full_regression_flag": true,
+  "test_impact_residual_risk": "high",
+  "test_impact_changed_paths_total": 51,
+  "test_impact_matched_contracts_total": 154,
+  "test_impact_recommended_tests_total": 253,
+  "test_impact_unmatched_paths_total": 16,
+  "test_impact_waiver_required": true,
+  "historical_regression_guard": "PASS",
+  "historical_regression_guard_waiver_valid": true,
+  "historical_regression_guard_warnings": 0,
+  "historical_regression_guard_blocking": 0,
+  "controlled_validation": {
+    "passed": 138,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "groups": [
+      48,
+      45,
+      10,
+      35
+    ]
+  }
+}
