@@ -20,10 +20,16 @@
   "historical_regression_guard": "PASS",
   "cadence_waiver_valid": true,
   "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
-  "source_delta_paths_total": 59,
+  "source_delta_paths_total": 60,
   "recovery_v1_0_1": {
     "runtime_security_weakened": false,
     "current_active_smoke_evolved": true,
     "windows_symlink_test_capability_aware": true
+  },
+  "recovery_v1_0_3": {
+    "historical_contract_reconciliation": true,
+    "runtime_product_behavior_changed": false,
+    "runtime_security_weakened": false,
+    "full_regression_executed": false
   }
 }

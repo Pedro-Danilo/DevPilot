@@ -1,13 +1,16 @@
 {
   "schema_id": "devpilot.gsdlc02b.source_delta_manifest.v1",
-  "status": "pass-candidate/pre-windows",
+  "status": "pass-candidate/historical-contract-recovery-pre-windows",
   "micro_sprint": "DEVPL-GSDLC-02-B",
   "source_repo": "repo_DevPilot_Local_354_DEVPL_GSDLC_02_A_AUTH_THREAT_BOUNDARY.zip",
   "source_commit": "6f338a25b5463742576c82aa7dbee958fbca8587",
   "source_sha256": "17f193313ee186478c1b39bd168aecd94481c636e6b3070478a74d874efde95d",
-  "delta_paths_total": 59,
+  "published_candidate_repo_before_recovery": "repo_DevPilot_Local_355_DEVPL_GSDLC_02_B_LOCAL_IDENTITY_SESSIONS.zip",
+  "published_candidate_commit_before_recovery": "989ec98670979f6828378c23c97e475f591aadfa",
+  "published_candidate_sha256_before_recovery": "2af8d2e934de9679745dbea27efbb3e6bc8c99d53be1391060a68b18cf0139e0",
+  "delta_paths_total": 60,
   "create_total": 36,
-  "modify_total": 23,
+  "modify_total": 24,
   "delete_total": 0,
   "delta_paths": [
     ".devpilot/docs_governance/source_registry.json",
@@ -65,6 +68,7 @@
     "src/devpilot_core/interfaces/api/security.py",
     "tests/test_api_approvals_actions.py",
     "tests/test_api_contract.py",
+    "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
     "tests/test_devpl_gsdlc_02_b_api_auth.py",
     "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
     "tests/test_devpl_gsdlc_02_b_contracts.py",
@@ -292,6 +296,10 @@
       "action": "MODIFY"
     },
     {
+      "path": "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+      "action": "MODIFY"
+    },
+    {
       "path": "tests/test_devpl_gsdlc_02_b_api_auth.py",
       "action": "CREATE"
     },
@@ -312,10 +320,11 @@
   "ui_paths_total": 0,
   "full_regression_executed": false,
   "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
-  "recovery_v1_0_1": {
-    "reason": "Windows portability + current-active operator-flow auth compatibility",
-    "symlink_test": "skip only when WinError 1314 prevents symlink creation; path-escape remains separately tested",
-    "operator_flow_smoke": "uses temporary human owner session + CSRF for approval decision",
-    "product_security_weakened": false
+  "recovery_v1_0_3": {
+    "reason": "02-A cumulative test incorrectly froze current-active api_route_contract_registry.json to repo353",
+    "new_delta_path": "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+    "final_delta_paths_total": 60,
+    "runtime_product_behavior_changed": false,
+    "historical_fact_rewrites": 0
   }
 }

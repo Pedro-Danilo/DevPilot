@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.gsdlc02b.current.v1",
-  "status": "PASS-CANDIDATE/PRE-WINDOWS",
+  "status": "PASS-CANDIDATE/HISTORICAL-CONTRACT-RECOVERY-PRE-WINDOWS",
   "micro_sprint": "DEVPL-GSDLC-02-B",
   "source_repo": "repo_DevPilot_Local_354_DEVPL_GSDLC_02_A_AUTH_THREAT_BOUNDARY.zip",
   "source_commit": "6f338a25b5463742576c82aa7dbee958fbca8587",
@@ -17,7 +17,7 @@
   "legacy_token_human_authority": false,
   "rbac_complete": false,
   "authenticated_approval_binding_complete": false,
-  "tests_passed": 150,
+  "tests_passed": 101,
   "full_regression_executed": false,
   "full_regression_deferred_to": "DEVPL-GSDLC-02-E",
   "owner_adjudication": "PENDING",
@@ -34,7 +34,7 @@
   "test_impact_decision": "REVIEW_REQUIRED",
   "test_impact_full_regression_required": true,
   "test_impact_residual_risk": "high",
-  "test_impact_changed_paths_total": 59,
+  "test_impact_changed_paths_total": 60,
   "hard_trigger_present": false,
   "historical_regression_guard": "PASS",
   "cadence_waiver_valid": true,
@@ -43,5 +43,14 @@
     "operator_flow_human_session_aware": true,
     "legacy_token_approval_decision_allowed": false,
     "full_regression_executed": false
+  },
+  "recovery_v1_0_3": {
+    "reason": "02-A historical test incorrectly froze current-active API route registry to repo353",
+    "historical_test_relaxed_without_successor_proof": false,
+    "api_registry_current_active_successor_test_added": true,
+    "runtime_product_behavior_changed": false,
+    "full_regression_executed": false,
+    "controlled_selective_passed": 101,
+    "windows_full_cumulative_groups_required": true
   }
 }

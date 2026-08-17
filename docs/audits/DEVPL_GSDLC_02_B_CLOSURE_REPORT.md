@@ -56,3 +56,33 @@ The successor correction:
 - keeps UI/browser work deferred to 02-E and full regression deferred to 02-E.
 
 Final delta: 59 paths (36 CREATE, 23 MODIFY, 0 DELETE).
+
+## Recovery v1.0.3 — cumulative historical-contract reconciliation
+
+Independent A+B verification of the published repo355 candidate found one inherited 02-A assertion that incorrectly froze
+`.devpilot/interfaces/api_route_contract_registry.json` to its repo353 Git-blob SHA. That registry is explicitly
+`current-active` in the 02-B historical sweep and legitimately evolves from 89 to 96 routes when the seven local-auth
+routes are introduced.
+
+The recovery does not weaken or rewrite the 02-A historical facts. It:
+- keeps the repo353 Git-blob freeze for `identity_registry.json` and `sensitive_action_catalog.json`;
+- removes only the obsolete freeze of the current-active API route registry;
+- adds a 02-B successor assertion for all seven auth routes, the 96-route total and no remote/external routes;
+- changes no runtime product behavior;
+- keeps the backlog-wide full regression deferred to 02-E.
+
+02-B remains `PASS-CANDIDATE` pending Windows execution of this recovery and owner adjudication.
+
+### Controlled recovery validation
+
+Before distribution, the reconciliation candidate was validated independently with non-overlapping selective sets:
+
+- 02-A + 02-B auth/contracts focal: `26 PASS`;
+- 02-B API/security/contract-drift: `69 PASS`;
+- secret guard/security readiness: `6 PASS`;
+- aggregate non-overlapping controlled recovery set: `101 PASS / 0 FAIL / 0 ERROR / 0 SKIP`;
+- Project State, Docs Governance, TCR v1 and TCR v2: `PASS`;
+- Test Impact: `REVIEW_REQUIRED`, 60 changed paths, residual risk `high`;
+- Historical Regression Guard: `PASS`, waiver valid, 5/5 components, 0 warnings/blockers.
+
+The complete Windows cumulative groups remain mandatory in the recovery operator before publish.

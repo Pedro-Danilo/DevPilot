@@ -4,12 +4,12 @@
   "report_id": "devpilot-test-impact-recommendation-report",
   "created_by": "POST-H-029-C",
   "status": "review-required",
-  "generated_at_utc": "2026-08-17T02:08:38Z",
+  "generated_at_utc": "2026-08-17T03:17:29Z",
   "summary": {
     "created_by": "POST-H-029-C",
     "status": "implemented-initial",
     "decision": "REVIEW_REQUIRED",
-    "changed_paths_total": 59,
+    "changed_paths_total": 60,
     "matched_contracts_total": 156,
     "matched_rules_total": 5,
     "recommended_profiles_total": 5,
@@ -87,6 +87,7 @@
     "src/devpilot_core/interfaces/api/security.py",
     "tests/test_api_approvals_actions.py",
     "tests/test_api_contract.py",
+    "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
     "tests/test_devpl_gsdlc_02_b_api_auth.py",
     "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
     "tests/test_devpl_gsdlc_02_b_contracts.py",
@@ -223,6 +224,7 @@
         "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
         "src/devpilot_core/interfaces/api/routers/auth.py",
         "src/devpilot_core/interfaces/api/security.py",
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
         "tests/test_devpl_gsdlc_02_b_api_auth.py",
         "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
         "tests/test_devpl_gsdlc_02_b_contracts.py",
@@ -251,6 +253,7 @@
         "direct:watched_paths:src/devpilot_core/interfaces/api",
         "direct:validates:src/devpilot_core/interfaces/api/routers/auth.py",
         "direct:validates:src/devpilot_core/interfaces/api/security.py",
+        "direct:test_files:tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
         "direct:test_files:tests/test_devpl_gsdlc_02_b_api_auth.py",
         "direct:test_files:tests/test_devpl_gsdlc_02_b_auth_sessions.py",
         "direct:test_files:tests/test_devpl_gsdlc_02_b_contracts.py",
@@ -1441,7 +1444,8 @@
         "docs/03_security/local_identity_session_contract.md",
         "docs/03_security/session_lifecycle_matrix.json",
         "docs/03_security/session_lifecycle_matrix.md",
-        "docs/schemas/schema_catalog.json"
+        "docs/schemas/schema_catalog.json",
+        "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py"
       ],
       "match_reasons": [
         "direct:watched_paths:.devpilot/docs_governance/source_registry.json",
@@ -1452,7 +1456,9 @@
         "direct:watched_paths:.devpilot/testing/test_contract_registry.json",
         "direct:watched_paths:.devpilot/testing/test_contract_registry_v2.json",
         "rule-registry:policy-security",
-        "direct:watched_paths:docs/schemas/schema_catalog.json"
+        "direct:watched_paths:docs/schemas/schema_catalog.json",
+        "direct:test_files:tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+        "direct:watched_paths:tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py"
       ],
       "recommended_commands": [
         "python -m pytest tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py tests/test_post_h_034_multiuser_auth_adr.py tests/test_post_h_012_approval_rbac_hardening.py tests/test_identity_rbac.py tests/test_approval_binding.py -q"
@@ -7772,7 +7778,7 @@
       "message": "Test Impact Analyzer v2 produced a local non-executing test plan.",
       "severity": "info",
       "metadata": {
-        "changed_paths_total": 59,
+        "changed_paths_total": 60,
         "matched_contracts_total": 156,
         "heuristic_recommendations_total": 8,
         "tests_executed": false

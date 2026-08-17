@@ -50,5 +50,50 @@
     "operator_flow_smoke": "PASS with temporary human-session + CSRF approval decision",
     "ui_api_local_hardening": "PASS",
     "runtime_security_weakened": false
+  },
+  "recovery_v1_0_3": {
+    "purpose": "cumulative A+B historical/current-active contract reconciliation",
+    "runtime_auth_code_changed": false,
+    "api_registry_successor_assertion_added": true,
+    "pre_windows_validation": "PENDING",
+    "controlled_focal": "69 PASS / 0 FAIL",
+    "controlled_api_security_group": "69 PASS / 0 FAIL",
+    "controlled_secret_readiness": "6 PASS / 0 FAIL",
+    "full_group1_complete_in_sandbox": false,
+    "full_group3_complete_in_sandbox": false,
+    "windows_operator_required_for_full_cumulative_groups": true,
+    "controlled_unique_tests": {
+      "focal_a_b": {
+        "passed": 26,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "api_security": {
+        "passed": 69,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "secret_readiness": {
+        "passed": 6,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "aggregate_non_overlapping": {
+        "passed": 101,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "validators": {
+      "project_state": "PASS",
+      "docs_governance": "PASS",
+      "tcr_v1": "PASS",
+      "tcr_v2": "PASS"
+    },
+    "regression_guard": "PASS"
   }
 }

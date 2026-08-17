@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.gsdlc02b.historical_contract_sweep.v1",
-  "status": "PASS-CANDIDATE",
+  "status": "PASS-CANDIDATE/HISTORICAL-CONTRACT-RECOVERY",
   "micro_sprint": "DEVPL-GSDLC-02-B",
   "classifications": [
     {
@@ -62,11 +62,22 @@
       "path": "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
       "class": "current-active",
       "action": "evolve sandbox lifecycle to use human-session + CSRF for approval decision; preserve POST-H-028-D purpose"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
+      "class": "historical-freeze+successor-boundary",
+      "action": "freeze identity_registry and sensitive_action_catalog to repo353; do not freeze api_route_contract_registry because 02-B evolves it as current-active"
     }
   ],
   "historical_fact_rewrites": 0,
   "runtime_registry_role_migration_applied": false,
   "uoc_historical_routes_rewritten": false,
   "result": "PASS",
-  "recovery_v1_0_1": "No historical fact rewritten; current-active smoke adapted to successor auth authority."
+  "recovery_v1_0_1": "No historical fact rewritten; current-active smoke adapted to successor auth authority.",
+  "recovery_v1_0_3": {
+    "finding": "02-A test over-froze api_route_contract_registry.json despite B sweep class=current-active",
+    "correction": "remove only the obsolete repo353 API-registry blob assertion and add explicit B successor-current registry coverage",
+    "historical_fact_rewrites": 0,
+    "runtime_security_weakened": false
+  }
 }
