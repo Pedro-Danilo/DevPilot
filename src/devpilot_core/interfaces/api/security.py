@@ -15,6 +15,7 @@ from .response_mapping import api_error_response
 
 API_TOKEN_ENV_VAR = "DEVPILOT_API_TOKEN"
 API_TOKEN_HEADER = "X-DevPilot-Token"
+API_SECURITY_HEADER_VALUE = "session+rbac+token-compat+cors+policy"
 API_TOKEN_MAX_LENGTH = 512
 AUTHORIZATION_HEADER = "Authorization"
 API_REMOTE_BIND_OVERRIDE_ENV_VAR = "DEVPILOT_API_ALLOW_NON_LOCALHOST"
@@ -31,6 +32,7 @@ PUBLIC_API_PATHS: tuple[str, ...] = (
     "/api/v1/auth/bootstrap/status",
     "/api/v1/auth/bootstrap/owner",
     "/api/v1/auth/login",
+    "/api/v1/auth/session/status",
     "/api/v1/docs",
     "/api/v1/openapi.json",
 )

@@ -1,0 +1,26 @@
+{
+  "schema_id": "devpilot.gsdlc02e.current.v1",
+  "micro_sprint": "DEVPL-GSDLC-02-E",
+  "decision": "PASS-CANDIDATE/COMPOSITE-WINDOWS-VALIDATED/PENDING-OWNER-ADJUDICATION",
+  "source_repo": "repo_DevPilot_Local_358_DEVPL_GSDLC_02_D_AUTHENTICATED_APPROVAL_BINDING.zip",
+  "source_commit": "c2ac010b89e17f19229b2d833071e61030a33e10",
+  "source_sha256": "f1241fc82acd90647ae368060f2487203154bb4b73b7b5f7e137423621293183",
+  "candidate_repo": "repo_DevPilot_Local_359_DEVPL_GSDLC_02_E_LOGIN_BROWSER_SECURITY_ACCEPTANCE_CANDIDATE_PREWINDOWS.zip",
+  "browser_acceptance": "PASS/REAL-BROWSER/10-SCREENSHOTS/INHERITED-AFTER-BOUNDED-RECOVERY",
+  "npm_build": "PASS/WINDOWS",
+  "full_regression": "FAIL-ONCE/RECOVERED-BY-COMPOSITE-EVIDENCE",
+  "owner_adjudication": "PENDING",
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs_performed": 1,
+  "second_full_regression_allowed": false,
+  "full_regression_summary": {
+    "passed": 2345,
+    "failed": 62,
+    "errors": 0,
+    "skipped": 3
+  },
+  "validation_mode": "composite-full-regression-selective-retest",
+  "exact_residual_retest": "PASS/62-OF-62",
+  "bounded_impacted_retest": "PASS"
+}

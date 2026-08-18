@@ -6349,3 +6349,8 @@ POST-H-EVAL-002 UI Operational Console Evolution is administratively `CLOSED/PAS
 ## DEVPL-GSDLC-00 — Program activation/rebaseline closure
 
 GSDLC-00 closes the governance-only program activation wave. Parent repo341 remains immutable; POST-H-EVAL-002 stays paused before 02-B. The successor canonical source archive is `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`, produced only with `git archive HEAD` after the final Windows gates and one required full regression. `DEVPL-GSDLC-01` is the next authorized backlog; Guided SDLC runtime/auth/filesystem-write/provider capabilities remain unimplemented/disabled.
+
+
+## DEVPL-GSDLC-02-E candidate — authenticated local operator journey
+
+`GSDLC-02-D` is adjudicated `CLOSED/PASS` on repo358. The current source candidate implements the 02-E first-run/login/session-protected Web UI journey, identity/role banner, Account/Role surface, secret-free session recovery and local login throttling. Status remains `PASS-CANDIDATE/PRE-WINDOWS`: real-browser acceptance and the single full regression for backlog GSDLC-02 are mandatory before canonical closure. Enterprise IAM, remote login, public API, tenancy, connector write and plugin execution remain disabled.

@@ -15,6 +15,7 @@ from .app import create_app
 from .security import (
     API_REMOTE_BIND_OVERRIDE_ENV_VAR,
     API_TOKEN_HEADER,
+    API_SECURITY_HEADER_VALUE,
     DEFAULT_ALLOWED_ORIGINS,
     SECURITY_HEADERS,
     is_allowed_local_origin,
@@ -297,7 +298,7 @@ class LocalApiSecurityHardeningRunner:
         )
 
     def _headers_present(self, response: Any) -> bool:
-        return all(response.headers.get(header) == value for header, value in SECURITY_HEADERS.items()) and response.headers.get("X-DevPilot-Api-Security") == "token+cors+policy"
+        return all(response.headers.get(header) == value for header, value in SECURITY_HEADERS.items()) and response.headers.get("X-DevPilot-Api-Security") == API_SECURITY_HEADER_VALUE
 
     @staticmethod
     def _finding_if_false(findings: list[Finding], condition: bool, finding_id: str, message: str) -> None:

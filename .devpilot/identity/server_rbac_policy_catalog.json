@@ -1,7 +1,7 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
   "version": "1.1.0",
-  "micro_sprint": "DEVPL-GSDLC-02-C",
+  "micro_sprint": "DEVPL-GSDLC-02-E",
   "status": "pass-candidate/pre-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
@@ -2221,6 +2221,20 @@
       "workspace_scope_required": false,
       "risk_level": "low",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.auth.session-status",
+      "method": "GET",
+      "path": "/api/v1/auth/session/status",
+      "operation": "auth.session.status",
+      "access_class": "public-local-session-recovery",
+      "allowed_roles": [],
+      "public": true,
+      "human_session_required": false,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "low",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -2434,7 +2448,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 97,
+    "route_policies_total": 98,
     "sensitive_action_policies_total": 16,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -2449,9 +2463,10 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-02-D",
+  "updated_by": "DEVPL-GSDLC-02-E",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
-    "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization."
+    "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
+    "GSDLC-02-E adds public local-only session status recovery. It exposes no actor, roles or secret and does not authorize any action."
   ]
 }

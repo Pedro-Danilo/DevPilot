@@ -80,8 +80,9 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
         "auth.session.rotate",
         "auth.logout",
         "auth.session.revoke",
+        "auth.session.status",
     }
-    public_auth = {"auth.bootstrap.status", "auth.bootstrap.owner", "auth.login"}
+    public_auth = {"auth.bootstrap.status", "auth.bootstrap.owner", "auth.login", "auth.session.status"}
 
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
@@ -96,14 +97,15 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 continue
 
             if op_id in auth_operations:
-                assert operation["x-devpilot-status"] == "gsdlc-02-b-initial"
+                expected_status = "gsdlc-02-e-browser-auth" if op_id == "auth.session.status" else "gsdlc-02-b-initial"
+                assert operation["x-devpilot-status"] == expected_status
                 assert operation["x-devpilot-domain-service"] == "AuthApplicationService"
                 assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
                 assert operation["x-devpilot-security-headers"] is True
                 assert operation["x-devpilot-secret-in-response"] is False
                 if op_id in public_auth:
                     assert operation["security"] == []
-                    assert operation["x-devpilot-auth"] == "public-local-auth"
+                    assert operation["x-devpilot-auth"] in {"public-local-auth", "public-local-auth-recovery"}
                 else:
                     assert operation["security"] == [{"LocalHumanSession": []}]
                     assert operation["x-devpilot-auth"] == "human-session-required"

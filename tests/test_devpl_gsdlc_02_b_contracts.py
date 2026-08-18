@@ -51,8 +51,10 @@ def test_b_docs_are_explicitly_initial_and_defer_rbac_approval_ui() -> None:
     assert "GSDLC-02-E" in (ROOT/"docs/05_operations/local_auth_session_runbook.md").read_text(encoding="utf-8")
 
 def test_02_b_api_route_registry_is_current_active_successor() -> None:
-    registry=read(".devpilot/interfaces/api_route_contract_registry.json")
+    registry=read(".devpilot/interfaces/api_route_contract_registry_gsdlc02d_at_close.json")
     assert registry["summary"]["routes_total"] == 97
+    current=read(".devpilot/interfaces/api_route_contract_registry.json")
+    assert current["summary"]["routes_total"] == 98
     assert registry["summary"]["gsdlc_02_b_auth_routes_total"] == 7
     auth_routes={(r["method"],r["path"]) for r in registry["routes"] if r["path"].startswith("/api/v1/auth/")}
     assert {

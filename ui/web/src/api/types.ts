@@ -638,3 +638,42 @@ export interface GuidedSdlcProjectStatusResponseData {
   external_api_used: boolean;
   mutations_performed: boolean;
 }
+
+export interface AuthPrincipal {
+  actor_id: string;
+  username: string;
+  display_name: string;
+  roles: string[];
+  workspace_scopes: string[];
+  auth_method: string;
+}
+
+export interface AuthSessionContext {
+  authenticated: true;
+  principal: AuthPrincipal;
+  created_at: string;
+  last_seen_at: string;
+  absolute_expires_at: string;
+  idle_timeout_seconds: number;
+  rotation_counter: number;
+  session_secret_exposed?: false;
+}
+
+export interface AuthBootstrapStatus {
+  ok: boolean;
+  first_run_required: boolean;
+  runtime_auth_store: string;
+  runtime_store_version: number;
+  remote_login_enabled: boolean;
+  public_api_enabled: boolean;
+}
+
+export interface AuthSessionStatus {
+  ok: boolean;
+  state: 'missing' | 'unknown' | 'active' | 'expired' | 'revoked' | 'stale' | string;
+  authenticated: boolean;
+  reason_code: string;
+  secret_exposed: false;
+}
+
+export interface AuthSessionEnvelope { ok: boolean; session: AuthSessionContext; }

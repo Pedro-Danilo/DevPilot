@@ -1,0 +1,122 @@
+{
+  "schema_id": "devpilot.gsdlc.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-02-E",
+  "status": "pass-candidate/composite-windows-validated/pending-owner-adjudication",
+  "classifications": [
+    {
+      "artifact": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
+      "classification": "historical-freeze",
+      "reason": "enterprise/multiuser auth remains continue-blocked; local.operator_auth is successor only"
+    },
+    {
+      "artifact": "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
+      "classification": "historical-freeze",
+      "reason": "planning boundary remains historical; runtime successor was enabled by GSDLC-02-A"
+    },
+    {
+      "artifact": "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+      "classification": "historical-freeze",
+      "reason": "historical Approval/RBAC baseline preserved; 02-C/D are successor enforcement contracts"
+    },
+    {
+      "artifact": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+      "classification": "historical-freeze",
+      "reason": "nine-route UOC close remains immutable"
+    },
+    {
+      "artifact": ".devpilot/interfaces/ui_route_contract_registry_gsdlc02d_at_close.json",
+      "classification": "historical-freeze",
+      "reason": "ten-route D close frozen before E auth routes"
+    },
+    {
+      "artifact": ".devpilot/interfaces/api_route_contract_registry_gsdlc02d_at_close.json",
+      "classification": "historical-freeze",
+      "reason": "97-route D close frozen before session-status successor route"
+    },
+    {
+      "artifact": "legacy-local-token",
+      "classification": "current-active",
+      "reason": "bounded compatibility only; never a human principal and never authority for identity-bound approvals"
+    },
+    {
+      "artifact": "GSDLC-01 actor-neutral Project Status",
+      "classification": "current-active",
+      "reason": "Project Status semantics remain actor-neutral while access to shell is now session-gated"
+    },
+    {
+      "artifact": "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+      "classification": "successor-needed",
+      "reason": "current policy coverage must grow beyond 97 routes while the 97-route GSDLC-02-D snapshot remains frozen"
+    },
+    {
+      "artifact": "tests/test_post_h_014_api_route_contracts.py",
+      "classification": "successor-needed",
+      "reason": "current public auth surface grows from historical six public transports; historical count is asserted against the frozen D snapshot"
+    },
+    {
+      "artifact": "tests/test_api_contract.py",
+      "classification": "current-active",
+      "reason": "governed OpenAPI contract must add auth.session.status as a GSDLC-02-E successor without changing GSDLC-02-B operation metadata"
+    },
+    {
+      "artifact": "ui/web/scripts/gsdlc01e-project-status-smoke.mjs",
+      "classification": "successor-needed",
+      "reason": "GSDLC-01-E historical ten-route state is frozen; current UI route count may grow through approved successor routes"
+    },
+    {
+      "artifact": ".devpilot/gsdlc/architecture_target_contract_gsdlc00c_at_close.json",
+      "classification": "historical-freeze",
+      "reason": "exact GSDLC-00-C design artifact preserves local_auth_successor.runtime_enabled=false while current successor legitimately enables local auth"
+    },
+    {
+      "artifact": ".devpilot/identity/auth_ui_route_contract_registry.json",
+      "classification": "successor-needed",
+      "reason": "login/first-run/account routes are auth control-plane pages and must not be forced into the historical operational dry-run UiRouteContractRegistry"
+    },
+    {
+      "artifact": "ui/web/package.json::devpilot.currentSprint",
+      "classification": "current-active",
+      "reason": "currentSprint belongs to DEVPL-GSDLC-02-E; UOC lineage remains frozen independently in package version/postHEvolutionCurrent"
+    },
+    {
+      "artifact": "POST-H-028/UOC legacy token mutation expectations",
+      "classification": "successor-needed",
+      "reason": "legacy token may retain bounded read compatibility but GSDLC-02 human-session authority blocks identity-bound mutations"
+    },
+    {
+      "artifact": "X-DevPilot-Api-Security header",
+      "classification": "current-active",
+      "reason": "current runtime advertises session+rbac+token-compat+cors+policy; historical token+cors+policy value is not current successor truth"
+    },
+    {
+      "artifact": "POST-H-007 ApplicationService boundary report",
+      "classification": "successor-needed",
+      "reason": "auth/session routes terminate at AuthApplicationService and security posture is a control-plane diagnostic; both require explicit narrow boundary exemptions rather than being counted as product-domain bypasses"
+    },
+    {
+      "artifact": "POST-H-027 source ZIP secret scanner",
+      "classification": "current-active",
+      "reason": "scanner must distinguish typed code identifiers/property forwarding from material credentials while still blocking quoted secret literals"
+    },
+    {
+      "artifact": "UOC-011 accessibility source contract",
+      "classification": "current-active",
+      "reason": "successor auth shell must preserve skip-link/main landmark and the 8h local session TTL accessibility disclosure"
+    }
+  ],
+  "historical_assertions_rewritten": false,
+  "successors_used": true,
+  "full_regression_deferred": false,
+  "full_regression_owner": "DEVPL-GSDLC-02-E",
+  "current_tests_reconciled_to_frozen_snapshots": true,
+  "full_regression_executed": true,
+  "full_regression_runs_performed": 1,
+  "full_regression_second_run_allowed": false,
+  "full_regression_result": "FAIL-ONCE/RECOVERED-BY-COMPOSITE-EVIDENCE",
+  "validation_mode": "composite-full-regression-selective-retest",
+  "residual_nodeids_total": 62,
+  "browser_acceptance": "PASS/windows-real-browser/inherited-after-bounded-recovery",
+  "residual_nodeids_passed": 62,
+  "bounded_impacted_retest": "PASS",
+  "second_full_regression_executed": false
+}

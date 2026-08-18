@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 96,
+    "api_routes_total": 98,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10816,10 +10816,11 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-02-B",
+    "updated_by": "DEVPL-GSDLC-02-E-composite-recovery",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
-    "gsdlc_02_b_auth_api_routes_total": 7
+    "gsdlc_02_b_auth_api_routes_total": 7,
+    "gsdlc_02_e_auth_ui_routes_total": 3
   },
   "ui_routes": [
     {

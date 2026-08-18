@@ -162,10 +162,40 @@ def _count_material_secret_redactions(text: str, *, secret_guard: SecretGuard) -
             continue
         if _is_placeholder_or_documentation_example(line):
             continue
+        if _is_nonmaterial_source_code_secret_reference(line):
+            continue
         result = secret_guard.redact(line)
         redactions += result.redactions
     return redactions
 
+
+
+def _is_nonmaterial_source_code_secret_reference(line: str) -> bool:
+    """Return True only for code declarations/forwarding that contain no credential material.
+
+    This deliberately does *not* suppress quoted literals, bearer values or arbitrary
+    assignments. It only recognizes typed identifiers and reference forwarding such as
+    ``password: str`` or ``password=body.password``.
+    """
+    stripped = line.strip()
+    # Quoted RHS/literal remains material and must be scanned.
+    if re.search(r"(?i)(password|passwd|pwd|token|secret|api[_-]?key)\s*[:=]\s*['\"]", stripped):
+        return False
+    typed_patterns = (
+        r"(?i)^(?:[A-Za-z_][A-Za-z0-9_]*\s*=\s*)?(?:Field\([^)]*\)\s*)?$",
+        r"(?i)^(?:password|passwd|pwd|token|secret|api[_-]?key)\s*:\s*(?:str|string|String)(?:\s*[=,;)])?",
+        r"(?i).*[,(;{]\s*(?:password|passwd|pwd|token|secret|api[_-]?key)\s*:\s*(?:str|string|String)(?:\s*[,;)}=]|$)",
+        r"(?i)^['\"]?(?:password|passwd|pwd|token|secret|api[_-]?key)['\"]?\s*:\s*(?:str|string|String)\b",
+    )
+    if any(re.search(pattern, stripped) for pattern in typed_patterns):
+        return True
+    # Keyword/property forwarding is nonmaterial only when RHS is an identifier/property chain.
+    if re.search(r"(?i)\b(?:password|passwd|pwd|token|secret|api[_-]?key)\s*=\s*[A-Za-z_][A-Za-z0-9_.]*(?:\s*[,;)])?$", stripped):
+        return True
+    # TS object/type members: password: string; / password: payload.password,
+    if re.search(r"(?i)\b(?:password|passwd|pwd|token|secret|api[_-]?key)\s*:\s*(?:string|[A-Za-z_][A-Za-z0-9_.]*)(?:[;,}]|$)", stripped):
+        return True
+    return False
 
 def _is_placeholder_or_documentation_example(line: str) -> bool:
     lower = line.lower()

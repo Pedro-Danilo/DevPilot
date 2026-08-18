@@ -19140,6 +19140,156 @@
         "DEVPL-GSDLC-02-D"
       ],
       "lifecycle": "active"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-02-D-FINAL-OWNER-ADJUDICATION",
+      "domain": "audit",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-02-E authenticated browser closure source."
+      ],
+      "owner": "DEVPL-GSDLC-02-E",
+      "path": "DEVPL_GSDLC_02_D_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_e_auth_browser_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-02-E"
+      ],
+      "status_required": "closed-pass",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-02-E-BROWSER-SECURITY-ACCEPTANCE",
+      "domain": "security",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-02-E authenticated browser closure source."
+      ],
+      "owner": "DEVPL-GSDLC-02-E",
+      "path": "docs/03_security/DEVPL_GSDLC_02_E_BROWSER_SECURITY_ACCEPTANCE.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_e_auth_browser_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-02-E"
+      ],
+      "status_required": "implemented-initial/pending-windows-browser",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-02-E-CLOSURE-REPORT",
+      "domain": "audit",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-02-E authenticated browser closure source."
+      ],
+      "owner": "DEVPL-GSDLC-02-E",
+      "path": "docs/audits/DEVPL_GSDLC_02_E_CLOSURE_REPORT.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-005-local-operator-auth-enablement.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_e_auth_browser_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-02-E"
+      ],
+      "status_required": "pass-candidate/composite-windows-validated/pending-owner-adjudication",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-E-AUTH-UI-ROUTE-REGISTRY",
+      "path": ".devpilot/identity/auth_ui_route_contract_registry.json",
+      "classification": "machine-readable-source",
+      "domain": "security.auth-ui",
+      "owner": "DEVPL-GSDLC-02-E",
+      "status_required": "implemented-initial/pending-windows-composite-recovery",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_e_auth_browser_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-02-E-AUTH-UI-ROUTE-CONTRACT-REGISTRY-V1",
+      "path": "docs/schemas/auth_ui_route_contract.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.security.auth-ui",
+      "owner": "DEVPL-GSDLC-02-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_02_e_auth_browser_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-02-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-00-C-ARCHITECTURE-TARGET-AT-CLOSE",
+      "path": ".devpilot/gsdlc/architecture_target_contract_gsdlc00c_at_close.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.historical-freeze",
+      "owner": "DEVPL-GSDLC-02-E",
+      "status_required": "planned-contract-only",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_00_c_architecture_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-00-C",
+        "DEVPL-GSDLC-02-E"
+      ],
+      "lifecycle": "active"
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -21650,37 +21800,37 @@
     "deprecated_total": 0,
     "derived_total": 96,
     "documents_checked_total": 712,
-    "documents_registered_total": 843,
-    "documents_total": 843,
+    "documents_registered_total": 849,
+    "documents_total": 849,
     "documents_with_required_tests_total": 791,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
-    "last_updated_by": "DEVPL-GSDLC-01-E",
-    "machine_readable_source_total": 390,
+    "last_updated_by": "DEVPL-GSDLC-02-E",
+    "machine_readable_source_total": 413,
     "markdown_json_pairs_total": 30,
     "markdown_json_sync_checks_enabled": true,
     "mutations_performed": false,
     "network_used": false,
     "preliminary": false,
     "roadmap_derived_backlog_governance_enabled": true,
-    "source_of_truth_total": 320,
-    "sources_total": 806,
+    "source_of_truth_total": 340,
+    "sources_total": 753,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "uoc_003_registered_documents_total": 10,
     "uoc_005_registered_documents_total": 4,
     "uoc_007_registered_documents_total": 8,
     "uoc_009_registered_documents_total": 8,
-    "updated": "2026-08-16",
-    "updated_by": "DEVPL-GSDLC-01-E",
-    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-01-B",
+    "updated": "2026-08-17",
+    "updated_by": "DEVPL-GSDLC-02-E",
+    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-E",
     "gsdlc_active_program": "DEVPL-GSDLC"
   },
   "updated": "2026-08-17",
-  "updated_at": "2026-08-17",
-  "updated_by": "DEVPL-GSDLC-02-D",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-D",
+  "updated_at": "2026-08-18T00:25:00.366906Z",
+  "updated_by": "DEVPL-GSDLC-02-E-COMPOSITE-RECOVERY",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-E",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "active/post-00-closed/01-authorized",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",

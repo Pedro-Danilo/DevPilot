@@ -333,7 +333,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
   }
 
   draw();
-  if (tokenProvider()) void load();
+  void load();
   return root;
 }
 

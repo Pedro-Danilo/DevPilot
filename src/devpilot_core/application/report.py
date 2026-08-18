@@ -100,6 +100,7 @@ class ApplicationServiceBoundaryReportBuilder:
         bypasses = [ApplicationBoundaryBypass(**item) for item in cli_inventory["bypasses"]]
 
         api_routes_bound = sum(1 for route in api_routes if route["application_service_bound"])
+        api_routes_exempt = sum(1 for route in api_routes if route.get("application_service_boundary_exempt", False))
         cli_bound_total = sum(1 for item in cli_inventory["commands"] if item["application_service_boundary_present"])
         direct_core_bypass_total = len(bypasses)
         high_or_critical = [item for item in bypasses if item.risk_level in {"high", "critical"}]
@@ -121,7 +122,9 @@ class ApplicationServiceBoundaryReportBuilder:
             "cli_unbound_total": len(cli_inventory["commands"]) - cli_bound_total,
             "api_routes_total": len(api_routes),
             "api_bound_total": api_routes_bound,
-            "api_unbound_total": len(api_routes) - api_routes_bound,
+            "api_boundary_exempt_total": api_routes_exempt,
+            "api_unbound_total": len(api_routes) - api_routes_bound - api_routes_exempt,
+            "api_bound_or_exempt_total": api_routes_bound + api_routes_exempt,
             "ui_bound_total": len(ui_api_calls),
             "direct_core_bypass_total": direct_core_bypass_total,
             "high_or_critical_bypass_total": len(high_or_critical),
@@ -265,6 +268,8 @@ class ApplicationServiceBoundaryReportBuilder:
                 if not method or not route_path:
                     continue
                 operation = _find_literal_keyword_call(node, "dispatch_application_request", "operation")
+                application_service_bound = "dispatch_application_request" in text and "ApplicationService" in text
+                boundary_exemption_reason = _api_boundary_exemption_reason(route_path, application_service_bound)
                 routes.append(
                     {
                         "route_id": f"{method} {route_path}",
@@ -273,7 +278,9 @@ class ApplicationServiceBoundaryReportBuilder:
                         "function": node.name,
                         "module": _rel(path, self.root),
                         "operation": operation,
-                        "application_service_bound": "dispatch_application_request" in text and "ApplicationService" in text,
+                        "application_service_bound": application_service_bound,
+                        "application_service_boundary_exempt": boundary_exemption_reason is not None,
+                        "boundary_exemption_reason": boundary_exemption_reason,
                         "direct_core_imports": _non_application_devpilot_imports(tree),
                     }
                 )
@@ -395,6 +402,22 @@ class ApplicationServiceBoundaryReportBuilder:
             )
         return sorted(rows, key=lambda item: item.operation_id)
 
+
+
+def _api_boundary_exemption_reason(route_path: str, application_service_bound: bool) -> str | None:
+    """Classify narrow control-plane routes that intentionally do not use ApplicationService.
+
+    Authentication/session endpoints terminate at AuthApplicationService and the security
+    posture endpoint is a transport/security diagnostic.  Treating those routes as product
+    domain bypasses would incorrectly force security authority through the product facade.
+    """
+    if application_service_bound:
+        return None
+    if route_path.startswith("/api/v1/auth/"):
+        return "local-auth-control-plane/AuthApplicationService"
+    if route_path == "/api/v1/security/posture":
+        return "local-api-security-diagnostic"
+    return None
 
 def render_application_service_boundary_markdown(payload: dict[str, Any]) -> str:
     summary = payload["summary"]

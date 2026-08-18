@@ -17,6 +17,7 @@ from .uoc011_hardening import FixedWindowRateLimiter, UOC011_API_HARDENING_HEADE
 from .routers import actions, ai, approvals, auth, guided_sdlc, jobs, operator, portfolio, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations
 from .security import (
     API_ROUTE_POLICIES,
+    API_SECURITY_HEADER_VALUE,
     DEFAULT_ALLOWED_ORIGINS,
     SECURITY_HEADERS,
     ApiSecurityConfig,
@@ -64,7 +65,7 @@ def _security_json_response(request: Request, payload: dict[str, Any], status_co
         headers["Access-Control-Allow-Origin"] = str(origin)
         headers["Vary"] = "Origin"
         headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
-    headers["X-DevPilot-Api-Security"] = "session+rbac+token-compat+cors+policy"
+    headers["X-DevPilot-Api-Security"] = API_SECURITY_HEADER_VALUE
     return JSONResponse(content=payload, status_code=status_code, headers=headers)
 
 
@@ -105,6 +106,7 @@ def create_app(
     app.state.governed_job_reconciliation = app.state.application_service.jobs_reconcile(stale_after_seconds=120).to_dict()
     app.state.api_security = security_config
     app.state.uoc011_hardening_config = Uoc011ApiHardeningConfig()
+    app.state.auth_login_limiter = FixedWindowRateLimiter()
     app.state.uoc011_rate_limiter = FixedWindowRateLimiter()
 
     def _api_error_json_response(request: Request, payload: dict[str, Any], status_code: int) -> JSONResponse:
@@ -114,7 +116,7 @@ def create_app(
             headers["Access-Control-Allow-Origin"] = str(origin)
             headers["Vary"] = "Origin"
             headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
-        headers["X-DevPilot-Api-Security"] = "session+rbac+token-compat+cors+policy"
+        headers["X-DevPilot-Api-Security"] = API_SECURITY_HEADER_VALUE
         return JSONResponse(content=payload, status_code=status_code, headers=headers)
 
     @app.exception_handler(RequestValidationError)
@@ -199,6 +201,16 @@ def create_app(
                     payload, status_code = build_security_error_response(status_code=403, message="CSRF validation failed for authenticated session mutation.", finding_id="AUTH_CSRF_BLOCK", operation="api.csrf")
                     return _security_json_response(request, payload, status_code)
 
+            route_policy = resolve_route_policy(method, path)
+            if route_policy is None:
+                payload, status_code = build_security_error_response(
+                    status_code=403,
+                    message="API route is not bound to an explicit DevPilot policy.",
+                    finding_id="API_POLICY_BINDING_MISSING_BLOCK",
+                    operation="api.policy",
+                )
+                return _security_json_response(request, payload, status_code)
+
             workspace_id = request.query_params.get("workspace_id") or "devpilot-local"
             if human_session is not None:
                 rbac_decision = request.app.state.application_service.rbac.authorize_route(human_session.principal, method=method, path=path, workspace_id=workspace_id)
@@ -210,15 +222,6 @@ def create_app(
                 payload, status_code = build_security_error_response(status_code=403, message="Legacy local API token is not authorized for this RBAC-protected operation.", finding_id="RBAC_LEGACY_TOKEN_DENY", operation="api.rbac")
                 return _security_json_response(request, payload, status_code)
 
-            route_policy = resolve_route_policy(method, path)
-            if route_policy is None:
-                payload, status_code = build_security_error_response(
-                    status_code=403,
-                    message="API route is not bound to an explicit DevPilot policy.",
-                    finding_id="API_POLICY_BINDING_MISSING_BLOCK",
-                    operation="api.policy",
-                )
-                return _security_json_response(request, payload, status_code)
             policy_result = evaluate_api_policy(request.app.state.devpilot_root, route_policy)
             if not policy_result.ok:
                 payload, status_code = build_security_error_response(
@@ -236,7 +239,7 @@ def create_app(
         for header, value in UOC011_API_HARDENING_HEADERS.items():
             response.headers.setdefault(header, value)
         response.headers.setdefault("X-DevPilot-RateLimit-Remaining", str(hardening.get("remaining", 0)))
-        response.headers.setdefault("X-DevPilot-Api-Security", "session+rbac+token-compat+cors+policy")
+        response.headers.setdefault("X-DevPilot-Api-Security", API_SECURITY_HEADER_VALUE)
         if hasattr(request.state, "devpilot_policy"):
             response.headers.setdefault("X-DevPilot-Policy", "allowed")
         return response

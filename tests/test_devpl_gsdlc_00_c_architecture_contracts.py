@@ -44,9 +44,11 @@ def test_gsdlc_00_c_state_domains_have_distinct_owners_and_reconciliation():
     assert "credentials" in engineering["must_not_contain"]
 
 def test_gsdlc_00_c_local_auth_successor_does_not_enable_multiuser_or_enterprise():
-    target=data(".devpilot/gsdlc/architecture_target_contract.json")
+    target=data(".devpilot/gsdlc/architecture_target_contract_gsdlc00c_at_close.json")
     auth=target["local_auth_successor"]
     assert auth["runtime_enabled"] is False
+    current=data(".devpilot/gsdlc/architecture_target_contract.json")
+    assert current["local_auth_successor"]["runtime_enabled"] is True
     for key in ["enterprise_iam","tenancy","sso","oidc","public_api","non_local_api"]:
         assert auth[key] is False
     assert "client cannot assert approver identity" in auth["approval_actor_binding"]

@@ -93,7 +93,7 @@ export function renderReportTraceView(tokenProvider: () => string): HTMLElement 
   }
 
   draw();
-  if (tokenProvider()) void refresh();
+  void refresh();
   return section;
 }
 

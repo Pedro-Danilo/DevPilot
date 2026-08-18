@@ -117,7 +117,7 @@ def test_security_headers_present_on_success_and_auth_error() -> None:
     for response in [success, error]:
         for header, value in SECURITY_HEADERS.items():
             assert response.headers.get(header) == value
-        assert response.headers["X-DevPilot-Api-Security"] == "token+cors+policy"
+        assert response.headers["X-DevPilot-Api-Security"] == "session+rbac+token-compat+cors+policy"
 
 
 def test_settings_providers_response_remains_redacted_and_plan_only() -> None:

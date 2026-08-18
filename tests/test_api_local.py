@@ -30,7 +30,7 @@ def test_api_local_health_and_workspace_status_are_available() -> None:
     payload = response.json()
 
     assert response.status_code == 200
-    assert response.headers["X-DevPilot-Api-Security"] == "token+cors+policy"
+    assert response.headers["X-DevPilot-Api-Security"] == "session+rbac+token-compat+cors+policy"
     assert response.headers["X-DevPilot-Policy"] == "allowed"
     assert payload["contract"] == "DevPilotApplicationResponse"
     assert payload["operation"] == "workspace.status"

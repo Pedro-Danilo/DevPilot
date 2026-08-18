@@ -199,7 +199,12 @@ def test_uoc_003_ui_version_is_synchronized() -> None:
     assert lock["packages"][""]["version"] == version
     assert "-post-h-eval-002-uoc-" in version
     version_uoc = int(version.rsplit("-uoc-", 1)[1])
-    sprint_uoc = int(current_sprint.rsplit("UOC-", 1)[1])
-    assert version_uoc == sprint_uoc
+    historical_uoc = str(package["devpilot"]["postHEvolutionCurrent"])
+    historical_uoc_number = int(historical_uoc.rsplit("UOC-", 1)[1])
+    # The package version and UOC lineage remain frozen at the last UOC
+    # operational-console release. Later DEVPL-GSDLC successors own
+    # ``currentSprint`` and must not be forced back to a historical UOC label.
+    assert version_uoc == historical_uoc_number
+    assert current_sprint == "DEVPL-GSDLC-02-E"
     assert version_uoc >= 3
     assert package["devpilot"]["uoc003Status"] == "closed/PASS"

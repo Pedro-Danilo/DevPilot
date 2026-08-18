@@ -1,0 +1,84 @@
+{
+  "schema_id": "devpilot.gsdlc02e.browser_acceptance_spec.v1",
+  "micro_sprint": "DEVPL-GSDLC-02-E",
+  "status": "PENDING-WINDOWS-REAL-BROWSER",
+  "real_browser_required": true,
+  "dom_fixture_only_accepted": false,
+  "required_screenshots": [
+    {
+      "id": "01",
+      "name": "first_run_owner.png"
+    },
+    {
+      "id": "02",
+      "name": "login.png"
+    },
+    {
+      "id": "03",
+      "name": "owner_authenticated_shell.png"
+    },
+    {
+      "id": "04",
+      "name": "developer_sensitive_denied.png"
+    },
+    {
+      "id": "05",
+      "name": "security_or_qa_reviewer.png"
+    },
+    {
+      "id": "06",
+      "name": "protected_url_without_session_redirect.png"
+    },
+    {
+      "id": "07",
+      "name": "expired_session.png"
+    },
+    {
+      "id": "08",
+      "name": "revoked_session.png"
+    },
+    {
+      "id": "09",
+      "name": "logout_redirect.png"
+    },
+    {
+      "id": "10",
+      "name": "approval_center_authority_deny.png"
+    }
+  ],
+  "required_machine_evidence": [
+    "scenario_metadata.json",
+    "role_access_browser_matrix.json",
+    "state_api_ui_parity.json",
+    "accessibility_result.json",
+    "browser_console_summary.json",
+    "sanitized_har_summary.json",
+    "screenshot_hash_manifest.sha256",
+    "secret_scan.json",
+    "session_browser_log.md"
+  ],
+  "forbidden_evidence": [
+    "raw passwords",
+    "credential hashes",
+    "session IDs/tokens",
+    "cookie values",
+    "CSRF secret",
+    "raw HAR containing auth headers/cookies"
+  ],
+  "pass": {
+    "screenshots_required": 10,
+    "role_matrix_pass": true,
+    "direct_url_bypass": false,
+    "secrets_exposed": false,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "block": [
+    "anonymous protected route",
+    "credential/session secret leak",
+    "role bypass",
+    "stale/revoked session authorization",
+    "actor spoof",
+    "second full regression"
+  ]
+}

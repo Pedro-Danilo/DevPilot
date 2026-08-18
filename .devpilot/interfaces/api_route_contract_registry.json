@@ -3318,15 +3318,50 @@
       "notes": [
         "UOC-003 local-first validation/traceability facade; no source mutation, shell, remote execution, connector or external API."
       ]
+    },
+    {
+      "route_id": "api.auth.session-status",
+      "method": "GET",
+      "path": "/api/v1/auth/session/status",
+      "operation": "auth.session.status",
+      "public": true,
+      "auth_required": false,
+      "policy_check_required": false,
+      "application_service_required": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "source_mutation_allowed": false,
+      "response_contract": "AuthSessionStateSafeEnvelope",
+      "risk_level": "low",
+      "policy_action": "public",
+      "policy_sensitivity": "public-local-session-recovery",
+      "notes": [
+        "GSDLC-02-E public local-only recovery signal; exposes only missing/unknown/active/expired/revoked/stale state and never actor, roles, token, cookie or CSRF secret."
+      ],
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "path_subject": null,
+      "tags": [
+        "auth",
+        "browser",
+        "gsdlc-02-e"
+      ],
+      "owner": "interfaces.api.auth",
+      "router_module": "auth"
     }
   ],
   "summary": {
-    "routes_total": 97,
-    "protected_routes_total": 90,
-    "public_routes_total": 6,
+    "routes_total": 98,
+    "protected_routes_total": 91,
+    "public_routes_total": 7,
     "mutating_routes_total": 30,
-    "application_service_routes_total": 91,
-    "policy_bound_routes_total": 90,
+    "application_service_routes_total": 93,
+    "policy_bound_routes_total": 91,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -3397,6 +3432,7 @@
     "POST-H-015-C adds GET /api/v1/operator/dashboard as a protected ApplicationService-bound read-only route.",
     "POST-H-016-D adds GET /api/v1/portfolio/status as a protected ApplicationService-bound read-only route that must not mutate active workspace selection.",
     "UOC-001 registers three protected read-only Workspace Documents endpoints with opaque ids and server-resolved active workspace roots.",
-    "UOC-003 adds four typed local workspace validation/traceability routes; execute writes bounded runtime evidence only."
+    "UOC-003 adds four typed local workspace validation/traceability routes; execute writes bounded runtime evidence only.",
+    "GSDLC-02-E adds public local-only session-status recovery without principal/secret disclosure; historical 97-route GSDLC-02-D snapshot is frozen separately."
   ]
 }

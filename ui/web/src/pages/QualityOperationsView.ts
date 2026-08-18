@@ -65,5 +65,5 @@ export function renderQualityOperationsView(tokenProvider: () => string): HTMLEl
     return message(error);
   }
   function message(error:unknown):string{return error instanceof Error?error.message:String(error);}
-  draw(); if(tokenProvider()) void bootstrap(); return section;
+  draw(); void bootstrap(); return section;
 }

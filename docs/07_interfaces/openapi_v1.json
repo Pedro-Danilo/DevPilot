@@ -10302,6 +10302,104 @@
         },
         "description": "GSDLC-02-C sanitized server-derived capability view for authenticated human sessions."
       }
+    },
+    "/api/v1/auth/session/status": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Inspect browser-safe local session state",
+        "operationId": "auth_session_status",
+        "x-devpilot-operation": "auth.session.status",
+        "x-devpilot-sprint": "DEVPL-GSDLC-02-E",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-api-id": "API-GSDLC02E-AUTH-SESSION-STATUS",
+        "x-devpilot-domain-service": "AuthApplicationService",
+        "x-devpilot-status": "gsdlc-02-e-browser-auth",
+        "x-devpilot-auth": "public-local-auth-recovery",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: localhost/loopback + explicit auth contract; protected mutations additionally require human session + CSRF.",
+        "x-devpilot-command-equivalent": "Typed AuthApplicationService session-state inspection only; no actor, role, cookie or secret echo.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "security": [],
+        "responses": {
+          "400": {
+            "description": "Invalid local auth request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication/session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Local auth/CSRF/origin policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "First-run bootstrap is no longer available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorEnvelope"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Secret-free session recovery state for local browser guard.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionStateSafeEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10611,6 +10709,44 @@
             }
           }
         }
+      },
+      "AuthSessionStateSafeEnvelope": {
+        "type": "object",
+        "required": [
+          "ok",
+          "state",
+          "authenticated",
+          "reason_code",
+          "secret_exposed"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "const": true
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "unknown",
+              "active",
+              "expired",
+              "revoked",
+              "stale"
+            ]
+          },
+          "authenticated": {
+            "type": "boolean"
+          },
+          "reason_code": {
+            "type": "string"
+          },
+          "secret_exposed": {
+            "type": "boolean",
+            "const": false
+          }
+        },
+        "additionalProperties": false
       }
     },
     "securitySchemes": {

@@ -1,4 +1,4 @@
-import type { DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, OperatorDashboardResponseData } from './types';
+import type { AuthBootstrapStatus, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
@@ -52,6 +52,35 @@ export class DevPilotApiClient {
     this.baseUrl = (options.baseUrl ?? DEFAULT_API_BASE).replace(/\/$/, '');
     this.token = options.token ?? readStoredToken();
     this.requestTimeoutMs = normalizeTimeout(options.requestTimeoutMs);
+  }
+
+
+  async authBootstrapStatus(): Promise<AuthBootstrapStatus> {
+    return this.authJson<AuthBootstrapStatus>('/auth/bootstrap/status', { method: 'GET' });
+  }
+
+  async authSessionStatus(): Promise<AuthSessionStatus> {
+    return this.authJson<AuthSessionStatus>('/auth/session/status', { method: 'GET' });
+  }
+
+  async authSession(): Promise<AuthSessionEnvelope> {
+    return this.authJson<AuthSessionEnvelope>('/auth/session', { method: 'GET' });
+  }
+
+  async authBootstrapOwner(payload: { username: string; display_name: string; password: string }): Promise<AuthSessionEnvelope> {
+    return this.authJson<AuthSessionEnvelope>('/auth/bootstrap/owner', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } });
+  }
+
+  async authLogin(payload: { username: string; password: string }): Promise<AuthSessionEnvelope> {
+    return this.authJson<AuthSessionEnvelope>('/auth/login', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } });
+  }
+
+  async authLogout(): Promise<{ ok: boolean; revoked: boolean; reason?: string }> {
+    return this.authJson('/auth/logout', { method: 'POST', body: '{}' });
+  }
+
+  async authRevokeCurrent(): Promise<{ ok: boolean; revoked: boolean }> {
+    return this.authJson('/auth/session/revoke', { method: 'POST', body: '{}' });
   }
 
   async health(): Promise<DevPilotApplicationResponse> {
@@ -381,6 +410,34 @@ export class DevPilotApiClient {
 
   async createWorkspaceGitBranch(planId: string, payload: { plan_hash: string; approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
     return this.post(`/workspace/git/branches/${encodeURIComponent(planId)}/create`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+
+  private async authJson<T = Record<string, unknown>>(path: string, init: RequestInit): Promise<T> {
+    const endpoint = `${this.baseUrl}${path}`;
+    const controller = new AbortController();
+    const timeoutId = globalThis.setTimeout(() => controller.abort(), this.requestTimeoutMs);
+    try {
+      const csrf = init.method === 'POST' ? readBrowserCookie('devpilot_csrf') : '';
+      const response = await fetch(endpoint, {
+        ...init,
+        credentials: 'include',
+        signal: controller.signal,
+        headers: { ...(init.headers ?? {}), ...(csrf ? { 'X-DevPilot-CSRF': csrf } : {}) },
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const message = String((payload as { error?: { message?: string } }).error?.message ?? `HTTP ${response.status}`);
+        throw new DevPilotApiError(message, response.status, payload, path, 0);
+      }
+      return payload as T;
+    } catch (error) {
+      if (error instanceof DevPilotApiError) throw error;
+      if (error instanceof Error && error.name === 'AbortError') throw new DevPilotApiError('Tiempo de espera agotado en autenticación local.', 408, { state: 'timeout' }, path, this.requestTimeoutMs);
+      throw new DevPilotApiError('API local de autenticación no disponible.', 0, { state: 'api_down' }, path, 0);
+    } finally {
+      globalThis.clearTimeout(timeoutId);
+    }
   }
 
   private async get(path: string, policy: RequestPolicy = {}): Promise<DevPilotApplicationResponse> {

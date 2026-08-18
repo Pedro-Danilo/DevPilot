@@ -3,7 +3,7 @@
   "version": "0.16.0-post-h-eval-002-uoc-011",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — UOC-011 operational hardening, accessibility, performance and release.",
+  "description": "DevPilot Local Web UI — operational console with authenticated local operator journey (GSDLC-02-E).",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -21,7 +21,8 @@
     "test:performance": "node scripts/uoc011-performance-smoke.mjs",
     "test:state-matrix": "node scripts/uoc011-state-matrix-smoke.mjs",
     "test:browser-runtime-matrix-contract": "node scripts/uoc011-browser-runtime-matrix-contract.mjs",
-    "test:project-status": "node scripts/gsdlc01e-project-status-smoke.mjs"
+    "test:project-status": "node scripts/gsdlc01e-project-status-smoke.mjs",
+    "test:auth-journey": "node scripts/gsdlc02e-auth-journey-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -184,7 +185,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "UOC-011",
+    "currentSprint": "DEVPL-GSDLC-02-E",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -273,7 +274,19 @@
     "gsdlc01eContinueMutatesState": false,
     "gsdlc02dAuthenticatedApprovalBinding": true,
     "approvalActorAuthority": "human-session",
-    "approvalCallerActorAuthoritative": false
+    "approvalCallerActorAuthoritative": false,
+    "gsdlc02eAuthenticatedJourney": true,
+    "gsdlc02eFirstRunOwnerView": true,
+    "gsdlc02eLoginView": true,
+    "gsdlc02eProtectedRouteGuard": true,
+    "gsdlc02eSessionBanner": true,
+    "gsdlc02eAccountRoleView": true,
+    "gsdlc02eBrowserAcceptanceRequired": true,
+    "gsdlc02eFullRegressionReservedExactlyOnce": true,
+    "normalUiRequiresHumanSession": true,
+    "legacyLocalTokenHumanAuthority": false,
+    "authEntryRoutesRegistry": ".devpilot/identity/auth_ui_route_contract_registry.json",
+    "authEntryRoutesTotal": 3
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

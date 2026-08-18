@@ -1,4 +1,5 @@
-import { DevPilotApiClient, readStoredToken, storeToken } from './api/client';
+import { DevPilotApiClient, DevPilotApiError, readStoredToken } from './api/client';
+import type { AuthSessionContext } from './api/types';
 import { renderDashboard } from './pages/Dashboard';
 import { renderReportsView } from './pages/ReportsView';
 import { renderTracesView } from './pages/TracesView';
@@ -9,6 +10,10 @@ import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
 import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
 import { renderProjectStatusView } from './pages/ProjectStatusView';
+import { renderLoginView } from './pages/LoginView';
+import { renderFirstRunOwnerView } from './pages/FirstRunOwnerView';
+import { renderAccountRoleView } from './pages/AccountRoleView';
+import { renderSessionBanner } from './components/SessionBanner';
 import './styles.css';
 
 const root = document.querySelector<HTMLElement>('#app');
@@ -26,32 +31,52 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/ai', routeId: 'ui.ai', title: 'IA / RAG' },
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center' },
   { path: '/settings', routeId: 'ui.settings', title: 'Configuración' },
+  { path: '/account', routeId: 'ui.account-role', title: 'Cuenta / Roles' },
 ];
 
-renderApplication(root);
+void bootstrapAuthenticatedUi(root);
 
-function renderApplication(target: HTMLElement): void {
+async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
+  const path=normalizePath(globalThis.location.pathname);
+  const params=new URLSearchParams(globalThis.location.search);
+  const client=new DevPilotApiClient();
+  try {
+    const bootstrap=await client.authBootstrapStatus();
+    if (bootstrap.first_run_required) {
+      if (path !== '/first-run') return redirect('/first-run');
+      target.replaceChildren(renderFirstRunOwnerView(()=>redirect('/')));
+      return;
+    }
+    const status=await client.authSessionStatus();
+    if (!status.authenticated || status.state !== 'active') {
+      const reason=status.state==='expired'?'expired':status.state==='revoked'?'revoked':status.state==='stale'?'stale':'required';
+      if (path !== '/login') return redirect(`/login?reason=${encodeURIComponent(reason)}&return=${encodeURIComponent(path)}`);
+      target.replaceChildren(renderLoginView(()=>redirect(safeReturn(params.get('return'))), params.get('reason') ?? reason));
+      return;
+    }
+    const envelope=await client.authSession();
+    if (path === '/login' || path === '/first-run') return redirect(safeReturn(params.get('return')));
+    renderApplication(target,envelope.session);
+  } catch (error) {
+    if (path !== '/login' && path !== '/first-run') return redirect(`/login?reason=required&return=${encodeURIComponent(path)}`);
+    const message=error instanceof DevPilotApiError && error.status===0 ? 'API local no disponible. Inicia la API en 127.0.0.1:8787.' : 'No fue posible validar el estado de autenticación local.';
+    const section=document.createElement('section'); section.className='auth-page'; section.innerHTML=`<div class="auth-card"><h1>Autenticación no disponible</h1><p>${message}</p><p>DevPilot falla cerrado: el Project Shell no se abre sin sesión humana validada.</p></div>`; target.replaceChildren(section);
+  }
+}
+
+function renderApplication(target: HTMLElement, session: AuthSessionContext): void {
   const currentPath = normalizePath(globalThis.location.pathname);
   const jobsDetail = currentPath.match(/^\/jobs\/(job_[A-Za-z0-9_-]+)$/);
   const route = UI_ROUTES.find((item) => item.path === currentPath) ?? (jobsDetail ? UI_ROUTES.find((item) => item.path === '/jobs') : undefined);
   target.replaceChildren();
-  const shell = document.createElement('div');
-  shell.className = 'app-shell';
-  const skipLink = document.createElement('a');
-  skipLink.className = 'skip-link';
-  skipLink.href = '#route-main';
-  skipLink.textContent = 'Saltar al contenido principal';
-  shell.append(skipLink, renderPrimaryNavigation(currentPath));
-  const page = document.createElement('div');
-  page.className = 'route-page';
-  page.id = 'route-main';
-  page.setAttribute('role', 'main');
-  page.setAttribute('tabindex', '-1');
-  page.dataset.routePath = currentPath;
+  const shell = document.createElement('div'); shell.className = 'app-shell';
+  const skipLink = document.createElement('a'); skipLink.className = 'skip-link'; skipLink.href = '#route-main'; skipLink.textContent = 'Saltar al contenido principal';
+  shell.append(skipLink, renderSessionBanner(session,()=>redirect('/login?reason=logout')), renderPrimaryNavigation(currentPath));
+  const page = document.createElement('div'); page.className = 'route-page'; page.id = 'route-main'; page.setAttribute('role', 'main'); page.setAttribute('tabindex', '-1'); page.dataset.routePath = currentPath;
   if (!route) page.append(renderNotFound(currentPath));
   else if (route.path === '/') renderDashboard(page);
   else {
-    page.append(renderRouteHeader(route));
+    page.append(renderRouteHeader(route,session));
     if (route.path === '/project/status') page.append(renderProjectStatusView(() => readStoredToken()));
     else if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken()));
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
@@ -61,88 +86,23 @@ function renderApplication(target: HTMLElement): void {
     else if (route.path === '/ai') page.append(renderAiOperationsView(() => readStoredToken()));
     else if (route.path === '/approvals') page.append(renderApprovalCenterView(() => readStoredToken()));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));
+    else if (route.path === '/account') page.append(renderAccountRoleView(session));
   }
-  shell.append(page);
-  target.append(shell);
+  shell.append(page); target.append(shell);
 }
 
 function renderPrimaryNavigation(currentPath: string): HTMLElement {
-  const nav = document.createElement('nav');
-  nav.className = 'primary-nav';
-  nav.setAttribute('aria-label', 'Navegación principal DevPilot');
-  const brand = document.createElement('a');
-  brand.href = '/';
-  brand.className = 'primary-nav__brand';
-  brand.textContent = 'DevPilot Local';
-  const links = document.createElement('div');
-  links.className = 'primary-nav__links';
-  for (const route of UI_ROUTES) {
-    const link = document.createElement('a');
-    link.href = route.path;
-    link.textContent = route.title;
-    link.dataset.routeId = route.routeId;
-    if (route.path === currentPath || (route.path === '/jobs' && currentPath.startsWith('/jobs/'))) {
-      link.classList.add('is-active');
-      link.setAttribute('aria-current', 'page');
-    }
-    links.append(link);
-  }
-  nav.append(brand, links);
-  return nav;
+  const nav = document.createElement('nav'); nav.className = 'primary-nav'; nav.setAttribute('aria-label', 'Navegación principal DevPilot');
+  const brand = document.createElement('a'); brand.href = '/'; brand.className = 'primary-nav__brand'; brand.textContent = 'DevPilot Local';
+  const links = document.createElement('div'); links.className = 'primary-nav__links';
+  for (const route of UI_ROUTES) { const link=document.createElement('a'); link.href=route.path; link.textContent=route.title; link.dataset.routeId=route.routeId; if(route.path===currentPath||(route.path==='/jobs'&&currentPath.startsWith('/jobs/'))){link.classList.add('is-active');link.setAttribute('aria-current','page');} links.append(link); }
+  nav.append(brand, links); return nav;
 }
 
-function renderRouteHeader(route: UiRoute): HTMLElement {
-  const header = document.createElement('header');
-  header.className = 'route-header';
-  const heading = document.createElement('div');
-  const title = document.createElement('h1');
-  title.textContent = route.title;
-  const meta = document.createElement('p');
-  meta.textContent = `${route.routeId} · ${route.path} · local-first · no-remote · token en sessionStorage con TTL máximo de 8h.`;
-  heading.append(title, meta);
-  const form = document.createElement('form');
-  form.className = 'token-form route-token-form';
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const input = form.querySelector<HTMLInputElement>('input[name="token"]');
-    storeToken(input?.value ?? '');
-    renderApplication(root as HTMLElement);
-  });
-  const label = document.createElement('label');
-  label.textContent = 'Token local';
-  const input = document.createElement('input');
-  input.name = 'token';
-  input.type = 'password';
-  input.placeholder = 'Pega DEVPILOT_API_TOKEN';
-  input.value = readStoredToken();
-  input.autocomplete = 'off';
-  const apply = document.createElement('button');
-  apply.type = 'submit';
-  apply.textContent = 'Aplicar token';
-  const clear = document.createElement('button');
-  clear.type = 'button';
-  clear.className = 'button-secondary';
-  clear.textContent = 'Limpiar token';
-  clear.addEventListener('click', () => { storeToken(''); renderApplication(root as HTMLElement); });
-  label.append(input);
-  form.append(label, apply, clear);
-  header.append(heading, form);
-  return header;
+function renderRouteHeader(route: UiRoute, session: AuthSessionContext): HTMLElement {
+  const header=document.createElement('header'); header.className='route-header'; const heading=document.createElement('div'); const title=document.createElement('h1'); title.textContent=route.title; const meta=document.createElement('p'); meta.textContent=`${route.routeId} · ${route.path} · human-session · ${session.principal.roles.join(', ')} · local-first · no-remote · TTL máximo de 8h`; heading.append(title,meta); header.append(heading); return header;
 }
-
-function renderNotFound(path: string): HTMLElement {
-  const section = document.createElement('section');
-  section.className = 'panel route-not-found';
-  const title = document.createElement('h1');
-  title.textContent = 'Ruta UI no registrada';
-  const description = document.createElement('p');
-  description.textContent = `La ruta ${path} no pertenece al contrato crítico local. Usa la navegación principal.`;
-  section.append(title, description);
-  return section;
-}
-
-function normalizePath(path: string): string {
-  if (!path || path === '/') return '/';
-  const normalized = path.replace(/\/+$/, '');
-  return normalized || '/';
-}
+function renderNotFound(path:string):HTMLElement{const section=document.createElement('section');section.className='panel route-not-found';const title=document.createElement('h1');title.textContent='Ruta UI no registrada';const description=document.createElement('p');description.textContent=`La ruta ${path} no pertenece al contrato local. Usa la navegación principal.`;section.append(title,description);return section;}
+function normalizePath(path:string):string{if(!path||path==='/')return '/';const normalized=path.replace(/\/+$/,'');return normalized||'/';}
+function safeReturn(value:string|null):string{if(!value||!value.startsWith('/')||value.startsWith('//')||value==='/login'||value==='/first-run')return '/';return value;}
+function redirect(path:string):void{globalThis.location.replace(path);}

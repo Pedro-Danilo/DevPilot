@@ -290,7 +290,7 @@ class ApiRouteContractRegistryValidator:
                 findings.append(Finding("API_ROUTE_SENSITIVE_AUTH_POLICY_BLOCK", "Sensitive API route must require both auth and policy binding.", Severity.BLOCK, metadata={"route_id": route_id, "path": route.get("path"), "risk_level": risk}))
             allowed_response_contracts = {"ApplicationResponse"}
             if str(route.get("owner")) == "interfaces.api.auth":
-                allowed_response_contracts.update({"AuthBootstrapStatus", "AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope", "RBACCapabilityView"})
+                allowed_response_contracts.update({"AuthBootstrapStatus", "AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope", "AuthSessionStateSafeEnvelope", "RBACCapabilityView"})
             if app_required and route.get("response_contract") not in allowed_response_contracts:
                 findings.append(Finding("API_ROUTE_APP_RESPONSE_CONTRACT_BLOCK", "ApplicationService-backed API route declares an unsupported response contract.", Severity.BLOCK, metadata={"route_id": route_id, "path": route.get("path"), "response_contract": route.get("response_contract")}))
 

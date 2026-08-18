@@ -163,3 +163,19 @@ def test_post_h_027_a_documentation_is_synchronized() -> None:
     assert manifest["micro_sprint"] == "POST-H-027-A"
     assert manifest["status"] == "implemented-initial"
     assert manifest["tests_execute_from_json"] is False
+
+
+def test_source_secret_scanner_distinguishes_code_identifiers_from_material_literals() -> None:
+    from devpilot_core.auditpack.redaction import _count_material_secret_redactions
+    from devpilot_core.policy.secrets import SecretGuard
+    guard=SecretGuard(ROOT)
+    safe="\n".join([
+        "def hash_password(self, password: str) -> str:",
+        "password: str",
+        "password: string;",
+        "password=body.password,",
+        "password: payload.password,",
+        "async login(payload: { username: string; password: string }): Promise<void> {",
+    ])
+    assert _count_material_secret_redactions(safe, secret_guard=guard) == 0
+    assert _count_material_secret_redactions('password="RealSecretValue123!"', secret_guard=guard) >= 1

@@ -49,7 +49,9 @@ def test_uoc008_jobs_routes_require_token_and_support_list_detail_logs_retry(run
     listed = client.get("/api/v1/jobs", headers=_headers()); assert listed.status_code == 200 and listed.json()["ok"] is True
     detail = client.get(f"/api/v1/jobs/{job_id}", headers=_headers()); assert detail.status_code == 200 and detail.json()["data"]["job"]["job_id"] == job_id
     logs = client.get(f"/api/v1/jobs/{job_id}/logs", headers=_headers()); assert logs.status_code == 200
-    retry = client.post(f"/api/v1/jobs/{job_id}/retry", headers=_headers(), json={"actor":"owner","reason":"api retry"}); assert retry.status_code == 200 and retry.json()["ok"] is True
+    retry = client.post(f"/api/v1/jobs/{job_id}/retry", headers=_headers(), json={"actor":"owner","reason":"api retry"})
+    assert retry.status_code in {401,403}
+    assert retry.json()["findings"][0]["id"] in {"AUTH_HUMAN_SESSION_REQUIRED_BLOCK","RBAC_LEGACY_TOKEN_DENY"}
 
 
 def test_uoc008_jobs_unknown_id_is_product_block_not_transport_crash(runtime_root: Path) -> None:

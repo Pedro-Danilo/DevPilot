@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const read=(p)=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
+const main=read('src/main.ts'), client=read('src/api/client.ts'), login=read('src/pages/LoginView.ts'), first=read('src/pages/FirstRunOwnerView.ts'), banner=read('src/components/SessionBanner.ts'), account=read('src/pages/AccountRoleView.ts');
+const pkg=JSON.parse(read('package.json')); const shellPages=['src/pages/ReportsView.ts','src/pages/TracesView.ts','src/pages/ApprovalCenterView.ts','src/pages/WorkspaceDocumentsView.ts','src/pages/JobsView.ts','src/pages/QualityOperationsView.ts'].map(read);
+const failures=[]; const check=(ok,id)=>{if(!ok)failures.push(id)};
+check(main.includes("'/login'")&&main.includes("'/first-run'")&&main.includes("'/account'"),'routes');
+check(main.includes('authBootstrapStatus')&&main.includes('authSessionStatus')&&main.includes('authSession()'),'guard-preflight');
+check(main.includes("location.replace")&&main.includes('return='),'direct-url-redirect');
+check(shellPages.every(t=>!t.includes('if (tokenProvider())')&&!t.includes('if(tokenProvider())')),'no-legacy-token-bootstrap-gate');
+check(!main.includes('Token local')&&!main.includes('Aplicar token'),'normal-shell-no-token-form');
+for(const marker of ['/auth/bootstrap/status','/auth/bootstrap/owner','/auth/login','/auth/session/status','/auth/session','/auth/logout','/auth/capabilities'])check(client.includes(marker),`client:${marker}`);
+check(login.includes('Credenciales inválidas')&&login.includes('Demasiados intentos'),'login-negative-states');
+check(first.includes('Configurar propietario local')&&first.includes('new-password'),'first-run');
+check(banner.includes('Roles:')&&banner.includes('Cerrar sesión'),'session-banner');
+check(account.includes('Cuenta y autoridad efectiva')&&account.includes('authCapabilities'),'account-role');
+check(pkg.devpilot.normalUiRequiresHumanSession===true&&pkg.devpilot.legacyLocalTokenHumanAuthority===false,'package-auth-boundary');
+console.log(JSON.stringify({schema_id:'devpilot.gsdlc02e.auth_journey_smoke.v1',status:failures.length?'BLOCK':'PASS',failures},null,2)); process.exit(failures.length?2:0);

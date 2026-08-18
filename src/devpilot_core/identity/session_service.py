@@ -65,6 +65,39 @@ class LocalAuthService:
         principal=AuthenticatedPrincipal(identity.actor_id,identity.username,identity.display_name,identity.roles,identity.workspace_scopes)
         return SessionContext(principal,record.created_at,now_iso if touch else record.last_seen_at,record.absolute_expires_at,record.idle_timeout_seconds,record.rotation_counter)
 
+    def inspect_session_state(self, token: str) -> dict[str, object]:
+        """Return a secret-free session state for browser auth recovery.
+
+        This helper never returns actor/role data and never touches last-seen. It
+        exists so the UI can distinguish missing, expired, revoked and stale
+        sessions without exposing the opaque cookie or requiring the legacy API
+        token.
+        """
+        if not token:
+            return {"state": "missing", "authenticated": False, "reason_code": "AUTH_SESSION_MISSING"}
+        record = self.store.get_session(self._hash_secret(token))
+        if record is None:
+            return {"state": "unknown", "authenticated": False, "reason_code": "AUTH_SESSION_UNKNOWN"}
+        if record.revoked_at:
+            reason = str(record.revoke_reason or "revoked")
+            if reason in {"absolute-timeout", "idle-timeout"}:
+                state = "expired"
+                code = "AUTH_SESSION_EXPIRED"
+            elif reason == "authority-changed":
+                state = "stale"
+                code = "AUTH_SESSION_STALE"
+            else:
+                state = "revoked"
+                code = "AUTH_SESSION_REVOKED"
+            return {"state": state, "authenticated": False, "reason_code": code}
+        now = self._now()
+        if now >= self._parse(record.absolute_expires_at) or now - self._parse(record.last_seen_at) > timedelta(seconds=record.idle_timeout_seconds):
+            return {"state": "expired", "authenticated": False, "reason_code": "AUTH_SESSION_EXPIRED"}
+        identity = self.store.get_identity(record.actor_id)
+        if identity is None or identity.status != "active" or tuple(identity.roles) != tuple(record.roles) or tuple(identity.workspace_scopes) != tuple(record.workspace_scopes):
+            return {"state": "stale", "authenticated": False, "reason_code": "AUTH_SESSION_STALE"}
+        return {"state": "active", "authenticated": True, "reason_code": "AUTH_SESSION_ACTIVE"}
+
     def require_csrf(self, token: str, csrf_token: str) -> None:
         record=self.store.get_session(self._hash_secret(token))
         if record is None or record.revoked_at: raise SessionInvalid("session invalid")

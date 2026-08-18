@@ -382,7 +382,7 @@ class ApiContractDriftGuard:
         if contract == "ApplicationResponse":
             return True
         if str(route.get("owner", "")) == "interfaces.api.auth":
-            return contract in {"AuthBootstrapStatus", "AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope", "RBACCapabilityView"}
+            return contract in {"AuthBootstrapStatus", "AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope", "AuthSessionStateSafeEnvelope", "RBACCapabilityView"}
         return False
 
     @staticmethod

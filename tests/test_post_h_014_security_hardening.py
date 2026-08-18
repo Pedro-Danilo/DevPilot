@@ -85,7 +85,7 @@ def test_post_h_014_d_security_headers_are_applied_to_success_and_error_response
     for response in [success, error]:
         for header in SECURITY_HEADERS:
             assert response.headers.get(header) == SECURITY_HEADERS[header]
-        assert response.headers["X-DevPilot-Api-Security"] == "token+cors+policy"
+        assert response.headers["X-DevPilot-Api-Security"] == "session+rbac+token-compat+cors+policy"
 
 
 def test_post_h_014_d_non_local_bind_remains_blocked_even_with_future_override(monkeypatch) -> None:

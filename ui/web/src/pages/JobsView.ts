@@ -146,7 +146,7 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
     select.addEventListener('change', () => { state.status = select.value; }); label.append(select); return label;
   }
 
-  draw(); if (tokenProvider()) { if (initialJobId) void inspectId(initialJobId); else void refresh(); } return section;
+  draw(); if (initialJobId) void inspectId(initialJobId); else void refresh(); return section;
 }
 
 function metric(label: string, value: string | number): HTMLElement { const div = document.createElement('div'); div.className = 'job-metric'; const strong = document.createElement('strong'); strong.textContent = String(value); const span = document.createElement('span'); span.textContent = label; div.append(strong, span); return div; }

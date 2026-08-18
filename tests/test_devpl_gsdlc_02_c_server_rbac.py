@@ -17,7 +17,9 @@ def test_policy_catalog_maps_every_current_route_and_sensitive_action():
     cat=json.loads((ROOT/'.devpilot/identity/server_rbac_policy_catalog.json').read_text())
     assert {(x['method'],x['path']) for x in api['routes']} == {(x['method'],x['path']) for x in cat['route_policies']}
     assert {x['action_id'] for x in sens['actions']} == {x['action_id'] for x in cat['sensitive_action_policies']}
-    assert len(api['routes'])==97 and len(sens['actions'])==16
+    frozen=json.loads((ROOT/'.devpilot/interfaces/api_route_contract_registry_gsdlc02d_at_close.json').read_text())
+    assert len(frozen['routes'])==97 and len(sens['actions'])==16
+    assert len(api['routes'])>=len(frozen['routes'])
     assert cat['summary']['unmapped_routes_total']==0 and cat['summary']['unmapped_sensitive_actions_total']==0
 
 def test_unknown_route_action_and_role_are_deny_by_default():
@@ -81,4 +83,5 @@ def test_exhaustive_canonical_role_route_and_sensitive_action_matrix_is_total():
             d=e.authorize_sensitive_action(p,action_id=action['action_id'],workspace_id='devpilot-local')
             assert d.reason_code in {'RBAC_ALLOW','RBAC_ROLE_DENY','RBAC_WORKSPACE_SCOPE_DENY'}
             decisions+=1
-    assert decisions == len(cat['canonical_roles']) * ((len(cat['route_policies'])-6) + len(cat['sensitive_action_policies']))
+    protected_total=sum(1 for route in cat['route_policies'] if not route.get('public'))
+    assert decisions == len(cat['canonical_roles']) * (protected_total + len(cat['sensitive_action_policies']))

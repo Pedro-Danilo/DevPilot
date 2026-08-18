@@ -376,3 +376,21 @@ Authentication routes use the typed `AuthApplicationService` instead of the gene
 Approval request/approve/deny current-active routes require a human session. The authenticated principal is the authority; caller `actor` is a deprecated compatibility hint and cannot override the session. `ApprovalApplicationService.request_authenticated` and `decide_authenticated` persist safe request/decision binding metadata without session token/cookie/CSRF secrets. Legacy local token remains read compatibility only and cannot request or decide identity-bound approvals.
 
 Workspace edit/Git approval-request and execution routes derive actor from the authenticated session in their API routers. The server remains authoritative; Approval Center only reflects this authority.
+
+
+## DEVPL-GSDLC-02-E — Authenticated browser journey
+
+- `GET /api/v1/auth/session/status` is a public **localhost-only**, secret-free recovery endpoint for the browser guard. It returns only session state/reason and never actor, roles, token, cookie or CSRF values.
+- `/login` and `/first-run` are the only normal unauthenticated UI entry routes. After first-run, every Project Shell route requires an active `human-session`.
+- `/account` renders identity/roles plus the server-derived capability view; the frontend is not an authorization authority.
+- The legacy local token remains compatibility-only and cannot act as a human principal for identity-bound approvals.
+- Historical 97-route API and 10-route UI GSDLC-02-D registries are frozen in `*_gsdlc02d_at_close.json`; E adds successor contracts instead of rewriting snapshots.
+
+### API-GSDLC02E-AUTH-SESSION-STATUS
+- Route: `GET /api/v1/auth/session/status`
+- Operation: `auth.session.status`
+- Application boundary: `AuthApplicationService`
+- Policy/gate: localhost/loopback only; public recovery signal, no authorization capability.
+- Auth: no human session required because the route only returns a bounded state enum and no principal/role/secret.
+- Side effect: read-only; does not touch `last_seen`.
+- Security: no legacy token principal, no actor data, no roles, no cookie/session/CSRF values in body.

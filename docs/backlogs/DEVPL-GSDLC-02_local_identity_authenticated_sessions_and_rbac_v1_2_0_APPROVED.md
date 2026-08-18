@@ -490,3 +490,14 @@ El backlog solo puede adjudicarse `CLOSED/PASS` si todos los micro-sprints A→E
 - GSDLC-03 solo si una sesión autenticada puede acceder al Project Shell y las acciones se evalúan server-side.
 
 Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps estén clasificados S2/S3, tengan owner, evidencia y no invaliden la invariante de producto de esta ola.
+
+
+## 14. Estado de ejecución acumulativo — 2026-08-17
+
+- `GSDLC-02-A`: `CLOSED/PASS`.
+- `GSDLC-02-B`: `CLOSED/PASS`.
+- `GSDLC-02-C`: `CLOSED/PASS`.
+- `GSDLC-02-D`: `CLOSED/PASS`; autoridad sucesora repo358, commit `c2ac010b89e17f19229b2d833071e61030a33e10`.
+- `GSDLC-02-E`: `PASS-CANDIDATE/COMPOSITE-WINDOWS-VALIDATED/PENDING-OWNER-ADJUDICATION`; C4 y browser real PASS (10 screenshots, S0=0/S1=0). La única full regression se ejecutó exactamente una vez con `2345 passed / 62 failed / 0 errors / 3 skipped` y quedó preservada como hecho histórico; no se repitió. Recovery compuesto: exact residual retest `62/62 PASS`, impacted retest acotado `PASS`, `validation_mode=composite-full-regression-selective-retest`. GSDLC-03 sigue bloqueado hasta adjudicación owner.
+
+Este estado no reescribe los contratos históricos ni altera la regla owner-approved: A→D acumulativa/selectiva; E contiene la única full regression exactamente una vez.

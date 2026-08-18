@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from typing import Any
 
 from fastapi import APIRouter, Depends, Request
@@ -13,6 +14,27 @@ from devpilot_core.identity.session_service import AuthenticationError, Bootstra
 from ..dependencies import get_auth_service
 
 router = APIRouter(tags=["auth"])
+
+AUTH_LOGIN_ATTEMPTS_PER_MINUTE = 10
+AUTH_LOGIN_WINDOW_SECONDS = 60
+
+
+def _auth_rate_key(request: Request, username: str) -> str:
+    normalized = (username or "").strip().lower()
+    digest = hashlib.sha256(normalized.encode("utf-8", errors="ignore")).hexdigest()[:16]
+    client = request.client.host if request.client is not None else "local"
+    return f"login:{client}:{digest}"
+
+
+def _check_login_rate(request: Request, username: str) -> tuple[bool, int]:
+    limiter = request.app.state.auth_login_limiter
+    allowed, _remaining, retry_after = limiter.consume(
+        _auth_rate_key(request, username),
+        limit=AUTH_LOGIN_ATTEMPTS_PER_MINUTE,
+        window_seconds=AUTH_LOGIN_WINDOW_SECONDS,
+    )
+    return allowed, retry_after
+
 
 
 class BootstrapOwnerBody(BaseModel):
@@ -66,8 +88,19 @@ def bootstrap_owner(body: BootstrapOwnerBody, request: Request, service: AuthApp
     return response
 
 
+@router.get("/api/v1/auth/session/status")
+def session_status(request: Request, service: AuthApplicationService = Depends(get_auth_service)) -> dict[str, Any]:
+    token = request.cookies.get(SESSION_COOKIE_NAME, "")
+    return {"ok": True, **service.inspect_session_state(token), "secret_exposed": False}
+
+
 @router.post("/api/v1/auth/login")
 def login(body: LoginBody, request: Request, service: AuthApplicationService = Depends(get_auth_service)) -> JSONResponse:
+    allowed, retry_after = _check_login_rate(request, body.username)
+    if not allowed:
+        response = _error("local login attempt budget exceeded", 429, "AUTH_LOGIN_RATE_LIMIT_BLOCK")
+        response.headers["Retry-After"] = str(retry_after)
+        return response
     try:
         issue = service.login(username=body.username, password=body.password)
     except (AuthenticationError, ValueError):

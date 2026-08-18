@@ -1,0 +1,188 @@
+{
+  "schema_id": "devpilot.gsdlc02e.auth_ui_route_contract_registry.v1",
+  "registry_id": "devpilot-auth-ui-route-contract-registry",
+  "status": "implemented-initial/pending-windows-composite-recovery",
+  "created_by": "DEVPL-GSDLC-02-E",
+  "updated": "2026-08-17",
+  "scope": "local-auth-entry-and-account-routes",
+  "operational_ui_registry": ".devpilot/interfaces/ui_route_contract_registry.json",
+  "routes": [
+    {
+      "route_id": "ui.login",
+      "title": "Login local",
+      "path": "/login",
+      "page_component": "LoginView",
+      "source_files": [
+        "ui/web/src/pages/LoginView.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/api/client.ts"
+      ],
+      "allowed_api_routes": [
+        "api.auth.bootstrap-status",
+        "api.auth.session-status",
+        "api.auth.login"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": false,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true,
+        "warn": true,
+        "block": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "timeout": true,
+        "cancelled": true,
+        "stale_data": true,
+        "invalid_credentials": true,
+        "rate_limited": true,
+        "session_expired": true,
+        "session_revoked": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "GSDLC-02-E local human-session login. Password is never persisted by frontend and opaque session is cookie-bound.",
+        "Direct protected routes redirect here when no active human session exists."
+      ]
+    },
+    {
+      "route_id": "ui.first-run-owner",
+      "title": "First-run owner",
+      "path": "/first-run",
+      "page_component": "FirstRunOwnerView",
+      "source_files": [
+        "ui/web/src/pages/FirstRunOwnerView.ts",
+        "ui/web/src/main.ts"
+      ],
+      "allowed_api_routes": [
+        "api.auth.bootstrap-status",
+        "api.auth.bootstrap-owner",
+        "api.auth.session-status"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": false,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true,
+        "warn": true,
+        "block": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "timeout": true,
+        "cancelled": true,
+        "stale_data": true,
+        "first_run": true,
+        "bootstrap_blocked": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "GSDLC-02-E first-run-only owner bootstrap. Mutation is restricted to ignored local auth runtime state; no source mutation."
+      ]
+    },
+    {
+      "route_id": "ui.account-role",
+      "title": "Cuenta y roles",
+      "path": "/account",
+      "page_component": "AccountRoleView",
+      "source_files": [
+        "ui/web/src/pages/AccountRoleView.ts",
+        "ui/web/src/components/SessionBanner.ts",
+        "ui/web/src/main.ts"
+      ],
+      "allowed_api_routes": [
+        "api.auth.session",
+        "api.auth.capabilities",
+        "api.auth.logout",
+        "api.auth.session-revoke"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": false,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true,
+        "warn": true,
+        "block": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "timeout": true,
+        "cancelled": true,
+        "stale_data": true,
+        "authenticated": true,
+        "revoked": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "GSDLC-02-E account/role projection derived from authenticated session and server capability view; frontend remains non-authoritative."
+      ]
+    }
+  ],
+  "summary": {
+    "routes_total": 3,
+    "critical_routes_total": 3,
+    "local_only_total": 3,
+    "remote_execution_allowed_total": 0,
+    "external_api_allowed_total": 0
+  },
+  "notes": [
+    "Authentication entry/account routes are not operational dry-run pages and therefore are intentionally separated from POST-H-014/UOC UiRouteContractRegistry.",
+    "Historical/current operational UiRouteContractRegistry remains the 10-route GSDLC-01-E successor over the frozen UOC-011 9-route snapshot.",
+    "Auth routes remain local-only, non-remote, non-external and session/credential safe."
+  ]
+}

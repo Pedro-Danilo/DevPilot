@@ -91,9 +91,11 @@ def test_post_h_014_a_contract_validator_blocks_no_unregistered_or_unsafe_routes
     assert summary["connector_write_allowed_total"] == 0
     assert summary["plugin_execution_allowed_total"] == 0
     assert summary["sensitive_routes_missing_auth_or_policy_total"] == 0
-    assert summary["public_routes_total"] == 6
+    frozen=json.loads((ROOT / ".devpilot/interfaces/api_route_contract_registry_gsdlc02d_at_close.json").read_text(encoding="utf-8"))
+    assert sum(1 for r in frozen["routes"] if r.get("public")) == 6
+    assert summary["public_routes_total"] == sum(1 for r in read_registry()["routes"] if r.get("public"))
     public_auth = {r["route_id"] for r in read_registry()["routes"] if r.get("public") and r.get("owner") == "interfaces.api.auth"}
-    assert public_auth == {"api.auth.bootstrap-status", "api.auth.bootstrap-owner", "api.auth.login"}
+    assert public_auth == {"api.auth.bootstrap-status", "api.auth.bootstrap-owner", "api.auth.login", "api.auth.session-status"}
     assert summary["application_service_routes_total"] == sum(1 for route in read_registry()["routes"] if route.get("application_service_required"))
 
 
@@ -105,7 +107,7 @@ def test_post_h_014_a_every_service_route_is_application_service_and_policy_boun
 
     assert protected_routes
     assert service_routes
-    auth_response_contracts = {"AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope", "RBACCapabilityView"}
+    auth_response_contracts = {"AuthSessionSafeEnvelope", "AuthSessionSafeEnvelope+SetCookie", "AuthRevocationSafeEnvelope", "AuthSessionStateSafeEnvelope", "RBACCapabilityView"}
     assert all(
         route["response_contract"] == "ApplicationResponse"
         or (route.get("owner") == "interfaces.api.auth" and route["response_contract"] in auth_response_contracts)

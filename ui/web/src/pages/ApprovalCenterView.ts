@@ -168,7 +168,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   }
 
   draw();
-  if (tokenProvider()) void refresh();
+  void refresh();
   return section;
 }
 
@@ -179,7 +179,7 @@ function renderApprovalAuthorityPanel(response: DevPilotApplicationResponse | un
   title.textContent = 'Autoridad autenticada';
   panel.append(title);
   if (error) {
-    panel.append(renderUiStateNotice('block', 'Sesión humana/capability view no disponible. Crear o decidir approvals permanece bloqueado hasta autenticarse; Login UI llega en GSDLC-02-E.'));
+    panel.append(renderUiStateNotice('block', 'Sesión humana/capability view no disponible. Crear o decidir approvals permanece bloqueado hasta autenticarse; Inicia sesión para continuar; el servidor deriva la autoridad del principal autenticado.'));
     return panel;
   }
   const data = (response?.data ?? {}) as Record<string, unknown>;

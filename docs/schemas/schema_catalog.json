@@ -6,7 +6,7 @@
   "version": "1.9.0",
   "owner": "Ordóñez",
   "updated": "2026-08-17",
-  "sprint": "DEVPL-GSDLC-02-D",
+  "sprint": "DEVPL-GSDLC-02-E",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
   "schemas": [
@@ -2749,7 +2749,24 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-02-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-02-E-AUTH-UI-ROUTE-CONTRACT-REGISTRY-V1",
+      "title": "GSDLC-02-E Auth UI Route Contract Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/auth_ui_route_contract.schema.json",
+      "description": "Successor schema separating local authentication entry/account routes from the historical operational UiRouteContractRegistry.",
+      "status": "registered",
+      "contract": "AuthUiRouteContractRegistry",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-02-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-02-E",
+      "local_first": true,
+      "dry_run_default": false,
+      "no_remote_execution_enabled": true
     }
   ],
-  "schemas_total": 190
+  "schemas_total": 191
 }

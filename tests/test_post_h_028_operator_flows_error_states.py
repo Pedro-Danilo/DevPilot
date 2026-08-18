@@ -135,7 +135,8 @@ def test_web_ui_operator_flow_markers_and_safe_action_allowlist_are_synchronized
     assert "token local faltante o inválido" in client
     assert "0.0.0.0 como solución" not in client
     assert "no uses bind no-local como solución" in client
-    assert "actor: 'local-owner'" in approvals
+    assert "actor: 'local-owner'" not in approvals
+    assert "caller no elige actor" in approvals.lower() or "servidor deriva identidad" in approvals.lower()
     assert "approval pending" in approvals
     assert "patch apply" in action_form
     assert "BLOCK visible" in action_form
