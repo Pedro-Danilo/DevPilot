@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+const read=(p)=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
+const main=read('src/main.ts'),view=read('src/pages/ProjectEntryDryRunView.ts'),client=read('src/api/client.ts');const pkg=JSON.parse(read('package.json'));const failures=[];const check=(ok,id)=>{if(!ok)failures.push(id)};
+check(main.includes("'/project/entry'")&&main.includes('renderProjectEntryDryRunView'),'route');
+for(const marker of ['CREATE_NEW','OPEN_EXISTING','IMPORT_GIT','Generar dry-run','Revalidar preimage','Ejecución deshabilitada'])check(view.includes(marker),`view:${marker}`);
+check(view.includes('textContent')&&!view.includes('innerHTML'),'xss-text-content');
+check(client.includes('/project-entry/dry-run')&&client.includes('/project-entry/revalidate'),'client');
+check(view.includes('form.noValidate=true')&&view.includes('Ruta destino / workspace es obligatoria'),'target-required');
+check(client.includes('Solicitud bloqueada por una política, validación o autorización de DevPilot.')&&!client.includes('token local faltante o inválido'),'403-diagnostic');
+check(pkg.devpilot.gsdlc03cProjectEntryDryRun===true&&pkg.devpilot.gsdlc03cExecutionEnabled===false,'package');
+console.log(JSON.stringify({schema_id:'devpilot.gsdlc03c.ui_smoke.v1',status:failures.length?'BLOCK':'PASS',failures},null,2));process.exit(failures.length?2:0);

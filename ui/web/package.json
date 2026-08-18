@@ -22,7 +22,8 @@
     "test:state-matrix": "node scripts/uoc011-state-matrix-smoke.mjs",
     "test:browser-runtime-matrix-contract": "node scripts/uoc011-browser-runtime-matrix-contract.mjs",
     "test:project-status": "node scripts/gsdlc01e-project-status-smoke.mjs",
-    "test:auth-journey": "node scripts/gsdlc02e-auth-journey-smoke.mjs"
+    "test:auth-journey": "node scripts/gsdlc02e-auth-journey-smoke.mjs",
+    "test:project-entry-dry-run": "node scripts/gsdlc03c-project-entry-dry-run-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -66,7 +67,8 @@
       "ui.jobs",
       "ui.quality",
       "ui.ai",
-      "ui.project-status"
+      "ui.project-status",
+      "ui.project-entry-dry-run"
     ],
     "localFirstBadges": true,
     "dryRunBadges": true,
@@ -105,7 +107,8 @@
       "ui.workspace-documents",
       "ui.jobs",
       "ui.quality",
-      "ui.ai"
+      "ui.ai",
+      "ui.project-entry-dry-run"
     ],
     "unauthorizedErrorVisible": true,
     "apiDownErrorVisible": true,
@@ -168,7 +171,7 @@
     "scopedObservability": true,
     "governedApprovalRequest": true,
     "approvalDemoOnly": false,
-    "topLevelUiRoutesChanged": false,
+    "topLevelUiRoutesChanged": true,
     "uiFirstGapDecision": "correct-before-post-h-eval-002-02-b",
     "workspaceDocuments": true,
     "workspaceDocumentsReadOnly": false,
@@ -185,7 +188,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-02-E",
+    "currentSprint": "DEVPL-GSDLC-03-C",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -269,7 +272,7 @@
     "gsdlc01eProjectStatusRoute": "ui.project-status",
     "gsdlc01eProjectStatusApiRoute": "api.guided-sdlc.project-status",
     "gsdlc01eTopLevelUiRoutesChanged": true,
-    "currentTopLevelUiRoutesTotal": 10,
+    "currentTopLevelUiRoutesTotal": 11,
     "uoc011RoutesTotalAtClose": 9,
     "gsdlc01eContinueMutatesState": false,
     "gsdlc02dAuthenticatedApprovalBinding": true,
@@ -286,7 +289,10 @@
     "normalUiRequiresHumanSession": true,
     "legacyLocalTokenHumanAuthority": false,
     "authEntryRoutesRegistry": ".devpilot/identity/auth_ui_route_contract_registry.json",
-    "authEntryRoutesTotal": 3
+    "authEntryRoutesTotal": 3,
+    "gsdlc03cProjectEntryDryRun": true,
+    "gsdlc03cExecutionEnabled": false,
+    "gsdlc03cUiRoute": "ui.project-entry-dry-run"
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

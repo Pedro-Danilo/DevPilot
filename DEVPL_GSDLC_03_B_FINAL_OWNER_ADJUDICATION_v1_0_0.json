@@ -1,0 +1,20 @@
+{
+  "schema_id": "devpilot.gsdlc03b.final_owner_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-18",
+  "successor_repo": "repo_DevPilot_Local_361_DEVPL_GSDLC_03_B_ENVIRONMENT_DISCOVERY_PLANNING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit": "1ba680caffd9b30ec2d3252b8006b1fd7f183e17",
+  "successor_sha256": "69097543a95589f1957808da5e2e22e5576cd12153e23775da9bb8c4c1ad114b",
+  "windows_evidence": "DEVPL_GSDLC_03_B_WINDOWS_EVIDENCE_v1_0_2.zip",
+  "windows_evidence_sha256": "735151177643dffbf977752876a048808929c383a616504c00f0045c526ffab9",
+  "validation_mode": "cumulative-selective+impact-scoped-recovery",
+  "full_regression_executed": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "writes_performed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "pilot_workspace_accessed": false,
+  "authorizes": "DEVPL-GSDLC-03-C"
+}

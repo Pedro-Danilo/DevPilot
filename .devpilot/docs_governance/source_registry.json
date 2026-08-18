@@ -19847,7 +19847,7 @@
       "classification": "machine-readable-source",
       "domain": "workspace.project-entry-planning",
       "owner": "DEVPL-GSDLC-03-B",
-      "status_required": "pass-candidate/pre-windows",
+      "status_required": "closed/PASS",
       "criticality": "P0",
       "required_tests": [
         "tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py",
@@ -19904,6 +19904,109 @@
         "DEVPL-GSDLC",
         "DEVPL-GSDLC-03",
         "DEVPL-GSDLC-03-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-B-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_03_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-03-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-C-CURRENT",
+      "path": "docs/audits/DEVPL_GSDLC_03_C_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "workspace.project-entry-dry-run",
+      "owner": "DEVPL-GSDLC-03-C",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03",
+        "DEVPL-GSDLC-03-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-C-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_03_C_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "workspace.project-entry-dry-run",
+      "owner": "DEVPL-GSDLC-03-C",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-C-HISTORICAL-SWEEP",
+      "path": "docs/audits/devpl_gsdlc_03_c_historical_contract_sweep.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-03-C",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-C-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_03_C_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "workspace.project-entry-dry-run",
+      "owner": "DEVPL-GSDLC-03-C",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-C"
       ],
       "lifecycle": "active"
     }

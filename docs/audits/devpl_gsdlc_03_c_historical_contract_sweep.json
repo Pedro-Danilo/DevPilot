@@ -1,0 +1,62 @@
+{
+  "schema_id": "devpilot.gsdlc03c.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-03-C",
+  "status": "pass-candidate/pre-windows",
+  "historical_assertions_rewritten": false,
+  "unclassified_total": 0,
+  "contracts": [
+    {
+      "id": "GSDLC-03-B-api-rbac-at-close",
+      "classification": "historical-freeze",
+      "action": "snapshot",
+      "expected": {
+        "api_routes": 100,
+        "rbac_policies": 100
+      }
+    },
+    {
+      "id": "GSDLC-03-B-ui-at-close",
+      "classification": "historical-freeze",
+      "action": "snapshot",
+      "expected": {
+        "ui_routes": 10
+      }
+    },
+    {
+      "id": "GSDLC-03-C-current-api-rbac",
+      "classification": "current-active",
+      "action": "extend-successor",
+      "expected": {
+        "api_routes": 102,
+        "rbac_policies": 102
+      }
+    },
+    {
+      "id": "GSDLC-03-C-current-ui",
+      "classification": "current-active",
+      "action": "extend-successor",
+      "expected": {
+        "ui_routes": 11
+      }
+    },
+    {
+      "id": "GSDLC-02-auth-rbac",
+      "classification": "current-active",
+      "action": "preserve"
+    },
+    {
+      "id": "legacy-filesystem-write-false",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "03-C remains dry-run only; filesystem execute successor deferred to 03-D."
+    },
+    {
+      "id": "GSDLC-03-A-project-intake-target-boundary",
+      "classification": "current-active",
+      "action": "correct-successor-runtime-validation",
+      "reason": "03-C browser acceptance proved that empty target_root could bypass runtime target validation and resolve to the DevPilot repository. Historical 03-A artifacts remain preserved; the active contract now enforces the schema-required target_root at runtime."
+    }
+  ],
+  "pilot_workspace_accessed": false,
+  "browser_corrective_version": "1.0.2"
+}

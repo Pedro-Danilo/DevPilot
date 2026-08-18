@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-08-18",
+  "updated": "2026-08-17",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -1478,42 +1478,6 @@
       ]
     },
     {
-      "route_id": "api.project-entry.dry-run",
-      "method": "POST",
-      "path": "/api/v1/project-entry/dry-run",
-      "operation": "project_entry.dry_run",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": true,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
-      "source_mutation_allowed": false,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.project_entry",
-      "router_module": "project_entry",
-      "policy_action": "read",
-      "policy_sensitivity": "protected-human-session-project-entry-dry-run",
-      "path_subject": null,
-      "tags": [
-        "project-entry",
-        "dry-run",
-        "read-only",
-        "gsdlc-03-c"
-      ],
-      "notes": [
-        "GSDLC-03-C Create/Open/Import review-only dry-run; no writes/network/approval request."
-      ]
-    },
-    {
       "route_id": "api.project-entry.environment-discovery",
       "method": "POST",
       "path": "/api/v1/project-entry/environment-discovery",
@@ -1547,42 +1511,6 @@
       ],
       "notes": [
         "GSDLC-03-B read-only typed environment discovery. Requires human session; legacy token is not authority. No installers, network, environment dump or project writes."
-      ]
-    },
-    {
-      "route_id": "api.project-entry.revalidate",
-      "method": "POST",
-      "path": "/api/v1/project-entry/revalidate",
-      "operation": "project_entry.revalidate",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": true,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
-      "source_mutation_allowed": false,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.project_entry",
-      "router_module": "project_entry",
-      "policy_action": "read",
-      "policy_sensitivity": "protected-human-session-project-entry-revalidate",
-      "path_subject": null,
-      "tags": [
-        "project-entry",
-        "revalidate",
-        "read-only",
-        "gsdlc-03-c"
-      ],
-      "notes": [
-        "GSDLC-03-C preimage/plan revalidation; stale plan blocks future execute."
       ]
     },
     {
@@ -3500,7 +3428,7 @@
     }
   ],
   "summary": {
-    "routes_total": 102,
+    "routes_total": 100,
     "protected_routes_total": 93,
     "public_routes_total": 7,
     "mutating_routes_total": 30,
@@ -3556,8 +3484,7 @@
     "gsdlc_02_b_auth_routes_total": 7,
     "gsdlc_02_b_public_bootstrap_login_routes_total": 3,
     "gsdlc_02_b_human_session_routes_total": 4,
-    "gsdlc_03_b_project_entry_routes_total": 2,
-    "read_only_routes_total": 72
+    "gsdlc_03_b_project_entry_routes_total": 2
   },
   "safety": {
     "local_first": true,

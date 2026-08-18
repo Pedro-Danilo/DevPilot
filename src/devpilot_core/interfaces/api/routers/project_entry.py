@@ -19,6 +19,11 @@ class ProjectEntryPlanningBody(BaseModel):
     timeout_seconds: float = Field(default=3.0, ge=0.1, le=15.0)
 
 
+class ProjectEntryRevalidateBody(ProjectEntryPlanningBody):
+    expected_plan_hash: str = Field(min_length=64, max_length=64)
+    expected_preimage_hash: str = Field(min_length=64, max_length=64)
+
+
 def _json(payload: dict[str, Any], status: int) -> JSONResponse:
     return JSONResponse(payload, status_code=status)
 
@@ -49,3 +54,13 @@ def project_entry_bootstrap_plan(
             payload={"intake": body.intake, "timeout_seconds": body.timeout_seconds},
         )
     )
+
+
+@router.post("/api/v1/project-entry/dry-run")
+def project_entry_dry_run(body: ProjectEntryPlanningBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    return _json(*dispatch_application_request(service, operation="project_entry.dry_run", payload={"intake": body.intake, "timeout_seconds": body.timeout_seconds}))
+
+
+@router.post("/api/v1/project-entry/revalidate")
+def project_entry_revalidate(body: ProjectEntryRevalidateBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    return _json(*dispatch_application_request(service, operation="project_entry.revalidate", payload={"intake": body.intake, "expected_plan_hash": body.expected_plan_hash, "expected_preimage_hash": body.expected_preimage_hash, "timeout_seconds": body.timeout_seconds}))

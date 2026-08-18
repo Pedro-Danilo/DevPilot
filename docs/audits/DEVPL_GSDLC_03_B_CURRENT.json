@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.gsdlc03b.current.v1",
   "micro_sprint": "DEVPL-GSDLC-03-B",
-  "status": "pass-candidate/pre-windows",
+  "status": "closed/PASS",
   "version": "1.0.2",
   "source_repo": "repo_DevPilot_Local_360_DEVPL_GSDLC_03_A_PROJECT_INTAKE_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "2ebed62c243ea4034a5381023fb118de33c4aecd",
@@ -22,7 +22,7 @@
   "s0_open": 0,
   "s1_open": 0,
   "next_micro_sprint": "DEVPL-GSDLC-03-C",
-  "next_authorized": false,
+  "next_authorized": true,
   "windows_capability_recovery": {
     "git_declared_minimum": "2.40",
     "git_effective_planning_floor": "2.33.0",
@@ -34,5 +34,7 @@
     "v1_0_0": "windows-capability BLOCK; Git/npm resolver corrected",
     "v1_0_1": "windows capability PASS; docs governance BLOCK due transient CURRENT status",
     "v1_0_2": "CURRENT status reconciled with Source Registry; impact-scoped recovery"
-  }
+  },
+  "owner_adjudication": "DEVPL_GSDLC_03_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "final_commit": "1ba680caffd9b30ec2d3252b8006b1fd7f183e17"
 }

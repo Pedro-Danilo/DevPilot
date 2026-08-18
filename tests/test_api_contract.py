@@ -87,6 +87,20 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
             op_id = operation["x-devpilot-operation"]
+            if op_id in {"project_entry.dry_run", "project_entry.revalidate"}:
+                assert operation["x-devpilot-status"] == "gsdlc-03-c-dry-run"
+                assert operation["x-devpilot-domain-service"] == "ApplicationService -> ProjectEntryDryRunApplicationService -> ProjectEntryDryRunService"
+                assert operation["security"] == [{"LocalHumanSession": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-source-mutation"] is False
+                assert operation["x-devpilot-project-write"] is False
+                assert operation["x-devpilot-network-runtime"] is False
+                assert operation["x-devpilot-external-api"] is False
+                assert operation["x-devpilot-remote-execution"] is False
+                assert operation["x-devpilot-arbitrary-shell"] is False
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
+                continue
+
             if op_id in {"project_entry.environment_discovery", "project_entry.bootstrap_plan"}:
                 assert operation["x-devpilot-status"] == "gsdlc-03-b-planning"
                 assert operation["x-devpilot-domain-service"] == "ApplicationService -> ProjectEntryPlanningApplicationService -> EnvironmentDiscoveryService"

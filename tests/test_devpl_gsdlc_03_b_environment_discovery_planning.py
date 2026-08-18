@@ -246,12 +246,16 @@ def test_environment_projection_never_exposes_secret_values(monkeypatch, tmp_pat
 def test_03_b_api_route_and_rbac_successors_preserve_03_a_snapshots() -> None:
     api_snapshot = load(".devpilot/interfaces/api_route_contract_registry_gsdlc03a_at_close.json")
     api_current = load(".devpilot/interfaces/api_route_contract_registry.json")
+    api_03b = load(".devpilot/interfaces/api_route_contract_registry_gsdlc03b_at_close.json")
     rbac_snapshot = load(".devpilot/identity/server_rbac_policy_catalog_gsdlc03a_at_close.json")
     rbac_current = load(".devpilot/identity/server_rbac_policy_catalog.json")
+    rbac_03b = load(".devpilot/identity/server_rbac_policy_catalog_gsdlc03b_at_close.json")
     assert api_snapshot["summary"]["routes_total"] == 98
-    assert api_current["summary"]["routes_total"] == 100
+    assert api_03b["summary"]["routes_total"] == 100
+    assert api_current["summary"]["routes_total"] >= 100
     assert rbac_snapshot["summary"]["route_policies_total"] == 98
-    assert rbac_current["summary"]["route_policies_total"] == 100
+    assert rbac_03b["summary"]["route_policies_total"] == 100
+    assert rbac_current["summary"]["route_policies_total"] >= 100
     for operation in {"project_entry.environment_discovery", "project_entry.bootstrap_plan"}:
         route = [row for row in api_current["routes"] if row["operation"] == operation]
         policy = [row for row in rbac_current["route_policies"] if row["operation"] == operation]

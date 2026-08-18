@@ -19637,6 +19637,86 @@
       ],
       "owner_domain": "workspace.project-entry",
       "service_boundary": "workspace"
+    },
+    {
+      "contract_id": "devpl-gsdlc-03-c-project-entry-dry-run",
+      "source_contract_id": "devpl-gsdlc-03-c-project-entry-dry-run",
+      "schema_version": "2.0",
+      "domain": "operations.workspace",
+      "capability": "ProjectEntryDryRun",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py",
+        "tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py",
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_api_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace/project_entry_dry_run.py",
+        "src/devpilot_core/application/project_entry_dry_run_service.py",
+        "src/devpilot_core/interfaces/api",
+        "ui/web/src",
+        "ui/web/scripts/gsdlc03c-project-entry-dry-run-smoke.mjs",
+        ".devpilot/interfaces",
+        ".devpilot/identity",
+        "docs/schemas",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/project_entry_dry_run.py",
+        "src/devpilot_core/application/project_entry_dry_run_service.py",
+        "src/devpilot_core/interfaces/api/routers/project_entry.py",
+        "ui/web/src/pages/ProjectEntryDryRunView.ts",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry_gsdlc03b_at_close.json",
+        ".devpilot/identity/server_rbac_policy_catalog_gsdlc03b_at_close.json",
+        "docs/schemas/project_entry_dry_run.schema.json",
+        "docs/schemas/project_entry_approval_preview.schema.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-03-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "03-C is review-only: CREATE/OPEN/IMPORT dry-runs do not create target files, clone Git, install dependencies or request approval.",
+        "Preimage and plan hashes must remain stable; stale preimage blocks future execute.",
+        "UI route is authenticated and no execute control exists.",
+        "Full regression remains deferred to DEVPL-GSDLC-03-E.",
+        "Frontend static smoke is an operator gate; it is not encoded as a TCR recommended shell command."
+      ],
+      "trigger_hints": [
+        "project-entry",
+        "dry-run",
+        "preimage",
+        "approval-preview",
+        "ui-project-entry"
+      ],
+      "impact_tags": [
+        "workspace",
+        "security",
+        "api",
+        "ui",
+        "governance",
+        "schema"
+      ],
+      "owner_domain": "workspace.project-entry",
+      "service_boundary": "workspace"
     }
   ],
   "created_by": "POST-H-003-E",
@@ -19797,5 +19877,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 281
+  "contracts_total": 282
 }

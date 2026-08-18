@@ -1,0 +1,39 @@
+{
+  "schema_id": "devpilot.gsdlc03c.test_impact.v1",
+  "micro_sprint": "DEVPL-GSDLC-03-C",
+  "status": "pass-candidate/pre-windows",
+  "validation_mode": "cumulative-selective",
+  "changed_paths_total": 48,
+  "contracts_total": 282,
+  "matched_contracts_total": 171,
+  "p0_selected_total": 85,
+  "p1_selected_total": 77,
+  "recommended_tests_total": 264,
+  "recommended_commands_total": 347,
+  "tests_executed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "unmatched_paths_review": {
+    "total": 13,
+    "paths": [
+      "03_PROMPT_DEVPL_GSDLC_03_C_v1_1_0.md",
+      "DEVPL_GSDLC_03_B_FINAL_OWNER_ADJUDICATION_v1_0_0.json",
+      "DEVPL_GSDLC_03_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "docs/audits/DEVPL_GSDLC_03_B_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_03_B_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_03_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "docs/audits/DEVPL_GSDLC_03_C_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_03_C_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_03_C_FULL_REGRESSION_WAIVER.json",
+      "docs/audits/DEVPL_GSDLC_03_C_OPERATION_DECLARATION.json",
+      "docs/audits/DEVPL_GSDLC_03_C_REGRESSION_GUARD.json",
+      "docs/audits/DEVPL_GSDLC_03_C_TEST_IMPACT.json",
+      "docs/audits/devpl_gsdlc_03_c_historical_contract_sweep.json"
+    ],
+    "disposition": "documentation/authority artifacts reviewed manually; capability coverage is provided by focal/API/UI/governance contracts"
+  },
+  "full_regression_executed": false,
+  "policy_disposition": "DEFER-TO-DEVPL-GSDLC-03-E; no owner-approved intermediate hard trigger",
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E"
+}

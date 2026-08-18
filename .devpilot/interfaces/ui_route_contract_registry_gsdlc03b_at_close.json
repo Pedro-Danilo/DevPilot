@@ -4,8 +4,73 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-18",
+  "updated": "2026-08-16",
   "routes": [
+    {
+      "route_id": "ui.dashboard",
+      "title": "Dashboard local",
+      "path": "/",
+      "page_component": "Dashboard",
+      "source_files": [
+        "ui/web/src/pages/Dashboard.ts",
+        "ui/web/src/components/StatusCard.ts",
+        "ui/web/src/pages/OperatorDashboard.ts",
+        "ui/web/src/components/OperatorStatusCard.ts",
+        "ui/web/src/components/OperatorGatePanel.ts",
+        "ui/web/src/components/OperatorNextActions.ts"
+      ],
+      "allowed_api_routes": [
+        "api.health",
+        "api.workspace.status",
+        "api.validation.readiness",
+        "api.standards.status",
+        "api.miasi.status",
+        "api.operator.dashboard",
+        "api.portfolio.status"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true,
+        "warn": true,
+        "block": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "timeout": true,
+        "cancelled": true,
+        "stale_data": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "Single page dashboard shell for local status/readiness/standards/MIASI signals.",
+        "POST-H-015-D embeds the local Operator Dashboard surface in ui.dashboard.",
+        "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser.",
+        "POST-H-EVAL-002-01-D corrective: dashboard no longer embeds Reports, Traces, Approvals or Settings.",
+        "Protected API fan-out is bounded to two concurrent requests with progressive rendering.",
+        "Corrective 326 executes and renders api.health as a preflight before the five protected data operations.",
+        "UOC-011: route participates in the 12-state operational browser hardening matrix."
+      ]
+    },
     {
       "route_id": "ui.ai",
       "title": "IA / RAG gobernados",
@@ -143,71 +208,6 @@
       ]
     },
     {
-      "route_id": "ui.dashboard",
-      "title": "Dashboard local",
-      "path": "/",
-      "page_component": "Dashboard",
-      "source_files": [
-        "ui/web/src/pages/Dashboard.ts",
-        "ui/web/src/components/StatusCard.ts",
-        "ui/web/src/pages/OperatorDashboard.ts",
-        "ui/web/src/components/OperatorStatusCard.ts",
-        "ui/web/src/components/OperatorGatePanel.ts",
-        "ui/web/src/components/OperatorNextActions.ts"
-      ],
-      "allowed_api_routes": [
-        "api.health",
-        "api.workspace.status",
-        "api.validation.readiness",
-        "api.standards.status",
-        "api.miasi.status",
-        "api.operator.dashboard",
-        "api.portfolio.status"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": false,
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "ready": true,
-        "warn": true,
-        "block": true,
-        "api_down": true,
-        "unauthorized": true,
-        "forbidden": true,
-        "timeout": true,
-        "cancelled": true,
-        "stale_data": true
-      },
-      "status_visibility": [
-        "PASS",
-        "WARN",
-        "BLOCK",
-        "ERROR",
-        "PENDING"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "Single page dashboard shell for local status/readiness/standards/MIASI signals.",
-        "POST-H-015-D embeds the local Operator Dashboard surface in ui.dashboard.",
-        "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser.",
-        "POST-H-EVAL-002-01-D corrective: dashboard no longer embeds Reports, Traces, Approvals or Settings.",
-        "Protected API fan-out is bounded to two concurrent requests with progressive rendering.",
-        "Corrective 326 executes and renders api.health as a preflight before the five protected data operations.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
-      ]
-    },
-    {
       "route_id": "ui.jobs",
       "title": "Job Console",
       "path": "/jobs",
@@ -269,50 +269,6 @@
       "notes": [
         "UOC-008 local Job Console with bounded polling, sanitized logs, heartbeat/stale visibility, governed cancel/retry and no arbitrary shell.",
         "UOC-011: route participates in the 12-state operational browser hardening matrix."
-      ]
-    },
-    {
-      "route_id": "ui.project-entry-dry-run",
-      "title": "Crear / Abrir / Importar — Dry-run",
-      "path": "/project/entry",
-      "page_component": "ProjectEntryDryRunView",
-      "source_files": [
-        "ui/web/src/pages/ProjectEntryDryRunView.ts"
-      ],
-      "allowed_api_routes": [
-        "api.project-entry.dry-run",
-        "api.project-entry.revalidate"
-      ],
-      "critical": true,
-      "local_only": true,
-      "local_first_badge_required": true,
-      "dry_run_badge_required": true,
-      "no_remote_badge_required": true,
-      "shows_mutation_controls": false,
-      "state_contract": {
-        "loading": true,
-        "empty": true,
-        "error": true,
-        "block_visible": true,
-        "ready": true,
-        "api_down": true,
-        "unauthorized": true,
-        "forbidden": true,
-        "stale_data": true
-      },
-      "status_visibility": [
-        "PASS",
-        "BLOCK",
-        "ERROR",
-        "PENDING"
-      ],
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "external_api_allowed": false,
-      "owner": "ui.web",
-      "notes": [
-        "GSDLC-03-C review-only workbench for CREATE_NEW/OPEN_EXISTING/IMPORT_GIT. Execution remains disabled until 03-D."
       ]
     },
     {

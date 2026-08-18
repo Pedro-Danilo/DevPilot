@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/project-entry-approval-preview-v1.json",
+  "title": "Project Entry Approval Preview",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "preview_only",
+    "request_created",
+    "actor_authority",
+    "plan_hash",
+    "preimage_hash",
+    "typed_operation_ids"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-C-APPROVAL-PREVIEW-V1"
+    },
+    "preview_only": {
+      "const": true
+    },
+    "request_created": {
+      "const": false
+    },
+    "actor_authority": {
+      "const": "human-session"
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "preimage_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "typed_operation_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": true
+}

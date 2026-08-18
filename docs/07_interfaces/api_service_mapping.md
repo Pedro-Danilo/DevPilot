@@ -406,3 +406,13 @@ Both routes require an authenticated human session and are **planning-only**. Th
 | `API-GSDLC03B-BOOTSTRAP-PLAN` | `POST /api/v1/project-entry/bootstrap-plan` | `project_entry.bootstrap_plan` | `ApplicationService` → `ProjectEntryPlanningApplicationService` → `EnvironmentDiscoveryService.build_bootstrap_plan` | same authority; deterministic plan hash; execution remains disabled until later micro-sprints |
 
 `BootstrapPlan` declares future side effects, approval, network and rollback metadata without executing them. Remote clone remains disabled-by-default and dependency installation is metadata-only in 03-B.
+
+
+## DEVPL-GSDLC-03-C — Project Entry Dry-run
+
+| API | Application operation | Domain boundary | Policy/gate | Side effect |
+|---|---|---|---|---|
+| `POST /api/v1/project-entry/dry-run` (`API-GSDLC03C-DRY-RUN`) | `project_entry.dry_run` | `ApplicationService -> ProjectEntryDryRunApplicationService -> ProjectEntryDryRunService` | Human session + RBAC + PathGuard | read-only; no project write/network |
+| `POST /api/v1/project-entry/revalidate` (`API-GSDLC03C-REVALIDATE`) | `project_entry.revalidate` | same | Human session + RBAC + immutable plan/preimage | read-only; stale plan BLOCK |
+
+Both routes are plan-only. There is no execute endpoint in GSDLC-03-C.

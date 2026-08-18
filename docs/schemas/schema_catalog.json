@@ -2850,6 +2850,34 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-003"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-C-PROJECT-ENTRY-DRY-RUN-V1",
+      "title": "DevPilot GSDLC-03-C ProjectEntryDryRun v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_entry_dry_run.schema.json",
+      "description": "Review-only Create/Open/Import dry-run with immutable plan/preimage hashes and no execution.",
+      "status": "registered",
+      "contract": "ProjectEntryDryRun",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-03-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-C-APPROVAL-PREVIEW-V1",
+      "title": "DevPilot GSDLC-03-C ApprovalPreview v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_entry_approval_preview.schema.json",
+      "description": "Typed preview of future approval derived from plan/preimage; no approval request is created.",
+      "status": "registered",
+      "contract": "ProjectEntryApprovalPreview",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-03-C"
     }
   ],
   "schemas_total": 191

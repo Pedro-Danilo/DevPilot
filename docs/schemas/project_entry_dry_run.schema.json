@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/project-entry-dry-run-v1.json",
+  "title": "Project Entry Dry Run",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "entry_mode",
+    "project_id",
+    "plan_hash",
+    "preimage_hash",
+    "approval_preview",
+    "execution",
+    "safety",
+    "dry_run_hash"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-C-PROJECT-ENTRY-DRY-RUN-V1"
+    },
+    "entry_mode": {
+      "enum": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "preimage_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approval_preview": {
+      "type": "object"
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "writes_performed",
+        "network_used",
+        "approval_requested"
+      ],
+      "properties": {
+        "writes_performed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "approval_requested": {
+          "const": false
+        }
+      }
+    },
+    "dry_run_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

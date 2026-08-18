@@ -151,7 +151,15 @@ class ProjectEntryContractService:
 
         findings.extend(self._validate_scalar_contract(intake))
         target: Path | None = None
-        if intake.target_root.strip():
+        if not intake.target_root.strip():
+            findings.append(
+                Finding(
+                    "PROJECT_INTAKE_TARGET_REQUIRED",
+                    "target_root is required for CREATE_NEW, OPEN_EXISTING and IMPORT_GIT; an empty target must never fall back to the DevPilot repository.",
+                    Severity.BLOCK,
+                )
+            )
+        else:
             target = Path(intake.target_root).expanduser()
             findings.extend(self._validate_target(intake, target))
         findings.extend(self._validate_git_source(intake, target))

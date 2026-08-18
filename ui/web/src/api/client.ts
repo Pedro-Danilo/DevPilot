@@ -153,6 +153,15 @@ export class DevPilotApiClient {
   }
 
 
+
+  async projectEntryDryRun(payload: { intake: Record<string, unknown>; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post('/project-entry/dry-run', { intake: payload.intake, timeout_seconds: payload.timeout_seconds ?? 3.0 });
+  }
+
+  async projectEntryRevalidate(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post('/project-entry/revalidate', { ...payload, timeout_seconds: payload.timeout_seconds ?? 3.0 });
+  }
+
   async authCapabilities(workspaceId = 'devpilot-local'): Promise<DevPilotApplicationResponse> {
     return this.get(`/auth/capabilities${this.query({ workspace_id: workspaceId })}`, { retryNetworkErrors: true });
   }
@@ -517,10 +526,20 @@ export class DevPilotApiClient {
     }
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
-      const authHint = response.status === 401 || response.status === 403
-        ? 'Unauthorized/Forbidden 401/403: token local faltante o inválido.'
-        : 'Error HTTP de API local.';
-      throw new DevPilotApiError(`DevPilot API respondió HTTP ${response.status} en ${path}. ${authHint}`, response.status, payload, path, Math.round(performance.now() - startedAt));
+      const applicationPayload = payload as Partial<DevPilotApplicationResponse>;
+      const firstFinding = Array.isArray(applicationPayload.findings) ? applicationPayload.findings[0] : undefined;
+      const backendReason = [
+        typeof applicationPayload.message === 'string' ? applicationPayload.message : '',
+        firstFinding?.id ? `[${firstFinding.id}]` : '',
+        firstFinding?.message ?? '',
+      ].filter(Boolean).join(' ');
+      const statusHint = response.status === 401
+        ? 'Sesión/autenticación local no autorizada.'
+        : response.status === 403
+          ? 'Solicitud bloqueada por una política, validación o autorización de DevPilot.'
+          : 'Error HTTP de API local.';
+      const detail = backendReason || statusHint;
+      throw new DevPilotApiError(`DevPilot API respondió HTTP ${response.status} en ${path}. ${detail}`, response.status, payload, path, Math.round(performance.now() - startedAt));
     }
     const durationMs = Math.round(performance.now() - startedAt);
     return {

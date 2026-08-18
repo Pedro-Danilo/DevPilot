@@ -677,3 +677,7 @@ export interface AuthSessionStatus {
 }
 
 export interface AuthSessionEnvelope { ok: boolean; session: AuthSessionContext; }
+
+
+export type ProjectEntryMode = 'CREATE_NEW' | 'OPEN_EXISTING' | 'IMPORT_GIT';
+export interface ProjectEntryDryRunData { dry_run?: Record<string, unknown>; bootstrap_plan?: Record<string, unknown>; writes_performed?: boolean; network_used?: boolean; }

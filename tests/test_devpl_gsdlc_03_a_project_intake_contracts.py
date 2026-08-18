@@ -157,6 +157,17 @@ def test_path_traversal_outside_root_platform_overlap_and_collision_are_blocked(
     assert not result.ok and "PROJECT_INTAKE_TARGET_COLLISION_BLOCKED" in {item.id for item in result.findings}
 
 
+
+def test_empty_target_root_is_blocked_and_never_resolves_to_platform_root(tmp_path: Path) -> None:
+    allowed = tmp_path / "evaluation"
+    allowed.mkdir()
+    payload = fixture_payload(allowed / "project")
+    payload["target_root"] = ""
+    result = ProjectEntryContractService(ROOT, allowed_roots=(allowed,)).validate_intake(payload)
+    assert not result.ok
+    assert "PROJECT_INTAKE_TARGET_REQUIRED" in {item.id for item in result.findings}
+    assert result.data["target_root_resolved"] is None
+
 def test_symlink_escape_is_blocked_when_platform_supports_symlinks(tmp_path: Path) -> None:
     allowed = tmp_path / "evaluation"
     allowed.mkdir()
@@ -269,7 +280,8 @@ def test_historical_execution_and_ui_contracts_are_not_rewritten() -> None:
     assert git_blob_sha("src/devpilot_core/workspace/bootstrap.py") == "4d61defeecaf79a1831d9d5db03cfb4ade4b2b2ab25c6ccd7438b9be13ae8c9c"
     assert git_blob_sha("src/devpilot_core/repo/git_adapter.py") == "a03c8dd12807d4f9d5d078b0ae8fb7cfb6173d2adfef266ad017529d4c5395d1"
     assert git_blob_sha(".devpilot/plugins/plugin_permission_model.json") == "579cba87d13d47c5dd51335ab053fc8d3bbf985f4c7c289e22cf95f487e7ceca"
-    assert git_blob_sha(".devpilot/interfaces/ui_route_contract_registry.json") == "7dc90c8e6e151adde051463d963eaeae4c373a4c181c3ed98d6f5d4af206ff2d"
+    ui_03b = (ROOT / ".devpilot/interfaces/ui_route_contract_registry_gsdlc03b_at_close.json").read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(ui_03b).hexdigest() == "7dc90c8e6e151adde051463d963eaeae4c373a4c181c3ed98d6f5d4af206ff2d"
     assert git_blob_sha(".devpilot/identity/auth_ui_route_contract_registry.json") == "ab74b1c48128badafd099656b26a67465e21d80625c891a3e160b5cafd179c36"
 
 

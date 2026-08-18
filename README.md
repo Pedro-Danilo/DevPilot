@@ -6364,3 +6364,7 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 ## DEVPL-GSDLC-03-B — Environment discovery and bootstrap planning
 
 Estado de implementación: **PASS-CANDIDATE / PRE-WINDOWS**. Añade discovery local read-only y `BootstrapPlan` determinístico/planning-only para Project Entry. No instala herramientas, no usa red, no habilita project writes y no accede al piloto `inventory-sales-local`. La full regression permanece reservada a GSDLC-03-E.
+
+
+## DEVPL-GSDLC-03-C
+Create/Open/Import review-only dry-run workbench with stable plan/preimage hashes and typed approval preview. Execution remains disabled until GSDLC-03-D.

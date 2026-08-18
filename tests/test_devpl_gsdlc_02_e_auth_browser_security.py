@@ -54,7 +54,9 @@ def test_auth_ui_route_registry_is_separate_from_operational_dry_run_registry() 
     from devpilot_core.schemas import SchemaValidator
     schema_result=SchemaValidator(root).validate_payload(schema='SCHEMA-DEVPL-GSDLC-02-E-AUTH-UI-ROUTE-CONTRACT-REGISTRY-V1',payload=auth,instance_label='memory:auth-ui-route-registry')
     assert schema_result.ok is True, schema_result.to_dict()
-    assert len(operational['routes']) == 10
+    frozen_03b=json.loads((root/'.devpilot/interfaces/ui_route_contract_registry_gsdlc03b_at_close.json').read_text(encoding='utf-8'))
+    assert len(frozen_03b['routes']) == 10
+    assert len(operational['routes']) >= 10
     assert {r['route_id'] for r in auth['routes']} == {'ui.login','ui.first-run-owner','ui.account-role'}
     assert auth['summary']['routes_total'] == 3
     assert auth['summary']['remote_execution_allowed_total'] == 0

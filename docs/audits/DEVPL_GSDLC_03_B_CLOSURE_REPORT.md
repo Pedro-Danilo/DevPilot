@@ -1,18 +1,18 @@
 ---
 doc_id: "DEVPL-GSDLC-03-B-CLOSURE-REPORT"
 title: "DEVPL-GSDLC-03-B — Environment discovery and bootstrap planning closure report"
-status: "pass-candidate/pre-windows"
+status: "closed/PASS"
 version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-08-17"
-approval: "pending_owner_adjudication"
+approval: "CLOSED/PASS"
 ---
 
 # DEVPL-GSDLC-03-B — Closure report
 
 ## Estado
 
-`PASS-CANDIDATE / PRE-WINDOWS`. GSDLC-03-C permanece bloqueado.
+`CLOSED/PASS`. GSDLC-03-C queda autorizado por owner adjudication.
 
 ## Capacidad implementada
 

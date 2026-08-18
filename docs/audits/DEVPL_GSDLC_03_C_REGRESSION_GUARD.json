@@ -1,0 +1,15 @@
+{
+  "schema_id": "devpilot.gsdlc03c.regression_guard.v1",
+  "status": "pass-candidate/pre-windows",
+  "historical_snapshots": {
+    "api_03b_at_close": 100,
+    "rbac_03b_at_close": 100,
+    "ui_03b_at_close": 10
+  },
+  "current_successors": {
+    "api_routes": 102,
+    "rbac_policies": 102,
+    "ui_routes": 11
+  },
+  "full_regression_executed": false
+}

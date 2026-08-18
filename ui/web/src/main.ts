@@ -10,6 +10,7 @@ import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
 import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
 import { renderProjectStatusView } from './pages/ProjectStatusView';
+import { renderProjectEntryDryRunView } from './pages/ProjectEntryDryRunView';
 import { renderLoginView } from './pages/LoginView';
 import { renderFirstRunOwnerView } from './pages/FirstRunOwnerView';
 import { renderAccountRoleView } from './pages/AccountRoleView';
@@ -23,6 +24,7 @@ interface UiRoute { path: string; routeId: string; title: string; }
 const UI_ROUTES: UiRoute[] = [
   { path: '/', routeId: 'ui.dashboard', title: 'Dashboard' },
   { path: '/project/status', routeId: 'ui.project-status', title: 'Estado del proyecto' },
+  { path: '/project/entry', routeId: 'ui.project-entry-dry-run', title: 'Crear / Abrir / Importar' },
   { path: '/workspace/documents', routeId: 'ui.workspace-documents', title: 'Documentos' },
   { path: '/reports', routeId: 'ui.reports', title: 'Reportes' },
   { path: '/traces', routeId: 'ui.traces', title: 'Trazas' },
@@ -78,6 +80,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
   else {
     page.append(renderRouteHeader(route,session));
     if (route.path === '/project/status') page.append(renderProjectStatusView(() => readStoredToken()));
+    else if (route.path === '/project/entry') page.append(renderProjectEntryDryRunView());
     else if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken()));
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));

@@ -1,7 +1,7 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
   "version": "1.2.0",
-  "micro_sprint": "DEVPL-GSDLC-03-C",
+  "micro_sprint": "DEVPL-GSDLC-03-B",
   "status": "pass-candidate/pre-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
@@ -987,58 +987,10 @@
       "deny_by_default": true
     },
     {
-      "route_id": "api.project-entry.dry-run",
-      "method": "POST",
-      "path": "/api/v1/project-entry/dry-run",
-      "operation": "project_entry.dry_run",
-      "access_class": "authenticated-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "public": false,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "workspace_scope_required": false,
-      "risk_level": "medium",
-      "deny_by_default": true
-    },
-    {
       "route_id": "api.project-entry.environment-discovery",
       "method": "POST",
       "path": "/api/v1/project-entry/environment-discovery",
       "operation": "project_entry.environment_discovery",
-      "access_class": "authenticated-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "public": false,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "workspace_scope_required": false,
-      "risk_level": "medium",
-      "deny_by_default": true
-    },
-    {
-      "route_id": "api.project-entry.revalidate",
-      "method": "POST",
-      "path": "/api/v1/project-entry/revalidate",
-      "operation": "project_entry.revalidate",
       "access_class": "authenticated-read",
       "allowed_roles": [
         "owner",
@@ -2544,7 +2496,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 102,
+    "route_policies_total": 100,
     "sensitive_action_policies_total": 16,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -2560,7 +2512,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-03-C",
+  "updated_by": "DEVPL-GSDLC-03-B",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",

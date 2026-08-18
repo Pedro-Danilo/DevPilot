@@ -30,6 +30,7 @@ from .review_service import ReviewApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 from .project_entry_planning_service import ProjectEntryPlanningApplicationService
+from .project_entry_dry_run_service import ProjectEntryDryRunApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
 from .workspace_validation_service import WorkspaceValidationApplicationService
@@ -81,6 +82,7 @@ class ApplicationService:
         self.guided_sdlc = GuidedSDLCApplicationService(self.root)
         self.workspace = WorkspaceApplicationService(self.root)
         self.project_entry_planning = ProjectEntryPlanningApplicationService(self.root)
+        self.project_entry_dry_run_service = ProjectEntryDryRunApplicationService(self.root)
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
@@ -670,6 +672,12 @@ class ApplicationService:
 
     def project_entry_bootstrap_plan(self, *, intake: dict[str, Any], timeout_seconds: float = 3.0) -> CommandResult:
         return self.project_entry_planning.bootstrap_plan(intake=intake, timeout_seconds=timeout_seconds)
+
+    def project_entry_dry_run(self, *, intake: dict[str, Any], timeout_seconds: float = 3.0) -> CommandResult:
+        return self.project_entry_dry_run_service.dry_run(intake=intake, timeout_seconds=timeout_seconds)
+
+    def project_entry_revalidate(self, *, intake: dict[str, Any], expected_plan_hash: str, expected_preimage_hash: str, timeout_seconds: float = 3.0) -> CommandResult:
+        return self.project_entry_dry_run_service.revalidate(intake=intake, expected_plan_hash=expected_plan_hash, expected_preimage_hash=expected_preimage_hash, timeout_seconds=timeout_seconds)
 
     def miasi_validate(self, *, scope: str = "all") -> CommandResult:
         return self.miasi.validate(scope=scope)
@@ -1397,6 +1405,16 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             intake=dict(payload.get("intake") or {}),
             timeout_seconds=float(payload.get("timeout_seconds", 3.0)),
         ),
+        "project_entry.dry_run": lambda payload: service.project_entry_dry_run(
+            intake=dict(payload.get("intake") or {}),
+            timeout_seconds=float(payload.get("timeout_seconds", 3.0)),
+        ),
+        "project_entry.revalidate": lambda payload: service.project_entry_revalidate(
+            intake=dict(payload.get("intake") or {}),
+            expected_plan_hash=str(payload.get("expected_plan_hash") or ""),
+            expected_preimage_hash=str(payload.get("expected_preimage_hash") or ""),
+            timeout_seconds=float(payload.get("timeout_seconds", 3.0)),
+        ),
         "workspace.documents.list": lambda payload: service.workspace_documents_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), query=payload.get("query"), extension=payload.get("extension"), category=payload.get("category")),
         "workspace.documents.read": lambda payload: service.workspace_documents_read(document_id=str(payload.get("document_id", ""))),
         "workspace.documents.metadata": lambda payload: service.workspace_documents_metadata(document_id=str(payload.get("document_id", ""))),
@@ -1588,6 +1606,8 @@ def _capabilities() -> list[ServiceCapability]:
         ("workspace.status", "Report workspace initialization/readiness state.", "none", True, "python -m devpilot_core workspace status --json"),
         ("project_entry.environment_discovery", "Discover bounded local prerequisites, filesystem metadata and Git state without writes, installers, network or environment dumps.", "none", True, "POST /api/v1/project-entry/environment-discovery"),
         ("project_entry.bootstrap_plan", "Build an exact deterministic planning-only BootstrapPlan and UI projection from ProjectIntake plus read-only discovery.", "none", True, "POST /api/v1/project-entry/bootstrap-plan"),
+        ("project_entry.dry_run", "Build review-only Create/Open/Import dry-run with preimage and typed approval preview.", "none", True, "POST /api/v1/project-entry/dry-run"),
+        ("project_entry.revalidate", "Revalidate immutable plan/preimage before future execute without writes or network.", "none", True, "POST /api/v1/project-entry/revalidate"),
         ("guided_sdlc.transition.evaluate", "Evaluate one versioned Guided SDLC transition deterministically without mutating engineering state.", "none", True, "ApplicationService read-only; no HTTP route in GSDLC-01-B"),
         ("guided_sdlc.transition.preview", "Preview the exact successor WorkspaceEngineeringState for one allowed transition without persisting it.", "none", True, "ApplicationService read-only preview; no HTTP route in GSDLC-01-B"),
         ("guided_sdlc.project.status", "Derive deterministic ProjectStatus from authoritative WorkspaceEngineeringState without direct Git/filesystem reads.", "none", True, "ApplicationService read-only projection; HTTP route deferred to GSDLC-01-E"),
@@ -1695,6 +1715,8 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-01-E", "GET", "/api/v1/guided-sdlc/status", "guided_sdlc.project_status", ["GSDLC-01-E actor-neutral read-only Project Status + NextAction route; all semantics delegate through ApplicationService."]),
         ("APP-ROUTE-GSDLC-03-B-DISCOVERY", "POST", "/api/v1/project-entry/environment-discovery", "project_entry.environment_discovery", ["GSDLC-03-B authenticated read-only environment discovery; writes/network/installers remain disabled."]),
         ("APP-ROUTE-GSDLC-03-B-PLAN", "POST", "/api/v1/project-entry/bootstrap-plan", "project_entry.bootstrap_plan", ["GSDLC-03-B authenticated planning-only BootstrapPlan/UI projection; execution remains disabled."]),
+        ("APP-ROUTE-GSDLC-03-C-DRY-RUN", "POST", "/api/v1/project-entry/dry-run", "project_entry.dry_run", ["GSDLC-03-C authenticated review-only Create/Open/Import dry-run; no writes/network/approval mutation."]),
+        ("APP-ROUTE-GSDLC-03-C-REVALIDATE", "POST", "/api/v1/project-entry/revalidate", "project_entry.revalidate", ["GSDLC-03-C immutable plan/preimage revalidation; stale state blocks future execution."]),
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
         ("APP-ROUTE-UOC-001-A", "GET", "/api/v1/workspace/documents", "workspace.documents.list", ["UOC-001 bounded read-only active-workspace document index."]),
         ("APP-ROUTE-UOC-001-B", "GET", "/api/v1/workspace/documents/{document_id}", "workspace.documents.read", ["UOC-001 opaque-id document viewer; no path authority accepted from browser."]),

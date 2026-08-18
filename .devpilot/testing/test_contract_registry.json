@@ -11333,6 +11333,57 @@
         "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
       ],
       "domain": "workspace.project-entry-planning"
+    },
+    {
+      "contract_id": "devpl-gsdlc-03-c-project-entry-dry-run",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-03-C",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py",
+        "tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py",
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_api_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/project_entry_dry_run.py",
+        "src/devpilot_core/application/project_entry_dry_run_service.py",
+        "src/devpilot_core/interfaces/api/routers/project_entry.py",
+        "ui/web/src/pages/ProjectEntryDryRunView.ts",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry_gsdlc03b_at_close.json",
+        ".devpilot/identity/server_rbac_policy_catalog_gsdlc03b_at_close.json",
+        "docs/schemas/project_entry_dry_run.schema.json",
+        "docs/schemas/project_entry_approval_preview.schema.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace/project_entry_dry_run.py",
+        "src/devpilot_core/application/project_entry_dry_run_service.py",
+        "src/devpilot_core/interfaces/api",
+        "ui/web/src",
+        "ui/web/scripts/gsdlc03c-project-entry-dry-run-smoke.mjs",
+        ".devpilot/interfaces",
+        ".devpilot/identity",
+        "docs/schemas",
+        "docs/audits/DEVPL_GSDLC_03_C_",
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
+        "node ui/web/scripts/gsdlc03c-project-entry-dry-run-smoke.mjs",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
+      ],
+      "domain": "workspace.project-entry-dry-run"
     }
   ],
   "created_by": "POST-H-001",
@@ -11408,5 +11459,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 281
+  "contracts_total": 282
 }
