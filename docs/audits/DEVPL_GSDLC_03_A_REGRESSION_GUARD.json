@@ -1,0 +1,27 @@
+{
+  "schema_id": "devpilot.gsdlc03a.historical_regression_guard.v1",
+  "status": "pass-candidate/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-03-A",
+  "historical_assertions_rewritten": false,
+  "runtime_project_write_enabled": false,
+  "pilot_workspace_accessed": false,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+  "hard_trigger_present": false,
+  "frozen_blobs": {
+    "src/devpilot_core/workspace/bootstrap.py": "4d61defeecaf79a1831d9d5db03cfb4ade4b2b2ab25c6ccd7438b9be13ae8c9c",
+    "src/devpilot_core/repo/git_adapter.py": "a03c8dd12807d4f9d5d078b0ae8fb7cfb6173d2adfef266ad017529d4c5395d1",
+    ".devpilot/plugins/plugin_permission_model.json": "579cba87d13d47c5dd51335ab053fc8d3bbf985f4c7c289e22cf95f487e7ceca",
+    ".devpilot/interfaces/ui_route_contract_registry.json": "7dc90c8e6e151adde051463d963eaeae4c373a4c181c3ed98d6f5d4af206ff2d",
+    ".devpilot/identity/auth_ui_route_contract_registry.json": "ab74b1c48128badafd099656b26a67465e21d80625c891a3e160b5cafd179c36"
+  },
+  "successor_scope": "Project Entry contracts are planning-only. Typed write/Git/dependency execution successors are deferred to GSDLC-03-D.",
+  "s0_open": 0,
+  "s1_open": 0,
+  "hash_domain": "sha256(git-show-HEAD bytes normalized CRLF->LF)",
+  "baseline_transport_worktree_sha256": {
+    "src/devpilot_core/workspace/bootstrap.py": "3c8daad3066686439359d97c8356874536f119bf3af4f0cb8df62ae188425e6d",
+    "src/devpilot_core/repo/git_adapter.py": "e0343bda0d6c386c3dee0e602044202bc8c68733f1725e02eea1be2be3b16e5e"
+  },
+  "eol_transport_note": "Windows working-tree/transport bytes may be CRLF while canonical Git content may be LF. Historical freeze ignores only CRLF/LF representation differences."
+}

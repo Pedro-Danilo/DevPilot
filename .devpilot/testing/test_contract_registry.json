@@ -11225,6 +11225,58 @@
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
       "domain": "security.auth-browser"
+    },
+    {
+      "contract_id": "devpl-gsdlc-03-a-project-intake-contracts",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-03-A",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_post_h_024_project_templates.py",
+        "tests/test_post_h_024_onboarding_readiness_preview.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/project_entry_contracts.py",
+        ".devpilot/workspaces/technology_catalog.json",
+        "docs/schemas/project_intake.schema.json",
+        "docs/schemas/technology_catalog.schema.json",
+        "docs/schemas/project_creation_plan.schema.json",
+        "evals/fixtures/gsdlc_03_a_inventory_sales_intake.valid.json",
+        "docs/audits/devpl_gsdlc_03_a_historical_contract_sweep.json",
+        "docs/audits/DEVPL_GSDLC_03_A_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_03_A_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_03_A_REGRESSION_GUARD.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace",
+        "src/devpilot_core/policy/path_guard.py",
+        "src/devpilot_core/repo/git_adapter.py",
+        ".devpilot/workspaces",
+        "docs/schemas",
+        "docs/backlogs/DEVPL-GSDLC-03_",
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "docs/audits/DEVPL_GSDLC_03_A_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_03_A_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_03_A_REGRESSION_GUARD.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_a_project_intake_contracts.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_onboarding_readiness_preview.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
+      ],
+      "domain": "workspace.project-entry"
     }
   ],
   "created_by": "POST-H-001",
@@ -11294,10 +11346,11 @@
     "DEVPL-GSDLC-00-A registers a successor governance contract without making historical POST-H-EVAL/UOC tests own the new program state.",
     "DEVPL-GSDLC-00-D classifies 546 historical/current assertions, scopes 22 successor-needed assertions, expands threat/test strategy and preserves all deny-by-default no-go flags.",
     "DEVPL-GSDLC-02-B adds isolated local auth/session security tests; canonical source is not mutated by tests and full regression remains deferred to 02-E.",
-    "GSDLC-02-E adds the authenticated browser closure contract; the only backlog full regression remains a separate exactly-once closure action after browser PASS."
+    "GSDLC-02-E adds the authenticated browser closure contract; the only backlog full regression remains a separate exactly-once closure action after browser PASS.",
+    "GSDLC-03-A adds a P0 side-effect-free ProjectIntake/TechnologyCatalog/ProjectCreationPlan contract; full regression remains deferred to 03-E."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 279
+  "contracts_total": 280
 }

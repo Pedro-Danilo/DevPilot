@@ -1,14 +1,15 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; micro-sprint de activación: `DEVPL-GSDLC-00-A`; siguiente: `DEVPL-GSDLC-00-B`.
+Programa activo: `DEVPL-GSDLC`; backlogs `DEVPL-GSDLC-00`, `DEVPL-GSDLC-01` y `DEVPL-GSDLC-02` están `CLOSED/PASS`; micro-sprint en implementación: `DEVPL-GSDLC-03-A — Project Intake and technology catalog contracts`.
 
-POST-H-EVAL-002 permanece **pausado antes de 02-B**. Repo341 (`e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b`, commit `cff43e8d992ff6139bd13bb1809ce4d497ae0952`) es parent histórico inmutable. El workspace `inventory-sales-local` no se modifica. Guided SDLC runtime aún no está implementado.
+POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no es input ni fixture de la evolución GSDLC. El baseline técnico vigente de la plataforma es `repo_DevPilot_Local_359_DEVPL_GSDLC_02_E_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip` (commit autoritativo `98e4b2f3f033580bfdd5fc027bf5afcd632f8169`). La autenticación local, sesiones, RBAC server-side y approval actor binding ya están implementados; GSDLC-03 inicia ahora la entrada guiada de proyectos.
 
 Fuentes canónicas del programa:
 - `docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md`
-- `docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md`
+- `docs/backlogs/DEVPL-GSDLC-03_project_entry_creation_open_and_git_import_workbench_v1_2_0_APPROVED.md`
 - `docs/00_product/DEVPL_GSDLC_program_charter.md`
 - `docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md`
+- `DEVPL_GSDLC_02_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md`
 
 ## POST-H-EVAL-002 — Activación del piloto real end-to-end UI-first
 
@@ -6351,6 +6352,10 @@ POST-H-EVAL-002 UI Operational Console Evolution is administratively `CLOSED/PAS
 GSDLC-00 closes the governance-only program activation wave. Parent repo341 remains immutable; POST-H-EVAL-002 stays paused before 02-B. The successor canonical source archive is `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`, produced only with `git archive HEAD` after the final Windows gates and one required full regression. `DEVPL-GSDLC-01` is the next authorized backlog; Guided SDLC runtime/auth/filesystem-write/provider capabilities remain unimplemented/disabled.
 
 
-## DEVPL-GSDLC-02-E candidate — authenticated local operator journey
+## DEVPL-GSDLC-02 — Local authenticated operator closure
 
-`GSDLC-02-D` is adjudicated `CLOSED/PASS` on repo358. The current source candidate implements the 02-E first-run/login/session-protected Web UI journey, identity/role banner, Account/Role surface, secret-free session recovery and local login throttling. Status remains `PASS-CANDIDATE/PRE-WINDOWS`: real-browser acceptance and the single full regression for backlog GSDLC-02 are mandatory before canonical closure. Enterprise IAM, remote login, public API, tenancy, connector write and plugin execution remain disabled.
+`DEVPL-GSDLC-02` is `CLOSED/PASS` on repo359. First-run/login/logout/session expiry/revocation, RBAC server-side and authenticated approval binding are validated with real-browser evidence. The exactly-once full regression produced a preserved FAIL and was recovered using the approved composite path (62/62 residuals + bounded impacted retest + Historical Regression Guard), without a second full run. Enterprise IAM, remote login, public API, tenancy, connector write and plugin execution remain disabled.
+
+## DEVPL-GSDLC-03-A candidate — project entry contracts
+
+03-A adds planning-only `ProjectIntake`, `TechnologyCatalog` and `ProjectCreationPlan` contracts for `CREATE_NEW`, `OPEN_EXISTING` and `IMPORT_GIT`. It introduces no project runtime writes, no network, no arbitrary shell, no new UI routes and no access to `inventory-sales-local`. Environment discovery, dry-run UI, execution/rollback and browser acceptance remain assigned to 03-B/03-C/03-D/03-E respectively. Full regression remains deferred to 03-E under the transversal validation policy.

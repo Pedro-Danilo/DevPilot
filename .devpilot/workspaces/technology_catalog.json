@@ -1,0 +1,172 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1",
+  "catalog_id": "DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG",
+  "status": "implemented-initial/pre-windows",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-A",
+  "profiles": [
+    {
+      "profile_id": "react-ts-fastapi-sqlite",
+      "frontend": "react-typescript",
+      "backend": "fastapi-python",
+      "database": "sqlite",
+      "project_type": "agent-assisted-sdlc",
+      "templates": [
+        "frontend.react-typescript",
+        "backend.fastapi-python",
+        "database.sqlite",
+        "standards.mipsoftware",
+        "standards.miasi"
+      ],
+      "supported_entry_modes": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    }
+  ],
+  "tool_requirements": [
+    {
+      "tool_id": "python",
+      "minimum_version": "3.10",
+      "discovery_mode": "typed-read-only",
+      "required_for": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    {
+      "tool_id": "node",
+      "minimum_version": "20.0",
+      "discovery_mode": "typed-read-only",
+      "required_for": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    {
+      "tool_id": "npm",
+      "minimum_version": "10.0",
+      "discovery_mode": "typed-read-only",
+      "required_for": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    {
+      "tool_id": "git",
+      "minimum_version": "2.40",
+      "discovery_mode": "typed-read-only",
+      "required_for": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    }
+  ],
+  "typed_operations": [
+    {
+      "operation_id": "workspace.target.prepare",
+      "category": "workspace",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "workspace.structure.materialize",
+      "category": "workspace",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "workspace.inspect",
+      "category": "workspace",
+      "writes": false,
+      "network_required": false,
+      "approval_required": false,
+      "rollback_required": false,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "workspace.register",
+      "category": "workspace",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "git.init",
+      "category": "git",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "git.import.local",
+      "category": "git",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "git.clone.remote",
+      "category": "git",
+      "writes": true,
+      "network_required": true,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "python.venv.create",
+      "category": "python",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "dependency.python.install",
+      "category": "dependency",
+      "writes": true,
+      "network_required": true,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    },
+    {
+      "operation_id": "dependency.node.install",
+      "category": "dependency",
+      "writes": true,
+      "network_required": true,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "planned-03-b-to-d"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "deny_by_default": true,
+    "arbitrary_shell_allowed": false,
+    "silent_network_allowed": false,
+    "remote_git_execute_allowed": false,
+    "credential_material_allowed": false,
+    "pilot_workspace_access_allowed": false
+  }
+}

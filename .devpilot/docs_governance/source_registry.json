@@ -19290,9 +19290,328 @@
         "DEVPL-GSDLC-02-E"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-E-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_02_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-02-BACKLOG-CLOSURE-ADJUDICATION",
+      "path": "DEVPL_GSDLC_02_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-02",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03",
+      "path": "docs/backlogs/DEVPL-GSDLC-03_project_entry_creation_open_and_git_import_workbench_v1_2_0_APPROVED.md",
+      "classification": "source-of-truth",
+      "domain": "governance.program",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG",
+      "path": ".devpilot/workspaces/technology_catalog.json",
+      "classification": "machine-readable-source",
+      "domain": "workspace.project-entry",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "implemented-initial/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1",
+      "path": "docs/schemas/project_intake.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.workspace.project-entry",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1",
+      "path": "docs/schemas/technology_catalog.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.workspace.project-entry",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-CREATION-PLAN-V1",
+      "path": "docs/schemas/project_creation_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas.workspace.project-entry",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-A-PROJECT-INTAKE-CONTRACT-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_03_A_PROJECT_INTAKE_CONTRACT_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "workspace.project-entry",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-A-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/devpl_gsdlc_03_a_historical_contract_sweep.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-03-A-CLOSURE-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_03_A_CLOSURE_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-03-A",
+      "status_required": "pass-candidate/pre-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-03-A",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active",
+      "doc_id": "DEVPL-GSDLC-03-A-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_03_A_TEST_IMPACT.json",
+      "status_required": "review-required"
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-03-A",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active",
+      "doc_id": "DEVPL-GSDLC-03-A-FULL-REGRESSION-WAIVER",
+      "path": "docs/audits/DEVPL_GSDLC_03_A_FULL_REGRESSION_WAIVER.json",
+      "status_required": "approved-cadence-waiver"
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-03-A",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active",
+      "doc_id": "DEVPL-GSDLC-03-A-REGRESSION-GUARD",
+      "path": "docs/audits/DEVPL_GSDLC_03_A_REGRESSION_GUARD.json",
+      "status_required": "pass-candidate/pre-windows"
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-03-A",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active",
+      "doc_id": "DEVPL-GSDLC-03-A-CURRENT",
+      "path": "docs/audits/DEVPL_GSDLC_03_A_CURRENT.json",
+      "status_required": "pass-candidate/pre-windows"
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "DEVPL-GSDLC-03-A",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-03-A"
+      ],
+      "lifecycle": "active",
+      "doc_id": "DEVPL-GSDLC-03-A-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_03_A_OPERATION_DECLARATION.json",
+      "status_required": "pass-candidate/pre-windows"
     }
   ],
-  "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
+  "last_registered_sprint": "DEVPL-GSDLC-03-A",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -19387,7 +19706,8 @@
     "DEVPL-GSDLC-02-A registers a design-only local operator authentication boundary, 18-threat control matrix, nine-role authority matrix and explicit legacy role migration; runtime login/session remains disabled until successor micro-sprints.",
     "DEVPL-GSDLC-02-B registers preliminary local runtime identity/session contracts, scrypt-v1 credential decision, runtime-only SQLite exclusion, seven local auth API routes, CSRF/origin controls and sanitized evidence; RBAC completion is deferred to 02-C and authenticated approval binding to 02-D.",
     "DEVPL-GSDLC-02-C registers deterministic server-side RBAC, complete route/sensitive-action coverage, workspace-scope enforcement and sanitized capability projection; approval binding remains successor 02-D and browser UX successor 02-E.",
-    "DEVPL-GSDLC-02-D registers authenticated approval authority, role/risk/domain/SoD matrix, secret-free session binding, stale/revoked authority revalidation and Approval Center successor contracts; browser-real auth UX remains successor 02-E."
+    "DEVPL-GSDLC-02-D registers authenticated approval authority, role/risk/domain/SoD matrix, secret-free session binding, stale/revoked authority revalidation and Approval Center successor contracts; browser-real auth UX remains successor 02-E.",
+    "DEVPL-GSDLC-03-A registers ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts; no project runtime writes, network, external APIs or pilot workspace access are enabled."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -21830,9 +22150,9 @@
   "updated": "2026-08-17",
   "updated_at": "2026-08-18T00:25:00.366906Z",
   "updated_by": "DEVPL-GSDLC-02-E-COMPOSITE-RECOVERY",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-02-E",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-03-A",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "active/post-00-closed/01-authorized",
+  "gsdlc_program_status": "active/03-a/pass-candidate-pre-windows",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",

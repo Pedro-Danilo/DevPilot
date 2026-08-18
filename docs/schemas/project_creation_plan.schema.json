@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-03-A-PROJECT-CREATION-PLAN-V1",
+  "title": "DevPilot GSDLC-03-A ProjectCreationPlan v1",
+  "description": "Deterministic planning-only contract derived from ProjectIntake and TechnologyCatalog. No operation is executable in 03-A.",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "schema_version",
+    "plan_version",
+    "planning_only",
+    "execution_enabled",
+    "source_intake_hash",
+    "entry_mode",
+    "project",
+    "target",
+    "stack",
+    "typed_operations",
+    "network",
+    "cost",
+    "approval",
+    "rollback",
+    "safety",
+    "plan_hash"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-CREATION-PLAN-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "plan_version": {
+      "const": "1.0.0"
+    },
+    "planning_only": {
+      "const": true
+    },
+    "execution_enabled": {
+      "const": false
+    },
+    "source_intake_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "entry_mode": {
+      "enum": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "project_id",
+        "project_name",
+        "project_type",
+        "standards",
+        "provider_mode",
+        "provider_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$"
+        },
+        "project_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project_type": {
+          "const": "agent-assisted-sdlc"
+        },
+        "standards": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "MIPSoftware",
+              "MIASI"
+            ]
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "provider_mode": {
+          "enum": [
+            "none",
+            "mock",
+            "local",
+            "external-api"
+          ]
+        },
+        "provider_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "root",
+        "boundary_root",
+        "platform_overlap",
+        "collision_state"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "boundary_root": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "platform_overlap": {
+          "const": false
+        },
+        "collision_state": {
+          "enum": [
+            "absent",
+            "empty-directory",
+            "non-empty-directory",
+            "non-directory"
+          ]
+        }
+      }
+    },
+    "stack": {
+      "type": "object",
+      "required": [
+        "profile_id",
+        "frontend",
+        "backend",
+        "database"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "type": "string"
+        },
+        "frontend": {
+          "const": "react-typescript"
+        },
+        "backend": {
+          "const": "fastapi-python"
+        },
+        "database": {
+          "const": "sqlite"
+        }
+      }
+    },
+    "typed_operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "operation_id",
+          "category",
+          "writes",
+          "network_required",
+          "approval_required",
+          "rollback_required",
+          "execution_status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "operation_id": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "workspace",
+              "git",
+              "python",
+              "dependency"
+            ]
+          },
+          "writes": {
+            "type": "boolean"
+          },
+          "network_required": {
+            "type": "boolean"
+          },
+          "approval_required": {
+            "type": "boolean"
+          },
+          "rollback_required": {
+            "type": "boolean"
+          },
+          "execution_status": {
+            "const": "planned-contract-only"
+          }
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "required": [
+        "required_by_plan",
+        "runtime_network_used",
+        "silent_network_allowed",
+        "remote_git_disabled_by_default"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "required_by_plan": {
+          "type": "boolean"
+        },
+        "runtime_network_used": {
+          "const": false
+        },
+        "silent_network_allowed": {
+          "const": false
+        },
+        "remote_git_disabled_by_default": {
+          "const": true
+        }
+      }
+    },
+    "cost": {
+      "type": "object",
+      "required": [
+        "cost_class",
+        "external_cost_estimate",
+        "currency",
+        "billing_action_performed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "cost_class": {
+          "const": "zero-contract-planning"
+        },
+        "external_cost_estimate": {
+          "const": 0.0
+        },
+        "currency": {
+          "const": "USD"
+        },
+        "billing_action_performed": {
+          "const": false
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "required": [
+        "approval_required_for_execute",
+        "approval_requested",
+        "approval_bound_to_plan_hash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "approval_required_for_execute": {
+          "type": "boolean"
+        },
+        "approval_requested": {
+          "const": false
+        },
+        "approval_bound_to_plan_hash": {
+          "const": true
+        }
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "required": [
+        "rollback_required_for_mutating_plan",
+        "rollback_executed",
+        "contract_only"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "rollback_required_for_mutating_plan": {
+          "type": "boolean"
+        },
+        "rollback_executed": {
+          "const": false
+        },
+        "contract_only": {
+          "const": true
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "deny_by_default",
+        "dry_run_default",
+        "writes_performed",
+        "network_used",
+        "external_api_used",
+        "arbitrary_shell_used",
+        "pilot_workspace_accessed",
+        "credentials_included"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "deny_by_default": {
+          "const": true
+        },
+        "dry_run_default": {
+          "const": true
+        },
+        "writes_performed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "arbitrary_shell_used": {
+          "const": false
+        },
+        "pilot_workspace_accessed": {
+          "const": false
+        },
+        "credentials_included": {
+          "const": false
+        }
+      }
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-CREATION-PLAN-V1",
+  "x-devpilot-sprint": "DEVPL-GSDLC-03-A",
+  "x-devpilot-status": "registered"
+}

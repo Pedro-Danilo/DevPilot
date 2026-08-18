@@ -1,0 +1,36 @@
+{
+  "schema_id": "devpilot.gsdlc02e.final_owner_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-17",
+  "successor_repo": "repo_DevPilot_Local_359_DEVPL_GSDLC_02_E_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit": "98e4b2f3f033580bfdd5fc027bf5afcd632f8169",
+  "successor_sha256": "bb155968cd10c35a320cdcee3af1f9db4cb64ebed4acbca773f24918c3d58995",
+  "windows_evidence": "DEVPL_GSDLC_02_E_WINDOWS_COMPOSITE_EVIDENCE_v1_0_6.zip",
+  "windows_evidence_sha256": "b653d1a1fc803ca5deef139748994cdb7e2c1242d7d90439ecc1e8eda07cac5f",
+  "browser_acceptance": {
+    "status": "PASS",
+    "screenshots": 10,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "full_regression": {
+    "runs": 1,
+    "original_status": "FAIL",
+    "passed": 2345,
+    "failed": 62,
+    "errors": 0,
+    "skipped": 3,
+    "second_run_executed": false
+  },
+  "composite_recovery": {
+    "status": "PASS",
+    "validation_mode": "composite-full-regression-selective-retest",
+    "residual_nodeids_total": 62,
+    "residual_nodeids_passed": 62,
+    "bounded_impacted_retest": "PASS",
+    "historical_regression_guard": "PASS"
+  },
+  "repo_clean": true,
+  "authorizes": "DEVPL-GSDLC-02 backlog closure"
+}

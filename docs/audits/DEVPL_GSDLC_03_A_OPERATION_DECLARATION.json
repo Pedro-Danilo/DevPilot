@@ -1,0 +1,20 @@
+{
+  "schema_id": "devpilot.gsdlc03a.operation_declaration.v1",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-A",
+  "updated": "2026-08-17",
+  "network_used": false,
+  "external_api_used": false,
+  "model_used": false,
+  "pilot_workspace_accessed": false,
+  "pilot_workspace_mutated": false,
+  "runtime_project_writes_enabled": false,
+  "source_mutations_performed": true,
+  "secrets_exposed": false,
+  "arbitrary_shell_introduced": false,
+  "remote_git_execution_enabled": false,
+  "dependency_install_execution_enabled": false,
+  "full_regression_executed": false
+}

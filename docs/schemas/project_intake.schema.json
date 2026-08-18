@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1",
+  "title": "DevPilot GSDLC-03-A ProjectIntake v1",
+  "description": "Deterministic, side-effect-free contract for CREATE_NEW, OPEN_EXISTING and IMPORT_GIT project intake. It carries no command text or credential material and is validated before any write-capable planning/execution successor.",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "schema_version",
+    "project_id",
+    "project_name",
+    "project_type",
+    "entry_mode",
+    "target_root",
+    "stack",
+    "standards",
+    "provider",
+    "restrictions"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "project_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[^\\r\\n]+$"
+    },
+    "project_type": {
+      "const": "agent-assisted-sdlc"
+    },
+    "entry_mode": {
+      "enum": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    "target_root": {
+      "type": "string",
+      "minLength": 3,
+      "anyOf": [
+        {
+          "pattern": "^[A-Za-z]:[\\\\/].+"
+        },
+        {
+          "pattern": "^/.+"
+        }
+      ]
+    },
+    "stack": {
+      "type": "object",
+      "required": [
+        "frontend",
+        "backend",
+        "database"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "frontend": {
+          "enum": [
+            "react-typescript"
+          ]
+        },
+        "backend": {
+          "enum": [
+            "fastapi-python"
+          ]
+        },
+        "database": {
+          "enum": [
+            "sqlite"
+          ]
+        }
+      }
+    },
+    "standards": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "MIPSoftware",
+          "MIASI"
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "const": "MIPSoftware"
+          }
+        },
+        {
+          "contains": {
+            "const": "MIASI"
+          }
+        }
+      ]
+    },
+    "provider": {
+      "type": "object",
+      "required": [
+        "mode",
+        "provider_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "none",
+            "mock",
+            "local",
+            "external-api"
+          ]
+        },
+        "provider_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 80
+        }
+      }
+    },
+    "restrictions": {
+      "type": "object",
+      "required": [
+        "arbitrary_shell_allowed",
+        "silent_network_allowed",
+        "remote_git_execute_allowed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "arbitrary_shell_allowed": {
+          "const": false
+        },
+        "silent_network_allowed": {
+          "const": false
+        },
+        "remote_git_execute_allowed": {
+          "const": false
+        }
+      }
+    },
+    "git_source": {
+      "type": "object",
+      "required": [
+        "kind",
+        "location"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "local-path",
+            "remote-url"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "entry_mode": {
+            "const": "IMPORT_GIT"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "git_source"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entry_mode": {
+            "enum": [
+              "CREATE_NEW",
+              "OPEN_EXISTING"
+            ]
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "git_source"
+          ]
+        }
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1",
+  "x-devpilot-sprint": "DEVPL-GSDLC-03-A",
+  "x-devpilot-status": "registered"
+}

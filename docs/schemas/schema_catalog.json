@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "owner": "Ordóñez",
   "updated": "2026-08-17",
-  "sprint": "DEVPL-GSDLC-02-E",
+  "sprint": "DEVPL-GSDLC-03-A",
   "preliminary": true,
-  "purpose": "Authoritative schema catalog including UOC-003 validation plans, jobs and explicit traceability.",
+  "purpose": "Authoritative schema catalog including GSDLC-03-A ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1",
@@ -2766,6 +2766,48 @@
       "local_first": true,
       "dry_run_default": false,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1",
+      "title": "DevPilot GSDLC-03-A ProjectIntake v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_intake.schema.json",
+      "description": "Deterministic project-entry intake contract for CREATE_NEW, OPEN_EXISTING and IMPORT_GIT without command or credential material.",
+      "status": "registered",
+      "contract": "ProjectIntake",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-03-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1",
+      "title": "DevPilot GSDLC-03-A TechnologyCatalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/technology_catalog.schema.json",
+      "description": "Versioned local-first technology/profile and typed-operation metadata catalog; contains no free-form shell command text.",
+      "status": "registered",
+      "contract": "TechnologyCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-03-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-CREATION-PLAN-V1",
+      "title": "DevPilot GSDLC-03-A ProjectCreationPlan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_creation_plan.schema.json",
+      "description": "Planning-only deterministic project creation/open/import contract with typed operations and network/cost/approval/rollback metadata.",
+      "status": "registered",
+      "contract": "ProjectCreationPlan",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-03-A"
     }
   ],
   "schemas_total": 191

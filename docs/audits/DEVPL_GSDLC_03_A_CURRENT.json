@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc03a.current.v1",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-A",
+  "updated": "2026-08-17",
+  "source_repo": "repo_DevPilot_Local_359_DEVPL_GSDLC_02_E_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "98e4b2f3f033580bfdd5fc027bf5afcd632f8169",
+  "source_sha256": "bb155968cd10c35a320cdcee3af1f9db4cb64ebed4acbca773f24918c3d58995",
+  "validation_mode": "cumulative-selective",
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+  "next_micro_sprint_authorized": false,
+  "next_micro_sprint": "DEVPL-GSDLC-03-B",
+  "s0_open": 0,
+  "s1_open": 0,
+  "pilot_workspace_accessed": false
+}

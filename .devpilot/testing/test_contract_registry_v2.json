@@ -19487,15 +19487,89 @@
       ],
       "owner_domain": "security.rbac",
       "service_boundary": "identity"
+    },
+    {
+      "contract_id": "devpl-gsdlc-03-a-project-intake-contracts",
+      "source_contract_id": "devpl-gsdlc-03-a-project-intake-contracts",
+      "schema_version": "2.0",
+      "domain": "operations.workspace",
+      "capability": "ProjectEntryContracts",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 120,
+      "test_files": [
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_post_h_024_project_templates.py",
+        "tests/test_post_h_024_onboarding_readiness_preview.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace/project_entry_contracts.py",
+        ".devpilot/workspaces/technology_catalog.json",
+        "docs/schemas/project_intake.schema.json",
+        "docs/schemas/technology_catalog.schema.json",
+        "docs/schemas/project_creation_plan.schema.json",
+        "docs/backlogs/DEVPL-GSDLC-03_project_entry_creation_open_and_git_import_workbench_v1_2_0_APPROVED.md",
+        "docs/audits/DEVPL_GSDLC_03_A_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_03_A_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_03_A_REGRESSION_GUARD.json"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/project_entry_contracts.py",
+        ".devpilot/workspaces/technology_catalog.json",
+        "evals/fixtures/gsdlc_03_a_inventory_sales_intake.valid.json",
+        "docs/audits/devpl_gsdlc_03_a_historical_contract_sweep.json",
+        "docs/audits/DEVPL_GSDLC_03_A_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_03_A_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_03_A_REGRESSION_GUARD.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-03-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_a_project_intake_contracts.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_onboarding_readiness_preview.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "03-A is contract-only and performs no project/runtime writes.",
+        "Unknown/ambiguous stack, unsafe path, symlink, platform overlap, credential material and free-form command fields fail closed.",
+        "POST-H-024 bootstrap/GitAdapter/UOC/GSDLC-02 historical/current contracts are preserved.",
+        "Full regression is deferred to DEVPL-GSDLC-03-E by owner-approved transversal policy."
+      ],
+      "trigger_hints": [
+        "project-intake",
+        "technology-catalog",
+        "project-creation-plan",
+        "path-guard",
+        "workspace-bootstrap",
+        "git-import",
+        "dependency-plan"
+      ],
+      "impact_tags": [
+        "workspace",
+        "security",
+        "governance",
+        "schema"
+      ],
+      "owner_domain": "workspace.project-entry",
+      "service_boundary": "workspace"
     }
   ],
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
-    "contracts_total": 279,
+    "contracts_total": 280,
     "external_api_used": false,
-    "last_updated_by": "DEVPL-GSDLC-01-A",
+    "last_updated_by": "DEVPL-GSDLC-03-A",
     "migrator": "TestContractRegistryV2Migrator",
     "mutations_performed_by_default": false,
     "network_used": false,
@@ -19554,7 +19628,8 @@
     "DEVPL-GSDLC-00-A keeps network/external API/runtime mutation disabled and creates successor governance coverage.",
     "DEVPL-GSDLC-00-D adds a P0 security/test reconciliation contract; network/external API/runtime mutation remain disabled.",
     "DEVPL-GSDLC-02-B adds preliminary local identity/session security contract; no intermediate full regression by owner-approved cadence.",
-    "GSDLC-02-E adds an explicit P0 release contract for the authenticated browser journey and exactly-once backlog closure evidence."
+    "GSDLC-02-E adds an explicit P0 release contract for the authenticated browser journey and exactly-once backlog closure evidence.",
+    "GSDLC-03-A registers P0 project-entry contracts without runtime writes or intermediate full regression."
   ],
   "profiles": [
     {
@@ -19646,5 +19721,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 279
+  "contracts_total": 280
 }

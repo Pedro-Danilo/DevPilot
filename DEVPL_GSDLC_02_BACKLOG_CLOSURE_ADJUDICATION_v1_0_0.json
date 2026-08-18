@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc02.backlog_closure_adjudication.v1",
+  "decision": "CLOSED/PASS",
+  "owner": "Ordóñez",
+  "adjudicated_at": "2026-08-17",
+  "micro_sprints": {
+    "A": "CLOSED/PASS",
+    "B": "CLOSED/PASS",
+    "C": "CLOSED/PASS",
+    "D": "CLOSED/PASS",
+    "E": "CLOSED/PASS"
+  },
+  "successor_repo": "repo_DevPilot_Local_359_DEVPL_GSDLC_02_E_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit": "98e4b2f3f033580bfdd5fc027bf5afcd632f8169",
+  "successor_sha256": "bb155968cd10c35a320cdcee3af1f9db4cb64ebed4acbca773f24918c3d58995",
+  "s0_open": 0,
+  "s1_open": 0,
+  "authorizes": "DEVPL-GSDLC-03"
+}

@@ -32,6 +32,19 @@ from devpilot_core.workspace.registry_v2 import (
     WorkspaceRegistryV2Options,
 )
 
+
+from devpilot_core.workspace.project_entry_contracts import (
+    DEFAULT_TECHNOLOGY_CATALOG,
+    PROJECT_CREATION_PLAN_SCHEMA_ID,
+    PROJECT_INTAKE_SCHEMA_ID,
+    TECHNOLOGY_CATALOG_SCHEMA_ID,
+    GitSourceKind,
+    ProjectEntryContractService,
+    ProjectEntryMode,
+    ProjectIntake,
+    stable_sha256,
+)
+
 from devpilot_core.workspace.bootstrap import (
     DEFAULT_BOOTSTRAP_OUTPUT_JSON,
     DEFAULT_BOOTSTRAP_OUTPUT_MARKDOWN,
@@ -68,6 +81,15 @@ __all__ = [
     "DEFAULT_WORKSPACE_REGISTRY_V2_SCHEMA",
     "WORKSPACE_REGISTRY_V2_SCHEMA_ID",
     "POST_H_016_A_CREATED_BY",
+    "ProjectEntryContractService",
+    "ProjectEntryMode",
+    "GitSourceKind",
+    "ProjectIntake",
+    "PROJECT_INTAKE_SCHEMA_ID",
+    "TECHNOLOGY_CATALOG_SCHEMA_ID",
+    "PROJECT_CREATION_PLAN_SCHEMA_ID",
+    "DEFAULT_TECHNOLOGY_CATALOG",
+    "stable_sha256",
     "parse_project_yaml_metadata",
     "render_project_yaml",
 ]

@@ -1,0 +1,32 @@
+{
+  "schema_id": "devpilot.gsdlc03a.full_regression_waiver.v1",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-A",
+  "status": "approved-cadence-waiver",
+  "decision": "WAIVER",
+  "valid_for": "intermediate-micro-sprint-only",
+  "reason": "Owner-approved DEVPL-GSDLC-03 v1.2.0 and transversal validation policy require cumulative-selective validation for 03-A through 03-D. Test Impact recommends full regression due to broad schema/governance/workspace matches, but this is a recommendation rather than an automatic execution order. No owner-approved hard-trigger exception exists for 03-A. The backlog-wide full regression remains exactly once in 03-E after browser acceptance.",
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+  "test_impact_full_regression_required": true,
+  "test_impact_waiver_required": true,
+  "hard_trigger_present": false,
+  "hard_trigger_review": "No HT-01..HT-09 condition was established by 03-A: no auth/RBAC/approval semantics changed; no runtime write/execution surface enabled; no public/remote/network capability enabled; no shared policy engine changed; no test runner/packaging behavior changed. Changes are new planning-only workspace contracts plus governance registration.",
+  "conditions": [
+    "03-A focal contracts PASS",
+    "POST-H-024/workspace/Git historical protections PASS",
+    "GSDLC-02 auth/RBAC cumulative PASS",
+    "Project State PASS",
+    "Docs Governance PASS",
+    "TCR v1/v2 PASS",
+    "Test Impact reviewed",
+    "Historical Regression Guard PASS",
+    "S0=0/S1=0"
+  ],
+  "risk": "high",
+  "owner_approved_intermediate_full_exception": false,
+  "test_impact_changed_paths_total": 30,
+  "test_impact_matched_contracts_total": 133,
+  "test_impact_recommended_tests_total": 215,
+  "test_impact_residual_risk": "high"
+}

@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1",
+  "title": "DevPilot GSDLC-03-A TechnologyCatalog v1",
+  "description": "Versioned local-first technology and typed-operation catalog. The catalog intentionally stores operation identifiers/metadata, never free-form shell command strings.",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "catalog_id",
+    "status",
+    "version",
+    "owner",
+    "micro_sprint",
+    "profiles",
+    "tool_requirements",
+    "typed_operations",
+    "safety"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1"
+    },
+    "catalog_id": {
+      "const": "DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG"
+    },
+    "status": {
+      "const": "implemented-initial/pre-windows"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "owner": {
+      "const": "Ordóñez"
+    },
+    "micro_sprint": {
+      "const": "DEVPL-GSDLC-03-A"
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "profile_id",
+          "frontend",
+          "backend",
+          "database",
+          "project_type",
+          "templates",
+          "supported_entry_modes"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_.-]+$"
+          },
+          "frontend": {
+            "const": "react-typescript"
+          },
+          "backend": {
+            "const": "fastapi-python"
+          },
+          "database": {
+            "const": "sqlite"
+          },
+          "project_type": {
+            "const": "agent-assisted-sdlc"
+          },
+          "templates": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "string",
+              "minLength": 2
+            },
+            "uniqueItems": true
+          },
+          "supported_entry_modes": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "CREATE_NEW",
+                "OPEN_EXISTING",
+                "IMPORT_GIT"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "tool_requirements": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "tool_id",
+          "minimum_version",
+          "discovery_mode",
+          "required_for"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "tool_id": {
+            "enum": [
+              "python",
+              "node",
+              "npm",
+              "git"
+            ]
+          },
+          "minimum_version": {
+            "type": "string",
+            "pattern": "^[0-9]+(\\.[0-9]+){0,2}$"
+          },
+          "discovery_mode": {
+            "const": "typed-read-only"
+          },
+          "required_for": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "CREATE_NEW",
+                "OPEN_EXISTING",
+                "IMPORT_GIT"
+              ]
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "typed_operations": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "operation_id",
+          "category",
+          "writes",
+          "network_required",
+          "approval_required",
+          "rollback_required",
+          "implementation_status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.-]{2,80}$"
+          },
+          "category": {
+            "enum": [
+              "workspace",
+              "git",
+              "python",
+              "dependency"
+            ]
+          },
+          "writes": {
+            "type": "boolean"
+          },
+          "network_required": {
+            "type": "boolean"
+          },
+          "approval_required": {
+            "type": "boolean"
+          },
+          "rollback_required": {
+            "type": "boolean"
+          },
+          "implementation_status": {
+            "const": "planned-03-b-to-d"
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "deny_by_default",
+        "arbitrary_shell_allowed",
+        "silent_network_allowed",
+        "remote_git_execute_allowed",
+        "credential_material_allowed",
+        "pilot_workspace_access_allowed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "deny_by_default": {
+          "const": true
+        },
+        "arbitrary_shell_allowed": {
+          "const": false
+        },
+        "silent_network_allowed": {
+          "const": false
+        },
+        "remote_git_execute_allowed": {
+          "const": false
+        },
+        "credential_material_allowed": {
+          "const": false
+        },
+        "pilot_workspace_access_allowed": {
+          "const": false
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1",
+  "x-devpilot-sprint": "DEVPL-GSDLC-03-A",
+  "x-devpilot-status": "registered"
+}

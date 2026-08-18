@@ -1,0 +1,61 @@
+{
+  "schema_id": "devpilot.gsdlc03a.project_intake_contract_report.v1",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-A",
+  "updated": "2026-08-17",
+  "source_repo": "repo_DevPilot_Local_359_DEVPL_GSDLC_02_E_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_git_commit": "98e4b2f3f033580bfdd5fc027bf5afcd632f8169",
+  "source_repo_sha256": "bb155968cd10c35a320cdcee3af1f9db4cb64ebed4acbca773f24918c3d58995",
+  "contracts": {
+    "project_intake_schema": "docs/schemas/project_intake.schema.json",
+    "technology_catalog_schema": "docs/schemas/technology_catalog.schema.json",
+    "project_creation_plan_schema": "docs/schemas/project_creation_plan.schema.json",
+    "technology_catalog": ".devpilot/workspaces/technology_catalog.json",
+    "reference_fixture": "evals/fixtures/gsdlc_03_a_inventory_sales_intake.valid.json",
+    "reference_fixture_sha256": "22623b8e335a1627339199908756e033b2cb89b7c2ff343736155fbb7f73cf84"
+  },
+  "entry_modes": [
+    "CREATE_NEW",
+    "OPEN_EXISTING",
+    "IMPORT_GIT"
+  ],
+  "supported_profile": "react-ts-fastapi-sqlite",
+  "controls": {
+    "unknown_stack_effect": "BLOCK",
+    "ambiguous_stack_effect": "BLOCK",
+    "outside_allowed_root_effect": "BLOCK",
+    "platform_overlap_effect": "BLOCK",
+    "parent_traversal_effect": "BLOCK",
+    "symlink_effect": "BLOCK",
+    "credential_material_effect": "BLOCK",
+    "free_form_command_effect": "BLOCK",
+    "remote_git_execute_allowed": false,
+    "silent_network_allowed": false,
+    "arbitrary_shell_allowed": false,
+    "local_git_source_outside_allowed_root_effect": "BLOCK",
+    "local_git_source_target_collision_effect": "BLOCK",
+    "remote_git_credential_output_redacted": true
+  },
+  "contract_runtime": {
+    "planning_only": true,
+    "execution_enabled": false,
+    "writes_performed": false
+  },
+  "writes_performed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "pilot_workspace_accessed": false,
+  "secrets_exposed": false,
+  "full_regression_executed": false,
+  "validation_mode": "cumulative-selective",
+  "s0_open": 0,
+  "s1_open": 0,
+  "limitations": [
+    "03-A defines contracts only; environment discovery belongs to 03-B.",
+    "Dry-run UI belongs to 03-C.",
+    "Materialization/Git/.venv/dependency execution belongs to 03-D.",
+    "Browser Home/Create/Open/Import acceptance belongs to 03-E."
+  ]
+}

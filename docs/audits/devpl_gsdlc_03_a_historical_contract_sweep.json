@@ -1,0 +1,68 @@
+{
+  "schema_id": "devpilot.gsdlc03a.historical_contract_sweep.v1",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-A",
+  "updated": "2026-08-17",
+  "historical_assertions_rewritten": false,
+  "pilot_workspace_accessed": false,
+  "unclassified_total": 0,
+  "contracts": [
+    {
+      "contract": "POST-H-024-C workspace bootstrap",
+      "classification": "historical-freeze",
+      "decision": "Preserve existing dry-run/execute bootstrap behavior and evidence; 03-A does not mutate bootstrap.py or its historical contracts.",
+      "successor": "GSDLC-03-B/C/D will consume the new intake/plan contracts without rewriting POST-H-024 evidence."
+    },
+    {
+      "contract": "POST-H-EVAL-002-02-A pilot workspace onboarding",
+      "classification": "historical-freeze",
+      "decision": "Pilot execution remains paused and independent. No inventory-sales-local access is allowed.",
+      "successor": null
+    },
+    {
+      "contract": "UOC operational UI route history",
+      "classification": "historical-freeze",
+      "decision": "03-A adds no UI route and does not modify operational/auth route snapshots.",
+      "successor": "GSDLC-03-E introduces post-login project entry UI through successor contracts."
+    },
+    {
+      "contract": "GSDLC-01 Project Status",
+      "classification": "current-active",
+      "decision": "Project Status remains the downstream navigation target; no source change in 03-A.",
+      "successor": null
+    },
+    {
+      "contract": "GSDLC-02 human-session/RBAC/approval authority",
+      "classification": "current-active",
+      "decision": "Authenticated principal remains the future authority for project-entry actions; 03-A performs no runtime authorization mutation.",
+      "successor": null
+    },
+    {
+      "contract": "GitAdapter read-only contract",
+      "classification": "historical-freeze",
+      "decision": "Existing GitAdapter remains read-only and byte-identical.",
+      "successor": "A separately typed Git mutation successor is required in 03-D; historical read-only Git contracts remain true."
+    },
+    {
+      "contract": "PluginPermissionModel filesystem_write_allowed=false",
+      "classification": "historical-freeze",
+      "decision": "Plugin write prohibition remains scoped to plugins and is not generalized to project bootstrap.",
+      "successor": "Project bootstrap scoped writes require a dedicated typed successor in 03-D, not a relaxation of plugin permissions."
+    },
+    {
+      "contract": "Project-entry intake/catalog/plan contracts",
+      "classification": "successor-needed",
+      "decision": "New GSDLC-03-A contracts describe future bounded project creation/open/import without enabling writes.",
+      "successor": "GSDLC-03-B/C/D runtime capabilities."
+    }
+  ],
+  "summary": {
+    "historical_freeze_total": 4,
+    "current_active_total": 2,
+    "successor_needed_total": 2,
+    "deprecated_after_proof_total": 0,
+    "unclassified_total": 0
+  }
+}
