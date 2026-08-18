@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/bootstrap_planning_catalog.schema.json",
+  "title": "DevPilot GSDLC-03-B BootstrapPlanningCatalog",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "catalog_id",
+    "status",
+    "version",
+    "owner",
+    "micro_sprint",
+    "profiles",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLANNING-CATALOG-V1"
+    },
+    "catalog_id": {
+      "const": "DEVPL-GSDLC-03-B-BOOTSTRAP-PLANNING-CATALOG"
+    },
+    "status": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "micro_sprint": {
+      "const": "DEVPL-GSDLC-03-B"
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "profile_id",
+          "directories",
+          "files",
+          "dependency_jobs"
+        ],
+        "properties": {
+          "profile_id": {
+            "type": "string"
+          },
+          "directories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "relative_path",
+                "source"
+              ],
+              "properties": {
+                "relative_path": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "relative_path",
+                "template_id"
+              ],
+              "properties": {
+                "relative_path": {
+                  "type": "string"
+                },
+                "template_id": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "dependency_jobs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "job_id",
+                "operation_id",
+                "ecosystem",
+                "manifest_path",
+                "dependency_set_id",
+                "network_required",
+                "lock_resolution_required_before_execute"
+              ],
+              "properties": {
+                "job_id": {
+                  "type": "string"
+                },
+                "operation_id": {
+                  "type": "string"
+                },
+                "ecosystem": {
+                  "enum": [
+                    "python",
+                    "node"
+                  ]
+                },
+                "manifest_path": {
+                  "type": "string"
+                },
+                "dependency_set_id": {
+                  "type": "string"
+                },
+                "network_required": {
+                  "type": "boolean"
+                },
+                "lock_resolution_required_before_execute": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "planning_only",
+        "execution_enabled",
+        "arbitrary_shell_allowed",
+        "network_execution_enabled",
+        "remote_git_execute_allowed",
+        "pilot_workspace_access_allowed"
+      ],
+      "properties": {
+        "planning_only": {
+          "const": true
+        },
+        "execution_enabled": {
+          "const": false
+        },
+        "arbitrary_shell_allowed": {
+          "const": false
+        },
+        "network_execution_enabled": {
+          "const": false
+        },
+        "remote_git_execute_allowed": {
+          "const": false
+        },
+        "pilot_workspace_access_allowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "tool_compatibility": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "tool_id",
+          "policy",
+          "declared_minimum_version",
+          "effective_minimum_version",
+          "scope",
+          "required_capabilities",
+          "validation_basis",
+          "execution_scope",
+          "note"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "tool_id": {
+            "enum": [
+              "python",
+              "node",
+              "npm",
+              "git"
+            ]
+          },
+          "policy": {
+            "enum": [
+              "strict-version",
+              "validated-legacy-floor"
+            ]
+          },
+          "declared_minimum_version": {
+            "type": "string",
+            "pattern": "^[0-9]+(\\.[0-9]+){0,2}$"
+          },
+          "effective_minimum_version": {
+            "type": "string",
+            "pattern": "^[0-9]+(\\.[0-9]+){0,2}$"
+          },
+          "scope": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "CREATE_NEW",
+                "OPEN_EXISTING",
+                "IMPORT_GIT"
+              ]
+            }
+          },
+          "required_capabilities": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "validation_basis": {
+            "type": "string",
+            "minLength": 10
+          },
+          "execution_scope": {
+            "const": "discovery-and-planning-only"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

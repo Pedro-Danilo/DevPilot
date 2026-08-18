@@ -6359,3 +6359,8 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 ## DEVPL-GSDLC-03-A candidate — project entry contracts
 
 03-A adds planning-only `ProjectIntake`, `TechnologyCatalog` and `ProjectCreationPlan` contracts for `CREATE_NEW`, `OPEN_EXISTING` and `IMPORT_GIT`. It introduces no project runtime writes, no network, no arbitrary shell, no new UI routes and no access to `inventory-sales-local`. Environment discovery, dry-run UI, execution/rollback and browser acceptance remain assigned to 03-B/03-C/03-D/03-E respectively. Full regression remains deferred to 03-E under the transversal validation policy.
+
+
+## DEVPL-GSDLC-03-B — Environment discovery and bootstrap planning
+
+Estado de implementación: **PASS-CANDIDATE / PRE-WINDOWS**. Añade discovery local read-only y `BootstrapPlan` determinístico/planning-only para Project Entry. No instala herramientas, no usa red, no habilita project writes y no accede al piloto `inventory-sales-local`. La full regression permanece reservada a GSDLC-03-E.

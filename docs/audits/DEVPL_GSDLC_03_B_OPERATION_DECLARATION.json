@@ -1,0 +1,27 @@
+{
+  "schema_id": "devpilot.gsdlc03b.operation_declaration.v1",
+  "micro_sprint": "DEVPL-GSDLC-03-B",
+  "status": "pass-candidate/pre-windows",
+  "planning_only": true,
+  "writes_performed": false,
+  "runtime_project_writes_enabled": false,
+  "network_used": false,
+  "external_api_used": false,
+  "installers_executed": false,
+  "arbitrary_shell_used": false,
+  "pilot_workspace_accessed": false,
+  "remote_git_contacted": false,
+  "api_routes_added": 2,
+  "human_session_required": true,
+  "legacy_token_human_authority": false,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+  "s0_open": 0,
+  "s1_open": 0,
+  "windows_capability_policy": {
+    "git_03a_declared_floor_preserved": "2.40",
+    "git_03b_planning_effective_floor": "2.33.0",
+    "npm_selected_node_authoritative": true,
+    "cmd_exe_used": false
+  }
+}

@@ -394,3 +394,15 @@ Workspace edit/Git approval-request and execution routes derive actor from the a
 - Auth: no human session required because the route only returns a bounded state enum and no principal/role/secret.
 - Side effect: read-only; does not touch `last_seen`.
 - Security: no legacy token principal, no actor data, no roles, no cookie/session/CSRF values in body.
+
+
+## DEVPL-GSDLC-03-B — Environment discovery and bootstrap planning
+
+Both routes require an authenticated human session and are **planning-only**. They expose no free-form command surface, do not install tools, do not contact remote Git, do not mutate Git/project source and do not access `inventory-sales-local`.
+
+| API ID | Method / path | Operation | Service mapping | Policy/gate |
+|---|---|---|---|---|
+| `API-GSDLC03B-ENVIRONMENT-DISCOVERY` | `POST /api/v1/project-entry/environment-discovery` | `project_entry.environment_discovery` | `ApplicationService` → `ProjectEntryPlanningApplicationService` → `EnvironmentDiscoveryService.discover` | human-session + server RBAC + PathGuard; bounded native read-only subprocess; writes/network/installers disabled |
+| `API-GSDLC03B-BOOTSTRAP-PLAN` | `POST /api/v1/project-entry/bootstrap-plan` | `project_entry.bootstrap_plan` | `ApplicationService` → `ProjectEntryPlanningApplicationService` → `EnvironmentDiscoveryService.build_bootstrap_plan` | same authority; deterministic plan hash; execution remains disabled until later micro-sprints |
+
+`BootstrapPlan` declares future side effects, approval, network and rollback metadata without executing them. Remote clone remains disabled-by-default and dependency installation is metadata-only in 03-B.

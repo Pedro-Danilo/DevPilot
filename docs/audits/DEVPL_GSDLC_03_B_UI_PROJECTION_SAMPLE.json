@@ -1,0 +1,60 @@
+{
+  "projection_version": "1.0.0",
+  "read_only": true,
+  "execution_enabled": false,
+  "entry_mode": "CREATE_NEW",
+  "project_id": "inventory-sales-local-concept",
+  "plan_hash": "54eff149be5dce1a80b037ea3e2da1e6418efd9b405d4b5d2efc8fcca2ba9764",
+  "discovery_fingerprint": "300cea816f52e2f8d84ad16cb58ebcc438a7a72f4a4794e55ddbb8eb2909ba1c",
+  "tools": [
+    {
+      "tool_id": "git",
+      "status": "ready",
+      "version": "2.47.3"
+    },
+    {
+      "tool_id": "node",
+      "status": "ready",
+      "version": "22.16.0"
+    },
+    {
+      "tool_id": "npm",
+      "status": "ready",
+      "version": "10.9.2"
+    },
+    {
+      "tool_id": "python",
+      "status": "ready",
+      "version": "3.13.5"
+    }
+  ],
+  "steps": [
+    {
+      "operation_id": "git.init",
+      "network_required": false,
+      "approval_required": true,
+      "execution_status": "planned-only"
+    },
+    {
+      "operation_id": "dependency.python.install",
+      "network_required": true,
+      "approval_required": true,
+      "execution_status": "planned-only"
+    },
+    {
+      "operation_id": "dependency.node.install",
+      "network_required": true,
+      "approval_required": true,
+      "execution_status": "planned-only"
+    },
+    {
+      "operation_id": "workspace.register",
+      "network_required": false,
+      "approval_required": true,
+      "execution_status": "planned-only"
+    }
+  ],
+  "network_required": true,
+  "approval_required": true,
+  "writes_performed": false
+}

@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-03-A-CLOSURE-REPORT"
 title: "DEVPL-GSDLC-03-A — Project Intake and Technology Catalog contracts — Closure report"
-status: "pass-candidate/pre-windows"
+status: "approved"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-17"
-approval: "pending_owner_adjudication"
+approval: "CLOSED/PASS"
 program_id: "DEVPL-GSDLC"
 backlog_id: "DEVPL-GSDLC-03"
 micro_sprint: "DEVPL-GSDLC-03-A"
@@ -15,7 +15,7 @@ micro_sprint: "DEVPL-GSDLC-03-A"
 
 ## 1. Estado
 
-`PASS-CANDIDATE / PRE-WINDOWS / PENDING-OWNER-ADJUDICATION`.
+`CLOSED/PASS` after Windows validation v1.0.1 and final owner adjudication.
 
 03-A define exclusivamente contratos determinísticos de intake, catálogo tecnológico y plan de creación. No habilita bootstrap execute, Git mutation, `.venv`, dependency install, API/UI project-entry ni red.
 
@@ -67,4 +67,4 @@ Esta es una primera versión contractual. Discovery real pertenece a 03-B, dry-r
 
 ## 7. Autorización
 
-03-B permanece bloqueado hasta evidencia Windows y owner adjudication `CLOSED/PASS` de 03-A.
+03-B is authorized by `DEVPL_GSDLC_03_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md` over repo360.

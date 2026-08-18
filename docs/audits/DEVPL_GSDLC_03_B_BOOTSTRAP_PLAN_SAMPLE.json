@@ -1,0 +1,364 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLAN-V1",
+  "schema_version": "1.0",
+  "plan_version": "1.0.0",
+  "planning_only": true,
+  "execution_enabled": false,
+  "entry_mode": "CREATE_NEW",
+  "project_id": "inventory-sales-local-concept",
+  "source_intake_hash": "f9a353b7eca2d3d0fd9eb3cb921c8e6c8d82d0ec6bcdc7eba96ec35818a9f2d1",
+  "source_creation_plan_hash": "ed8e41d2b81098e9f06f7286e13f94d49f23112c9772bb93dc14a5bbd984cc54",
+  "source_discovery_fingerprint": "300cea816f52e2f8d84ad16cb58ebcc438a7a72f4a4794e55ddbb8eb2909ba1c",
+  "target_root": "/mnt/data/gsdlc03b_v101_sample/project",
+  "directories": [
+    {
+      "relative_path": "frontend",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/frontend",
+      "type": "directory",
+      "writes": true,
+      "source": "template-profile"
+    },
+    {
+      "relative_path": "frontend/src",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/frontend/src",
+      "type": "directory",
+      "writes": true,
+      "source": "template-profile"
+    },
+    {
+      "relative_path": "backend",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/backend",
+      "type": "directory",
+      "writes": true,
+      "source": "template-profile"
+    },
+    {
+      "relative_path": "backend/app",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/backend/app",
+      "type": "directory",
+      "writes": true,
+      "source": "template-profile"
+    },
+    {
+      "relative_path": "docs",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/docs",
+      "type": "directory",
+      "writes": true,
+      "source": "MIPSoftware"
+    },
+    {
+      "relative_path": "docs/standards",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/docs/standards",
+      "type": "directory",
+      "writes": true,
+      "source": "MIPSoftware+MIASI"
+    },
+    {
+      "relative_path": "tests",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/tests",
+      "type": "directory",
+      "writes": true,
+      "source": "template-profile"
+    },
+    {
+      "relative_path": ".devpilot",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/.devpilot",
+      "type": "directory",
+      "writes": true,
+      "source": "DevPilot workspace metadata"
+    }
+  ],
+  "files": [
+    {
+      "relative_path": ".gitignore",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/.gitignore",
+      "type": "file",
+      "template_id": "common.gitignore",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "README.md",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/README.md",
+      "type": "file",
+      "template_id": "common.readme",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "frontend/package.json",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/frontend/package.json",
+      "type": "file",
+      "template_id": "frontend.react-typescript.package",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "frontend/tsconfig.json",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/frontend/tsconfig.json",
+      "type": "file",
+      "template_id": "frontend.react-typescript.tsconfig",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "frontend/src/main.tsx",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/frontend/src/main.tsx",
+      "type": "file",
+      "template_id": "frontend.react-typescript.main",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "backend/requirements.txt",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/backend/requirements.txt",
+      "type": "file",
+      "template_id": "backend.fastapi-python.requirements",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "backend/app/main.py",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/backend/app/main.py",
+      "type": "file",
+      "template_id": "backend.fastapi-python.main",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "docs/standards/MIPSoftware.md",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/docs/standards/MIPSoftware.md",
+      "type": "file",
+      "template_id": "standards.mipsoftware",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": "docs/standards/MIASI.md",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/docs/standards/MIASI.md",
+      "type": "file",
+      "template_id": "standards.miasi",
+      "writes": true,
+      "content_materialized": false
+    },
+    {
+      "relative_path": ".devpilot/project.yaml",
+      "absolute_path": "/mnt/data/gsdlc03b_v101_sample/project/.devpilot/project.yaml",
+      "type": "file",
+      "template_id": "devpilot.project-metadata",
+      "writes": true,
+      "content_materialized": false
+    }
+  ],
+  "git_operations": [
+    {
+      "operation_id": "git.init",
+      "category": "git",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "execution_status": "planned-only"
+    }
+  ],
+  "venv": {
+    "operation_id": "python.venv.create",
+    "path": "/mnt/data/gsdlc03b_v101_sample/project/.venv",
+    "required": true,
+    "writes": true,
+    "network_required": false,
+    "approval_required": true,
+    "execution_status": "planned-only"
+  },
+  "dependency_jobs": [
+    {
+      "job_id": "deps.python.install",
+      "operation_id": "dependency.python.install",
+      "ecosystem": "python",
+      "manifest_path": "/mnt/data/gsdlc03b_v101_sample/project/backend/requirements.txt",
+      "dependency_set_id": "backend.fastapi-python",
+      "lock_resolution_required_before_execute": true,
+      "writes": true,
+      "network_required": true,
+      "approval_required": true,
+      "execution_status": "planned-only"
+    },
+    {
+      "job_id": "deps.node.install",
+      "operation_id": "dependency.node.install",
+      "ecosystem": "node",
+      "manifest_path": "/mnt/data/gsdlc03b_v101_sample/project/frontend/package.json",
+      "dependency_set_id": "frontend.react-typescript",
+      "lock_resolution_required_before_execute": true,
+      "writes": true,
+      "network_required": true,
+      "approval_required": true,
+      "execution_status": "planned-only"
+    }
+  ],
+  "workspace_registration": {
+    "operation_id": "workspace.register",
+    "target_root": "/mnt/data/gsdlc03b_v101_sample/project",
+    "workspace_id": "inventory-sales-local-concept",
+    "writes": true,
+    "network_required": false,
+    "approval_required": true,
+    "execution_status": "planned-only"
+  },
+  "network": {
+    "required_by_plan": true,
+    "runtime_network_used": false,
+    "silent_network_allowed": false,
+    "remote_git_disabled_by_default": true
+  },
+  "approval": {
+    "required_for_execute": true,
+    "approval_requested": false,
+    "bound_to_plan_hash": true,
+    "human_session_required": true
+  },
+  "expected_side_effects": [
+    {
+      "kind": "directory-create",
+      "subject": "frontend",
+      "declared": true
+    },
+    {
+      "kind": "directory-create",
+      "subject": "frontend/src",
+      "declared": true
+    },
+    {
+      "kind": "directory-create",
+      "subject": "backend",
+      "declared": true
+    },
+    {
+      "kind": "directory-create",
+      "subject": "backend/app",
+      "declared": true
+    },
+    {
+      "kind": "directory-create",
+      "subject": "docs",
+      "declared": true
+    },
+    {
+      "kind": "directory-create",
+      "subject": "docs/standards",
+      "declared": true
+    },
+    {
+      "kind": "directory-create",
+      "subject": "tests",
+      "declared": true
+    },
+    {
+      "kind": "directory-create",
+      "subject": ".devpilot",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": ".gitignore",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "README.md",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "frontend/package.json",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "frontend/tsconfig.json",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "frontend/src/main.tsx",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "backend/requirements.txt",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "backend/app/main.py",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "docs/standards/MIPSoftware.md",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": "docs/standards/MIASI.md",
+      "declared": true
+    },
+    {
+      "kind": "file-create",
+      "subject": ".devpilot/project.yaml",
+      "declared": true
+    },
+    {
+      "kind": "git-operation",
+      "subject": "git.init",
+      "declared": true
+    },
+    {
+      "kind": "dependency-job",
+      "subject": "deps.python.install",
+      "declared": true
+    },
+    {
+      "kind": "dependency-job",
+      "subject": "deps.node.install",
+      "declared": true
+    },
+    {
+      "kind": "workspace-registration",
+      "subject": "inventory-sales-local-concept",
+      "declared": true
+    }
+  ],
+  "rollback_steps": [
+    {
+      "step": 1,
+      "action_id": "workspace.registration.rollback",
+      "scope": "registration-only",
+      "planned_only": true
+    },
+    {
+      "step": 2,
+      "action_id": "dependency.jobs.compensate",
+      "scope": "planned-jobs",
+      "planned_only": true
+    },
+    {
+      "step": 3,
+      "action_id": "workspace.target.cleanup-created-only",
+      "scope": "created-by-bootstrap-only",
+      "planned_only": true
+    }
+  ],
+  "missing_tool_alternatives": [],
+  "safety": {
+    "read_only_planning": true,
+    "writes_performed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "installers_executed": false,
+    "arbitrary_shell_used": false,
+    "pilot_workspace_accessed": false,
+    "credentials_included": false
+  },
+  "plan_hash": "54eff149be5dce1a80b037ea3e2da1e6418efd9b405d4b5d2efc8fcca2ba9764"
+}

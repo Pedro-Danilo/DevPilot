@@ -1,0 +1,61 @@
+{
+  "schema_id": "devpilot.gsdlc03b.test_impact.v1",
+  "status": "pass-candidate/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-03-B",
+  "validation_mode": "cumulative-selective",
+  "changed_paths_total": 45,
+  "analysis_snapshot_before_self_registration": {
+    "changed_paths_total": 45,
+    "contracts_total": 281,
+    "matched_contracts_total": 159,
+    "p0_selected_total": 82,
+    "p1_selected_total": 73,
+    "heuristic_recommendations_total": 7,
+    "recommended_tests_total": 251,
+    "recommended_commands_total": 310,
+    "unmatched_paths_total": 15
+  },
+  "recommendation": {
+    "manual_review_required": true,
+    "full_regression_required": true,
+    "waiver_required": true,
+    "residual_risk": "critical"
+  },
+  "policy_disposition": {
+    "full_regression_executed": false,
+    "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+    "hard_trigger_owner_approved": false,
+    "decision": "WAIVER-APPROVED-BY-TRANSVERSAL-POLICY-FOR-INTERMEDIATE-MICRO-SPRINT",
+    "authority": ".devpilot/gsdlc/transversal_validation_policy.json",
+    "reason": "03-B is an intermediate A-D micro-sprint. Test Impact full_regression_required is an escalation signal, not an automatic execution order; no owner-approved hard trigger exists."
+  },
+  "tests_executed_by_test_impact": false,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "pilot_workspace_accessed": false,
+  "note": "Final Windows operator recomputes Test Impact using the exact source delta and records the runtime report independently.",
+  "unmatched_paths_reviewed": [
+    "docs/audits/DEVPL_GSDLC_03_A_CLOSURE_REPORT.md",
+    "docs/audits/DEVPL_GSDLC_03_A_CURRENT.json",
+    ".devpilot/identity/server_rbac_policy_catalog_gsdlc03a_at_close.json",
+    "02_PROMPT_DEVPL_GSDLC_03_B_v1_1_0.md",
+    "DEVPL_GSDLC_03_A_FINAL_OWNER_ADJUDICATION_v1_0_0.json",
+    "DEVPL_GSDLC_03_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+    "docs/audits/DEVPL_GSDLC_03_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+    "docs/audits/DEVPL_GSDLC_03_B_BOOTSTRAP_PLAN_SAMPLE.json",
+    "docs/audits/DEVPL_GSDLC_03_B_CLOSURE_REPORT.md",
+    "docs/audits/DEVPL_GSDLC_03_B_CURRENT.json",
+    "docs/audits/DEVPL_GSDLC_03_B_ENVIRONMENT_DISCOVERY_REPORT.json",
+    "docs/audits/DEVPL_GSDLC_03_B_FULL_REGRESSION_WAIVER.json",
+    "docs/audits/DEVPL_GSDLC_03_B_REGRESSION_GUARD.json",
+    "docs/audits/DEVPL_GSDLC_03_B_TEST_IMPACT.json",
+    "docs/audits/DEVPL_GSDLC_03_B_UI_PROJECTION_SAMPLE.json"
+  ],
+  "recovery_v1_0_1": {
+    "changed_path_surface_unchanged": true,
+    "changed_paths_total": 45,
+    "note": "Corrective changes remain inside the original 45-path 03-B delta; Windows operator recomputes Test Impact."
+  }
+}

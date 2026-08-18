@@ -129,6 +129,7 @@ __all__ = [
     "ObservabilityApplicationService",
     "OperatorDashboardApplicationService",
     "PortfolioApplicationService",
+    "ProjectEntryPlanningApplicationService",
     "RefactorApplicationService",
     "RepoApplicationService",
     "ReportsApplicationService",
@@ -155,3 +156,5 @@ from .ai_operations import AiOperationProfileRegistry, AiOperationsApplicationSe
 from .auth_service import AuthApplicationService
 
 from .rbac_service import RBACApplicationService
+
+from .project_entry_planning_service import ProjectEntryPlanningApplicationService

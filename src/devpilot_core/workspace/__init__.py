@@ -93,3 +93,13 @@ __all__ = [
     "parse_project_yaml_metadata",
     "render_project_yaml",
 ]
+
+
+from .environment_discovery import (
+    BOOTSTRAP_PLAN_SCHEMA_ID,
+    BOOTSTRAP_PLANNING_CATALOG_SCHEMA_ID,
+    ENVIRONMENT_DISCOVERY_SCHEMA_ID,
+    EnvironmentDiscoveryService,
+    parse_version_tuple,
+    version_meets_minimum,
+)

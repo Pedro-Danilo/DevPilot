@@ -1,0 +1,138 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLANNING-CATALOG-V1",
+  "catalog_id": "DEVPL-GSDLC-03-B-BOOTSTRAP-PLANNING-CATALOG",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.1",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-B",
+  "profiles": [
+    {
+      "profile_id": "react-ts-fastapi-sqlite",
+      "directories": [
+        {
+          "relative_path": "frontend",
+          "source": "template-profile"
+        },
+        {
+          "relative_path": "frontend/src",
+          "source": "template-profile"
+        },
+        {
+          "relative_path": "backend",
+          "source": "template-profile"
+        },
+        {
+          "relative_path": "backend/app",
+          "source": "template-profile"
+        },
+        {
+          "relative_path": "docs",
+          "source": "MIPSoftware"
+        },
+        {
+          "relative_path": "docs/standards",
+          "source": "MIPSoftware+MIASI"
+        },
+        {
+          "relative_path": "tests",
+          "source": "template-profile"
+        },
+        {
+          "relative_path": ".devpilot",
+          "source": "DevPilot workspace metadata"
+        }
+      ],
+      "files": [
+        {
+          "relative_path": ".gitignore",
+          "template_id": "common.gitignore"
+        },
+        {
+          "relative_path": "README.md",
+          "template_id": "common.readme"
+        },
+        {
+          "relative_path": "frontend/package.json",
+          "template_id": "frontend.react-typescript.package"
+        },
+        {
+          "relative_path": "frontend/tsconfig.json",
+          "template_id": "frontend.react-typescript.tsconfig"
+        },
+        {
+          "relative_path": "frontend/src/main.tsx",
+          "template_id": "frontend.react-typescript.main"
+        },
+        {
+          "relative_path": "backend/requirements.txt",
+          "template_id": "backend.fastapi-python.requirements"
+        },
+        {
+          "relative_path": "backend/app/main.py",
+          "template_id": "backend.fastapi-python.main"
+        },
+        {
+          "relative_path": "docs/standards/MIPSoftware.md",
+          "template_id": "standards.mipsoftware"
+        },
+        {
+          "relative_path": "docs/standards/MIASI.md",
+          "template_id": "standards.miasi"
+        },
+        {
+          "relative_path": ".devpilot/project.yaml",
+          "template_id": "devpilot.project-metadata"
+        }
+      ],
+      "dependency_jobs": [
+        {
+          "job_id": "deps.python.install",
+          "operation_id": "dependency.python.install",
+          "ecosystem": "python",
+          "manifest_path": "backend/requirements.txt",
+          "dependency_set_id": "backend.fastapi-python",
+          "network_required": true,
+          "lock_resolution_required_before_execute": true
+        },
+        {
+          "job_id": "deps.node.install",
+          "operation_id": "dependency.node.install",
+          "ecosystem": "node",
+          "manifest_path": "frontend/package.json",
+          "dependency_set_id": "frontend.react-typescript",
+          "network_required": true,
+          "lock_resolution_required_before_execute": true
+        }
+      ]
+    }
+  ],
+  "safety": {
+    "planning_only": true,
+    "execution_enabled": false,
+    "arbitrary_shell_allowed": false,
+    "network_execution_enabled": false,
+    "remote_git_execute_allowed": false,
+    "pilot_workspace_access_allowed": false
+  },
+  "tool_compatibility": [
+    {
+      "tool_id": "git",
+      "policy": "validated-legacy-floor",
+      "declared_minimum_version": "2.40",
+      "effective_minimum_version": "2.33.0",
+      "scope": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ],
+      "required_capabilities": [
+        "version-probe",
+        "rev-parse-read",
+        "status-porcelain-v1-z"
+      ],
+      "validation_basis": "Existing authoritative Windows station evidence + commands required by GSDLC-03-B.",
+      "execution_scope": "discovery-and-planning-only",
+      "note": "Does not lower a future execution requirement automatically; GSDLC-03-D must re-adjudicate mutation-time Git requirements."
+    }
+  ]
+}

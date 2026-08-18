@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/environment_discovery_report.schema.json",
+  "title": "DevPilot GSDLC-03-B EnvironmentDiscoveryReport",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "schema_version",
+    "report_version",
+    "entry_mode",
+    "source_intake_hash",
+    "target",
+    "tools",
+    "filesystem",
+    "git",
+    "environment",
+    "alternatives",
+    "safety",
+    "discovery_fingerprint"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-B-ENVIRONMENT-DISCOVERY-REPORT-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "report_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_mode": {
+      "enum": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    "source_intake_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "discovery_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "root",
+        "exists",
+        "collision_state"
+      ],
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exists": {
+          "type": "boolean"
+        },
+        "collision_state": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "tools": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "tool_id",
+          "minimum_version",
+          "status",
+          "candidates_total",
+          "candidate_paths",
+          "selected_path",
+          "version",
+          "meets_minimum",
+          "probe_mode",
+          "shell_used",
+          "message"
+        ],
+        "properties": {
+          "tool_id": {
+            "enum": [
+              "python",
+              "node",
+              "npm",
+              "git"
+            ]
+          },
+          "minimum_version": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "candidates_total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "candidate_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "selected_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "version": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "meets_minimum": {
+            "type": "boolean"
+          },
+          "probe_mode": {
+            "const": "typed-read-only"
+          },
+          "shell_used": {
+            "const": false
+          },
+          "message": {
+            "type": "string"
+          },
+          "execution_mode": {
+            "type": "string"
+          },
+          "native_cli_path": {
+            "type": "string"
+          },
+          "declared_minimum_version": {
+            "type": "string"
+          },
+          "effective_minimum_version": {
+            "type": "string"
+          },
+          "meets_declared_minimum": {
+            "type": "boolean"
+          },
+          "compatibility_policy": {
+            "type": "string"
+          },
+          "required_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "authority_source": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "filesystem": {
+      "type": "object",
+      "required": [
+        "anchor_path",
+        "free_bytes",
+        "total_bytes",
+        "readable",
+        "writable_advisory",
+        "executable_or_traversable",
+        "write_probe_performed",
+        "collision_state"
+      ],
+      "properties": {
+        "anchor_path": {
+          "type": "string"
+        },
+        "free_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "readable": {
+          "type": "boolean"
+        },
+        "writable_advisory": {
+          "type": "boolean"
+        },
+        "executable_or_traversable": {
+          "type": "boolean"
+        },
+        "write_probe_performed": {
+          "const": false
+        },
+        "collision_state": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "git": {
+      "type": "object"
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "values_exposed",
+        "safe_key_names",
+        "path_value_exposed"
+      ],
+      "properties": {
+        "values_exposed": {
+          "const": false
+        },
+        "safe_key_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "path_value_exposed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "tool_id",
+          "status",
+          "action"
+        ],
+        "properties": {
+          "tool_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "read_only",
+        "writes_performed",
+        "network_used",
+        "external_api_used",
+        "installers_executed",
+        "arbitrary_shell_used",
+        "environment_dumped",
+        "secret_values_exposed",
+        "pilot_workspace_accessed"
+      ],
+      "properties": {
+        "read_only": {
+          "const": true
+        },
+        "writes_performed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "installers_executed": {
+          "const": false
+        },
+        "arbitrary_shell_used": {
+          "const": false
+        },
+        "environment_dumped": {
+          "const": false
+        },
+        "secret_values_exposed": {
+          "const": false
+        },
+        "pilot_workspace_accessed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

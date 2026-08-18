@@ -1,0 +1,139 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-03-B-ENVIRONMENT-DISCOVERY-REPORT-V1",
+  "schema_version": "1.0",
+  "report_version": "1.0.0",
+  "entry_mode": "CREATE_NEW",
+  "source_intake_hash": "f9a353b7eca2d3d0fd9eb3cb921c8e6c8d82d0ec6bcdc7eba96ec35818a9f2d1",
+  "target": {
+    "root": "/mnt/data/gsdlc03b_v101_sample/project",
+    "exists": false,
+    "collision_state": "absent"
+  },
+  "tools": [
+    {
+      "tool_id": "git",
+      "minimum_version": "2.33.0",
+      "declared_minimum_version": "2.40",
+      "effective_minimum_version": "2.33.0",
+      "meets_declared_minimum": true,
+      "compatibility_policy": "validated-legacy-floor",
+      "required_capabilities": [
+        "version-probe",
+        "rev-parse-read",
+        "status-porcelain-v1-z"
+      ],
+      "authority_source": "bootstrap-planning-catalog-successor",
+      "status": "ready",
+      "candidates_total": 1,
+      "candidate_paths": [
+        "/usr/bin/git"
+      ],
+      "selected_path": "/usr/bin/git",
+      "version": "2.47.3",
+      "meets_minimum": true,
+      "probe_mode": "typed-read-only",
+      "shell_used": false,
+      "message": "Read-only version probe completed."
+    },
+    {
+      "tool_id": "node",
+      "minimum_version": "20.0",
+      "declared_minimum_version": "20.0",
+      "effective_minimum_version": "20.0",
+      "meets_declared_minimum": true,
+      "compatibility_policy": "strict-version",
+      "required_capabilities": [],
+      "authority_source": "technology-catalog",
+      "status": "ready",
+      "candidates_total": 1,
+      "candidate_paths": [
+        "/opt/nvm/versions/node/v22.16.0/bin/node"
+      ],
+      "selected_path": "/opt/nvm/versions/node/v22.16.0/bin/node",
+      "version": "22.16.0",
+      "meets_minimum": true,
+      "probe_mode": "typed-read-only",
+      "shell_used": false,
+      "message": "Read-only version probe completed."
+    },
+    {
+      "tool_id": "npm",
+      "minimum_version": "10.0",
+      "declared_minimum_version": "10.0",
+      "effective_minimum_version": "10.0",
+      "meets_declared_minimum": true,
+      "compatibility_policy": "strict-version",
+      "required_capabilities": [],
+      "authority_source": "selected-node-distribution",
+      "status": "ready",
+      "candidates_total": 1,
+      "candidate_paths": [
+        "/opt/nvm/versions/node/v22.16.0/lib/node_modules/npm/bin/npm-cli.js"
+      ],
+      "selected_path": "/opt/nvm/versions/node/v22.16.0/lib/node_modules/npm/bin/npm-cli.js",
+      "version": "10.9.2",
+      "meets_minimum": true,
+      "probe_mode": "typed-read-only",
+      "shell_used": false,
+      "message": "npm capability resolved from the selected Node distribution without cmd.exe.",
+      "execution_mode": "node+npm-cli.js",
+      "native_cli_path": "/opt/nvm/versions/node/v22.16.0/lib/node_modules/npm/bin/npm-cli.js"
+    },
+    {
+      "tool_id": "python",
+      "minimum_version": "3.10",
+      "declared_minimum_version": "3.10",
+      "effective_minimum_version": "3.10",
+      "meets_declared_minimum": true,
+      "compatibility_policy": "strict-version",
+      "required_capabilities": [],
+      "authority_source": "technology-catalog",
+      "status": "ready",
+      "candidates_total": 1,
+      "candidate_paths": [
+        "/opt/pyvenv/bin/python"
+      ],
+      "selected_path": "/opt/pyvenv/bin/python",
+      "version": "3.13.5",
+      "meets_minimum": true,
+      "probe_mode": "typed-read-only",
+      "shell_used": false,
+      "message": "Read-only version probe completed."
+    }
+  ],
+  "filesystem": {
+    "anchor_path": "/mnt/data/gsdlc03b_v101_sample",
+    "free_bytes": 40198463488,
+    "total_bytes": 67049664512,
+    "readable": true,
+    "writable_advisory": true,
+    "executable_or_traversable": true,
+    "write_probe_performed": false,
+    "collision_state": "absent"
+  },
+  "git": {
+    "status": "NOT_APPLICABLE",
+    "reason": "CREATE_NEW has no pre-existing Git worktree to inspect.",
+    "writes_performed": false
+  },
+  "environment": {
+    "values_exposed": false,
+    "safe_key_names": [
+      "HOME"
+    ],
+    "path_value_exposed": false
+  },
+  "alternatives": [],
+  "safety": {
+    "read_only": true,
+    "writes_performed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "installers_executed": false,
+    "arbitrary_shell_used": false,
+    "environment_dumped": false,
+    "secret_values_exposed": false,
+    "pilot_workspace_accessed": false
+  },
+  "discovery_fingerprint": "300cea816f52e2f8d84ad16cb58ebcc438a7a72f4a4794e55ddbb8eb2909ba1c"
+}

@@ -1,0 +1,99 @@
+{
+  "schema_id": "devpilot.gsdlc03b.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-03-B",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.0",
+  "source_repo": "repo_DevPilot_Local_360_DEVPL_GSDLC_03_A_PROJECT_INTAKE_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "2ebed62c243ea4034a5381023fb118de33c4aecd",
+  "historical_assertions_rewritten": false,
+  "unclassified_total": 0,
+  "pilot_workspace_accessed": false,
+  "contracts": [
+    {
+      "id": "POST-H-024-project-bootstrap",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "Legacy onboarding/bootstrap remains historical; 03-B adds planning successor only."
+    },
+    {
+      "id": "POST-H-EVAL-002-02-A-workspace-onboarding",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "Pilot onboarding history remains frozen and is not a prerequisite for new projects."
+    },
+    {
+      "id": "UOC-operational-ui-routes",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "03-B adds no UI route."
+    },
+    {
+      "id": "GSDLC-01-project-status",
+      "classification": "current-active",
+      "action": "preserve",
+      "reason": "Project Status remains successor navigation target."
+    },
+    {
+      "id": "GSDLC-02-human-session-rbac-approval",
+      "classification": "current-active",
+      "action": "extend-successor",
+      "reason": "New planning routes require human-session and server RBAC; legacy token is not authority."
+    },
+    {
+      "id": "GSDLC-03-A-project-entry-contracts",
+      "classification": "current-active",
+      "action": "preserve-and-layer-successor",
+      "reason": "03-A ProjectIntake/TechnologyCatalog/ProjectCreationPlan remain unchanged. 03-B layers an explicit planning-only Git compatibility policy after authoritative Windows capability evidence."
+    },
+    {
+      "id": "GSDLC-03-A-api-route-registry-at-close",
+      "classification": "historical-freeze",
+      "action": "snapshot-preserved",
+      "reason": "98-route registry frozen before 03-B adds two routes."
+    },
+    {
+      "id": "GSDLC-03-A-server-rbac-catalog-at-close",
+      "classification": "historical-freeze",
+      "action": "snapshot-preserved",
+      "reason": "98-policy RBAC catalog frozen before 03-B adds two policies."
+    },
+    {
+      "id": "legacy-GitAdapter-readonly",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "03-B performs bounded Git reads only; no legacy Git write contract expanded."
+    },
+    {
+      "id": "filesystem_write_allowed=false",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "03-B discovery/planning performs zero project writes; scoped execution successor remains 03-D."
+    },
+    {
+      "id": "GSDLC-03-B-environment-discovery-bootstrap-plan",
+      "classification": "successor-needed",
+      "action": "create",
+      "reason": "New current-active read-only planning contract and authenticated API projection."
+    },
+    {
+      "id": "GSDLC-03-A-technology-catalog-git-floor",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "03-A declared Git minimum 2.40 remains unchanged in the closed baseline; 03-B does not rewrite that historical artifact."
+    },
+    {
+      "id": "GSDLC-03-B-tool-compatibility-policy",
+      "classification": "successor-needed",
+      "action": "create",
+      "reason": "03-B planning successor qualifies Git 2.33.0 for read-only discovery/planning only, based on the commands actually used and Windows station evidence."
+    }
+  ],
+  "summary": {
+    "historical_freeze": 8,
+    "current_active": 3,
+    "successor_needed": 2,
+    "deprecated_after_proof": 0,
+    "s0_open": 0,
+    "s1_open": 0
+  }
+}

@@ -19561,6 +19561,82 @@
       ],
       "owner_domain": "workspace.project-entry",
       "service_boundary": "workspace"
+    },
+    {
+      "contract_id": "devpl-gsdlc-03-b-environment-discovery-bootstrap-planning",
+      "source_contract_id": "devpl-gsdlc-03-b-environment-discovery-bootstrap-planning",
+      "schema_version": "2.0",
+      "domain": "operations.workspace",
+      "capability": "ProjectEntryPlanning",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py",
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace/environment_discovery.py",
+        "src/devpilot_core/application/project_entry_planning_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api",
+        ".devpilot/workspaces/bootstrap_planning_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/schemas/environment_discovery_report.schema.json",
+        "docs/schemas/bootstrap_plan.schema.json",
+        "docs/schemas/bootstrap_planning_catalog.schema.json",
+        "docs/07_interfaces/openapi_v1.json"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/environment_discovery.py",
+        "src/devpilot_core/application/project_entry_planning_service.py",
+        ".devpilot/workspaces/bootstrap_planning_catalog.json",
+        "docs/audits/DEVPL_GSDLC_03_B_OPERATION_DECLARATION.json",
+        "docs/audits/devpl_gsdlc_03_b_historical_contract_sweep.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-03-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "03-B performs bounded local environment/Git discovery only and never executes installers or project writes.",
+        "npm Windows discovery resolves native npm-cli.js through node.exe; cmd.exe is not used.",
+        "API projection requires authenticated human-session and server RBAC; legacy token is not human authority.",
+        "Full regression remains deferred to DEVPL-GSDLC-03-E."
+      ],
+      "trigger_hints": [
+        "environment-discovery",
+        "bootstrap-plan",
+        "project-entry",
+        "tool-probe",
+        "git-read",
+        "planning-catalog"
+      ],
+      "impact_tags": [
+        "workspace",
+        "security",
+        "api",
+        "governance",
+        "schema"
+      ],
+      "owner_domain": "workspace.project-entry",
+      "service_boundary": "workspace"
     }
   ],
   "created_by": "POST-H-003-E",
@@ -19721,5 +19797,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 280
+  "contracts_total": 281
 }

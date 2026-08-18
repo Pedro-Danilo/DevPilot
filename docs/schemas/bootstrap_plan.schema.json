@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/bootstrap_plan.schema.json",
+  "title": "DevPilot GSDLC-03-B BootstrapPlan",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "schema_version",
+    "plan_version",
+    "planning_only",
+    "execution_enabled",
+    "entry_mode",
+    "project_id",
+    "source_intake_hash",
+    "source_creation_plan_hash",
+    "source_discovery_fingerprint",
+    "target_root",
+    "directories",
+    "files",
+    "git_operations",
+    "venv",
+    "dependency_jobs",
+    "workspace_registration",
+    "network",
+    "approval",
+    "expected_side_effects",
+    "rollback_steps",
+    "missing_tool_alternatives",
+    "safety",
+    "plan_hash"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLAN-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "plan_version": {
+      "type": "string"
+    },
+    "planning_only": {
+      "const": true
+    },
+    "execution_enabled": {
+      "const": false
+    },
+    "entry_mode": {
+      "enum": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "source_intake_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_creation_plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_discovery_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "target_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "directories": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "git_operations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "venv": {
+      "type": "object"
+    },
+    "dependency_jobs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "workspace_registration": {
+      "type": "object"
+    },
+    "network": {
+      "type": "object",
+      "required": [
+        "required_by_plan",
+        "runtime_network_used",
+        "silent_network_allowed",
+        "remote_git_disabled_by_default"
+      ],
+      "properties": {
+        "required_by_plan": {
+          "type": "boolean"
+        },
+        "runtime_network_used": {
+          "const": false
+        },
+        "silent_network_allowed": {
+          "const": false
+        },
+        "remote_git_disabled_by_default": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval": {
+      "type": "object",
+      "required": [
+        "required_for_execute",
+        "approval_requested",
+        "bound_to_plan_hash",
+        "human_session_required"
+      ],
+      "properties": {
+        "required_for_execute": {
+          "type": "boolean"
+        },
+        "approval_requested": {
+          "const": false
+        },
+        "bound_to_plan_hash": {
+          "const": true
+        },
+        "human_session_required": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "expected_side_effects": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "rollback_steps": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "missing_tool_alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "read_only_planning",
+        "writes_performed",
+        "network_used",
+        "external_api_used",
+        "installers_executed",
+        "arbitrary_shell_used",
+        "pilot_workspace_accessed",
+        "credentials_included"
+      ],
+      "properties": {
+        "read_only_planning": {
+          "const": true
+        },
+        "writes_performed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "installers_executed": {
+          "const": false
+        },
+        "arbitrary_shell_used": {
+          "const": false
+        },
+        "pilot_workspace_accessed": {
+          "const": false
+        },
+        "credentials_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

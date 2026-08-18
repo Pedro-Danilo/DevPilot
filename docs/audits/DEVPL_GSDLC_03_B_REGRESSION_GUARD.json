@@ -1,0 +1,32 @@
+{
+  "schema_id": "devpilot.gsdlc03b.regression_guard.v1",
+  "status": "pass-candidate/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-03-B",
+  "historical_snapshots": {
+    ".devpilot/interfaces/api_route_contract_registry_gsdlc03a_at_close.json": {
+      "sha256": "d3a6d4891bbd9b918cd0b998b9aa4a4089f1c776c5d945065c7a7e2d1afba5ce",
+      "routes_total": 98
+    },
+    ".devpilot/identity/server_rbac_policy_catalog_gsdlc03a_at_close.json": {
+      "sha256": "c64cc8c0b6e1b5bba0cf9625c17c329a008b266449b339c25db9ac46f8e01dc5",
+      "route_policies_total": 98
+    },
+    "repo360:.devpilot/workspaces/technology_catalog.json": {
+      "sha256": "8d4926b2f821a6fc40c8b3690a3ae66a60497b4c6d5f5ad88ed2fd21a5de15b4",
+      "declared_git_minimum_version": "2.40",
+      "preserved": true
+    }
+  },
+  "current_successors": {
+    "api_routes_total": 100,
+    "rbac_route_policies_total": 100,
+    "git_discovery_effective_minimum_version": "2.33.0",
+    "git_discovery_compatibility_scope": "03-B discovery-and-planning-only",
+    "npm_resolution_authority": "selected-node-distribution/npm-cli.js"
+  },
+  "historical_assertions_rewritten": false,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+  "s0_open": 0,
+  "s1_open": 0
+}

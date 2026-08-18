@@ -10400,6 +10400,272 @@
           }
         }
       }
+    },
+    "/api/v1/project-entry/environment-discovery": {
+      "post": {
+        "tags": [
+          "project-entry"
+        ],
+        "summary": "Discover project environment",
+        "operationId": "project_entry_environment_discovery",
+        "x-devpilot-operation": "project_entry.environment_discovery",
+        "x-devpilot-sprint": "DEVPL-GSDLC-03-B",
+        "x-devpilot-api-id": "API-GSDLC03B-ENVIRONMENT-DISCOVERY",
+        "x-devpilot-domain-service": "ApplicationService -> ProjectEntryPlanningApplicationService -> EnvironmentDiscoveryService",
+        "x-devpilot-status": "gsdlc-03-b-planning",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Human session + ServerRBACEnforcer deny-by-default + PathGuard; discovery/planning only; no installers, network, Git mutation or project writes.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "security": [
+          {
+            "LocalHumanSession": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectEntryPlanningRequest"
+              },
+              "example": {
+                "intake": {
+                  "schema_id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1",
+                  "schema_version": "1.0",
+                  "project_id": "inventory-sales-local-concept",
+                  "project_name": "Inventory Sales Local Concept",
+                  "project_type": "agent-assisted-sdlc",
+                  "entry_mode": "CREATE_NEW",
+                  "target_root": "D:\\Projects\\DevPilot_E2E_Evaluation\\worktrees\\DEVPL-GSDLC-03-B\\inventory-sales-local-concept",
+                  "stack": {
+                    "frontend": "react-typescript",
+                    "backend": "fastapi-python",
+                    "database": "sqlite"
+                  },
+                  "standards": [
+                    "MIPSoftware",
+                    "MIASI"
+                  ],
+                  "provider": {
+                    "mode": "none",
+                    "provider_id": null
+                  },
+                  "restrictions": {
+                    "arbitrary_shell_allowed": false,
+                    "silent_network_allowed": false,
+                    "remote_git_execute_allowed": false
+                  }
+                },
+                "timeout_seconds": 3.0
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Planning-only ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid planning request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/policy blocked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/project-entry/bootstrap-plan": {
+      "post": {
+        "tags": [
+          "project-entry"
+        ],
+        "summary": "Build bootstrap plan",
+        "operationId": "project_entry_bootstrap_plan",
+        "x-devpilot-operation": "project_entry.bootstrap_plan",
+        "x-devpilot-sprint": "DEVPL-GSDLC-03-B",
+        "x-devpilot-api-id": "API-GSDLC03B-BOOTSTRAP-PLAN",
+        "x-devpilot-domain-service": "ApplicationService -> ProjectEntryPlanningApplicationService -> EnvironmentDiscoveryService",
+        "x-devpilot-status": "gsdlc-03-b-planning",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Human session + ServerRBACEnforcer deny-by-default + PathGuard; discovery/planning only; no installers, network, Git mutation or project writes.",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "security": [
+          {
+            "LocalHumanSession": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectEntryPlanningRequest"
+              },
+              "example": {
+                "intake": {
+                  "schema_id": "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1",
+                  "schema_version": "1.0",
+                  "project_id": "inventory-sales-local-concept",
+                  "project_name": "Inventory Sales Local Concept",
+                  "project_type": "agent-assisted-sdlc",
+                  "entry_mode": "CREATE_NEW",
+                  "target_root": "D:\\Projects\\DevPilot_E2E_Evaluation\\worktrees\\DEVPL-GSDLC-03-B\\inventory-sales-local-concept",
+                  "stack": {
+                    "frontend": "react-typescript",
+                    "backend": "fastapi-python",
+                    "database": "sqlite"
+                  },
+                  "standards": [
+                    "MIPSoftware",
+                    "MIASI"
+                  ],
+                  "provider": {
+                    "mode": "none",
+                    "provider_id": null
+                  },
+                  "restrictions": {
+                    "arbitrary_shell_allowed": false,
+                    "silent_network_allowed": false,
+                    "remote_git_execute_allowed": false
+                  }
+                },
+                "timeout_seconds": 3.0
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Planning-only ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid planning request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/policy blocked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10747,6 +11013,26 @@
           }
         },
         "additionalProperties": false
+      },
+      "ProjectEntryPlanningRequest": {
+        "type": "object",
+        "required": [
+          "intake"
+        ],
+        "properties": {
+          "intake": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "timeout_seconds": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 15.0,
+            "default": 3.0
+          }
+        },
+        "additionalProperties": false,
+        "description": "GSDLC-03-B planning-only request. Intake is validated by the typed ProjectIntake contract; no command/shell field is accepted."
       }
     },
     "securitySchemes": {

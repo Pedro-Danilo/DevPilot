@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc03b.full_regression_waiver.v1",
+  "micro_sprint": "DEVPL-GSDLC-03-B",
+  "decision": "DEFER-TO-DEVPL-GSDLC-03-E",
+  "validation_mode": "cumulative-selective",
+  "full_regression_executed": false,
+  "hard_trigger_present": false,
+  "owner_approved_intermediate_full": false,
+  "rationale": [
+    "03-B is read-only discovery/planning.",
+    "No project/Git/source write execution is enabled.",
+    "Network and external APIs remain disabled.",
+    "Two local authenticated planning routes are covered by focal/API drift/RBAC cumulative gates."
+  ],
+  "policy_authority": ".devpilot/gsdlc/transversal_validation_policy.json"
+}
