@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/project_bootstrap_rollback.schema.json",
+  "title": "DEVPL GSDLC-03-D Bootstrap Rollback",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "rollback_ok",
+    "reason",
+    "actions",
+    "writes_outside_workspace"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-ROLLBACK-V1"
+    },
+    "rollback_ok": {
+      "type": "boolean"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "created_target": {
+      "type": "boolean"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "target_residue": {
+      "type": "boolean"
+    },
+    "writes_outside_workspace": {
+      "const": 0
+    },
+    "completed_at": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

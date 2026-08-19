@@ -1,0 +1,51 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-COMPATIBILITY-V1",
+  "catalog_id": "DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-COMPATIBILITY",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-03-D",
+  "source_planning_catalog": ".devpilot/workspaces/bootstrap_planning_catalog.json",
+  "historical_declared_git_minimum_version": "2.40",
+  "planning_successor_effective_git_minimum_version": "2.33.0",
+  "execution_successor": {
+    "tool_id": "git",
+    "policy": "validated-execution-successor",
+    "effective_minimum_version": "2.33.0",
+    "scope": [
+      "CREATE_NEW",
+      "OPEN_EXISTING",
+      "IMPORT_GIT"
+    ],
+    "required_capabilities": [
+      "version-probe",
+      "init-local",
+      "clone-local-no-hardlinks",
+      "rev-parse-read",
+      "status-porcelain-v1-z",
+      "config-local",
+      "add-local",
+      "commit-local",
+      "info-exclude-local"
+    ],
+    "validation_basis": "GSDLC-03-D uses only bounded local Git operations proven available on the authoritative Windows station Git 2.33.0.windows.2; no remote Git execution is enabled.",
+    "network_execution_allowed": false,
+    "remote_git_execution_allowed": false,
+    "mutation_allowed_only_after": [
+      "human-session",
+      "rbac",
+      "policy",
+      "approval",
+      "plan-hash-revalidation",
+      "preimage-revalidation",
+      "pathguard"
+    ],
+    "note": "Scoped successor for 03-D only. It does not rewrite the historical 03-A 2.40 declaration or the 03-B discovery/planning-only compatibility entry."
+  },
+  "safety": {
+    "arbitrary_shell_allowed": false,
+    "network_execution_enabled": false,
+    "remote_git_execute_allowed": false,
+    "pilot_workspace_access_allowed": false
+  }
+}

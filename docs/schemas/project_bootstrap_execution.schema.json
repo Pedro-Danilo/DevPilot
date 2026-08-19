@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/project_bootstrap_execution.schema.json",
+  "title": "DEVPL GSDLC-03-D Project Bootstrap Execution",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "status",
+    "project_id",
+    "entry_mode",
+    "target_root",
+    "plan_hash",
+    "preimage_hash",
+    "approval_id",
+    "stages",
+    "verification",
+    "network_used",
+    "writes_outside_workspace"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-V1"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "ROLLED-BACK",
+        "ROLLBACK-BLOCKED",
+        "BLOCK"
+      ]
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_mode": {
+      "enum": [
+        "CREATE_NEW",
+        "OPEN_EXISTING",
+        "IMPORT_GIT"
+      ]
+    },
+    "target_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "preimage_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approval_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actor_id": {
+      "type": "string"
+    },
+    "role_at_decision": {
+      "type": "string"
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "stage",
+          "status"
+        ],
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "verification": {
+      "type": "object"
+    },
+    "target_inventory": {
+      "type": "array"
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "arbitrary_shell_used": {
+      "const": false
+    },
+    "writes_outside_workspace": {
+      "const": 0
+    },
+    "dependency_mode": {
+      "enum": [
+        "defer-network",
+        "offline-cache"
+      ]
+    },
+    "execution_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

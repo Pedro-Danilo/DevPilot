@@ -6368,3 +6368,8 @@ Estado de implementación: **PASS-CANDIDATE / PRE-WINDOWS**. Añade discovery lo
 
 ## DEVPL-GSDLC-03-C
 Create/Open/Import review-only dry-run workbench with stable plan/preimage hashes and typed approval preview. Execution remains disabled until GSDLC-03-D.
+
+
+## DEVPL-GSDLC-03-D
+
+Approval-bound project bootstrap execution is implemented as a preliminary local-first successor: typed transaction stages, authenticated approval binding, external-workspace-only writes, local Git init/import, `.venv`, target-local registration, fault injection and rollback. Dependency jobs remain network-deferred unless an exact offline cache/lock authority exists; remote Git execution remains disabled. Full regression is deferred to GSDLC-03-E.

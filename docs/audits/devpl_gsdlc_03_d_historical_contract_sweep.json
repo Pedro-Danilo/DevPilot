@@ -1,0 +1,69 @@
+{
+  "schema_id": "devpilot.gsdlc03d.historical_contract_sweep.v1",
+  "micro_sprint": "DEVPL-GSDLC-03-D",
+  "status": "pass-candidate/pre-windows",
+  "historical_assertions_rewritten": false,
+  "unclassified_total": 0,
+  "contracts": [
+    {
+      "id": "GSDLC-03-C-api-rbac-at-close",
+      "classification": "historical-freeze",
+      "action": "snapshot",
+      "expected": {
+        "api_routes": 102,
+        "rbac_policies": 102
+      }
+    },
+    {
+      "id": "GSDLC-03-C-ui-at-close",
+      "classification": "historical-freeze",
+      "action": "snapshot",
+      "expected": {
+        "ui_routes": 11
+      }
+    },
+    {
+      "id": "GSDLC-03-D-current-api-rbac",
+      "classification": "current-active",
+      "action": "extend-successor",
+      "expected": {
+        "api_routes": 104,
+        "rbac_policies": 104
+      }
+    },
+    {
+      "id": "GSDLC-03-D-current-ui",
+      "classification": "current-active",
+      "action": "preserve-successor",
+      "expected": {
+        "ui_routes": 11
+      }
+    },
+    {
+      "id": "GSDLC-02-auth-rbac-approval",
+      "classification": "current-active",
+      "action": "preserve",
+      "reason": "human-session/RBAC/authenticated approval decision binding remains authoritative"
+    },
+    {
+      "id": "legacy-filesystem-write-false",
+      "classification": "historical-freeze",
+      "action": "preserve-and-create-scoped-successor",
+      "reason": "03-D enables typed project-bootstrap writes only inside an explicitly authorized external workspace after policy/RBAC/approval."
+    },
+    {
+      "id": "GSDLC-03-B-git-compatibility",
+      "classification": "successor-needed",
+      "action": "re-adjudicate-for-execution",
+      "reason": "Planning-only Git >=2.33.0 does not automatically authorize mutation; 03-D defines a scoped execution successor for bounded local Git operations."
+    },
+    {
+      "id": "pilot-workspace",
+      "classification": "historical-freeze",
+      "action": "preserve-non-interference",
+      "reason": "inventory-sales-local remains outside GSDLC-03 execution."
+    }
+  ],
+  "pilot_workspace_accessed": false,
+  "full_regression_executed": false
+}

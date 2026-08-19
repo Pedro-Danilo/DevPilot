@@ -1,8 +1,8 @@
 {
   "schema_id": "devpilot.gsdlc03c.current.v1",
   "micro_sprint": "DEVPL-GSDLC-03-C",
-  "status": "pass-candidate/pre-windows",
-  "version": "1.0.0",
+  "status": "closed/PASS",
+  "version": "1.0.4",
   "source_repo": "repo_DevPilot_Local_361_DEVPL_GSDLC_03_B_ENVIRONMENT_DISCOVERY_PLANNING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "1ba680caffd9b30ec2d3252b8006b1fd7f183e17",
   "source_sha256": "69097543a95589f1957808da5e2e22e5576cd12153e23775da9bb8c4c1ad114b",
@@ -25,11 +25,19 @@
   "s0_open": 0,
   "s1_open": 0,
   "next_micro_sprint": "DEVPL-GSDLC-03-D",
-  "next_authorized": false,
-  "browser_acceptance_status": "corrective-required/path-boundary",
+  "next_authorized": true,
+  "browser_acceptance_status": "PASS",
   "browser_corrective_version": "1.0.2",
   "explicit_target_required": true,
   "blank_target_fallback_allowed": false,
   "external_workspace_root_runtime_binding": "DEVPILOT_ALLOWED_WORKSPACE_ROOTS",
-  "http_403_diagnostic": "backend-finding-aware"
+  "http_403_diagnostic": "backend-finding-aware",
+  "owner_adjudication": "CLOSED/PASS",
+  "final_owner_adjudication": "DEVPL_GSDLC_03_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "windows_evidence": "DEVPL_GSDLC_03_C_WINDOWS_EVIDENCE_v1_0_4.zip",
+  "windows_evidence_sha256": "3e68a8dadfb5e12c6eea6d0e52280d92dcfbd573e9ca155dae257d961c442735",
+  "successor_repo": "repo_DevPilot_Local_362_DEVPL_GSDLC_03_C_DRY_RUN_CREATE_OPEN_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit": "ecbc9b38b3722f9fc360bdc0b6c7349371c14625",
+  "successor_sha256": "cc7991196ff8553550604a146c8dc957f0f60311ab432aad04812063a88d1806",
+  "browser_screenshots": 4
 }

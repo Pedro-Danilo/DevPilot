@@ -316,7 +316,8 @@ def test_03_a_project_state_and_tcr_preserve_closed_a_and_authorize_b_successor(
     assert state["gsdlc_03_a_pilot_workspace_accessed"] is False
     assert state["gsdlc_03_b_authorized"] is True
     assert state["gsdlc_03_b_execution_authorized_by_owner"] is True
-    assert state["gsdlc_03_c_authorized"] is False
+    assert state["gsdlc_03_a_gsdlc_03_c_authorized_at_close"] is False
+    assert state["gsdlc_03_c_authorized"] is True
 
     v1 = load(".devpilot/testing/test_contract_registry.json")
     v2 = load(".devpilot/testing/test_contract_registry_v2.json")

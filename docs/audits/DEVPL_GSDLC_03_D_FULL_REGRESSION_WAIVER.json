@@ -1,0 +1,9 @@
+{
+  "schema_id": "devpilot.gsdlc03d.full_regression_waiver.v1",
+  "status": "approved-by-transversal-policy",
+  "micro_sprint": "DEVPL-GSDLC-03-D",
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+  "hard_trigger_owner_approved": false,
+  "reason": "Intermediate A-D micro-sprint; validation is focal/cumulative/impact-based. 03-E owns the single backlog full regression."
+}

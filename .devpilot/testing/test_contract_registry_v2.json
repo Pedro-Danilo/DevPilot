@@ -19717,6 +19717,114 @@
       ],
       "owner_domain": "workspace.project-entry",
       "service_boundary": "workspace"
+    },
+    {
+      "contract_id": "devpl-gsdlc-03-d-approval-bound-bootstrap-execution",
+      "source_contract_id": "devpl-gsdlc-03-d-approval-bound-bootstrap-execution",
+      "schema_version": "2.0",
+      "domain": "operations.workspace",
+      "capability": "ApprovalBoundProjectBootstrapExecution",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "manual",
+      "cost_class": "medium",
+      "expected_duration_seconds": 600,
+      "test_files": [
+        "tests/test_devpl_gsdlc_03_d_bootstrap_execution.py",
+        "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py",
+        "tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py",
+        "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
+        "tests/test_api_contract.py",
+        "tests/test_api_security.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace/project_bootstrap_execution.py",
+        "src/devpilot_core/application/project_bootstrap_execution_service.py",
+        "src/devpilot_core/interfaces/api",
+        "src/devpilot_core/policy",
+        "src/devpilot_core/approval",
+        "ui/web/src",
+        "ui/web/scripts/gsdlc03d-bootstrap-execution-smoke.mjs",
+        ".devpilot/approval",
+        ".devpilot/workspaces/bootstrap_planning_catalog.json",
+        ".devpilot/interfaces",
+        ".devpilot/identity",
+        "docs/schemas",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_03_d_bootstrap_execution.py"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/project_bootstrap_execution.py",
+        "src/devpilot_core/application/project_bootstrap_execution_service.py",
+        "src/devpilot_core/interfaces/api/routers/project_entry.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/application/services.py",
+        "ui/web/src/pages/ProjectEntryDryRunView.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/workspaces/bootstrap_planning_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry_gsdlc03c_at_close.json",
+        ".devpilot/identity/server_rbac_policy_catalog_gsdlc03c_at_close.json",
+        "docs/schemas/project_bootstrap_execution.schema.json",
+        "docs/schemas/project_bootstrap_rollback.schema.json",
+        ".devpilot/workspaces/bootstrap_execution_compatibility_gsdlc03d.json",
+        "docs/schemas/bootstrap_execution_compatibility_gsdlc03d.schema.json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-03-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_d_bootstrap_execution.py tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "03-D is the first scoped filesystem mutation successor for Project Entry; platform source mutations remain prohibited.",
+        "Execute requires fresh dry-run, stable plan/preimage, human-session, owner RBAC, exact authenticated approval binding, PolicyEngine and PathGuard.",
+        "Fault injection validates rollback for file/Git/venv/dependency/registration stages.",
+        "Remote Git/network remain disabled; full regression belongs to 03-E."
+      ],
+      "trigger_hints": [
+        "project-bootstrap-execute",
+        "approval-binding",
+        "workspace-mutation",
+        "rollback",
+        "fault-injection",
+        "git-local-import"
+      ],
+      "impact_tags": [
+        "workspace",
+        "security",
+        "approval",
+        "api",
+        "ui",
+        "git",
+        "filesystem",
+        "governance",
+        "schema"
+      ],
+      "owner_domain": "workspace.project-bootstrap",
+      "service_boundary": "application",
+      "subgate_id": "gsdlc-03-d-bootstrap-execution",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-V1",
+        "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-ROLLBACK-V1"
+      ],
+      "safety_exception": {
+        "justification": "Tests intentionally mutate isolated temporary workspace fixtures to prove approval-bound execution and rollback; platform source and real pilot remain read-only.",
+        "approved_by": "Ordóñez",
+        "expires_at_utc": "2027-08-18T23:59:59Z",
+        "scope": "pytest tmp_path / GSDLC-03-D controlled E2E workspace fixtures only",
+        "rollback_or_cleanup": "pytest temporary directories are deleted; fault-injection tests assert rollback residue=0 and writes outside workspace=0."
+      }
     }
   ],
   "created_by": "POST-H-003-E",
@@ -19877,5 +19985,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 282
+  "contracts_total": 283
 }

@@ -155,7 +155,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     section.append(actionStatus);
 
     const grid = document.createElement('div');
-    grid.className = 'viewer-grid';
+    grid.className = 'viewer-grid approval-center-grid';
     grid.append(renderApprovalsPanel(state, selectApproval, decide));
     grid.append(renderActionPanel(state, tokenProvider, draw));
     section.append(grid);

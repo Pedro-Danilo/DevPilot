@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.gsdlc03c.operation_declaration.v1",
   "micro_sprint": "DEVPL-GSDLC-03-C",
-  "status": "pass-candidate/pre-windows",
+  "status": "closed/PASS",
   "planning_only": true,
   "writes_performed": false,
   "runtime_project_writes_enabled": false,
@@ -22,5 +22,8 @@
   "browser_acceptance_runtime_workspace_root_bound": true,
   "blank_target_allowed": false,
   "external_workspace_root_env": "DEVPILOT_ALLOWED_WORKSPACE_ROOTS",
-  "browser_corrective_version": "1.0.2"
+  "browser_corrective_version": "1.0.2",
+  "browser_acceptance": "PASS",
+  "owner_adjudication": "CLOSED/PASS",
+  "next_micro_sprint_authorized": "DEVPL-GSDLC-03-D"
 }

@@ -415,4 +415,13 @@ Both routes require an authenticated human session and are **planning-only**. Th
 | `POST /api/v1/project-entry/dry-run` (`API-GSDLC03C-DRY-RUN`) | `project_entry.dry_run` | `ApplicationService -> ProjectEntryDryRunApplicationService -> ProjectEntryDryRunService` | Human session + RBAC + PathGuard | read-only; no project write/network |
 | `POST /api/v1/project-entry/revalidate` (`API-GSDLC03C-REVALIDATE`) | `project_entry.revalidate` | same | Human session + RBAC + immutable plan/preimage | read-only; stale plan BLOCK |
 
-Both routes are plan-only. There is no execute endpoint in GSDLC-03-C.
+Both GSDLC-03-C routes remain review-only historical/current-predecessor contracts.
+
+## GSDLC-03-D — approval-bound project bootstrap execution
+
+| Route | Operation | Application boundary | Mutation contract |
+|---|---|---|---|
+| `POST /api/v1/project-entry/execution-approval-request` (`API-GSDLC03D-EXECUTION-APPROVAL`) | `project_entry.execution_approval_request` | `ApplicationService -> ProjectBootstrapExecutionApplicationService -> ApprovalApplicationService` | local approval state only; exact actor/plan/preimage/target binding |
+| `POST /api/v1/project-entry/execute` (`API-GSDLC03D-EXECUTE`) | `project_entry.execute` | `ApplicationService -> ProjectBootstrapExecutionApplicationService -> ProjectBootstrapExecutor` | typed writes only inside authorized external workspace; automatic rollback; no network/remote Git |
+
+`/project-entry/execute` is the sole new GSDLC-03-D mutation boundary. It requires current human session, owner RBAC, approved strong binding, exact preimage revalidation and PathGuard. Arbitrary shell, platform-source writes, pilot access, remote Git and silent dependency network remain blocked.

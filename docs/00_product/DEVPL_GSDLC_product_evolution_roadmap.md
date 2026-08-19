@@ -396,3 +396,8 @@ La implementación comienza con un prompt operativo separado de GSDLC-00.
 - `DEVPL-GSDLC-R01` puede continuar según su secuencia;
 - `POST-H-EVAL-002-02-B` permanece pausado;
 - ninguna capability Guided SDLC runtime fue implementada por GSDLC-00.
+
+
+## DEVPL-GSDLC-03-D — Approval-bound bootstrap execution
+
+Estado de implementación: **PASS-CANDIDATE / PRE-WINDOWS**. Introduce ejecución transaccional tipada exclusivamente sobre un workspace externo autorizado y después de revalidar plan/preimage, human-session/RBAC, approval binding y policy. CREATE/OPEN/IMPORT local son soportados; remote Git y network dependencies permanecen disabled-by-default. Fault injection + rollback son parte de la aceptación. La full regression sigue reservada a 03-E.

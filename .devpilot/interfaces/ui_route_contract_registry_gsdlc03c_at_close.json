@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
   "registry_id": "devpilot-ui-route-contract-registry",
-  "status": "pass-candidate/pre-windows",
+  "status": "implemented-initial",
   "created_by": "POST-H-014-C",
   "updated": "2026-08-18",
   "routes": [
@@ -273,7 +273,7 @@
     },
     {
       "route_id": "ui.project-entry-dry-run",
-      "title": "Crear / Abrir / Importar — Approval-bound bootstrap",
+      "title": "Crear / Abrir / Importar — Dry-run",
       "path": "/project/entry",
       "page_component": "ProjectEntryDryRunView",
       "source_files": [
@@ -281,20 +281,14 @@
       ],
       "allowed_api_routes": [
         "api.project-entry.dry-run",
-        "api.project-entry.revalidate",
-        "api.project-entry.execution-approval-request",
-        "api.project-entry.execute",
-        "api.approvals.list",
-        "api.approvals.show",
-        "api.approvals.approve",
-        "api.approvals.deny"
+        "api.project-entry.revalidate"
       ],
       "critical": true,
       "local_only": true,
       "local_first_badge_required": true,
       "dry_run_badge_required": true,
       "no_remote_badge_required": true,
-      "shows_mutation_controls": true,
+      "shows_mutation_controls": false,
       "state_contract": {
         "loading": true,
         "empty": true,
@@ -304,11 +298,7 @@
         "api_down": true,
         "unauthorized": true,
         "forbidden": true,
-        "stale_data": true,
-        "pending_approval": true,
-        "running": true,
-        "pass": true,
-        "rollback": true
+        "stale_data": true
       },
       "status_visibility": [
         "PASS",
@@ -322,17 +312,8 @@
       "external_api_allowed": false,
       "owner": "ui.web",
       "notes": [
-        "GSDLC-03-D successor workbench retains 03-C dry-run/revalidation and adds exact human-session approval request plus bounded workspace execute.",
-        "Remote Git and dependency network remain disabled-by-default; 03-E owns final post-login journey/browser closure."
-      ],
-      "mutation_controls": {
-        "local_state_mutation_only": false,
-        "approval_required": true,
-        "destructive_action_allowed": false,
-        "plan_only": false,
-        "workspace_mutation_only": true,
-        "justification": "GSDLC-03-D executes exact approved typed bootstrap stages only inside authorized external workspace roots; platform source and silent network remain forbidden."
-      }
+        "GSDLC-03-C review-only workbench for CREATE_NEW/OPEN_EXISTING/IMPORT_GIT. Execution remains disabled until 03-D."
+      ]
     },
     {
       "route_id": "ui.project-status",
@@ -824,5 +805,7 @@
     "UOC-003 keeps /workspace/documents as the single progressive-disclosure surface for document validation, findings navigation and traceability.",
     "UOC-011 hardens all nine current UI routes against a 12-state operational matrix."
   ],
-  "micro_sprint": "DEVPL-GSDLC-03-D"
+  "snapshot_for": "DEVPL-GSDLC-03-C",
+  "snapshot_status": "frozen-at-close",
+  "snapshot_route_count": 11
 }

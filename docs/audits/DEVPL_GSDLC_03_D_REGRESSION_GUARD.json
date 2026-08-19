@@ -1,0 +1,18 @@
+{
+  "schema_id": "devpilot.gsdlc03d.regression_guard.v1",
+  "status": "pass-candidate/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-03-D",
+  "historical_snapshots": {
+    "api_03c_at_close": 102,
+    "rbac_03c_at_close": 102,
+    "ui_03c_at_close": 11
+  },
+  "current_successors": {
+    "api_routes": 104,
+    "rbac_policies": 104,
+    "ui_routes": 11
+  },
+  "historical_assertions_rewritten": false,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E"
+}

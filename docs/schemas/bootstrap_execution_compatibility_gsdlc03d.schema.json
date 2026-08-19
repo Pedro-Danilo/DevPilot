@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/bootstrap_execution_compatibility_gsdlc03d.schema.json",
+  "title": "DEVPL GSDLC 03-D Bootstrap Execution Compatibility",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "catalog_id",
+    "status",
+    "version",
+    "owner",
+    "micro_sprint",
+    "source_planning_catalog",
+    "historical_declared_git_minimum_version",
+    "planning_successor_effective_git_minimum_version",
+    "execution_successor",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-COMPATIBILITY-V1"
+    },
+    "catalog_id": {
+      "const": "DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-COMPATIBILITY"
+    },
+    "status": {
+      "const": "pass-candidate/pre-windows"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "micro_sprint": {
+      "const": "DEVPL-GSDLC-03-D"
+    },
+    "source_planning_catalog": {
+      "const": ".devpilot/workspaces/bootstrap_planning_catalog.json"
+    },
+    "historical_declared_git_minimum_version": {
+      "const": "2.40"
+    },
+    "planning_successor_effective_git_minimum_version": {
+      "const": "2.33.0"
+    },
+    "execution_successor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tool_id",
+        "policy",
+        "effective_minimum_version",
+        "scope",
+        "required_capabilities",
+        "validation_basis",
+        "network_execution_allowed",
+        "remote_git_execution_allowed",
+        "mutation_allowed_only_after",
+        "note"
+      ],
+      "properties": {
+        "tool_id": {
+          "const": "git"
+        },
+        "policy": {
+          "const": "validated-execution-successor"
+        },
+        "effective_minimum_version": {
+          "const": "2.33.0"
+        },
+        "scope": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CREATE_NEW",
+              "OPEN_EXISTING",
+              "IMPORT_GIT"
+            ]
+          }
+        },
+        "required_capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "validation_basis": {
+          "type": "string",
+          "minLength": 20
+        },
+        "network_execution_allowed": {
+          "const": false
+        },
+        "remote_git_execution_allowed": {
+          "const": false
+        },
+        "mutation_allowed_only_after": {
+          "type": "array",
+          "minItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arbitrary_shell_allowed",
+        "network_execution_enabled",
+        "remote_git_execute_allowed",
+        "pilot_workspace_access_allowed"
+      ],
+      "properties": {
+        "arbitrary_shell_allowed": {
+          "const": false
+        },
+        "network_execution_enabled": {
+          "const": false
+        },
+        "remote_git_execute_allowed": {
+          "const": false
+        },
+        "pilot_workspace_access_allowed": {
+          "const": false
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-COMPATIBILITY-V1",
+  "x-devpilot-sprint": "DEVPL-GSDLC-03-D",
+  "x-devpilot-status": "registered"
+}

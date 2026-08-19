@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.gsdlc03c.historical_contract_sweep.v1",
   "micro_sprint": "DEVPL-GSDLC-03-C",
-  "status": "pass-candidate/pre-windows",
+  "status": "closed/PASS",
   "historical_assertions_rewritten": false,
   "unclassified_total": 0,
   "contracts": [
@@ -58,5 +58,7 @@
     }
   ],
   "pilot_workspace_accessed": false,
-  "browser_corrective_version": "1.0.2"
+  "browser_corrective_version": "1.0.2",
+  "owner_adjudication": "CLOSED/PASS",
+  "windows_evidence_sha256": "3e68a8dadfb5e12c6eea6d0e52280d92dcfbd573e9ca155dae257d961c442735"
 }

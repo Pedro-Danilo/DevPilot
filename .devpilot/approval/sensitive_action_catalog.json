@@ -626,6 +626,47 @@
         "No checkout/switch, branch deletion, rebase, reset, tag, push or force operation is exposed.",
         "SensitiveActionCatalog source_mutation_allowed=true denotes this narrow explicitly approval-gated Git side effect; it does not authorize arbitrary filesystem mutation or generic Git write."
       ]
+    },
+    {
+      "action_id": "filesystem.project_bootstrap_execute",
+      "domain": "filesystem",
+      "description": "Execute an exact GSDLC-03-D approved project bootstrap plan inside an authorized external workspace. Mutations are typed, local-first, rollback-capable and bound to human-session approval.",
+      "risk_level": "high",
+      "status": "implemented-initial-gsdlc-03-d",
+      "requires_approval": true,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "requires_command_binding": false,
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "executable": true,
+      "source_mutation_allowed": true,
+      "workspace_scope_required": true,
+      "miasi_policy_rule_ids": [
+        "GSDLC03D_BOOTSTRAP_APPROVAL_BOUND"
+      ],
+      "tool_ids": [
+        "project.bootstrap.execute"
+      ],
+      "test_contract_ids": [
+        "devpl-gsdlc-03-d-bootstrap-execution"
+      ],
+      "notes": [
+        "Authority is exact plan_hash + preimage_hash + actor/role + target/workspace scope.",
+        "Writes are allowed only inside the authorized external workspace fixture/root; DevPilot platform source remains out of scope.",
+        "Remote Git and dependency network remain disabled-by-default unless a future exact approved network/cache plan is bound."
+      ]
     }
   ],
   "safety": {
@@ -659,5 +700,7 @@
     "Remote execution, connector write and plugin execution remain blocked and non-executable.",
     "UOC-005 enables only exact approval-bound workspace document apply/rollback; all historical no-go actions remain blocked.",
     "UOC-005 extends this POST-H-012-A catalog with two narrowly scoped filesystem document actions; catalog provenance remains POST-H-012-A and the extension is governed by the UOC-005 manifest/TCR."
-  ]
+  ],
+  "updated": "2026-08-18",
+  "micro_sprint": "DEVPL-GSDLC-03-D"
 }

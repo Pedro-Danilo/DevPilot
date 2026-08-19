@@ -31,6 +31,7 @@ from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 from .project_entry_planning_service import ProjectEntryPlanningApplicationService
 from .project_entry_dry_run_service import ProjectEntryDryRunApplicationService
+from .project_bootstrap_execution_service import ProjectBootstrapExecutionApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_document_inspection_service import WorkspaceDocumentInspectionApplicationService
 from .workspace_validation_service import WorkspaceValidationApplicationService
@@ -83,6 +84,12 @@ class ApplicationService:
         self.workspace = WorkspaceApplicationService(self.root)
         self.project_entry_planning = ProjectEntryPlanningApplicationService(self.root)
         self.project_entry_dry_run_service = ProjectEntryDryRunApplicationService(self.root)
+        self.approvals = ApprovalApplicationService(self.root, auth_store=approval_auth_store)
+        self.project_bootstrap_execution = ProjectBootstrapExecutionApplicationService(
+            self.root,
+            approvals=self.approvals,
+            approval_auth_store=approval_auth_store,
+        )
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
@@ -97,7 +104,6 @@ class ApplicationService:
         self.evals = EvaluationApplicationService(self.root)
         self.repo = RepoApplicationService(self.root)
         self.reports = ReportsApplicationService(self.root, context_resolver=self.ui_workspace_context)
-        self.approvals = ApprovalApplicationService(self.root, auth_store=approval_auth_store)
         self.settings = SettingsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.review = ReviewApplicationService(self.root)
         self.refactor = RefactorApplicationService(self.root)
@@ -678,6 +684,54 @@ class ApplicationService:
 
     def project_entry_revalidate(self, *, intake: dict[str, Any], expected_plan_hash: str, expected_preimage_hash: str, timeout_seconds: float = 3.0) -> CommandResult:
         return self.project_entry_dry_run_service.revalidate(intake=intake, expected_plan_hash=expected_plan_hash, expected_preimage_hash=expected_preimage_hash, timeout_seconds=timeout_seconds)
+
+    def project_entry_request_execution_approval_authenticated(
+        self,
+        *,
+        intake: dict[str, Any],
+        expected_plan_hash: str,
+        expected_preimage_hash: str,
+        principal: AuthenticatedPrincipal,
+        session: SessionContext,
+        reason: str,
+        ttl_minutes: int = 30,
+        timeout_seconds: float = 3.0,
+    ) -> CommandResult:
+        return self.project_bootstrap_execution.request_approval_authenticated(
+            intake=intake,
+            expected_plan_hash=expected_plan_hash,
+            expected_preimage_hash=expected_preimage_hash,
+            principal=principal,
+            session=session,
+            reason=reason,
+            ttl_minutes=ttl_minutes,
+            timeout_seconds=timeout_seconds,
+        )
+
+    def project_entry_execute_authenticated(
+        self,
+        *,
+        intake: dict[str, Any],
+        expected_plan_hash: str,
+        expected_preimage_hash: str,
+        approval_id: str,
+        principal: AuthenticatedPrincipal,
+        session: SessionContext,
+        dependency_mode: str = "defer-network",
+        fault_stage: str | None = None,
+        timeout_seconds: float = 3.0,
+    ) -> CommandResult:
+        return self.project_bootstrap_execution.execute_authenticated(
+            intake=intake,
+            expected_plan_hash=expected_plan_hash,
+            expected_preimage_hash=expected_preimage_hash,
+            approval_id=approval_id,
+            principal=principal,
+            session=session,
+            dependency_mode=dependency_mode,
+            fault_stage=fault_stage,
+            timeout_seconds=timeout_seconds,
+        )
 
     def miasi_validate(self, *, scope: str = "all") -> CommandResult:
         return self.miasi.validate(scope=scope)
@@ -1608,6 +1662,8 @@ def _capabilities() -> list[ServiceCapability]:
         ("project_entry.bootstrap_plan", "Build an exact deterministic planning-only BootstrapPlan and UI projection from ProjectIntake plus read-only discovery.", "none", True, "POST /api/v1/project-entry/bootstrap-plan"),
         ("project_entry.dry_run", "Build review-only Create/Open/Import dry-run with preimage and typed approval preview.", "none", True, "POST /api/v1/project-entry/dry-run"),
         ("project_entry.revalidate", "Revalidate immutable plan/preimage before future execute without writes or network.", "none", True, "POST /api/v1/project-entry/revalidate"),
+        ("project_entry.execution_approval_request", "Create human-session-bound approval for the exact reviewed bootstrap plan/preimage.", "local approval state", True, "POST /api/v1/project-entry/execution-approval-request"),
+        ("project_entry.execute", "Execute an approved bootstrap transaction inside an authorized external workspace with rollback.", "authorized workspace", False, "POST /api/v1/project-entry/execute"),
         ("guided_sdlc.transition.evaluate", "Evaluate one versioned Guided SDLC transition deterministically without mutating engineering state.", "none", True, "ApplicationService read-only; no HTTP route in GSDLC-01-B"),
         ("guided_sdlc.transition.preview", "Preview the exact successor WorkspaceEngineeringState for one allowed transition without persisting it.", "none", True, "ApplicationService read-only preview; no HTTP route in GSDLC-01-B"),
         ("guided_sdlc.project.status", "Derive deterministic ProjectStatus from authoritative WorkspaceEngineeringState without direct Git/filesystem reads.", "none", True, "ApplicationService read-only projection; HTTP route deferred to GSDLC-01-E"),
@@ -1717,6 +1773,8 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-03-B-PLAN", "POST", "/api/v1/project-entry/bootstrap-plan", "project_entry.bootstrap_plan", ["GSDLC-03-B authenticated planning-only BootstrapPlan/UI projection; execution remains disabled."]),
         ("APP-ROUTE-GSDLC-03-C-DRY-RUN", "POST", "/api/v1/project-entry/dry-run", "project_entry.dry_run", ["GSDLC-03-C authenticated review-only Create/Open/Import dry-run; no writes/network/approval mutation."]),
         ("APP-ROUTE-GSDLC-03-C-REVALIDATE", "POST", "/api/v1/project-entry/revalidate", "project_entry.revalidate", ["GSDLC-03-C immutable plan/preimage revalidation; stale state blocks future execution."]),
+        ("APP-ROUTE-GSDLC-03-D-APPROVAL", "POST", "/api/v1/project-entry/execution-approval-request", "project_entry.execution_approval_request", ["GSDLC-03-D authenticated exact-plan approval request; caller actor is non-authoritative."]),
+        ("APP-ROUTE-GSDLC-03-D-EXECUTE", "POST", "/api/v1/project-entry/execute", "project_entry.execute", ["GSDLC-03-D approval-bound typed bootstrap execution inside authorized fixture/workspace; rollback mandatory."]),
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
         ("APP-ROUTE-UOC-001-A", "GET", "/api/v1/workspace/documents", "workspace.documents.list", ["UOC-001 bounded read-only active-workspace document index."]),
         ("APP-ROUTE-UOC-001-B", "GET", "/api/v1/workspace/documents/{document_id}", "workspace.documents.read", ["UOC-001 opaque-id document viewer; no path authority accepted from browser."]),

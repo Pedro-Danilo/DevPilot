@@ -10,6 +10,7 @@ export const REPORTS_REQUEST_TIMEOUT_MS = 15000;
 export const READINESS_REQUEST_TIMEOUT_MS = 30000;
 export const PROVIDER_SETTINGS_READ_TIMEOUT_MS = 45000;
 export const ACTION_DRY_RUN_TIMEOUT_MS = 60000;
+export const PROJECT_ENTRY_EXECUTION_TIMEOUT_MS = 240000;
 export const PROVIDER_PLAN_TIMEOUT_MS = 60000;
 // Compatibility alias retained for older static contracts. New code must use the operation-specific constants above.
 export const EXPENSIVE_REQUEST_TIMEOUT_MS = READINESS_REQUEST_TIMEOUT_MS;
@@ -160,6 +161,31 @@ export class DevPilotApiClient {
 
   async projectEntryRevalidate(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
     return this.post('/project-entry/revalidate', { ...payload, timeout_seconds: payload.timeout_seconds ?? 3.0 });
+  }
+
+  async projectEntryRequestExecutionApproval(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; reason?: string; ttl_minutes?: number; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post('/project-entry/execution-approval-request', { ...payload, reason: payload.reason ?? 'Execute reviewed GSDLC-03-D bootstrap plan.', ttl_minutes: payload.ttl_minutes ?? 30, timeout_seconds: payload.timeout_seconds ?? 3.0 });
+  }
+
+  async projectEntryExecute(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; approval_id: string; dependency_mode?: string; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
+    try {
+      return await this.post(
+        '/project-entry/execute',
+        { ...payload, dependency_mode: payload.dependency_mode ?? 'defer-network', timeout_seconds: payload.timeout_seconds ?? 3.0 },
+        { timeoutMs: PROJECT_ENTRY_EXECUTION_TIMEOUT_MS },
+      );
+    } catch (error) {
+      if (error instanceof DevPilotApiError && error.status === 408) {
+        throw new DevPilotApiError(
+          'La ejecución excedió el presupuesto UI. El estado server-side es incierto: no vuelvas a ejecutar hasta reconciliar el workspace.',
+          408,
+          { state: 'execution_unknown', action: 'reconcile_before_retry', timeout_ms: PROJECT_ENTRY_EXECUTION_TIMEOUT_MS },
+          '/project-entry/execute',
+          error.durationMs,
+        );
+      }
+      throw error;
+    }
   }
 
   async authCapabilities(workspaceId = 'devpilot-local'): Promise<DevPilotApplicationResponse> {

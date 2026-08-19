@@ -1,7 +1,7 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
-  "version": "1.3.0",
-  "micro_sprint": "DEVPL-GSDLC-03-D",
+  "version": "1.2.0",
+  "micro_sprint": "DEVPL-GSDLC-03-C",
   "status": "pass-candidate/pre-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
@@ -2331,38 +2331,6 @@
       "workspace_scope_required": true,
       "risk_level": "medium",
       "deny_by_default": true
-    },
-    {
-      "route_id": "api.project-entry.execution-approval-request",
-      "method": "POST",
-      "path": "/api/v1/project-entry/execution-approval-request",
-      "operation": "project_entry.execution_approval_request",
-      "access_class": "authenticated-action",
-      "allowed_roles": [
-        "owner"
-      ],
-      "public": false,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "workspace_scope_required": false,
-      "risk_level": "high",
-      "deny_by_default": true
-    },
-    {
-      "route_id": "api.project-entry.execute",
-      "method": "POST",
-      "path": "/api/v1/project-entry/execute",
-      "operation": "project_entry.execute",
-      "access_class": "authenticated-action",
-      "allowed_roles": [
-        "owner"
-      ],
-      "public": false,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "workspace_scope_required": false,
-      "risk_level": "high",
-      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -2600,5 +2568,8 @@
     "GSDLC-03-B project-entry planning endpoints require authenticated human sessions; legacy token alone cannot authorize them.",
     "GSDLC-03-B adds two human-session-required planning-only Project Entry policies; legacy local token is not human authority.",
     "GSDLC-03-A-at-close RBAC snapshot remains frozen at 98 route policies."
-  ]
+  ],
+  "snapshot_for": "DEVPL-GSDLC-03-C",
+  "snapshot_status": "frozen-at-close",
+  "snapshot_route_count": 102
 }

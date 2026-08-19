@@ -1,0 +1,37 @@
+{
+  "schema_id": "devpilot.gsdlc03d.execution_contract_report.v1",
+  "status": "pass-candidate/pre-windows",
+  "micro_sprint": "DEVPL-GSDLC-03-D",
+  "executor": "src/devpilot_core/workspace/project_bootstrap_execution.py",
+  "application_boundary": "src/devpilot_core/application/project_bootstrap_execution_service.py",
+  "api_routes": [
+    "POST /api/v1/project-entry/execution-approval-request",
+    "POST /api/v1/project-entry/execute"
+  ],
+  "approval_action": "filesystem.project_bootstrap_execute",
+  "tool_id": "project.bootstrap.execute",
+  "required_role": "owner",
+  "stages": [
+    "target-root",
+    "structure-templates",
+    "git",
+    "venv",
+    "dependency-jobs",
+    "workspace-metadata",
+    "workspace-register",
+    "verify"
+  ],
+  "transactional_rollback": true,
+  "fault_injection_supported": true,
+  "network_default": false,
+  "remote_git_execute": false,
+  "git_execution_floor": "2.33.0 scoped GSDLC-03-D successor",
+  "dependency_modes": [
+    "defer-network",
+    "offline-cache"
+  ],
+  "dependency_limitation": "offline-cache mode refuses guessed installation unless a future exact lock/cache authority is bound; no silent network fallback.",
+  "writes_outside_workspace": 0,
+  "arbitrary_shell": false,
+  "pilot_workspace_accessed": false
+}

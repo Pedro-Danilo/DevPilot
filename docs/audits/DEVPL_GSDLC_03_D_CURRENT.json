@@ -1,0 +1,62 @@
+{
+  "schema_id": "devpilot.gsdlc03d.current.v1",
+  "micro_sprint": "DEVPL-GSDLC-03-D",
+  "status": "pass-candidate/pre-windows",
+  "version": "1.0.3",
+  "source_repo": "repo_DevPilot_Local_362_DEVPL_GSDLC_03_C_DRY_RUN_CREATE_OPEN_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "ecbc9b38b3722f9fc360bdc0b6c7349371c14625",
+  "source_sha256": "cc7991196ff8553550604a146c8dc957f0f60311ab432aad04812063a88d1806",
+  "predecessor": "DEVPL-GSDLC-03-C CLOSED/PASS",
+  "predecessor_adjudication": "DEVPL_GSDLC_03_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "validation_mode": "cumulative-selective",
+  "execution_enabled": "approval-bound-only",
+  "supported_modes": [
+    "CREATE_NEW",
+    "OPEN_EXISTING",
+    "IMPORT_GIT-local"
+  ],
+  "remote_git_execution_enabled": false,
+  "network_execution_enabled": false,
+  "dependency_execution": "defer-network-or-explicit-offline-cache-only",
+  "typed_stages": [
+    "target-root",
+    "structure-templates",
+    "git",
+    "venv",
+    "dependency-jobs",
+    "workspace-metadata",
+    "workspace-register",
+    "verify"
+  ],
+  "fault_injection_stages": [
+    "structure-templates",
+    "git",
+    "venv",
+    "dependency-jobs",
+    "workspace-register"
+  ],
+  "rollback_implemented": true,
+  "human_session_required": true,
+  "owner_role_required": true,
+  "legacy_token_human_authority": false,
+  "writes_outside_workspace": 0,
+  "pilot_workspace_accessed": false,
+  "full_regression_executed": false,
+  "full_regression_deferred_to": "DEVPL-GSDLC-03-E",
+  "s0_open": 0,
+  "s1_open": 0,
+  "next_micro_sprint": "DEVPL-GSDLC-03-E",
+  "next_authorized": false,
+  "preliminary_limitations": [
+    "dependency installation stays deferred unless an exact offline cache/lock authority is bound",
+    "remote Git clone remains disabled-by-default",
+    "normal Project Home journey remains owned by 03-E",
+    "project bootstrap execution remains synchronous in 03-D; UI uses a bounded 240s request budget and fail-safe unknown-state semantics",
+    "execution timeout does not imply server-side cancellation; acceptance requires workspace reconciliation before any retry"
+  ],
+  "browser_execution_timeout_ms": 240000,
+  "browser_timeout_semantics": "unknown-state/no-automatic-retry/reconcile-before-retry",
+  "approval_center_layout": "responsive-dedicated-grid/no-overlap-corrective",
+  "browser_acceptance": "recovery-after-client-timeout",
+  "windows_automated_validation_status": "PASS"
+}

@@ -3,10 +3,10 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.10.0",
+  "version": "1.3.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-17",
-  "sprint": "DEVPL-GSDLC-03-A",
+  "updated": "2026-08-18",
+  "sprint": "DEVPL-GSDLC-03-D",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including GSDLC-03-A ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts.",
   "schemas": [
@@ -932,6 +932,60 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-03-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-C-APPROVAL-PREVIEW-V1",
+      "title": "DevPilot GSDLC-03-C ApprovalPreview v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_entry_approval_preview.schema.json",
+      "description": "Typed preview of future approval derived from plan/preimage; no approval request is created.",
+      "status": "registered",
+      "contract": "ProjectEntryApprovalPreview",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-03-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-C-PROJECT-ENTRY-DRY-RUN-V1",
+      "title": "DevPilot GSDLC-03-C ProjectEntryDryRun v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_entry_dry_run.schema.json",
+      "description": "Review-only Create/Open/Import dry-run with immutable plan/preimage hashes and no execution.",
+      "status": "registered",
+      "contract": "ProjectEntryDryRun",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-03-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-V1",
+      "title": "GSDLC-03-D Bootstrap Execution",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_bootstrap_execution.schema.json",
+      "description": "Approval-bound transactional bootstrap execution manifest with typed stages, verified postconditions and zero outside-workspace writes.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "ProjectBootstrapExecution"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-ROLLBACK-V1",
+      "title": "GSDLC-03-D Bootstrap Rollback",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_bootstrap_rollback.schema.json",
+      "description": "Rollback evidence for fault-injected or failed project bootstrap transactions.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-03-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "ProjectBootstrapRollback"
     },
     {
       "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-NEXT-ACTION-V1",
@@ -2852,33 +2906,18 @@
       "validation_enabled_sprint": "UOC-003"
     },
     {
-      "schema_id": "SCHEMA-DEVPL-GSDLC-03-C-PROJECT-ENTRY-DRY-RUN-V1",
-      "title": "DevPilot GSDLC-03-C ProjectEntryDryRun v1",
+      "schema_id": "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-COMPATIBILITY-V1",
+      "title": "GSDLC-03-D Bootstrap Execution Compatibility",
       "version": "1.0.0",
-      "path": "docs/schemas/project_entry_dry_run.schema.json",
-      "description": "Review-only Create/Open/Import dry-run with immutable plan/preimage hashes and no execution.",
+      "path": "docs/schemas/bootstrap_execution_compatibility_gsdlc03d.schema.json",
+      "description": "Scoped mutation-time tool compatibility successor for bounded approval-bound bootstrap execution; preserves 03-A/03-B historical Git declarations.",
       "status": "registered",
-      "contract": "ProjectEntryDryRun",
       "owner": "Ordóñez",
-      "sprint": "DEVPL-GSDLC-03-C",
+      "sprint": "DEVPL-GSDLC-03-D",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
-      "validation_enabled_sprint": "DEVPL-GSDLC-03-C"
-    },
-    {
-      "schema_id": "SCHEMA-DEVPL-GSDLC-03-C-APPROVAL-PREVIEW-V1",
-      "title": "DevPilot GSDLC-03-C ApprovalPreview v1",
-      "version": "1.0.0",
-      "path": "docs/schemas/project_entry_approval_preview.schema.json",
-      "description": "Typed preview of future approval derived from plan/preimage; no approval request is created.",
-      "status": "registered",
-      "contract": "ProjectEntryApprovalPreview",
-      "owner": "Ordóñez",
-      "sprint": "DEVPL-GSDLC-03-C",
-      "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": true,
-      "validation_enabled_sprint": "DEVPL-GSDLC-03-C"
+      "contract": "BootstrapExecutionCompatibility"
     }
   ],
-  "schemas_total": 191
+  "schemas_total": 202
 }

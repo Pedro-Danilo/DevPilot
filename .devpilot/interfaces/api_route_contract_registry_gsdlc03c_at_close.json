@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1",
   "registry_id": "devpilot-api-route-contract-registry",
-  "status": "pass-candidate/pre-windows",
+  "status": "implemented-initial",
   "created_by": "POST-H-014-A",
   "updated": "2026-08-18",
   "routes": [
@@ -3497,79 +3497,6 @@
       "notes": [
         "UOC-003 local-first validation/traceability facade; no source mutation, shell, remote execution, connector or external API."
       ]
-    },
-    {
-      "route_id": "api.project-entry.execution-approval-request",
-      "method": "POST",
-      "path": "/api/v1/project-entry/execution-approval-request",
-      "operation": "project_entry.execution_approval_request",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "source_mutation_allowed": false,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.project_entry",
-      "router_module": "project_entry",
-      "policy_action": "request-approval",
-      "policy_sensitivity": "protected-human-session-bootstrap-approval",
-      "path_subject": null,
-      "tags": [
-        "project-entry",
-        "approval",
-        "gsdlc-03-d"
-      ],
-      "notes": [
-        "Creates only local approval state. Exact plan_hash/preimage_hash/target/actor scope is bound before execution."
-      ]
-    },
-    {
-      "route_id": "api.project-entry.execute",
-      "method": "POST",
-      "path": "/api/v1/project-entry/execute",
-      "operation": "project_entry.execute",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "source_mutation_allowed": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.project_entry",
-      "router_module": "project_entry",
-      "policy_action": "filesystem.project_bootstrap_execute",
-      "policy_sensitivity": "approval-bound-workspace-bootstrap",
-      "path_subject": "intake.target_root",
-      "tags": [
-        "project-entry",
-        "bootstrap-execution",
-        "approval-bound",
-        "gsdlc-03-d"
-      ],
-      "notes": [
-        "Mutations are allowed only inside an authorized external workspace after exact authenticated approval binding and preimage revalidation.",
-        "Remote Git and dependency network remain disabled-by-default in GSDLC-03-D initial execution authority."
-      ],
-      "mutation_exception_justification": "GSDLC-03-D explicitly authorizes typed project bootstrap writes inside the approved external workspace; DevPilot platform source remains forbidden."
     }
   ],
   "summary": {
@@ -3656,5 +3583,7 @@
     "GSDLC-03-B adds two authenticated human-session planning-only project-entry routes; 03-A-at-close snapshot remains frozen at 98 routes.",
     "GSDLC-03-B current-active successor adds two human-session planning-only Project Entry routes; 03-A-at-close 98-route snapshot remains immutable."
   ],
-  "micro_sprint": "DEVPL-GSDLC-03-D"
+  "snapshot_for": "DEVPL-GSDLC-03-C",
+  "snapshot_status": "frozen-at-close",
+  "snapshot_route_count": 102
 }

@@ -130,6 +130,7 @@ __all__ = [
     "OperatorDashboardApplicationService",
     "PortfolioApplicationService",
     "ProjectEntryPlanningApplicationService",
+    "ProjectBootstrapExecutionApplicationService",
     "RefactorApplicationService",
     "RepoApplicationService",
     "ReportsApplicationService",
@@ -160,3 +161,5 @@ from .rbac_service import RBACApplicationService
 from .project_entry_planning_service import ProjectEntryPlanningApplicationService
 
 from .project_entry_dry_run_service import ProjectEntryDryRunApplicationService
+
+from .project_bootstrap_execution_service import ProjectBootstrapExecutionApplicationService

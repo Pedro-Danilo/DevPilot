@@ -101,6 +101,23 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
                 continue
 
+            if op_id in {"project_entry.execution_approval_request", "project_entry.execute"}:
+                assert operation["x-devpilot-status"] == "gsdlc-03-d-approval-bound-bootstrap"
+                assert operation["security"] == [{"LocalHumanSession": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-network-runtime"] is False
+                assert operation["x-devpilot-external-api"] is False
+                assert operation["x-devpilot-remote-execution"] is False
+                assert operation["x-devpilot-arbitrary-shell"] is False
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
+                if op_id == "project_entry.execute":
+                    assert operation["x-devpilot-project-write"] is True
+                    assert operation["x-devpilot-source-mutation"] is True
+                else:
+                    assert operation["x-devpilot-project-write"] is False
+                    assert operation["x-devpilot-source-mutation"] is False
+                continue
+
             if op_id in {"project_entry.environment_discovery", "project_entry.bootstrap_plan"}:
                 assert operation["x-devpilot-status"] == "gsdlc-03-b-planning"
                 assert operation["x-devpilot-domain-service"] == "ApplicationService -> ProjectEntryPlanningApplicationService -> EnvironmentDiscoveryService"
@@ -219,7 +236,7 @@ def test_api_service_mapping_covers_every_endpoint_and_blocks_dangerous_routes()
     spec = _openapi()
     mapping = MAPPING_PATH.read_text(encoding="utf-8")
     forbidden_fragments = ["patch/apply", "rollback/execute", "refactor/execute", "0.0.0.0"]
-    allowed_typed_execute_paths = {"/api/v1/workspace/validations/execute", "/api/v1/quality/jobs/{job_id}/execute", "/api/v1/ai/jobs/{job_id}/execute"}
+    allowed_typed_execute_paths = {"/api/v1/workspace/validations/execute", "/api/v1/quality/jobs/{job_id}/execute", "/api/v1/ai/jobs/{job_id}/execute", "/api/v1/project-entry/execute"}
 
     for path, methods in spec["paths"].items():
         assert path in mapping

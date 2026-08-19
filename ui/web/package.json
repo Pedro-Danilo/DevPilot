@@ -188,7 +188,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-03-C",
+    "currentSprint": "DEVPL-GSDLC-03-D",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -292,7 +292,11 @@
     "authEntryRoutesTotal": 3,
     "gsdlc03cProjectEntryDryRun": true,
     "gsdlc03cExecutionEnabled": false,
-    "gsdlc03cUiRoute": "ui.project-entry-dry-run"
+    "gsdlc03cUiRoute": "ui.project-entry-dry-run",
+    "gsdlc03dApprovalBoundExecution": true,
+    "gsdlc03dNetworkExecutionEnabled": false,
+    "gsdlc03dRemoteGitExecutionEnabled": false,
+    "gsdlc03dExecutionEnabled": true
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,
