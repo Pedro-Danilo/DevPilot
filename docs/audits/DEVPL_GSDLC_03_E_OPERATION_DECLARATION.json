@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.gsdlc03e.operation_declaration.v1",
   "micro_sprint": "DEVPL-GSDLC-03-E",
-  "status": "pass-candidate/windows-composite-pass/pending-owner-adjudication",
+  "status": "closed/PASS",
   "local_first": true,
   "normal_user_powershell_required": 0,
   "external_operator_project_writes": 0,
@@ -41,7 +41,7 @@
   "approval_center_cross_tab_handoff": "localStorage TTL 30m; actor_id+session_created_at bound; UX-only",
   "approval_center_link_visible_before_request": false,
   "approval_center_handoff_server_authority": false,
-  "version": "1.0.15",
+  "version": "1.0.16",
   "updated": "2026-08-20",
   "approval_center_handoff_mode": "targeted-exact-id/no-global-list-prerequisite",
   "manual_browser_observations_auto_init": true,
@@ -92,5 +92,10 @@
   "windows_composite_evidence": "DEVPL_GSDLC_03_E_REG_002_COMPOSITE_WINDOWS_EVIDENCE_v1_0_15.zip",
   "windows_composite_evidence_sha256": "a0a418d9cad544d3c10cac40e257d41baf01f9cb4df9c12d67005d1a7a6ece33",
   "windows_composite_source_fingerprint": "8c698d63a75938267b6f9b8028b1cfbec9a54be9e2375da15d3b509f6822772a",
-  "owner_adjudication_pending": true
+  "owner_adjudication_pending": false,
+  "owner_adjudication_completed": true,
+  "owner_adjudication": "DEVPL_GSDLC_03_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "final_repo": "repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "final_commit": "7f6c9ed8a49fd9300d8b10eb3255969256eb2865",
+  "final_repo_sha256": "84879093ae88e46dd967adf0b5d857cf2912fc9c98f7d8173c59a485c008c8f2"
 }

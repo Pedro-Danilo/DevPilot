@@ -19956,6 +19956,96 @@
         "GSDLC-03-E v1.0.11: predecessor-era UI composite assertions are successor-aware while frozen registries remain unchanged.",
         "GSDLC-03-E v1.0.11: browser timeout normalization ceiling preserves 90s planning and 240s execute budgets."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-04-a-artifact-lifecycle-contracts",
+      "source_contract_id": "devpl-gsdlc-04-a-artifact-lifecycle-contracts",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "ArtifactLifecycleAndProvenanceContracts",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+        "tests/test_devpl_gsdlc_03_e_project_home_browser_closure.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/artifact_lifecycle_service.py",
+        "src/devpilot_core/validation/artifact_profile_registry.py",
+        "src/devpilot_core/application/workspace_edit_plan_service.py",
+        "src/devpilot_core/application/workspace_edit_execution_service.py",
+        ".devpilot/artifacts",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas",
+        "docs/validation/artifact_profiles.json",
+        "docs/02_architecture/guided_sdlc",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/artifact_lifecycle_service.py",
+        ".devpilot/artifacts/artifact_lifecycle_policy.json",
+        "docs/schemas/artifact_state.schema.json",
+        "docs/schemas/artifact_provenance.schema.json",
+        "docs/schemas/artifact_lifecycle_record.schema.json",
+        "docs/schemas/artifact_lifecycle_policy.schema.json",
+        "docs/02_architecture/guided_sdlc/artifact_lifecycle_contract.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-004-artifact-lifecycle-authority.md"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-04-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "04-A is server-authoritative lifecycle/provenance only; no workspace document write, API route, UI surface or full regression.",
+        "UOC-004/UOC-005 are predecessor write contracts and remain unchanged.",
+        "AGENT_ASSISTED is provenance-only until GSDLC-07."
+      ],
+      "trigger_hints": [
+        "artifact-lifecycle",
+        "artifact-provenance",
+        "artifact-profile",
+        "hash-drift",
+        "frozen",
+        "revalidation"
+      ],
+      "impact_tags": [
+        "artifacts",
+        "governance",
+        "security",
+        "schema",
+        "workspace"
+      ],
+      "owner_domain": "artifacts.lifecycle",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-STATE-V1",
+        "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-PROVENANCE-V1",
+        "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-LIFECYCLE-RECORD-V1",
+        "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-LIFECYCLE-POLICY-V1"
+      ],
+      "notes": [
+        "A→D use cumulative/selective validation; full regression remains reserved for 04-E.",
+        "Runtime-ephemeral DBs remain excluded from fixture/source state."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -20116,5 +20206,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 284
+  "contracts_total": 285
 }

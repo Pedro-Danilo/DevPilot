@@ -146,6 +146,9 @@ __all__ = [
     "WorkspaceEditPlanApplicationService",
     "WorkspaceEditExecutionApplicationService",
     "WorkspaceGitOperationsApplicationService",
+    "ArtifactLifecycleService",
+    "ArtifactSourceType",
+    "ArtifactState",
 ]
 
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -163,3 +166,5 @@ from .project_entry_planning_service import ProjectEntryPlanningApplicationServi
 from .project_entry_dry_run_service import ProjectEntryDryRunApplicationService
 
 from .project_bootstrap_execution_service import ProjectBootstrapExecutionApplicationService
+
+from .artifact_lifecycle_service import ArtifactLifecycleService, ArtifactSourceType, ArtifactState

@@ -1,8 +1,8 @@
 {
   "schema_id": "devpilot.gsdlc03e.current.v1",
   "micro_sprint": "DEVPL-GSDLC-03-E",
-  "status": "pass-candidate/windows-composite-pass/pending-owner-adjudication",
-  "version": "1.0.15",
+  "status": "closed/PASS",
+  "version": "1.0.16",
   "source_repo": "repo_DevPilot_Local_363_DEVPL_GSDLC_03_D_APPROVAL_BOUND_BOOTSTRAP_EXECUTION_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "7eb5f6512da8644ff08651cec0bd464795cfda8e",
   "source_sha256": "a660005465fa8ee566d0b9d1cdaa8bd978457cbbc59ca9ebb83891f8b1f53b4b",
@@ -32,11 +32,10 @@
   "s0_open": 0,
   "s1_open": 0,
   "next_backlog": "DEVPL-GSDLC-04",
-  "next_authorized": false,
+  "next_authorized": true,
   "preliminary_limitations": [
     "dependency install remains deferred without an exact offline lock/cache authority",
-    "remote Git execution remains disabled-by-default",
-    "owner adjudication is the only remaining governance step before DEVPL-GSDLC-03 is CLOSED/PASS and DEVPL-GSDLC-04 is authorized"
+    "remote Git execution remains disabled-by-default"
   ],
   "source_delta_paths_pre_windows": 28,
   "pre_windows_pytest_passed": 124,
@@ -182,5 +181,11 @@
   "windows_composite_evidence": "DEVPL_GSDLC_03_E_REG_002_COMPOSITE_WINDOWS_EVIDENCE_v1_0_15.zip",
   "windows_composite_evidence_sha256": "a0a418d9cad544d3c10cac40e257d41baf01f9cb4df9c12d67005d1a7a6ece33",
   "windows_composite_source_fingerprint": "8c698d63a75938267b6f9b8028b1cfbec9a54be9e2375da15d3b509f6822772a",
-  "owner_adjudication_pending": true
+  "owner_adjudication_pending": false,
+  "owner_adjudication_completed": true,
+  "owner_adjudication": "DEVPL_GSDLC_03_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "final_commit": "7f6c9ed8a49fd9300d8b10eb3255969256eb2865",
+  "final_repo": "repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "final_repo_sha256": "84879093ae88e46dd967adf0b5d857cf2912fc9c98f7d8173c59a485c008c8f2",
+  "backlog_closure_adjudication": "DEVPL_GSDLC_03_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md"
 }

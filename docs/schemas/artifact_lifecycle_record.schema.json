@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/artifact_lifecycle_record.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-LIFECYCLE-RECORD-V1",
+  "title": "DevPilot Artifact Lifecycle Record v1",
+  "description": "Combined lifecycle and provenance record for a governed Markdown/JSON artifact.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "artifact_id",
+    "relative_path",
+    "profile_id",
+    "state",
+    "content_hash",
+    "provenance",
+    "validators",
+    "approval_required",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc04.artifact_lifecycle_record.v1"
+    },
+    "artifact_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "MISSING",
+        "DRAFT",
+        "VALIDATING",
+        "FINDINGS",
+        "READY_FOR_REVIEW",
+        "APPROVAL_REQUIRED",
+        "APPROVED",
+        "FROZEN",
+        "REVALIDATION_REQUIRED"
+      ]
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "provenance": {
+      "$ref": "devpilot://schemas/artifact_provenance.schema.json"
+    },
+    "validators": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approval_required": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

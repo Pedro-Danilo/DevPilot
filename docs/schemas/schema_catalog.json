@@ -5,7 +5,7 @@
   "status": "approved",
   "version": "1.3.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-18",
+  "updated": "2026-08-20",
   "sprint": "DEVPL-GSDLC-03-D",
   "preliminary": true,
   "purpose": "Authoritative schema catalog including GSDLC-03-A ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts.",
@@ -2917,7 +2917,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "contract": "BootstrapExecutionCompatibility"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-STATE-V1",
+      "title": "Artifact State v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_state.schema.json",
+      "description": "Server-authoritative GSDLC-04-A artifact lifecycle state enum.",
+      "status": "registered",
+      "contract": "ArtifactState",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-PROVENANCE-V1",
+      "title": "Artifact Provenance v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_provenance.schema.json",
+      "description": "GSDLC-04-A source/hash/version/actor/reviewer/lineage provenance contract.",
+      "status": "registered",
+      "contract": "ArtifactProvenance",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-LIFECYCLE-RECORD-V1",
+      "title": "Artifact Lifecycle Record v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_lifecycle_record.schema.json",
+      "description": "Combined governed artifact lifecycle and provenance record.",
+      "status": "registered",
+      "contract": "ArtifactLifecycleRecord",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-LIFECYCLE-POLICY-V1",
+      "title": "Artifact Lifecycle Policy v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_lifecycle_policy.schema.json",
+      "description": "Transition/role/profile/path policy for GSDLC-04-A governed artifacts.",
+      "status": "registered",
+      "contract": "ArtifactLifecyclePolicy",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-A"
     }
   ],
-  "schemas_total": 202
+  "schemas_total": 206
 }

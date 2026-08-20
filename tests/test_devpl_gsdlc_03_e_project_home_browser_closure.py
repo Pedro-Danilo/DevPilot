@@ -303,35 +303,35 @@ def test_03e_windows_composite_closure_candidate_is_reconciled() -> None:
     roadmap = text('docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md')
     readme = text('README.md')
 
-    expected = 'pass-candidate/windows-composite-pass/pending-owner-adjudication'
+    expected = 'closed/PASS'
     evidence_sha = 'a0a418d9cad544d3c10cac40e257d41baf01f9cb4df9c12d67005d1a7a6ece33'
     source_fingerprint = '8c698d63a75938267b6f9b8028b1cfbec9a54be9e2375da15d3b509f6822772a'
 
     assert state['gsdlc_03_e_status'] == expected
-    assert state['gsdlc_03_status'] == 'closure-candidate/pending-owner-adjudication'
+    assert state['gsdlc_03_status'] == 'closed/PASS'
     assert state['gsdlc_03_e_composite_regression_recovery_result'] == 'PASS'
     assert state['gsdlc_03_e_reg002_exact_11_passed'] == 11
     assert state['gsdlc_03_e_reg002_bounded_impact_passed'] == 13
     assert state['gsdlc_03_e_second_full_regression_executed'] is False
     assert state['gsdlc_03_e_exact_67_rerun_executed'] is False
-    assert state['gsdlc_04_authorized'] is False
+    assert state['gsdlc_04_authorized'] is True
     assert state['gsdlc_03_e_windows_composite_evidence_sha256'] == evidence_sha
     assert state['gsdlc_03_e_windows_composite_source_fingerprint'] == source_fingerprint
 
     assert current['status'] == expected
-    assert current['version'] == '1.0.15'
+    assert current['version'] == '1.0.16'
     assert current['composite_recovery'] == 'PASS/REG-002/exact-11-11-of-11'
     assert current['reg002_exact_11_residual_retest']['passed'] == 11
     assert current['reg002_bounded_impact_guard']['passed'] == 13
     assert current['historical_regression_guard'] == 'PASS'
     assert current['second_full_regression_executed'] is False
-    assert current['owner_adjudication_pending'] is True
+    assert current['owner_adjudication_pending'] is False
 
     assert op['status'] == expected
     assert op['full_regression'] == 'FAIL-ONCE/RECOVERED-BY-COMPOSITE-EVIDENCE'
     assert op['composite_recovery'] == 'PASS/REG-002'
     assert op['second_full_regression_executed'] is False
-    assert op['owner_adjudication_pending'] is True
+    assert op['owner_adjudication_pending'] is False
 
     registered = {row['path']: row for row in registry['documents']}
     for path in (
@@ -341,7 +341,7 @@ def test_03e_windows_composite_closure_candidate_is_reconciled() -> None:
     ):
         assert registered[path]['status_required'] == expected
 
-    assert 'Windows composite PASS candidate / pending owner adjudication' in closure
+    assert 'CLOSED/PASS' in closure
     assert 'REG-002 `11/11 PASS`' in roadmap
-    assert 'PASS-CANDIDATE / PENDING OWNER ADJUDICATION' in readme
+    assert 'GSDLC-04-A' in readme
 

@@ -22,6 +22,16 @@ backlogs_total: 15
 
 # DevPilot Guided SDLC Product Evolution — Roadmap maestro v1.1.0
 
+## 0.1 Estado de ejecución reconciliado — 2026-08-20
+
+- `DEVPL-GSDLC-03 = CLOSED/PASS`.
+- Successor owner-adjudicated: `repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `7f6c9ed8a49fd9300d8b10eb3255969256eb2865`.
+- `DEVPL-GSDLC-04 = APPROVED / EXECUTABLE-DESIGN`.
+- `GSDLC-04-A = PASS-CANDIDATE / PRE-WINDOWS`: lifecycle/provenance server-authoritative, sin writes de workspace ni nuevas rutas API/UI.
+- `GSDLC-04-B` continúa bloqueado hasta evidencia Windows y owner adjudication de 04-A.
+- La evidencia browser/full de GSDLC-03 está sellada y no se reejecuta durante 04-A.
+
+
 ## 1. Visión objetivo
 
 > **DevPilot es un entorno local de desarrollo de software guiado que conduce un proyecto desde su creación hasta release, ejecutando MIPSoftware y MIASI como workflows verificables, con autoría humana o agent-assisted, políticas, approvals, pruebas, Git, trazabilidad y evidencia integrados.**
@@ -403,8 +413,8 @@ La implementación comienza con un prompt operativo separado de GSDLC-00.
 Estado de implementación: **PASS-CANDIDATE / PRE-WINDOWS**. Introduce ejecución transaccional tipada exclusivamente sobre un workspace externo autorizado y después de revalidar plan/preimage, human-session/RBAC, approval binding y policy. CREATE/OPEN/IMPORT local son soportados; remote Git y network dependencies permanecen disabled-by-default. Fault injection + rollback son parte de la aceptación. La full regression sigue reservada a 03-E.
 
 
-### GSDLC-03-E Windows composite closure candidate
+### GSDLC-03-E Windows composite closure — CLOSED/PASS
 
 Project Entry completed authoritative browser acceptance: 14 scenarios / 12 screenshots PASS, Create/Open/Import complete in the browser, S0/S1=0, normal-user PowerShell=0 and external operator project writes=0. The backlog full regression ran exactly once and failed historically with `2418 PASS / 67 FAIL / 0 ERROR / 4 SKIP`; no second full was executed. Approved composite recovery then produced REG-001 `56/67 PASS` with 11 residuals, followed by REG-002 `11/11 PASS`, bounded impact `13/13 PASS`, Historical Regression Guard PASS, Documentation Governance PASS and TCR v1/v2 PASS. The original full log remains immutable.
 
-03-E is therefore `pass-candidate/windows-composite-pass/pending-owner-adjudication`. GSDLC-04 remains unauthorized until the clean successor candidate is committed/packaged and the owner adjudicates GSDLC-03 CLOSED/PASS.
+03-E is owner-adjudicated `CLOSED/PASS`; repo364 is its canonical successor. GSDLC-04 is authorized and 04-A is the active cumulative/selective micro-sprint.

@@ -1,0 +1,48 @@
+{
+  "schema_id": "devpilot.gsdlc04a.historical_contract_sweep.v1",
+  "status": "PASS-PREWINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-04-A",
+  "version": "1.0.0",
+  "updated": "2026-08-20",
+  "classifications": [
+    {
+      "contract": "UOC-004 WorkspaceEditPlanApplicationService",
+      "classification": "historical-freeze/current-predecessor",
+      "action": "preserve; compose later, do not replace"
+    },
+    {
+      "contract": "UOC-005 WorkspaceEditExecutionApplicationService",
+      "classification": "historical-freeze/current-predecessor",
+      "action": "preserve approval-bound apply/rollback"
+    },
+    {
+      "contract": "GSDLC-03-E browser/full evidence",
+      "classification": "historical-freeze",
+      "action": "do not edit or reexecute"
+    },
+    {
+      "contract": "DEVPL_GSDLC_03_E_CURRENT/OPERATION/CLOSURE",
+      "classification": "current-active",
+      "action": "advance to CLOSED/PASS from owner adjudication"
+    },
+    {
+      "contract": "source_registry/current pointers",
+      "classification": "derived",
+      "action": "reconcile to 04-A while preserving frozen project_state_snapshot"
+    },
+    {
+      "contract": "auth.db*/devpilot.db*",
+      "classification": "runtime-ephemeral",
+      "action": "exclude from fixtures/sandboxes/source packages"
+    },
+    {
+      "contract": "GSDLC-FR-006/007 GSDLC-00-B stabilized requirements rows",
+      "classification": "historical-freeze",
+      "action": "preserve status=planned byte-for-byte; record 04-A implementation progress only in successor CURRENT/closure/TCR"
+    }
+  ],
+  "unclassified_total": 0,
+  "historical_assertions_rewritten_only_to_pass": false,
+  "sealed_evidence_modified": false,
+  "frozen_requirement_rows_modified": false
+}

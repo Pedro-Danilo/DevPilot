@@ -1,0 +1,626 @@
+{
+  "schema_version": "1.0",
+  "contract": "ArtifactLifecyclePolicy",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "sprint": "DEVPL-GSDLC-04-A",
+  "states": [
+    "MISSING",
+    "DRAFT",
+    "VALIDATING",
+    "FINDINGS",
+    "READY_FOR_REVIEW",
+    "APPROVAL_REQUIRED",
+    "APPROVED",
+    "FROZEN",
+    "REVALIDATION_REQUIRED"
+  ],
+  "source_types": [
+    "MANUAL",
+    "PASTE",
+    "UPLOAD",
+    "IMPORT",
+    "AGENT_ASSISTED",
+    "EXTERNAL_EDITOR"
+  ],
+  "roles": [
+    "owner",
+    "product-owner",
+    "architect",
+    "security-reviewer",
+    "developer",
+    "qa-reviewer",
+    "release-manager",
+    "operator",
+    "agent-supervisor"
+  ],
+  "transitions": [
+    {
+      "from": "MISSING",
+      "to": "DRAFT",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "DRAFT",
+      "to": "VALIDATING",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "VALIDATING",
+      "to": "FINDINGS",
+      "allowed_roles": [
+        "owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "operator"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "VALIDATING",
+      "to": "READY_FOR_REVIEW",
+      "allowed_roles": [
+        "owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "operator"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "FINDINGS",
+      "to": "DRAFT",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "READY_FOR_REVIEW",
+      "to": "APPROVAL_REQUIRED",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "qa-reviewer",
+        "release-manager"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "APPROVAL_REQUIRED",
+      "to": "APPROVED",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "qa-reviewer",
+        "release-manager"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "APPROVED",
+      "to": "FROZEN",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "qa-reviewer",
+        "release-manager"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    },
+    {
+      "from": "APPROVED",
+      "to": "REVALIDATION_REQUIRED",
+      "allowed_roles": [],
+      "mode": "hash-drift-only",
+      "requires_reviewer": true
+    },
+    {
+      "from": "FROZEN",
+      "to": "REVALIDATION_REQUIRED",
+      "allowed_roles": [],
+      "mode": "hash-drift-only",
+      "requires_reviewer": true
+    },
+    {
+      "from": "REVALIDATION_REQUIRED",
+      "to": "DRAFT",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "mode": "actor",
+      "requires_reviewer": true
+    }
+  ],
+  "profile_permissions": {
+    "product-vision": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "business-case": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "mvp-scope": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "requirements-specification": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "use-cases": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "traceability-matrix": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "architecture-document": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "c4-context": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "c4-container": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "adr": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "security-threat-model": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "privacy-assessment": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "test-strategy": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "observability-plan": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "runbook": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "miasi-agent-card": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "miasi-tool-card": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "miasi-policy-card": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "miasi-eval-card": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "miasi-human-approval-card": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "miasi-observability-card": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "generic-markdown": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "artifact-profile",
+        "frontmatter",
+        "secret-guard"
+      ],
+      "approval_required": true
+    },
+    "structured-json": {
+      "authoring_allowed": true,
+      "import_allowed": true,
+      "allowed_source_types": [
+        "MANUAL",
+        "PASTE",
+        "UPLOAD",
+        "IMPORT",
+        "AGENT_ASSISTED",
+        "EXTERNAL_EDITOR"
+      ],
+      "validators": [
+        "json-syntax",
+        "json-schema",
+        "secret-guard"
+      ],
+      "approval_required": true
+    }
+  },
+  "path_policy": {
+    "allowed_extensions": [
+      ".md",
+      ".json"
+    ],
+    "max_source_bytes": 1048576,
+    "filename_pattern": "^[A-Za-z0-9][A-Za-z0-9._ -]{0,127}$",
+    "deny_absolute": true,
+    "deny_parent_traversal": true,
+    "deny_symlink": true,
+    "secret_bearing_auto_version": false
+  },
+  "agent_assisted_execution_enabled": false,
+  "server_authoritative": true,
+  "notes": [
+    "ArtifactProfileRegistry remains the authority for Markdown profile selection; this policy references profile ids only.",
+    "AGENT_ASSISTED is provenance-only in GSDLC-04-A; real agentic execution remains deferred to GSDLC-07.",
+    "UOC-004 planning and UOC-005 approval/apply remain the only existing governed document write predecessors; GSDLC-04-A performs no workspace source writes.",
+    "Upload/path limits are contractual now; upload execution is implemented in GSDLC-04-C."
+  ]
+}

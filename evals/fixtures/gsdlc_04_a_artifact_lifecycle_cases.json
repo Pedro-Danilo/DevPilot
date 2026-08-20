@@ -1,0 +1,25 @@
+{
+  "schema_id": "devpilot.gsdlc04a.artifact_lifecycle_cases.v1",
+  "status": "PASS-PREWINDOWS",
+  "sprint": "DEVPL-GSDLC-04-A",
+  "base_commit": "7f6c9ed8a49fd9300d8b10eb3255969256eb2865",
+  "valid": {
+    "artifact_id": "requirements-specification",
+    "relative_path": "docs/01_requirements/requirements_specification.md",
+    "source_type": "MANUAL",
+    "content": "---\\ndoc_id: demo\\nstatus: draft\\n---\\n\\n# Requirements\\n",
+    "actor": "owner.local",
+    "actor_role": "owner",
+    "session_principal": "authenticated:owner.local",
+    "reviewer": "qa.local",
+    "reviewer_role": "qa-reviewer"
+  },
+  "negative_paths": [
+    "../outside.md",
+    "C:/outside.md",
+    "docs/01_requirements/script.exe",
+    "docs/01_requirements/../escape.md"
+  ],
+  "unknown_source": "REMOTE_MAGIC",
+  "secret_content": "api_key=sk-proj-abcdefghijklmnop"
+}

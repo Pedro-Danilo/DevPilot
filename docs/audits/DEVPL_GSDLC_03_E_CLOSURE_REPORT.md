@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-03-E-CLOSURE-REPORT"
 title: "DEVPL-GSDLC-03-E — Project Home and browser acceptance closure report"
-status: "pass-candidate/windows-composite-pass/pending-owner-adjudication"
-version: "1.0.15"
+status: "closed/PASS"
+version: "1.0.16"
 owner: "Ordóñez"
 updated: "2026-08-20"
-approval: "pending_owner_adjudication"
+approval: "CLOSED/PASS"
 ---
 
 # DEVPL-GSDLC-03-E — Closure report candidate
@@ -40,7 +40,7 @@ Pre-Windows work may run focal/cumulative/impact/historical guards but **must no
 
 ## Closure status
 
-Windows validation and composite recovery are complete and PASS. The candidate is **not yet owner-adjudicated**. The only remaining closure actions are the clean successor commit/package and explicit owner adjudication; no browser or regression rerun is required.
+Windows validation, composite recovery, clean successor generation and explicit owner adjudication are complete. `GSDLC-03-E = CLOSED/PASS`; repo364 is the owner-adjudicated successor and GSDLC-04 is authorized. Historical browser/full evidence remains sealed and is not re-executed during the GSDLC-04 activation rebind.
 
 ## PRE-WINDOWS validation performed
 

@@ -1,15 +1,19 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; backlogs `DEVPL-GSDLC-00`, `DEVPL-GSDLC-01` y `DEVPL-GSDLC-02` están `CLOSED/PASS`. `DEVPL-GSDLC-03-A→D` están `CLOSED/PASS`; `DEVPL-GSDLC-03-E` completó browser acceptance y recovery compuesto en Windows y está `PASS-CANDIDATE / PENDING OWNER ADJUDICATION`.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `DEVPL-GSDLC-04` está owner-approved y `GSDLC-04-A` se encuentra `PASS-CANDIDATE / PRE-WINDOWS`, pendiente de validación Windows y owner adjudication.
 
-POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no es input ni fixture de la evolución GSDLC. El baseline mutable inmediato usado para 03-E fue `repo_DevPilot_Local_363_DEVPL_GSDLC_03_D_APPROVAL_BOUND_BOOTSTRAP_EXECUTION_WINDOWS_VALIDATED_CANDIDATE.zip`; el successor técnico de 03-E debe generarse después del commit final de cierre. `DEVPL-GSDLC-04` permanece no autorizado hasta la adjudicación del owner.
+Fuente de ejecución de GSDLC-04: `repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `7f6c9ed8a49fd9300d8b10eb3255969256eb2865`, SHA-256 `84879093ae88e46dd967adf0b5d857cf2912fc9c98f7d8173c59a485c008c8f2`. Repo359 permanece baseline histórico GSDLC-02, no baseline mutable.
 
-Fuentes canónicas del programa:
+04-A introduce solamente contratos server-authoritative de lifecycle/provenance y política por Artifact Profile; no habilita editor/upload real, no agrega rutas API/UI, no crea un segundo writer y no ejecuta browser/full regression. 04-B permanece bloqueado hasta evidencia Windows + owner adjudication de 04-A.
+
+POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no puede usarse como input/fixture durante GSDLC.
+
+Fuentes canónicas inmediatas:
 - `docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md`
-- `docs/backlogs/DEVPL-GSDLC-03_project_entry_creation_open_and_git_import_workbench_v1_2_0_APPROVED.md`
-- `docs/00_product/DEVPL_GSDLC_program_charter.md`
-- `docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md`
-- `DEVPL_GSDLC_02_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md`
+- `docs/backlogs/DEVPL-GSDLC-04_artifact_workbench_governed_authoring_and_import_v1_2_0_APPROVED.md`
+- `docs/02_architecture/guided_sdlc/artifact_lifecycle_contract.md`
+- `docs/02_architecture/adrs/ADR-GSDLC-004-artifact-lifecycle-authority.md`
+- `DEVPL_GSDLC_03_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md`
 
 ## POST-H-EVAL-002 — Activación del piloto real end-to-end UI-first
 

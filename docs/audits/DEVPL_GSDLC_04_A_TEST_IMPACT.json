@@ -1,0 +1,40 @@
+{
+  "schema_id": "devpilot.gsdlc04a.test_impact.v1",
+  "status": "PASS-PREWINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-04-A",
+  "version": "1.0.0",
+  "updated": "2026-08-20",
+  "mode": "analyze-v2/plan-only",
+  "executed": "LOCAL-ANALYZE-V2/PASS",
+  "full_regression_recommended_execution": false,
+  "full_regression_executed": false,
+  "changed_paths_file": "docs/audits/DEVPL_GSDLC_04_A_CHANGED_PATHS.txt",
+  "summary": {
+    "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
+    "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
+    "rules_path": ".devpilot/testing/test_impact_rules.json",
+    "changed_paths_total": 39,
+    "contracts_total": 285,
+    "matched_contracts_total": 133,
+    "p0_selected_total": 75,
+    "p1_selected_total": 55,
+    "heuristic_recommendations_total": 5,
+    "recommended_tests_total": 221,
+    "recommended_commands_total": 264,
+    "recommended_profiles": [
+      "p0-critical",
+      "docs-historical",
+      "impact",
+      "release-candidate-local"
+    ],
+    "unmatched_paths_total": 19,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "note": "Test Impact v2 selected a broad historical/release set because Project State/Source Registry/TCR/schema catalog are current-active shared contracts. 04-A executes focal+cumulative gates and does not consume the backlog full regression."
+}

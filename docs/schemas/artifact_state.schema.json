@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/artifact_state.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-STATE-V1",
+  "title": "DevPilot Artifact State v1",
+  "description": "Server-authoritative GSDLC-04 artifact lifecycle state contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "state"
+  ],
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": [
+        "MISSING",
+        "DRAFT",
+        "VALIDATING",
+        "FINDINGS",
+        "READY_FOR_REVIEW",
+        "APPROVAL_REQUIRED",
+        "APPROVED",
+        "FROZEN",
+        "REVALIDATION_REQUIRED"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc04a.regression_guard.v1",
+  "status": "PASS-PREWINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-04-A",
+  "version": "1.0.0",
+  "updated": "2026-08-20",
+  "policy": "A-D cumulative-selective; E exactly-one-full-regression",
+  "full_regression_allowed_by_routine": false,
+  "hard_trigger_present": false,
+  "full_regression_executed": false,
+  "full_regression_runs": 0,
+  "browser_acceptance_required": false,
+  "uoc004_unchanged": true,
+  "uoc005_unchanged": true,
+  "api_registry_unchanged": true,
+  "ui_registry_unchanged": true,
+  "rbac_registry_unchanged": true,
+  "sensitive_action_catalog_unchanged": true
+}
