@@ -1338,6 +1338,19 @@
         "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "project.bootstrap.execute",
+      "name": "execute_approved_project_bootstrap_plan",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "GSDLC03D_BOOTSTRAP_APPROVAL_BOUND",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

@@ -18,7 +18,9 @@ def test_policy_catalog_maps_every_current_route_and_sensitive_action():
     assert {(x['method'],x['path']) for x in api['routes']} == {(x['method'],x['path']) for x in cat['route_policies']}
     assert {x['action_id'] for x in sens['actions']} == {x['action_id'] for x in cat['sensitive_action_policies']}
     frozen=json.loads((ROOT/'.devpilot/interfaces/api_route_contract_registry_gsdlc02d_at_close.json').read_text())
-    assert len(frozen['routes'])==97 and len(sens['actions'])==16
+    assert len(frozen['routes'])==97
+    assert len(sens['actions'])>=16
+    assert len(cat['sensitive_action_policies'])==len(sens['actions'])
     assert len(api['routes'])>=len(frozen['routes'])
     assert cat['summary']['unmapped_routes_total']==0 and cat['summary']['unmapped_sensitive_actions_total']==0
 

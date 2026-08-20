@@ -2573,24 +2573,11 @@
       "original_status": "implemented-initial",
       "legacy_role_resolution": null,
       "deny_by_default": true
-    },
-    {
-      "action_id": "filesystem.project_bootstrap_execute",
-      "risk_level": "high",
-      "allowed_roles": [
-        "owner"
-      ],
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "original_executable": true,
-      "original_status": "implemented-initial",
-      "legacy_role_resolution": null,
-      "deny_by_default": true
     }
   ],
   "summary": {
-    "route_policies_total": 104,
-    "sensitive_action_policies_total": 17,
+    "route_policies_total": 102,
+    "sensitive_action_policies_total": 16,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
@@ -2605,7 +2592,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-03-E-REG-001",
+  "updated_by": "DEVPL-GSDLC-03-C",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",

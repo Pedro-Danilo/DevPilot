@@ -56,9 +56,10 @@ def uoc006_env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> dict[str, Pat
     # static source surfaces needed by that read-only inventory.
     shutil.copytree(PROJECT_ROOT / "src", platform / "src", ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     shutil.copytree(PROJECT_ROOT / "ui", platform / "ui", ignore=shutil.ignore_patterns("node_modules", "dist", "__pycache__", "*.pyc"))
-    for candidate in (platform / ".devpilot").rglob("devpilot.db*"):
-        if candidate.is_file():
-            candidate.unlink()
+    for pattern in ("devpilot.db*", "auth.db*"):
+        for candidate in (platform / ".devpilot").rglob(pattern):
+            if candidate.is_file():
+                candidate.unlink()
     (workspace / ".devpilot").mkdir()
     (workspace / ".devpilot" / "project.yaml").write_text("project: uoc006-fixture\n", encoding="utf-8")
     (workspace / "docs").mkdir()

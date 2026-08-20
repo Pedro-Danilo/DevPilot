@@ -25,6 +25,17 @@ DEFAULT_OPERATOR_FLOW_SMOKE_REPORT_JSON = Path("outputs/reports/operator_flow_sm
 DEFAULT_OPERATOR_FLOW_SMOKE_REPORT_MARKDOWN = Path("outputs/reports/operator_flow_smoke_report.md")
 LOCAL_ORIGIN = "http://127.0.0.1:5173"
 WEB_ROOT = Path("ui/web")
+OPERATOR_FLOW_RUNTIME_SANDBOX_IGNORE_PATTERNS = (
+    ".git",
+    ".venv",
+    "outputs",
+    "dist",
+    "node_modules",
+    "__pycache__",
+    ".pytest_cache",
+    "devpilot.db*",
+    "auth.db*",
+)
 
 
 @dataclass(frozen=True)
@@ -227,8 +238,10 @@ class OperatorFlowSmokeRunner:
         missing = client.get("/api/v1/operator/dashboard", headers={"Origin": self.options.local_origin})
         invalid = client.get("/api/v1/operator/dashboard", headers={API_TOKEN_HEADER: "invalid-token", "Origin": self.options.local_origin})
         valid = client.get("/api/v1/operator/dashboard", headers=headers)
-        token_missing_visible = _contains_all(combined_source, ["token local faltante", "Unauthorized/Forbidden"])
-        token_invalid_visible = "token local faltante o inválido" in combined_source and "401/403" in combined_source
+        legacy_auth_copy = _contains_all(combined_source, ["token local faltante", "Unauthorized/Forbidden", "401/403"])
+        human_session_copy = ("Sesión/autenticación local no autorizada." in combined_source and "API local de autenticación no disponible." in combined_source)
+        token_missing_visible = legacy_auth_copy or human_session_copy
+        token_invalid_visible = legacy_auth_copy or human_session_copy
         ok = missing.status_code in {401, 403} and invalid.status_code in {401, 403} and valid.status_code == 200 and token_missing_visible and token_invalid_visible
         _finding_if_false(findings, missing.status_code in {401, 403}, "OPERATOR_FLOW_TOKEN_MISSING_NOT_BLOCKED", "Missing local token was not blocked.")
         _finding_if_false(findings, invalid.status_code in {401, 403}, "OPERATOR_FLOW_INVALID_TOKEN_NOT_BLOCKED", "Invalid local token was not blocked.")
@@ -360,16 +373,7 @@ class OperatorFlowSmokeRunner:
             copytree(
                 self.root,
                 temp_root,
-                ignore=ignore_patterns(
-                    ".git",
-                    ".venv",
-                    "outputs",
-                    "dist",
-                    "node_modules",
-                    "__pycache__",
-                    ".pytest_cache",
-                    "devpilot.db",
-                ),
+                ignore=ignore_patterns(*OPERATOR_FLOW_RUNTIME_SANDBOX_IGNORE_PATTERNS),
             )
             client = TestClient(create_app(temp_root, api_token=self.options.token, allowed_origins=[self.options.local_origin]))
             legacy_headers = {API_TOKEN_HEADER: self.options.token, "Origin": self.options.local_origin}
@@ -446,7 +450,7 @@ class OperatorFlowSmokeRunner:
         raw_stack_markers = ["Traceback (most recent call last)", "stack:", "error.stack", "console.trace"]
         raw_stack_visible = any(marker in combined_source for marker in raw_stack_markers)
         api_down_visible = "API local down" in combined_source and "localhost" in combined_source
-        unauthorized_visible = "Unauthorized/Forbidden" in combined_source and "401/403" in combined_source
+        unauthorized_visible = (("Unauthorized/Forbidden" in combined_source and "401/403" in combined_source) or ("Sesión/autenticación local no autorizada." in combined_source and "API local de autenticación no disponible." in combined_source))
         block_state_visible = "ui-state--block" in combined_source or "BLOCK" in combined_source
         empty_state_visible = "ui-state--empty" in combined_source
         error_state_visible = "ui-state--error" in combined_source
@@ -469,23 +473,25 @@ class OperatorFlowSmokeRunner:
         }
 
     def _troubleshooting_contract(self, combined_source: str, findings: list[Finding]) -> dict[str, Any]:
-        expected = [
-            "verifica que DevPilot API esté levantada en localhost",
-            "token local faltante o inválido",
-            "no habilita patch apply",
-            "No remote",
+        expected_groups = [
+            ("verifica que DevPilot API esté levantada en localhost",),
+            ("token local faltante o inválido", "Sesión/autenticación local no autorizada.", "API local de autenticación no disponible."),
+            ("no habilita patch apply",),
+            ("No remote",),
         ]
-        present = [item for item in expected if item in combined_source]
+        group_present = [any(item in combined_source for item in group) for group in expected_groups]
         forbidden = ["0.0.0.0 como solución", "exponer API", "desactivar CORS"]
         forbidden_found = [item for item in forbidden if item.lower() in combined_source.lower()]
-        ok = len(present) == len(expected) and not forbidden_found
+        ok = all(group_present) and not forbidden_found
         _finding_if_false(findings, ok, "OPERATOR_FLOW_TROUBLESHOOTING_DRIFT", "Troubleshooting messages are missing or suggest unsafe remediation.")
-        return {"ok": ok, "expected_messages_total": len(expected), "messages_present_total": len(present), "missing_messages": sorted(set(expected) - set(present)), "forbidden_messages_found": forbidden_found}
+        missing_groups = [list(group) for group, present in zip(expected_groups, group_present) if not present]
+        return {"ok": ok, "expected_message_groups_total": len(expected_groups), "message_groups_present_total": sum(group_present), "missing_message_groups": missing_groups, "forbidden_messages_found": forbidden_found}
 
     def _read_ui_source_files(self, findings: list[Finding]) -> dict[str, str]:
         paths = [
             "src/api/client.ts",
             "src/pages/Dashboard.ts",
+            "src/pages/LoginView.ts",
             "src/pages/ReportTraceView.ts",
             "src/pages/ApprovalCenterView.ts",
             "src/pages/SettingsView.ts",

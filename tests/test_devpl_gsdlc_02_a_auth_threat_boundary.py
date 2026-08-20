@@ -144,8 +144,11 @@ def test_02_a_frozen_runtime_sources_match_repo353_canonical_git_blobs():
     # The API route registry is NOT historical-freeze: 02-B correctly evolves it
     # with seven current-active local-auth routes, so freezing its repo353 blob
     # here would make the 02-A test contradict the approved successor contract.
-    assert git_blob_sha(".devpilot/identity/identity_registry.json") == "cea4055e1c7ed23fd7e6057e62a7747a9c64e2e4e6f325b2620803bf9f269799"
-    assert git_blob_sha(".devpilot/approval/sensitive_action_catalog.json") == "df93533193c1bc143c019f5a2dec79644599f11fa30d3bde03eeb8468c239585"
+    def frozen_sha(rel: str) -> str:
+        raw=(ROOT/rel).read_bytes().replace(b"\r\n", b"\n")
+        return hashlib.sha256(raw).hexdigest()
+    assert frozen_sha(".devpilot/identity/identity_registry_gsdlc02a_at_close.json") == "cea4055e1c7ed23fd7e6057e62a7747a9c64e2e4e6f325b2620803bf9f269799"
+    assert frozen_sha(".devpilot/approval/sensitive_action_catalog_gsdlc02a_at_close.json") == "df93533193c1bc143c019f5a2dec79644599f11fa30d3bde03eeb8468c239585"
 
 def test_project_state_keeps_auth_runtime_disabled_and_defers_full_regression():
     state=load(".devpilot/project_state.json")

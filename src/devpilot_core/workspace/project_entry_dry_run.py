@@ -8,7 +8,7 @@ from typing import Any, Mapping
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import configured_external_workspace_roots
-from devpilot_core.workspace.environment_discovery import EnvironmentDiscoveryService
+from devpilot_core.workspace.environment_discovery import DEFAULT_TIMEOUT_SECONDS, EnvironmentDiscoveryService
 from devpilot_core.workspace.project_entry_contracts import GitSourceKind, ProjectEntryMode, ProjectIntake, stable_sha256
 
 DRY_RUN_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-C-PROJECT-ENTRY-DRY-RUN-V1"
@@ -26,7 +26,7 @@ class ProjectEntryDryRunService:
     network.
     """
 
-    def __init__(self, root: Path, *, timeout_seconds: float = 3.0) -> None:
+    def __init__(self, root: Path, *, timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS) -> None:
         self.root = Path(root).resolve()
         self.timeout_seconds = max(0.1, min(float(timeout_seconds), 15.0))
         self.planning = EnvironmentDiscoveryService(

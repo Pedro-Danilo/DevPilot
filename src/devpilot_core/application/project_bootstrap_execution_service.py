@@ -11,6 +11,7 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.identity.auth_models import AuthenticatedPrincipal, SessionContext
 from devpilot_core.identity.auth_store import LocalAuthStore
 from devpilot_core.policy import PolicyEffect, PolicyEngine, PolicyRequest, configured_external_workspace_roots
+from devpilot_core.workspace.environment_discovery import DEFAULT_TIMEOUT_SECONDS
 from devpilot_core.workspace.project_bootstrap_execution import BootstrapExecutionInput, ProjectBootstrapExecutor
 from devpilot_core.workspace.project_entry_contracts import ProjectIntake
 from devpilot_core.workspace.project_entry_dry_run import ProjectEntryDryRunService
@@ -52,7 +53,7 @@ class ProjectBootstrapExecutionApplicationService:
         session: SessionContext,
         reason: str,
         ttl_minutes: int = 30,
-        timeout_seconds: float = 3.0,
+        timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS,
     ) -> CommandResult:
         current = ProjectEntryDryRunService(self.root, timeout_seconds=timeout_seconds).dry_run(intake=intake)
         if not current.ok:
@@ -144,7 +145,7 @@ class ProjectBootstrapExecutionApplicationService:
         session: SessionContext,
         dependency_mode: str = "defer-network",
         fault_stage: str | None = None,
-        timeout_seconds: float = 3.0,
+        timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS,
     ) -> CommandResult:
         if dependency_mode not in {"defer-network", "offline-cache"}:
             return self._block(

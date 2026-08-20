@@ -221,6 +221,8 @@ def test_uoc005_historical_route_contract_allows_only_narrow_source_mutations():
     expected = {"api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback"}
     if git_enabled:
         expected |= {"api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create"}
+    if "api.project-entry.execute" in routes:
+        expected.add("api.project-entry.execute")
     assert source_mutating == expected
     for route_id in source_mutating:
         route = routes[route_id]

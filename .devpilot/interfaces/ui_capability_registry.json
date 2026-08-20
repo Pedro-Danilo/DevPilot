@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 98,
+    "api_routes_total": 104,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10764,8 +10764,8 @@
       "sensitive": 57
     },
     "sensitive_ui_native_without_approval_total": 0,
-    "ui_routes_mapped_total": 10,
-    "ui_routes_total": 10,
+    "ui_routes_mapped_total": 11,
+    "ui_routes_total": 11,
     "uoc_001_read_only_document_surface_total": 1,
     "uoc_002_document_inspection_routes_total": 4,
     "uoc_002_document_links": true,
@@ -10816,46 +10816,13 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-02-E-composite-recovery",
+    "updated_by": "DEVPL-GSDLC-03-E-REG-001",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
     "gsdlc_02_e_auth_ui_routes_total": 3
   },
   "ui_routes": [
-    {
-      "allowed_api_route_ids": [
-        "api.health",
-        "api.workspace.status",
-        "api.validation.readiness",
-        "api.standards.status",
-        "api.miasi.status",
-        "api.operator.dashboard",
-        "api.portfolio.status"
-      ],
-      "connector_write_allowed": false,
-      "external_api_allowed": false,
-      "local_only": true,
-      "mapped_cli_capability_ids": [
-        "cli.operator.dashboard",
-        "cli.portfolio.status",
-        "cli.standards.status",
-        "cli.workspace.status"
-      ],
-      "page_component": "Dashboard",
-      "path": "/",
-      "plugin_execution_allowed": false,
-      "remote_execution_allowed": false,
-      "route_id": "ui.dashboard",
-      "shows_mutation_controls": false,
-      "state_contract": {
-        "block_visible": true,
-        "empty": true,
-        "error": true,
-        "loading": true
-      },
-      "title": "Dashboard local"
-    },
     {
       "allowed_api_route_ids": [
         "api.ai.operations",
@@ -10933,6 +10900,39 @@
     },
     {
       "allowed_api_route_ids": [
+        "api.health",
+        "api.workspace.status",
+        "api.validation.readiness",
+        "api.standards.status",
+        "api.miasi.status",
+        "api.operator.dashboard",
+        "api.portfolio.status"
+      ],
+      "connector_write_allowed": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "mapped_cli_capability_ids": [
+        "cli.operator.dashboard",
+        "cli.portfolio.status",
+        "cli.standards.status",
+        "cli.workspace.status"
+      ],
+      "page_component": "Dashboard",
+      "path": "/",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.dashboard",
+      "shows_mutation_controls": false,
+      "state_contract": {
+        "block_visible": true,
+        "empty": true,
+        "error": true,
+        "loading": true
+      },
+      "title": "Dashboard local"
+    },
+    {
+      "allowed_api_route_ids": [
         "api.jobs.list",
         "api.jobs.inspect",
         "api.jobs.logs",
@@ -10958,6 +10958,44 @@
         "stale": true
       },
       "title": "Job Console"
+    },
+    {
+      "allowed_api_route_ids": [
+        "api.project-entry.dry-run",
+        "api.project-entry.revalidate",
+        "api.project-entry.execution-approval-request",
+        "api.project-entry.execute",
+        "api.approvals.list",
+        "api.approvals.show",
+        "api.approvals.approve",
+        "api.approvals.deny"
+      ],
+      "connector_write_allowed": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "mapped_cli_capability_ids": [],
+      "page_component": "ProjectEntryDryRunView",
+      "path": "/project/entry",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.project-entry-dry-run",
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "stale_data": true,
+        "pending_approval": true,
+        "running": true,
+        "pass": true,
+        "rollback": true
+      },
+      "title": "Crear / Abrir / Importar — browser-complete governed journey"
     },
     {
       "route_id": "ui.project-status",
@@ -11188,6 +11226,6 @@
       "title": "Workspace Documents — explorador read-only"
     }
   ],
-  "updated": "2026-08-16",
+  "updated": "2026-08-20",
   "version": "1.9.0"
 }

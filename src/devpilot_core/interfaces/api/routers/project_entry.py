@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from devpilot_core.application import ApplicationService
+from devpilot_core.workspace.environment_discovery import DEFAULT_TIMEOUT_SECONDS
 
 from ..dependencies import get_application_service
 from ..models import dispatch_application_request
@@ -17,7 +18,7 @@ router = APIRouter(tags=["project-entry"])
 
 class ProjectEntryPlanningBody(BaseModel):
     intake: dict[str, Any] = Field(default_factory=dict)
-    timeout_seconds: float = Field(default=3.0, ge=0.1, le=15.0)
+    timeout_seconds: float = Field(default=DEFAULT_TIMEOUT_SECONDS, ge=0.1, le=15.0)
 
 
 class ProjectEntryRevalidateBody(ProjectEntryPlanningBody):

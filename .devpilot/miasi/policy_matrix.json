@@ -921,6 +921,15 @@
       "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+SafeBranchName+CleanWorktree+CurrentHEAD; creates local ref only, no checkout/delete/push",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "GSDLC03D_BOOTSTRAP_APPROVAL_BOUND",
+      "domain": "Filesystem",
+      "action": "filesystem.project_bootstrap_execute",
+      "default_effect": "allow",
+      "gate": "ProjectBootstrapExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+PathGuard+ExactPlanHash+ExactPreimageHash+AuthorizedWorkspaceRoot+RollbackVerification; local-only, no arbitrary shell, remote/network disabled-by-default",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

@@ -401,3 +401,10 @@ La implementación comienza con un prompt operativo separado de GSDLC-00.
 ## DEVPL-GSDLC-03-D — Approval-bound bootstrap execution
 
 Estado de implementación: **PASS-CANDIDATE / PRE-WINDOWS**. Introduce ejecución transaccional tipada exclusivamente sobre un workspace externo autorizado y después de revalidar plan/preimage, human-session/RBAC, approval binding y policy. CREATE/OPEN/IMPORT local son soportados; remote Git y network dependencies permanecen disabled-by-default. Fault injection + rollback son parte de la aceptación. La full regression sigue reservada a 03-E.
+
+
+### GSDLC-03-E Windows composite closure candidate
+
+Project Entry completed authoritative browser acceptance: 14 scenarios / 12 screenshots PASS, Create/Open/Import complete in the browser, S0/S1=0, normal-user PowerShell=0 and external operator project writes=0. The backlog full regression ran exactly once and failed historically with `2418 PASS / 67 FAIL / 0 ERROR / 4 SKIP`; no second full was executed. Approved composite recovery then produced REG-001 `56/67 PASS` with 11 residuals, followed by REG-002 `11/11 PASS`, bounded impact `13/13 PASS`, Historical Regression Guard PASS, Documentation Governance PASS and TCR v1/v2 PASS. The original full log remains immutable.
+
+03-E is therefore `pass-candidate/windows-composite-pass/pending-owner-adjudication`. GSDLC-04 remains unauthorized until the clean successor candidate is committed/packaged and the owner adjudicates GSDLC-03 CLOSED/PASS.

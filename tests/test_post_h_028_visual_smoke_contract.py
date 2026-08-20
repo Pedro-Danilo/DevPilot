@@ -111,9 +111,9 @@ def test_ui_visual_smoke_contract_files_and_package_scripts_are_synchronized() -
     assert package["devpilot"]["uiVisualSmoke"] is True
     assert package["scripts"]["test:visual"] == "node scripts/visual-smoke.mjs"
     assert "DEVPL WEB UI VISUAL SMOKE TEST: PASS" in smoke
-    assert "401/403" in client
+    assert "Sesión/autenticación local no autorizada." in client
     assert "API local down" in client
-    assert "Unauthorized/Forbidden" in client
+    assert "API local de autenticación no disponible." in client
     assert (WEB / "playwright.config.ts").exists()
     assert (WEB / "tests" / "visual-smoke.spec.ts").exists()
     assert "outputs/ui-smoke/" in gitignore

@@ -1,0 +1,66 @@
+{
+  "schema_id": "devpilot.gsdlc03e.full_regression_recovery_plan.v1",
+  "doc_id": "DEVPL-GSDLC-03-E-FULL-REGRESSION-RECOVERY-PLAN",
+  "version": "1.0.0",
+  "status": "approved",
+  "micro_sprint": "DEVPL-GSDLC-03-E",
+  "finding_id": "GSDLC-03-E-REG-001",
+  "full_regression": {
+    "run_number": 1,
+    "status": "FAIL-ONCE-COMPOSITE-RECOVERY-REQUIRED",
+    "failed_nodeids_total": 67,
+    "second_run_allowed": false,
+    "tests_passed_before_failures": 2418,
+    "errors": 0,
+    "skipped": 4,
+    "source_postimages_after": 38,
+    "unexpected_git_changes": []
+  },
+  "root_cause_clusters": [
+    {
+      "id": "REG-001-A",
+      "name": "runtime-auth-state-isolation",
+      "failed_nodeids": 9
+    },
+    {
+      "id": "REG-001-B",
+      "name": "api-route-current-registry-and-successor-contract-drift",
+      "failed_nodeids": "direct+cascades"
+    },
+    {
+      "id": "REG-001-C",
+      "name": "sensitive-action-rbac-miasi-cross-registry-drift",
+      "failed_nodeids": "direct+cascades"
+    },
+    {
+      "id": "REG-001-D",
+      "name": "ui-capability-derived-registry-drift",
+      "failed_nodeids": "direct"
+    },
+    {
+      "id": "REG-001-E",
+      "name": "mutable-documentation-pointer-vs-frozen-history-drift",
+      "failed_nodeids": "direct"
+    },
+    {
+      "id": "REG-001-F",
+      "name": "historical-successor-ui-static-oracle-drift",
+      "failed_nodeids": "direct+cascades"
+    }
+  ],
+  "recovery_policy": {
+    "rerun_full": false,
+    "exact_failed_nodeid_retest_required": true,
+    "impact_validation_required": true,
+    "contract_reconciliation_sweep_required": true,
+    "historical_regression_guard_required": true,
+    "composite_attestation_required": true
+  },
+  "documentation_policy": "docs/02_architecture/governance/DEVPL_DOCUMENTATION_CONTRACT_RECONCILIATION_POLICY_v1_0_0_APPROVED.md",
+  "safety": {
+    "frozen_historical_artifacts_overwritten": false,
+    "no_go_weakened": false,
+    "network_required": false,
+    "destructive_git_required": false
+  }
+}

@@ -105,7 +105,7 @@ def test_uoc006_api_routes_are_exact_typed_local_and_no_go_stays_blocked() -> No
     source_mutations = {rid for rid, route in routes.items() if route.get("source_mutation_allowed") is True}
     assert {
         "api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback",
-        "api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create",
+        "api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create", "api.project-entry.execute",
     } == source_mutations
     for rid in expected:
         route = routes[rid]

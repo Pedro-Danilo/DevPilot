@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
   "registry_id": "devpilot-ui-route-contract-registry",
-  "status": "implemented-initial",
+  "status": "pass-candidate/pre-windows",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-19",
+  "updated": "2026-08-18",
   "routes": [
     {
       "route_id": "ui.ai",
@@ -139,14 +139,12 @@
       "owner": "ui.web",
       "notes": [
         "Only local approval lifecycle and dry-run action launcher are visible; no patch apply, git push, rollback execute or deploy controls.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix.",
-        "GSDLC-03-E v1.0.10: /approvals is permitted in a new tab during an active Project Entry approval handoff; handoff is TTL-bounded and bound to actor/session creation time, while approve/deny authority remains human-session/RBAC server-side.",
-        "GSDLC-03-E v1.0.11: project-entry handoff binds actor/session/TTL plus exact approval_id; targeted show/approve/deny is primary and global list/portfolio are not prerequisites."
+        "UOC-011: route participates in the 12-state operational browser hardening matrix."
       ]
     },
     {
       "route_id": "ui.dashboard",
-      "title": "Project Home",
+      "title": "Dashboard local",
       "path": "/",
       "page_component": "Dashboard",
       "source_files": [
@@ -155,8 +153,7 @@
         "ui/web/src/pages/OperatorDashboard.ts",
         "ui/web/src/components/OperatorStatusCard.ts",
         "ui/web/src/components/OperatorGatePanel.ts",
-        "ui/web/src/components/OperatorNextActions.ts",
-        "ui/web/src/components/ProjectHomeEntryPanel.ts"
+        "ui/web/src/components/OperatorNextActions.ts"
       ],
       "allowed_api_routes": [
         "api.health",
@@ -207,13 +204,7 @@
         "POST-H-EVAL-002-01-D corrective: dashboard no longer embeds Reports, Traces, Approvals or Settings.",
         "Protected API fan-out is bounded to two concurrent requests with progressive rendering.",
         "Corrective 326 executes and renders api.health as a preflight before the five protected data operations.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix.",
-        "GSDLC-03-E: ui.dashboard remains at historical path / and now renders Project Home as the primary post-login surface with Create/Open/Import entry cards.",
-        "The historical operator dashboard is preserved as an advanced collapsed section; the normal project-entry journey does not require the legacy local API token.",
-        "GSDLC-03-E UX corrective: product-facing navigation labels / as Project Home while preserving historical route_id ui.dashboard and path /.",
-        "Before a browser project context exists, primary navigation exposes only Project Home plus global Account/Settings; project-scoped routes are progressive-disclosure guarded in the Web UI.",
-        "Approval Center becomes visible during entry or project context; project operational surfaces become visible only after Create/Open/Import execution reaches PASS.",
-        "GSDLC-03-E corrective v1.0.10: Approval Center cross-tab navigation uses a short-lived actor/session-bound UX handoff only after an approval request exists; it grants no server authority and project-scoped route guards remain unchanged."
+        "UOC-011: route participates in the 12-state operational browser hardening matrix."
       ]
     },
     {
@@ -282,7 +273,7 @@
     },
     {
       "route_id": "ui.project-entry-dry-run",
-      "title": "Crear / Abrir / Importar — browser-complete governed journey",
+      "title": "Crear / Abrir / Importar — Approval-bound bootstrap",
       "path": "/project/entry",
       "page_component": "ProjectEntryDryRunView",
       "source_files": [
@@ -332,10 +323,7 @@
       "owner": "ui.web",
       "notes": [
         "GSDLC-03-D successor workbench retains 03-C dry-run/revalidation and adds exact human-session approval request plus bounded workspace execute.",
-        "Remote Git and dependency network remain disabled-by-default; 03-E owns final post-login journey/browser closure.",
-        "GSDLC-03-E: mode deep links, client-side identifier validation, plan invalidation on parameter changes, owner role visibility, recovery evidence and success navigation to Project Status.",
-        "Fault injection controls exist only in Vite DEV acceptance mode and require the server-side GSDLC-03-D evaluation flag.",
-        "GSDLC-03-E UX corrective: entry route is reached from Project Home cards; successful execute activates browser project context before the Project Status CTA is exposed."
+        "Remote Git and dependency network remain disabled-by-default; 03-E owns final post-login journey/browser closure."
       ],
       "mutation_controls": {
         "local_state_mutation_only": false,
@@ -395,8 +383,7 @@
       "notes": [
         "GSDLC-01-E primary read-only Project Status surface; status/next-action semantics are supplied by API/ApplicationService.",
         "Continue never mutates engineering state in GSDLC-01; unsupported/future destinations are disabled with an explicit reason.",
-        "Successor route added after UOC-011; historical nine-route matrix remains frozen separately.",
-        "GSDLC-03-E UX corrective: project-scoped navigation is surfaced only after a successful browser entry journey has activated project context."
+        "Successor route added after UOC-011; historical nine-route matrix remains frozen separately."
       ]
     },
     {
@@ -764,8 +751,8 @@
     }
   ],
   "summary": {
-    "routes_total": 11,
-    "critical_routes_total": 11,
+    "routes_total": 10,
+    "critical_routes_total": 10,
     "local_only_routes_total": 10,
     "dry_run_badged_routes_total": 10,
     "no_remote_badged_routes_total": 10,
@@ -788,7 +775,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-03-E-REG-001",
+    "updated_by": "DEVPL-GSDLC-01-E",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -812,12 +799,8 @@
     "uoc_011_states_per_route": 12,
     "uoc_011_matrix_cases_total": 108,
     "gsdlc_01_e_project_status_route_registered": true,
-    "current_routes_total": 11,
-    "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
-    "gsdlc_03_e_project_home_registered": true,
-    "gsdlc_03_e_top_level_routes_added": 0,
-    "gsdlc_03_e_normal_user_powershell_required": 0,
-    "gsdlc_03_e_external_operator_project_writes": 0
+    "current_routes_total": 10,
+    "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json"
   },
   "safety": {
     "local_first": true,
@@ -839,8 +822,7 @@
     "POST-H-EVAL-002-02-A UI-first corrective adds shared read-only portfolio/workspace context to all five critical routes without adding a new top-level route.",
     "UOC-001 adds ui.workspace-documents as a read-only, opaque-id, active-workspace-bound surface with zero mutation controls.",
     "UOC-003 keeps /workspace/documents as the single progressive-disclosure surface for document validation, findings navigation and traceability.",
-    "UOC-011 hardens all nine current UI routes against a 12-state operational matrix.",
-    "GSDLC-03-E UX-003: current registry status remains schema-valid implemented-initial; sprint/browser progress belongs in project state/audit artifacts, not the schema status enum.",
-    "GSDLC-03-E UX-003: Project Entry Approval handoff is exact-approval-id targeted and does not require the global approval list/portfolio to succeed."
-  ]
+    "UOC-011 hardens all nine current UI routes against a 12-state operational matrix."
+  ],
+  "micro_sprint": "DEVPL-GSDLC-03-D"
 }

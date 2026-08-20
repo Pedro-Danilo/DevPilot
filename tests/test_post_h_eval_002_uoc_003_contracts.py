@@ -205,6 +205,6 @@ def test_uoc_003_ui_version_is_synchronized() -> None:
     # operational-console release. Later DEVPL-GSDLC successors own
     # ``currentSprint`` and must not be forced back to a historical UOC label.
     assert version_uoc == historical_uoc_number
-    assert current_sprint == "DEVPL-GSDLC-02-E"
+    assert current_sprint == str(load(".devpilot/project_state.json")["gsdlc_current_micro_sprint"])
     assert version_uoc >= 3
     assert package["devpilot"]["uoc003Status"] == "closed/PASS"

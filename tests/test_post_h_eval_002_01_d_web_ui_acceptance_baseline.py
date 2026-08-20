@@ -60,7 +60,10 @@ def test_token_remains_session_only_and_not_in_url() -> None:
     client = (ROOT / "ui/web/src/api/client.ts").read_text(encoding="utf-8")
     main = (ROOT / "ui/web/src/main.ts").read_text(encoding="utf-8")
     assert "sessionStorage" in client
-    assert "localStorage" not in client
+    assert "const storage = globalThis.sessionStorage" in client
+    assert "storage.setItem(TOKEN_STORAGE_KEY" in client
+    assert "localStorage?.setItem(TOKEN_STORAGE_KEY" not in client
+    assert "localStorage?.getItem(TOKEN_STORAGE_KEY" not in client
     assert "?token=" not in main
     assert "token=" not in client
 

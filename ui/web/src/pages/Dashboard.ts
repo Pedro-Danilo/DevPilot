@@ -1,12 +1,13 @@
 import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
-import { DevPilotApiClient, DevPilotApiError, readStoredToken, storeToken } from '../api/client';
-import type { DashboardSnapshot, DevPilotApplicationResponse } from '../api/types';
+import { DevPilotApiClient, DevPilotApiError, readProjectJourneyContext, readStoredToken, storeToken } from '../api/client';
+import type { AuthSessionContext, DashboardSnapshot, DevPilotApplicationResponse } from '../api/types';
 import { renderFindingList } from '../components/FindingList';
 import { renderStatusCard } from '../components/StatusCard';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { renderOperatorDashboard } from './OperatorDashboard';
 import { runBounded } from '../utils/async';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
+import { renderProjectHomeEntryPanel } from '../components/ProjectHomeEntryPanel';
 
 interface DashboardState {
   loading: boolean;
@@ -33,9 +34,10 @@ const CARD_META = {
 const DASHBOARD_KEYS: Array<keyof DashboardSnapshot> = ['operator', 'workspace', 'readiness', 'standards', 'miasi'];
 const DASHBOARD_TOTAL = DASHBOARD_KEYS.length + 1;
 
-export function renderDashboard(root: HTMLElement): void {
+export function renderDashboard(root: HTMLElement, session: AuthSessionContext, guardReason: string | null = null): void {
   const uoc011Fixture = renderUoc011BrowserStateFixture('ui.dashboard');
   if (uoc011Fixture) { root.append(uoc011Fixture); return; }
+  let advancedOpen = false;
   const state: DashboardState = {
     loading: false,
     warming: false,
@@ -122,11 +124,22 @@ export function renderDashboard(root: HTMLElement): void {
 
   function draw(): void {
     root.replaceChildren();
-    root.append(renderHeader(state, refresh));
-    root.append(renderConnectionSummary(state));
-    root.append(renderHealthPreflight(state));
-    root.append(renderWorkspaceContextPanel(state.snapshot.portfolio, state.errors.portfolio, state.durations.portfolio));
-    root.append(renderOperatorDashboard(state.snapshot.operator, state.errors.operator));
+    if (guardReason) root.append(renderJourneyGuardNotice(guardReason));
+    root.append(renderProjectHomeEntryPanel(session));
+
+    const advanced = document.createElement('details');
+    advanced.className = 'dashboard-advanced';
+    advanced.open = advancedOpen;
+    advanced.addEventListener('toggle', () => { advancedOpen = advanced.open; });
+    const advancedSummary = document.createElement('summary');
+    advancedSummary.textContent = 'Dashboard operacional avanzado · no requerido para Crear / Abrir / Importar';
+    const advancedBody = document.createElement('div');
+    advancedBody.className = 'dashboard-advanced__body';
+    advancedBody.append(renderHeader(state, refresh));
+    advancedBody.append(renderConnectionSummary(state));
+    advancedBody.append(renderHealthPreflight(state));
+    advancedBody.append(renderWorkspaceContextPanel(state.snapshot.portfolio, state.errors.portfolio, state.durations.portfolio));
+    advancedBody.append(renderOperatorDashboard(state.snapshot.operator, state.errors.operator));
 
     const grid = document.createElement('main');
     grid.className = 'dashboard-grid';
@@ -141,23 +154,39 @@ export function renderDashboard(root: HTMLElement): void {
       wrapper.append(timing);
       grid.append(wrapper);
     }
-    root.append(grid);
+    advancedBody.append(grid);
 
-    if (state.warming) root.append(renderUiStateNotice('loading', 'Warm-up protegido: esperando que la superficie autenticada de la API local esté lista antes de lanzar el resumen.'));
-    else if (state.loading) root.append(renderUiStateNotice('loading', `Consultando API local de forma progresiva (${state.completed}/${state.total}); máximo 2 solicitudes simultáneas.`));
-    if (!state.loading && !Object.keys(state.snapshot).length && !Object.keys(state.errors).length) root.append(renderUiStateNotice('empty', 'Agrega el token local y actualiza para consultar el estado real del sistema.'));
-    if (state.healthError) root.append(renderUiStateNotice('error', 'El preflight Health falló. El fan-out autenticado no se ejecutó para evitar presentar un resumen parcial como operativo.'));
-    else if (Object.keys(state.errors).length) root.append(renderUiStateNotice('error', 'Una o más tarjetas no pudieron actualizarse. Los resultados exitosos permanecen visibles; use Reintentar para la consulta afectada.'));
+    if (state.warming) advancedBody.append(renderUiStateNotice('loading', 'Warm-up protegido: esperando que la superficie autenticada de la API local esté lista antes de lanzar el resumen.'));
+    else if (state.loading) advancedBody.append(renderUiStateNotice('loading', `Consultando API local de forma progresiva (${state.completed}/${state.total}); máximo 2 solicitudes simultáneas.`));
+    if (!state.loading && !Object.keys(state.snapshot).length && !Object.keys(state.errors).length) advancedBody.append(renderUiStateNotice('empty', 'El Dashboard avanzado requiere token local de compatibilidad. Crear / Abrir / Importar no lo requiere.'));
+    if (state.healthError) advancedBody.append(renderUiStateNotice('error', 'El preflight Health falló. El Project Home sigue disponible; el resumen operacional avanzado permanece fail-closed.'));
+    else if (Object.keys(state.errors).length) advancedBody.append(renderUiStateNotice('error', 'Una o más tarjetas no pudieron actualizarse. Los resultados exitosos permanecen visibles; use Reintentar para la consulta afectada.'));
 
     const allFindings = Object.values(state.snapshot)
       .flatMap((response) => response?.findings ?? [])
       .filter((finding) => ['warning', 'block', 'error'].includes(String(finding.severity).toLowerCase()));
-    root.append(renderFindingList(allFindings));
-    root.append(renderRouteSummaries());
+    advancedBody.append(renderFindingList(allFindings));
+    advancedBody.append(renderRouteSummaries());
+    advanced.append(advancedSummary, advancedBody);
+    if (readProjectJourneyContext()?.phase === 'project') root.append(advanced);
   }
 
   draw();
   if (state.token) void refresh();
+}
+
+function renderJourneyGuardNotice(routeTitle: string): HTMLElement {
+  const notice = document.createElement('div');
+  notice.className = 'project-journey-guard';
+  notice.setAttribute('role', 'status');
+  const strong = document.createElement('strong');
+  strong.textContent = 'Superficie todavía no habilitada. ';
+  const detail = document.createElement('span');
+  detail.textContent = routeTitle === 'Approval Center'
+    ? 'Approval Center se habilita durante un journey Crear/Abrir/Importar cuando existe una solicitud de approval, o después de activar un proyecto.'
+    : `${routeTitle} requiere completar primero Crear, Abrir o Importar. DevPilot te devuelve a Project Home para mantener el journey guiado.`;
+  notice.append(strong, detail);
+  return notice;
 }
 
 function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTMLElement {
@@ -165,9 +194,9 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
   header.className = 'app-header';
   const titleBlock = document.createElement('div');
   const title = document.createElement('h1');
-  title.textContent = 'DevPilot Local Dashboard';
+  title.textContent = 'Dashboard operacional avanzado';
   const subtitle = document.createElement('p');
-  subtitle.textContent = 'Resumen operacional local. Las vistas detalladas se consultan solo al abrir su ruta para evitar fan-out duplicado.';
+  subtitle.textContent = 'Superficie avanzada/compatibilidad. El Project Home y el journey Crear/Abrir/Importar usan human-session y no requieren pegar un token local.';
   titleBlock.append(title, subtitle, renderContractBadges('ui.dashboard', { warning: 'Local-first; no SaaS, connector write, plugin execution ni remote execution.' }));
 
   const form = document.createElement('form');
@@ -180,7 +209,7 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
     void refresh();
   });
   const label = document.createElement('label');
-  label.textContent = 'Token local';
+  label.textContent = 'Token local de compatibilidad (opcional para este dashboard)';
   const input = document.createElement('input');
   input.name = 'token';
   input.type = 'password';

@@ -69,7 +69,8 @@ def test_01_e_route_registry_is_successor_10_and_uoc011_snapshot_stays_9() -> No
     current = j(".devpilot/interfaces/ui_route_contract_registry.json")
     frozen = j(".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json")
     matrix = j(".devpilot/interfaces/uoc011_browser_state_matrix.json")
-    assert len(current["routes"]) == 10
+    assert len(current["routes"]) >= 10
+    assert current["summary"]["routes_total"] == len(current["routes"])
     assert len(frozen["routes"]) == 9
     assert len(matrix["routes"]) == 9 and matrix["summary"]["cases_total"] == 108
     assert {r["route_id"] for r in frozen["routes"]} == {r["route_id"] for r in matrix["routes"]}
@@ -97,8 +98,9 @@ def test_01_e_project_status_view_uses_api_and_never_direct_core_or_innerhtml() 
 def test_01_e_package_preserves_historical_top_level_route_flag_and_declares_successor() -> None:
     package = j("ui/web/package.json")
     flags = package["devpilot"]
-    assert flags["topLevelUiRoutesChanged"] is False
     assert flags["gsdlc01eTopLevelUiRoutesChanged"] is True
-    assert flags["currentTopLevelUiRoutesTotal"] == 10
+    assert flags["uoc011RoutesTotalAtClose"] == 9
+    assert flags["currentTopLevelUiRoutesTotal"] >= 10
+    assert flags["topLevelUiRoutesChanged"] is (flags["currentTopLevelUiRoutesTotal"] > flags["uoc011RoutesTotalAtClose"])
     assert flags["uoc011RoutesTotalAtClose"] == 9
     assert flags["gsdlc01eContinueMutatesState"] is False

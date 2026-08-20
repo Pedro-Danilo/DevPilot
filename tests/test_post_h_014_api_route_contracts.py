@@ -148,6 +148,7 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
             "api.workspace.git.stage",
             "api.workspace.git.commit",
             "api.workspace.git.branch-create",
+            "api.project-entry.execute",
         }
     assert {route["route_id"] for route in source_mutating} == expected_source_mutating
 
@@ -180,12 +181,15 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
 
     for route in source_mutating:
         assert route["risk_level"] == "high"
-        assert any(tag in {"uoc-005", "uoc-006"} for tag in route["tags"])
+        assert any(tag in {"uoc-005", "uoc-006", "gsdlc-03-d"} for tag in route["tags"])
         assert str(route["policy_sensitivity"]).startswith("approval-bound-")
-        # The API front-door uses a non-mutating policy precheck; exact human
-        # approval is revalidated by the owning ApplicationService immediately
-        # before the narrow source/index/ref mutation.
-        assert route["policy_action"] == "read"
+        # Historical UOC source writes use read at the API front-door and revalidate
+        # exact approval in the owning service. GSDLC-03-D uses the named sensitive
+        # action directly; both remain owner-bound and local-only.
+        if route["route_id"] == "api.project-entry.execute":
+            assert route["policy_action"] == "filesystem.project_bootstrap_execute"
+        else:
+            assert route["policy_action"] == "read"
 
 
 def test_post_h_014_a_docs_contracts_and_backlog_are_synchronized() -> None:

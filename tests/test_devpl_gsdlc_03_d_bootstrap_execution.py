@@ -266,7 +266,7 @@ def test_api_owner_approval_bound_create_execution(tmp_path: Path, monkeypatch: 
 def test_sensitive_action_catalog_enables_only_exact_owner_api_ui_bootstrap() -> None:
     catalog = json.loads((ROOT / ".devpilot/approval/sensitive_action_catalog.json").read_text(encoding="utf-8"))
     action = next(row for row in catalog["actions"] if row["action_id"] == "filesystem.project_bootstrap_execute")
-    assert action["status"] == "implemented-initial-gsdlc-03-d"
+    assert action["status"] == "implemented-initial"
     assert action["requires_approval"] is True
     assert action["requires_rbac_role"] == "owner"
     assert action["executable"] is True

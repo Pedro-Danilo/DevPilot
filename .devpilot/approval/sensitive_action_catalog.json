@@ -632,7 +632,7 @@
       "domain": "filesystem",
       "description": "Execute an exact GSDLC-03-D approved project bootstrap plan inside an authorized external workspace. Mutations are typed, local-first, rollback-capable and bound to human-session approval.",
       "risk_level": "high",
-      "status": "implemented-initial-gsdlc-03-d",
+      "status": "implemented-initial",
       "requires_approval": true,
       "requires_rbac_role": "owner",
       "requires_tool_call_binding": false,
@@ -682,16 +682,16 @@
     "deny_by_default": true
   },
   "summary": {
-    "actions_total": 16,
+    "actions_total": 17,
     "domains_total": 12,
     "critical_actions_total": 9,
-    "actions_requiring_approval_total": 16,
-    "actions_requiring_rbac_total": 16,
+    "actions_requiring_approval_total": 17,
+    "actions_requiring_rbac_total": 17,
     "blocked_actions_total": 11,
     "remote_actions_blocked_total": 1,
     "connector_write_actions_blocked_total": 1,
     "plugin_execution_actions_blocked_total": 1,
-    "miasi_policy_links_total": 21,
+    "miasi_policy_links_total": 22,
     "preliminary": true
   },
   "notes": [
@@ -700,7 +700,5 @@
     "Remote execution, connector write and plugin execution remain blocked and non-executable.",
     "UOC-005 enables only exact approval-bound workspace document apply/rollback; all historical no-go actions remain blocked.",
     "UOC-005 extends this POST-H-012-A catalog with two narrowly scoped filesystem document actions; catalog provenance remains POST-H-012-A and the extension is governed by the UOC-005 manifest/TCR."
-  ],
-  "updated": "2026-08-18",
-  "micro_sprint": "DEVPL-GSDLC-03-D"
+  ]
 }

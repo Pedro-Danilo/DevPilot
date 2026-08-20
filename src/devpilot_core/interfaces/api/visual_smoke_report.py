@@ -264,7 +264,7 @@ class UiVisualSmokeReporter:
 
     def _view_checks(self, sources: dict[str, str], combined: str, findings: list[Finding]) -> dict[str, Any]:
         views = {
-            "dashboard": ("ui/web/src/pages/Dashboard.ts", ["DevPilot Local Dashboard", "ui.dashboard", "renderStatusCard", "renderOperatorDashboard"]),
+            "dashboard": ("ui/web/src/pages/Dashboard.ts", ["ui.dashboard", "renderProjectHomeEntryPanel", "dashboard-grid", "renderOperatorDashboard"]),
             "report_viewer": ("ui/web/src/pages/ReportTraceView.ts", ["Report Viewer", "ui.reports", "Sin reportes para mostrar"]),
             "trace_viewer": ("ui/web/src/pages/ReportTraceView.ts", ["Trace Viewer", "ui.traces", "Sin trazas para mostrar"]),
             "approval_center": ("ui/web/src/pages/ApprovalCenterView.ts", ["Approval Center", "ui.approvals", "Action Launcher", "Sin approvals"]),
@@ -285,7 +285,7 @@ class UiVisualSmokeReporter:
                 passed.append(view_id)
         for view_id, missing in failed.items():
             findings.append(Finding("UI_VISUAL_SMOKE_CRITICAL_VIEW_NOT_RENDERABLE", "Critical UI view is missing visual smoke markers.", Severity.BLOCK, metadata={"view_id": view_id, "missing_markers": missing}))
-        no_blank_dashboard = "DevPilot Local Dashboard" in combined and "dashboard-grid" in combined and "renderUiStateNotice" in combined
+        no_blank_dashboard = (("DevPilot Local Dashboard" in combined or "renderProjectHomeEntryPanel" in combined) and "dashboard-grid" in combined and "renderUiStateNotice" in combined)
         if not no_blank_dashboard:
             findings.append(Finding("UI_VISUAL_SMOKE_BLANK_DASHBOARD_RISK", "Dashboard lacks enough render markers to avoid a blank-screen false PASS.", Severity.BLOCK))
         return {
@@ -304,7 +304,7 @@ class UiVisualSmokeReporter:
             "empty_state_visible": ["empty state", "Sin reportes", "Sin trazas", "Sin approvals"],
             "error_state_visible": ["error state", "BLOCK/ERROR"],
             "block_state_visible": ["BLOCK", "ui-state--block", "block_visible"],
-            "unauthorized_state_visible": ["401", "403", "Unauthorized", "Forbidden", "token local faltante"],
+            "unauthorized_state_visible": ["401", "403", "Unauthorized", "Forbidden", "token local faltante", "Sesión/autenticación local no autorizada", "Credenciales inválidas"],
             "api_down_state_visible": ["API local down", "API local no disponible", "inaccesible"],
         }
         result: dict[str, Any] = {}

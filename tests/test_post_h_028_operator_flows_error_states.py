@@ -131,8 +131,8 @@ def test_web_ui_operator_flow_markers_and_safe_action_allowlist_are_synchronized
     smoke = _read_web("scripts/operator-flow-smoke.mjs")
 
     assert "API local down" in client
-    assert "Unauthorized/Forbidden 401/403" in client
-    assert "token local faltante o inválido" in client
+    assert "Sesión/autenticación local no autorizada." in client
+    assert "API local de autenticación no disponible." in client
     assert "0.0.0.0 como solución" not in client
     assert "no uses bind no-local como solución" in client
     assert "actor: 'local-owner'" not in approvals

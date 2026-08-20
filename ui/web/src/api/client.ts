@@ -1,16 +1,63 @@
-import type { AuthBootstrapStatus, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, OperatorDashboardResponseData } from './types';
+import type { AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
 export const TOKEN_STORED_AT_KEY = 'devpilot.apiTokenStoredAt';
 export const TOKEN_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
+export const PROJECT_JOURNEY_CONTEXT_KEY = 'devpilot.gsdlc03e.projectJourneyContext.v1';
+export const APPROVAL_CENTER_ENTRY_HANDOFF_KEY = 'devpilot.gsdlc03e.approvalCenterEntryHandoff.v1';
+export const APPROVAL_CENTER_ENTRY_HANDOFF_TTL_MS = 30 * 60 * 1000;
+export const PROJECT_ENTRY_RESUME_STATE_KEY = 'devpilot.gsdlc03e.projectEntryResumeState.v1';
+export const PROJECT_ENTRY_RESUME_TTL_MS = 30 * 60 * 1000;
+
+export type ProjectJourneyPhase = 'entry' | 'project';
+export type ProjectEntryMode = 'CREATE_NEW' | 'OPEN_EXISTING' | 'IMPORT_GIT';
+
+export interface ProjectJourneyContext {
+  phase: ProjectJourneyPhase;
+  entry_mode?: ProjectEntryMode;
+  project_id?: string;
+  target_root?: string;
+  activated_at?: string;
+}
+
+export interface ProjectEntryResumeState {
+  phase: 'entry';
+  entry_mode: ProjectEntryMode;
+  actor_id: string;
+  session_created_at: string;
+  intake: Record<string, unknown>;
+  dry_run: Record<string, unknown>;
+  bootstrap_plan: Record<string, unknown>;
+  plan_hash: string;
+  preimage_hash: string;
+  approval_id?: string;
+  created_at_ms: number;
+  updated_at_ms: number;
+  expires_at_ms: number;
+}
+
+interface ApprovalCenterEntryHandoff {
+  phase: 'entry';
+  entry_mode: ProjectEntryMode;
+  approval_id: string;
+  actor_id: string;
+  session_created_at: string;
+  created_at_ms: number;
+  expires_at_ms: number;
+}
 export const DEFAULT_REQUEST_TIMEOUT_MS = 8000;
 export const PROTECTED_WARMUP_TIMEOUT_MS = 15000;
 export const REPORTS_REQUEST_TIMEOUT_MS = 15000;
 export const READINESS_REQUEST_TIMEOUT_MS = 30000;
 export const PROVIDER_SETTINGS_READ_TIMEOUT_MS = 45000;
 export const ACTION_DRY_RUN_TIMEOUT_MS = 60000;
+export const PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS = 8.0;
+export const PROJECT_ENTRY_PLANNING_TIMEOUT_MS = 90000;
 export const PROJECT_ENTRY_EXECUTION_TIMEOUT_MS = 240000;
+export const APPROVAL_CENTER_READ_TIMEOUT_MS = 30000;
+export const APPROVAL_CENTER_DECISION_TIMEOUT_MS = 30000;
+export const MAX_REQUEST_TIMEOUT_MS = PROJECT_ENTRY_EXECUTION_TIMEOUT_MS;
 export const PROVIDER_PLAN_TIMEOUT_MS = 60000;
 // Compatibility alias retained for older static contracts. New code must use the operation-specific constants above.
 export const EXPENSIVE_REQUEST_TIMEOUT_MS = READINESS_REQUEST_TIMEOUT_MS;
@@ -156,22 +203,22 @@ export class DevPilotApiClient {
 
 
   async projectEntryDryRun(payload: { intake: Record<string, unknown>; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
-    return this.post('/project-entry/dry-run', { intake: payload.intake, timeout_seconds: payload.timeout_seconds ?? 3.0 });
+    return this.post('/project-entry/dry-run', { intake: payload.intake, timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS }, { timeoutMs: PROJECT_ENTRY_PLANNING_TIMEOUT_MS });
   }
 
   async projectEntryRevalidate(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
-    return this.post('/project-entry/revalidate', { ...payload, timeout_seconds: payload.timeout_seconds ?? 3.0 });
+    return this.post('/project-entry/revalidate', { ...payload, timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS }, { timeoutMs: PROJECT_ENTRY_PLANNING_TIMEOUT_MS });
   }
 
   async projectEntryRequestExecutionApproval(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; reason?: string; ttl_minutes?: number; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
-    return this.post('/project-entry/execution-approval-request', { ...payload, reason: payload.reason ?? 'Execute reviewed GSDLC-03-D bootstrap plan.', ttl_minutes: payload.ttl_minutes ?? 30, timeout_seconds: payload.timeout_seconds ?? 3.0 });
+    return this.post('/project-entry/execution-approval-request', { ...payload, reason: payload.reason ?? 'Execute reviewed GSDLC-03-D bootstrap plan.', ttl_minutes: payload.ttl_minutes ?? 30, timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS }, { timeoutMs: PROJECT_ENTRY_PLANNING_TIMEOUT_MS });
   }
 
-  async projectEntryExecute(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; approval_id: string; dependency_mode?: string; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
+  async projectEntryExecute(payload: { intake: Record<string, unknown>; expected_plan_hash: string; expected_preimage_hash: string; approval_id: string; dependency_mode?: string; fault_stage?: string; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
     try {
       return await this.post(
         '/project-entry/execute',
-        { ...payload, dependency_mode: payload.dependency_mode ?? 'defer-network', timeout_seconds: payload.timeout_seconds ?? 3.0 },
+        { ...payload, dependency_mode: payload.dependency_mode ?? 'defer-network', timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS },
         { timeoutMs: PROJECT_ENTRY_EXECUTION_TIMEOUT_MS },
       );
     } catch (error) {
@@ -193,19 +240,19 @@ export class DevPilotApiClient {
   }
 
   async listApprovals(filters: { status?: string; limit?: number } = {}): Promise<DevPilotApplicationResponse> {
-    return this.get(`/approvals${this.query(filters)}`);
+    return this.get(`/approvals${this.query(filters)}`, { timeoutMs: APPROVAL_CENTER_READ_TIMEOUT_MS, retryNetworkErrors: true });
   }
 
   async showApproval(approvalId: string): Promise<DevPilotApplicationResponse> {
-    return this.get(`/approvals/${encodeURIComponent(approvalId)}`);
+    return this.get(`/approvals/${encodeURIComponent(approvalId)}`, { timeoutMs: APPROVAL_CENTER_READ_TIMEOUT_MS, retryNetworkErrors: true });
   }
 
   async requestApproval(payload: { tool_id: string; action: string; subject: string; actor?: string; reason: string; scope?: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
-    return this.post('/approvals/request', payload);
+    return this.post('/approvals/request', payload, { timeoutMs: APPROVAL_CENTER_DECISION_TIMEOUT_MS });
   }
 
   async decideApproval(approvalId: string, decision: 'approve' | 'deny', payload: { actor?: string; reason: string }): Promise<DevPilotApplicationResponse> {
-    return this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, payload);
+    return this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, payload, { timeoutMs: APPROVAL_CENTER_DECISION_TIMEOUT_MS });
   }
 
   async runDryRunAction(payload: { action_id: string; target?: string; goal?: string; strict?: boolean; include_code_review?: boolean }): Promise<DevPilotApplicationResponse> {
@@ -627,6 +674,139 @@ export function clearExpiredStoredToken(): void {
   globalThis.sessionStorage?.removeItem(TOKEN_STORED_AT_KEY);
 }
 
+export function readProjectJourneyContext(): ProjectJourneyContext | null {
+  const raw = globalThis.sessionStorage?.getItem(PROJECT_JOURNEY_CONTEXT_KEY);
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as ProjectJourneyContext;
+    if (parsed.phase !== 'entry' && parsed.phase !== 'project') return null;
+    return parsed;
+  } catch {
+    globalThis.sessionStorage?.removeItem(PROJECT_JOURNEY_CONTEXT_KEY);
+    return null;
+  }
+}
+
+export function beginProjectEntryJourney(entryMode: ProjectEntryMode): void {
+  clearApprovalCenterEntryHandoff();
+  clearProjectEntryResumeState();
+  const context: ProjectJourneyContext = { phase: 'entry', entry_mode: entryMode };
+  globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(context));
+}
+
+export function saveProjectEntryResumeState(
+  session: AuthSessionContext,
+  value: Omit<ProjectEntryResumeState, 'phase' | 'actor_id' | 'session_created_at' | 'created_at_ms' | 'updated_at_ms' | 'expires_at_ms'>,
+): void {
+  const now = Date.now();
+  const previous = readProjectEntryResumeState(session, value.entry_mode);
+  const state: ProjectEntryResumeState = {
+    phase: 'entry',
+    entry_mode: value.entry_mode,
+    actor_id: session.principal.actor_id,
+    session_created_at: session.created_at,
+    intake: value.intake,
+    dry_run: value.dry_run,
+    bootstrap_plan: value.bootstrap_plan,
+    plan_hash: value.plan_hash,
+    preimage_hash: value.preimage_hash,
+    approval_id: value.approval_id?.trim() || undefined,
+    created_at_ms: previous?.created_at_ms ?? now,
+    updated_at_ms: now,
+    expires_at_ms: now + PROJECT_ENTRY_RESUME_TTL_MS,
+  };
+  try { globalThis.sessionStorage?.setItem(PROJECT_ENTRY_RESUME_STATE_KEY, JSON.stringify(state)); } catch { /* UX resume is best-effort; server authority is unchanged. */ }
+}
+
+export function readProjectEntryResumeState(session: AuthSessionContext, expectedMode?: ProjectEntryMode): ProjectEntryResumeState | null {
+  const raw = globalThis.sessionStorage?.getItem(PROJECT_ENTRY_RESUME_STATE_KEY);
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw) as ProjectEntryResumeState;
+    const valid = value.phase === 'entry'
+      && (!expectedMode || value.entry_mode === expectedMode)
+      && value.actor_id === session.principal.actor_id
+      && value.session_created_at === session.created_at
+      && Boolean(value.plan_hash)
+      && Boolean(value.preimage_hash)
+      && Number.isFinite(value.expires_at_ms)
+      && Date.now() <= value.expires_at_ms;
+    if (!valid) {
+      clearProjectEntryResumeState();
+      return null;
+    }
+    return value;
+  } catch {
+    clearProjectEntryResumeState();
+    return null;
+  }
+}
+
+export function clearProjectEntryResumeState(): void {
+  try { globalThis.sessionStorage?.removeItem(PROJECT_ENTRY_RESUME_STATE_KEY); } catch { /* best-effort UX cleanup */ }
+}
+
+export function armApprovalCenterEntryHandoff(session: AuthSessionContext, entryMode: ProjectEntryMode, approvalId: string): void {
+  const now = Date.now();
+  const value: ApprovalCenterEntryHandoff = {
+    phase: 'entry',
+    entry_mode: entryMode,
+    approval_id: approvalId.trim(),
+    actor_id: session.principal.actor_id,
+    session_created_at: session.created_at,
+    created_at_ms: now,
+    expires_at_ms: now + APPROVAL_CENTER_ENTRY_HANDOFF_TTL_MS,
+  };
+  globalThis.localStorage?.setItem(APPROVAL_CENTER_ENTRY_HANDOFF_KEY, JSON.stringify(value));
+}
+
+export function readApprovalCenterEntryHandoff(session: AuthSessionContext, expectedApprovalId: string): ProjectJourneyContext | null {
+  const raw = globalThis.localStorage?.getItem(APPROVAL_CENTER_ENTRY_HANDOFF_KEY);
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw) as ApprovalCenterEntryHandoff;
+    const expected = expectedApprovalId.trim();
+    const valid = value.phase === 'entry'
+      && Boolean(expected)
+      && value.approval_id === expected
+      && value.actor_id === session.principal.actor_id
+      && value.session_created_at === session.created_at
+      && Number.isFinite(value.expires_at_ms)
+      && Date.now() <= value.expires_at_ms;
+    if (!valid) {
+      clearApprovalCenterEntryHandoff();
+      return null;
+    }
+    return { phase: 'entry', entry_mode: value.entry_mode };
+  } catch {
+    clearApprovalCenterEntryHandoff();
+    return null;
+  }
+}
+
+export function clearApprovalCenterEntryHandoff(): void {
+  globalThis.localStorage?.removeItem(APPROVAL_CENTER_ENTRY_HANDOFF_KEY);
+}
+
+export function activateProjectJourney(context: { entry_mode: ProjectEntryMode; project_id: string; target_root: string }): void {
+  clearApprovalCenterEntryHandoff();
+  clearProjectEntryResumeState();
+  const value: ProjectJourneyContext = {
+    phase: 'project',
+    entry_mode: context.entry_mode,
+    project_id: context.project_id,
+    target_root: context.target_root,
+    activated_at: new Date().toISOString(),
+  };
+  globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(value));
+}
+
+export function clearProjectJourneyContext(): void {
+  globalThis.sessionStorage?.removeItem(PROJECT_JOURNEY_CONTEXT_KEY);
+  clearProjectEntryResumeState();
+  clearApprovalCenterEntryHandoff();
+}
+
 export function isTransientNetworkError(error: unknown): error is DevPilotApiError {
   return error instanceof DevPilotApiError && error.status === 0;
 }
@@ -637,5 +817,5 @@ function sleep(delayMs: number): Promise<void> {
 
 function normalizeTimeout(value: number | undefined): number {
   if (!Number.isFinite(value)) return DEFAULT_REQUEST_TIMEOUT_MS;
-  return Math.max(1000, Math.min(Number(value), 60000));
+  return Math.max(1000, Math.min(Number(value), MAX_REQUEST_TIMEOUT_MS));
 }

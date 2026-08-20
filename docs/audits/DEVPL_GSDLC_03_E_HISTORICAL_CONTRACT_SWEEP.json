@@ -1,0 +1,40 @@
+{
+  "schema_id": "devpilot.gsdlc03e.historical_contract_sweep.v1",
+  "status": "PASS-PREWINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-03-E",
+  "checked_at": "2026-08-18",
+  "frozen_contracts": [
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry_gsdlc03d_at_close.json",
+      "expected_routes": 104,
+      "sha256_at_freeze": "6cbb625d4bbec0c270d3c1bdd3f20e78a41ee8b715599c9335a5af9170cb1398"
+    },
+    {
+      "path": ".devpilot/identity/server_rbac_policy_catalog_gsdlc03d_at_close.json",
+      "expected_routes": 104,
+      "sha256_at_freeze": "99c7e9db30419d1dc19ffd859f694fee9fe99e37d41c0541f67ce02b0d65023b"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry_gsdlc03d_at_close.json",
+      "expected_routes": 11,
+      "sha256_at_freeze": "75868e2d5497b4e3ae031dfea551005baf6e40d947e044c468527d187eb06c31"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry_gsdlc03c_at_close.json",
+      "expected_routes": 11
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry_gsdlc03b_at_close.json",
+      "expected_routes": 10
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+      "expected_routes": 9
+    }
+  ],
+  "current_route_strategy": "preserve ui.dashboard at /; embed Project Home, no new top-level route",
+  "snapshots_modified_for_green": false,
+  "pilot_workspace_accessed": false,
+  "full_regression_executed": false,
+  "gsdlc03d_snapshots_byte_equal_to_repo363_current_authorities": true
+}

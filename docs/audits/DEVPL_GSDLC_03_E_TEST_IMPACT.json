@@ -1,0 +1,31 @@
+{
+  "schema_id": "devpilot.gsdlc03e.test_impact.v1",
+  "status": "PASS-PREWINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-03-E",
+  "validation_mode": "analyze-v2/dry-run",
+  "changed_paths_total": 28,
+  "contracts_total": 284,
+  "matched_contracts_total": 144,
+  "p0_selected_total": 74,
+  "p1_selected_total": 61,
+  "recommended_tests_total": 237,
+  "recommended_profiles": [
+    "p0-critical",
+    "docs-historical",
+    "release",
+    "release-candidate-local",
+    "impact"
+  ],
+  "unmatched_paths_total": 8,
+  "unmatched_paths": [],
+  "tests_executed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "full_regression_executed": false,
+  "full_regression_deferred_to_windows_after_browser": true,
+  "notes": [
+    "Test Impact is selection input only; it did not execute tests.",
+    "Two pre-existing v2 classification NEEDS_REVIEW warnings remain unrelated to GSDLC-03-E and are nonblocking."
+  ]
+}

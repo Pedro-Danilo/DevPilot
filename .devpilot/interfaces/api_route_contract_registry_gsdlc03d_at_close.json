@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1",
   "registry_id": "devpilot-api-route-contract-registry",
-  "status": "implemented-initial",
+  "status": "pass-candidate/pre-windows",
   "created_by": "POST-H-014-A",
   "updated": "2026-08-18",
   "routes": [
@@ -3531,8 +3531,7 @@
       ],
       "notes": [
         "Creates only local approval state. Exact plan_hash/preimage_hash/target/actor scope is bound before execution."
-      ],
-      "mutation_exception_justification": "GSDLC-03-D creates local approval-store state only after authenticated owner revalidation; it does not mutate DevPilot source, contact network, or execute project bootstrap."
+      ]
     },
     {
       "route_id": "api.project-entry.execute",
@@ -3574,12 +3573,12 @@
     }
   ],
   "summary": {
-    "routes_total": 104,
-    "protected_routes_total": 97,
+    "routes_total": 102,
+    "protected_routes_total": 93,
     "public_routes_total": 7,
-    "mutating_routes_total": 32,
-    "application_service_routes_total": 99,
-    "policy_bound_routes_total": 97,
+    "mutating_routes_total": 30,
+    "application_service_routes_total": 95,
+    "policy_bound_routes_total": 91,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -3591,7 +3590,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "DEVPL-GSDLC-03-E-REG-001",
+    "updated_by": "DEVPL-GSDLC-03-B",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -3607,7 +3606,7 @@
     "workspace_validation_execute_routes_total": 1,
     "workspace_validation_status_routes_total": 1,
     "workspace_traceability_routes_total": 1,
-    "source_write_routes_total": 6,
+    "source_write_routes_total": 5,
     "runtime_evidence_only_routes_total": 1,
     "uoc_004_edit_plan_routes_total": 3,
     "uoc_005_approval_apply_rollback_routes_total": 5,
@@ -3656,5 +3655,6 @@
     "GSDLC-02-E adds public local-only session-status recovery without principal/secret disclosure; historical 97-route GSDLC-02-D snapshot is frozen separately.",
     "GSDLC-03-B adds two authenticated human-session planning-only project-entry routes; 03-A-at-close snapshot remains frozen at 98 routes.",
     "GSDLC-03-B current-active successor adds two human-session planning-only Project Entry routes; 03-A-at-close 98-route snapshot remains immutable."
-  ]
+  ],
+  "micro_sprint": "DEVPL-GSDLC-03-D"
 }

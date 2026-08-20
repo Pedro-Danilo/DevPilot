@@ -18,5 +18,6 @@ def test_uoc009_quality_approval_scope_is_json_and_403_is_localized_to_quality_u
     assert "DevPilotApiError" in view and "error.status === 403" in view
     assert "Approval BLOCK 403:" in view
     # Preserve the historical shared API-client error contract outside the UOC-009 surface.
-    assert "Unauthorized/Forbidden 401/403: token local faltante o inválido." in client
+    assert "Sesión/autenticación local no autorizada." in client
+    assert "API local de autenticación no disponible." in client
 

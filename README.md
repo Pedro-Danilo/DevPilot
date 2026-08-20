@@ -1,8 +1,8 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; backlogs `DEVPL-GSDLC-00`, `DEVPL-GSDLC-01` y `DEVPL-GSDLC-02` están `CLOSED/PASS`; micro-sprint en implementación: `DEVPL-GSDLC-03-A — Project Intake and technology catalog contracts`.
+Programa activo: `DEVPL-GSDLC`; backlogs `DEVPL-GSDLC-00`, `DEVPL-GSDLC-01` y `DEVPL-GSDLC-02` están `CLOSED/PASS`. `DEVPL-GSDLC-03-A→D` están `CLOSED/PASS`; `DEVPL-GSDLC-03-E` completó browser acceptance y recovery compuesto en Windows y está `PASS-CANDIDATE / PENDING OWNER ADJUDICATION`.
 
-POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no es input ni fixture de la evolución GSDLC. El baseline técnico vigente de la plataforma es `repo_DevPilot_Local_359_DEVPL_GSDLC_02_E_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip` (commit autoritativo `98e4b2f3f033580bfdd5fc027bf5afcd632f8169`). La autenticación local, sesiones, RBAC server-side y approval actor binding ya están implementados; GSDLC-03 inicia ahora la entrada guiada de proyectos.
+POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no es input ni fixture de la evolución GSDLC. El baseline mutable inmediato usado para 03-E fue `repo_DevPilot_Local_363_DEVPL_GSDLC_03_D_APPROVAL_BOUND_BOOTSTRAP_EXECUTION_WINDOWS_VALIDATED_CANDIDATE.zip`; el successor técnico de 03-E debe generarse después del commit final de cierre. `DEVPL-GSDLC-04` permanece no autorizado hasta la adjudicación del owner.
 
 Fuentes canónicas del programa:
 - `docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md`
@@ -6373,3 +6373,20 @@ Create/Open/Import review-only dry-run workbench with stable plan/preimage hashe
 ## DEVPL-GSDLC-03-D
 
 Approval-bound project bootstrap execution is implemented as a preliminary local-first successor: typed transaction stages, authenticated approval binding, external-workspace-only writes, local Git init/import, `.venv`, target-local registration, fault injection and rollback. Dependency jobs remain network-deferred unless an exact offline cache/lock authority exists; remote Git execution remains disabled. Full regression is deferred to GSDLC-03-E.
+
+
+## DEVPL-GSDLC-03-E — Project Home/browser Windows composite closure candidate
+
+- predecessor `GSDLC-03-D`: `CLOSED/PASS`, commit `7eb5f6512da8644ff08651cec0bd464795cfda8e`;
+- Project Home + Create/Open/Import browser journey: `PASS`;
+- browser acceptance: `14/14` scenarios with `12` sanitized screenshots;
+- normal user PowerShell required: `0`; external operator project writes: `0`; S0/S1=`0/0`;
+- full regression ran exactly once: `2418 PASS / 67 FAIL / 0 ERROR / 4 SKIP`; second full=`false`;
+- REG-001 exact-67 selective recovery: `56 PASS / 11 FAIL`;
+- REG-002 exact residual recovery: `11/11 PASS`;
+- REG-002 bounded impact: `13/13 PASS`;
+- Historical Regression Guard, Documentation Governance and TCR v1/v2: `PASS`;
+- `/` preserves historical route id `ui.dashboard`; Project Home remains the product-facing post-login surface;
+- browser project context and cross-tab/resume state remain UX-only and do not replace server RBAC, PolicyEngine, approval binding or PathGuard;
+- `DEVPL-GSDLC-03-E = PASS-CANDIDATE / PENDING OWNER ADJUDICATION`;
+- `DEVPL-GSDLC-04` remains unauthorized until the clean successor repo is generated and owner adjudication closes GSDLC-03.

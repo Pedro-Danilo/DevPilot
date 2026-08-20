@@ -8,6 +8,7 @@ from typing import Any, Callable
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PolicyEngine, PolicyRequest
+from devpilot_core.workspace.environment_discovery import DEFAULT_TIMEOUT_SECONDS
 
 from .approval_service import ApprovalApplicationService
 from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContract, ServiceCapability
@@ -673,16 +674,16 @@ class ApplicationService:
     def workspace_status(self) -> CommandResult:
         return self.workspace.status()
 
-    def project_entry_environment_discovery(self, *, intake: dict[str, Any], timeout_seconds: float = 3.0) -> CommandResult:
+    def project_entry_environment_discovery(self, *, intake: dict[str, Any], timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS) -> CommandResult:
         return self.project_entry_planning.environment_discovery(intake=intake, timeout_seconds=timeout_seconds)
 
-    def project_entry_bootstrap_plan(self, *, intake: dict[str, Any], timeout_seconds: float = 3.0) -> CommandResult:
+    def project_entry_bootstrap_plan(self, *, intake: dict[str, Any], timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS) -> CommandResult:
         return self.project_entry_planning.bootstrap_plan(intake=intake, timeout_seconds=timeout_seconds)
 
-    def project_entry_dry_run(self, *, intake: dict[str, Any], timeout_seconds: float = 3.0) -> CommandResult:
+    def project_entry_dry_run(self, *, intake: dict[str, Any], timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS) -> CommandResult:
         return self.project_entry_dry_run_service.dry_run(intake=intake, timeout_seconds=timeout_seconds)
 
-    def project_entry_revalidate(self, *, intake: dict[str, Any], expected_plan_hash: str, expected_preimage_hash: str, timeout_seconds: float = 3.0) -> CommandResult:
+    def project_entry_revalidate(self, *, intake: dict[str, Any], expected_plan_hash: str, expected_preimage_hash: str, timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS) -> CommandResult:
         return self.project_entry_dry_run_service.revalidate(intake=intake, expected_plan_hash=expected_plan_hash, expected_preimage_hash=expected_preimage_hash, timeout_seconds=timeout_seconds)
 
     def project_entry_request_execution_approval_authenticated(
@@ -695,7 +696,7 @@ class ApplicationService:
         session: SessionContext,
         reason: str,
         ttl_minutes: int = 30,
-        timeout_seconds: float = 3.0,
+        timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS,
     ) -> CommandResult:
         return self.project_bootstrap_execution.request_approval_authenticated(
             intake=intake,
@@ -719,7 +720,7 @@ class ApplicationService:
         session: SessionContext,
         dependency_mode: str = "defer-network",
         fault_stage: str | None = None,
-        timeout_seconds: float = 3.0,
+        timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS,
     ) -> CommandResult:
         return self.project_bootstrap_execution.execute_authenticated(
             intake=intake,
@@ -1453,21 +1454,21 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "workspace.status": lambda payload: service.workspace_status(),
         "project_entry.environment_discovery": lambda payload: service.project_entry_environment_discovery(
             intake=dict(payload.get("intake") or {}),
-            timeout_seconds=float(payload.get("timeout_seconds", 3.0)),
+            timeout_seconds=float(payload.get("timeout_seconds", DEFAULT_TIMEOUT_SECONDS)),
         ),
         "project_entry.bootstrap_plan": lambda payload: service.project_entry_bootstrap_plan(
             intake=dict(payload.get("intake") or {}),
-            timeout_seconds=float(payload.get("timeout_seconds", 3.0)),
+            timeout_seconds=float(payload.get("timeout_seconds", DEFAULT_TIMEOUT_SECONDS)),
         ),
         "project_entry.dry_run": lambda payload: service.project_entry_dry_run(
             intake=dict(payload.get("intake") or {}),
-            timeout_seconds=float(payload.get("timeout_seconds", 3.0)),
+            timeout_seconds=float(payload.get("timeout_seconds", DEFAULT_TIMEOUT_SECONDS)),
         ),
         "project_entry.revalidate": lambda payload: service.project_entry_revalidate(
             intake=dict(payload.get("intake") or {}),
             expected_plan_hash=str(payload.get("expected_plan_hash") or ""),
             expected_preimage_hash=str(payload.get("expected_preimage_hash") or ""),
-            timeout_seconds=float(payload.get("timeout_seconds", 3.0)),
+            timeout_seconds=float(payload.get("timeout_seconds", DEFAULT_TIMEOUT_SECONDS)),
         ),
         "workspace.documents.list": lambda payload: service.workspace_documents_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), query=payload.get("query"), extension=payload.get("extension"), category=payload.get("category")),
         "workspace.documents.read": lambda payload: service.workspace_documents_read(document_id=str(payload.get("document_id", ""))),

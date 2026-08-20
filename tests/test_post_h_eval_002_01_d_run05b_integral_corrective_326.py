@@ -36,7 +36,8 @@ def test_dashboard_consumes_health_before_protected_requests() -> None:
     assert health < warmup
     assert "panel.dataset.apiOperation = 'api.health'" in source
     assert "Operaciones contractuales:" in source
-    assert "El fan-out autenticado no se ejecutó" in source
+    # The original RUN05B copy remains a historical UI message. GSDLC-03-E successor replaces that presentation with a guided pre-project shell while preserving health-before-warmup semantics.
+    assert ("El fan-out autenticado no se ejecutó" in source) or ("renderProjectHomeEntryPanel(session)" in source and "readProjectJourneyContext()?.phase === 'project'" in source)
 
 
 def test_approval_states_are_truthful_and_conditional() -> None:

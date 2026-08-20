@@ -1,8 +1,8 @@
 {
   "schema_id": "devpilot.gsdlc03d.current.v1",
   "micro_sprint": "DEVPL-GSDLC-03-D",
-  "status": "pass-candidate/pre-windows",
-  "version": "1.0.3",
+  "status": "closed/PASS",
+  "version": "1.0.4",
   "source_repo": "repo_DevPilot_Local_362_DEVPL_GSDLC_03_C_DRY_RUN_CREATE_OPEN_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "ecbc9b38b3722f9fc360bdc0b6c7349371c14625",
   "source_sha256": "cc7991196ff8553550604a146c8dc957f0f60311ab432aad04812063a88d1806",
@@ -46,7 +46,7 @@
   "s0_open": 0,
   "s1_open": 0,
   "next_micro_sprint": "DEVPL-GSDLC-03-E",
-  "next_authorized": false,
+  "next_authorized": true,
   "preliminary_limitations": [
     "dependency installation stays deferred unless an exact offline cache/lock authority is bound",
     "remote Git clone remains disabled-by-default",
@@ -57,6 +57,11 @@
   "browser_execution_timeout_ms": 240000,
   "browser_timeout_semantics": "unknown-state/no-automatic-retry/reconcile-before-retry",
   "approval_center_layout": "responsive-dedicated-grid/no-overlap-corrective",
-  "browser_acceptance": "recovery-after-client-timeout",
-  "windows_automated_validation_status": "PASS"
+  "browser_acceptance": "PASS",
+  "windows_automated_validation_status": "PASS",
+  "final_owner_adjudication": "DEVPL_GSDLC_03_D_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "final_commit": "7eb5f6512da8644ff08651cec0bd464795cfda8e",
+  "successor_repo": "repo_DevPilot_Local_363_DEVPL_GSDLC_03_D_APPROVAL_BOUND_BOOTSTRAP_EXECUTION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_repo_sha256": "a660005465fa8ee566d0b9d1cdaa8bd978457cbbc59ca9ebb83891f8b1f53b4b",
+  "windows_evidence_sha256": "94190f496f8a3e56fb9191577126e61ea9021bed1a4f20ece718395360e3cda7"
 }
