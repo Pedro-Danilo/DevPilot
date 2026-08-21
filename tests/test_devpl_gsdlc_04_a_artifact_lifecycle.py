@@ -297,7 +297,7 @@ def test_04a_does_not_change_api_ui_rbac_sensitive_actions_or_uoc_write_engine()
         assert (ROOT / relative).is_file(), relative
 
 
-def test_activation_rebind_is_owner_adjudicated_and_04a_is_pre_windows_candidate() -> None:
+def test_activation_rebind_historical_pre_windows_snapshot_is_preserved() -> None:
     state=load_json(".devpilot/project_state.json")
     current=load_json("DEVPL_GSDLC_03_FINAL_OWNER_CLOSURE_CURRENT.json")
     registry=load_json(".devpilot/docs_governance/source_registry.json")
@@ -307,15 +307,15 @@ def test_activation_rebind_is_owner_adjudicated_and_04a_is_pre_windows_candidate
     assert state["gsdlc_03_status"]=="closed/PASS"
     assert state["gsdlc_03_e_status"]=="closed/PASS"
     assert state["gsdlc_04_authorized"] is True
-    assert state["gsdlc_04_a_status"]=="pass-candidate/pre-windows"
+    assert state["gsdlc_04_a_status_at_pre_windows_close"]=="pass-candidate/pre-windows"
     assert state["gsdlc_04_a_full_regression_executed"] is False
-    assert state["gsdlc_04_b_authorized"] is False
+    assert state["gsdlc_04_b_authorized_at_04_a_pre_windows_close"] is False
     assert state["gsdlc_current_backlog"]=="DEVPL-GSDLC-04"
-    assert state["gsdlc_current_micro_sprint"]=="DEVPL-GSDLC-04-A"
+    assert state["gsdlc_current_micro_sprint_at_04_a_pre_windows_close"]=="DEVPL-GSDLC-04-A"
     assert state["gsdlc_execution_source_repo"]=="repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip"
     assert state["gsdlc_execution_source_commit"]==BASE_COMMIT
-    assert registry["gsdlc_last_registered_micro_sprint"]=="DEVPL-GSDLC-04-A"
-    assert registry["gsdlc_04_a_status"]=="pass-candidate/pre-windows"
+    assert registry["gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close"]=="DEVPL-GSDLC-04-A"
+    assert registry["gsdlc_04_a_status_at_pre_windows_close"]=="pass-candidate/pre-windows"
 
 
 def test_runtime_ephemeral_and_validation_policy_remain_enforced() -> None:

@@ -10,6 +10,7 @@ from devpilot_core.application import ApplicationService
 
 from ..dependencies import get_application_service
 from ..models import ApiApplicationRequest, dispatch_application_request
+from ..response_mapping import command_result_to_api_response
 
 router = APIRouter(tags=["workspace-edits"])
 
@@ -49,6 +50,39 @@ class RollbackApprovalRequestBody(BaseModel):
 class RollbackRequestBody(BaseModel):
     approval_id: str = Field(min_length=1, max_length=128)
     actor: str | None = Field(default=None, min_length=1, max_length=128)
+
+
+class DraftSaveBody(BaseModel):
+    content: str = Field(max_length=1048576)
+    expected_source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    expected_revision_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    event: str = Field(default="SAVE", pattern=r"^(SAVE|AUTOSAVE)$")
+
+
+class DraftDiscardBody(BaseModel):
+    expected_source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    expected_revision_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+
+
+class DraftRecoverBody(BaseModel):
+    revision_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    expected_source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    expected_revision_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+
+
+def _draft_session_identity(request: Request) -> tuple[tuple[str, str, str] | None, JSONResponse | None]:
+    principal = getattr(request.state, "authenticated_principal", None)
+    if principal is None:
+        return None, _json({"operation":"workspace.artifact_drafts","ok":False,"exit_code":4,"message":"Authenticated human session required.","data":{},"findings":[{"id":"AUTH_HUMAN_SESSION_REQUIRED_BLOCK","severity":"block","message":"Artifact draft authoring requires authenticated human session."}]}, 401)
+    role = next((str(value) for value in principal.roles if str(value).strip()), "")
+    if not role:
+        return None, _json({"operation":"workspace.artifact_drafts","ok":False,"exit_code":4,"message":"Authenticated principal has no canonical role.","data":{},"findings":[{"id":"RBAC_ROLE_REQUIRED_BLOCK","severity":"block","message":"Artifact draft authoring requires a canonical server-side role."}]}, 403)
+    return (principal.actor_id, role, principal.actor_id), None
+
+
+def _draft_json(result, operation: str) -> JSONResponse:
+    payload, status = command_result_to_api_response(result, operation=operation)
+    return _json(payload, status)
 
 
 @router.post("/api/v1/workspace/edit-plans/plan")
@@ -137,3 +171,69 @@ def workspace_edit_rollback(
     if error:return error
     payload=body.model_dump();payload["actor"]=actor
     return _json(*dispatch_application_request(service, operation="workspace.edits.rollback", payload={"execution_id": execution_id, **payload}))
+
+@router.get("/api/v1/workspace/artifact-drafts/{document_id}")
+def artifact_draft_get(
+    request: Request,
+    document_id: str,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    return _draft_json(service.artifact_draft_get(document_id=document_id), "workspace.artifact_drafts.get")
+
+
+@router.get("/api/v1/workspace/artifact-drafts/{document_id}/history")
+def artifact_draft_history(
+    request: Request,
+    document_id: str,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    return _draft_json(service.artifact_draft_history(document_id=document_id), "workspace.artifact_drafts.history")
+
+
+@router.post("/api/v1/workspace/artifact-drafts/{document_id}/save")
+def artifact_draft_save(
+    request: Request,
+    document_id: str,
+    body: DraftSaveBody,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, session_principal = identity
+    result = service.artifact_draft_save(document_id=document_id, content=body.content, expected_source_sha256=body.expected_source_sha256, expected_revision_sha256=body.expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal, event=body.event)
+    return _draft_json(result, "workspace.artifact_drafts.save")
+
+
+@router.post("/api/v1/workspace/artifact-drafts/{document_id}/discard")
+def artifact_draft_discard(
+    request: Request,
+    document_id: str,
+    body: DraftDiscardBody,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, session_principal = identity
+    result = service.artifact_draft_discard(document_id=document_id, expected_source_sha256=body.expected_source_sha256, expected_revision_sha256=body.expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal)
+    return _draft_json(result, "workspace.artifact_drafts.discard")
+
+
+@router.post("/api/v1/workspace/artifact-drafts/{document_id}/recover")
+def artifact_draft_recover(
+    request: Request,
+    document_id: str,
+    body: DraftRecoverBody,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, session_principal = identity
+    result = service.artifact_draft_recover(document_id=document_id, revision_sha256=body.revision_sha256, expected_source_sha256=body.expected_source_sha256, expected_revision_sha256=body.expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal)
+    return _draft_json(result, "workspace.artifact_drafts.recover")

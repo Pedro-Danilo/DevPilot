@@ -11608,6 +11608,78 @@
         "FROZEN invalidation is hash-drift-only and produces REVALIDATION_REQUIRED."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-04-b-manual-editor-draft-history",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-04-B",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "validates": [
+        "MANUAL Markdown/JSON browser authoring",
+        "runtime-only draft persistence and restart recovery",
+        "immutable bounded revision history",
+        "optimistic concurrency source+revision preimages",
+        "server-authoritative actor/session/RBAC",
+        "safe Markdown/JSON preview and JSON hints",
+        "UOC-004 planner consumption of governed draft",
+        "no approved-source overwrite during draft persistence",
+        "runtime-store package hygiene"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/artifact_draft_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/ArtifactManualEditor.ts",
+        "ui/web/src/components/DocumentEditPlanner.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api",
+        "ui/web/src/styles.css",
+        ".devpilot/interfaces",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas/artifact_draft_store_record.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/02_architecture/guided_sdlc/artifact_draft_persistence_contract.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-005-runtime-draft-store-and-concurrency.md",
+        "docs/audits/DEVPL_GSDLC_04_B_",
+        "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
+        "python -m devpilot_core schema validate --schema-id SCHEMA-DEVPL-GSDLC-04-B-ARTIFACT-DRAFT-STORE-RECORD-V1 --instance <runtime-draft-json> --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
+      ],
+      "domain": "artifacts.manual-authoring",
+      "notes": [
+        "04-B permits bounded runtime draft mutations only; source_mutations_allowed=false.",
+        "Markdown/JSON drafts are server-side runtime state; sessionStorage is not authority.",
+        "Full regression remains reserved for 04-E."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -11678,10 +11750,11 @@
     "DEVPL-GSDLC-00-D classifies 546 historical/current assertions, scopes 22 successor-needed assertions, expands threat/test strategy and preserves all deny-by-default no-go flags.",
     "DEVPL-GSDLC-02-B adds isolated local auth/session security tests; canonical source is not mutated by tests and full regression remains deferred to 02-E.",
     "GSDLC-02-E adds the authenticated browser closure contract; the only backlog full regression remains a separate exactly-once closure action after browser PASS.",
-    "GSDLC-03-A adds a P0 side-effect-free ProjectIntake/TechnologyCatalog/ProjectCreationPlan contract; full regression remains deferred to 03-E."
+    "GSDLC-03-A adds a P0 side-effect-free ProjectIntake/TechnologyCatalog/ProjectCreationPlan contract; full regression remains deferred to 03-E.",
+    "DEVPL-GSDLC-04-B registers runtime-only MANUAL draft authoring, revision history and optimistic-concurrency contract; full regression remains unconsumed."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 285
+  "contracts_total": 286
 }

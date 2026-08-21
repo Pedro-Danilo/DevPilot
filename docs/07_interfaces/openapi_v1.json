@@ -11140,6 +11140,236 @@
           }
         }
       }
+    },
+    "/api/v1/workspace/artifact-drafts/{document_id}": {
+      "get": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Draft Get",
+        "operationId": "artifact_draft_get_api_v1_workspace_artifact_drafts__document_id__get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/artifact-drafts/{document_id}/history": {
+      "get": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Draft History",
+        "operationId": "artifact_draft_history_api_v1_workspace_artifact_drafts__document_id__history_get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/artifact-drafts/{document_id}/save": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Draft Save",
+        "operationId": "artifact_draft_save_api_v1_workspace_artifact_drafts__document_id__save_post",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DraftSaveBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/artifact-drafts/{document_id}/discard": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Draft Discard",
+        "operationId": "artifact_draft_discard_api_v1_workspace_artifact_drafts__document_id__discard_post",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DraftDiscardBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/artifact-drafts/{document_id}/recover": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Draft Recover",
+        "operationId": "artifact_draft_recover_api_v1_workspace_artifact_drafts__document_id__recover_post",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DraftRecoverBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11639,6 +11869,102 @@
             "description": "Evaluation-only; runtime blocks unless explicit fault-injection harness is enabled."
           }
         }
+      },
+      "DraftSaveBody": {
+        "properties": {
+          "content": {
+            "type": "string",
+            "maxLength": 1048576,
+            "title": "Content"
+          },
+          "expected_source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Expected Source Sha256"
+          },
+          "expected_revision_sha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Revision Sha256"
+          },
+          "event": {
+            "type": "string",
+            "pattern": "^(SAVE|AUTOSAVE)$",
+            "title": "Event",
+            "default": "SAVE"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content",
+          "expected_source_sha256"
+        ],
+        "title": "DraftSaveBody"
+      },
+      "DraftDiscardBody": {
+        "properties": {
+          "expected_source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Expected Source Sha256"
+          },
+          "expected_revision_sha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Revision Sha256"
+          }
+        },
+        "type": "object",
+        "required": [
+          "expected_source_sha256"
+        ],
+        "title": "DraftDiscardBody"
+      },
+      "DraftRecoverBody": {
+        "properties": {
+          "revision_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Revision Sha256"
+          },
+          "expected_source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Expected Source Sha256"
+          },
+          "expected_revision_sha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Revision Sha256"
+          }
+        },
+        "type": "object",
+        "required": [
+          "revision_sha256",
+          "expected_source_sha256"
+        ],
+        "title": "DraftRecoverBody"
       }
     },
     "securitySchemes": {
@@ -11661,5 +11987,13 @@
         "description": "Opaque HttpOnly local human session cookie; mutating requests also require X-DevPilot-CSRF."
       }
     }
+  },
+  "x-devpilot-gsdlc-04-b": {
+    "manual_authoring": true,
+    "runtime_draft_routes": 5,
+    "source_write_enabled": false,
+    "human_session_required": true,
+    "legacy_token_allowed": false,
+    "full_regression_executed": false
   }
 }

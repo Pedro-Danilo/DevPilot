@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.gsdlc04b.artifact_draft_store_record.v1",
+  "title": "Artifact Draft Store Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "workspace_id", "document_id", "relative_path", "extension",
+    "source_type", "lifecycle_state", "source_preimage_sha256", "base_commit",
+    "author_actor", "author_role", "session_principal", "active",
+    "current_revision_sha256", "created_at", "updated_at", "revisions", "events",
+    "source_mutations_performed", "approved_evidence"
+  ],
+  "properties": {
+    "schema_id": {"const": "devpilot.gsdlc04b.artifact_draft_store_record.v1"},
+    "workspace_id": {"type": "string", "minLength": 1, "maxLength": 256},
+    "document_id": {"type": "string", "pattern": "^doc_[A-Za-z0-9_-]+$"},
+    "relative_path": {"type": "string", "minLength": 1, "maxLength": 1024},
+    "extension": {"enum": [".md", ".json"]},
+    "source_type": {"const": "MANUAL"},
+    "lifecycle_state": {"const": "DRAFT"},
+    "source_preimage_sha256": {"$ref": "#/$defs/sha256"},
+    "base_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "author_actor": {"type": "string", "minLength": 1, "maxLength": 256},
+    "author_role": {"type": "string", "minLength": 1, "maxLength": 128},
+    "session_principal": {"type": "string", "minLength": 1, "maxLength": 256},
+    "active": {"type": "boolean"},
+    "current_revision_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "revisions": {"type": "array", "maxItems": 50, "items": {"$ref": "#/$defs/revision"}},
+    "events": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/event"}},
+    "source_mutations_performed": {"const": false},
+    "approved_evidence": {"const": false}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullable_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revision", "revision_sha256", "parent_revision_sha256", "content_sha256", "content", "event", "source_type", "lifecycle_state", "source_preimage_sha256", "actor", "actor_role", "session_principal", "created_at", "recovered_from_sha256", "approved_evidence", "source_mutations_performed"],
+      "properties": {
+        "revision": {"type": "integer", "minimum": 1},
+        "revision_sha256": {"$ref": "#/$defs/sha256"},
+        "parent_revision_sha256": {"$ref": "#/$defs/nullable_sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "content": {"type": "string", "maxLength": 1048576},
+        "event": {"enum": ["SAVE", "AUTOSAVE", "RECOVER"]},
+        "source_type": {"const": "MANUAL"},
+        "lifecycle_state": {"const": "DRAFT"},
+        "source_preimage_sha256": {"$ref": "#/$defs/sha256"},
+        "actor": {"type": "string", "minLength": 1},
+        "actor_role": {"type": "string", "minLength": 1},
+        "session_principal": {"type": "string", "minLength": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "recovered_from_sha256": {"$ref": "#/$defs/nullable_sha256"},
+        "approved_evidence": {"const": false},
+        "source_mutations_performed": {"const": false}
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event", "actor", "actor_role", "session_principal", "source_preimage_sha256", "revision_sha256", "created_at", "source_mutations_performed"],
+      "properties": {
+        "event": {"enum": ["DISCARD"]},
+        "actor": {"type": "string", "minLength": 1},
+        "actor_role": {"type": "string", "minLength": 1},
+        "session_principal": {"type": "string", "minLength": 1},
+        "source_preimage_sha256": {"$ref": "#/$defs/sha256"},
+        "revision_sha256": {"$ref": "#/$defs/nullable_sha256"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "source_mutations_performed": {"const": false}
+      }
+    }
+  }
+}

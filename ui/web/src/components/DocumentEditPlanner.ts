@@ -22,6 +22,7 @@ export function createDocumentEditPlanner(options: Options): HTMLElement {
   root.dataset.uoc005EditExecution = 'true';
   let currentDocument: WorkspaceDocumentResource | undefined = options.document;
   let draft = '';
+  let governedDraftRevisionSha: string | null = null;
   let status = '';
   let error = '';
   let plan: WorkspaceEditPlan | undefined;
@@ -300,12 +301,16 @@ export function createDocumentEditPlanner(options: Options): HTMLElement {
     const extension = String(currentDocument.extension ?? '').toLowerCase();
     if (!EDITABLE_EXTENSIONS.has(extension)) { root.append(renderUiStateNotice('block', `${extension || 'Este tipo'} permanece read-only. Solo se admiten Markdown, JSON y YAML.`)); return; }
     const identity = document.createElement('div'); identity.className = 'uoc004-identity'; identity.innerHTML = `<strong>${escapeHtml(currentDocument.relative_path)}</strong><code>${escapeHtml(String(currentDocument.sha256 ?? 'sha unavailable'))}</code>`; root.append(identity);
-    const textarea = document.createElement('textarea'); textarea.className = 'uoc004-editor'; textarea.value = draft; textarea.rows = 18; textarea.spellcheck = false; textarea.setAttribute('aria-label','Propuesta de edición');
-    textarea.disabled = execution?.status === 'applied';
-    textarea.addEventListener('input',()=>{ draft=textarea.value; plan=undefined; resetExecutionState(); exportFeedback=''; delete root.dataset.patchExportState; status='Draft modificado en memoria; cualquier aprobación previa quedó invalidada por diseño.'; }); root.append(textarea);
+    const governedRuntimeDraft = extension === '.md' || extension === '.json';
+    const textarea = document.createElement('textarea'); textarea.className = 'uoc004-editor'; textarea.value = draft; textarea.rows = governedRuntimeDraft ? 8 : 18; textarea.spellcheck = false; textarea.setAttribute('aria-label', governedRuntimeDraft ? 'Contenido del draft gobernado usado para el plan' : 'Propuesta de edición');
+    textarea.disabled = governedRuntimeDraft || execution?.status === 'applied';
+    if (!governedRuntimeDraft) textarea.addEventListener('input',()=>{ draft=textarea.value; plan=undefined; resetExecutionState(); exportFeedback=''; delete root.dataset.patchExportState; status='Draft YAML modificado en memoria; cualquier aprobación previa quedó invalidada por diseño.'; }); root.append(textarea);
     const actions=document.createElement('div'); actions.className='uoc004-actions';
-    const save=button('Guardar draft de sesión', saveDraft); const discard=button('Descartar draft', discardDraft,'button-secondary'); const generate=button(busy?'Procesando…':'Generar plan inmutable',()=>void generatePlan()); generate.disabled=busy || execution?.status === 'applied'; actions.append(save,discard,generate); root.append(actions);
-    const note=document.createElement('p'); note.className='uoc004-storage-note'; note.textContent='Draft: sessionStorage manual. Apply nunca usa texto libre: usa exactamente proposed_content del plan hash-bound. Git stage/commit pertenecen a UOC-006.'; root.append(note);
+    if (!governedRuntimeDraft) actions.append(button('Guardar draft de sesión', saveDraft), button('Descartar draft', discardDraft,'button-secondary'));
+    const generate=button(busy?'Procesando…':'Generar plan inmutable',()=>void generatePlan()); generate.disabled=busy || execution?.status === 'applied'; actions.append(generate); root.append(actions);
+    const note=document.createElement('p'); note.className='uoc004-storage-note'; note.textContent=governedRuntimeDraft
+      ? `GSDLC-04-B: el plan consume exclusivamente el draft runtime gobernado del Artifact Workbench${governedDraftRevisionSha ? ` · revisión ${governedDraftRevisionSha.slice(0, 12)}` : ''}. sessionStorage no es autoridad para Markdown/JSON.`
+      : 'Compatibilidad UOC-004 para YAML: draft de sesión no autoritativo. Apply usa exactamente proposed_content del plan hash-bound.'; root.append(note);
     if (status) root.append(renderUiStateNotice('success',status)); if(error) root.append(renderUiStateNotice(error.includes('BLOCK')?'block':'error',error));
     if (!plan && !execution) return;
     if (plan) {
@@ -351,7 +356,12 @@ export function createDocumentEditPlanner(options: Options): HTMLElement {
     currentDocument=documentValue;
     if (changed && !sameExecutionTransition) {
       plan=undefined; resetExecutionState(); error=''; status=''; exportFeedback=''; delete root.dataset.patchExportState;
-      if(documentValue){ const stored=loadStored(documentValue); draft=stored ?? String(documentValue.content ?? ''); } else draft='';
+      governedDraftRevisionSha = null;
+      if(documentValue){
+        const extension = String(documentValue.extension ?? '').toLowerCase();
+        const stored = extension === '.yaml' || extension === '.yml' ? loadStored(documentValue) : null;
+        draft=stored ?? String(documentValue.content ?? '');
+      } else draft='';
     } else if (changed && documentValue) {
       draft = String(documentValue.content ?? draft);
     }
@@ -359,7 +369,27 @@ export function createDocumentEditPlanner(options: Options): HTMLElement {
     if (documentValue) void recoverExecutionForDocument(documentValue);
   }
 
-  (root as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument=setDocument;
+  function setDraftContent(content: string, revisionSha256?: string | null): void {
+    if (!currentDocument) return;
+    const extension = String(currentDocument.extension ?? '').toLowerCase();
+    if (extension !== '.md' && extension !== '.json') return;
+    if (draft !== content || governedDraftRevisionSha !== (revisionSha256 ?? null)) {
+      draft = content;
+      governedDraftRevisionSha = revisionSha256 ?? null;
+      plan = undefined;
+      resetExecutionState();
+      exportFeedback = '';
+      delete root.dataset.patchExportState;
+      status = governedDraftRevisionSha
+        ? 'Draft gobernado sincronizado con el planner; cualquier plan/aprobación previa fue invalidado.'
+        : 'Planner sincronizado con el source aprobado; aún no existe revisión runtime activa.';
+      error = '';
+      draw();
+    }
+  }
+
+  (root as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void; setDraftContent?: (content: string, revisionSha256?: string | null) => void }).setDocument=setDocument;
+  (root as HTMLElement & { setDraftContent?: (content: string, revisionSha256?: string | null) => void }).setDraftContent=setDraftContent;
   setDocument(currentDocument);
   return root;
 }

@@ -16,6 +16,7 @@ import { renderDocumentTree } from '../components/DocumentTree';
 import { createDocumentValidationPanel } from '../components/DocumentValidationPanel';
 import { createWorkspaceGitOperationsPanel } from '../components/WorkspaceGitOperationsPanel';
 import { createDocumentEditPlanner } from '../components/DocumentEditPlanner';
+import { createArtifactManualEditor } from '../components/ArtifactManualEditor';
 import { renderDocumentViewer } from '../components/DocumentViewer';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 
@@ -90,6 +91,12 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
   let listRequestSequence = 0;
   let documentRequestSequence = 0;
   const editPlanner = createDocumentEditPlanner({ tokenProvider, onMutationComplete: async () => { if (state.selectedId) await loadDocument(state.selectedId, false); } });
+  const manualEditor = createArtifactManualEditor({
+    tokenProvider,
+    onDraftChange: (content, revisionSha256) => {
+      (editPlanner as HTMLElement & { setDraftContent?: (value: string, revisionSha256?: string | null) => void }).setDraftContent?.(content, revisionSha256);
+    },
+  });
   const gitOperationsPanel = createWorkspaceGitOperationsPanel({ tokenProvider, onCommitComplete: async () => { if (state.selectedId) await loadDocument(state.selectedId, false); } });
   const validationPanel = createDocumentValidationPanel({
     tokenProvider,
@@ -307,7 +314,8 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
       );
       next.append(layout, renderPagination(state, () => void load(false)));
       (editPlanner as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
-      next.append(editPlanner);
+      (manualEditor as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
+      next.append(manualEditor, editPlanner);
       (gitOperationsPanel as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
       next.append(gitOperationsPanel);
       next.append(renderGuarded(() => renderDocumentInspectionPanel({
@@ -327,7 +335,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
     } catch (error) {
       state.renderError = `La UI aisló un error de render sin perder el estado operativo: ${error instanceof Error ? error.message : String(error)}`;
       const fallback = document.createDocumentFragment();
-      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), editPlanner, gitOperationsPanel, validationPanel);
+      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), manualEditor, editPlanner, gitOperationsPanel, validationPanel);
       root.replaceChildren(fallback);
     }
   }
@@ -354,10 +362,11 @@ function renderIntroduction(): HTMLElement {
   const section = document.createElement('section');
   section.className = 'panel workspace-documents-intro';
   const title = document.createElement('h2');
-  title.textContent = 'Explorador de documentos';
+  title.textContent = 'Artifact Workbench · Explorador de documentos';
   const description = document.createElement('p');
-  description.textContent = 'Explorador read-only del workspace activo. El navegador usa identificadores opacos y nunca entrega rutas absolutas como autoridad.';
-  section.append(title, description, renderContractBadges('ui.workspace-documents', { dryRunLabel: 'Read-only', warning: 'UOC-006 implemented-initial: staging, commit y branch local solo mediante planes tipados y approvals exactas; push/reset/rebase/branch delete siguen bloqueados. Jobs asíncronos llegan en UOC-007/UOC-008.' }));
+  description.textContent = 'Navega documentos del workspace activo y, para Markdown/JSON, crea drafts MANUAL gobernados con autosave, historial y optimistic concurrency. El source aprobado no cambia hasta el flujo de plan/approval/apply.';
+  description.textContent += ' Los documentos se navegan mediante identificadores opacos.';
+  section.append(title, description, renderContractBadges('ui.workspace-documents', { dryRunLabel: 'DRAFT runtime', warning: 'GSDLC-04-B habilita autoría manual solo como draft runtime. Apply de source sigue gobernado por UOC-005; Git por UOC-006; no remote/connector/plugin write.' }));
   return section;
 }
 

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-B-DRAFT-LIFECYCLE-REPORT",
+  "micro_sprint": "DEVPL-GSDLC-04-B",
+  "source_repo": "repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893",
+  "source_sha256": "0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6",
+  "status": "PASS-PREWINDOWS",
+  "updated": "2026-08-20",
+  "result": "PASS-PREWINDOWS",
+  "manual_authoring": true,
+  "source_types": [
+    "MANUAL"
+  ],
+  "runtime_store": "outputs/drafts/gsdlc_04_b",
+  "source_mutation_on_save": false,
+  "operations": [
+    "GET",
+    "HISTORY",
+    "SAVE",
+    "AUTOSAVE",
+    "DISCARD",
+    "RECOVER"
+  ],
+  "immutable_revision_history": true,
+  "optimistic_concurrency": "source_preimage_sha256 + current_revision_sha256",
+  "server_authorities": [
+    "authenticated session",
+    "Server RBAC",
+    "workspace/project context",
+    "source artifact hash"
+  ],
+  "ui_authority": false,
+  "draft_is_approval_evidence": false,
+  "supported_extensions": [
+    ".md",
+    ".json"
+  ],
+  "max_content_bytes": 1048576,
+  "max_revisions": 50,
+  "autosave_debounce_ms": 1100,
+  "security": {
+    "secret_guard": true,
+    "markdown_preview_dom_text_nodes_only": true,
+    "raw_html_rendering": false,
+    "legacy_token_authority": false
+  },
+  "windows_browser_acceptance": "PENDING",
+  "full_regression_executed": false,
+  "full_regression_runs": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "pilot_workspace_accessed": false
+}

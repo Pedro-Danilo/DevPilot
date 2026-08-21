@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-B-HISTORICAL-CONTRACT-SWEEP",
+  "micro_sprint": "DEVPL-GSDLC-04-B",
+  "source_repo": "repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893",
+  "source_sha256": "0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6",
+  "status": "PASS-PREWINDOWS",
+  "updated": "2026-08-20",
+  "result": "PASS-PREWINDOWS",
+  "classifications": {
+    "historical-freeze": [
+      {
+        "contract": "UOC-004 sessionStorage draft behavior",
+        "decision": "preserved only for YAML/YML compatibility; not rewritten as global post-GSDLC authority"
+      },
+      {
+        "contract": "UOC-005 immutable edit plan/apply/rollback",
+        "decision": "preserved and reused as sole source-write boundary; 04-B draft save does not apply source"
+      },
+      {
+        "contract": "GSDLC-03 authenticated project context",
+        "decision": "preserved; workbench remains project-scoped and server validated"
+      },
+      {
+        "contract": "GSDLC-04-A artifact lifecycle/provenance",
+        "decision": "preserved; MANUAL+DRAFT semantics consumed without changing frozen closure evidence"
+      }
+    ],
+    "current-active": [
+      ".devpilot/identity/server_rbac_policy_catalog.json",
+      ".devpilot/interfaces/api_route_contract_registry.json",
+      ".devpilot/interfaces/ui_route_contract_registry.json",
+      ".devpilot/interfaces/ui_capability_registry.json",
+      "docs/07_interfaces/openapi_v1.json",
+      ".devpilot/project_state.json"
+    ],
+    "successor-needed": [
+      {
+        "contract": "manual Markdown/JSON draft authority",
+        "successor": "server runtime ArtifactDraftApplicationService + GSDLC-04-B API/UI contracts"
+      }
+    ],
+    "deprecated-after-proof": [],
+    "derived": [
+      "registry summaries/counters",
+      "schema catalog counters",
+      "TCR counters",
+      "package metadata"
+    ],
+    "runtime-ephemeral": [
+      "outputs/drafts/gsdlc_04_b",
+      "auth.db*",
+      "devpilot.db*"
+    ]
+  },
+  "frozen_evidence_modified": false,
+  "historical_assertion_changed_only_for_green": false,
+  "historical_test_reconciliation": {
+    "test": "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py::test_activation_rebind_historical_pre_windows_snapshot_is_preserved",
+    "classification": "historical-freeze",
+    "reason": "The predecessor test previously read mutable current-active fields. GSDLC-04-B preserves the 04-A pre-Windows fact in explicit *_at_pre_windows_close snapshots while current fields legitimately evolve after owner adjudication.",
+    "behavior_weakened": false,
+    "current_authority_preserved": true
+  }
+}

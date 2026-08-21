@@ -1,0 +1,40 @@
+{
+  "schema_id": "devpilot.gsdlc04b.operator_config.v1",
+  "operator_id": "DEVPL-GSDLC-04-B-OPERATOR",
+  "version": "1.0.10",
+  "baseline": {
+    "repo": "repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893",
+    "sha256": "0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6"
+  },
+  "candidate_name": "repo_DevPilot_Local_366_DEVPL_GSDLC_04_B_MANUAL_EDITOR_DRAFT_HISTORY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "full_regression_allowed": false,
+  "pilot_workspace_access_allowed": false,
+  "dry_run_default": true,
+  "shell": false,
+  "runtime_exclusions": [
+    ".git",
+    ".venv",
+    "node_modules",
+    "outputs",
+    ".pytest_cache",
+    "__pycache__",
+    "auth.db*",
+    "devpilot.db*"
+  ],
+  "browser_fixture_root": "D:\\Projects\\DevPilot_E2E_Evaluation\\worktrees\\DEVPL_GSDLC_04_B_BROWSER",
+  "candidate_output_root": "D:\\Projects\\DevPilot_Artifacts\\POST-H-EVAL-002\\baselines\\gsdlc_04_b",
+  "branch": "feat/devpl-gsdlc-04-b-manual-editor",
+  "evidence_checkpoint_policy": "external-json-preserve-on-repeat",
+  "preimage_authority": "git-blob-first-when-worktree-byte-hash-differs",
+  "console_terminal_status": "ansi-green-pass-red-block-last-line",
+  "windows_harness": "scripts/devpl_gsdlc_04_b_windows_harness.py",
+  "recovery_mode": "state-convergent-v1.0.8-applied-browser-b3-restart-or-repo365",
+  "runtime_console_script": "scripts/devpl_gsdlc_04_b_runtime_console.py",
+  "runtime_architecture": "three-consoles-mandatory/general+api+ui",
+  "runtime_fixture_binding": "exact-browser-fixture-only/allowed-root+active-root/server-process-env/git-clean-required/pre-open-or-validated-post-open",
+  "browser_fixture_precheck": "pre-open/git-clean+pathguard+project-entry-dry-run+ui-workspace-context",
+  "browser_fixture_ownership": "external-evidence-only/no-marker-inside-fixture",
+  "corrective_validation": "focal-04b+source-registry+docs-governance-only",
+  "browser_recovery": "browser-resume-009/read-only/post-open-pass+prior-captures+source-hash+draft-store-precheck/no-open-replay"
+}

@@ -1,10 +1,10 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `DEVPL-GSDLC-04` está owner-approved y `GSDLC-04-A` se encuentra `PASS-CANDIDATE / PRE-WINDOWS`, pendiente de validación Windows y owner adjudication.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `GSDLC-04-A` está `CLOSED/PASS` por owner adjudication y `GSDLC-04-B` está `IMPLEMENTED / READY-FOR-WINDOWS`, pendiente únicamente de browser/evidencia Windows y owner adjudication; `GSDLC-04-C` permanece bloqueado.
 
-Fuente de ejecución de GSDLC-04: `repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `7f6c9ed8a49fd9300d8b10eb3255969256eb2865`, SHA-256 `84879093ae88e46dd967adf0b5d857cf2912fc9c98f7d8173c59a485c008c8f2`. Repo359 permanece baseline histórico GSDLC-02, no baseline mutable.
+Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
-04-A introduce solamente contratos server-authoritative de lifecycle/provenance y política por Artifact Profile; no habilita editor/upload real, no agrega rutas API/UI, no crea un segundo writer y no ejecuta browser/full regression. 04-B permanece bloqueado hasta evidencia Windows + owner adjudication de 04-A.
+04-B habilita autoría MANUAL de Markdown/JSON desde `Workspace Documents` con draft runtime separado del source aprobado, autosave, historial inmutable, discard/recover, preview seguro, hints JSON y optimistic concurrency por source/revision hash. Las cinco rutas de draft exigen human session y RBAC server-side; `sessionStorage` no es autoridad para Markdown/JSON. UOC-004/UOC-005 siguen siendo el único pipeline para plan/approval/apply al source. No se ejecuta full regression en 04-B; la corrida única del backlog sigue reservada a 04-E.
 
 POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no puede usarse como input/fixture durante GSDLC.
 

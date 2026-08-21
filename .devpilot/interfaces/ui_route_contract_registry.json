@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-19",
+  "updated": "2026-08-20",
   "routes": [
     {
       "route_id": "ui.ai",
@@ -644,7 +644,7 @@
     },
     {
       "route_id": "ui.workspace-documents",
-      "title": "Workspace Documents — explorador read-only",
+      "title": "Artifact Workbench — governed documents and MANUAL drafts",
       "path": "/workspace/documents",
       "page_component": "WorkspaceDocumentsView",
       "source_files": [
@@ -654,12 +654,18 @@
         "ui/web/src/components/DocumentInspectionPanel.ts",
         "ui/web/src/components/DocumentValidationPanel.ts",
         "ui/web/src/components/DocumentEditPlanner.ts",
-        "ui/web/src/components/WorkspaceGitOperationsPanel.ts"
+        "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
+        "ui/web/src/components/ArtifactManualEditor.ts"
       ],
       "allowed_api_routes": [
         "api.approvals.approve",
         "api.approvals.deny",
         "api.portfolio.status",
+        "api.workspace.artifact-drafts.discard",
+        "api.workspace.artifact-drafts.get",
+        "api.workspace.artifact-drafts.history",
+        "api.workspace.artifact-drafts.recover",
+        "api.workspace.artifact-drafts.save",
         "api.workspace.documents.diff",
         "api.workspace.documents.history",
         "api.workspace.documents.links",
@@ -675,23 +681,23 @@
         "api.workspace.edit-plans.plan",
         "api.workspace.edit-plans.recheck",
         "api.workspace.edit-plans.status",
+        "api.workspace.git.branch-approval",
+        "api.workspace.git.branch-create",
+        "api.workspace.git.branch-plan",
+        "api.workspace.git.commit",
+        "api.workspace.git.commit-approval",
+        "api.workspace.git.compare",
+        "api.workspace.git.executions.read",
+        "api.workspace.git.history",
+        "api.workspace.git.plans.create",
+        "api.workspace.git.plans.read",
+        "api.workspace.git.stage",
+        "api.workspace.git.stage-approval",
+        "api.workspace.git.status",
         "api.workspace.traceability",
         "api.workspace.validations.execute",
         "api.workspace.validations.plan",
-        "api.workspace.validations.status",
-        "api.workspace.git.status",
-        "api.workspace.git.history",
-        "api.workspace.git.compare",
-        "api.workspace.git.plans.create",
-        "api.workspace.git.plans.read",
-        "api.workspace.git.stage-approval",
-        "api.workspace.git.stage",
-        "api.workspace.git.executions.read",
-        "api.workspace.git.commit-approval",
-        "api.workspace.git.commit",
-        "api.workspace.git.branch-plan",
-        "api.workspace.git.branch-approval",
-        "api.workspace.git.branch-create"
+        "api.workspace.validations.status"
       ],
       "critical": true,
       "local_only": true,
@@ -729,7 +735,14 @@
         "forbidden": true,
         "timeout": true,
         "cancelled": true,
-        "stale_data": true
+        "stale_data": true,
+        "draft_empty": true,
+        "draft_loading": true,
+        "draft_saved": true,
+        "draft_conflict": true,
+        "draft_recovered": true,
+        "draft_discarded": true,
+        "json_hint_block": true
       },
       "status_visibility": [
         "PASS",
@@ -752,14 +765,18 @@
         "UOC-005 remains the narrow approval-bound document apply/rollback boundary.",
         "UOC-006 adds a separate governed Git panel: typed status/history/compare, immutable staging/commit plan, exact stage approval, exact staging, second commit approval, explicit-identity local commit, and controlled local branch-ref creation.",
         "The browser never supplies free Git arguments or absolute path authority. reset --hard, rebase, push/force-push, branch deletion, checkout/switch, tags and repository hooks remain blocked.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
+        "UOC-011: route participates in the 12-state operational browser hardening matrix.",
+        "GSDLC-04-B adds MANUAL Markdown/JSON runtime draft authoring, autosave, immutable history, discard/recover and optimistic concurrency; draft save never writes approved source."
       ],
       "mutation_controls": {
         "local_state_mutation_only": false,
         "approval_required": true,
         "destructive_action_allowed": false,
         "plan_only": false,
-        "justification": "UOC-006 exposes only typed, exact approval-bound Git index/history/local-ref mutations. Source document writes remain UOC-005-only; generic Git command execution and network operations remain blocked."
+        "justification": "GSDLC-04-B allows bounded runtime-only draft persistence without approval; source mutations remain exclusively approval-bound through UOC-005, and Git mutations remain UOC-006 governed.",
+        "runtime_draft_mutation": true,
+        "runtime_draft_approval_required": false,
+        "runtime_draft_source_write_enabled": false
       }
     }
   ],
@@ -770,7 +787,7 @@
     "dry_run_badged_routes_total": 10,
     "no_remote_badged_routes_total": 10,
     "mutation_control_routes_total": 6,
-    "allowed_api_routes_unique_total": 73,
+    "allowed_api_routes_unique_total": 82,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -788,7 +805,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-03-E-REG-001",
+    "updated_by": "DEVPL-GSDLC-04-B",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -817,7 +834,10 @@
     "gsdlc_03_e_project_home_registered": true,
     "gsdlc_03_e_top_level_routes_added": 0,
     "gsdlc_03_e_normal_user_powershell_required": 0,
-    "gsdlc_03_e_external_operator_project_writes": 0
+    "gsdlc_03_e_external_operator_project_writes": 0,
+    "gsdlc_04_b_manual_authoring_routes_total": 1,
+    "gsdlc_04_b_runtime_draft_api_routes_total": 5,
+    "gsdlc_04_b_source_write_routes_total": 0
   },
   "safety": {
     "local_first": true,

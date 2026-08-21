@@ -79,6 +79,14 @@ Autoridades externas de cierre que deben incorporarse al repo **antes de cualqui
 
 Este checkpoint forma parte de 04-A y **no crea un sexto micro-sprint**.
 
+## 0.3 Estado de ejecución acumulativo — 2026-08-20
+
+- `GSDLC-04-A = CLOSED/PASS`; authority: `DEVPL_GSDLC_04_A_OWNER_ADJUDICATION_v1_0_0.md`.
+- Successor autoritativo para 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`.
+- `GSDLC-04-B = IMPLEMENTED / READY-FOR-WINDOWS`; no `CLOSED/PASS` hasta evidencia Windows + owner adjudication.
+- `GSDLC-04-C = BLOCKED-BY-SEQUENCE`.
+- Full regression consumida en el backlog: `0`; sigue reservada a 04-E.
+
 
 # DEVPL-GSDLC-04 — Artifact Workbench, governed authoring and external-source import
 

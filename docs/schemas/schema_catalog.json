@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "owner": "Ordóñez",
   "updated": "2026-08-20",
-  "sprint": "DEVPL-GSDLC-03-D",
+  "sprint": "DEVPL-GSDLC-04-B",
   "preliminary": true,
-  "purpose": "Authoritative schema catalog including GSDLC-03-A ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts.",
+  "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1",
@@ -2973,7 +2973,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-04-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-B-ARTIFACT-DRAFT-STORE-RECORD-V1",
+      "title": "Artifact Draft Store Record v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_draft_store_record.schema.json",
+      "description": "GSDLC-04-B runtime-only MANUAL draft persistence, immutable revision history and optimistic concurrency contract.",
+      "status": "registered",
+      "contract": "ArtifactDraftStoreRecord",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-B"
     }
   ],
-  "schemas_total": 206
+  "schemas_total": 207
 }

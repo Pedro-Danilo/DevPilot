@@ -4,7 +4,7 @@ title: "DevPilot Guided SDLC Product Evolution — Roadmap maestro"
 status: "approved"
 version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-08-13"
+updated: "2026-08-20"
 approval: "approved_by_owner"
 approved_by: "Ordóñez"
 approved_at: "2026-08-13"
@@ -27,9 +27,10 @@ backlogs_total: 15
 - `DEVPL-GSDLC-03 = CLOSED/PASS`.
 - Successor owner-adjudicated: `repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `7f6c9ed8a49fd9300d8b10eb3255969256eb2865`.
 - `DEVPL-GSDLC-04 = APPROVED / EXECUTABLE-DESIGN`.
-- `GSDLC-04-A = PASS-CANDIDATE / PRE-WINDOWS`: lifecycle/provenance server-authoritative, sin writes de workspace ni nuevas rutas API/UI.
-- `GSDLC-04-B` continúa bloqueado hasta evidencia Windows y owner adjudication de 04-A.
-- La evidencia browser/full de GSDLC-03 está sellada y no se reejecuta durante 04-A.
+- `GSDLC-04-A = CLOSED/PASS`: owner adjudication `DEVPL_GSDLC_04_A_OWNER_ADJUDICATION_v1_0_0.md`; successor repo365/commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`.
+- `GSDLC-04-B = IMPLEMENTED / READY-FOR-WINDOWS`: MANUAL Markdown/JSON drafts, autosave/history/recovery y optimistic concurrency implementados; Windows browser proof + owner adjudication pendientes.
+- `GSDLC-04-C` permanece bloqueado hasta CLOSED/PASS de 04-B.
+- Full regression de GSDLC-04 continúa sin consumirse; pertenece a 04-E.
 
 
 ## 1. Visión objetivo

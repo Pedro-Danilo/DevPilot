@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-B-TEST-IMPACT",
+  "micro_sprint": "DEVPL-GSDLC-04-B",
+  "source_repo": "repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893",
+  "source_sha256": "0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6",
+  "status": "PASS-PREWINDOWS",
+  "updated": "2026-08-21",
+  "result": "PASS-PREWINDOWS",
+  "risk": "P0-local-governed-write-precondition",
+  "full_regression_allowed": false,
+  "primary_tests": [
+    "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+    "tests/test_post_h_eval_002_uoc_004_contracts.py",
+    "tests/test_post_h_eval_002_uoc_005_contracts.py"
+  ],
+  "impacted_tests": [
+    "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+    "tests/test_devpl_gsdlc_02_c_api_rbac.py",
+    "tests/test_api_workspace_documents.py",
+    "tests/test_web_ui_workspace_documents.py",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_post_h_028_ui_route_registry_enforcement.py",
+    "tests/test_documentation_source_registry_schema.py"
+  ],
+  "deterministic_gates": [
+    "schema list",
+    "validate docs (artifact profile registry + strict readiness)",
+    "project-state validate",
+    "test-contracts validate",
+    "test-contracts validate-v2",
+    "docs-governance validate",
+    "api contract-drift",
+    "api security-hardening",
+    "TypeScript noEmit",
+    "04-B static browser contract smoke"
+  ],
+  "windows_only_or_pending": [
+    "npm ci/build with provisioned dependencies",
+    "real browser smoke",
+    "restart recovery browser proof",
+    "concurrent edit browser proof"
+  ],
+  "hard_trigger_for_full_regression": false,
+  "full_regression_runs": 0,
+  "pre_windows_results": {
+    "focused_04_b": "20 passed, 0 failed, 0 errors, 0 skipped",
+    "cumulative_04_a_uoc004_uoc005_04_b": "51 passed, 0 failed, 0 errors, 0 skipped",
+    "rbac_api_ui_impact": "36 passed, 0 failed, 0 errors, 0 skipped",
+    "documentation_source_registry": "5 passed, 0 failed, 0 errors, 0 skipped",
+    "schema_registry": "PASS / 207 schemas registered and existing",
+    "validation_docs": "PASS / artifact-profile-registry + readiness-strict",
+    "project_state": "PASS / 6 of 6 checks",
+    "tcr_v1": "PASS / 286 contracts",
+    "tcr_v2": "PASS / 286 contracts / 96 P0 / 0 missing paths / 0 unsafe commands",
+    "documentation_governance": "PASS / 949 registered / 949 scanned / 0 drift / 0 blocking findings / 0 warnings",
+    "api_contract_drift": "PASS / 0 blockers / 4 inherited public-transport warnings",
+    "api_security_hardening": "PASS / 7 of 7",
+    "ui_static_04_b": "PASS / 15 of 15",
+    "typescript_touched_noemit": "PASS with local ambient ImportMeta declaration; full Vite build remains Windows gate",
+    "operator_pycompile": "PASS",
+    "full_regression_runs": 0,
+    "fixture_binding_contract": "PASS / runtime allowed-root + active-root + precheck contract",
+    "observation_parser_contract": "PASS / version isolation + blank-template negative + completed-template positive",
+    "source_registry": "5 passed, 0 failed, 0 errors, 0 skipped",
+    "docs_governance": "PASS 949/949; drift=0; warnings=0; blockers=0",
+    "fixture_restart_state_contract": "PASS / PRE_OPEN vs POST_OPEN_PASS + partial/invalid metadata fail-closed + runtime/harness restart-state contract"
+  },
+  "corrective_version": "1.0.10",
+  "corrective_008_validation_policy": {
+    "reason": "Only Windows fixture ownership/recovery/probe/runtime harness + evidence docs changed; product draft service/routes/UI behavior is unchanged.",
+    "required": [
+      "focused 04-B tests",
+      "Source Registry schema tests",
+      "Documentation Governance",
+      "stateful fixture recovery self-test"
+    ],
+    "not_repeated": [
+      "04-A/UOC cumulative",
+      "RBAC/API/UI impact suite",
+      "API security",
+      "TCR full validation",
+      "Vite production build"
+    ],
+    "full_regression_runs": 0
+  },
+  "corrective_009_validation_policy": {
+    "reason": "Only fixture lifecycle/restart harness + guide/evidence governance changed after Windows B3; product draft service/routes/UI behavior is unchanged.",
+    "required": [
+      "focused 04-B tests",
+      "Source Registry schema tests",
+      "Documentation Governance",
+      "stateful post-open restart self-test"
+    ],
+    "not_repeated": [
+      "04-A/UOC cumulative",
+      "RBAC/API/UI impact suite",
+      "API security",
+      "TCR full validation",
+      "Vite production build",
+      "Open Existing",
+      "B1",
+      "B2"
+    ],
+    "full_regression_runs": 0
+  },
+  "corrective_010_validation_policy": {
+    "reason": "Only Windows fixture final-hash equivalence logic, guide and current evidence governance changed. Product draft service/routes/UI behavior is unchanged and B1-B9 are not replayed.",
+    "required": [
+      "focused 04-B tests",
+      "Source Registry schema tests",
+      "Documentation Governance",
+      "LF/CRLF final-hash positive and real-content-change negative test"
+    ],
+    "not_repeated": [
+      "04-A/UOC cumulative",
+      "RBAC/API/UI impact suite",
+      "API security",
+      "TCR full validation",
+      "Vite production build",
+      "Open Existing",
+      "B1-B9"
+    ],
+    "full_regression_runs": 0
+  }
+}

@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 104,
+    "api_routes_total": 109,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10816,11 +10816,14 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-03-E-REG-001",
+    "updated_by": "DEVPL-GSDLC-04-B",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
-    "gsdlc_02_e_auth_ui_routes_total": 3
+    "gsdlc_02_e_auth_ui_routes_total": 3,
+    "gsdlc_04_b_manual_authoring_available": true,
+    "gsdlc_04_b_runtime_draft_api_routes_total": 5,
+    "gsdlc_04_b_source_write_enabled": false
   },
   "ui_routes": [
     {
@@ -11161,6 +11164,11 @@
     {
       "allowed_api_route_ids": [
         "api.portfolio.status",
+        "api.workspace.artifact-drafts.discard",
+        "api.workspace.artifact-drafts.get",
+        "api.workspace.artifact-drafts.history",
+        "api.workspace.artifact-drafts.recover",
+        "api.workspace.artifact-drafts.save",
         "api.workspace.documents.list",
         "api.workspace.documents.metadata",
         "api.workspace.documents.read",
@@ -11205,6 +11213,19 @@
           "requires_dry_run": true,
           "risk_class": "governed-plan",
           "source_write_enabled": false
+        },
+        {
+          "application_service": "artifact_drafts",
+          "capability_id": "ui.workspace-documents.manual-authoring",
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "DEVPL-GSDLC-04-B",
+          "read_write": "runtime-draft",
+          "requires_approval_for_future_apply": true,
+          "requires_dry_run": false,
+          "risk_class": "governed-runtime-state",
+          "source_write_enabled": false,
+          "runtime_persistence": "outputs/drafts/gsdlc_04_b",
+          "optimistic_concurrency": true
         }
       ],
       "page_component": "WorkspaceDocumentsView",
@@ -11212,20 +11233,27 @@
       "plugin_execution_allowed": false,
       "remote_execution_allowed": false,
       "route_id": "ui.workspace-documents",
-      "shows_mutation_controls": false,
+      "shows_mutation_controls": true,
       "source_files": [
-        "ui/web/src/components/WorkspaceGitOperationsPanel.ts"
+        "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/components/ArtifactManualEditor.ts",
+        "ui/web/src/components/DocumentEditPlanner.ts"
       ],
       "state_contract": {
         "block_visible": true,
         "empty": true,
         "error": true,
-        "loading": true
+        "loading": true,
+        "draft_empty": true,
+        "draft_saved": true,
+        "draft_conflict": true,
+        "draft_recovered": true
       },
-      "status": "closed/PASS-uoc-004-plan-only",
-      "title": "Workspace Documents — explorador read-only"
+      "status": "implemented/gsdlc-04-b-manual-authoring",
+      "title": "Artifact Workbench — governed documents and MANUAL drafts"
     }
   ],
   "updated": "2026-08-20",
-  "version": "1.9.0"
+  "version": "1.2.0"
 }

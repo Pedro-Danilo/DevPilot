@@ -681,3 +681,48 @@ export interface AuthSessionEnvelope { ok: boolean; session: AuthSessionContext;
 
 export type ProjectEntryMode = 'CREATE_NEW' | 'OPEN_EXISTING' | 'IMPORT_GIT';
 export interface ProjectEntryDryRunData { dry_run?: Record<string, unknown>; bootstrap_plan?: Record<string, unknown>; writes_performed?: boolean; network_used?: boolean; }
+
+export interface ArtifactDraftRevisionSummary {
+  revision: number;
+  revision_sha256: string;
+  parent_revision_sha256?: string | null;
+  content_sha256: string;
+  event: 'SAVE' | 'AUTOSAVE' | 'RECOVER' | string;
+  actor: string;
+  actor_role: string;
+  created_at: string;
+  recovered_from_sha256?: string | null;
+  lifecycle_state: 'DRAFT';
+  source_type: 'MANUAL';
+}
+
+export interface ArtifactDraftRevision extends ArtifactDraftRevisionSummary {
+  content: string;
+  session_principal: string;
+  source_preimage_sha256: string;
+  approved_evidence: false;
+  source_mutations_performed: false;
+}
+
+export interface ArtifactDraftRecord {
+  schema_id: 'devpilot.gsdlc04b.artifact_draft_store_record.v1';
+  workspace_id: string;
+  document_id: string;
+  relative_path: string;
+  extension: '.md' | '.json' | string;
+  source_type: 'MANUAL';
+  lifecycle_state: 'DRAFT';
+  source_preimage_sha256: string;
+  base_commit: string;
+  author_actor: string;
+  author_role: string;
+  session_principal: string;
+  active: boolean;
+  current_revision_sha256?: string | null;
+  created_at: string;
+  updated_at: string;
+  revisions: ArtifactDraftRevision[];
+  source_conflict?: boolean;
+  approved_evidence: false;
+  source_mutations_performed: false;
+}

@@ -1108,3 +1108,22 @@ button, .primary-nav__links a { min-height: 44px; }
 
 /* GSDLC-03-E-UX-004 — resumable entry journey */
 .project-home__resume{display:flex;gap:.75rem;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:1rem;border:1px solid var(--border,#c8d4e3);border-radius:.75rem;background:#f5f9ff}.project-home__resume span{flex:1 1 24rem}.approval-handoff-return{border-style:dashed}
+
+/* GSDLC-04-B — governed MANUAL draft editor. */
+.artifact-manual-editor{display:grid;gap:1rem;border-top:4px solid #4a63d8;}
+.artifact-editor-heading{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;}
+.artifact-editor-heading h2{margin:0;}
+.artifact-editor-identity{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:.35rem .8rem;margin:0;padding:.8rem;border:1px solid #c7d0df;border-radius:.65rem;background:#f8faff;}
+.artifact-editor-identity dt{font-weight:700;color:#33415c;}.artifact-editor-identity dd{margin:0;min-width:0;overflow-wrap:anywhere;}
+.artifact-manual-editor-input{width:100%;min-height:24rem;resize:vertical;font:500 .92rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:#121a2b;background:#fff;border:1px solid #7186a6;border-radius:.6rem;padding:.9rem;}
+.artifact-manual-editor-input:focus-visible{outline:3px solid #8db6ff;outline-offset:2px;border-color:#1f5eff;}
+.artifact-manual-editor-input:disabled{background:#eef1f6;color:#5d6675;}
+.artifact-draft-status{border-left:4px solid #7186a6;padding:.65rem .8rem;background:#f5f7fb;border-radius:.35rem;}
+.artifact-draft-status[data-state="saved"]{border-left-color:#238636;background:#effaf2;}.artifact-draft-status[data-state="conflict"],.artifact-draft-status[data-state="error"]{border-left-color:#b42318;background:#fff1f0;}
+.artifact-editor-actions{display:flex;gap:.65rem;flex-wrap:wrap;}
+.artifact-schema-hints,.artifact-safe-preview,.artifact-version-history{border:1px solid #d6dce8;border-radius:.65rem;padding:.85rem;background:#fbfcff;}
+.artifact-schema-hints h3,.artifact-safe-preview h3,.artifact-version-history h3{margin-top:0;}
+.artifact-safe-preview{max-height:32rem;overflow:auto;}.artifact-safe-preview pre{white-space:pre-wrap;overflow-wrap:anywhere;}
+.artifact-version-history ol{display:grid;gap:.45rem;padding-left:1.4rem;}.artifact-version-history li{display:flex;gap:.8rem;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+.artifact-editor-warning{font-weight:600;padding:.7rem;border:1px solid #d2a800;border-radius:.5rem;background:#fff9db;}
+@media (max-width:720px){.artifact-editor-identity{grid-template-columns:1fr}.artifact-manual-editor-input{min-height:18rem}.artifact-editor-actions button{width:100%}}

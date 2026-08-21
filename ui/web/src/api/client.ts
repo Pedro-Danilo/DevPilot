@@ -386,6 +386,26 @@ export class DevPilotApiClient {
     return this.get(`/workspace/documents/search${this.query({ query, limit, offset })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }
 
+  async artifactDraft(documentId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/artifact-drafts/${encodeURIComponent(documentId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async artifactDraftHistory(documentId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/artifact-drafts/${encodeURIComponent(documentId)}/history`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async saveArtifactDraft(documentId: string, payload: { content: string; expected_source_sha256: string; expected_revision_sha256?: string | null; event?: 'SAVE' | 'AUTOSAVE' }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-drafts/${encodeURIComponent(documentId)}/save`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async discardArtifactDraft(documentId: string, payload: { expected_source_sha256: string; expected_revision_sha256?: string | null }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-drafts/${encodeURIComponent(documentId)}/discard`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async recoverArtifactDraft(documentId: string, payload: { revision_sha256: string; expected_source_sha256: string; expected_revision_sha256?: string | null }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-drafts/${encodeURIComponent(documentId)}/recover`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   async planWorkspaceValidations(payload: { scopes?: string[]; document_ids?: string[]; strict?: boolean; timeout_seconds?: number } = {}): Promise<DevPilotApplicationResponse> {
     return this.post('/workspace/validations/plan', {
       operation: 'workspace.validations.plan',

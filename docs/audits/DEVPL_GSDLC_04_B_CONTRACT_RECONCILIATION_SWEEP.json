@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-B-CONTRACT-RECONCILIATION-SWEEP",
+  "micro_sprint": "DEVPL-GSDLC-04-B",
+  "source_repo": "repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893",
+  "source_sha256": "0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6",
+  "status": "PASS-PREWINDOWS",
+  "updated": "2026-08-20",
+  "result": "PASS-PREWINDOWS",
+  "checks": [
+    {
+      "id": "schema-current",
+      "result": "PASS",
+      "evidence": "ArtifactDraftStoreRecord registered; schema catalog validates"
+    },
+    {
+      "id": "derived-counters",
+      "result": "PASS",
+      "evidence": "API/UI/schema/TCR summaries recomputed for current collections"
+    },
+    {
+      "id": "rbac-session",
+      "result": "PASS",
+      "evidence": "five draft routes require authenticated human session; legacy token blocked"
+    },
+    {
+      "id": "ui-route-capability",
+      "result": "PASS",
+      "evidence": "ui.workspace-documents maps manual-authoring capability and five draft API routes"
+    },
+    {
+      "id": "source-registry-project-state",
+      "result": "PASS",
+      "evidence": "Project State PASS; Documentation Governance PASS 948/948 with drift=0/blocking=0; Source Registry contract 5/5 PASS"
+    },
+    {
+      "id": "historical-current",
+      "result": "PASS",
+      "evidence": "UOC historical facts preserved; current Markdown/JSON draft authority uses successor contract"
+    },
+    {
+      "id": "runtime-ephemeral",
+      "result": "PASS",
+      "evidence": "runtime draft store and DB/cache exclusions defined for packages/fixtures"
+    },
+    {
+      "id": "sealed-evidence",
+      "result": "PASS",
+      "evidence": "no prior sealed evidence overwritten"
+    },
+    {
+      "id": "source-write-boundary",
+      "result": "PASS",
+      "evidence": "draft operations do not overwrite approved source; UOC-005 remains source apply path"
+    }
+  ],
+  "full_regression_precondition": "NOT_APPLICABLE_04B",
+  "full_regression_executed": false,
+  "full_regression_runs": 0,
+  "pre_windows_gate_summary": {
+    "schema_registry": "PASS",
+    "artifact_profile_registry": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "documentation_governance": "PASS",
+    "api_contract_drift": "PASS",
+    "api_security_hardening": "PASS",
+    "ui_static_contract": "PASS",
+    "full_regression_runs": 0
+  }
+}
