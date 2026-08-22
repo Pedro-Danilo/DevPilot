@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-C-BROWSER-ACCEPTANCE-CURRENT",
+  "micro_sprint": "DEVPL-GSDLC-04-C",
+  "status": "PENDING/WINDOWS",
+  "updated": "2026-08-21",
+  "executed": false,
+  "result": null,
+  "required_flows": [
+    "Open Existing disposable fixture",
+    "PASTE preview + DRAFT provenance",
+    "UPLOAD Markdown preview + DRAFT provenance",
+    "IMPORT JSON preview + DRAFT provenance",
+    "secret warning/redaction and persist disabled",
+    "source label/reference visible with no fetch",
+    "project route guard",
+    "session/RBAC negative"
+  ],
+  "required_screenshots": [
+    "00_project_entry_fixture_open.png",
+    "01_paste_preview.png",
+    "02_paste_draft_provenance.png",
+    "03_upload_draft_provenance.png",
+    "04_import_json_provenance.png",
+    "05_secret_warning.png",
+    "06_project_guard.png"
+  ],
+  "s0_open": 0,
+  "s1_open": 0,
+  "owner_adjudication_pending": true,
+  "observation_filename": "DEVPL_GSDLC_04_C_MANUAL_BROWSER_OBSERVATIONS_v1_0_0.md",
+  "full_regression_runs": 0
+}

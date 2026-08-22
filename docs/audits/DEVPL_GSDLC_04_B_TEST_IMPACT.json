@@ -5,9 +5,9 @@
   "source_repo": "repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893",
   "source_sha256": "0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6",
-  "status": "PASS-PREWINDOWS",
+  "status": "CLOSED/PASS",
   "updated": "2026-08-21",
-  "result": "PASS-PREWINDOWS",
+  "result": "PASS",
   "risk": "P0-local-governed-write-precondition",
   "full_regression_allowed": false,
   "primary_tests": [
@@ -125,6 +125,17 @@
       "Open Existing",
       "B1-B9"
     ],
+    "full_regression_runs": 0
+  },
+  "windows_final_results": {
+    "focused_recovery_010": "PASS 20/20",
+    "source_registry": "PASS 5/5",
+    "documentation_governance": "PASS",
+    "fixture_hash_after": "PASS/git-blob+canonical-lf",
+    "browser_acceptance": "PASS/11-of-11",
+    "git_commit": "PASS/b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f",
+    "candidate_sha256": "3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92",
+    "evidence_sha256": "787ffa1166020df4c803964265653cb404a639230f78582c94cf0354a0fe41ea",
     "full_regression_runs": 0
   }
 }

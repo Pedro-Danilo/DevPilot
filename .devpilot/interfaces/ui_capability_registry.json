@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 109,
+    "api_routes_total": 112,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10816,14 +10816,18 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-04-B",
+    "updated_by": "DEVPL-GSDLC-04-C",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
     "gsdlc_02_e_auth_ui_routes_total": 3,
     "gsdlc_04_b_manual_authoring_available": true,
     "gsdlc_04_b_runtime_draft_api_routes_total": 5,
-    "gsdlc_04_b_source_write_enabled": false
+    "gsdlc_04_b_source_write_enabled": false,
+    "gsdlc_04_c_external_source_import_available": true,
+    "gsdlc_04_c_artifact_import_api_routes_total": 3,
+    "gsdlc_04_c_source_write_enabled": false,
+    "gsdlc_04_c_url_fetch_enabled": false
   },
   "ui_routes": [
     {
@@ -11177,10 +11181,13 @@
         "api.workspace.edit-plans.status"
       ],
       "allowed_api_routes": [
-        "api.workspace.documents.history",
+        "api.workspace.artifact-imports.persist",
+        "api.workspace.artifact-imports.preview",
+        "api.workspace.artifact-imports.recent",
         "api.workspace.documents.diff",
-        "api.workspace.documents.search",
-        "api.workspace.documents.links"
+        "api.workspace.documents.history",
+        "api.workspace.documents.links",
+        "api.workspace.documents.search"
       ],
       "api_route_ids": [
         "api.workspace.git.status",
@@ -11226,6 +11233,21 @@
           "source_write_enabled": false,
           "runtime_persistence": "outputs/drafts/gsdlc_04_b",
           "optimistic_concurrency": true
+        },
+        {
+          "application_service": "artifact_imports",
+          "capability_id": "ui.workspace-documents.external-source-import",
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "DEVPL-GSDLC-04-C",
+          "read_write": "runtime-draft",
+          "requires_approval_for_future_apply": true,
+          "requires_dry_run": true,
+          "risk_class": "governed-runtime-state",
+          "source_write_enabled": false,
+          "runtime_persistence": "outputs/imports/gsdlc_04_c",
+          "preview_required": true,
+          "provenance_visible": true,
+          "url_fetch_enabled": false
         }
       ],
       "page_component": "WorkspaceDocumentsView",
@@ -11238,7 +11260,8 @@
         "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
         "ui/web/src/pages/WorkspaceDocumentsView.ts",
         "ui/web/src/components/ArtifactManualEditor.ts",
-        "ui/web/src/components/DocumentEditPlanner.ts"
+        "ui/web/src/components/DocumentEditPlanner.ts",
+        "ui/web/src/components/ArtifactImportWorkbench.ts"
       ],
       "state_contract": {
         "block_visible": true,
@@ -11248,12 +11271,17 @@
         "draft_empty": true,
         "draft_saved": true,
         "draft_conflict": true,
-        "draft_recovered": true
+        "draft_recovered": true,
+        "import_idle": true,
+        "import_preview": true,
+        "import_secret_warning": true,
+        "import_draft_saved": true,
+        "import_block": true
       },
-      "status": "implemented/gsdlc-04-b-manual-authoring",
-      "title": "Artifact Workbench — governed documents and MANUAL drafts"
+      "status": "implemented/gsdlc-04-c-external-source-import",
+      "title": "Artifact Workbench — governed documents, MANUAL drafts and external-source import"
     }
   ],
-  "updated": "2026-08-20",
+  "updated": "2026-08-21",
   "version": "1.2.0"
 }

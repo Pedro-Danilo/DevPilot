@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.gsdlc04c.artifact_import_record.v1",
+  "title": "Artifact Import Runtime Draft Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "import_id",
+    "workspace_id",
+    "relative_path",
+    "extension",
+    "source_type",
+    "lifecycle_state",
+    "original_filename",
+    "declared_mime",
+    "original_size_bytes",
+    "source_label",
+    "source_reference",
+    "original_sha256",
+    "normalized_sha256",
+    "encoding",
+    "normalized_content",
+    "destination_exists",
+    "destination_preimage_sha256",
+    "preview_sha256",
+    "diff",
+    "artifact",
+    "created_at",
+    "updated_at",
+    "source_mutations_performed",
+    "workspace_writes_performed",
+    "runtime_store_write",
+    "network_used",
+    "external_api_used",
+    "secret_warning"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc04c.artifact_import_record.v1"
+    },
+    "import_id": {
+      "type": "string",
+      "pattern": "^imp_[0-9a-f]{32}$"
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "extension": {
+      "enum": [
+        ".md",
+        ".json"
+      ]
+    },
+    "source_type": {
+      "enum": [
+        "PASTE",
+        "UPLOAD",
+        "IMPORT"
+      ]
+    },
+    "lifecycle_state": {
+      "const": "DRAFT"
+    },
+    "original_filename": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 128
+    },
+    "original_size_bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1048576
+    },
+    "source_label": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 512
+    },
+    "source_reference": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 2048
+    },
+    "original_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "normalized_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "encoding": {
+      "enum": [
+        "utf-8",
+        "utf-8-sig",
+        "utf-16-le-bom",
+        "utf-16-be-bom"
+      ]
+    },
+    "normalized_content": {
+      "type": "string",
+      "maxLength": 1048576
+    },
+    "destination_exists": {
+      "type": "boolean"
+    },
+    "destination_preimage_sha256": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "preview_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "diff": {
+      "type": "string",
+      "maxLength": 65536
+    },
+    "artifact": {
+      "type": "object"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_mutations_performed": {
+      "const": false
+    },
+    "workspace_writes_performed": {
+      "const": false
+    },
+    "runtime_store_write": {
+      "const": true
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "secret_warning": {
+      "const": false
+    },
+    "declared_mime": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 128
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

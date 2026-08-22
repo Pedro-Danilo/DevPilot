@@ -726,3 +726,58 @@ export interface ArtifactDraftRecord {
   approved_evidence: false;
   source_mutations_performed: false;
 }
+
+export type ArtifactImportSourceType = 'PASTE' | 'UPLOAD' | 'IMPORT';
+
+export interface ArtifactImportPreview {
+  preview_sha256: string;
+  source_type: ArtifactImportSourceType;
+  relative_path: string;
+  extension: '.md' | '.json';
+  original_filename?: string | null;
+  declared_mime?: string | null;
+  original_size_bytes: number;
+  encoding: string;
+  source_label?: string | null;
+  source_reference?: string | null;
+  original_sha256: string;
+  normalized_sha256: string;
+  destination_exists: boolean;
+  destination_preimage_sha256?: string | null;
+  normalized_content: string;
+  diff: string;
+  secret_warning: boolean;
+  secret_values_exposed: false;
+}
+
+export interface ArtifactImportRecord {
+  schema_id: 'devpilot.gsdlc04c.artifact_import_record.v1';
+  import_id: string;
+  workspace_id: string;
+  relative_path: string;
+  extension: '.md' | '.json';
+  source_type: ArtifactImportSourceType;
+  lifecycle_state: 'DRAFT';
+  original_filename?: string | null;
+  declared_mime?: string | null;
+  original_size_bytes: number;
+  source_label?: string | null;
+  source_reference?: string | null;
+  original_sha256: string;
+  normalized_sha256: string;
+  encoding: string;
+  normalized_content: string;
+  destination_exists: boolean;
+  destination_preimage_sha256?: string | null;
+  preview_sha256: string;
+  diff: string;
+  artifact: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+  source_mutations_performed: false;
+  workspace_writes_performed: false;
+  runtime_store_write: true;
+  network_used: false;
+  external_api_used: false;
+  secret_warning: false;
+}

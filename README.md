@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `GSDLC-04-A` está `CLOSED/PASS` por owner adjudication y `GSDLC-04-B` está `IMPLEMENTED / READY-FOR-WINDOWS`, pendiente únicamente de browser/evidencia Windows y owner adjudication; `GSDLC-04-C` permanece bloqueado.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `GSDLC-04-A` y `GSDLC-04-B` están `CLOSED/PASS` por owner adjudication. `GSDLC-04-C` está `IMPLEMENTED / READY-FOR-WINDOWS`: PASTE/UPLOAD/IMPORT preview-first, provenance, original+normalized hashes y DRAFT runtime; browser/evidencia Windows + owner adjudication permanecen pendientes. `GSDLC-04-D` continúa bloqueado por secuencia.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -6394,3 +6394,11 @@ Approval-bound project bootstrap execution is implemented as a preliminary local
 - browser project context and cross-tab/resume state remain UX-only and do not replace server RBAC, PolicyEngine, approval binding or PathGuard;
 - `DEVPL-GSDLC-03-E = PASS-CANDIDATE / PENDING OWNER ADJUDICATION`;
 - `DEVPL-GSDLC-04` remains unauthorized until the clean successor repo is generated and owner adjudication closes GSDLC-03.
+
+
+## DEVPL-GSDLC-04-C — external-source import current
+
+- Predecessor: GSDLC-04-B `CLOSED/PASS`; repo366 Windows-validated candidate / commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`.
+- 04-C implements project-scoped PASTE/UPLOAD/IMPORT for Markdown/JSON with preview/diff, 1 MiB bounds, path/filename/MIME/encoding hardening, original+normalized SHA-256 and visible provenance.
+- Persistence creates only a governed runtime `DRAFT`; approved workspace source is not written. URL/reference remains metadata and no network fetch is enabled.
+- State: `IMPLEMENTED / READY-FOR-WINDOWS`; full regression remains `0` and reserved for GSDLC-04-E.

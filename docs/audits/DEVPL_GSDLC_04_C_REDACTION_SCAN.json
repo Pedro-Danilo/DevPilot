@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-C-REDACTION-SCAN",
+  "micro_sprint": "DEVPL-GSDLC-04-C",
+  "status": "PASS-PREWINDOWS",
+  "updated": "2026-08-21",
+  "secret_guard_preview_redaction": true,
+  "secret_values_exposed_in_preview": false,
+  "secret_import_persistence_allowed": false,
+  "logs_include_secret_values": false,
+  "source_reference_fetch_performed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "tests": [
+    "test_secret_preview_is_redacted_and_persist_fails_closed"
+  ],
+  "result": "PASS-PREWINDOWS"
+}

@@ -5,9 +5,9 @@
   "source_repo": "repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893",
   "source_sha256": "0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6",
-  "status": "PASS-PREWINDOWS",
+  "status": "CLOSED/PASS",
   "updated": "2026-08-21",
-  "result": "PASS-PREWINDOWS",
+  "result": "PASS",
   "mutations_performed": true,
   "source_mutations_performed": true,
   "product_runtime_draft_mutations_enabled": true,
@@ -18,7 +18,7 @@
   "pilot_workspace_accessed": false,
   "full_regression_executed": false,
   "full_regression_runs": 0,
-  "browser_acceptance_executed": false,
+  "browser_acceptance_executed": true,
   "runtime_db_copied_to_fixture": false,
   "git_destructive_commands_used": false,
   "notes": [
@@ -44,7 +44,9 @@
     "Windows v1.0.9 completed the browser journey through B9 evidence and fixture-restore PASS before final fixture-hash blocked.",
     "Recovery-010 RCA: the restored Markdown physical SHA changed from LF 1f79747c... to CRLF fe5e3a19..., while canonical-LF content remains the exact committed Git blob.",
     "v1.0.10 treats Git blob + canonical-LF + clean git diff as source equivalence authority and keeps raw byte SHA as diagnostic only.",
-    "No browser case needs replay; only final hash/evidence/commit/candidate packaging remains."
+    "No browser case needs replay; only final hash/evidence/commit/candidate packaging remains.",
+    "Final Windows evidence v1.0.10 validates 11/11 browser rows, source restore via Git blob/canonical-LF, clean commit and Git-HEAD candidate packaging.",
+    "Owner adjudication closes 04-B and authorizes 04-C; sealed Windows evidence is not rewritten."
   ],
   "corrective_version": "1.0.9",
   "windows_partial_validation": {
@@ -75,5 +77,11 @@
     "api_restart_b3_v1_0_8_blocked_by_state_misclassification": true,
     "browser_b3_to_b9_pending": true
   },
-  "network_provisioning_may_have_been_used": true
+  "network_provisioning_may_have_been_used": true,
+  "browser_acceptance": "PASS",
+  "owner_adjudication_pending": false,
+  "candidate_commit": "b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f",
+  "candidate_sha256": "3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92",
+  "windows_evidence_sha256": "787ffa1166020df4c803964265653cb404a639230f78582c94cf0354a0fe41ea",
+  "gsdlc_04_c_authorized": true
 }

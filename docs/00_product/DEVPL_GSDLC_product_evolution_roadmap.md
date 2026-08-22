@@ -28,9 +28,10 @@ backlogs_total: 15
 - Successor owner-adjudicated: `repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `7f6c9ed8a49fd9300d8b10eb3255969256eb2865`.
 - `DEVPL-GSDLC-04 = APPROVED / EXECUTABLE-DESIGN`.
 - `GSDLC-04-A = CLOSED/PASS`: owner adjudication `DEVPL_GSDLC_04_A_OWNER_ADJUDICATION_v1_0_0.md`; successor repo365/commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`.
-- `GSDLC-04-B = IMPLEMENTED / READY-FOR-WINDOWS`: MANUAL Markdown/JSON drafts, autosave/history/recovery y optimistic concurrency implementados; Windows browser proof + owner adjudication pendientes.
-- `GSDLC-04-C` permanece bloqueado hasta CLOSED/PASS de 04-B.
-- Full regression de GSDLC-04 continúa sin consumirse; pertenece a 04-E.
+- `GSDLC-04-B = CLOSED/PASS`: Windows browser acceptance 11/11, commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`, owner adjudication y successor repo366 confirmados.
+- `GSDLC-04-C = IMPLEMENTED / READY-FOR-WINDOWS`: PASTE/UPLOAD/IMPORT preview-first con provenance, hashes original+normalizado, DRAFT runtime y no source write; pendiente Windows/browser + owner adjudication.
+- `GSDLC-04-D` permanece bloqueado hasta CLOSED/PASS de 04-C.
+- Full regression de GSDLC-04 continúa sin consumirse (`0`); pertenece a 04-E.
 
 
 ## 1. Visión objetivo

@@ -1,18 +1,18 @@
 ---
 doc_id: "DEVPL-GSDLC-04-B-CLOSURE-REPORT"
-title: "DEVPL-GSDLC-04-B — Manual editor, draft persistence and version history — pre-Windows closure report"
-status: "implemented/ready-for-windows"
-version: "1.0.4"
+title: "DEVPL-GSDLC-04-B — Manual editor, draft persistence and version history — closure report"
+status: "closed/PASS"
+version: "1.1.0"
 owner: "Ordóñez"
 updated: "2026-08-21"
-approval: "pending_windows_evidence_and_owner_adjudication"
+approval: "closed_by_owner_adjudication"
 ---
 
-# DEVPL-GSDLC-04-B — Pre-Windows closure report
+# DEVPL-GSDLC-04-B — Closure report
 
 ## 1. Decisión
 
-`IMPLEMENTED / READY-FOR-WINDOWS`. Este reporte **no** declara `CLOSED/PASS`. El cierre formal exige evidencia Windows, browser smoke real y adjudicación posterior del owner.
+`CLOSED/PASS`. La evidencia Windows v1.0.10, browser acceptance 11/11, commit/candidate limpio y adjudicación owner materializada cerraron formalmente 04-B y autorizaron 04-C. La evidencia sellada se conserva inmutable; este documento current-active reconcilia el estado posterior al cierre.
 
 ## 2. Fuente de ejecución
 
@@ -276,3 +276,24 @@ RCA determinístico:
 - no existe evidencia de cambio lógico del source.
 
 v1.0.10 reemplaza la comparación raw-byte como autoridad por `Git blob + canonical-LF + git diff/cached clean`; el SHA físico queda solo como diagnóstico. Una diferencia exclusivamente LF/CRLF pasa; un cambio real continúa bloqueando. No se repiten B1→B9 ni full regression.
+
+
+## 04-B final owner closure — 2026-08-21
+
+**Verdict:** `CLOSED/PASS`.
+
+Windows v1.0.10 sealed evidence proves 11/11 browser rows PASS, S0=0, S1=0, no secret/network/external-API/pilot access, final source equivalence by Git blob + canonical-LF, clean commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`, candidate `repo_DevPilot_Local_366_DEVPL_GSDLC_04_B_MANUAL_EDITOR_DRAFT_HISTORY_WINDOWS_VALIDATED_CANDIDATE.zip` SHA-256 `3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92`, and evidence ZIP SHA-256 `787ffa1166020df4c803964265653cb404a639230f78582c94cf0354a0fe41ea`.
+
+Owner authority: `DEVPL_GSDLC_04_B_OWNER_ADJUDICATION_v1_0_0.md`. This closure authorizes `DEVPL-GSDLC-04-C`; full regression remains unconsumed (`0`) and reserved for 04-E.
+
+
+## 8. Cierre Windows y adjudicación owner
+
+- Evidence ZIP: `DEVPL_GSDLC_04_B_WINDOWS_EVIDENCE_v1_0_10.zip`; SHA-256 `787ffa1166020df4c803964265653cb404a639230f78582c94cf0354a0fe41ea`.
+- Browser acceptance: `PASS`, 11/11 filas; `S0=0`, `S1=0`.
+- Git commit: `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`.
+- Windows candidate: `repo_DevPilot_Local_366_DEVPL_GSDLC_04_B_MANUAL_EDITOR_DRAFT_HISTORY_WINDOWS_VALIDATED_CANDIDATE.zip`; SHA-256 `3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92`.
+- Owner adjudication: `DEVPL_GSDLC_04_B_OWNER_ADJUDICATION_v1_0_0.md` = `CLOSED/PASS`.
+- Final owner current: `DEVPL_GSDLC_04_B_FINAL_OWNER_CLOSURE_CURRENT.json`.
+- Full regression runs in 04-B: `0`; the single backlog full remains reserved for 04-E.
+- `GSDLC-04-C`: authorized.

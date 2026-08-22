@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-C-CURRENT",
+  "micro_sprint": "DEVPL-GSDLC-04-C",
+  "status": "IMPLEMENTED/READY-FOR-WINDOWS",
+  "updated": "2026-08-21",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_366_DEVPL_GSDLC_04_B_MANUAL_EDITOR_DRAFT_HISTORY_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f",
+    "sha256": "3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92",
+    "predecessor": "DEVPL-GSDLC-04-B",
+    "predecessor_status": "CLOSED/PASS",
+    "owner_adjudication": "DEVPL_GSDLC_04_B_OWNER_ADJUDICATION_v1_0_0.md"
+  },
+  "implementation_complete_pre_windows": true,
+  "windows_validation_required": true,
+  "browser_acceptance_required": true,
+  "owner_adjudication_pending": true,
+  "closed_pass": false,
+  "successor_authorized": false,
+  "candidate_expected": "repo_DevPilot_Local_367_DEVPL_GSDLC_04_C_EXTERNAL_SOURCE_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_types": [
+    "PASTE",
+    "UPLOAD",
+    "IMPORT"
+  ],
+  "allowlisted_extensions": [
+    ".md",
+    ".json"
+  ],
+  "max_import_bytes": 1048576,
+  "runtime_persistence": "outputs/imports/gsdlc_04_c",
+  "source_write_enabled": false,
+  "url_fetch_enabled": false,
+  "provenance_visible": true,
+  "full_regression_executed": false,
+  "full_regression_runs": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "pilot_workspace_accessed": false,
+  "pre_windows_validation": {
+    "focused_04c": {
+      "passed": 21,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "cumulative_selected": {
+      "passed": 77,
+      "failed": 0,
+      "status": "PASS",
+      "scope": "04-A + 04-B + 04-C + UOC-004 + UOC-005"
+    },
+    "test_impact_selected": {
+      "passed": 47,
+      "failed": 0,
+      "status": "PASS",
+      "scope": "RBAC/API/UI/docs impacted set"
+    },
+    "project_state": {
+      "passed": 6,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "tcr_v1": {
+      "contracts_total": 287,
+      "status": "PASS"
+    },
+    "tcr_v2": {
+      "contracts_total": 287,
+      "p0_total": 97,
+      "status": "PASS"
+    },
+    "schema_registry": {
+      "schemas_total": 208,
+      "status": "PASS"
+    },
+    "api_contract_drift": {
+      "runtime_routes_total": 112,
+      "canonical_routes_total": 112,
+      "blocking_findings_total": 0,
+      "warnings_total": 4,
+      "status": "PASS"
+    },
+    "api_security": {
+      "checks_passed": 7,
+      "checks_total": 7,
+      "status": "PASS"
+    },
+    "ui_route_enforcement": {
+      "checks_passed": 8,
+      "checks_total": 8,
+      "status": "PASS"
+    },
+    "ui_static_smoke": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "typescript": {
+      "status": "PASS"
+    },
+    "source_registry_reconciliation_policy": {
+      "passed": 11,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "full_regression": {
+      "runs": 0,
+      "executed": false,
+      "status": "NOT_RUN_BY_POLICY"
+    }
+  },
+  "pre_windows_package_hygiene": {
+    "status": "PASS",
+    "files_total": 3022,
+    "forbidden_entries_total": 0
+  },
+  "operator_preflight_authority": "raw-sha256-first; Git-clean canonical-LF working-tree + immutable predecessor Git blob fallback",
+  "recovery_001_status": "PASS-PREWINDOWS"
+}

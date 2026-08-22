@@ -11680,6 +11680,75 @@
         "Full regression remains reserved for 04-E."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-04-c-artifact-import",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-04-C",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+        "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "validates": [
+        "PASTE/UPLOAD/IMPORT preview-first ingestion",
+        "path traversal/symlink/UNC/device/ADS/size/type/MIME/encoding negatives",
+        "original+normalized deterministic hashes",
+        "SecretGuard warning/redaction and DRAFT persistence block",
+        "server-authoritative actor/session/RBAC",
+        "DRAFT-only provenance with no source write",
+        "URL/reference metadata with no network fetch",
+        "safe browser preview/diff/provenance panel",
+        "runtime-store package hygiene"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/artifact_import_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/ArtifactImportWorkbench.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api",
+        "ui/web/src/styles.css",
+        ".devpilot/interfaces",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas/artifact_import_record.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/02_architecture/guided_sdlc/artifact_import_contract.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_04_c_artifact_import.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "artifacts.external-source-import",
+      "notes": [
+        "04-C product persistence mutates governed runtime DRAFT state only; TCR execution does not mutate source/global state.",
+        "Full regression remains reserved for 04-E. URL/reference is metadata only and does not enable network fetch."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -11756,5 +11825,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 286
+  "contracts_total": 287
 }

@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-C-TEST-IMPACT",
+  "micro_sprint": "DEVPL-GSDLC-04-C",
+  "status": "IMPLEMENTED/READY-FOR-WINDOWS",
+  "updated": "2026-08-21",
+  "risk": "P0-local-untrusted-input-governance",
+  "full_regression_allowed": false,
+  "hard_trigger_for_full_regression": false,
+  "primary_tests": [
+    "tests/test_devpl_gsdlc_04_c_artifact_import.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+    "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+    "tests/test_post_h_eval_002_uoc_004_contracts.py",
+    "tests/test_post_h_eval_002_uoc_005_contracts.py"
+  ],
+  "impacted_tests": [
+    "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+    "tests/test_devpl_gsdlc_02_c_api_rbac.py",
+    "tests/test_api_workspace_documents.py",
+    "tests/test_web_ui_workspace_documents.py",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_post_h_028_ui_route_registry_enforcement.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+  ],
+  "negative_coverage": [
+    "traversal",
+    "symlink",
+    "UNC/device/ADS",
+    "oversize",
+    "unsupported extension",
+    "MIME mismatch",
+    "binary-like input",
+    "malformed encoding",
+    "invalid JSON",
+    "secret import persistence",
+    "stale preview hash",
+    "legacy-token/API/RBAC"
+  ],
+  "pre_windows_results": {
+    "focused_04c": {
+      "passed": 21,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "cumulative_selected": {
+      "passed": 77,
+      "failed": 0,
+      "status": "PASS",
+      "scope": "04-A + 04-B + 04-C + UOC-004 + UOC-005"
+    },
+    "test_impact_selected": {
+      "passed": 47,
+      "failed": 0,
+      "status": "PASS",
+      "scope": "RBAC/API/UI/docs impacted set"
+    },
+    "project_state": {
+      "passed": 6,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "tcr_v1": {
+      "contracts_total": 287,
+      "status": "PASS"
+    },
+    "tcr_v2": {
+      "contracts_total": 287,
+      "p0_total": 97,
+      "status": "PASS"
+    },
+    "schema_registry": {
+      "schemas_total": 208,
+      "status": "PASS"
+    },
+    "api_contract_drift": {
+      "runtime_routes_total": 112,
+      "canonical_routes_total": 112,
+      "blocking_findings_total": 0,
+      "warnings_total": 4,
+      "status": "PASS"
+    },
+    "api_security": {
+      "checks_passed": 7,
+      "checks_total": 7,
+      "status": "PASS"
+    },
+    "ui_route_enforcement": {
+      "checks_passed": 8,
+      "checks_total": 8,
+      "status": "PASS"
+    },
+    "ui_static_smoke": {
+      "passed": 15,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "typescript": {
+      "status": "PASS"
+    },
+    "source_registry_reconciliation_policy": {
+      "passed": 11,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "full_regression": {
+      "runs": 0,
+      "executed": false,
+      "status": "NOT_RUN_BY_POLICY"
+    }
+  },
+  "windows_required": [
+    "browser PASTE preview+DRAFT provenance",
+    "browser UPLOAD Markdown preview+DRAFT",
+    "browser IMPORT JSON provenance+hashes",
+    "secret warning/redaction",
+    "project-route/session guard",
+    "source/workspace unchanged evidence"
+  ],
+  "full_regression_runs": 0,
+  "operator_preflight_recovery_001": {
+    "status": "PASS-PREWINDOWS",
+    "root_cause": "manifest preimage used archive physical CRLF bytes while clean Windows checkout materialized equivalent LF content",
+    "correction": "raw SHA first; fallback requires Git-clean path plus canonical-LF equality for both working tree and immutable predecessor Git blob",
+    "negative_real_content_change": "BLOCK"
+  }
+}

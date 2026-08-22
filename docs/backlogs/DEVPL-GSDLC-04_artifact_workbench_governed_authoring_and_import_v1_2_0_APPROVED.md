@@ -83,8 +83,8 @@ Este checkpoint forma parte de 04-A y **no crea un sexto micro-sprint**.
 
 - `GSDLC-04-A = CLOSED/PASS`; authority: `DEVPL_GSDLC_04_A_OWNER_ADJUDICATION_v1_0_0.md`.
 - Successor autoritativo para 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`.
-- `GSDLC-04-B = IMPLEMENTED / READY-FOR-WINDOWS`; no `CLOSED/PASS` hasta evidencia Windows + owner adjudication.
-- `GSDLC-04-C = BLOCKED-BY-SEQUENCE`.
+- `GSDLC-04-B = CLOSED/PASS`; owner adjudication `DEVPL_GSDLC_04_B_OWNER_ADJUDICATION_v1_0_0.md`; successor repo366 commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`, SHA-256 `3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92`.
+- `GSDLC-04-C = IMPLEMENTED / READY-FOR-WINDOWS`; browser/evidencia Windows y owner adjudication permanecen pendientes.
 - Full regression consumida en el backlog: `0`; sigue reservada a 04-E.
 
 
@@ -385,6 +385,16 @@ La lista es orientativa para Test Impact. Cada micro-sprint debe cerrar su manif
 - CLOSED/PASS
 - autoriza GSDLC-05
 
+
+
+## 6.1 Estado de ejecución acumulativo (2026-08-21)
+
+Esta sección es `current-active` y no modifica los criterios históricos aprobados de los micro-sprints:
+
+- `GSDLC-04-A = CLOSED/PASS`.
+- `GSDLC-04-B = CLOSED/PASS`; owner adjudication `DEVPL_GSDLC_04_B_OWNER_ADJUDICATION_v1_0_0.md`; successor repo366 commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`.
+- `GSDLC-04-C = IMPLEMENTED / READY-FOR-WINDOWS`; PASTE/UPLOAD/IMPORT permanece DRAFT, provenance/hashes visibles, source write deshabilitado, full regression `0`.
+- `GSDLC-04-D = BLOCKED-BY-SEQUENCE` hasta owner adjudication CLOSED/PASS de 04-C.
 
 ## 7. Alcance transversal específico de esta ola
 

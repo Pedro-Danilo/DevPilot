@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-08-20",
+  "updated": "2026-08-21",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -73,41 +73,6 @@
       "mutation_exception_justification": "Writes governed local runtime/evidence only; no source mutation or network."
     },
     {
-      "route_id": "api.ai.jobs.plan",
-      "method": "POST",
-      "path": "/api/v1/ai/jobs/plan",
-      "operation": "ai.jobs.plan",
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "source_mutation_allowed": false,
-      "tags": [
-        "ai",
-        "uoc-010"
-      ],
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.ai",
-      "router_module": "ai",
-      "policy_action": "execute",
-      "policy_sensitivity": "protected-ai-operation",
-      "path_subject": null,
-      "notes": [
-        "UOC-010 typed local-first AI route. External APIs, free shell/tools, remote execution, connector write and plugin execution remain disabled."
-      ],
-      "mutation_exception_justification": "Writes governed local runtime/evidence only; no source mutation or network."
-    },
-    {
       "route_id": "api.ai.jobs.execute",
       "method": "POST",
       "path": "/api/v1/ai/jobs/{job_id}/execute",
@@ -132,6 +97,41 @@
       "plugin_execution_allowed": false,
       "response_contract": "ApplicationResponse",
       "risk_level": "high",
+      "owner": "interfaces.api.ai",
+      "router_module": "ai",
+      "policy_action": "execute",
+      "policy_sensitivity": "protected-ai-operation",
+      "path_subject": null,
+      "notes": [
+        "UOC-010 typed local-first AI route. External APIs, free shell/tools, remote execution, connector write and plugin execution remain disabled."
+      ],
+      "mutation_exception_justification": "Writes governed local runtime/evidence only; no source mutation or network."
+    },
+    {
+      "route_id": "api.ai.jobs.plan",
+      "method": "POST",
+      "path": "/api/v1/ai/jobs/plan",
+      "operation": "ai.jobs.plan",
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "source_mutation_allowed": false,
+      "tags": [
+        "ai",
+        "uoc-010"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
       "owner": "interfaces.api.ai",
       "router_module": "ai",
       "policy_action": "execute",
@@ -276,6 +276,70 @@
       "notes": []
     },
     {
+      "route_id": "api.approvals.approve",
+      "method": "POST",
+      "path": "/api/v1/approvals/{approval_id}/approve",
+      "operation": "approvals.approve",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.approvals",
+      "router_module": "approvals",
+      "policy_action": "approval",
+      "policy_sensitivity": "protected-approval-write",
+      "path_subject": ".devpilot/devpilot.db",
+      "tags": [
+        "approval",
+        "local-state-mutation"
+      ],
+      "notes": [],
+      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
+    },
+    {
+      "route_id": "api.approvals.deny",
+      "method": "POST",
+      "path": "/api/v1/approvals/{approval_id}/deny",
+      "operation": "approvals.deny",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.approvals",
+      "router_module": "approvals",
+      "policy_action": "approval",
+      "policy_sensitivity": "protected-approval-write",
+      "path_subject": ".devpilot/devpilot.db",
+      "tags": [
+        "approval",
+        "local-state-mutation"
+      ],
+      "notes": [],
+      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
+    },
+    {
       "route_id": "api.approvals.list",
       "method": "GET",
       "path": "/api/v1/approvals",
@@ -370,70 +434,6 @@
         "read"
       ],
       "notes": []
-    },
-    {
-      "route_id": "api.approvals.approve",
-      "method": "POST",
-      "path": "/api/v1/approvals/{approval_id}/approve",
-      "operation": "approvals.approve",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.approvals",
-      "router_module": "approvals",
-      "policy_action": "approval",
-      "policy_sensitivity": "protected-approval-write",
-      "path_subject": ".devpilot/devpilot.db",
-      "tags": [
-        "approval",
-        "local-state-mutation"
-      ],
-      "notes": [],
-      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
-    },
-    {
-      "route_id": "api.approvals.deny",
-      "method": "POST",
-      "path": "/api/v1/approvals/{approval_id}/deny",
-      "operation": "approvals.deny",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.approvals",
-      "router_module": "approvals",
-      "policy_action": "approval",
-      "policy_sensitivity": "protected-approval-write",
-      "path_subject": ".devpilot/devpilot.db",
-      "tags": [
-        "approval",
-        "local-state-mutation"
-      ],
-      "notes": [],
-      "mutation_exception_justification": "Local approval lifecycle mutation only; not destructive, not connector write, not plugin execution and guarded by auth plus PolicyEngine approval action."
     },
     {
       "route_id": "api.auth.bootstrap-owner",
@@ -870,18 +870,18 @@
       "notes": []
     },
     {
-      "route_id": "api.jobs.list",
-      "method": "GET",
-      "path": "/api/v1/jobs",
-      "operation": "jobs.list",
+      "route_id": "api.jobs.cancel",
+      "method": "POST",
+      "path": "/api/v1/jobs/{job_id}/cancel",
+      "operation": "jobs.cancel",
       "dry_run_only": false,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
       "source_mutation_allowed": false,
       "tags": [
         "jobs",
         "uoc-008",
-        "observability"
+        "cancel"
       ],
       "application_service_required": true,
       "policy_check_required": true,
@@ -894,15 +894,16 @@
       "connector_write_allowed": false,
       "plugin_execution_allowed": false,
       "response_contract": "ApplicationResponse",
-      "risk_level": "low",
+      "risk_level": "high",
       "owner": "interfaces.api.jobs",
       "router_module": "jobs",
-      "policy_action": "read",
-      "policy_sensitivity": "protected-governed-job-read",
+      "policy_action": "approval",
+      "policy_sensitivity": "protected-governed-job-control",
       "path_subject": null,
       "notes": [
-        "Lists bounded local governed jobs with workspace/capability/status filters."
-      ]
+        "Requests governed cancellation; fixed-argv process-tree termination is used only for a recorded worker lease."
+      ],
+      "mutation_exception_justification": "Only runtime job state/process-tree cancellation inside the local governed-job boundary; no source write, arbitrary PID input or shell text."
     },
     {
       "route_id": "api.jobs.inspect",
@@ -940,18 +941,18 @@
       ]
     },
     {
-      "route_id": "api.jobs.cancel",
-      "method": "POST",
-      "path": "/api/v1/jobs/{job_id}/cancel",
-      "operation": "jobs.cancel",
+      "route_id": "api.jobs.list",
+      "method": "GET",
+      "path": "/api/v1/jobs",
+      "operation": "jobs.list",
       "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
       "source_mutation_allowed": false,
       "tags": [
         "jobs",
         "uoc-008",
-        "cancel"
+        "observability"
       ],
       "application_service_required": true,
       "policy_check_required": true,
@@ -964,16 +965,15 @@
       "connector_write_allowed": false,
       "plugin_execution_allowed": false,
       "response_contract": "ApplicationResponse",
-      "risk_level": "high",
+      "risk_level": "low",
       "owner": "interfaces.api.jobs",
       "router_module": "jobs",
-      "policy_action": "approval",
-      "policy_sensitivity": "protected-governed-job-control",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-governed-job-read",
       "path_subject": null,
       "notes": [
-        "Requests governed cancellation; fixed-argv process-tree termination is used only for a recorded worker lease."
-      ],
-      "mutation_exception_justification": "Only runtime job state/process-tree cancellation inside the local governed-job boundary; no source write, arbitrary PID input or shell text."
+        "Lists bounded local governed jobs with workspace/capability/status filters."
+      ]
     },
     {
       "route_id": "api.jobs.logs",
@@ -1729,41 +1729,6 @@
       "mutation_exception_justification": "Writes governed runtime/evidence outputs only; source tree mutation, network, arbitrary shell, remote execution, connector write and plugin execution remain disabled."
     },
     {
-      "route_id": "api.quality.jobs.plan",
-      "method": "POST",
-      "path": "/api/v1/quality/jobs/plan",
-      "operation": "quality.jobs.plan",
-      "dry_run_only": true,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "source_mutation_allowed": false,
-      "tags": [
-        "quality",
-        "uoc-009"
-      ],
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.quality",
-      "router_module": "quality",
-      "policy_action": "plan",
-      "policy_sensitivity": "protected-quality-operation",
-      "path_subject": null,
-      "notes": [
-        "UOC-009 typed Quality/Test/Release route. No free CLI text, executable path or arbitrary pytest args are accepted."
-      ],
-      "mutation_exception_justification": "Writes governed runtime/evidence outputs only; source tree mutation, network, arbitrary shell, remote execution, connector write and plugin execution remain disabled."
-    },
-    {
       "route_id": "api.quality.jobs.execute",
       "method": "POST",
       "path": "/api/v1/quality/jobs/{job_id}/execute",
@@ -1791,6 +1756,41 @@
       "owner": "interfaces.api.quality",
       "router_module": "quality",
       "policy_action": "execute",
+      "policy_sensitivity": "protected-quality-operation",
+      "path_subject": null,
+      "notes": [
+        "UOC-009 typed Quality/Test/Release route. No free CLI text, executable path or arbitrary pytest args are accepted."
+      ],
+      "mutation_exception_justification": "Writes governed runtime/evidence outputs only; source tree mutation, network, arbitrary shell, remote execution, connector write and plugin execution remain disabled."
+    },
+    {
+      "route_id": "api.quality.jobs.plan",
+      "method": "POST",
+      "path": "/api/v1/quality/jobs/plan",
+      "operation": "quality.jobs.plan",
+      "dry_run_only": true,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "source_mutation_allowed": false,
+      "tags": [
+        "quality",
+        "uoc-009"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.quality",
+      "router_module": "quality",
+      "policy_action": "plan",
       "policy_sensitivity": "protected-quality-operation",
       "path_subject": null,
       "notes": [
@@ -2223,10 +2223,10 @@
       "notes": []
     },
     {
-      "route_id": "api.traces.list",
+      "route_id": "api.traces.inspect",
       "method": "GET",
-      "path": "/api/v1/traces",
-      "operation": "observability.trace_report",
+      "path": "/api/v1/traces/{trace_id}",
+      "operation": "observability.trace_inspect",
       "application_service_required": true,
       "policy_check_required": true,
       "auth_required": true,
@@ -2256,10 +2256,10 @@
       ]
     },
     {
-      "route_id": "api.traces.inspect",
+      "route_id": "api.traces.list",
       "method": "GET",
-      "path": "/api/v1/traces/{trace_id}",
-      "operation": "observability.trace_inspect",
+      "path": "/api/v1/traces",
+      "operation": "observability.trace_report",
       "application_service_required": true,
       "policy_check_required": true,
       "auth_required": true,
@@ -2397,42 +2397,6 @@
       "router_module": "workspace_edits",
       "policy_action": "read",
       "path_subject": "active workspace root resolved server-side from governed registry",
-      "route_id": "api.workspace.artifact-drafts.get",
-      "method": "GET",
-      "path": "/api/v1/workspace/artifact-drafts/{document_id}",
-      "operation": "workspace.artifact_drafts.get",
-      "dry_run_only": true,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
-      "source_mutation_allowed": false,
-      "risk_level": "medium",
-      "policy_sensitivity": "protected-human-session-artifact-draft-read",
-      "tags": [
-        "artifact-workbench",
-        "draft",
-        "runtime",
-        "gsdlc-04-b"
-      ],
-      "notes": [
-        "Human-session-only read of runtime MANUAL draft state; approved source remains authoritative."
-      ]
-    },
-    {
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "owner": "interfaces.api.workspace_edits",
-      "router_module": "workspace_edits",
-      "policy_action": "read",
-      "path_subject": "active workspace root resolved server-side from governed registry",
       "route_id": "api.workspace.artifact-drafts.discard",
       "method": "POST",
       "path": "/api/v1/workspace/artifact-drafts/{document_id}/discard",
@@ -2453,6 +2417,42 @@
         "Discard deactivates the runtime draft while retaining immutable history; no source write."
       ],
       "mutation_exception_justification": "Writes governed local runtime draft state only; no artifact source mutation, no network and no external API."
+    },
+    {
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
+      "policy_action": "read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "route_id": "api.workspace.artifact-drafts.get",
+      "method": "GET",
+      "path": "/api/v1/workspace/artifact-drafts/{document_id}",
+      "operation": "workspace.artifact_drafts.get",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "source_mutation_allowed": false,
+      "risk_level": "medium",
+      "policy_sensitivity": "protected-human-session-artifact-draft-read",
+      "tags": [
+        "artifact-workbench",
+        "draft",
+        "runtime",
+        "gsdlc-04-b"
+      ],
+      "notes": [
+        "Human-session-only read of runtime MANUAL draft state; approved source remains authoritative."
+      ]
     },
     {
       "application_service_required": true,
@@ -2565,106 +2565,114 @@
       "mutation_exception_justification": "Writes governed local runtime draft state only; no artifact source mutation, no network and no external API."
     },
     {
-      "route_id": "api.workspace.documents.list",
-      "method": "GET",
-      "path": "/api/v1/workspace/documents",
-      "operation": "workspace.documents.list",
       "application_service_required": true,
       "policy_check_required": true,
       "auth_required": true,
       "public": false,
       "local_only": true,
-      "dry_run_only": true,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
       "destructive_action_allowed": false,
       "external_api_allowed": false,
       "remote_execution_allowed": false,
       "connector_write_allowed": false,
       "plugin_execution_allowed": false,
       "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.workspace_documents",
-      "router_module": "workspace_documents",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
       "policy_action": "read",
-      "policy_sensitivity": "protected-workspace-read",
       "path_subject": "active workspace root resolved server-side from governed registry",
+      "source_mutation_allowed": false,
+      "risk_level": "medium",
+      "route_id": "api.workspace.artifact-imports.persist",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-imports/persist",
+      "operation": "workspace.artifact_imports.persist",
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "policy_sensitivity": "protected-human-session-artifact-import-runtime-mutation",
       "tags": [
-        "workspace-documents",
-        "read-only"
+        "artifact-workbench",
+        "import-draft",
+        "runtime-mutation",
+        "gsdlc-04-c"
       ],
       "notes": [
-        "UOC-001 accepts only server-issued opaque ids and never treats a browser path as authority.",
-        "PathGuard and no-follow discovery constrain all reads to the active registered workspace."
+        "Persists provenance-bearing DRAFT only under governed runtime store after exact preview hash; no workspace source write and secret-like content is blocked."
+      ],
+      "mutation_exception_justification": "Writes governed local runtime import-DRAFT state only; no workspace source mutation, network fetch or external API."
+    },
+    {
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
+      "policy_action": "read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "source_mutation_allowed": false,
+      "risk_level": "medium",
+      "route_id": "api.workspace.artifact-imports.preview",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-imports/preview",
+      "operation": "workspace.artifact_imports.preview",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "policy_sensitivity": "protected-human-session-artifact-import-preview",
+      "tags": [
+        "artifact-workbench",
+        "import-preview",
+        "paste",
+        "upload",
+        "import",
+        "gsdlc-04-c"
+      ],
+      "notes": [
+        "Validates path/type/size/encoding/MIME, computes original+normalized hashes and diff; no persistence, source write, network or URL fetch."
       ]
     },
     {
-      "route_id": "api.workspace.documents.search",
-      "method": "GET",
-      "path": "/api/v1/workspace/documents/search",
-      "operation": "workspace.documents.search",
       "application_service_required": true,
       "policy_check_required": true,
       "auth_required": true,
       "public": false,
       "local_only": true,
-      "dry_run_only": true,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
       "destructive_action_allowed": false,
       "external_api_allowed": false,
       "remote_execution_allowed": false,
       "connector_write_allowed": false,
       "plugin_execution_allowed": false,
       "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.workspace_documents",
-      "router_module": "workspace_documents",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
       "policy_action": "read",
-      "policy_sensitivity": "protected-workspace-read",
       "path_subject": "active workspace root resolved server-side from governed registry",
-      "tags": [
-        "workspace-documents",
-        "full-text-search",
-        "read-only"
-      ],
-      "notes": [
-        "UOC-002 reuses UOC-001 opaque ids and never accepts free-form filesystem paths or Git argument strings.",
-        "Git history/diff use the typed read-only GitAdapter; search and links remain workspace-isolated and memory-only."
-      ]
-    },
-    {
-      "route_id": "api.workspace.documents.read",
+      "source_mutation_allowed": false,
+      "risk_level": "medium",
+      "route_id": "api.workspace.artifact-imports.recent",
       "method": "GET",
-      "path": "/api/v1/workspace/documents/{document_id}",
-      "operation": "workspace.documents.read",
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
+      "path": "/api/v1/workspace/artifact-imports/recent",
+      "operation": "workspace.artifact_imports.recent",
       "dry_run_only": true,
       "mutations_allowed": false,
       "local_state_mutation_allowed": false,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.workspace_documents",
-      "router_module": "workspace_documents",
-      "policy_action": "read",
-      "policy_sensitivity": "protected-workspace-read",
-      "path_subject": "active workspace root resolved server-side from governed registry",
+      "policy_sensitivity": "protected-human-session-artifact-import-read",
       "tags": [
-        "workspace-documents",
-        "read-only"
+        "artifact-workbench",
+        "import-history",
+        "runtime",
+        "gsdlc-04-c"
       ],
       "notes": [
-        "UOC-001 accepts only server-issued opaque ids and never treats a browser path as authority.",
-        "PathGuard and no-follow discovery constrain all reads to the active registered workspace."
+        "Reads schema-validated runtime import DRAFT summaries only; no source write."
       ]
     },
     {
@@ -2773,6 +2781,40 @@
       ]
     },
     {
+      "route_id": "api.workspace.documents.list",
+      "method": "GET",
+      "path": "/api/v1/workspace/documents",
+      "operation": "workspace.documents.list",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_documents",
+      "router_module": "workspace_documents",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "tags": [
+        "workspace-documents",
+        "read-only"
+      ],
+      "notes": [
+        "UOC-001 accepts only server-issued opaque ids and never treats a browser path as authority.",
+        "PathGuard and no-follow discovery constrain all reads to the active registered workspace."
+      ]
+    },
+    {
       "route_id": "api.workspace.documents.metadata",
       "method": "GET",
       "path": "/api/v1/workspace/documents/{document_id}/metadata",
@@ -2807,25 +2849,18 @@
       ]
     },
     {
-      "route_id": "api.workspace.edit-executions.status",
+      "route_id": "api.workspace.documents.read",
       "method": "GET",
-      "path": "/api/v1/workspace/edit-executions/{execution_id}",
-      "operation": "workspace.edits.execution_status",
-      "dry_run_only": false,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
-      "source_mutation_allowed": false,
-      "tags": [
-        "workspace",
-        "edit-execution",
-        "read-only",
-        "uoc-005"
-      ],
+      "path": "/api/v1/workspace/documents/{document_id}",
+      "operation": "workspace.documents.read",
       "application_service_required": true,
       "policy_check_required": true,
       "auth_required": true,
       "public": false,
       "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
       "destructive_action_allowed": false,
       "external_api_allowed": false,
       "remote_execution_allowed": false,
@@ -2833,13 +2868,53 @@
       "plugin_execution_allowed": false,
       "response_contract": "ApplicationResponse",
       "risk_level": "medium",
-      "owner": "interfaces.api.workspace_edits",
-      "router_module": "workspace_edits",
+      "owner": "interfaces.api.workspace_documents",
+      "router_module": "workspace_documents",
       "policy_action": "read",
-      "policy_sensitivity": "protected-workspace-edit-execution-read",
-      "path_subject": null,
+      "policy_sensitivity": "protected-workspace-read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "tags": [
+        "workspace-documents",
+        "read-only"
+      ],
       "notes": [
-        "Read-only UOC-005 execution/evidence status; backup is exposed only as a control-root-relative reference."
+        "UOC-001 accepts only server-issued opaque ids and never treats a browser path as authority.",
+        "PathGuard and no-follow discovery constrain all reads to the active registered workspace."
+      ]
+    },
+    {
+      "route_id": "api.workspace.documents.search",
+      "method": "GET",
+      "path": "/api/v1/workspace/documents/search",
+      "operation": "workspace.documents.search",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_documents",
+      "router_module": "workspace_documents",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-read",
+      "path_subject": "active workspace root resolved server-side from governed registry",
+      "tags": [
+        "workspace-documents",
+        "full-text-search",
+        "read-only"
+      ],
+      "notes": [
+        "UOC-002 reuses UOC-001 opaque ids and never accepts free-form filesystem paths or Git argument strings.",
+        "Git history/diff use the typed read-only GitAdapter; search and links remain workspace-isolated and memory-only."
       ]
     },
     {
@@ -2919,53 +2994,19 @@
       "mutation_exception_justification": "Local ApprovalStore mutation only; source write is impossible in this route. It creates a second exact approval for bounded pre-commit rollback."
     },
     {
-      "route_id": "api.workspace.edit-plans.plan",
-      "method": "POST",
-      "path": "/api/v1/workspace/edit-plans/plan",
-      "operation": "workspace.edits.plan",
-      "dry_run_only": true,
-      "mutations_allowed": false,
-      "local_state_mutation_allowed": false,
-      "tags": [
-        "workspace",
-        "edit-plan",
-        "plan-only",
-        "read-only"
-      ],
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "medium",
-      "owner": "interfaces.api.workspace_edits",
-      "router_module": "workspace_edits",
-      "policy_action": "plan",
-      "policy_sensitivity": "protected-workspace-edit-plan",
-      "path_subject": null,
-      "notes": [
-        "UOC-004 plan-only document edit planning. No source mutation, apply, Git mutation, shell, remote execution, connector write or external API."
-      ]
-    },
-    {
-      "route_id": "api.workspace.edit-plans.status",
+      "route_id": "api.workspace.edit-executions.status",
       "method": "GET",
-      "path": "/api/v1/workspace/edit-plans/{plan_id}",
-      "operation": "workspace.edits.status",
-      "dry_run_only": true,
+      "path": "/api/v1/workspace/edit-executions/{execution_id}",
+      "operation": "workspace.edits.execution_status",
+      "dry_run_only": false,
       "mutations_allowed": false,
       "local_state_mutation_allowed": false,
+      "source_mutation_allowed": false,
       "tags": [
         "workspace",
-        "edit-plan",
-        "plan-only",
-        "read-only"
+        "edit-execution",
+        "read-only",
+        "uoc-005"
       ],
       "application_service_required": true,
       "policy_check_required": true,
@@ -2982,10 +3023,10 @@
       "owner": "interfaces.api.workspace_edits",
       "router_module": "workspace_edits",
       "policy_action": "read",
-      "policy_sensitivity": "protected-workspace-edit-plan-read",
+      "policy_sensitivity": "protected-workspace-edit-execution-read",
       "path_subject": null,
       "notes": [
-        "UOC-004 plan-only document edit planning. No source mutation, apply, Git mutation, shell, remote execution, connector write or external API."
+        "Read-only UOC-005 execution/evidence status; backup is exposed only as a control-root-relative reference."
       ]
     },
     {
@@ -3064,6 +3105,41 @@
       "mutation_exception_justification": "Local ApprovalStore mutation only; source write is impossible in this route. Exact plan/hash/base/actor/scope/TTL are bound for later PolicyEngine enforcement."
     },
     {
+      "route_id": "api.workspace.edit-plans.plan",
+      "method": "POST",
+      "path": "/api/v1/workspace/edit-plans/plan",
+      "operation": "workspace.edits.plan",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "tags": [
+        "workspace",
+        "edit-plan",
+        "plan-only",
+        "read-only"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
+      "policy_action": "plan",
+      "policy_sensitivity": "protected-workspace-edit-plan",
+      "path_subject": null,
+      "notes": [
+        "UOC-004 plan-only document edit planning. No source mutation, apply, Git mutation, shell, remote execution, connector write or external API."
+      ]
+    },
+    {
       "route_id": "api.workspace.edit-plans.recheck",
       "method": "POST",
       "path": "/api/v1/workspace/edit-plans/{plan_id}/recheck",
@@ -3099,20 +3175,18 @@
       ]
     },
     {
-      "route_id": "api.workspace.git.branch-plan",
-      "method": "POST",
-      "path": "/api/v1/workspace/git/branches/plan",
-      "operation": "workspace.git.branch_plan",
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "source_mutation_allowed": false,
+      "route_id": "api.workspace.edit-plans.status",
+      "method": "GET",
+      "path": "/api/v1/workspace/edit-plans/{plan_id}",
+      "operation": "workspace.edits.status",
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
       "tags": [
         "workspace",
-        "git",
-        "branch",
-        "plan",
-        "uoc-006"
+        "edit-plan",
+        "plan-only",
+        "read-only"
       ],
       "application_service_required": true,
       "policy_check_required": true,
@@ -3125,16 +3199,15 @@
       "connector_write_allowed": false,
       "plugin_execution_allowed": false,
       "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.workspace_git",
-      "router_module": "workspace_git",
+      "risk_level": "medium",
+      "owner": "interfaces.api.workspace_edits",
+      "router_module": "workspace_edits",
       "policy_action": "read",
-      "policy_sensitivity": "protected-workspace-git-branch-plan",
+      "policy_sensitivity": "protected-workspace-edit-plan-read",
       "path_subject": null,
       "notes": [
-        "Persists a clean-worktree local branch-ref plan; no ref mutation or checkout."
-      ],
-      "mutation_exception_justification": "External control-root plan persistence only; repository refs remain unchanged."
+        "UOC-004 plan-only document edit planning. No source mutation, apply, Git mutation, shell, remote execution, connector write or external API."
+      ]
     },
     {
       "route_id": "api.workspace.git.branch-approval",
@@ -3211,6 +3284,120 @@
         "Creates one approved local branch ref from current HEAD; no checkout, deletion, push or force operation."
       ],
       "mutation_exception_justification": "Narrow UOC-006 local ref mutation after exact approval on clean workspace; no checkout, branch delete or network operation."
+    },
+    {
+      "route_id": "api.workspace.git.branch-plan",
+      "method": "POST",
+      "path": "/api/v1/workspace/git/branches/plan",
+      "operation": "workspace.git.branch_plan",
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "source_mutation_allowed": false,
+      "tags": [
+        "workspace",
+        "git",
+        "branch",
+        "plan",
+        "uoc-006"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.workspace_git",
+      "router_module": "workspace_git",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-workspace-git-branch-plan",
+      "path_subject": null,
+      "notes": [
+        "Persists a clean-worktree local branch-ref plan; no ref mutation or checkout."
+      ],
+      "mutation_exception_justification": "External control-root plan persistence only; repository refs remain unchanged."
+    },
+    {
+      "route_id": "api.workspace.git.commit",
+      "method": "POST",
+      "path": "/api/v1/workspace/git/stage-executions/{execution_id}/commit",
+      "operation": "workspace.git.commit",
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "source_mutation_allowed": true,
+      "tags": [
+        "workspace",
+        "git",
+        "approval",
+        "commit",
+        "uoc-006"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.workspace_git",
+      "router_module": "workspace_git",
+      "policy_action": "read",
+      "policy_sensitivity": "approval-bound-workspace-git-commit",
+      "path_subject": null,
+      "notes": [
+        "Creates one local commit with explicit identity, hooks disabled and verified parent/path/index postconditions; push remains impossible."
+      ],
+      "mutation_exception_justification": "Narrow UOC-006 local Git history mutation after second exact approval; no hooks, push, force, tag, reset or rebase."
+    },
+    {
+      "route_id": "api.workspace.git.commit-approval",
+      "method": "POST",
+      "path": "/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request",
+      "operation": "workspace.git.commit_approval_request",
+      "dry_run_only": false,
+      "mutations_allowed": true,
+      "local_state_mutation_allowed": true,
+      "source_mutation_allowed": false,
+      "tags": [
+        "workspace",
+        "git",
+        "approval",
+        "commit",
+        "uoc-006"
+      ],
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "owner": "interfaces.api.workspace_git",
+      "router_module": "workspace_git",
+      "policy_action": "read",
+      "policy_sensitivity": "approval-bound-workspace-git-commit-request",
+      "path_subject": null,
+      "notes": [
+        "Creates second exact approval binding to staged index fingerprint and commit intent."
+      ],
+      "mutation_exception_justification": "Local ApprovalStore mutation only; commit history remains unchanged until separate approved route."
     },
     {
       "route_id": "api.workspace.git.compare",
@@ -3474,82 +3661,6 @@
       "mutation_exception_justification": "Local ApprovalStore mutation only; Git index and source remain unchanged."
     },
     {
-      "route_id": "api.workspace.git.commit",
-      "method": "POST",
-      "path": "/api/v1/workspace/git/stage-executions/{execution_id}/commit",
-      "operation": "workspace.git.commit",
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "source_mutation_allowed": true,
-      "tags": [
-        "workspace",
-        "git",
-        "approval",
-        "commit",
-        "uoc-006"
-      ],
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.workspace_git",
-      "router_module": "workspace_git",
-      "policy_action": "read",
-      "policy_sensitivity": "approval-bound-workspace-git-commit",
-      "path_subject": null,
-      "notes": [
-        "Creates one local commit with explicit identity, hooks disabled and verified parent/path/index postconditions; push remains impossible."
-      ],
-      "mutation_exception_justification": "Narrow UOC-006 local Git history mutation after second exact approval; no hooks, push, force, tag, reset or rebase."
-    },
-    {
-      "route_id": "api.workspace.git.commit-approval",
-      "method": "POST",
-      "path": "/api/v1/workspace/git/stage-executions/{execution_id}/commit-approval-request",
-      "operation": "workspace.git.commit_approval_request",
-      "dry_run_only": false,
-      "mutations_allowed": true,
-      "local_state_mutation_allowed": true,
-      "source_mutation_allowed": false,
-      "tags": [
-        "workspace",
-        "git",
-        "approval",
-        "commit",
-        "uoc-006"
-      ],
-      "application_service_required": true,
-      "policy_check_required": true,
-      "auth_required": true,
-      "public": false,
-      "local_only": true,
-      "destructive_action_allowed": false,
-      "external_api_allowed": false,
-      "remote_execution_allowed": false,
-      "connector_write_allowed": false,
-      "plugin_execution_allowed": false,
-      "response_contract": "ApplicationResponse",
-      "risk_level": "high",
-      "owner": "interfaces.api.workspace_git",
-      "router_module": "workspace_git",
-      "policy_action": "read",
-      "policy_sensitivity": "approval-bound-workspace-git-commit-request",
-      "path_subject": null,
-      "notes": [
-        "Creates second exact approval binding to staged index fingerprint and commit intent."
-      ],
-      "mutation_exception_justification": "Local ApprovalStore mutation only; commit history remains unchanged until separate approved route."
-    },
-    {
       "route_id": "api.workspace.git.status",
       "method": "GET",
       "path": "/api/v1/workspace/git/status",
@@ -3757,12 +3868,12 @@
     }
   ],
   "summary": {
-    "routes_total": 109,
-    "protected_routes_total": 102,
+    "routes_total": 112,
+    "protected_routes_total": 105,
     "public_routes_total": 7,
-    "mutating_routes_total": 35,
-    "application_service_routes_total": 104,
-    "policy_bound_routes_total": 102,
+    "mutating_routes_total": 36,
+    "application_service_routes_total": 107,
+    "policy_bound_routes_total": 105,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -3774,7 +3885,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "DEVPL-GSDLC-04-B",
+    "updated_by": "DEVPL-GSDLC-04-C",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -3814,9 +3925,13 @@
     "gsdlc_02_b_public_bootstrap_login_routes_total": 3,
     "gsdlc_02_b_human_session_routes_total": 4,
     "gsdlc_03_b_project_entry_routes_total": 2,
-    "read_only_routes_total": 72,
+    "read_only_routes_total": 76,
     "gsdlc_04_b_artifact_draft_routes_total": 5,
-    "gsdlc_04_b_source_write_routes_total": 0
+    "gsdlc_04_b_source_write_routes_total": 0,
+    "gsdlc_04_c_artifact_import_routes_total": 3,
+    "gsdlc_04_c_runtime_draft_mutating_routes_total": 1,
+    "gsdlc_04_c_source_write_routes_total": 0,
+    "gsdlc_04_c_url_fetch_routes_total": 0
   },
   "safety": {
     "local_first": true,

@@ -1127,3 +1127,20 @@ button, .primary-nav__links a { min-height: 44px; }
 .artifact-version-history ol{display:grid;gap:.45rem;padding-left:1.4rem;}.artifact-version-history li{display:flex;gap:.8rem;align-items:center;justify-content:space-between;flex-wrap:wrap;}
 .artifact-editor-warning{font-weight:600;padding:.7rem;border:1px solid #d2a800;border-radius:.5rem;background:#fff9db;}
 @media (max-width:720px){.artifact-editor-identity{grid-template-columns:1fr}.artifact-manual-editor-input{min-height:18rem}.artifact-editor-actions button{width:100%}}
+
+/* DEVPL-GSDLC-04-C — governed PASTE/UPLOAD/IMPORT preview-first workbench. */
+.artifact-import-workbench{display:grid;gap:1rem;border-top:4px solid #315787;}
+.artifact-import-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;}
+.artifact-import-field{display:grid;gap:.35rem;min-width:0;font-weight:700;}
+.artifact-import-field input,.artifact-import-field select,.artifact-import-field textarea{width:100%;min-width:0;}
+.artifact-import-content,.artifact-import-file{grid-column:1/-1;}
+.artifact-import-content textarea{min-height:15rem;resize:vertical;font:500 .92rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;}
+.artifact-import-status{border-left:4px solid #7186a6;padding:.7rem .85rem;border-radius:.4rem;background:#f5f7fb;}
+.artifact-import-status[data-state="preview"],.artifact-import-status[data-state="saved"]{border-left-color:#238636;background:#effaf2;}
+.artifact-import-status[data-state="block"]{border-left-color:#b42318;background:#fff1f0;}
+.artifact-import-preview,.artifact-provenance-panel,.artifact-import-recent{display:grid;gap:.7rem;border:1px solid #d6dce8;border-radius:.65rem;padding:.9rem;background:#fbfcff;}
+.artifact-import-preview h3,.artifact-provenance-panel h3,.artifact-import-recent h3{margin:0;}
+.artifact-import-content-preview,.artifact-import-diff{max-height:24rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d9e0eb;border-radius:.5rem;padding:.75rem;background:#fff;}
+.artifact-provenance-panel{border-left:4px solid #4a63d8;}
+.artifact-import-recent ul{margin:.2rem 0 0;padding-left:1.3rem;display:grid;gap:.35rem;}
+@media(max-width:720px){.artifact-import-form{grid-template-columns:1fr}.artifact-import-content,.artifact-import-file{grid-column:auto}.artifact-import-workbench .artifact-editor-actions button{width:100%}}

@@ -11370,6 +11370,125 @@
           }
         }
       }
+    },
+    "/api/v1/workspace/artifact-imports/preview": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Import Preview",
+        "operationId": "artifact_import_preview_api_v1_workspace_artifact_imports_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArtifactImportPreviewBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/artifact-imports/persist": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Import Persist",
+        "operationId": "artifact_import_persist_api_v1_workspace_artifact_imports_persist_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArtifactImportPersistBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/artifact-imports/recent": {
+      "get": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Artifact Import Recent",
+        "operationId": "artifact_import_recent_api_v1_workspace_artifact_imports_recent_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11965,6 +12084,251 @@
           "expected_source_sha256"
         ],
         "title": "DraftRecoverBody"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ArtifactImportPreviewBody": {
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "pattern": "^(PASTE|UPLOAD|IMPORT)$",
+            "title": "Source Type"
+          },
+          "destination_path": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "Destination Path"
+          },
+          "source_label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 512
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Label"
+          },
+          "source_reference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2048
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Reference"
+          },
+          "original_filename": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Filename"
+          },
+          "declared_mime": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Mime"
+          },
+          "text_content": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1048576
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text Content"
+          },
+          "content_base64": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1500000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Base64"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_type",
+          "destination_path"
+        ],
+        "title": "ArtifactImportPreviewBody"
+      },
+      "ArtifactImportPersistBody": {
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "pattern": "^(PASTE|UPLOAD|IMPORT)$",
+            "title": "Source Type"
+          },
+          "destination_path": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "Destination Path"
+          },
+          "source_label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 512
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Label"
+          },
+          "source_reference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2048
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Reference"
+          },
+          "original_filename": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Filename"
+          },
+          "declared_mime": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declared Mime"
+          },
+          "text_content": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1048576
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text Content"
+          },
+          "content_base64": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1500000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Base64"
+          },
+          "expected_preview_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Expected Preview Sha256"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_type",
+          "destination_path",
+          "expected_preview_sha256"
+        ],
+        "title": "ArtifactImportPersistBody"
       }
     },
     "securitySchemes": {
@@ -11995,5 +12359,29 @@
     "human_session_required": true,
     "legacy_token_allowed": false,
     "full_regression_executed": false
+  },
+  "x-devpilot-gsdlc-04-c": {
+    "micro_sprint": "DEVPL-GSDLC-04-C",
+    "artifact_import_routes_total": 3,
+    "source_types": [
+      "PASTE",
+      "UPLOAD",
+      "IMPORT"
+    ],
+    "allowlisted_extensions": [
+      ".md",
+      ".json"
+    ],
+    "max_import_bytes": 1048576,
+    "preview_required": true,
+    "lifecycle_state": "DRAFT",
+    "source_write_enabled": false,
+    "url_fetch_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "human_session_required": true,
+    "legacy_token_allowed": false,
+    "provenance_visible": true,
+    "original_and_normalized_hashes": true
   }
 }

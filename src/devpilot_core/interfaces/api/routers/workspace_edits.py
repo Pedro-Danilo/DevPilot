@@ -70,6 +70,21 @@ class DraftRecoverBody(BaseModel):
     expected_revision_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
 
 
+class ArtifactImportPreviewBody(BaseModel):
+    source_type: str = Field(pattern=r"^(PASTE|UPLOAD|IMPORT)$")
+    destination_path: str = Field(min_length=1, max_length=1024)
+    source_label: str | None = Field(default=None, max_length=512)
+    source_reference: str | None = Field(default=None, max_length=2048)
+    original_filename: str | None = Field(default=None, max_length=128)
+    declared_mime: str | None = Field(default=None, max_length=128)
+    text_content: str | None = Field(default=None, max_length=1048576)
+    content_base64: str | None = Field(default=None, max_length=1500000)
+
+
+class ArtifactImportPersistBody(ArtifactImportPreviewBody):
+    expected_preview_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
 def _draft_session_identity(request: Request) -> tuple[tuple[str, str, str] | None, JSONResponse | None]:
     principal = getattr(request.state, "authenticated_principal", None)
     if principal is None:
@@ -237,3 +252,42 @@ def artifact_draft_recover(
     actor, actor_role, session_principal = identity
     result = service.artifact_draft_recover(document_id=document_id, revision_sha256=body.revision_sha256, expected_source_sha256=body.expected_source_sha256, expected_revision_sha256=body.expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal)
     return _draft_json(result, "workspace.artifact_drafts.recover")
+
+@router.post("/api/v1/workspace/artifact-imports/preview")
+def artifact_import_preview(
+    request: Request,
+    body: ArtifactImportPreviewBody,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, session_principal = identity
+    result = service.artifact_import_preview(actor=actor, actor_role=actor_role, session_principal=session_principal, **body.model_dump())
+    return _draft_json(result, "workspace.artifact_imports.preview")
+
+
+@router.post("/api/v1/workspace/artifact-imports/persist")
+def artifact_import_persist(
+    request: Request,
+    body: ArtifactImportPersistBody,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, session_principal = identity
+    result = service.artifact_import_persist(actor=actor, actor_role=actor_role, session_principal=session_principal, **body.model_dump())
+    return _draft_json(result, "workspace.artifact_imports.persist")
+
+
+@router.get("/api/v1/workspace/artifact-imports/recent")
+def artifact_import_recent(
+    request: Request,
+    limit: int = 20,
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    result = service.artifact_import_recent(limit=limit)
+    return _draft_json(result, "workspace.artifact_imports.recent")

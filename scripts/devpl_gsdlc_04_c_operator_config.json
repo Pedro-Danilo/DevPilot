@@ -1,0 +1,19 @@
+{
+  "operator_id": "DEVPL-GSDLC-04-C-OPERATOR",
+  "version": "1.0.3",
+  "baseline_repo": "repo_DevPilot_Local_366_DEVPL_GSDLC_04_B_MANUAL_EDITOR_DRAFT_HISTORY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f",
+  "baseline_sha256": "3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92",
+  "branch": "feat/devpl-gsdlc-04-c-artifact-import",
+  "candidate": "repo_DevPilot_Local_367_DEVPL_GSDLC_04_C_EXTERNAL_SOURCE_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "dry_run_default": true,
+  "full_regression_allowed": false,
+  "pilot_workspace_access_allowed": false,
+  "git_blob_authority_for_eol": true,
+  "three_console_browser_runtime": true,
+  "preimage_authority": "raw-sha256-first; Git-clean canonical-LF working-tree + predecessor Git blob fallback",
+  "lf_crlf_false_positive_protection": true,
+  "recovery_003": "windows-url-path-forward-scan",
+  "path_portability_audit": true,
+  "validation_resume_policy": "reuse PASS checkpoints before first ui-static failure when source changes are limited to operator/docs/ui-smoke portability corrective"
+}

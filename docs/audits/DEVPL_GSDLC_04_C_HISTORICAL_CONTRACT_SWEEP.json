@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-C-HISTORICAL-CONTRACT-SWEEP",
+  "micro_sprint": "DEVPL-GSDLC-04-C",
+  "status": "PASS-PREWINDOWS",
+  "updated": "2026-08-21",
+  "classifications": [
+    {
+      "subject": "GSDLC-04-B sealed Windows evidence and owner closure",
+      "classification": "historical-freeze",
+      "action": "preserve; use successor adjudication/current; do not rewrite evidence"
+    },
+    {
+      "subject": "GSDLC-04-A lifecycle/source-type contracts",
+      "classification": "current-active",
+      "action": "reuse ArtifactLifecycleService source types PASTE/UPLOAD/IMPORT; no second lifecycle engine"
+    },
+    {
+      "subject": "UOC-004 plan-only and UOC-005 apply/rollback",
+      "classification": "historical-freeze",
+      "action": "preserve historical facts; 04-C stops at DRAFT and does not extend source-write semantics"
+    },
+    {
+      "subject": "Artifact Workbench UI route/capability",
+      "classification": "current-active",
+      "action": "extend with import workbench and three typed routes"
+    },
+    {
+      "subject": "artifact import runtime record",
+      "classification": "successor-needed",
+      "action": "new schema/contract rather than mutate 04-B draft schema"
+    },
+    {
+      "subject": "outputs/imports/gsdlc_04_c",
+      "classification": "runtime-ephemeral",
+      "action": "exclude from source packages and candidate Git archives"
+    },
+    {
+      "subject": "route/schema/summary counters",
+      "classification": "derived",
+      "action": "recompute from live collections and validate"
+    },
+    {
+      "subject": "legacy read-only UOC-001/002 assertions",
+      "classification": "historical-freeze",
+      "action": "do not reinterpret as global prohibition of successor runtime-DRAFT capability"
+    }
+  ],
+  "historical_assertions_weakened": false,
+  "sealed_evidence_rewritten": false,
+  "full_regression_runs": 0
+}

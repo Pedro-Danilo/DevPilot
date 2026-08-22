@@ -20148,6 +20148,109 @@
         "A→D use focal/cumulative validation. 04-E owns the single backlog full regression.",
         "Runtime draft outputs and DB stores are excluded from source packages."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-04-c-artifact-import",
+      "source_contract_id": "devpl-gsdlc-04-c-artifact-import",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "ArtifactExternalSourceImport",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+        "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/artifact_import_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/ArtifactImportWorkbench.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api",
+        "ui/web/src/styles.css",
+        ".devpilot/interfaces",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas/artifact_import_record.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/02_architecture/guided_sdlc/artifact_import_contract.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_04_c_artifact_import.py"
+      ],
+      "validates": [
+        "PASTE/UPLOAD/IMPORT preview-first ingestion",
+        "path traversal/symlink/UNC/device/ADS/size/type/MIME/encoding negatives",
+        "original+normalized deterministic hashes",
+        "SecretGuard warning/redaction and DRAFT persistence block",
+        "server-authoritative actor/session/RBAC",
+        "DRAFT-only provenance with no source write",
+        "URL/reference metadata with no network fetch",
+        "safe browser preview/diff/provenance panel",
+        "runtime-store package hygiene"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-04-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Runtime import DRAFT persistence is a product local-state mutation but the test contract itself does not mutate product source/global state.",
+        "Human session/RBAC are mandatory for all three import API routes; legacy-token authority is disabled.",
+        "Source promotion/apply/approval remains a successor 04-D boundary."
+      ],
+      "trigger_hints": [
+        "artifact-import",
+        "paste",
+        "upload",
+        "provenance",
+        "path-traversal",
+        "encoding",
+        "mime",
+        "secret-redaction",
+        "workspace-documents"
+      ],
+      "impact_tags": [
+        "artifacts",
+        "ui",
+        "api",
+        "security",
+        "schema",
+        "workspace",
+        "runtime-state",
+        "untrusted-input"
+      ],
+      "owner_domain": "artifacts.external-source-import",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-04-C-ARTIFACT-IMPORT-RECORD-V1"
+      ],
+      "notes": [
+        "A→D use focal/cumulative/impact validation. 04-E owns the single backlog full regression.",
+        "Runtime import outputs and DB stores are excluded from source packages."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -20309,5 +20412,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 286
+  "contracts_total": 287
 }

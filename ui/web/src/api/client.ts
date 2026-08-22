@@ -406,6 +406,18 @@ export class DevPilotApiClient {
     return this.post(`/workspace/artifact-drafts/${encodeURIComponent(documentId)}/recover`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
+  async previewArtifactImport(payload: { source_type: 'PASTE' | 'UPLOAD' | 'IMPORT'; destination_path: string; source_label?: string | null; source_reference?: string | null; original_filename?: string | null; declared_mime?: string | null; text_content?: string | null; content_base64?: string | null }): Promise<DevPilotApplicationResponse> {
+    return this.post('/workspace/artifact-imports/preview', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async persistArtifactImport(payload: { source_type: 'PASTE' | 'UPLOAD' | 'IMPORT'; destination_path: string; expected_preview_sha256: string; source_label?: string | null; source_reference?: string | null; original_filename?: string | null; declared_mime?: string | null; text_content?: string | null; content_base64?: string | null }): Promise<DevPilotApplicationResponse> {
+    return this.post('/workspace/artifact-imports/persist', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async recentArtifactImports(limit = 20): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/artifact-imports/recent${this.query({ limit })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
   async planWorkspaceValidations(payload: { scopes?: string[]; document_ids?: string[]; strict?: boolean; timeout_seconds?: number } = {}): Promise<DevPilotApplicationResponse> {
     return this.post('/workspace/validations/plan', {
       operation: 'workspace.validations.plan',

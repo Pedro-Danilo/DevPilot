@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-C-OPERATION-DECLARATION",
+  "micro_sprint": "DEVPL-GSDLC-04-C",
+  "source_repo": "repo_DevPilot_Local_366_DEVPL_GSDLC_04_B_MANUAL_EDITOR_DRAFT_HISTORY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f",
+  "source_sha256": "3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92",
+  "status": "PASS-PREWINDOWS",
+  "updated": "2026-08-21",
+  "mutations_performed": true,
+  "source_mutations_performed": true,
+  "product_runtime_import_draft_mutations_enabled": true,
+  "product_runtime_source_writes_enabled": false,
+  "url_fetch_enabled": false,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "pilot_workspace_accessed": false,
+  "full_regression_executed": false,
+  "full_regression_runs": 0,
+  "browser_acceptance_executed": false,
+  "runtime_db_copied_to_fixture": false,
+  "git_destructive_commands_used": false,
+  "notes": [
+    "Source mutations in this declaration refer only to implementation files in the DevPilot product repo. Product PASTE/UPLOAD/IMPORT persistence writes runtime DRAFT state only and never the approved workspace source.",
+    "04-C remains pre-Windows until browser acceptance and owner adjudication."
+  ]
+}

@@ -130,6 +130,9 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/artifact-drafts/{document_id}/save"): ApiRoutePolicy("workspace.artifact_drafts.save", "read", "protected-human-session-artifact-draft-runtime-mutation"),
     ("POST", "/api/v1/workspace/artifact-drafts/{document_id}/discard"): ApiRoutePolicy("workspace.artifact_drafts.discard", "read", "protected-human-session-artifact-draft-runtime-mutation"),
     ("POST", "/api/v1/workspace/artifact-drafts/{document_id}/recover"): ApiRoutePolicy("workspace.artifact_drafts.recover", "read", "protected-human-session-artifact-draft-runtime-mutation"),
+    ("POST", "/api/v1/workspace/artifact-imports/preview"): ApiRoutePolicy("workspace.artifact_imports.preview", "read", "protected-human-session-artifact-import-preview"),
+    ("POST", "/api/v1/workspace/artifact-imports/persist"): ApiRoutePolicy("workspace.artifact_imports.persist", "read", "protected-human-session-artifact-import-runtime-mutation"),
+    ("GET", "/api/v1/workspace/artifact-imports/recent"): ApiRoutePolicy("workspace.artifact_imports.recent", "read", "protected-human-session-artifact-import-read"),
     ("POST", "/api/v1/workspace/validations/plan"): ApiRoutePolicy("workspace.validations.plan", "read", "protected-workspace-validation-plan"),
     ("POST", "/api/v1/workspace/validations/execute"): ApiRoutePolicy("workspace.validations.execute", "read", "protected-workspace-validation-evidence"),
     ("GET", "/api/v1/workspace/validations/{job_id}"): ApiRoutePolicy("workspace.validations.status", "read", "protected-workspace-validation-read"),
@@ -466,6 +469,10 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
     normalized = (method.upper(), path)
     if normalized in API_ROUTE_POLICIES:
         return API_ROUTE_POLICIES[normalized]
+    if method.upper() == "GET" and path == "/api/v1/workspace/artifact-imports/recent":
+        return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/artifact-imports/recent"))
+    if method.upper() == "POST" and path in {"/api/v1/workspace/artifact-imports/preview", "/api/v1/workspace/artifact-imports/persist"}:
+        return API_ROUTE_POLICIES.get((method.upper(), path))
     if method.upper() == "GET" and path.startswith("/api/v1/workspace/artifact-drafts/"):
         if path.endswith("/history") and path.count("/") == 6:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/artifact-drafts/{document_id}/history"))

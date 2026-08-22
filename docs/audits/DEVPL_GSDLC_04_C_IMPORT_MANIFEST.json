@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "report_id": "DEVPL-GSDLC-04-C-IMPORT-MANIFEST",
+  "micro_sprint": "DEVPL-GSDLC-04-C",
+  "status": "IMPLEMENTED/READY-FOR-WINDOWS",
+  "updated": "2026-08-21",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_366_DEVPL_GSDLC_04_B_MANUAL_EDITOR_DRAFT_HISTORY_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f",
+    "sha256": "3cfe97a376ee269b6c6fb3465e9549c2eea1e2160ecf5ff4848fd351a776ad92",
+    "predecessor_status": "CLOSED/PASS"
+  },
+  "source_types": [
+    "PASTE",
+    "UPLOAD",
+    "IMPORT"
+  ],
+  "allowed_extensions": [
+    ".md",
+    ".json"
+  ],
+  "max_import_bytes": 1048576,
+  "encodings": [
+    "utf-8",
+    "utf-8-sig",
+    "utf-16-le-bom",
+    "utf-16-be-bom"
+  ],
+  "original_hash": "sha256/raw-bytes",
+  "normalized_hash": "sha256/utf8-canonical-lf",
+  "preview_required": true,
+  "preview_hash_required_for_persist": true,
+  "lifecycle_on_persist": "DRAFT",
+  "source_write_enabled": false,
+  "runtime_store": "outputs/imports/gsdlc_04_c",
+  "runtime_store_ephemeral": true,
+  "url_fetch_enabled": false,
+  "network_used": false,
+  "external_api_used": false,
+  "pathguard": {
+    "relative_only": true,
+    "traversal_blocked": true,
+    "unc_blocked": true,
+    "ads_blocked": true,
+    "windows_device_names_blocked": true,
+    "symlink_reparse_traversal_blocked": true
+  },
+  "provenance_visible": true,
+  "secret_persist_block": true,
+  "full_regression_runs": 0
+}

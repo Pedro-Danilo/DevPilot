@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.4.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-20",
-  "sprint": "DEVPL-GSDLC-04-B",
+  "updated": "2026-08-21",
+  "sprint": "DEVPL-GSDLC-04-C",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
   "schemas": [
@@ -2987,7 +2987,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-04-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-C-ARTIFACT-IMPORT-RECORD-V1",
+      "title": "Artifact Import Runtime Draft Record v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_import_record.schema.json",
+      "description": "GSDLC-04-C bounded PASTE/UPLOAD/IMPORT runtime DRAFT record with original/normalized hashes, provenance, preview hash and zero workspace source writes.",
+      "status": "registered",
+      "contract": "ArtifactImportRecord",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-C"
     }
   ],
-  "schemas_total": 207
+  "schemas_total": 208
 }

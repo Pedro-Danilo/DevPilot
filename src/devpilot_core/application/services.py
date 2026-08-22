@@ -39,6 +39,7 @@ from .workspace_validation_service import WorkspaceValidationApplicationService
 from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .artifact_draft_service import ArtifactDraftApplicationService
+from .artifact_import_service import ArtifactImportApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -98,6 +99,7 @@ class ApplicationService:
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
         self.workspace_edit_execution = WorkspaceEditExecutionApplicationService(self.root, documents=self.workspace_documents, plans=self.workspace_edit_planning, approval_auth_store=approval_auth_store)
         self.artifact_drafts = ArtifactDraftApplicationService(self.root, documents=self.workspace_documents)
+        self.artifact_imports = ArtifactImportApplicationService(self.root, documents=self.workspace_documents)
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
         self.governed_jobs = GovernedJobFramework(self.root, registry=self.governed_job_capabilities)
@@ -1135,6 +1137,15 @@ class ApplicationService:
 
     def artifact_draft_recover(self, *, document_id: str, revision_sha256: str, expected_source_sha256: str, expected_revision_sha256: str | None, actor: str, actor_role: str, session_principal: str) -> CommandResult:
         return self.artifact_drafts.recover(document_id=document_id, revision_sha256=revision_sha256, expected_source_sha256=expected_source_sha256, expected_revision_sha256=expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal)
+
+    def artifact_import_preview(self, *, source_type: str, destination_path: str, actor: str, actor_role: str, session_principal: str, source_label: str | None = None, source_reference: str | None = None, original_filename: str | None = None, declared_mime: str | None = None, text_content: str | None = None, content_base64: str | None = None) -> CommandResult:
+        return self.artifact_imports.preview(source_type=source_type, destination_path=destination_path, actor=actor, actor_role=actor_role, session_principal=session_principal, source_label=source_label, source_reference=source_reference, original_filename=original_filename, declared_mime=declared_mime, text_content=text_content, content_base64=content_base64)
+
+    def artifact_import_persist(self, *, source_type: str, destination_path: str, expected_preview_sha256: str, actor: str, actor_role: str, session_principal: str, source_label: str | None = None, source_reference: str | None = None, original_filename: str | None = None, declared_mime: str | None = None, text_content: str | None = None, content_base64: str | None = None) -> CommandResult:
+        return self.artifact_imports.persist(source_type=source_type, destination_path=destination_path, expected_preview_sha256=expected_preview_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal, source_label=source_label, source_reference=source_reference, original_filename=original_filename, declared_mime=declared_mime, text_content=text_content, content_base64=content_base64)
+
+    def artifact_import_recent(self, *, limit: int = 20) -> CommandResult:
+        return self.artifact_imports.recent(limit=limit)
 
     def workspace_edit_plan(self, *, document_id: str, document_sha_before: str, proposed_content: str) -> CommandResult:
         return self.workspace_edit_planning.plan(document_id=document_id, document_sha_before=document_sha_before, proposed_content=proposed_content)
