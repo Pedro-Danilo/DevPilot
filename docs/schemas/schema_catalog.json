@@ -3,10 +3,10 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-21",
-  "sprint": "DEVPL-GSDLC-04-C",
+  "updated": "2026-08-22",
+  "sprint": "DEVPL-GSDLC-04-D",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
   "schemas": [
@@ -3001,7 +3001,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-04-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-D-ARTIFACT-REVIEW-RECORD-V1",
+      "title": "Artifact Review Record v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_review_record.schema.json",
+      "description": "GSDLC-04-D successor review/lifecycle record for validation, findings, immutable plan, approval/freeze state and hash reconciliation.",
+      "status": "registered",
+      "contract": "ArtifactReviewRecord",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-D-ARTIFACT-APPLY-EXECUTION-V1",
+      "title": "Artifact Apply Execution v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_apply_execution_gsdlc04d.schema.json",
+      "description": "GSDLC-04-D create execution successor record; modify continues to validate against the frozen UOC-005 WorkspaceEditExecution schema.",
+      "status": "registered",
+      "contract": "ArtifactApplyExecutionGSDLC04D",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-D"
     }
   ],
-  "schemas_total": 208
+  "schemas_total": 210
 }

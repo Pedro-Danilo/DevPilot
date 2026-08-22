@@ -40,6 +40,7 @@ from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .artifact_draft_service import ArtifactDraftApplicationService
 from .artifact_import_service import ArtifactImportApplicationService
+from .artifact_review_service import ArtifactReviewApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -100,6 +101,7 @@ class ApplicationService:
         self.workspace_edit_execution = WorkspaceEditExecutionApplicationService(self.root, documents=self.workspace_documents, plans=self.workspace_edit_planning, approval_auth_store=approval_auth_store)
         self.artifact_drafts = ArtifactDraftApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_imports = ArtifactImportApplicationService(self.root, documents=self.workspace_documents)
+        self.artifact_reviews = ArtifactReviewApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports, plans=self.workspace_edit_planning, executions=self.workspace_edit_execution)
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
         self.governed_jobs = GovernedJobFramework(self.root, registry=self.governed_job_capabilities)
@@ -1147,6 +1149,21 @@ class ApplicationService:
     def artifact_import_recent(self, *, limit: int = 20) -> CommandResult:
         return self.artifact_imports.recent(limit=limit)
 
+    def artifact_review_start_import(self, *, import_id: str, actor: str, actor_role: str, session_principal: str) -> CommandResult:
+        return self.artifact_reviews.start_import(import_id=import_id, actor=actor, actor_role=actor_role, session_principal=session_principal)
+
+    def artifact_review_start_document(self, *, document_id: str, actor: str, actor_role: str, session_principal: str) -> CommandResult:
+        return self.artifact_reviews.start_document(document_id=document_id, actor=actor, actor_role=actor_role, session_principal=session_principal)
+
+    def artifact_review_status(self, *, review_id: str) -> CommandResult:
+        return self.artifact_reviews.get(review_id=review_id)
+
+    def artifact_review_freeze(self, *, review_id: str, execution_id: str, actor: str, actor_role: str, session_principal: str) -> CommandResult:
+        return self.artifact_reviews.freeze(review_id=review_id, execution_id=execution_id, actor=actor, actor_role=actor_role, session_principal=session_principal)
+
+    def artifact_review_reconcile(self, *, review_id: str, actor: str, actor_role: str, session_principal: str) -> CommandResult:
+        return self.artifact_reviews.reconcile(review_id=review_id, actor=actor, actor_role=actor_role, session_principal=session_principal)
+
     def workspace_edit_plan(self, *, document_id: str, document_sha_before: str, proposed_content: str) -> CommandResult:
         return self.workspace_edit_planning.plan(document_id=document_id, document_sha_before=document_sha_before, proposed_content=proposed_content)
 
@@ -1518,6 +1535,11 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         ),
         "workspace.validations.status": lambda payload: service.workspace_validations_status(job_id=str(payload.get("job_id", ""))),
         "workspace.traceability": lambda payload: service.workspace_traceability(),
+        "workspace.artifact_reviews.start_import": lambda payload: service.artifact_review_start_import(import_id=str(payload.get("import_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", ""))),
+        "workspace.artifact_reviews.start_document": lambda payload: service.artifact_review_start_document(document_id=str(payload.get("document_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", ""))),
+        "workspace.artifact_reviews.status": lambda payload: service.artifact_review_status(review_id=str(payload.get("review_id", ""))),
+        "workspace.artifact_reviews.freeze": lambda payload: service.artifact_review_freeze(review_id=str(payload.get("review_id", "")), execution_id=str(payload.get("execution_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", ""))),
+        "workspace.artifact_reviews.reconcile": lambda payload: service.artifact_review_reconcile(review_id=str(payload.get("review_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", ""))),
         "workspace.edits.plan": lambda payload: service.workspace_edit_plan(
             document_id=str(payload.get("document_id", "")),
             document_sha_before=str(payload.get("document_sha_before", "")),

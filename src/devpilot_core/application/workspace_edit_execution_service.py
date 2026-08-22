@@ -50,6 +50,7 @@ class WorkspaceEditExecutionApplicationService:
         documents: WorkspaceDocumentsApplicationService | None = None,
         plans: WorkspaceEditPlanApplicationService | None = None,
         approval_auth_store: LocalAuthStore | None = None,
+        failure_injection_stage: str | None = None,
     ) -> None:
         self.platform_root = Path(platform_root).resolve()
         self.documents = documents or WorkspaceDocumentsApplicationService(self.platform_root)
@@ -58,6 +59,7 @@ class WorkspaceEditExecutionApplicationService:
         self.secret_guard = SecretGuard(self.platform_root)
         self.events = EventLogger(self.platform_root)
         self.approval_auth_store = approval_auth_store
+        self.failure_injection_stage = str(failure_injection_stage or "").strip() or None
 
     def request_apply_approval(
         self,
@@ -153,7 +155,8 @@ class WorkspaceEditExecutionApplicationService:
         execution_id = _id("uedit", f"{plan_id}|{plan_hash}|{approval_id}")
         record_path = control_root / "records" / f"{execution_id}.json"
         existing = self._read_record(record_path)
-        current_sha = _sha_file(target)
+        operation = str(plan.get("document", {}).get("operation") or "modify")
+        current_sha = _sha_file(target) if target.is_file() else ("0" * 64)
         if existing and existing.get("status") == "applied" and current_sha == str(plan["document"]["proposed_sha256"]):
             return CommandResult("workspace edit apply", True, ExitCode.PASS, "Approved document apply was already completed; idempotent result returned.", data={"summary": {**self._summary(plan, mutations=True), "execution_id": execution_id, "idempotent": True}, "execution": existing}, findings=[Finding("UOC005_APPLY_IDEMPOTENT_PASS", "Existing successful execution matches the proposed document hash.", Severity.INFO, path=relative_path)])
 
@@ -164,21 +167,26 @@ class WorkspaceEditExecutionApplicationService:
         control_root.mkdir(parents=True, exist_ok=True)
         backup_path = control_root / "backups" / f"{execution_id}-{base_sha[:12]}.bak"
         backup_path.parent.mkdir(parents=True, exist_ok=True)
-        before_mode = stat.S_IMODE(target.stat().st_mode)
-        shutil.copy2(target, backup_path)
-        backup_sha = _sha_file(backup_path)
-        if backup_sha != base_sha:
-            return self._block("workspace edit apply", "UOC005_BACKUP_INTEGRITY_BLOCK", "Backup hash does not match the immutable base before apply.", path=relative_path)
+        before_mode = stat.S_IMODE(target.stat().st_mode) if target.is_file() else 0o644
+        if operation == "modify":
+            shutil.copy2(target, backup_path)
+            backup_sha = _sha_file(backup_path)
+            if backup_sha != base_sha:
+                return self._block("workspace edit apply", "UOC005_BACKUP_INTEGRITY_BLOCK", "Backup hash does not match the immutable base before apply.", path=relative_path)
+        else:
+            backup_sha = "0" * 64
 
         self._atomic_write(target, proposed.encode("utf-8"), mode=before_mode)
         post_sha = _sha_file(target)
         post_findings = self._post_validate(plan, target)
+        if self.failure_injection_stage == "after-write-before-validation":
+            post_findings.append(Finding("GSDLC04D_FAILURE_INJECTION_BLOCK", "Controlled failure injection after atomic write.", Severity.BLOCK, path=relative_path))
         post_ok = post_sha == str(plan["document"]["proposed_sha256"]) and not any(f.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR} for f in post_findings)
 
         approval_snapshot = self._approval_snapshot(str(approval_id or ""))
         duration_ms = round((time.perf_counter() - started) * 1000, 2)
         record: dict[str, Any] = {
-            "schema_id": "devpilot.post_h_eval_002.uoc_005.workspace_edit_execution.v1",
+            "schema_id": "devpilot.gsdlc04d.artifact_apply_execution.v1" if operation == "create" else "devpilot.post_h_eval_002.uoc_005.workspace_edit_execution.v1",
             "execution_id": execution_id,
             "status": "applied" if post_ok else "post-validation-blocked",
             "plan_id": plan_id,
@@ -208,9 +216,19 @@ class WorkspaceEditExecutionApplicationService:
             "git_commit": False,
             "preliminary": True,
         }
+        if operation == "create":
+            record["operation"] = "create"
+
         if not post_ok:
-            self._restore_backup(target, backup_path, mode=before_mode)
-            restored_sha = _sha_file(target)
+            if operation == "create":
+                try:
+                    if target.exists(): target.unlink()
+                except OSError:
+                    pass
+                restored_sha = "0" * 64 if not target.exists() else _sha_file(target)
+            else:
+                self._restore_backup(target, backup_path, mode=before_mode)
+                restored_sha = _sha_file(target)
             record["duration_ms"] = round((time.perf_counter() - started) * 1000, 2)
             record["status"] = "rolled-back-automatic" if restored_sha == base_sha else "rollback-failed"
             record["rollback"] = {"mode": "automatic-compensating", "restored_sha256": restored_sha, "at": _now(), "reason": "post-validation-block", "integrity_pass": restored_sha == base_sha}
@@ -391,16 +409,21 @@ class WorkspaceEditExecutionApplicationService:
     def _resolve_target(self, plan: dict[str, Any]) -> tuple[Path | None, Path | None, str]:
         relative_path = str(plan.get("document", {}).get("relative_path") or "")
         document_id = str(plan.get("document", {}).get("document_id") or "")
-        read = self.documents.read_document(document_id)
-        if not read.ok:
-            return None, None, relative_path
+        operation = str(plan.get("document", {}).get("operation") or "modify")
         context = self.documents.context_resolver.resolve()
         target = (context.effective_workspace_root / relative_path).resolve()
         try:
             target.relative_to(context.effective_workspace_root.resolve())
         except ValueError:
             return None, None, relative_path
-        if not target.is_file() or target.is_symlink():
+        if target.is_symlink() or target.parent.is_symlink() or not target.parent.is_dir():
+            return None, None, relative_path
+        if operation == "create":
+            if target.exists():
+                return None, None, relative_path
+            return target, context.effective_workspace_root.resolve(), relative_path
+        read = self.documents.read_document(document_id)
+        if not read.ok or not target.is_file():
             return None, None, relative_path
         if str((read.data or {}).get("document", {}).get("relative_path") or "") != relative_path:
             return None, None, relative_path
@@ -442,6 +465,7 @@ class WorkspaceEditExecutionApplicationService:
             "plan_hash": plan["plan_hash"],
             "document_id": document["document_id"],
             "document_sha_before": document["document_sha_before"],
+            "operation": str(document.get("operation") or "modify"),
             "proposed_sha256": document["proposed_sha256"],
             "workspace_id": plan.get("workspace_id"),
             "interface": "ui",
@@ -478,6 +502,7 @@ class WorkspaceEditExecutionApplicationService:
 
     @staticmethod
     def _atomic_write(target: Path, payload: bytes, *, mode: int) -> None:
+        target.parent.mkdir(parents=False, exist_ok=True)
         fd, name = tempfile.mkstemp(prefix=f".{target.name}.uoc005-", suffix=".tmp", dir=str(target.parent))
         temp = Path(name)
         try:

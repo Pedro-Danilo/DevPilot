@@ -11489,6 +11489,166 @@
           }
         }
       }
+    },
+    "/api/v1/workspace/artifact-reviews/imports/{import_id}/start": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "workspace.artifact_reviews.start_import",
+        "operationId": "workspace_artifact_reviews_start_import_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "import_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Import Id"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/workspace/artifact-reviews/documents/{document_id}/start": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "workspace.artifact_reviews.start_document",
+        "operationId": "workspace_artifact_reviews_start_document_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/workspace/artifact-reviews/{review_id}": {
+      "get": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "workspace.artifact_reviews.status",
+        "operationId": "workspace_artifact_reviews_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Review Id"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/workspace/artifact-reviews/{review_id}/freeze": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "workspace.artifact_reviews.freeze",
+        "operationId": "workspace_artifact_reviews_freeze_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Review Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArtifactReviewFreezeBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/artifact-reviews/{review_id}/reconcile": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "workspace.artifact_reviews.reconcile",
+        "operationId": "workspace_artifact_reviews_reconcile_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Review Id"
+            }
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -12383,5 +12543,14 @@
     "legacy_token_allowed": false,
     "provenance_visible": true,
     "original_and_normalized_hashes": true
+  },
+  "x-devpilot-gsdlc-04-d": {
+    "status": "implemented/ready-for-windows",
+    "artifact_review_routes_total": 5,
+    "source_write_routes_added": 0,
+    "source_write_engine": "UOC-005 WorkspaceEditExecutionApplicationService",
+    "human_session_required": true,
+    "legacy_token_allowed": false,
+    "full_regression_runs": 0
   }
 }

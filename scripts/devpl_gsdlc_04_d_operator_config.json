@@ -1,0 +1,17 @@
+{
+  "operator_id": "DEVPL-GSDLC-04-D-OPERATOR",
+  "version": "1.0.0",
+  "baseline_repo": "repo_DevPilot_Local_367_DEVPL_GSDLC_04_C_EXTERNAL_SOURCE_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "ce03b2975320617e8a3663ced2d15736aa9e3c1a",
+  "baseline_sha256": "7700f77d00d578c183cd47908996235cc898d49876c8d48278b21c0b905d8484",
+  "branch": "feat/devpl-gsdlc-04-d-governed-artifact-apply",
+  "candidate": "repo_DevPilot_Local_368_DEVPL_GSDLC_04_D_GOVERNED_ARTIFACT_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "dry_run_default": true,
+  "full_regression_allowed": false,
+  "git_status_format": "--porcelain=v1 -z",
+  "eol_authority": "raw-sha256-first; Git-clean working tree + immutable predecessor Git blob canonical-LF fallback",
+  "pilot_workspace_access_allowed": false,
+  "destructive_git_allowed": false,
+  "shell_subprocess_allowed": false,
+  "source_write_engine": "UOC-005 WorkspaceEditExecutionApplicationService"
+}

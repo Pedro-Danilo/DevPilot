@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/artifact-review-record-v1.json",
+  "title": "ArtifactReviewRecord",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_id",
+    "review_id",
+    "source_kind",
+    "source_ref",
+    "artifact",
+    "relative_path",
+    "content_sha256",
+    "base_sha256",
+    "findings",
+    "validation",
+    "approval_valid",
+    "source_mutations_performed",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc04d.artifact_review_record.v1"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^arev_[0-9a-f]{32}$"
+    },
+    "source_kind": {
+      "enum": [
+        "IMPORT",
+        "MANUAL"
+      ]
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact": {
+      "type": "object"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "base_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "findings": {
+      "type": "array"
+    },
+    "validation": {
+      "type": "object"
+    },
+    "plan": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "FINDINGS",
+        "APPROVAL_REQUIRED",
+        "APPROVED",
+        "FROZEN",
+        "REVALIDATION_REQUIRED"
+      ]
+    },
+    "approval_valid": {
+      "type": "boolean"
+    },
+    "source_mutations_performed": {
+      "type": "boolean"
+    },
+    "network_used": {
+      "type": "boolean"
+    },
+    "external_api_used": {
+      "type": "boolean"
+    },
+    "secrets_exposed": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  }
+}

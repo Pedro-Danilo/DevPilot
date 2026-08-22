@@ -133,6 +133,11 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/artifact-imports/preview"): ApiRoutePolicy("workspace.artifact_imports.preview", "read", "protected-human-session-artifact-import-preview"),
     ("POST", "/api/v1/workspace/artifact-imports/persist"): ApiRoutePolicy("workspace.artifact_imports.persist", "read", "protected-human-session-artifact-import-runtime-mutation"),
     ("GET", "/api/v1/workspace/artifact-imports/recent"): ApiRoutePolicy("workspace.artifact_imports.recent", "read", "protected-human-session-artifact-import-read"),
+    ("POST", "/api/v1/workspace/artifact-reviews/imports/{import_id}/start"): ApiRoutePolicy("workspace.artifact_reviews.start_import", "read", "protected-human-session-artifact-review"),
+    ("POST", "/api/v1/workspace/artifact-reviews/documents/{document_id}/start"): ApiRoutePolicy("workspace.artifact_reviews.start_document", "read", "protected-human-session-artifact-review"),
+    ("GET", "/api/v1/workspace/artifact-reviews/{review_id}"): ApiRoutePolicy("workspace.artifact_reviews.status", "read", "protected-human-session-artifact-review"),
+    ("POST", "/api/v1/workspace/artifact-reviews/{review_id}/freeze"): ApiRoutePolicy("workspace.artifact_reviews.freeze", "read", "protected-human-session-artifact-review"),
+    ("POST", "/api/v1/workspace/artifact-reviews/{review_id}/reconcile"): ApiRoutePolicy("workspace.artifact_reviews.reconcile", "read", "protected-human-session-artifact-review"),
     ("POST", "/api/v1/workspace/validations/plan"): ApiRoutePolicy("workspace.validations.plan", "read", "protected-workspace-validation-plan"),
     ("POST", "/api/v1/workspace/validations/execute"): ApiRoutePolicy("workspace.validations.execute", "read", "protected-workspace-validation-evidence"),
     ("GET", "/api/v1/workspace/validations/{job_id}"): ApiRoutePolicy("workspace.validations.status", "read", "protected-workspace-validation-read"),
@@ -469,6 +474,17 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
     normalized = (method.upper(), path)
     if normalized in API_ROUTE_POLICIES:
         return API_ROUTE_POLICIES[normalized]
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-reviews/imports/") and path.endswith("/start"):
+        return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/imports/{import_id}/start"))
+    if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-reviews/documents/") and path.endswith("/start"):
+        return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/documents/{document_id}/start"))
+    if path.startswith("/api/v1/workspace/artifact-reviews/"):
+        if method.upper() == "GET" and path.count("/") == 5:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/artifact-reviews/{review_id}"))
+        if method.upper() == "POST" and path.endswith("/freeze"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/{review_id}/freeze"))
+        if method.upper() == "POST" and path.endswith("/reconcile"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/{review_id}/reconcile"))
     if method.upper() == "GET" and path == "/api/v1/workspace/artifact-imports/recent":
         return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/artifact-imports/recent"))
     if method.upper() == "POST" and path in {"/api/v1/workspace/artifact-imports/preview", "/api/v1/workspace/artifact-imports/persist"}:

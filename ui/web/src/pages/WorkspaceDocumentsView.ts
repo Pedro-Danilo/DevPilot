@@ -1,6 +1,7 @@
 import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient } from '../api/client';
 import type {
+  AuthSessionContext,
   DevPilotApplicationResponse,
   WorkspaceDocumentDiffData,
   WorkspaceDocumentHistoryData,
@@ -18,6 +19,7 @@ import { createWorkspaceGitOperationsPanel } from '../components/WorkspaceGitOpe
 import { createDocumentEditPlanner } from '../components/DocumentEditPlanner';
 import { createArtifactManualEditor } from '../components/ArtifactManualEditor';
 import { createArtifactImportWorkbench } from '../components/ArtifactImportWorkbench';
+import { createArtifactReviewFlow } from '../components/ArtifactReviewFlow';
 import { renderDocumentViewer } from '../components/DocumentViewer';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 
@@ -61,7 +63,7 @@ interface WorkspaceDocumentsState {
   navigationLabel?: string;
 }
 
-export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLElement {
+export function renderWorkspaceDocumentsView(tokenProvider: () => string, session: AuthSessionContext): HTMLElement {
   const root = document.createElement('div');
   root.className = 'workspace-documents-view';
   root.dataset.devpilotUiContract = 'ui.workspace-documents';
@@ -98,7 +100,11 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
       (editPlanner as HTMLElement & { setDraftContent?: (value: string, revisionSha256?: string | null) => void }).setDraftContent?.(content, revisionSha256);
     },
   });
-  const importWorkbench = createArtifactImportWorkbench({ tokenProvider });
+  const reviewFlow = createArtifactReviewFlow({ tokenProvider, session, onMutationComplete: async () => { await load(false); } });
+  const importWorkbench = createArtifactImportWorkbench({ tokenProvider, onDraftPersisted: (record) => {
+    (reviewFlow as HTMLElement & { setImport?: (id: string) => void }).setImport?.(record.import_id);
+    reviewFlow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } });
   const gitOperationsPanel = createWorkspaceGitOperationsPanel({ tokenProvider, onCommitComplete: async () => { if (state.selectedId) await loadDocument(state.selectedId, false); } });
   const validationPanel = createDocumentValidationPanel({
     tokenProvider,
@@ -317,7 +323,8 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
       next.append(layout, renderPagination(state, () => void load(false)));
       (editPlanner as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
       (manualEditor as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
-      next.append(importWorkbench, manualEditor, editPlanner);
+      (reviewFlow as HTMLElement & { setDocument?: (id: string) => void }).setDocument?.(state.selected?.document_id ?? state.selected?.node_id ?? '');
+      next.append(importWorkbench, reviewFlow, manualEditor, editPlanner);
       (gitOperationsPanel as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
       next.append(gitOperationsPanel);
       next.append(renderGuarded(() => renderDocumentInspectionPanel({
@@ -337,7 +344,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string): HTMLE
     } catch (error) {
       state.renderError = `La UI aisló un error de render sin perder el estado operativo: ${error instanceof Error ? error.message : String(error)}`;
       const fallback = document.createDocumentFragment();
-      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), importWorkbench, manualEditor, editPlanner, gitOperationsPanel, validationPanel);
+      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), importWorkbench, reviewFlow, manualEditor, editPlanner, gitOperationsPanel, validationPanel);
       root.replaceChildren(fallback);
     }
   }

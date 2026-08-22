@@ -7,6 +7,8 @@ export const TOKEN_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 export const PROJECT_JOURNEY_CONTEXT_KEY = 'devpilot.gsdlc03e.projectJourneyContext.v1';
 export const APPROVAL_CENTER_ENTRY_HANDOFF_KEY = 'devpilot.gsdlc03e.approvalCenterEntryHandoff.v1';
 export const APPROVAL_CENTER_ENTRY_HANDOFF_TTL_MS = 30 * 60 * 1000;
+export const APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_KEY = 'devpilot.gsdlc04d.approvalCenterArtifactReviewHandoff.v1';
+export const APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_TTL_MS = 30 * 60 * 1000;
 export const PROJECT_ENTRY_RESUME_STATE_KEY = 'devpilot.gsdlc03e.projectEntryResumeState.v1';
 export const PROJECT_ENTRY_RESUME_TTL_MS = 30 * 60 * 1000;
 
@@ -40,6 +42,16 @@ export interface ProjectEntryResumeState {
 interface ApprovalCenterEntryHandoff {
   phase: 'entry';
   entry_mode: ProjectEntryMode;
+  approval_id: string;
+  actor_id: string;
+  session_created_at: string;
+  created_at_ms: number;
+  expires_at_ms: number;
+}
+
+interface ApprovalCenterArtifactReviewHandoff {
+  phase: 'project';
+  handoff_kind: 'artifact-review';
   approval_id: string;
   actor_id: string;
   session_created_at: string;
@@ -418,6 +430,26 @@ export class DevPilotApiClient {
     return this.get(`/workspace/artifact-imports/recent${this.query({ limit })}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }
 
+  async startArtifactImportReview(importId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-reviews/imports/${encodeURIComponent(importId)}/start`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async startArtifactDocumentReview(documentId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-reviews/documents/${encodeURIComponent(documentId)}/start`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async artifactReviewStatus(reviewId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/artifact-reviews/${encodeURIComponent(reviewId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async freezeArtifactReview(reviewId: string, executionId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-reviews/${encodeURIComponent(reviewId)}/freeze`, { execution_id: executionId }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async reconcileArtifactReview(reviewId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-reviews/${encodeURIComponent(reviewId)}/reconcile`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   async planWorkspaceValidations(payload: { scopes?: string[]; document_ids?: string[]; strict?: boolean; timeout_seconds?: number } = {}): Promise<DevPilotApplicationResponse> {
     return this.post('/workspace/validations/plan', {
       operation: 'workspace.validations.plan',
@@ -454,24 +486,28 @@ export class DevPilotApiClient {
     return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/recheck`, { operation: 'workspace.edits.recheck', payload: { plan_hash: planHash }, dry_run: true }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
-  async requestWorkspaceEditApplyApproval(planId: string, payload: { plan_hash: string; actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
-    return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/approval-request`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  async requestWorkspaceEditApplyApproval(planId: string, payload: { plan_hash: string; actor?: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    const { actor: _callerActor, ...serverAuthoritativePayload } = payload;
+    return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/approval-request`, serverAuthoritativePayload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
-  async applyWorkspaceEdit(planId: string, payload: { plan_hash: string; approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
-    return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/apply`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  async applyWorkspaceEdit(planId: string, payload: { plan_hash: string; approval_id: string; actor?: string }): Promise<DevPilotApplicationResponse> {
+    const { actor: _callerActor, ...serverAuthoritativePayload } = payload;
+    return this.post(`/workspace/edit-plans/${encodeURIComponent(planId)}/apply`, serverAuthoritativePayload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
   async workspaceEditExecutionStatus(executionId: string): Promise<DevPilotApplicationResponse> {
     return this.get(`/workspace/edit-executions/${encodeURIComponent(executionId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }
 
-  async requestWorkspaceEditRollbackApproval(executionId: string, payload: { actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
-    return this.post(`/workspace/edit-executions/${encodeURIComponent(executionId)}/rollback-approval-request`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  async requestWorkspaceEditRollbackApproval(executionId: string, payload: { actor?: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    const { actor: _callerActor, ...serverAuthoritativePayload } = payload;
+    return this.post(`/workspace/edit-executions/${encodeURIComponent(executionId)}/rollback-approval-request`, serverAuthoritativePayload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
-  async rollbackWorkspaceEdit(executionId: string, payload: { approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
-    return this.post(`/workspace/edit-executions/${encodeURIComponent(executionId)}/rollback`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  async rollbackWorkspaceEdit(executionId: string, payload: { approval_id: string; actor?: string }): Promise<DevPilotApplicationResponse> {
+    const { actor: _callerActor, ...serverAuthoritativePayload } = payload;
+    return this.post(`/workspace/edit-executions/${encodeURIComponent(executionId)}/rollback`, serverAuthoritativePayload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
   async workspaceGitStatus(): Promise<DevPilotApplicationResponse> {
@@ -721,6 +757,7 @@ export function readProjectJourneyContext(): ProjectJourneyContext | null {
 
 export function beginProjectEntryJourney(entryMode: ProjectEntryMode): void {
   clearApprovalCenterEntryHandoff();
+  clearApprovalCenterArtifactReviewHandoff();
   clearProjectEntryResumeState();
   const context: ProjectJourneyContext = { phase: 'entry', entry_mode: entryMode };
   globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(context));
@@ -820,8 +857,52 @@ export function clearApprovalCenterEntryHandoff(): void {
   globalThis.localStorage?.removeItem(APPROVAL_CENTER_ENTRY_HANDOFF_KEY);
 }
 
+export function armApprovalCenterArtifactReviewHandoff(session: AuthSessionContext, approvalId: string): void {
+  const now = Date.now();
+  const value: ApprovalCenterArtifactReviewHandoff = {
+    phase: 'project',
+    handoff_kind: 'artifact-review',
+    approval_id: approvalId.trim(),
+    actor_id: session.principal.actor_id,
+    session_created_at: session.created_at,
+    created_at_ms: now,
+    expires_at_ms: now + APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_TTL_MS,
+  };
+  globalThis.localStorage?.setItem(APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_KEY, JSON.stringify(value));
+}
+
+export function readApprovalCenterArtifactReviewHandoff(session: AuthSessionContext, expectedApprovalId: string): ProjectJourneyContext | null {
+  const raw = globalThis.localStorage?.getItem(APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_KEY);
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw) as ApprovalCenterArtifactReviewHandoff;
+    const expected = expectedApprovalId.trim();
+    const valid = value.phase === 'project'
+      && value.handoff_kind === 'artifact-review'
+      && Boolean(expected)
+      && value.approval_id === expected
+      && value.actor_id === session.principal.actor_id
+      && value.session_created_at === session.created_at
+      && Number.isFinite(value.expires_at_ms)
+      && Date.now() <= value.expires_at_ms;
+    if (!valid) {
+      clearApprovalCenterArtifactReviewHandoff();
+      return null;
+    }
+    return { phase: 'project' };
+  } catch {
+    clearApprovalCenterArtifactReviewHandoff();
+    return null;
+  }
+}
+
+export function clearApprovalCenterArtifactReviewHandoff(): void {
+  globalThis.localStorage?.removeItem(APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_KEY);
+}
+
 export function activateProjectJourney(context: { entry_mode: ProjectEntryMode; project_id: string; target_root: string }): void {
   clearApprovalCenterEntryHandoff();
+  clearApprovalCenterArtifactReviewHandoff();
   clearProjectEntryResumeState();
   const value: ProjectJourneyContext = {
     phase: 'project',
@@ -837,6 +918,7 @@ export function clearProjectJourneyContext(): void {
   globalThis.sessionStorage?.removeItem(PROJECT_JOURNEY_CONTEXT_KEY);
   clearProjectEntryResumeState();
   clearApprovalCenterEntryHandoff();
+  clearApprovalCenterArtifactReviewHandoff();
 }
 
 export function isTransientNetworkError(error: unknown): error is DevPilotApiError {

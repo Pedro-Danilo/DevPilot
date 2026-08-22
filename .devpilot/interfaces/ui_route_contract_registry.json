@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-21",
+  "updated": "2026-08-22",
   "routes": [
     {
       "route_id": "ui.ai",
@@ -644,7 +644,7 @@
     },
     {
       "route_id": "ui.workspace-documents",
-      "title": "Artifact Workbench — governed documents, MANUAL drafts and external-source import",
+      "title": "Artifact Workbench — governed authoring, validation, approval, apply and freeze",
       "path": "/workspace/documents",
       "page_component": "WorkspaceDocumentsView",
       "source_files": [
@@ -656,7 +656,8 @@
         "ui/web/src/components/DocumentEditPlanner.ts",
         "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
         "ui/web/src/components/ArtifactManualEditor.ts",
-        "ui/web/src/components/ArtifactImportWorkbench.ts"
+        "ui/web/src/components/ArtifactImportWorkbench.ts",
+        "ui/web/src/components/ArtifactReviewFlow.ts"
       ],
       "allowed_api_routes": [
         "api.approvals.approve",
@@ -670,6 +671,11 @@
         "api.workspace.artifact-imports.persist",
         "api.workspace.artifact-imports.preview",
         "api.workspace.artifact-imports.recent",
+        "api.workspace.artifact-reviews.document-start",
+        "api.workspace.artifact-reviews.freeze",
+        "api.workspace.artifact-reviews.import-start",
+        "api.workspace.artifact-reviews.reconcile",
+        "api.workspace.artifact-reviews.status",
         "api.workspace.documents.diff",
         "api.workspace.documents.history",
         "api.workspace.documents.links",
@@ -751,7 +757,14 @@
         "import_preview": true,
         "import_secret_warning": true,
         "import_draft_saved": true,
-        "import_block": true
+        "import_block": true,
+        "review_validating": true,
+        "review_findings": true,
+        "review_ready": true,
+        "review_approval_required": true,
+        "review_applied": true,
+        "review_frozen": true,
+        "review_revalidation_required": true
       },
       "status_visibility": [
         "PASS",
@@ -776,7 +789,8 @@
         "The browser never supplies free Git arguments or absolute path authority. reset --hard, rebase, push/force-push, branch deletion, checkout/switch, tags and repository hooks remain blocked.",
         "UOC-011: route participates in the 12-state operational browser hardening matrix.",
         "GSDLC-04-B adds MANUAL Markdown/JSON runtime draft authoring, autosave, immutable history, discard/recover and optimistic concurrency; draft save never writes approved source.",
-        "GSDLC-04-C adds preview-first PASTE/UPLOAD/IMPORT with original+normalized hashes, provenance and DRAFT-only runtime persistence; URL/reference is metadata and is never fetched."
+        "GSDLC-04-C adds preview-first PASTE/UPLOAD/IMPORT with original+normalized hashes, provenance and DRAFT-only runtime persistence; URL/reference is metadata and is never fetched.",
+        "GSDLC-04-D composes ArtifactProfile validation, navigable findings, immutable plan/diff, exact targeted approval, UOC-005 atomic apply, freeze hash and drift invalidation; UI never becomes approval authority."
       ],
       "mutation_controls": {
         "local_state_mutation_only": false,
@@ -790,9 +804,13 @@
         "runtime_import_draft_mutation": true,
         "runtime_import_draft_approval_required": false,
         "runtime_import_source_write_enabled": false,
-        "runtime_import_preview_required": true
+        "runtime_import_preview_required": true,
+        "gsdlc_04_d_review_runtime_mutation": true,
+        "gsdlc_04_d_source_write_engine": "UOC-005 WorkspaceEditExecutionApplicationService",
+        "gsdlc_04_d_source_write_approval_required": true,
+        "gsdlc_04_d_freeze_hash_required": true
       },
-      "status": "implemented/gsdlc-04-c-external-source-import"
+      "status": "implemented/gsdlc-04-d-governed-review-apply-freeze"
     }
   ],
   "summary": {
@@ -802,7 +820,7 @@
     "dry_run_badged_routes_total": 10,
     "no_remote_badged_routes_total": 10,
     "mutation_control_routes_total": 6,
-    "allowed_api_routes_unique_total": 82,
+    "allowed_api_routes_unique_total": 90,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -820,7 +838,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-04-C",
+    "updated_by": "DEVPL-GSDLC-04-D",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -855,7 +873,11 @@
     "gsdlc_04_b_source_write_routes_total": 0,
     "gsdlc_04_c_external_source_import_available": true,
     "gsdlc_04_c_artifact_import_api_routes_total": 3,
-    "gsdlc_04_c_source_write_enabled": false
+    "gsdlc_04_c_source_write_enabled": false,
+    "gsdlc_04_d_artifact_review_available": true,
+    "gsdlc_04_d_artifact_review_api_routes_total": 5,
+    "gsdlc_04_d_source_write_engine_reused": "UOC-005",
+    "gsdlc_04_d_source_write_routes_added": 0
   },
   "safety": {
     "local_first": true,

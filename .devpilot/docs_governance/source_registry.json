@@ -22493,7 +22493,10 @@
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
       ],
-      "frontmatter_required": true
+      "frontmatter_required": true,
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
+      ]
     },
     {
       "doc_id": "SCHEMA-DEVPL-GSDLC-04-C-ARTIFACT-IMPORT-RECORD-V1",
@@ -22773,7 +22776,10 @@
         "DEVPL-GSDLC-04-C"
       ],
       "lifecycle": "active",
-      "related_adrs": []
+      "related_adrs": [],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
+      ]
     },
     {
       "doc_id": "DEVPL-GSDLC-04-C-IMPORT-SERVICE",
@@ -22798,6 +22804,9 @@
       "lifecycle": "active",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
+      ],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
       ]
     },
     {
@@ -22823,6 +22832,9 @@
       "lifecycle": "active",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
+      ],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
       ]
     },
     {
@@ -22848,6 +22860,9 @@
       "lifecycle": "active",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
+      ],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
       ]
     },
     {
@@ -22873,6 +22888,9 @@
       "lifecycle": "active",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
+      ],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
       ]
     },
     {
@@ -22898,6 +22916,9 @@
       "lifecycle": "active",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
+      ],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
       ]
     },
     {
@@ -22923,6 +22944,9 @@
       "lifecycle": "active",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
+      ],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
       ]
     },
     {
@@ -22948,6 +22972,9 @@
       "lifecycle": "active",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md"
+      ],
+      "notes": [
+        "GSDLC-04-C owner adjudication CLOSED/PASS is recorded by successor owner-adjudication/current artifacts; this source remains the active implementation surface."
       ]
     },
     {
@@ -22978,6 +23005,578 @@
       "notes": [
         "v1.0.3 Recovery-003 supersedes v1.0.2 after Windows ui-static path duplication D:\\\\D:\\\\ was traced to URL.pathname misuse.",
         "All ui/web/scripts import.meta.url path conversions are forward-scanned; filesystem paths must use fileURLToPath(import.meta.url) or direct URL APIs."
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-C-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_04_C_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-04-C",
+      "status_required": "closed/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-C"
+      ],
+      "lifecycle": "active",
+      "related_adrs": []
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-C-FINAL-OWNER-CLOSURE-CURRENT",
+      "path": "DEVPL_GSDLC_04_C_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-04-C",
+      "status_required": "closed/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-C"
+      ],
+      "lifecycle": "active",
+      "related_adrs": []
+    },
+    {
+      "doc_id": "DEVPL-PROMPT-GSDLC-04-D-REBOUND",
+      "path": "04_PROMPT_DEVPL_GSDLC_04_D_v1_0_1_REBOUND.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "ready_for_execution",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-ARTIFACT-REVIEW-SERVICE",
+      "path": "src/devpilot_core/application/artifact_review_service.py",
+      "classification": "source-of-truth",
+      "domain": "guided_sdlc.artifact_review",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-REVIEW-UI",
+      "path": "ui/web/src/components/ArtifactReviewFlow.ts",
+      "classification": "source-of-truth",
+      "domain": "ui.workspace-documents",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-CONTRACT",
+      "path": "docs/02_architecture/guided_sdlc/artifact_review_apply_freeze_contract.md",
+      "classification": "source-of-truth",
+      "domain": "guided_sdlc.artifact_review",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "ADR-GSDLC-007",
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.adr",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "accepted/pending-windows-proof",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-04-D-ARTIFACT-REVIEW-RECORD-V1",
+      "path": "docs/schemas/artifact_review_record.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-04-D-ARTIFACT-APPLY-EXECUTION-V1",
+      "path": "docs/schemas/artifact_apply_execution_gsdlc04d.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-CURRENT",
+      "path": "docs/audits/DEVPL_GSDLC_04_D_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "audit.gsdlc",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_04_D_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "audit.gsdlc",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_04_D_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.impact",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "PASS/PRE-WINDOWS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_04_D_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.contracts",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_04_D_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.contracts",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "PASS/PRE-WINDOWS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-CLOSURE-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_04_D_CLOSURE_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "audit.gsdlc",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-MANUAL-BROWSER-OBSERVATIONS",
+      "path": "docs/audits/DEVPL_GSDLC_04_D_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md",
+      "classification": "source-of-truth",
+      "domain": "testing.ui",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "template/ready-for-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-TESTS",
+      "path": "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+      "classification": "derived",
+      "domain": "testing.gsdlc",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-UI-STATIC-SMOKE",
+      "path": "ui/web/scripts/gsdlc04d-artifact-review-smoke.mjs",
+      "classification": "derived",
+      "domain": "testing.ui",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-WINDOWS-OPERATOR",
+      "path": "scripts/devpl_gsdlc_04_d_operator.py",
+      "classification": "derived",
+      "domain": "guided_sdlc.operator",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-WINDOWS-OPERATOR-CONFIG",
+      "path": "scripts/devpl_gsdlc_04_d_operator_config.json",
+      "classification": "machine-readable-source",
+      "domain": "guided_sdlc.operator",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-WINDOWS-HARNESS",
+      "path": "scripts/devpl_gsdlc_04_d_windows_harness.py",
+      "classification": "derived",
+      "domain": "guided_sdlc.operator",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-RUNTIME-CONSOLE",
+      "path": "scripts/devpl_gsdlc_04_d_runtime_console.py",
+      "classification": "derived",
+      "domain": "guided_sdlc.operator",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-UNIQUE-WINDOWS-GUIDE",
+      "path": "GUIA_UNICA_IMPLEMENTACION_VALIDACION_DEVPL_GSDLC_04_D_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-04-D",
+      "status_required": "ready-for-windows",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-D"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
       ]
     }
   ],
@@ -23077,7 +23676,9 @@
     "DEVPL-GSDLC-02-B registers preliminary local runtime identity/session contracts, scrypt-v1 credential decision, runtime-only SQLite exclusion, seven local auth API routes, CSRF/origin controls and sanitized evidence; RBAC completion is deferred to 02-C and authenticated approval binding to 02-D.",
     "DEVPL-GSDLC-02-C registers deterministic server-side RBAC, complete route/sensitive-action coverage, workspace-scope enforcement and sanitized capability projection; approval binding remains successor 02-D and browser UX successor 02-E.",
     "DEVPL-GSDLC-02-D registers authenticated approval authority, role/risk/domain/SoD matrix, secret-free session binding, stale/revoked authority revalidation and Approval Center successor contracts; browser-real auth UX remains successor 02-E.",
-    "DEVPL-GSDLC-03-A registers ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts; no project runtime writes, network, external APIs or pilot workspace access are enabled."
+    "DEVPL-GSDLC-03-A registers ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts; no project runtime writes, network, external APIs or pilot workspace access are enabled.",
+    "DEVPL-GSDLC-04-D Recovery-001 fixes UI approval/apply transport by omitting deprecated caller actor hints and preserving authenticated server-session actor authority; Windows execution resumes from browser C2/C3 without rerunning prior PASS gates or full regression.",
+    "DEVPL-GSDLC-04-D Recovery-002 fixes the targeted Approval Center cross-tab guard by adding a session-bound, approval-id-bound, TTL-bound project-scoped UX handoff for artifact-review; server session/RBAC/Approval remain authoritative and no source write occurs before apply."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -25486,44 +26087,44 @@
   "summary": {
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
-    "critical_sources_total": 879,
+    "critical_sources_total": 902,
     "deprecated_total": 0,
-    "derived_total": 103,
-    "documents_checked_total": 974,
-    "documents_registered_total": 974,
-    "documents_total": 974,
-    "documents_with_required_tests_total": 974,
+    "derived_total": 108,
+    "documents_checked_total": 997,
+    "documents_registered_total": 997,
+    "documents_total": 997,
+    "documents_with_required_tests_total": 997,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
-    "last_updated_by": "DEVPL-GSDLC-04-C",
-    "machine_readable_source_total": 492,
+    "last_updated_by": "DEVPL-GSDLC-04-D-RECOVERY-002",
+    "machine_readable_source_total": 501,
     "markdown_json_pairs_total": 30,
     "markdown_json_sync_checks_enabled": true,
     "mutations_performed": false,
     "network_used": false,
     "preliminary": false,
     "roadmap_derived_backlog_governance_enabled": true,
-    "source_of_truth_total": 379,
-    "sources_total": 974,
+    "source_of_truth_total": 388,
+    "sources_total": 997,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "uoc_003_registered_documents_total": 10,
     "uoc_005_registered_documents_total": 4,
     "uoc_007_registered_documents_total": 8,
     "uoc_009_registered_documents_total": 8,
-    "updated": "2026-08-21",
-    "updated_by": "DEVPL-GSDLC-04-C",
-    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-C",
+    "updated": "2026-08-22",
+    "updated_by": "DEVPL-GSDLC-04-D-RECOVERY-002",
+    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-D",
     "gsdlc_active_program": "DEVPL-GSDLC",
-    "registered_documents": 974
+    "registered_documents": 997
   },
-  "updated": "2026-08-21",
-  "updated_at": "2026-08-22T01:45:00Z",
-  "updated_by": "DEVPL-GSDLC-04-C-Recovery-003",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-C",
+  "updated": "2026-08-22",
+  "updated_at": "2026-08-22",
+  "updated_by": "DEVPL-GSDLC-04-D-RECOVERY-002",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-D",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "active/04-c",
+  "gsdlc_program_status": "active/04-d",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
@@ -25566,14 +26167,18 @@
   "gsdlc_03_c_status": "closed/PASS",
   "gsdlc_03_d_status": "closed/PASS",
   "gsdlc_03_e_status": "closed/PASS",
-  "gsdlc_04_program_status": "active/04-c",
+  "gsdlc_04_program_status": "active/04-d",
   "gsdlc_04_a_status": "pass-candidate/pre-windows",
   "gsdlc_04_b_status": "closed/PASS",
   "gsdlc_04_b_owner_adjudication_pending": false,
   "gsdlc_04_b_full_regression_runs": 0,
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
   "gsdlc_04_a_status_at_pre_windows_close": "pass-candidate/pre-windows",
-  "gsdlc_04_c_status": "implemented/ready-for-windows",
-  "gsdlc_04_c_owner_adjudication_pending": true,
-  "gsdlc_04_c_full_regression_runs": 0
+  "gsdlc_04_c_status": "closed/PASS",
+  "gsdlc_04_c_owner_adjudication_pending": false,
+  "gsdlc_04_c_full_regression_runs": 0,
+  "gsdlc_04_d_status": "implemented/ready-for-windows/recovery-002",
+  "gsdlc_04_d_owner_adjudication_pending": true,
+  "gsdlc_04_d_full_regression_runs": 0,
+  "gsdlc_04_d_current_corrective": "GSDLC-04-D-RECOVERY-002"
 }

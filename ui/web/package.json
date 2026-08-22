@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.18.0-gsdlc-04-c",
+  "version": "0.18.0-gsdlc-04-d",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — governed PASTE/UPLOAD/IMPORT external-source preview, provenance and runtime DRAFT creation (GSDLC-04-C candidate).",
+  "description": "DevPilot Local Web UI — governed artifact validate/findings/diff/approval/apply/freeze workbench (GSDLC-04-D candidate).",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -26,7 +26,8 @@
     "test:project-entry-dry-run": "node scripts/gsdlc03c-project-entry-dry-run-smoke.mjs",
     "test:project-home-browser-closure": "node scripts/gsdlc03e-project-home-browser-closure-smoke.mjs",
     "test:artifact-manual-editor": "node scripts/gsdlc04b-manual-editor-smoke.mjs",
-    "test:artifact-import": "node scripts/gsdlc04c-artifact-import-smoke.mjs"
+    "test:artifact-import": "node scripts/gsdlc04c-artifact-import-smoke.mjs",
+    "test:artifact-review": "node scripts/gsdlc04d-artifact-review-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -191,7 +192,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-04-C",
+    "currentSprint": "DEVPL-GSDLC-04-D",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -355,7 +356,10 @@
     "gsdlc04cImportUrlFetchEnabled": false,
     "gsdlc04cImportBrowserAcceptanceRequired": true,
     "gsdlc04cImportBrowserAcceptanceExecuted": false,
-    "gsdlc04cFullRegressionExecuted": false
+    "gsdlc04cFullRegressionExecuted": false,
+    "gsdlc04dArtifactReview": true,
+    "gsdlc04dSourceWriteEngine": "UOC-005 WorkspaceEditExecutionApplicationService",
+    "gsdlc04dFullRegressionRuns": 0
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

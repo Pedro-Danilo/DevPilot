@@ -20251,6 +20251,117 @@
         "A→D use focal/cumulative/impact validation. 04-E owns the single backlog full regression.",
         "Runtime import outputs and DB stores are excluded from source packages."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-04-d-artifact-review-apply-freeze",
+      "source_contract_id": "devpl-gsdlc-04-d-artifact-review-apply-freeze",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "ArtifactReviewApplyFreeze",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "manual",
+      "cost_class": "medium",
+      "expected_duration_seconds": 420,
+      "test_files": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+        "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/artifact_review_service.py",
+        "src/devpilot_core/application/workspace_edit_plan_service.py",
+        "src/devpilot_core/application/workspace_edit_execution_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/ArtifactReviewFlow.ts",
+        "ui/web/src/components/ArtifactManualEditor.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        ".devpilot/interfaces",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py"
+      ],
+      "validates": [
+        "ArtifactProfile validator selection",
+        "findings line/section navigation",
+        "deterministic create/modify plan/diff",
+        "wrong-role and unauthenticated blocks",
+        "stale preimage",
+        "exact approval binding/reuse negative",
+        "atomic apply using UOC-005",
+        "fault rollback",
+        "freeze approved hash",
+        "source drift invalidation",
+        "API/UI/RBAC/SensitiveAction bindings"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-04-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Source write is a bounded product behavior behind exact Human Session/RBAC/Policy/Approval and UOC-005; no generic patch or shell authority is added.",
+        "04-C DRAFT evidence remains frozen; 04-D uses a successor review record."
+      ],
+      "trigger_hints": [
+        "artifact-review",
+        "findings",
+        "approval",
+        "atomic-apply",
+        "freeze",
+        "preimage",
+        "rollback",
+        "workspace-documents"
+      ],
+      "impact_tags": [
+        "artifacts",
+        "ui",
+        "api",
+        "security",
+        "approval",
+        "rbac",
+        "workspace",
+        "source-mutation",
+        "rollback"
+      ],
+      "owner_domain": "artifacts.review-apply-freeze",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-04-D-ARTIFACT-REVIEW-RECORD-V1",
+        "SCHEMA-DEVPL-GSDLC-04-D-ARTIFACT-APPLY-EXECUTION-V1"
+      ],
+      "notes": [
+        "A→D use focal/cumulative/impact validation. 04-E owns the single backlog full regression."
+      ],
+      "safety_exception": {
+        "justification": "GSDLC-04-D intentionally mutates exactly one declared artifact only after deterministic validation, immutable plan/diff, authenticated owner RBAC, exact human approval, fresh preimage revalidation and UOC-005 atomic apply; tests use isolated temporary/browser fixtures and never mutate the real pilot.",
+        "approved_by": "Ordóñez / DEVPL-GSDLC-04 owner-approved scope",
+        "expires_at_utc": "2027-08-22T23:59:59Z",
+        "scope": "GSDLC-04-D exact approval-bound artifact apply in isolated governed workspace fixtures only; no generic patch/shell/Git/remote/network authority.",
+        "rollback_or_cleanup": "UOC-005 compensating rollback restores the exact preimage for modify or removes only the newly created target for create; pytest/browser fixtures are isolated and disposable."
+      }
     }
   ],
   "created_by": "POST-H-003-E",
@@ -20412,5 +20523,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 287
+  "contracts_total": 288
 }

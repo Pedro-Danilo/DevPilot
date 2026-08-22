@@ -420,3 +420,11 @@ Estado de implementación: **PASS-CANDIDATE / PRE-WINDOWS**. Introduce ejecució
 Project Entry completed authoritative browser acceptance: 14 scenarios / 12 screenshots PASS, Create/Open/Import complete in the browser, S0/S1=0, normal-user PowerShell=0 and external operator project writes=0. The backlog full regression ran exactly once and failed historically with `2418 PASS / 67 FAIL / 0 ERROR / 4 SKIP`; no second full was executed. Approved composite recovery then produced REG-001 `56/67 PASS` with 11 residuals, followed by REG-002 `11/11 PASS`, bounded impact `13/13 PASS`, Historical Regression Guard PASS, Documentation Governance PASS and TCR v1/v2 PASS. The original full log remains immutable.
 
 03-E is owner-adjudicated `CLOSED/PASS`; repo364 is its canonical successor. GSDLC-04 is authorized and 04-A is the active cumulative/selective micro-sprint.
+
+
+## 2026-08-22 — GSDLC-04-D implementation checkpoint
+
+- 04-C owner-adjudicated `CLOSED/PASS` on repo367/`ce03b297…`.
+- 04-D `IMPLEMENTED / READY-FOR-WINDOWS`; 04-E not authorized.
+- Review flow: ArtifactProfile validation → navigable findings → immutable plan/diff → exact approval → UOC-005 atomic apply → freeze hash.
+- `full regression runs = 0`; unique backlog full remains reserved for 04-E.

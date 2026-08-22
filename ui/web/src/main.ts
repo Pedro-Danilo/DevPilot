@@ -1,4 +1,4 @@
-import { clearProjectJourneyContext, DevPilotApiClient, DevPilotApiError, readApprovalCenterEntryHandoff, readProjectJourneyContext, readStoredToken } from './api/client';
+import { clearProjectJourneyContext, DevPilotApiClient, DevPilotApiError, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readStoredToken } from './api/client';
 import type { ProjectJourneyContext } from './api/client';
 import type { AuthSessionContext } from './api/types';
 import { renderDashboard } from './pages/Dashboard';
@@ -74,8 +74,16 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
   const jobsDetail = currentPath.match(/^\/jobs\/(job_[A-Za-z0-9_-]+)$/);
   const route = UI_ROUTES.find((item) => item.path === currentPath) ?? (jobsDetail ? UI_ROUTES.find((item) => item.path === '/jobs') : undefined);
   const params = new URLSearchParams(globalThis.location?.search ?? '');
-  const handoffApprovalId = currentPath === '/approvals' && params.get('handoff') === 'project-entry' ? (params.get('approval_id') ?? '').trim() : '';
-  const journey = readProjectJourneyContext() ?? (currentPath === '/approvals' && handoffApprovalId ? readApprovalCenterEntryHandoff(session, handoffApprovalId) : null);
+  const handoffKind = currentPath === '/approvals' ? (params.get('handoff') ?? '').trim() : '';
+  const handoffApprovalId = currentPath === '/approvals' && ['project-entry','artifact-review'].includes(handoffKind) ? (params.get('approval_id') ?? '').trim() : '';
+  const approvalHandoffJourney = currentPath === '/approvals' && handoffApprovalId
+    ? handoffKind === 'project-entry'
+      ? readApprovalCenterEntryHandoff(session, handoffApprovalId)
+      : handoffKind === 'artifact-review'
+        ? readApprovalCenterArtifactReviewHandoff(session, handoffApprovalId)
+        : null
+    : null;
+  const journey = readProjectJourneyContext() ?? approvalHandoffJourney;
   if (route && !routeAllowed(route, journey)) {
     const guard = encodeURIComponent(route.title);
     const attempted = encodeURIComponent(currentPath);
@@ -92,7 +100,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     page.append(renderRouteHeader(route,session));
     if (route.path === '/project/status') page.append(renderProjectStatusView(() => readStoredToken()));
     else if (route.path === '/project/entry') page.append(renderProjectEntryDryRunView({ session, initialMode: readEntryMode(new URLSearchParams(globalThis.location.search).get('mode')) }));
-    else if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken()));
+    else if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken(), session));
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));
     else if (route.path === '/jobs') page.append(renderJobsView(() => readStoredToken(), jobsDetail?.[1]));

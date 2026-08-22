@@ -194,6 +194,22 @@ export function createArtifactManualEditor(options: ArtifactManualEditorOptions)
     if (documentValue && EDITABLE.has(String(documentValue.extension ?? '').toLowerCase())) void loadDraft(documentValue, loadSequence);
   }
 
+  const findingNavigation = (event: Event): void => {
+    const detail = (event as CustomEvent<{ relative_path?: string; line?: number | null; section?: string | null }>).detail;
+    if (!detail || !currentDocument || !editor) return;
+    if (detail.relative_path && detail.relative_path !== currentDocument.relative_path) return;
+    const text = editor.value.replace(/\r\n?/g, '\n');
+    const lines = text.split('\n');
+    let offset = 0;
+    if (detail.line && detail.line > 0) offset = lines.slice(0, Math.max(0, detail.line - 1)).reduce((n, line) => n + line.length + 1, 0);
+    else if (detail.section) {
+      const wanted = detail.section.trim().toLowerCase();
+      const index = lines.findIndex((line) => line.replace(/^#{1,6}\s+/, '').trim().toLowerCase().includes(wanted));
+      if (index >= 0) offset = lines.slice(0, index).reduce((n, line) => n + line.length + 1, 0);
+    }
+    editor.focus(); editor.setSelectionRange(offset, offset); editor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+  globalThis.addEventListener('devpilot:artifact-finding-navigate', findingNavigation as EventListener);
   (root as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument = setDocument;
   draw();
   return root;

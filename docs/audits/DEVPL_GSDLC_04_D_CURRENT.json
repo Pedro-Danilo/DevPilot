@@ -1,0 +1,34 @@
+{
+  "schema_id": "devpilot.gsdlc04d.current.v1",
+  "status": "implemented/ready-for-windows",
+  "version": "1.0.2",
+  "updated": "2026-08-22",
+  "source_repo": "repo_DevPilot_Local_367_DEVPL_GSDLC_04_C_EXTERNAL_SOURCE_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "ce03b2975320617e8a3663ced2d15736aa9e3c1a",
+  "source_sha256": "7700f77d00d578c183cd47908996235cc898d49876c8d48278b21c0b905d8484",
+  "owner_adjudication_pending": true,
+  "next_micro_sprint": "DEVPL-GSDLC-04-E",
+  "next_micro_sprint_authorized": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "browser_acceptance": "partial-pass-through-C2/recovery-002-required-at-C3-cross-tab-handoff",
+  "capabilities": [
+    "ArtifactReviewFlow",
+    "FindingNavigator",
+    "ArtifactApplyPlan",
+    "freeze evidence"
+  ],
+  "source_write_engine_reused": "UOC-005 WorkspaceEditExecutionApplicationService",
+  "preliminary": true,
+  "current_corrective": "GSDLC-04-D-RECOVERY-002",
+  "current_corrective_status": "implemented/pending-windows-resume",
+  "current_corrective_root_cause": "ArtifactReviewFlow opened Approval Center in a new tab but did not arm a session-bound cross-tab project-scoped handoff; the new tab has no project sessionStorage, so main.ts correctly route-guarded /approvals back to Project Home.",
+  "current_corrective_scope": [
+    "add session-bound/TTL-bound artifact-review Approval Center handoff in localStorage as UX-only bridge",
+    "allow /approvals artifact-review handoff only when approval_id+actor+session binding validates",
+    "pass authenticated session context through WorkspaceDocumentsView into ArtifactReviewFlow",
+    "add focal/static regression coverage for cross-tab route guard"
+  ],
+  "previous_corrective": "GSDLC-04-D-RECOVERY-001/PASS-WINDOWS-CORRECTIVE"
+}

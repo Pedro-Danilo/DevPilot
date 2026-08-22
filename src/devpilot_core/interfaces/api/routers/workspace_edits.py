@@ -85,6 +85,10 @@ class ArtifactImportPersistBody(ArtifactImportPreviewBody):
     expected_preview_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
+class ArtifactReviewFreezeBody(BaseModel):
+    execution_id: str = Field(pattern=r"^uedit_[0-9a-f]{32}$")
+
+
 def _draft_session_identity(request: Request) -> tuple[tuple[str, str, str] | None, JSONResponse | None]:
     principal = getattr(request.state, "authenticated_principal", None)
     if principal is None:
@@ -291,3 +295,45 @@ def artifact_import_recent(
     if error: return error
     result = service.artifact_import_recent(limit=limit)
     return _draft_json(result, "workspace.artifact_imports.recent")
+
+@router.post("/api/v1/workspace/artifact-reviews/imports/{import_id}/start")
+def artifact_review_start_import(request: Request, import_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, principal = identity
+    return _draft_json(service.artifact_review_start_import(import_id=import_id, actor=actor, actor_role=actor_role, session_principal=principal), "workspace.artifact_reviews.start_import")
+
+
+@router.post("/api/v1/workspace/artifact-reviews/documents/{document_id}/start")
+def artifact_review_start_document(request: Request, document_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, principal = identity
+    return _draft_json(service.artifact_review_start_document(document_id=document_id, actor=actor, actor_role=actor_role, session_principal=principal), "workspace.artifact_reviews.start_document")
+
+
+@router.get("/api/v1/workspace/artifact-reviews/{review_id}")
+def artifact_review_status(request: Request, review_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    return _draft_json(service.artifact_review_status(review_id=review_id), "workspace.artifact_reviews.status")
+
+
+@router.post("/api/v1/workspace/artifact-reviews/{review_id}/freeze")
+def artifact_review_freeze(request: Request, review_id: str, body: ArtifactReviewFreezeBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, principal = identity
+    return _draft_json(service.artifact_review_freeze(review_id=review_id, execution_id=body.execution_id, actor=actor, actor_role=actor_role, session_principal=principal), "workspace.artifact_reviews.freeze")
+
+
+@router.post("/api/v1/workspace/artifact-reviews/{review_id}/reconcile")
+def artifact_review_reconcile(request: Request, review_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, principal = identity
+    return _draft_json(service.artifact_review_reconcile(review_id=review_id, actor=actor, actor_role=actor_role, session_principal=principal), "workspace.artifact_reviews.reconcile")

@@ -269,6 +269,19 @@ class ArtifactImportApplicationService:
             findings=[Finding("GSDLC04C_IMPORT_DRAFT_PERSIST_PASS", "Import is DRAFT-only and provenance-bearing; no workspace source write occurred.", Severity.INFO, path=prepared.relative_path)],
         )
 
+    def get(self, *, import_id: str) -> CommandResult:
+        command = "workspace artifact import get"
+        context = self.documents.context_resolver.resolve()
+        if not context.configured or not context.valid or not context.active_workspace_id:
+            return self._block(command, "GSDLC04D_PROJECT_CONTEXT_REQUIRED_BLOCK", "A valid project-scoped workspace context is required.")
+        import_id = str(import_id or "").strip()
+        path = self._record_path(context.active_workspace_id, import_id)
+        if not path.is_file():
+            return self._block(command, "GSDLC04D_IMPORT_NOT_FOUND_BLOCK", "Runtime import DRAFT was not found.")
+        try: payload=json.loads(path.read_text(encoding="utf-8"))
+        except Exception: return self._block(command, "GSDLC04D_IMPORT_STORE_CORRUPT_BLOCK", "Runtime import DRAFT is unreadable.")
+        return CommandResult(command, True, ExitCode.PASS, "Runtime import DRAFT loaded.", data={"import":payload}, findings=[])
+
     def recent(self, *, limit: int = 20) -> CommandResult:
         command = "workspace artifact imports recent"
         context = self.documents.context_resolver.resolve()

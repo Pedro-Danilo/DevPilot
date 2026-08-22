@@ -6,7 +6,7 @@ import { renderContractBadges, renderUiStateNotice } from './ContractBadges';
 const MAX_IMPORT_BYTES = 1_048_576;
 const ALLOWED = new Set(['.md', '.json']);
 
-interface ArtifactImportWorkbenchOptions { tokenProvider: () => string; }
+interface ArtifactImportWorkbenchOptions { tokenProvider: () => string; onDraftPersisted?: (record: ArtifactImportRecord) => void; }
 interface ImportPayload {
   source_type: ArtifactImportSourceType;
   destination_path: string;
@@ -79,6 +79,7 @@ export function createArtifactImportWorkbench(options: ArtifactImportWorkbenchOp
       if (!data.import) throw new Error('La API no devolvió el registro DRAFT persistido.');
       persisted = data.import; state = 'saved';
       message = 'PASS · importación persistida como DRAFT runtime; source/workspace sin writes.';
+      options.onDraftPersisted?.(persisted);
       await loadRecent();
     } catch (error) { state = 'block'; message = readable(error); }
     draw();

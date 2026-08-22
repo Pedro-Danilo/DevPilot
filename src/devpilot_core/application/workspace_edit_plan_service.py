@@ -22,6 +22,7 @@ MAX_PLANS = 64
 PLAN_TTL_SECONDS = 1800
 PLAN_ID_PATTERN = re.compile(r"^eplan_[0-9a-f]{32}$")
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+ZERO_SHA256 = "0" * 64
 _YAML_UNSUPPORTED = re.compile(r"(^|\s)(?:&[A-Za-z0-9_.-]+|\*[A-Za-z0-9_.-]+|![A-Za-z0-9_.:/-]+)(?:\s|$)")
 
 
@@ -255,6 +256,109 @@ class WorkspaceEditPlanApplicationService:
             findings=findings,
         )
 
+    def plan_artifact(
+        self,
+        *,
+        relative_path: str,
+        document_sha_before: str,
+        proposed_content: str,
+        artifact_id: str,
+    ) -> CommandResult:
+        """GSDLC-04-D successor planner for governed artifacts, including creates.
+
+        This extends the UOC-004 immutable-plan primitive instead of introducing a
+        second planning/write engine. For a new artifact the immutable preimage is
+        the all-zero SHA-256 sentinel and the exact relative path is server-derived
+        from a validated DRAFT/import record.
+        """
+        command = "workspace artifact edit plan"
+        started = time.perf_counter()
+        relative_path = str(relative_path or "").replace("\\", "/").strip().lstrip("/")
+        base_sha = str(document_sha_before or "").strip().lower()
+        artifact_id = str(artifact_id or "").strip()
+        if not artifact_id:
+            return _blocked(command, "GSDLC04D_ARTIFACT_ID_REQUIRED_BLOCK", "A governed artifact_id is required.")
+        if not SHA256_PATTERN.fullmatch(base_sha):
+            return _blocked(command, "GSDLC04D_BASE_SHA_REQUIRED_BLOCK", "document_sha_before must be a lowercase SHA-256 value.")
+        if not relative_path or relative_path.startswith("../") or "/../" in f"/{relative_path}/" or re.match(r"^[A-Za-z]:", relative_path):
+            return _blocked(command, "GSDLC04D_TARGET_PATH_BLOCK", "Artifact target must be a safe workspace-relative path.", path=relative_path)
+        extension = Path(relative_path).suffix.lower()
+        if extension not in EDITABLE_EXTENSIONS:
+            return _blocked(command, "GSDLC04D_EXTENSION_NOT_EDITABLE_BLOCK", "Governed artifact apply supports Markdown, JSON and conservative YAML only.", path=relative_path)
+
+        context = self.documents.context_resolver.resolve()
+        if not context.configured or not context.valid or context.active_workspace_root is None:
+            return _blocked(command, "GSDLC04D_PROJECT_CONTEXT_REQUIRED_BLOCK", "A valid project-scoped workspace context is required.")
+        workspace_root = context.active_workspace_root.resolve()
+        target = (workspace_root / relative_path).resolve()
+        try:
+            target.relative_to(workspace_root)
+        except ValueError:
+            return _blocked(command, "GSDLC04D_TARGET_ESCAPE_BLOCK", "Artifact target escaped the active workspace.", path=relative_path)
+        parent = target.parent
+        if not parent.exists() or not parent.is_dir() or parent.is_symlink():
+            return _blocked(command, "GSDLC04D_TARGET_PARENT_BLOCK", "Artifact target parent must already exist and may not be a symlink.", path=relative_path)
+
+        operation = "modify" if target.is_file() else "create"
+        if target.exists() and (not target.is_file() or target.is_symlink()):
+            return _blocked(command, "GSDLC04D_TARGET_TYPE_BLOCK", "Artifact target is not a regular non-symlink file.", path=relative_path)
+        current_content = target.read_text(encoding="utf-8") if operation == "modify" else ""
+        current_sha = hashlib.sha256(target.read_bytes()).hexdigest() if operation == "modify" else ZERO_SHA256
+        if current_sha != base_sha:
+            return _blocked(command, "GSDLC04D_STALE_BASE_BLOCK", "Artifact preimage changed before immutable plan generation.", path=relative_path, metadata={"expected": base_sha, "current": current_sha, "operation": operation})
+
+        if not isinstance(proposed_content, str):
+            proposed_content = str(proposed_content)
+        proposed_bytes = proposed_content.encode("utf-8")
+        if len(proposed_bytes) > MAX_PROPOSAL_BYTES:
+            return _blocked(command, "GSDLC04D_PROPOSAL_SIZE_BLOCK", "Proposed artifact exceeds the bounded edit budget.", path=relative_path)
+        if operation == "modify" and proposed_content == current_content:
+            return _result(command, [Finding("GSDLC04D_EMPTY_DIFF_FAIL", "The governed proposal does not change the artifact.", Severity.FAIL, path=relative_path)])
+        secret = self.secret_guard.scan_text(proposed_content, subject=relative_path)
+        if secret.effect.value == "block":
+            return _blocked(command, "GSDLC04D_SECRET_PLAN_BLOCK", "SecretGuard blocked the governed artifact proposal.", path=relative_path)
+
+        validation_findings, validation = self._validate_content(extension=extension, relative_path=relative_path, current_content=current_content, proposed_content=proposed_content)
+        if any(x.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR} for x in validation_findings):
+            return _result(command, validation_findings, data={"validation": validation, "safety": _safety()})
+        diff_text = _unified_diff(relative_path, current_content, proposed_content)
+        diff_bytes = diff_text.encode("utf-8")
+        if len(diff_bytes) > MAX_DIFF_BYTES:
+            return _blocked(command, "GSDLC04D_DIFF_SIZE_BLOCK", "Complete artifact diff exceeds the rendering budget.", path=relative_path)
+        proposed_sha = hashlib.sha256(proposed_bytes).hexdigest()
+        diff_sha = hashlib.sha256(diff_bytes).hexdigest()
+        stats = _diff_stats(diff_text)
+        risk = _risk_assessment(relative_path, extension, current_content, proposed_content, stats)
+        created_at = _now()
+        expires_at = (datetime.now(timezone.utc) + timedelta(seconds=PLAN_TTL_SECONDS)).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        immutable_core = {
+            "schema_id": "devpilot.gsdlc04d.artifact_apply_plan.v1",
+            "workspace_id": context.active_workspace_id,
+            "document": {
+                "document_id": f"artifact:{artifact_id}", "artifact_id": artifact_id,
+                "relative_path": relative_path, "extension": extension, "operation": operation,
+                "document_sha_before": current_sha, "proposed_sha256": proposed_sha,
+                "size_before_bytes": len(current_content.encode("utf-8")), "size_after_bytes": len(proposed_bytes),
+            },
+            "proposed_content": proposed_content,
+            "diff": {"format":"unified","content":diff_text,"sha256":diff_sha,"bytes":len(diff_bytes),**stats,"truncated":False},
+            "validation": validation,
+            "risk": {**risk, "approval_required_for_apply": True},
+            "policy": {"plan_generation_allowed":True,"source_write_enabled":False,"approval_required_for_apply":True,"optimistic_concurrency_required":True,"base_hash_bound":True,"write_engine":"UOC-005-successor"},
+            "preview": {"mode":"safe-markdown" if extension==".md" else ("structured-json" if extension==".json" else "safe-yaml-text"),"content_sha256":proposed_sha},
+            "patch_evidence": {"filename":f"{artifact_id}-{proposed_sha[:12]}.patch","sha256":diff_sha,"executed":False,"source_mutated":False},
+            "expires_after_seconds": PLAN_TTL_SECONDS,
+            "preliminary": True,
+            "safety": _safety(),
+        }
+        plan_hash = _canonical_hash(immutable_core)
+        plan_id = f"eplan_{plan_hash[:32]}"
+        plan = {**immutable_core,"plan_id":plan_id,"plan_hash":plan_hash,"created_at":created_at,"expires_at":expires_at}
+        self._plans[plan_id]=plan
+        while len(self._plans)>MAX_PLANS: self._plans.pop(next(iter(self._plans)))
+        elapsed_ms=round((time.perf_counter()-started)*1000,2)
+        return CommandResult(command, True, ExitCode.PASS, "Immutable governed artifact plan/diff is ready; no source write occurred.", data={"summary":{"plan_id":plan_id,"plan_hash":plan_hash,"artifact_id":artifact_id,"relative_path":relative_path,"operation":operation,"document_sha_before":current_sha,"proposed_sha256":proposed_sha,"risk_level":risk["level"],"elapsed_ms":elapsed_ms,"source_write_enabled":False,"mutations_performed":False},"plan":plan,"safety":_safety()}, findings=[*validation_findings,Finding("GSDLC04D_ARTIFACT_PLAN_PASS","Immutable artifact change plan and complete diff generated.",Severity.INFO,path=relative_path,metadata={"operation":operation,"plan_id":plan_id})])
+
     def get_plan(self, *, plan_id: str) -> CommandResult:
         plan, findings = self._resolve_plan(plan_id)
         if plan is None:
@@ -277,11 +381,21 @@ class WorkspaceEditPlanApplicationService:
             return _result("workspace edit plan recheck", findings)
 
         document = plan["document"]
-        read = self.documents.read_document(str(document["document_id"]))
-        if not read.ok:
-            return _from_dependency("workspace edit plan recheck", read, "UOC004_RECHECK_DOCUMENT_READ_BLOCK")
-        current = (read.data or {}).get("document") or {}
-        current_sha = str(current.get("sha256") or "")
+        if str(document.get("operation") or "modify") == "create":
+            context = self.documents.context_resolver.resolve()
+            relative_path = str(document.get("relative_path") or "")
+            target = (context.effective_workspace_root / relative_path).resolve()
+            try:
+                target.relative_to(context.effective_workspace_root.resolve())
+            except ValueError:
+                return _blocked("workspace edit plan recheck", "GSDLC04D_RECHECK_TARGET_ESCAPE_BLOCK", "Artifact target escaped workspace during recheck.", path=relative_path)
+            current_sha = hashlib.sha256(target.read_bytes()).hexdigest() if target.is_file() else ZERO_SHA256
+        else:
+            read = self.documents.read_document(str(document["document_id"]))
+            if not read.ok:
+                return _from_dependency("workspace edit plan recheck", read, "UOC004_RECHECK_DOCUMENT_READ_BLOCK")
+            current = (read.data or {}).get("document") or {}
+            current_sha = str(current.get("sha256") or "")
         stale = current_sha != str(document.get("document_sha_before") or "")
         if stale:
             findings.append(

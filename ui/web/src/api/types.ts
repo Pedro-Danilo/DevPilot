@@ -781,3 +781,33 @@ export interface ArtifactImportRecord {
   external_api_used: false;
   secret_warning: false;
 }
+
+export interface ArtifactReviewFinding {
+  id: string;
+  message: string;
+  severity: 'info' | 'warning' | 'fail' | 'block' | 'error';
+  line?: number | null;
+  section?: string | null;
+  metadata?: Record<string, unknown>;
+}
+
+export interface ArtifactReviewRecord {
+  schema_id: 'devpilot.gsdlc04d.artifact_review_record.v1';
+  review_id: string;
+  source_kind: 'IMPORT' | 'MANUAL';
+  source_ref: string;
+  workspace_id: string;
+  status: 'FINDINGS' | 'APPROVAL_REQUIRED' | 'APPROVED' | 'FROZEN' | 'REVALIDATION_REQUIRED';
+  relative_path: string;
+  content_sha256: string;
+  base_sha256: string;
+  findings: ArtifactReviewFinding[];
+  validation: Record<string, unknown>;
+  plan?: Record<string, any> | null;
+  artifact: Record<string, any>;
+  execution_id?: string;
+  approval_id?: string;
+  approved_sha256?: string;
+  freeze_record?: Record<string, unknown>;
+  approval_valid: boolean;
+}

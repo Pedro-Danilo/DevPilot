@@ -6396,9 +6396,14 @@ Approval-bound project bootstrap execution is implemented as a preliminary local
 - `DEVPL-GSDLC-04` remains unauthorized until the clean successor repo is generated and owner adjudication closes GSDLC-03.
 
 
-## DEVPL-GSDLC-04-C — external-source import current
+## DEVPL-GSDLC-04-C — external-source import closure
 
 - Predecessor: GSDLC-04-B `CLOSED/PASS`; repo366 Windows-validated candidate / commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`.
 - 04-C implements project-scoped PASTE/UPLOAD/IMPORT for Markdown/JSON with preview/diff, 1 MiB bounds, path/filename/MIME/encoding hardening, original+normalized SHA-256 and visible provenance.
 - Persistence creates only a governed runtime `DRAFT`; approved workspace source is not written. URL/reference remains metadata and no network fetch is enabled.
-- State: `IMPLEMENTED / READY-FOR-WINDOWS`; full regression remains `0` and reserved for GSDLC-04-E.
+- State: `CLOSED/PASS`; owner-adjudicated successor repo367 / commit `ce03b2975320617e8a3663ced2d15736aa9e3c1a`; full regression remained `0` and is reserved for GSDLC-04-E.
+
+
+### DEVPL-GSDLC-04-D — Validate, findings, diff, approval, apply and freeze
+
+Estado: `implemented/ready-for-windows`. Repo de entrada owner-adjudicated: repo367 (`ce03b297…`, SHA `7700f77d…`). Artifact Workbench compone ArtifactProfile validation, findings navegables, plan/diff inmutable, approval exacto, UOC-005 atomic apply y freeze hash. Source write sigue approval-gated y `full regression = 0`; 04-E permanece bloqueado hasta adjudicación Windows de 04-D.

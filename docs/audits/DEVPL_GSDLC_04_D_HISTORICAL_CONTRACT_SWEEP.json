@@ -1,0 +1,39 @@
+{
+  "schema_id": "devpilot.gsdlc04d.historical_contract_sweep.v1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-04-D",
+  "classifications": [
+    {
+      "surface": "UOC-004 plan-only snapshots",
+      "classification": "historical-freeze",
+      "action": "unchanged; current planner extended via successor methods"
+    },
+    {
+      "surface": "UOC-005 apply/rollback",
+      "classification": "current-active",
+      "action": "reused and extended for create; no second writer"
+    },
+    {
+      "surface": "GSDLC-04-C import DRAFT schema",
+      "classification": "historical-freeze",
+      "action": "strict DRAFT record remains unchanged; 04-D successor review record created"
+    },
+    {
+      "surface": "API/UI/RBAC/TCR/source registry",
+      "classification": "current-active",
+      "action": "reconciled to 04-D"
+    },
+    {
+      "surface": "auth.db*/devpilot.db*/outputs",
+      "classification": "runtime-ephemeral",
+      "action": "excluded from fixtures/packages"
+    },
+    {
+      "surface": "browser/full evidence 04-C",
+      "classification": "historical-freeze",
+      "action": "not rewritten or reexecuted"
+    }
+  ],
+  "frozen_evidence_rewritten": false,
+  "full_regression_executed": false
+}

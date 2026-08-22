@@ -1,0 +1,29 @@
+{
+  "schema_id": "devpilot.gsdlc04d.test_impact.v1",
+  "status": "PASS/PRE-WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-04-D",
+  "full_regression_allowed": false,
+  "full_regression_runs": 0,
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+    "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+    "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+    "tests/test_post_h_eval_002_uoc_004_contracts.py",
+    "tests/test_post_h_eval_002_uoc_005_contracts.py",
+    "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+  ],
+  "impact_domains": [
+    "artifact lifecycle",
+    "ArtifactProfile validators",
+    "approval/RBAC",
+    "workspace edit plan/execution",
+    "API/UI contracts",
+    "documentation reconciliation"
+  ],
+  "historical_contracts_reexecuted_only_as_successor_compatibility": true
+}

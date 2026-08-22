@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc04d.operation_declaration.v1",
+  "status": "implemented/ready-for-windows",
+  "micro_sprint": "DEVPL-GSDLC-04-D",
+  "source_repo": "repo_DevPilot_Local_367_DEVPL_GSDLC_04_C_EXTERNAL_SOURCE_IMPORT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "ce03b2975320617e8a3663ced2d15736aa9e3c1a",
+  "source_sha256": "7700f77d00d578c183cd47908996235cc898d49876c8d48278b21c0b905d8484",
+  "local_first": true,
+  "dry_run_default": true,
+  "network_used": false,
+  "external_api_used": false,
+  "pilot_workspace_accessed": false,
+  "secrets_exposed": false,
+  "full_regression_executed": false,
+  "full_regression_runs": 0,
+  "source_write_engine": "WorkspaceEditExecutionApplicationService/UOC-005",
+  "generic_patch_apply_enabled": false,
+  "arbitrary_shell_enabled": false
+}

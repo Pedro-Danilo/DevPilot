@@ -1,7 +1,7 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
-  "version": "1.4.0",
-  "micro_sprint": "DEVPL-GSDLC-04-B",
+  "version": "1.5.0",
+  "micro_sprint": "DEVPL-GSDLC-04-D",
   "status": "implemented/ready-for-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
@@ -2555,6 +2555,126 @@
       "workspace_scope_required": true,
       "risk_level": "medium",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-reviews.import-start",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-reviews/imports/{import_id}/start",
+      "operation": "workspace.artifact_reviews.start_import",
+      "access_class": "human-session-artifact-review",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-reviews.document-start",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-reviews/documents/{document_id}/start",
+      "operation": "workspace.artifact_reviews.start_document",
+      "access_class": "human-session-artifact-review",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-reviews.status",
+      "method": "GET",
+      "path": "/api/v1/workspace/artifact-reviews/{review_id}",
+      "operation": "workspace.artifact_reviews.status",
+      "access_class": "human-session-artifact-review",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-reviews.freeze",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-reviews/{review_id}/freeze",
+      "operation": "workspace.artifact_reviews.freeze",
+      "access_class": "human-session-artifact-review",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-reviews.reconcile",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-reviews/{review_id}/reconcile",
+      "operation": "workspace.artifact_reviews.reconcile",
+      "access_class": "human-session-artifact-review",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -2781,7 +2901,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 112,
+    "route_policies_total": 117,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -2790,7 +2910,9 @@
     "gsdlc_04_b_artifact_draft_policies_total": 5,
     "gsdlc_04_b_legacy_token_allowed_total": 0,
     "gsdlc_04_c_artifact_import_policies_total": 3,
-    "gsdlc_04_c_legacy_token_allowed_total": 0
+    "gsdlc_04_c_legacy_token_allowed_total": 0,
+    "gsdlc_04_d_artifact_review_policies_total": 5,
+    "gsdlc_04_d_legacy_token_allowed_total": 0
   },
   "safety": {
     "legacy_token_human_authority": false,
@@ -2801,7 +2923,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-04-C",
+  "updated_by": "DEVPL-GSDLC-04-D",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/artifact-apply-execution-gsdlc04d-v1.json",
+  "title": "ArtifactApplyExecutionGSDLC04D",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_id",
+    "execution_id",
+    "plan_id",
+    "plan_hash",
+    "operation",
+    "status",
+    "pre_sha256",
+    "post_sha256",
+    "proposed_sha256",
+    "approval_id",
+    "actor",
+    "relative_path"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc04d.artifact_apply_execution.v1"
+    },
+    "execution_id": {
+      "type": "string"
+    },
+    "plan_id": {
+      "type": "string"
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "operation": {
+      "const": "create"
+    },
+    "status": {
+      "type": "string"
+    },
+    "pre_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "post_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "proposed_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approval_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
