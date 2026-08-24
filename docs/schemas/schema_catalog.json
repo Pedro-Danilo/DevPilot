@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.5.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-22",
-  "sprint": "DEVPL-GSDLC-04-E",
+  "updated": "2026-08-24",
+  "sprint": "DEVPL-GSDLC-05-A",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
   "schemas": [
@@ -3043,7 +3043,21 @@
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-04-E",
       "description": "04-E external modified/renamed/deleted reconciliation evidence with approval invalidation, Git context and no-auto-revert/no-hidden-merge invariants."
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-05-A-EXECUTABLE-STANDARD-REGISTRY-V1",
+      "title": "ExecutableStandardRegistry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/executable_standard_registry.schema.json",
+      "description": "GSDLC-05-A machine-readable MIPSoftware/MIASI source mapping with phases, steps, artifacts, prerequisites, validators, approvals, exit gates, next actions, source hashes and migration semantics.",
+      "status": "registered",
+      "contract": "ExecutableStandardRegistry",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-05-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-05-A"
     }
   ],
-  "schemas_total": 211
+  "schemas_total": 212
 }

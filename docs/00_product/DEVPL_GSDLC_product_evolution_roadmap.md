@@ -26,13 +26,13 @@ backlogs_total: 15
 
 - `DEVPL-GSDLC-03 = CLOSED/PASS`.
 - Successor owner-adjudicated: `repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `7f6c9ed8a49fd9300d8b10eb3255969256eb2865`.
-- `DEVPL-GSDLC-04 = APPROVED / EXECUTABLE-DESIGN`.
+- `DEVPL-GSDLC-04 = CLOSED/PASS`; canonical successor repo369 / commit `13c2a59bbcb8adbb27f2a9be59a1e2925454fb29`.
 - `GSDLC-04-A = CLOSED/PASS`: owner adjudication `DEVPL_GSDLC_04_A_OWNER_ADJUDICATION_v1_0_0.md`; successor repo365/commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`.
 - `GSDLC-04-B = CLOSED/PASS`: Windows browser acceptance 11/11, commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`, owner adjudication y successor repo366 confirmados.
 - `GSDLC-04-C = CLOSED/PASS`: successor repo367/commit `ce03b2975320617e8a3663ced2d15736aa9e3c1a`.
 - `GSDLC-04-D = CLOSED/PASS`: Windows browser/evidence + Recovery-001/002 adjudicados; successor repo368/commit `e1d9d1c722dc3fa389ce4cb7c3e18bc401d081cd`.
-- `GSDLC-04-E = IMPLEMENTED / READY-FOR-WINDOWS`: external edit reconciliation + browser closure; GSDLC-05 permanece bloqueado.
-- Full regression de GSDLC-04 continúa sin consumirse (`0`) y 04-E la ejecutará exactamente una vez después del browser PASS.
+- `GSDLC-04-E = CLOSED/PASS`: browser acceptance 18/18, unique full consumed once, composite recovery PASS; GSDLC-05 autorizado.
+- Full regression de GSDLC-04 fue consumida exactamente una vez; original FAIL preservado, sin rerun, composite closure PASS.
 
 
 ## 1. Visión objetivo
@@ -437,3 +437,10 @@ Project Entry completed authoritative browser acceptance: 14 scenarios / 12 scre
 - 04-E `IMPLEMENTED / READY-FOR-WINDOWS`; modified/rename/delete external drift moves FROZEN to REVALIDATION_REQUIRED and invalidates stale approval.
 - ArtifactReconciliationUX displays Git diff/provenance and never auto-reverts or hidden-merges.
 - Browser closure plus the exactly-once GSDLC-04 full regression remain Windows-only pending gates.
+
+
+## 2026-08-24 — GSDLC-05-A implementation checkpoint
+
+- DEVPL-GSDLC-05 está APPROVED/ACTIVE sobre repo369 como autoridad ancestral fija.
+- GSDLC-05-A implementa ExecutableStandardRegistry + source mapping y queda `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION` tras validación Windows cumulative-selective.
+- Full regression de DEVPL-GSDLC-05 permanece en `0`; browser de 05-A=`0`; A→D usan validación cumulative-selective.

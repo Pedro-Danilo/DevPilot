@@ -20469,6 +20469,91 @@
         "scope": "GSDLC-04-E isolated browser/pytest fixture edits only; no arbitrary shell/network/remote/pilot authority.",
         "rollback_or_cleanup": "Fixtures are disposable; browser guide uses bounded named files and preserves evidence. Reconciliation never auto-reverts source."
       }
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-a-executable-standard-registry",
+      "source_contract_id": "devpl-gsdlc-05-a-executable-standard-registry",
+      "schema_version": "2.0",
+      "domain": "governance.miasi",
+      "capability": "ExecutableStandardRegistry",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/executable_standard_registry.json",
+        "docs/schemas/executable_standard_registry.schema.json",
+        "src/devpilot_core/guided_sdlc/executable_standard_registry.py",
+        "src/devpilot_core/guided_sdlc/__init__.py",
+        ".devpilot/readiness/readiness_requirements.json",
+        ".devpilot/gsdlc/workflow_transition_catalog.json",
+        "docs/standards/mipsoftware",
+        "docs/standards/miasi",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "validates": [
+        "schema positive/negative",
+        "mandatory pre-code mapping coverage",
+        "source-link verification",
+        "orphan/duplicate/cycle detection",
+        "source drift fail-closed",
+        "migration/version compatibility",
+        "workflow catalog coexistence",
+        "activation rebind"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-05-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_a_executable_standard_registry.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Registry validation is deterministic, local-first and read-only.",
+        "Normative standards are hashed; drift blocks instead of being silently absorbed."
+      ],
+      "trigger_hints": [
+        "executable-standard-registry",
+        "mipsoftware",
+        "miasi",
+        "source-mapping",
+        "source-drift",
+        "pre-code"
+      ],
+      "impact_tags": [
+        "guided-sdlc",
+        "standards",
+        "readiness",
+        "schema",
+        "governance"
+      ],
+      "owner_domain": "guided_sdlc.executable-standards",
+      "service_boundary": "domain",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-05-A-EXECUTABLE-STANDARD-REGISTRY-V1"
+      ],
+      "notes": [
+        "Full regression remains forbidden by routine in GSDLC-05-A."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -20630,5 +20715,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 289
+  "contracts_total": 290
 }

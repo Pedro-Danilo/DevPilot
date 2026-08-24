@@ -1,0 +1,65 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-A-HISTORICAL-CONTRACT-SWEEP-v1",
+  "status": "PASS",
+  "classifications": [
+    {
+      "path": "docs/standards/mipsoftware/**",
+      "classification": "historical-freeze",
+      "action": "read/hash only; normative source not rewritten"
+    },
+    {
+      "path": "docs/standards/miasi/**",
+      "classification": "historical-freeze",
+      "action": "read/hash only; normative source not rewritten"
+    },
+    {
+      "path": ".devpilot/gsdlc/workflow_transition_catalog.json",
+      "classification": "historical-freeze",
+      "action": "preserve GSDLC-01 generic transition catalog; validate coexistence/hash"
+    },
+    {
+      "path": ".devpilot/readiness/readiness_requirements.json",
+      "classification": "current-active",
+      "action": "derive mandatory pre-code coverage; no hardcoded replacement"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "classification": "current-active",
+      "action": "activation successor rebind"
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "classification": "current-active/derived",
+      "action": "register successor documents and functional sources"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry*.json",
+      "classification": "current-active",
+      "action": "add successor contract; preserve historical contracts"
+    },
+    {
+      "path": "auth.db*|devpilot.db*|outputs/**|__pycache__/**",
+      "classification": "runtime-ephemeral",
+      "action": "excluded from fixtures/evidence/release"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py::test_activation_rebind_historical_pre_windows_snapshot_is_preserved",
+      "classification": "successor-needed",
+      "action": "migrate one assertion from mutable gsdlc_current_backlog to the already-frozen gsdlc_current_micro_sprint_at_04_a_pre_windows_close snapshot; historical 04-A fact remains exact"
+    },
+    {
+      "path": "tests/test_project_global_state.py + POST-H-EVAL/POST-H-034 scoped contracts",
+      "classification": "historical-freeze/current-active",
+      "action": "preserve global POST-H-EVAL current pointers and scoped pilot checkpoints; activate GSDLC only through gsdlc_* successor pointers so historical RC/freshness contracts remain valid"
+    }
+  ],
+  "historical_assertions_relaxed_total": 0,
+  "historical_sources_mutated_total": 0,
+  "unclassified_total": 0,
+  "full_regression_runs": 0,
+  "updated": "2026-08-24",
+  "historical_assertions_migrated_from_mutable_current_total": 1,
+  "historical_snapshot_values_changed_total": 0,
+  "global_post_h_eval_current_pointers_preserved": true,
+  "gsdlc_successor_uses_scoped_current_pointers": true
+}

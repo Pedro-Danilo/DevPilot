@@ -89,3 +89,11 @@ __all__ = [
     "WorkspaceRegistryBindingResolver",
     "contains_secret_like_material",
 ]
+
+from .executable_standard_registry import (
+    ExecutableStandardRegistryError,
+    ExecutableStandardRegistryService,
+    ExecutableStandardRegistryValidator,
+    RegistryFinding,
+    RegistryValidationReport,
+)

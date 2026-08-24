@@ -1,0 +1,498 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/executable_standard_registry.schema.json",
+  "title": "DevPilot ExecutableStandardRegistry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "registry_id",
+    "registry_version",
+    "status",
+    "normative_authority",
+    "registry_authoritative",
+    "owner_approval_required_for_promotion",
+    "standards",
+    "migration",
+    "integration_refs",
+    "phases",
+    "steps",
+    "artifacts",
+    "requirements",
+    "safety"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-05-A-EXECUTABLE-STANDARD-REGISTRY-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "status": {
+      "enum": [
+        "draft/pending-owner-approval",
+        "approved",
+        "deprecated"
+      ]
+    },
+    "normative_authority": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_authoritative": {
+      "type": "boolean"
+    },
+    "owner_approval_required_for_promotion": {
+      "const": true
+    },
+    "standards": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "standard_id",
+          "version",
+          "source_root",
+          "governance"
+        ],
+        "properties": {
+          "standard_id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "source_root": {
+            "type": "string"
+          },
+          "governance": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "migration": {
+      "type": "object",
+      "required": [
+        "strategy",
+        "compatible_from",
+        "breaking_change_requires_owner_approval",
+        "source_hash_change_requires_revalidation",
+        "unknown_version_effect"
+      ],
+      "properties": {
+        "strategy": {
+          "const": "semantic-versioning"
+        },
+        "compatible_from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "breaking_change_requires_owner_approval": {
+          "const": true
+        },
+        "source_hash_change_requires_revalidation": {
+          "const": true
+        },
+        "unknown_version_effect": {
+          "const": "BLOCK"
+        }
+      },
+      "additionalProperties": false
+    },
+    "integration_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256",
+          "role"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "role": {
+            "type": "string"
+          },
+          "expected_scope_fragment": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/phase"
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/requirement"
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "dry_run_default",
+        "network_used",
+        "external_api_used",
+        "model_execution_used",
+        "critical_controls_fail_closed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "dry_run_default": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "model_execution_used": {
+          "const": false
+        },
+        "critical_controls_fail_closed": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "required": [
+        "doc_id",
+        "path",
+        "heading",
+        "source_sha256"
+      ],
+      "properties": {
+        "doc_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^docs/standards/(mipsoftware|miasi)/"
+        },
+        "heading": {
+          "type": "string",
+          "pattern": "^#{1,6} "
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "phase": {
+      "type": "object",
+      "required": [
+        "phase_id",
+        "order",
+        "mandatory",
+        "step_ids",
+        "source_refs"
+      ],
+      "properties": {
+        "phase_id": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mandatory": {
+          "type": "boolean"
+        },
+        "conditional": {
+          "type": "string"
+        },
+        "step_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": [
+        "artifact_id",
+        "path",
+        "artifact_type",
+        "artifact_profiles",
+        "requires_frontmatter",
+        "requires_approval_status",
+        "source_refs"
+      ],
+      "properties": {
+        "artifact_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "artifact_type": {
+          "type": "string"
+        },
+        "artifact_profiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requires_frontmatter": {
+          "type": "boolean"
+        },
+        "requires_approval_status": {
+          "type": "boolean"
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "required": [
+        "edge_kind",
+        "step_id"
+      ],
+      "properties": {
+        "edge_kind": {
+          "enum": [
+            "transition",
+            "reference"
+          ]
+        },
+        "step_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "step": {
+      "type": "object",
+      "required": [
+        "step_id",
+        "phase_id",
+        "order",
+        "mandatory",
+        "mandatory_semantics",
+        "artifact_ids",
+        "prerequisites",
+        "validators",
+        "approvals",
+        "exit_gates",
+        "next_action_refs",
+        "source_refs"
+      ],
+      "properties": {
+        "step_id": {
+          "type": "string"
+        },
+        "phase_id": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer"
+        },
+        "mandatory": {
+          "type": "boolean"
+        },
+        "mandatory_semantics": {
+          "type": "string"
+        },
+        "artifact_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edge"
+          }
+        },
+        "validators": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "approvals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "required",
+              "authority"
+            ],
+            "properties": {
+              "required": {
+                "type": "boolean"
+              },
+              "authority": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "exit_gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "gate_id",
+              "accepted_statuses"
+            ],
+            "properties": {
+              "gate_id": {
+                "type": "string"
+              },
+              "accepted_statuses": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "next_action_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "requirement": {
+      "type": "object",
+      "required": [
+        "requirement_id",
+        "artifact_id",
+        "mandatory",
+        "mandatory_semantics",
+        "critical",
+        "cannot_disable_without_adr",
+        "enabled",
+        "source_refs"
+      ],
+      "properties": {
+        "requirement_id": {
+          "type": "string"
+        },
+        "artifact_id": {
+          "type": "string"
+        },
+        "mandatory": {
+          "type": "boolean"
+        },
+        "mandatory_semantics": {
+          "type": "string"
+        },
+        "critical": {
+          "type": "boolean"
+        },
+        "cannot_disable_without_adr": {
+          "type": "boolean"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "decision_ref": {
+          "type": "string"
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

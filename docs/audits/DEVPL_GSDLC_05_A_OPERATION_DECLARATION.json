@@ -1,0 +1,17 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-A-OPERATION-DECLARATION-v1",
+  "status": "PASS",
+  "local_first": true,
+  "dry_run_default": true,
+  "network_used": false,
+  "external_api_used": false,
+  "model_execution_used": false,
+  "secrets_exposed": false,
+  "pilot_workspace_accessed": false,
+  "runtime_ephemeral_copied": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "destructive_git_used": false,
+  "shell_true_used": false,
+  "updated": "2026-08-24"
+}

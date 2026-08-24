@@ -1,0 +1,12 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-A-STANDARD-MAPPING-COVERAGE-v1",
+  "status": "PASS",
+  "mandatory_pre_code_total": 26,
+  "mandatory_pre_code_mapped": 26,
+  "mandatory_pre_code_mapping_percent": 100.0,
+  "orphan_critical_steps": 0,
+  "new_rule_without_source_total": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false
+}

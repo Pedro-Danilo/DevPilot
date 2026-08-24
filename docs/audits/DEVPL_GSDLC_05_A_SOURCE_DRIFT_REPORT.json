@@ -1,0 +1,163 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-A-SOURCE-DRIFT-REPORT-v1",
+  "status": "PASS",
+  "sources_checked_total": 19,
+  "source_drift_total": 0,
+  "sources": [
+    {
+      "doc_id": "MIPS-DOC-003",
+      "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+      "heading": "## 12. Documentos mínimos antes de escribir código",
+      "expected_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d",
+      "actual_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-004",
+      "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+      "heading": "## 7. Product Vision",
+      "expected_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "actual_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-004",
+      "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+      "heading": "## 9. Business Case",
+      "expected_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "actual_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-004",
+      "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+      "heading": "## 15. Scope / Out of Scope",
+      "expected_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "actual_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-004",
+      "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+      "heading": "## 20. MVP Definition",
+      "expected_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "actual_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-005",
+      "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+      "heading": "## 25. Documentos mínimos antes de backlog implementable",
+      "expected_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "actual_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-005",
+      "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+      "heading": "## 8. Historias de usuario",
+      "expected_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "actual_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-005",
+      "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+      "heading": "## 9. Casos de uso",
+      "expected_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "actual_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-005",
+      "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+      "heading": "## 10. Criterios de aceptación",
+      "expected_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "actual_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-005",
+      "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+      "heading": "## 12. Matriz de trazabilidad",
+      "expected_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "actual_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-006",
+      "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+      "heading": "## 21. Arquitectura mínima antes de implementación",
+      "expected_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162",
+      "actual_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-006",
+      "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+      "heading": "## 9. C4 Nivel 1 — Contexto",
+      "expected_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162",
+      "actual_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-006",
+      "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+      "heading": "## 10. C4 Nivel 2 — Contenedores",
+      "expected_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162",
+      "actual_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-010",
+      "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+      "heading": "## 7. Threat modeling",
+      "expected_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d",
+      "actual_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-010",
+      "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+      "heading": "## 23. Privacy Impact Assessment",
+      "expected_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d",
+      "actual_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-009",
+      "path": "docs/standards/mipsoftware/08_calidad_testing_verificacion.md",
+      "heading": "## 6. Estrategia de pruebas",
+      "expected_sha256": "9ca2eeb144b4ba2be8d63e82726e613b56f2087e6278891caa4408ef98133bf8",
+      "actual_sha256": "9ca2eeb144b4ba2be8d63e82726e613b56f2087e6278891caa4408ef98133bf8",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "DOC-AI-004",
+      "path": "docs/standards/miasi/03_agentic_sdlc.md",
+      "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+      "expected_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349",
+      "actual_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-003",
+      "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+      "heading": "## 13. Criterios operacionales de promoción entre fases",
+      "expected_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d",
+      "actual_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d",
+      "status": "PASS"
+    },
+    {
+      "doc_id": "MIPS-DOC-002",
+      "path": "docs/standards/mipsoftware/01_modelo_ingenieria_profesional_software.md",
+      "heading": "## 14. Relación con MIASI",
+      "expected_sha256": "14f50936deb8238371d643f99b92ad2608339920b074627c9351da69c2bd12ea",
+      "actual_sha256": "14f50936deb8238371d643f99b92ad2608339920b074627c9351da69c2bd12ea",
+      "status": "PASS"
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false
+}

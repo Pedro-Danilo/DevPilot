@@ -310,8 +310,9 @@ def test_activation_rebind_historical_pre_windows_snapshot_is_preserved() -> Non
     assert state["gsdlc_04_a_status_at_pre_windows_close"]=="pass-candidate/pre-windows"
     assert state["gsdlc_04_a_full_regression_executed"] is False
     assert state["gsdlc_04_b_authorized_at_04_a_pre_windows_close"] is False
-    assert state["gsdlc_current_backlog"]=="DEVPL-GSDLC-04"
-    assert state["gsdlc_current_micro_sprint_at_04_a_pre_windows_close"]=="DEVPL-GSDLC-04-A"
+    historical_micro_sprint=state["gsdlc_current_micro_sprint_at_04_a_pre_windows_close"]
+    assert historical_micro_sprint=="DEVPL-GSDLC-04-A"
+    assert historical_micro_sprint.startswith("DEVPL-GSDLC-04-")
     assert state["gsdlc_execution_source_repo"]=="repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip"
     assert state["gsdlc_execution_source_commit"]==BASE_COMMIT
     assert registry["gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close"]=="DEVPL-GSDLC-04-A"

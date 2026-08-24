@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `GSDLC-04-A`→`04-D` están `CLOSED/PASS` por owner adjudication. `GSDLC-04-E` está `IMPLEMENTED / READY-FOR-WINDOWS`: reconciliación de edit/rename/delete externo, invalidación FROZEN→REVALIDATION_REQUIRED, Git diff/provenance y cierre browser; la única full regression de GSDLC-04 permanece en 0 y se ejecutará exactamente una vez después del browser PASS Windows.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03` y `04` están `CLOSED/PASS`. `DEVPL-GSDLC-05` está `APPROVED / ACTIVE` sobre repo369 como autoridad de ejecución y `GSDLC-05-A` está `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION` tras validación Windows cumulative-selective PASS. La full regression de DEVPL-GSDLC-05 permanece en `0`; A→D usan validación cumulative-selective y no consumen la full por rutina.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -10,10 +10,12 @@ POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no
 
 Fuentes canónicas inmediatas:
 - `docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md`
-- `docs/backlogs/DEVPL-GSDLC-04_artifact_workbench_governed_authoring_and_import_v1_2_0_APPROVED.md`
-- `docs/02_architecture/guided_sdlc/artifact_lifecycle_contract.md`
-- `docs/02_architecture/adrs/ADR-GSDLC-004-artifact-lifecycle-authority.md`
-- `DEVPL_GSDLC_03_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md`
+- `DEVPL-GSDLC-05_executable_mipsoftware_miasi_and_step_action_advisor_v1_2_0_APPROVED_REBOUND.md`
+- `01_PROMPT_DEVPL_GSDLC_05_A_v1_0_0.md`
+- `DEVPL_GSDLC_04_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md`
+- `DEVPL_GSDLC_04_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md`
+- `.devpilot/gsdlc/workflow_transition_catalog.json`
+- `.devpilot/readiness/readiness_requirements.json`
 
 ## POST-H-EVAL-002 — Activación del piloto real end-to-end UI-first
 
@@ -6406,12 +6408,20 @@ Approval-bound project bootstrap execution is implemented as a preliminary local
 
 ### DEVPL-GSDLC-04-D — Validate, findings, diff, approval, apply and freeze
 
-Estado: `implemented/ready-for-windows`. Repo de entrada owner-adjudicated: repo367 (`ce03b297…`, SHA `7700f77d…`). Artifact Workbench compone ArtifactProfile validation, findings navegables, plan/diff inmutable, approval exacto, UOC-005 atomic apply y freeze hash. Source write sigue approval-gated y `full regression = 0`; 04-E permanece bloqueado hasta adjudicación Windows de 04-D.
+Estado: `CLOSED/PASS`. Successor owner-adjudicated: repo368 / commit `e1d9d1c722dc3fa389ce4cb7c3e18bc401d081cd`. Artifact Workbench compone ArtifactProfile validation, findings navegables, plan/diff inmutable, approval exacto, UOC-005 atomic apply y freeze hash. Source write permanece approval-gated.
 
 
 ## DEVPL-GSDLC-04-E — External reconciliation/browser closure
 
 - 04-D owner-adjudicated `CLOSED/PASS` sobre repo368 / commit `e1d9d1c722dc3fa389ce4cb7c3e18bc401d081cd`.
-- 04-E implementa detección `modified/renamed/deleted`, invalidación de approval/FROZEN a `REVALIDATION_REQUIRED`, Git diff + provenance UX y no auto-revert/hidden merge.
-- Estado: `IMPLEMENTED / READY-FOR-WINDOWS`; browser closure y full regression exactamente una vez permanecen pendientes.
-- GSDLC-05 continúa bloqueado hasta owner adjudication final del backlog 04.
+- 04-E implementó detección `modified/renamed/deleted`, invalidación de approval/FROZEN a `REVALIDATION_REQUIRED`, Git diff + provenance UX y no auto-revert/hidden merge.
+- Estado: `CLOSED/PASS`; browser acceptance 18/18, full regression consumida exactamente una vez, original FAIL preservado sin rerun y composite recovery PASS.
+- Successor canónico: repo369 / commit `13c2a59bbcb8adbb27f2a9be59a1e2925454fb29`; GSDLC-05 autorizado.
+
+
+## DEVPL-GSDLC current activation — 2026-08-24
+
+- `DEVPL-GSDLC-04 = CLOSED/PASS` on repo369 / commit `13c2a59bbcb8adbb27f2a9be59a1e2925454fb29`.
+- `DEVPL-GSDLC-05 = APPROVED / ACTIVE`.
+- `GSDLC-05-A = PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION`; validación Windows cumulative-selective PASS, browser=0 y full regression runs=`0`.
+- Repo369 permanece autoridad ancestral de entrada; repo370 se empaqueta desde el Git HEAD limpio validado y solo se vuelve successor authority después de owner adjudication.

@@ -1,0 +1,2310 @@
+{
+  "$schema": "../../docs/schemas/executable_standard_registry.schema.json",
+  "schema_id": "SCHEMA-DEVPL-GSDLC-05-A-EXECUTABLE-STANDARD-REGISTRY-V1",
+  "schema_version": "1.0",
+  "registry_id": "DEVPL-GSDLC-05-A-EXECUTABLE-STANDARD-REGISTRY",
+  "registry_version": "1.0.0",
+  "status": "draft/pending-owner-approval",
+  "normative_authority": "docs/standards/mipsoftware + docs/standards/miasi",
+  "registry_authoritative": false,
+  "owner_approval_required_for_promotion": true,
+  "standards": [
+    {
+      "standard_id": "MIPSoftware",
+      "version": "0.2.0",
+      "source_root": "docs/standards/mipsoftware",
+      "governance": "normative"
+    },
+    {
+      "standard_id": "MIASI",
+      "version": "1.0.0",
+      "source_root": "docs/standards/miasi",
+      "governance": "normative-when-applicable"
+    }
+  ],
+  "migration": {
+    "strategy": "semantic-versioning",
+    "compatible_from": [],
+    "breaking_change_requires_owner_approval": true,
+    "source_hash_change_requires_revalidation": true,
+    "unknown_version_effect": "BLOCK"
+  },
+  "integration_refs": [
+    {
+      "path": ".devpilot/gsdlc/workflow_transition_catalog.json",
+      "sha256": "975bf0089a49c7070ce748b24e20d0093737c39bc4fe053df47adf1848cd9a61",
+      "role": "generic-phase-transition-catalog",
+      "expected_scope_fragment": "artifact-specific executable workflow is deferred to DEVPL-GSDLC-05"
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "precode.product",
+      "order": 10,
+      "mandatory": true,
+      "step_ids": [
+        "precode.step.01",
+        "precode.step.02",
+        "precode.step.03"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "phase_id": "precode.requirements",
+      "order": 20,
+      "mandatory": true,
+      "step_ids": [
+        "precode.step.04",
+        "precode.step.05",
+        "precode.step.06",
+        "precode.step.07",
+        "precode.step.08"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "phase_id": "precode.architecture",
+      "order": 30,
+      "mandatory": true,
+      "step_ids": [
+        "precode.step.09",
+        "precode.step.10",
+        "precode.step.11",
+        "precode.step.26"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "phase_id": "precode.security",
+      "order": 40,
+      "mandatory": true,
+      "step_ids": [
+        "precode.step.12",
+        "precode.step.13"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "phase_id": "precode.quality",
+      "order": 50,
+      "mandatory": true,
+      "step_ids": [
+        "precode.step.14"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "phase_id": "precode.operations",
+      "order": 60,
+      "mandatory": true,
+      "step_ids": [
+        "precode.step.15",
+        "precode.step.16"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "phase_id": "precode.miasi",
+      "order": 70,
+      "mandatory": false,
+      "conditional": "miasi_applicable",
+      "step_ids": [
+        "precode.step.17",
+        "precode.step.18",
+        "precode.step.19",
+        "precode.step.20",
+        "precode.step.21",
+        "precode.step.22"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "phase_id": "precode.governance",
+      "order": 80,
+      "mandatory": true,
+      "step_ids": [
+        "precode.step.23",
+        "precode.step.24",
+        "precode.step.25"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "precode.step.01",
+      "phase_id": "precode.product",
+      "order": 10,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/00_product/product_vision.md"
+      ],
+      "prerequisites": [],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.01:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.01:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 7. Product Vision",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.02",
+      "phase_id": "precode.product",
+      "order": 20,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/00_product/business_case.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.01"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.02:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.02:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 9. Business Case",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.03",
+      "phase_id": "precode.product",
+      "order": 30,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/00_product/mvp_scope.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.02"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.03:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.03:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 15. Scope / Out of Scope",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        },
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 20. MVP Definition",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.04",
+      "phase_id": "precode.requirements",
+      "order": 40,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/01_requirements/requirements_specification.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.03"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.04:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.04:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 25. Documentos mínimos antes de backlog implementable",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.05",
+      "phase_id": "precode.requirements",
+      "order": 50,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/01_requirements/user_stories.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.04"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.05:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.05:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 8. Historias de usuario",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.06",
+      "phase_id": "precode.requirements",
+      "order": 60,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/01_requirements/use_cases.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.05"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.06:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.06:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 9. Casos de uso",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.07",
+      "phase_id": "precode.requirements",
+      "order": 70,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/01_requirements/acceptance_criteria.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.06"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.07:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.07:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 10. Criterios de aceptación",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.08",
+      "phase_id": "precode.requirements",
+      "order": 80,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/01_requirements/traceability_matrix.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.07"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.08:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.08:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 12. Matriz de trazabilidad",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.09",
+      "phase_id": "precode.architecture",
+      "order": 90,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/02_architecture/architecture_document.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.08"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.09:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.09:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 21. Arquitectura mínima antes de implementación",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.10",
+      "phase_id": "precode.architecture",
+      "order": 100,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/02_architecture/c4_context.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.09"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.10:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.10:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 9. C4 Nivel 1 — Contexto",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.11",
+      "phase_id": "precode.architecture",
+      "order": 110,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/02_architecture/c4_container.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.10"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.11:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.11:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 10. C4 Nivel 2 — Contenedores",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.12",
+      "phase_id": "precode.security",
+      "order": 120,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/03_security/security_threat_model.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.11"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.12:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.12:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-010",
+          "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+          "heading": "## 7. Threat modeling",
+          "source_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.13",
+      "phase_id": "precode.security",
+      "order": 130,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/03_security/privacy_assessment.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.12"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.13:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.13:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-010",
+          "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+          "heading": "## 23. Privacy Impact Assessment",
+          "source_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.14",
+      "phase_id": "precode.quality",
+      "order": 140,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/04_quality/test_strategy.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.13"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.14:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.14:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-009",
+          "path": "docs/standards/mipsoftware/08_calidad_testing_verificacion.md",
+          "heading": "## 6. Estrategia de pruebas",
+          "source_sha256": "9ca2eeb144b4ba2be8d63e82726e613b56f2087e6278891caa4408ef98133bf8"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.15",
+      "phase_id": "precode.operations",
+      "order": 150,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/05_operations/observability_plan.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.14"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.15:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.15:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.16",
+      "phase_id": "precode.operations",
+      "order": 160,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/05_operations/runbook.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.15"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.16:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.16:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.17",
+      "phase_id": "precode.miasi",
+      "order": 170,
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "artifact_ids": [
+        "artifact:docs/06_miasi/agent_card.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.16"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.17:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.17:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.18",
+      "phase_id": "precode.miasi",
+      "order": 180,
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "artifact_ids": [
+        "artifact:docs/06_miasi/tool_card.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.17"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.18:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.18:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.19",
+      "phase_id": "precode.miasi",
+      "order": 190,
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "artifact_ids": [
+        "artifact:docs/06_miasi/policy_card.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.18"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.19:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.19:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.20",
+      "phase_id": "precode.miasi",
+      "order": 200,
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "artifact_ids": [
+        "artifact:docs/06_miasi/eval_card.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.19"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.20:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.20:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.21",
+      "phase_id": "precode.miasi",
+      "order": 210,
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "artifact_ids": [
+        "artifact:docs/06_miasi/human_approval_card.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.20"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.21:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.21:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.22",
+      "phase_id": "precode.miasi",
+      "order": 220,
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "artifact_ids": [
+        "artifact:docs/06_miasi/observability_card.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.21"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.22:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.22:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.23",
+      "phase_id": "precode.governance",
+      "order": 230,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/checklists/checklist_pre_code.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.22"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.23:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.23:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.24",
+      "phase_id": "precode.governance",
+      "order": 240,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/precode_audit_report.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.23"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.24:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.24:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 13. Criterios operacionales de promoción entre fases",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.25",
+      "phase_id": "precode.governance",
+      "order": 250,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/precode_baseline_decision.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.24"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.25:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.25:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 13. Criterios operacionales de promoción entre fases",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "step_id": "precode.step.26",
+      "phase_id": "precode.architecture",
+      "order": 260,
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "artifact_ids": [
+        "artifact:docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md"
+      ],
+      "prerequisites": [
+        {
+          "edge_kind": "transition",
+          "step_id": "precode.step.25"
+        }
+      ],
+      "validators": [
+        "readiness.requirement",
+        "artifact-profile.validate"
+      ],
+      "approvals": [
+        {
+          "required": true,
+          "authority": "artifact-lifecycle/server-side"
+        }
+      ],
+      "exit_gates": [
+        {
+          "gate_id": "gate:precode.step.26:artifact-ready",
+          "accepted_statuses": [
+            "PASS"
+          ]
+        }
+      ],
+      "next_action_refs": [
+        "next:precode.step.26:author-or-import"
+      ],
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-002",
+          "path": "docs/standards/mipsoftware/01_modelo_ingenieria_profesional_software.md",
+          "heading": "## 14. Relación con MIASI",
+          "source_sha256": "14f50936deb8238371d643f99b92ad2608339920b074627c9351da69c2bd12ea"
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "artifact:docs/00_product/product_vision.md",
+      "path": "docs/00_product/product_vision.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 7. Product Vision",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/00_product/business_case.md",
+      "path": "docs/00_product/business_case.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 9. Business Case",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/00_product/mvp_scope.md",
+      "path": "docs/00_product/mvp_scope.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 15. Scope / Out of Scope",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        },
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 20. MVP Definition",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/01_requirements/requirements_specification.md",
+      "path": "docs/01_requirements/requirements_specification.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 25. Documentos mínimos antes de backlog implementable",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/01_requirements/user_stories.md",
+      "path": "docs/01_requirements/user_stories.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 8. Historias de usuario",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/01_requirements/use_cases.md",
+      "path": "docs/01_requirements/use_cases.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 9. Casos de uso",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/01_requirements/acceptance_criteria.md",
+      "path": "docs/01_requirements/acceptance_criteria.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 10. Criterios de aceptación",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/01_requirements/traceability_matrix.md",
+      "path": "docs/01_requirements/traceability_matrix.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 12. Matriz de trazabilidad",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/02_architecture/architecture_document.md",
+      "path": "docs/02_architecture/architecture_document.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 21. Arquitectura mínima antes de implementación",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/02_architecture/c4_context.md",
+      "path": "docs/02_architecture/c4_context.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 9. C4 Nivel 1 — Contexto",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/02_architecture/c4_container.md",
+      "path": "docs/02_architecture/c4_container.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 10. C4 Nivel 2 — Contenedores",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/03_security/security_threat_model.md",
+      "path": "docs/03_security/security_threat_model.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-010",
+          "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+          "heading": "## 7. Threat modeling",
+          "source_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/03_security/privacy_assessment.md",
+      "path": "docs/03_security/privacy_assessment.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-010",
+          "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+          "heading": "## 23. Privacy Impact Assessment",
+          "source_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/04_quality/test_strategy.md",
+      "path": "docs/04_quality/test_strategy.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-009",
+          "path": "docs/standards/mipsoftware/08_calidad_testing_verificacion.md",
+          "heading": "## 6. Estrategia de pruebas",
+          "source_sha256": "9ca2eeb144b4ba2be8d63e82726e613b56f2087e6278891caa4408ef98133bf8"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/05_operations/observability_plan.md",
+      "path": "docs/05_operations/observability_plan.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/05_operations/runbook.md",
+      "path": "docs/05_operations/runbook.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/06_miasi/agent_card.md",
+      "path": "docs/06_miasi/agent_card.md",
+      "artifact_type": "miasi",
+      "artifact_profiles": [
+        "strict",
+        "miasi"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/06_miasi/tool_card.md",
+      "path": "docs/06_miasi/tool_card.md",
+      "artifact_type": "miasi",
+      "artifact_profiles": [
+        "strict",
+        "miasi"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/06_miasi/policy_card.md",
+      "path": "docs/06_miasi/policy_card.md",
+      "artifact_type": "miasi",
+      "artifact_profiles": [
+        "strict",
+        "miasi"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/06_miasi/eval_card.md",
+      "path": "docs/06_miasi/eval_card.md",
+      "artifact_type": "miasi",
+      "artifact_profiles": [
+        "strict",
+        "miasi"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/06_miasi/human_approval_card.md",
+      "path": "docs/06_miasi/human_approval_card.md",
+      "artifact_type": "miasi",
+      "artifact_profiles": [
+        "strict",
+        "miasi"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/06_miasi/observability_card.md",
+      "path": "docs/06_miasi/observability_card.md",
+      "artifact_type": "miasi",
+      "artifact_profiles": [
+        "strict",
+        "miasi"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/checklists/checklist_pre_code.md",
+      "path": "docs/checklists/checklist_pre_code.md",
+      "artifact_type": "checklist",
+      "artifact_profiles": [
+        "compatibility",
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/precode_audit_report.md",
+      "path": "docs/precode_audit_report.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 13. Criterios operacionales de promoción entre fases",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/precode_baseline_decision.md",
+      "path": "docs/precode_baseline_decision.md",
+      "artifact_type": "markdown",
+      "artifact_profiles": [
+        "strict"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 13. Criterios operacionales de promoción entre fases",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "artifact_id": "artifact:docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+      "path": "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+      "artifact_type": "adr",
+      "artifact_profiles": [
+        "compatibility"
+      ],
+      "requires_frontmatter": true,
+      "requires_approval_status": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-002",
+          "path": "docs/standards/mipsoftware/01_modelo_ingenieria_profesional_software.md",
+          "heading": "## 14. Relación con MIASI",
+          "source_sha256": "14f50936deb8238371d643f99b92ad2608339920b074627c9351da69c2bd12ea"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "requirement_id": "precode.req.01",
+      "artifact_id": "artifact:docs/00_product/product_vision.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 7. Product Vision",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.02",
+      "artifact_id": "artifact:docs/00_product/business_case.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 9. Business Case",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.03",
+      "artifact_id": "artifact:docs/00_product/mvp_scope.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 15. Scope / Out of Scope",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        },
+        {
+          "doc_id": "MIPS-DOC-004",
+          "path": "docs/standards/mipsoftware/03_producto_negocio_stakeholders.md",
+          "heading": "## 20. MVP Definition",
+          "source_sha256": "fba687b58fa46beebdea6de36faf09c0803a1b5ccb215c371383430237bee5e7"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.04",
+      "artifact_id": "artifact:docs/01_requirements/requirements_specification.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 25. Documentos mínimos antes de backlog implementable",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.05",
+      "artifact_id": "artifact:docs/01_requirements/user_stories.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 8. Historias de usuario",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.06",
+      "artifact_id": "artifact:docs/01_requirements/use_cases.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 9. Casos de uso",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.07",
+      "artifact_id": "artifact:docs/01_requirements/acceptance_criteria.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 10. Criterios de aceptación",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.08",
+      "artifact_id": "artifact:docs/01_requirements/traceability_matrix.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-005",
+          "path": "docs/standards/mipsoftware/04_ingenieria_requerimientos.md",
+          "heading": "## 12. Matriz de trazabilidad",
+          "source_sha256": "d3fe2f36e4eda3ce97b43a2a74546f506a80cf5a5a7cb16e3cf468de44d39afd"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.09",
+      "artifact_id": "artifact:docs/02_architecture/architecture_document.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 21. Arquitectura mínima antes de implementación",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.10",
+      "artifact_id": "artifact:docs/02_architecture/c4_context.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 9. C4 Nivel 1 — Contexto",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.11",
+      "artifact_id": "artifact:docs/02_architecture/c4_container.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-006",
+          "path": "docs/standards/mipsoftware/05_arquitectura_software.md",
+          "heading": "## 10. C4 Nivel 2 — Contenedores",
+          "source_sha256": "8825ef36c49fccc0d732258a6bf6f69cd05486874c4784cec1428f5428731162"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.12",
+      "artifact_id": "artifact:docs/03_security/security_threat_model.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-010",
+          "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+          "heading": "## 7. Threat modeling",
+          "source_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.13",
+      "artifact_id": "artifact:docs/03_security/privacy_assessment.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-010",
+          "path": "docs/standards/mipsoftware/09_seguridad_privacidad_compliance.md",
+          "heading": "## 23. Privacy Impact Assessment",
+          "source_sha256": "2b9141814e2b68159ad8924228d90674452301b3bbcc161d4b019c8e4d43bc0d"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.14",
+      "artifact_id": "artifact:docs/04_quality/test_strategy.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-009",
+          "path": "docs/standards/mipsoftware/08_calidad_testing_verificacion.md",
+          "heading": "## 6. Estrategia de pruebas",
+          "source_sha256": "9ca2eeb144b4ba2be8d63e82726e613b56f2087e6278891caa4408ef98133bf8"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.15",
+      "artifact_id": "artifact:docs/05_operations/observability_plan.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.16",
+      "artifact_id": "artifact:docs/05_operations/runbook.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.17",
+      "artifact_id": "artifact:docs/06_miasi/agent_card.md",
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.18",
+      "artifact_id": "artifact:docs/06_miasi/tool_card.md",
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.19",
+      "artifact_id": "artifact:docs/06_miasi/policy_card.md",
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.20",
+      "artifact_id": "artifact:docs/06_miasi/eval_card.md",
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.21",
+      "artifact_id": "artifact:docs/06_miasi/human_approval_card.md",
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.22",
+      "artifact_id": "artifact:docs/06_miasi/observability_card.md",
+      "mandatory": true,
+      "mandatory_semantics": "conditional:miasi_applicable",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "DOC-AI-004",
+          "path": "docs/standards/miasi/03_agentic_sdlc.md",
+          "heading": "## 7. Artefactos obligatorios del Agentic SDLC",
+          "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.23",
+      "artifact_id": "artifact:docs/checklists/checklist_pre_code.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 12. Documentos mínimos antes de escribir código",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.24",
+      "artifact_id": "artifact:docs/precode_audit_report.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 13. Criterios operacionales de promoción entre fases",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.25",
+      "artifact_id": "artifact:docs/precode_baseline_decision.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "## 13. Criterios operacionales de promoción entre fases",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ]
+    },
+    {
+      "requirement_id": "precode.req.26",
+      "artifact_id": "artifact:docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+      "mandatory": true,
+      "mandatory_semantics": "always",
+      "critical": true,
+      "cannot_disable_without_adr": true,
+      "enabled": true,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-002",
+          "path": "docs/standards/mipsoftware/01_modelo_ingenieria_profesional_software.md",
+          "heading": "## 14. Relación con MIASI",
+          "source_sha256": "14f50936deb8238371d643f99b92ad2608339920b074627c9351da69c2bd12ea"
+        }
+      ]
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "model_execution_used": false,
+    "critical_controls_fail_closed": true
+  }
+}

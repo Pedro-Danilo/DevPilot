@@ -11891,6 +11891,65 @@
         "04-E owns the exactly-once backlog full regression after browser PASS."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-a-executable-standard-registry",
+      "scope": "integration",
+      "owner": "DEVPL-GSDLC-05-A",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "validates": [
+        "strict executable registry schema",
+        "100% critical pre-code readiness mapping",
+        "source path/heading/hash integrity",
+        "duplicate/orphan/cycle negatives",
+        "source drift fail-closed",
+        "SemVer migration/owner authority",
+        "generic workflow catalog coexistence",
+        "activation rebind state"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/executable_standard_registry.json",
+        "docs/schemas/executable_standard_registry.schema.json",
+        "src/devpilot_core/guided_sdlc/executable_standard_registry.py",
+        "src/devpilot_core/guided_sdlc/__init__.py",
+        ".devpilot/readiness/readiness_requirements.json",
+        ".devpilot/gsdlc/workflow_transition_catalog.json",
+        "docs/standards/mipsoftware",
+        "docs/standards/miasi",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_a_executable_standard_registry.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "guided_sdlc.executable-standards",
+      "notes": [
+        "A→D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
+        "Normative documentation remains authoritative until owner approves the registry version."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -11967,5 +12026,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 289
+  "contracts_total": 290
 }

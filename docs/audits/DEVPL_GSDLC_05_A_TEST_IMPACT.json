@@ -1,0 +1,68 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-A-TEST-IMPACT-v1",
+  "status": "PASS/WINDOWS-VALIDATED",
+  "validation_mode": "cumulative-selective/no-full",
+  "full_regression_allowed": false,
+  "browser_required": false,
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
+    "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
+    "tests/test_devpl_gsdlc_01_c_project_progress.py",
+    "tests/test_devpl_gsdlc_01_d_reconciliation.py",
+    "tests/test_devpl_gsdlc_01_e_project_status.py",
+    "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py",
+    "tests/test_schema_registry.py",
+    "tests/test_schema_validator.py",
+    "tests/test_project_global_state.py",
+    "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py",
+    "tests/test_post_h_eval_002_activation_contract.py",
+    "tests/test_post_h_034_closure_regression_reconciliation.py"
+  ],
+  "risk_tags": [
+    "standards",
+    "guided-sdlc",
+    "readiness",
+    "documentation-governance",
+    "test-contracts"
+  ],
+  "hard_trigger_for_full": false,
+  "network_used": false,
+  "external_api_used": false,
+  "updated": "2026-08-24",
+  "local_validation": {
+    "focal": "11/11 PASS",
+    "artifact_04a_and_docs_contracts": "28/28 PASS",
+    "guided_sdlc_01_cumulative": "74/74 PASS",
+    "tcr_and_schema": "25/25 PASS",
+    "historical_transition_guard": "52/52 PASS",
+    "selective_total": "190/190 PASS",
+    "docs_governance": "PASS",
+    "project_state_cli": "PASS",
+    "tcr_v1_cli": "PASS",
+    "tcr_v2_cli": "PASS",
+    "04e_extended_probe": "TIMEOUT/NOT-COUNTED; no failure observed before local tool timeout"
+  },
+  "windows_validation_required": false,
+  "windows_validation_expected": {
+    "focal": "11/11 PASS",
+    "artifact_04a_and_docs_contracts": "28/28 PASS",
+    "guided_sdlc_01_cumulative": "74/74 PASS",
+    "tcr_and_schema": "25/25 PASS",
+    "historical_transition_guard": "52/52 PASS",
+    "selective_total": "190/190 PASS",
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "git_diff_check": "PASS",
+    "runtime_ephemeral_scan": "PASS",
+    "full_regression_runs": 0
+  }
+}

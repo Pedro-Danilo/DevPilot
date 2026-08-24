@@ -1,0 +1,62 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-A-CONTRACT-RECONCILIATION-SWEEP-v1",
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "project-state/source-registry/readme/roadmap rebind",
+      "status": "PASS"
+    },
+    {
+      "check": "schema catalog contains executable registry schema",
+      "status": "PASS"
+    },
+    {
+      "check": "TCR v1/v2 contain GSDLC-05-A successor contract",
+      "status": "PASS"
+    },
+    {
+      "check": "workflow transition catalog preserved and referenced by SHA",
+      "status": "PASS"
+    },
+    {
+      "check": "readiness critical collection used as coverage authority",
+      "status": "PASS"
+    },
+    {
+      "check": "normative standards unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "runtime-ephemeral stores absent from source delta",
+      "status": "PASS"
+    },
+    {
+      "check": "full regression remains 0 for backlog 05",
+      "status": "PASS"
+    },
+    {
+      "check": "global last_registered_sprint remains distinct from gsdlc_last_registered_micro_sprint",
+      "status": "PASS"
+    },
+    {
+      "check": "historical 04-A test no longer reads mutable gsdlc_current_backlog",
+      "status": "PASS"
+    },
+    {
+      "check": "TCR v2 domain/profile validated against live schema enums",
+      "status": "PASS"
+    },
+    {
+      "check": "Docs Governance final source registry 1042/1042, blocking=0",
+      "status": "PASS"
+    },
+    {
+      "check": "global POST-H-EVAL current pointers remain frozen while gsdlc_* successor pointers advance to 05-A",
+      "status": "PASS"
+    }
+  ],
+  "blocking_findings_total": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "updated": "2026-08-24"
+}
