@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.gsdlc04e.artifact_reconciliation_record.v1",
+  "title": "Artifact External Reconciliation Record v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["status", "change_kind", "original_relative_path", "approval_valid", "auto_reverted", "hidden_merge", "checked_at"],
+  "properties": {
+    "status": {"enum": ["UNCHANGED", "REVALIDATION_REQUIRED"]},
+    "change_kind": {"enum": ["unchanged", "modified", "renamed", "deleted"]},
+    "original_relative_path": {"type": "string", "minLength": 1},
+    "detected_relative_path": {"type": ["string", "null"]},
+    "previous_approved_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "current_normalized_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "approval_valid": {"type": "boolean"},
+    "auto_reverted": {"const": false},
+    "hidden_merge": {"const": false},
+    "git_branch_at_freeze": {"type": ["string", "null"]},
+    "git_branch_current": {"type": ["string", "null"]},
+    "branch_changed": {"type": "boolean"},
+    "git_head_current": {"type": ["string", "null"]},
+    "git_status_porcelain": {"type": ["string", "null"]},
+    "git_diff": {"type": ["string", "null"]},
+    "source_provenance": {"type": "object"},
+    "checked_at": {"type": "string", "minLength": 1},
+    "source_mutations_performed": {"const": false},
+    "network_used": {"const": false},
+    "external_api_used": {"const": false}
+  }
+}

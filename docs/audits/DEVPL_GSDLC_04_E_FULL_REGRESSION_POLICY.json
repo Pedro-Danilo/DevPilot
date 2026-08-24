@@ -1,0 +1,12 @@
+{
+  "schema_id": "devpilot.gsdlc04e.full_regression_policy.v1",
+  "status": "ready-for-windows",
+  "backlog": "DEVPL-GSDLC-04",
+  "owner_micro_sprint": "DEVPL-GSDLC-04-E",
+  "maximum_full_runs": 1,
+  "run_after_browser_acceptance": true,
+  "durable_marker_required_before_execution": true,
+  "rerun_after_fail_allowed": false,
+  "fail_recovery": ["exact-failed-nodeids", "bounded-impacted-retest", "historical-regression-guard", "composite-evidence"],
+  "pre_windows_runs": 0
+}

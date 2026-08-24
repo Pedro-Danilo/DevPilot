@@ -29,9 +29,10 @@ backlogs_total: 15
 - `DEVPL-GSDLC-04 = APPROVED / EXECUTABLE-DESIGN`.
 - `GSDLC-04-A = CLOSED/PASS`: owner adjudication `DEVPL_GSDLC_04_A_OWNER_ADJUDICATION_v1_0_0.md`; successor repo365/commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`.
 - `GSDLC-04-B = CLOSED/PASS`: Windows browser acceptance 11/11, commit `b095bf5b75259c9c7c4a9a5c1b5d546cfe049d6f`, owner adjudication y successor repo366 confirmados.
-- `GSDLC-04-C = IMPLEMENTED / READY-FOR-WINDOWS`: PASTE/UPLOAD/IMPORT preview-first con provenance, hashes original+normalizado, DRAFT runtime y no source write; pendiente Windows/browser + owner adjudication.
-- `GSDLC-04-D` permanece bloqueado hasta CLOSED/PASS de 04-C.
-- Full regression de GSDLC-04 continúa sin consumirse (`0`); pertenece a 04-E.
+- `GSDLC-04-C = CLOSED/PASS`: successor repo367/commit `ce03b2975320617e8a3663ced2d15736aa9e3c1a`.
+- `GSDLC-04-D = CLOSED/PASS`: Windows browser/evidence + Recovery-001/002 adjudicados; successor repo368/commit `e1d9d1c722dc3fa389ce4cb7c3e18bc401d081cd`.
+- `GSDLC-04-E = IMPLEMENTED / READY-FOR-WINDOWS`: external edit reconciliation + browser closure; GSDLC-05 permanece bloqueado.
+- Full regression de GSDLC-04 continúa sin consumirse (`0`) y 04-E la ejecutará exactamente una vez después del browser PASS.
 
 
 ## 1. Visión objetivo
@@ -428,3 +429,11 @@ Project Entry completed authoritative browser acceptance: 14 scenarios / 12 scre
 - 04-D `IMPLEMENTED / READY-FOR-WINDOWS`; 04-E not authorized.
 - Review flow: ArtifactProfile validation → navigable findings → immutable plan/diff → exact approval → UOC-005 atomic apply → freeze hash.
 - `full regression runs = 0`; unique backlog full remains reserved for 04-E.
+
+
+## 2026-08-22 — GSDLC-04-E implementation checkpoint
+
+- 04-D owner-adjudicated `CLOSED/PASS` on repo368/`e1d9d1c7…`.
+- 04-E `IMPLEMENTED / READY-FOR-WINDOWS`; modified/rename/delete external drift moves FROZEN to REVALIDATION_REQUIRED and invalidates stale approval.
+- ArtifactReconciliationUX displays Git diff/provenance and never auto-reverts or hidden-merges.
+- Browser closure plus the exactly-once GSDLC-04 full regression remain Windows-only pending gates.

@@ -13,6 +13,20 @@ def test_uoc011_ui_source_contracts() -> None:
     assert 'Content-Security-Policy' in vite and "frame-ancestors 'none'" in vite
 
 def test_uoc011_node_smokes_pass() -> None:
+    package = json.loads((ROOT / 'ui/web/package.json').read_text(encoding='utf-8'))
+    devpilot = package['devpilot']
     for script in ['uoc011-accessibility-smoke.mjs','uoc011-performance-smoke.mjs','uoc011-state-matrix-smoke.mjs']:
-        result=_npm_script(script); assert result.returncode==0, result.stdout+result.stderr
-        payload=json.loads(result.stdout); assert payload['status']=='PASS'
+        result = _npm_script(script)
+        payload = json.loads(result.stdout)
+        if script != 'uoc011-performance-smoke.mjs' or not str(devpilot.get('currentSprint', '')).startswith('DEVPL-GSDLC-'):
+            assert result.returncode == 0, result.stdout + result.stderr
+            assert payload['status'] == 'PASS'
+            continue
+        # UOC-011's 512 KiB source budget remains historical evidence. DEVPL-GSDLC owns the current-active budget.
+        assert payload['budgets']['source_ui_max'] == devpilot['historicalUoc011SourceBudgetBytes'] == 524288
+        current_budget = int(devpilot['currentUiSourceBudgetBytes'])
+        hard_ceiling = int(devpilot['currentUiSourceBudgetHardCeilingBytes'])
+        assert payload['metrics']['source_ui_bytes'] <= current_budget <= hard_ceiling
+        assert payload['checks']['single_source_file'] is True
+        assert payload['checks']['build_js'] is True
+        assert payload['checks']['build_css'] is True

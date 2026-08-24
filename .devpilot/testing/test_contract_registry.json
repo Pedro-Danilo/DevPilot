@@ -11820,6 +11820,77 @@
         "04-D full regression remains 0; 04-E owns the single backlog full regression."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-04-e-external-reconciliation-browser-closure",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-04-E",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+        "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "validates": [
+        "external modified/renamed/deleted detection",
+        "FROZEN to REVALIDATION_REQUIRED",
+        "stale approval invalidation",
+        "Git diff and source provenance visibility",
+        "no auto-revert/hidden merge",
+        "branch context",
+        "manual/import route preservation",
+        "browser closure and exactly-once full regression policy"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/artifact_lifecycle_service.py",
+        "src/devpilot_core/application/artifact_review_service.py",
+        "ui/web/src/components/ArtifactReconciliationUX.ts",
+        "ui/web/src/components/ArtifactReviewFlow.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api",
+        "ui/web/src/styles.css",
+        ".devpilot/interfaces",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas",
+        "docs/02_architecture",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "scripts/devpl_gsdlc_04_e_operator.py",
+        "scripts/devpl_gsdlc_04_e_operator_config.json",
+        "scripts/devpl_gsdlc_04_e_runtime_console.py",
+        "scripts/devpl_gsdlc_04_e_windows_harness.py",
+        "scripts/devpl_gsdlc_04_e_fixture_identity.py",
+        "GUIA_UNICA_IMPLEMENTACION_VALIDACION_DEVPL_GSDLC_04_E_v1_0_0.md",
+        "ui/web/scripts/gsdlc04e-artifact-reconciliation-smoke.mjs"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_e_external_reconciliation.py tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "artifacts.external-reconciliation",
+      "notes": [
+        "External-edit writes in tests/browser are restricted to isolated disposable fixtures and are not DevPilot source-write authority.",
+        "04-E owns the exactly-once backlog full regression after browser PASS."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -11896,5 +11967,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 288
+  "contracts_total": 289
 }

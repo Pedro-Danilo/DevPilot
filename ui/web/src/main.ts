@@ -1,4 +1,4 @@
-import { clearProjectJourneyContext, DevPilotApiClient, DevPilotApiError, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readStoredToken } from './api/client';
+import { clearProjectJourneyContext, clearProjectRecoveryIntent, DevPilotApiClient, DevPilotApiError, parseExplicitProjectRecoveryIntent, projectRecoveryTarget, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readProjectRecoveryIntent, readStoredToken, resolvePostLoginReturn, restoreProjectJourneyContextFromServerRecovery, saveProjectRecoveryIntent } from './api/client';
 import type { ProjectJourneyContext } from './api/client';
 import type { AuthSessionContext } from './api/types';
 import { renderDashboard } from './pages/Dashboard';
@@ -42,11 +42,13 @@ void bootstrapAuthenticatedUi(root);
 async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
   const path=normalizePath(globalThis.location.pathname);
   const params=new URLSearchParams(globalThis.location.search);
+  const explicitRecoveryIntent=parseExplicitProjectRecoveryIntent(path, params);
   const client=new DevPilotApiClient();
   try {
     const bootstrap=await client.authBootstrapStatus();
     if (bootstrap.first_run_required) {
       clearProjectJourneyContext();
+      clearProjectRecoveryIntent();
       if (path !== '/first-run') return redirect('/first-run');
       target.replaceChildren(renderFirstRunOwnerView(()=>redirect('/')));
       return;
@@ -54,16 +56,29 @@ async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
     const status=await client.authSessionStatus();
     if (!status.authenticated || status.state !== 'active') {
       clearProjectJourneyContext();
+      if (explicitRecoveryIntent) saveProjectRecoveryIntent(explicitRecoveryIntent);
       const reason=status.state==='expired'?'expired':status.state==='revoked'?'revoked':status.state==='stale'?'stale':'required';
-      if (path !== '/login') return redirect(`/login?reason=${encodeURIComponent(reason)}&return=${encodeURIComponent(path)}`);
-      target.replaceChildren(renderLoginView(()=>redirect(safeReturn(params.get('return'))), params.get('reason') ?? reason));
+      if (path !== '/login') {
+        const returnTarget=explicitRecoveryIntent ? projectRecoveryTarget(explicitRecoveryIntent) : currentLocationTarget(path);
+        return redirect(`/login?reason=${encodeURIComponent(reason)}&return=${encodeURIComponent(returnTarget)}`);
+      }
+      target.replaceChildren(renderLoginView(()=>redirect(resolvePostLoginReturn(params.get('return'))), params.get('reason') ?? reason));
       return;
     }
     const envelope=await client.authSession();
-    if (path === '/login' || path === '/first-run') return redirect(safeReturn(params.get('return')));
+    if (path === '/login' || path === '/first-run') return redirect(resolvePostLoginReturn(params.get('return')));
+    const recoveryOutcome=await recoverExplicitServerProjectContext(client, path, params);
+    if (recoveryOutcome === 'failed') {
+      clearProjectRecoveryIntent();
+      return redirect('/?guard=Documentos&attempted=%2Fworkspace%2Fdocuments&recovery=server-context-failed');
+    }
     renderApplication(target,envelope.session);
   } catch (error) {
-    if (path !== '/login' && path !== '/first-run') return redirect(`/login?reason=required&return=${encodeURIComponent(path)}`);
+    if (path !== '/login' && path !== '/first-run') {
+      if (explicitRecoveryIntent) saveProjectRecoveryIntent(explicitRecoveryIntent);
+      const returnTarget=explicitRecoveryIntent ? projectRecoveryTarget(explicitRecoveryIntent) : currentLocationTarget(path);
+      return redirect(`/login?reason=required&return=${encodeURIComponent(returnTarget)}`);
+    }
     const message=error instanceof DevPilotApiError && error.status===0 ? 'API local no disponible. Inicia la API en 127.0.0.1:8787.' : 'No fue posible validar el estado de autenticación local.';
     const section=document.createElement('section'); section.className='auth-page'; section.innerHTML=`<div class="auth-card"><h1>Autenticación no disponible</h1><p>${message}</p><p>DevPilot falla cerrado: el Project Shell no se abre sin sesión humana validada.</p></div>`; target.replaceChildren(section);
   }
@@ -92,7 +107,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
   target.replaceChildren();
   const shell = document.createElement('div'); shell.className = 'app-shell';
   const skipLink = document.createElement('a'); skipLink.className = 'skip-link'; skipLink.href = '#route-main'; skipLink.textContent = 'Saltar al contenido principal';
-  shell.append(skipLink, renderSessionBanner(session,()=>{ clearProjectJourneyContext(); redirect('/login?reason=logout'); }), renderPrimaryNavigation(currentPath, journey, Boolean(handoffApprovalId)));
+  shell.append(skipLink, renderSessionBanner(session,()=>{ clearProjectJourneyContext(); clearProjectRecoveryIntent(); redirect('/login?reason=logout'); }), renderPrimaryNavigation(currentPath, journey, Boolean(handoffApprovalId)));
   const page = document.createElement('div'); page.className = 'route-page'; page.id = 'route-main'; page.setAttribute('role', 'main'); page.setAttribute('tabindex', '-1'); page.dataset.routePath = currentPath;
   if (!route) page.append(renderNotFound(currentPath));
   else if (route.path === '/') renderDashboard(page, session, new URLSearchParams(globalThis.location.search).get('guard'));
@@ -146,5 +161,24 @@ function renderNotFound(path:string):HTMLElement{const section=document.createEl
 
 function readEntryMode(value:string|null):'CREATE_NEW'|'OPEN_EXISTING'|'IMPORT_GIT'|undefined{if(value==='CREATE_NEW'||value==='OPEN_EXISTING'||value==='IMPORT_GIT')return value;return undefined;}
 function normalizePath(path:string):string{if(!path||path==='/')return '/';const normalized=path.replace(/\/+$/,'');return normalized||'/';}
-function safeReturn(value:string|null):string{if(!value||!value.startsWith('/')||value.startsWith('//')||value==='/login'||value==='/first-run')return '/';return value;}
+type ProjectRecoveryOutcome = 'not-requested' | 'already-project' | 'restored' | 'failed';
+async function recoverExplicitServerProjectContext(client: DevPilotApiClient, path: string, params: URLSearchParams): Promise<ProjectRecoveryOutcome> {
+  if (readProjectJourneyContext()?.phase === 'project') {
+    clearProjectRecoveryIntent();
+    return 'already-project';
+  }
+  const explicit=parseExplicitProjectRecoveryIntent(path, params);
+  if (explicit) saveProjectRecoveryIntent(explicit);
+  const intent=explicit ?? readProjectRecoveryIntent();
+  if (path !== '/workspace/documents' || !intent) return 'not-requested';
+  try {
+    const [workspace, execution]=await Promise.all([client.settingsWorkspace(), client.workspaceEditExecutionStatus(intent.execution_id)]);
+    const restored=restoreProjectJourneyContextFromServerRecovery(workspace, execution, { executionId:intent.execution_id, documentId:intent.document_id });
+    return restored ? 'restored' : 'failed';
+  } catch {
+    // Recovery is UX-only and fail-closed. A failed explicit recovery is surfaced by bootstrapAuthenticatedUi.
+    return 'failed';
+  }
+}
+function currentLocationTarget(path:string):string{return `${path}${globalThis.location.search ?? ''}`;}
 function redirect(path:string):void{globalThis.location.replace(path);}

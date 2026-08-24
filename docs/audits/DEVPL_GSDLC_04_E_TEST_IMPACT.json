@@ -1,0 +1,361 @@
+{
+  "schema_id": "devpilot.gsdlc04e.test_impact.v1",
+  "status": "PASS/PRE-WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-04-E",
+  "full_regression_allowed": true,
+  "full_regression_runs_pre_windows": 0,
+  "full_regression_execution_point": "Windows-only after browser acceptance PASS and durable marker",
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_04_e_external_reconciliation.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+    "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+    "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+    "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+    "tests/test_post_h_eval_002_uoc_004_contracts.py",
+    "tests/test_post_h_eval_002_uoc_005_contracts.py",
+    "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+  ],
+  "impact_domains": [
+    "artifact lifecycle/reconciliation",
+    "review/freeze/approval invalidation",
+    "Git read-only status/diff",
+    "Artifact Workbench UX",
+    "browser closure",
+    "documentation reconciliation",
+    "exactly-once full regression"
+  ],
+  "analyzer": "TestImpactAnalyzerV2",
+  "analyzer_status": "PASS",
+  "changed_paths_total": 45,
+  "contracts_total": 289,
+  "matched_contracts_total": 163,
+  "p0_selected_total": 86,
+  "p1_selected_total": 68,
+  "recommended_tests_total": 258,
+  "unmatched_paths_total": 13,
+  "tests_executed_by_analyzer": false,
+  "network_used_by_analyzer": false,
+  "external_api_used_by_analyzer": false,
+  "recovery_001": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "fixture-contract-drift/runtime-precondition-stale-from-predecessor",
+    "changed_source_paths": [
+      "scripts/devpl_gsdlc_04_e_runtime_console.py",
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      ".devpilot/docs_governance/source_registry.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md"
+    ],
+    "rerun_only": [
+      "focused-04e",
+      "docs-source-registry",
+      "contract-reconciliation",
+      "project-state",
+      "docs-governance",
+      "runtime-fixture-parity-forward-scan"
+    ],
+    "reuse_prior_pass_gates": true,
+    "full_regression_runs": 0,
+    "runtime_harness_version_parity": "1.0.1"
+  },
+  "recovery_002": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "ui-domain-block-payload-loss+import-draft-navigation-consumer-gap",
+    "changed_source_paths": [
+      "ui/web/src/components/ArtifactReviewFlow.ts",
+      "ui/web/src/components/ArtifactImportWorkbench.ts",
+      "ui/web/scripts/gsdlc04e-artifact-reconciliation-smoke.mjs",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      ".devpilot/docs_governance/source_registry.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md"
+    ],
+    "rerun_only": [
+      "focused-04e",
+      "docs-source-registry",
+      "contract-reconciliation",
+      "docs-governance",
+      "ui-static-04e",
+      "ui-build",
+      "B08 browser only then continue"
+    ],
+    "reuse_prior_pass_gates": true,
+    "full_regression_runs": 0
+  },
+  "recovery_003": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "runtime-auth-store-binding-mismatch+missing-credential-roundtrip-proof",
+    "changed_source_paths": [
+      "scripts/devpl_gsdlc_04_e_fixture_identity.py",
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      ".devpilot/docs_governance/source_registry.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md"
+    ],
+    "rerun_only": [
+      "focused-04e",
+      "docs-source-registry",
+      "contract-reconciliation",
+      "project-state",
+      "docs-governance",
+      "viewer-auth-prepare/live-api-roundtrip",
+      "B11 browser only then continue"
+    ],
+    "reuse_prior_pass_gates": true,
+    "full_regression_runs": 0,
+    "safety": "synthetic viewer only; runtime auth DB and plaintext credential remain runtime/control-only and are excluded from evidence/repo archives",
+    "machine_proof": "live API login as viewer + exact approval POST denied HTTP 403 + verification session revoked; browser B11 remains required for UX evidence"
+  },
+  "version": "1.0.15-composite",
+  "recovery_004": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "cumulative-corrective-source-manifest-drift/false-unknown-dirty-path",
+    "changed_source_paths": [
+      "scripts/devpl_gsdlc_04_e_fixture_identity.py",
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      ".devpilot/docs_governance/source_registry.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md"
+    ],
+    "cumulative_delta_paths_total": 43,
+    "new_functional_scope_paths_total": 0,
+    "full_regression_runs": 0
+  },
+  "recovery_005": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "synthetic-wrong-role-role-selection/ui-session-bootstrap-denied-before-rbac-scenario",
+    "changed_source_paths": [
+      "scripts/devpl_gsdlc_04_e_fixture_identity.py",
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md"
+    ],
+    "rerun_only": [
+      "focused-04e",
+      "docs-source-registry",
+      "contract-reconciliation",
+      "project-state",
+      "docs-governance",
+      "wrong-role-auth-prepare",
+      "B11 browser only then continue"
+    ],
+    "reuse_prior_pass_gates": true,
+    "cumulative_delta_paths_total": 43,
+    "new_functional_scope_paths_total": 0,
+    "full_regression_runs": 0,
+    "safety": "uses canonical developer role already present in server RBAC catalog; no policy widening, no owner mutation, synthetic identity/credential runtime-only and cleaned after B11",
+    "machine_proof": "developer login HTTP 200 + safe auth/session HTTP 200 + approval decision HTTP 403 with RBAC_ROLE_DENY"
+  },
+  "recovery_006": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "browser-guide/evidence-state-misclassification-after-governed-apply",
+    "changed_source_paths": [
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md"
+    ],
+    "rerun_only": [
+      "focused-04e recovery assertions",
+      "rollback-preflight",
+      "B15 rollback continuation",
+      "rollback-verify",
+      "then continue B16 onward"
+    ],
+    "reuse_prior_pass_gates": true,
+    "cumulative_delta_paths_total": 43,
+    "new_functional_scope_paths_total": 0,
+    "full_regression_runs": 0,
+    "machine_proof": "apply HTTP 200 + persisted execution ID + bounded two-path dirty state before rollback; separate rollback approval/decision/rollback HTTP 200; restored Git preimage; zero partial writes; final dirty path only external-drift candidate"
+  },
+  "recovery_007": {
+    "status": "implemented/pre-windows-corrective",
+    "changed_paths": [
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md"
+    ],
+    "risk_class": "operator/evidence state classification only; no new product write engine or RBAC capability",
+    "focused_tests": [
+      "test_b15_rollback_machine_gates_prove_applied_then_restored_preimage",
+      "test_b15_state_classifier_accepts_safe_replay_when_source_returned_to_git_preimage",
+      "test_browser_final_gate_requires_b15_machine_rollback_proof"
+    ],
+    "full_regression_runs": 0
+  },
+  "recovery_008": {
+    "status": "BLOCKED-BEFORE-CONVERGE/FALSE-POSITIVE",
+    "changed_paths_total": 6,
+    "new_functional_scope_paths_total": 0,
+    "cumulative_delta_paths_total": 43,
+    "root_cause_class": "B15 rollback browser session continuity + guide/UI contract mismatch",
+    "machine_proof": [
+      "persisted execution remains applied and source equals post SHA",
+      "two prior rollback-approval-request 401 responses and zero 200 responses",
+      "fresh runtime status required",
+      "inline rollback approval card is the supported UX",
+      "rollback verify requires separate approval + rollback HTTP 200 + restored preimage"
+    ],
+    "tests": [
+      "test_recovery008_rollback_preflight_recognizes_prior_401_and_requires_inline_same_tab_approval",
+      "test_recovery008_runtime_status_decouples_harness_and_runtime_console_versions",
+      "test_recovery008_rollback_ui_contract_is_inline_and_does_not_require_approval_center_handoff"
+    ],
+    "full_regression_runs": 0,
+    "windows_result": "bootstrap PASS; preflight false BLOCK because OPTIONS 200 was counted as POST 200; no Recovery-008 source convergence occurred"
+  },
+  "recovery_009": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "http-log-method-confusion/CORS-OPTIONS-false-positive",
+    "changed_source_paths": [
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md"
+    ],
+    "rerun_only": [
+      "focused Recovery-009 assertions",
+      "docs source-registry/reconciliation",
+      "Recovery-009 preflight",
+      "fresh-runtime rollback-preflight",
+      "B15 rollback continuation",
+      "rollback-verify"
+    ],
+    "reuse_prior_pass_gates": true,
+    "cumulative_delta_paths_total": 43,
+    "new_functional_scope_paths_total": 0,
+    "full_regression_runs": 0,
+    "machine_proof": "OPTIONS rollback-approval 200 is counted separately; only POST rollback-approval 200 is success; supplied evidence = OPTIONS200=1, POST401=2, POST200=0, rollbackPOST200=0"
+  },
+  "recovery_010": {
+    "status": "READY-FOR-WINDOWS/CORRECTIVE",
+    "root_cause_class": "runtime-static-dirty-policy-vs-persisted-applied-execution",
+    "changed_source_paths": [
+      "scripts/devpl_gsdlc_04_e_runtime_console.py",
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md"
+    ],
+    "runtime_console_version": "1.0.2",
+    "harness_runtime_expected_version": "1.0.2",
+    "resume_from": "after Recovery-009 runtime-stop; start new API/UI only",
+    "rerun_only": [
+      "focused-recovery-010-runtime-b15-dirty-authority",
+      "docs-source-registry",
+      "contract-reconciliation",
+      "runtime-console-pycompile",
+      "runtime-harness-version-parity",
+      "state-aware-recovery-selftest"
+    ],
+    "reuse_prior_pass_gates": true,
+    "full_regression_runs": 0,
+    "successor_delta_paths_total": 43
+  },
+  "updated": "2026-08-24",
+  "current_corrective": "GSDLC-04-E-POST-FULL-COMPOSITE-RECOVERY",
+  "recovery_011": {
+    "root_cause": "UX project context is sessionStorage-only and is cleared on unauthenticated bootstrap; Recovery-010 attempted to recreate it through Project Entry, unnecessarily introducing a new execution approval journey. Login return also dropped query parameters.",
+    "newly_impacted_source_paths": [
+      "ui/web/src/main.ts",
+      "ui/web/src/api/client.ts"
+    ],
+    "existing_impacted_paths": [
+      "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md"
+    ],
+    "validation": [
+      "04-E focused Recovery-011 static contract",
+      "GSDLC-03-E project-home browser-closure smoke",
+      "TypeScript compile/build on Windows",
+      "docs governance/reconciliation",
+      "git diff --check",
+      "real browser exact execution recovery"
+    ],
+    "historical_contract_statement": "Normal Create/Open/Import activation semantics remain unchanged. Server-active restoration is explicit recovery-only, UX-only, read-only, and execution/document bound.",
+    "full_regression": "NOT RUN by corrective; remains exactly-once after browser PASS",
+    "successor_delta_paths_total": 45
+  },
+  "recovery_014": {
+    "classification": "targeted browser-auth continuity corrective",
+    "changed_paths": [
+      "ui/web/src/main.ts",
+      "ui/web/src/api/client.ts",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md"
+    ],
+    "new_paths": [],
+    "cumulative_authority_paths_total": 45,
+    "validation": [
+      "focused recovery014 static/behavioral continuity contract",
+      "historical GSDLC-03 project-home browser contract",
+      "artifact reconciliation UI contract",
+      "frontend TypeScript/build",
+      "docs/py_compile/git diff check",
+      "real browser arm/verify before rollback"
+    ],
+    "full_regression": "not consumed; remains exactly once after browser PASS",
+    "historical_contract_reconciliation": {
+      "current_active_test_updates": [
+        "rollback evidence filename assertions advanced from v1_0_10 to v1_0_11",
+        "Recovery-011 route/parser assertions evolved to successor helper location in client.ts",
+        "harness version assertions aligned to current v1.0.6"
+      ],
+      "historical_behavior_preserved": true,
+      "reason": "Prevent final full-regression failure from tests that referenced mutable current-active harness/recovery implementation details."
+    }
+  },
+  "post_full_composite_recovery": {
+    "full_run_consumed": true,
+    "full_regression_runs": 1,
+    "failed_nodeids_total": 33,
+    "root_cause_classes": [
+      "visual-lineage-current-active",
+      "source-zip-secretguard-synthetic-credential",
+      "openapi-applicationservice-mapping-drift",
+      "historical-tests-reading-current-active",
+      "historical-uoc011-budget-applied-to-gsdlc"
+    ],
+    "exact_retest_required": true,
+    "bounded_impacted_retest_required": true,
+    "historical_regression_guard_required": true,
+    "full_rerun_allowed": false,
+    "successor_authority_paths_total": 56,
+    "new_paths_outside_prior_authority": 11,
+    "decision": "PASS-CANDIDATE",
+    "exact_failed_nodeids_retest": "PASS/33 (25 preserved + residual 8 PASS)",
+    "bounded_impacted_retest": "PASS",
+    "historical_regression_guard": "PASS",
+    "top_level_status_contract": "preserved-until-owner-adjudication"
+  }
+}

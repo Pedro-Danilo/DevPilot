@@ -20362,15 +20362,122 @@
         "scope": "GSDLC-04-D exact approval-bound artifact apply in isolated governed workspace fixtures only; no generic patch/shell/Git/remote/network authority.",
         "rollback_or_cleanup": "UOC-005 compensating rollback restores the exact preimage for modify or removes only the newly created target for create; pytest/browser fixtures are isolated and disposable."
       }
+    },
+    {
+      "contract_id": "devpl-gsdlc-04-e-external-reconciliation-browser-closure",
+      "source_contract_id": "devpl-gsdlc-04-e-external-reconciliation-browser-closure",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "ArtifactExternalReconciliationBrowserClosure",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "manual",
+      "cost_class": "high",
+      "expected_duration_seconds": 900,
+      "test_files": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+        "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+        "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
+        "tests/test_post_h_eval_002_uoc_004_contracts.py",
+        "tests/test_post_h_eval_002_uoc_005_contracts.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/artifact_lifecycle_service.py",
+        "src/devpilot_core/application/artifact_review_service.py",
+        "ui/web/src/components/ArtifactReconciliationUX.ts",
+        "ui/web/src/components/ArtifactReviewFlow.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "ui/web/src/api",
+        ".devpilot/interfaces",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas",
+        "docs/02_architecture",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "scripts/devpl_gsdlc_04_e_operator.py",
+        "scripts/devpl_gsdlc_04_e_operator_config.json",
+        "scripts/devpl_gsdlc_04_e_runtime_console.py",
+        "scripts/devpl_gsdlc_04_e_windows_harness.py",
+        "scripts/devpl_gsdlc_04_e_fixture_identity.py",
+        "GUIA_UNICA_IMPLEMENTACION_VALIDACION_DEVPL_GSDLC_04_E_v1_0_0.md",
+        "ui/web/scripts/gsdlc04e-artifact-reconciliation-smoke.mjs"
+      ],
+      "validates": [
+        "external modified/renamed/deleted detection",
+        "FROZEN to REVALIDATION_REQUIRED",
+        "stale approval invalidation",
+        "Git diff/provenance UX",
+        "no auto-revert/hidden merge",
+        "branch context",
+        "manual/import browser closure",
+        "exactly-once full regression"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-04-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_e_external_reconciliation.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "External edit is user/editor behavior on isolated fixtures; reconciliation itself is read-only over source and invalidates stale approval.",
+        "Full regression is executed exactly once only in authoritative Windows closure after browser PASS."
+      ],
+      "trigger_hints": [
+        "external-edit",
+        "rename",
+        "delete",
+        "revalidation",
+        "git-diff",
+        "artifact-workbench",
+        "browser-closure"
+      ],
+      "impact_tags": [
+        "artifacts",
+        "ui",
+        "api",
+        "git",
+        "approval",
+        "revalidation",
+        "browser",
+        "release"
+      ],
+      "owner_domain": "artifacts.external-reconciliation",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-04-E-ARTIFACT-RECONCILIATION-RECORD-V1"
+      ],
+      "notes": [
+        "04-E closes GSDLC-04 and consumes the one backlog full regression."
+      ],
+      "safety_exception": {
+        "justification": "Tests/browser intentionally edit isolated fixture artifacts to prove detection/invalidation; no pilot or DevPilot source is used as the external-edit target.",
+        "approved_by": "Ordóñez / DEVPL-GSDLC-04 owner-approved scope",
+        "expires_at_utc": "2027-08-22T23:59:59Z",
+        "scope": "GSDLC-04-E isolated browser/pytest fixture edits only; no arbitrary shell/network/remote/pilot authority.",
+        "rollback_or_cleanup": "Fixtures are disposable; browser guide uses bounded named files and preserves evidence. Reconciliation never auto-reverts source."
+      }
     }
   ],
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
-    "contracts_total": 286,
+    "contracts_total": 289,
     "external_api_used": false,
-    "last_updated_by": "DEVPL-GSDLC-04-B",
+    "last_updated_by": "DEVPL-GSDLC-04-E",
     "migrator": "TestContractRegistryV2Migrator",
     "mutations_performed_by_default": false,
     "network_used": false,
@@ -20523,5 +20630,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 288
+  "contracts_total": 289
 }

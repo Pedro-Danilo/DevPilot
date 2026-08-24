@@ -644,7 +644,7 @@
     },
     {
       "route_id": "ui.workspace-documents",
-      "title": "Artifact Workbench — governed authoring, validation, approval, apply and freeze",
+      "title": "Artifact Workbench — governed authoring, reconciliation and browser closure",
       "path": "/workspace/documents",
       "page_component": "WorkspaceDocumentsView",
       "source_files": [
@@ -657,7 +657,8 @@
         "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
         "ui/web/src/components/ArtifactManualEditor.ts",
         "ui/web/src/components/ArtifactImportWorkbench.ts",
-        "ui/web/src/components/ArtifactReviewFlow.ts"
+        "ui/web/src/components/ArtifactReviewFlow.ts",
+        "ui/web/src/components/ArtifactReconciliationUX.ts"
       ],
       "allowed_api_routes": [
         "api.approvals.approve",
@@ -764,7 +765,12 @@
         "review_approval_required": true,
         "review_applied": true,
         "review_frozen": true,
-        "review_revalidation_required": true
+        "review_revalidation_required": true,
+        "external_drift_modified": true,
+        "external_drift_renamed": true,
+        "external_drift_deleted": true,
+        "git_diff_visible": true,
+        "revalidation_required": true
       },
       "status_visibility": [
         "PASS",
@@ -790,7 +796,8 @@
         "UOC-011: route participates in the 12-state operational browser hardening matrix.",
         "GSDLC-04-B adds MANUAL Markdown/JSON runtime draft authoring, autosave, immutable history, discard/recover and optimistic concurrency; draft save never writes approved source.",
         "GSDLC-04-C adds preview-first PASTE/UPLOAD/IMPORT with original+normalized hashes, provenance and DRAFT-only runtime persistence; URL/reference is metadata and is never fetched.",
-        "GSDLC-04-D composes ArtifactProfile validation, navigable findings, immutable plan/diff, exact targeted approval, UOC-005 atomic apply, freeze hash and drift invalidation; UI never becomes approval authority."
+        "GSDLC-04-D composes ArtifactProfile validation, navigable findings, immutable plan/diff, exact targeted approval, UOC-005 atomic apply, freeze hash and drift invalidation; UI never becomes approval authority.",
+        "GSDLC-04-E adds external modified/rename/delete reconciliation with Git diff/provenance visibility; drift invalidates approval and moves FROZEN to REVALIDATION_REQUIRED without auto-revert or hidden merge."
       ],
       "mutation_controls": {
         "local_state_mutation_only": false,
@@ -808,9 +815,12 @@
         "gsdlc_04_d_review_runtime_mutation": true,
         "gsdlc_04_d_source_write_engine": "UOC-005 WorkspaceEditExecutionApplicationService",
         "gsdlc_04_d_source_write_approval_required": true,
-        "gsdlc_04_d_freeze_hash_required": true
+        "gsdlc_04_d_freeze_hash_required": true,
+        "gsdlc_04_e_reconciliation_source_write": false,
+        "gsdlc_04_e_auto_revert": false,
+        "gsdlc_04_e_hidden_merge": false
       },
-      "status": "implemented/gsdlc-04-d-governed-review-apply-freeze"
+      "status": "implemented/gsdlc-04-e-external-reconciliation-browser-closure"
     }
   ],
   "summary": {

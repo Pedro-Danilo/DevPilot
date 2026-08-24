@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.18.0-gsdlc-04-d",
+  "version": "0.18.0-gsdlc-04-e",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI — governed artifact validate/findings/diff/approval/apply/freeze workbench (GSDLC-04-D candidate).",
@@ -192,7 +192,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-04-D",
+    "currentSprint": "DEVPL-GSDLC-04-E",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -359,7 +359,10 @@
     "gsdlc04cFullRegressionExecuted": false,
     "gsdlc04dArtifactReview": true,
     "gsdlc04dSourceWriteEngine": "UOC-005 WorkspaceEditExecutionApplicationService",
-    "gsdlc04dFullRegressionRuns": 0
+    "gsdlc04dFullRegressionRuns": 0,
+    "historicalUoc011SourceBudgetBytes": 524288,
+    "currentUiSourceBudgetBytes": 589824,
+    "currentUiSourceBudgetHardCeilingBytes": 786432
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

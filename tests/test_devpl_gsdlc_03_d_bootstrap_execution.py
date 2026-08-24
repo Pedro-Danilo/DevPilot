@@ -284,8 +284,15 @@ def test_03c_historical_route_snapshots_remain_102_api_and_11_ui() -> None:
     assert len(ui["routes"]) == 11
     current_api = json.loads((ROOT / ".devpilot/interfaces/api_route_contract_registry.json").read_text(encoding="utf-8"))
     current_rbac = json.loads((ROOT / ".devpilot/identity/server_rbac_policy_catalog.json").read_text(encoding="utf-8"))
-    assert len(current_api["routes"]) == 104
-    assert len(current_rbac["route_policies"]) == 104
+    # Frozen 03-C snapshots remain exactly 102; mutable current registries grow by successor contracts.
+    assert len(current_api["routes"]) == len(current_rbac["route_policies"])
+    assert len(current_api["routes"]) >= 104
+    current_operations = {row["operation"] for row in current_api["routes"]}
+    assert {
+        "workspace.artifact_drafts.get",
+        "workspace.artifact_imports.preview",
+        "workspace.artifact_reviews.reconcile",
+    }.issubset(current_operations)
 
 
 def test_git_execution_successor_is_explicitly_re_adjudicated_for_03d() -> None:

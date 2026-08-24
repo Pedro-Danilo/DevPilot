@@ -23578,6 +23578,533 @@
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-GSDLC-007-reuse-uoc005-governed-artifact-promotion.md"
       ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_04_D_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "closed/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": []
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-D-FINAL-OWNER-CLOSURE-CURRENT",
+      "path": "DEVPL_GSDLC_04_D_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "closed/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": []
+    },
+    {
+      "doc_id": "DEVPL-PROMPT-GSDLC-04-E-REBOUND",
+      "path": "05_PROMPT_DEVPL_GSDLC_04_E_v1_0_1_REBOUND.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "ready_for_execution",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "ADR-GSDLC-008",
+      "path": "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.adr",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "accepted/pending-windows-proof",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-ARTIFACT-EXTERNAL-RECONCILIATION-CONTRACT",
+      "path": "docs/02_architecture/guided_sdlc/artifact_external_reconciliation_contract.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.guided_sdlc",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-04-E-ARTIFACT-RECONCILIATION-RECORD-V1",
+      "path": "docs/schemas/artifact_reconciliation_record.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema.artifacts",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-CURRENT",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "audit.gsdlc",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "audit.operations",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.impact",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "PASS/PRE-WINDOWS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.contracts",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.contracts",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "PASS/PRE-WINDOWS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-CLOSURE-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_CLOSURE_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "audit.gsdlc",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-MANUAL-BROWSER-OBSERVATIONS",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_MANUAL_BROWSER_OBSERVATIONS_TEMPLATE.md",
+      "classification": "source-of-truth",
+      "domain": "audit.browser",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "template/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-04-E-FULL-REGRESSION-POLICY",
+      "path": "docs/audits/DEVPL_GSDLC_04_E_FULL_REGRESSION_POLICY.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.regression",
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ]
+    },
+    {
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "doc_id": "DEVPL-GSDLC-04-E-UI-STATIC-SMOKE",
+      "path": "ui/web/scripts/gsdlc04e-artifact-reconciliation-smoke.mjs",
+      "classification": "derived",
+      "domain": "testing.ui"
+    },
+    {
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "doc_id": "DEVPL-GSDLC-04-E-WINDOWS-OPERATOR",
+      "path": "scripts/devpl_gsdlc_04_e_operator.py",
+      "classification": "derived",
+      "domain": "guided_sdlc.operator"
+    },
+    {
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "doc_id": "DEVPL-GSDLC-04-E-WINDOWS-OPERATOR-CONFIG",
+      "path": "scripts/devpl_gsdlc_04_e_operator_config.json",
+      "classification": "machine-readable-source",
+      "domain": "guided_sdlc.operator"
+    },
+    {
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "doc_id": "DEVPL-GSDLC-04-E-WINDOWS-HARNESS",
+      "path": "scripts/devpl_gsdlc_04_e_windows_harness.py",
+      "classification": "derived",
+      "domain": "guided_sdlc.operator"
+    },
+    {
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "doc_id": "DEVPL-GSDLC-04-E-RUNTIME-CONSOLE",
+      "path": "scripts/devpl_gsdlc_04_e_runtime_console.py",
+      "classification": "derived",
+      "domain": "guided_sdlc.operator"
+    },
+    {
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "doc_id": "DEVPL-GSDLC-04-E-FIXTURE-IDENTITY",
+      "path": "scripts/devpl_gsdlc_04_e_fixture_identity.py",
+      "classification": "derived",
+      "domain": "guided_sdlc.operator"
+    },
+    {
+      "owner": "DEVPL-GSDLC-04-E",
+      "status_required": "implemented/ready-for-windows",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-04",
+        "DEVPL-GSDLC-04-E"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-008-external-artifact-reconciliation.md"
+      ],
+      "doc_id": "DEVPL-GSDLC-04-E-UNIQUE-WINDOWS-GUIDE",
+      "path": "GUIA_UNICA_IMPLEMENTACION_VALIDACION_DEVPL_GSDLC_04_E_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "frontmatter_required": true
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -23678,7 +24205,8 @@
     "DEVPL-GSDLC-02-D registers authenticated approval authority, role/risk/domain/SoD matrix, secret-free session binding, stale/revoked authority revalidation and Approval Center successor contracts; browser-real auth UX remains successor 02-E.",
     "DEVPL-GSDLC-03-A registers ProjectIntake, TechnologyCatalog and planning-only ProjectCreationPlan contracts; no project runtime writes, network, external APIs or pilot workspace access are enabled.",
     "DEVPL-GSDLC-04-D Recovery-001 fixes UI approval/apply transport by omitting deprecated caller actor hints and preserving authenticated server-session actor authority; Windows execution resumes from browser C2/C3 without rerunning prior PASS gates or full regression.",
-    "DEVPL-GSDLC-04-D Recovery-002 fixes the targeted Approval Center cross-tab guard by adding a session-bound, approval-id-bound, TTL-bound project-scoped UX handoff for artifact-review; server session/RBAC/Approval remain authoritative and no source write occurs before apply."
+    "DEVPL-GSDLC-04-D Recovery-002 fixes the targeted Approval Center cross-tab guard by adding a session-bound, approval-id-bound, TTL-bound project-scoped UX handoff for artifact-review; server session/RBAC/Approval remain authoritative and no source write occurs before apply.",
+    "DEVPL-GSDLC-04-E Recovery-003 binds the synthetic wrong-role viewer to the same runtime API auth store as AuthApplicationService, adds secret-free credential round-trip/live API proof and cleanup, and preserves full_regression_runs=0."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -26087,44 +26615,44 @@
   "summary": {
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
-    "critical_sources_total": 902,
+    "critical_sources_total": 662,
     "deprecated_total": 0,
-    "derived_total": 108,
-    "documents_checked_total": 997,
-    "documents_registered_total": 997,
-    "documents_total": 997,
-    "documents_with_required_tests_total": 997,
+    "derived_total": 113,
+    "documents_checked_total": 1018,
+    "documents_registered_total": 1018,
+    "documents_total": 1018,
+    "documents_with_required_tests_total": 1018,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
-    "last_updated_by": "DEVPL-GSDLC-04-D-RECOVERY-002",
-    "machine_readable_source_total": 501,
+    "last_updated_by": "DEVPL-GSDLC-04-E",
+    "machine_readable_source_total": 510,
     "markdown_json_pairs_total": 30,
     "markdown_json_sync_checks_enabled": true,
     "mutations_performed": false,
     "network_used": false,
     "preliminary": false,
     "roadmap_derived_backlog_governance_enabled": true,
-    "source_of_truth_total": 388,
-    "sources_total": 997,
+    "source_of_truth_total": 395,
+    "sources_total": 1018,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "uoc_003_registered_documents_total": 10,
     "uoc_005_registered_documents_total": 4,
     "uoc_007_registered_documents_total": 8,
     "uoc_009_registered_documents_total": 8,
     "updated": "2026-08-22",
-    "updated_by": "DEVPL-GSDLC-04-D-RECOVERY-002",
-    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-D",
+    "updated_by": "DEVPL-GSDLC-04-E",
+    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-E",
     "gsdlc_active_program": "DEVPL-GSDLC",
-    "registered_documents": 997
+    "registered_documents": 1018
   },
   "updated": "2026-08-22",
   "updated_at": "2026-08-22",
-  "updated_by": "DEVPL-GSDLC-04-D-RECOVERY-002",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-D",
+  "updated_by": "DEVPL-GSDLC-04-E-RECOVERY-004",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-04-E",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "active/04-d",
+  "gsdlc_program_status": "active/04-e",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
@@ -26167,7 +26695,7 @@
   "gsdlc_03_c_status": "closed/PASS",
   "gsdlc_03_d_status": "closed/PASS",
   "gsdlc_03_e_status": "closed/PASS",
-  "gsdlc_04_program_status": "active/04-d",
+  "gsdlc_04_program_status": "active/04-e",
   "gsdlc_04_a_status": "pass-candidate/pre-windows",
   "gsdlc_04_b_status": "closed/PASS",
   "gsdlc_04_b_owner_adjudication_pending": false,
@@ -26177,8 +26705,28 @@
   "gsdlc_04_c_status": "closed/PASS",
   "gsdlc_04_c_owner_adjudication_pending": false,
   "gsdlc_04_c_full_regression_runs": 0,
-  "gsdlc_04_d_status": "implemented/ready-for-windows/recovery-002",
-  "gsdlc_04_d_owner_adjudication_pending": true,
+  "gsdlc_04_d_status": "closed/PASS",
+  "gsdlc_04_d_owner_adjudication_pending": false,
   "gsdlc_04_d_full_regression_runs": 0,
-  "gsdlc_04_d_current_corrective": "GSDLC-04-D-RECOVERY-002"
+  "gsdlc_04_d_current_corrective": "GSDLC-04-D-RECOVERY-002/PASS",
+  "gsdlc_04_e_status": "implemented/ready-for-windows",
+  "gsdlc_04_e_owner_adjudication_pending": true,
+  "gsdlc_04_e_full_regression_runs": 0,
+  "gsdlc_04_e_current_corrective": "GSDLC-04-E-RECOVERY-005/READY-FOR-WINDOWS",
+  "gsdlc_04_e_recovery_001_root_cause": "runtime-fixture-contract-drift/stale-04-d-baseline-json-requirement",
+  "gsdlc_04_e_recovery_001_full_regression_runs": 0,
+  "gsdlc_04_e_recovery_001_prior_pass_gates_reused": true,
+  "gsdlc_04_e_recovery_002_root_cause": "HTTP-403 expected FINDINGS payload was discarded by ArtifactReviewFlow; import DRAFT finding navigation lacked an import-preview consumer",
+  "gsdlc_04_e_recovery_002_full_regression_runs": 0,
+  "gsdlc_04_e_recovery_002_prior_pass_gates_reused": true,
+  "gsdlc_04_e_recovery_003_root_cause": "synthetic viewer was provisioned under fixture .devpilot/auth/auth.db while the live API AuthApplicationService is rooted at D:/Projects/DevPilot_Local; prepare-browser reported PASS without proving credential round-trip against the live API auth store",
+  "gsdlc_04_e_recovery_003_full_regression_runs": 0,
+  "gsdlc_04_e_recovery_003_prior_pass_gates_reused": true,
+  "gsdlc_04_e_recovery_004_root_cause": "Recovery-003 preflight false BLOCK from stale 42-path successor authority; Recovery-002 legitimately expanded cumulative 04-E source delta to 43 paths with ArtifactImportWorkbench.ts",
+  "gsdlc_04_e_recovery_004_full_regression_runs": 0,
+  "gsdlc_04_e_recovery_004_prior_pass_gates_reused": true,
+  "gsdlc_04_e_recovery_005_root_cause": "non-canonical synthetic viewer authenticated but GET /auth/session was RBAC-blocked, preventing Project Shell rendering before browser wrong-role approval proof; canonical developer is used instead and remains denied for approval by RBAC_ROLE_DENY",
+  "gsdlc_04_e_recovery_005_full_regression_runs": 0,
+  "gsdlc_04_e_recovery_005_prior_pass_gates_reused": true,
+  "gsdlc_04_e_recovery_005_wrong_role": "developer04e.local/developer canonical session-renderable role; approval deny remains server-side"
 }

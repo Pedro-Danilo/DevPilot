@@ -188,7 +188,11 @@ def test_03e_approval_center_cross_tab_handoff_is_session_bound_ttl_bounded_and_
     assert "value.session_created_at === session.created_at" in client
     assert "value.approval_id === expected" in client
     assert "Date.now() <= value.expires_at_ms" in client
-    assert "currentPath === '/approvals' && handoffApprovalId ? readApprovalCenterEntryHandoff(session, handoffApprovalId) : null" in main
+    assert "currentPath === '/approvals' && ['project-entry','artifact-review'].includes(handoffKind)" in main
+    assert "handoffKind === 'project-entry'" in main
+    assert "readApprovalCenterEntryHandoff(session, handoffApprovalId)" in main
+    assert "handoffKind === 'artifact-review'" in main
+    assert "readApprovalCenterArtifactReviewHandoff(session, handoffApprovalId)" in main
     assert "approvalLink.hidden=true" in entry
     assert "armApprovalCenterEntryHandoff(session, mode.select.value as EntryMode, id)" in entry
     assert "approval_id=${encodeURIComponent(id)}" in entry

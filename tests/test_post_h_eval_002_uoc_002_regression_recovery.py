@@ -51,7 +51,7 @@ def test_route_registry_totals_match_live_contracts() -> None:
 
 def test_visual_product_lineage_and_runtime_artifact_policy() -> None:
     package = data("ui/web/package.json")
-    assert "-post-h-" in package["version"]
+    assert "-post-h-" in package["version"] or "-gsdlc-" in package["version"]
     assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
     assert package["devpilot"]["postHEvolution"] is True
     gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")

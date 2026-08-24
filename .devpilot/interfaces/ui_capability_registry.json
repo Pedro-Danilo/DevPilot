@@ -11275,6 +11275,24 @@
           "targeted_approval_handoff": true,
           "freeze_hash": true,
           "drift_invalidation": true
+        },
+        {
+          "application_service": "artifact_reviews.reconcile",
+          "capability_id": "ui.workspace-documents.external-reconciliation",
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "DEVPL-GSDLC-04-E",
+          "read_write": "runtime-reconciliation-evidence-only",
+          "requires_approval_for_future_apply": true,
+          "requires_dry_run": false,
+          "risk_class": "governed-revalidation",
+          "source_write_enabled": false,
+          "detects": [
+            "modified",
+            "renamed",
+            "deleted"
+          ],
+          "auto_revert": false,
+          "hidden_merge": false
         }
       ],
       "page_component": "WorkspaceDocumentsView",
@@ -11289,7 +11307,8 @@
         "ui/web/src/components/ArtifactManualEditor.ts",
         "ui/web/src/components/DocumentEditPlanner.ts",
         "ui/web/src/components/ArtifactImportWorkbench.ts",
-        "ui/web/src/components/ArtifactReviewFlow.ts"
+        "ui/web/src/components/ArtifactReviewFlow.ts",
+        "ui/web/src/components/ArtifactReconciliationUX.ts"
       ],
       "state_contract": {
         "block_visible": true,
@@ -11311,10 +11330,15 @@
         "review_approval_required": true,
         "review_applied": true,
         "review_frozen": true,
-        "review_revalidation_required": true
+        "review_revalidation_required": true,
+        "external_drift_modified": true,
+        "external_drift_renamed": true,
+        "external_drift_deleted": true,
+        "git_diff_visible": true,
+        "revalidation_required": true
       },
-      "status": "implemented/gsdlc-04-d-governed-artifact-review",
-      "title": "Artifact Workbench — governed authoring, validation, approval, apply and freeze"
+      "status": "implemented/gsdlc-04-e-external-reconciliation-browser-closure",
+      "title": "Artifact Workbench — governed authoring, reconciliation and browser closure"
     }
   ],
   "updated": "2026-08-22",

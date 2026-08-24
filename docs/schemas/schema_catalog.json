@@ -6,7 +6,7 @@
   "version": "1.5.0",
   "owner": "Ordóñez",
   "updated": "2026-08-22",
-  "sprint": "DEVPL-GSDLC-04-D",
+  "sprint": "DEVPL-GSDLC-04-E",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
   "schemas": [
@@ -3029,7 +3029,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-04-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-04-E-ARTIFACT-RECONCILIATION-RECORD-V1",
+      "title": "Artifact External Reconciliation Record v1",
+      "path": "docs/schemas/artifact_reconciliation_record.schema.json",
+      "version": "1.0.0",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-04-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "contract": "ArtifactReconciliationRecord",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-04-E",
+      "description": "04-E external modified/renamed/deleted reconciliation evidence with approval invalidation, Git context and no-auto-revert/no-hidden-merge invariants."
     }
   ],
-  "schemas_total": 210
+  "schemas_total": 211
 }

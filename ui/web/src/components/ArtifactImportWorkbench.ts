@@ -138,6 +138,21 @@ export function createArtifactImportWorkbench(options: ArtifactImportWorkbenchOp
   }
 
   function drawStatus(): void { const status=root.querySelector<HTMLElement>('[data-import-status]'); if(status){status.textContent=message;status.dataset.state=state;} }
+
+  const findingNavigation=(event:Event):void=>{
+    const detail=(event as CustomEvent<{relative_path?:string;line?:number|null;section?:string|null;source_kind?:string;source_ref?:string}>).detail;
+    if(!detail||detail.source_kind!=='IMPORT'||!preview||!persisted)return;
+    if(detail.source_ref&&detail.source_ref!==persisted.import_id)return;
+    if(detail.relative_path&&detail.relative_path!==preview.relative_path)return;
+    const editor=root.querySelector<HTMLTextAreaElement>('.artifact-import-content-preview');if(!editor)return;
+    const normalized=editor.value.replace(/\r\n?/g,'\n');const lines=normalized.split('\n');let offset=0;let targetLineIndex=0;
+    if(detail.line&&detail.line>0){targetLineIndex=Math.max(0,Math.min(lines.length-1,detail.line-1));offset=lines.slice(0,targetLineIndex).reduce((n,line)=>n+line.length+1,0);}
+    else if(detail.section){const wanted=detail.section.trim().toLowerCase();const index=lines.findIndex(line=>line.replace(/^#{1,6}\s+/,'').trim().toLowerCase().includes(wanted));if(index>=0){targetLineIndex=index;offset=lines.slice(0,index).reduce((n,line)=>n+line.length+1,0);}}
+    const end=Math.min(editor.value.length,offset+Math.max(1,lines[targetLineIndex]?.length??1));
+    editor.focus();editor.setSelectionRange(offset,end);editor.scrollIntoView({behavior:'smooth',block:'center'});
+    message=`Finding navegado al preview DRAFT${detail.line?` · línea ${detail.line}`:detail.section?` · sección ${detail.section}`:''}.`;drawStatus();
+  };
+  globalThis.addEventListener('devpilot:artifact-finding-navigate',findingNavigation as EventListener);
   draw(); void loadRecent().then(draw); return root;
 }
 
@@ -145,7 +160,7 @@ function renderPreview(value: ArtifactImportPreview): HTMLElement {
   const section=document.createElement('section'); section.className='artifact-import-preview'; const h=document.createElement('h3');h.textContent='Preview / diff antes de persistir';section.append(h);
   const dl=document.createElement('dl');dl.className='artifact-editor-identity';
   for(const [k,v] of [['Origen',value.source_type],['Destino',value.relative_path],['MIME declarado',value.declared_mime??'—'],['Encoding',value.encoding],['SHA original',value.original_sha256],['SHA normalizado',value.normalized_sha256],['Preview SHA',value.preview_sha256],['Destino existente',String(value.destination_exists)],['Secret warning',String(value.secret_warning)]]) appendDefinition(dl,k,String(v)); section.append(dl);
-  const preview=document.createElement('pre');preview.className='artifact-import-content-preview';preview.textContent=value.normalized_content;section.append(preview);
+  const preview=document.createElement('textarea');preview.className='artifact-import-content-preview';preview.readOnly=true;preview.rows=12;preview.value=value.normalized_content;preview.setAttribute('aria-label','Preview de contenido importado para navegación de findings');section.append(preview);
   const diff=document.createElement('pre');diff.className='artifact-import-diff';diff.textContent=value.diff||'(sin diferencias textuales frente al destino actual)';section.append(diff);
   return section;
 }

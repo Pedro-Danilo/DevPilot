@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc04e.contract_reconciliation_sweep.v1",
+  "status": "PASS/PRE-WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-04-E",
+  "checks": {
+    "strict_schema_metadata_consistent": true,
+    "derived_counters_reconciled": true,
+    "sensitive_action_rbac_approval_binding_preserved": true,
+    "ui_api_mapping_current": true,
+    "source_registry_project_state_readme_roadmap_current_consistent": true,
+    "historical_snapshot_reuse_detected": false,
+    "runtime_ephemeral_store_packaged": false,
+    "sealed_evidence_rewritten": false,
+    "successor_contract_registered": true,
+    "full_regression_consumed_pre_browser": false
+  },
+  "full_regression_executed": false,
+  "notes": ["Windows browser acceptance and exactly-once full regression remain pending; this is not CLOSED/PASS."]
+}

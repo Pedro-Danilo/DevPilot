@@ -303,50 +303,81 @@ class ArtifactLifecycleService:
         session_principal: str,
         now: str | None = None,
     ) -> CommandResult:
-        command = "artifact lifecycle reconcile external content"
+        """Backward-compatible 04-A content reconciliation entry point."""
+        return self.reconcile_external_change(
+            record,
+            change_kind="modified",
+            current_content=current_content,
+            actor=actor,
+            actor_role=actor_role,
+            session_principal=session_principal,
+            now=now,
+        )
+
+    def reconcile_external_change(
+        self,
+        record: dict[str, Any],
+        *,
+        change_kind: str,
+        current_content: str | None,
+        actor: str,
+        actor_role: str,
+        session_principal: str,
+        detected_relative_path: str | None = None,
+        now: str | None = None,
+    ) -> CommandResult:
+        """Reconcile an external edit/rename/delete without reverting workspace state.
+
+        GSDLC-04-E extends the 04-A hash-drift primitive.  The governed record
+        keeps its original target identity; a detected rename is evidence only and
+        never silently changes the governed path. Delete is represented with the
+        zero hash so the lifecycle schema remains deterministic.
+        """
+        command = "artifact lifecycle reconcile external change"
         validation = self.validate_record(record)
         if not validation.ok:
             return CommandResult(command, False, validation.exit_code, "Artifact record is invalid; reconciliation blocked.", data=validation.data, findings=validation.findings)
 
         current_state = ArtifactState(str(record["state"]))
         if current_state not in {ArtifactState.APPROVED, ArtifactState.FROZEN}:
-            return self._blocked(
-                command,
-                [Finding("GSDLC04A_DRIFT_STATE_BLOCK", "External hash reconciliation is only authoritative from APPROVED or FROZEN.", Severity.BLOCK, path=record["relative_path"], metadata={"state": current_state.value})],
-            )
+            return self._blocked(command, [Finding("GSDLC04E_DRIFT_STATE_BLOCK", "External reconciliation is authoritative only from APPROVED or FROZEN.", Severity.BLOCK, path=record["relative_path"], metadata={"state": current_state.value})])
+        kind = str(change_kind or "").strip().lower()
+        if kind not in {"modified", "renamed", "deleted"}:
+            return self._blocked(command, [Finding("GSDLC04E_EXTERNAL_CHANGE_KIND_BLOCK", "External change kind must be modified, renamed or deleted.", Severity.BLOCK, path=record["relative_path"])])
+
         policy = self.policy()
-        self._validate_identity(
-            actor,
-            actor_role,
-            session_principal,
-            str(record["provenance"]["reviewer"]),
-            str(record["provenance"]["reviewer_role"]),
-            findings := [],
-            policy,
-        )
+        findings: list[Finding] = []
+        self._validate_identity(actor, actor_role, session_principal, str(record["provenance"]["reviewer"]), str(record["provenance"]["reviewer_role"]), findings, policy)
         path = self._safe_relative_path(str(record["relative_path"]), findings, policy)
-        self._validate_content(current_content, path, findings, policy)
+        new_path: str | None = None
+        if detected_relative_path:
+            new_path = self._safe_relative_path(str(detected_relative_path), findings, policy)
+        if kind != "deleted":
+            if current_content is None:
+                findings.append(Finding("GSDLC04E_EXTERNAL_CONTENT_REQUIRED_BLOCK", "External edit/rename requires readable text content.", Severity.BLOCK, path=path))
+            else:
+                self._validate_content(current_content, new_path or path, findings, policy)
         if findings:
             return self._blocked(command, findings)
 
-        raw_sha = self.hash_source(current_content)
-        normalized_sha = self.hash_normalized(current_content)
-        if normalized_sha == record["content_hash"]:
-            return CommandResult(
-                command,
-                True,
-                ExitCode.PASS,
-                "Artifact hash is unchanged; approval/freeze remains valid.",
-                data={"artifact": deepcopy(record), "summary": {"drift_detected": False, "state": current_state.value, "source_mutations_performed": False}},
-                findings=[Finding("GSDLC04A_NO_DRIFT_PASS", "External content normalization hash matches the governed record.", Severity.INFO, path=path)],
-            )
+        if kind == "deleted":
+            raw_sha = _ZERO_SHA
+            normalized_sha = _ZERO_SHA
+        else:
+            assert current_content is not None
+            raw_sha = self.hash_source(current_content)
+            normalized_sha = self.hash_normalized(current_content)
+
+        if kind == "modified" and normalized_sha == record["content_hash"]:
+            return CommandResult(command, True, ExitCode.PASS, "Artifact hash is unchanged; approval/freeze remains valid.", data={"artifact": deepcopy(record), "summary": {"drift_detected": False, "change_kind": "unchanged", "state": current_state.value, "source_mutations_performed": False}}, findings=[Finding("GSDLC04E_NO_DRIFT_PASS", "External content normalization hash matches the governed record.", Severity.INFO, path=path)])
 
         rule = self._transition_rule(current_state, ArtifactState.REVALIDATION_REQUIRED, policy)
         if rule["mode"] != "hash-drift-only":
-            return self._blocked(command, [Finding("GSDLC04A_DRIFT_POLICY_BLOCK", "Hash-drift transition policy is invalid.", Severity.BLOCK, path=path)])
+            return self._blocked(command, [Finding("GSDLC04E_DRIFT_POLICY_BLOCK", "External-drift transition policy is invalid.", Severity.BLOCK, path=path)])
 
         updated = deepcopy(record)
         timestamp = now or _now()
+        previous_hash = str(record["content_hash"])
         updated["state"] = ArtifactState.REVALIDATION_REQUIRED.value
         updated["content_hash"] = normalized_sha
         updated["updated_at"] = timestamp
@@ -357,28 +388,28 @@ class ArtifactLifecycleService:
         provenance["artifact_version"] = int(provenance["artifact_version"]) + 1
         provenance["updated_at"] = timestamp
         provenance["session_principal"] = session_principal.strip()
-        provenance["lineage"].append(
-            {
-                "event": f"{current_state.value}_HASH_DRIFT_TO_REVALIDATION_REQUIRED",
-                "at": timestamp,
-                "actor": actor.strip(),
-                "actor_role": actor_role,
-                "state": ArtifactState.REVALIDATION_REQUIRED.value,
-                "source_type": ArtifactSourceType.EXTERNAL_EDITOR.value,
-                "previous_normalized_sha256": record["content_hash"],
-                "normalized_sha256": normalized_sha,
-            }
-        )
+        event = {
+            "event": f"{current_state.value}_EXTERNAL_{kind.upper()}_TO_REVALIDATION_REQUIRED",
+            "at": timestamp,
+            "actor": actor.strip(),
+            "actor_role": actor_role,
+            "state": ArtifactState.REVALIDATION_REQUIRED.value,
+            "source_type": ArtifactSourceType.EXTERNAL_EDITOR.value,
+            "previous_normalized_sha256": previous_hash,
+            "normalized_sha256": normalized_sha,
+            "change_kind": kind,
+        }
+        if new_path:
+            event["detected_relative_path"] = new_path
+        provenance["lineage"].append(event)
         schema_findings = self._schema_findings(updated)
         if schema_findings:
             return self._blocked(command, schema_findings)
         return CommandResult(
-            command,
-            True,
-            ExitCode.PASS,
-            "External content hash drift invalidated the approved/frozen state and requires revalidation.",
-            data={"artifact": updated, "summary": {"drift_detected": True, "state": ArtifactState.REVALIDATION_REQUIRED.value, "artifact_version": provenance["artifact_version"], "source_mutations_performed": False}},
-            findings=[Finding("GSDLC04A_EXTERNAL_DRIFT_REVALIDATION_PASS", "Hash drift moved the artifact to REVALIDATION_REQUIRED without auto-reverting external content.", Severity.INFO, path=path)],
+            command, True, ExitCode.PASS,
+            "External artifact change invalidated the approved/frozen state and requires revalidation; no external content was reverted.",
+            data={"artifact": updated, "summary": {"drift_detected": True, "change_kind": kind, "state": ArtifactState.REVALIDATION_REQUIRED.value, "artifact_version": provenance["artifact_version"], "source_mutations_performed": False, "auto_reverted": False, "hidden_merge": False, "detected_relative_path": new_path}},
+            findings=[Finding("GSDLC04E_EXTERNAL_DRIFT_REVALIDATION_PASS", f"External {kind} moved the artifact to REVALIDATION_REQUIRED without auto-revert or hidden merge.", Severity.INFO, path=path, metadata={"change_kind": kind, "detected_relative_path": new_path})],
         )
 
     def validate_record(self, record: dict[str, Any]) -> CommandResult:

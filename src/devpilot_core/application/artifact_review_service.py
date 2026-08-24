@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
+import subprocess
 import threading
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -169,12 +171,14 @@ class ArtifactReviewApplicationService:
         record["approval_id"] = exe.get("approval_id")
         record["approved_sha256"] = current_sha
         record["approval_valid"] = True
+        git_context = self._git_context(str(record["relative_path"]))
         record["freeze_record"] = {
             "review_id": review_id, "artifact_id": record["artifact"]["artifact_id"],
             "plan_id": plan["plan_id"], "plan_hash": plan["plan_hash"], "execution_id": execution_id,
             "approval_id": exe.get("approval_id"), "approved_sha256": current_sha,
             "actor": actor, "actor_role": actor_role, "session_principal": session_principal,
             "frozen_at": _now(), "source_write_engine": "WorkspaceEditExecutionApplicationService",
+            "git_branch": git_context.get("branch"), "git_head": git_context.get("head"),
             "secrets_exposed": False, "network_used": False, "external_api_used": False,
         }
         record["updated_at"] = _now()
@@ -183,26 +187,138 @@ class ArtifactReviewApplicationService:
         return CommandResult("artifact review freeze", True, ExitCode.PASS, "Approval-bound artifact apply was verified and the exact approved hash was frozen.", data={"review":record,"freeze_record":record["freeze_record"]}, findings=[Finding("GSDLC04D_FREEZE_PASS", "APPROVED/FROZEN transition is bound to exact apply, approval and hash.", Severity.INFO, path=record["relative_path"])])
 
     def reconcile(self, *, review_id: str, actor: str, actor_role: str, session_principal: str) -> CommandResult:
-        got=self.get(review_id=review_id)
-        if not got.ok: return got
-        record=deepcopy(got.data["review"])
-        if record.get("status") not in {"APPROVED","FROZEN","REVALIDATION_REQUIRED"}:
-            return self._block("artifact review reconcile", "GSDLC04D_RECONCILE_STATE_BLOCK", "Hash reconciliation applies only to approved/frozen artifacts.")
-        target=self._target(record["relative_path"])
-        if target is None or not target.is_file():
-            return self._block("artifact review reconcile", "GSDLC04D_RECONCILE_SOURCE_BLOCK", "Frozen artifact source is unavailable.")
-        content=target.read_text(encoding="utf-8")
-        if record.get("status")=="REVALIDATION_REQUIRED":
-            return CommandResult("artifact review reconcile", True, ExitCode.PASS, "Artifact already requires revalidation.", data={"review":record}, findings=[])
-        result=self.lifecycle.reconcile_external_content(record["artifact"], current_content=content, actor=actor, actor_role=actor_role, session_principal=session_principal)
-        if not result.ok: return self._dependency("artifact review reconcile",result,"GSDLC04D_RECONCILIATION_BLOCK")
-        record["artifact"]=result.data["artifact"]
-        record["status"]=record["artifact"]["state"]
-        if record["status"]=="REVALIDATION_REQUIRED":
-            record["approval_valid"]=False
-            record["approval_invalidated_reason"]="content-hash-drift"
-        record["updated_at"]=_now(); self._write_record(record); self._sync_source_record(record)
-        return CommandResult("artifact review reconcile", True, ExitCode.PASS, "Artifact hash reconciliation completed.", data={"review":record}, findings=result.findings)
+        got = self.get(review_id=review_id)
+        if not got.ok:
+            return got
+        record = deepcopy(got.data["review"])
+        if record.get("status") not in {"APPROVED", "FROZEN", "REVALIDATION_REQUIRED"}:
+            return self._block("artifact review reconcile", "GSDLC04E_RECONCILE_STATE_BLOCK", "External reconciliation applies only to APPROVED/FROZEN artifacts or an already invalidated review.")
+        if record.get("status") == "REVALIDATION_REQUIRED":
+            return CommandResult("artifact review reconcile", True, ExitCode.PASS, "Artifact already requires revalidation; idempotent reconciliation returned.", data={"review": record, "reconciliation": record.get("reconciliation") or {}}, findings=[Finding("GSDLC04E_RECONCILE_IDEMPOTENT_PASS", "REVALIDATION_REQUIRED is preserved without reverting external state.", Severity.INFO, path=record.get("relative_path"))])
+
+        relative_path = str(record["relative_path"])
+        target = self._target(relative_path)
+        if target is None:
+            return self._block("artifact review reconcile", "GSDLC04E_RECONCILE_PATH_BLOCK", "Governed artifact target escapes the active workspace.")
+
+        git_before = self._git_context(relative_path)
+        detected_path: str | None = None
+        if target.is_file():
+            change_kind = "modified"
+            try:
+                content = target.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                return self._block("artifact review reconcile", "GSDLC04E_EXTERNAL_ENCODING_BLOCK", "External artifact is no longer valid UTF-8 text and cannot be reconciled automatically.")
+        else:
+            detected_path = self._find_exact_rename(relative_path, str(record.get("approved_sha256") or record["artifact"].get("content_hash") or ""))
+            if detected_path:
+                renamed_target = self._target(detected_path)
+                if renamed_target is None or not renamed_target.is_file():
+                    return self._block("artifact review reconcile", "GSDLC04E_RENAME_TARGET_BLOCK", "Detected rename target is unavailable or outside the workspace.")
+                try:
+                    content = renamed_target.read_text(encoding="utf-8")
+                except UnicodeDecodeError:
+                    return self._block("artifact review reconcile", "GSDLC04E_EXTERNAL_ENCODING_BLOCK", "Renamed artifact is not valid UTF-8 text.")
+                change_kind = "renamed"
+            else:
+                content = None
+                change_kind = "deleted"
+
+        result = self.lifecycle.reconcile_external_change(
+            record["artifact"], change_kind=change_kind, current_content=content,
+            actor=actor, actor_role=actor_role, session_principal=session_principal,
+            detected_relative_path=detected_path,
+        )
+        if not result.ok:
+            return self._dependency("artifact review reconcile", result, "GSDLC04E_RECONCILIATION_BLOCK")
+
+        record["artifact"] = result.data["artifact"]
+        record["status"] = record["artifact"]["state"]
+        summary = dict((result.data or {}).get("summary") or {})
+        drift = bool(summary.get("drift_detected"))
+        if drift:
+            record["approval_valid"] = False
+            record["approval_invalidated_reason"] = f"external-{change_kind}"
+        git_after = self._git_context(detected_path or relative_path)
+        freeze = dict(record.get("freeze_record") or {})
+        branch_at_freeze = freeze.get("git_branch")
+        branch_now = git_after.get("branch")
+        record["reconciliation"] = {
+            "status": "REVALIDATION_REQUIRED" if drift else "UNCHANGED",
+            "change_kind": summary.get("change_kind", "unchanged"),
+            "original_relative_path": relative_path,
+            "detected_relative_path": detected_path,
+            "previous_approved_sha256": record.get("approved_sha256"),
+            "current_normalized_sha256": record["artifact"].get("content_hash"),
+            "approval_valid": record.get("approval_valid", False),
+            "auto_reverted": False,
+            "hidden_merge": False,
+            "git_branch_at_freeze": branch_at_freeze,
+            "git_branch_current": branch_now,
+            "branch_changed": bool(branch_at_freeze and branch_now and branch_at_freeze != branch_now),
+            "git_head_current": git_after.get("head"),
+            "git_status_porcelain": git_before.get("status_porcelain"),
+            "git_diff": git_after.get("diff"),
+            "source_provenance": deepcopy(record["artifact"].get("provenance") or {}),
+            "checked_at": _now(),
+            "source_mutations_performed": False,
+            "network_used": False,
+            "external_api_used": False,
+        }
+        record["updated_at"] = _now()
+        self._write_record(record)
+        self._sync_source_record(record)
+        message = "External drift detected; approval invalidated and artifact moved to REVALIDATION_REQUIRED." if drift else "No external content drift detected; frozen approval remains valid."
+        return CommandResult("artifact review reconcile", True, ExitCode.PASS, message, data={"review": record, "reconciliation": record["reconciliation"]}, findings=result.findings)
+
+    def _git_context(self, relative_path: str) -> dict[str, Any]:
+        root = self.documents.context_resolver.resolve().effective_workspace_root.resolve()
+        def run(args: list[str], timeout: int = 8) -> subprocess.CompletedProcess[str]:
+            return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=timeout, check=False)
+        head = run(["rev-parse", "HEAD"])
+        branch = run(["branch", "--show-current"])
+        status = subprocess.run(["git", "-C", str(root), "status", "--porcelain=v1", "-z", "--", relative_path], capture_output=True, timeout=8, check=False)
+        diff = run(["diff", "--no-ext-diff", "--unified=3", "--", relative_path])
+        diff_text = diff.stdout if diff.returncode == 0 else ""
+        status_text = status.stdout.decode("utf-8", errors="replace").replace("\x00", "\n").strip() if status.returncode == 0 else ""
+        target = root / relative_path
+        if not diff_text and target.is_file() and status_text.startswith("??"):
+            noindex = subprocess.run(["git", "-C", str(root), "diff", "--no-ext-diff", "--no-index", "--unified=3", "--", os.devnull, str(target)], capture_output=True, text=True, timeout=8, check=False)
+            if noindex.returncode in {0, 1}:
+                diff_text = noindex.stdout
+        return {
+            "head": head.stdout.strip() if head.returncode == 0 else None,
+            "branch": branch.stdout.strip() if branch.returncode == 0 else None,
+            "status_porcelain": status_text,
+            "diff": diff_text[-24000:],
+        }
+
+    def _find_exact_rename(self, original_relative_path: str, approved_sha256: str) -> str | None:
+        if not _SHA.fullmatch(approved_sha256):
+            return None
+        context = self.documents.context_resolver.resolve()
+        root = context.effective_workspace_root.resolve()
+        original = Path(original_relative_path)
+        candidates: list[str] = []
+        for suffix in {original.suffix.lower(), ".md", ".json"}:
+            if suffix not in {".md", ".json"}:
+                continue
+            for path in root.rglob(f"*{suffix}"):
+                try:
+                    rel = path.resolve().relative_to(root).as_posix()
+                except (OSError, ValueError):
+                    continue
+                if rel == original_relative_path or any(part in {".git", ".devpilot"} for part in Path(rel).parts):
+                    continue
+                try:
+                    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+                except OSError:
+                    continue
+                if digest == approved_sha256:
+                    candidates.append(rel)
+                    if len(candidates) > 1:
+                        return None
+        return candidates[0] if len(candidates) == 1 else None
 
     def _start(self, *, source_kind: str, source_ref: str, artifact: dict[str, Any], relative_path: str, content: str, base_sha: str, actor: str, actor_role: str, session_principal: str) -> CommandResult:
         command="artifact review start"

@@ -809,5 +809,24 @@ export interface ArtifactReviewRecord {
   approval_id?: string;
   approved_sha256?: string;
   freeze_record?: Record<string, unknown>;
+  reconciliation?: {
+    status?: 'UNCHANGED' | 'REVALIDATION_REQUIRED';
+    change_kind?: 'unchanged' | 'modified' | 'renamed' | 'deleted';
+    original_relative_path?: string;
+    detected_relative_path?: string | null;
+    previous_approved_sha256?: string | null;
+    current_normalized_sha256?: string | null;
+    approval_valid?: boolean;
+    auto_reverted?: boolean;
+    hidden_merge?: boolean;
+    git_branch_at_freeze?: string | null;
+    git_branch_current?: string | null;
+    branch_changed?: boolean;
+    git_head_current?: string | null;
+    git_status_porcelain?: string;
+    git_diff?: string;
+    source_provenance?: Record<string, unknown>;
+    checked_at?: string;
+  };
   approval_valid: boolean;
 }

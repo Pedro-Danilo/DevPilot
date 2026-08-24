@@ -11,6 +11,8 @@ export const APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_KEY = 'devpilot.gsdlc04d.ap
 export const APPROVAL_CENTER_ARTIFACT_REVIEW_HANDOFF_TTL_MS = 30 * 60 * 1000;
 export const PROJECT_ENTRY_RESUME_STATE_KEY = 'devpilot.gsdlc03e.projectEntryResumeState.v1';
 export const PROJECT_ENTRY_RESUME_TTL_MS = 30 * 60 * 1000;
+export const PROJECT_RECOVERY_INTENT_KEY = 'devpilot.gsdlc04e.projectRecoveryIntent.v1';
+export const PROJECT_RECOVERY_INTENT_TTL_MS = 15 * 60 * 1000;
 
 export type ProjectJourneyPhase = 'entry' | 'project';
 export type ProjectEntryMode = 'CREATE_NEW' | 'OPEN_EXISTING' | 'IMPORT_GIT';
@@ -21,6 +23,15 @@ export interface ProjectJourneyContext {
   project_id?: string;
   target_root?: string;
   activated_at?: string;
+}
+
+export interface ProjectRecoveryIntent {
+  kind: 'server-active';
+  target_path: '/workspace/documents';
+  execution_id: string;
+  document_id: string;
+  created_at_ms: number;
+  expires_at_ms: number;
 }
 
 export interface ProjectEntryResumeState {
@@ -742,6 +753,78 @@ export function clearExpiredStoredToken(): void {
   globalThis.sessionStorage?.removeItem(TOKEN_STORED_AT_KEY);
 }
 
+
+export function parseExplicitProjectRecoveryIntent(
+  path: string,
+  params: URLSearchParams,
+  now = Date.now(),
+): ProjectRecoveryIntent | null {
+  if (path !== '/workspace/documents' || params.get('recover_project_context') !== 'server-active') return null;
+  const executionId = (params.get('execution') ?? '').trim();
+  const documentId = (params.get('document') ?? '').trim();
+  if (!/^uedit_[A-Za-z0-9_-]+$/.test(executionId) || !/^doc_[A-Za-z0-9_-]+$/.test(documentId)) return null;
+  return {
+    kind: 'server-active',
+    target_path: '/workspace/documents',
+    execution_id: executionId,
+    document_id: documentId,
+    created_at_ms: now,
+    expires_at_ms: now + PROJECT_RECOVERY_INTENT_TTL_MS,
+  };
+}
+
+export function saveProjectRecoveryIntent(intent: ProjectRecoveryIntent): void {
+  try { globalThis.sessionStorage?.setItem(PROJECT_RECOVERY_INTENT_KEY, JSON.stringify(intent)); } catch { /* UX continuity only; server authority is unchanged. */ }
+}
+
+export function readProjectRecoveryIntent(now = Date.now()): ProjectRecoveryIntent | null {
+  const raw = globalThis.sessionStorage?.getItem(PROJECT_RECOVERY_INTENT_KEY);
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw) as ProjectRecoveryIntent;
+    const valid = value.kind === 'server-active'
+      && value.target_path === '/workspace/documents'
+      && /^uedit_[A-Za-z0-9_-]+$/.test(String(value.execution_id ?? ''))
+      && /^doc_[A-Za-z0-9_-]+$/.test(String(value.document_id ?? ''))
+      && Number.isFinite(value.created_at_ms)
+      && Number.isFinite(value.expires_at_ms)
+      && now <= value.expires_at_ms;
+    if (!valid) {
+      clearProjectRecoveryIntent();
+      return null;
+    }
+    return value;
+  } catch {
+    clearProjectRecoveryIntent();
+    return null;
+  }
+}
+
+export function clearProjectRecoveryIntent(): void {
+  try { globalThis.sessionStorage?.removeItem(PROJECT_RECOVERY_INTENT_KEY); } catch { /* best-effort UX cleanup */ }
+}
+
+export function projectRecoveryTarget(intent: ProjectRecoveryIntent): string {
+  const query = new URLSearchParams({
+    recover_project_context: 'server-active',
+    execution: intent.execution_id,
+    document: intent.document_id,
+  });
+  return `${intent.target_path}?${query.toString()}`;
+}
+
+export function safeLocalUiReturn(value: string | null): string {
+  if (!value || !value.startsWith('/') || value.startsWith('//')) return '/';
+  const bare = value.split(/[?#]/, 1)[0];
+  if (bare === '/login' || bare === '/first-run') return '/';
+  return value;
+}
+
+export function resolvePostLoginReturn(value: string | null): string {
+  const intent = readProjectRecoveryIntent();
+  return intent ? projectRecoveryTarget(intent) : safeLocalUiReturn(value);
+}
+
 export function readProjectJourneyContext(): ProjectJourneyContext | null {
   const raw = globalThis.sessionStorage?.getItem(PROJECT_JOURNEY_CONTEXT_KEY);
   if (!raw) return null;
@@ -756,6 +839,7 @@ export function readProjectJourneyContext(): ProjectJourneyContext | null {
 }
 
 export function beginProjectEntryJourney(entryMode: ProjectEntryMode): void {
+  clearProjectRecoveryIntent();
   clearApprovalCenterEntryHandoff();
   clearApprovalCenterArtifactReviewHandoff();
   clearProjectEntryResumeState();
@@ -901,6 +985,7 @@ export function clearApprovalCenterArtifactReviewHandoff(): void {
 }
 
 export function activateProjectJourney(context: { entry_mode: ProjectEntryMode; project_id: string; target_root: string }): void {
+  clearProjectRecoveryIntent();
   clearApprovalCenterEntryHandoff();
   clearApprovalCenterArtifactReviewHandoff();
   clearProjectEntryResumeState();
@@ -912,6 +997,58 @@ export function activateProjectJourney(context: { entry_mode: ProjectEntryMode; 
     activated_at: new Date().toISOString(),
   };
   globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(value));
+}
+
+
+export function restoreProjectJourneyContextFromServerRecovery(
+  workspaceResponse: DevPilotApplicationResponse,
+  executionResponse: DevPilotApplicationResponse,
+  expected: { executionId: string; documentId: string },
+): ProjectJourneyContext | null {
+  const workspaceData = asRecord(workspaceResponse.data);
+  const workspaceContext = asRecord(workspaceData.workspace_context);
+  const workspaceSummary = asRecord(workspaceData.summary);
+  const executionData = asRecord(executionResponse.data);
+  const execution = asRecord(executionData.execution);
+  const mode = String(workspaceContext.mode ?? '').trim();
+  const activeRoot = String(workspaceContext.active_workspace_root ?? '').trim();
+  const activeWorkspaceId = String(workspaceContext.active_workspace_id ?? '').trim();
+  const projectId = String(workspaceSummary.project_id ?? activeWorkspaceId).trim();
+  const executionId = String(execution.execution_id ?? '').trim();
+  const documentId = String(execution.document_id ?? '').trim();
+  const executionStatus = String(execution.status ?? '').trim();
+  const valid = workspaceResponse.ok === true
+    && executionResponse.ok === true
+    && workspaceContext.configured === true
+    && workspaceContext.valid === true
+    && workspaceContext.read_only === true
+    && workspaceContext.network_used === false
+    && workspaceContext.external_api_used === false
+    && workspaceContext.mutations_performed === false
+    && ['configured-root', 'configured-registry'].includes(mode)
+    && Boolean(activeRoot)
+    && Boolean(projectId)
+    && executionId === expected.executionId
+    && documentId === expected.documentId
+    && ['applied', 'rolled-back-manual'].includes(executionStatus);
+  if (!valid) return null;
+  const value: ProjectJourneyContext = {
+    phase: 'project',
+    entry_mode: 'OPEN_EXISTING',
+    project_id: projectId,
+    target_root: activeRoot,
+    activated_at: new Date().toISOString(),
+  };
+  clearProjectEntryResumeState();
+  clearApprovalCenterEntryHandoff();
+  clearApprovalCenterArtifactReviewHandoff();
+  try { globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(value)); } catch { return null; }
+  clearProjectRecoveryIntent();
+  return value;
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
 }
 
 export function clearProjectJourneyContext(): void {

@@ -1,7 +1,7 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
   "version": "1.5.0",
-  "micro_sprint": "DEVPL-GSDLC-04-D",
+  "micro_sprint": "DEVPL-GSDLC-04-E",
   "status": "implemented/ready-for-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
@@ -2923,7 +2923,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-04-D",
+  "updated_by": "DEVPL-GSDLC-04-E",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -2931,6 +2931,7 @@
     "GSDLC-03-B project-entry planning endpoints require authenticated human sessions; legacy token alone cannot authorize them.",
     "GSDLC-03-B adds two human-session-required planning-only Project Entry policies; legacy local token is not human authority.",
     "GSDLC-03-A-at-close RBAC snapshot remains frozen at 98 route policies.",
-    "GSDLC-04-C adds three human-session-only PASTE/UPLOAD/IMPORT runtime-DRAFT routes; no legacy-token authority and no source write."
+    "GSDLC-04-C adds three human-session-only PASTE/UPLOAD/IMPORT runtime-DRAFT routes; no legacy-token authority and no source write.",
+    "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced."
   ]
 }

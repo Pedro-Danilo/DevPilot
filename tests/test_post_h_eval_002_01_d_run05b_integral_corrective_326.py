@@ -79,7 +79,7 @@ def test_integral_manifest_records_evidence_truth_without_promoting_it() -> None
 
 def test_package_metadata_matches_integral_corrective() -> None:
     package = data("ui/web/package.json")
-    assert package["version"].startswith("0.") and "-post-h-" in package["version"]
+    assert package["version"].startswith("0.") and ("-post-h-" in package["version"] or "-gsdlc-" in package["version"])
     assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
     assert package["devpilot"]["run05bIntegralCorrective326"] is True
     assert package["devpilot"]["postHEvolution"] is True

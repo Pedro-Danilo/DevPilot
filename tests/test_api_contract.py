@@ -83,11 +83,37 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
         "auth.session.status",
     }
     public_auth = {"auth.bootstrap.status", "auth.bootstrap.owner", "auth.login", "auth.session.status"}
+    artifact_workbench_ops = {
+        "workspace.artifact_drafts.get", "workspace.artifact_drafts.history", "workspace.artifact_drafts.save",
+        "workspace.artifact_drafts.discard", "workspace.artifact_drafts.recover",
+        "workspace.artifact_imports.preview", "workspace.artifact_imports.persist", "workspace.artifact_imports.recent",
+        "workspace.artifact_reviews.start_import", "workspace.artifact_reviews.start_document",
+        "workspace.artifact_reviews.status", "workspace.artifact_reviews.freeze", "workspace.artifact_reviews.reconcile",
+    }
 
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
             op_id = operation["x-devpilot-operation"]
-            if op_id in {"project_entry.dry_run", "project_entry.revalidate"}:
+            if op_id in artifact_workbench_ops:
+                assert operation["x-devpilot-status"].startswith("gsdlc-04-")
+                assert operation["security"] == [{"HumanSessionCookie": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-source-mutation"] is False
+                assert operation["x-devpilot-project-write"] is False
+                assert operation["x-devpilot-network-runtime"] is False
+                assert operation["x-devpilot-external-api"] is False
+                assert operation["x-devpilot-arbitrary-shell"] is False
+                assert operation["x-devpilot-remote-execution"] is False
+                assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
+                assert operation["x-devpilot-security-headers"] is True
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
+                for status in ["400", "401", "403", "422", "500"]:
+                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
+                if method.upper() == "POST":
+                    assert "requestBody" in operation
+                    assert "schema" in operation["requestBody"]["content"]["application/json"]
+                continue
+            elif op_id in {"project_entry.dry_run", "project_entry.revalidate"}:
                 assert operation["x-devpilot-status"] == "gsdlc-03-c-dry-run"
                 assert operation["x-devpilot-domain-service"] == "ApplicationService -> ProjectEntryDryRunApplicationService -> ProjectEntryDryRunService"
                 assert operation["security"] == [{"LocalHumanSession": []}]
@@ -186,8 +212,14 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
             if method.upper() == "POST":
                 assert "requestBody" in operation, path
-                example = operation["requestBody"]["content"]["application/json"]["example"]
                 document_source_mutation_ids = {"API-UOC005-EDIT-APPLY", "API-UOC005-EDIT-ROLLBACK"}
+                if op_id in artifact_workbench_ops:
+                    assert "schema" in operation["requestBody"]["content"]["application/json"]
+                    assert operation["x-devpilot-source-mutation"] is False
+                    assert operation["x-devpilot-arbitrary-shell"] is False
+                    assert operation["x-devpilot-remote-execution"] is False
+                    continue
+                example = operation["requestBody"]["content"]["application/json"]["example"]
                 governed_git_mutation_ids = {"API-UOC006-STAGE", "API-UOC006-COMMIT", "API-UOC006-BRANCH-CREATE"}
                 governed_job_control_ids = {"API-UOC008-JOBS-CANCEL", "API-UOC008-JOBS-RETRY"}
                 quality_typed_ids = {

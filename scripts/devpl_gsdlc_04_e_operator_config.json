@@ -1,0 +1,21 @@
+{
+  "operator_id": "DEVPL-GSDLC-04-E-OPERATOR",
+  "version": "1.0.0",
+  "baseline_repo": "repo_DevPilot_Local_368_DEVPL_GSDLC_04_D_GOVERNED_ARTIFACT_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "e1d9d1c722dc3fa389ce4cb7c3e18bc401d081cd",
+  "baseline_sha256": "314c32d765fc2e4a2f470c4facc091b72d5951a3a9956c019d05561a885de8b9",
+  "branch": "feat/devpl-gsdlc-04-e-artifact-workbench-browser-closure",
+  "candidate": "repo_DevPilot_Local_369_DEVPL_GSDLC_04_E_ARTIFACT_WORKBENCH_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "dry_run_default": true,
+  "full_regression_allowed": true,
+  "full_regression_max_runs": 1,
+  "full_regression_after_browser_pass_only": true,
+  "full_regression_rerun_after_fail_allowed": false,
+  "git_status_format": "--porcelain=v1 -z",
+  "eol_authority": "raw-sha256-first; Git-clean working tree + immutable predecessor Git blob canonical-LF fallback",
+  "pilot_workspace_access_allowed": false,
+  "destructive_git_allowed": false,
+  "shell_subprocess_allowed": false,
+  "external_reconciliation_source_write_allowed": false,
+  "source_write_engine": "UOC-005 WorkspaceEditExecutionApplicationService"
+}

@@ -4030,7 +4030,8 @@
       "tags": [
         "artifact-workbench",
         "artifact-review",
-        "gsdlc-04-d"
+        "gsdlc-04-d",
+        "gsdlc-04-e"
       ],
       "route_id": "api.workspace.artifact-reviews.reconcile",
       "method": "POST",
@@ -4041,9 +4042,9 @@
       "local_state_mutation_allowed": true,
       "policy_sensitivity": "protected-human-session-artifact-review",
       "notes": [
-        "Reconciles current source hash against APPROVED/FROZEN evidence and invalidates state on drift; no auto-revert."
+        "GSDLC-04-E reconciles modified/renamed/deleted external source against APPROVED/FROZEN evidence, records Git/provenance context and invalidates stale approval; no auto-revert, hidden merge or source write."
       ],
-      "mutation_exception_justification": "Writes only local successor review lifecycle evidence when current source hash is compared with frozen evidence; it may invalidate approval/state but never auto-reverts or mutates workspace source."
+      "mutation_exception_justification": "Writes only local review/lifecycle reconciliation evidence after comparing external source/Git context; it may invalidate approval/state but never auto-reverts, merges or mutates workspace source."
     }
   ],
   "summary": {

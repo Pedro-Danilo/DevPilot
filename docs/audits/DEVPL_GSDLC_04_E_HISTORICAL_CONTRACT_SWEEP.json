@@ -1,0 +1,17 @@
+{
+  "schema_id": "devpilot.gsdlc04e.historical_contract_sweep.v1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-04-E",
+  "classifications": [
+    {"surface":"GSDLC-04-D Windows evidence/candidate","classification":"historical-freeze","action":"preserved; owner closure added as successor authority"},
+    {"surface":"ArtifactReview reconcile route/service","classification":"current-active","action":"extended for modify/rename/delete + Git/provenance visibility"},
+    {"surface":"GSDLC-04-D review schema","classification":"current-active","action":"remains compatible; reconciliation has separate successor schema"},
+    {"surface":"UOC-005 apply/rollback","classification":"current-active","action":"reused unchanged as sole governed writer"},
+    {"surface":"GSDLC-04-A/B/C/D tests/contracts","classification":"historical-freeze","action":"rerun only as cumulative successor compatibility before browser/full"},
+    {"surface":"API/UI/RBAC/TCR/Source Registry/Project State","classification":"current-active","action":"reconciled to 04-E"},
+    {"surface":"auth.db*/devpilot.db*/outputs/browser runtime","classification":"runtime-ephemeral","action":"excluded from source/candidate ZIP; preserved only in bounded evidence when applicable"},
+    {"surface":"full regression evidence","classification":"successor-needed","action":"created once in 04-E after browser PASS; never rewrite/rerun"}
+  ],
+  "frozen_evidence_rewritten": false,
+  "pre_windows_full_regression_executed": false
+}

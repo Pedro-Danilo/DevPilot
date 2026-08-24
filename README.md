@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `GSDLC-04-A` y `GSDLC-04-B` están `CLOSED/PASS` por owner adjudication. `GSDLC-04-C` está `IMPLEMENTED / READY-FOR-WINDOWS`: PASTE/UPLOAD/IMPORT preview-first, provenance, original+normalized hashes y DRAFT runtime; browser/evidencia Windows + owner adjudication permanecen pendientes. `GSDLC-04-D` continúa bloqueado por secuencia.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02` y `03` están `CLOSED/PASS`. `GSDLC-04-A`→`04-D` están `CLOSED/PASS` por owner adjudication. `GSDLC-04-E` está `IMPLEMENTED / READY-FOR-WINDOWS`: reconciliación de edit/rename/delete externo, invalidación FROZEN→REVALIDATION_REQUIRED, Git diff/provenance y cierre browser; la única full regression de GSDLC-04 permanece en 0 y se ejecutará exactamente una vez después del browser PASS Windows.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -6407,3 +6407,11 @@ Approval-bound project bootstrap execution is implemented as a preliminary local
 ### DEVPL-GSDLC-04-D — Validate, findings, diff, approval, apply and freeze
 
 Estado: `implemented/ready-for-windows`. Repo de entrada owner-adjudicated: repo367 (`ce03b297…`, SHA `7700f77d…`). Artifact Workbench compone ArtifactProfile validation, findings navegables, plan/diff inmutable, approval exacto, UOC-005 atomic apply y freeze hash. Source write sigue approval-gated y `full regression = 0`; 04-E permanece bloqueado hasta adjudicación Windows de 04-D.
+
+
+## DEVPL-GSDLC-04-E — External reconciliation/browser closure
+
+- 04-D owner-adjudicated `CLOSED/PASS` sobre repo368 / commit `e1d9d1c722dc3fa389ce4cb7c3e18bc401d081cd`.
+- 04-E implementa detección `modified/renamed/deleted`, invalidación de approval/FROZEN a `REVALIDATION_REQUIRED`, Git diff + provenance UX y no auto-revert/hidden merge.
+- Estado: `IMPLEMENTED / READY-FOR-WINDOWS`; browser closure y full regression exactamente una vez permanecen pendientes.
+- GSDLC-05 continúa bloqueado hasta owner adjudication final del backlog 04.
