@@ -6,7 +6,7 @@
   "version": "1.5.0",
   "owner": "Ordóñez",
   "updated": "2026-08-24",
-  "sprint": "DEVPL-GSDLC-05-A",
+  "sprint": "DEVPL-GSDLC-05-B",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
   "schemas": [
@@ -3057,7 +3057,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-05-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-05-B-MIP-WORKFLOW-REGISTRY-V1",
+      "title": "MIPWorkflowRegistry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/mip_workflow_registry.schema.json",
+      "description": "GSDLC-05-B deterministic MIPSoftware intake-through-release lifecycle with prerequisites, artifact/profile/validator bindings, exit gates, weights and deny-by-default waiver policy.",
+      "status": "registered",
+      "contract": "MIPWorkflowRegistry",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-05-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-05-B"
     }
   ],
-  "schemas_total": 212
+  "schemas_total": 213
 }

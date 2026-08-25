@@ -1,3 +1,13 @@
+
+from .mip_lifecycle import (
+    MIPGateEvaluator,
+    MIPGateResult,
+    MIPLifecycleService,
+    MIPProgressModel,
+    MIPWaiver,
+    MIPWorkflowRegistry,
+    MIPWorkflowRegistryError,
+)
 from .migration import CURRENT_SCHEMA_VERSION, WorkspaceEngineeringStateMigrator
 from .models import (
     ArtifactLifecycleStatus,
@@ -88,6 +98,13 @@ __all__ = [
     "WorkspaceEngineeringStateStoreError",
     "WorkspaceRegistryBindingResolver",
     "contains_secret_like_material",
+    "MIPGateEvaluator",
+    "MIPGateResult",
+    "MIPProgressModel",
+    "MIPWaiver",
+    "MIPWorkflowRegistry",
+    "MIPWorkflowRegistryError",
+    "MIPLifecycleService",
 ]
 
 from .executable_standard_registry import (

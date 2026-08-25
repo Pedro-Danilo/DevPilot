@@ -1,0 +1,18 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-B-MIP-WORKFLOW-COVERAGE-v1",
+  "status": "PASS",
+  "registry_id": "DEVPL-GSDLC-05-B-MIP-WORKFLOW-REGISTRY",
+  "registry_version": "1.0.0",
+  "phases_total": 19,
+  "transitions_total": 18,
+  "required_phases_total": 19,
+  "required_phases_skippable_without_gate": 0,
+  "artifact_bindings_total": 63,
+  "artifact_profiles_bound_total": 63,
+  "weights_total_bps": 10000,
+  "llm_authority": false,
+  "production_waivable_gate_ids": [],
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false
+}

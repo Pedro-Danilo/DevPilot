@@ -1,18 +1,18 @@
 ---
 doc_id: "DEVPL-GSDLC-05-A-CLOSURE-REPORT"
 title: "DEVPL-GSDLC-05-A — Implementation and validation closure report"
-status: "reviewed"
+status: "closed"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-24"
-approval: "pending_windows_and_owner_adjudication"
+approval: "approved_by_owner"
 ---
 
 # DEVPL-GSDLC-05-A — Implementation and validation closure report
 
 ## Estado
 
-`WINDOWS-PASS / PASS-CANDIDATE / OWNER-ADJUDICATION-PENDING`.
+`CLOSED/PASS / OWNER-ADJUDICATED`.
 
 ## Resultado implementado
 
@@ -27,4 +27,4 @@ approval: "pending_windows_and_owner_adjudication"
 
 ## Decisión
 
-La validación Windows cumulative-selective terminó PASS con full regression=0 y browser=0. **No autoriza GSDLC-05-B**. La autorización requiere owner adjudication posterior sobre el candidate repo370 y su evidencia sellada.
+La validación Windows cumulative-selective terminó PASS con full regression=0 y browser=0. Owner adjudication completada: **GSDLC-05-B autorizado exclusivamente sobre repo370**. GSDLC-05-C permanece no autorizado.

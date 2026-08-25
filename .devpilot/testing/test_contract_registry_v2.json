@@ -20554,6 +20554,101 @@
       "notes": [
         "Full regression remains forbidden by routine in GSDLC-05-A."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-b-mip-executable-lifecycle",
+      "source_contract_id": "devpl-gsdlc-05-b-mip-executable-lifecycle",
+      "schema_version": "2.0",
+      "domain": "governance.miasi",
+      "capability": "MIPExecutableLifecycle",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 120,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/mip_workflow_registry.json",
+        ".devpilot/gsdlc/executable_standard_registry.json",
+        ".devpilot/gsdlc/workflow_transition_catalog.json",
+        "docs/schemas/mip_workflow_registry.schema.json",
+        "src/devpilot_core/guided_sdlc/mip_lifecycle.py",
+        "src/devpilot_core/guided_sdlc/workflow_engine.py",
+        "src/devpilot_core/guided_sdlc/models.py",
+        "src/devpilot_core/guided_sdlc/__init__.py",
+        "docs/validation/artifact_profiles.json",
+        "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "docs/schemas/schema_catalog.json",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "validates": [
+        "MIP workflow registry schema/source binding",
+        "intake-to-release deterministic phases",
+        "required phase skip negative",
+        "gate/artifact blockers with remediation",
+        "typed waiver deny-by-default and scoped successor semantics",
+        "cycle detection",
+        "registry-weighted progress determinism",
+        "WorkspaceEngineeringState + existing WorkflowEngine reuse",
+        "05-A owner-adjudicated registry promotion"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-05-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py tests/test_devpl_gsdlc_05_a_executable_standard_registry.py tests/test_devpl_gsdlc_01_b_workflow_engine.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Lifecycle evaluation is deterministic, read-only and delegates state transition preview to the existing Guided SDLC WorkflowEngine.",
+        "Production waiver policy is deny-by-default; a typed waiver can only work under an explicitly owner-approved successor policy."
+      ],
+      "trigger_hints": [
+        "mip-workflow",
+        "lifecycle-gate",
+        "phase-transition",
+        "progress",
+        "waiver",
+        "blocker-remediation"
+      ],
+      "impact_tags": [
+        "guided-sdlc",
+        "mipsoftware",
+        "workflow",
+        "governance",
+        "readiness"
+      ],
+      "owner_domain": "guided_sdlc.mip-lifecycle",
+      "service_boundary": "domain",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-05-B-MIP-WORKFLOW-REGISTRY-V1"
+      ],
+      "notes": [
+        "Full regression remains forbidden by routine in GSDLC-05-B."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -20715,5 +20810,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 290
+  "contracts_total": 291
 }

@@ -4,9 +4,9 @@
   "schema_version": "1.0",
   "registry_id": "DEVPL-GSDLC-05-A-EXECUTABLE-STANDARD-REGISTRY",
   "registry_version": "1.0.0",
-  "status": "approved",
+  "status": "draft/pending-owner-approval",
   "normative_authority": "docs/standards/mipsoftware + docs/standards/miasi",
-  "registry_authoritative": true,
+  "registry_authoritative": false,
   "owner_approval_required_for_promotion": true,
   "standards": [
     {

@@ -1,0 +1,45 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-B-CONTRACT-RECONCILIATION-SWEEP-v1",
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "05-a-owner-adjudication-rebound",
+      "status": "PASS"
+    },
+    {
+      "id": "registry-source-sha-heading",
+      "status": "PASS"
+    },
+    {
+      "id": "workflow-transition-catalog-reuse",
+      "status": "PASS"
+    },
+    {
+      "id": "artifact-profile-bindings",
+      "status": "PASS"
+    },
+    {
+      "id": "schema-catalog-registration",
+      "status": "PASS"
+    },
+    {
+      "id": "project-state-source-registry-readme-roadmap",
+      "status": "PASS"
+    },
+    {
+      "id": "tcr-v1-v2",
+      "status": "PASS"
+    },
+    {
+      "id": "historical-snapshot-vs-current",
+      "status": "PASS"
+    },
+    {
+      "id": "runtime-ephemeral-excluded",
+      "status": "PASS"
+    }
+  ],
+  "blocking_findings_total": 0,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

@@ -39,7 +39,7 @@ def test_05_a_schema_and_positive_registry_validation_pass():
     assert report.metrics["orphan_critical_steps"] == 0
     assert report.metrics["transition_cycle_nodes_total"] == 0
     assert report.metrics["source_drift_total"] == 0
-    assert report.metrics["registry_authoritative"] is False
+    assert report.metrics["registry_authoritative"] is True
 
 
 def test_05_a_mapping_is_derived_from_live_critical_readiness_requirements():
@@ -117,12 +117,19 @@ def test_05_a_migration_semantics_and_owner_authority_are_fail_closed():
     assert data["migration"]["unknown_version_effect"] == "BLOCK"
     assert data["migration"]["breaking_change_requires_owner_approval"] is True
     assert data["migration"]["source_hash_change_requires_revalidation"] is True
-    assert data["status"] == "draft/pending-owner-approval"
-    assert data["registry_authoritative"] is False
+    snapshot = json.loads((ROOT / ".devpilot/gsdlc/executable_standard_registry_gsdlc05a_at_windows_close.json").read_text(encoding="utf-8"))
+    assert snapshot["status"] == "draft/pending-owner-approval"
+    assert snapshot["registry_authoritative"] is False
+    assert snapshot["owner_approval_required_for_promotion"] is True
+
+    # Current-active successor is promoted only by the final owner adjudication.
+    assert data["status"] == "approved"
+    assert data["registry_authoritative"] is True
     assert data["owner_approval_required_for_promotion"] is True
 
-    data["registry_authoritative"] = True
-    report = ExecutableStandardRegistryValidator(ROOT).validate(data)
+    invalid = copy.deepcopy(snapshot)
+    invalid["registry_authoritative"] = True
+    report = ExecutableStandardRegistryValidator(ROOT).validate(invalid)
     assert not report.ok
     assert "REGISTRY_AUTHORITY_PREMATURE" in {f.finding_id for f in report.findings}
 
@@ -144,8 +151,12 @@ def test_05_a_activation_rebind_is_materialized_without_consuming_full():
     assert state["gsdlc_04_e_owner_adjudication_pending"] is False
     assert state["gsdlc_04_e_full_regression_runs"] == 1
     assert state["gsdlc_04_e_full_regression_rerun_performed"] is False
-    assert state["gsdlc_05_status"] == "active/05-a"
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-05-A"
+    # Current-active successor state after owner adjudication must preserve 05-A closure facts.
+    assert state["gsdlc_05_status"] == "active/05-b"
+    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-05-B"
+    assert state["gsdlc_05_a_status"] == "closed/PASS"
+    assert state["gsdlc_05_a_owner_adjudication_pending"] is False
+    assert state["gsdlc_05_a_successor_repo_at_close"].startswith("repo_DevPilot_Local_370_")
     assert state["gsdlc_05_a_full_regression_runs"] == 0
     for name in [
         "DEVPL_GSDLC_04_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",

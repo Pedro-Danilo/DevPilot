@@ -1,0 +1,51 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-B-TRANSITION-CASE-MATRIX-v1",
+  "status": "PASS",
+  "registry_version": "1.0.0",
+  "cases": [
+    {
+      "case_id": "nominal-phase-advance",
+      "expected": "PASS"
+    },
+    {
+      "case_id": "skip-required-phase",
+      "expected": "BLOCK/MIP_REQUIRED_PHASE_SKIP"
+    },
+    {
+      "case_id": "missing-prerequisite",
+      "expected": "BLOCK/PREREQUISITE_NOT_SATISFIED"
+    },
+    {
+      "case_id": "gate-missing",
+      "expected": "BLOCK/GATE_NOT_SATISFIED"
+    },
+    {
+      "case_id": "gate-block",
+      "expected": "BLOCK/GATE_BLOCK"
+    },
+    {
+      "case_id": "artifact-missing",
+      "expected": "BLOCK/ARTIFACT_NOT_READY"
+    },
+    {
+      "case_id": "production-owner-bypass",
+      "expected": "BLOCK/WAIVER_POLICY_DENY"
+    },
+    {
+      "case_id": "typed-waiver-expired",
+      "expected": "BLOCK/WAIVER_EXPIRED"
+    },
+    {
+      "case_id": "typed-waiver-wrong-scope",
+      "expected": "BLOCK/WAIVER_WRONG_SCOPE"
+    },
+    {
+      "case_id": "release-terminal",
+      "expected": "PASS/terminal-release-reached"
+    }
+  ],
+  "llm_authority": false,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false
+}

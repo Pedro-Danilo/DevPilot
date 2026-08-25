@@ -25,6 +25,15 @@ class ExecutableStandardRegistryError(ValueError):
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
+def _canonical_text_sha256(path: Path) -> str:
+    data = path.read_bytes()
+    try:
+        text = data.decode('utf-8')
+    except UnicodeDecodeError:
+        return hashlib.sha256(data).hexdigest()
+    canonical = text.replace('\r\n', '\n').replace('\r', '\n').encode('utf-8')
+    return hashlib.sha256(canonical).hexdigest()
+
 
 def _ids(rows: list[Mapping[str, Any]], key: str) -> list[str]:
     return [str(row.get(key, '')) for row in rows]
@@ -218,7 +227,7 @@ class ExecutableStandardRegistryValidator:
             if req.get('mandatory') and not req.get('source_refs'):
                 findings.append(RegistryFinding('MANDATORY_REQUIREMENT_WITHOUT_SOURCE', 'BLOCK', 'Mandatory requirement requires source_refs.', subject_id=rid))
 
-        # Verify source path, heading and byte hash. Standards docs remain normative.
+        # Verify source path, heading and canonical-LF content hash. Standards docs remain normative; physical LF/CRLF is not authority.
         all_refs: list[Mapping[str, Any]] = []
         for collection in (phases, steps, artifacts, requirements):
             for row in collection:
@@ -237,7 +246,7 @@ class ExecutableStandardRegistryValidator:
             if not source_path.is_file():
                 findings.append(RegistryFinding('SOURCE_PATH_MISSING', 'BLOCK', 'Source path does not exist.', key[1], key[0]))
                 continue
-            actual_sha = _sha256(source_path)
+            actual_sha = _canonical_text_sha256(source_path)
             row = {'doc_id': key[0], 'path': key[1], 'heading': key[2], 'expected_sha256': key[3], 'actual_sha256': actual_sha, 'status': 'PASS'}
             if actual_sha != key[3]:
                 row['status'] = 'BLOCK'

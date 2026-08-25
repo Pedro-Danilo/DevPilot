@@ -1,0 +1,147 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-B-PROGRESS-DETERMINISM-v1",
+  "status": "PASS",
+  "policy_id": "equal-phase-bps-v1",
+  "weights_version": "1.0.0",
+  "weights_total_bps": 10000,
+  "stable_ordering": true,
+  "samples": [
+    {
+      "phase": "INTAKE",
+      "ordinal": 0,
+      "weight_bps": 527,
+      "completed_bps_at_entry": 0,
+      "percent_at_entry": 0.0
+    },
+    {
+      "phase": "PROBLEM_DISCOVERY",
+      "ordinal": 1,
+      "weight_bps": 527,
+      "completed_bps_at_entry": 527,
+      "percent_at_entry": 5.27
+    },
+    {
+      "phase": "BUSINESS_ANALYSIS",
+      "ordinal": 2,
+      "weight_bps": 527,
+      "completed_bps_at_entry": 1054,
+      "percent_at_entry": 10.54
+    },
+    {
+      "phase": "STAKEHOLDERS",
+      "ordinal": 3,
+      "weight_bps": 527,
+      "completed_bps_at_entry": 1581,
+      "percent_at_entry": 15.81
+    },
+    {
+      "phase": "REQUIREMENTS",
+      "ordinal": 4,
+      "weight_bps": 527,
+      "completed_bps_at_entry": 2108,
+      "percent_at_entry": 21.08
+    },
+    {
+      "phase": "RISK_ANALYSIS",
+      "ordinal": 5,
+      "weight_bps": 527,
+      "completed_bps_at_entry": 2635,
+      "percent_at_entry": 26.35
+    },
+    {
+      "phase": "ARCHITECTURE",
+      "ordinal": 6,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 3162,
+      "percent_at_entry": 31.62
+    },
+    {
+      "phase": "DOMAIN_DESIGN",
+      "ordinal": 7,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 3688,
+      "percent_at_entry": 36.88
+    },
+    {
+      "phase": "DATA_DESIGN",
+      "ordinal": 8,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 4214,
+      "percent_at_entry": 42.14
+    },
+    {
+      "phase": "INTERFACE_DESIGN",
+      "ordinal": 9,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 4740,
+      "percent_at_entry": 47.4
+    },
+    {
+      "phase": "UX_UI_DESIGN",
+      "ordinal": 10,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 5266,
+      "percent_at_entry": 52.66
+    },
+    {
+      "phase": "QUALITY_PLAN",
+      "ordinal": 11,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 5792,
+      "percent_at_entry": 57.92
+    },
+    {
+      "phase": "SECURITY_PLAN",
+      "ordinal": 12,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 6318,
+      "percent_at_entry": 63.18
+    },
+    {
+      "phase": "TEST_PLAN",
+      "ordinal": 13,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 6844,
+      "percent_at_entry": 68.44
+    },
+    {
+      "phase": "IMPLEMENTATION",
+      "ordinal": 14,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 7370,
+      "percent_at_entry": 73.7
+    },
+    {
+      "phase": "INTEGRATION",
+      "ordinal": 15,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 7896,
+      "percent_at_entry": 78.96
+    },
+    {
+      "phase": "VERIFICATION",
+      "ordinal": 16,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 8422,
+      "percent_at_entry": 84.22
+    },
+    {
+      "phase": "VALIDATION",
+      "ordinal": 17,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 8948,
+      "percent_at_entry": 89.48
+    },
+    {
+      "phase": "RELEASE",
+      "ordinal": 18,
+      "weight_bps": 526,
+      "completed_bps_at_entry": 10000,
+      "percent_at_entry": 100.0
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false,
+  "model_execution_used": false,
+  "mutations_performed": false
+}

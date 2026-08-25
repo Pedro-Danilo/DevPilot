@@ -1,0 +1,1528 @@
+{
+  "$schema": "../../docs/schemas/mip_workflow_registry.schema.json",
+  "schema_id": "SCHEMA-DEVPL-GSDLC-05-B-MIP-WORKFLOW-REGISTRY-V1",
+  "schema_version": "1.0",
+  "registry_id": "DEVPL-GSDLC-05-B-MIP-WORKFLOW-REGISTRY",
+  "registry_version": "1.0.0",
+  "status": "implemented-initial/pending-owner-approval",
+  "source_standard": {
+    "doc_id": "MIPS-DOC-003",
+    "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+    "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d",
+    "lifecycle_heading": "## 6. Fases del ciclo de vida",
+    "artifact_matrix_heading": "## 7. Matriz fase → artefacto",
+    "gate_matrix_heading": "## 9. Matriz fase → quality gate",
+    "source_hash_policy": "canonical-lf-utf8"
+  },
+  "predecessor_registry": {
+    "path": ".devpilot/gsdlc/executable_standard_registry.json",
+    "snapshot_at_05_a_windows_close": ".devpilot/gsdlc/executable_standard_registry_gsdlc05a_at_windows_close.json",
+    "registry_id": "DEVPL-GSDLC-05-A-EXECUTABLE-STANDARD-REGISTRY",
+    "minimum_version": "1.0.0",
+    "approved_required": true
+  },
+  "generic_transition_catalog": {
+    "path": ".devpilot/gsdlc/workflow_transition_catalog.json",
+    "catalog_id": "DEVPL-GSDLC-01-B-BASELINE",
+    "catalog_version": "1.0.0",
+    "role": "historical/current predecessor reused by enriched evaluator"
+  },
+  "scope": {
+    "first_phase": "INTAKE",
+    "last_phase": "RELEASE",
+    "phases_total": 19,
+    "transitions_total": 18,
+    "description": "MIPSoftware intake-through-release lifecycle; deployment/operation remain outside GSDLC-05-B execution scope."
+  },
+  "weight_policy": {
+    "policy_id": "equal-phase-bps-v1",
+    "total_bps": 10000,
+    "deterministic": true,
+    "weights_version": "1.0.0"
+  },
+  "waiver_policy": {
+    "contract_version": "1.0",
+    "default_effect": "DENY",
+    "production_waivable_gate_ids": [],
+    "owner_bypass_without_typed_waiver": false,
+    "llm_authority": false,
+    "notes": [
+      "Production registry permits no mandatory phase waiver in v1.0.0 because no normative source/ADR authorizes one. Evaluator supports typed waivers only where a successor policy explicitly marks a gate waiver_allowed=true."
+    ]
+  },
+  "phases": [
+    {
+      "phase_id": "mip.phase.00.intake",
+      "ordinal": 0,
+      "phase": "INTAKE",
+      "current_step": "intake",
+      "label": "Intake de idea",
+      "mandatory": true,
+      "weight_bps": 527,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 0 — Intake de idea",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:intake:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase00.01",
+          "label": "idea_intake.md",
+          "filename": "idea_intake.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase00.02",
+          "label": "clasificación preliminar",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase00.03",
+          "label": "decisión de continuar/descartar/pausar.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:intake:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No se permite crear backlog ni código sin intake aprobado.",
+        "pass_text": "La idea tiene dueño, problema inicial, beneficiario y criterio de siguiente análisis."
+      },
+      "transition_id": "gsdlc.phase.intake.problem-discovery",
+      "terminal_in_registry": false,
+      "next_phase": "PROBLEM_DISCOVERY"
+    },
+    {
+      "phase_id": "mip.phase.01.problem-discovery",
+      "ordinal": 1,
+      "phase": "PROBLEM_DISCOVERY",
+      "current_step": "problem-discovery",
+      "label": "Descubrimiento de problema",
+      "mandatory": true,
+      "weight_bps": 527,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 1 — Descubrimiento de problema",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:problem-discovery:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase01.01",
+          "label": "problem_statement.md",
+          "filename": "problem_statement.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase01.02",
+          "label": "mapa de dolores",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase01.03",
+          "label": "hipótesis de solución.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:problem-discovery:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No pasar a negocio sin problema validado mínimamente.",
+        "pass_text": "El problema puede describirse sin mencionar todavía la solución técnica."
+      },
+      "transition_id": "gsdlc.phase.problem-discovery.business-analysis",
+      "terminal_in_registry": false,
+      "next_phase": "BUSINESS_ANALYSIS"
+    },
+    {
+      "phase_id": "mip.phase.02.business-analysis",
+      "ordinal": 2,
+      "phase": "BUSINESS_ANALYSIS",
+      "current_step": "business-analysis",
+      "label": "Análisis de negocio",
+      "mandatory": true,
+      "weight_bps": 527,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 2 — Análisis de negocio",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:business-analysis:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase02.01",
+          "label": "business_case.md",
+          "filename": "business_case.md",
+          "profile_id": "business-case",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase02.02",
+          "label": "product_vision.md",
+          "filename": "product_vision.md",
+          "profile_id": "product-vision",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase02.03",
+          "label": "mvp_scope.md.",
+          "filename": "mvp_scope.md",
+          "profile_id": "mvp-scope",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:business-analysis:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No se aprueba requerimientos sin alcance MVP inicial.",
+        "pass_text": "Existe decisión explícita de continuar y con qué alcance."
+      },
+      "transition_id": "gsdlc.phase.business-analysis.stakeholders",
+      "terminal_in_registry": false,
+      "next_phase": "STAKEHOLDERS"
+    },
+    {
+      "phase_id": "mip.phase.03.stakeholders",
+      "ordinal": 3,
+      "phase": "STAKEHOLDERS",
+      "current_step": "stakeholders",
+      "label": "Identificación de stakeholders",
+      "mandatory": true,
+      "weight_bps": 527,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 3 — Identificación de stakeholders",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:stakeholders:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase03.01",
+          "label": "stakeholder_map.md",
+          "filename": "stakeholder_map.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase03.02",
+          "label": "matriz RACI inicial",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase03.03",
+          "label": "lista de actores.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:stakeholders:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No avanzar a requerimientos sin actores principales.",
+        "pass_text": "Cada actor crítico tiene interés, responsabilidad y expectativa documentada."
+      },
+      "transition_id": "gsdlc.phase.stakeholders.requirements",
+      "terminal_in_registry": false,
+      "next_phase": "REQUIREMENTS"
+    },
+    {
+      "phase_id": "mip.phase.04.requirements",
+      "ordinal": 4,
+      "phase": "REQUIREMENTS",
+      "current_step": "requirements",
+      "label": "Requerimientos",
+      "mandatory": true,
+      "weight_bps": 527,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 4 — Requerimientos",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:requirements:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase04.01",
+          "label": "requirements_specification.md",
+          "filename": "requirements_specification.md",
+          "profile_id": "requirements-specification",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase04.02",
+          "label": "backlog inicial",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase04.03",
+          "label": "matriz de trazabilidad.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:requirements:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No diseñar arquitectura final sin requerimientos críticos y NFRs mínimos.",
+        "pass_text": "Cada requerimiento crítico tiene criterio de aceptación y prioridad."
+      },
+      "transition_id": "gsdlc.phase.requirements.risk-analysis",
+      "terminal_in_registry": false,
+      "next_phase": "RISK_ANALYSIS"
+    },
+    {
+      "phase_id": "mip.phase.05.risk-analysis",
+      "ordinal": 5,
+      "phase": "RISK_ANALYSIS",
+      "current_step": "risk-analysis",
+      "label": "Análisis de riesgos",
+      "mandatory": true,
+      "weight_bps": 527,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 5 — Análisis de riesgos",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:risk-analysis:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase05.01",
+          "label": "risk_register.md",
+          "filename": "risk_register.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase05.02",
+          "label": "matriz de riesgos",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase05.03",
+          "label": "decisión sobre MIASI.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:risk-analysis:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "Riesgo crítico sin mitigación ni aceptación formal bloquea implementación.",
+        "pass_text": "Riesgos altos tienen mitigación, responsable y criterio de seguimiento."
+      },
+      "transition_id": "gsdlc.phase.risk-analysis.architecture",
+      "terminal_in_registry": false,
+      "next_phase": "ARCHITECTURE"
+    },
+    {
+      "phase_id": "mip.phase.06.architecture",
+      "ordinal": 6,
+      "phase": "ARCHITECTURE",
+      "current_step": "architecture",
+      "label": "Arquitectura",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 6 — Arquitectura",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:architecture:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase06.01",
+          "label": "architecture_document.md",
+          "filename": "architecture_document.md",
+          "profile_id": "architecture-document",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase06.02",
+          "label": "diagramas C4",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase06.03",
+          "label": "ADRs",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase06.04",
+          "label": "architecture risk log.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:architecture:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No implementar componentes críticos sin arquitectura mínima aprobada.",
+        "pass_text": "Decisiones clave están justificadas y conectadas a atributos de calidad."
+      },
+      "transition_id": "gsdlc.phase.architecture.domain-design",
+      "terminal_in_registry": false,
+      "next_phase": "DOMAIN_DESIGN"
+    },
+    {
+      "phase_id": "mip.phase.07.domain-design",
+      "ordinal": 7,
+      "phase": "DOMAIN_DESIGN",
+      "current_step": "domain-design",
+      "label": "Diseño de dominio",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 7 — Diseño de dominio",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:domain-design:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase07.01",
+          "label": "domain_model.md",
+          "filename": "domain_model.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase07.02",
+          "label": "catálogo de reglas",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase07.03",
+          "label": "casos de uso de dominio.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:domain-design:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No implementar reglas críticas sin especificación verificable.",
+        "pass_text": "Cada regla crítica tiene dueño, descripción y prueba esperada."
+      },
+      "transition_id": "gsdlc.phase.domain-design.data-design",
+      "terminal_in_registry": false,
+      "next_phase": "DATA_DESIGN"
+    },
+    {
+      "phase_id": "mip.phase.08.data-design",
+      "ordinal": 8,
+      "phase": "DATA_DESIGN",
+      "current_step": "data-design",
+      "label": "Diseño de datos",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 8 — Diseño de datos",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:data-design:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase08.01",
+          "label": "data_model.md",
+          "filename": "data_model.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase08.02",
+          "label": "data_dictionary.md",
+          "filename": "data_dictionary.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase08.03",
+          "label": "plan de migración",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase08.04",
+          "label": "política de datos.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:data-design:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No persistir datos personales sin política de tratamiento y protección.",
+        "pass_text": "Datos persistentes tienen owner, clasificación y estrategia de migración."
+      },
+      "transition_id": "gsdlc.phase.data-design.interface-design",
+      "terminal_in_registry": false,
+      "next_phase": "INTERFACE_DESIGN"
+    },
+    {
+      "phase_id": "mip.phase.09.interface-design",
+      "ordinal": 9,
+      "phase": "INTERFACE_DESIGN",
+      "current_step": "interface-design",
+      "label": "Diseño de interfaces/API",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 9 — Diseño de interfaces/API",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:interface-design:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase09.01",
+          "label": "api_contract.md",
+          "filename": "api_contract.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase09.02",
+          "label": "event_contract.md",
+          "filename": "event_contract.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase09.03",
+          "label": "integration_contract.md.",
+          "filename": "integration_contract.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:interface-design:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No publicar API sin contrato y estrategia de versionado.",
+        "pass_text": "API/evento crítico tiene contrato revisable antes de implementación."
+      },
+      "transition_id": "gsdlc.phase.interface-design.ux-ui-design",
+      "terminal_in_registry": false,
+      "next_phase": "UX_UI_DESIGN"
+    },
+    {
+      "phase_id": "mip.phase.10.ux-ui-design",
+      "ordinal": 10,
+      "phase": "UX_UI_DESIGN",
+      "current_step": "ux-ui-design",
+      "label": "Diseño UX/UI",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 10 — Diseño UX/UI",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:ux-ui-design:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase10.01",
+          "label": "user_journey.md",
+          "filename": "user_journey.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase10.02",
+          "label": "screen_spec.md",
+          "filename": "screen_spec.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase10.03",
+          "label": "wireframes",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase10.04",
+          "label": "design system mínimo.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:ux-ui-design:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No implementar pantallas críticas sin especificación de flujo y validación.",
+        "pass_text": "Flujo principal puede recorrerse desde inicio hasta resultado con estados alternos."
+      },
+      "transition_id": "gsdlc.phase.ux-ui-design.quality-plan",
+      "terminal_in_registry": false,
+      "next_phase": "QUALITY_PLAN"
+    },
+    {
+      "phase_id": "mip.phase.11.quality-plan",
+      "ordinal": 11,
+      "phase": "QUALITY_PLAN",
+      "current_step": "quality-plan",
+      "label": "Plan de calidad",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 11 — Plan de calidad",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:quality-plan:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase11.01",
+          "label": "quality_plan.md",
+          "filename": "quality_plan.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase11.02",
+          "label": "quality gate policy",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase11.03",
+          "label": "métricas objetivo.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:quality-plan:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No pasar a release sin quality gate definido.",
+        "pass_text": "Cada atributo crítico tiene métrica o evidencia de evaluación."
+      },
+      "transition_id": "gsdlc.phase.quality-plan.security-plan",
+      "terminal_in_registry": false,
+      "next_phase": "SECURITY_PLAN"
+    },
+    {
+      "phase_id": "mip.phase.12.security-plan",
+      "ordinal": 12,
+      "phase": "SECURITY_PLAN",
+      "current_step": "security-plan",
+      "label": "Plan de seguridad",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 12 — Plan de seguridad",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:security-plan:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase12.01",
+          "label": "security_plan.md",
+          "filename": "security_plan.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase12.02",
+          "label": "threat_model.md",
+          "filename": "threat_model.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase12.03",
+          "label": "privacy_assessment.md.",
+          "filename": "privacy_assessment.md",
+          "profile_id": "privacy-assessment",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:security-plan:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "Datos sensibles o pagos sin controles bloquean implementación/release.",
+        "pass_text": "Amenazas críticas tienen control, test y owner."
+      },
+      "transition_id": "gsdlc.phase.security-plan.test-plan",
+      "terminal_in_registry": false,
+      "next_phase": "TEST_PLAN"
+    },
+    {
+      "phase_id": "mip.phase.13.test-plan",
+      "ordinal": 13,
+      "phase": "TEST_PLAN",
+      "current_step": "test-plan",
+      "label": "Plan de pruebas",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 13 — Plan de pruebas",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:test-plan:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase13.01",
+          "label": "test_strategy.md",
+          "filename": "test_strategy.md",
+          "profile_id": "test-strategy",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase13.02",
+          "label": "test_plan.md",
+          "filename": "test_plan.md",
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase13.03",
+          "label": "matriz requerimiento → prueba.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:test-plan:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No iniciar release sin pruebas mínimas y criterios de aceptación.",
+        "pass_text": "Existe matriz de trazabilidad entre requerimientos críticos y pruebas."
+      },
+      "transition_id": "gsdlc.phase.test-plan.implementation",
+      "terminal_in_registry": false,
+      "next_phase": "IMPLEMENTATION"
+    },
+    {
+      "phase_id": "mip.phase.14.implementation",
+      "ordinal": 14,
+      "phase": "IMPLEMENTATION",
+      "current_step": "implementation",
+      "label": "Implementación",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 14 — Implementación",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:implementation:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase14.01",
+          "label": "Código",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase14.02",
+          "label": "pruebas",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase14.03",
+          "label": "documentación técnica",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase14.04",
+          "label": "commits",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase14.05",
+          "label": "PR/MR.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:implementation:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No merge si rompe tests, expone secretos o evita controles.",
+        "pass_text": "Código implementa requerimientos trazables y pasa gates locales."
+      },
+      "transition_id": "gsdlc.phase.implementation.integration",
+      "terminal_in_registry": false,
+      "next_phase": "INTEGRATION"
+    },
+    {
+      "phase_id": "mip.phase.15.integration",
+      "ordinal": 15,
+      "phase": "INTEGRATION",
+      "current_step": "integration",
+      "label": "Integración",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 15 — Integración",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:integration:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase15.01",
+          "label": "Build integrado",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase15.02",
+          "label": "reporte de integración",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase15.03",
+          "label": "fallos corregidos.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:integration:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No validar release si integración falla.",
+        "pass_text": "Integración pasa en ambiente controlado reproducible."
+      },
+      "transition_id": "gsdlc.phase.integration.verification",
+      "terminal_in_registry": false,
+      "next_phase": "VERIFICATION"
+    },
+    {
+      "phase_id": "mip.phase.16.verification",
+      "ordinal": 16,
+      "phase": "VERIFICATION",
+      "current_step": "verification",
+      "label": "Verificación",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 16 — Verificación",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:verification:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase16.01",
+          "label": "Verification report",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase16.02",
+          "label": "defect log",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase16.03",
+          "label": "quality gate report.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:verification:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No validar con usuarios si verificación crítica falla.",
+        "pass_text": "El sistema cumple especificaciones verificables."
+      },
+      "transition_id": "gsdlc.phase.verification.validation",
+      "terminal_in_registry": false,
+      "next_phase": "VALIDATION"
+    },
+    {
+      "phase_id": "mip.phase.17.validation",
+      "ordinal": 17,
+      "phase": "VALIDATION",
+      "current_step": "validation",
+      "label": "Validación",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 17 — Validación",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:validation:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase17.01",
+          "label": "Validation report",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase17.02",
+          "label": "UAT sign-off",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase17.03",
+          "label": "backlog de ajustes.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:validation:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No release si validación crítica falla.",
+        "pass_text": "Usuarios/stakeholders validan que el sistema resuelve el caso crítico."
+      },
+      "transition_id": "gsdlc.phase.validation.release",
+      "terminal_in_registry": false,
+      "next_phase": "RELEASE"
+    },
+    {
+      "phase_id": "mip.phase.18.release",
+      "ordinal": 18,
+      "phase": "RELEASE",
+      "current_step": "release",
+      "label": "Release",
+      "mandatory": true,
+      "weight_bps": 526,
+      "source_refs": [
+        {
+          "doc_id": "MIPS-DOC-003",
+          "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
+          "heading": "### Fase 18 — Release",
+          "source_sha256": "44d62dcc8131cfacf9ae46abdd7a1640560bb8d207d0d3a90f47cdedf995894d"
+        }
+      ],
+      "required_prerequisites": [
+        "phase:validation:complete"
+      ],
+      "required_artifacts": [
+        {
+          "artifact_id": "mip.artifact.phase18.01",
+          "label": "Release candidate",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase18.02",
+          "label": "release notes",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase18.03",
+          "label": "rollback plan",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        },
+        {
+          "artifact_id": "mip.artifact.phase18.04",
+          "label": "go/no-go record.",
+          "filename": null,
+          "profile_id": "generic-markdown",
+          "validator_ids": [
+            "artifact-profile.validate"
+          ],
+          "accepted_statuses": [
+            "APPROVED",
+            "FROZEN"
+          ]
+        }
+      ],
+      "exit_gate": {
+        "gate_id": "gate:release:exit",
+        "accepted_statuses": [
+          "PASS"
+        ],
+        "waiver_allowed": false,
+        "blocker_text": "No desplegar sin rollback y checklist mínimo.",
+        "pass_text": "Release candidate tiene evidencia completa y aprobación."
+      },
+      "transition_id": null,
+      "terminal_in_registry": true,
+      "next_phase": null
+    }
+  ],
+  "safety": {
+    "read_only_evaluation": true,
+    "workspace_state_is_authority": true,
+    "llm_decides_gates": false,
+    "network_used": false,
+    "external_api_used": false,
+    "source_mutations_performed": false
+  }
+}

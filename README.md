@@ -6425,3 +6425,10 @@ Estado: `CLOSED/PASS`. Successor owner-adjudicated: repo368 / commit `e1d9d1c722
 - `DEVPL-GSDLC-05 = APPROVED / ACTIVE`.
 - `GSDLC-05-A = PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION`; validación Windows cumulative-selective PASS, browser=0 y full regression runs=`0`.
 - Repo369 permanece autoridad ancestral de entrada; repo370 se empaqueta desde el Git HEAD limpio validado y solo se vuelve successor authority después de owner adjudication.
+
+## DEVPL-GSDLC-05-B — current implementation
+
+- Immediate execution authority: repo370 / `1f1e23b1166a9de334bb87791027f1c7f0c8321c`.
+- GSDLC-05-A: `CLOSED/PASS` by owner adjudication.
+- GSDLC-05-B: `pass-candidate/pending-owner-adjudication`; Windows selective validation PASS; MIPSoftware lifecycle Intake→Release is machine-readable and deterministic.
+- GSDLC-05 full regression runs: `0`; browser 05-B: `0`.

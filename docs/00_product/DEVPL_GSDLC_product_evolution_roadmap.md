@@ -444,3 +444,7 @@ Project Entry completed authoritative browser acceptance: 14 scenarios / 12 scre
 - DEVPL-GSDLC-05 está APPROVED/ACTIVE sobre repo369 como autoridad ancestral fija.
 - GSDLC-05-A implementa ExecutableStandardRegistry + source mapping y queda `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION` tras validación Windows cumulative-selective.
 - Full regression de DEVPL-GSDLC-05 permanece en `0`; browser de 05-A=`0`; A→D usan validación cumulative-selective.
+
+### GSDLC-05-B — MIPSoftware executable lifecycle and gates
+
+Estado current-active: `implemented/pending-windows-validation`. 05-A está `CLOSED/PASS` y repo370 es el predecessor inmediato. 05-B agrega registry Intake→Release, gate evaluator determinístico, progress model y blockers/remediation sin LLM. Full regression permanece reservada para 05-E (`runs=0`).

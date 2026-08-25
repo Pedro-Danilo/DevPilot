@@ -1,0 +1,25 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-B-TEST-IMPACT-v1",
+  "status": "PASS/WINDOWS-VALIDATED",
+  "micro_sprint": "DEVPL-GSDLC-05-B",
+  "validation_mode": "cumulative-selective/no-full",
+  "full_regression_allowed_by_routine": false,
+  "browser_required": false,
+  "risk_class": "medium",
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+    "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
+    "tests/test_devpl_gsdlc_01_c_project_progress.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py",
+    "tests/test_project_global_state.py"
+  ],
+  "full_regression_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "windows_validation_passed": true
+}

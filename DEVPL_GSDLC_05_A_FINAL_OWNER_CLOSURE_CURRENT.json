@@ -1,0 +1,22 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-A-FINAL-OWNER-CLOSURE-CURRENT-v1",
+  "status": "closed/PASS",
+  "decision": "CLOSED/PASS",
+  "micro_sprint": "DEVPL-GSDLC-05-A",
+  "successor_repo": "repo_DevPilot_Local_370_DEVPL_GSDLC_05_A_EXECUTABLE_STANDARD_REGISTRY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit": "1f1e23b1166a9de334bb87791027f1c7f0c8321c",
+  "successor_sha256": "71c985302fdbacb20e5db7d5226bde0402c17f964dd717ff624a628adaebf90f",
+  "windows_evidence": "DEVPL_GSDLC_05_A_WINDOWS_EVIDENCE_v1_0_0.zip",
+  "windows_evidence_sha256": "14d6155efab84cde18cc0a57c5ef8976d776ba0d77b5442356b6d5b1af4fbaa2",
+  "mandatory_pre_code_mapping_percent": 100.0,
+  "orphan_critical_steps": 0,
+  "source_drift_total": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "owner_adjudication_pending": false,
+  "next_micro_sprint": "DEVPL-GSDLC-05-B",
+  "next_micro_sprint_authorized": true,
+  "updated": "2026-08-24"
+}

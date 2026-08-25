@@ -1,0 +1,34 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-B-HISTORICAL-CONTRACT-SWEEP-v1",
+  "status": "PASS",
+  "classifications": [
+    {
+      "path": ".devpilot/gsdlc/workflow_transition_catalog.json",
+      "classification": "historical-freeze",
+      "action": "unchanged; reused as generic transition predecessor"
+    },
+    {
+      "path": ".devpilot/gsdlc/executable_standard_registry_gsdlc05a_at_windows_close.json",
+      "classification": "historical-freeze",
+      "action": "new frozen snapshot of repo370 pre-owner-promotion registry"
+    },
+    {
+      "path": ".devpilot/gsdlc/executable_standard_registry.json",
+      "classification": "current-active",
+      "action": "promoted to approved/authoritative only after 05-A final owner adjudication"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+      "classification": "successor-needed",
+      "action": "historical draft assertion moved to frozen snapshot; current-active assertion checks owner-approved registry"
+    },
+    {
+      "path": "src/devpilot_core/guided_sdlc/project_progress.py",
+      "classification": "current-active",
+      "action": "unchanged in 05-B; new MIPProgressModel is server/domain successor for registry-weighted lifecycle progress; UI consumption belongs to 05-D/E"
+    }
+  ],
+  "historical_assertions_relaxed_total": 0,
+  "historical_snapshot_values_changed_total": 0,
+  "full_regression_runs": 0
+}
