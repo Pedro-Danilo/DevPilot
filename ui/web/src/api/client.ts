@@ -838,6 +838,41 @@ export function readProjectJourneyContext(): ProjectJourneyContext | null {
   }
 }
 
+
+export function restoreProjectJourneyContextFromProjectStatusRecovery(
+  response: DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>,
+): ProjectJourneyContext | null {
+  const data = response.data;
+  const projectStatus = data?.project_status;
+  const workspaceId = String(data?.workspace_id ?? projectStatus?.workspace_id ?? '').trim();
+  const projectId = String(projectStatus?.project_id ?? '').trim();
+  const uiState = String(data?.ui_state ?? '').trim().toUpperCase();
+  const sourceMutations = (data as unknown as { source_mutations_performed?: boolean } | undefined)?.source_mutations_performed;
+  const valid = response.ok === true
+    && data?.read_only === true
+    && data?.actor_neutral === true
+    && data?.network_used === false
+    && data?.external_api_used === false
+    && data?.mutations_performed === false
+    && sourceMutations !== true
+    && Boolean(workspaceId)
+    && Boolean(projectId)
+    && projectId.toLowerCase() !== 'unknown'
+    && !['EMPTY', 'UNKNOWN'].includes(uiState);
+  if (!valid) return null;
+  const value: ProjectJourneyContext = {
+    phase: 'project',
+    entry_mode: 'OPEN_EXISTING',
+    project_id: projectId,
+    activated_at: new Date().toISOString(),
+  };
+  clearProjectEntryResumeState();
+  clearApprovalCenterEntryHandoff();
+  clearApprovalCenterArtifactReviewHandoff();
+  try { globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(value)); } catch { return null; }
+  return value;
+}
+
 export function beginProjectEntryJourney(entryMode: ProjectEntryMode): void {
   clearProjectRecoveryIntent();
   clearApprovalCenterEntryHandoff();

@@ -1,0 +1,33 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-B-FINAL-OWNER-CLOSURE-CURRENT-v1",
+  "status": "closed/PASS",
+  "decision": "CLOSED/PASS",
+  "micro_sprint": "DEVPL-GSDLC-05-B",
+  "successor_repo": "repo_DevPilot_Local_371_DEVPL_GSDLC_05_B_MIP_EXECUTABLE_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit": "176284f17cf34e916e8a9a6fd68b1311fa8f0773",
+  "successor_sha256": "8f40c077174c8df3e1a4589898863b787ed7fc56f5d83f20c006259b55f81d12",
+  "windows_evidence": "DEVPL_GSDLC_05_B_WINDOWS_EVIDENCE_v1_0_2.zip",
+  "windows_evidence_sha256": "5a5373e8a0f0adbc2f37b2cc28063363acaf4ed6c61604fd3bf7a7ab9f3d1fe4",
+  "phases_total": 19,
+  "transitions_total": 18,
+  "artifact_bindings_total": 63,
+  "weights_total_bps": 10000,
+  "required_phases_skippable_without_gate": 0,
+  "selective_validation": {
+    "main_passed": 143,
+    "main_skipped": 2,
+    "main_failed": 0,
+    "main_errors": 0,
+    "post_finalize_passed": 49,
+    "post_finalize_failed": 0,
+    "post_finalize_errors": 0
+  },
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "owner_adjudication_pending": false,
+  "next_micro_sprint": "DEVPL-GSDLC-05-C",
+  "next_micro_sprint_authorized": true,
+  "updated": "2026-08-24"
+}

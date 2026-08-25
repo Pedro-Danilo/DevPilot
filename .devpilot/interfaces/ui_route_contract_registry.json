@@ -396,8 +396,11 @@
         "GSDLC-01-E primary read-only Project Status surface; status/next-action semantics are supplied by API/ApplicationService.",
         "Continue never mutates engineering state in GSDLC-01; unsupported/future destinations are disabled with an explicit reason.",
         "Successor route added after UOC-011; historical nine-route matrix remains frozen separately.",
-        "GSDLC-03-E UX corrective: project-scoped navigation is surfaced only after a successful browser entry journey has activated project context."
-      ]
+        "GSDLC-03-E UX corrective: project-scoped navigation is surfaced only after a successful browser entry journey has activated project context.",
+        "GSDLC-05-C projects deterministic MIASI applicability, control readiness, risk escalation and AGENT/RAG unavailable state through the existing Project Status API; no new UI route.",
+        "GSDLC-05-C browser-context recovery corrective: authenticated users may request the explicit query recover_project_context=server-active; the UI restores UX-only ProjectJourneyContext only after the protected, read-only Project Status API returns a concrete server-authoritative project. Bare /project/status remains project-context guarded."
+      ],
+      "miasi_applicability_indicator": true
     },
     {
       "route_id": "ui.quality",
@@ -887,7 +890,8 @@
     "gsdlc_04_d_artifact_review_available": true,
     "gsdlc_04_d_artifact_review_api_routes_total": 5,
     "gsdlc_04_d_source_write_engine_reused": "UOC-005",
-    "gsdlc_04_d_source_write_routes_added": 0
+    "gsdlc_04_d_source_write_routes_added": 0,
+    "gsdlc_05_c_project_status_miasi_indicator": true
   },
   "safety": {
     "local_first": true,

@@ -1,0 +1,70 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-C-HISTORICAL-CONTRACT-SWEEP-v1",
+  "status": "PASS",
+  "classifications": [
+    {
+      "path": ".devpilot/miasi/agent_registry.json",
+      "classification": "historical-freeze",
+      "action": "preserve"
+    },
+    {
+      "path": ".devpilot/miasi/tool_registry.json",
+      "classification": "historical-freeze",
+      "action": "preserve"
+    },
+    {
+      "path": ".devpilot/miasi/policy_matrix.json",
+      "classification": "historical-freeze/current-input",
+      "action": "consume-without-rewrite"
+    },
+    {
+      "path": ".devpilot/miasi/semantic_rules.json",
+      "classification": "historical-freeze/current-input",
+      "action": "consume-without-rewrite"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "classification": "current-active",
+      "action": "successor metadata only; frozen route snapshots untouched"
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "classification": "current-active",
+      "action": "successor response metadata only; frozen route snapshots untouched"
+    },
+    {
+      "path": ".devpilot/gsdlc/mip_workflow_registry_gsdlc05b_at_windows_close.json",
+      "classification": "historical-freeze",
+      "action": "preserve 05-B close fact"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+      "classification": "successor-needed",
+      "action": "replace mutable current-pointer assertion with preserved 05-A closure/successor facts"
+    },
+    {
+      "path": "ui/web/scripts/gsdlc01e-project-status-smoke.mjs",
+      "classification": "successor-needed",
+      "action": "stop asserting mutable current topLevelUiRoutesChanged=false; preserve frozen UOC011 route count and successor flag"
+    },
+    {
+      "path": "ui/web/src/main.ts",
+      "classification": "current-active",
+      "action": "add explicit server-validated Project Status context recovery; bare guard preserved"
+    },
+    {
+      "path": "ui/web/src/api/client.ts",
+      "classification": "current-active",
+      "action": "add UX-only ProjectJourneyContext restoration from protected read-only Project Status response"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
+      "classification": "historical-freeze",
+      "action": "preserve execution-bound workspace-document recovery assertions unchanged"
+    }
+  ],
+  "historical_assertions_relaxed_total": 0,
+  "historical_snapshots_rewritten_total": 0,
+  "full_regression_runs": 0,
+  "historical_assertions_migrated_from_mutable_current_total": 2
+}

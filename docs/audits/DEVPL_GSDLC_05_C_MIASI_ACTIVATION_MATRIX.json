@@ -1,0 +1,669 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-C-MIASI-ACTIVATION-MATRIX-v1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-05-C",
+  "policy_version": "1.0.0",
+  "scenarios_total": 6,
+  "scenarios": [
+    {
+      "scenario_id": "NON_AI",
+      "input": {
+        "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "devpilot-local",
+        "project": {
+          "declared_ai_usage": false,
+          "capabilities": [],
+          "risk_level": "low",
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "features": [],
+        "risk_review_status": "NOT_REQUIRED",
+        "evidence_refs": [
+          "GSDLC-05-C scenario"
+        ]
+      },
+      "result": {
+        "status": "NOT_APPLICABLE",
+        "gate_status": "PASS",
+        "reason_codes": [
+          "MIASI_EXPLICIT_NON_AI_DECLARATION"
+        ],
+        "risk_level": "low",
+        "project_decision": {
+          "scope_id": "project",
+          "declared_ai_usage": false,
+          "capabilities": [],
+          "risk_level": "low",
+          "applicable_signal": false,
+          "explicit_non_ai": true,
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "feature_decisions": [],
+        "required_controls": [],
+        "missing_controls": [],
+        "policy_binding": {
+          "ready": true,
+          "registry_validation_ok": true,
+          "missing_policy_rule_ids": [],
+          "missing_semantic_rule_ids": [],
+          "rbac_server_authority": true,
+          "approval_server_authority": true
+        },
+        "blockers": [],
+        "evidence_refs": [
+          "GSDLC-05-C scenario",
+          "scenario:project",
+          "docs/standards/miasi/03_agentic_sdlc.md",
+          "docs/standards/miasi/10_auditoria_final_promocion_miasi_v1.md",
+          ".devpilot/miasi/semantic_rules.json"
+        ],
+        "context_source": "generated:NON_AI",
+        "reevaluation_required": false,
+        "agent_execution_allowed": false,
+        "rag_execution_allowed": false,
+        "execution_reason_code": "GSDLC_06_07_NOT_IMPLEMENTED",
+        "network_used": false,
+        "external_api_used": false,
+        "model_execution_used": false,
+        "agents_executed": false,
+        "rag_executed": false,
+        "source_mutations_performed": false
+      }
+    },
+    {
+      "scenario_id": "AI_READY",
+      "input": {
+        "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "devpilot-local",
+        "project": {
+          "declared_ai_usage": true,
+          "capabilities": [
+            "llm",
+            "tool_calling"
+          ],
+          "risk_level": "medium",
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "features": [],
+        "risk_review_status": "NOT_REQUIRED",
+        "evidence_refs": [
+          "GSDLC-05-C scenario"
+        ]
+      },
+      "result": {
+        "status": "APPLICABLE",
+        "gate_status": "PASS",
+        "reason_codes": [
+          "MIASI_AI_AGENTIC_SIGNAL_PRESENT"
+        ],
+        "risk_level": "medium",
+        "project_decision": {
+          "scope_id": "project",
+          "declared_ai_usage": true,
+          "capabilities": [
+            "llm",
+            "tool_calling"
+          ],
+          "risk_level": "medium",
+          "applicable_signal": true,
+          "explicit_non_ai": false,
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "feature_decisions": [],
+        "required_controls": [
+          {
+            "kind": "Agent",
+            "artifact_id": "miasi-agent-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "Tool",
+            "artifact_id": "miasi-tool-card",
+            "lifecycle": "APPROVED",
+            "ready": true
+          },
+          {
+            "kind": "Policy",
+            "artifact_id": "miasi-policy-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "Eval",
+            "artifact_id": "miasi-eval-card",
+            "lifecycle": "APPROVED",
+            "ready": true
+          },
+          {
+            "kind": "Observability",
+            "artifact_id": "miasi-observability-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          }
+        ],
+        "missing_controls": [],
+        "policy_binding": {
+          "ready": true,
+          "registry_validation_ok": true,
+          "missing_policy_rule_ids": [],
+          "missing_semantic_rule_ids": [],
+          "rbac_server_authority": true,
+          "approval_server_authority": true
+        },
+        "blockers": [],
+        "evidence_refs": [
+          "GSDLC-05-C scenario",
+          "scenario:project",
+          "docs/standards/miasi/03_agentic_sdlc.md",
+          "docs/standards/miasi/10_auditoria_final_promocion_miasi_v1.md",
+          ".devpilot/miasi/semantic_rules.json"
+        ],
+        "context_source": "generated:AI_READY",
+        "reevaluation_required": false,
+        "agent_execution_allowed": false,
+        "rag_execution_allowed": false,
+        "execution_reason_code": "GSDLC_06_07_NOT_IMPLEMENTED",
+        "network_used": false,
+        "external_api_used": false,
+        "model_execution_used": false,
+        "agents_executed": false,
+        "rag_executed": false,
+        "source_mutations_performed": false
+      }
+    },
+    {
+      "scenario_id": "AMBIGUOUS",
+      "input": {
+        "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "devpilot-local",
+        "project": {
+          "declared_ai_usage": null,
+          "capabilities": [],
+          "risk_level": "low",
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "features": [],
+        "risk_review_status": "NOT_REQUIRED",
+        "evidence_refs": [
+          "GSDLC-05-C scenario"
+        ]
+      },
+      "result": {
+        "status": "REVIEW_REQUIRED",
+        "gate_status": "BLOCK",
+        "reason_codes": [
+          "MIASI_APPLICABILITY_AMBIGUOUS"
+        ],
+        "risk_level": "low",
+        "project_decision": {
+          "scope_id": "project",
+          "declared_ai_usage": null,
+          "capabilities": [],
+          "risk_level": "low",
+          "applicable_signal": false,
+          "explicit_non_ai": false,
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "feature_decisions": [],
+        "required_controls": [
+          {
+            "kind": "Agent",
+            "artifact_id": "miasi-agent-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          },
+          {
+            "kind": "Tool",
+            "artifact_id": "miasi-tool-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          },
+          {
+            "kind": "Policy",
+            "artifact_id": "miasi-policy-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          },
+          {
+            "kind": "Eval",
+            "artifact_id": "miasi-eval-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          },
+          {
+            "kind": "Observability",
+            "artifact_id": "miasi-observability-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          }
+        ],
+        "missing_controls": [
+          "Agent",
+          "Tool",
+          "Policy",
+          "Eval",
+          "Observability"
+        ],
+        "policy_binding": {
+          "ready": true,
+          "registry_validation_ok": true,
+          "missing_policy_rule_ids": [],
+          "missing_semantic_rule_ids": [],
+          "rbac_server_authority": true,
+          "approval_server_authority": true
+        },
+        "blockers": [
+          {
+            "code": "MIASI_APPLICABILITY_REVIEW_REQUIRED",
+            "message": "MIASI applicability is ambiguous; explicit project/feature classification is required.",
+            "severity": "S1"
+          }
+        ],
+        "evidence_refs": [
+          "GSDLC-05-C scenario",
+          "scenario:project",
+          "docs/standards/miasi/03_agentic_sdlc.md",
+          "docs/standards/miasi/10_auditoria_final_promocion_miasi_v1.md",
+          ".devpilot/miasi/semantic_rules.json"
+        ],
+        "context_source": "generated:AMBIGUOUS",
+        "reevaluation_required": true,
+        "agent_execution_allowed": false,
+        "rag_execution_allowed": false,
+        "execution_reason_code": "MIASI_GATE_INCOMPLETE",
+        "network_used": false,
+        "external_api_used": false,
+        "model_execution_used": false,
+        "agents_executed": false,
+        "rag_executed": false,
+        "source_mutations_performed": false
+      }
+    },
+    {
+      "scenario_id": "MISSING_CONTROL",
+      "input": {
+        "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "devpilot-local",
+        "project": {
+          "declared_ai_usage": true,
+          "capabilities": [
+            "agent"
+          ],
+          "risk_level": "medium",
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "features": [],
+        "risk_review_status": "NOT_REQUIRED",
+        "evidence_refs": [
+          "GSDLC-05-C scenario"
+        ]
+      },
+      "result": {
+        "status": "APPLICABLE",
+        "gate_status": "BLOCK",
+        "reason_codes": [
+          "MIASI_AI_AGENTIC_SIGNAL_PRESENT"
+        ],
+        "risk_level": "medium",
+        "project_decision": {
+          "scope_id": "project",
+          "declared_ai_usage": true,
+          "capabilities": [
+            "agent"
+          ],
+          "risk_level": "medium",
+          "applicable_signal": true,
+          "explicit_non_ai": false,
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "feature_decisions": [],
+        "required_controls": [
+          {
+            "kind": "Agent",
+            "artifact_id": "miasi-agent-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "Tool",
+            "artifact_id": "miasi-tool-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          },
+          {
+            "kind": "Policy",
+            "artifact_id": "miasi-policy-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          },
+          {
+            "kind": "Eval",
+            "artifact_id": "miasi-eval-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          },
+          {
+            "kind": "Observability",
+            "artifact_id": "miasi-observability-card",
+            "lifecycle": "MISSING",
+            "ready": false
+          }
+        ],
+        "missing_controls": [
+          "Tool",
+          "Policy",
+          "Eval",
+          "Observability"
+        ],
+        "policy_binding": {
+          "ready": true,
+          "registry_validation_ok": true,
+          "missing_policy_rule_ids": [],
+          "missing_semantic_rule_ids": [],
+          "rbac_server_authority": true,
+          "approval_server_authority": true
+        },
+        "blockers": [
+          {
+            "code": "MIASI_REQUIRED_CONTROL_MISSING",
+            "message": "Required MIASI control artifacts are missing or not approved/frozen: Tool, Policy, Eval, Observability",
+            "severity": "S1"
+          }
+        ],
+        "evidence_refs": [
+          "GSDLC-05-C scenario",
+          "scenario:project",
+          "docs/standards/miasi/03_agentic_sdlc.md",
+          "docs/standards/miasi/10_auditoria_final_promocion_miasi_v1.md",
+          ".devpilot/miasi/semantic_rules.json"
+        ],
+        "context_source": "generated:MISSING_CONTROL",
+        "reevaluation_required": true,
+        "agent_execution_allowed": false,
+        "rag_execution_allowed": false,
+        "execution_reason_code": "MIASI_GATE_INCOMPLETE",
+        "network_used": false,
+        "external_api_used": false,
+        "model_execution_used": false,
+        "agents_executed": false,
+        "rag_executed": false,
+        "source_mutations_performed": false
+      }
+    },
+    {
+      "scenario_id": "CRITICAL_RISK",
+      "input": {
+        "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "devpilot-local",
+        "project": {
+          "declared_ai_usage": true,
+          "capabilities": [
+            "agent"
+          ],
+          "risk_level": "critical",
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "features": [],
+        "risk_review_status": "PENDING",
+        "evidence_refs": [
+          "GSDLC-05-C scenario"
+        ]
+      },
+      "result": {
+        "status": "APPLICABLE",
+        "gate_status": "BLOCK",
+        "reason_codes": [
+          "MIASI_AI_AGENTIC_SIGNAL_PRESENT",
+          "MIASI_RISK_ESCALATED_CRITICAL"
+        ],
+        "risk_level": "critical",
+        "project_decision": {
+          "scope_id": "project",
+          "declared_ai_usage": true,
+          "capabilities": [
+            "agent"
+          ],
+          "risk_level": "critical",
+          "applicable_signal": true,
+          "explicit_non_ai": false,
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "feature_decisions": [],
+        "required_controls": [
+          {
+            "kind": "Agent",
+            "artifact_id": "miasi-agent-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "Tool",
+            "artifact_id": "miasi-tool-card",
+            "lifecycle": "APPROVED",
+            "ready": true
+          },
+          {
+            "kind": "Policy",
+            "artifact_id": "miasi-policy-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "Eval",
+            "artifact_id": "miasi-eval-card",
+            "lifecycle": "APPROVED",
+            "ready": true
+          },
+          {
+            "kind": "Observability",
+            "artifact_id": "miasi-observability-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "HumanApproval",
+            "artifact_id": "miasi-human-approval-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          }
+        ],
+        "missing_controls": [],
+        "policy_binding": {
+          "ready": true,
+          "registry_validation_ok": true,
+          "missing_policy_rule_ids": [],
+          "missing_semantic_rule_ids": [],
+          "rbac_server_authority": true,
+          "approval_server_authority": true
+        },
+        "blockers": [
+          {
+            "code": "MIASI_CRITICAL_RISK_REVIEW_REQUIRED",
+            "message": "Critical AI/agentic risk requires explicit governed human risk review before advance.",
+            "severity": "S1"
+          }
+        ],
+        "evidence_refs": [
+          "GSDLC-05-C scenario",
+          "scenario:project",
+          "docs/standards/miasi/03_agentic_sdlc.md",
+          "docs/standards/miasi/10_auditoria_final_promocion_miasi_v1.md",
+          ".devpilot/miasi/semantic_rules.json"
+        ],
+        "context_source": "generated:CRITICAL_RISK",
+        "reevaluation_required": true,
+        "agent_execution_allowed": false,
+        "rag_execution_allowed": false,
+        "execution_reason_code": "MIASI_GATE_INCOMPLETE",
+        "network_used": false,
+        "external_api_used": false,
+        "model_execution_used": false,
+        "agents_executed": false,
+        "rag_executed": false,
+        "source_mutations_performed": false
+      }
+    },
+    {
+      "scenario_id": "FEATURE_NON_AI_TO_AI",
+      "input": {
+        "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+        "schema_version": "1.0",
+        "workspace_id": "devpilot-local",
+        "project": {
+          "declared_ai_usage": false,
+          "capabilities": [],
+          "risk_level": "low",
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "features": [
+          {
+            "feature_id": "feature-search-assistant",
+            "declared_ai_usage": true,
+            "capabilities": [
+              "llm"
+            ],
+            "risk_level": "medium",
+            "evidence_refs": [
+              "scenario:feature-evolution"
+            ]
+          }
+        ],
+        "risk_review_status": "NOT_REQUIRED",
+        "evidence_refs": [
+          "GSDLC-05-C scenario"
+        ]
+      },
+      "result": {
+        "status": "APPLICABLE",
+        "gate_status": "PASS",
+        "reason_codes": [
+          "MIASI_AI_AGENTIC_SIGNAL_PRESENT",
+          "MIASI_FEATURE_EVOLUTION_NON_AI_TO_AI"
+        ],
+        "risk_level": "medium",
+        "project_decision": {
+          "scope_id": "project",
+          "declared_ai_usage": false,
+          "capabilities": [],
+          "risk_level": "low",
+          "applicable_signal": false,
+          "explicit_non_ai": true,
+          "evidence_refs": [
+            "scenario:project"
+          ]
+        },
+        "feature_decisions": [
+          {
+            "scope_id": "feature-search-assistant",
+            "declared_ai_usage": true,
+            "capabilities": [
+              "llm"
+            ],
+            "risk_level": "medium",
+            "applicable_signal": true,
+            "explicit_non_ai": false,
+            "evidence_refs": [
+              "scenario:feature-evolution"
+            ]
+          }
+        ],
+        "required_controls": [
+          {
+            "kind": "Agent",
+            "artifact_id": "miasi-agent-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "Tool",
+            "artifact_id": "miasi-tool-card",
+            "lifecycle": "APPROVED",
+            "ready": true
+          },
+          {
+            "kind": "Policy",
+            "artifact_id": "miasi-policy-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          },
+          {
+            "kind": "Eval",
+            "artifact_id": "miasi-eval-card",
+            "lifecycle": "APPROVED",
+            "ready": true
+          },
+          {
+            "kind": "Observability",
+            "artifact_id": "miasi-observability-card",
+            "lifecycle": "FROZEN",
+            "ready": true
+          }
+        ],
+        "missing_controls": [],
+        "policy_binding": {
+          "ready": true,
+          "registry_validation_ok": true,
+          "missing_policy_rule_ids": [],
+          "missing_semantic_rule_ids": [],
+          "rbac_server_authority": true,
+          "approval_server_authority": true
+        },
+        "blockers": [],
+        "evidence_refs": [
+          "GSDLC-05-C scenario",
+          "scenario:project",
+          "scenario:feature-evolution",
+          "docs/standards/miasi/03_agentic_sdlc.md",
+          "docs/standards/miasi/10_auditoria_final_promocion_miasi_v1.md",
+          ".devpilot/miasi/semantic_rules.json"
+        ],
+        "context_source": "generated:FEATURE_NON_AI_TO_AI",
+        "reevaluation_required": false,
+        "agent_execution_allowed": false,
+        "rag_execution_allowed": false,
+        "execution_reason_code": "GSDLC_06_07_NOT_IMPLEMENTED",
+        "network_used": false,
+        "external_api_used": false,
+        "model_execution_used": false,
+        "agents_executed": false,
+        "rag_executed": false,
+        "source_mutations_performed": false
+      }
+    }
+  ],
+  "deterministic": true,
+  "network_used": false,
+  "external_api_used": false,
+  "model_execution_used": false,
+  "agents_executed": false,
+  "rag_executed": false,
+  "full_regression_runs": 0
+}

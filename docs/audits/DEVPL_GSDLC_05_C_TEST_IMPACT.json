@@ -1,0 +1,44 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-C-TEST-IMPACT-v1",
+  "status": "PASS/WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-05-C",
+  "full_regression_required": false,
+  "full_regression_runs": 0,
+  "browser_required": true,
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+    "tests/test_miasi_registry.py",
+    "tests/test_miasi_semantic_validator.py",
+    "tests/test_devpl_gsdlc_01_e_project_status.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+    "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_documentation_contract_reconciliation.py",
+    "tests/test_schema_registry.py"
+  ],
+  "ui_smokes": [
+    "ui/web/scripts/gsdlc01e-project-status-smoke.mjs",
+    "ui/web/scripts/gsdlc05c-miasi-applicability-smoke.mjs"
+  ],
+  "reason": "05-C changes MIASI applicability/domain projection and Project Status rendering but no model/agent runtime. Full remains reserved for 05-E.",
+  "browser_acceptance": "PASS",
+  "browser_context_recovery_corrective": {
+    "version": "1.0.2",
+    "full_regression_required": false,
+    "impacted_source": [
+      "ui/web/src/main.ts",
+      "ui/web/src/api/client.ts",
+      ".devpilot/interfaces/ui_route_contract_registry.json"
+    ],
+    "bounded_tests": [
+      "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py targeted recovery contracts",
+      "tests/test_post_h_028_ui_route_registry_enforcement.py"
+    ],
+    "ui_smoke": "ui/web/scripts/gsdlc05c-miasi-applicability-smoke.mjs",
+    "browser_acceptance": "PASS/WINDOWS",
+    "browser_acceptance_restart_point": "explicit project-context recovery before B01"
+  }
+}

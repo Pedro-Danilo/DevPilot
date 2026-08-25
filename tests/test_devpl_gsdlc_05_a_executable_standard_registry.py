@@ -152,11 +152,11 @@ def test_05_a_activation_rebind_is_materialized_without_consuming_full():
     assert state["gsdlc_04_e_full_regression_runs"] == 1
     assert state["gsdlc_04_e_full_regression_rerun_performed"] is False
     # Current-active successor state after owner adjudication must preserve 05-A closure facts.
-    assert state["gsdlc_05_status"] == "active/05-b"
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-05-B"
+    # Historical 05-A closure must not bind to the mutable current micro-sprint.
     assert state["gsdlc_05_a_status"] == "closed/PASS"
-    assert state["gsdlc_05_a_owner_adjudication_pending"] is False
     assert state["gsdlc_05_a_successor_repo_at_close"].startswith("repo_DevPilot_Local_370_")
+    assert state["gsdlc_current_micro_sprint"].startswith("DEVPL-GSDLC-05-")
+    assert state["gsdlc_05_a_owner_adjudication_pending"] is False
     assert state["gsdlc_05_a_full_regression_runs"] == 0
     for name in [
         "DEVPL_GSDLC_04_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",

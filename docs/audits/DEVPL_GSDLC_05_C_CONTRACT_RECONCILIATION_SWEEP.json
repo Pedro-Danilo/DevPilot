@@ -1,0 +1,18 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-C-CONTRACT-RECONCILIATION-SWEEP-v1",
+  "status": "PASS/PRE-WINDOWS",
+  "checks": [
+    "applicability policy schema/source refs",
+    "MIASI registry+semantic bindings",
+    "Project Status response/UI route continuity",
+    "Source Registry current-active status parity",
+    "Project State/README/roadmap/CURRENT parity",
+    "TCR v1/v2 registration",
+    "runtime-ephemeral exclusion",
+    "AGENT/RAG no-go preserved",
+    "explicit Project Status recovery is authenticated, server-read-only, non-mutating and leaves bare route guarded"
+  ],
+  "deterministic_drift_open_total": 0,
+  "full_regression_runs": 0,
+  "browser_context_recovery_corrective": "PASS/LOCAL-v1.0.2"
+}

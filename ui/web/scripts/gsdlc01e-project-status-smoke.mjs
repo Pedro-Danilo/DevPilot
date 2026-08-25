@@ -20,5 +20,5 @@ for(const marker of ['loading','empty','blocked','revalidation','stale','api_dow
 check(view.includes('textContent')&&!view.includes('innerHTML'),'xss-text-content');
 check(!view.includes('devpilot_core')&&!view.includes('child_process')&&!view.includes('outputs/')&&!view.includes('.devpilot/'),'no-direct-core');
 check(view.includes("globalThis.location.assign")&&view.includes("action.mutating !== true"),'continue-safe-navigation');
-check(pkg.devpilot.topLevelUiRoutesChanged===false,'historical-top-level-flag'); check(pkg.devpilot.gsdlc01eTopLevelUiRoutesChanged===true,'successor-top-level-flag');
+check(pkg.devpilot.uoc011RoutesTotalAtClose===9,'historical-uoc011-route-count'); check(pkg.devpilot.gsdlc01eTopLevelUiRoutesChanged===true,'successor-top-level-flag'); check(pkg.devpilot.currentTopLevelUiRoutesTotal>=10,'current-successor-route-count');
 console.log(JSON.stringify({schema_id:'devpilot.gsdlc01e.project_status_smoke.v1',status:failures.length?'BLOCK':'PASS',current_routes_total:registry.routes.length,uoc_routes_at_close:frozen.routes.length,failures},null,2)); process.exit(failures.length?2:0);

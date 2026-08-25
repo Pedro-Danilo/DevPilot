@@ -448,3 +448,13 @@ Project Entry completed authoritative browser acceptance: 14 scenarios / 12 scre
 ### GSDLC-05-B — MIPSoftware executable lifecycle and gates
 
 Estado current-active: `implemented/pending-windows-validation`. 05-A está `CLOSED/PASS` y repo370 es el predecessor inmediato. 05-B agrega registry Intake→Release, gate evaluator determinístico, progress model y blockers/remediation sin LLM. Full regression permanece reservada para 05-E (`runs=0`).
+
+
+### DEVPL-GSDLC-05-C — MIASI applicability (current)
+
+GSDLC-05-B está `CLOSED/PASS` sobre repo371. GSDLC-05-C implementa clasificación MIASI determinística project/feature, control readiness y Project Status indicator; estado `implemented/pending-windows-validation`, full regression 0.
+
+
+## DEVPL-GSDLC-05-C Windows candidate
+
+GSDLC-05-C: `PASS-CANDIDATE / browser capability PASS / owner adjudication pending`; full regression remains 0 and GSDLC-05-D is not authorized yet.

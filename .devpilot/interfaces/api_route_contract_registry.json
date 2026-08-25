@@ -805,8 +805,10 @@
       ],
       "notes": [
         "Consumes ProjectProgressEngine projection through ApplicationService; does not duplicate ProjectStatus logic.",
-        "Actor-neutral/local-only; productive auth is deferred to GSDLC-02."
-      ]
+        "Actor-neutral/local-only; productive auth is deferred to GSDLC-02.",
+        "GSDLC-05-C extends the existing read-only response with server-evaluated MIASI applicability/control readiness; route/method/security authority unchanged."
+      ],
+      "miasi_applicability_projection": true
     },
     {
       "route_id": "api.health",
@@ -4114,7 +4116,8 @@
     "gsdlc_04_c_url_fetch_routes_total": 0,
     "gsdlc_04_d_artifact_review_routes_total": 5,
     "gsdlc_04_d_source_write_routes_total": 0,
-    "gsdlc_04_d_reused_uoc005_source_write_routes_total": 2
+    "gsdlc_04_d_reused_uoc005_source_write_routes_total": 2,
+    "gsdlc_05_c_project_status_miasi_projection": true
   },
   "safety": {
     "local_first": true,

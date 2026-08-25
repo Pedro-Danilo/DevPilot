@@ -1,5 +1,5 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
-import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectStatusResponseData } from '../api/types';
+import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectStatusResponseData, MiasiApplicabilityStatus } from '../api/types';
 
 const ROUTE_ID = 'ui.project-status';
 
@@ -61,6 +61,7 @@ function renderState(data: GuidedSdlcProjectStatusResponseData): HTMLElement {
   wrapper.append(renderOverview(status, state));
   wrapper.append(renderNextAction(next));
   wrapper.append(renderSignals(status));
+  wrapper.append(renderMiasi(status.miasi ?? {}));
   wrapper.append(renderBlockers(status));
   return wrapper;
 }
@@ -156,6 +157,69 @@ function renderSignals(status: GuidedSdlcProjectStatus): HTMLElement {
   addFact(facts, 'Freshness', safe(status.freshness?.status));
   addFact(facts, 'Model/token budget', safe(status.model_budget?.status, 'NOT_AVAILABLE'));
   panel.append(title, facts);
+  return panel;
+}
+
+
+function renderMiasi(miasi: MiasiApplicabilityStatus): HTMLElement {
+  const panel = document.createElement('article');
+  panel.className = 'panel project-status-card project-status-card--miasi';
+  panel.dataset.miasiStatus = safe(miasi.status, 'REVIEW_REQUIRED');
+  panel.dataset.miasiGate = safe(miasi.gate_status, 'BLOCK');
+  const heading = document.createElement('div');
+  heading.className = 'project-status-card__heading';
+  const title = document.createElement('h3');
+  title.textContent = 'MIASI · Aplicabilidad y controles';
+  const badge = document.createElement('span');
+  const gate = safe(miasi.gate_status, 'BLOCK').toLowerCase();
+  badge.className = `project-status-state project-status-state--${gate === 'pass' ? 'ready' : 'blocked'}`;
+  badge.textContent = `${safe(miasi.status, 'REVIEW_REQUIRED')} · ${safe(miasi.gate_status, 'BLOCK')}`;
+  heading.append(title, badge);
+
+  const rationale = document.createElement('p');
+  rationale.className = 'project-status-miasi-rationale';
+  const reasons = Array.isArray(miasi.reason_codes) ? miasi.reason_codes : [];
+  rationale.textContent = reasons.length ? `Razón: ${reasons.join(' · ')}` : 'Razón: clasificación MIASI no disponible.';
+
+  const facts = document.createElement('dl');
+  facts.className = 'project-status-facts';
+  addFact(facts, 'Riesgo', safe(miasi.risk_level, 'unknown'));
+  addFact(facts, 'Agent execution', miasi.agent_execution_allowed === true ? 'AVAILABLE' : 'UNAVAILABLE');
+  addFact(facts, 'RAG execution', miasi.rag_execution_allowed === true ? 'AVAILABLE' : 'UNAVAILABLE');
+  addFact(facts, 'Reevaluación', miasi.reevaluation_required === true ? 'REQUIRED' : 'NOT_REQUIRED');
+
+  const controlsTitle = document.createElement('h4');
+  controlsTitle.textContent = 'Controles requeridos';
+  const controls = document.createElement('ul');
+  controls.className = 'project-status-miasi-controls';
+  const rows = Array.isArray(miasi.required_controls) ? miasi.required_controls : [];
+  if (!rows.length) {
+    const row = document.createElement('li');
+    row.textContent = safe(miasi.status) === 'NOT_APPLICABLE' ? 'No aplican controles MIASI para la declaración actual.' : 'No hay controles materializados todavía.';
+    controls.append(row);
+  } else {
+    for (const control of rows) {
+      const row = document.createElement('li');
+      row.dataset.ready = control.ready === true ? 'true' : 'false';
+      const name = document.createElement('strong');
+      name.textContent = safe(control.kind, 'Control');
+      const detail = document.createElement('span');
+      detail.textContent = ` — ${safe(control.lifecycle, 'MISSING')} · ${safe(control.artifact_id)}`;
+      row.append(name, detail);
+      controls.append(row);
+    }
+  }
+
+  const missing = Array.isArray(miasi.missing_controls) ? miasi.missing_controls : [];
+  const warning = document.createElement('p');
+  warning.className = 'project-status-disabled-reason';
+  warning.hidden = missing.length === 0;
+  warning.textContent = missing.length ? `Faltan controles: ${missing.join(', ')}. El avance permanece bloqueado.` : '';
+
+  const execution = document.createElement('p');
+  execution.className = 'project-status-muted';
+  execution.textContent = `AGENT/RAG permanecen no ejecutables en GSDLC-05: ${safe(miasi.execution_reason_code, 'GSDLC_06_07_NOT_IMPLEMENTED')}.`;
+  panel.append(heading, rationale, facts, controlsTitle, controls, warning, execution);
   return panel;
 }
 

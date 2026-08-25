@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+  "title": "DevPilot MIASI Applicability Context v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "workspace_id",
+    "project",
+    "features",
+    "risk_review_status",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "workspace_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]{1,256}$"
+    },
+    "project": {
+      "$ref": "#/$defs/scope"
+    },
+    "features": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/scope"
+          },
+          {
+            "type": "object",
+            "required": [
+              "feature_id"
+            ],
+            "properties": {
+              "feature_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_.:-]{1,256}$"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "risk_review_status": {
+      "enum": [
+        "NOT_REQUIRED",
+        "PENDING",
+        "APPROVED"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "maxLength": 1024
+      }
+    }
+  },
+  "$defs": {
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declared_ai_usage",
+        "capabilities",
+        "risk_level",
+        "evidence_refs"
+      ],
+      "properties": {
+        "feature_id": {
+          "type": "string"
+        },
+        "declared_ai_usage": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "capabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "llm",
+              "agent",
+              "tool_calling",
+              "rag",
+              "memory",
+              "embeddings",
+              "prompt_generation",
+              "model_inference",
+              "autonomous_action",
+              "agent_handoff"
+            ]
+          }
+        },
+        "risk_level": {
+          "enum": [
+            "low",
+            "medium",
+            "medium_high",
+            "high",
+            "critical"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 1024
+          }
+        }
+      }
+    }
+  }
+}

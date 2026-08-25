@@ -20649,6 +20649,120 @@
       "notes": [
         "Full regression remains forbidden by routine in GSDLC-05-B."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-c-miasi-applicability",
+      "source_contract_id": "devpl-gsdlc-05-c-miasi-applicability",
+      "schema_version": "2.0",
+      "domain": "governance.miasi",
+      "capability": "MIASIApplicabilityPolicyBinding",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+        "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_devpl_gsdlc_01_e_project_status.py",
+        "tests/test_miasi_registry.py",
+        "tests/test_miasi_semantic_validator.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "watched_paths": [
+        ".devpilot/miasi/applicability_policy.json",
+        ".devpilot/miasi/agent_registry.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json",
+        ".devpilot/miasi/semantic_rules.json",
+        "src/devpilot_core/miasi/applicability.py",
+        "src/devpilot_core/miasi/__init__.py",
+        "src/devpilot_core/guided_sdlc/service.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/styles.css",
+        "ui/web/package.json",
+        "ui/web/package-lock.json",
+        "ui/web/scripts/gsdlc05c-miasi-applicability-smoke.mjs",
+        "ui/web/scripts/gsdlc01e-project-status-smoke.mjs",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/07_interfaces/api_service_mapping.md",
+        "docs/schemas/miasi_applicability_policy.schema.json",
+        "docs/schemas/miasi_applicability_context.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "validates": [
+        "project-level AI/non-AI/ambiguous MIASI applicability",
+        "feature-level non-AI to AI re-evaluation",
+        "required Agent/Tool/Policy/Eval/HumanApproval/Observability/RAG/Memory controls",
+        "critical-risk fail-closed review",
+        "policy/RBAC/approval semantic binding",
+        "no agent or RAG execution in GSDLC-05",
+        "deterministic rationale/evidence refs",
+        "real Guided SDLC service Project Status projection",
+        "Project Status UI/API/route mapping",
+        "historical MIASI registry preservation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-05-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_c_miasi_applicability.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "MIASI applicability classification is deterministic and fail-closed for ambiguity/high risk.",
+        "Browser acceptance consumes real API/service projection; fixtures provide only runtime declarative inputs."
+      ],
+      "trigger_hints": [
+        "miasi-applicability",
+        "ai-project",
+        "agentic-feature",
+        "risk-escalation",
+        "project-status",
+        "policy-binding"
+      ],
+      "impact_tags": [
+        "miasi",
+        "guided-sdlc",
+        "project-status",
+        "ui",
+        "api",
+        "policy",
+        "rbac",
+        "approval",
+        "safety"
+      ],
+      "owner_domain": "governance.miasi-applicability",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-MIASI-APPLICABILITY-POLICY-V1",
+        "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1"
+      ],
+      "notes": [
+        "Full regression remains forbidden by routine in GSDLC-05-C; bounded browser capability acceptance is required."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -20810,5 +20924,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 291
+  "contracts_total": 292
 }

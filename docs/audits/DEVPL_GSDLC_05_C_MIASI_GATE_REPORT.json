@@ -1,0 +1,125 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-C-MIASI-GATE-REPORT-v1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-05-C",
+  "checks": [
+    {
+      "scenario_id": "NON_AI",
+      "expected": {
+        "status": "NOT_APPLICABLE",
+        "gate_status": "PASS"
+      },
+      "actual": {
+        "status": "NOT_APPLICABLE",
+        "gate_status": "PASS"
+      },
+      "status": "PASS",
+      "reason_codes": [
+        "MIASI_EXPLICIT_NON_AI_DECLARATION"
+      ],
+      "missing_controls": []
+    },
+    {
+      "scenario_id": "AI_READY",
+      "expected": {
+        "status": "APPLICABLE",
+        "gate_status": "PASS"
+      },
+      "actual": {
+        "status": "APPLICABLE",
+        "gate_status": "PASS"
+      },
+      "status": "PASS",
+      "reason_codes": [
+        "MIASI_AI_AGENTIC_SIGNAL_PRESENT"
+      ],
+      "missing_controls": []
+    },
+    {
+      "scenario_id": "AMBIGUOUS",
+      "expected": {
+        "status": "REVIEW_REQUIRED",
+        "gate_status": "BLOCK"
+      },
+      "actual": {
+        "status": "REVIEW_REQUIRED",
+        "gate_status": "BLOCK"
+      },
+      "status": "PASS",
+      "reason_codes": [
+        "MIASI_APPLICABILITY_AMBIGUOUS"
+      ],
+      "missing_controls": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Observability"
+      ]
+    },
+    {
+      "scenario_id": "MISSING_CONTROL",
+      "expected": {
+        "status": "APPLICABLE",
+        "gate_status": "BLOCK"
+      },
+      "actual": {
+        "status": "APPLICABLE",
+        "gate_status": "BLOCK"
+      },
+      "status": "PASS",
+      "reason_codes": [
+        "MIASI_AI_AGENTIC_SIGNAL_PRESENT"
+      ],
+      "missing_controls": [
+        "Tool",
+        "Policy",
+        "Eval",
+        "Observability"
+      ]
+    },
+    {
+      "scenario_id": "CRITICAL_RISK",
+      "expected": {
+        "status": "APPLICABLE",
+        "gate_status": "BLOCK"
+      },
+      "actual": {
+        "status": "APPLICABLE",
+        "gate_status": "BLOCK"
+      },
+      "status": "PASS",
+      "reason_codes": [
+        "MIASI_AI_AGENTIC_SIGNAL_PRESENT",
+        "MIASI_RISK_ESCALATED_CRITICAL"
+      ],
+      "missing_controls": []
+    },
+    {
+      "scenario_id": "FEATURE_NON_AI_TO_AI",
+      "expected": {
+        "status": "APPLICABLE",
+        "gate_status": "PASS"
+      },
+      "actual": {
+        "status": "APPLICABLE",
+        "gate_status": "PASS"
+      },
+      "status": "PASS",
+      "reason_codes": [
+        "MIASI_AI_AGENTIC_SIGNAL_PRESENT",
+        "MIASI_FEATURE_EVOLUTION_NON_AI_TO_AI"
+      ],
+      "missing_controls": []
+    }
+  ],
+  "checks_total": 6,
+  "checks_passed": 6,
+  "policy_binding_ready_for_ai_ready": true,
+  "agent_execution_allowed_any": false,
+  "rag_execution_allowed_any": false,
+  "unsafe_advance_detected": false,
+  "full_regression_runs": 0,
+  "browser_acceptance_pending": false,
+  "browser_acceptance": "PASS"
+}

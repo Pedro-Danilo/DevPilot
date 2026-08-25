@@ -3071,6 +3071,34 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-05-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-POLICY-V1",
+      "path": "docs/schemas/miasi_applicability_policy.schema.json",
+      "title": "MIASI Applicability Policy v1",
+      "status": "registered",
+      "version": "1.0.0",
+      "description": "GSDLC-05-C deterministic MIASI applicability contract.",
+      "contract": "MIASIApplicabilityPolicy",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-05-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-05-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1",
+      "path": "docs/schemas/miasi_applicability_context.schema.json",
+      "title": "MIASI Applicability Context v1",
+      "status": "registered",
+      "version": "1.0.0",
+      "description": "GSDLC-05-C deterministic MIASI applicability contract.",
+      "contract": "MIASIApplicabilityContext",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-05-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-05-C"
     }
   ],
   "schemas_total": 213

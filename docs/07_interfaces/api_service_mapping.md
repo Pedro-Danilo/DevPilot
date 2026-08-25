@@ -447,3 +447,7 @@ Successor mapping for governed artifact authoring/import/review. Historical API 
 | `POST` | `/api/v1/workspace/artifact-reviews/{review_id}/reconcile` | `workspace.artifact_reviews.reconcile` | `API-GSDLC04E-ARTIFACT-REVIEW-RECONCILE` | `ApplicationService -> ArtifactReviewApplicationService` | Human session + CSRF when mutating; local-only; no arbitrary shell/network/external API; source mutation=false |
 
 The Artifact Workbench mapping is current-active. Frozen UOC/GSDLC-03 snapshots remain historical and must not be rewritten to match successor route counts.
+
+## GSDLC-05-C — MIASI applicability projection
+
+`GET /api/v1/guided-sdlc/status` conserva su operación `guided_sdlc.project_status`, autenticación y semántica read-only. GSDLC-05-C amplía únicamente el payload `project_status.miasi` con la evaluación determinística server-side (`APPLICABLE`, `NOT_APPLICABLE`, `REVIEW_REQUIRED`), controles requeridos, risk escalation y no-go `AGENT/RAG`. No se crea una ruta paralela ni un segundo policy engine.

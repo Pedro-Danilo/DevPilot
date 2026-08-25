@@ -6432,3 +6432,13 @@ Estado: `CLOSED/PASS`. Successor owner-adjudicated: repo368 / commit `e1d9d1c722
 - GSDLC-05-A: `CLOSED/PASS` by owner adjudication.
 - GSDLC-05-B: `pass-candidate/pending-owner-adjudication`; Windows selective validation PASS; MIPSoftware lifecycle Intake→Release is machine-readable and deterministic.
 - GSDLC-05 full regression runs: `0`; browser 05-B: `0`.
+
+
+### DEVPL-GSDLC-05-C — MIASI applicability (current)
+
+GSDLC-05-B está `CLOSED/PASS` sobre repo371. GSDLC-05-C implementa clasificación MIASI determinística project/feature, control readiness y Project Status indicator; estado `implemented/pending-windows-validation`, full regression 0.
+
+
+## DEVPL-GSDLC-05-C Windows candidate
+
+GSDLC-05-C: `PASS-CANDIDATE / browser capability PASS / owner adjudication pending`; full regression remains 0 and GSDLC-05-D is not authorized yet.

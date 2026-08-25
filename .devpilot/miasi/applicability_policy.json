@@ -1,0 +1,105 @@
+{
+  "schema_id": "SCHEMA-DEVPL-MIASI-APPLICABILITY-POLICY-V1",
+  "schema_version": "1.0",
+  "policy_id": "DEVPL-GSDLC-05-C-MIASI-APPLICABILITY-POLICY",
+  "policy_version": "1.0.0",
+  "status": "implemented-initial/pending-owner-approval",
+  "description": "Deterministic project/feature MIASI applicability and control-binding policy. It classifies declarative inputs only; it never executes agents, tools, RAG or models.",
+  "capability_catalog": [
+    "llm",
+    "agent",
+    "tool_calling",
+    "rag",
+    "memory",
+    "embeddings",
+    "prompt_generation",
+    "model_inference",
+    "autonomous_action",
+    "agent_handoff"
+  ],
+  "risk_order": [
+    "low",
+    "medium",
+    "medium_high",
+    "high",
+    "critical"
+  ],
+  "base_required_controls": [
+    "Agent",
+    "Tool",
+    "Policy",
+    "Eval",
+    "Observability"
+  ],
+  "conditional_controls": {
+    "rag": [
+      "RAG"
+    ],
+    "memory": [
+      "Memory"
+    ],
+    "high_risk": [
+      "HumanApproval"
+    ],
+    "critical_risk": [
+      "HumanApproval"
+    ]
+  },
+  "control_artifact_ids": {
+    "Agent": "miasi-agent-card",
+    "Tool": "miasi-tool-card",
+    "Policy": "miasi-policy-card",
+    "Eval": "miasi-eval-card",
+    "HumanApproval": "miasi-human-approval-card",
+    "Observability": "miasi-observability-card",
+    "RAG": "miasi-rag-card",
+    "Memory": "miasi-memory-card"
+  },
+  "ready_artifact_lifecycles": [
+    "APPROVED",
+    "FROZEN"
+  ],
+  "required_policy_rule_ids": [
+    "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+    "APPROVAL_ACTOR_BINDING_REQUIRED",
+    "AGENT_CRITICAL_TOOL_DENY",
+    "SECRETS_RAW_DENY"
+  ],
+  "required_semantic_rule_ids": [
+    "SEM-RBAC-001",
+    "SEM-APPROVAL-SCOPE-001",
+    "SEM-NO-GO-GUARD-001"
+  ],
+  "critical_risk_review_required": true,
+  "agent_execution_enabled": false,
+  "rag_execution_enabled": false,
+  "source_refs": [
+    {
+      "doc_id": "DOC-AI-004",
+      "path": "docs/standards/miasi/03_agentic_sdlc.md",
+      "heading": "## 4. Principios normativos del Agentic SDLC",
+      "source_sha256": "5dd8ed6f3f5ff43e18ae2849fae33f957a5e6ddce7af959941cc939914246349"
+    },
+    {
+      "doc_id": "DOC-AI-010",
+      "path": "docs/standards/miasi/10_auditoria_final_promocion_miasi_v1.md",
+      "heading": "## 7. Relación con un modelo superior de ingeniería de software",
+      "source_sha256": "e3fa1ce20dc36fb90b8c0eaa15497ab45c4e730e16e288ec388e7c53813e0b45"
+    },
+    {
+      "doc_id": "MIASI-SEMANTIC-RULES",
+      "path": ".devpilot/miasi/semantic_rules.json",
+      "heading": "semantic_rules",
+      "source_sha256": "6e87cc892d69ac7b06a32dc3ed25c44e8a94f7ad6d8ad8c6d24a93a1894b5f50"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "deny_by_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "model_execution_used": false,
+    "agents_executed": false,
+    "rag_executed": false
+  }
+}

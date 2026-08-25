@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MIASI-APPLICABILITY-POLICY-V1",
+  "title": "DevPilot MIASI Applicability Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "policy_id",
+    "policy_version",
+    "status",
+    "capability_catalog",
+    "risk_order",
+    "base_required_controls",
+    "conditional_controls",
+    "control_artifact_ids",
+    "ready_artifact_lifecycles",
+    "required_policy_rule_ids",
+    "required_semantic_rule_ids",
+    "critical_risk_review_required",
+    "agent_execution_enabled",
+    "rag_execution_enabled",
+    "source_refs",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-MIASI-APPLICABILITY-POLICY-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "capability_catalog": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_order": {
+      "const": [
+        "low",
+        "medium",
+        "medium_high",
+        "high",
+        "critical"
+      ]
+    },
+    "base_required_controls": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "conditional_controls": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "control_artifact_ids": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ready_artifact_lifecycles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_policy_rule_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_semantic_rule_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "critical_risk_review_required": {
+      "type": "boolean"
+    },
+    "agent_execution_enabled": {
+      "const": false
+    },
+    "rag_execution_enabled": {
+      "const": false
+    },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "doc_id",
+          "path",
+          "heading",
+          "source_sha256"
+        ],
+        "properties": {
+          "doc_id": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "heading": {
+            "type": "string"
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "deny_by_default",
+        "network_used",
+        "external_api_used",
+        "model_execution_used",
+        "agents_executed",
+        "rag_executed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "deny_by_default": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "model_execution_used": {
+          "const": false
+        },
+        "agents_executed": {
+          "const": false
+        },
+        "rag_executed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

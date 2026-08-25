@@ -1,0 +1,16 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-C-OPERATION-DECLARATION-v1",
+  "status": "PASS",
+  "local_first": true,
+  "dry_run_default": true,
+  "network_used": false,
+  "external_api_used": false,
+  "model_execution_used": false,
+  "agents_executed": false,
+  "rag_executed": false,
+  "secrets_exposed": false,
+  "pilot_workspace_accessed": false,
+  "managed_project_source_writes_by_browser_fixture": 0,
+  "runtime_fixture_writes_allowed_under_outputs": true,
+  "full_regression_runs": 0
+}

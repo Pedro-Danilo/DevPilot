@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
+
+from devpilot_core.miasi.applicability import MIASIApplicabilityEvaluator
 
 from .repository import WorkspaceEngineeringStateRepository
 from .project_progress import ProjectProgressEngine, ProjectProjection
@@ -75,11 +78,19 @@ class GuidedSDLCService:
         expected_state_fingerprint: str | None = None,
     ) -> ProjectProjection:
         state = self.repository.load(workspace_id)
-        return ProjectProgressEngine(self.workflow_engine).project(
+        projection = ProjectProgressEngine(self.workflow_engine).project(
             state,
             observed_at_utc=observed_at_utc,
             expected_state_fingerprint=expected_state_fingerprint,
         )
+        miasi = MIASIApplicabilityEvaluator(self.repository.platform_root).evaluate_workspace(workspace_id, state.to_payload())
+        status = replace(
+            projection.status,
+            miasi=miasi.to_payload(),
+            blockers=tuple(projection.status.blockers) + miasi.project_status_blockers(),
+            source_refs=tuple(dict.fromkeys(tuple(projection.status.source_refs) + tuple(miasi.evidence_refs))),
+        )
+        return replace(projection, status=status)
 
     def next_action(
         self,

@@ -1156,3 +1156,12 @@ button, .primary-nav__links a { min-height: 44px; }
 .artifact-review-findings li { display:flex; align-items:flex-start; justify-content:space-between; gap:0.75rem; }
 .artifact-review-diff { max-height:28rem; overflow:auto; white-space:pre-wrap; word-break:break-word; }
 @media (max-width: 760px) { .artifact-review-controls { grid-template-columns:1fr; } .artifact-review-evidence dl { grid-template-columns:1fr; } .artifact-review-findings li { flex-direction:column; } }
+
+/* DEVPL-GSDLC-05-C — MIASI applicability within Project Status. */
+.project-status-card--miasi{grid-column:1/-1;border-top:4px solid #6d4cc5;background:linear-gradient(180deg,#fff,#faf8ff)}
+.project-status-miasi-rationale{margin:.4rem 0 1rem;overflow-wrap:anywhere}
+.project-status-miasi-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.55rem;margin:.35rem 0 1rem;padding:0;list-style:none}
+.project-status-miasi-controls li{padding:.65rem .75rem;border:1px solid #cfd6e5;border-radius:.55rem;background:#fff}
+.project-status-miasi-controls li[data-ready="true"]{border-left:4px solid #238636;background:#f3fbf5}
+.project-status-miasi-controls li[data-ready="false"]{border-left:4px solid #b42318;background:#fff4f2}
+.project-status-card--miasi h4{margin:.9rem 0 .35rem}

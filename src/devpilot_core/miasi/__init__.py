@@ -1,3 +1,4 @@
+from .applicability import MIASIApplicabilityError, MIASIApplicabilityEvaluator, MIASIApplicabilityResult
 from .registry import (
     AgentSpec,
     MiasiRegistryBundle,
@@ -10,6 +11,9 @@ from .semantic_models import MiasiSemanticReport, SemanticFinding, SemanticRuleR
 from .semantic_rules import SemanticRuleStatus, SemanticSeverity
 
 __all__ = [
+    "MIASIApplicabilityError",
+    "MIASIApplicabilityEvaluator",
+    "MIASIApplicabilityResult",
     "AgentSpec",
     "MiasiRegistryBundle",
     "MiasiRegistryValidator",

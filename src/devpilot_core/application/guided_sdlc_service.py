@@ -161,9 +161,10 @@ class GuidedSDLCApplicationService:
             freshness = str((status_payload.get("freshness") or {}).get("status") or "UNKNOWN").upper()
             revalidation = str((status_payload.get("revalidation") or {}).get("status") or "UNKNOWN").upper()
             lifecycle = str(status_payload.get("lifecycle_status") or "UNKNOWN").upper()
+            miasi_gate = str((status_payload.get("miasi") or {}).get("gate_status") or "UNKNOWN").upper()
             if revalidation in {"REQUIRED", "IN_PROGRESS"} or lifecycle == "REVALIDATION_REQUIRED":
                 ui_state = "REVALIDATION_REQUIRED"
-            elif lifecycle == "BLOCKED" or status_payload.get("blockers"):
+            elif lifecycle == "BLOCKED" or miasi_gate == "BLOCK" or status_payload.get("blockers"):
                 ui_state = "BLOCKED"
             elif freshness == "STALE":
                 ui_state = "STALE"

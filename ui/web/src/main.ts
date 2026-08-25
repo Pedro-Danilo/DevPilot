@@ -1,4 +1,4 @@
-import { clearProjectJourneyContext, clearProjectRecoveryIntent, DevPilotApiClient, DevPilotApiError, parseExplicitProjectRecoveryIntent, projectRecoveryTarget, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readProjectRecoveryIntent, readStoredToken, resolvePostLoginReturn, restoreProjectJourneyContextFromServerRecovery, saveProjectRecoveryIntent } from './api/client';
+import { clearProjectJourneyContext, clearProjectRecoveryIntent, DevPilotApiClient, DevPilotApiError, parseExplicitProjectRecoveryIntent, projectRecoveryTarget, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readProjectRecoveryIntent, readStoredToken, resolvePostLoginReturn, restoreProjectJourneyContextFromProjectStatusRecovery, restoreProjectJourneyContextFromServerRecovery, saveProjectRecoveryIntent } from './api/client';
 import type { ProjectJourneyContext } from './api/client';
 import type { AuthSessionContext } from './api/types';
 import { renderDashboard } from './pages/Dashboard';
@@ -67,6 +67,10 @@ async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
     }
     const envelope=await client.authSession();
     if (path === '/login' || path === '/first-run') return redirect(resolvePostLoginReturn(params.get('return')));
+    const projectStatusRecoveryOutcome=await recoverExplicitProjectStatusContext(client, path, params);
+    if (projectStatusRecoveryOutcome === 'failed') {
+      return redirect('/?guard=Estado%20del%20proyecto&attempted=%2Fproject%2Fstatus&recovery=server-context-failed');
+    }
     const recoveryOutcome=await recoverExplicitServerProjectContext(client, path, params);
     if (recoveryOutcome === 'failed') {
       clearProjectRecoveryIntent();
@@ -162,6 +166,19 @@ function renderNotFound(path:string):HTMLElement{const section=document.createEl
 function readEntryMode(value:string|null):'CREATE_NEW'|'OPEN_EXISTING'|'IMPORT_GIT'|undefined{if(value==='CREATE_NEW'||value==='OPEN_EXISTING'||value==='IMPORT_GIT')return value;return undefined;}
 function normalizePath(path:string):string{if(!path||path==='/')return '/';const normalized=path.replace(/\/+$/,'');return normalized||'/';}
 type ProjectRecoveryOutcome = 'not-requested' | 'already-project' | 'restored' | 'failed';
+async function recoverExplicitProjectStatusContext(client: DevPilotApiClient, path: string, params: URLSearchParams): Promise<ProjectRecoveryOutcome> {
+  if (readProjectJourneyContext()?.phase === 'project') return 'already-project';
+  if (path !== '/project/status' || params.get('recover_project_context') !== 'server-active') return 'not-requested';
+  try {
+    const response=await client.projectStatus();
+    const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response);
+    if (!restored) return 'failed';
+    try { globalThis.history?.replaceState(null, '', '/project/status'); } catch { /* cosmetic only; route authority is already server-validated. */ }
+    return 'restored';
+  } catch {
+    return 'failed';
+  }
+}
 async function recoverExplicitServerProjectContext(client: DevPilotApiClient, path: string, params: URLSearchParams): Promise<ProjectRecoveryOutcome> {
   if (readProjectJourneyContext()?.phase === 'project') {
     clearProjectRecoveryIntent();

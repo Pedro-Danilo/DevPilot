@@ -1,0 +1,24 @@
+import fs from 'node:fs';
+const read=(p)=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
+const view=read('src/pages/ProjectStatusView.ts');
+const types=read('src/api/types.ts');
+const css=read('src/styles.css');
+const main=read('src/main.ts');
+const client=read('src/api/client.ts');
+const failures=[]; const check=(v,id)=>{if(!v)failures.push(id)};
+check(view.includes('renderMiasi'),'render-miasi');
+check(view.includes('MIASI · Aplicabilidad y controles'),'heading');
+check(view.includes('Faltan controles'),'missing-controls');
+check(view.includes('AGENT/RAG permanecen no ejecutables'),'no-execution');
+check(types.includes('MiasiApplicabilityStatus'),'typed-contract');
+check(css.includes('project-status-card--miasi'),'styles');
+check(!view.includes('innerHTML'),'no-innerhtml');
+check(main.includes('recoverExplicitProjectStatusContext'),'project-status-context-recovery');
+check(main.includes("path !== '/project/status' || params.get('recover_project_context') !== 'server-active'"),'explicit-recovery-only');
+check(main.includes('client.projectStatus()'),'server-project-status-authority');
+check(main.includes("return journey?.phase === 'project';"),'bare-route-context-guard');
+check(client.includes('restoreProjectJourneyContextFromProjectStatusRecovery'),'ux-context-restorer');
+check(client.includes('data?.read_only === true') && client.includes('data?.actor_neutral === true'),'read-only-actor-neutral-proof');
+check(client.includes('data?.network_used === false') && client.includes('data?.external_api_used === false') && client.includes('data?.mutations_performed === false'),'non-mutating-proof');
+if(failures.length){console.error(JSON.stringify({status:'BLOCK',failures},null,2));process.exit(2)}
+console.log(JSON.stringify({status:'PASS',checks:14},null,2));

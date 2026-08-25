@@ -605,6 +605,28 @@ export interface GuidedSdlcNextAction {
   expected_evidence?: string[];
 }
 
+
+export interface MiasiRequiredControl {
+  kind: string;
+  artifact_id: string;
+  lifecycle: string;
+  ready: boolean;
+}
+
+export interface MiasiApplicabilityStatus {
+  status?: 'APPLICABLE' | 'NOT_APPLICABLE' | 'REVIEW_REQUIRED' | string;
+  gate_status?: 'PASS' | 'BLOCK' | string;
+  reason_codes?: string[];
+  risk_level?: string;
+  required_controls?: MiasiRequiredControl[];
+  missing_controls?: string[];
+  blockers?: Array<Record<string, unknown>>;
+  agent_execution_allowed?: boolean;
+  rag_execution_allowed?: boolean;
+  execution_reason_code?: string;
+  reevaluation_required?: boolean;
+}
+
 export interface GuidedSdlcProjectStatus {
   workspace_id?: string;
   project_id?: string;
@@ -613,7 +635,7 @@ export interface GuidedSdlcProjectStatus {
   lifecycle_status?: string;
   progress?: Record<string, unknown>;
   mipsoftware?: Record<string, unknown>;
-  miasi?: Record<string, unknown>;
+  miasi?: MiasiApplicabilityStatus;
   artifact_readiness?: Record<string, unknown>;
   planning?: Record<string, unknown>;
   blockers?: Array<Record<string, unknown>>;
