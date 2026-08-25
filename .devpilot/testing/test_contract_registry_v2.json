@@ -20763,19 +20763,132 @@
       "notes": [
         "Full regression remains forbidden by routine in GSDLC-05-C; bounded browser capability acceptance is required."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-d-step-action-advisor",
+      "source_contract_id": "devpl-gsdlc-05-d-step-action-advisor",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "StepActionCatalogExecutionModeAdvisor",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
+        "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+        "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_devpl_gsdlc_01_e_project_status.py",
+        "tests/test_application_operation_catalog_schema.py",
+        "tests/test_api_contract.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/step_action_catalog.json",
+        "docs/schemas/step_action_catalog.schema.json",
+        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+        "src/devpilot_core/guided_sdlc/__init__.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/07_interfaces/api_service_mapping.md",
+        "ui/web/src/components/StepActionAdvisor.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/styles.css",
+        "ui/web/package.json",
+        "ui/web/package-lock.json",
+        "ui/web/scripts/gsdlc05d-step-action-advisor-smoke.mjs",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "validates": [
+        "19 current-step StepActionCatalog coverage",
+        "seven contractual action kinds per current step",
+        "deterministic recommendation/ranking",
+        "artifact readiness input",
+        "RBAC and policy negative availability",
+        "provider unavailable and budget exhausted explanations",
+        "AGENT/RAG visible but unavailable throughout GSDLC-05",
+        "cost/risk/approval/side-effects metadata",
+        "ApplicationService/API/OpenAPI/RBAC/UI route parity",
+        "UI fail-closed rendering without authority recomputation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-05-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_d_step_action_advisor.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Advisor reflects server authority and never grants capabilities.",
+        "GSDLC-05-D browser acceptance is deferred to the Windows validation operator; full regression remains forbidden by routine."
+      ],
+      "trigger_hints": [
+        "step-action-advisor",
+        "current-step",
+        "rbac",
+        "provider-unavailable",
+        "budget-exhausted",
+        "project-status"
+      ],
+      "impact_tags": [
+        "guided-sdlc",
+        "step-actions",
+        "project-status",
+        "ui",
+        "api",
+        "rbac",
+        "policy",
+        "miasi",
+        "safety"
+      ],
+      "owner_domain": "guided-sdlc.step-action-advisor",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-05-D-STEP-ACTION-CATALOG-V1"
+      ],
+      "notes": [
+        "AGENT and RAG remain unavailable until successor backlogs authorize real routes."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
-    "contracts_total": 289,
+    "contracts_total": 293,
     "external_api_used": false,
-    "last_updated_by": "DEVPL-GSDLC-04-E",
+    "last_updated_by": "DEVPL-GSDLC-05-D",
     "migrator": "TestContractRegistryV2Migrator",
     "mutations_performed_by_default": false,
     "network_used": false,
-    "source_contracts_total": 286,
+    "source_contracts_total": 293,
     "source_registry_preserved": true,
     "tests_executed": false
   },
@@ -20832,7 +20945,8 @@
     "DEVPL-GSDLC-02-B adds preliminary local identity/session security contract; no intermediate full regression by owner-approved cadence.",
     "GSDLC-02-E adds an explicit P0 release contract for the authenticated browser journey and exactly-once backlog closure evidence.",
     "GSDLC-03-A registers P0 project-entry contracts without runtime writes or intermediate full regression.",
-    "DEVPL-GSDLC-04-B adds explicit P0 application-service contract for governed runtime draft authoring."
+    "DEVPL-GSDLC-04-B adds explicit P0 application-service contract for governed runtime draft authoring.",
+    "DEVPL-GSDLC-05-D adds explicit P0 StepActionAdvisor contract with server RBAC/API/UI parity and AGENT/RAG no-go enforcement."
   ],
   "profiles": [
     {
@@ -20924,5 +21038,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 292
+  "contracts_total": 293
 }

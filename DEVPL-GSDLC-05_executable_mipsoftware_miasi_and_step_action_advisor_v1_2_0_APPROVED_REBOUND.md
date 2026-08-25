@@ -479,3 +479,14 @@ El backlog solo puede adjudicarse `CLOSED/PASS` si todos los micro-sprints A→E
 
 Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps estén clasificados S2/S3, tengan owner, evidencia y no invaliden la invariante de producto de esta ola.
 
+
+
+## 14. Execution progress — 2026-08-25
+
+- GSDLC-05-A: `CLOSED/PASS` — repo370.
+- GSDLC-05-B: `CLOSED/PASS` — repo371.
+- GSDLC-05-C: `CLOSED/PASS` — repo372 / browser 6/6 / full=0.
+- GSDLC-05-D: `IMPLEMENTED / PENDING-WINDOWS-BROWSER-VALIDATION`; 19 current steps, 136 action definitions, server-authoritative StepActionAdvisor, AGENT/RAG unavailable, full=0.
+- GSDLC-05-E: **not authorized** until owner adjudication of 05-D.
+
+This progress appendix does not alter the approved design contract or the A→D/no-full, E/exactly-one-full regression policy.

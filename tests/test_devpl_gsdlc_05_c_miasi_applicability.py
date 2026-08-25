@@ -111,12 +111,19 @@ def test_05_c_guided_sdlc_application_service_projects_real_miasi_decision(tmp_p
     import hashlib, os, shutil
     from devpilot_core.application.guided_sdlc_service import GuidedSDLCApplicationService
     from devpilot_core.guided_sdlc.models import WorkspaceEngineeringState, EngineeringLifecycleStatus, MIPSoftwarePhase
+    from devpilot_core.interfaces.api.operator_flow_smoke import OPERATOR_FLOW_RUNTIME_SANDBOX_IGNORE_PATTERNS
 
     for rel in ['.devpilot', 'docs/06_miasi']:
         source = ROOT / rel
         target = tmp_path / rel
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copytree(source, target)
+        shutil.copytree(
+            source,
+            target,
+            ignore=shutil.ignore_patterns(*OPERATOR_FLOW_RUNTIME_SANDBOX_IGNORE_PATTERNS),
+        )
+    assert not list(tmp_path.rglob('auth.db*'))
+    assert not list(tmp_path.rglob('devpilot.db*'))
     # Workspace registry points at '.' so its binding is the temporary platform root.
     fingerprint = hashlib.sha256(os.path.normcase(str(tmp_path.resolve())).encode('utf-8')).hexdigest()
     state = WorkspaceEngineeringState(

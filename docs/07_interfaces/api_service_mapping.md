@@ -451,3 +451,12 @@ The Artifact Workbench mapping is current-active. Frozen UOC/GSDLC-03 snapshots 
 ## GSDLC-05-C — MIASI applicability projection
 
 `GET /api/v1/guided-sdlc/status` conserva su operación `guided_sdlc.project_status`, autenticación y semántica read-only. GSDLC-05-C amplía únicamente el payload `project_status.miasi` con la evaluación determinística server-side (`APPLICABLE`, `NOT_APPLICABLE`, `REVIEW_REQUIRED`), controles requeridos, risk escalation y no-go `AGENT/RAG`. No se crea una ruta paralela ni un segundo policy engine.
+
+
+## DEVPL-GSDLC-05-D — Step Action Advisor
+
+| Endpoint | Operation | Service mapping | Control |
+|---|---|---|---|
+| `GET /api/v1/guided-sdlc/step-actions` | `guided_sdlc.step_actions` / `API-GSDLC-05-D-STEP-ACTIONS` | `ApplicationService.guided_sdlc_step_actions_primary` → `GuidedSDLCApplicationService.step_actions_primary` → `ExecutionModeAdvisor` / `StepActionCatalog` | Authenticated human session + ServerRBACEnforcer + PolicyEngine. Read-only. UI consumes server-calculated availability; the Advisor never grants target capability. |
+
+The advisor cross-checks `.devpilot/gsdlc/step_action_catalog.json` against the current MIP registry, API route registry and server RBAC catalog. `AGENT` and `RAG` are intentionally visible but non-executable in DEVPL-GSDLC-05. Unavailable cards expose disabled reasons and, where appropriate, a configuration target rather than an execution target.

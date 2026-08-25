@@ -1,0 +1,3039 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-D-ADVISOR-DECISION-SAMPLES-V1",
+  "status": "PASS",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-05-D",
+  "updated": "2026-08-25",
+  "samples": [
+    {
+      "case_id": "manual-default",
+      "decision": {
+        "workspace_id": "devpilot-local",
+        "current_step": "requirements",
+        "status": "PASS",
+        "recommended_action_id": "requirements.manual",
+        "actions": [
+          {
+            "action_id": "requirements.manual",
+            "kind": "MANUAL",
+            "label": "Manual",
+            "purpose": "Author or refine the current-step artifact in the governed Artifact Workbench.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-manual",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-workbench-runtime-draft"
+              ]
+            },
+            "side_effects": [
+              "runtime draft write only; managed source changes remain separately governed"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 10,
+            "recommended": true,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_drafts.save",
+            "api_route_id": "api.workspace.artifact-drafts.save",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.paste",
+            "kind": "PASTE",
+            "label": "Paste",
+            "purpose": "Paste source material into the governed import preview and persist only an import draft.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance"
+              ]
+            },
+            "side_effects": [
+              "preview is read-only; optional persist writes runtime import draft only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 20,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.upload-import",
+            "kind": "UPLOAD_IMPORT",
+            "label": "Upload / Import",
+            "purpose": "Import an allowlisted local artifact through preview, provenance capture and runtime draft persistence.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance",
+                "secret-redaction"
+              ]
+            },
+            "side_effects": [
+              "local file read through browser upload; optional runtime import draft write"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 30,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.external-editor",
+            "kind": "EXTERNAL_EDITOR",
+            "label": "External editor",
+            "purpose": "Edit with an external local editor, then return to DevPilot for reconciliation, validation and governed review.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "external-edit-reconciliation-required",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "GSDLC-04-E-external-reconciliation",
+                "git-read-only-drift-detection"
+              ]
+            },
+            "side_effects": [
+              "external editor may change managed project source outside DevPilot; reconciliation is mandatory before trust"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 40,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": null,
+            "api_route_id": null,
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.validate",
+            "kind": "TYPED_OPERATION",
+            "label": "Validate current step",
+            "purpose": "Build a deterministic validation plan for the active workspace without executing arbitrary shell.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "typed-operation-only"
+              ]
+            },
+            "side_effects": [
+              "plan only; source read-only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 50,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.validations.plan",
+            "api_route_id": "api.workspace.validations.plan",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.agent",
+            "kind": "AGENT",
+            "label": "Agent",
+            "purpose": "Use a governed agent route when a later backlog explicitly authorizes model/agent execution.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "GSDLC_05_AGENT_EXECUTION_OUT_OF_SCOPE",
+                "message": "AGENT remains visible but unavailable until GSDLC-06 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "agent-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "rank": 60,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.rag",
+            "kind": "RAG",
+            "label": "RAG",
+            "purpose": "Use a governed retrieval-assisted route only after a later backlog authorizes the RAG execution surface.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "GSDLC_05_RAG_EXECUTION_OUT_OF_SCOPE",
+                "message": "RAG remains visible but unavailable until GSDLC-07 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "rag-card-ready",
+                "satisfied": true,
+                "reason": "RAG readiness is represented by the MIASI gate in GSDLC-05-D"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "rag-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "rank": 70,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          }
+        ],
+        "decision_fingerprint": "e34468fefa41538b86e2160a81fd49d7c0c1a02597a6bc34fbfffc2f3e7c3655",
+        "authority": {
+          "status": "PASS",
+          "mip_steps_total": 19,
+          "catalog_steps_total": 19,
+          "actions_total": 136,
+          "referenced_api_routes_total": 5,
+          "missing_steps": [],
+          "extra_steps": [],
+          "issues": [],
+          "catalog_sha256": "5c5267264bcb0412d7ea31584bc05d78929bf3f4619d3040e554caf3cb19f371",
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true
+        },
+        "safety": {
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true,
+          "agent_execution_enabled": false,
+          "rag_execution_enabled": false,
+          "network_used": false,
+          "external_api_used": false,
+          "model_execution_used": false,
+          "mutations_performed": false,
+          "source_mutations_performed": false
+        }
+      }
+    },
+    {
+      "case_id": "wrong-role-quality",
+      "decision": {
+        "workspace_id": "devpilot-local",
+        "current_step": "verification",
+        "status": "PASS",
+        "recommended_action_id": "verification.manual",
+        "actions": [
+          {
+            "action_id": "verification.manual",
+            "kind": "MANUAL",
+            "label": "Manual",
+            "purpose": "Author or refine the current-step artifact in the governed Artifact Workbench.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-manual",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-workbench-runtime-draft"
+              ]
+            },
+            "side_effects": [
+              "runtime draft write only; managed source changes remain separately governed"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 10,
+            "recommended": true,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_drafts.save",
+            "api_route_id": "api.workspace.artifact-drafts.save",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "verification.paste",
+            "kind": "PASTE",
+            "label": "Paste",
+            "purpose": "Paste source material into the governed import preview and persist only an import draft.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance"
+              ]
+            },
+            "side_effects": [
+              "preview is read-only; optional persist writes runtime import draft only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 20,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "verification.upload-import",
+            "kind": "UPLOAD_IMPORT",
+            "label": "Upload / Import",
+            "purpose": "Import an allowlisted local artifact through preview, provenance capture and runtime draft persistence.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance",
+                "secret-redaction"
+              ]
+            },
+            "side_effects": [
+              "local file read through browser upload; optional runtime import draft write"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 30,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "verification.external-editor",
+            "kind": "EXTERNAL_EDITOR",
+            "label": "External editor",
+            "purpose": "Edit with an external local editor, then return to DevPilot for reconciliation, validation and governed review.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "external-edit-reconciliation-required",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "GSDLC-04-E-external-reconciliation",
+                "git-read-only-drift-detection"
+              ]
+            },
+            "side_effects": [
+              "external editor may change managed project source outside DevPilot; reconciliation is mandatory before trust"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 40,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": null,
+            "api_route_id": null,
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "verification.validate",
+            "kind": "TYPED_OPERATION",
+            "label": "Validate current step",
+            "purpose": "Build a deterministic validation plan for the active workspace without executing arbitrary shell.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "typed-operation-only"
+              ]
+            },
+            "side_effects": [
+              "plan only; source read-only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 50,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.validations.plan",
+            "api_route_id": "api.workspace.validations.plan",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "verification.quality-execute",
+            "kind": "TYPED_OPERATION",
+            "label": "Execute governed quality job",
+            "purpose": "Execute a registered quality/test/release job through the governed job runner when role and runtime prerequisites allow it.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "RBAC_ROLE_DENY",
+                "message": "Authenticated role is not allowed by the target server route policy.",
+                "authority": "api.quality.jobs.execute"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "registered-quality-job",
+                "satisfied": true,
+                "reason": "quality job selection is deferred to the governed /quality surface"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "qa-reviewer",
+              "release-manager"
+            ],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "quality-operation-registry",
+                "typed-operation-only"
+              ]
+            },
+            "side_effects": [
+              "governed runtime outputs/evidence only; no arbitrary shell"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 55,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": null,
+            "typed_operation_id": "quality.jobs.execute",
+            "api_route_id": "api.quality.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "verification.agent",
+            "kind": "AGENT",
+            "label": "Agent",
+            "purpose": "Use a governed agent route when a later backlog explicitly authorizes model/agent execution.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "RBAC_ROLE_DENY",
+                "message": "Authenticated role is not allowed by the target server route policy.",
+                "authority": "api.ai.jobs.execute"
+              },
+              {
+                "code": "GSDLC_05_AGENT_EXECUTION_OUT_OF_SCOPE",
+                "message": "AGENT remains visible but unavailable until GSDLC-06 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "agent-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "rank": 60,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "verification.rag",
+            "kind": "RAG",
+            "label": "RAG",
+            "purpose": "Use a governed retrieval-assisted route only after a later backlog authorizes the RAG execution surface.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "RBAC_ROLE_DENY",
+                "message": "Authenticated role is not allowed by the target server route policy.",
+                "authority": "api.ai.jobs.execute"
+              },
+              {
+                "code": "GSDLC_05_RAG_EXECUTION_OUT_OF_SCOPE",
+                "message": "RAG remains visible but unavailable until GSDLC-07 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:verification",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "rag-card-ready",
+                "satisfied": true,
+                "reason": "RAG readiness is represented by the MIASI gate in GSDLC-05-D"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "developer"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "rag-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "rank": 70,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 16 — Verificación",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          }
+        ],
+        "decision_fingerprint": "3d25f96fe10115e1945c6c80c517f2acd1c07ae59ced34e51f35d767ef270627",
+        "authority": {
+          "status": "PASS",
+          "mip_steps_total": 19,
+          "catalog_steps_total": 19,
+          "actions_total": 136,
+          "referenced_api_routes_total": 5,
+          "missing_steps": [],
+          "extra_steps": [],
+          "issues": [],
+          "catalog_sha256": "5c5267264bcb0412d7ea31584bc05d78929bf3f4619d3040e554caf3cb19f371",
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true
+        },
+        "safety": {
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true,
+          "agent_execution_enabled": false,
+          "rag_execution_enabled": false,
+          "network_used": false,
+          "external_api_used": false,
+          "model_execution_used": false,
+          "mutations_performed": false,
+          "source_mutations_performed": false
+        }
+      }
+    },
+    {
+      "case_id": "provider-unavailable-budget-exhausted",
+      "decision": {
+        "workspace_id": "devpilot-local",
+        "current_step": "architecture",
+        "status": "PASS",
+        "recommended_action_id": "architecture.manual",
+        "actions": [
+          {
+            "action_id": "architecture.manual",
+            "kind": "MANUAL",
+            "label": "Manual",
+            "purpose": "Author or refine the current-step artifact in the governed Artifact Workbench.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:architecture",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-manual",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-workbench-runtime-draft"
+              ]
+            },
+            "side_effects": [
+              "runtime draft write only; managed source changes remain separately governed"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 10,
+            "recommended": true,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_drafts.save",
+            "api_route_id": "api.workspace.artifact-drafts.save",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 6 — Arquitectura",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "architecture.paste",
+            "kind": "PASTE",
+            "label": "Paste",
+            "purpose": "Paste source material into the governed import preview and persist only an import draft.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:architecture",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance"
+              ]
+            },
+            "side_effects": [
+              "preview is read-only; optional persist writes runtime import draft only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 20,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 6 — Arquitectura",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "architecture.upload-import",
+            "kind": "UPLOAD_IMPORT",
+            "label": "Upload / Import",
+            "purpose": "Import an allowlisted local artifact through preview, provenance capture and runtime draft persistence.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:architecture",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance",
+                "secret-redaction"
+              ]
+            },
+            "side_effects": [
+              "local file read through browser upload; optional runtime import draft write"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 30,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 6 — Arquitectura",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "architecture.external-editor",
+            "kind": "EXTERNAL_EDITOR",
+            "label": "External editor",
+            "purpose": "Edit with an external local editor, then return to DevPilot for reconciliation, validation and governed review.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:architecture",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "external-edit-reconciliation-required",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "GSDLC-04-E-external-reconciliation",
+                "git-read-only-drift-detection"
+              ]
+            },
+            "side_effects": [
+              "external editor may change managed project source outside DevPilot; reconciliation is mandatory before trust"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 40,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": null,
+            "api_route_id": null,
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 6 — Arquitectura",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "architecture.validate",
+            "kind": "TYPED_OPERATION",
+            "label": "Validate current step",
+            "purpose": "Build a deterministic validation plan for the active workspace without executing arbitrary shell.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:architecture",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "typed-operation-only"
+              ]
+            },
+            "side_effects": [
+              "plan only; source read-only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 50,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.validations.plan",
+            "api_route_id": "api.workspace.validations.plan",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 6 — Arquitectura",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "architecture.agent",
+            "kind": "AGENT",
+            "label": "Agent",
+            "purpose": "Use a governed agent route when a later backlog explicitly authorizes model/agent execution.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "PREREQUISITE_NOT_SATISFIED",
+                "message": "provider status is NOT_AVAILABLE",
+                "authority": "provider-route-authorized"
+              },
+              {
+                "code": "PREREQUISITE_NOT_SATISFIED",
+                "message": "budget status is EXHAUSTED",
+                "authority": "budget-available"
+              },
+              {
+                "code": "GSDLC_05_AGENT_EXECUTION_OUT_OF_SCOPE",
+                "message": "AGENT remains visible but unavailable until GSDLC-06 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              },
+              {
+                "code": "PROVIDER_UNAVAILABLE",
+                "message": "Provider/model route status is NOT_AVAILABLE; advisor does not synthesize provider availability.",
+                "authority": "ProjectStatus.model_budget/provider"
+              },
+              {
+                "code": "BUDGET_EXHAUSTED",
+                "message": "Model budget status is EXHAUSTED.",
+                "authority": "ProjectStatus.model_budget"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:architecture",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": false,
+                "reason": "provider status is NOT_AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": false,
+                "reason": "budget status is EXHAUSTED"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "agent-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "rank": 60,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 6 — Arquitectura",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "architecture.rag",
+            "kind": "RAG",
+            "label": "RAG",
+            "purpose": "Use a governed retrieval-assisted route only after a later backlog authorizes the RAG execution surface.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "PREREQUISITE_NOT_SATISFIED",
+                "message": "provider status is NOT_AVAILABLE",
+                "authority": "provider-route-authorized"
+              },
+              {
+                "code": "PREREQUISITE_NOT_SATISFIED",
+                "message": "budget status is EXHAUSTED",
+                "authority": "budget-available"
+              },
+              {
+                "code": "GSDLC_05_RAG_EXECUTION_OUT_OF_SCOPE",
+                "message": "RAG remains visible but unavailable until GSDLC-07 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              },
+              {
+                "code": "PROVIDER_UNAVAILABLE",
+                "message": "Provider/model route status is NOT_AVAILABLE; advisor does not synthesize provider availability.",
+                "authority": "ProjectStatus.model_budget/provider"
+              },
+              {
+                "code": "BUDGET_EXHAUSTED",
+                "message": "Model budget status is EXHAUSTED.",
+                "authority": "ProjectStatus.model_budget"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:architecture",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "rag-card-ready",
+                "satisfied": true,
+                "reason": "RAG readiness is represented by the MIASI gate in GSDLC-05-D"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": false,
+                "reason": "provider status is NOT_AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": false,
+                "reason": "budget status is EXHAUSTED"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "rag-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "rank": 70,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 6 — Arquitectura",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          }
+        ],
+        "decision_fingerprint": "35acf0d382b3d2426b90c0e59726a89c61d75b1696b0338c436fc0e3fa611062",
+        "authority": {
+          "status": "PASS",
+          "mip_steps_total": 19,
+          "catalog_steps_total": 19,
+          "actions_total": 136,
+          "referenced_api_routes_total": 5,
+          "missing_steps": [],
+          "extra_steps": [],
+          "issues": [],
+          "catalog_sha256": "5c5267264bcb0412d7ea31584bc05d78929bf3f4619d3040e554caf3cb19f371",
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true
+        },
+        "safety": {
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true,
+          "agent_execution_enabled": false,
+          "rag_execution_enabled": false,
+          "network_used": false,
+          "external_api_used": false,
+          "model_execution_used": false,
+          "mutations_performed": false,
+          "source_mutations_performed": false
+        }
+      }
+    },
+    {
+      "case_id": "artifact-state-unknown",
+      "decision": {
+        "workspace_id": "devpilot-local",
+        "current_step": "requirements",
+        "status": "PASS",
+        "recommended_action_id": "requirements.manual",
+        "actions": [
+          {
+            "action_id": "requirements.manual",
+            "kind": "MANUAL",
+            "label": "Manual",
+            "purpose": "Author or refine the current-step artifact in the governed Artifact Workbench.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-manual",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-workbench-runtime-draft"
+              ]
+            },
+            "side_effects": [
+              "runtime draft write only; managed source changes remain separately governed"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 10,
+            "recommended": true,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_drafts.save",
+            "api_route_id": "api.workspace.artifact-drafts.save",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.paste",
+            "kind": "PASTE",
+            "label": "Paste",
+            "purpose": "Paste source material into the governed import preview and persist only an import draft.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance"
+              ]
+            },
+            "side_effects": [
+              "preview is read-only; optional persist writes runtime import draft only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 20,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.upload-import",
+            "kind": "UPLOAD_IMPORT",
+            "label": "Upload / Import",
+            "purpose": "Import an allowlisted local artifact through preview, provenance capture and runtime draft persistence.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance",
+                "secret-redaction"
+              ]
+            },
+            "side_effects": [
+              "local file read through browser upload; optional runtime import draft write"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 30,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.external-editor",
+            "kind": "EXTERNAL_EDITOR",
+            "label": "External editor",
+            "purpose": "Edit with an external local editor, then return to DevPilot for reconciliation, validation and governed review.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "external-edit-reconciliation-required",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "GSDLC-04-E-external-reconciliation",
+                "git-read-only-drift-detection"
+              ]
+            },
+            "side_effects": [
+              "external editor may change managed project source outside DevPilot; reconciliation is mandatory before trust"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 40,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": null,
+            "api_route_id": null,
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.validate",
+            "kind": "TYPED_OPERATION",
+            "label": "Validate current step",
+            "purpose": "Build a deterministic validation plan for the active workspace without executing arbitrary shell.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "ARTIFACT_STATE_UNKNOWN",
+                "message": "Typed operations require a materialized artifact-readiness state; author/import actions remain available for remediation.",
+                "authority": "ProjectStatus.artifact_readiness"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "typed-operation-only"
+              ]
+            },
+            "side_effects": [
+              "plan only; source read-only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 50,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": null,
+            "typed_operation_id": "workspace.validations.plan",
+            "api_route_id": "api.workspace.validations.plan",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.agent",
+            "kind": "AGENT",
+            "label": "Agent",
+            "purpose": "Use a governed agent route when a later backlog explicitly authorizes model/agent execution.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "GSDLC_05_AGENT_EXECUTION_OUT_OF_SCOPE",
+                "message": "AGENT remains visible but unavailable until GSDLC-06 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "agent-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "rank": 60,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.rag",
+            "kind": "RAG",
+            "label": "RAG",
+            "purpose": "Use a governed retrieval-assisted route only after a later backlog authorizes the RAG execution surface.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "GSDLC_05_RAG_EXECUTION_OUT_OF_SCOPE",
+                "message": "RAG remains visible but unavailable until GSDLC-07 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": true,
+                "reason": "MIASI gate is PASS"
+              },
+              {
+                "prerequisite_id": "rag-card-ready",
+                "satisfied": true,
+                "reason": "RAG readiness is represented by the MIASI gate in GSDLC-05-D"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "rag-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "rank": 70,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          }
+        ],
+        "decision_fingerprint": "23d50714db57cac09e38dd8f2b8fdd2c62ec9c11846ded87cd0f5c38c3a6792a",
+        "authority": {
+          "status": "PASS",
+          "mip_steps_total": 19,
+          "catalog_steps_total": 19,
+          "actions_total": 136,
+          "referenced_api_routes_total": 5,
+          "missing_steps": [],
+          "extra_steps": [],
+          "issues": [],
+          "catalog_sha256": "5c5267264bcb0412d7ea31584bc05d78929bf3f4619d3040e554caf3cb19f371",
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true
+        },
+        "safety": {
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true,
+          "agent_execution_enabled": false,
+          "rag_execution_enabled": false,
+          "network_used": false,
+          "external_api_used": false,
+          "model_execution_used": false,
+          "mutations_performed": false,
+          "source_mutations_performed": false
+        }
+      }
+    },
+    {
+      "case_id": "miasi-block",
+      "decision": {
+        "workspace_id": "devpilot-local",
+        "current_step": "requirements",
+        "status": "PASS",
+        "recommended_action_id": "requirements.manual",
+        "actions": [
+          {
+            "action_id": "requirements.manual",
+            "kind": "MANUAL",
+            "label": "Manual",
+            "purpose": "Author or refine the current-step artifact in the governed Artifact Workbench.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-manual",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-workbench-runtime-draft"
+              ]
+            },
+            "side_effects": [
+              "runtime draft write only; managed source changes remain separately governed"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 10,
+            "recommended": true,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_drafts.save",
+            "api_route_id": "api.workspace.artifact-drafts.save",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.paste",
+            "kind": "PASTE",
+            "label": "Paste",
+            "purpose": "Paste source material into the governed import preview and persist only an import draft.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance"
+              ]
+            },
+            "side_effects": [
+              "preview is read-only; optional persist writes runtime import draft only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 20,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.upload-import",
+            "kind": "UPLOAD_IMPORT",
+            "label": "Upload / Import",
+            "purpose": "Import an allowlisted local artifact through preview, provenance capture and runtime draft persistence.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "artifact-profile-supports-import",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "artifact-import-provenance",
+                "secret-redaction"
+              ]
+            },
+            "side_effects": [
+              "local file read through browser upload; optional runtime import draft write"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 30,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.artifact_imports.preview",
+            "api_route_id": "api.workspace.artifact-imports.preview",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.external-editor",
+            "kind": "EXTERNAL_EDITOR",
+            "label": "External editor",
+            "purpose": "Edit with an external local editor, then return to DevPilot for reconciliation, validation and governed review.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "external-edit-reconciliation-required",
+                "satisfied": true,
+                "reason": "bound by the current step artifact profile/workbench contract"
+              }
+            ],
+            "required_roles": [],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "GSDLC-04-E-external-reconciliation",
+                "git-read-only-drift-detection"
+              ]
+            },
+            "side_effects": [
+              "external editor may change managed project source outside DevPilot; reconciliation is mandatory before trust"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 40,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": null,
+            "api_route_id": null,
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.validate",
+            "kind": "TYPED_OPERATION",
+            "label": "Validate current step",
+            "purpose": "Build a deterministic validation plan for the active workspace without executing arbitrary shell.",
+            "availability": "AVAILABLE",
+            "executable": true,
+            "disabled_reasons": [],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "product-owner",
+              "architect",
+              "security-reviewer",
+              "developer",
+              "qa-reviewer",
+              "release-manager",
+              "operator",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "medium",
+              "policy_refs": [
+                "server-rbac-policy-catalog",
+                "typed-operation-only"
+              ]
+            },
+            "side_effects": [
+              "plan only; source read-only"
+            ],
+            "approval_required": false,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "No model/provider call."
+            },
+            "rank": 50,
+            "recommended": false,
+            "navigation_target": "/workspace/documents",
+            "configuration_target": null,
+            "typed_operation_id": "workspace.validations.plan",
+            "api_route_id": "api.workspace.validations.plan",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.agent",
+            "kind": "AGENT",
+            "label": "Agent",
+            "purpose": "Use a governed agent route when a later backlog explicitly authorizes model/agent execution.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "PREREQUISITE_NOT_SATISFIED",
+                "message": "MIASI gate is BLOCK",
+                "authority": "miasi-gate-pass"
+              },
+              {
+                "code": "GSDLC_05_AGENT_EXECUTION_OUT_OF_SCOPE",
+                "message": "AGENT remains visible but unavailable until GSDLC-06 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              },
+              {
+                "code": "MIASI_GATE_BLOCK",
+                "message": "MIASI gate is BLOCK; agentic routes cannot be executable.",
+                "authority": "MIASIApplicabilityEvaluator"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": false,
+                "reason": "MIASI gate is BLOCK"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "agent-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize model execution."
+            },
+            "rank": 60,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          },
+          {
+            "action_id": "requirements.rag",
+            "kind": "RAG",
+            "label": "RAG",
+            "purpose": "Use a governed retrieval-assisted route only after a later backlog authorizes the RAG execution surface.",
+            "availability": "UNAVAILABLE",
+            "executable": false,
+            "disabled_reasons": [
+              {
+                "code": "PREREQUISITE_NOT_SATISFIED",
+                "message": "MIASI gate is BLOCK",
+                "authority": "miasi-gate-pass"
+              },
+              {
+                "code": "PREREQUISITE_NOT_SATISFIED",
+                "message": "RAG readiness is represented by the MIASI gate in GSDLC-05-D",
+                "authority": "rag-card-ready"
+              },
+              {
+                "code": "GSDLC_05_RAG_EXECUTION_OUT_OF_SCOPE",
+                "message": "RAG remains visible but unavailable until GSDLC-07 authorizes a real governed route.",
+                "authority": "api.ai.jobs.execute + MIASI + successor backlog"
+              },
+              {
+                "code": "MIASI_GATE_BLOCK",
+                "message": "MIASI gate is BLOCK; agentic routes cannot be executable.",
+                "authority": "MIASIApplicabilityEvaluator"
+              }
+            ],
+            "prerequisites": [
+              {
+                "prerequisite_id": "active-project-context",
+                "satisfied": true,
+                "reason": "active project context is available"
+              },
+              {
+                "prerequisite_id": "current-step:requirements",
+                "satisfied": true,
+                "reason": "current step matches catalog binding"
+              },
+              {
+                "prerequisite_id": "miasi-gate-pass",
+                "satisfied": false,
+                "reason": "MIASI gate is BLOCK"
+              },
+              {
+                "prerequisite_id": "rag-card-ready",
+                "satisfied": false,
+                "reason": "RAG readiness is represented by the MIASI gate in GSDLC-05-D"
+              },
+              {
+                "prerequisite_id": "provider-route-authorized",
+                "satisfied": true,
+                "reason": "provider status is AVAILABLE"
+              },
+              {
+                "prerequisite_id": "budget-available",
+                "satisfied": true,
+                "reason": "budget status is PASS"
+              }
+            ],
+            "required_roles": [
+              "owner",
+              "agent-supervisor"
+            ],
+            "effective_roles": [
+              "owner"
+            ],
+            "risk": {
+              "level": "high",
+              "policy_refs": [
+                "MIASI",
+                "server-rbac-policy-catalog",
+                "rag-execution-no-go-gsdlc05"
+              ]
+            },
+            "side_effects": [
+              "none in GSDLC-05; execution is disabled"
+            ],
+            "approval_required": true,
+            "network_required": false,
+            "external_api_required": false,
+            "cost": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "tokens": {
+              "applicable": false,
+              "value": null,
+              "unit": "not_applicable",
+              "reason": "GSDLC-05 does not authorize RAG/model execution."
+            },
+            "rank": 70,
+            "recommended": false,
+            "navigation_target": null,
+            "configuration_target": "/settings",
+            "typed_operation_id": "ai.jobs.execute",
+            "api_route_id": "api.ai.jobs.execute",
+            "source_refs": [
+              "docs/standards/mipsoftware/02_ciclo_vida_software.md#### Fase 4 — Requerimientos",
+              ".devpilot/gsdlc/step_action_catalog.json"
+            ]
+          }
+        ],
+        "decision_fingerprint": "ba0164afea73a410f7ee60087152e98997ad4c44b2e9f80fc8996bfc229776dc",
+        "authority": {
+          "status": "PASS",
+          "mip_steps_total": 19,
+          "catalog_steps_total": 19,
+          "actions_total": 136,
+          "referenced_api_routes_total": 5,
+          "missing_steps": [],
+          "extra_steps": [],
+          "issues": [],
+          "catalog_sha256": "5c5267264bcb0412d7ea31584bc05d78929bf3f4619d3040e554caf3cb19f371",
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true
+        },
+        "safety": {
+          "advisor_grants_capability": false,
+          "server_policy_authoritative": true,
+          "agent_execution_enabled": false,
+          "rag_execution_enabled": false,
+          "network_used": false,
+          "external_api_used": false,
+          "model_execution_used": false,
+          "mutations_performed": false,
+          "source_mutations_performed": false
+        }
+      }
+    }
+  ],
+  "assertions": {
+    "stable_ranking": true,
+    "wrong_role_disabled": true,
+    "policy_fail_closed": true,
+    "provider_unavailable_explained": true,
+    "budget_exhausted_explained": true,
+    "artifact_state_considered": true,
+    "agent_rag_visible_but_unavailable": true,
+    "cost_risk_approval_side_effects_present": true
+  },
+  "full_regression_runs": 0,
+  "network_used": false,
+  "external_api_used": false
+}

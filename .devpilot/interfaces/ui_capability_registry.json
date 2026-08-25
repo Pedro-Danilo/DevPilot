@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 117,
+    "api_routes_total": 118,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10816,7 +10816,7 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-04-D",
+    "updated_by": "DEVPL-GSDLC-05-D",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -10831,7 +10831,10 @@
     "gsdlc_04_d_artifact_review_available": true,
     "gsdlc_04_d_artifact_review_api_routes_total": 5,
     "gsdlc_04_d_reuses_uoc005_source_write": true,
-    "gsdlc_04_d_ui_authority": false
+    "gsdlc_04_d_ui_authority": false,
+    "gsdlc_05_d_step_action_advisor_available": true,
+    "gsdlc_05_d_step_action_api_routes_total": 1,
+    "gsdlc_05_d_ui_server_authority": true
   },
   "ui_routes": [
     {
@@ -11341,6 +11344,6 @@
       "title": "Artifact Workbench — governed authoring, reconciliation and browser closure"
     }
   ],
-  "updated": "2026-08-22",
+  "updated": "2026-08-25",
   "version": "1.3.0"
 }

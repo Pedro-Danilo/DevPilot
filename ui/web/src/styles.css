@@ -1165,3 +1165,25 @@ button, .primary-nav__links a { min-height: 44px; }
 .project-status-miasi-controls li[data-ready="true"]{border-left:4px solid #238636;background:#f3fbf5}
 .project-status-miasi-controls li[data-ready="false"]{border-left:4px solid #b42318;background:#fff4f2}
 .project-status-card--miasi h4{margin:.9rem 0 .35rem}
+
+/* DEVPL-GSDLC-05-D — server-authoritative Step Action Advisor */
+.step-action-advisor { margin-top: 1rem; }
+.step-action-advisor__header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; }
+.step-action-advisor__header h3 { margin: 0; }
+.step-action-advisor__header p, .step-action-advisor__safety { color: var(--muted, #5f6773); }
+.step-action-advisor__safety { margin-top: .5rem; }
+.step-action-advisor__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .85rem; margin-top: 1rem; }
+.step-action-card { border: 1px solid var(--border, #d7dce3); border-radius: .75rem; padding: .9rem; background: var(--surface, #fff); display: flex; flex-direction: column; gap: .65rem; }
+.step-action-card--unavailable { opacity: .86; }
+.step-action-card__heading { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+.step-action-card__heading h4 { margin: 0; }
+.step-action-card__badges { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .3rem; }
+.step-action-card__badge { font-size: .72rem; font-weight: 700; border: 1px solid var(--border, #d7dce3); border-radius: 999px; padding: .12rem .42rem; }
+.step-action-card__purpose { margin: 0; }
+.step-action-card__facts { display: grid; grid-template-columns: minmax(90px, .7fr) 1.3fr; gap: .25rem .6rem; margin: 0; font-size: .86rem; }
+.step-action-card__facts dt { font-weight: 700; }
+.step-action-card__facts dd { margin: 0; overflow-wrap: anywhere; }
+.step-action-card__reasons { margin: 0; padding-left: 1.2rem; font-size: .84rem; }
+.step-action-card__controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; }
+.step-action-card__secondary { background: transparent; }
+.step-action-advisor--error { border-style: dashed; }

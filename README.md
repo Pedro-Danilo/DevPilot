@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03` y `04` están `CLOSED/PASS`. `DEVPL-GSDLC-05` está `APPROVED / ACTIVE` sobre repo369 como autoridad de ejecución y `GSDLC-05-A` está `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION` tras validación Windows cumulative-selective PASS. La full regression de DEVPL-GSDLC-05 permanece en `0`; A→D usan validación cumulative-selective y no consumen la full por rutina.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03` y `04` están `CLOSED/PASS`. `DEVPL-GSDLC-05-A/B/C` están `CLOSED/PASS`; repo372 es la autoridad inmediata de 05-D. `GSDLC-05-D` está `IMPLEMENTED / PENDING-WINDOWS-BROWSER-VALIDATION`: StepActionCatalog/ExecutionModeAdvisor cubren 19 current steps y 136 definiciones de acción con autoridad RBAC/policy server-side. La full regression de DEVPL-GSDLC-05 permanece en `0`; A→D usan validación cumulative-selective y no consumen la full por rutina.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -6436,9 +6436,20 @@ Estado: `CLOSED/PASS`. Successor owner-adjudicated: repo368 / commit `e1d9d1c722
 
 ### DEVPL-GSDLC-05-C — MIASI applicability (current)
 
-GSDLC-05-B está `CLOSED/PASS` sobre repo371. GSDLC-05-C implementa clasificación MIASI determinística project/feature, control readiness y Project Status indicator; estado `implemented/pending-windows-validation`, full regression 0.
+GSDLC-05-B está `CLOSED/PASS` sobre repo371. GSDLC-05-C implementa clasificación MIASI determinística project/feature, control readiness y Project Status indicator; quedó `CLOSED/PASS` sobre repo372, browser 6/6, S0=0, S1=0 y full regression 0.
 
 
 ## DEVPL-GSDLC-05-C Windows candidate
 
-GSDLC-05-C: `PASS-CANDIDATE / browser capability PASS / owner adjudication pending`; full regression remains 0 and GSDLC-05-D is not authorized yet.
+GSDLC-05-C: `CLOSED/PASS / browser capability 6/6 PASS / owner adjudicated`; repo372 es el successor autoritativo inmediato, full regression permanece 0 y GSDLC-05-D queda autorizado.
+
+
+## DEVPL-GSDLC-05-D — StepActionCatalog / ExecutionModeAdvisor (implementation candidate)
+
+- Fuente inmediata: repo372 / commit `c7f27c5be9185b30cdc5aef34e3564ecdfd6315a` / SHA-256 `f76edbc47074b76ba9455076d3cb829f6fa55494469193034829c4f9bbc5077e`.
+- Estado: `IMPLEMENTED / PENDING-WINDOWS-BROWSER-VALIDATION`; owner adjudication pendiente y 05-E **no autorizado**.
+- Catálogo: 19 `current_step`, 136 action definitions, siete kinds por paso.
+- Autoridad: server Human Session/RBAC/Policy; la UI solo representa disponibilidad y razones.
+- AGENT/RAG: visibles pero `UNAVAILABLE` durante GSDLC-05.
+- Red/API/model execution: `false`; full regression runs: `0`.
+- Evidencia local: `docs/audits/step_action_coverage.json`, `docs/audits/advisor_decision_samples.json` y `docs/audits/DEVPL_GSDLC_05_D_*`.

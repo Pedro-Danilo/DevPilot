@@ -12538,6 +12538,98 @@
           }
         }
       }
+    },
+    "/api/v1/guided-sdlc/step-actions": {
+      "get": {
+        "operationId": "guided_sdlc_step_actions",
+        "summary": "Step Action Advisor",
+        "description": "Human-session, actor-aware, read-only StepActionCatalog/ExecutionModeAdvisor projection. UI never recomputes authority and unavailable actions expose no executable target.",
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-operation": "guided_sdlc.step_actions",
+        "x-devpilot-status": "gsdlc-05-d-implemented-initial",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; advisor grants no capability and target routes reauthorize independently.",
+        "x-devpilot-api-id": "API-GSDLC-05-D-STEP-ACTIONS",
+        "x-devpilot-domain-service": "ApplicationService -> GuidedSDLCApplicationService -> ExecutionModeAdvisor",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse with server-authoritative Step Action Advisor cards.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/PolicyEngine blocked the advisor request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

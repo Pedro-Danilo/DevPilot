@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-08-22",
+  "updated": "2026-08-24",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -4047,15 +4047,52 @@
         "GSDLC-04-E reconciles modified/renamed/deleted external source against APPROVED/FROZEN evidence, records Git/provenance context and invalidates stale approval; no auto-revert, hidden merge or source write."
       ],
       "mutation_exception_justification": "Writes only local review/lifecycle reconciliation evidence after comparing external source/Git context; it may invalidate approval/state but never auto-reverts, merges or mutates workspace source."
+    },
+    {
+      "route_id": "api.guided-sdlc.step-actions",
+      "method": "GET",
+      "path": "/api/v1/guided-sdlc/step-actions",
+      "operation": "guided_sdlc.step_actions",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.guided_sdlc",
+      "router_module": "devpilot_core.interfaces.api.routers.guided_sdlc",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-guided-sdlc-step-actions",
+      "path_subject": null,
+      "tags": [
+        "guided-sdlc",
+        "step-action-advisor",
+        "read-only",
+        "gsdlc-05-d"
+      ],
+      "notes": [
+        "Requires authenticated human session so action availability can be bound to server-side RBAC role/scope.",
+        "Advisor response is descriptive/read-only and cannot grant the target capability.",
+        "AGENT/RAG remain unavailable in DEVPL-GSDLC-05."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 117,
-    "protected_routes_total": 110,
+    "routes_total": 118,
+    "protected_routes_total": 111,
     "public_routes_total": 7,
     "mutating_routes_total": 40,
-    "application_service_routes_total": 112,
-    "policy_bound_routes_total": 110,
+    "application_service_routes_total": 113,
+    "policy_bound_routes_total": 111,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -4067,7 +4104,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "DEVPL-GSDLC-04-D",
+    "updated_by": "DEVPL-GSDLC-05-D",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -4107,7 +4144,7 @@
     "gsdlc_02_b_public_bootstrap_login_routes_total": 3,
     "gsdlc_02_b_human_session_routes_total": 4,
     "gsdlc_03_b_project_entry_routes_total": 2,
-    "read_only_routes_total": 77,
+    "read_only_routes_total": 78,
     "gsdlc_04_b_artifact_draft_routes_total": 5,
     "gsdlc_04_b_source_write_routes_total": 0,
     "gsdlc_04_c_artifact_import_routes_total": 3,
@@ -4117,7 +4154,9 @@
     "gsdlc_04_d_artifact_review_routes_total": 5,
     "gsdlc_04_d_source_write_routes_total": 0,
     "gsdlc_04_d_reused_uoc005_source_write_routes_total": 2,
-    "gsdlc_05_c_project_status_miasi_projection": true
+    "gsdlc_05_c_project_status_miasi_projection": true,
+    "gsdlc_05_d_step_action_routes_total": 1,
+    "gsdlc_05_d_step_action_server_authoritative": true
   },
   "safety": {
     "local_first": true,

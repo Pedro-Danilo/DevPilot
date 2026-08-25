@@ -1,0 +1,43 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-D-CURRENT-V1",
+  "status": "windows-validated/pass-candidate/pending-owner-adjudication",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-25",
+  "approval": "pending_owner_adjudication_after_windows_evidence",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_372_DEVPL_GSDLC_05_C_MIASI_APPLICABILITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "git_commit": "c7f27c5be9185b30cdc5aef34e3564ecdfd6315a",
+    "repo_sha256": "f76edbc47074b76ba9455076d3cb829f6fa55494469193034829c4f9bbc5077e"
+  },
+  "implementation": {
+    "step_action_catalog": true,
+    "execution_mode_advisor": true,
+    "step_action_card_ui": true,
+    "server_authoritative_rbac_policy": true,
+    "current_steps_total": 19,
+    "catalog_actions_total": 136,
+    "agent_execution_enabled": false,
+    "rag_execution_enabled": false,
+    "network_required": false,
+    "external_api_required": false
+  },
+  "validation": {
+    "local_contract_tests": "111 passed, 0 failed, 0 errors, 0 skipped (clean cumulative selective)",
+    "ui_static_smoke": "PASS/19 steps/136 actions",
+    "cumulative_selective_validation": "PASS/111 passed",
+    "documentation_governance": "PASS",
+    "windows_browser_acceptance": "PASS/7 acceptance controls under three-console foreground runtime",
+    "windows_git_clean_candidate": "PENDING-UNTIL-COMMIT",
+    "full_regression_runs": 0,
+    "test_contract_registry_v1": "PASS",
+    "test_contract_registry_v2": "PASS",
+    "windows_runtime_mode": "three-console/foreground-api-ui",
+    "background_runtime_used_for_final_acceptance": false
+  },
+  "s0": 0,
+  "s1": 0,
+  "owner_adjudication_pending": true,
+  "next_micro_sprint_authorized": false,
+  "candidate_logical_name": "repo_DevPilot_Local_373_DEVPL_GSDLC_05_D_STEP_ACTION_ADVISOR_WINDOWS_VALIDATED_CANDIDATE.zip"
+}

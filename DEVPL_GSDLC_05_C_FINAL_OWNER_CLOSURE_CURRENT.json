@@ -1,0 +1,40 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-C-FINAL-OWNER-CLOSURE-CURRENT-v1",
+  "status": "closed/PASS",
+  "decision": "CLOSED/PASS",
+  "micro_sprint": "DEVPL-GSDLC-05-C",
+  "successor_repo": "repo_DevPilot_Local_372_DEVPL_GSDLC_05_C_MIASI_APPLICABILITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit": "c7f27c5be9185b30cdc5aef34e3564ecdfd6315a",
+  "successor_sha256": "f76edbc47074b76ba9455076d3cb829f6fa55494469193034829c4f9bbc5077e",
+  "windows_evidence": "DEVPL_GSDLC_05_C_WINDOWS_EVIDENCE_v1_0_2.zip",
+  "windows_evidence_sha256": "f77739979a7933316177de7ba0fa8cab3d085b781f4771cb133d96728392a336",
+  "selective_validation": {
+    "main_passed": 140,
+    "main_failed": 0,
+    "main_errors": 0,
+    "main_skipped": 0,
+    "post_finalize_passed": 51,
+    "post_finalize_failed": 0,
+    "post_finalize_errors": 0
+  },
+  "browser_acceptance": {
+    "status": "PASS",
+    "cases_total": 6,
+    "cases_passed": 6,
+    "bare_route_guard_preserved": true,
+    "browser_context_recovery_version": "1.0.2"
+  },
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "agent_execution_used": false,
+  "rag_execution_used": false,
+  "model_execution_used": false,
+  "network_used": false,
+  "external_api_used": false,
+  "managed_project_source_writes_by_browser_fixture": 0,
+  "owner_adjudication_pending": false,
+  "next_micro_sprint": "DEVPL-GSDLC-05-D",
+  "next_micro_sprint_authorized": true,
+  "updated": "2026-08-24"
+}

@@ -162,6 +162,21 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 assert "command" not in json.dumps(example).lower()
                 continue
 
+            if op_id == "guided_sdlc.step_actions":
+                assert operation["x-devpilot-status"] == "gsdlc-05-d-implemented-initial"
+                assert operation["x-devpilot-domain-service"] == "ApplicationService -> GuidedSDLCApplicationService -> ExecutionModeAdvisor"
+                assert operation["security"] == [{"HumanSessionCookie": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-source-mutation"] is False
+                assert operation["x-devpilot-network-runtime"] is False
+                assert operation["x-devpilot-external-api"] is False
+                assert operation["x-devpilot-agent-execution"] is False
+                assert operation["x-devpilot-rag-execution"] is False
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
+                for status in ["400", "401", "403", "422", "500"]:
+                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
+                continue
+
             if op_id == "auth.capabilities":
                 assert operation["x-devpilot-status"] == "gsdlc-02-c-rbac"
                 assert operation["x-devpilot-domain-service"] == "RBACApplicationService"

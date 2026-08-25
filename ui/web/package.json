@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.19.0-gsdlc-05-c",
+  "version": "0.20.0-gsdlc-05-d",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — MIASI applicability/readiness projected in Project Status (GSDLC-05-C candidate).",
+  "description": "DevPilot Local Web UI — server-authoritative Step Action Advisor for Guided SDLC current steps (GSDLC-05-D implementation candidate).",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -28,7 +28,8 @@
     "test:artifact-manual-editor": "node scripts/gsdlc04b-manual-editor-smoke.mjs",
     "test:artifact-import": "node scripts/gsdlc04c-artifact-import-smoke.mjs",
     "test:artifact-review": "node scripts/gsdlc04d-artifact-review-smoke.mjs",
-    "test:miasi-applicability": "node scripts/gsdlc05c-miasi-applicability-smoke.mjs"
+    "test:miasi-applicability": "node scripts/gsdlc05c-miasi-applicability-smoke.mjs",
+    "test:step-action-advisor": "node scripts/gsdlc05d-step-action-advisor-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -193,7 +194,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-05-C",
+    "currentSprint": "DEVPL-GSDLC-05-D",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -366,7 +367,12 @@
     "currentUiSourceBudgetHardCeilingBytes": 786432,
     "gsdlc05cMiasiApplicabilityIndicator": true,
     "gsdlc05cAgentExecutionEnabled": false,
-    "gsdlc05cRagExecutionEnabled": false
+    "gsdlc05cRagExecutionEnabled": false,
+    "gsdlc05dStepActionAdvisor": true,
+    "gsdlc05dServerAuthoritative": true,
+    "gsdlc05dAgentExecutionEnabled": false,
+    "gsdlc05dRagExecutionEnabled": false,
+    "gsdlc05dFullRegressionRuns": 0
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

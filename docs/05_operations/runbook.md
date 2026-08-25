@@ -11880,3 +11880,10 @@ Repo340 permanece como cierre autoritativo histórico de UI Operational Console 
 ## DEVPL-GSDLC-00 — cierre y baseline successor
 
 GSDLC-00 closes the governance-only program activation wave. Parent repo341 remains immutable; POST-H-EVAL-002 stays paused before 02-B. The successor canonical source archive is `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`, produced only with `git archive HEAD` after the final Windows gates and one required full regression. `DEVPL-GSDLC-01` is the next authorized backlog; Guided SDLC runtime/auth/filesystem-write/provider capabilities remain unimplemented/disabled.
+
+
+## DEVPL-GSDLC-05-D — Step Action Advisor operation
+
+Estado de implementación: `implemented/pending-windows-browser-validation`. Project Status consume `GET /api/v1/guided-sdlc/step-actions` mediante Human Session. La respuesta es actor-aware y server-authoritative: la UI no recalcula RBAC, Policy ni disponibilidad. `AGENT` y `RAG` permanecen `UNAVAILABLE` durante GSDLC-05; no requieren red, API externa ni ejecución de modelo.
+
+La validación ordinaria de 05-D es focal/acumulativa y no consume full regression. El cierre exige browser acceptance Windows, S0=0/S1=0, Git limpio, candidate repo373 limpio y adjudicación owner. Las instrucciones operativas Windows se mantienen en la guía única del delivery bundle de 05-D para evitar duplicación de comandos.

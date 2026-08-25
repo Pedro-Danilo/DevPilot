@@ -1,4 +1,13 @@
 
+from .step_action_advisor import (
+    ACTION_KINDS,
+    AdvisorContext,
+    AdvisorDecision,
+    ExecutionModeAdvisor,
+    StepActionAdvisorError,
+    StepActionCard,
+    StepActionCatalog,
+)
 from .mip_lifecycle import (
     MIPGateEvaluator,
     MIPGateResult,
@@ -105,6 +114,13 @@ __all__ = [
     "MIPWorkflowRegistry",
     "MIPWorkflowRegistryError",
     "MIPLifecycleService",
+    "ACTION_KINDS",
+    "AdvisorContext",
+    "AdvisorDecision",
+    "ExecutionModeAdvisor",
+    "StepActionAdvisorError",
+    "StepActionCard",
+    "StepActionCatalog",
 ]
 
 from .executable_standard_registry import (

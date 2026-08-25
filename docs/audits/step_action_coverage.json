@@ -1,0 +1,557 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-D-STEP-ACTION-COVERAGE-V1",
+  "status": "PASS",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-05-D",
+  "updated": "2026-08-25",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_372_DEVPL_GSDLC_05_C_MIASI_APPLICABILITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "git_commit": "c7f27c5be9185b30cdc5aef34e3564ecdfd6315a",
+    "repo_sha256": "f76edbc47074b76ba9455076d3cb829f6fa55494469193034829c4f9bbc5077e"
+  },
+  "catalog_validation": {
+    "status": "PASS",
+    "mip_steps_total": 19,
+    "catalog_steps_total": 19,
+    "actions_total": 136,
+    "referenced_api_routes_total": 5,
+    "missing_steps": [],
+    "extra_steps": [],
+    "issues": [],
+    "catalog_sha256": "5c5267264bcb0412d7ea31584bc05d78929bf3f4619d3040e554caf3cb19f371",
+    "advisor_grants_capability": false,
+    "server_policy_authoritative": true
+  },
+  "current_steps_total": 19,
+  "actions_total": 136,
+  "all_action_kinds_present": true,
+  "steps_with_valid_route_or_explicit_block": 19,
+  "steps_with_recommendation": 19,
+  "rows": [
+    {
+      "current_step": "intake",
+      "phase_id": "mip.phase.00.intake",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "intake.manual",
+      "available_actions": [
+        "intake.manual",
+        "intake.paste",
+        "intake.upload-import",
+        "intake.external-editor",
+        "intake.validate"
+      ],
+      "unavailable_actions": [
+        "intake.agent",
+        "intake.rag"
+      ]
+    },
+    {
+      "current_step": "problem-discovery",
+      "phase_id": "mip.phase.01.problem-discovery",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "problem-discovery.manual",
+      "available_actions": [
+        "problem-discovery.manual",
+        "problem-discovery.paste",
+        "problem-discovery.upload-import",
+        "problem-discovery.external-editor",
+        "problem-discovery.validate"
+      ],
+      "unavailable_actions": [
+        "problem-discovery.agent",
+        "problem-discovery.rag"
+      ]
+    },
+    {
+      "current_step": "business-analysis",
+      "phase_id": "mip.phase.02.business-analysis",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "business-analysis.manual",
+      "available_actions": [
+        "business-analysis.manual",
+        "business-analysis.paste",
+        "business-analysis.upload-import",
+        "business-analysis.external-editor",
+        "business-analysis.validate"
+      ],
+      "unavailable_actions": [
+        "business-analysis.agent",
+        "business-analysis.rag"
+      ]
+    },
+    {
+      "current_step": "stakeholders",
+      "phase_id": "mip.phase.03.stakeholders",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "stakeholders.manual",
+      "available_actions": [
+        "stakeholders.manual",
+        "stakeholders.paste",
+        "stakeholders.upload-import",
+        "stakeholders.external-editor",
+        "stakeholders.validate"
+      ],
+      "unavailable_actions": [
+        "stakeholders.agent",
+        "stakeholders.rag"
+      ]
+    },
+    {
+      "current_step": "requirements",
+      "phase_id": "mip.phase.04.requirements",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "requirements.manual",
+      "available_actions": [
+        "requirements.manual",
+        "requirements.paste",
+        "requirements.upload-import",
+        "requirements.external-editor",
+        "requirements.validate"
+      ],
+      "unavailable_actions": [
+        "requirements.agent",
+        "requirements.rag"
+      ]
+    },
+    {
+      "current_step": "risk-analysis",
+      "phase_id": "mip.phase.05.risk-analysis",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "risk-analysis.manual",
+      "available_actions": [
+        "risk-analysis.manual",
+        "risk-analysis.paste",
+        "risk-analysis.upload-import",
+        "risk-analysis.external-editor",
+        "risk-analysis.validate"
+      ],
+      "unavailable_actions": [
+        "risk-analysis.agent",
+        "risk-analysis.rag"
+      ]
+    },
+    {
+      "current_step": "architecture",
+      "phase_id": "mip.phase.06.architecture",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "architecture.manual",
+      "available_actions": [
+        "architecture.manual",
+        "architecture.paste",
+        "architecture.upload-import",
+        "architecture.external-editor",
+        "architecture.validate"
+      ],
+      "unavailable_actions": [
+        "architecture.agent",
+        "architecture.rag"
+      ]
+    },
+    {
+      "current_step": "domain-design",
+      "phase_id": "mip.phase.07.domain-design",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "domain-design.manual",
+      "available_actions": [
+        "domain-design.manual",
+        "domain-design.paste",
+        "domain-design.upload-import",
+        "domain-design.external-editor",
+        "domain-design.validate"
+      ],
+      "unavailable_actions": [
+        "domain-design.agent",
+        "domain-design.rag"
+      ]
+    },
+    {
+      "current_step": "data-design",
+      "phase_id": "mip.phase.08.data-design",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "data-design.manual",
+      "available_actions": [
+        "data-design.manual",
+        "data-design.paste",
+        "data-design.upload-import",
+        "data-design.external-editor",
+        "data-design.validate"
+      ],
+      "unavailable_actions": [
+        "data-design.agent",
+        "data-design.rag"
+      ]
+    },
+    {
+      "current_step": "interface-design",
+      "phase_id": "mip.phase.09.interface-design",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "interface-design.manual",
+      "available_actions": [
+        "interface-design.manual",
+        "interface-design.paste",
+        "interface-design.upload-import",
+        "interface-design.external-editor",
+        "interface-design.validate"
+      ],
+      "unavailable_actions": [
+        "interface-design.agent",
+        "interface-design.rag"
+      ]
+    },
+    {
+      "current_step": "ux-ui-design",
+      "phase_id": "mip.phase.10.ux-ui-design",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "ux-ui-design.manual",
+      "available_actions": [
+        "ux-ui-design.manual",
+        "ux-ui-design.paste",
+        "ux-ui-design.upload-import",
+        "ux-ui-design.external-editor",
+        "ux-ui-design.validate"
+      ],
+      "unavailable_actions": [
+        "ux-ui-design.agent",
+        "ux-ui-design.rag"
+      ]
+    },
+    {
+      "current_step": "quality-plan",
+      "phase_id": "mip.phase.11.quality-plan",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "quality-plan.manual",
+      "available_actions": [
+        "quality-plan.manual",
+        "quality-plan.paste",
+        "quality-plan.upload-import",
+        "quality-plan.external-editor",
+        "quality-plan.validate"
+      ],
+      "unavailable_actions": [
+        "quality-plan.agent",
+        "quality-plan.rag"
+      ]
+    },
+    {
+      "current_step": "security-plan",
+      "phase_id": "mip.phase.12.security-plan",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "security-plan.manual",
+      "available_actions": [
+        "security-plan.manual",
+        "security-plan.paste",
+        "security-plan.upload-import",
+        "security-plan.external-editor",
+        "security-plan.validate"
+      ],
+      "unavailable_actions": [
+        "security-plan.agent",
+        "security-plan.rag"
+      ]
+    },
+    {
+      "current_step": "test-plan",
+      "phase_id": "mip.phase.13.test-plan",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "test-plan.manual",
+      "available_actions": [
+        "test-plan.manual",
+        "test-plan.paste",
+        "test-plan.upload-import",
+        "test-plan.external-editor",
+        "test-plan.validate"
+      ],
+      "unavailable_actions": [
+        "test-plan.agent",
+        "test-plan.rag"
+      ]
+    },
+    {
+      "current_step": "implementation",
+      "phase_id": "mip.phase.14.implementation",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "implementation.manual",
+      "available_actions": [
+        "implementation.manual",
+        "implementation.paste",
+        "implementation.upload-import",
+        "implementation.external-editor",
+        "implementation.validate"
+      ],
+      "unavailable_actions": [
+        "implementation.agent",
+        "implementation.rag"
+      ]
+    },
+    {
+      "current_step": "integration",
+      "phase_id": "mip.phase.15.integration",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 7,
+      "advisor_status": "PASS",
+      "recommended_action_id": "integration.manual",
+      "available_actions": [
+        "integration.manual",
+        "integration.paste",
+        "integration.upload-import",
+        "integration.external-editor",
+        "integration.validate"
+      ],
+      "unavailable_actions": [
+        "integration.agent",
+        "integration.rag"
+      ]
+    },
+    {
+      "current_step": "verification",
+      "phase_id": "mip.phase.16.verification",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 8,
+      "advisor_status": "PASS",
+      "recommended_action_id": "verification.manual",
+      "available_actions": [
+        "verification.manual",
+        "verification.paste",
+        "verification.upload-import",
+        "verification.external-editor",
+        "verification.validate",
+        "verification.quality-execute"
+      ],
+      "unavailable_actions": [
+        "verification.agent",
+        "verification.rag"
+      ]
+    },
+    {
+      "current_step": "validation",
+      "phase_id": "mip.phase.17.validation",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 8,
+      "advisor_status": "PASS",
+      "recommended_action_id": "validation.manual",
+      "available_actions": [
+        "validation.manual",
+        "validation.paste",
+        "validation.upload-import",
+        "validation.external-editor",
+        "validation.validate",
+        "validation.quality-execute"
+      ],
+      "unavailable_actions": [
+        "validation.agent",
+        "validation.rag"
+      ]
+    },
+    {
+      "current_step": "release",
+      "phase_id": "mip.phase.18.release",
+      "action_kinds": [
+        "AGENT",
+        "EXTERNAL_EDITOR",
+        "MANUAL",
+        "PASTE",
+        "RAG",
+        "TYPED_OPERATION",
+        "UPLOAD_IMPORT"
+      ],
+      "catalog_actions_total": 8,
+      "advisor_status": "PASS",
+      "recommended_action_id": "release.manual",
+      "available_actions": [
+        "release.manual",
+        "release.paste",
+        "release.upload-import",
+        "release.external-editor",
+        "release.validate",
+        "release.quality-execute"
+      ],
+      "unavailable_actions": [
+        "release.agent",
+        "release.rag"
+      ]
+    }
+  ],
+  "safety": {
+    "advisor_grants_capability": false,
+    "server_policy_authoritative": true,
+    "agent_execution_enabled": false,
+    "rag_execution_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "full_regression_runs": 0
+  }
+}

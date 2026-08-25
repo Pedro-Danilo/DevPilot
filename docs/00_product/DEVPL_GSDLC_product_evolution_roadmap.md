@@ -452,9 +452,14 @@ Estado current-active: `implemented/pending-windows-validation`. 05-A está `CLO
 
 ### DEVPL-GSDLC-05-C — MIASI applicability (current)
 
-GSDLC-05-B está `CLOSED/PASS` sobre repo371. GSDLC-05-C implementa clasificación MIASI determinística project/feature, control readiness y Project Status indicator; estado `implemented/pending-windows-validation`, full regression 0.
+GSDLC-05-B está `CLOSED/PASS` sobre repo371. GSDLC-05-C implementa clasificación MIASI determinística project/feature, control readiness y Project Status indicator; quedó `CLOSED/PASS` sobre repo372, browser 6/6, S0=0, S1=0 y full regression 0.
 
 
 ## DEVPL-GSDLC-05-C Windows candidate
 
-GSDLC-05-C: `PASS-CANDIDATE / browser capability PASS / owner adjudication pending`; full regression remains 0 and GSDLC-05-D is not authorized yet.
+GSDLC-05-C: `CLOSED/PASS / browser capability 6/6 PASS / owner adjudicated`; repo372 es el successor autoritativo inmediato, full regression permanece 0 y GSDLC-05-D queda autorizado.
+
+
+### DEVPL-GSDLC-05-D — StepActionCatalog and ExecutionModeAdvisor
+
+Estado actual: `IMPLEMENTED / PENDING-WINDOWS-BROWSER-VALIDATION` sobre autoridad repo372. La implementación cubre 19 `current_step` MIP con 136 action definitions y mantiene Human Session/RBAC/Policy como autoridad server-side. `AGENT` y `RAG` se muestran como alternativas futuras pero permanecen `UNAVAILABLE` durante GSDLC-05. Full regression de la ola permanece en `0`; GSDLC-05-E no se autoriza hasta adjudicación owner de la evidencia Windows de 05-D.

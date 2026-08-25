@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.guided_sdlc import GuidedSDLCService, ProjectProgressEngine, ReconciliationError, WorkflowEngineError
+from devpilot_core.guided_sdlc import AdvisorContext, ExecutionModeAdvisor, GuidedSDLCService, ProjectProgressEngine, ReconciliationError, WorkflowEngineError
 from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreError
 
 from .portfolio_service import PortfolioApplicationService
@@ -196,6 +196,92 @@ class GuidedSDLCApplicationService:
                 "source_mutations_performed": False,
             },
             findings=[],
+        )
+
+    def step_actions_primary(
+        self,
+        *,
+        workspace_id: str | None,
+        observed_at_utc: str,
+        effective_roles: list[str] | tuple[str, ...],
+        workspace_scopes: list[str] | tuple[str, ...],
+        expected_state_fingerprint: str | None = None,
+    ) -> CommandResult:
+        """Return the actor-aware, server-policy-bound Step Action Advisor projection.
+
+        The authenticated principal is resolved by the API security/RBAC layer;
+        this method receives only sanitized canonical roles/scopes. The advisor
+        is read-only and never grants target-route capability.
+        """
+
+        status_result = self.project_status_primary(
+            workspace_id=workspace_id,
+            observed_at_utc=observed_at_utc,
+            expected_state_fingerprint=expected_state_fingerprint,
+        )
+        resolved = str((status_result.data or {}).get("workspace_id") or "").strip()
+        project_status = (status_result.data or {}).get("project_status")
+        if not resolved or not isinstance(project_status, dict):
+            return CommandResult(
+                command="guided_sdlc.step_actions",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Step Action Advisor requires an active server-valid project context.",
+                data={
+                    "ui_state": "BLOCKED",
+                    "workspace_id": None,
+                    "current_step": None,
+                    "advisor": None,
+                    "read_only": True,
+                    "actor_neutral": False,
+                    "server_authoritative": True,
+                    "network_used": False,
+                    "external_api_used": False,
+                    "mutations_performed": False,
+                    "source_mutations_performed": False,
+                },
+                findings=[Finding(id="STEP_ACTION_ACTIVE_PROJECT_REQUIRED", message="An active registered workspace/project is required.", severity=Severity.BLOCK)],
+            )
+
+        current_step = str(project_status.get("current_step") or "").strip()
+        context = AdvisorContext.from_payload(
+            workspace_id=resolved,
+            current_step=current_step,
+            effective_roles=effective_roles,
+            workspace_scopes=workspace_scopes,
+            project_status=project_status,
+        )
+        decision = ExecutionModeAdvisor(self.root).advise(context)
+        payload = decision.to_payload()
+        allowed = decision.status == "PASS" and bool(decision.recommended_action_id)
+        findings = [] if allowed else [
+            Finding(
+                id="STEP_ACTION_NO_EXECUTABLE_ROUTE",
+                message="No current-step action is executable under the authoritative prerequisites/RBAC/policy.",
+                severity=Severity.BLOCK,
+                metadata={"current_step": current_step},
+            )
+        ]
+        return CommandResult(
+            command="guided_sdlc.step_actions",
+            ok=allowed,
+            exit_code=ExitCode.PASS if allowed else ExitCode.BLOCK,
+            message="Step Action Advisor derived deterministic server-policy-bound options." if allowed else "Step Action Advisor is explicitly blocked.",
+            data={
+                "ui_state": "READY" if allowed else "BLOCKED",
+                "workspace_id": resolved,
+                "current_step": current_step,
+                "advisor": payload,
+                "read_only": True,
+                "actor_neutral": False,
+                "server_authoritative": True,
+                "network_used": False,
+                "external_api_used": False,
+                "model_execution_used": False,
+                "mutations_performed": False,
+                "source_mutations_performed": False,
+            },
+            findings=findings,
         )
 
     def reconcile_preview(

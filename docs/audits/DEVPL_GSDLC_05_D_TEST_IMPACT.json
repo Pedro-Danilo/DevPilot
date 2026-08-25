@@ -1,0 +1,40 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-D-TEST-IMPACT-V1",
+  "status": "PASS",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-05-D",
+  "updated": "2026-08-25",
+  "policy": "A-D cumulative-selective; no routine full regression",
+  "changed_domains": [
+    "guided-sdlc",
+    "application-service",
+    "api",
+    "server-rbac",
+    "ui-project-status",
+    "schemas",
+    "docs-governance",
+    "test-contract-registry"
+  ],
+  "required_focal_tests": [
+    "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
+    "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+    "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+    "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+    "tests/test_devpl_gsdlc_01_e_project_status.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py",
+    "tests/test_application_operation_catalog_schema.py",
+    "tests/test_api_contract.py"
+  ],
+  "ui_static_checks": [
+    "node ui/web/scripts/gsdlc05d-step-action-advisor-smoke.mjs",
+    "node ui/web/scripts/gsdlc05c-miasi-applicability-smoke.mjs",
+    "node ui/web/scripts/gsdlc01e-project-status-smoke.mjs"
+  ],
+  "browser_required_on_windows": true,
+  "full_regression_allowed_by_routine": false,
+  "full_regression_runs": 0,
+  "hard_trigger_detected": false,
+  "reason": "05-D extends a bounded read-only advisor projection and UI card; no destructive runtime or external capability is enabled."
+}

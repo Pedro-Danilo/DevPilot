@@ -661,6 +661,78 @@ export interface GuidedSdlcProjectStatusResponseData {
   mutations_performed: boolean;
 }
 
+export interface StepActionDisabledReason {
+  code: string;
+  message: string;
+  authority: string;
+}
+
+export interface StepActionPrerequisite {
+  prerequisite_id: string;
+  satisfied: boolean;
+  reason: string;
+}
+
+export interface StepActionEstimate {
+  applicable: boolean;
+  value: number | null;
+  unit: string;
+  reason: string;
+}
+
+export interface StepActionCard {
+  action_id: string;
+  kind: 'MANUAL' | 'PASTE' | 'UPLOAD_IMPORT' | 'EXTERNAL_EDITOR' | 'AGENT' | 'RAG' | 'TYPED_OPERATION' | string;
+  label: string;
+  purpose: string;
+  availability: 'AVAILABLE' | 'UNAVAILABLE' | string;
+  executable: boolean;
+  disabled_reasons: StepActionDisabledReason[];
+  prerequisites: StepActionPrerequisite[];
+  required_roles: string[];
+  effective_roles: string[];
+  risk: { level?: string; policy_refs?: string[] };
+  side_effects: string[];
+  approval_required: boolean;
+  network_required: boolean;
+  external_api_required: boolean;
+  cost: StepActionEstimate;
+  tokens: StepActionEstimate;
+  rank: number;
+  recommended: boolean;
+  navigation_target?: string | null;
+  configuration_target?: string | null;
+  typed_operation_id?: string | null;
+  api_route_id?: string | null;
+  source_refs: string[];
+}
+
+export interface StepActionAdvisorDecision {
+  workspace_id: string;
+  current_step: string;
+  status: 'PASS' | 'BLOCK' | string;
+  recommended_action_id?: string | null;
+  actions: StepActionCard[];
+  decision_fingerprint: string;
+  authority: Record<string, unknown>;
+  safety: Record<string, unknown>;
+}
+
+export interface GuidedSdlcStepActionsResponseData {
+  ui_state: 'READY' | 'BLOCKED' | string;
+  workspace_id?: string | null;
+  current_step?: string | null;
+  advisor?: StepActionAdvisorDecision | null;
+  read_only: boolean;
+  actor_neutral: false;
+  server_authoritative: true;
+  network_used: false;
+  external_api_used: false;
+  model_execution_used?: false;
+  mutations_performed: false;
+  source_mutations_performed: false;
+}
+
 export interface AuthPrincipal {
   actor_id: string;
   username: string;

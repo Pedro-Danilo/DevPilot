@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/step_action_catalog.schema.json",
+  "title": "DevPilot Guided SDLC Step Action Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalog_id",
+    "catalog_version",
+    "status",
+    "action_kinds",
+    "authority",
+    "steps",
+    "safety"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-05-D-STEP-ACTION-CATALOG-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "catalog_id": {
+      "const": "devpl-gsdlc-step-action-catalog"
+    },
+    "catalog_version": {
+      "type": "string",
+      "pattern": "^1\\.0\\.0$"
+    },
+    "status": {
+      "const": "implemented-initial"
+    },
+    "action_kinds": {
+      "type": "array",
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "MANUAL",
+          "PASTE",
+          "UPLOAD_IMPORT",
+          "EXTERNAL_EDITOR",
+          "AGENT",
+          "RAG",
+          "TYPED_OPERATION"
+        ]
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mip_registry",
+        "rbac_catalog",
+        "api_route_registry",
+        "ui_route_registry"
+      ],
+      "properties": {
+        "mip_registry": {
+          "type": "string"
+        },
+        "rbac_catalog": {
+          "type": "string"
+        },
+        "api_route_registry": {
+          "type": "string"
+        },
+        "ui_route_registry": {
+          "type": "string"
+        }
+      }
+    },
+    "ranking_policy": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "current_step",
+          "phase_id",
+          "phase",
+          "artifact_profiles",
+          "source_refs",
+          "actions"
+        ],
+        "properties": {
+          "current_step": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_profiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "source_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "actions": {
+            "type": "array",
+            "minItems": 7,
+            "items": {
+              "$ref": "#/$defs/action"
+            }
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "advisor_grants_capability",
+        "server_policy_authoritative",
+        "agent_execution_enabled",
+        "rag_execution_enabled",
+        "network_required",
+        "external_api_required"
+      ],
+      "properties": {
+        "advisor_grants_capability": {
+          "const": false
+        },
+        "server_policy_authoritative": {
+          "const": true
+        },
+        "agent_execution_enabled": {
+          "const": false
+        },
+        "rag_execution_enabled": {
+          "const": false
+        },
+        "network_required": {
+          "const": false
+        },
+        "external_api_required": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "kind",
+        "label",
+        "purpose",
+        "base_rank",
+        "side_effects",
+        "approval_required",
+        "network_required",
+        "external_api_required",
+        "risk",
+        "cost",
+        "tokens",
+        "prerequisites",
+        "policy"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "MANUAL",
+            "PASTE",
+            "UPLOAD_IMPORT",
+            "EXTERNAL_EDITOR",
+            "AGENT",
+            "RAG",
+            "TYPED_OPERATION"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_rank": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "api_route_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ui_target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configuration_target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "typed_operation_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "side_effects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "approval_required": {
+          "type": "boolean"
+        },
+        "network_required": {
+          "type": "boolean"
+        },
+        "external_api_required": {
+          "type": "boolean"
+        },
+        "provider_required": {
+          "type": "boolean"
+        },
+        "budget_required": {
+          "type": "boolean"
+        },
+        "minimum_program_hito": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "risk": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "policy_refs"
+          ],
+          "properties": {
+            "level": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ]
+            },
+            "policy_refs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "cost": {
+          "$ref": "#/$defs/estimate"
+        },
+        "tokens": {
+          "$ref": "#/$defs/estimate"
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "server_authority",
+            "deny_by_default"
+          ],
+          "properties": {
+            "server_authority": {
+              "type": "string"
+            },
+            "deny_by_default": {
+              "const": true
+            },
+            "forced_unavailable_reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "applicable",
+        "value",
+        "unit",
+        "reason"
+      ],
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": [
+            "number",
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "unit": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

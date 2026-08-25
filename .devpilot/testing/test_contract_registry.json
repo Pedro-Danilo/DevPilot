@@ -12094,6 +12094,86 @@
         "Browser capability acceptance is bounded to Project Status MIASI states; full regression remains 0."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-d-step-action-advisor",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-05-D",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
+        "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+        "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_devpl_gsdlc_01_e_project_status.py",
+        "tests/test_application_operation_catalog_schema.py",
+        "tests/test_api_contract.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "validates": [
+        "19 current-step StepActionCatalog coverage",
+        "seven contractual action kinds per current step",
+        "deterministic recommendation/ranking",
+        "artifact readiness input",
+        "RBAC and policy negative availability",
+        "provider unavailable and budget exhausted explanations",
+        "AGENT/RAG visible but unavailable throughout GSDLC-05",
+        "cost/risk/approval/side-effects metadata",
+        "ApplicationService/API/OpenAPI/RBAC/UI route parity",
+        "UI fail-closed rendering without authority recomputation"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/step_action_catalog.json",
+        "docs/schemas/step_action_catalog.schema.json",
+        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+        "src/devpilot_core/guided_sdlc/__init__.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/07_interfaces/api_service_mapping.md",
+        "ui/web/src/components/StepActionAdvisor.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/styles.css",
+        "ui/web/package.json",
+        "ui/web/package-lock.json",
+        "ui/web/scripts/gsdlc05d-step-action-advisor-smoke.mjs",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_d_step_action_advisor.py -q",
+        "node ui/web/scripts/gsdlc05d-step-action-advisor-smoke.mjs",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "guided-sdlc.step-action-advisor",
+      "notes": [
+        "GSDLC-05-D is deterministic/local-first and grants no capability.",
+        "Browser acceptance is required on Windows before owner adjudication; full regression remains 0."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -12165,10 +12245,11 @@
     "DEVPL-GSDLC-02-B adds isolated local auth/session security tests; canonical source is not mutated by tests and full regression remains deferred to 02-E.",
     "GSDLC-02-E adds the authenticated browser closure contract; the only backlog full regression remains a separate exactly-once closure action after browser PASS.",
     "GSDLC-03-A adds a P0 side-effect-free ProjectIntake/TechnologyCatalog/ProjectCreationPlan contract; full regression remains deferred to 03-E.",
-    "DEVPL-GSDLC-04-B registers runtime-only MANUAL draft authoring, revision history and optimistic-concurrency contract; full regression remains unconsumed."
+    "DEVPL-GSDLC-04-B registers runtime-only MANUAL draft authoring, revision history and optimistic-concurrency contract; full regression remains unconsumed.",
+    "DEVPL-GSDLC-05-D registers server-policy-bound StepActionCatalog/ExecutionModeAdvisor coverage with no model/network/full-regression execution."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 292
+  "contracts_total": 293
 }

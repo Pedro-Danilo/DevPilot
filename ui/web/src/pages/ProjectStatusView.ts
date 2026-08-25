@@ -1,5 +1,6 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectStatusResponseData, MiasiApplicabilityStatus } from '../api/types';
+import { renderStepActionAdvisor, renderStepActionAdvisorError } from '../components/StepActionAdvisor';
 
 const ROUTE_ID = 'ui.project-status';
 
@@ -34,12 +35,30 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
   try {
     const response = await new DevPilotApiClient({ token: tokenProvider() }).projectStatus();
     const data = response.data;
-    content.replaceChildren(renderState(data));
+    const statePanel = renderState(data);
+    const advisorMount = document.createElement('div');
+    advisorMount.className = 'step-action-advisor-mount';
+    advisorMount.setAttribute('aria-live', 'polite');
+    const loading = document.createElement('section');
+    loading.className = 'step-action-advisor panel';
+    loading.textContent = 'Calculando opciones permitidas para el paso actual…';
+    advisorMount.append(loading);
+    content.replaceChildren(statePanel, advisorMount);
     root.dataset.uiState = normalizeUiState(data.ui_state);
+    void loadStepActions(advisorMount, tokenProvider);
   } catch (error) {
     const state = classifyError(error);
     content.replaceChildren(renderRequestError(error, state));
     root.dataset.uiState = state;
+  }
+}
+
+async function loadStepActions(mount: HTMLElement, tokenProvider: () => string): Promise<void> {
+  try {
+    const response = await new DevPilotApiClient({ token: tokenProvider() }).stepActions();
+    mount.replaceChildren(renderStepActionAdvisor(response.data));
+  } catch (error) {
+    mount.replaceChildren(renderStepActionAdvisorError(error));
   }
 }
 

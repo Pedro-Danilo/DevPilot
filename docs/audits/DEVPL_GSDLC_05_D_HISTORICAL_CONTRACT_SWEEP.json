@@ -1,0 +1,47 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-D-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-05-D",
+  "updated": "2026-08-25",
+  "classifications": [
+    {
+      "subject": "GSDLC-05-A executable standard mapping",
+      "classification": "historical-freeze",
+      "action": "preserved; catalog consumes current MIP registry without rewriting 05-A evidence"
+    },
+    {
+      "subject": "GSDLC-05-B MIP workflow lifecycle",
+      "classification": "current-active",
+      "action": "StepActionCatalog covers all 19 current_step values from the live MIP registry"
+    },
+    {
+      "subject": "GSDLC-05-C MIASI applicability",
+      "classification": "current-active",
+      "action": "advisor consumes MIASI gate status and keeps AGENT/RAG disabled"
+    },
+    {
+      "subject": "GSDLC-01-E Project Status",
+      "classification": "successor-needed",
+      "action": "01-E exact allowed API list moved to allowed_api_routes_at_01_e_close snapshot; current allowed_api_routes recognizes the 05-D successor without rewriting the historical fact."
+    },
+    {
+      "subject": "UOC quality/AI routes",
+      "classification": "historical-freeze",
+      "action": "target routes are referenced but their historical behavior/assertions are not rewritten"
+    },
+    {
+      "subject": "auth.db*/devpilot.db*/outputs runtime stores",
+      "classification": "runtime-ephemeral",
+      "action": "excluded from fixtures/evidence/release candidates"
+    },
+    {
+      "subject": "POST-H API contract generic status set",
+      "classification": "successor-needed",
+      "action": "test_api_contract adds an explicit GSDLC-05-D branch for guided_sdlc.step_actions; prior generic status set remains unchanged for historical routes."
+    }
+  ],
+  "historical_assertions_relaxed": false,
+  "deprecated_after_proof_total": 0,
+  "full_regression_runs": 0
+}

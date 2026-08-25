@@ -1,4 +1,4 @@
-import type { AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, OperatorDashboardResponseData } from './types';
+import type { AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
@@ -221,6 +221,10 @@ export class DevPilotApiClient {
 
   async projectStatus(filters: { workspace_id?: string; expected_state_fingerprint?: string } = {}): Promise<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>> {
     return this.get(`/guided-sdlc/status${this.query(filters)}`, { retryNetworkErrors: true }) as unknown as Promise<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>>;
+  }
+
+  async stepActions(filters: { workspace_id?: string; expected_state_fingerprint?: string } = {}): Promise<DevPilotApplicationResponse<GuidedSdlcStepActionsResponseData>> {
+    return this.get(`/guided-sdlc/step-actions${this.query(filters)}`, { retryNetworkErrors: true }) as unknown as Promise<DevPilotApplicationResponse<GuidedSdlcStepActionsResponseData>>;
   }
 
 

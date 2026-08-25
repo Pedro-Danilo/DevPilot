@@ -1,0 +1,59 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-D-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS/WINDOWS-PASS-CANDIDATE",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-05-D",
+  "updated": "2026-08-25",
+  "checks": [
+    {
+      "check": "StepActionCatalog schema and MIP current-step coverage",
+      "status": "PASS"
+    },
+    {
+      "check": "API route registry ↔ server RBAC catalog ↔ OpenAPI ↔ ApplicationService route contract",
+      "status": "PASS"
+    },
+    {
+      "check": "Project Status UI ↔ API client ↔ UI route registry",
+      "status": "PASS"
+    },
+    {
+      "check": "AGENT/RAG execution remains disabled throughout GSDLC-05",
+      "status": "PASS"
+    },
+    {
+      "check": "typed operations reflect target server policy and do not grant capability",
+      "status": "PASS"
+    },
+    {
+      "check": "cost/risk/approval/side effects present for agentic routes",
+      "status": "PASS"
+    },
+    {
+      "check": "runtime-ephemeral stores excluded from intended Windows fixture/release",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "check": "Git clean identity and candidate ZIP integrity",
+      "status": "PENDING-WINDOWS"
+    },
+    {
+      "check": "real-browser bounded acceptance",
+      "status": "PENDING-WINDOWS"
+    }
+  ],
+  "blocking_drift_pre_windows": 0,
+  "browser_required": true,
+  "full_regression_runs": 0,
+  "final_reconciliation": {
+    "expanded_selective_tests": "105 passed, 0 failed, 0 errors, 0 skipped",
+    "documentation_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "ui_capability_registry_api_routes_total": 118,
+    "project_state_gsdlc_current_micro_sprint": "DEVPL-GSDLC-05-D",
+    "source_registry_gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-05-D",
+    "full_regression_runs": 0
+  },
+  "windows_browser_acceptance": "PASS"
+}

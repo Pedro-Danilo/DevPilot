@@ -3099,7 +3099,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-05-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-05-D-STEP-ACTION-CATALOG-V1",
+      "title": "Step Action Catalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/step_action_catalog.schema.json",
+      "description": "GSDLC-05-D machine-readable current-step action kinds, policy/RBAC authority references, risk/side-effect/approval/cost metadata and deterministic ranking inputs.",
+      "status": "registered",
+      "contract": "StepActionCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-05-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-05-D"
     }
   ],
-  "schemas_total": 213
+  "schemas_total": 216
 }

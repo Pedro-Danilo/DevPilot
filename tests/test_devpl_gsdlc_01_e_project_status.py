@@ -76,7 +76,8 @@ def test_01_e_route_registry_is_successor_10_and_uoc011_snapshot_stays_9() -> No
     assert {r["route_id"] for r in frozen["routes"]} == {r["route_id"] for r in matrix["routes"]}
     route = next(r for r in current["routes"] if r["route_id"] == "ui.project-status")
     assert route["path"] == "/project/status"
-    assert route["allowed_api_routes"] == ["api.guided-sdlc.project-status"]
+    assert route["allowed_api_routes_at_01_e_close"] == ["api.guided-sdlc.project-status"]
+    assert route["allowed_api_routes"] == ["api.guided-sdlc.project-status", "api.guided-sdlc.step-actions"]
     assert route["shows_mutation_controls"] is False
     assert route["state_contract"]["revalidation_required"] is True
 
