@@ -8,6 +8,7 @@ from devpilot_core.guided_sdlc import AdvisorContext, ExecutionModeAdvisor, Guid
 from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreError
 
 from .portfolio_service import PortfolioApplicationService
+from .ui_workspace_context import UiWorkspaceContextResolver
 
 
 class GuidedSDLCApplicationService:
@@ -19,8 +20,9 @@ class GuidedSDLCApplicationService:
     exposed before GSDLC-01-E and managed workspace source/Git stay read-only.
     """
 
-    def __init__(self, root: Path) -> None:
+    def __init__(self, root: Path, *, context_resolver: UiWorkspaceContextResolver | None = None) -> None:
         self.root = Path(root).resolve()
+        self.context_resolver = context_resolver or UiWorkspaceContextResolver(self.root)
 
     def _service(self) -> GuidedSDLCService:
         # Lazy construction preserves ApplicationService compatibility for
@@ -119,11 +121,15 @@ class GuidedSDLCApplicationService:
         """
 
         explicit = str(workspace_id or "").strip()
-        portfolio = PortfolioApplicationService(self.root).status()
-        active = ""
+        context = self.context_resolver.resolve()
+        server_active = ""
+        if context.configured and context.valid:
+            server_active = str(context.active_workspace_id or "").strip()
+        portfolio = PortfolioApplicationService(self.root, context_resolver=self.context_resolver).status()
+        portfolio_active = ""
         if isinstance(portfolio.data, dict):
-            active = str((portfolio.data.get("summary") or {}).get("active_workspace_id") or "").strip()
-        resolved = explicit or active
+            portfolio_active = str((portfolio.data.get("summary") or {}).get("active_workspace_id") or "").strip()
+        resolved = explicit or server_active or portfolio_active
         if not resolved:
             unknown = ProjectProgressEngine.unknown(workspace_id="unknown", observed_at_utc=observed_at_utc)
             return CommandResult(

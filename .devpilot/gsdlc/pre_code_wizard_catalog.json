@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "devpilot.gsdlc05e.pre_code_wizard_catalog.v1",
+  "status": "implemented-initial",
+  "version": "1.0.0",
+  "profile_id": "guided-pre-code-manual-v1",
+  "readiness_semantics": "vertical-slice-strict; does not replace historical global pre-code readiness",
+  "stages": [
+    {"stage_id":"product-vision","order":1,"label":"Product Vision","relative_path":"docs/00_product/product_vision.md","profile_id":"product-vision","advisor_step":"business-analysis","allowed_modes":["MANUAL"]},
+    {"stage_id":"scope","order":2,"label":"MVP Scope","relative_path":"docs/00_product/mvp_scope.md","profile_id":"mvp-scope","advisor_step":"business-analysis","allowed_modes":["MANUAL","IMPORT"]},
+    {"stage_id":"requirements","order":3,"label":"Requirements","relative_path":"docs/01_requirements/requirements_specification.md","profile_id":"requirements-specification","advisor_step":"requirements","allowed_modes":["MANUAL","IMPORT"]},
+    {"stage_id":"architecture","order":4,"label":"Architecture","relative_path":"docs/02_architecture/architecture_document.md","profile_id":"architecture-document","advisor_step":"architecture","allowed_modes":["MANUAL","IMPORT"]},
+    {"stage_id":"security","order":5,"label":"Security","relative_path":"docs/03_security/security_threat_model.md","profile_id":"security-threat-model","advisor_step":"security-plan","allowed_modes":["MANUAL","IMPORT"]},
+    {"stage_id":"test-strategy","order":6,"label":"Test Strategy","relative_path":"docs/04_quality/test_strategy.md","profile_id":"test-strategy","advisor_step":"test-plan","allowed_modes":["MANUAL","IMPORT"]},
+    {"stage_id":"traceability","order":7,"label":"Traceability","relative_path":"docs/01_requirements/traceability_matrix.md","profile_id":"traceability-matrix","advisor_step":"test-plan","allowed_modes":["MANUAL","IMPORT"]}
+  ]
+}

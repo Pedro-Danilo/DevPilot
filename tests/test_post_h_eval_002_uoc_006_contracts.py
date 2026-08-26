@@ -103,10 +103,13 @@ def test_uoc006_api_routes_are_exact_typed_local_and_no_go_stays_blocked() -> No
     }
     assert expected <= routes.keys()
     source_mutations = {rid for rid, route in routes.items() if route.get("source_mutation_allowed") is True}
-    assert {
+    historical_mutations = {
         "api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback",
         "api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create", "api.project-entry.execute",
-    } == source_mutations
+    }
+    successor_mutations = {rid for rid, route in routes.items() if "gsdlc-05-e" in route.get("tags", []) and route.get("source_mutation_allowed") is True}
+    assert successor_mutations == {"api.guided-sdlc.pre-code.apply"}
+    assert historical_mutations | successor_mutations == source_mutations
     for rid in expected:
         route = routes[rid]
         assert route["local_only"] is True

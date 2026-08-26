@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 118,
+    "api_routes_total": 125,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10764,8 +10764,8 @@
       "sensitive": 57
     },
     "sensitive_ui_native_without_approval_total": 0,
-    "ui_routes_mapped_total": 11,
-    "ui_routes_total": 11,
+    "ui_routes_mapped_total": 12,
+    "ui_routes_total": 12,
     "uoc_001_read_only_document_surface_total": 1,
     "uoc_002_document_inspection_routes_total": 4,
     "uoc_002_document_links": true,
@@ -10816,7 +10816,7 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-05-D",
+    "updated_by": "DEVPL-GSDLC-05-E",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -10834,7 +10834,10 @@
     "gsdlc_04_d_ui_authority": false,
     "gsdlc_05_d_step_action_advisor_available": true,
     "gsdlc_05_d_step_action_api_routes_total": 1,
-    "gsdlc_05_d_ui_server_authority": true
+    "gsdlc_05_d_ui_server_authority": true,
+    "gsdlc_05_e_pre_code_wizard": true,
+    "gsdlc_05_e_pre_code_api_routes_total": 7,
+    "gsdlc_05_e_hidden_cli_bridge_required": false
   },
   "ui_routes": [
     {
@@ -11342,6 +11345,64 @@
       },
       "status": "implemented/gsdlc-04-e-external-reconciliation-browser-closure",
       "title": "Artifact Workbench — governed authoring, reconciliation and browser closure"
+    },
+    {
+      "route_id": "ui.pre-code-wizard",
+      "title": "Pre-code guiado — Manual/Import vertical slice",
+      "path": "/pre-code",
+      "page_component": "PreCodeWizardView",
+      "source_files": [
+        "ui/web/src/pages/PreCodeWizardView.ts",
+        "ui/web/src/components/StepActionAdvisor.ts"
+      ],
+      "allowed_api_route_ids": [
+        "api.guided-sdlc.pre-code.status",
+        "api.guided-sdlc.pre-code.draft",
+        "api.guided-sdlc.pre-code.review",
+        "api.guided-sdlc.pre-code.approval-request",
+        "api.guided-sdlc.pre-code.apply",
+        "api.guided-sdlc.pre-code.freeze",
+        "api.guided-sdlc.pre-code.readiness",
+        "api.approvals.show"
+      ],
+      "mapped_cli_capability_ids": [],
+      "local_only": true,
+      "shows_mutation_controls": true,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "state_contract": {
+        "loading": true,
+        "error": true,
+        "block_visible": true,
+        "api_down": true,
+        "draft": true,
+        "findings": true,
+        "approval_required": true,
+        "applied": true,
+        "frozen": true,
+        "pre_code_ready": true,
+        "skip_blocked": true,
+        "wrong_role_blocked": true,
+        "resume": true
+      },
+      "native_capabilities": [
+        {
+          "capability_id": "ui.pre-code-wizard.manual-import-authoring",
+          "application_service": "guided_sdlc.pre_code",
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "DEVPL-GSDLC-05-E",
+          "read_write": "approval-gated-source-write",
+          "requires_approval_for_future_apply": true,
+          "requires_dry_run": false,
+          "risk_class": "governed-pre-code-workflow",
+          "source_write_enabled": true,
+          "source_write_engine": "UOC-005 WorkspaceEditExecutionApplicationService",
+          "agent_execution_enabled": false,
+          "rag_execution_enabled": false
+        }
+      ]
     }
   ],
   "updated": "2026-08-25",

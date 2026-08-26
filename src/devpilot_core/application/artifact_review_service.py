@@ -124,6 +124,40 @@ class ArtifactReviewApplicationService:
             session_principal=session_principal,
         )
 
+
+    def start_runtime_draft(
+        self,
+        *,
+        source_kind: str,
+        source_ref: str,
+        artifact: dict[str, Any],
+        relative_path: str,
+        content: str,
+        base_sha: str,
+        actor: str,
+        actor_role: str,
+        session_principal: str,
+    ) -> CommandResult:
+        """GSDLC-05-E successor entry point for a server-persisted runtime DRAFT.
+
+        The caller must supply an ArtifactLifecycleService DRAFT record created
+        from authenticated UI input. This method intentionally delegates to the
+        same 04-D validation/plan pipeline; it does not create a second writer.
+        """
+        if str(artifact.get("state") or "") != ArtifactState.DRAFT.value:
+            return self._block("artifact review start", "GSDLC05E_RUNTIME_DRAFT_STATE_BLOCK", "Only a server-authoritative DRAFT may enter the pre-code review pipeline.")
+        return self._start(
+            source_kind=str(source_kind or "").upper(),
+            source_ref=str(source_ref or ""),
+            artifact=deepcopy(artifact),
+            relative_path=relative_path,
+            content=content,
+            base_sha=base_sha,
+            actor=actor,
+            actor_role=actor_role,
+            session_principal=session_principal,
+        )
+
     def get(self, *, review_id: str) -> CommandResult:
         path = self._record_path(review_id)
         if path is None or not path.is_file():

@@ -1,0 +1,173 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-E-TEST-IMPACT-V1",
+  "status": "PASS",
+  "version": "1.0.5",
+  "owner": "DEVPL-GSDLC-05-E",
+  "updated": "2026-08-26",
+  "policy": "backlog-closure/exactly-one-full-after-browser-and-predictive-marker",
+  "changed_domains": [
+    "guided-sdlc",
+    "artifact-lifecycle",
+    "artifact-review",
+    "workspace-edit-approval-apply",
+    "application-service",
+    "api",
+    "server-rbac",
+    "ui-pre-code",
+    "schemas",
+    "docs-governance",
+    "test-contract-registry",
+    "api-security-middleware",
+    "rbac-active-workspace-resolution",
+    "guided-sdlc-runtime-workspace-binding",
+    "project-status-server-context-recovery",
+    "ui-human-session-preflight",
+    "browser-session-recovery-diagnostics",
+    "workspace-route-scope-inference",
+    "pre-code-contextual-upload-import",
+    "approval-rbac-denial-diagnostics",
+    "browser-b03-machine-verification"
+  ],
+  "required_focal_tests": [
+    "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+    "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
+    "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+    "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+    "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+    "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+    "tests/test_api_contract.py",
+    "tests/test_api_local.py",
+    "tests/test_api_security.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "browser_required_on_windows": true,
+  "full_regression_required": true,
+  "full_regression_maximum_runs": 1,
+  "full_regression_runs": 0,
+  "rerun_allowed": false,
+  "hard_trigger_detected_before_browser": false,
+  "reason": "05-E is the backlog closure vertical slice and therefore reserves the sole full regression for post-browser closure.",
+  "local_filewise_validation": {
+    "status": "PASS",
+    "tests_passed": 137,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "process_isolation": "one pytest file per short-lived Python process"
+  },
+  "windows_corrective_v1_0_2": {
+    "trigger": "api-runtime-check/pre_code HTTP 403 RBAC_WORKSPACE_SCOPE_DENY",
+    "root_cause": "human-session middleware resolved workspace-scoped pre-code routes against historical default devpilot-local instead of the server-active project workspace",
+    "source_paths": [
+      "src/devpilot_core/interfaces/api/app.py",
+      "src/devpilot_core/application/rbac_service.py",
+      ".devpilot/identity/server_rbac_policy_catalog.json",
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+      "docs/07_interfaces/api_service_mapping.md"
+    ],
+    "baseline_selective_preserved": "PASS/137 from Windows v1.0.1 before corrective",
+    "required_corrective_retest_files": [
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+      "tests/test_devpl_gsdlc_02_c_api_rbac.py",
+      "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+      "tests/test_api_security.py",
+      "tests/test_api_contract.py",
+      "tests/test_post_h_014_api_route_contracts.py"
+    ],
+    "full_regression_runs": 0,
+    "full_rerun_allowed": false
+  },
+  "windows_corrective_v1_0_4": {
+    "trigger": "browser recovery /project/status?recover_project_context=server-active returned Project Home with recovery=server-context-failed after HTTP-200 health checks",
+    "root_cause": "Project Status resolved engineering-state binding through the historical .devpilot/workspaces/workspace_registry.json instead of the active server-approved external browser workspace; v1.0.3 health checked only HTTP status and missed semantic EMPTY/UNKNOWN payload.",
+    "source_paths": [
+      "src/devpilot_core/guided_sdlc/service.py",
+      "src/devpilot_core/application/guided_sdlc_service.py",
+      "src/devpilot_core/application/services.py",
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py"
+    ],
+    "runtime_contract": [
+      "DEVPILOT_GUIDED_SDLC_WORKSPACE_REGISTRY_PATH",
+      "DEVPILOT_UI_ACTIVE_WORKSPACE_ROOT",
+      "DEVPILOT_ALLOWED_WORKSPACE_ROOTS"
+    ],
+    "local_impacted_validation": "PASS/84",
+    "baseline_selective_preserved": "PASS/137",
+    "corrective_v102_preserved": "PASS/53",
+    "browser_cases_preserved": "0/12",
+    "full_regression_runs": 0,
+    "full_rerun_allowed": false
+  },
+  "windows_corrective_v1_0_5": {
+    "trigger": "Product Vision freeze POST returned 401 while UI reported generic API-down; B01/B02 already sealed, B03 absent, B04 unsealed/invalid.",
+    "proven_fact": "API log records OPTIONS freeze 200 followed by POST freeze 401 Unauthorized; Product Vision remains APPLIED.",
+    "unknown": "The attached evidence does not contain the runtime auth-store revoke/expiry reason, so the exact invalidation trigger is not asserted.",
+    "source_paths": [
+      "ui/web/src/pages/PreCodeWizardView.ts",
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+      "ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs"
+    ],
+    "behavior": "preflight live human session before governed wizard mutations; fail closed and distinguish invalid session from true API-down; no automatic mutation retry.",
+    "required_corrective_retests": [
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_ui_pre_code_contract_is_project_scoped_and_has_no_authority_fallback",
+      "ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs"
+    ],
+    "browser_preservation": "B01/B02 sealed evidence preserved; B03-B12 pending; B04 PNG from failed attempt is forensic-only and must not be attested.",
+    "full_regression_runs": 0,
+    "full_rerun_allowed": false
+  },
+  "windows_corrective_v1_0_10": {
+    "trigger": "Scope UPLOAD_IMPORT left /pre-code for /workspace/documents; workspace document/import GETs returned HTTP 403 although API/UI health was PASS. Prior B03 UI also reported API-down while API log proved exact wrong-role approval HTTP 403.",
+    "source_paths": [
+      "src/devpilot_core/interfaces/api/app.py",
+      "ui/web/src/components/StepActionAdvisor.ts",
+      "ui/web/src/pages/PreCodeWizardView.ts",
+      "ui/web/src/pages/ApprovalCenterView.ts",
+      "ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+      "docs/07_interfaces/api_service_mapping.md",
+      "docs/02_architecture/adrs/ADR-GSDLC-009-scoped-guided-pre-code-readiness.md"
+    ],
+    "required_corrective_retests": [
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_workspace_document_routes_use_single_authenticated_workspace_scope",
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_pre_code_import_action_stays_in_wizard_and_approval_403_is_explicit",
+      "tests/test_devpl_gsdlc_02_c_api_rbac.py",
+      "tests/test_api_workspace_documents.py",
+      "tests/test_devpl_gsdlc_04_c_artifact_import.py::test_api_import_routes_require_human_session_and_bind_server_actor",
+      "ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
+      "npm --prefix ui/web run build (Windows local dependencies)"
+    ],
+    "browser_revalidation": "B03 must be rerun with exact approval-id 403 machine verification; B04 may be recaptured after corrective before Scope import; B01/B02 remain valid.",
+    "full_regression_runs": 0,
+    "full_rerun_allowed": false
+  },
+  "block12_full_failure": {
+    "full_runs": 1,
+    "full_status": "FAIL",
+    "passed": 2611,
+    "failed": 38,
+    "errors": 0,
+    "skipped": 5,
+    "rerun_allowed": false,
+    "exact_failed_nodeids_total": 38,
+    "local_exact_failed_retest": "PASS/38",
+    "local_bounded_neighbor_retest": "PASS/51 (38 generic/history + 13 StepActionAdvisor); broader 62-test local aggregate reached all dots but timed out at teardown and is not used as PASS evidence",
+    "windows_required": [
+      "exact 38 failed-nodeid retest",
+      "bounded impacted retest",
+      "historical regression guard",
+      "composite closure"
+    ],
+    "windows_composite_result": "PASS",
+    "exact_failed_retest": "PASS/38",
+    "bounded_impacted_retest": "PASS",
+    "historical_regression_guard": "PASS",
+    "windows_exact_failed_retest": "PASS/38",
+    "windows_bounded_impacted_retest": "PASS/18",
+    "composite_full_regression_selective_retest": "PASS",
+    "rerun_performed": false
+  }
+}

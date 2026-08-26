@@ -1,5 +1,5 @@
 import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
-import { DevPilotApiClient } from '../api/client';
+import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { ApprovalRecordItem, AuthSessionContext, DevPilotApplicationResponse } from '../api/types';
 import { idleOutcome, renderDryRunActionForm } from '../components/DryRunActionForm';
 import type { DryRunUiOutcome } from '../components/DryRunActionForm';
@@ -71,7 +71,7 @@ export function renderApprovalCenterView(options: ApprovalCenterViewOptions): HT
     try {
       await work();
     } catch (error) {
-      state.errors[errorKey] = error instanceof Error ? error.message : String(error);
+      state.errors[errorKey] = approvalErrorText(error);
     } finally {
       state.pendingAction = undefined;
       draw();
@@ -267,6 +267,20 @@ export function renderApprovalCenterView(options: ApprovalCenterViewOptions): HT
   if (state.handoffApprovalId) void loadHandoffApproval();
   else void refreshGeneral();
   return section;
+}
+
+
+function approvalErrorText(error: unknown): string {
+  if (error instanceof DevPilotApiError && error.status === 403) {
+    return `DENY/BLOCK server-side confirmado (HTTP 403). RBAC/policy rechazó la decisión; el approval no se presenta como aprobado. ${error.message}`;
+  }
+  if (error instanceof DevPilotApiError && error.status === 401) {
+    return `BLOCK de sesión (HTTP 401). La sesión humana ya no es válida; vuelva a autenticarse antes de intentar otra decisión. ${error.message}`;
+  }
+  if (error instanceof DevPilotApiError && error.status === 0) {
+    return `API local realmente inaccesible durante la operación. ${error.message}`;
+  }
+  return error instanceof Error ? error.message : String(error);
 }
 
 function renderApprovalAuthorityPanel(session: AuthSessionContext, capabilityResponse?: DevPilotApplicationResponse): HTMLElement {

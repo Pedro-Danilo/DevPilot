@@ -313,8 +313,11 @@ def test_activation_rebind_historical_pre_windows_snapshot_is_preserved() -> Non
     historical_micro_sprint=state["gsdlc_current_micro_sprint_at_04_a_pre_windows_close"]
     assert historical_micro_sprint=="DEVPL-GSDLC-04-A"
     assert historical_micro_sprint.startswith("DEVPL-GSDLC-04-")
-    assert state["gsdlc_execution_source_repo"]=="repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip"
-    assert state["gsdlc_execution_source_commit"]==BASE_COMMIT
+    assert state["gsdlc_execution_source_repo_at_04_a_pre_windows_close"]=="repo_DevPilot_Local_364_DEVPL_GSDLC_03_E_PROJECT_ENTRY_BROWSER_COMPOSITE_WINDOWS_VALIDATED_CANDIDATE.zip"
+    assert state["gsdlc_execution_source_commit_at_04_a_pre_windows_close"]==BASE_COMMIT
+    # Mutable execution-source pointers are allowed to advance with later
+    # backlogs; the historical 04-A snapshot above is the frozen contract.
+    assert state["gsdlc_execution_source_repo"] != state["gsdlc_execution_source_repo_at_04_a_pre_windows_close"]
     assert registry["gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close"]=="DEVPL-GSDLC-04-A"
     assert registry["gsdlc_04_a_status_at_pre_windows_close"]=="pass-candidate/pre-windows"
 

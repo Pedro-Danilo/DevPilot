@@ -12630,6 +12630,760 @@
           }
         }
       }
+    },
+    "/api/v1/guided-sdlc/pre-code": {
+      "get": {
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-status": "gsdlc-05-e-implemented-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Human Session + ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; managed source mutation is restricted to approval-bound apply via inherited writer.",
+        "x-devpilot-domain-service": "ApplicationService -> PreCodeWizardApplicationService -> inherited ArtifactReview/WorkspaceEditExecution",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "guided_sdlc_pre_code_status",
+        "summary": "Guided pre-code wizard status",
+        "description": "Guided pre-code wizard status.",
+        "x-devpilot-operation": "guided_sdlc.pre_code.status",
+        "x-devpilot-api-id": "API-GSDLC-05-E-STATUS",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-approval-required": false,
+        "x-devpilot-atomic-write": false
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft": {
+      "post": {
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-status": "gsdlc-05-e-implemented-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Human Session + ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; managed source mutation is restricted to approval-bound apply via inherited writer.",
+        "x-devpilot-domain-service": "ApplicationService -> PreCodeWizardApplicationService -> inherited ArtifactReview/WorkspaceEditExecution",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "guided_sdlc_pre_code_draft",
+        "summary": "Save pre-code DRAFT",
+        "description": "Save pre-code DRAFT.",
+        "x-devpilot-operation": "guided_sdlc.pre_code.draft",
+        "x-devpilot-api-id": "API-GSDLC-05-E-DRAFT",
+        "x-devpilot-side-effect": "runtime_draft_only",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-approval-required": false,
+        "x-devpilot-atomic-write": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "mode",
+                  "content"
+                ],
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "MANUAL",
+                      "IMPORT"
+                    ]
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "mode": "MANUAL",
+                "content": "---\ntitle: Example\n..."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review": {
+      "post": {
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-status": "gsdlc-05-e-implemented-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Human Session + ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; managed source mutation is restricted to approval-bound apply via inherited writer.",
+        "x-devpilot-domain-service": "ApplicationService -> PreCodeWizardApplicationService -> inherited ArtifactReview/WorkspaceEditExecution",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "guided_sdlc_pre_code_review",
+        "summary": "Validate pre-code DRAFT and prepare immutable plan/diff",
+        "description": "Validate pre-code DRAFT and prepare immutable plan/diff.",
+        "x-devpilot-operation": "guided_sdlc.pre_code.review",
+        "x-devpilot-api-id": "API-GSDLC-05-E-REVIEW",
+        "x-devpilot-side-effect": "runtime_review_plan_only",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-approval-required": false,
+        "x-devpilot-atomic-write": false
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request": {
+      "post": {
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-status": "gsdlc-05-e-implemented-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Human Session + ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; managed source mutation is restricted to approval-bound apply via inherited writer.",
+        "x-devpilot-domain-service": "ApplicationService -> PreCodeWizardApplicationService -> inherited ArtifactReview/WorkspaceEditExecution",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "guided_sdlc_pre_code_approval_request",
+        "summary": "Request pre-code apply approval",
+        "description": "Request pre-code apply approval.",
+        "x-devpilot-operation": "guided_sdlc.pre_code.approval_request",
+        "x-devpilot-api-id": "API-GSDLC-05-E-APPROVAL-REQUEST",
+        "x-devpilot-side-effect": "approval_store_write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-approval-required": true,
+        "x-devpilot-atomic-write": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "minLength": 3
+                  }
+                }
+              },
+              "example": {
+                "reason": "Approve governed pre-code artifact apply."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply": {
+      "post": {
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-status": "gsdlc-05-e-implemented-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Human Session + ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; managed source mutation is restricted to approval-bound apply via inherited writer.",
+        "x-devpilot-domain-service": "ApplicationService -> PreCodeWizardApplicationService -> inherited ArtifactReview/WorkspaceEditExecution",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "guided_sdlc_pre_code_apply",
+        "summary": "Apply approved pre-code artifact",
+        "description": "Apply approved pre-code artifact.",
+        "x-devpilot-operation": "guided_sdlc.pre_code.apply",
+        "x-devpilot-api-id": "API-GSDLC-05-E-APPLY",
+        "x-devpilot-side-effect": "approval_gated_source_write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": true,
+        "x-devpilot-project-write": true,
+        "x-devpilot-approval-required": true,
+        "x-devpilot-atomic-write": true
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze": {
+      "post": {
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-status": "gsdlc-05-e-implemented-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Human Session + ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; managed source mutation is restricted to approval-bound apply via inherited writer.",
+        "x-devpilot-domain-service": "ApplicationService -> PreCodeWizardApplicationService -> inherited ArtifactReview/WorkspaceEditExecution",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "guided_sdlc_pre_code_freeze",
+        "summary": "Freeze pre-code artifact and advance",
+        "description": "Freeze pre-code artifact and advance.",
+        "x-devpilot-operation": "guided_sdlc.pre_code.freeze",
+        "x-devpilot-api-id": "API-GSDLC-05-E-FREEZE",
+        "x-devpilot-side-effect": "approval_bound_state_transition",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-approval-required": true,
+        "x-devpilot-atomic-write": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "review_id",
+                  "execution_id"
+                ],
+                "properties": {
+                  "review_id": {
+                    "type": "string"
+                  },
+                  "execution_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "review_id": "arev_00000000000000000000000000000000",
+                "execution_id": "uedit_00000000000000000000000000000000"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/readiness": {
+      "get": {
+        "tags": [
+          "guided-sdlc"
+        ],
+        "x-devpilot-status": "gsdlc-05-e-implemented-initial",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Human Session + ServerRBACEnforcer + API_ROUTE_POLICIES + PolicyEngine; managed source mutation is restricted to approval-bound apply via inherited writer.",
+        "x-devpilot-domain-service": "ApplicationService -> PreCodeWizardApplicationService -> inherited ArtifactReview/WorkspaceEditExecution",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-agent-execution": false,
+        "x-devpilot-rag-execution": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated human session required.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Server RBAC/policy blocked the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "guided_sdlc_pre_code_readiness",
+        "summary": "Guided pre-code strict readiness",
+        "description": "Guided pre-code strict readiness.",
+        "x-devpilot-operation": "guided_sdlc.pre_code.readiness",
+        "x-devpilot-api-id": "API-GSDLC-05-E-READINESS",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-approval-required": false,
+        "x-devpilot-atomic-write": false
+      }
     }
   },
   "components": {

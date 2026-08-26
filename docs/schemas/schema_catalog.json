@@ -3,9 +3,9 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.5.0",
+  "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-24",
+  "updated": "2026-08-25",
   "sprint": "DEVPL-GSDLC-05-B",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
@@ -3113,7 +3113,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-05-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-05-E-PRE-CODE-WIZARD-CATALOG-V1",
+      "title": "Pre-code Wizard Catalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/pre_code_wizard_catalog.schema.json",
+      "description": "GSDLC-05-E seven-stage manual/import pre-code vertical slice catalog with ArtifactProfile and StepAction bindings.",
+      "status": "registered",
+      "contract": "PreCodeWizardCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-05-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-05-E"
     }
   ],
-  "schemas_total": 216
+  "schemas_total": 217
 }

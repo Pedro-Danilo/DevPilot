@@ -1,0 +1,29 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-BACKLOG-CLOSURE-CURRENT-V1",
+  "status": "pending-owner-adjudication",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-26",
+  "approval": "pending_owner_adjudication",
+  "micro_sprints": {
+    "05-A": "CLOSED/PASS",
+    "05-B": "CLOSED/PASS",
+    "05-C": "CLOSED/PASS",
+    "05-D": "CLOSED/PASS",
+    "05-E": "PASS-CANDIDATE/PENDING-OWNER-ADJUDICATION"
+  },
+  "full_regression_runs": 1,
+  "maximum_full_regression_runs": 1,
+  "rerun_allowed": false,
+  "next_backlog_authorized": false,
+  "full_regression_rerun_allowed": false,
+  "full_regression_result": "FAIL-ONCE/RECOVERED-BY-COMPOSITE",
+  "full_regression_original_counts": {
+    "passed": 2611,
+    "failed": 38,
+    "errors": 0,
+    "skipped": 5
+  },
+  "composite_full_regression_selective_retest": "PASS",
+  "gsdlc_05_e_status": "PASS-CANDIDATE/WINDOWS-COMPOSITE-CLOSURE"
+}

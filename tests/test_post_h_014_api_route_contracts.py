@@ -150,6 +150,13 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
             "api.workspace.git.branch-create",
             "api.project-entry.execute",
         }
+    # DEVPL-GSDLC-05-E adds one successor source mutation route, but it does
+    # not introduce a new writer: the route delegates exclusively to the
+    # already approval-bound UOC-005 WorkspaceEditExecutionApplicationService.
+    # Preserve the historical POST-H-014 safety invariant by recognizing this
+    # explicit successor only when the current registry actually contains it.
+    if "api.guided-sdlc.pre-code.apply" in mutating_ids:
+        expected_source_mutating.add("api.guided-sdlc.pre-code.apply")
     assert {route["route_id"] for route in source_mutating} == expected_source_mutating
 
     for route in mutating:

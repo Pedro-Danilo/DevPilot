@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import os
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -10,6 +11,9 @@ from .repository import WorkspaceEngineeringStateRepository
 from .project_progress import ProjectProgressEngine, ProjectProjection
 from .reconciler import ReconciliationResult, WorkspaceReconciler
 from .workflow_engine import TransitionEvidence, TransitionEvaluation, TransitionPreview, WorkflowEngine
+
+
+GUIDED_SDLC_WORKSPACE_REGISTRY_ENV = "DEVPILOT_GUIDED_SDLC_WORKSPACE_REGISTRY_PATH"
 
 
 class GuidedSDLCService:
@@ -35,12 +39,16 @@ class GuidedSDLCService:
         platform_root: Path,
         *,
         catalog_path: str | Path = ".devpilot/gsdlc/workflow_transition_catalog.json",
+        registry_path: str | Path | None = None,
     ) -> "GuidedSDLCService":
         root = Path(platform_root).resolve()
         raw = Path(catalog_path)
         resolved = raw if raw.is_absolute() else root / raw
+        configured_registry = registry_path
+        if configured_registry is None:
+            configured_registry = os.environ.get(GUIDED_SDLC_WORKSPACE_REGISTRY_ENV, "").strip() or ".devpilot/workspaces/workspace_registry.json"
         return cls(
-            WorkspaceEngineeringStateRepository(root),
+            WorkspaceEngineeringStateRepository(root, registry_path=configured_registry),
             WorkflowEngine.from_catalog_path(resolved),
         )
 
@@ -83,6 +91,14 @@ class GuidedSDLCService:
             observed_at_utc=observed_at_utc,
             expected_state_fingerprint=expected_state_fingerprint,
         )
+        # MIASI was introduced after the original Guided-SDLC project-status
+        # contract. Historical/minimal workspaces used by general CLI/tests do
+        # not necessarily materialize the MIASI policy catalog. Preserve the
+        # deterministic base projection in that compatibility case; when the
+        # policy exists it remains strict and any malformed policy still fails.
+        miasi_policy = self.repository.platform_root / ".devpilot/miasi/applicability_policy.json"
+        if not miasi_policy.is_file():
+            return projection
         miasi = MIASIApplicabilityEvaluator(self.repository.platform_root).evaluate_workspace(workspace_id, state.to_payload())
         status = replace(
             projection.status,

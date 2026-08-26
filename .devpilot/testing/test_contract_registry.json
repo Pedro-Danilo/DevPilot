@@ -12174,6 +12174,92 @@
         "Browser acceptance is required on Windows before owner adjudication; full regression remains 0."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-e-pre-code-wizard-closure",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-05-E",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+        "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
+        "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+        "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_api_contract.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "validates": [
+        "seven mandatory stages in deterministic order",
+        "MANUAL/IMPORT DRAFT without preinjecting managed source",
+        "ArtifactProfile validation and findings",
+        "immutable plan hash and complete diff visible in UI",
+        "targeted server-authoritative approval handoff",
+        "approval-bound apply and freeze",
+        "mandatory stage skip blocked",
+        "wrong-role mutation/approval denied",
+        "StepActionAdvisor on each current stage with AGENT/RAG unavailable",
+        "scoped strict readiness reaches PRE_CODE_READY only after seven FROZEN exact hashes",
+        "restart/resume state persisted server-side",
+        "API-down UI fails closed",
+        "ApplicationService/API/OpenAPI/RBAC/UI route parity",
+        "single full regression maximum_runs=1 after browser marker"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/pre_code_wizard_catalog.json",
+        "docs/schemas/pre_code_wizard_catalog.schema.json",
+        "src/devpilot_core/application/pre_code_wizard_service.py",
+        "src/devpilot_core/application/artifact_review_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/07_interfaces/api_service_mapping.md",
+        "ui/web/src/pages/PreCodeWizardView.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "recommended_commands": [
+        "python -m pytest --assert=plain -q tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+        "node ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "guided-sdlc.pre-code-wizard",
+      "notes": [
+        "05-E is the sole normal full-regression closure point for backlog 05.",
+        "Full must not execute until browser and predictive marker PASS."
+      ],
+      "classification_notes": [
+        "Source mutations in acceptance must be produced only by the approval-bound application service against the dedicated fixture workspace."
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -12251,5 +12337,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 293
+  "contracts_total": 294
 }

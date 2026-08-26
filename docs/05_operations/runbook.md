@@ -3784,7 +3784,7 @@ tests/test_policy_engine.py                   -> pruebas de seguridad
 ```powershell
 python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
 python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
-python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
+python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-<synthetic-redacted-value>" --json --write-report
 python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
 python -m pytest -q
 ```
@@ -11887,3 +11887,14 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 Estado de implementación: `implemented/pending-windows-browser-validation`. Project Status consume `GET /api/v1/guided-sdlc/step-actions` mediante Human Session. La respuesta es actor-aware y server-authoritative: la UI no recalcula RBAC, Policy ni disponibilidad. `AGENT` y `RAG` permanecen `UNAVAILABLE` durante GSDLC-05; no requieren red, API externa ni ejecución de modelo.
 
 La validación ordinaria de 05-D es focal/acumulativa y no consume full regression. El cierre exige browser acceptance Windows, S0=0/S1=0, Git limpio, candidate repo373 limpio y adjudicación owner. Las instrucciones operativas Windows se mantienen en la guía única del delivery bundle de 05-D para evitar duplicación de comandos.
+
+## DEVPL-GSDLC-05-E — Guided pre-code manual operation
+
+La superficie normal es `/pre-code` desde Project Status con proyecto server-validado. El usuario usa MANUAL/IMPORT; el DRAFT vive fuera del managed source hasta que validate produce plan/diff, approval server-side autoriza y el writer UOC-005 successor aplica. Freeze verifica review/execution/hash y avanza exactamente una etapa. No existe hidden CLI bridge normal-user.
+
+El cierre Windows usa tres consolas: Consola 1 para operador/gates, Consola 2 API foreground y Consola 3 UI foreground. No usar launcher background. Antes de la full se sellan browser evidence, S0/S1, predictive gate y marker durable. `maximum_runs=1`, `rerun_allowed=false`; ante FAIL se conserva evidencia y se usa composite recovery, nunca una segunda full.
+
+
+### 05-E Windows PASS-candidate
+
+Browser/manual pre-code closure reached `PRE_CODE_READY` and readiness strict PASS. The single full regression was consumed `1/1 FAIL` (`2611 PASS / 38 FAIL / 0 ERROR / 5 SKIP`) and preserved without rerun; the backlog-authorized composite recovery then passed exact failed-nodeid `38/38`, bounded impact `18/18`, Historical Regression Guard and deterministic contract validators. Candidate remains pending owner adjudication; GSDLC-06 is not authorized by this technical result alone.

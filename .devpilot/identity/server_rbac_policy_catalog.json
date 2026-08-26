@@ -1,11 +1,11 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
   "version": "1.5.0",
-  "micro_sprint": "DEVPL-GSDLC-05-D",
+  "micro_sprint": "DEVPL-GSDLC-05-E",
   "status": "implemented/ready-for-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
-  "source_repo": "repo_DevPilot_Local_372_DEVPL_GSDLC_05_C_MIASI_APPLICABILITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_repo": "repo_DevPilot_Local_373_DEVPL_GSDLC_05_D_STEP_ACTION_ADVISOR_WINDOWS_VALIDATED_CANDIDATE.zip",
   "canonical_roles": [
     "owner",
     "product-owner",
@@ -2699,6 +2699,141 @@
       "workspace_scope_required": true,
       "risk_level": "medium",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.guided-sdlc.pre-code.status",
+      "method": "GET",
+      "path": "/api/v1/guided-sdlc/pre-code",
+      "operation": "guided_sdlc.pre_code.status",
+      "access_class": "authenticated-read-role-aware",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.guided-sdlc.pre-code.draft",
+      "method": "POST",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft",
+      "operation": "guided_sdlc.pre_code.draft",
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.guided-sdlc.pre-code.review",
+      "method": "POST",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review",
+      "operation": "guided_sdlc.pre_code.review",
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.guided-sdlc.pre-code.approval-request",
+      "method": "POST",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request",
+      "operation": "guided_sdlc.pre_code.approval_request",
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.guided-sdlc.pre-code.apply",
+      "method": "POST",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply",
+      "operation": "guided_sdlc.pre_code.apply",
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.guided-sdlc.pre-code.freeze",
+      "method": "POST",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze",
+      "operation": "guided_sdlc.pre_code.freeze",
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.guided-sdlc.pre-code.readiness",
+      "method": "GET",
+      "path": "/api/v1/guided-sdlc/pre-code/readiness",
+      "operation": "guided_sdlc.pre_code.readiness",
+      "access_class": "authenticated-read-role-aware",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
     }
   ],
   "sensitive_action_policies": [
@@ -2925,7 +3060,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 118,
+    "route_policies_total": 125,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -2938,7 +3073,9 @@
     "gsdlc_04_d_artifact_review_policies_total": 5,
     "gsdlc_04_d_legacy_token_allowed_total": 0,
     "gsdlc_05_d_step_action_policies_total": 1,
-    "gsdlc_05_d_legacy_token_allowed_total": 0
+    "gsdlc_05_d_legacy_token_allowed_total": 0,
+    "gsdlc_05_e_pre_code_policies_total": 7,
+    "gsdlc_05_e_legacy_token_allowed_total": 0
   },
   "safety": {
     "legacy_token_human_authority": false,
@@ -2949,7 +3086,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-05-D",
+  "updated_by": "DEVPL-GSDLC-05-E",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",

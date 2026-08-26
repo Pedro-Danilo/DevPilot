@@ -18,8 +18,12 @@ def test_00_e_current_repo_is_successor_and_repo341_remains_parent():
     s=j(".devpilot/project_state.json"); c=j(".devpilot/gsdlc/g00e_closure_contract.json")
     name=s["current_repo"]
     assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE\.zip",name)
-    assert s["gsdlc_current_canonical_repo"]==name
+    # `current_repo` is the immutable GSDLC-00 activation baseline.
+    # `gsdlc_current_canonical_repo` is the mutable successor pointer and must
+    # be allowed to advance in later backlogs without invalidating 00-E.
     assert c["baseline_artifact_name"]==name
+    assert s["gsdlc_current_canonical_repo"] != name
+    assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_.*\.zip", s["gsdlc_current_canonical_repo"])
     assert c["parent_repo341"]["immutable"] is True
     assert c["parent_repo341"]["git_commit"]=="cff43e8d992ff6139bd13bb1809ce4d497ae0952"
 def test_00_e_release_freshness_criteria_tracks_successor_repo():

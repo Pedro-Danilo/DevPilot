@@ -1,0 +1,107 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-E-PREDICTIVE-PRE-FULL-GATE-V1",
+  "status": "PASS/WINDOWS-SEALED",
+  "version": "1.0.5",
+  "owner": "DEVPL-GSDLC-05-E",
+  "updated": "2026-08-26",
+  "full_regression_runs": 1,
+  "maximum_runs": 1,
+  "rerun_allowed": false,
+  "checks": [
+    {
+      "id": "schemas-metadata",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "source-registry-status",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "project-state-readme-roadmap-current",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "mip-miasi-source-hashes",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "derived-counters",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "api-openapi-mapping-rbac",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "ui-route-capability",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "step-action-rbac-policy-bindings",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "id": "ui-production-build",
+      "status": "PASS/WINDOWS"
+    },
+    {
+      "id": "historical-snapshots-successors",
+      "status": "PASS"
+    },
+    {
+      "id": "runtime-ephemeral-absent",
+      "status": "PASS/PRE-PACKAGE"
+    },
+    {
+      "id": "git-diff-check",
+      "status": "PASS/WINDOWS-PRE-MARKER"
+    },
+    {
+      "id": "server-project-context-binding-semantic-recovery",
+      "status": "PASS/WINDOWS"
+    },
+    {
+      "id": "ui-human-session-recovery",
+      "status": "PASS/WINDOWS"
+    },
+    {
+      "id": "browser-evidence-lineage-after-block04",
+      "status": "PASS/B01+B02-PRESERVED-B03-B12-SEALED"
+    },
+    {
+      "id": "browser-evidence-validator",
+      "status": "PASS/WINDOWS"
+    },
+    {
+      "id": "S0-S1",
+      "status": "PASS/0-0"
+    }
+  ],
+  "rule": "Windows R2 seals browser 12/12 and PRE_CODE_READY, reuses validator PASS from the same Predictive attempt after BLOCK-11, applies a predecessor-differential SecretGuard gate that blocks only novel secret material/runtime secret paths, then creates the single durable full marker.",
+  "local_filewise_focal": "PASS/137",
+  "local_ui_smoke": "PASS/18",
+  "durable_marker": "PASS/CREATED-BEFORE-FULL",
+  "full_result": "FAIL/1-of-1-RECOVERED-BY-COMPOSITE",
+  "local_block03_corrective": "PASS/84",
+  "local_block04_corrective": "PASS/targeted+smoke+build+validators",
+  "browser_evidence": "PASS/R2-12-of-12",
+  "secret_guard_mode": "PASS/NOVEL-MATERIAL-AGAINST-VALIDATED-PREDECESSOR",
+  "block12_after_single_full": {
+    "predictive_before_marker": "PASS/WINDOWS-R2",
+    "single_full_consumed": true,
+    "single_full_status": "FAIL",
+    "single_full_counts": {
+      "passed": 2611,
+      "failed": 38,
+      "errors": 0,
+      "skipped": 5
+    },
+    "failed_nodeids_total": 38,
+    "second_full_allowed": false,
+    "second_full_performed": false,
+    "composite_full_regression_selective_retest": "PASS",
+    "exact_failed_retest": "PASS/38",
+    "bounded_impacted_retest": "PASS/18",
+    "historical_regression_guard": "PASS"
+  }
+}

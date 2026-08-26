@@ -1,0 +1,22 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-D-FINAL-OWNER-CLOSURE-CURRENT-V1",
+  "status": "closed/PASS",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-25",
+  "approval": "approved_by_owner",
+  "source_repo": "repo_DevPilot_Local_372_DEVPL_GSDLC_05_C_MIASI_APPLICABILITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_repo": "repo_DevPilot_Local_373_DEVPL_GSDLC_05_D_STEP_ACTION_ADVISOR_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_git_commit": "a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8",
+  "successor_sha256": "56166db2626faf505fe4ebc93a9119abcffd6fbc0d21f5a5be364472d14c60c7",
+  "windows_evidence": "DEVPL_GSDLC_05_D_WINDOWS_EVIDENCE_v1_1_2.zip",
+  "windows_evidence_sha256": "67f1778807be8dd88b89484e81665afa1df745bbfb3d97fd9bd60b034188557c",
+  "browser": "PASS/7",
+  "pre_browser_selective": "PASS/111",
+  "post_finalize_selective": "PASS/84",
+  "s0": 0,
+  "s1": 0,
+  "full_regression_runs": 0,
+  "next_micro_sprint": "DEVPL-GSDLC-05-E",
+  "next_micro_sprint_authorized": true
+}

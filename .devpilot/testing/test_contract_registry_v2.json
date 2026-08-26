@@ -20876,6 +20876,129 @@
       "notes": [
         "AGENT and RAG remain unavailable until successor backlogs authorize real routes."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-05-e-pre-code-wizard-closure",
+      "source_contract_id": "devpl-gsdlc-05-e-pre-code-wizard-closure",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "ManualImportPreCodeWizardClosure",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "manual",
+      "cost_class": "high",
+      "expected_duration_seconds": 7200,
+      "test_files": [
+        "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+        "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
+        "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+        "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
+        "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
+        "tests/test_api_contract.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "watched_paths": [
+        ".devpilot/gsdlc/pre_code_wizard_catalog.json",
+        "docs/schemas/pre_code_wizard_catalog.schema.json",
+        "src/devpilot_core/application/pre_code_wizard_service.py",
+        "src/devpilot_core/application/artifact_review_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/07_interfaces/api_service_mapping.md",
+        "ui/web/src/pages/PreCodeWizardView.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits"
+      ],
+      "validates": [
+        "seven mandatory stages in deterministic order",
+        "MANUAL/IMPORT DRAFT without preinjecting managed source",
+        "ArtifactProfile validation and findings",
+        "immutable plan hash and complete diff visible in UI",
+        "targeted server-authoritative approval handoff",
+        "approval-bound apply and freeze",
+        "mandatory stage skip blocked",
+        "wrong-role mutation/approval denied",
+        "StepActionAdvisor on each current stage with AGENT/RAG unavailable",
+        "scoped strict readiness reaches PRE_CODE_READY only after seven FROZEN exact hashes",
+        "restart/resume state persisted server-side",
+        "API-down UI fails closed",
+        "ApplicationService/API/OpenAPI/RBAC/UI route parity",
+        "single full regression maximum_runs=1 after browser marker"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-05-E",
+      "recommended_commands": [
+        "python -m pytest --assert=plain -q tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Browser acceptance precedes the unique full regression; rerun is prohibited.",
+        "Fixture preparation is bounded; managed project artifact source writes occur only through approval-bound apply."
+      ],
+      "trigger_hints": [
+        "pre-code-wizard",
+        "readiness",
+        "artifact-approval",
+        "browser-closure",
+        "full-regression"
+      ],
+      "impact_tags": [
+        "guided-sdlc",
+        "pre-code",
+        "artifact-workbench",
+        "ui",
+        "api",
+        "rbac",
+        "approval",
+        "readiness",
+        "testing"
+      ],
+      "owner_domain": "guided-sdlc.pre-code-wizard",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-05-E-PRE-CODE-WIZARD-CATALOG-V1"
+      ],
+      "notes": [
+        "GSDLC-05-E closes the Guided Pre-code Manual milestone and backlog 05 only after Windows evidence and owner adjudication."
+      ],
+      "safety_exception": {
+        "justification": "Owner-approved GSDLC-05-E closure requires human-driven approval-bound writes only inside the dedicated local browser acceptance fixture workspace.",
+        "approved_by": "Ordóñez / DEVPL-GSDLC-05 owner-approved backlog scope",
+        "expires_at_utc": "2026-12-31T23:59:59Z",
+        "scope": "Dedicated GSDLC-05-E local acceptance fixture; no pilot workspace and no external API/network.",
+        "rollback_or_cleanup": "Delete the dedicated fixture workspace after evidence packaging; candidate source archive excludes runtime/fixture state."
+      }
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21038,5 +21161,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 293
+  "contracts_total": 294
 }

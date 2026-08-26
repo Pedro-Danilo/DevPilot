@@ -48,6 +48,7 @@ from .quality_operations import QualityOperationsApplicationService
 from .ai_operations import AiOperationsApplicationService
 from .governed_jobs import GovernedJobFramework
 from .guided_sdlc_service import GuidedSDLCApplicationService
+from .pre_code_wizard_service import PreCodeWizardApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -84,7 +85,7 @@ class ApplicationService:
         self.enforce_workspace_paths = enforce_workspace_paths
         self.approval_auth_store = approval_auth_store
         self.ui_workspace_context = UiWorkspaceContextResolver(self.root)
-        self.guided_sdlc = GuidedSDLCApplicationService(self.root)
+        self.guided_sdlc = GuidedSDLCApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace = WorkspaceApplicationService(self.root)
         self.project_entry_planning = ProjectEntryPlanningApplicationService(self.root)
         self.project_entry_dry_run_service = ProjectEntryDryRunApplicationService(self.root)
@@ -102,6 +103,7 @@ class ApplicationService:
         self.artifact_drafts = ArtifactDraftApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_imports = ArtifactImportApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_reviews = ArtifactReviewApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports, plans=self.workspace_edit_planning, executions=self.workspace_edit_execution)
+        self._pre_code_wizard: PreCodeWizardApplicationService | None = None
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
         self.governed_jobs = GovernedJobFramework(self.root, registry=self.governed_job_capabilities)
@@ -124,6 +126,25 @@ class ApplicationService:
         self.portfolio = PortfolioApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
         self.rbac = RBACApplicationService(self.root)
+
+
+    @property
+    def pre_code_wizard(self) -> PreCodeWizardApplicationService:
+        """Lazily construct the GSDLC-05-E wizard.
+
+        General CLI/application consumers are valid over minimal workspaces that
+        do not carry Guided-SDLC authority catalogs.  GSDLC-05-D/05-E must not
+        make those unrelated operations fail merely by constructing the facade.
+        The wizard remains strict when one of its operations is actually used.
+        """
+        if self._pre_code_wizard is None:
+            self._pre_code_wizard = PreCodeWizardApplicationService(
+                self.root,
+                documents=self.workspace_documents,
+                reviews=self.artifact_reviews,
+                executions=self.workspace_edit_execution,
+            )
+        return self._pre_code_wizard
 
     def evidence_graph(
         self,
@@ -667,6 +688,27 @@ class ApplicationService:
             workspace_scopes=workspace_scopes,
             expected_state_fingerprint=expected_state_fingerprint,
         )
+
+    def guided_pre_code_status(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.pre_code_wizard.status(effective_roles=effective_roles, workspace_scopes=workspace_scopes)
+
+    def guided_pre_code_save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.pre_code_wizard.save_draft(stage_id=stage_id, content=content, mode=mode, actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles, workspace_scopes=workspace_scopes)
+
+    def guided_pre_code_review(self, *, stage_id: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
+        return self.pre_code_wizard.start_review(stage_id=stage_id, actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles)
+
+    def guided_pre_code_request_approval(self, *, stage_id: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], reason: str) -> CommandResult:
+        return self.pre_code_wizard.request_approval(stage_id=stage_id, actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles, reason=reason)
+
+    def guided_pre_code_apply(self, *, stage_id: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
+        return self.pre_code_wizard.apply(stage_id=stage_id, actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles)
+
+    def guided_pre_code_freeze(self, *, stage_id: str, review_id: str, execution_id: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.pre_code_wizard.freeze(stage_id=stage_id, review_id=review_id, execution_id=execution_id, actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles, workspace_scopes=workspace_scopes)
+
+    def guided_pre_code_readiness(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.pre_code_wizard.readiness(effective_roles=effective_roles, workspace_scopes=workspace_scopes)
 
     def guided_sdlc_reconcile_preview(
         self,
@@ -1650,6 +1692,13 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "guided_sdlc.next_action": lambda payload: service.guided_sdlc_next_action(workspace_id=str(payload.get("workspace_id", "")), observed_at_utc=str(payload.get("observed_at_utc", "")), expected_state_fingerprint=(str(payload.get("expected_state_fingerprint")) if payload.get("expected_state_fingerprint") else None)),
         "guided_sdlc.project_status": lambda payload: service.guided_sdlc_project_status_primary(workspace_id=(str(payload.get("workspace_id")) if payload.get("workspace_id") else None), observed_at_utc=str(payload.get("observed_at_utc", "")), expected_state_fingerprint=(str(payload.get("expected_state_fingerprint")) if payload.get("expected_state_fingerprint") else None)),
         "guided_sdlc.step_actions": lambda payload: service.guided_sdlc_step_actions_primary(workspace_id=(str(payload.get("workspace_id")) if payload.get("workspace_id") else None), observed_at_utc=str(payload.get("observed_at_utc", "")), effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), expected_state_fingerprint=(str(payload.get("expected_state_fingerprint")) if payload.get("expected_state_fingerprint") else None)),
+        "guided_sdlc.pre_code.status": lambda payload: service.guided_pre_code_status(effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "guided_sdlc.pre_code.draft": lambda payload: service.guided_pre_code_save_draft(stage_id=str(payload.get("stage_id", "")), content=str(payload.get("content", "")), mode=str(payload.get("mode", "MANUAL")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "guided_sdlc.pre_code.review": lambda payload: service.guided_pre_code_review(stage_id=str(payload.get("stage_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or [])),
+        "guided_sdlc.pre_code.approval_request": lambda payload: service.guided_pre_code_request_approval(stage_id=str(payload.get("stage_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), reason=str(payload.get("reason", "Approve governed pre-code artifact apply."))),
+        "guided_sdlc.pre_code.apply": lambda payload: service.guided_pre_code_apply(stage_id=str(payload.get("stage_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or [])),
+        "guided_sdlc.pre_code.freeze": lambda payload: service.guided_pre_code_freeze(stage_id=str(payload.get("stage_id", "")), review_id=str(payload.get("review_id", "")), execution_id=str(payload.get("execution_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "guided_sdlc.pre_code.readiness": lambda payload: service.guided_pre_code_readiness(effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
                 "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
@@ -1739,6 +1788,13 @@ def _capabilities() -> list[ServiceCapability]:
         ("guided_sdlc.next_action", "Derive deterministic explainable NextAction recommendation without executing or persisting it.", "none", True, "ApplicationService read-only recommendation; execution surfaces deferred"),
         ("guided_sdlc.project_status", "Expose actor-neutral Project Status + NextAction through the ApplicationService for local API/UI consumption without mutating state.", "none", True, "GSDLC-01-E read-only Project Status API boundary; no direct filesystem/Git/UI-core access"),
         ("guided_sdlc.step_actions", "Expose deterministic StepActionCatalog/ExecutionModeAdvisor cards bound to authenticated server RBAC/policy without granting capabilities.", "none", True, "GET /api/v1/guided-sdlc/step-actions; human-session/server-authoritative read-only projection"),
+        ("guided_sdlc.pre_code.status", "Read resumable GSDLC-05-E manual/import pre-code wizard state and stage advisor.", "none", True, "GET /api/v1/guided-sdlc/pre-code"),
+        ("guided_sdlc.pre_code.draft", "Persist one current-stage MANUAL/IMPORT DRAFT in platform runtime state without managed source write.", "runtime_draft_only", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft"),
+        ("guided_sdlc.pre_code.review", "Validate current-stage runtime DRAFT and create inherited immutable approval-ready artifact plan/diff.", "runtime_review_plan_only", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/review"),
+        ("guided_sdlc.pre_code.approval_request", "Request exact human approval bound to the current stage immutable plan.", "approval_store_write", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request"),
+        ("guided_sdlc.pre_code.apply", "Execute inherited UOC-005 approval-bound atomic source apply for the current stage.", "approval_gated_source_write", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"),
+        ("guided_sdlc.pre_code.freeze", "Bind an approval-applied execution to current stage, freeze artifact and advance wizard.", "approval_bound_state_transition", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"),
+        ("guided_sdlc.pre_code.readiness", "Evaluate strict seven-stage guided pre-code vertical-slice readiness without replacing historical global readiness.", "none", True, "GET /api/v1/guided-sdlc/pre-code/readiness"),
         ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
         ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),
@@ -1840,6 +1896,13 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-02-B-AUTH-REVOKE", "POST", "/api/v1/auth/session/revoke", "auth.session.revoke", ["GSDLC-02-B explicit current-session revocation; administrative revocation remains future."]),
         ("APP-ROUTE-GSDLC-01-E", "GET", "/api/v1/guided-sdlc/status", "guided_sdlc.project_status", ["GSDLC-01-E actor-neutral read-only Project Status + NextAction route; all semantics delegate through ApplicationService."]),
         ("APP-ROUTE-GSDLC-05-D-STEP-ACTIONS", "GET", "/api/v1/guided-sdlc/step-actions", "guided_sdlc.step_actions", ["GSDLC-05-D human-session read-only advisor; role/policy availability comes from server authority and UI never recalculates it."]),
+        ("APP-ROUTE-GSDLC-05-E-PRE-CODE-STATUS", "GET", "/api/v1/guided-sdlc/pre-code", "guided_sdlc.pre_code.status", ["GSDLC-05-E human-session project-scoped resumable wizard projection."]),
+        ("APP-ROUTE-GSDLC-05-E-PRE-CODE-DRAFT", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft", "guided_sdlc.pre_code.draft", ["GSDLC-05-E current-stage MANUAL/IMPORT runtime DRAFT only; no managed source write."]),
+        ("APP-ROUTE-GSDLC-05-E-PRE-CODE-REVIEW", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review", "guided_sdlc.pre_code.review", ["GSDLC-05-E validation plus immutable review plan; inherited ArtifactReview/UOC-004 writer boundary."]),
+        ("APP-ROUTE-GSDLC-05-E-PRE-CODE-APPROVAL", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request", "guided_sdlc.pre_code.approval_request", ["GSDLC-05-E exact-plan approval request; server session actor is authoritative."]),
+        ("APP-ROUTE-GSDLC-05-E-PRE-CODE-APPLY", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply", "guided_sdlc.pre_code.apply", ["GSDLC-05-E approval-gated inherited UOC-005 atomic source apply; no arbitrary shell."]),
+        ("APP-ROUTE-GSDLC-05-E-PRE-CODE-FREEZE", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze", "guided_sdlc.pre_code.freeze", ["GSDLC-05-E approval-applied execution binding and sequential FROZEN stage advance."]),
+        ("APP-ROUTE-GSDLC-05-E-PRE-CODE-READINESS", "GET", "/api/v1/guided-sdlc/pre-code/readiness", "guided_sdlc.pre_code.readiness", ["GSDLC-05-E strict seven-stage vertical-slice readiness; historical global readiness remains separate."]),
         ("APP-ROUTE-GSDLC-03-B-DISCOVERY", "POST", "/api/v1/project-entry/environment-discovery", "project_entry.environment_discovery", ["GSDLC-03-B authenticated read-only environment discovery; writes/network/installers remain disabled."]),
         ("APP-ROUTE-GSDLC-03-B-PLAN", "POST", "/api/v1/project-entry/bootstrap-plan", "project_entry.bootstrap_plan", ["GSDLC-03-B authenticated planning-only BootstrapPlan/UI projection; execution remains disabled."]),
         ("APP-ROUTE-GSDLC-03-C-DRY-RUN", "POST", "/api/v1/project-entry/dry-run", "project_entry.dry_run", ["GSDLC-03-C authenticated review-only Create/Open/Import dry-run; no writes/network/approval mutation."]),

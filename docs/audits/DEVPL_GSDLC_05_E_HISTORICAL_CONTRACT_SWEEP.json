@@ -1,0 +1,77 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-E-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "version": "1.0.5",
+  "owner": "DEVPL-GSDLC-05-E",
+  "updated": "2026-08-26",
+  "classifications": [
+    {
+      "subject": "GSDLC-05-A/B executable standards and MIP graph",
+      "classification": "historical-freeze",
+      "action": "preserved as predecessor contracts; 05-E consumes live successor registries without rewriting close-time facts"
+    },
+    {
+      "subject": "GSDLC-05-C MIASI applicability",
+      "classification": "historical-freeze",
+      "action": "MIASI browser behavior remains inherited; 05-E does not relax agentic gates"
+    },
+    {
+      "subject": "GSDLC-05-D StepActionAdvisor",
+      "classification": "current-active",
+      "action": "advisor is rendered at every current wizard stage; AGENT/RAG remain unavailable"
+    },
+    {
+      "subject": "GSDLC-04-D artifact review/apply/freeze",
+      "classification": "current-active",
+      "action": "wizard composes the existing approval-bound writer rather than introducing a second writer"
+    },
+    {
+      "subject": "historical global readiness",
+      "classification": "successor-needed",
+      "action": "guided-pre-code-manual-v1 is a scoped successor profile; historical readiness remains unchanged"
+    },
+    {
+      "subject": "API/UI route registries and exact counts",
+      "classification": "derived",
+      "action": "current-active counters are recomputed from the live collections"
+    },
+    {
+      "subject": "auth.db*/devpilot.db*/outputs runtime stores",
+      "classification": "runtime-ephemeral",
+      "action": "excluded from fixtures, source delta, evidence source archive and candidate ZIP"
+    },
+    {
+      "subject": "05-E runtime Guided-SDLC external workspace binding registry",
+      "classification": "runtime-ephemeral",
+      "action": "created under runtime outputs only for browser acceptance; historical platform workspace_registry.json remains untouched and authoritative for its original scope"
+    },
+    {
+      "subject": "GSDLC-02 authenticated human-session expiry/revocation semantics",
+      "classification": "historical-freeze",
+      "action": "05-E does not extend session timeouts or weaken authentication; it adds fail-closed UX recovery and explicit re-authentication."
+    },
+    {
+      "subject": "BLOCK-04 failed B04 screenshot",
+      "classification": "runtime-ephemeral",
+      "action": "preserve as forensic incident evidence only; it is not an acceptance fact and does not replace the later valid B04."
+    }
+  ],
+  "historical_assertions_relaxed": false,
+  "deprecated_after_proof_total": 0,
+  "full_regression_runs": 0,
+  "block09_corrective_status": "LOCAL-CORRECTIVE-PASS/PENDING-WINDOWS-BROWSER-REVALIDATION",
+  "block12_historical_regression_guard": {
+    "status": "PASS/WINDOWS-COMPOSITE",
+    "principle": "historical snapshots bind frozen at-close fields/files; successor current pointers/routes/budgets may evolve only under explicit successor assertions",
+    "checks": [
+      "GSDLC-00-E frozen baseline vs mutable canonical successor",
+      "TCR v1/v2 contracts_total equals live contracts length",
+      "GSDLC-03 frozen route snapshots remain immutable while current registry is a superset",
+      "README retains GSDLC-04-A milestone",
+      "GSDLC-04-A frozen execution source repo/commit fields remain explicit",
+      "ui package currentSprint equals active 05-E",
+      "UOC-005/006 historical mutation set plus explicitly tagged 05-E successor apply route",
+      "UOC-011 historical 512KiB budget frozen; active UI budget 600KiB remains below 768KiB hard ceiling"
+    ]
+  }
+}

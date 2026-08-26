@@ -460,3 +460,28 @@ The Artifact Workbench mapping is current-active. Frozen UOC/GSDLC-03 snapshots 
 | `GET /api/v1/guided-sdlc/step-actions` | `guided_sdlc.step_actions` / `API-GSDLC-05-D-STEP-ACTIONS` | `ApplicationService.guided_sdlc_step_actions_primary` → `GuidedSDLCApplicationService.step_actions_primary` → `ExecutionModeAdvisor` / `StepActionCatalog` | Authenticated human session + ServerRBACEnforcer + PolicyEngine. Read-only. UI consumes server-calculated availability; the Advisor never grants target capability. |
 
 The advisor cross-checks `.devpilot/gsdlc/step_action_catalog.json` against the current MIP registry, API route registry and server RBAC catalog. `AGENT` and `RAG` are intentionally visible but non-executable in DEVPL-GSDLC-05. Unavailable cards expose disabled reasons and, where appropriate, a configuration target rather than an execution target.
+
+## DEVPL-GSDLC-05-E — Manual/import pre-code wizard vertical slice
+
+Successor current-active mapping for the seven-stage guided pre-code wizard. All routes require an authenticated human session, remain local-only, and delegate authority to `PreCodeWizardApplicationService`; the browser never supplies canonical role/workspace authority. Only `apply` may mutate managed artifact source, and only through the inherited approval-bound typed workspace-edit execution path.
+
+For all `guided_sdlc.pre_code.*` routes, RBAC workspace scope is resolved from the **server-active `UiWorkspaceContext`**. The historical `devpilot-local` fallback is not used when a valid external project context is configured; a conflicting caller `workspace_id` fails closed. This keeps workspace authority server-derived and prevents authorization against a scope different from the project actually mutated/read by the service.
+
+| Method | Path | Operation | API ID | Application/domain service | Policy/gate |
+|---|---|---|---|---|---|
+| `GET` | `/api/v1/guided-sdlc/pre-code` | `guided_sdlc.pre_code.status` | `API-GSDLC-05-E-STATUS` | `ApplicationService -> PreCodeWizardApplicationService.status` | Policy/gate: human session + project scope + server RBAC; read-only; StepActionAdvisor projection; no network/model/source mutation |
+| `POST` | `/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft` | `guided_sdlc.pre_code.draft` | `API-GSDLC-05-E-DRAFT` | `ApplicationService -> PreCodeWizardApplicationService.save_draft` | Policy/gate: owner + project scope; runtime DRAFT only; no managed-source write; MANUAL/IMPORT allowlist |
+| `POST` | `/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review` | `guided_sdlc.pre_code.review` | `API-GSDLC-05-E-REVIEW` | `ApplicationService -> PreCodeWizardApplicationService.review` | Policy/gate: owner + exact current stage; ArtifactReview validation/findings + immutable workspace-edit plan; source unchanged |
+| `POST` | `/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request` | `guided_sdlc.pre_code.approval_request` | `API-GSDLC-05-E-APPROVAL-REQUEST` | `ApplicationService -> PreCodeWizardApplicationService.request_approval` | Policy/gate: authenticated owner + exact plan/review binding; server-side approval authority; source unchanged |
+| `POST` | `/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply` | `guided_sdlc.pre_code.apply` | `API-GSDLC-05-E-APPLY` | `ApplicationService -> PreCodeWizardApplicationService.apply -> WorkspaceEditExecutionApplicationService` | Policy/gate: exact approved binding + immutable plan/preimage recheck + approval-bound typed atomic source write; no arbitrary shell/network |
+| `POST` | `/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze` | `guided_sdlc.pre_code.freeze` | `API-GSDLC-05-E-FREEZE` | `ApplicationService -> PreCodeWizardApplicationService.freeze -> ArtifactReviewApplicationService` | Policy/gate: owner + exact APPLIED review/execution binding + source/approved SHA parity; advances only the current mandatory stage |
+| `GET` | `/api/v1/guided-sdlc/pre-code/readiness` | `guided_sdlc.pre_code.readiness` | `API-GSDLC-05-E-READINESS` | `ApplicationService -> PreCodeWizardApplicationService.readiness` | Policy/gate: human session + project scope; strict seven-stage guided-pre-code readiness; read-only; historical global readiness not replaced |
+
+The GSDLC-05-E mapping is a successor contract. Historical API route snapshots remain frozen. No patch execution, arbitrary shell, remote execution, external API or model execution is introduced.
+
+
+### 2026-08-26 — BLOCK-09 workspace-scope compatibility rule
+
+Workspace-scoped authenticated routes without an explicit `workspace_id` do not automatically authorize against historical `devpilot-local` when the server has an external active workspace. The middleware resolves an unambiguous server-authoritative scope from `UiWorkspaceContext` + authenticated principal scopes, or from the principal's single workspace scope. Explicit mismatches and ambiguous multi-scope cases remain fail-closed. This rule is transport/RBAC binding only; the underlying ApplicationService remains the authority for workspace boundaries.
+
+In the GSDLC-05-E wizard, `UPLOAD_IMPORT` is context-bound to the current stage when that stage allows `IMPORT`: the browser stays on `/pre-code`, selects a local allowlisted file through the native file input and then persists only runtime DRAFT through the existing typed pre-code endpoint. The generic Artifact Workbench remains a separate surface and is not a hidden bridge required to complete the vertical slice.

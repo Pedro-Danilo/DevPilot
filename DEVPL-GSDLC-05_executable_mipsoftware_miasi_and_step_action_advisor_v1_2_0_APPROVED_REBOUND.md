@@ -490,3 +490,10 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 - GSDLC-05-E: **not authorized** until owner adjudication of 05-D.
 
 This progress appendix does not alter the approved design contract or the A→D/no-full, E/exactly-one-full regression policy.
+
+## 14. Estado de implementación — GSDLC-05-E
+
+- GSDLC-05-D: `CLOSED/PASS` — repo373 / commit `a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8` / browser 7/7 / full=0.
+- GSDLC-05-E: `PASS-CANDIDATE / WINDOWS-COMPOSITE-CLOSURE / PENDING-OWNER-ADJUDICATION`; browser Windows y readiness strict PASS; `PRE_CODE_READY` alcanzado sin hidden CLI bridge.
+- Full regression DEVPL-GSDLC-05 consumida exactamente una vez: `1/1 FAIL` (`2611 PASS / 38 FAIL / 0 ERROR / 5 SKIP`), preservada sin rerun; composite selective recovery `PASS` (exact failed-nodeid `38/38`, bounded impact `18/18`, Historical Regression Guard PASS). Segunda full prohibida.
+- GSDLC-06 permanece bloqueado hasta owner adjudication de 05-E + cierre formal del backlog 05.

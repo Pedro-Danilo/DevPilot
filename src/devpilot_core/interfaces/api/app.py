@@ -211,7 +211,36 @@ def create_app(
                 )
                 return _security_json_response(request, payload, status_code)
 
-            workspace_id = request.query_params.get("workspace_id") or "devpilot-local"
+            requested_workspace_id = str(request.query_params.get("workspace_id") or "").strip()
+            workspace_id = requested_workspace_id or "devpilot-local"
+            server_rbac_policy = request.app.state.application_service.rbac.route_policy(method=method, path=path)
+            workspace_scope_required = bool(server_rbac_policy and server_rbac_policy.get("workspace_scope_required") is True)
+            workspace_scope_source = str((server_rbac_policy or {}).get("workspace_scope_source") or "").strip()
+            if workspace_scope_source == "active-server-context":
+                workspace_context = request.app.state.application_service.ui_workspace_context.resolve()
+                active_workspace_id = str(workspace_context.active_workspace_id or "").strip() if workspace_context.configured and workspace_context.valid else ""
+                if active_workspace_id:
+                    workspace_id = active_workspace_id if not requested_workspace_id or requested_workspace_id == active_workspace_id else "__active_workspace_context_mismatch__"
+                else:
+                    workspace_id = "__active_workspace_context_unavailable__"
+            elif workspace_scope_required and not requested_workspace_id and human_session is not None:
+                # Project-scoped workspace routes predate Guided SDLC's explicit active-server-context
+                # metadata. When the authenticated principal has exactly one workspace scope, use
+                # that server-authenticated scope instead of the historical hard-coded
+                # ``devpilot-local`` default. If an explicit UI workspace context is configured,
+                # require it to agree with that principal scope. Multi-scope principals remain
+                # fail-closed unless they provide an explicit workspace_id.
+                principal_scopes = tuple(str(value).strip() for value in human_session.principal.workspace_scopes if str(value).strip())
+                workspace_context = request.app.state.application_service.ui_workspace_context.resolve()
+                active_workspace_id = str(workspace_context.active_workspace_id or "").strip() if workspace_context.configured and workspace_context.valid else ""
+                if active_workspace_id and active_workspace_id in principal_scopes:
+                    workspace_id = active_workspace_id
+                elif len(principal_scopes) == 1:
+                    workspace_id = principal_scopes[0]
+                elif "devpilot-local" in principal_scopes:
+                    workspace_id = "devpilot-local"
+                else:
+                    workspace_id = "__workspace_scope_ambiguous__"
             if human_session is not None:
                 rbac_decision = request.app.state.application_service.rbac.authorize_route(human_session.principal, method=method, path=path, workspace_id=workspace_id)
                 request.state.devpilot_rbac = rbac_decision

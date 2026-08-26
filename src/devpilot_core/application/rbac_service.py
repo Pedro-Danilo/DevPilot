@@ -9,6 +9,9 @@ class RBACApplicationService:
     def canonical_roles(self, principal: AuthenticatedPrincipal) -> tuple[str, ...]:
         """Return canonical server-authoritative roles through the application boundary."""
         return self.enforcer.canonical_roles(principal)
+    def route_policy(self, *, method: str, path: str) -> dict | None:
+        """Expose immutable route-policy metadata without bypassing the RBAC facade."""
+        return self.enforcer.route_policy(method, path)
     def authorize_route(self, principal: AuthenticatedPrincipal, *, method: str, path: str, workspace_id: str|None=None)->RBACDecision:return self.enforcer.authorize_route(principal,method=method,path=path,workspace_id=workspace_id)
     def authorize_sensitive_action(self, principal: AuthenticatedPrincipal, *, action_id: str, workspace_id: str|None=None)->RBACDecision:return self.enforcer.authorize_sensitive_action(principal,action_id=action_id,workspace_id=workspace_id)
     def capability_view(self, principal: AuthenticatedPrincipal, *, workspace_id: str|None=None)->dict:return self.enforcer.capability_view(principal,workspace_id=workspace_id)

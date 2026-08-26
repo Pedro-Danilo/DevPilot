@@ -924,3 +924,73 @@ export interface ArtifactReviewRecord {
   };
   approval_valid: boolean;
 }
+
+// DEVPL-GSDLC-05-E — server-authoritative manual/import pre-code wizard.
+export interface PreCodeWizardStage {
+  stage_id: string;
+  order: number;
+  label: string;
+  relative_path: string;
+  profile_id: string;
+  advisor_step: string;
+  allowed_modes: Array<'MANUAL' | 'IMPORT'>;
+  status: 'MISSING' | 'DRAFT' | 'FINDINGS' | 'APPROVAL_REQUIRED' | 'APPLIED' | 'FROZEN' | string;
+  mode?: 'MANUAL' | 'IMPORT' | null;
+  content_sha256?: string | null;
+  review_id?: string | null;
+  plan_id?: string | null;
+  plan_hash?: string | null;
+  diff?: { format: 'unified'; content: string; sha256: string; bytes: number; additions: number; deletions: number; hunks: number; changed_lines: number; truncated: boolean } | null;
+  execution_id?: string | null;
+  approval_id?: string | null;
+  approved_sha256?: string | null;
+  findings?: Array<Record<string, unknown>>;
+  validation?: Record<string, unknown>;
+}
+
+export interface PreCodeReadiness {
+  profile_id: string;
+  strict: boolean;
+  scope: string;
+  status: 'PASS' | 'BLOCK' | string;
+  pre_code_ready: boolean;
+  mandatory_stages_total: number;
+  mandatory_stages_frozen: number;
+  artifacts: Array<Record<string, unknown>>;
+  blockers: Array<Record<string, unknown>>;
+  historical_global_readiness_replaced: false;
+}
+
+export interface PreCodeWizardProjection {
+  schema_id: string;
+  profile_id: string;
+  readiness_semantics: string;
+  workspace_id: string;
+  status: 'NOT_STARTED' | 'IN_PROGRESS' | 'PRE_CODE_READY' | 'BLOCKED' | string;
+  current_stage_id?: string | null;
+  current_stage_order?: number | null;
+  stages: PreCodeWizardStage[];
+  advisor?: StepActionAdvisorDecision | null;
+  miasi: {
+    status: string;
+    gate_status: string;
+    reason_codes: string[];
+    risk_level: string;
+    blockers: Array<Record<string, unknown>>;
+    reevaluation_required: boolean;
+  };
+  readiness: PreCodeReadiness;
+  transition_trace_ref: string;
+  server_authoritative: true;
+  normal_user_powershell_required: 0;
+  external_operator_project_writes: 0;
+  network_used: false;
+  external_api_used: false;
+  model_execution_used: false;
+  agent_execution_used: false;
+  rag_execution_used: false;
+}
+
+export interface PreCodeWizardResponseData {
+  pre_code: PreCodeWizardProjection;
+}

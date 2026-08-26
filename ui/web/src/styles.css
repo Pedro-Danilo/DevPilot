@@ -1187,3 +1187,23 @@ button, .primary-nav__links a { min-height: 44px; }
 .step-action-card__controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; }
 .step-action-card__secondary { background: transparent; }
 .step-action-advisor--error { border-style: dashed; }
+
+/* DEVPL-GSDLC-05-E — guided pre-code vertical slice */
+.pre-code-wizard { display: grid; gap: 1rem; }
+.pre-code-wizard__intro h2, .pre-code-wizard__summary h3, .pre-code-stage h3 { margin-top: 0; }
+.pre-code-stepper { display: grid; grid-template-columns: repeat(auto-fit,minmax(12rem,1fr)); gap: .6rem; padding: 0; list-style: none; }
+.pre-code-stepper li { border: 1px solid var(--border-color,#d6dbe5); border-radius: .6rem; padding: .7rem; background: #fff; }
+.pre-code-stepper li[data-status='FROZEN'] { font-weight: 700; }
+.pre-code-stepper li[data-current='true'] { outline: 3px solid rgba(35,93,185,.22); }
+.pre-code-stage__editor { display: grid; gap: .65rem; }
+.pre-code-stage textarea { width: 100%; min-height: 18rem; resize: vertical; font-family: ui-monospace,SFMono-Regular,Consolas,monospace; }
+.pre-code-stage select, .pre-code-stage input[type='file'], .pre-code-stage textarea { box-sizing: border-box; padding: .65rem; border: 1px solid #aeb8c9; border-radius: .45rem; background: #fff; color: inherit; }
+.pre-code-stage button, .button-link { display: inline-block; width: fit-content; padding: .65rem 1rem; border-radius: .45rem; font-weight: 700; }
+.pre-code-stage button:disabled { opacity: .55; cursor: not-allowed; }
+.pre-code-findings { border-left: 4px solid #a33; padding-left: 1.5rem; }
+.pre-code-wizard__done { border: 2px solid #1e7a45; }
+.notice { padding: .75rem 1rem; border-radius: .45rem; margin: .5rem 0; }
+.notice--loading { background: #eef4ff; }
+.notice--pass { background: #edf8f0; }
+.notice--block { background: #fff3e5; border: 1px solid #c77d12; }
+.muted { color: #5b6474; }

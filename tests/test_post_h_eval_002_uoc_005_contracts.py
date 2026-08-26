@@ -223,7 +223,12 @@ def test_uoc005_historical_route_contract_allows_only_narrow_source_mutations():
         expected |= {"api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create"}
     if "api.project-entry.execute" in routes:
         expected.add("api.project-entry.execute")
-    assert source_mutating == expected
+    successor_mutations = {
+        route_id for route_id, route in routes.items()
+        if route.get("source_mutation_allowed") is True and "gsdlc-05-e" in route.get("tags", [])
+    }
+    assert successor_mutations == {"api.guided-sdlc.pre-code.apply"}
+    assert source_mutating == expected | successor_mutations
     for route_id in source_mutating:
         route = routes[route_id]
         assert route["local_only"] is True

@@ -1,0 +1,80 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-E-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS/WINDOWS-COMPOSITE",
+  "version": "1.0.5",
+  "owner": "DEVPL-GSDLC-05-E",
+  "updated": "2026-08-26",
+  "checks": [
+    {
+      "check": "PreCodeWizardCatalog schema and exactly seven ordered stages",
+      "status": "PASS"
+    },
+    {
+      "check": "Artifact lifecycle/review/approval/apply/freeze composition uses existing governed writer",
+      "status": "PASS"
+    },
+    {
+      "check": "API route registry ↔ RBAC ↔ OpenAPI ↔ API mapping ↔ ApplicationService",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "check": "UI route/capability ↔ API client ↔ project-scoped guard",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "check": "StepActionAdvisor present; AGENT/RAG unavailable",
+      "status": "PASS"
+    },
+    {
+      "check": "scoped readiness does not rewrite historical global readiness",
+      "status": "PASS"
+    },
+    {
+      "check": "runtime-ephemeral excluded from fixtures/source candidate",
+      "status": "PASS/PRE-WINDOWS"
+    },
+    {
+      "check": "browser full pre-code acceptance",
+      "status": "PENDING-WINDOWS"
+    },
+    {
+      "check": "single full regression",
+      "status": "PENDING-WINDOWS/0-of-1"
+    },
+    {
+      "check": "Project Status active server workspace ↔ runtime Guided-SDLC registry ↔ engineering state binding",
+      "status": "PASS/LOCAL-CORRECTIVE; RECHECK-WINDOWS-RUNTIME"
+    },
+    {
+      "check": "Browser recovery semantic payload: concrete workspace/project, non EMPTY/UNKNOWN, read-only actor-neutral no-network/no-mutation",
+      "status": "PASS/LOCAL-SERVICE+HTTP; RECHECK-WINDOWS-RUNTIME"
+    },
+    {
+      "check": "Pre-code governed mutations preflight live human session and never auto-retry a mutation after auth/transport uncertainty",
+      "status": "PASS/LOCAL-CORRECTIVE; RECHECK-WINDOWS"
+    },
+    {
+      "check": "UI diagnostic separates invalid/expired human session from true API-down while preserving APPLIED/DRAFT state",
+      "status": "PASS/LOCAL-STATIC+SMOKE; RECHECK-WINDOWS"
+    },
+    {
+      "check": "B01/B02 sealed evidence preserved; B04 failed screenshot remains forensic-only and is not counted as acceptance",
+      "status": "PASS/EVIDENCE-RECONCILED"
+    }
+  ],
+  "blocking_drift_pre_windows": 0,
+  "full_regression_runs": 0,
+  "browser_required": true,
+  "block09_corrective_status": "LOCAL-CORRECTIVE-PASS/PENDING-WINDOWS-BROWSER-REVALIDATION",
+  "block12": {
+    "status": "PASS/WINDOWS-COMPOSITE",
+    "full_rerun": false,
+    "application_service_composition": "lazy PreCodeWizardApplicationService; strict on actual 05-E use, neutral for unrelated/minimal roots",
+    "miasi_project_status_compatibility": "evaluate MIASI when applicability policy exists; retain historical neutral projection when catalog absent; malformed existing catalog remains fail-closed",
+    "historical_current_policy": "frozen snapshots must not assert equality with mutable current successors",
+    "tcr_totals": "294/294 reconciled",
+    "ui_current_sprint": "DEVPL-GSDLC-05-E",
+    "current_ui_budget_bytes": 614400,
+    "composite_full_regression_selective_retest": "PASS"
+  }
+}

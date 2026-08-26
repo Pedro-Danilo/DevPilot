@@ -58,6 +58,7 @@ from .reports_service import ReportsApplicationService
 from .review_service import ReviewApplicationService
 from .settings_service import SettingsApplicationService
 from .services import ApplicationService
+from .pre_code_wizard_service import PreCodeWizardApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
@@ -120,6 +121,7 @@ __all__ = [
     "ApplicationRequest",
     "ApplicationResponse",
     "ApplicationService",
+    "PreCodeWizardApplicationService",
     "EvaluationApplicationService",
     "HistoryApplicationService",
     "InterfaceRouteContract",

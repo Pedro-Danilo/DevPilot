@@ -227,6 +227,34 @@ export class DevPilotApiClient {
     return this.get(`/guided-sdlc/step-actions${this.query(filters)}`, { retryNetworkErrors: true }) as unknown as Promise<DevPilotApplicationResponse<GuidedSdlcStepActionsResponseData>>;
   }
 
+  async preCodeStatus(): Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>> {
+    return this.get('/guided-sdlc/pre-code', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>>;
+  }
+
+  async preCodeDraft(stageId: string, payload: { mode: 'MANUAL' | 'IMPORT'; content: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/draft`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async preCodeReview(stageId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/review`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async preCodeApprovalRequest(stageId: string, reason = 'Approve governed pre-code artifact apply.'): Promise<DevPilotApplicationResponse> {
+    return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/approval-request`, { reason }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async preCodeApply(stageId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/apply`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async preCodeFreeze(stageId: string, payload: { review_id: string; execution_id: string }): Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>> {
+    return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/freeze`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>>;
+  }
+
+  async preCodeReadiness(): Promise<DevPilotApplicationResponse<{ readiness: import('./types').PreCodeReadiness }>> {
+    return this.get('/guided-sdlc/pre-code/readiness', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<{ readiness: import('./types').PreCodeReadiness }>>;
+  }
+
 
 
   async projectEntryDryRun(payload: { intake: Record<string, unknown>; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {

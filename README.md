@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03` y `04` están `CLOSED/PASS`. `DEVPL-GSDLC-05-A/B/C` están `CLOSED/PASS`; repo372 es la autoridad inmediata de 05-D. `GSDLC-05-D` está `IMPLEMENTED / PENDING-WINDOWS-BROWSER-VALIDATION`: StepActionCatalog/ExecutionModeAdvisor cubren 19 current steps y 136 definiciones de acción con autoridad RBAC/policy server-side. La full regression de DEVPL-GSDLC-05 permanece en `0`; A→D usan validación cumulative-selective y no consumen la full por rutina.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03` y `04` están `CLOSED/PASS`. `DEVPL-GSDLC-05-A/B/C/D` están `CLOSED/PASS`; repo373 (`a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8`) es la autoridad inmediata de 05-E. `GSDLC-05-E` está `PASS-CANDIDATE / WINDOWS-COMPOSITE-CLOSURE / PENDING-OWNER-ADJUDICATION`: el wizard manual/import alcanzó `PRE_CODE_READY` por UI, readiness strict PASS y browser PASS; la única full regression del backlog fue consumida `1/1 FAIL` (`2611 PASS / 38 FAIL / 0 ERROR / 5 SKIP`), preservada sin rerun y recuperada mediante composite selective retest PASS (`38/38` exact failed-nodeids + `18/18` bounded impact + Historical Regression Guard PASS). GSDLC-06 permanece bloqueado hasta adjudicación owner de 05-E y cierre formal de DEVPL-GSDLC-05.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -4586,7 +4586,7 @@ python -m devpilot_core workspace status
 python -m devpilot_core workspace status --json --write-report
 python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
 python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
-python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
+python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-<synthetic-redacted-value>" --json --write-report
 python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
 python -m devpilot_core git-status --json
 python -m devpilot_core git-status --json --write-report
@@ -4668,7 +4668,7 @@ python -m devpilot_core workspace status
 python -m devpilot_core workspace status --json --write-report
 python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
 python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
-python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
+python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-<synthetic-redacted-value>" --json --write-report
 python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
 python -m devpilot_core git-status --json
 python -m devpilot_core git-status --json --write-report
@@ -6453,3 +6453,9 @@ GSDLC-05-C: `CLOSED/PASS / browser capability 6/6 PASS / owner adjudicated`; rep
 - AGENT/RAG: visibles pero `UNAVAILABLE` durante GSDLC-05.
 - Red/API/model execution: `false`; full regression runs: `0`.
 - Evidencia local: `docs/audits/step_action_coverage.json`, `docs/audits/advisor_decision_samples.json` y `docs/audits/DEVPL_GSDLC_05_D_*`.
+
+## DEVPL-GSDLC-05-E — Manual/import pre-code wizard
+
+Estado: `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION`. `/pre-code` completó las siete etapas obligatorias por MANUAL/IMPORT hasta `PRE_CODE_READY`; readiness strict y browser Windows quedaron PASS. La full regression única de DEVPL-GSDLC-05 fue consumida `1/1 FAIL` (`2611 PASS / 38 FAIL / 0 ERROR / 5 SKIP`) y preservada sin rerun; la recuperación composite autorizada quedó PASS (`38/38` exact failed-nodeids + `18/18` bounded impact + Historical Regression Guard PASS). GSDLC-06 continúa bloqueado hasta adjudicación owner de 05-E y cierre formal del backlog.
+
+Historical milestone preservation: `GSDLC-04-A` remains a frozen predecessor milestone; current DEVPL-GSDLC pointers may advance without rewriting that historical closure.

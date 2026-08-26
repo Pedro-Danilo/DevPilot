@@ -462,4 +462,8 @@ GSDLC-05-C: `CLOSED/PASS / browser capability 6/6 PASS / owner adjudicated`; rep
 
 ### DEVPL-GSDLC-05-D — StepActionCatalog and ExecutionModeAdvisor
 
-Estado actual: `IMPLEMENTED / PENDING-WINDOWS-BROWSER-VALIDATION` sobre autoridad repo372. La implementación cubre 19 `current_step` MIP con 136 action definitions y mantiene Human Session/RBAC/Policy como autoridad server-side. `AGENT` y `RAG` se muestran como alternativas futuras pero permanecen `UNAVAILABLE` durante GSDLC-05. Full regression de la ola permanece en `0`; GSDLC-05-E no se autoriza hasta adjudicación owner de la evidencia Windows de 05-D.
+Estado actual: `CLOSED/PASS` sobre repo373, commit `a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8`, browser 7/7, S0=0, S1=0 y full=0. La implementación cubre 19 `current_step` MIP con 136 action definitions y mantiene Human Session/RBAC/Policy como autoridad server-side. `AGENT` y `RAG` permanecen `UNAVAILABLE` durante GSDLC-05. GSDLC-05-E está autorizado por adjudicación owner.
+
+### DEVPL-GSDLC-05-E — Manual/import pre-code wizard vertical slice
+
+Estado actual: `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION`. Fuente inmediata repo373 (`a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8`). El vertical slice completó Product Vision → Scope → Requirements → Architecture → Security → Test Strategy → Traceability por UI hasta `PRE_CODE_READY`; readiness strict/browser PASS, S0=0/S1=0 y full única `1/1 FAIL` preservada sin rerun, recuperada mediante composite selective retest PASS (`38/38` exact failed-nodeids + `18/18` bounded impact + Historical Regression Guard PASS). GSDLC-06 permanece bloqueado hasta adjudicación owner.

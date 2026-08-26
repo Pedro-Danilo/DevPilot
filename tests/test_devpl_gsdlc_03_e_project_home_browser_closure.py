@@ -41,7 +41,17 @@ def test_project_home_is_primary_without_replacing_historical_dashboard_route() 
     registry=j('.devpilot/interfaces/ui_route_contract_registry.json')
     routes={r['route_id']:r for r in registry['routes']}
     assert routes['ui.dashboard']['path']=='/'
-    assert len(registry['routes'])==11
+    historical=j('.devpilot/interfaces/ui_route_contract_registry_gsdlc03c_at_close.json')
+    assert len(historical['routes'])==11
+    assert len(registry['routes'])>=len(historical['routes'])
+    assert set(r['route_id'] for r in historical['routes']) <= set(routes)
+    # GSDLC successors may add governed surfaces without mutating the frozen
+    # GSDLC-03 route snapshot.
+    if 'ui.pre-code-wizard' in routes:
+        successor=routes['ui.pre-code-wizard']
+        assert successor['path']=='/pre-code'
+        assert successor['page_component']=='PreCodeWizardView'
+        assert 'api.guided-sdlc.pre-code.apply' in successor['allowed_api_routes']
     assert 'ui/web/src/components/ProjectHomeEntryPanel.ts' in routes['ui.dashboard']['source_files']
     assert "renderDashboard(page, session," in main
     assert 'renderProjectHomeEntryPanel(session)' in dashboard

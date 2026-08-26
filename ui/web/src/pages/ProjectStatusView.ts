@@ -43,7 +43,18 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     loading.className = 'step-action-advisor panel';
     loading.textContent = 'Calculando opciones permitidas para el paso actual…';
     advisorMount.append(loading);
-    content.replaceChildren(statePanel, advisorMount);
+    const wizardCta = document.createElement('section');
+    wizardCta.className = 'panel project-status__pre-code-cta';
+    const wizardTitle = document.createElement('h3');
+    wizardTitle.textContent = 'Pre-code guiado';
+    const wizardText = document.createElement('p');
+    wizardText.textContent = 'Continúa Product Vision → Scope → Requirements → Architecture → Security → Test Strategy → Traceability con autoría MANUAL/IMPORT gobernada.';
+    const wizardLink = document.createElement('a');
+    wizardLink.href = '/pre-code';
+    wizardLink.className = 'button-link';
+    wizardLink.textContent = 'Abrir pre-code guiado';
+    wizardCta.append(wizardTitle, wizardText, wizardLink);
+    content.replaceChildren(statePanel, wizardCta, advisorMount);
     root.dataset.uiState = normalizeUiState(data.ui_state);
     void loadStepActions(advisorMount, tokenProvider);
   } catch (error) {

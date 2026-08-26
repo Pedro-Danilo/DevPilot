@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-24",
+  "updated": "2026-08-25",
   "routes": [
     {
       "route_id": "ui.ai",
@@ -832,16 +832,88 @@
         "gsdlc_04_e_hidden_merge": false
       },
       "status": "implemented/gsdlc-04-e-external-reconciliation-browser-closure"
+    },
+    {
+      "route_id": "ui.pre-code-wizard",
+      "title": "Pre-code guiado — Manual/Import vertical slice",
+      "path": "/pre-code",
+      "page_component": "PreCodeWizardView",
+      "source_files": [
+        "ui/web/src/pages/PreCodeWizardView.ts"
+      ],
+      "allowed_api_routes": [
+        "api.guided-sdlc.pre-code.status",
+        "api.guided-sdlc.pre-code.draft",
+        "api.guided-sdlc.pre-code.review",
+        "api.guided-sdlc.pre-code.approval-request",
+        "api.guided-sdlc.pre-code.apply",
+        "api.guided-sdlc.pre-code.freeze",
+        "api.guided-sdlc.pre-code.readiness",
+        "api.approvals.show"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "loading": true,
+        "error": true,
+        "block_visible": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "draft": true,
+        "findings": true,
+        "approval_required": true,
+        "applied": true,
+        "frozen": true,
+        "pre_code_ready": true,
+        "skip_blocked": true,
+        "wrong_role_blocked": true,
+        "resume": true,
+        "empty": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "GSDLC-05-E executes the seven-stage manual/import pre-code vertical slice through server-authoritative ApplicationService routes.",
+        "UI never grants policy/RBAC capability and never writes managed source directly.",
+        "Approval decisions remain in Approval Center; apply is bound to exact approved plan/hash.",
+        "AGENT/RAG remain unavailable during GSDLC-05."
+      ],
+      "mutation_controls": {
+        "local_state_mutation_only": false,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "workspace_mutation_only": true,
+        "runtime_draft_mutation": true,
+        "runtime_draft_approval_required": false,
+        "runtime_draft_source_write_enabled": false,
+        "justification": "GSDLC-05-E permits bounded server-side runtime DRAFT/review/approval state without source writes; the only managed workspace source mutation is the exact approval-bound UOC-005 apply. UI never writes source directly or grants authority."
+      }
     }
   ],
   "summary": {
-    "routes_total": 11,
-    "critical_routes_total": 11,
-    "local_only_routes_total": 10,
-    "dry_run_badged_routes_total": 10,
-    "no_remote_badged_routes_total": 10,
-    "mutation_control_routes_total": 6,
-    "allowed_api_routes_unique_total": 91,
+    "routes_total": 12,
+    "critical_routes_total": 12,
+    "local_only_routes_total": 12,
+    "dry_run_badged_routes_total": 12,
+    "no_remote_badged_routes_total": 12,
+    "mutation_control_routes_total": 8,
+    "allowed_api_routes_unique_total": 98,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -859,7 +931,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-05-D",
+    "updated_by": "DEVPL-GSDLC-05-E",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -883,7 +955,7 @@
     "uoc_011_states_per_route": 12,
     "uoc_011_matrix_cases_total": 108,
     "gsdlc_01_e_project_status_route_registered": true,
-    "current_routes_total": 11,
+    "current_routes_total": 12,
     "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
     "gsdlc_03_e_project_home_registered": true,
     "gsdlc_03_e_top_level_routes_added": 0,
@@ -901,7 +973,9 @@
     "gsdlc_04_d_source_write_routes_added": 0,
     "gsdlc_05_c_project_status_miasi_indicator": true,
     "gsdlc_05_d_step_action_advisor": true,
-    "gsdlc_05_d_step_action_api_routes_total": 1
+    "gsdlc_05_d_step_action_api_routes_total": 1,
+    "gsdlc_05_e_pre_code_wizard": true,
+    "gsdlc_05_e_pre_code_api_routes_total": 7
   },
   "safety": {
     "local_first": true,

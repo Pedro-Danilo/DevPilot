@@ -1,9 +1,13 @@
 import type { GuidedSdlcStepActionsResponseData, StepActionCard } from '../api/types';
 
+export interface StepActionAdvisorRenderOptions {
+  onAction?: (action: StepActionCard) => boolean;
+}
+
 // Registered as part of the existing Project Status successor surface.
 const ROUTE_CONTRACT_ID = 'ui.project-status';
 
-export function renderStepActionAdvisor(data: GuidedSdlcStepActionsResponseData): HTMLElement {
+export function renderStepActionAdvisor(data: GuidedSdlcStepActionsResponseData, options: StepActionAdvisorRenderOptions = {}): HTMLElement {
   const section = document.createElement('section');
   section.className = 'step-action-advisor panel';
   section.dataset.routeContractId = ROUTE_CONTRACT_ID;
@@ -28,7 +32,7 @@ export function renderStepActionAdvisor(data: GuidedSdlcStepActionsResponseData)
   list.className = 'step-action-advisor__list';
   list.setAttribute('role', 'list');
   const actions = Array.isArray(data.advisor?.actions) ? data.advisor?.actions ?? [] : [];
-  for (const action of actions) list.append(renderStepActionCard(action));
+  for (const action of actions) list.append(renderStepActionCard(action, options));
 
   if (!actions.length) {
     const empty = document.createElement('div');
@@ -55,7 +59,7 @@ export function renderStepActionAdvisorError(error: unknown): HTMLElement {
   return section;
 }
 
-function renderStepActionCard(action: StepActionCard): HTMLElement {
+function renderStepActionCard(action: StepActionCard, options: StepActionAdvisorRenderOptions): HTMLElement {
   const card = document.createElement('article');
   const available = action.availability === 'AVAILABLE' && action.executable === true;
   card.className = `step-action-card step-action-card--${available ? 'available' : 'unavailable'}`;
@@ -111,12 +115,15 @@ function renderStepActionCard(action: StepActionCard): HTMLElement {
   primary.type = 'button';
   primary.textContent = action.recommended ? 'Usar opción recomendada' : 'Abrir opción';
   const target = typeof action.navigation_target === 'string' ? action.navigation_target : '';
-  if (!available || !target) {
+  if (!available || (!target && !options.onAction)) {
     primary.disabled = true;
     primary.setAttribute('aria-disabled', 'true');
     primary.title = action.disabled_reasons?.map((row) => row.code).join(', ') || 'Ruta no ejecutable';
   } else {
-    primary.addEventListener('click', () => globalThis.location.assign(target));
+    primary.addEventListener('click', () => {
+      if (options.onAction?.(action) === true) return;
+      if (target) globalThis.location.assign(target);
+    });
   }
   controls.append(primary);
 

@@ -165,6 +165,13 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/git/branches/{plan_id}/create"): ApiRoutePolicy("workspace.git.branch_create", "read", "protected-governed-git-branch-create"),
     ("GET", "/api/v1/guided-sdlc/status"): ApiRoutePolicy("guided_sdlc.project_status", "read", "protected-guided-sdlc-project-status"),
     ("GET", "/api/v1/guided-sdlc/step-actions"): ApiRoutePolicy("guided_sdlc.step_actions", "read", "protected-guided-sdlc-step-actions"),
+    ("GET", "/api/v1/guided-sdlc/pre-code"): ApiRoutePolicy("guided_sdlc.pre_code.status", "read", "protected-human-session-gsdlc-05-e-pre-code"),
+    ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft"): ApiRoutePolicy("guided_sdlc.pre_code.draft", "read", "protected-human-session-gsdlc-05-e-pre-code"),
+    ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review"): ApiRoutePolicy("guided_sdlc.pre_code.review", "read", "protected-human-session-gsdlc-05-e-pre-code"),
+    ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request"): ApiRoutePolicy("guided_sdlc.pre_code.approval_request", "read", "protected-human-session-gsdlc-05-e-pre-code"),
+    ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"): ApiRoutePolicy("guided_sdlc.pre_code.apply", "read", "protected-human-session-gsdlc-05-e-pre-code"),
+    ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"): ApiRoutePolicy("guided_sdlc.pre_code.freeze", "read", "protected-human-session-gsdlc-05-e-pre-code"),
+    ("GET", "/api/v1/guided-sdlc/pre-code/readiness"): ApiRoutePolicy("guided_sdlc.pre_code.readiness", "read", "protected-human-session-gsdlc-05-e-pre-code"),
     ("GET", "/api/v1/application/contract"): ApiRoutePolicy("app.contract", "read", "protected-read"),
     ("GET", "/api/v1/miasi/status"): ApiRoutePolicy("miasi.validate", "read", "protected-read"),
     ("GET", "/api/v1/standards/status"): ApiRoutePolicy("standards.status", "read", "protected-read"),
@@ -479,6 +486,17 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
         return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/imports/{import_id}/start"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-reviews/documents/") and path.endswith("/start"):
         return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/documents/{document_id}/start"))
+    if path.startswith("/api/v1/guided-sdlc/pre-code/stages/") and method.upper() == "POST":
+        if path.endswith("/draft"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft"))
+        if path.endswith("/review"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review"))
+        if path.endswith("/approval-request"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request"))
+        if path.endswith("/apply"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"))
+        if path.endswith("/freeze"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"))
     if path.startswith("/api/v1/workspace/artifact-reviews/"):
         if method.upper() == "GET" and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/artifact-reviews/{review_id}"))

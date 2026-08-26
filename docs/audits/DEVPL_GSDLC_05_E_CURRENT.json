@@ -1,0 +1,81 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-E-CURRENT-V1",
+  "status": "pass-candidate/windows-composite-closure",
+  "version": "1.0.5",
+  "owner": "Ordóñez",
+  "updated": "2026-08-26",
+  "approval": "pending_owner_adjudication",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_373_DEVPL_GSDLC_05_D_STEP_ACTION_ADVISOR_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "git_commit": "a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8",
+    "repo_sha256": "56166db2626faf505fe4ebc93a9119abcffd6fbc0d21f5a5be364472d14c60c7"
+  },
+  "implementation": {
+    "wizard_stages_total": 7,
+    "profile_id": "guided-pre-code-manual-v1",
+    "manual_enabled": true,
+    "import_enabled": true,
+    "step_action_advisor_each_stage": true,
+    "agent_execution_enabled": false,
+    "rag_execution_enabled": false,
+    "source_writer": "WorkspaceEditExecutionApplicationService/UOC-005-successor",
+    "historical_global_readiness_replaced": false
+  },
+  "validation": {
+    "browser": "PASS/R2-12-of-12",
+    "readiness_strict": "PASS",
+    "full_regression_runs": 1,
+    "maximum_full_regression_runs": 1,
+    "rerun_allowed": false,
+    "local_focal_filewise": "PASS/137",
+    "local_ui_smoke": "PASS/18",
+    "docs_governance": "PASS/PRE-WINDOWS",
+    "project_state": "PASS/PRE-WINDOWS",
+    "tcr_v1": "PASS/PRE-WINDOWS",
+    "tcr_v2": "PASS/PRE-WINDOWS",
+    "ui_build": "PASS/WINDOWS",
+    "predictive_pre_full": "PASS/WINDOWS-R2",
+    "pre_code_ready": "PASS",
+    "full_regression_result": "FAIL-ONCE/RECOVERED-BY-COMPOSITE",
+    "local_block03_corrective": "PASS/84",
+    "server_project_context_binding": "PASS/WINDOWS-SEMANTIC",
+    "runtime_health_semantic": "PASS/project-status-concrete+pre-code+negative-403",
+    "block04_session_recovery": "PASS/WINDOWS",
+    "browser_evidence_lineage": "R2 fresh browser run: B01-B12 sealed; B03 wrong-role deny backed by exact Approval-ID HTTP403 machine proof; 7/7 stages FROZEN",
+    "full_regression_original_counts": {
+      "passed": 2611,
+      "failed": 38,
+      "errors": 0,
+      "skipped": 5
+    },
+    "composite_full_regression_selective_retest": "PASS",
+    "block12_exact_failed_retest": "PASS/38",
+    "block12_bounded_impacted_retest": "PASS/18",
+    "block12_historical_regression_guard": "PASS"
+  },
+  "s0": 0,
+  "s1": 0,
+  "owner_adjudication_pending": true,
+  "backlog_closure_pending": true,
+  "candidate_logical_name": "repo_DevPilot_Local_374_DEVPL_GSDLC_05_E_MANUAL_PRE_CODE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "block04": {
+    "status": "PASS/WINDOWS-RECOVERED",
+    "freeze_incident": "HTTP 401/no API outage",
+    "recovery": "fresh Owner login + retry only freeze from APPLIED",
+    "ui_session_preflight": "PASS",
+    "exact_invalidation_reason": "captured if runtime diagnostic available; not required to weaken auth",
+    "historical_auth_contract_weakened": false
+  },
+  "block12": {
+    "status": "PASS/WINDOWS-COMPOSITE-CLOSURE",
+    "single_full_consumed": true,
+    "single_full_status": "FAIL",
+    "single_full_rerun_performed": false,
+    "failed_nodeids_total": 38,
+    "exact_failed_retest": "PASS/38",
+    "bounded_impacted_retest": "PASS/18",
+    "historical_regression_guard": "PASS",
+    "contract_validators": "PASS",
+    "composite_full_regression_selective_retest": "PASS"
+  }
+}
