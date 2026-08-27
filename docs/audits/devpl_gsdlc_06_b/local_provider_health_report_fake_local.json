@@ -1,0 +1,155 @@
+{
+  "schema_id": "devpilot.gsdlc06b.local_provider_health_report.v1",
+  "schema_version": "1.0.0",
+  "status": "PASS",
+  "summary": {
+    "micro_sprint": "DEVPL-GSDLC-06-B",
+    "providers_total": 3,
+    "configured_total": 3,
+    "reachable_total": 3,
+    "healthy_total": 3,
+    "model_discovered_total": 3,
+    "enabled_total": 0,
+    "policy_allowed_total": 3,
+    "probe_requested": true,
+    "network_scope": "loopback-only",
+    "network_used": true,
+    "external_api_used": false,
+    "discovery_enables_provider": false,
+    "fallback_provider": "mock",
+    "silent_fallback_allowed": false,
+    "blocking_findings_total": 0
+  },
+  "providers": [
+    {
+      "provider_id": "ollama",
+      "configured": true,
+      "reachable": true,
+      "healthy": true,
+      "model_discovered": true,
+      "enabled": false,
+      "probe_attempted": true,
+      "probe_status": "available",
+      "models": [
+        "ollama-a"
+      ],
+      "models_total": 1,
+      "error_type": null,
+      "endpoint": "http://127.0.0.1:34687",
+      "endpoint_policy": {
+        "ok": true,
+        "provider_id": "ollama",
+        "normalized_endpoint": "http://127.0.0.1:34687",
+        "host": "127.0.0.1",
+        "port": 34687,
+        "scheme": "http",
+        "reason": "configured-loopback",
+        "endpoint_class": "local-loopback",
+        "explicit_allowlist_required": false,
+        "explicit_allowlist_matched": false
+      },
+      "external_api": false,
+      "requires_api_key": false,
+      "discovery_enables_provider": false,
+      "fallback": {
+        "provider_id": "mock",
+        "reason": null,
+        "explicit": true
+      }
+    },
+    {
+      "provider_id": "lmstudio",
+      "configured": true,
+      "reachable": true,
+      "healthy": true,
+      "model_discovered": true,
+      "enabled": false,
+      "probe_attempted": true,
+      "probe_status": "available",
+      "models": [
+        "local-a",
+        "local-b"
+      ],
+      "models_total": 2,
+      "error_type": null,
+      "endpoint": "http://127.0.0.1:34687",
+      "endpoint_policy": {
+        "ok": true,
+        "provider_id": "lmstudio",
+        "normalized_endpoint": "http://127.0.0.1:34687",
+        "host": "127.0.0.1",
+        "port": 34687,
+        "scheme": "http",
+        "reason": "configured-loopback",
+        "endpoint_class": "local-loopback",
+        "explicit_allowlist_required": false,
+        "explicit_allowlist_matched": false
+      },
+      "external_api": false,
+      "requires_api_key": false,
+      "discovery_enables_provider": false,
+      "fallback": {
+        "provider_id": "mock",
+        "reason": null,
+        "explicit": true
+      }
+    },
+    {
+      "provider_id": "openai-compatible-local",
+      "configured": true,
+      "reachable": true,
+      "healthy": true,
+      "model_discovered": true,
+      "enabled": false,
+      "probe_attempted": true,
+      "probe_status": "available",
+      "models": [
+        "local-a",
+        "local-b"
+      ],
+      "models_total": 2,
+      "error_type": null,
+      "endpoint": "http://127.0.0.1:34687",
+      "endpoint_policy": {
+        "ok": true,
+        "provider_id": "openai-compatible-local",
+        "normalized_endpoint": "http://127.0.0.1:34687",
+        "host": "127.0.0.1",
+        "port": 34687,
+        "scheme": "http",
+        "reason": "allowlisted-loopback",
+        "endpoint_class": "local-loopback",
+        "explicit_allowlist_required": true,
+        "explicit_allowlist_matched": true
+      },
+      "external_api": false,
+      "requires_api_key": false,
+      "discovery_enables_provider": false,
+      "fallback": {
+        "provider_id": "mock",
+        "reason": null,
+        "explicit": true
+      }
+    }
+  ],
+  "hardware_fit_hints": {
+    "source": "research/devpl_gsdlc/r01/c/hardware_fit_matrix.json",
+    "status": "missing/non-blocking",
+    "authoritative": false,
+    "recommendations": []
+  },
+  "fallback": {
+    "provider_id": "mock",
+    "explicit_required": true,
+    "silent_fallback_allowed": false,
+    "discovery_triggers_fallback": false,
+    "runtime_fallback_requires_router_configuration": true
+  },
+  "safety": {
+    "local_first": true,
+    "external_api_used": false,
+    "raw_secrets_exposed": false,
+    "source_mutated": false,
+    "discovery_enables_provider": false
+  }
+}

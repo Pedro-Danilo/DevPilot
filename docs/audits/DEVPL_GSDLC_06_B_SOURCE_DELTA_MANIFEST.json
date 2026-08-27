@@ -1,0 +1,181 @@
+{
+  "schema_id": "devpilot.gsdlc06b.source_delta_manifest.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-B",
+  "predecessor_repo": "repo_DevPilot_Local_375_DEVPL_GSDLC_06_A_MODEL_GATEWAY_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "predecessor_commit": "5013eee3c5ddf353f63d2fc19ba5d72faa08cc67",
+  "predecessor_sha256": "9cb01715f9d3f942fc89ebcf375610b906e234ed7b7480b576ea6687d78b196d",
+  "paths_total": 41,
+  "create_total": 25,
+  "modify_total": 16,
+  "delete_total": 0,
+  "paths": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "operation": "modify"
+    },
+    {
+      "path": ".devpilot/modeling/model_capability_catalog.json",
+      "operation": "modify"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "operation": "modify"
+    },
+    {
+      "path": ".devpilot/providers.yaml.example",
+      "operation": "modify"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "operation": "modify"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "operation": "modify"
+    },
+    {
+      "path": "README.md",
+      "operation": "modify"
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "operation": "modify"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "operation": "modify"
+    },
+    {
+      "path": "src/devpilot_core/application/settings_service.py",
+      "operation": "modify"
+    },
+    {
+      "path": "src/devpilot_core/modeling/__init__.py",
+      "operation": "modify"
+    },
+    {
+      "path": "src/devpilot_core/modeling/lmstudio_adapter.py",
+      "operation": "modify"
+    },
+    {
+      "path": "src/devpilot_core/modeling/ollama_adapter.py",
+      "operation": "modify"
+    },
+    {
+      "path": "src/devpilot_core/modeling/providers.py",
+      "operation": "modify"
+    },
+    {
+      "path": "src/devpilot_core/modeling/router.py",
+      "operation": "modify"
+    },
+    {
+      "path": "ui/web/package.json",
+      "operation": "modify"
+    },
+    {
+      "path": ".devpilot/modeling/local_provider_endpoint_policy.json",
+      "operation": "create"
+    },
+    {
+      "path": "02_PROMPT_DEVPL_GSDLC_06_B_v1_0_1_REBOUND.md",
+      "operation": "create"
+    },
+    {
+      "path": "DEVPL_GSDLC_06_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "operation": "create"
+    },
+    {
+      "path": "DEVPL_GSDLC_06_A_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "operation": "create"
+    },
+    {
+      "path": "DEVPL_GSDLC_06_B_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_CLOSURE_REPORT.md",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_CONTRACT_RECONCILIATION_SWEEP.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_CURRENT.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_LOCAL_VALIDATION_SUMMARY.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_OPERATION_DECLARATION.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_SECRET_DELTA_SCAN.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_SOURCE_DELTA_MANIFEST.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_B_TEST_IMPACT.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_b/endpoint_policy_matrix.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_b/fallback_evidence.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_b/local_provider_health_report.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_b/local_provider_health_report_fake_local.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_b/ssrf_negative_matrix.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/schemas/gsdlc_06_b_local_provider_health_report.schema.json",
+      "operation": "create"
+    },
+    {
+      "path": "docs/schemas/local_provider_endpoint_policy.schema.json",
+      "operation": "create"
+    },
+    {
+      "path": "src/devpilot_core/modeling/local_endpoint_policy.py",
+      "operation": "create"
+    },
+    {
+      "path": "src/devpilot_core/modeling/local_provider_discovery.py",
+      "operation": "create"
+    },
+    {
+      "path": "src/devpilot_core/modeling/openai_compatible_local_adapter.py",
+      "operation": "create"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
+      "operation": "create"
+    }
+  ],
+  "comparison_policy": "Git canonical content identity; never physical LF/CRLF byte equality",
+  "runtime_ephemeral_excluded": true,
+  "full_regression_runs": 0
+}

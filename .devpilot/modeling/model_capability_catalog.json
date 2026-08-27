@@ -1,13 +1,13 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-06-A-MODEL-CAPABILITY-CATALOG-V1",
   "schema_version": "1.0.0",
-  "status": "implemented-initial/runtime-safe",
-  "owner": "DEVPL-GSDLC-06-A",
+  "status": "implemented-initial/runtime-safe/06-b-local-routes",
+  "owner": "DEVPL-GSDLC-06-B",
   "updated": "2026-08-26",
   "source_authority": {
-    "execution_repo": "repo_DevPilot_Local_374_DEVPL_GSDLC_05_E_MANUAL_PRE_CODE_WINDOWS_VALIDATED_CANDIDATE.zip",
-    "execution_commit": "db04b6f158fc4dd366b3f61635fb2d66d63f7d40",
-    "execution_sha256": "f87c2a1db339b1d0f2dcf1d694366672c8cc9d57c27bfcd33a460a3889706152",
+    "execution_repo": "repo_DevPilot_Local_375_DEVPL_GSDLC_06_A_MODEL_GATEWAY_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "execution_commit": "5013eee3c5ddf353f63d2fc19ba5d72faa08cc67",
+    "execution_sha256": "9cb01715f9d3f942fc89ebcf375610b906e234ed7b7480b576ea6687d78b196d",
     "r01_repo": "repo_DevPilot_Local_348_DEVPL_GSDLC_R01_E_RESEARCH_CLOSURE.zip",
     "r01_commit": "3d7fda44d7ab5feefadd2eb4a7b9d20680eb1b5d",
     "r01_sha256": "68487b2d210a0fd8fb6f2c46f2f70f205f925aeda7d556e13af205de4583515d",
@@ -43,6 +43,13 @@
       "external_api": false,
       "runtime_enabled": false,
       "reason": "R01 allowed localhost route; opt-in only."
+    },
+    {
+      "external_api": false,
+      "provider_id": "openai-compatible-local",
+      "provider_kind": "local",
+      "reason": "GSDLC-06-B local generic OpenAI-compatible route; explicit loopback endpoint allowlist required.",
+      "runtime_enabled": false
     },
     {
       "provider_id": "openai",
@@ -218,6 +225,34 @@
         "R01-E:lmstudio-localhost"
       ],
       "freshness": "current-adapter+historical-route"
+    },
+    {
+      "capabilities": {
+        "classification": "conditional-model-dependent",
+        "coding": "unknown",
+        "embeddings": "conditional-model-dependent",
+        "structured_output": "unknown",
+        "text_generation": "conditional-model-dependent",
+        "tool_calling_output": "unknown",
+        "vision": "unknown"
+      },
+      "context_window": {
+        "state": "unknown",
+        "tokens": null
+      },
+      "cost": {
+        "input_per_1k_usd": 0.0,
+        "output_per_1k_usd": 0.0,
+        "state": "local-hardware/no-api-charge"
+      },
+      "evidence_refs": [
+        "GSDLC-06-B:local_provider_endpoint_policy",
+        "R01-E:remote-openai-compatible-protocol-does-not-authorize-provider"
+      ],
+      "freshness": "current-local-policy+historical-protocol-warning",
+      "model_class": "operator-selected-local-openai-compatible",
+      "model_id": "local-openai-compatible-model",
+      "provider_id": "openai-compatible-local"
     },
     {
       "model_id": "openai-model-unresolved",
@@ -480,6 +515,11 @@
       "status": "available-opt-in"
     },
     {
+      "gateway_adapter_id": "openai-compatible-local-adapter-v2",
+      "provider_id": "openai-compatible-local",
+      "status": "available-opt-in"
+    },
+    {
       "gateway_adapter_id": "external-provider-adapter-future",
       "provider_id": "*",
       "status": "disabled"
@@ -600,6 +640,30 @@
       "freshness": "historical+current",
       "target_regions": [],
       "research_route_id": "lmstudio-localhost"
+    },
+    {
+      "access_route_id": "local-openai-compatible-generic",
+      "auth_adapter_id": "no-secret-local",
+      "disposition": "disabled",
+      "endpoint_class": "generic-openai-compatible-loopback",
+      "evidence_refs": [
+        ".devpilot/modeling/local_provider_endpoint_policy.json",
+        "R01-E:generic-remote-openai-compatible-remains-unknown"
+      ],
+      "external_api": false,
+      "freshness": "current-active",
+      "gateway_adapter_id": "openai-compatible-local-adapter-v2",
+      "locality": "loopback",
+      "model_id": "local-openai-compatible-model",
+      "opt_in_required": true,
+      "provider_id": "openai-compatible-local",
+      "reason": "GSDLC-06-B enables discovery/runtime adapter only for explicitly allowlisted loopback endpoint; disabled by default.",
+      "research_disposition": "successor-local-policy",
+      "research_route_id": "06-b-local-successor",
+      "runtime_enabled": false,
+      "target_regions": [
+        "local-host"
+      ]
     },
     {
       "access_route_id": "openai-api-direct",

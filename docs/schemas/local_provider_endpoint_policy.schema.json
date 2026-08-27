@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/local_provider_endpoint_policy.schema.json",
+  "title": "DevPilot GSDLC-06-B Local Provider Endpoint Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "status",
+    "owner",
+    "updated",
+    "source_authority",
+    "defaults",
+    "providers",
+    "invariants",
+    "security"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc06b.local_provider_endpoint_policy.v1"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "blocked"
+      ]
+    },
+    "owner": {
+      "const": "DEVPL-GSDLC-06-B"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 10
+    },
+    "source_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repo",
+        "git_commit",
+        "sha256"
+      ],
+      "properties": {
+        "repo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "git_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeout_seconds",
+        "max_response_bytes",
+        "max_models",
+        "follow_redirects",
+        "allowed_schemes",
+        "allowed_host_classes",
+        "reject_userinfo",
+        "reject_query",
+        "reject_fragment",
+        "reject_base_path"
+      ],
+      "properties": {
+        "timeout_seconds": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 30
+        },
+        "max_response_bytes": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 1048576
+        },
+        "max_models": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "follow_redirects": {
+          "const": false
+        },
+        "allowed_schemes": {
+          "type": "array",
+          "const": [
+            "http",
+            "https"
+          ]
+        },
+        "allowed_host_classes": {
+          "type": "array",
+          "const": [
+            "localhost",
+            "literal-loopback-ip"
+          ]
+        },
+        "reject_userinfo": {
+          "const": true
+        },
+        "reject_query": {
+          "const": true
+        },
+        "reject_fragment": {
+          "const": true
+        },
+        "reject_base_path": {
+          "const": true
+        }
+      }
+    },
+    "providers": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider_id",
+          "endpoint_class",
+          "port_mode",
+          "allowed_ports",
+          "require_explicit_endpoint_allowlist",
+          "allowlisted_endpoints",
+          "timeout_seconds",
+          "max_response_bytes",
+          "max_models",
+          "requires_api_key",
+          "discovery_enables_provider",
+          "default_endpoint"
+        ],
+        "properties": {
+          "provider_id": {
+            "enum": [
+              "ollama",
+              "lmstudio",
+              "openai-compatible-local"
+            ]
+          },
+          "endpoint_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "port_mode": {
+            "enum": [
+              "configured-loopback",
+              "explicit-allowlist"
+            ]
+          },
+          "allowed_ports": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535
+            }
+          },
+          "require_explicit_endpoint_allowlist": {
+            "type": "boolean"
+          },
+          "allowlisted_endpoints": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^https?://"
+            }
+          },
+          "timeout_seconds": {
+            "type": "number",
+            "minimum": 0.05,
+            "maximum": 30
+          },
+          "max_response_bytes": {
+            "type": "integer",
+            "minimum": 1024,
+            "maximum": 1048576
+          },
+          "max_models": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024
+          },
+          "requires_api_key": {
+            "type": "boolean"
+          },
+          "discovery_enables_provider": {
+            "const": false
+          },
+          "default_endpoint": {
+            "type": "string",
+            "pattern": "^https?://"
+          }
+        }
+      }
+    },
+    "invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loopback_only",
+        "generic_openai_compatible_requires_explicit_allowlist",
+        "openai_wire_protocol_does_not_imply_locality",
+        "discovery_enables_provider",
+        "follow_redirects",
+        "raw_secrets_allowed",
+        "external_api_used"
+      ],
+      "properties": {
+        "loopback_only": {
+          "const": true
+        },
+        "generic_openai_compatible_requires_explicit_allowlist": {
+          "const": true
+        },
+        "openai_wire_protocol_does_not_imply_locality": {
+          "const": true
+        },
+        "discovery_enables_provider": {
+          "const": false
+        },
+        "follow_redirects": {
+          "const": false
+        },
+        "raw_secrets_allowed": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dns_hostnames_allowed",
+        "remote_as_local_allowed",
+        "protocol_compatibility_implies_local_authority",
+        "discovery_enables_provider",
+        "raw_secrets_allowed"
+      ],
+      "properties": {
+        "dns_hostnames_allowed": {
+          "const": false
+        },
+        "remote_as_local_allowed": {
+          "const": false
+        },
+        "protocol_compatibility_implies_local_authority": {
+          "const": false
+        },
+        "discovery_enables_provider": {
+          "const": false
+        },
+        "raw_secrets_allowed": {
+          "const": false
+        }
+      }
+    }
+  }
+}

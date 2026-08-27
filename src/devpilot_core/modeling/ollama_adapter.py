@@ -7,10 +7,11 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling.contracts import ModelAdapter, ModelCallRequest, ModelCallResult, ModelProviderConfig, ModelTask
+from devpilot_core.modeling.local_endpoint_policy import DEFAULT_MAX_MODELS, DEFAULT_MAX_RESPONSE_BYTES, LocalEndpointPolicyError, bounded_json_request_object, bounded_model_names, evaluate_loopback_endpoint, safe_local_error_type
 
 
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 3.0
@@ -28,6 +29,8 @@ class OllamaAdapter(ModelAdapter):
 
     provider_config: ModelProviderConfig
     timeout_seconds: float = DEFAULT_OLLAMA_TIMEOUT_SECONDS
+    max_response_bytes: int = DEFAULT_MAX_RESPONSE_BYTES
+    max_models: int = DEFAULT_MAX_MODELS
 
     def health(self) -> CommandResult:
         """Probe Ollama `/api/tags` with a bounded localhost-only request."""
@@ -43,8 +46,8 @@ class OllamaAdapter(ModelAdapter):
 
         request = urllib.request.Request(urljoin(endpoint, "/api/tags"), method="GET")
         try:
-            status_code, payload = _json_request(request, None, timeout_seconds=self.timeout_seconds)
-            models = _extract_model_names(payload)
+            status_code, payload = _json_request(request, None, timeout_seconds=self.timeout_seconds, max_response_bytes=self.max_response_bytes)
+            models, models_truncated = bounded_model_names(payload, provider_family="ollama", max_models=self.max_models)
             return CommandResult(
                 command="model health",
                 ok=True,
@@ -57,6 +60,9 @@ class OllamaAdapter(ModelAdapter):
                         "enabled": self.provider_config.enabled,
                         "endpoint": endpoint,
                         "models_total": len(models),
+                        "models_truncated": models_truncated,
+                        "models_limit": self.max_models,
+                        "max_response_bytes": self.max_response_bytes,
                         "status_code": status_code,
                         "timeout_seconds": self.timeout_seconds,
                         "network_scope": "localhost",
@@ -227,7 +233,7 @@ class OllamaAdapter(ModelAdapter):
             method="POST",
         )
         try:
-            _status_code, response_payload = _json_request(request, None, timeout_seconds=self.timeout_seconds)
+            _status_code, response_payload = _json_request(request, None, timeout_seconds=self.timeout_seconds, max_response_bytes=self.max_response_bytes)
             return ModelCallResult(
                 ok=True,
                 provider=self.provider_config.provider_id,
@@ -246,28 +252,14 @@ class OllamaAdapter(ModelAdapter):
             )
 
 
-def _json_request(request: urllib.request.Request, payload: bytes | None, *, timeout_seconds: float) -> tuple[int, dict[str, Any]]:
-    # `payload` is retained for testability/backwards compatibility with helper calls;
-    # urllib takes body data from Request when present.
+def _json_request(request: urllib.request.Request, payload: bytes | None, *, timeout_seconds: float, max_response_bytes: int = DEFAULT_MAX_RESPONSE_BYTES) -> tuple[int, dict[str, Any]]:
     del payload
-    with urllib.request.urlopen(request, timeout=max(float(timeout_seconds), 0.1)) as response:  # noqa: S310 - localhost only after endpoint validation
-        raw = response.read().decode("utf-8", errors="replace")
-        if not raw.strip():
-            return int(response.status), {}
-        data = json.loads(raw)
-        if not isinstance(data, dict):
-            return int(response.status), {"response": data}
-        return int(response.status), data
+    return bounded_json_request_object(request, provider_id="ollama", timeout_seconds=timeout_seconds, max_response_bytes=max_response_bytes)
 
 
 def _normalize_endpoint(value: str | None) -> str | None:
-    if not value:
-        return None
-    parsed = urlparse(value)
-    host = (parsed.hostname or "").lower()
-    if parsed.scheme != "http" or host not in {"localhost", "127.0.0.1", "::1"}:
-        return None
-    return value.rstrip("/") + "/"
+    decision = evaluate_loopback_endpoint(provider_id="ollama", endpoint=value)
+    return decision.normalized_endpoint.rstrip("/") + "/" if decision.ok and decision.normalized_endpoint else None
 
 
 def _extract_model_names(payload: dict[str, Any]) -> list[str]:
@@ -391,9 +383,11 @@ def _error_type(exc: Exception) -> str:
         return "http_error"
     if isinstance(exc, urllib.error.URLError):
         return "url_error"
+    if isinstance(exc, LocalEndpointPolicyError):
+        return exc.code
     if isinstance(exc, json.JSONDecodeError):
         return "invalid_json"
-    return exc.__class__.__name__
+    return safe_local_error_type(exc)
 
 
 def _safe_error_message(exc: Exception) -> str:

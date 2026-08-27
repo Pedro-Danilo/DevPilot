@@ -1,0 +1,59 @@
+{
+  "schema_id": "devpilot.gsdlc06b.contract_reconciliation_sweep.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-B",
+  "checks": [
+    {
+      "id": "strict-schema-current",
+      "status": "PASS",
+      "detail": "endpoint policy and health report schemas are strict and registered"
+    },
+    {
+      "id": "derived-summary",
+      "status": "PASS",
+      "detail": "provider discovery summary is derived; discovery never enables provider"
+    },
+    {
+      "id": "security-binding",
+      "status": "PASS",
+      "detail": "06-B adds no sensitive write action; provider enablement remains disabled"
+    },
+    {
+      "id": "ui-current-pointer",
+      "status": "PASS",
+      "detail": "ui/web/package.json currentSprint=DEVPL-GSDLC-06-B"
+    },
+    {
+      "id": "project-current-pointer",
+      "status": "PASS",
+      "detail": "Project State current micro-sprint=DEVPL-GSDLC-06-B"
+    },
+    {
+      "id": "historical-snapshot",
+      "status": "PASS",
+      "detail": "06-A and POST-H-032 historical facts are preserved"
+    },
+    {
+      "id": "runtime-ephemeral",
+      "status": "PASS",
+      "detail": "runtime stores excluded from candidate/operator"
+    },
+    {
+      "id": "sealed-evidence",
+      "status": "PASS",
+      "detail": "no sealed 06-A evidence rewritten"
+    },
+    {
+      "id": "successor-registration",
+      "status": "PASS",
+      "detail": "06-B successor contracts registered in schema/TCR/docs governance"
+    },
+    {
+      "id": "secret-differential",
+      "status": "PASS",
+      "detail": "new material contains no raw credentials; local providers require no key"
+    }
+  ],
+  "full_regression_runs": 0,
+  "browser_required": false
+}

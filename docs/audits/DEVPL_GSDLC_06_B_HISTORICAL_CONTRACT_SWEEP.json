@@ -1,0 +1,62 @@
+{
+  "schema_id": "devpilot.gsdlc06b.historical_contract_sweep.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-B",
+  "classifications": [
+    {
+      "classification": "historical-freeze",
+      "items": [
+        "POST-H-032-B/C providers disabled-by-default",
+        "DEVPL-GSDLC-06-A model catalog snapshot/evidence"
+      ],
+      "decision": "preserved; no historical assertion relaxed"
+    },
+    {
+      "classification": "current-active",
+      "items": [
+        ".devpilot/modeling/model_capability_catalog.json",
+        ".devpilot/providers.yaml.example",
+        ".devpilot/project_state.json",
+        "ui/web/package.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "decision": "evolve to 06-B successor state"
+    },
+    {
+      "classification": "successor-needed",
+      "items": [
+        "LocalProviderEndpointPolicy",
+        "LocalProviderHealthReport",
+        "generic local OpenAI-compatible route"
+      ],
+      "decision": "new 06-B contracts added without rewriting historical snapshots"
+    },
+    {
+      "classification": "derived",
+      "items": [
+        "Settings provider-health projection",
+        "registry summary/current pointers"
+      ],
+      "decision": "must derive from current source collection and 06-B state"
+    },
+    {
+      "classification": "runtime-ephemeral",
+      "items": [
+        "auth.db*",
+        "devpilot.db*",
+        "outputs/",
+        "node_modules/",
+        "__pycache__/",
+        ".pytest_cache/"
+      ],
+      "decision": "excluded from fixtures/candidate"
+    }
+  ],
+  "checks": {
+    "historical_assertions_changed_to_make_tests_pass": false,
+    "mutable_current_pointer_used_as_historical_snapshot": false,
+    "06_a_compatibility_pass": "PASS/13",
+    "post_h_032_historical_pass": "PASS/17"
+  },
+  "full_regression_runs": 0
+}

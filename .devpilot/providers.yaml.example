@@ -38,6 +38,19 @@ providers:
       - "Local OpenAI-compatible provider implemented initially in FUNC-SPRINT-47."
       - "Disabled by default; tests must not require LM Studio."
       - "Only localhost base URLs are accepted by the provider contract."
+  - id: "openai-compatible-local"
+    kind: "local"
+    enabled: false
+    default_model: "local-openai-compatible-model"
+    endpoint: "http://127.0.0.1:8000"
+    external_api: false
+    requires_api_key: false
+    estimated_cost_per_1k_tokens_usd: 0.0
+    status: "implemented-initial"
+    notes:
+      - "GSDLC-06-B generic OpenAI-compatible local route."
+      - "Disabled by default and accepted only when the exact loopback endpoint is allowlisted by local_provider_endpoint_policy.json."
+      - "OpenAI wire compatibility never implies OpenAI or remote-provider authorization."
   - id: "openai"
     kind: "api"
     enabled: false

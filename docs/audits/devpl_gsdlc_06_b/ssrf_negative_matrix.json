@@ -1,0 +1,84 @@
+{
+  "schema_id": "devpilot.gsdlc06b.ssrf_negative_matrix.v1",
+  "status": "PASS",
+  "cases": [
+    {
+      "case_id": "remote",
+      "endpoint": "https://api.openai.com",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "non-loopback-host",
+      "pass": true
+    },
+    {
+      "case_id": "host-suffix",
+      "endpoint": "http://localhost.evil:11434",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "non-loopback-host",
+      "pass": true
+    },
+    {
+      "case_id": "dns-alias",
+      "endpoint": "http://127.0.0.1.nip.io:11434",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "non-loopback-host",
+      "pass": true
+    },
+    {
+      "case_id": "trailing-dot",
+      "endpoint": "http://localhost.:11434",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "ambiguous-host-forbidden",
+      "pass": true
+    },
+    {
+      "case_id": "userinfo",
+      "endpoint": "http://user@localhost:11434",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "userinfo-forbidden",
+      "pass": true
+    },
+    {
+      "case_id": "base-path",
+      "endpoint": "http://localhost:11434/api",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "base-path-forbidden",
+      "pass": true
+    },
+    {
+      "case_id": "query",
+      "endpoint": "http://localhost:11434?x=1",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "query-or-fragment-forbidden",
+      "pass": true
+    },
+    {
+      "case_id": "fragment",
+      "endpoint": "http://localhost:11434#x",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "query-or-fragment-forbidden",
+      "pass": true
+    },
+    {
+      "case_id": "wrong-scheme",
+      "endpoint": "ftp://127.0.0.1:11434",
+      "expected_allowed": false,
+      "actual_allowed": false,
+      "reason": "scheme-not-http-s",
+      "pass": true
+    }
+  ],
+  "summary": {
+    "negative_cases_total": 9,
+    "blocked_total": 9,
+    "redirect_following_allowed": false,
+    "external_network_used": false
+  }
+}

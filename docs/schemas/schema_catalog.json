@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-08-26",
-  "sprint": "DEVPL-GSDLC-06-A",
+  "sprint": "DEVPL-GSDLC-06-B",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3141,7 +3141,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-06-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-B-LOCAL-ENDPOINT-POLICY-V1",
+      "title": "Local Provider Endpoint Policy v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/local_provider_endpoint_policy.schema.json",
+      "description": "GSDLC-06-B loopback-only endpoint, redirect, bounded response and explicit generic OpenAI-compatible allowlist policy.",
+      "status": "registered",
+      "contract": "LocalProviderEndpointPolicy",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-B-LOCAL-PROVIDER-HEALTH-REPORT-V1",
+      "title": "Local Provider Health Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc_06_b_local_provider_health_report.schema.json",
+      "description": "GSDLC-06-B bounded local provider discovery report with configured/reachable/healthy/model-discovered/enabled state separation.",
+      "status": "registered",
+      "contract": "LocalProviderHealthReport",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-B"
     }
   ],
-  "schemas_total": 218
+  "schemas_total": 220
 }

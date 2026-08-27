@@ -20999,6 +20999,117 @@
         "scope": "Dedicated GSDLC-05-E local acceptance fixture; no pilot workspace and no external API/network.",
         "rollback_or_cleanup": "Delete the dedicated fixture workspace after evidence packaging; candidate source archive excludes runtime/fixture state."
       }
+    },
+    {
+      "contract_id": "devpl-gsdlc-06-b-local-provider-discovery",
+      "source_contract_id": "devpl-gsdlc-06-b-local-provider-discovery",
+      "schema_version": "2.0",
+      "domain": "security.guards",
+      "capability": "LocalProviderDiscoveryAndEndpointHardening",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
+        "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+        "tests/test_ollama_adapter.py",
+        "tests/test_lmstudio_adapter.py",
+        "tests/test_post_h_032_local_llm_provider_hardening.py",
+        "tests/test_api_settings.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "watched_paths": [
+        ".devpilot/modeling/local_provider_endpoint_policy.json",
+        ".devpilot/modeling/model_capability_catalog.json",
+        ".devpilot/providers.yaml.example",
+        "src/devpilot_core/modeling/local_endpoint_policy.py",
+        "src/devpilot_core/modeling/local_provider_discovery.py",
+        "src/devpilot_core/modeling/openai_compatible_local_adapter.py",
+        "src/devpilot_core/modeling/ollama_adapter.py",
+        "src/devpilot_core/modeling/lmstudio_adapter.py",
+        "src/devpilot_core/modeling/providers.py",
+        "src/devpilot_core/modeling/router.py",
+        "src/devpilot_core/modeling/__init__.py",
+        "src/devpilot_core/application/settings_service.py",
+        "docs/schemas/local_provider_endpoint_policy.schema.json",
+        "docs/schemas/gsdlc_06_b_local_provider_health_report.schema.json",
+        "docs/schemas/model_capability_catalog.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits",
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py"
+      ],
+      "validates": [
+        "loopback-only endpoint classification",
+        "generic OpenAI-compatible explicit allowlist",
+        "remote/non-loopback rejection",
+        "userinfo/query/fragment/base-path/ambiguous-host rejection",
+        "redirect fail-closed",
+        "bounded timeout/payload/model discovery",
+        "configured/reachable/healthy/model-discovered/enabled state separation",
+        "discovery never enables provider",
+        "Ollama/LM Studio/generic local fake-server compatibility",
+        "explicit auditable fallback to mock",
+        "Settings provider health metadata redaction",
+        "R01 hardware-fit hints advisory only",
+        "GSDLC-06-A capability/access-route compatibility preserved"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-06-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_b_local_provider_discovery.py tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_post_h_032_local_llm_provider_hardening.py tests/test_api_settings.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Loopback sockets are required only for hermetic fake-provider tests; no external network is authorized.",
+        "OpenAI wire compatibility does not establish locality/provider authority.",
+        "Historical POST-H-032-B two-provider health contract remains frozen; this is the 06-B successor contract."
+      ],
+      "trigger_hints": [
+        "local-provider",
+        "endpoint-policy",
+        "ssrf",
+        "model-discovery",
+        "settings-provider-health",
+        "fallback-mock"
+      ],
+      "impact_tags": [
+        "modeling",
+        "local-provider",
+        "security",
+        "ssrf",
+        "settings",
+        "gateway",
+        "gsdlc-06"
+      ],
+      "owner_domain": "modeling.local-provider-security",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-06-A-MODEL-CAPABILITY-CATALOG-V1",
+        "SCHEMA-DEVPL-GSDLC-06-B-LOCAL-ENDPOINT-POLICY-V1",
+        "SCHEMA-DEVPL-GSDLC-06-B-LOCAL-PROVIDER-HEALTH-REPORT-V1"
+      ],
+      "notes": [
+        "Full regression remains forbidden by routine in GSDLC-06-B; browser is not required because no UI view behavior changes."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21161,5 +21272,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 294
+  "contracts_total": 295
 }

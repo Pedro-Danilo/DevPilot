@@ -52,6 +52,18 @@ DEFAULT_PROVIDER_CONFIGS = (
         notes=["Local OpenAI-compatible provider implemented initially in FUNC-SPRINT-47; disabled by default and localhost-only."],
     ),
     ModelProviderConfig(
+        provider_id="openai-compatible-local",
+        kind=ModelProviderKind.LOCAL,
+        enabled=False,
+        default_model="local-openai-compatible-model",
+        external_api=False,
+        requires_api_key=False,
+        endpoint="http://127.0.0.1:8000",
+        estimated_cost_per_1k_tokens_usd=0.0,
+        status="implemented-initial",
+        notes=["GSDLC-06-B generic OpenAI-compatible local route; explicit endpoint allowlist is mandatory and protocol compatibility never implies remote/provider authorization."],
+    ),
+    ModelProviderConfig(
         provider_id="openai",
         kind=ModelProviderKind.API,
         enabled=False,

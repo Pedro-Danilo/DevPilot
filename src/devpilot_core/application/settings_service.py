@@ -8,6 +8,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling.providers import ProviderRegistry, parse_provider_config_file, parse_provider_config_payload, validate_provider_configs
+from devpilot_core.modeling.local_provider_discovery import LocalProviderDiscoveryService, LocalProviderDiscoveryOptions
 from devpilot_core.policy.cost_guard import load_cost_policy
 from devpilot_core.policy.secrets import REDACTED, redact_sensitive_string
 from devpilot_core.schemas.builtins import parse_workspace_project_yaml
@@ -15,7 +16,7 @@ from devpilot_core.schemas.builtins import parse_workspace_project_yaml
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 _PROVIDER_MUTABLE_FIELDS = {"enabled", "default_model", "endpoint"}
-_SECRET_KEY_EXCEPTIONS = {"api_key_env", "token_env_var"}
+_SECRET_KEY_EXCEPTIONS = {"api_key_env", "token_env_var", "requires_api_key", "secret_reference", "secrets_redacted", "raw_secrets_exposed"}
 _SECRET_KEY_FRAGMENTS = ("api_key", "access_token", "refresh_token", "auth_token", "token", "secret", "password", "passwd", "pwd", "authorization", "bearer", "private_key", "client_secret", "database_url", "connection_string", "webhook")
 
 
@@ -126,6 +127,14 @@ class SettingsApplicationService:
             "preliminary": True,
         })
         redacted_data["summary"] = summary
+        policy_path = self.root / ".devpilot" / "modeling" / "local_provider_endpoint_policy.json"
+        if policy_path.is_file():
+            discovery = LocalProviderDiscoveryService(self.root, LocalProviderDiscoveryOptions(probe=False)).build()
+            redacted_data["local_provider_health"] = _redact_settings_value((discovery.data or {}).get("report", {}))
+            summary["local_provider_health_available"] = True
+            summary["local_provider_health_probe_requested"] = False
+        else:
+            summary["local_provider_health_available"] = False
         findings = list(result.findings)
         findings.insert(0, Finding(id="SETTINGS_PROVIDERS_READ_PASS", message="Provider settings were projected without raw secrets.", severity=Severity.INFO, path=registry.source_path))
         return CommandResult(

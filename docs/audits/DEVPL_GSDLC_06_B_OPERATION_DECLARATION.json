@@ -1,0 +1,37 @@
+{
+  "schema_id": "devpilot.gsdlc06b.operation_declaration.v1",
+  "status": "PASS/WINDOWS-VALIDATED/PENDING-OWNER",
+  "micro_sprint": "DEVPL-GSDLC-06-B",
+  "source_repo": "repo_DevPilot_Local_375_DEVPL_GSDLC_06_A_MODEL_GATEWAY_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "5013eee3c5ddf353f63d2fc19ba5d72faa08cc67",
+  "selective_tests": "PASS/73",
+  "full_regression_runs": 0,
+  "browser_required": false,
+  "network_used": "loopback-only/fake-tests",
+  "external_network_used": false,
+  "external_api_used": false,
+  "real_provider_required": false,
+  "raw_secret_exposed": false,
+  "provider_enablement_performed": false,
+  "discovery_enables_provider": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "schema_validation": "PASS/2",
+  "deterministic_validators": {
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/295",
+    "tcr_v2": "PASS/295"
+  },
+  "windows_validation": {
+    "selective": "PASS/73",
+    "schemas": "PASS/2",
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/295",
+    "tcr_v2": "PASS/295",
+    "external_network_used": false,
+    "external_api_used": false,
+    "full_regression_runs": 0
+  }
+}

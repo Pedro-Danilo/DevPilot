@@ -8,6 +8,8 @@ from devpilot_core.modeling.contracts import ModelCallRequest, ModelCallResult, 
 from devpilot_core.modeling.mock_adapter import MockModelAdapter
 from devpilot_core.modeling.ollama_adapter import OllamaAdapter
 from devpilot_core.modeling.lmstudio_adapter import LMStudioAdapter
+from devpilot_core.modeling.local_endpoint_policy import LocalEndpointPolicy
+from devpilot_core.modeling.openai_compatible_local_adapter import OpenAICompatibleLocalAdapter
 from devpilot_core.modeling.providers import ProviderRegistry
 from devpilot_core.policy import CostPolicy, PolicyEngine, PolicyRequest, PromptInjectionGuard, SecretGuard, ToolInjectionGuard, load_cost_policy
 
@@ -38,6 +40,8 @@ class ModelAdapterRouter:
         self.root = root.resolve()
         self.config = config or ModelRouterConfig()
         self.registry = ProviderRegistry.load(self.root)
+        policy_path = self.root / ".devpilot" / "modeling" / "local_provider_endpoint_policy.json"
+        self.local_endpoint_policy = LocalEndpointPolicy.load(self.root) if policy_path.is_file() else None
         self.secret_guard = SecretGuard()
         self.prompt_injection_guard = PromptInjectionGuard()
         self.tool_injection_guard = ToolInjectionGuard()
@@ -120,9 +124,15 @@ class ModelAdapterRouter:
                 findings=[Finding(id="MODEL_EXTERNAL_HEALTH_BLOCKED", message="External provider health check would require network/API access and is blocked.", severity=Severity.BLOCK)],
             )
         if provider_config.provider_id == "ollama":
-            return OllamaAdapter(provider_config, timeout_seconds=self.config.local_timeout_seconds).health()
+            limits = self.local_endpoint_policy.limits_for("ollama") if self.local_endpoint_policy else None
+            return OllamaAdapter(provider_config, timeout_seconds=min(self.config.local_timeout_seconds, limits.timeout_seconds) if limits else self.config.local_timeout_seconds, max_response_bytes=limits.max_response_bytes if limits else 262144, max_models=limits.max_models if limits else 128).health()
         if provider_config.provider_id == "lmstudio":
-            return LMStudioAdapter(provider_config, timeout_seconds=self.config.local_timeout_seconds).health()
+            limits = self.local_endpoint_policy.limits_for("lmstudio") if self.local_endpoint_policy else None
+            return LMStudioAdapter(provider_config, timeout_seconds=min(self.config.local_timeout_seconds, limits.timeout_seconds) if limits else self.config.local_timeout_seconds, max_response_bytes=limits.max_response_bytes if limits else 262144, max_models=limits.max_models if limits else 128).health()
+        if provider_config.provider_id == "openai-compatible-local":
+            if self.local_endpoint_policy is None:
+                return self._blocked_placeholder(ModelCallRequest(task=ModelTask.GENERATE, provider=provider_config.provider_id), provider_config.to_dict(), finding_id="MODEL_LOCAL_ENDPOINT_POLICY_MISSING", message="Generic local OpenAI-compatible route requires local endpoint policy.")
+            return OpenAICompatibleLocalAdapter(provider_config, self.local_endpoint_policy).health()
         return CommandResult(
             command="model health",
             ok=True,
@@ -260,7 +270,8 @@ class ModelAdapterRouter:
                     message=f"Local provider '{provider.provider_id}' is disabled by configuration; enable it in .devpilot/providers.yaml to execute model calls.",
                 )
             if provider.provider_id == "ollama":
-                adapter = OllamaAdapter(provider, timeout_seconds=self.config.local_timeout_seconds)
+                limits = self.local_endpoint_policy.limits_for("ollama") if self.local_endpoint_policy else None
+                adapter = OllamaAdapter(provider, timeout_seconds=min(self.config.local_timeout_seconds, limits.timeout_seconds) if limits else self.config.local_timeout_seconds, max_response_bytes=limits.max_response_bytes if limits else 262144, max_models=limits.max_models if limits else 128)
                 call_result = {
                     ModelTask.GENERATE: adapter.generate,
                     ModelTask.CLASSIFY: adapter.classify,
@@ -272,7 +283,22 @@ class ModelAdapterRouter:
                     return self._fallback_to_mock_result(request, provider, call_result, policy_result)
                 return self._adapter_failure_result(call_result, provider.to_dict(), policy_result)
             if provider.provider_id == "lmstudio":
-                adapter = LMStudioAdapter(provider, timeout_seconds=self.config.local_timeout_seconds)
+                limits = self.local_endpoint_policy.limits_for("lmstudio") if self.local_endpoint_policy else None
+                adapter = LMStudioAdapter(provider, timeout_seconds=min(self.config.local_timeout_seconds, limits.timeout_seconds) if limits else self.config.local_timeout_seconds, max_response_bytes=limits.max_response_bytes if limits else 262144, max_models=limits.max_models if limits else 128)
+                call_result = {
+                    ModelTask.GENERATE: adapter.generate,
+                    ModelTask.CLASSIFY: adapter.classify,
+                    ModelTask.EMBED: adapter.embed,
+                }[request.task](request)
+                if call_result.ok:
+                    return self._success_result(call_result, provider.to_dict(), policy_result)
+                if self.config.fallback_to_mock_on_local_unavailable:
+                    return self._fallback_to_mock_result(request, provider, call_result, policy_result)
+                return self._adapter_failure_result(call_result, provider.to_dict(), policy_result)
+            if provider.provider_id == "openai-compatible-local":
+                if self.local_endpoint_policy is None:
+                    return self._blocked_placeholder(request, provider.to_dict(), finding_id="MODEL_LOCAL_ENDPOINT_POLICY_MISSING", message="Generic local OpenAI-compatible route requires local endpoint policy.")
+                adapter = OpenAICompatibleLocalAdapter(provider, self.local_endpoint_policy)
                 call_result = {
                     ModelTask.GENERATE: adapter.generate,
                     ModelTask.CLASSIFY: adapter.classify,

@@ -1,0 +1,124 @@
+{
+  "schema_id": "devpilot.gsdlc06b.fallback_evidence.v1",
+  "status": "PASS",
+  "result": {
+    "command": "model generate",
+    "ok": true,
+    "exit_code": 0,
+    "message": "Model call completed through safe fallback to mock.",
+    "data": {
+      "summary": {
+        "provider": "mock",
+        "model": "mock-deterministic-v1",
+        "task": "generate",
+        "tokens_estimated": 28,
+        "cost_estimate_usd": 0.0,
+        "external_api_used": false,
+        "llm_required": false,
+        "metrics_best_effort": true,
+        "preliminary": true,
+        "fallback_applied": true,
+        "fallback_from_provider": "openai-compatible-local",
+        "fallback_to_provider": "mock"
+      },
+      "result": {
+        "ok": true,
+        "provider": "mock",
+        "model": "mock-deterministic-v1",
+        "task": "generate",
+        "content": "[mock-deterministic] Propuesta local generada sin LLM externo. Resumen de entrada: GSDLC-06-B safe fallback evidence. Próximo paso sugerido: validar con policy, tests y revisión humana.",
+        "label": null,
+        "embedding": [],
+        "tokens_estimated": 28,
+        "cost_estimate_usd": 0.0,
+        "external_api_used": false,
+        "metadata": {
+          "deterministic": true,
+          "route": "mock"
+        }
+      },
+      "provider": {
+        "provider_id": "mock",
+        "kind": "mock",
+        "enabled": true,
+        "default_model": "mock-deterministic-v1",
+        "external_api": false,
+        "requires_api_key": false,
+        "api_key_env": null,
+        "endpoint": null,
+        "estimated_cost_per_1k_tokens_usd": 0.0,
+        "status": "implemented",
+        "notes": []
+      },
+      "policy_summary": {
+        "allowed": true,
+        "blocked": false,
+        "denied": false,
+        "warnings": 0,
+        "decisions_total": 6,
+        "guards": [
+          "ApprovalPolicyChecker",
+          "CostGuard",
+          "PathGuard",
+          "PromptInjectionGuard",
+          "SecretGuard",
+          "ToolInjectionGuard"
+        ],
+        "approval_required": false,
+        "approval_valid": false,
+        "post_h_012_d_enforced": true,
+        "policy_engine_enforcement_created_by": "POST-H-012-D",
+        "sensitive_action_matched": false,
+        "sensitive_action_id": null,
+        "interface": "cli",
+        "actor_id": null,
+        "role_at_decision": null,
+        "command_id_bound": false,
+        "tool_call_id_bound": false,
+        "remote_execution_enabled": false,
+        "connector_write_enabled": false,
+        "plugin_execution_enabled": false
+      },
+      "notes": [
+        "ModelAdapterRouter enforced provider registry, local guards and CostGuard before provider execution.",
+        "No external API was called and no API key was required.",
+        "FUNC-SPRINT-59 records local model metrics and FUNC-SPRINT-60 records model-call spans/events best-effort without changing model-call semantics."
+      ],
+      "fallback": {
+        "applied": true,
+        "from_provider": "openai-compatible-local",
+        "to_provider": "mock",
+        "reason": "connection_error",
+        "original_availability": "unavailable",
+        "external_api_used": false,
+        "payload_redacted": true
+      }
+    },
+    "findings": [
+      {
+        "id": "MODEL_ADAPTER_PASS",
+        "message": "ModelAdapter routed the call without external API usage.",
+        "severity": "info",
+        "metadata": {
+          "provider": "mock",
+          "task": "generate"
+        }
+      },
+      {
+        "id": "MODEL_FALLBACK_TO_MOCK_APPLIED",
+        "message": "Local provider was unavailable; safe fallback to mock was applied by configuration.",
+        "severity": "warning",
+        "metadata": {
+          "from_provider": "openai-compatible-local",
+          "to_provider": "mock"
+        }
+      }
+    ]
+  },
+  "invariants": {
+    "explicit_fallback": true,
+    "silent_fallback": false,
+    "external_api_used": false,
+    "raw_secret_present": false
+  }
+}

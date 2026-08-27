@@ -35,3 +35,6 @@ __all__ = [
     "ExternalApiProviderPilotOptions", "ModelEvalRunner", "ModelEvalRunnerConfig", "MockModelAdapter", "OllamaAdapter", "ProviderRegistry",
     "parse_provider_config_file", "parse_providers_yaml", "validate_provider_configs",
 ]
+from .local_endpoint_policy import LocalEndpointPolicy, LocalEndpointDecision, LocalEndpointPolicyError, LocalHttpLimits
+from .local_provider_discovery import LocalProviderDiscoveryService, LocalProviderDiscoveryOptions
+from .openai_compatible_local_adapter import OpenAICompatibleLocalAdapter

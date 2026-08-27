@@ -1,0 +1,117 @@
+{
+  "schema_id": "devpilot.gsdlc06b.local_validation_summary.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-B",
+  "source_repo": "repo_DevPilot_Local_375_DEVPL_GSDLC_06_A_MODEL_GATEWAY_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "5013eee3c5ddf353f63d2fc19ba5d72faa08cc67",
+  "tests": {
+    "06_b_new": 13,
+    "06_a_compatibility": 13,
+    "historical_adapters": 17,
+    "documentation_registry": 5,
+    "contract_reconciliation_policy": 6,
+    "provider_schema": 8,
+    "settings_api": 10,
+    "historical_pointer_guard": 1,
+    "total": 73,
+    "failed": 0,
+    "errors": 0
+  },
+  "schemas": {
+    "endpoint_policy": "PASS",
+    "health_report": "PASS",
+    "total": 2
+  },
+  "validators": {
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/295",
+    "tcr_v2": "PASS/295"
+  },
+  "safety": {
+    "full_regression_runs": 0,
+    "browser_required": false,
+    "external_network_used": false,
+    "external_api_used": false,
+    "fake_loopback_used": true,
+    "real_provider_required": false,
+    "s0_open": 0,
+    "s1_open": 0
+  },
+  "log_receipts": {
+    "01_new.log": {
+      "sha256": "991493cbc0791b49f90ada8f5b305da299023d94d0e2d3adc3aaf75b9bef6e7f",
+      "size_bytes": 141
+    },
+    "02_06a.log": {
+      "sha256": "991493cbc0791b49f90ada8f5b305da299023d94d0e2d3adc3aaf75b9bef6e7f",
+      "size_bytes": 141
+    },
+    "03_hist.log": {
+      "sha256": "3784a47f2cd20fa090fb9a92c7f302fe1b4edcdf7b0246f46157490e703f56e2",
+      "size_bytes": 16
+    },
+    "03a_ollama.log": {
+      "sha256": "50c48aca25f907ebb4c2a616ba8bdb2cb18005e7a6bf32e21412e85b7d68305d",
+      "size_bytes": 140
+    },
+    "03b_lmstudio.log": {
+      "sha256": "5ba5a090627e3950f4cad4fdc60e408de366a07cbdc2a5f41db877af0f95bf25",
+      "size_bytes": 140
+    },
+    "03c_posth032.log": {
+      "sha256": "5ba5a090627e3950f4cad4fdc60e408de366a07cbdc2a5f41db877af0f95bf25",
+      "size_bytes": 140
+    },
+    "04_policy.log": {
+      "sha256": "5ba5a090627e3950f4cad4fdc60e408de366a07cbdc2a5f41db877af0f95bf25",
+      "size_bytes": 140
+    },
+    "04_registry.log": {
+      "sha256": "50c48aca25f907ebb4c2a616ba8bdb2cb18005e7a6bf32e21412e85b7d68305d",
+      "size_bytes": 140
+    },
+    "05_schema.log": {
+      "sha256": "dcc8c2ae9ac17ed01c0a9dc45de47fc8ee4d93e0a99af6d1922686704b1cab93",
+      "size_bytes": 140
+    },
+    "06_settings.log": {
+      "sha256": "6dbeb9e2dc4b8c3e626498f3ce908dbb1c1c85f7965958f41f07cbf4f9641e54",
+      "size_bytes": 141
+    },
+    "07_uoc003_pointer.log": {
+      "sha256": "1b18fbd78597d747593a740568a24d0af14478d42b6f3a88362b9b64f0d1e548",
+      "size_bytes": 140
+    },
+    "08_schema_endpoint.log": {
+      "sha256": "ad9d8cc5f52b76419fc4dfaa83ebdd19fa185ba933f98f647053d6b8be9cc765",
+      "size_bytes": 1385
+    },
+    "09_schema_health.log": {
+      "sha256": "d7add2ae422fb74ce8d3814307a0a864763aac67fdac757063586cdee6d6137d",
+      "size_bytes": 1443
+    },
+    "10_docs_governance.log": {
+      "sha256": "612bfb41bae78540f1236982855a4c2ef3662a6a12991d323e203240f5ddc333",
+      "size_bytes": 1252616
+    },
+    "11_project_state.log": {
+      "sha256": "e41090483f4bbd4ce72bebb4e28d286ba4789b720dc619c3c24a0b0a60ac3a3e",
+      "size_bytes": 245608
+    },
+    "12_tcr_v1.log": {
+      "sha256": "5a1b7b1dfff5182f66a3f798a5e111aea087486aa442462f0751a7a876db051e",
+      "size_bytes": 547218
+    },
+    "13_tcr_v2.log": {
+      "sha256": "61080054ab3955d575779004404512aaeb8cfa55882ec156c947af9212f12911",
+      "size_bytes": 980517
+    }
+  },
+  "deterministic_validators": {
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/295",
+    "tcr_v2": "PASS/295"
+  }
+}

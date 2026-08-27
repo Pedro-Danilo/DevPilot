@@ -1,0 +1,83 @@
+{
+  "schema_id": "devpilot.gsdlc06b.test_impact.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-B",
+  "source_repo": "repo_DevPilot_Local_375_DEVPL_GSDLC_06_A_MODEL_GATEWAY_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "5013eee3c5ddf353f63d2fc19ba5d72faa08cc67",
+  "full_regression_runs": 0,
+  "browser_required": false,
+  "selection": {
+    "new_06_b": 13,
+    "06_a_compatibility": 13,
+    "historical_adapters": 17,
+    "governance": 11,
+    "provider_schema": 8,
+    "settings_api": 10,
+    "historical_pointer_guard": 1,
+    "total": 73
+  },
+  "groups": [
+    {
+      "id": "06-b-new",
+      "tests": [
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py"
+      ],
+      "expected": "13 PASS"
+    },
+    {
+      "id": "06-a-compat",
+      "tests": [
+        "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py"
+      ],
+      "expected": "13 PASS"
+    },
+    {
+      "id": "historical-adapters",
+      "tests": [
+        "tests/test_ollama_adapter.py",
+        "tests/test_lmstudio_adapter.py",
+        "tests/test_post_h_032_local_llm_provider_hardening.py"
+      ],
+      "expected": "17 PASS"
+    },
+    {
+      "id": "documentation-registry",
+      "tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "expected": "5 PASS"
+    },
+    {
+      "id": "contract-reconciliation-policy",
+      "tests": [
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "expected": "6 PASS"
+    },
+    {
+      "id": "provider-schema",
+      "tests": [
+        "tests/test_provider_config_schema.py"
+      ],
+      "expected": "8 PASS"
+    },
+    {
+      "id": "settings-api",
+      "tests": [
+        "tests/test_api_settings.py"
+      ],
+      "expected": "10 PASS"
+    },
+    {
+      "id": "uoc003-current-pointer",
+      "tests": [
+        "tests/test_post_h_eval_002_uoc_003_contracts.py::test_uoc_003_ui_version_is_synchronized"
+      ],
+      "expected": "1 PASS"
+    }
+  ],
+  "notes": [
+    "Groups are intentionally executed separately on Windows to reduce timeout/failure-chain surface.",
+    "Full regression is forbidden by routine for 06-B; reserved for 06-E."
+  ]
+}

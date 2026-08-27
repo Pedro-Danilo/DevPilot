@@ -1,0 +1,95 @@
+{
+  "schema_id": "devpilot.gsdlc06b.local_provider_endpoint_policy.v1",
+  "schema_version": "1.0.0",
+  "status": "implemented-initial",
+  "owner": "DEVPL-GSDLC-06-B",
+  "updated": "2026-08-26",
+  "defaults": {
+    "allowed_schemes": [
+      "http",
+      "https"
+    ],
+    "allowed_host_classes": [
+      "localhost",
+      "literal-loopback-ip"
+    ],
+    "reject_userinfo": true,
+    "reject_query": true,
+    "reject_fragment": true,
+    "reject_base_path": true,
+    "follow_redirects": false,
+    "timeout_seconds": 1.5,
+    "max_response_bytes": 262144,
+    "max_models": 128
+  },
+  "providers": [
+    {
+      "provider_id": "ollama",
+      "endpoint_class": "ollama-native-loopback",
+      "port_mode": "configured-loopback",
+      "require_explicit_endpoint_allowlist": false,
+      "default_endpoint": "http://localhost:11434",
+      "timeout_seconds": 1.5,
+      "max_response_bytes": 262144,
+      "max_models": 128,
+      "allowed_ports": [],
+      "allowlisted_endpoints": [],
+      "requires_api_key": false,
+      "discovery_enables_provider": false
+    },
+    {
+      "provider_id": "lmstudio",
+      "endpoint_class": "lmstudio-openai-compatible-loopback",
+      "port_mode": "configured-loopback",
+      "require_explicit_endpoint_allowlist": false,
+      "default_endpoint": "http://localhost:1234",
+      "timeout_seconds": 1.5,
+      "max_response_bytes": 262144,
+      "max_models": 128,
+      "allowed_ports": [],
+      "allowlisted_endpoints": [],
+      "requires_api_key": false,
+      "discovery_enables_provider": false
+    },
+    {
+      "provider_id": "openai-compatible-local",
+      "endpoint_class": "generic-openai-compatible-loopback",
+      "port_mode": "explicit-allowlist",
+      "allowed_ports": [
+        8000
+      ],
+      "require_explicit_endpoint_allowlist": true,
+      "allowlisted_endpoints": [
+        "http://127.0.0.1:8000",
+        "http://localhost:8000"
+      ],
+      "default_endpoint": "http://127.0.0.1:8000",
+      "timeout_seconds": 1.5,
+      "max_response_bytes": 262144,
+      "max_models": 128,
+      "requires_api_key": false,
+      "discovery_enables_provider": false
+    }
+  ],
+  "security": {
+    "dns_hostnames_allowed": false,
+    "remote_as_local_allowed": false,
+    "protocol_compatibility_implies_local_authority": false,
+    "discovery_enables_provider": false,
+    "raw_secrets_allowed": false
+  },
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_375_DEVPL_GSDLC_06_A_MODEL_GATEWAY_CONTRACTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "git_commit": "5013eee3c5ddf353f63d2fc19ba5d72faa08cc67",
+    "sha256": "9cb01715f9d3f942fc89ebcf375610b906e234ed7b7480b576ea6687d78b196d"
+  },
+  "invariants": {
+    "loopback_only": true,
+    "generic_openai_compatible_requires_explicit_allowlist": true,
+    "openai_wire_protocol_does_not_imply_locality": true,
+    "discovery_enables_provider": false,
+    "follow_redirects": false,
+    "raw_secrets_allowed": false,
+    "external_api_used": false
+  }
+}
