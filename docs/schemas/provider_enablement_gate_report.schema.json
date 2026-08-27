@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/provider_enablement_gate_report.schema.json",
+  "title": "Provider enablement 12-gate report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider_id", "access_route_id", "required_gates", "gates", "missing_gates", "evidence_observed_at", "evidence_expires_at", "freshness_valid", "evidence_refs"],
+  "properties": {
+    "provider_id": {"type": "string", "minLength": 1},
+    "access_route_id": {"type": "string", "minLength": 1},
+    "required_gates": {"type": "array", "minItems": 12, "maxItems": 12, "uniqueItems": true, "items": {"type": "string"}},
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_model_route", "region", "auth", "terms_billing_privacy", "data_classes", "budget", "health_fallback", "logging_redaction", "kill_switch_rollback", "eval_threshold", "rbac", "freshness_ttl"],
+      "properties": {
+        "provider_model_route": {"type": "boolean"}, "region": {"type": "boolean"}, "auth": {"type": "boolean"},
+        "terms_billing_privacy": {"type": "boolean"}, "data_classes": {"type": "boolean"}, "budget": {"type": "boolean"},
+        "health_fallback": {"type": "boolean"}, "logging_redaction": {"type": "boolean"}, "kill_switch_rollback": {"type": "boolean"},
+        "eval_threshold": {"type": "boolean"}, "rbac": {"type": "boolean"}, "freshness_ttl": {"type": "boolean"}
+      }
+    },
+    "missing_gates": {"type": "array", "items": {"type": "string"}},
+    "evidence_observed_at": {"type": "string", "minLength": 1},
+    "evidence_expires_at": {"type": "string", "minLength": 1},
+    "freshness_valid": {"type": "boolean"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}}
+  }
+}

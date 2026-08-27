@@ -1,0 +1,26 @@
+{
+  "schema_id": "devpilot.gsdlc06c.operation-declaration.v1",
+  "status": "PASS/WINDOWS-VALIDATED/PENDING-OWNER",
+  "network_used": false,
+  "external_network_used": false,
+  "external_api_used": false,
+  "real_provider_used": false,
+  "secrets_exposed": false,
+  "source_mutations_performed": true,
+  "runtime_state_mutation_in_tests": "isolated-temporary-only",
+  "browser_executed": false,
+  "full_regression_runs": 0,
+  "windows_validation": {
+    "selective": "PASS/93",
+    "schemas": "PASS/3",
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/296",
+    "tcr_v2": "PASS/296",
+    "historical_guard": "PASS",
+    "secret_delta_scan": "PASS",
+    "external_network_used": false,
+    "external_api_used": false,
+    "full_regression_runs": 0
+  }
+}

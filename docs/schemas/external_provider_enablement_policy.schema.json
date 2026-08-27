@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/external_provider_enablement_policy.schema.json",
+  "title": "External provider enablement policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "status", "owner", "updated", "defaults", "providers", "blocked_routes", "notes"],
+  "properties": {
+    "schema_id": {"const": "devpilot.external-provider-enablement-policy.v1"},
+    "schema_version": {"const": "1.0.0"},
+    "status": {"type": "string"}, "owner": {"type": "string"}, "updated": {"type": "string"},
+    "defaults": {
+      "type": "object", "additionalProperties": false,
+      "required": ["external_api_disabled_by_default", "network_disabled_by_default", "real_network_supported", "fake_connectivity_supported", "approval_required_for_enable", "owner_role_required_for_apply", "consumer_session_blocked", "credential_values_persisted", "credential_resolution_boundary", "max_connectivity_timeout_seconds", "required_notices"],
+      "properties": {
+        "external_api_disabled_by_default": {"const": true}, "network_disabled_by_default": {"const": true}, "real_network_supported": {"const": false},
+        "fake_connectivity_supported": {"const": true}, "approval_required_for_enable": {"const": true}, "owner_role_required_for_apply": {"const": true},
+        "consumer_session_blocked": {"const": true}, "credential_values_persisted": {"const": false}, "credential_resolution_boundary": {"const": "execution-only"},
+        "max_connectivity_timeout_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 5},
+        "required_notices": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"enum": ["privacy", "terms", "cost", "data_class"]}}
+      }
+    },
+    "providers": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["provider_id", "catalog_provider_id", "allowed_access_routes", "auth_adapter_id", "credential_reference_type", "credential_reference_name", "fake_vendor_profile", "real_enablement_ready", "provider_specific_adr_required", "freshness_required"]}},
+    "blocked_routes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

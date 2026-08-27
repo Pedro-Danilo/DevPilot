@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc06c.provider-enablement-audit.v1",
+  "status": "PASS",
+  "mode": "fake-only",
+  "providers_evaluated": [
+    "openai",
+    "gemini"
+  ],
+  "versioned_external_enabled_total": 0,
+  "real_network_enabled_total": 0,
+  "approval_required": true,
+  "owner_apply_required": true,
+  "consumer_session_blocked": true,
+  "raw_secret_persisted": false,
+  "full_regression_runs": 0
+}

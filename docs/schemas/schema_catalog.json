@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-26",
-  "sprint": "DEVPL-GSDLC-06-B",
+  "updated": "2026-08-27",
+  "sprint": "DEVPL-GSDLC-06-C",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3169,7 +3169,49 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-06-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-C-PROVIDER-CREDENTIAL-REFERENCE-V1",
+      "title": "ProviderCredentialReference v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/provider_credential_reference.schema.json",
+      "description": "GSDLC-06-C fake-first external credential/enablement security contract.",
+      "status": "registered",
+      "contract": "ProviderCredentialReference",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-C-PROVIDER-ENABLEMENT-GATE-REPORT-V1",
+      "title": "Provider Enablement Gate Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/provider_enablement_gate_report.schema.json",
+      "description": "GSDLC-06-C fake-first external credential/enablement security contract.",
+      "status": "registered",
+      "contract": "ProviderEnablementGateReport",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-C-EXTERNAL-PROVIDER-ENABLEMENT-POLICY-V1",
+      "title": "External Provider Enablement Policy v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/external_provider_enablement_policy.schema.json",
+      "description": "GSDLC-06-C fake-first external credential/enablement security contract.",
+      "status": "registered",
+      "contract": "ExternalProviderEnablementPolicy",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-C"
     }
   ],
-  "schemas_total": 220
+  "schemas_total": 223
 }

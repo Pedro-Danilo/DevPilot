@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc06c.enable-disable-audit.v1",
+  "status": "PASS",
+  "transitions": [
+    "plan",
+    "fake-connectivity",
+    "enable-configured-fake",
+    "disable",
+    "revoke"
+  ],
+  "runtime_only": true,
+  "kill_switch": true,
+  "owner_only": true,
+  "raw_secret_present": false,
+  "external_network_used": false
+}

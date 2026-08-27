@@ -1,0 +1,56 @@
+{
+  "schema_id": "devpilot.external-provider-enablement-policy.v1",
+  "schema_version": "1.0.0",
+  "status": "implemented-gsdlc-06-c/fake-only/real-network-disabled",
+  "owner": "Ordóñez",
+  "updated": "2026-08-27",
+  "defaults": {
+    "external_api_disabled_by_default": true,
+    "network_disabled_by_default": true,
+    "real_network_supported": false,
+    "fake_connectivity_supported": true,
+    "approval_required_for_enable": true,
+    "owner_role_required_for_apply": true,
+    "consumer_session_blocked": true,
+    "credential_values_persisted": false,
+    "credential_resolution_boundary": "execution-only",
+    "max_connectivity_timeout_seconds": 5.0,
+    "required_notices": ["privacy", "terms", "cost", "data_class"]
+  },
+  "providers": [
+    {
+      "provider_id": "openai",
+      "catalog_provider_id": "openai",
+      "allowed_access_routes": ["openai-api-direct"],
+      "auth_adapter_id": "env-api-key-future",
+      "credential_reference_type": "env",
+      "credential_reference_name": "OPENAI_API_KEY",
+      "fake_vendor_profile": "openai-like",
+      "real_enablement_ready": false,
+      "provider_specific_adr_required": true,
+      "freshness_required": true
+    },
+    {
+      "provider_id": "gemini",
+      "catalog_provider_id": "google-gemini",
+      "allowed_access_routes": ["gemini-api-paid"],
+      "auth_adapter_id": "env-api-key-future",
+      "credential_reference_type": "env",
+      "credential_reference_name": "GEMINI_API_KEY",
+      "fake_vendor_profile": "gemini-like",
+      "real_enablement_ready": false,
+      "provider_specific_adr_required": true,
+      "freshness_required": true
+    }
+  ],
+  "blocked_routes": [
+    "gemini-api-unpaid",
+    "remote-openai-compatible-generic",
+    "consumer-web-session-piggyback"
+  ],
+  "notes": [
+    "06-C PASS is fake-vendor only; no real external API call is required or performed.",
+    "R01 historical evidence is architectural input, not perpetual runtime authorization.",
+    "A real provider route remains conditional until an approved provider-specific ADR and fresh F0/F1 evidence satisfy all 12 gates."
+  ]
+}

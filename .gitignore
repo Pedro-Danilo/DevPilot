@@ -93,3 +93,6 @@ ui/web/test-results/
 
 # DEVPL-GSDLC-02-B local human authentication runtime (credentials/sessions)
 .devpilot/auth/
+
+# GSDLC-06-C external provider runtime enablement state/audit
+.devpilot/runtime/provider_enablement/

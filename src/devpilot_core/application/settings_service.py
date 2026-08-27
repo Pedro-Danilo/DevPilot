@@ -9,6 +9,9 @@ from typing import Any
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling.providers import ProviderRegistry, parse_provider_config_file, parse_provider_config_payload, validate_provider_configs
 from devpilot_core.modeling.local_provider_discovery import LocalProviderDiscoveryService, LocalProviderDiscoveryOptions
+from devpilot_core.modeling.external_provider_enablement import (
+    ExternalProviderEnablementService, FakeConnectivityResponse, enablement_request_from_dict,
+)
 from devpilot_core.policy.cost_guard import load_cost_policy
 from devpilot_core.policy.secrets import REDACTED, redact_sensitive_string
 from devpilot_core.schemas.builtins import parse_workspace_project_yaml
@@ -69,6 +72,7 @@ class SettingsApplicationService:
     def __init__(self, root: Path, *, context_resolver: UiWorkspaceContextResolver | None = None) -> None:
         self.root = Path(root).resolve()
         self.context_resolver = context_resolver or UiWorkspaceContextResolver(self.root)
+        self.external_enablement = ExternalProviderEnablementService(self.root)
 
     def workspace(self) -> CommandResult:
         context = self.context_resolver.resolve()
@@ -135,6 +139,10 @@ class SettingsApplicationService:
             summary["local_provider_health_probe_requested"] = False
         else:
             summary["local_provider_health_available"] = False
+        enablement = self.external_enablement.status()
+        redacted_data["external_provider_enablement"] = _redact_settings_value(enablement.data)
+        summary["external_enablement_state_available"] = True
+        summary["external_runtime_network_enabled_total"] = int((enablement.data or {}).get("summary", {}).get("runtime_network_enabled_total", 0))
         findings = list(result.findings)
         findings.insert(0, Finding(id="SETTINGS_PROVIDERS_READ_PASS", message="Provider settings were projected without raw secrets.", severity=Severity.INFO, path=registry.source_path))
         return CommandResult(
@@ -184,6 +192,52 @@ class SettingsApplicationService:
             data={"summary": {"settings_domain": "policy", "path": _relative(policy_path, self.root), "policy_matrix_path": _relative(matrix_path, self.root), "external_api_allowed": cost_policy.external_api_allowed, "rules_total": len(rules), "write_enabled": False, "plan_only": True, "secrets_redacted": True, "preliminary": True}, "policy": policy_payload, "notes": ["Policy editing is not enabled in FUNC-SPRINT-72.", "Provider changes are plan-only and must not enable external APIs by accident."]},
             findings=findings,
         )
+
+
+    def provider_enablement_status(self) -> CommandResult:
+        return self.external_enablement.status()
+
+    def provider_enablement_plan(self, *, payload: dict[str, Any]) -> CommandResult:
+        try:
+            request = enablement_request_from_dict(payload)
+        except Exception as exc:
+            return CommandResult(
+                command="settings providers enablement plan", ok=False, exit_code=ExitCode.BLOCK,
+                message="External provider enablement request is malformed.",
+                data={"summary":{"write_performed":False,"secrets_redacted":True}},
+                findings=[Finding("PROVIDER_ENABLEMENT_REQUEST_INVALID", str(exc), Severity.BLOCK)],
+            )
+        return self.external_enablement.plan(request)
+
+    def provider_enablement_connectivity_test(self, *, payload: dict[str, Any]) -> CommandResult:
+        try:
+            request = enablement_request_from_dict(payload)
+        except Exception as exc:
+            return CommandResult(command="settings providers connectivity-test",ok=False,exit_code=ExitCode.BLOCK,message="Connectivity request is malformed.",data={"summary":{"network_used":False,"external_api_used":False,"secrets_redacted":True}},findings=[Finding("PROVIDER_CONNECTIVITY_REQUEST_INVALID",str(exc),Severity.BLOCK)])
+        mode = str(payload.get("connectivity_mode") or "fake").strip().lower()
+        if mode != "fake":
+            return self.external_enablement.connectivity_test(request, transport=None)
+        case = str(payload.get("simulation_case") or "success").strip().lower()
+        def transport(**kwargs):
+            del kwargs
+            if case == "invalid-key":
+                return FakeConnectivityResponse(False, 401, "unauthorized", 0)
+            if case == "timeout":
+                return FakeConnectivityResponse(False, 504, "bounded-timeout", 0)
+            if case == "malformed":
+                return FakeConnectivityResponse(False, 502, "malformed-provider-response", 0)
+            return FakeConnectivityResponse(True, 200, "ok", 2)
+        return self.external_enablement.connectivity_test(request, transport=transport)
+
+    def provider_enablement_apply(self, *, payload: dict[str, Any], approval: dict[str, Any] | None, actor_id: str, role_at_execution: str) -> CommandResult:
+        try:
+            request = enablement_request_from_dict(payload)
+        except Exception as exc:
+            return CommandResult(command="settings providers enablement apply",ok=False,exit_code=ExitCode.BLOCK,message="Enablement request is malformed.",data={"summary":{"updated":False,"secrets_redacted":True}},findings=[Finding("PROVIDER_ENABLEMENT_REQUEST_INVALID",str(exc),Severity.BLOCK)])
+        return self.external_enablement.apply_enable(request, approval=approval, actor_id=actor_id, role_at_execution=role_at_execution)
+
+    def provider_enablement_disable(self, *, provider_id: str, actor_id: str, role_at_execution: str, reason: str, revoke: bool = False) -> CommandResult:
+        return self.external_enablement.disable(provider_id=provider_id, actor_id=actor_id, role_at_execution=role_at_execution, reason=reason, revoke=revoke)
 
     def provider_plan(self, *, provider_id: str, changes: dict[str, Any] | None = None, actor: str = "ui-local", reason: str = "Settings UI plan-only provider change") -> CommandResult:
         started_at = time.perf_counter()

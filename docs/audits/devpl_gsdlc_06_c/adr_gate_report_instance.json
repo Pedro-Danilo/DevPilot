@@ -1,0 +1,39 @@
+{
+  "provider_id": "openai",
+  "access_route_id": "openai-api-direct",
+  "required_gates": [
+    "provider_model_route",
+    "region",
+    "auth",
+    "terms_billing_privacy",
+    "data_classes",
+    "budget",
+    "health_fallback",
+    "logging_redaction",
+    "kill_switch_rollback",
+    "eval_threshold",
+    "rbac",
+    "freshness_ttl"
+  ],
+  "gates": {
+    "provider_model_route": true,
+    "region": true,
+    "auth": true,
+    "terms_billing_privacy": true,
+    "data_classes": true,
+    "budget": true,
+    "health_fallback": true,
+    "logging_redaction": true,
+    "kill_switch_rollback": true,
+    "eval_threshold": true,
+    "rbac": true,
+    "freshness_ttl": true
+  },
+  "missing_gates": [],
+  "evidence_observed_at": "2026-08-27T12:08:33Z",
+  "evidence_expires_at": "2026-08-27T13:13:33Z",
+  "freshness_valid": true,
+  "evidence_refs": [
+    "ADR-06-C-FAKE"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schema_id": "devpilot.gsdlc06c.local-validation-summary.v1",
+  "status": "PASS/LOCAL",
+  "new_contract_tests": "PASS/20",
+  "cumulative_tests": "PASS/93",
+  "schemas": "PASS/3",
+  "docs_state_tcr": "PASS/Docs+ProjectState+TCRv1+TCRv2",
+  "full_regression_runs": 0,
+  "browser_required": false,
+  "real_provider_required": false,
+  "docs_governance": "PASS",
+  "project_state": "PASS",
+  "tcr_v1": "PASS/296",
+  "tcr_v2": "PASS/296",
+  "historical_contract_guard": "PASS",
+  "secret_delta_scan": "PASS"
+}

@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 125,
+    "api_routes_total": 131,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,
@@ -10816,7 +10816,7 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-05-E",
+    "updated_by": "DEVPL-GSDLC-06-C",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -10837,7 +10837,9 @@
     "gsdlc_05_d_ui_server_authority": true,
     "gsdlc_05_e_pre_code_wizard": true,
     "gsdlc_05_e_pre_code_api_routes_total": 7,
-    "gsdlc_05_e_hidden_cli_bridge_required": false
+    "gsdlc_05_e_hidden_cli_bridge_required": false,
+    "gsdlc_06_c_external_provider_enablement_api_routes_total": 6,
+    "gsdlc_06_c_ui_routes_added_total": 0
   },
   "ui_routes": [
     {

@@ -570,11 +570,11 @@ def _service_for_operation(operation_id: str) -> str:
 
 
 def _operation_policy_required(operation_id: str) -> bool:
-    return operation_id.startswith("approvals.") or operation_id.startswith("settings.providers.plan") or operation_id.startswith("ui.actions")
+    return operation_id.startswith("approvals.") or operation_id.startswith("settings.providers.plan") or operation_id.startswith("settings.providers.enablement") or operation_id.startswith("settings.providers.connectivity_test") or operation_id.startswith("ui.actions")
 
 
 def _operation_writes_files(operation_id: str) -> bool:
-    return operation_id in {"approvals.request", "approvals.approve", "approvals.deny", "settings.providers.plan"}
+    return operation_id in {"approvals.request", "approvals.approve", "approvals.deny", "settings.providers.plan", "settings.providers.enablement.apply", "settings.providers.enablement.disable", "settings.providers.enablement.revoke"}
 
 
 def _operation_dry_run_default(operation_id: str) -> bool:
@@ -582,7 +582,7 @@ def _operation_dry_run_default(operation_id: str) -> bool:
 
 
 def _operation_risk(operation_id: str) -> str:
-    if operation_id.startswith(("approvals.", "ui.actions", "settings.providers.plan")):
+    if operation_id.startswith(("approvals.", "ui.actions", "settings.providers.plan", "settings.providers.enablement", "settings.providers.connectivity_test")):
         return "high"
     if operation_id.startswith(("model.", "repo.", "review.", "refactor.")):
         return "medium"

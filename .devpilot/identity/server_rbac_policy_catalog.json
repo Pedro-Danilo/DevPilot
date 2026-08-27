@@ -2834,6 +2834,103 @@
       "risk_level": "medium",
       "deny_by_default": true,
       "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.settings.providers.enablement.status",
+      "method": "GET",
+      "path": "/api/v1/settings/providers/enablement",
+      "operation": "settings.providers.enablement.status",
+      "access_class": "authenticated-provider-enablement-read",
+      "allowed_roles": [
+        "owner",
+        "security-reviewer"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.providers.enablement.plan",
+      "method": "POST",
+      "path": "/api/v1/settings/providers/enablement/plan",
+      "operation": "settings.providers.enablement.plan",
+      "access_class": "authenticated-provider-enablement-plan",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.providers.connectivity-test",
+      "method": "POST",
+      "path": "/api/v1/settings/providers/connectivity-test",
+      "operation": "settings.providers.connectivity_test",
+      "access_class": "authenticated-provider-connectivity",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.providers.enablement.apply",
+      "method": "POST",
+      "path": "/api/v1/settings/providers/enablement",
+      "operation": "settings.providers.enablement.apply",
+      "access_class": "authenticated-provider-enablement-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.providers.enablement.disable",
+      "method": "POST",
+      "path": "/api/v1/settings/providers/disable",
+      "operation": "settings.providers.enablement.disable",
+      "access_class": "authenticated-provider-enablement-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.providers.enablement.revoke",
+      "method": "POST",
+      "path": "/api/v1/settings/providers/revoke",
+      "operation": "settings.providers.enablement.revoke",
+      "access_class": "authenticated-provider-enablement-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "high",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -3060,7 +3157,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 125,
+    "route_policies_total": 131,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3075,7 +3172,11 @@
     "gsdlc_05_d_step_action_policies_total": 1,
     "gsdlc_05_d_legacy_token_allowed_total": 0,
     "gsdlc_05_e_pre_code_policies_total": 7,
-    "gsdlc_05_e_legacy_token_allowed_total": 0
+    "gsdlc_05_e_legacy_token_allowed_total": 0,
+    "gsdlc_06_c_provider_enablement_policies_total": 6,
+    "gsdlc_06_c_legacy_token_allowed_total": 0,
+    "gsdlc_06_c_owner_only_action_policies_total": 5,
+    "gsdlc_06_c_runtime_mutation_policies_total": 3
   },
   "safety": {
     "legacy_token_human_authority": false,

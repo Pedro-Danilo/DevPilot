@@ -1,0 +1,14 @@
+{
+  "schema_id": "devpilot.gsdlc06c.contract-reconciliation.v1",
+  "status": "PASS/LOCAL",
+  "checks": {
+    "current_pointer_parity": "PASS",
+    "api_route_derived_counters": "PASS",
+    "rbac_mapping": "PASS",
+    "runtime_ephemeral_exclusion": "PASS",
+    "historical_freeze_preserved": "PASS",
+    "successor_registered": "PASS",
+    "secret_delta": "PASS"
+  },
+  "full_regression_runs": 0
+}

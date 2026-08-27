@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc06c.fake-provider-connectivity.v1",
+  "status": "PASS",
+  "profiles": [
+    "openai-like",
+    "gemini-like"
+  ],
+  "cases": [
+    "success",
+    "missing-key",
+    "invalid-key",
+    "timeout",
+    "malformed"
+  ],
+  "transport": "in-process/fake",
+  "external_network_used": false,
+  "external_api_used": false,
+  "real_credentials_used": false
+}

@@ -1,0 +1,24 @@
+{
+  "schema_id": "devpilot.gsdlc06c.historical-contract-sweep.v1",
+  "status": "PASS/LOCAL",
+  "classifications": {
+    "historical-freeze": [
+      "POST-H-032 external providers disabled-by-default",
+      "legacy settings.providers.plan blocks enabled=true"
+    ],
+    "current-active": [
+      "Project State/UI/Source Registry pointers",
+      "API/RBAC route registries"
+    ],
+    "successor-needed": [
+      "external provider runtime enablement flow"
+    ],
+    "derived": [
+      "UI capability API route total"
+    ],
+    "runtime-ephemeral": [
+      ".devpilot/runtime/provider_enablement/*"
+    ]
+  },
+  "historical_assertions_weakened": false
+}

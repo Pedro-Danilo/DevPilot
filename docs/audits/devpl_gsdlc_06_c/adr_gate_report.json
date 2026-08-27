@@ -1,0 +1,27 @@
+{
+  "schema_id": "devpilot.gsdlc06c.adr-gate-report.v1",
+  "status": "PASS/FAKE-ONLY",
+  "required_gates": [
+    "provider_model_route",
+    "region",
+    "auth",
+    "terms_billing_privacy",
+    "data_classes",
+    "budget",
+    "health_fallback",
+    "logging_redaction",
+    "kill_switch_rollback",
+    "eval_threshold",
+    "rbac",
+    "freshness_ttl"
+  ],
+  "required_gates_total": 12,
+  "fake_validation": {
+    "all_gates_demonstrated": true,
+    "freshness_checked": true
+  },
+  "real_provider_enablement": {
+    "authorized": false,
+    "reason": "provider-specific approved ADR + fresh F0/F1 evidence still required at runtime"
+  }
+}

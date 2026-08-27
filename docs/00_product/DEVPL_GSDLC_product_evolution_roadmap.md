@@ -474,4 +474,8 @@ Estado: `CLOSED/PASS` owner-adjudicated. Successor autoritativo: repo375 / commi
 
 ### DEVPL-GSDLC-06-B — Local provider discovery and OpenAI-compatible hardening
 
-Estado current-active: `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`. Fuente fija: repo375 / commit `5013eee3c5ddf353f63d2fc19ba5d72faa08cc67`. 06-B implementa endpoint policy loopback-only, discovery bounded para Ollama/LM Studio/generic OpenAI-compatible, allowlist explícita para generic route, separación configured/reachable/healthy/model-discovered/enabled, hardware-fit R01 advisory, fallback Mock explícito y Settings health metadata redactada. Validación Windows: 73/73 selectivas PASS; discovery no habilita providers; external API=0; S0/S1=0; full=0. 06-C permanece bloqueado hasta Windows PASS y owner adjudication.
+Estado final: `CLOSED/PASS / OWNER-ADJUDICATED`. Successor autoritativo: repo376 / commit `a902a344cdd30bf6c967bb1513cfcd2b512b11d9` / SHA-256 `eb99257eb2de652233ace2e48a8af77354ada4bf3f535085f12f158536e7f4cf`. 06-B cerró con 73/73 selectivas Windows PASS, 2 schemas, Docs/Project State/TCR PASS, S0/S1=0, external API=0 y full=0. 06-C queda autorizado sobre repo376.
+
+### GSDLC-06-C current-active (2026-08-27)
+
+Estado current-active: `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`. Fuente fija: repo376 / commit `a902a344cdd30bf6c967bb1513cfcd2b512b11d9`. 06-C implementa `ProviderCredentialReference` sin valores secretos, auth adapters tipados, enablement externo runtime-only gobernado por 12 gates + freshness + notices + budget + RBAC + approval, fake-provider connectivity, disable/revoke y audit trail. `ConsumerSessionAdapter` permanece bloqueado; external network/API real permanece disabled; 93/93 selectivas Windows, 3 schemas y Docs/Project State/TCR PASS; full=0. 06-D permanece bloqueado hasta owner adjudication independiente de repo377/evidence 06-C.

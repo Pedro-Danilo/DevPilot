@@ -962,6 +962,43 @@ class ApplicationService:
     def settings_provider_plan(self, *, provider_id: str, changes: dict[str, Any] | None = None, actor: str = "ui-local", reason: str = "Settings UI plan-only provider change") -> CommandResult:
         return self.settings.provider_plan(provider_id=provider_id, changes=changes, actor=actor, reason=reason)
 
+    def settings_provider_enablement_status(self) -> CommandResult:
+        return self.settings.provider_enablement_status()
+
+    def settings_provider_enablement_plan(self, *, payload: dict[str, Any]) -> CommandResult:
+        return self.settings.provider_enablement_plan(payload=payload)
+
+    def settings_provider_connectivity_test_authenticated(self, *, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
+        del session
+        roles = self.rbac.enforcer.canonical_roles(principal)
+        if "owner" not in roles:
+            return CommandResult(command="settings providers connectivity-test",ok=False,exit_code=ExitCode.BLOCK,message="External provider connectivity test denied by server-side RBAC.",data={"summary":{"network_used":False,"external_api_used":False,"secrets_redacted":True}},findings=[Finding("PROVIDER_ENABLEMENT_RBAC_ROLE_DENY","Only owner may test external provider credentials/connectivity.",Severity.BLOCK)])
+        return self.settings.provider_enablement_connectivity_test(payload=payload)
+
+    def settings_provider_enablement_apply_authenticated(self, *, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
+        roles = self.rbac.enforcer.canonical_roles(principal)
+        role = "owner" if "owner" in roles else (roles[0] if roles else "unknown")
+        approval_id = str(payload.get("approval_id") or "")
+        record = self.approvals.service.store.get(approval_id) if approval_id else None
+        approval = record.to_dict() if record is not None else None
+        if record is not None and record.status == "approved":
+            try:
+                binding_ok, binding_reason = self.approvals._get_authority().revalidate_persisted_binding(record)
+            except Exception:
+                binding_ok, binding_reason = False, "approval-binding-revalidation-error"
+            if approval is not None:
+                approval["authenticated_binding_valid"] = binding_ok
+                approval["authenticated_binding_reason"] = binding_reason
+                if not binding_ok:
+                    approval["status"] = "invalid-binding"
+        return self.settings.provider_enablement_apply(payload=payload,approval=approval,actor_id=principal.actor_id,role_at_execution=role)
+
+    def settings_provider_enablement_disable_authenticated(self, *, provider_id: str, reason: str, principal: AuthenticatedPrincipal, session: SessionContext, revoke: bool = False) -> CommandResult:
+        del session
+        roles=self.rbac.enforcer.canonical_roles(principal)
+        role="owner" if "owner" in roles else (roles[0] if roles else "unknown")
+        return self.settings.provider_enablement_disable(provider_id=provider_id,actor_id=principal.actor_id,role_at_execution=role,reason=reason,revoke=revoke)
+
     def approvals_list(self, *, status: str | None = None, tool_id: str | None = None, action: str | None = None, limit: int = 100) -> CommandResult:
         return self.approvals.list(status=status, tool_id=tool_id, action=action, limit=limit)
 
@@ -1716,6 +1753,8 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "settings.policy": lambda payload: service.settings_policy(),
         "settings.status": lambda payload: service.settings_status(),
         "settings.providers.plan": lambda payload: service.settings_provider_plan(provider_id=str(payload.get("provider_id", "")), changes=dict(payload.get("changes") or {}), actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Settings UI plan-only provider change"))),
+        "settings.providers.enablement.status": lambda payload: service.settings_provider_enablement_status(),
+        "settings.providers.enablement.plan": lambda payload: service.settings_provider_enablement_plan(payload=dict(payload)),
         "repo.analyze": lambda payload: service.repo_analyze(target=str(payload.get("target", "."))),
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
@@ -1848,6 +1887,12 @@ def _capabilities() -> list[ServiceCapability]:
         ("settings.providers", "Read provider settings with secret redaction and external providers disabled by default.", "none", True, "Settings UI: providers panel"),
         ("settings.policy", "Read local policy and MIASI policy matrix summaries without editing policy.", "none", True, "Settings UI: policy panel"),
         ("settings.providers.plan", "Create a provider configuration change plan without writing .devpilot/providers.yaml.", "plan_only", True, "Settings UI: provider plan-only editor"),
+        ("settings.providers.enablement.status", "Read redacted runtime external-provider enablement state.", "none", True, "Settings API: external provider enablement status"),
+        ("settings.providers.enablement.plan", "Validate external-provider enablement against ADR/freshness/notice/budget gates without writes.", "plan_only", True, "Settings API: external provider enablement plan"),
+        ("settings.providers.connectivity_test", "Run fake-only bounded redacted provider connectivity evaluation; real network remains disabled.", "runtime_fake_probe", False, "Settings API: fake provider connectivity"),
+        ("settings.providers.enablement.apply", "Apply owner+approval-bound external-provider runtime enablement state without persisting secret values.", "runtime_state_write", False, "Settings API: provider enablement"),
+        ("settings.providers.enablement.disable", "Owner-controlled kill switch for external-provider runtime enablement.", "runtime_state_write", False, "Settings API: provider disable"),
+        ("settings.providers.enablement.revoke", "Owner-controlled revoke clears credential references and disables provider runtime state.", "runtime_state_write", False, "Settings API: provider revoke"),
         ("repo.analyze", "Run read-only repository analysis.", "none", True, "python -m devpilot_core repo analyze --json"),
         ("review.code", "Run deterministic code review in dry-run mode.", "none", True, "python -m devpilot_core code-review . --json"),
         ("refactor.plan", "Create plan-only safe refactor proposal.", "none", True, "python -m devpilot_core refactor-plan . --json"),
@@ -2000,6 +2045,12 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-027", "GET", "/api/v1/settings/providers", "settings.providers", ["Active Sprint 72 Settings route; providers are redacted and read-only."]),
         ("APP-ROUTE-028", "GET", "/api/v1/settings/policy", "settings.policy", ["Active Sprint 72 Settings route; policy summary is read-only."]),
         ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
+        ("APP-ROUTE-126", "GET", "/api/v1/settings/providers/enablement", "settings.providers.enablement.status", ["GSDLC-06-C redacted runtime enablement status; human session required by RBAC catalog."]),
+        ("APP-ROUTE-127", "POST", "/api/v1/settings/providers/enablement/plan", "settings.providers.enablement.plan", ["GSDLC-06-C owner-only plan; validates 12 ADR/freshness/budget/notice gates without write."]),
+        ("APP-ROUTE-128", "POST", "/api/v1/settings/providers/connectivity-test", "settings.providers.connectivity_test", ["GSDLC-06-C owner-only fake connectivity evaluation; real external network disabled."]),
+        ("APP-ROUTE-129", "POST", "/api/v1/settings/providers/enablement", "settings.providers.enablement.apply", ["GSDLC-06-C owner + approved binding required; writes runtime enablement state only."]),
+        ("APP-ROUTE-130", "POST", "/api/v1/settings/providers/disable", "settings.providers.enablement.disable", ["GSDLC-06-C owner kill switch; disables runtime network state."]),
+        ("APP-ROUTE-131", "POST", "/api/v1/settings/providers/revoke", "settings.providers.enablement.revoke", ["GSDLC-06-C owner revoke; clears credential reference from runtime state."]),
         ("APP-ROUTE-030", "GET", "/api/v1/operator/dashboard", "operator.dashboard", ["Active POST-H-015-C local operator dashboard snapshot route; read-only by default and ApplicationService-bound."]),
         ("APP-ROUTE-031", "GET", "/api/v1/portfolio/status", "portfolio.status", ["Active POST-H-016-D portfolio status route; read-only, policy-bound and does not change active workspace."]),
         ("APP-ROUTE-032", "GET", "/api/v1/operator/health", "operator.health", ["Active POST-H-031-B operator health summary route; read-only and ApplicationService-bound."]),

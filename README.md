@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `GSDLC-06-A` quedó owner-adjudicated `CLOSED/PASS` sobre repo375 (`5013eee3c5ddf353f63d2fc19ba5d72faa08cc67`; SHA-256 `9cb01715f9d3f942fc89ebcf375610b906e234ed7b7480b576ea6687d78b196d`) con 78/78 pruebas selectivas, S0=0/S1=0 y full=0. `DEVPL-GSDLC-06` permanece `APPROVED/ACTIVE`; `GSDLC-06-B` está `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`: discovery local Ollama/LM Studio/generic OpenAI-compatible endurecido mediante policy loopback/SSRF bounded, 73/73 selectivas locales PASS, discovery no habilita providers, fallback Mock explícito, external API=0 y full=0.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `GSDLC-06-A` quedó owner-adjudicated `CLOSED/PASS` sobre repo375 (`5013eee3c5ddf353f63d2fc19ba5d72faa08cc67`; SHA-256 `9cb01715f9d3f942fc89ebcf375610b906e234ed7b7480b576ea6687d78b196d`). `GSDLC-06-B` quedó owner-adjudicated `CLOSED/PASS` sobre repo376 (`a902a344cdd30bf6c967bb1513cfcd2b512b11d9`; SHA-256 `eb99257eb2de652233ace2e48a8af77354ada4bf3f535085f12f158536e7f4cf`). `DEVPL-GSDLC-06` permanece `APPROVED/ACTIVE`; `GSDLC-06-C` está `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`: credential references sin raw values, auth adapters tipados, enablement externo gobernado por 12 gates/freshness/RBAC/approval/budget, fake-provider connectivity, disable/revoke auditado, external network/API real=0 y full=0.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -6461,3 +6461,8 @@ GSDLC-05-C: `CLOSED/PASS / browser capability 6/6 PASS / owner adjudicated`; rep
 Estado: `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION`. `/pre-code` completó las siete etapas obligatorias por MANUAL/IMPORT hasta `PRE_CODE_READY`; readiness strict y browser Windows quedaron PASS. La full regression única de DEVPL-GSDLC-05 fue consumida `1/1 FAIL` (`2611 PASS / 38 FAIL / 0 ERROR / 5 SKIP`) y preservada sin rerun; la recuperación composite autorizada quedó PASS (`38/38` exact failed-nodeids + `18/18` bounded impact + Historical Regression Guard PASS). GSDLC-06 continúa bloqueado hasta adjudicación owner de 05-E y cierre formal del backlog.
 
 Historical milestone preservation: `GSDLC-04-A` remains a frozen predecessor milestone; current DEVPL-GSDLC pointers may advance without rewriting that historical closure.
+
+
+## DEVPL-GSDLC-06-C current-active
+
+External provider credential references and fake-first governed enablement are implemented locally on repo376 successor. Real external network/API remains disabled until provider-specific ADR + freshness + RBAC + budget gates; full regression remains reserved for 06-E.

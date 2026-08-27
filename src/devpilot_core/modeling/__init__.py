@@ -38,3 +38,12 @@ __all__ = [
 from .local_endpoint_policy import LocalEndpointPolicy, LocalEndpointDecision, LocalEndpointPolicyError, LocalHttpLimits
 from .local_provider_discovery import LocalProviderDiscoveryService, LocalProviderDiscoveryOptions
 from .openai_compatible_local_adapter import OpenAICompatibleLocalAdapter
+
+from .provider_credentials import (
+    ProviderCredentialReference, CredentialReferenceType, CredentialMaterial, CredentialResolutionError,
+    LocalLoopbackNoSecretAdapter, EnvApiKeyAdapter, ProviderNativeIdentityAdapter, ConsumerSessionAdapter, auth_adapter_for,
+)
+from .external_provider_enablement import (
+    EnablementGateReport, ProviderEnablementRequest, ProviderEnablementStore, ExternalProviderEnablementService,
+    FakeConnectivityResponse, REQUIRED_GATE_IDS, REQUIRED_NOTICE_IDS, enablement_request_from_dict,
+)

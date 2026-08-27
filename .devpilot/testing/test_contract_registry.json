@@ -12336,6 +12336,67 @@
         "Discovery is read-only and does not enable providers. Full regression remains 0 in GSDLC-06-B."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-06-c-external-provider-enablement",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-06-C",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
+        "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+        "tests/test_api_settings.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "validates": [
+        "ProviderCredentialReference contains no secret value",
+        "EnvApiKeyAdapter resolves only at execution boundary",
+        "ConsumerSessionAdapter blocked",
+        "12 ADR gates + freshness + notices + budget",
+        "owner RBAC + approval scope binding",
+        "fake connectivity redacted/no external network",
+        "disable/revoke audited kill switch",
+        "external versioned providers remain disabled",
+        "differential secret guard"
+      ],
+      "watched_paths": [
+        ".devpilot/modeling/external_provider_enablement_policy.json",
+        ".devpilot/modeling/model_capability_catalog.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "src/devpilot_core/modeling/provider_credentials.py",
+        "src/devpilot_core/modeling/external_provider_enablement.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "docs/audits",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "modeling.external-provider-security",
+      "notes": [
+        "Fake vendors only; no external network/API real permitted in 06-C PASS.",
+        "Runtime enablement state is gitignored and secret-free."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -12413,5 +12474,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 295
+  "contracts_total": 296
 }

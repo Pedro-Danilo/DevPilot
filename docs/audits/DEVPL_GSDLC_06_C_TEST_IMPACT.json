@@ -1,0 +1,10 @@
+{
+  "schema_id": "devpilot.gsdlc06c.test-impact.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-C",
+  "risk": "high/security-provider-egress",
+  "validation": "focal+cumulative-A-C+RBAC+secret-differential+contracts",
+  "full_regression_runs": 0,
+  "browser_required": false,
+  "real_provider_required": false
+}

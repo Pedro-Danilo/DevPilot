@@ -1,18 +1,18 @@
 ---
 doc_id: "DEVPL-GSDLC-06-B-CLOSURE-REPORT"
 title: "GSDLC-06-B — Local provider discovery and OpenAI-compatible hardening closure report"
-status: "pass-candidate/windows-validated/pending-owner-adjudication"
+status: "closed/PASS/owner-adjudicated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-26"
-approval: "pending_windows_and_owner"
+approval: "approved_by_owner"
 ---
 
 # GSDLC-06-B closure report
 
 ## 1. Decisión actual
 
-`PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`.
+`CLOSED/PASS / OWNER-ADJUDICATED`.
 
 06-B endurece las rutas locales Ollama, LM Studio y generic OpenAI-compatible sin habilitarlas por discovery. El generic route exige allowlist loopback explícita; el wire protocol OpenAI no confiere localidad ni autorización.
 
@@ -44,9 +44,9 @@ PASS: Mock + fake-local, remote nunca local, calls bounded, redirects fail-close
 
 BLOCK: SSRF/remote-as-local, call unbounded, discovery cambia `enabled`, raw secret, silent fallback, ruptura de contratos 06-A/históricos o full regression ejecutada sin excepción aprobada.
 
-## 6. Gate restante
+## 6. Gate de salida
 
-Windows reprodujo 73/73 selectivas, 2 schemas y Documentation Governance / Project State / TCR v1 / TCR v2 en PASS. Repo-review y candidate successor limpio deben completarse antes de empaquetar evidencia; 06-C permanece bloqueado hasta owner adjudication independiente.
+Owner adjudication completada sobre repo376/evidencia v1.0.2. `GSDLC-06-C` queda autorizado; la full única del backlog permanece reservada para 06-E.
 
 ## 7. Comandos de verificación
 

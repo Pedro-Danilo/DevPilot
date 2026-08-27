@@ -21110,6 +21110,99 @@
       "notes": [
         "Full regression remains forbidden by routine in GSDLC-06-B; browser is not required because no UI view behavior changes."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-06-c-external-provider-enablement",
+      "source_contract_id": "devpl-gsdlc-06-c-external-provider-enablement",
+      "schema_version": "2.0",
+      "domain": "security.guards",
+      "capability": "ExternalProviderCredentialAndEnablementFlow",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
+        "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+        "tests/test_api_settings.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "watched_paths": [
+        ".devpilot/modeling/external_provider_enablement_policy.json",
+        ".devpilot/modeling/model_capability_catalog.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "src/devpilot_core/modeling/provider_credentials.py",
+        "src/devpilot_core/modeling/external_provider_enablement.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "docs/audits",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "validates": [
+        "credential references only/no raw secret",
+        "external disabled by default",
+        "fake-only connectivity",
+        "12-gate ADR/freshness/budget/notice enforcement",
+        "RBAC+approval binding",
+        "consumer session blocked",
+        "disable/revoke audit",
+        "differential secret guard"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-06-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Runtime state mutation occurs only in ignored provider enablement store; versioned provider config remains disabled.",
+        "No real external network is authorized by this contract."
+      ],
+      "trigger_hints": [
+        "external-provider",
+        "credential-reference",
+        "secret-redaction",
+        "approval",
+        "freshness",
+        "kill-switch"
+      ],
+      "impact_tags": [
+        "modeling",
+        "security",
+        "credentials",
+        "rbac",
+        "approval",
+        "settings",
+        "gsdlc-06"
+      ],
+      "owner_domain": "modeling.external-provider-security",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-06-C-PROVIDER-CREDENTIAL-REFERENCE-V1",
+        "SCHEMA-DEVPL-GSDLC-06-C-PROVIDER-ENABLEMENT-GATE-REPORT-V1",
+        "SCHEMA-DEVPL-GSDLC-06-C-EXTERNAL-PROVIDER-ENABLEMENT-POLICY-V1"
+      ],
+      "notes": [
+        "Full regression remains 0 in 06-C; real provider connectivity is outside PASS."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21272,5 +21365,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 295
+  "contracts_total": 296
 }

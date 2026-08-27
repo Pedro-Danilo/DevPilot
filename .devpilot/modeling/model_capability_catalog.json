@@ -535,13 +535,13 @@
     {
       "auth_adapter_id": "env-api-key-future",
       "kind": "EnvApiKeyAdapter",
-      "status": "disabled",
+      "status": "implemented-disabled-by-default/gsdlc-06-c",
       "secret_reference": true
     },
     {
       "auth_adapter_id": "provider-native-identity-future",
       "kind": "ProviderNativeIdentityAdapter",
-      "status": "disabled",
+      "status": "implemented-reference-only/gsdlc-06-c",
       "secret_reference": true
     },
     {
