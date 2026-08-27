@@ -1,0 +1,20 @@
+{
+  "schema_id": "devpilot.gsdlc06d.local-validation-summary.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-D",
+  "selective_tests": "PASS/141",
+  "schemas": "PASS/4",
+  "docs_governance": "PASS",
+  "project_state": "PASS",
+  "tcr_v1": "PASS/297",
+  "tcr_v2": "PASS/297",
+  "historical_contract_sweep": "PASS/LOCAL",
+  "contract_reconciliation": "PASS/LOCAL",
+  "secret_delta_scan": "PASS",
+  "full_regression_runs": 0,
+  "browser_executed": false,
+  "external_api_used": false,
+  "external_network_used": false,
+  "S0_open": 0,
+  "S1_open": 0
+}

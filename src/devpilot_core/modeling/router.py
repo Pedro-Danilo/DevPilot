@@ -11,6 +11,7 @@ from devpilot_core.modeling.lmstudio_adapter import LMStudioAdapter
 from devpilot_core.modeling.local_endpoint_policy import LocalEndpointPolicy
 from devpilot_core.modeling.openai_compatible_local_adapter import OpenAICompatibleLocalAdapter
 from devpilot_core.modeling.providers import ProviderRegistry
+from devpilot_core.modeling.budget import EstimateState, TokenBudgetEnforcer, TokenBudgetPolicy, TokenCostEstimate
 from devpilot_core.policy import CostPolicy, PolicyEngine, PolicyRequest, PromptInjectionGuard, SecretGuard, ToolInjectionGuard, load_cost_policy
 
 
@@ -45,6 +46,8 @@ class ModelAdapterRouter:
         self.secret_guard = SecretGuard()
         self.prompt_injection_guard = PromptInjectionGuard()
         self.tool_injection_guard = ToolInjectionGuard()
+        budget_policy_path = self.root / ".devpilot" / "modeling" / "token_budget_policy.json"
+        self.token_budget_policy = TokenBudgetPolicy.load(self.root) if budget_policy_path.is_file() else None
 
     def providers_status(self) -> CommandResult:
         return self.registry.to_result()
@@ -230,6 +233,30 @@ class ModelAdapterRouter:
 
         estimated_tokens = _estimate_tokens(text_to_scan or "")
         estimated_cost = (estimated_tokens / 1000.0) * provider.estimated_cost_per_1k_tokens_usd
+        token_budget = self._token_budget_preflight(provider, estimated_tokens, estimated_cost)
+        if token_budget is not None and not token_budget[0].allowed:
+            budget_decision, budget_estimate = token_budget
+            return CommandResult(
+                command=f"model {request.task.value}",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Model call blocked by TokenBudgetPolicy before provider execution.",
+                data={
+                    "summary": {
+                        "provider": provider.provider_id,
+                        "task": request.task.value,
+                        "tokens_estimated": estimated_tokens,
+                        "cost_estimate_usd": budget_estimate.cost_usd,
+                        "cost_state": budget_estimate.cost_state.value,
+                        "external_api_used": False,
+                        "token_budget_policy_id": self.token_budget_policy.policy_id if self.token_budget_policy else None,
+                    },
+                    "provider": provider.to_dict(),
+                    "token_budget": budget_decision.to_dict(),
+                    "preliminary": False,
+                },
+                findings=[Finding(id="MODEL_TOKEN_BUDGET_PRECALL_BLOCK", message=budget_decision.reason, severity=Severity.BLOCK, metadata={"blocked_scope": budget_decision.blocked_scope})],
+            )
         policy_result = self._policy_result(provider, estimated_cost)
         if not policy_result.ok:
             return CommandResult(
@@ -376,6 +403,29 @@ class ModelAdapterRouter:
             findings=findings,
         )
 
+    def _token_budget_preflight(self, provider, estimated_tokens: int, estimated_cost: float):
+        if self.token_budget_policy is None:
+            return None
+        if provider.external_api and provider.estimated_cost_per_1k_tokens_usd <= 0:
+            estimate = TokenCostEstimate(estimated_tokens, 0, EstimateState.UNKNOWN, None, source="provider-registry", freshness="refresh-required")
+        else:
+            state = EstimateState.KNOWN if provider.estimated_cost_per_1k_tokens_usd == 0 else EstimateState.ESTIMATED
+            estimate = TokenCostEstimate(estimated_tokens, 0, state, round(estimated_cost, 10), source="provider-registry", freshness="current")
+        return TokenBudgetEnforcer(self.token_budget_policy).evaluate(estimate), estimate
+
+    def _token_budget_postcheck(self, call_result: ModelCallResult):
+        if self.token_budget_policy is None:
+            return None
+        state = EstimateState.UNKNOWN if call_result.external_api_used and call_result.cost_estimate_usd <= 0 else EstimateState.ESTIMATED
+        if not call_result.external_api_used and call_result.cost_estimate_usd == 0:
+            state = EstimateState.KNOWN
+        estimate = TokenCostEstimate(
+            max(int(call_result.tokens_estimated), 0), 0, state,
+            None if state is EstimateState.UNKNOWN else max(float(call_result.cost_estimate_usd), 0.0),
+            source="provider-result", freshness="runtime",
+        )
+        return TokenBudgetEnforcer(self.token_budget_policy).evaluate(estimate), estimate
+
     def _policy_result(self, provider, estimated_cost: float) -> CommandResult:
         base = load_cost_policy(self.root)
         policy = CostPolicy(
@@ -397,6 +447,15 @@ class ModelAdapterRouter:
 
     def _success_result(self, call_result: ModelCallResult, provider_payload: dict, policy_result: CommandResult) -> CommandResult:
         task = call_result.task.value
+        post_budget = self._token_budget_postcheck(call_result)
+        if post_budget is not None and not post_budget[0].allowed:
+            decision, estimate = post_budget
+            return CommandResult(
+                command=f"model {task}", ok=False, exit_code=ExitCode.BLOCK,
+                message="Model result blocked by TokenBudgetPolicy after actual usage reconciliation.",
+                data={"summary":{"provider":call_result.provider,"model":call_result.model,"task":task,"tokens_actual_or_estimated":call_result.tokens_estimated,"cost_state":estimate.cost_state.value,"cost_usd":estimate.cost_usd,"external_api_used":call_result.external_api_used},"token_budget":decision.to_dict()},
+                findings=[Finding(id="MODEL_TOKEN_BUDGET_POSTCALL_BLOCK",message=decision.reason,severity=Severity.BLOCK,metadata={"blocked_scope":decision.blocked_scope})],
+            )
         data = {
             "summary": {
                 "provider": call_result.provider,
@@ -408,6 +467,8 @@ class ModelAdapterRouter:
                 "llm_required": call_result.provider != "mock",
                 "metrics_best_effort": True,
                 "preliminary": True,
+                "token_budget_policy_id": self.token_budget_policy.policy_id if self.token_budget_policy else None,
+                "token_budget_postcheck": "PASS" if post_budget is not None else "legacy-policy-only",
             },
             "result": call_result.to_dict(),
             "provider": provider_payload,

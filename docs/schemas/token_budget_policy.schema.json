@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/token_budget_policy.schema.json",
+  "title": "TokenBudgetPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "status", "owner", "updated", "policy_id", "currency", "hard_stop", "agent_may_expand", "scopes", "context_defaults", "routing_order", "unknown_cost_policy", "fallback_policy", "notes"],
+  "properties": {
+    "schema_id": {"const": "devpilot.token-budget-policy.v1"},
+    "schema_version": {"const": "1.0.0"},
+    "status": {"type": "string", "minLength": 1},
+    "owner": {"type": "string", "minLength": 1},
+    "updated": {"type": "string", "minLength": 1},
+    "policy_id": {"type": "string", "minLength": 1},
+    "currency": {"const": "USD"},
+    "hard_stop": {"const": true},
+    "agent_may_expand": {"const": false},
+    "scopes": {
+      "type": "object", "additionalProperties": false,
+      "required": ["request", "artifact", "story", "session", "day", "workspace"],
+      "properties": {
+        "request": {"$ref": "#/$defs/scope"}, "artifact": {"$ref": "#/$defs/scope"}, "story": {"$ref": "#/$defs/scope"},
+        "session": {"$ref": "#/$defs/scope"}, "day": {"$ref": "#/$defs/scope"}, "workspace": {"$ref": "#/$defs/scope"}
+      }
+    },
+    "context_defaults": {
+      "type": "object", "additionalProperties": false,
+      "required": ["hard_ceiling_tokens", "input_reserve_tokens", "output_reserve_tokens", "safety_margin_tokens", "summary_budget_tokens", "retrieval_budget_tokens", "strategies"],
+      "properties": {
+        "hard_ceiling_tokens": {"type": "integer", "minimum": 1}, "input_reserve_tokens": {"type": "integer", "minimum": 0},
+        "output_reserve_tokens": {"type": "integer", "minimum": 0}, "safety_margin_tokens": {"type": "integer", "minimum": 0},
+        "summary_budget_tokens": {"type": "integer", "minimum": 0}, "retrieval_budget_tokens": {"type": "integer", "minimum": 0},
+        "strategies": {"type": "array", "items": {"enum": ["diff-first", "summary", "retrieval", "hard-trim", "block"]}, "uniqueItems": true, "minItems": 5}
+      }
+    },
+    "routing_order": {"type": "array", "prefixItems": [
+      {"const": "capabilities"}, {"const": "privacy-offline"}, {"const": "provider-enablement"}, {"const": "region-terms-auth-data"},
+      {"const": "cost-ceiling"}, {"const": "health"}, {"const": "workload-benchmark"}, {"const": "safe-fallback"}
+    ], "minItems": 8, "maxItems": 8},
+    "unknown_cost_policy": {"type": "string", "minLength": 1},
+    "fallback_policy": {"const": "explicit-and-audited"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {"scope": {"type": "object", "additionalProperties": false, "required": ["max_tokens", "max_cost_usd"], "properties": {"max_tokens": {"type": "integer", "minimum": 1}, "max_cost_usd": {"type": ["number", "null"], "minimum": 0}}}}
+}

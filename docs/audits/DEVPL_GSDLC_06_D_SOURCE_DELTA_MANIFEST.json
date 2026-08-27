@@ -1,0 +1,343 @@
+{
+  "schema_id": "devpilot.gsdlc06d.source-delta-manifest.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-D",
+  "source_repo": "repo_DevPilot_Local_377_DEVPL_GSDLC_06_C_EXTERNAL_PROVIDER_ENABLEMENT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6f0fdbd9142c2ad3470bcfe07a3b764a370b3698",
+  "source_sha256": "0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c",
+  "authority_paths_total": 41,
+  "created": 27,
+  "modified": 14,
+  "deleted": 0,
+  "paths": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "8d2543d0bceca26a8997d67eac9190961cecf9b23b3ca43d6f2af69a0e140c6b",
+      "predecessor_git_blob_sha1": "dc3fcf56ca345cdce723d795470683736c4504b5",
+      "implementation_canonical_sha256": "3e515927352087d4516fd58569cc1358a19c275c3aa0c8979d049f02a6110adb",
+      "implementation_size_bytes": 1171736
+    },
+    {
+      "path": ".devpilot/modeling/token_budget_policy.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "fb8a91e212a992cef94be6e51388c669c8349ec3f2a035df7f7eaf56a1411ea0",
+      "implementation_size_bytes": 1592
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "cba21a76a3fc83bc67cf3012951d31a0ed66489205fc8bcf89d5bed54186b792",
+      "predecessor_git_blob_sha1": "d48d3536052f21acd7266944f5e4a84d7b74f5f6",
+      "implementation_canonical_sha256": "451952b64e81c5150a87416fb7f0491b40d98579674a2a3c7365b56416ddbdf8",
+      "implementation_size_bytes": 239838
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "87afb032fa2ca89a21c5885d0d56d0a8e590e494c60209921b1ffed513afa82e",
+      "predecessor_git_blob_sha1": "3ac9ab3e1e3ec3dafe8867bb7e312e653f0112bd",
+      "implementation_canonical_sha256": "420d5d06fd74f75527d0fe55de66d8a16504ee44c5821c4c9ea95366a7e7ffcc",
+      "implementation_size_bytes": 594076
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "913116d2652a4a22d9abdec0863c0439ca9caaa1b75856097f963ea1255cd242",
+      "predecessor_git_blob_sha1": "cc56ce8ac82340290b43f36aae3c089d93f1a69d",
+      "implementation_canonical_sha256": "c5cc34a378003b3f522dd7259796c9a1d874f03ec1947c624cb82e5725894890",
+      "implementation_size_bytes": 921511
+    },
+    {
+      "path": "04_PROMPT_DEVPL_GSDLC_06_D_v1_0_1_REBOUND.md",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "e7d6455586f703b9af08c9aa24ef59f20d517ce9cc188cc73689f92d0d640cd9",
+      "implementation_size_bytes": 5528
+    },
+    {
+      "path": "DEVPL_GSDLC_06_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "a3cdd89fcd182e05c8bad9b318821e86a07903d6b00cba1cc8fa4056a7270f29",
+      "implementation_size_bytes": 2469
+    },
+    {
+      "path": "DEVPL_GSDLC_06_C_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "bfc64aa1423237f30f299b62833f35cedbda985d665f7127a38de3f38cec56c8",
+      "implementation_size_bytes": 1017
+    },
+    {
+      "path": "DEVPL_GSDLC_06_D_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "604a747ad33e4ff45eb41fbd79ee6999ee71c9cec19c3fb79925169c04d5d4c9",
+      "implementation_size_bytes": 619
+    },
+    {
+      "path": "README.md",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "420a303797b3f2ad7a8ed87ebba1a64aa261e90db182147a76251a83a9cdf452",
+      "predecessor_git_blob_sha1": "c3a5f933c535813fb532e37fc52e2bed30dd08a5",
+      "implementation_canonical_sha256": "d5c34f4fe50f6460ba6d77234af2d34e59b8e235878edc5b24517da5fe96acb9",
+      "implementation_size_bytes": 436640
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "d963f7d6a9866fc3e6bf07cfa3bb0f70af8c9987455c26a13fb478b64a797a17",
+      "predecessor_git_blob_sha1": "0284d66c3e6b15b31725b72a2733a4aad6705dab",
+      "implementation_canonical_sha256": "a4b4eac453de09207da8bb585ea7b13f61b8af504ee70f45d65eaa389af44cff",
+      "implementation_size_bytes": 22595
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_C_CLOSURE_REPORT.md",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "6f6e83fdcc80f90e5d50b264dc462104e1f89cb2aa98daebfd0e6921174059b0",
+      "predecessor_git_blob_sha1": "532f7645373ab62457aee313141527628459dd4d",
+      "implementation_canonical_sha256": "7155f944a4e0eb0847b735cf5d2177728c47e3e556e47b1e83b01fecb60c7c85",
+      "implementation_size_bytes": 2175
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_C_CURRENT.json",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "4cbc22db37dc27c5b97412b521eace6e9813f2bf90e470083f417f0f2137e6ee",
+      "predecessor_git_blob_sha1": "532605db7a097948184d4956e00ade1dbd0f5825",
+      "implementation_canonical_sha256": "dd4fc66758e1622a8fc6087061ed7236f1f352b71c5f5744f94992c471c92a34",
+      "implementation_size_bytes": 1550
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_CLOSURE_REPORT.md",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "ee1fa319e9f1131a4bd2267d6901829be0df89762233b8b122486faff1fdfcb8",
+      "implementation_size_bytes": 1744
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_CONTRACT_RECONCILIATION_SWEEP.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "00331f13494d2266de463931ff883e8cdc86bbe6f7231c2595d5696c3d8fd0b0",
+      "implementation_size_bytes": 487
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_CURRENT.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "3864aec8b41c062f143422e19c67cc0c125d4a4d5ab304d8e5577983714df271",
+      "implementation_size_bytes": 833
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_HISTORICAL_CONTRACT_SWEEP.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "35f30f81411cddcf8ae5528d634e7560c0f723fefd56ac40e30045442e9edc09",
+      "implementation_size_bytes": 836
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_LOCAL_VALIDATION_SUMMARY.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "e6cc47147fe9ecc1900cbdb71d01da81c55a431e521267447bb6fc7337ede2ab",
+      "implementation_size_bytes": 564
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_OPERATION_DECLARATION.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "77e7c432fca96bb32f620ec433439aa32f3da106babbbbbb8de1e6bb15feda7f",
+      "implementation_size_bytes": 481
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_SECRET_DELTA_SCAN.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "7221f23950831fc9d3792923ad01b3ae1b5efe86cd265264f6da79762041b4cc",
+      "implementation_size_bytes": 244
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_SOURCE_DELTA_MANIFEST.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "192fc7163d7f6fe5ee2710f544eb2428b250d88c18ea1bfa306c163b55c5097d",
+      "implementation_size_bytes": 526
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_TEST_IMPACT.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "f05e0ebd589d02a4c38c0161870b849d1fd46806f9305faddf7c21d2f78e7c87",
+      "implementation_size_bytes": 992
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_d/budget_test_matrix.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "8576346159b146a30e887509a0b606c8c0638883da0c7949344c540b204982b2",
+      "implementation_size_bytes": 5938
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_d/context_budget_cases.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "5c61fb8b91ff3d8dd27ee0ab9eea5b9b426e6d15bec603225e386915299fe7ed",
+      "implementation_size_bytes": 1860
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_d/context_budget_plan_sample.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "3a1a2318ec043d71b0bd3aa4b0c36342d3be43723a2b074916b11aa1be75a9e8",
+      "implementation_size_bytes": 146
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_d/cost_ledger_sample_entry.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "f40aa20a5d48afb69b5100affb6f034caaf18741183fc487ea4c245a00f52296",
+      "implementation_size_bytes": 947
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_d/cost_ledger_samples.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "679d5214e59ab93aee87fe87f9c099b764edb94a93bbe19465e63c25cd41611c",
+      "implementation_size_bytes": 2319
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_d/routing_decision_matrix.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "2274c5145ce765ad4ec40b12147ea5eb822a42ca4769904e947ac4f22a9d871f",
+      "implementation_size_bytes": 36235
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_d/routing_decision_sample.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "a7152be70fabe9c4d295094007944e9e8c6183964cd6afb6510e15a6bbdf89d4",
+      "implementation_size_bytes": 10536
+    },
+    {
+      "path": "docs/schemas/context_budget_plan.schema.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "01fe5b447af1baa38f99832a42ed51ac27535ec3ef5ae5b5d1b23fef79410ac9",
+      "implementation_size_bytes": 582
+    },
+    {
+      "path": "docs/schemas/cost_ledger_v2.schema.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "c5b0ac4f0c9275f91bf08621eb013f765077ade764471201afebac294b244764",
+      "implementation_size_bytes": 1722
+    },
+    {
+      "path": "docs/schemas/model_routing_decision_v2.schema.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "793490f8416bd0952d75ef6c240089752add41edd38fa2d7ad8d0fe7ead96b37",
+      "implementation_size_bytes": 1286
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "943786fd66cd5dd4c9eec71695eb8e154dbfc1a32e20f96c31ed21b043fa06e1",
+      "predecessor_git_blob_sha1": "1c0f5ba63a4b3875d99c73c64804866b444b39bf",
+      "implementation_canonical_sha256": "d9d71dfd91d54a3f326e07b69b4d25c91ac8a725683e86b4e891eef65dab2e96",
+      "implementation_size_bytes": 154951
+    },
+    {
+      "path": "docs/schemas/token_budget_policy.schema.json",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "4e1e1b58f1d559585644b0088d6fd97c821c977cd3de8b12293b21ade39d98d0",
+      "implementation_size_bytes": 2933
+    },
+    {
+      "path": "src/devpilot_core/modeling/__init__.py",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "09ca423abe0592d562b8149f5b803c98f5d866d8c584342a69e068e0329fba28",
+      "predecessor_git_blob_sha1": "b9eae57f1e8d56c4eb50b23ad15279eec92b9e13",
+      "implementation_canonical_sha256": "78c00a229a238f460ff5a8438fca291a8e2cf5b02e5045ba60d718395887a2a2",
+      "implementation_size_bytes": 3425
+    },
+    {
+      "path": "src/devpilot_core/modeling/budget.py",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "a8d0d106a21333054ed0e8a03b6a790d31a66ea695cdffc98b92af76eb9ceced",
+      "predecessor_git_blob_sha1": "93295b18ac65a756ea2a0d97a1f38bb44f82bf72",
+      "implementation_canonical_sha256": "f9abc5590f93626e8f8f8d712d10cab5ef12d4eafa7c5a1f7a3fd0c1115c1558",
+      "implementation_size_bytes": 21038
+    },
+    {
+      "path": "src/devpilot_core/modeling/model_router_v2.py",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "a0fa8fdd1c6f1389aa306ae67e4932d3d89ab77173c03e2ca05968ad24ce982b",
+      "implementation_size_bytes": 11610
+    },
+    {
+      "path": "src/devpilot_core/modeling/router.py",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "935f54d4dbadca3fc02729f88f390d1fd1b31b325bbaa325ef4954ed7124808d",
+      "predecessor_git_blob_sha1": "d86a3c43253b4ac1d5ad35c97e532d8792a87ed5",
+      "implementation_canonical_sha256": "b092403e92af29c08ec496d799fa7d4d97afa7e5318f5a90a2d7c4370f6ad82e",
+      "implementation_size_bytes": 32888
+    },
+    {
+      "path": "src/devpilot_core/policy/cost_guard.py",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "e632062cbb12229504364f3d2dae89588cb5b513f9820510e654d86cd554f6f0",
+      "predecessor_git_blob_sha1": "532ca6ad52ad469d24421474f9600493e2366f7e",
+      "implementation_canonical_sha256": "c7e98a441a7982ca4882e91e597cfc5e7f9a8411c10e9f41d532371a83433732",
+      "implementation_size_bytes": 7491
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+      "operation": "create",
+      "predecessor_canonical_sha256": null,
+      "predecessor_git_blob_sha1": null,
+      "implementation_canonical_sha256": "f70b58acef21359431135bdaee6d29cf7926d03d166327724a3fee2425bcc208",
+      "implementation_size_bytes": 15698
+    },
+    {
+      "path": "ui/web/package.json",
+      "operation": "modify",
+      "predecessor_canonical_sha256": "493e1e6c428929fefb9e830002a012bfc40e805c5938eb0de38cd56ac5041cf9",
+      "predecessor_git_blob_sha1": "bae3c6ee99fd5f6c4e890fb9c4b57a49ad135367",
+      "implementation_canonical_sha256": "b723984b52c998ae5c091971e42da7ff08bc62c74d66ba504c9e53265d0cc023",
+      "implementation_size_bytes": 16088
+    }
+  ],
+  "canonical_eol_policy": true
+}

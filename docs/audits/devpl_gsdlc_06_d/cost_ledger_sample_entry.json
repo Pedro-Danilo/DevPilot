@@ -1,0 +1,38 @@
+{
+  "schema_id": "devpilot.cost-ledger-entry.v2",
+  "run_id": "sample-1",
+  "workload_id": "code-review",
+  "provider_id": "ollama",
+  "model_id": "mistral:7b",
+  "access_route_id": "ollama-localhost-mistral7b",
+  "planned": {
+    "input_tokens": 500,
+    "output_tokens": 200,
+    "total_tokens": 700,
+    "cost_state": "estimated",
+    "cost_usd": 0.02,
+    "currency": "USD",
+    "source": "catalog",
+    "freshness": "current"
+  },
+  "actual": {
+    "input_tokens": 480,
+    "output_tokens": 180,
+    "total_tokens": 660,
+    "cost_state": "known",
+    "cost_usd": 0.018,
+    "currency": "USD",
+    "source": "provider-usage",
+    "freshness": "runtime"
+  },
+  "budget_policy_id": "devpl-gsdlc-06-d-default",
+  "adjustment_reason": "provider-usage-reconciliation",
+  "provenance": [
+    "GSDLC-06-D",
+    "sample"
+  ],
+  "timestamp": "2026-08-27T13:15:57Z",
+  "prompt_stored": false,
+  "content_stored": false,
+  "raw_secret_present": false
+}

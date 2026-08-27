@@ -21203,6 +21203,97 @@
       "notes": [
         "Full regression remains 0 in 06-C; real provider connectivity is outside PASS."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-06-d-token-budget-context-routing",
+      "source_contract_id": "devpl-gsdlc-06-d-token-budget-context-routing",
+      "schema_version": "2.0",
+      "domain": "security.guards",
+      "capability": "TokenBudgetContextAndGovernedRouting",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 360,
+      "test_files": [
+        "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
+        "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+        "tests/test_model_adapter.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "watched_paths": [
+        ".devpilot/modeling/token_budget_policy.json",
+        "src/devpilot_core/modeling/budget.py",
+        "src/devpilot_core/modeling/model_router_v2.py",
+        "src/devpilot_core/modeling/router.py",
+        "src/devpilot_core/policy/cost_guard.py",
+        "src/devpilot_core/modeling/__init__.py",
+        "docs/schemas",
+        "docs/audits/devpl_gsdlc_06_d",
+        "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "validates": [
+        "hard token/cost budgets across six scopes",
+        "unknown cost fail-closed",
+        "agent budget expansion denial",
+        "bounded context strategies",
+        "planned/actual ledger v2",
+        "deterministic ordered routing",
+        "explicit fallback audit",
+        "route decision/tool authority separation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-06-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Runtime ledger writes only to gitignored .devpilot/runtime when invoked.",
+        "No external network/API is authorized by 06-D."
+      ],
+      "trigger_hints": [
+        "budget",
+        "cost",
+        "tokens",
+        "context",
+        "routing",
+        "fallback"
+      ],
+      "impact_tags": [
+        "modeling",
+        "budget",
+        "cost",
+        "routing",
+        "security",
+        "gsdlc-06"
+      ],
+      "owner_domain": "modeling.budget-routing",
+      "service_boundary": "application",
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-06-D-TOKEN-BUDGET-POLICY-V1",
+        "SCHEMA-DEVPL-GSDLC-06-D-COST-LEDGER-V2",
+        "SCHEMA-DEVPL-GSDLC-06-D-MODEL-ROUTING-DECISION-V2",
+        "SCHEMA-DEVPL-GSDLC-06-D-CONTEXT-BUDGET-PLAN-V1"
+      ],
+      "notes": [
+        "Full regression remains 0 in 06-D; 06-E retains the single full-regression budget."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21365,5 +21456,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 296
+  "contracts_total": 297
 }

@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://devpilot.local/schemas/model_routing_decision_v2.schema.json",
+  "title":"GovernedModelRouteDecision",
+  "type":"object","additionalProperties":false,
+  "required":["workload_id","route_status","provider_id","model_id","access_route_id","gateway_adapter_id","auth_adapter_id","estimate","fallback_from_access_route_id","fallback_reason","blocked_reason","approval_required","decision_trace","evidence_refs"],
+  "properties":{
+    "workload_id":{"type":"string"},"route_status":{"enum":["selected","blocked"]},"provider_id":{"type":["string","null"]},"model_id":{"type":["string","null"]},
+    "access_route_id":{"type":["string","null"]},"gateway_adapter_id":{"type":["string","null"]},"auth_adapter_id":{"type":["string","null"]},
+    "estimate":{"type":["object","null"]},"fallback_from_access_route_id":{"type":["string","null"]},"fallback_reason":{"type":["string","null"]},
+    "blocked_reason":{"type":["string","null"]},"approval_required":{"type":"boolean"},
+    "decision_trace":{"type":"array","items":{"type":"object","required":["access_route_id","eligible","rejected_at","reasons","estimate","benchmark_score","locality"]}},
+    "evidence_refs":{"type":"array","items":{"type":"string"}}
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://devpilot.local/schemas/context_budget_plan.schema.json",
+  "title":"ContextBudgetPlan",
+  "type":"object","additionalProperties":false,
+  "required":["strategy","allowed","selected_input_tokens","max_input_tokens","reason"],
+  "properties":{"strategy":{"enum":["pass","diff-first","summary","retrieval","hard-trim","block"]},"allowed":{"type":"boolean"},"selected_input_tokens":{"type":"integer","minimum":0},"max_input_tokens":{"type":"integer","minimum":0},"reason":{"type":"string","minLength":1}}
+}

@@ -1,0 +1,7 @@
+{
+  "strategy": "pass",
+  "allowed": true,
+  "selected_input_tokens": 5000,
+  "max_input_tokens": 6656,
+  "reason": "input-within-hard-ceiling"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_id": "devpilot.gsdlc06d.operation-declaration.v1",
+  "status": "PASS/WINDOWS-VALIDATED/PENDING-OWNER",
+  "micro_sprint": "DEVPL-GSDLC-06-D",
+  "network_used": false,
+  "external_network_used": false,
+  "external_api_used": false,
+  "real_provider_used": false,
+  "secrets_exposed": false,
+  "browser_executed": false,
+  "full_regression_runs": 0,
+  "mutations_performed": true,
+  "mutation_scope": "41-authorized-source-paths",
+  "runtime_ledger_versioned": false,
+  "dry_run_default_preserved": true,
+  "windows_validation": {
+    "selective": "PASS/141",
+    "schemas": "PASS/4",
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/297",
+    "tcr_v2": "PASS/297",
+    "historical_guard": "PASS",
+    "secret_delta_scan": "PASS",
+    "external_network_used": false,
+    "external_api_used": false,
+    "full_regression_runs": 0
+  }
+}

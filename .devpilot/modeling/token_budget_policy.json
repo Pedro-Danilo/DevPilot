@@ -1,0 +1,45 @@
+{
+  "schema_id": "devpilot.token-budget-policy.v1",
+  "schema_version": "1.0.0",
+  "status": "implemented-gsdlc-06-d/local-validated-pending-windows",
+  "owner": "Ordóñez",
+  "updated": "2026-08-27",
+  "policy_id": "devpl-gsdlc-06-d-default",
+  "currency": "USD",
+  "hard_stop": true,
+  "agent_may_expand": false,
+  "scopes": {
+    "request": {"max_tokens": 8192, "max_cost_usd": 0.50},
+    "artifact": {"max_tokens": 32768, "max_cost_usd": 2.00},
+    "story": {"max_tokens": 65536, "max_cost_usd": 4.00},
+    "session": {"max_tokens": 131072, "max_cost_usd": 8.00},
+    "day": {"max_tokens": 262144, "max_cost_usd": 16.00},
+    "workspace": {"max_tokens": 1048576, "max_cost_usd": 64.00}
+  },
+  "context_defaults": {
+    "hard_ceiling_tokens": 8192,
+    "input_reserve_tokens": 256,
+    "output_reserve_tokens": 1024,
+    "safety_margin_tokens": 512,
+    "summary_budget_tokens": 2048,
+    "retrieval_budget_tokens": 3072,
+    "strategies": ["diff-first", "summary", "retrieval", "hard-trim", "block"]
+  },
+  "routing_order": [
+    "capabilities",
+    "privacy-offline",
+    "provider-enablement",
+    "region-terms-auth-data",
+    "cost-ceiling",
+    "health",
+    "workload-benchmark",
+    "safe-fallback"
+  ],
+  "unknown_cost_policy": "block-when-hard-monetary-budget-applies",
+  "fallback_policy": "explicit-and-audited",
+  "notes": [
+    "This is an initial bounded policy for GSDLC-06-D and is expected to evolve with production workloads.",
+    "Models and agents cannot expand these server-side limits.",
+    "No real external provider call is required for GSDLC-06-D PASS."
+  ]
+}

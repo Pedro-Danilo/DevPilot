@@ -1,0 +1,28 @@
+{
+  "schema_id": "devpilot.gsdlc06d.current.v1",
+  "status": "pass-candidate/windows-validated/pending-owner-adjudication",
+  "micro_sprint": "DEVPL-GSDLC-06-D",
+  "source_repo": "repo_DevPilot_Local_377_DEVPL_GSDLC_06_C_EXTERNAL_PROVIDER_ENABLEMENT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6f0fdbd9142c2ad3470bcfe07a3b764a370b3698",
+  "source_sha256": "0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c",
+  "tests": "PASS/141/WINDOWS",
+  "schema_validation": "PASS/4/WINDOWS",
+  "historical_contract_sweep": "PASS/LOCAL",
+  "contract_reconciliation_sweep": "PASS/LOCAL",
+  "full_regression_runs": 0,
+  "browser_required": false,
+  "external_api_used": false,
+  "external_network_used": false,
+  "next_micro_sprint": "DEVPL-GSDLC-06-E",
+  "next_authorized": false,
+  "windows_validation": "PASS",
+  "tcr_contracts": 297,
+  "deterministic_validators": {
+    "docs_governance": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/297",
+    "tcr_v2": "PASS/297",
+    "historical_guard": "PASS",
+    "secret_delta_scan": "PASS"
+  }
+}

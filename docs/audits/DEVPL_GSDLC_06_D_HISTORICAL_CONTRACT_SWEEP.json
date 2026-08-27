@@ -1,0 +1,32 @@
+{
+  "schema_id": "devpilot.gsdlc06d.historical-contract-sweep.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-D",
+  "classifications": {
+    "historical-freeze": [
+      "legacy CostGuard.evaluate semantics",
+      "POST-H-032 provider disabled-by-default"
+    ],
+    "current-active": [
+      "Project State",
+      "UI currentSprint",
+      "Documentation Source Registry current pointers"
+    ],
+    "successor-needed": [
+      "TokenBudgetPolicy",
+      "ContextBudget",
+      "CostLedgerV2",
+      "ModelRouterV2"
+    ],
+    "derived": [
+      "schema/TCR/source-registry counters"
+    ],
+    "runtime-ephemeral": [
+      ".devpilot/runtime/model_budget/cost_ledger_v2.jsonl"
+    ],
+    "deprecated-after-proof": []
+  },
+  "historical_assertions_weakened": false,
+  "full_regression_runs": 0,
+  "result": "PASS"
+}

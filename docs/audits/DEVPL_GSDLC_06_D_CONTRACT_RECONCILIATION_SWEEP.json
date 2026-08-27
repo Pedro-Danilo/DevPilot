@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc06d.contract-reconciliation-sweep.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-D",
+  "checks": {
+    "schema_strictness": "PASS",
+    "derived_counters": "PASS",
+    "current_pointer_parity": "PASS",
+    "sensitive_action_bindings": "NOT-EXPANDED",
+    "historical_freezes_preserved": "PASS",
+    "runtime_ephemeral_excluded": "PASS",
+    "successor_contracts_registered": "PASS"
+  },
+  "full_regression_runs": 0,
+  "result": "PASS"
+}

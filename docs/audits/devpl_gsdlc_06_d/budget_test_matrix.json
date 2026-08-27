@@ -1,0 +1,218 @@
+{
+  "schema_id": "devpilot.gsdlc06d.budget-test-matrix.v1",
+  "status": "PASS/LOCAL",
+  "cases": [
+    {
+      "case": "within-request",
+      "status": "PASS",
+      "expected_allowed": true,
+      "decision": {
+        "allowed": true,
+        "reason": "within-hard-budget",
+        "blocked_scope": null,
+        "projected": {
+          "request": {
+            "tokens": 150,
+            "token_limit": 8192,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 0.5,
+            "cost_state": "estimated"
+          },
+          "artifact": {
+            "tokens": 150,
+            "token_limit": 32768,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 2.0,
+            "cost_state": "estimated"
+          },
+          "story": {
+            "tokens": 150,
+            "token_limit": 65536,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 4.0,
+            "cost_state": "estimated"
+          },
+          "session": {
+            "tokens": 150,
+            "token_limit": 131072,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 8.0,
+            "cost_state": "estimated"
+          },
+          "day": {
+            "tokens": 150,
+            "token_limit": 262144,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 16.0,
+            "cost_state": "estimated"
+          },
+          "workspace": {
+            "tokens": 150,
+            "token_limit": 1048576,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 64.0,
+            "cost_state": "estimated"
+          }
+        },
+        "estimate": {
+          "input_tokens": 100,
+          "output_tokens": 50,
+          "total_tokens": 150,
+          "cost_state": "estimated",
+          "cost_usd": 0.01,
+          "currency": "USD",
+          "source": "matrix",
+          "freshness": "local"
+        },
+        "agent_budget_expansion_rejected": false
+      }
+    },
+    {
+      "case": "request-token-exceed",
+      "status": "PASS",
+      "expected_allowed": false,
+      "decision": {
+        "allowed": false,
+        "reason": "hard-token-budget-exceeded",
+        "blocked_scope": "request",
+        "projected": {
+          "request": {
+            "tokens": 9000,
+            "token_limit": 8192,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 0.5,
+            "cost_state": "estimated"
+          }
+        },
+        "estimate": {
+          "input_tokens": 9000,
+          "output_tokens": 0,
+          "total_tokens": 9000,
+          "cost_state": "estimated",
+          "cost_usd": 0.01,
+          "currency": "USD",
+          "source": "matrix",
+          "freshness": "local"
+        },
+        "agent_budget_expansion_rejected": false
+      }
+    },
+    {
+      "case": "workspace-cumulative-exceed",
+      "status": "PASS",
+      "expected_allowed": false,
+      "decision": {
+        "allowed": false,
+        "reason": "hard-token-budget-exceeded",
+        "blocked_scope": "workspace",
+        "projected": {
+          "request": {
+            "tokens": 100,
+            "token_limit": 8192,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 0.5,
+            "cost_state": "estimated"
+          },
+          "artifact": {
+            "tokens": 100,
+            "token_limit": 32768,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 2.0,
+            "cost_state": "estimated"
+          },
+          "story": {
+            "tokens": 100,
+            "token_limit": 65536,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 4.0,
+            "cost_state": "estimated"
+          },
+          "session": {
+            "tokens": 100,
+            "token_limit": 131072,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 8.0,
+            "cost_state": "estimated"
+          },
+          "day": {
+            "tokens": 100,
+            "token_limit": 262144,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 16.0,
+            "cost_state": "estimated"
+          },
+          "workspace": {
+            "tokens": 1048600,
+            "token_limit": 1048576,
+            "cost_usd": 0.01,
+            "cost_limit_usd": 64.0,
+            "cost_state": "estimated"
+          }
+        },
+        "estimate": {
+          "input_tokens": 100,
+          "output_tokens": 0,
+          "total_tokens": 100,
+          "cost_state": "estimated",
+          "cost_usd": 0.01,
+          "currency": "USD",
+          "source": "matrix",
+          "freshness": "local"
+        },
+        "agent_budget_expansion_rejected": false
+      }
+    },
+    {
+      "case": "unknown-cost",
+      "status": "PASS",
+      "expected_allowed": false,
+      "decision": {
+        "allowed": false,
+        "reason": "unknown-cost-cannot-satisfy-hard-budget",
+        "blocked_scope": "request",
+        "projected": {
+          "request": {
+            "tokens": 110,
+            "token_limit": 8192,
+            "cost_usd": null,
+            "cost_limit_usd": 0.5,
+            "cost_state": "unknown"
+          }
+        },
+        "estimate": {
+          "input_tokens": 100,
+          "output_tokens": 10,
+          "total_tokens": 110,
+          "cost_state": "unknown",
+          "cost_usd": null,
+          "currency": "USD",
+          "source": "matrix",
+          "freshness": "unknown"
+        },
+        "agent_budget_expansion_rejected": false
+      }
+    },
+    {
+      "case": "agent-expansion-denied",
+      "status": "PASS",
+      "expected_allowed": false,
+      "decision": {
+        "allowed": false,
+        "reason": "agent-budget-expansion-denied",
+        "blocked_scope": null,
+        "projected": {},
+        "estimate": {
+          "input_tokens": 100,
+          "output_tokens": 10,
+          "total_tokens": 110,
+          "cost_state": "estimated",
+          "cost_usd": 0.01,
+          "currency": "USD",
+          "source": "matrix",
+          "freshness": "local"
+        },
+        "agent_budget_expansion_rejected": true
+      }
+    }
+  ]
+}

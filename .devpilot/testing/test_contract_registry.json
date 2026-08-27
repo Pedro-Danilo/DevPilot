@@ -12397,6 +12397,68 @@
         "Runtime enablement state is gitignored and secret-free."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-06-d-token-budget-context-routing",
+      "scope": "safety",
+      "owner": "DEVPL-GSDLC-06-D",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
+        "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+        "tests/test_model_adapter.py",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+      ],
+      "validates": [
+        "six-scope TokenBudgetPolicy hard stop",
+        "agent budget expansion denied",
+        "known/estimated/unknown cost semantics",
+        "ContextBudget diff-first/summary/retrieval/hard-trim/BLOCK",
+        "CostLedgerV2 planned vs actual parity",
+        "deterministic governance-ordered routing",
+        "privacy/offline precedence",
+        "provider enablement/region/auth/data gates",
+        "cost/health/benchmark routing",
+        "explicit fallback or BLOCK",
+        "ModelRouteDecision cannot grant tool authority"
+      ],
+      "watched_paths": [
+        ".devpilot/modeling/token_budget_policy.json",
+        "src/devpilot_core/modeling/budget.py",
+        "src/devpilot_core/modeling/model_router_v2.py",
+        "src/devpilot_core/modeling/router.py",
+        "src/devpilot_core/policy/cost_guard.py",
+        "src/devpilot_core/modeling/__init__.py",
+        "docs/schemas",
+        "docs/audits/devpl_gsdlc_06_d",
+        "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "modeling.budget-routing",
+      "notes": [
+        "No full regression in 06-D.",
+        "No real external provider/network required.",
+        "Cost unknown is null/explicit, never synthetic zero."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -12474,5 +12536,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 296
+  "contracts_total": 297
 }

@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.gsdlc06c.current.v1",
-  "status": "pass-candidate/windows-validated/pending-owner-adjudication",
+  "status": "closed/PASS/owner-adjudicated",
   "micro_sprint": "DEVPL-GSDLC-06-C",
   "source_repo": "repo_DevPilot_Local_376_DEVPL_GSDLC_06_B_LOCAL_PROVIDER_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "a902a344cdd30bf6c967bb1513cfcd2b512b11d9",
@@ -13,7 +13,7 @@
   "external_api_used": false,
   "external_network_used": false,
   "next_micro_sprint": "DEVPL-GSDLC-06-D",
-  "next_authorized": false,
+  "next_authorized": true,
   "windows_validation": "PASS",
   "schema_validation": "PASS/3",
   "deterministic_validators": {
@@ -21,5 +21,12 @@
     "project_state": "PASS",
     "tcr_v1": "PASS/296",
     "tcr_v2": "PASS/296"
-  }
+  },
+  "owner_adjudication": "CLOSED/PASS",
+  "owner_adjudication_document": "DEVPL_GSDLC_06_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+  "successor_repo_at_close": "repo_DevPilot_Local_377_DEVPL_GSDLC_06_C_EXTERNAL_PROVIDER_ENABLEMENT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_commit_at_close": "6f0fdbd9142c2ad3470bcfe07a3b764a370b3698",
+  "successor_sha256_at_close": "0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c",
+  "windows_evidence_at_close": "DEVPL_GSDLC_06_C_WINDOWS_EVIDENCE_v1_0_0.zip",
+  "windows_evidence_sha256_at_close": "94ab9f5faaff91c765e00fe95bbb2a60ad03cea906cfbf3b79387d28214ab54c"
 }

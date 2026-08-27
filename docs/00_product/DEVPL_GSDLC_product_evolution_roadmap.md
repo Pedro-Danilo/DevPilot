@@ -479,3 +479,7 @@ Estado final: `CLOSED/PASS / OWNER-ADJUDICATED`. Successor autoritativo: repo376
 ### GSDLC-06-C current-active (2026-08-27)
 
 Estado current-active: `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`. Fuente fija: repo376 / commit `a902a344cdd30bf6c967bb1513cfcd2b512b11d9`. 06-C implementa `ProviderCredentialReference` sin valores secretos, auth adapters tipados, enablement externo runtime-only gobernado por 12 gates + freshness + notices + budget + RBAC + approval, fake-provider connectivity, disable/revoke y audit trail. `ConsumerSessionAdapter` permanece bloqueado; external network/API real permanece disabled; 93/93 selectivas Windows, 3 schemas y Docs/Project State/TCR PASS; full=0. 06-D permanece bloqueado hasta owner adjudication independiente de repo377/evidence 06-C.
+
+### GSDLC-06-D current-active (2026-08-27)
+
+06-C quedó `CLOSED/PASS / OWNER-ADJUDICATED` sobre repo377 / commit `6f0fdbd9142c2ad3470bcfe07a3b764a370b3698` / SHA-256 `0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c`. 06-D está `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`, con 141/141 selectivas acumulativas/impact-based Windows, 4 schemas, Docs/Project State/TCR PASS, TokenBudgetPolicy/ContextBudget/CostLedgerV2/ModelRouterV2, hard stops y fallback explícito. Full regression=0 y 06-E permanece bloqueado hasta adjudicación owner independiente de repo378/evidence 06-D.

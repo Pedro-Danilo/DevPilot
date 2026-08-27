@@ -143,3 +143,45 @@ class CostGuard:
             rule_id="COSTGUARD_PASS",
             metadata=metadata,
         )
+
+    def evaluate_token_budget(
+        self,
+        *,
+        estimate,
+        token_budget_policy,
+        usage=None,
+        requested_policy_override=None,
+    ):
+        """GSDLC-06-D hard-budget successor without changing legacy ``evaluate``.
+
+        The return value remains a PolicyDecision so PolicyEngine callers keep
+        the historical interface. Unknown monetary cost fails closed whenever a
+        hard monetary ceiling applies.
+        """
+        from devpilot_core.modeling.budget import TokenBudgetEnforcer
+
+        decision = TokenBudgetEnforcer(token_budget_policy).evaluate(
+            estimate, usage=usage, requested_policy_override=requested_policy_override
+        )
+        metadata = {
+            "budget_policy_id": token_budget_policy.policy_id,
+            "budget_decision": decision.to_dict(),
+            "cost_state": estimate.cost_state.value,
+            "cost_usd": estimate.cost_usd,
+            "total_tokens": estimate.total_tokens,
+        }
+        if not decision.allowed:
+            return PolicyDecision(
+                effect=PolicyEffect.BLOCK,
+                reason=f"CostGuard blocked by TokenBudgetPolicy: {decision.reason}.",
+                guard="CostGuard",
+                rule_id="COSTGUARD_TOKEN_BUDGET_BLOCK",
+                metadata=metadata,
+            )
+        return PolicyDecision(
+            effect=PolicyEffect.ALLOW,
+            reason="CostGuard allowed execution under TokenBudgetPolicy hard limits.",
+            guard="CostGuard",
+            rule_id="COSTGUARD_TOKEN_BUDGET_PASS",
+            metadata=metadata,
+        )

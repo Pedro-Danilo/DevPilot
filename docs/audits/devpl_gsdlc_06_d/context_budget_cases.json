@@ -1,0 +1,75 @@
+{
+  "schema_id": "devpilot.gsdlc06d.context-budget-cases.v1",
+  "status": "PASS/LOCAL",
+  "budget": {
+    "hard_ceiling_tokens": 8192,
+    "input_reserve_tokens": 256,
+    "output_reserve_tokens": 1024,
+    "safety_margin_tokens": 512,
+    "summary_budget_tokens": 2048,
+    "retrieval_budget_tokens": 3072,
+    "max_input_tokens": 6656
+  },
+  "cases": [
+    {
+      "case": "pass",
+      "plan": {
+        "strategy": "pass",
+        "allowed": true,
+        "selected_input_tokens": 5000,
+        "max_input_tokens": 6656,
+        "reason": "input-within-hard-ceiling"
+      }
+    },
+    {
+      "case": "diff-first",
+      "plan": {
+        "strategy": "diff-first",
+        "allowed": true,
+        "selected_input_tokens": 4000,
+        "max_input_tokens": 6656,
+        "reason": "diff-first-preserves-workload-invariant"
+      }
+    },
+    {
+      "case": "summary",
+      "plan": {
+        "strategy": "summary",
+        "allowed": true,
+        "selected_input_tokens": 1800,
+        "max_input_tokens": 6656,
+        "reason": "bounded-summary-preserves-workload-invariant"
+      }
+    },
+    {
+      "case": "retrieval",
+      "plan": {
+        "strategy": "retrieval",
+        "allowed": true,
+        "selected_input_tokens": 2500,
+        "max_input_tokens": 6656,
+        "reason": "bounded-retrieval-preserves-workload-invariant"
+      }
+    },
+    {
+      "case": "hard-trim",
+      "plan": {
+        "strategy": "hard-trim",
+        "allowed": true,
+        "selected_input_tokens": 6656,
+        "max_input_tokens": 6656,
+        "reason": "hard-trim-at-safe-input-ceiling"
+      }
+    },
+    {
+      "case": "block",
+      "plan": {
+        "strategy": "block",
+        "allowed": false,
+        "selected_input_tokens": 0,
+        "max_input_tokens": 6656,
+        "reason": "context-invariant-cannot-fit-hard-ceiling"
+      }
+    }
+  ]
+}

@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-08-27",
-  "sprint": "DEVPL-GSDLC-06-C",
+  "sprint": "DEVPL-GSDLC-06-D",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3211,7 +3211,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-06-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-D-TOKEN-BUDGET-POLICY-V1",
+      "title": "TokenBudgetPolicy v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/token_budget_policy.schema.json",
+      "description": "GSDLC-06-D immutable six-scope token/cost hard budget policy with context defaults and binding routing order.",
+      "status": "registered",
+      "contract": "TokenBudgetPolicy",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-D-COST-LEDGER-V2",
+      "title": "CostLedgerEntry v2",
+      "version": "2.0.0",
+      "path": "docs/schemas/cost_ledger_v2.schema.json",
+      "description": "GSDLC-06-D planned-versus-actual model cost/token ledger entry preserving known/estimated/unknown cost state and provenance without prompts or secrets.",
+      "status": "registered",
+      "contract": "CostLedgerEntryV2",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-D-MODEL-ROUTING-DECISION-V2",
+      "title": "Governed Model Routing Decision v2",
+      "version": "2.0.0",
+      "path": "docs/schemas/model_routing_decision_v2.schema.json",
+      "description": "GSDLC-06-D deterministic routing decision with ordered rejection trace and explicit fallback, separate from tool execution authority.",
+      "status": "registered",
+      "contract": "GovernedModelRouteDecision",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-D-CONTEXT-BUDGET-PLAN-V1",
+      "title": "ContextBudgetPlan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/context_budget_plan.schema.json",
+      "description": "GSDLC-06-D deterministic diff-first/summary/retrieval/hard-trim/block context plan.",
+      "status": "registered",
+      "contract": "ContextBudgetPlan",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-D"
     }
   ],
-  "schemas_total": 223
+  "schemas_total": 227
 }

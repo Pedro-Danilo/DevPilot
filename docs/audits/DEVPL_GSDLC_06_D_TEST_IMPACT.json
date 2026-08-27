@@ -1,0 +1,25 @@
+{
+  "schema_id": "devpilot.gsdlc06d.test-impact.v1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-06-D",
+  "source_repo": "repo_DevPilot_Local_377_DEVPL_GSDLC_06_C_EXTERNAL_PROVIDER_ENABLEMENT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6f0fdbd9142c2ad3470bcfe07a3b764a370b3698",
+  "source_sha256": "0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c",
+  "impact": {
+    "direct": [
+      "src/devpilot_core/modeling/budget.py",
+      "src/devpilot_core/modeling/router.py",
+      "src/devpilot_core/modeling/model_router_v2.py",
+      "src/devpilot_core/policy/cost_guard.py"
+    ],
+    "cumulative": [
+      "DEVPL-GSDLC-06-A",
+      "DEVPL-GSDLC-06-B",
+      "DEVPL-GSDLC-06-C"
+    ],
+    "selective_expected_pass": 141,
+    "full_regression_runs": 0,
+    "browser_required": false
+  },
+  "reason": "Budget, CostGuard and ModelAdapterRouter are modified; direct model-adapter/governance tests are therefore added to the inherited A-C cumulative set."
+}
