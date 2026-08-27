@@ -1,0 +1,33 @@
+{
+  "schema_id": "DEVPL-GSDLC-05-FINAL-OWNER-CLOSURE-CURRENT-v1",
+  "status": "CLOSED/PASS",
+  "owner_adjudication_pending": false,
+  "owner_adjudication_completed": true,
+  "backlog": "DEVPL-GSDLC-05",
+  "micro_sprints": {
+    "05-A": "CLOSED/PASS",
+    "05-B": "CLOSED/PASS",
+    "05-C": "CLOSED/PASS",
+    "05-D": "CLOSED/PASS",
+    "05-E": "CLOSED/PASS"
+  },
+  "browser_acceptance_05_e": "PASS/12",
+  "pre_code_ready": "PASS",
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 1,
+  "maximum_full_regression_runs": 1,
+  "full_regression_original_status": "FAIL",
+  "full_regression_rerun_performed": false,
+  "composite_full_regression_selective_retest": "PASS",
+  "historical_regression_guard": "PASS",
+  "successor_repo": "repo_DevPilot_Local_374_DEVPL_GSDLC_05_E_MANUAL_PRE_CODE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_git_commit": "db04b6f158fc4dd366b3f61635fb2d66d63f7d40",
+  "successor_repo_sha256": "f87c2a1db339b1d0f2dcf1d694366672c8cc9d57c27bfcd33a460a3889706152",
+  "windows_evidence": "DEVPL_GSDLC_05_E_WINDOWS_EVIDENCE_v1_0_13.zip",
+  "windows_evidence_sha256": "c2981629053e2556b10c6903a69250611ee7377b480b203b22f4875376f94f6f",
+  "next_backlog": "DEVPL-GSDLC-06",
+  "next_backlog_authorized": true,
+  "candidate_pre_adjudication_metadata_requires_successor_rebind": true,
+  "updated": "2026-08-26"
+}

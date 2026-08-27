@@ -1,0 +1,63 @@
+{
+  "status": "PASS/WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-06-A",
+  "full_regression_runs": 0,
+  "classifications": [
+    {
+      "contract": "ModelProviderConfig/provider_config.schema",
+      "classification": "historical-freeze",
+      "action": "preserve; add safe compatibility view rather than replacing"
+    },
+    {
+      "contract": "CapabilityMatrix provider-centric output",
+      "classification": "historical-freeze",
+      "action": "preserve existing API; new ModelCapabilityCatalog is successor-needed"
+    },
+    {
+      "contract": "R01 provider route decision matrix",
+      "classification": "historical-freeze",
+      "action": "import decisions without promoting runtime state"
+    },
+    {
+      "contract": "R01 internal PASS-CANDIDATE snapshots",
+      "classification": "historical-freeze",
+      "action": "do not rewrite; owner closure represented by substitution record/current-active rebind"
+    },
+    {
+      "contract": "GSDLC current program pointers",
+      "classification": "current-active",
+      "action": "advance to GSDLC-06-A"
+    },
+    {
+      "contract": "schema_catalog schemas_total",
+      "classification": "derived",
+      "action": "recompute from live collection"
+    },
+    {
+      "contract": "auth.db/devpilot.db/output caches",
+      "classification": "runtime-ephemeral",
+      "action": "exclude from fixtures/candidates"
+    },
+    {
+      "contract": "ui/web/package.json devpilot.currentSprint",
+      "classification": "current-active",
+      "action": "must equal project_state gsdlc_current_micro_sprint; package version/description remain historical build identity"
+    },
+    {
+      "contract": "source_registry.summary gsdlc_last_registered_micro_sprint",
+      "classification": "derived",
+      "action": "recompute/advance with current activation rebind"
+    },
+    {
+      "contract": "UOC-003 ui version synchronization test",
+      "classification": "historical-freeze/current-invariant",
+      "action": "preserve assertion; fix current-active product pointer instead of weakening test"
+    }
+  ],
+  "historical_assertions_modified_only_to_pass_pytest": false,
+  "current_pointer_used_as_historical_snapshot": false,
+  "windows_historical_contract_guard": "PASS",
+  "recovery": "BLOCK-01/current-active-pointer-drift",
+  "block01_failed_nodeid_preserved": "tests/test_post_h_eval_002_uoc_003_contracts.py::test_uoc_003_ui_version_is_synchronized",
+  "corrective_action": "product/current-active metadata reconciled; test unchanged"
+}

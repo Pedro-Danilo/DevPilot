@@ -1,0 +1,43 @@
+{
+  "status": "PASS/WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-06-A",
+  "validation_mode": "cumulative-selective/no-full",
+  "full_regression_runs": 0,
+  "hard_trigger_present": false,
+  "direct_surfaces": [
+    "src/devpilot_core/modeling/contracts.py",
+    "src/devpilot_core/modeling/catalog.py",
+    "src/devpilot_core/modeling/__init__.py",
+    "src/devpilot_core/application/model_service.py",
+    ".devpilot/modeling/model_capability_catalog.json",
+    "docs/schemas/model_capability_catalog.schema.json",
+    "ui/web/package.json",
+    ".devpilot/docs_governance/source_registry.json"
+  ],
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+    "tests/test_model_adapter.py",
+    "tests/test_model_governance.py",
+    "tests/test_provider_config_schema.py",
+    "tests/test_post_h_032_local_llm_provider_hardening.py"
+  ],
+  "deterministic_validators": [
+    "docs-governance",
+    "project-state",
+    "test-contracts-v1",
+    "test-contracts-v2"
+  ],
+  "browser_required": false,
+  "network_required": false,
+  "external_api_required": false,
+  "reason": "06-A changes offline Model Gateway contracts plus current-active metadata only; ui/web/package.json changes devpilot.currentSprint, not runtime UI behavior. Browser acceptance is not required.",
+  "windows_selective_tests": "PASS/78",
+  "windows_validation_mode": "cumulative-selective/no-full",
+  "block_recovery": "BLOCK-01/current-active-pointer-reconciliation",
+  "historical_regression_guards": [
+    "tests/test_post_h_eval_002_uoc_003_contracts.py::test_uoc_003_ui_version_is_synchronized",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+  ],
+  "ui_runtime_behavior_changed": false,
+  "ui_metadata_changed": true
+}

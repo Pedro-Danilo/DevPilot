@@ -6,8 +6,14 @@ from devpilot_core.modeling.contracts import (
     ModelCallResult,
     ModelProviderConfig,
     ModelProviderKind,
+    ModelRouteDecision,
+    ModelRoutingRequest,
     ModelTask,
+    ProviderAccessRoute,
+    RouteDisposition,
+    RouteLocality,
 )
+from devpilot_core.modeling.catalog import CapabilityMatch, ModelCapabilityCatalog, ModelCapabilityCatalogError
 from devpilot_core.modeling.mock_adapter import MockModelAdapter
 from devpilot_core.modeling.ollama_adapter import OllamaAdapter
 from devpilot_core.modeling.lmstudio_adapter import LMStudioAdapter
@@ -21,29 +27,11 @@ from devpilot_core.modeling.providers import ProviderRegistry, parse_provider_co
 from devpilot_core.modeling.router import ModelAdapterRouter, ModelRouterConfig
 
 __all__ = [
-    "ModelAdapter",
-    "ModelAdapterRouter",
-    "ModelCallRequest",
-    "ModelCallResult",
-    "ModelProviderConfig",
-    "ModelProviderKind",
-    "ModelRouterConfig",
-    "ModelTask",
-    "BudgetLedger",
-    "CapabilityMatrix",
-    "LMStudioAdapter",
-    "ModelHealthService",
-    "LocalLlmProviderHealthOptions",
-    "LocalLlmProviderHealthReporter",
-    "FakeExternalApiProvider",
-    "ExternalApiProviderPilotReporter",
-    "ExternalApiProviderPilotOptions",
-    "ModelEvalRunner",
-    "ModelEvalRunnerConfig",
-    "MockModelAdapter",
-    "OllamaAdapter",
-    "ProviderRegistry",
-    "parse_provider_config_file",
-    "parse_providers_yaml",
-    "validate_provider_configs",
+    "ModelAdapter", "ModelAdapterRouter", "ModelCallRequest", "ModelCallResult", "ModelProviderConfig", "ModelProviderKind",
+    "ModelRouteDecision", "ModelRoutingRequest", "ProviderAccessRoute", "RouteDisposition", "RouteLocality",
+    "ModelCapabilityCatalog", "ModelCapabilityCatalogError", "CapabilityMatch",
+    "ModelRouterConfig", "ModelTask", "BudgetLedger", "CapabilityMatrix", "LMStudioAdapter", "ModelHealthService",
+    "LocalLlmProviderHealthOptions", "LocalLlmProviderHealthReporter", "FakeExternalApiProvider", "ExternalApiProviderPilotReporter",
+    "ExternalApiProviderPilotOptions", "ModelEvalRunner", "ModelEvalRunnerConfig", "MockModelAdapter", "OllamaAdapter", "ProviderRegistry",
+    "parse_provider_config_file", "parse_providers_yaml", "validate_provider_configs",
 ]

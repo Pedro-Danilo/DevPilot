@@ -4,7 +4,7 @@ title: "DevPilot Guided SDLC Product Evolution — Roadmap maestro"
 status: "approved"
 version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-08-20"
+updated: "2026-08-26"
 approval: "approved_by_owner"
 approved_by: "Ordóñez"
 approved_at: "2026-08-13"
@@ -466,4 +466,8 @@ Estado actual: `CLOSED/PASS` sobre repo373, commit `a5b01a6ffb7f7808ccbaae54847b
 
 ### DEVPL-GSDLC-05-E — Manual/import pre-code wizard vertical slice
 
-Estado actual: `PASS-CANDIDATE / PENDING-OWNER-ADJUDICATION`. Fuente inmediata repo373 (`a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8`). El vertical slice completó Product Vision → Scope → Requirements → Architecture → Security → Test Strategy → Traceability por UI hasta `PRE_CODE_READY`; readiness strict/browser PASS, S0=0/S1=0 y full única `1/1 FAIL` preservada sin rerun, recuperada mediante composite selective retest PASS (`38/38` exact failed-nodeids + `18/18` bounded impact + Historical Regression Guard PASS). GSDLC-06 permanece bloqueado hasta adjudicación owner.
+Estado actual: `CLOSED/PASS / OWNER-ADJUDICATED`. Successor repo374 (`db04b6f158fc4dd366b3f61635fb2d66d63f7d40`). El vertical slice completó Product Vision → Scope → Requirements → Architecture → Security → Test Strategy → Traceability por UI hasta `PRE_CODE_READY`; browser 12/12, readiness strict PASS, S0=0/S1=0 y full única `1/1 FAIL` preservada sin rerun, recuperada mediante composite selective retest PASS (`38/38` exact failed-nodeids + `18/18` bounded impact + Historical Regression Guard PASS). `DEVPL-GSDLC-05 = CLOSED/PASS`.
+
+### DEVPL-GSDLC-06-A — Model capability and access-route contracts
+
+Estado current-active: `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`. GSDLC-06 está `APPROVED/ACTIVE` y rebindeado a repo374. 06-A introduce ModelCapabilityCatalog + schema, ProviderAccessRoute y contratos ModelRoutingRequest/ModelRouteDecision con identidad separada provider/model/access-route/gateway-adapter/auth-adapter. Mock permanece enabled/default-safe; Ollama/LM Studio preservan R01 `allowed` pero quedan runtime-disabled/opt-in; rutas externas preservan conditional/unknown/blocked y runtime-disabled. Model routing no concede tool/skill authority. Validación Windows 06-A es cumulative-selective PASS, sin browser y con `full_regression_runs=0`. 06-B permanece bloqueado hasta owner adjudication de 06-A.

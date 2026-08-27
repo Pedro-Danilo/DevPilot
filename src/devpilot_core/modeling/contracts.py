@@ -15,20 +15,37 @@ class ModelProviderKind(str, Enum):
 
 
 class ModelTask(str, Enum):
-    """Model tasks exposed by FUNC-SPRINT-17."""
+    """Model tasks exposed by the historical ModelAdapter contract."""
 
     GENERATE = "generate"
     CLASSIFY = "classify"
     EMBED = "embed"
 
 
+class RouteDisposition(str, Enum):
+    """Runtime disposition of a provider/model access route.
+
+    R01 research decisions such as ``allowed`` are intentionally kept in a
+    separate field on :class:`ProviderAccessRoute`; they do not enable runtime.
+    """
+
+    ENABLED = "enabled"
+    DISABLED = "disabled"
+    CONDITIONAL = "conditional"
+    UNKNOWN = "unknown"
+    BLOCKED = "blocked"
+
+
+class RouteLocality(str, Enum):
+    MOCK = "mock"
+    LOOPBACK = "loopback"
+    REMOTE = "remote"
+    CONSUMER_SESSION = "consumer-session"
+
+
 @dataclass(frozen=True)
 class ModelProviderConfig:
-    """Safe provider configuration without raw secrets.
-
-    The configuration stores only provider metadata and environment variable
-    names. API keys or secret values must never be written here.
-    """
+    """Safe historical provider configuration without raw secrets."""
 
     provider_id: str
     kind: ModelProviderKind
@@ -55,6 +72,123 @@ class ModelProviderConfig:
             "estimated_cost_per_1k_tokens_usd": self.estimated_cost_per_1k_tokens_usd,
             "status": self.status,
             "notes": list(self.notes),
+        }
+
+
+@dataclass(frozen=True)
+class ProviderAccessRoute:
+    """Identity-separated access route used by Model Gateway v2 decisions.
+
+    A route is not a permission to execute tools. ``research_disposition``
+    preserves the R01 evidence decision, while ``disposition`` and
+    ``runtime_enabled`` express current runtime authority.
+    """
+
+    provider_id: str
+    model_id: str
+    access_route_id: str
+    research_route_id: str
+    gateway_adapter_id: str
+    auth_adapter_id: str
+    locality: RouteLocality
+    endpoint_class: str
+    disposition: RouteDisposition
+    runtime_enabled: bool
+    research_disposition: str
+    reason: str
+    evidence_refs: tuple[str, ...] = ()
+    freshness: str = "historical"
+    target_regions: tuple[str, ...] = ()
+    external_api: bool = False
+    opt_in_required: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "provider_id": self.provider_id,
+            "model_id": self.model_id,
+            "access_route_id": self.access_route_id,
+            "research_route_id": self.research_route_id,
+            "gateway_adapter_id": self.gateway_adapter_id,
+            "auth_adapter_id": self.auth_adapter_id,
+            "locality": self.locality.value,
+            "endpoint_class": self.endpoint_class,
+            "disposition": self.disposition.value,
+            "runtime_enabled": self.runtime_enabled,
+            "research_disposition": self.research_disposition,
+            "reason": self.reason,
+            "evidence_refs": list(self.evidence_refs),
+            "freshness": self.freshness,
+            "target_regions": list(self.target_regions),
+            "external_api": self.external_api,
+            "opt_in_required": self.opt_in_required,
+        }
+
+
+@dataclass(frozen=True)
+class ModelRoutingRequest:
+    """Provider-agnostic routing request.
+
+    Workflows request capabilities and constraints. They do not select a vendor
+    model as an implicit implementation branch.
+    """
+
+    workload_id: str
+    required_capabilities: tuple[str, ...] = ()
+    privacy_class: str = "internal"
+    data_classes: tuple[str, ...] = ()
+    max_cost_usd: float | None = None
+    offline_required: bool = False
+    target_region: str | None = None
+    allowed_regions: tuple[str, ...] = ()
+    preferred_locality: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "workload_id": self.workload_id,
+            "required_capabilities": list(self.required_capabilities),
+            "privacy_class": self.privacy_class,
+            "data_classes": list(self.data_classes),
+            "max_cost_usd": self.max_cost_usd,
+            "offline_required": self.offline_required,
+            "target_region": self.target_region,
+            "allowed_regions": list(self.allowed_regions),
+            "preferred_locality": self.preferred_locality,
+        }
+
+
+@dataclass(frozen=True)
+class ModelRouteDecision:
+    """Model Gateway routing decision, explicitly separate from tool authority."""
+
+    workload_id: str
+    route_status: str
+    provider_id: str | None = None
+    model_id: str | None = None
+    access_route_id: str | None = None
+    gateway_adapter_id: str | None = None
+    auth_adapter_id: str | None = None
+    matched_capabilities: tuple[str, ...] = ()
+    evidence_refs: tuple[str, ...] = ()
+    estimated_cost_usd: float | None = None
+    fallback_access_route_id: str | None = None
+    blocked_reason: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        # Deliberately no ToolExecutionDecision, tool permission, skill grant,
+        # approval or capability-escalation fields exist in this contract.
+        return {
+            "workload_id": self.workload_id,
+            "route_status": self.route_status,
+            "provider_id": self.provider_id,
+            "model_id": self.model_id,
+            "access_route_id": self.access_route_id,
+            "gateway_adapter_id": self.gateway_adapter_id,
+            "auth_adapter_id": self.auth_adapter_id,
+            "matched_capabilities": list(self.matched_capabilities),
+            "evidence_refs": list(self.evidence_refs),
+            "estimated_cost_usd": self.estimated_cost_usd,
+            "fallback_access_route_id": self.fallback_access_route_id,
+            "blocked_reason": self.blocked_reason,
         }
 
 
@@ -105,11 +239,7 @@ class ModelCallResult:
 
 
 class ModelAdapter(ABC):
-    """Abstract base class for provider-specific adapters.
-
-    FUNC-SPRINT-17 defines this contract so future local/API integrations can be
-    plugged into DevPilot without changing agents, evaluators or CLI commands.
-    """
+    """Abstract base class for provider-specific adapters."""
 
     provider_config: ModelProviderConfig
 

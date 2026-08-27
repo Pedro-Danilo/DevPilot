@@ -1,0 +1,33 @@
+{
+  "status": "PASS/WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-06-A",
+  "scope": "touched-surfaces-only",
+  "full_regression_runs": 0,
+  "checks": {
+    "schema_strict_valid": true,
+    "derived_schema_counter_synced": true,
+    "identity_separation": true,
+    "unknown_route_deny": true,
+    "mock_available": true,
+    "external_runtime_enabled_total": 0,
+    "openai_compatibility_not_authorization": true,
+    "model_route_tool_authority": false,
+    "project_state_source_registry_readme_roadmap_compatible": true,
+    "historical_pointer_drift_rewritten": false,
+    "runtime_ephemeral_in_fixture": false,
+    "sealed_evidence_rewritten_after_hash": false,
+    "successor_registry_updated": true,
+    "lazy_capability_composition": true,
+    "ui_package_current_sprint_synced_to_project_state": true,
+    "source_registry_top_level_current_sprint_synced": true,
+    "source_registry_summary_current_sprint_synced": true,
+    "historical_uoc003_assertion_preserved": true,
+    "ui_runtime_behavior_unchanged": true
+  },
+  "s0_open": 0,
+  "s1_open": 0,
+  "windows_contract_reconciliation": "PASS",
+  "recovery": "BLOCK-01/current-active-pointer-reconciliation",
+  "block01_root_cause": "activation rebind advanced project_state/source_registry top-level but omitted ui/web package current-active pointer and left source_registry derived summary on GSDLC-05-E",
+  "prevention": "Windows machine contract guard requires Project State, UI currentSprint, Source Registry top-level and Source Registry summary parity."
+}

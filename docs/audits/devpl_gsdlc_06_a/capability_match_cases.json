@@ -1,0 +1,1745 @@
+{
+  "schema_version": "1.0",
+  "status": "PASS/WINDOWS-REVALIDATED",
+  "provider_agnostic": true,
+  "unknown_route": "deny",
+  "tool_execution_authority": false,
+  "cases": [
+    {
+      "case_id": "mock-text-offline",
+      "request": {
+        "workload_id": "DVP-06A-OFFLINE",
+        "required_capabilities": [
+          "text_generation"
+        ],
+        "privacy_class": "internal",
+        "data_classes": [],
+        "max_cost_usd": 0.0,
+        "offline_required": true,
+        "target_region": null,
+        "allowed_regions": [],
+        "preferred_locality": null
+      },
+      "decision": {
+        "workload_id": "DVP-06A-OFFLINE",
+        "route_status": "selected",
+        "provider_id": "devpilot-local",
+        "model_id": "mock-deterministic-v1",
+        "access_route_id": "mock",
+        "gateway_adapter_id": "mock-adapter",
+        "auth_adapter_id": "no-secret-local",
+        "matched_capabilities": [
+          "text_generation"
+        ],
+        "evidence_refs": [
+          "R01-E:provider_route_decision_matrix/mock",
+          "repo374:ProviderRegistry/mock"
+        ],
+        "estimated_cost_usd": 0.0,
+        "fallback_access_route_id": null,
+        "blocked_reason": null
+      },
+      "matches": [
+        {
+          "route": {
+            "provider_id": "devpilot-local",
+            "model_id": "mock-deterministic-v1",
+            "access_route_id": "mock",
+            "research_route_id": "mock",
+            "gateway_adapter_id": "mock-adapter",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "mock",
+            "endpoint_class": "none",
+            "disposition": "enabled",
+            "runtime_enabled": true,
+            "research_disposition": "default-safe",
+            "reason": "Deterministic zero-cost safe default.",
+            "evidence_refs": [
+              "R01-E:provider_route_decision_matrix/mock",
+              "repo374:ProviderRegistry/mock"
+            ],
+            "freshness": "historical+current",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [
+            "text_generation"
+          ],
+          "missing_capabilities": [],
+          "eligible": true,
+          "reasons": []
+        },
+        {
+          "route": {
+            "provider_id": "ollama",
+            "model_id": "mistral:7b",
+            "access_route_id": "ollama-localhost-mistral7b",
+            "research_route_id": "ollama-localhost",
+            "gateway_adapter_id": "ollama-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-http",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 allowed local route; runtime remains explicit opt-in and 06-A does not enable it.",
+            "evidence_refs": [
+              "R01-E:ollama-localhost",
+              "R01-C:benchmark",
+              "R01-D:benchmark"
+            ],
+            "freshness": "historical",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [
+            "text_generation"
+          ],
+          "missing_capabilities": [],
+          "eligible": false,
+          "reasons": [
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "ollama",
+            "model_id": "qwen2.5:1.5b-instruct",
+            "access_route_id": "ollama-localhost-qwen25-15b",
+            "research_route_id": "ollama-localhost",
+            "gateway_adapter_id": "ollama-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-http",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 benchmarked local model; runtime remains explicit opt-in.",
+            "evidence_refs": [
+              "R01-E:ollama-localhost",
+              "R01-D:benchmark"
+            ],
+            "freshness": "historical",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [
+            "text_generation"
+          ],
+          "missing_capabilities": [],
+          "eligible": false,
+          "reasons": [
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "lmstudio",
+            "model_id": "local-model",
+            "access_route_id": "lmstudio-localhost",
+            "research_route_id": "lmstudio-localhost",
+            "gateway_adapter_id": "lmstudio-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-openai-compatible",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 allowed local route; model-dependent capabilities and runtime opt-in required.",
+            "evidence_refs": [
+              "R01-E:lmstudio-localhost",
+              "repo374:LMStudioAdapter"
+            ],
+            "freshness": "historical+current",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [
+            "text_generation"
+          ],
+          "missing_capabilities": [],
+          "eligible": false,
+          "reasons": [
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "openai",
+            "model_id": "openai-model-unresolved",
+            "access_route_id": "openai-api-direct",
+            "research_route_id": "openai-api-direct",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "External provider requires future ADR/freshness/privacy/region/auth/budget gates.",
+            "evidence_refs": [
+              "R01-E:openai-api-direct"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "anthropic",
+            "model_id": "anthropic-model-unresolved",
+            "access_route_id": "anthropic-api-direct",
+            "research_route_id": "anthropic-api-direct",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "External provider remains conditional and runtime-disabled.",
+            "evidence_refs": [
+              "R01-E:anthropic-api-direct"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "google-gemini",
+            "model_id": "gemini-model-unresolved",
+            "access_route_id": "gemini-api-paid",
+            "research_route_id": "gemini-api-paid",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Paid route conditional; runtime-disabled pending future gates.",
+            "evidence_refs": [
+              "R01-E:gemini-api-paid"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "google-gemini",
+            "model_id": "gemini-model-unresolved",
+            "access_route_id": "gemini-api-unpaid",
+            "research_route_id": "gemini-api-unpaid",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api-free-tier",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "R01 blocks unpaid Gemini for non-public/confidential/PII DevPilot data.",
+            "evidence_refs": [
+              "R01-E:gemini-api-unpaid"
+            ],
+            "freshness": "historical-decision/refresh-before-reconsideration",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "azure-openai",
+            "model_id": "azure-openai-model-unresolved",
+            "access_route_id": "azure-openai",
+            "research_route_id": "azure-openai",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "provider-native-identity-future",
+            "locality": "remote",
+            "endpoint_class": "cloud-catalog/vendor-service",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Region/identity/DPA/retention/data gates unresolved.",
+            "evidence_refs": [
+              "R01-E:azure-openai"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "aws-bedrock",
+            "model_id": "bedrock-model-unresolved",
+            "access_route_id": "aws-bedrock",
+            "research_route_id": "aws-bedrock",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "provider-native-identity-future",
+            "locality": "remote",
+            "endpoint_class": "cloud-catalog",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Model/retention/source-region/inference-profile must be frozen.",
+            "evidence_refs": [
+              "R01-E:aws-bedrock"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "mistral-api",
+            "model_id": "mistral-api-model-unresolved",
+            "access_route_id": "mistral-api",
+            "research_route_id": "mistral-api",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "R01 evidence insufficient; unknown is deny.",
+            "evidence_refs": [
+              "R01-E:mistral-api"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "openrouter",
+            "model_id": "openrouter-model-unresolved",
+            "access_route_id": "openrouter",
+            "research_route_id": "openrouter",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "broker-aggregator",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Downstream provider must be pinned; no dynamic unevaluated fallback.",
+            "evidence_refs": [
+              "R01-E:openrouter"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "remote-openai-compatible",
+            "model_id": "remote-openai-compatible-model-unresolved",
+            "access_route_id": "remote-openai-compatible-generic",
+            "research_route_id": "remote-openai-compatible-generic",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "remote-openai-compatible",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "OpenAI protocol compatibility does not establish provider identity or authorization.",
+            "evidence_refs": [
+              "R01-E:remote-openai-compatible-generic"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "consumer-web",
+            "model_id": "consumer-session-non-model",
+            "access_route_id": "consumer-web-session-piggyback",
+            "research_route_id": "consumer-web-session-piggyback",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "consumer-session-adapter",
+            "locality": "consumer-session",
+            "endpoint_class": "consumer-session-reuse",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "Browser/cookie/session piggyback is prohibited.",
+            "evidence_refs": [
+              "R01-E:consumer-web-session-piggyback"
+            ],
+            "freshness": "historical-block",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "consumer-web",
+            "model_id": "consumer-session-non-model",
+            "access_route_id": "consumer-subscription-as-api",
+            "research_route_id": "consumer-subscription-as-api",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "consumer-session-adapter",
+            "locality": "consumer-session",
+            "endpoint_class": "consumer-seat-as-programmatic",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "Consumer subscription is not API entitlement.",
+            "evidence_refs": [
+              "R01-E:consumer-subscription-as-api"
+            ],
+            "freshness": "historical-block",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "remote-openai-compatible",
+            "model_id": "remote-openai-compatible-model-unresolved",
+            "access_route_id": "long-tail-r01a-unfrozen",
+            "research_route_id": "long-tail-r01a-unfrozen",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "unfrozen-route",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "Long-tail routes remain unknown until provider-specific evidence is frozen.",
+            "evidence_refs": [
+              "R01-E:long-tail-r01a-unfrozen"
+            ],
+            "freshness": "refresh-required",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "text_generation"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "coding-local-not-enabled",
+      "request": {
+        "workload_id": "DVP-06A-CODING",
+        "required_capabilities": [
+          "coding"
+        ],
+        "privacy_class": "internal",
+        "data_classes": [],
+        "max_cost_usd": null,
+        "offline_required": true,
+        "target_region": null,
+        "allowed_regions": [],
+        "preferred_locality": null
+      },
+      "decision": {
+        "workload_id": "DVP-06A-CODING",
+        "route_status": "blocked",
+        "provider_id": null,
+        "model_id": null,
+        "access_route_id": null,
+        "gateway_adapter_id": null,
+        "auth_adapter_id": null,
+        "matched_capabilities": [],
+        "evidence_refs": [
+          "GSDLC-06-A:model-capability-catalog"
+        ],
+        "estimated_cost_usd": null,
+        "fallback_access_route_id": null,
+        "blocked_reason": "no-runtime-enabled-route-satisfies-request"
+      },
+      "matches": [
+        {
+          "route": {
+            "provider_id": "devpilot-local",
+            "model_id": "mock-deterministic-v1",
+            "access_route_id": "mock",
+            "research_route_id": "mock",
+            "gateway_adapter_id": "mock-adapter",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "mock",
+            "endpoint_class": "none",
+            "disposition": "enabled",
+            "runtime_enabled": true,
+            "research_disposition": "default-safe",
+            "reason": "Deterministic zero-cost safe default.",
+            "evidence_refs": [
+              "R01-E:provider_route_decision_matrix/mock",
+              "repo374:ProviderRegistry/mock"
+            ],
+            "freshness": "historical+current",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "ollama",
+            "model_id": "mistral:7b",
+            "access_route_id": "ollama-localhost-mistral7b",
+            "research_route_id": "ollama-localhost",
+            "gateway_adapter_id": "ollama-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-http",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 allowed local route; runtime remains explicit opt-in and 06-A does not enable it.",
+            "evidence_refs": [
+              "R01-E:ollama-localhost",
+              "R01-C:benchmark",
+              "R01-D:benchmark"
+            ],
+            "freshness": "historical",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [
+            "coding"
+          ],
+          "missing_capabilities": [],
+          "eligible": false,
+          "reasons": [
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "ollama",
+            "model_id": "qwen2.5:1.5b-instruct",
+            "access_route_id": "ollama-localhost-qwen25-15b",
+            "research_route_id": "ollama-localhost",
+            "gateway_adapter_id": "ollama-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-http",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 benchmarked local model; runtime remains explicit opt-in.",
+            "evidence_refs": [
+              "R01-E:ollama-localhost",
+              "R01-D:benchmark"
+            ],
+            "freshness": "historical",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [
+            "coding"
+          ],
+          "missing_capabilities": [],
+          "eligible": false,
+          "reasons": [
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "lmstudio",
+            "model_id": "local-model",
+            "access_route_id": "lmstudio-localhost",
+            "research_route_id": "lmstudio-localhost",
+            "gateway_adapter_id": "lmstudio-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-openai-compatible",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 allowed local route; model-dependent capabilities and runtime opt-in required.",
+            "evidence_refs": [
+              "R01-E:lmstudio-localhost",
+              "repo374:LMStudioAdapter"
+            ],
+            "freshness": "historical+current",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "openai",
+            "model_id": "openai-model-unresolved",
+            "access_route_id": "openai-api-direct",
+            "research_route_id": "openai-api-direct",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "External provider requires future ADR/freshness/privacy/region/auth/budget gates.",
+            "evidence_refs": [
+              "R01-E:openai-api-direct"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "anthropic",
+            "model_id": "anthropic-model-unresolved",
+            "access_route_id": "anthropic-api-direct",
+            "research_route_id": "anthropic-api-direct",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "External provider remains conditional and runtime-disabled.",
+            "evidence_refs": [
+              "R01-E:anthropic-api-direct"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "google-gemini",
+            "model_id": "gemini-model-unresolved",
+            "access_route_id": "gemini-api-paid",
+            "research_route_id": "gemini-api-paid",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Paid route conditional; runtime-disabled pending future gates.",
+            "evidence_refs": [
+              "R01-E:gemini-api-paid"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "google-gemini",
+            "model_id": "gemini-model-unresolved",
+            "access_route_id": "gemini-api-unpaid",
+            "research_route_id": "gemini-api-unpaid",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api-free-tier",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "R01 blocks unpaid Gemini for non-public/confidential/PII DevPilot data.",
+            "evidence_refs": [
+              "R01-E:gemini-api-unpaid"
+            ],
+            "freshness": "historical-decision/refresh-before-reconsideration",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "azure-openai",
+            "model_id": "azure-openai-model-unresolved",
+            "access_route_id": "azure-openai",
+            "research_route_id": "azure-openai",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "provider-native-identity-future",
+            "locality": "remote",
+            "endpoint_class": "cloud-catalog/vendor-service",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Region/identity/DPA/retention/data gates unresolved.",
+            "evidence_refs": [
+              "R01-E:azure-openai"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "aws-bedrock",
+            "model_id": "bedrock-model-unresolved",
+            "access_route_id": "aws-bedrock",
+            "research_route_id": "aws-bedrock",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "provider-native-identity-future",
+            "locality": "remote",
+            "endpoint_class": "cloud-catalog",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Model/retention/source-region/inference-profile must be frozen.",
+            "evidence_refs": [
+              "R01-E:aws-bedrock"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "mistral-api",
+            "model_id": "mistral-api-model-unresolved",
+            "access_route_id": "mistral-api",
+            "research_route_id": "mistral-api",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "R01 evidence insufficient; unknown is deny.",
+            "evidence_refs": [
+              "R01-E:mistral-api"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "openrouter",
+            "model_id": "openrouter-model-unresolved",
+            "access_route_id": "openrouter",
+            "research_route_id": "openrouter",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "broker-aggregator",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Downstream provider must be pinned; no dynamic unevaluated fallback.",
+            "evidence_refs": [
+              "R01-E:openrouter"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "remote-openai-compatible",
+            "model_id": "remote-openai-compatible-model-unresolved",
+            "access_route_id": "remote-openai-compatible-generic",
+            "research_route_id": "remote-openai-compatible-generic",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "remote-openai-compatible",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "OpenAI protocol compatibility does not establish provider identity or authorization.",
+            "evidence_refs": [
+              "R01-E:remote-openai-compatible-generic"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "consumer-web",
+            "model_id": "consumer-session-non-model",
+            "access_route_id": "consumer-web-session-piggyback",
+            "research_route_id": "consumer-web-session-piggyback",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "consumer-session-adapter",
+            "locality": "consumer-session",
+            "endpoint_class": "consumer-session-reuse",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "Browser/cookie/session piggyback is prohibited.",
+            "evidence_refs": [
+              "R01-E:consumer-web-session-piggyback"
+            ],
+            "freshness": "historical-block",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "consumer-web",
+            "model_id": "consumer-session-non-model",
+            "access_route_id": "consumer-subscription-as-api",
+            "research_route_id": "consumer-subscription-as-api",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "consumer-session-adapter",
+            "locality": "consumer-session",
+            "endpoint_class": "consumer-seat-as-programmatic",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "Consumer subscription is not API entitlement.",
+            "evidence_refs": [
+              "R01-E:consumer-subscription-as-api"
+            ],
+            "freshness": "historical-block",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "remote-openai-compatible",
+            "model_id": "remote-openai-compatible-model-unresolved",
+            "access_route_id": "long-tail-r01a-unfrozen",
+            "research_route_id": "long-tail-r01a-unfrozen",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "unfrozen-route",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "Long-tail routes remain unknown until provider-specific evidence is frozen.",
+            "evidence_refs": [
+              "R01-E:long-tail-r01a-unfrozen"
+            ],
+            "freshness": "refresh-required",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "coding"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "unknown-capability-deny",
+      "request": {
+        "workload_id": "DVP-06A-UNKNOWN",
+        "required_capabilities": [
+          "telepathy"
+        ],
+        "privacy_class": "internal",
+        "data_classes": [],
+        "max_cost_usd": null,
+        "offline_required": false,
+        "target_region": null,
+        "allowed_regions": [],
+        "preferred_locality": null
+      },
+      "decision": {
+        "workload_id": "DVP-06A-UNKNOWN",
+        "route_status": "blocked",
+        "provider_id": null,
+        "model_id": null,
+        "access_route_id": null,
+        "gateway_adapter_id": null,
+        "auth_adapter_id": null,
+        "matched_capabilities": [],
+        "evidence_refs": [],
+        "estimated_cost_usd": null,
+        "fallback_access_route_id": null,
+        "blocked_reason": "unknown-capabilities:telepathy"
+      },
+      "matches": []
+    },
+    {
+      "case_id": "structured-local-not-enabled",
+      "request": {
+        "workload_id": "DVP-06A-STRUCTURED",
+        "required_capabilities": [
+          "structured_output"
+        ],
+        "privacy_class": "internal",
+        "data_classes": [],
+        "max_cost_usd": null,
+        "offline_required": true,
+        "target_region": null,
+        "allowed_regions": [],
+        "preferred_locality": null
+      },
+      "decision": {
+        "workload_id": "DVP-06A-STRUCTURED",
+        "route_status": "blocked",
+        "provider_id": null,
+        "model_id": null,
+        "access_route_id": null,
+        "gateway_adapter_id": null,
+        "auth_adapter_id": null,
+        "matched_capabilities": [],
+        "evidence_refs": [
+          "GSDLC-06-A:model-capability-catalog"
+        ],
+        "estimated_cost_usd": null,
+        "fallback_access_route_id": null,
+        "blocked_reason": "no-runtime-enabled-route-satisfies-request"
+      },
+      "matches": [
+        {
+          "route": {
+            "provider_id": "devpilot-local",
+            "model_id": "mock-deterministic-v1",
+            "access_route_id": "mock",
+            "research_route_id": "mock",
+            "gateway_adapter_id": "mock-adapter",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "mock",
+            "endpoint_class": "none",
+            "disposition": "enabled",
+            "runtime_enabled": true,
+            "research_disposition": "default-safe",
+            "reason": "Deterministic zero-cost safe default.",
+            "evidence_refs": [
+              "R01-E:provider_route_decision_matrix/mock",
+              "repo374:ProviderRegistry/mock"
+            ],
+            "freshness": "historical+current",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "ollama",
+            "model_id": "mistral:7b",
+            "access_route_id": "ollama-localhost-mistral7b",
+            "research_route_id": "ollama-localhost",
+            "gateway_adapter_id": "ollama-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-http",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 allowed local route; runtime remains explicit opt-in and 06-A does not enable it.",
+            "evidence_refs": [
+              "R01-E:ollama-localhost",
+              "R01-C:benchmark",
+              "R01-D:benchmark"
+            ],
+            "freshness": "historical",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [
+            "structured_output"
+          ],
+          "missing_capabilities": [],
+          "eligible": false,
+          "reasons": [
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "ollama",
+            "model_id": "qwen2.5:1.5b-instruct",
+            "access_route_id": "ollama-localhost-qwen25-15b",
+            "research_route_id": "ollama-localhost",
+            "gateway_adapter_id": "ollama-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-http",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 benchmarked local model; runtime remains explicit opt-in.",
+            "evidence_refs": [
+              "R01-E:ollama-localhost",
+              "R01-D:benchmark"
+            ],
+            "freshness": "historical",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "lmstudio",
+            "model_id": "local-model",
+            "access_route_id": "lmstudio-localhost",
+            "research_route_id": "lmstudio-localhost",
+            "gateway_adapter_id": "lmstudio-adapter-v1",
+            "auth_adapter_id": "no-secret-local",
+            "locality": "loopback",
+            "endpoint_class": "localhost-openai-compatible",
+            "disposition": "disabled",
+            "runtime_enabled": false,
+            "research_disposition": "allowed",
+            "reason": "R01 allowed local route; model-dependent capabilities and runtime opt-in required.",
+            "evidence_refs": [
+              "R01-E:lmstudio-localhost",
+              "repo374:LMStudioAdapter"
+            ],
+            "freshness": "historical+current",
+            "target_regions": [],
+            "external_api": false,
+            "opt_in_required": true
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "openai",
+            "model_id": "openai-model-unresolved",
+            "access_route_id": "openai-api-direct",
+            "research_route_id": "openai-api-direct",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "External provider requires future ADR/freshness/privacy/region/auth/budget gates.",
+            "evidence_refs": [
+              "R01-E:openai-api-direct"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "anthropic",
+            "model_id": "anthropic-model-unresolved",
+            "access_route_id": "anthropic-api-direct",
+            "research_route_id": "anthropic-api-direct",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "External provider remains conditional and runtime-disabled.",
+            "evidence_refs": [
+              "R01-E:anthropic-api-direct"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "google-gemini",
+            "model_id": "gemini-model-unresolved",
+            "access_route_id": "gemini-api-paid",
+            "research_route_id": "gemini-api-paid",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Paid route conditional; runtime-disabled pending future gates.",
+            "evidence_refs": [
+              "R01-E:gemini-api-paid"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "google-gemini",
+            "model_id": "gemini-model-unresolved",
+            "access_route_id": "gemini-api-unpaid",
+            "research_route_id": "gemini-api-unpaid",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api-free-tier",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "R01 blocks unpaid Gemini for non-public/confidential/PII DevPilot data.",
+            "evidence_refs": [
+              "R01-E:gemini-api-unpaid"
+            ],
+            "freshness": "historical-decision/refresh-before-reconsideration",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "azure-openai",
+            "model_id": "azure-openai-model-unresolved",
+            "access_route_id": "azure-openai",
+            "research_route_id": "azure-openai",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "provider-native-identity-future",
+            "locality": "remote",
+            "endpoint_class": "cloud-catalog/vendor-service",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Region/identity/DPA/retention/data gates unresolved.",
+            "evidence_refs": [
+              "R01-E:azure-openai"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "aws-bedrock",
+            "model_id": "bedrock-model-unresolved",
+            "access_route_id": "aws-bedrock",
+            "research_route_id": "aws-bedrock",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "provider-native-identity-future",
+            "locality": "remote",
+            "endpoint_class": "cloud-catalog",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Model/retention/source-region/inference-profile must be frozen.",
+            "evidence_refs": [
+              "R01-E:aws-bedrock"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "mistral-api",
+            "model_id": "mistral-api-model-unresolved",
+            "access_route_id": "mistral-api",
+            "research_route_id": "mistral-api",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "vendor-api",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "R01 evidence insufficient; unknown is deny.",
+            "evidence_refs": [
+              "R01-E:mistral-api"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "openrouter",
+            "model_id": "openrouter-model-unresolved",
+            "access_route_id": "openrouter",
+            "research_route_id": "openrouter",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "broker-aggregator",
+            "disposition": "conditional",
+            "runtime_enabled": false,
+            "research_disposition": "conditional",
+            "reason": "Downstream provider must be pinned; no dynamic unevaluated fallback.",
+            "evidence_refs": [
+              "R01-E:openrouter"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "remote-openai-compatible",
+            "model_id": "remote-openai-compatible-model-unresolved",
+            "access_route_id": "remote-openai-compatible-generic",
+            "research_route_id": "remote-openai-compatible-generic",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "remote-openai-compatible",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "OpenAI protocol compatibility does not establish provider identity or authorization.",
+            "evidence_refs": [
+              "R01-E:remote-openai-compatible-generic"
+            ],
+            "freshness": "F0/F1-refresh-required-before-enable",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "consumer-web",
+            "model_id": "consumer-session-non-model",
+            "access_route_id": "consumer-web-session-piggyback",
+            "research_route_id": "consumer-web-session-piggyback",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "consumer-session-adapter",
+            "locality": "consumer-session",
+            "endpoint_class": "consumer-session-reuse",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "Browser/cookie/session piggyback is prohibited.",
+            "evidence_refs": [
+              "R01-E:consumer-web-session-piggyback"
+            ],
+            "freshness": "historical-block",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "consumer-web",
+            "model_id": "consumer-session-non-model",
+            "access_route_id": "consumer-subscription-as-api",
+            "research_route_id": "consumer-subscription-as-api",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "consumer-session-adapter",
+            "locality": "consumer-session",
+            "endpoint_class": "consumer-seat-as-programmatic",
+            "disposition": "blocked",
+            "runtime_enabled": false,
+            "research_disposition": "blocked",
+            "reason": "Consumer subscription is not API entitlement.",
+            "evidence_refs": [
+              "R01-E:consumer-subscription-as-api"
+            ],
+            "freshness": "historical-block",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        },
+        {
+          "route": {
+            "provider_id": "remote-openai-compatible",
+            "model_id": "remote-openai-compatible-model-unresolved",
+            "access_route_id": "long-tail-r01a-unfrozen",
+            "research_route_id": "long-tail-r01a-unfrozen",
+            "gateway_adapter_id": "external-provider-adapter-future",
+            "auth_adapter_id": "env-api-key-future",
+            "locality": "remote",
+            "endpoint_class": "unfrozen-route",
+            "disposition": "unknown",
+            "runtime_enabled": false,
+            "research_disposition": "unknown",
+            "reason": "Long-tail routes remain unknown until provider-specific evidence is frozen.",
+            "evidence_refs": [
+              "R01-E:long-tail-r01a-unfrozen"
+            ],
+            "freshness": "refresh-required",
+            "target_regions": [],
+            "external_api": true,
+            "opt_in_required": false
+          },
+          "matched_capabilities": [],
+          "missing_capabilities": [
+            "structured_output"
+          ],
+          "eligible": false,
+          "reasons": [
+            "required-capability-unavailable",
+            "offline-required",
+            "route-not-runtime-enabled"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "unknown-route-deny",
+      "request": {
+        "access_route_id": "not-a-route"
+      },
+      "decision": {
+        "workload_id": "DVP-06A-UNKNOWN-ROUTE",
+        "route_status": "blocked",
+        "provider_id": null,
+        "model_id": null,
+        "access_route_id": null,
+        "gateway_adapter_id": null,
+        "auth_adapter_id": null,
+        "matched_capabilities": [],
+        "evidence_refs": [],
+        "estimated_cost_usd": null,
+        "fallback_access_route_id": null,
+        "blocked_reason": "unknown-route:not-a-route"
+      },
+      "matches": []
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false,
+  "windows_case_validation": "PASS/5"
+}

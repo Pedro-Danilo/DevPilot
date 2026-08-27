@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03` y `04` están `CLOSED/PASS`. `DEVPL-GSDLC-05-A/B/C/D` están `CLOSED/PASS`; repo373 (`a5b01a6ffb7f7808ccbaae54847bf2117b95b9f8`) es la autoridad inmediata de 05-E. `GSDLC-05-E` está `PASS-CANDIDATE / WINDOWS-COMPOSITE-CLOSURE / PENDING-OWNER-ADJUDICATION`: el wizard manual/import alcanzó `PRE_CODE_READY` por UI, readiness strict PASS y browser PASS; la única full regression del backlog fue consumida `1/1 FAIL` (`2611 PASS / 38 FAIL / 0 ERROR / 5 SKIP`), preservada sin rerun y recuperada mediante composite selective retest PASS (`38/38` exact failed-nodeids + `18/18` bounded impact + Historical Regression Guard PASS). GSDLC-06 permanece bloqueado hasta adjudicación owner de 05-E y cierre formal de DEVPL-GSDLC-05.
+Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `GSDLC-05-E` quedó owner-adjudicated `CLOSED/PASS` sobre repo374 (`db04b6f158fc4dd366b3f61635fb2d66d63f7d40`) tras browser 12/12, `PRE_CODE_READY`, full única `1/1 FAIL` preservada sin rerun y recuperación composite PASS. `DEVPL-GSDLC-06` está `APPROVED/ACTIVE`; `GSDLC-06-A` está `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION` e implementa ModelCapabilityCatalog/ProviderAccessRoute y contratos ModelRoutingRequest/ModelRouteDecision sobre repo374, con Mock obligatorio, rutas locales opt-in no promovidas, rutas externas runtime-disabled, `ModelRouteDecision != ToolExecutionDecision`, network/API=0 y full=0; Windows cumulative-selective PASS; pendiente únicamente owner adjudication.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -10,8 +10,10 @@ POST-H-EVAL-002 permanece **pausado antes de 02-B** y `inventory-sales-local` no
 
 Fuentes canónicas inmediatas:
 - `docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md`
-- `DEVPL-GSDLC-05_executable_mipsoftware_miasi_and_step_action_advisor_v1_2_0_APPROVED_REBOUND.md`
-- `01_PROMPT_DEVPL_GSDLC_05_A_v1_0_0.md`
+- `DEVPL-GSDLC-06_model_gateway_v2_token_cost_and_provider_governance_v1_4_0_APPROVED_REBOUND.md`
+- `01_PROMPT_DEVPL_GSDLC_06_A_v1_0_0.md`
+- `.devpilot/modeling/model_capability_catalog.json`
+- `docs/schemas/model_capability_catalog.schema.json`
 - `DEVPL_GSDLC_04_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md`
 - `DEVPL_GSDLC_04_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md`
 - `.devpilot/gsdlc/workflow_transition_catalog.json`

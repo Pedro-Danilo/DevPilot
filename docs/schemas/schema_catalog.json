@@ -5,10 +5,10 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-25",
-  "sprint": "DEVPL-GSDLC-05-B",
+  "updated": "2026-08-26",
+  "sprint": "DEVPL-GSDLC-06-A",
   "preliminary": true,
-  "purpose": "Authoritative local schema catalog including GSDLC-04-B runtime-only artifact draft history contract.",
+  "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-AGENT-CAPABILITY-INVENTORY-V1",
@@ -3127,7 +3127,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-05-E"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-06-A-MODEL-CAPABILITY-CATALOG-V1",
+      "title": "ModelCapabilityCatalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/model_capability_catalog.schema.json",
+      "description": "GSDLC-06-A provider/model/access-route/gateway-adapter/auth-adapter capability catalog with R01 disposition and runtime enablement separation.",
+      "status": "registered",
+      "contract": "ModelCapabilityCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-06-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-06-A"
     }
   ],
-  "schemas_total": 217
+  "schemas_total": 218
 }
