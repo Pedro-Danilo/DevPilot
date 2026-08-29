@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/context_pack_v2.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CONTEXT-PACK-V2",
+  "title": "DevPilot ContextPack v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "pack_id",
+    "created_by",
+    "status",
+    "step_id",
+    "agent",
+    "query",
+    "selection_policy",
+    "budget",
+    "candidate_sources",
+    "sources",
+    "citations",
+    "provenance",
+    "safety",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-CONTEXT-PACK-V2"
+    },
+    "pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "const": "DEVPL-GSDLC-07-B"
+    },
+    "status": {
+      "enum": [
+        "grounded",
+        "insufficient-evidence",
+        "blocked"
+      ]
+    },
+    "step_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role_id",
+        "runtime_agent_id",
+        "required_model_capabilities"
+      ],
+      "properties": {
+        "role_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "runtime_agent_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "required_model_capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "query": {
+      "type": "string"
+    },
+    "selection_policy": {
+      "type": "object"
+    },
+    "budget": {
+      "type": "object"
+    },
+    "candidate_sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "citation_id",
+          "source_id",
+          "ref",
+          "content_sha256"
+        ],
+        "properties": {
+          "citation_id": {
+            "type": "string"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "ref": {
+            "type": "string"
+          },
+          "content_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "pack_sha256",
+        "source_hash_parity",
+        "citation_source_parity",
+        "selection_stages"
+      ],
+      "properties": {
+        "pack_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_hash_parity": {
+          "const": true
+        },
+        "citation_source_parity": {
+          "const": true
+        },
+        "selection_stages": {
+          "type": "array"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "network_used",
+        "external_api_used",
+        "embeddings_used",
+        "secret_guard_used",
+        "runtime_sources_excluded",
+        "unregistered_sources_excluded"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "embeddings_used": {
+          "const": false
+        },
+        "secret_guard_used": {
+          "const": true
+        },
+        "runtime_sources_excluded": {
+          "const": true
+        },
+        "unregistered_sources_excluded": {
+          "const": true
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "path",
+        "title",
+        "content_sha256",
+        "chunk_sha256",
+        "trust_tag",
+        "freshness",
+        "selection_reason",
+        "score",
+        "citation_ref",
+        "estimated_tokens",
+        "fragment",
+        "diff_priority"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "chunk_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "trust_tag": {
+          "enum": [
+            "approved-local",
+            "untrusted-external"
+          ]
+        },
+        "freshness": {
+          "type": "object"
+        },
+        "selection_reason": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "citation_ref": {
+          "type": "string"
+        },
+        "estimated_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fragment": {
+          "type": "string"
+        },
+        "diff_priority": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

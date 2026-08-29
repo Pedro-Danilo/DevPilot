@@ -2996,6 +2996,30 @@
       "workspace_scope_required": false,
       "risk_level": "medium",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.rag-context",
+      "method": "GET",
+      "path": "/api/v1/settings/rag-context",
+      "operation": "settings.rag_context",
+      "access_class": "authenticated-rag-context-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -3222,7 +3246,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 134,
+    "route_policies_total": 135,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3242,8 +3266,9 @@
     "gsdlc_06_c_legacy_token_allowed_total": 0,
     "gsdlc_06_c_owner_only_action_policies_total": 5,
     "gsdlc_06_c_runtime_mutation_policies_total": 3,
-    "human_session_required_total": 57,
-    "legacy_token_allowed_total": 69
+    "human_session_required_total": 59,
+    "legacy_token_allowed_total": 69,
+    "gsdlc_07_b_rag_context_policies_total": 1
   },
   "safety": {
     "legacy_token_human_authority": false,
@@ -3254,7 +3279,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-06-E",
+  "updated_by": "DEVPL-GSDLC-07-B",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -3265,5 +3290,6 @@
     "GSDLC-04-C adds three human-session-only PASTE/UPLOAD/IMPORT runtime-DRAFT routes; no legacy-token authority and no source write.",
     "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced."
   ],
-  "gsdlc_07_a_agent_runtime_route_registered": true
+  "gsdlc_07_a_agent_runtime_route_registered": true,
+  "gsdlc_07_b_rag_context_route_registered": true
 }

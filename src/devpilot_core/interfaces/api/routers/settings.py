@@ -75,6 +75,11 @@ def settings_agent_runtime(service: ApplicationService = Depends(get_application
     return _json(*dispatch_application_request(service, operation="settings.agent_runtime", payload={}))
 
 
+@router.get("/api/v1/settings/rag-context")
+def settings_rag_context(step_id: str = "requirements", service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    return _json(*dispatch_application_request(service, operation="settings.rag_context", payload={"step_id": step_id}))
+
+
 @router.post("/api/v1/settings/model-gateway/evaluate")
 def settings_model_gateway_evaluate(request: Request, body: ModelGatewayEvalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     principal, session = _session(request)

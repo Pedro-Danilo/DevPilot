@@ -3309,6 +3309,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-07-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-CONTEXT-PACK-V2",
+      "title": "ContextPack v2",
+      "version": "2.0.0",
+      "path": "docs/schemas/context_pack_v2.schema.json",
+      "description": "GSDLC-07-B bounded grounded context pack with source hashes, freshness, trust, citations, top-k/diff-first and ContextBudget provenance.",
+      "status": "registered",
+      "contract": "ContextPackV2",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-B"
     }
   ],
   "schemas_total": 230

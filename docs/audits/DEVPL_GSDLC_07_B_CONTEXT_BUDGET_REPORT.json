@@ -1,0 +1,54 @@
+{
+  "status": "PASS/LOCAL-CANDIDATE",
+  "created_by": "DEVPL-GSDLC-07-B",
+  "context_budget": "GSDLC-06-D ContextBudget reused",
+  "scenarios": [
+    {
+      "top_k": 1,
+      "status": "grounded",
+      "candidate_sources_total": 3,
+      "sources_total": 1,
+      "budget_strategy": "pass",
+      "requested_tokens": 2123,
+      "selected_tokens": 748,
+      "trimmed": true,
+      "max_input_tokens": 9000
+    },
+    {
+      "top_k": 3,
+      "status": "grounded",
+      "candidate_sources_total": 9,
+      "sources_total": 3,
+      "budget_strategy": "pass",
+      "requested_tokens": 4612,
+      "selected_tokens": 2123,
+      "trimmed": true,
+      "max_input_tokens": 9000
+    },
+    {
+      "top_k": 5,
+      "status": "grounded",
+      "candidate_sources_total": 15,
+      "sources_total": 5,
+      "budget_strategy": "pass",
+      "requested_tokens": 7009,
+      "selected_tokens": 2685,
+      "trimmed": true,
+      "max_input_tokens": 9000
+    },
+    {
+      "top_k": 8,
+      "status": "grounded",
+      "candidate_sources_total": 24,
+      "sources_total": 8,
+      "budget_strategy": "retrieval",
+      "requested_tokens": 11162,
+      "selected_tokens": 4260,
+      "trimmed": true,
+      "max_input_tokens": 9000
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false,
+  "full_regression_runs": 0
+}

@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc07b.full_regression_waiver.v1",
+  "status": "approved-by-owner-policy",
+  "owner": "Ordóñez",
+  "reason": "The approved DEVPL-GSDLC-07-B prompt mandates completion-first/selective/no-full. GSDLC-07 reserves the single logical sharded/resumable full-regression session for DEVPL-GSDLC-07-E. 07-B changes shared RAG/API/UI/documentation registries, so closure uses an expanded direct-impact plan, deterministic sweeps, one focal provenance browser acceptance and Historical Regression Guard without consuming the backlog full.",
+  "risk": "high",
+  "tests_executed": [
+    "Governed selective plan in docs/audits/DEVPL_GSDLC_07_B_VALIDATION_PLAN.json; local and Windows evidence must record its complete result."
+  ],
+  "expires_at": "2026-09-30T23:59:59Z",
+  "full_regression_executed": false,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "hard_trigger_owner_approved": false,
+  "network_used": false,
+  "external_api_used": false
+}

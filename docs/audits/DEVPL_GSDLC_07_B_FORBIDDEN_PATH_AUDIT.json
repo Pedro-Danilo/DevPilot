@@ -1,0 +1,19 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-B",
+  "updated": "2026-08-29",
+  "schema_id": "devpilot.gsdlc07b.forbidden_path_audit.v1",
+  "status": "PASS",
+  "forbidden_paths_total": 0,
+  "paths": [],
+  "policy": [
+    "outputs/",
+    ".pytest_cache/",
+    "__pycache__/",
+    ".venv/",
+    ".git/",
+    "node_modules/",
+    ".vite/",
+    "auth.db*",
+    "devpilot.db*"
+  ]
+}

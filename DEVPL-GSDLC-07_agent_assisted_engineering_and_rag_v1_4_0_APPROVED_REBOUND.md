@@ -13,11 +13,11 @@ design_origin_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_RE
 design_origin_git_commit: "cff43e8d992ff6139bd13bb1809ce4d497ae0952"
 design_origin_repo_sha256: "e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b"
 design_origin_role: "historical-design-origin-only/not-execution-authority"
-source_repo: "repo_DevPilot_Local_381_DEVPL_GSDLC_07_ACTIVATION_ENABLER_FRX2_1_WINDOWS_VALIDATED_CANDIDATE.zip"
-source_git_commit: "bind-at-windows-validation/from-official-three-state"
-source_repo_sha256: "3b6da2658898af196caadae578b4f8433dc7c8ca8d1e64be79e5c23e67a347ca"
+source_repo: "repo_DevPilot_Local_382_DEVPL_GSDLC_07_A_CONTEXTUAL_AGENT_ROLE_BINDINGS_WINDOWS_VALIDATED_CANDIDATE.zip"
+source_git_commit: "807685993b9ef526d1274fd8d3440fb14f6e56cf"
+source_repo_sha256: "dfde12877a1f9a96297aab42ad30a4f85a64216e42004042e43b7a51ded1e865"
 source_repo_role: "execution-authority/owner-adjudicated-gsdlc-06-successor"
-execution_source_policy: "rebound/repo381-windows-validated/07-a"
+execution_source_policy: "rebound/repo382-windows-validated/07-b"
 predecessor_backlog: "DEVPL-GSDLC-06"
 predecessor_micro_sprint_closure: "DEVPL_GSDLC_06_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md"
 predecessor_backlog_closure: "DEVPL_GSDLC_06_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md"
@@ -85,6 +85,10 @@ Se adopta `DEVPL_TESTING_FULL_REGRESSION_EXECUTION_V2_ARCHITECTURE_v1_0_0.md`.
 - segunda full prohibida.
 - browser se repite solo si runtime UI cambia.
 
+
+## 0.4 Rebound 07-B (2026-08-29)
+
+GSDLC-07-A quedó owner-adjudicated `CLOSED/PASS` sobre commit `807685993b9ef526d1274fd8d3440fb14f6e56cf`. La autoridad funcional para 07-B es repo382 Windows-validated (SHA-256 `dfde12877a1f9a96297aab42ad30a4f85a64216e42004042e43b7a51ded1e865`). La implementación de 07-B debe evolucionar los contratos RAG históricos mediante successor `ContextPack v2`; no se reescriben snapshots históricos POST-H-032.
 
 # DEVPL-GSDLC-07 — Agent-assisted Engineering, contextual RAG and bounded handoffs
 

@@ -1,0 +1,25 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-B",
+  "updated": "2026-08-29",
+  "schema_id": "devpilot.gsdlc07b.operation_declaration.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "source_mutations_performed": true,
+  "embeddings_required": false,
+  "local_model_required": false,
+  "lexical_fallback_mandatory": true,
+  "runtime_agent_execution_enabled": false,
+  "tool_execution_enabled_by_07_b": false,
+  "browser_required": true,
+  "browser_executed_local": false,
+  "full_regression_executed": false,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "pytest_xdist_used": false,
+  "notes": [
+    "07-B adds deterministic ContextPack v2/provenance/budget source and read-only UI/API surfaces.",
+    "No external model or embeddings are required; lexical/local remains the mandatory zero-cost route.",
+    "Windows browser acceptance is required exactly once for RagProvenanceView."
+  ]
+}

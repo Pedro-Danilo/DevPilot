@@ -31,7 +31,8 @@
     "test:miasi-applicability": "node scripts/gsdlc05c-miasi-applicability-smoke.mjs",
     "test:step-action-advisor": "node scripts/gsdlc05d-step-action-advisor-smoke.mjs",
     "test:model-settings": "node scripts/gsdlc06e-model-settings-smoke.mjs",
-    "test:agent-runtime": "node scripts/gsdlc07a-agent-runtime-smoke.mjs"
+    "test:agent-runtime": "node scripts/gsdlc07a-agent-runtime-smoke.mjs",
+    "test:rag-provenance": "node scripts/gsdlc07b-rag-provenance-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {

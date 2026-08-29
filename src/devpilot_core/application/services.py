@@ -914,6 +914,9 @@ class ApplicationService:
     def settings_agent_runtime(self) -> CommandResult:
         return self.settings.agent_runtime_settings()
 
+    def settings_rag_context(self, *, step_id: str = "requirements") -> CommandResult:
+        return self.settings.rag_context_settings(step_id=step_id)
+
     def settings_model_gateway_evaluate_authenticated(self, *, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
         del session
         roles = self.rbac.enforcer.canonical_roles(principal)
@@ -1772,6 +1775,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "settings.providers": lambda payload: service.settings_providers(prefer_example=bool(payload.get("prefer_example", False))),
         "settings.model_gateway": lambda payload: service.settings_model_gateway(preview_input_tokens=int(payload.get("preview_input_tokens", 1200)), preview_output_tokens=int(payload.get("preview_output_tokens", 300))),
         "settings.agent_runtime": lambda payload: service.settings_agent_runtime(),
+        "settings.rag_context": lambda payload: service.settings_rag_context(step_id=str(payload.get("step_id") or "requirements")),
         "settings.policy": lambda payload: service.settings_policy(),
         "settings.status": lambda payload: service.settings_status(),
         "settings.providers.plan": lambda payload: service.settings_provider_plan(provider_id=str(payload.get("provider_id", "")), changes=dict(payload.get("changes") or {}), actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Settings UI plan-only provider change"))),
@@ -1909,6 +1913,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("settings.providers", "Read provider settings with secret redaction and external providers disabled by default.", "none", True, "Settings UI: providers panel"),
         ("settings.model_gateway", "Project Model Gateway provider/model/access-route, capability, cost, budget, freshness and fallback projection without secret resolution.", "none", True, "Settings UI: ModelSettingsView"),
         ("settings.agent_runtime", "Read GSDLC-07-A contextual agent roles, step bindings, limits and Agent Runtime authority boundary without enabling execution.", "none", True, "Settings UI: AgentRuntimeView"),
+        ("settings.rag_context", "Read GSDLC-07-B ContextPack v2 provenance, source selection and ContextBudget projection without agent execution.", "none", True, "Settings UI: RagProvenanceView"),
         ("settings.model_gateway.evaluate", "Run controlled mock/fake-local/fake-external Model Gateway evaluation; real external network remains disabled.", "hermetic_evaluation", False, "Settings UI: controlled model evaluation"),
         ("settings.policy", "Read local policy and MIASI policy matrix summaries without editing policy.", "none", True, "Settings UI: policy panel"),
         ("settings.providers.plan", "Create a provider configuration change plan without writing .devpilot/providers.yaml.", "plan_only", True, "Settings UI: provider plan-only editor"),
@@ -2071,6 +2076,7 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-132", "GET", "/api/v1/settings/model-gateway", "settings.model_gateway", ["GSDLC-06-E ModelSettingsView projection; credentials redacted and route/tool authority separated."]),
         ("APP-ROUTE-133", "POST", "/api/v1/settings/model-gateway/evaluate", "settings.model_gateway.evaluate", ["GSDLC-06-E human-session controlled mock/local/fake-external evaluation; no real external network."]),
         ("APP-ROUTE-134", "GET", "/api/v1/settings/agent-runtime", "settings.agent_runtime", ["GSDLC-07-A AgentRuntimeView read-only role/binding/runtime-boundary projection; no agent execution or tool authority."]),
+        ("APP-ROUTE-135", "GET", "/api/v1/settings/rag-context", "settings.rag_context", ["GSDLC-07-B ContextPack v2 local provenance preview; no model/tool execution, network or external API."]),
         ("APP-ROUTE-028", "GET", "/api/v1/settings/policy", "settings.policy", ["Active Sprint 72 Settings route; policy summary is read-only."]),
         ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
         ("APP-ROUTE-126", "GET", "/api/v1/settings/providers/enablement", "settings.providers.enablement.status", ["GSDLC-06-C redacted runtime enablement status; human session required by RBAC catalog."]),

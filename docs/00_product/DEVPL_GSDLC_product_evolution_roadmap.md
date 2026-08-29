@@ -500,4 +500,9 @@ Antes de 07-A se ejecuta una transición no funcional mínima: materialización 
 
 ### DEVPL-GSDLC-07-A — contextual engineering agent roles and step bindings (2026-08-29)
 
-`IMPLEMENTED / LOCAL-VALIDATED / PENDING-WINDOWS-OWNER-ADJUDICATION`. El micro-sprint 07-A se ejecuta sobre el successor Windows-validated repo381 posterior al activation enabler FRX2.1. Materializa ocho roles contextuales, 19 bindings explícitos Guided SDLC, allowlists de mínimo privilegio, capability/fallback descriptors, la frontera R01-E Agent Runtime/Model Gateway/Skills y `AgentRuntimeView` read-only. La ejecución agentic continúa deshabilitada en 07-A; `ModelRouteDecision` no concede tool authority y agent role no equivale a human approval. No se consume full regression; la única logical full session del backlog permanece reservada a 07-E. 07-B solo queda autorizable después de owner adjudication Windows de 07-A.
+`CLOSED/PASS / WINDOWS-VALIDATED`. El micro-sprint 07-A se ejecuta sobre el successor Windows-validated repo381 posterior al activation enabler FRX2.1. Materializa ocho roles contextuales, 19 bindings explícitos Guided SDLC, allowlists de mínimo privilegio, capability/fallback descriptors, la frontera R01-E Agent Runtime/Model Gateway/Skills y `AgentRuntimeView` read-only. La ejecución agentic continúa deshabilitada en 07-A; `ModelRouteDecision` no concede tool authority y agent role no equivale a human approval. No se consume full regression; la única logical full session del backlog permanece reservada a 07-E. 07-B queda autorizado por la owner adjudication Windows de 07-A.
+
+
+### DEVPL-GSDLC-07-B — RAG context packs, provenance and budget (2026-08-29)
+
+`IMPLEMENTED / LOCAL-VALIDATED / PENDING-WINDOWS-OWNER-ADJUDICATION`. Añade ContextPack v2 como successor de POST-H-032-D: selección local registrada/allowlisted, hashes, freshness/trust, citations, insufficient-evidence, ContextBudget/top-k/diff-first y RagProvenanceView read-only. No ejecuta agentes, tools, embeddings ni APIs externas. 07-C solo se autoriza tras owner adjudication Windows de 07-B; full del backlog permanece 0 hasta 07-E.

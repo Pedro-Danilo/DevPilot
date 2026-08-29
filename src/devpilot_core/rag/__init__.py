@@ -57,3 +57,5 @@ __all__ = [
     "RagGroundednessReadyGateOptions",
     "RagGroundednessReadyGate",
 ]
+
+from devpilot_core.rag.context_pack_v2 import ContextPackV2Builder, ContextPackV2Options

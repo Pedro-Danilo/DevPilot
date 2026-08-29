@@ -160,6 +160,10 @@ class SettingsApplicationService:
         from devpilot_core.agents import AgentRoleBindingCatalog
         return AgentRoleBindingCatalog(self.root).snapshot()
 
+    def rag_context_settings(self, *, step_id: str = "requirements") -> CommandResult:
+        from devpilot_core.rag import ContextPackV2Builder, ContextPackV2Options
+        return ContextPackV2Builder(self.root, ContextPackV2Options(step_id=step_id)).build()
+
     def policy(self) -> CommandResult:
         policy_path = self.root / ".devpilot" / "policy.yaml"
         matrix_path = self.root / ".devpilot" / "miasi" / "policy_matrix.json"

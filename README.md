@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está aprobado, pero 07-A funcional permanece bloqueado hasta cerrar el activation enabler y Full Regression Execution v2.1.
+Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está en implementación. El activation enabler/FRX2.1 está CLOSED/PASS y 07-A está Windows-validated CLOSED/PASS; 07-B implementa ContextPack v2, provenance y budget sobre repo382.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -6481,7 +6481,7 @@ Gaps aceptados: `S2-EVIDENCE-06E-001` (captura RBAC no muestra el 403 descrito) 
 
 El activation rebind Windows v1.2.0 está `CLOSED/PASS`: repo380 / commit `2378296abe194431894d9f25bdd1f59a81205013` / SHA-256 `841d0cd1c3f9e5edba21d3e14e42d75a067d9bbfbab90af1ddf48293b7a967b4` reconcilió checkout, branch oficial y remote. Los gaps `S2-EVIDENCE-06E-001` y `S2-DOC-06E-002` están remediados.
 
-Full Regression Execution v2.1 está `IMPLEMENTED-INITIAL / PASS-CANDIDATE / PENDING-WINDOWS-OWNER-ADJUDICATION`. Expone `tests full-session collect|plan|run|resume|status|adjudicate`, con collection/plan inmutables, shards secuenciales, receipts, completion-first, resume de nodeids `UNEXECUTED`, fingerprints y adjudicación con accounting completo. La validación del enabler usa tests focales/sintéticos y bounded canary; full de GSDLC-07=`0`, browser=`0`, xdist=`0`. La full única del backlog sigue reservada a 07-E y 07-A funcional permanece bloqueado hasta la adjudicación Windows del successor del enabler.
+Full Regression Execution v2.1 está `CLOSED/PASS / WINDOWS-VALIDATED`. Expone `tests full-session collect|plan|run|resume|status|adjudicate`, con collection/plan inmutables, shards secuenciales, receipts, completion-first, resume de nodeids `UNEXECUTED`, fingerprints y adjudicación con accounting completo. La validación del enabler usa tests focales/sintéticos y bounded canary; full de GSDLC-07=`0`, browser=`0`, xdist=`0`. La full única del backlog sigue reservada a 07-E y 07-A funcional permanece bloqueado hasta la adjudicación Windows del successor del enabler.
 
 
 ### DEVPL-GSDLC-07 activation enabler / FRX2.1
@@ -6493,4 +6493,9 @@ Full Regression Execution v2.1 está `IMPLEMENTED-INITIAL / PASS-CANDIDATE / PEN
 
 ## GSDLC-07-A — Contextual agent role bindings
 
-Status: `PASS-CANDIDATE / PRE-WINDOWS`. Eight contextual roles and 19 explicit step bindings are source-controlled. AgentRuntimeView is read-only; agent execution, tool authority and human approval remain disabled/separate in 07-A. Source authority: repo381 Windows-validated (`3b6da265...347ca`). Full regression consumed: `0`; browser focal pending Windows.
+Status: `CLOSED/PASS / WINDOWS-VALIDATED`. Eight contextual roles and 19 explicit step bindings are source-controlled. AgentRuntimeView is read-only; agent execution, tool authority and human approval remain disabled/separate in 07-A. Successor authority: repo382/`8076859...`/`dfde1287...`; browser focal PASS; full regression consumed: `0`.
+
+
+## GSDLC-07-B — RAG ContextPack v2
+
+Status: `PASS-CANDIDATE / PRE-WINDOWS`. ContextPack v2 adds policy-filtered local source selection, source/content hashes, freshness/trust tags, citation parity, insufficient-evidence semantics, ContextBudget/top-k/diff-first and a read-only RagProvenanceView. Lexical/local is mandatory; embeddings/external APIs remain disabled by default. Full regression consumed: `0`; browser focal pending Windows.

@@ -1,0 +1,48 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-B",
+  "updated": "2026-08-29",
+  "source_repo": "repo_DevPilot_Local_382_DEVPL_GSDLC_07_A_CONTEXTUAL_AGENT_ROLE_BINDINGS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_sha256": "dfde12877a1f9a96297aab42ad30a4f85a64216e42004042e43b7a51ded1e865",
+  "schema_id": "devpilot.gsdlc07b.historical_contract_sweep.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "classifications": {
+    "historical-freeze": [
+      "POST-H-032 RAG-aware agent contracts remain historical facts and are not rewritten",
+      "GSDLC-07-A AgentRuntimeView/browser closure facts",
+      "GSDLC-05-D AGENT execution remains unavailable as a historical fact"
+    ],
+    "current-active": [
+      "tests/test_api_contract.py recognizes current GET /api/v1/settings/rag-context",
+      "API/UI route registries, server RBAC catalog, OpenAPI and API service mapping",
+      "Project State / Documentation Source Registry / README / roadmap",
+      "TCR v1/v2 active registries"
+    ],
+    "successor-needed": [
+      "ContextPack v2 succeeds prior RAG context pack contracts without deleting v1",
+      "RagProvenanceView succeeds 07-A runtime administration with grounded source visibility"
+    ],
+    "deprecated-after-proof": [],
+    "derived": [
+      "OpenAPI projection",
+      "api_service_mapping.md",
+      "registry counters",
+      "rag_grounding_samples.json",
+      "context_budget_report.json"
+    ],
+    "runtime-ephemeral": [
+      "outputs/",
+      "auth.db*",
+      "devpilot.db*",
+      ".vite/",
+      "node_modules/",
+      "__pycache__/",
+      ".pytest_cache/"
+    ]
+  },
+  "historical_tests_rewritten_to_pass": false,
+  "current_active_tests_evolved": [
+    "tests/test_api_contract.py"
+  ],
+  "full_regression_executed": false,
+  "browser_runtime_change": true
+}

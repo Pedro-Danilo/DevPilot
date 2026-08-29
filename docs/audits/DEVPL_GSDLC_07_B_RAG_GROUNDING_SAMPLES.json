@@ -1,0 +1,474 @@
+{
+  "status": "PASS/LOCAL-CANDIDATE",
+  "created_by": "DEVPL-GSDLC-07-B",
+  "samples_total": 5,
+  "samples": [
+    {
+      "step_id": "requirements",
+      "summary": {
+        "status": "grounded",
+        "step_id": "requirements",
+        "sources_total": 5,
+        "candidate_sources_total": 15,
+        "citations_total": 5,
+        "budget_strategy": "pass",
+        "selected_tokens": 2685,
+        "top_k": 5,
+        "insufficient_evidence": false,
+        "source_hash_parity": true,
+        "citation_source_parity": true,
+        "network_used": false,
+        "external_api_used": false,
+        "embeddings_used": false,
+        "source_mutations_performed": false
+      },
+      "pack_id": "ctx2-requirements-b267b6f26625",
+      "sources": [
+        {
+          "source_id": "ragchunk_5bd1d5d949474eeb",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L141-L180",
+          "estimated_tokens": 748
+        },
+        {
+          "source_id": "ragchunk_c4083ba725c8bd39",
+          "path": "docs/01_requirements/requirements_specification.md",
+          "content_sha256": "bcaf1c9868fefee5f07b21adece45696235f0e89871494b332c1f3a903491db1",
+          "freshness": {
+            "status": "fresh",
+            "updated": "2026-06-02",
+            "age_days": 88,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/01_requirements/requirements_specification.md#L1-L40",
+          "estimated_tokens": 676
+        },
+        {
+          "source_id": "ragchunk_55a927e1ef135cb5",
+          "path": "docs/02_architecture/architecture_document.md",
+          "content_sha256": "d256a683c1a98ae14075e3e34b1d41fc5de01a51c8f50edc5da79b6641fb30ec",
+          "freshness": {
+            "status": "fresh",
+            "updated": "2026-06-14",
+            "age_days": 76,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/02_architecture/architecture_document.md#L1-L40",
+          "estimated_tokens": 699
+        },
+        {
+          "source_id": "ragchunk_3d9938ad80696b0c",
+          "path": "docs/templates/new_project/mvp_scope.template.md",
+          "content_sha256": "02fe2999531fd6d6cf1d687dc2d1d4576436d7dfb58a1f52a6280ab59db9ba69",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/templates/new_project/mvp_scope.template.md#L36-L75",
+          "estimated_tokens": 259
+        },
+        {
+          "source_id": "ragchunk_0f8d2195b0e77160",
+          "path": "docs/templates/new_project/requirements_specification.template.md",
+          "content_sha256": "8095bad1a53dc790e2c6eb4e768be67ff7862aefd015720661224e661197ab41",
+          "freshness": {
+            "status": "fresh",
+            "updated": "2026-07-02",
+            "age_days": 58,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/templates/new_project/requirements_specification.template.md#L1-L40",
+          "estimated_tokens": 303
+        }
+      ]
+    },
+    {
+      "step_id": "architecture",
+      "summary": {
+        "status": "grounded",
+        "step_id": "architecture",
+        "sources_total": 5,
+        "candidate_sources_total": 15,
+        "citations_total": 5,
+        "budget_strategy": "pass",
+        "selected_tokens": 3703,
+        "top_k": 5,
+        "insufficient_evidence": false,
+        "source_hash_parity": true,
+        "citation_source_parity": true,
+        "network_used": false,
+        "external_api_used": false,
+        "embeddings_used": false,
+        "source_mutations_performed": false
+      },
+      "pack_id": "ctx2-architecture-6e1461502b0b",
+      "sources": [
+        {
+          "source_id": "ragchunk_55a927e1ef135cb5",
+          "path": "docs/02_architecture/architecture_document.md",
+          "content_sha256": "d256a683c1a98ae14075e3e34b1d41fc5de01a51c8f50edc5da79b6641fb30ec",
+          "freshness": {
+            "status": "fresh",
+            "updated": "2026-06-14",
+            "age_days": 76,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/02_architecture/architecture_document.md#L1-L40",
+          "estimated_tokens": 699
+        },
+        {
+          "source_id": "ragchunk_1352aabe5dc9a175",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L1926-L1965",
+          "estimated_tokens": 462
+        },
+        {
+          "source_id": "ragchunk_012cbea3c0736a68",
+          "path": "docs/05_operations/runbook.md",
+          "content_sha256": "ac0f24e16c1b55ebd54c41327ddf25f6cd193e6d8e12dd9f4003d7fabdf79532",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/05_operations/runbook.md#L9416-L9455",
+          "estimated_tokens": 560
+        },
+        {
+          "source_id": "ragchunk_e96a42fcfbf5853d",
+          "path": "docs/backlogs/post_h_prioritized_roadmap.md",
+          "content_sha256": "f606bb202702c3caed2c95688fecd92ac735f638beb404f908f61d90779e0089",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/backlogs/post_h_prioritized_roadmap.md#L71-L110",
+          "estimated_tokens": 1451
+        },
+        {
+          "source_id": "ragchunk_6edf5c8c26430196",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L1856-L1895",
+          "estimated_tokens": 531
+        }
+      ]
+    },
+    {
+      "step_id": "security-plan",
+      "summary": {
+        "status": "grounded",
+        "step_id": "security-plan",
+        "sources_total": 5,
+        "candidate_sources_total": 15,
+        "citations_total": 5,
+        "budget_strategy": "pass",
+        "selected_tokens": 2373,
+        "top_k": 5,
+        "insufficient_evidence": false,
+        "source_hash_parity": true,
+        "citation_source_parity": true,
+        "network_used": false,
+        "external_api_used": false,
+        "embeddings_used": false,
+        "source_mutations_performed": false
+      },
+      "pack_id": "ctx2-security-plan-94757857e1a9",
+      "sources": [
+        {
+          "source_id": "ragchunk_13c56d7132f8987a",
+          "path": "docs/02_architecture/architecture_document.md",
+          "content_sha256": "d256a683c1a98ae14075e3e34b1d41fc5de01a51c8f50edc5da79b6641fb30ec",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/02_architecture/architecture_document.md#L176-L215",
+          "estimated_tokens": 879
+        },
+        {
+          "source_id": "ragchunk_54f8399415a7847a",
+          "path": "docs/post_h_034_e_manifest.json",
+          "content_sha256": "0ed24f4f2fab08d6b5ce792ebddb4edefa67cfd0d994d6413c95855d2ee277a0",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/post_h_034_e_manifest.json#L106-L145",
+          "estimated_tokens": 263
+        },
+        {
+          "source_id": "ragchunk_f3407c169f0b5ae3",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L456-L495",
+          "estimated_tokens": 513
+        },
+        {
+          "source_id": "ragchunk_6223cad95d099f54",
+          "path": "docs/post_h_034_e_manifest.json",
+          "content_sha256": "0ed24f4f2fab08d6b5ce792ebddb4edefa67cfd0d994d6413c95855d2ee277a0",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/post_h_034_e_manifest.json#L211-L250",
+          "estimated_tokens": 408
+        },
+        {
+          "source_id": "ragchunk_974239c129c3bbb5",
+          "path": "docs/POST-H-034_sensitive_capabilities_adrs.md",
+          "content_sha256": "55285c421a29b864e88aebb127c7a40b3af2bfae7ba723e3da64c2b99538f58b",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/POST-H-034_sensitive_capabilities_adrs.md#L526-L565",
+          "estimated_tokens": 310
+        }
+      ]
+    },
+    {
+      "step_id": "test-plan",
+      "summary": {
+        "status": "grounded",
+        "step_id": "test-plan",
+        "sources_total": 5,
+        "candidate_sources_total": 15,
+        "citations_total": 5,
+        "budget_strategy": "retrieval",
+        "selected_tokens": 2638,
+        "top_k": 5,
+        "insufficient_evidence": false,
+        "source_hash_parity": true,
+        "citation_source_parity": true,
+        "network_used": false,
+        "external_api_used": false,
+        "embeddings_used": false,
+        "source_mutations_performed": false
+      },
+      "pack_id": "ctx2-test-plan-9fe0f4e69162",
+      "sources": [
+        {
+          "source_id": "ragchunk_e4d6a26dbf301c42",
+          "path": "docs/05_operations/runbook.md",
+          "content_sha256": "ac0f24e16c1b55ebd54c41327ddf25f6cd193e6d8e12dd9f4003d7fabdf79532",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/05_operations/runbook.md#L8751-L8790",
+          "estimated_tokens": 477
+        },
+        {
+          "source_id": "ragchunk_69b958567feb9f12",
+          "path": "docs/05_operations/runbook.md",
+          "content_sha256": "ac0f24e16c1b55ebd54c41327ddf25f6cd193e6d8e12dd9f4003d7fabdf79532",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/05_operations/runbook.md#L10536-L10575",
+          "estimated_tokens": 477
+        },
+        {
+          "source_id": "ragchunk_b9a65646447ada47",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L2661-L2700",
+          "estimated_tokens": 576
+        },
+        {
+          "source_id": "ragchunk_d9e523b86bb750ce",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L1961-L2000",
+          "estimated_tokens": 595
+        },
+        {
+          "source_id": "ragchunk_c98520ad48f51f27",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L1646-L1685",
+          "estimated_tokens": 513
+        }
+      ]
+    },
+    {
+      "step_id": "implementation",
+      "summary": {
+        "status": "grounded",
+        "step_id": "implementation",
+        "sources_total": 5,
+        "candidate_sources_total": 15,
+        "citations_total": 5,
+        "budget_strategy": "retrieval",
+        "selected_tokens": 4655,
+        "top_k": 5,
+        "insufficient_evidence": false,
+        "source_hash_parity": true,
+        "citation_source_parity": true,
+        "network_used": false,
+        "external_api_used": false,
+        "embeddings_used": false,
+        "source_mutations_performed": false
+      },
+      "pack_id": "ctx2-implementation-eb83affc370f",
+      "sources": [
+        {
+          "source_id": "ragchunk_f3407c169f0b5ae3",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L456-L495",
+          "estimated_tokens": 513
+        },
+        {
+          "source_id": "ragchunk_55a927e1ef135cb5",
+          "path": "docs/02_architecture/architecture_document.md",
+          "content_sha256": "d256a683c1a98ae14075e3e34b1d41fc5de01a51c8f50edc5da79b6641fb30ec",
+          "freshness": {
+            "status": "fresh",
+            "updated": "2026-06-14",
+            "age_days": 76,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/02_architecture/architecture_document.md#L1-L40",
+          "estimated_tokens": 699
+        },
+        {
+          "source_id": "ragchunk_f050ef9c2993e5c2",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L2416-L2455",
+          "estimated_tokens": 2325
+        },
+        {
+          "source_id": "ragchunk_45583b7a1a5e8447",
+          "path": "docs/post_h_033_a_manifest.json",
+          "content_sha256": "b27914e7b625786dc763c4f87387db88d02e73877230b52581c0cb8bb580f1c9",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/post_h_033_a_manifest.json#L456-L488",
+          "estimated_tokens": 547
+        },
+        {
+          "source_id": "ragchunk_9759335bc7273ca1",
+          "path": "docs/release/CHANGELOG.md",
+          "content_sha256": "7dba5e62eff41253f02001dffe4d1132f3c52778e0cf196eb7551208e79d5205",
+          "freshness": {
+            "status": "unknown",
+            "updated": null,
+            "age_days": null,
+            "max_age_days": 730
+          },
+          "trust_tag": "approved-local",
+          "citation_ref": "docs/release/CHANGELOG.md#L1051-L1090",
+          "estimated_tokens": 571
+        }
+      ]
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0.0",
+  "policy_id": "DEVPL-RAG-CONTEXT-PACK-V2-POLICY",
+  "status": "approved",
+  "created_by": "DEVPL-GSDLC-07-B",
+  "selection": {
+    "mode": "lexical-local",
+    "top_k_default": 5,
+    "top_k_max": 8,
+    "minimum_sources_required": 1,
+    "diff_first_boost": 3.0,
+    "approved_registry_lifecycle": [
+      "active"
+    ],
+    "allowed_registry_classifications": [
+      "machine-readable-source",
+      "canonical-source",
+      "authoritative-reference",
+      "governed-document",
+      "current-active"
+    ],
+    "allow_registered_source_when_classification_unknown": true,
+    "unregistered_source_action": "exclude",
+    "stale_source_action": "exclude",
+    "unknown_freshness_action": "include-with-warning",
+    "max_age_days": 730
+  },
+  "source_scope": {
+    "allowed_prefixes": [
+      "docs",
+      ".devpilot/agents",
+      ".devpilot/gsdlc",
+      ".devpilot/miasi",
+      ".devpilot/rag",
+      ".devpilot/modeling",
+      "README.md"
+    ],
+    "denied_parts": [
+      ".git",
+      ".venv",
+      "node_modules",
+      "outputs",
+      "dist",
+      "__pycache__",
+      ".pytest_cache",
+      ".vite",
+      "agent_sessions"
+    ],
+    "denied_file_names": [
+      ".env",
+      ".env.local",
+      ".env.dev",
+      "providers.yaml",
+      "devpilot.db",
+      "auth.db"
+    ],
+    "allowed_suffixes": [
+      ".md",
+      ".txt",
+      ".json",
+      ".yaml",
+      ".yml"
+    ],
+    "max_source_bytes": 1000000
+  },
+  "budget": {
+    "hard_ceiling_tokens": 12000,
+    "input_reserve_tokens": 1000,
+    "output_reserve_tokens": 2000,
+    "safety_margin_tokens": 1000,
+    "summary_budget_tokens": 3500,
+    "retrieval_budget_tokens": 6000
+  },
+  "safety": {
+    "local_first": true,
+    "external_api_required": false,
+    "embeddings_required": false,
+    "secret_guard_required": true,
+    "raw_secret_storage": false,
+    "runtime_store_allowed": false,
+    "source_hash_required": true,
+    "citation_required": true,
+    "insufficient_evidence_blocks_authoritative_claims": true
+  },
+  "notes": [
+    "GSDLC-07-B remains lexical/local by default; embeddings and external APIs are opt-in future routes.",
+    "Candidates come from the existing local RAG index but only registered, active and policy-allowed sources may enter ContextPack v2."
+  ]
+}

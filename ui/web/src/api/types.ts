@@ -128,6 +128,15 @@ export interface AgentRuntimeSettingsData {
   validation?: Record<string, unknown>;
 }
 
+export interface RagContextSourceItem {
+  source_id: string; path: string; title?: string | null; content_sha256: string; chunk_sha256: string; trust_tag: string;
+  freshness?: Record<string, unknown>; selection_reason: string; score: number; citation_ref: string; estimated_tokens: number; fragment: string; diff_priority: boolean;
+}
+export interface RagContextSettingsData {
+  summary?: Record<string, unknown>;
+  context_pack?: { candidate_sources?: RagContextSourceItem[]; sources?: RagContextSourceItem[]; budget?: Record<string, any>; [key: string]: any };
+}
+
 export interface ModelGatewayRouteItem {
   provider_id: string;
   model_id: string;
@@ -184,6 +193,7 @@ export interface SettingsSnapshot {
   providerPlan?: DevPilotApplicationResponse;
   modelGateway?: DevPilotApplicationResponse<ModelGatewaySettingsData>;
   agentRuntime?: DevPilotApplicationResponse<AgentRuntimeSettingsData>;
+  ragContext?: DevPilotApplicationResponse<RagContextSettingsData>;
   modelGatewayEval?: DevPilotApplicationResponse;
 }
 

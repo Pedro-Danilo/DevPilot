@@ -4665,15 +4665,52 @@
         "Projects role/step/runtime-boundary descriptors only; does not execute agents, tools or models."
       ],
       "source_mutation_allowed": false
+    },
+    {
+      "route_id": "api.settings.rag-context",
+      "method": "GET",
+      "path": "/api/v1/settings/rag-context",
+      "operation": "settings.rag_context",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.settings",
+      "router_module": "settings",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-human-session-rag-context",
+      "path_subject": ".devpilot/rag/context_pack_v2_policy.json",
+      "tags": [
+        "settings",
+        "gsdlc-07-b",
+        "rag",
+        "provenance",
+        "read-only"
+      ],
+      "notes": [
+        "Projects ContextPack v2 source selection, citations, freshness, hashes and ContextBudget only; no model/tool execution."
+      ],
+      "source_mutation_allowed": false
     }
   ],
   "summary": {
-    "routes_total": 134,
-    "protected_routes_total": 127,
+    "routes_total": 135,
+    "protected_routes_total": 128,
     "public_routes_total": 7,
     "mutating_routes_total": 48,
-    "application_service_routes_total": 129,
-    "policy_bound_routes_total": 127,
+    "application_service_routes_total": 130,
+    "policy_bound_routes_total": 128,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -4685,7 +4722,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "DEVPL-GSDLC-07-A",
+    "updated_by": "DEVPL-GSDLC-07-B",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -4725,7 +4762,7 @@
     "gsdlc_02_b_public_bootstrap_login_routes_total": 3,
     "gsdlc_02_b_human_session_routes_total": 4,
     "gsdlc_03_b_project_entry_routes_total": 2,
-    "read_only_routes_total": 86,
+    "read_only_routes_total": 87,
     "gsdlc_04_b_artifact_draft_routes_total": 5,
     "gsdlc_04_b_source_write_routes_total": 0,
     "gsdlc_04_c_artifact_import_routes_total": 3,
@@ -4745,7 +4782,8 @@
     "gsdlc_06_c_provider_enablement_routes_total": 6,
     "gsdlc_06_c_real_external_network_routes_total": 0,
     "gsdlc_06_e_model_gateway_routes_total": 2,
-    "gsdlc_07_a_agent_runtime_routes_total": 1
+    "gsdlc_07_a_agent_runtime_routes_total": 1,
+    "gsdlc_07_b_rag_context_routes_total": 1
   },
   "safety": {
     "local_first": true,

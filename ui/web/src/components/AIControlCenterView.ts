@@ -5,6 +5,7 @@ export interface AIControlCenterShellOptions {
   modelGatewayHtml: string;
   agentRuntimeStatus?: string;
   agentRuntimeHtml?: string;
+  ragProvenanceHtml?: string;
   skillsToolsStatus?: string;
 }
 
@@ -22,6 +23,7 @@ export function renderAIControlCenterShell(options: AIControlCenterShellOptions)
         </div>
       </header>
       ${options.agentRuntimeHtml ?? ""}
+      ${options.ragProvenanceHtml ?? ""}
       ${options.modelGatewayHtml}
     </section>`;
 }

@@ -12617,6 +12617,35 @@
         "ui/web/src/components/StepActionAdvisor.ts",
         "ui/web/src/pages/SettingsView.ts"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-b-context-pack-v2",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-B",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "validates": [
+        "ContextPackV2",
+        ".devpilot/rag/context_pack_v2_policy.json",
+        "docs/schemas/context_pack_v2.schema.json",
+        "ui/web/src/components/RagProvenanceView.ts"
+      ],
+      "watched_paths": [
+        ".devpilot/rag/context_pack_v2_policy.json",
+        "src/devpilot_core/rag/context_pack_v2.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "ui/web/src/components/RagProvenanceView.ts",
+        "ui/web/src/pages/SettingsView.ts"
+      ]
     }
   ],
   "created_by": "POST-H-001",

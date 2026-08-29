@@ -1,0 +1,36 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-B",
+  "updated": "2026-08-29",
+  "source_repo": "repo_DevPilot_Local_382_DEVPL_GSDLC_07_A_CONTEXTUAL_AGENT_ROLE_BINDINGS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_sha256": "dfde12877a1f9a96297aab42ad30a4f85a64216e42004042e43b7a51ded1e865",
+  "schema_id": "devpilot.gsdlc07b.test_impact.v1",
+  "status": "PASS/PLAN-FROZEN",
+  "analyzer": {
+    "decision": "REVIEW_REQUIRED",
+    "changed_paths_total": 47,
+    "matched_contracts_total": 192,
+    "recommended_tests_total": 295,
+    "unmatched_paths_total": 16,
+    "full_regression_required": true,
+    "waiver_required": true,
+    "residual_risk": "high"
+  },
+  "governed_selective_plan": "docs/audits/DEVPL_GSDLC_07_B_VALIDATION_PLAN.json",
+  "full_regression_runs_local": 0,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "browser_required": true,
+  "notes": [
+    "Actual Test Impact v2 result is refreshed after the final tracked delta is known.",
+    "No full is consumed in 07-B by approved backlog/prompt policy."
+  ],
+  "final_reconciled_analyzer": {
+    "decision": "REVIEW_REQUIRED",
+    "changed_paths_total": 48,
+    "matched_contracts_total": 192,
+    "recommended_tests_total": 295,
+    "unmatched_paths_total": 17,
+    "full_regression_required": true,
+    "waiver_required": true,
+    "residual_risk": "high"
+  }
+}
