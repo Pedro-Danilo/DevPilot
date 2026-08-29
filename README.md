@@ -6477,6 +6477,15 @@ External provider credential references and fake-first governed enablement are i
 
 Gaps aceptados: `S2-EVIDENCE-06E-001` (captura RBAC no muestra el 403 descrito) y `S2-DOC-06E-002` (este README afirmaba erróneamente `full 1/1 PASS`). El activation rebind preserva la evidencia sellada, registra el erratum y corrobora RBAC con contratos focales existentes; no repite browser porque no cambia la superficie runtime.
 
-## DEVPL-GSDLC-07 activation enabler
+## DEVPL-GSDLC-07 activation enabler / Full Regression Execution v2.1
 
-GSDLC-07 está `APPROVED/EXECUTABLE-DESIGN`, con repo379 como autoridad inicial. Antes de 07-A funcional se ejecuta un activation enabler sin full: reconciliación Git/checkout/remote, cierre de los dos gaps S2 y construcción de Full Regression Execution v2.1 (logical session, immutable collection/plan, sequential shards, receipts, resume y terminal accounting). La full única de GSDLC-07 sigue reservada a 07-E.
+El activation rebind Windows v1.2.0 está `CLOSED/PASS`: repo380 / commit `2378296abe194431894d9f25bdd1f59a81205013` / SHA-256 `841d0cd1c3f9e5edba21d3e14e42d75a067d9bbfbab90af1ddf48293b7a967b4` reconcilió checkout, branch oficial y remote. Los gaps `S2-EVIDENCE-06E-001` y `S2-DOC-06E-002` están remediados.
+
+Full Regression Execution v2.1 está `IMPLEMENTED-INITIAL / PASS-CANDIDATE / PENDING-WINDOWS-OWNER-ADJUDICATION`. Expone `tests full-session collect|plan|run|resume|status|adjudicate`, con collection/plan inmutables, shards secuenciales, receipts, completion-first, resume de nodeids `UNEXECUTED`, fingerprints y adjudicación con accounting completo. La validación del enabler usa tests focales/sintéticos y bounded canary; full de GSDLC-07=`0`, browser=`0`, xdist=`0`. La full única del backlog sigue reservada a 07-E y 07-A funcional permanece bloqueado hasta la adjudicación Windows del successor del enabler.
+
+
+### DEVPL-GSDLC-07 activation enabler / FRX2.1
+
+- Full Regression Execution v2.1: `implemented-initial / Windows-validation-candidate`; full runs consumed by enabler: `0`.
+- 07-A program authorization: `AUTHORIZED`; execution gate: activation-enabler Windows owner adjudication `CLOSED/PASS`.
+- v2.2/v2.3: optimization phases; not prerequisites for 07-A..D.

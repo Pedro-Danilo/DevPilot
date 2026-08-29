@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adjudication_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "collection_sha256": {
+      "type": "string"
+    },
+    "coverage_complete": {
+      "const": true
+    },
+    "decision": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "environment_fingerprint": {
+      "type": "string"
+    },
+    "receipts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_adjudication.v2_1"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "shard_plan_sha256": {
+      "type": "string"
+    },
+    "source_fingerprint": {
+      "type": "string"
+    },
+    "terminal_accounting": {
+      "type": "object"
+    },
+    "version": {
+      "const": "2.1"
+    }
+  },
+  "required": [
+    "schema_id",
+    "version",
+    "session_id",
+    "decision",
+    "collection_sha256",
+    "shard_plan_sha256",
+    "source_fingerprint",
+    "environment_fingerprint",
+    "terminal_accounting",
+    "coverage_complete",
+    "receipts",
+    "adjudication_sha256"
+  ],
+  "title": "FullRegressionAdjudication v2.1",
+  "type": "object"
+}

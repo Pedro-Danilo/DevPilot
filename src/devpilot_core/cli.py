@@ -191,7 +191,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -6153,6 +6153,51 @@ def tests_run_command(
     return int(result.exit_code)
 
 
+
+def tests_full_session_command(
+    *,
+    action: str,
+    session_id: str | None = None,
+    targets: list[str] | None = None,
+    collection_timeout_seconds: int = 300,
+    shard_size: int = 50,
+    shard_timeout_seconds: int = 1200,
+    execute: bool = False,
+    max_shards: int | None = None,
+    timeout_seconds: int | None = None,
+    json_output: bool = False,
+) -> int:
+    """Operate the GSDLC-07 Full Regression Execution v2.1 logical session."""
+
+    root = project_root()
+    manager = FullRegressionSessionManager(root)
+    if action == "collect":
+        result = manager.collect(session_id=session_id, targets=tuple(targets or ()), timeout_seconds=collection_timeout_seconds)
+    elif not session_id:
+        result = CommandResult(
+            command=f"tests full-session {action}",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="--session-id is required for this full-session action.",
+            findings=[Finding(id="FRX2_SESSION_ID_REQUIRED", message="A sealed logical session id is required.", severity=Severity.BLOCK)],
+        )
+    elif action == "plan":
+        result = manager.plan(session_id=session_id, shard_size=shard_size, shard_timeout_seconds=shard_timeout_seconds)
+    elif action == "run":
+        result = manager.run(session_id=session_id, execute=execute, max_shards=max_shards, timeout_seconds=timeout_seconds)
+    elif action == "resume":
+        result = manager.resume(session_id=session_id, execute=execute, max_shards=max_shards, timeout_seconds=timeout_seconds)
+    elif action == "status":
+        result = manager.status(session_id=session_id)
+    elif action == "adjudicate":
+        result = manager.adjudicate(session_id=session_id)
+    else:
+        result = CommandResult(command="tests full-session", ok=False, exit_code=ExitCode.FAIL, message="Unknown full-session action.")
+    _emit_result_event(root, result, subject=f"testing:full-session:{action}")
+    _persist_result(root, result, subject=f"testing:full-session:{action}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -6744,8 +6789,39 @@ def build_parser() -> argparse.ArgumentParser:
     security_readiness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     security_readiness.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
-    tests_parser = sub.add_parser("tests", help="Run controlled local test profiles through MIASI tests.run")
+    tests_parser = sub.add_parser("tests", help="Run controlled local test profiles and resumable full-regression sessions")
     tests_sub = tests_parser.add_subparsers(dest="tests_command")
+
+    tests_full_session = tests_sub.add_parser("full-session", help="Manage Full Regression Execution v2.1 logical sessions")
+    tests_full_session_sub = tests_full_session.add_subparsers(dest="full_session_command")
+    full_collect = tests_full_session_sub.add_parser("collect", help="Seal deterministic pytest collection for one logical session")
+    full_collect.add_argument("--session-id", default=None, help="Optional immutable session id; generated when omitted")
+    full_collect.add_argument("--target", action="append", default=[], help="Optional pytest collection target; may be repeated")
+    full_collect.add_argument("--collection-timeout-seconds", type=int, default=300, help="Bounded collect-only timeout, max 1800")
+    full_collect.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    full_plan = tests_full_session_sub.add_parser("plan", help="Seal deterministic sequential shard plan")
+    full_plan.add_argument("--session-id", required=True, help="Existing logical session id")
+    full_plan.add_argument("--shard-size", type=int, default=50, help="Nodeids per sequential shard, max 500")
+    full_plan.add_argument("--shard-timeout-seconds", type=int, default=1200, help="Watchdog per shard, max 3600")
+    full_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    full_run = tests_full_session_sub.add_parser("run", help="Run pending shards in the same logical session")
+    full_run.add_argument("--session-id", required=True, help="Existing logical session id")
+    full_run.add_argument("--execute", action="store_true", help="Explicitly execute pending pytest shards; omitted means preview only")
+    full_run.add_argument("--max-shards", type=int, default=None, help="Optional bounded number of pending shards for canary/controlled execution")
+    full_run.add_argument("--timeout-seconds", type=int, default=None, help="Optional per-shard timeout override, max 3600")
+    full_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    full_resume = tests_full_session_sub.add_parser("resume", help="Resume only UNEXECUTED nodeids in the same logical session")
+    full_resume.add_argument("--session-id", required=True, help="Existing logical session id")
+    full_resume.add_argument("--execute", action="store_true", help="Explicitly execute pending pytest shards; omitted means preview only")
+    full_resume.add_argument("--max-shards", type=int, default=None, help="Optional bounded number of pending shards for canary/controlled execution")
+    full_resume.add_argument("--timeout-seconds", type=int, default=None, help="Optional per-shard timeout override, max 3600")
+    full_resume.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    full_status = tests_full_session_sub.add_parser("status", help="Aggregate immutable receipts without executing tests")
+    full_status.add_argument("--session-id", required=True, help="Existing logical session id")
+    full_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    full_adjudicate = tests_full_session_sub.add_parser("adjudicate", help="Finalize only when every collected nodeid has terminal accounting")
+    full_adjudicate.add_argument("--session-id", required=True, help="Existing logical session id")
+    full_adjudicate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     tests_taxonomy = tests_sub.add_parser("taxonomy", help="Validate POST-H-029-A test profile taxonomy without executing tests")
     tests_taxonomy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     tests_taxonomy.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown taxonomy report")
@@ -8313,6 +8389,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "tests":
+        if args.tests_command == "full-session":
+            if args.full_session_command == "collect":
+                return tests_full_session_command(action="collect", session_id=args.session_id, targets=args.target, collection_timeout_seconds=args.collection_timeout_seconds, json_output=args.json)
+            if args.full_session_command == "plan":
+                return tests_full_session_command(action="plan", session_id=args.session_id, shard_size=args.shard_size, shard_timeout_seconds=args.shard_timeout_seconds, json_output=args.json)
+            if args.full_session_command in {"run", "resume"}:
+                return tests_full_session_command(action=args.full_session_command, session_id=args.session_id, execute=args.execute, max_shards=args.max_shards, timeout_seconds=args.timeout_seconds, json_output=args.json)
+            if args.full_session_command in {"status", "adjudicate"}:
+                return tests_full_session_command(action=args.full_session_command, session_id=args.session_id, json_output=args.json)
+            parser.print_help()
+            return int(ExitCode.FAIL)
         if args.tests_command == "taxonomy":
             return tests_taxonomy_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "release-candidate-profile":

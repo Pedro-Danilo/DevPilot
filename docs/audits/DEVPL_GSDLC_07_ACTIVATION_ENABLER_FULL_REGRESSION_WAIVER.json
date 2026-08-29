@@ -1,0 +1,23 @@
+{
+  "schema_id": "devpilot.gsdlc07.activation_enabler.full_regression_waiver.v1",
+  "status": "approved-by-owner-policy",
+  "owner": "Ordóñez",
+  "reason": "The owner-approved activation-enabler prompt explicitly requires completion-first selective/synthetic/bounded validation and forbids consuming the DEVPL-GSDLC-07 full regression before 07-E. The current change implements the infrastructure that makes that future full resumable; running a full now would violate the approved exactly-once backlog cadence.",
+  "risk": "high",
+  "tests_executed": [
+    "FRX2 unit/contract tests PASS 10/10",
+    "Expanded impacted focal suite PASS 27/27",
+    "Bounded real canary PASS 2/2 nodeids in 2/2 sequential shards with 100% accounting",
+    "CLI registry guard PASS",
+    "CLI compatibility PASS",
+    "Project State PASS",
+    "Documentation Governance PASS",
+    "TCR v1/v2 PASS 299/299"
+  ],
+  "expires_at": "2026-09-30T23:59:59Z",
+  "full_regression_executed": false,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "hard_trigger_owner_approved": false,
+  "network_used": false,
+  "external_api_used": false
+}

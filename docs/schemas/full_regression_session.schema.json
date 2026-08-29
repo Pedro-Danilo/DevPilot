@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "collection_total": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "environment_descriptor": {
+      "type": "object"
+    },
+    "environment_fingerprint": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_session.v2_1"
+    },
+    "session_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_descriptor": {
+      "type": "object"
+    },
+    "source_fingerprint": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "targets": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "version": {
+      "const": "2.1"
+    }
+  },
+  "required": [
+    "schema_id",
+    "session_id",
+    "version",
+    "created_at",
+    "source_fingerprint",
+    "source_descriptor",
+    "environment_fingerprint",
+    "environment_descriptor",
+    "collection_sha256",
+    "collection_total",
+    "targets"
+  ],
+  "title": "FullRegressionSession v2.1",
+  "type": "object"
+}

@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "collection_sha256": {
+      "type": "string"
+    },
+    "duration_seconds": {
+      "minimum": 0,
+      "type": "number"
+    },
+    "ended_at": {
+      "type": "string"
+    },
+    "environment_fingerprint": {
+      "type": "string"
+    },
+    "infra_abort": {
+      "type": "boolean"
+    },
+    "junit_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "junit_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "run",
+        "resume"
+      ]
+    },
+    "observed_nodeids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "outcome_log_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outcome_log_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outcomes": {
+      "additionalProperties": {
+        "enum": [
+          "PASS",
+          "FAIL",
+          "ERROR",
+          "SKIP_APPROVED",
+          "INFRA_ABORT",
+          "UNEXECUTED"
+        ]
+      },
+      "type": "object"
+    },
+    "planned_nodeids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "returncode": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_shard_receipt.v2_1"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "shard_id": {
+      "type": "string"
+    },
+    "shard_plan_sha256": {
+      "type": "string"
+    },
+    "source_fingerprint_after": {
+      "type": "string"
+    },
+    "source_fingerprint_before": {
+      "type": "string"
+    },
+    "source_mutation_detected": {
+      "type": "boolean"
+    },
+    "started_at": {
+      "type": "string"
+    },
+    "timed_out": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "session_id",
+    "shard_id",
+    "attempt",
+    "mode",
+    "started_at",
+    "ended_at",
+    "duration_seconds",
+    "source_fingerprint_before",
+    "source_fingerprint_after",
+    "environment_fingerprint",
+    "collection_sha256",
+    "shard_plan_sha256",
+    "planned_nodeids",
+    "observed_nodeids",
+    "outcomes",
+    "timed_out",
+    "infra_abort",
+    "source_mutation_detected"
+  ],
+  "title": "FullRegressionShardReceipt v2.1",
+  "type": "object"
+}

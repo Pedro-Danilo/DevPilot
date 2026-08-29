@@ -7,8 +7,8 @@
   "updated": "2026-07-11",
   "source_matrix": ".devpilot/cli_registry/command_ownership_matrix.json",
   "summary": {
-    "contracts_total": 78,
-    "tier_0_contracts_total": 72,
+    "contracts_total": 80,
+    "tier_0_contracts_total": 74,
     "tier_1_contracts_total": 6,
     "tier_2_contracts_total": 0,
     "smoke_contracts_total": 19,
@@ -18,8 +18,8 @@
     "external_api_used": false,
     "source_mutations_performed": false,
     "preliminary": true,
-    "commands_with_contracts_total": 78,
-    "high_or_critical_contracts_total": 60,
+    "commands_with_contracts_total": 80,
+    "high_or_critical_contracts_total": 62,
     "missing_required_contracts_total": 0
   },
   "contracts": [
@@ -3328,6 +3328,148 @@
         "requires_backlog_or_manifest_update": true,
         "breaking_change_allowed_without_owner_approval": false
       }
+    },
+    {
+      "contract_id": "cli-compat:multiagent.handoff.harden",
+      "command_id": "multiagent.handoff.harden",
+      "tier": "tier_1",
+      "command_path": [
+        "multiagent",
+        "handoff",
+        "harden"
+      ],
+      "public_invocation": "python -m devpilot_core multiagent handoff harden",
+      "domain_owner": "agentic.runtime",
+      "owner_module": "src/devpilot_core/multiagent/hardening.py",
+      "target_module": "src/devpilot_core/multiagent/hardening.py",
+      "migration_state": "registered-only",
+      "registry_phase": "declarative-initial",
+      "risk_level": "high",
+      "compatibility_scope": "migrated-or-high-risk",
+      "json_contract": {
+        "required_top_level_keys": [
+          "command",
+          "ok",
+          "exit_code",
+          "message",
+          "data",
+          "findings"
+        ],
+        "preserve_command_result_envelope": true,
+        "data_object_required": true,
+        "findings_array_required": true,
+        "allow_additive_fields": true,
+        "breaking_changes": [
+          "remove_top_level_key",
+          "rename_command",
+          "change_exit_code_semantics",
+          "drop_findings_array"
+        ]
+      },
+      "exit_code_contract": {
+        "allowed_exit_codes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "pass": 0,
+        "fail": 1,
+        "block": 2,
+        "error": 3,
+        "preserve_exit_code_semantics": true
+      },
+      "help_contract": {
+        "required_tokens": [
+          "multiagent",
+          "handoff",
+          "harden"
+        ],
+        "help_must_remain_available": true,
+        "operator_facing_name": "multiagent handoff harden"
+      },
+      "normalization": {
+        "timestamp_fields": [
+          "generated_at_utc",
+          "created_at",
+          "created_at_utc",
+          "updated_at",
+          "last_validated_at_utc"
+        ],
+        "path_fields": [
+          "root",
+          "target_root",
+          "registry_path",
+          "output_json",
+          "output_markdown",
+          "state_path",
+          "reports_path",
+          "traces_path"
+        ],
+        "duration_fields": [
+          "duration_ms",
+          "elapsed_ms",
+          "expected_duration_seconds"
+        ],
+        "volatile_metadata_fields": [
+          "git.commit",
+          "git.branch",
+          "git.dirty",
+          "python_executable",
+          "generated_at_utc",
+          "current_time"
+        ],
+        "absolute_paths_normalized_to": "<ROOT>",
+        "runtime_outputs_normalized": true
+      },
+      "safety": {
+        "local_first": true,
+        "dry_run_default": true,
+        "reports_only_under_outputs": true,
+        "network_used": false,
+        "external_api_used": false,
+        "llm_used": false,
+        "tools_executed": false,
+        "source_mutations_performed": false,
+        "connector_write_enabled": false,
+        "plugin_execution_enabled": false,
+        "remote_execution_enabled": false,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "remote_execution_allowed": false,
+        "connector_write_allowed": false,
+        "plugin_execution_allowed": false,
+        "destructive_execution_allowed": false
+      },
+      "smoke": {
+        "enabled": true,
+        "argv": [
+          "multiagent",
+          "handoff",
+          "harden",
+          "--json"
+        ],
+        "expected_exit_code": 0,
+        "notes": [
+          "Smoke remains local-first, no-network, no-LLM and no-tool-execution.",
+          "Validates explicit/visible handoffs, deterministic supervisor gate, HITL checkpoints and scope isolation."
+        ]
+      },
+      "approved_change_process": {
+        "backlog_reference": "POST-H-032-H - Multiagent handoff hardening",
+        "owner": "POST-H-032-H",
+        "requires_test_update": true,
+        "requires_docs_update": true,
+        "requires_operator_note": true
+      },
+      "destructive": false,
+      "writes_files": true,
+      "writes_only_outputs_or_runtime_state": true,
+      "source_mutations": false,
+      "notes": [
+        "POST-H-032-H command is deterministic/report-only and writes only optional reports under outputs/ when --write-report is used.",
+        "It must not enable swarm autonomy, external APIs, LLM calls, connector write, plugin execution, remote execution, source mutation or real tool execution."
+      ]
     },
     {
       "contract_id": "cli-compat:observability.cleanup-plan",
@@ -7534,6 +7676,270 @@
       }
     },
     {
+      "contract_id": "cli-compat:tests.full-session.resume",
+      "command_id": "tests.full-session.resume",
+      "tier": "tier_0",
+      "command_path": [
+        "tests",
+        "full-session",
+        "resume"
+      ],
+      "public_invocation": "python -m devpilot_core tests full-session resume",
+      "domain_owner": "governance.testing",
+      "owner_module": "src/devpilot_core/testing/full_regression.py",
+      "target_module": "src/devpilot_core/testing/full_regression.py",
+      "migration_state": "registered-only",
+      "registry_phase": "declarative-initial",
+      "risk_level": "high",
+      "compatibility_scope": "high-risk",
+      "json_contract": {
+        "required_top_level_keys": [
+          "command",
+          "ok",
+          "exit_code",
+          "message",
+          "data",
+          "findings"
+        ],
+        "preserve_command_result_envelope": true,
+        "data_object_required": true,
+        "findings_array_required": true,
+        "allow_additive_fields": true,
+        "breaking_changes": [
+          "remove_top_level_key",
+          "rename_command",
+          "change_exit_code_semantics",
+          "drop_findings_array"
+        ]
+      },
+      "exit_code_contract": {
+        "allowed_exit_codes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "pass": 0,
+        "fail": 1,
+        "block": 2,
+        "error": 3,
+        "preserve_exit_code_semantics": true
+      },
+      "help_contract": {
+        "required_tokens": [
+          "tests",
+          "full-session",
+          "resume"
+        ],
+        "help_must_remain_available": true,
+        "operator_facing_name": "tests full-session resume"
+      },
+      "normalization": {
+        "timestamp_fields": [
+          "generated_at_utc",
+          "created_at",
+          "created_at_utc",
+          "updated_at",
+          "last_validated_at_utc"
+        ],
+        "path_fields": [
+          "root",
+          "target_root",
+          "registry_path",
+          "output_json",
+          "output_markdown",
+          "state_path",
+          "reports_path",
+          "traces_path"
+        ],
+        "duration_fields": [
+          "duration_ms",
+          "elapsed_ms",
+          "expected_duration_seconds"
+        ],
+        "volatile_metadata_fields": [
+          "git.commit",
+          "git.branch",
+          "git.dirty",
+          "python_executable",
+          "generated_at_utc",
+          "current_time"
+        ],
+        "absolute_paths_normalized_to": "<ROOT>",
+        "runtime_outputs_normalized": true
+      },
+      "safety": {
+        "local_first": true,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "remote_execution_allowed": false,
+        "connector_write_allowed": false,
+        "plugin_execution_allowed": false,
+        "destructive_execution_allowed": false,
+        "source_mutations_allowed": false,
+        "dry_run_required_for_mutating_commands": true,
+        "reports_only_under_outputs": true,
+        "dry_run_default": true
+      },
+      "smoke": {
+        "enabled": false,
+        "safe": true,
+        "argv": [],
+        "expected_exit_code": 0,
+        "notes": [
+          "Not auto-smoked because execution requires an existing sealed session and explicit --execute. Bounded canary is executed by the activation-enabler validator."
+        ]
+      },
+      "approved_change_process": {
+        "backlog_reference": "DEVPL-GSDLC-07 activation enabler Full Regression v2.1",
+        "owner": "DEVPL-GSDLC-07-ACTIVATION-ENABLER",
+        "requires_test_update": true,
+        "requires_docs_update": true,
+        "requires_operator_note": true
+      },
+      "destructive": false,
+      "writes_files": true,
+      "writes_only_outputs_or_runtime_state": true,
+      "source_mutations": false,
+      "notes": [
+        "Full Regression Execution v2.1 is sequential and local-first; subprocess argv is typed and shell=False.",
+        "Runtime writes are confined to outputs/testing/full_regression/<session_id>; source mutation or fingerprint drift BLOCKS.",
+        "Explicit --execute is required. v2.1 does not claim Approval/PolicyEngine binding."
+      ]
+    },
+    {
+      "contract_id": "cli-compat:tests.full-session.run",
+      "command_id": "tests.full-session.run",
+      "tier": "tier_0",
+      "command_path": [
+        "tests",
+        "full-session",
+        "run"
+      ],
+      "public_invocation": "python -m devpilot_core tests full-session run",
+      "domain_owner": "governance.testing",
+      "owner_module": "src/devpilot_core/testing/full_regression.py",
+      "target_module": "src/devpilot_core/testing/full_regression.py",
+      "migration_state": "registered-only",
+      "registry_phase": "declarative-initial",
+      "risk_level": "high",
+      "compatibility_scope": "high-risk",
+      "json_contract": {
+        "required_top_level_keys": [
+          "command",
+          "ok",
+          "exit_code",
+          "message",
+          "data",
+          "findings"
+        ],
+        "preserve_command_result_envelope": true,
+        "data_object_required": true,
+        "findings_array_required": true,
+        "allow_additive_fields": true,
+        "breaking_changes": [
+          "remove_top_level_key",
+          "rename_command",
+          "change_exit_code_semantics",
+          "drop_findings_array"
+        ]
+      },
+      "exit_code_contract": {
+        "allowed_exit_codes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "pass": 0,
+        "fail": 1,
+        "block": 2,
+        "error": 3,
+        "preserve_exit_code_semantics": true
+      },
+      "help_contract": {
+        "required_tokens": [
+          "tests",
+          "full-session",
+          "run"
+        ],
+        "help_must_remain_available": true,
+        "operator_facing_name": "tests full-session run"
+      },
+      "normalization": {
+        "timestamp_fields": [
+          "generated_at_utc",
+          "created_at",
+          "created_at_utc",
+          "updated_at",
+          "last_validated_at_utc"
+        ],
+        "path_fields": [
+          "root",
+          "target_root",
+          "registry_path",
+          "output_json",
+          "output_markdown",
+          "state_path",
+          "reports_path",
+          "traces_path"
+        ],
+        "duration_fields": [
+          "duration_ms",
+          "elapsed_ms",
+          "expected_duration_seconds"
+        ],
+        "volatile_metadata_fields": [
+          "git.commit",
+          "git.branch",
+          "git.dirty",
+          "python_executable",
+          "generated_at_utc",
+          "current_time"
+        ],
+        "absolute_paths_normalized_to": "<ROOT>",
+        "runtime_outputs_normalized": true
+      },
+      "safety": {
+        "local_first": true,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "remote_execution_allowed": false,
+        "connector_write_allowed": false,
+        "plugin_execution_allowed": false,
+        "destructive_execution_allowed": false,
+        "source_mutations_allowed": false,
+        "dry_run_required_for_mutating_commands": true,
+        "reports_only_under_outputs": true,
+        "dry_run_default": true
+      },
+      "smoke": {
+        "enabled": false,
+        "safe": true,
+        "argv": [],
+        "expected_exit_code": 0,
+        "notes": [
+          "Not auto-smoked because execution requires an existing sealed session and explicit --execute. Bounded canary is executed by the activation-enabler validator."
+        ]
+      },
+      "approved_change_process": {
+        "backlog_reference": "DEVPL-GSDLC-07 activation enabler Full Regression v2.1",
+        "owner": "DEVPL-GSDLC-07-ACTIVATION-ENABLER",
+        "requires_test_update": true,
+        "requires_docs_update": true,
+        "requires_operator_note": true
+      },
+      "destructive": false,
+      "writes_files": true,
+      "writes_only_outputs_or_runtime_state": true,
+      "source_mutations": false,
+      "notes": [
+        "Full Regression Execution v2.1 is sequential and local-first; subprocess argv is typed and shell=False.",
+        "Runtime writes are confined to outputs/testing/full_regression/<session_id>; source mutation or fingerprint drift BLOCKS.",
+        "Explicit --execute is required. v2.1 does not claim Approval/PolicyEngine binding."
+      ]
+    },
+    {
       "contract_id": "cli-compat:tests.regression-guard",
       "command_id": "tests.regression-guard",
       "tier": "tier_0",
@@ -9071,148 +9477,6 @@
         "requires_backlog_or_manifest_update": true,
         "breaking_change_allowed_without_owner_approval": false
       }
-    },
-    {
-      "contract_id": "cli-compat:multiagent.handoff.harden",
-      "command_id": "multiagent.handoff.harden",
-      "tier": "tier_1",
-      "command_path": [
-        "multiagent",
-        "handoff",
-        "harden"
-      ],
-      "public_invocation": "python -m devpilot_core multiagent handoff harden",
-      "domain_owner": "agentic.runtime",
-      "owner_module": "src/devpilot_core/multiagent/hardening.py",
-      "target_module": "src/devpilot_core/multiagent/hardening.py",
-      "migration_state": "registered-only",
-      "registry_phase": "declarative-initial",
-      "risk_level": "high",
-      "compatibility_scope": "migrated-or-high-risk",
-      "json_contract": {
-        "required_top_level_keys": [
-          "command",
-          "ok",
-          "exit_code",
-          "message",
-          "data",
-          "findings"
-        ],
-        "preserve_command_result_envelope": true,
-        "data_object_required": true,
-        "findings_array_required": true,
-        "allow_additive_fields": true,
-        "breaking_changes": [
-          "remove_top_level_key",
-          "rename_command",
-          "change_exit_code_semantics",
-          "drop_findings_array"
-        ]
-      },
-      "exit_code_contract": {
-        "allowed_exit_codes": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "pass": 0,
-        "fail": 1,
-        "block": 2,
-        "error": 3,
-        "preserve_exit_code_semantics": true
-      },
-      "help_contract": {
-        "required_tokens": [
-          "multiagent",
-          "handoff",
-          "harden"
-        ],
-        "help_must_remain_available": true,
-        "operator_facing_name": "multiagent handoff harden"
-      },
-      "normalization": {
-        "timestamp_fields": [
-          "generated_at_utc",
-          "created_at",
-          "created_at_utc",
-          "updated_at",
-          "last_validated_at_utc"
-        ],
-        "path_fields": [
-          "root",
-          "target_root",
-          "registry_path",
-          "output_json",
-          "output_markdown",
-          "state_path",
-          "reports_path",
-          "traces_path"
-        ],
-        "duration_fields": [
-          "duration_ms",
-          "elapsed_ms",
-          "expected_duration_seconds"
-        ],
-        "volatile_metadata_fields": [
-          "git.commit",
-          "git.branch",
-          "git.dirty",
-          "python_executable",
-          "generated_at_utc",
-          "current_time"
-        ],
-        "absolute_paths_normalized_to": "<ROOT>",
-        "runtime_outputs_normalized": true
-      },
-      "safety": {
-        "local_first": true,
-        "dry_run_default": true,
-        "reports_only_under_outputs": true,
-        "network_used": false,
-        "external_api_used": false,
-        "llm_used": false,
-        "tools_executed": false,
-        "source_mutations_performed": false,
-        "connector_write_enabled": false,
-        "plugin_execution_enabled": false,
-        "remote_execution_enabled": false,
-        "network_allowed": false,
-        "external_api_allowed": false,
-        "remote_execution_allowed": false,
-        "connector_write_allowed": false,
-        "plugin_execution_allowed": false,
-        "destructive_execution_allowed": false
-      },
-      "smoke": {
-        "enabled": true,
-        "argv": [
-          "multiagent",
-          "handoff",
-          "harden",
-          "--json"
-        ],
-        "expected_exit_code": 0,
-        "notes": [
-          "Smoke remains local-first, no-network, no-LLM and no-tool-execution.",
-          "Validates explicit/visible handoffs, deterministic supervisor gate, HITL checkpoints and scope isolation."
-        ]
-      },
-      "approved_change_process": {
-        "backlog_reference": "POST-H-032-H - Multiagent handoff hardening",
-        "owner": "POST-H-032-H",
-        "requires_test_update": true,
-        "requires_docs_update": true,
-        "requires_operator_note": true
-      },
-      "destructive": false,
-      "writes_files": true,
-      "writes_only_outputs_or_runtime_state": true,
-      "source_mutations": false,
-      "notes": [
-        "POST-H-032-H command is deterministic/report-only and writes only optional reports under outputs/ when --write-report is used.",
-        "It must not enable swarm autonomy, external APIs, LLM calls, connector write, plugin execution, remote execution, source mutation or real tool execution."
-      ]
     }
   ],
   "notes": [

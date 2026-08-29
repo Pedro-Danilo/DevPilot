@@ -80,3 +80,21 @@ from .historical_regression_guard import (
     HistoricalRegressionGuardRunner,
     HISTORICAL_REGRESSION_GUARD_COMMAND,
 )
+
+from .full_regression import (
+    CollectedNode,
+    FullRegressionSession,
+    FullRegressionSessionManager,
+    ShardDefinition,
+    ShardReceipt,
+    TerminalOutcome,
+)
+
+__all__.extend([
+    "CollectedNode",
+    "FullRegressionSession",
+    "FullRegressionSessionManager",
+    "ShardDefinition",
+    "ShardReceipt",
+    "TerminalOutcome",
+])

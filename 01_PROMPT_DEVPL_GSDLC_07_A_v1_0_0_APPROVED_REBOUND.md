@@ -2,15 +2,21 @@
 doc_id: "DEVPL-GSDLC-07-A-PROMPT"
 title: "DEVPL-GSDLC-07-A — Contextual engineering agent roles and step bindings — implementation prompt"
 status: "approved"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-08-28"
 approval: "approved_by_owner"
-source_repo: "repo_DevPilot_Local_379_DEVPL_GSDLC_06_E_PROVIDER_SETTINGS_CONTROLLED_EVAL_WINDOWS_VALIDATED_CANDIDATE.zip"
-source_git_commit: "7deeb043840945165205c8c1493b4f7e44d2b2ca"
-source_repo_sha256: "859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2"
-validation_policy: "completion-first/selective/no-full" 
+source_authority_policy: "bind-at-execution to the Windows-validated successor of DEVPL-GSDLC-07 activation enabler FRX2.1"
+source_predecessor_windows_commit: "2378296abe194431894d9f25bdd1f59a81205013"
+activation_execution_gate: "DEVPL-GSDLC-07-ACTIVATION-ENABLER-FRX2.1 owner adjudication CLOSED/PASS"
+requires_full_regression_v2_2: false
+requires_full_regression_v2_3: false
+validation_policy: "completion-first/selective/no-full"
 ---
+
+## 0. Source authority rebound
+
+Este prompt **no debe ejecutarse sobre repo379**. La autoridad de ejecución se vincula al successor Windows-validated que resulte del activation enabler FRX2.1. El owner adjudication `CLOSED/PASS` de ese enabler extingue el único gate temporal; no hace falta otro sprint de activación. v2.2/v2.3 no son precondiciones de 07-A.
 
 # 1. Misión
 

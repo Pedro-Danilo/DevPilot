@@ -145,6 +145,8 @@ La lista es orientativa para Test Impact. Cada micro-sprint debe cerrar su manif
 
 ### GSDLC-07-A — Contextual engineering agent roles and step bindings
 
+**07-A execution gate semantics (2026-08-29):** 07-A está autorizado a nivel de programa. Su primera mutación se inicia únicamente después del owner adjudication `CLOSED/PASS` del activation enabler FRX2.1. Esa condición no constituye un micro-sprint adicional y se extingue con la adjudicación. Full Regression v2.2/v2.3 son optimizaciones posteriores y no bloquean 07-A..D.
+
 **Objetivo.** Mapear agentes especializados a pasos concretos del Guided SDLC.
 
 **Entradas obligatorias**

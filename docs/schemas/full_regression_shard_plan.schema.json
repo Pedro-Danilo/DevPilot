@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "collection_total": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_shard_plan.v2_1"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "shard_plan_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "shard_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "shard_timeout_seconds": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "shards": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "nodeids": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "nodeids_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "ordinal": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "shard_id": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "shard_id",
+          "ordinal",
+          "nodeids",
+          "nodeids_sha256",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "shards_total": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "version": {
+      "const": "2.1"
+    }
+  },
+  "required": [
+    "schema_id",
+    "version",
+    "session_id",
+    "collection_sha256",
+    "collection_total",
+    "shard_size",
+    "shard_timeout_seconds",
+    "shards",
+    "shards_total",
+    "shard_plan_sha256"
+  ],
+  "title": "FullRegressionShardPlan v2.1",
+  "type": "object"
+}
