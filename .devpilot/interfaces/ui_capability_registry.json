@@ -10735,7 +10735,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 133,
+    "api_routes_total": 134,
     "classification_complete": true,
     "cli_commands_classified_total": 193,
     "cli_commands_total": 193,

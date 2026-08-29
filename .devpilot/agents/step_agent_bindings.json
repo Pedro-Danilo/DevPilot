@@ -1,0 +1,678 @@
+{
+  "$schema": "../../docs/schemas/step_agent_binding.schema.json",
+  "schema_id": "SCHEMA-DEVPL-GSDLC-07-A-STEP-AGENT-BINDING-V1",
+  "schema_version": "1.0",
+  "catalog_id": "devpl-gsdlc-07-a-step-agent-bindings",
+  "catalog_version": "1.0.0",
+  "status": "implemented-initial",
+  "owner": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "mip_workflow_registry": ".devpilot/gsdlc/mip_workflow_registry.json",
+  "role_catalog": ".devpilot/agents/agent_role_binding_catalog.json",
+  "bindings": [
+    {
+      "step_id": "intake",
+      "agent_role_id": "product",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "product-vision",
+        "problem-statement",
+        "stakeholder-map"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Product Agent is the least-privilege contextual role for Guided SDLC step 'intake'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "problem-discovery",
+      "agent_role_id": "product",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "product-vision",
+        "problem-statement",
+        "stakeholder-map"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Product Agent is the least-privilege contextual role for Guided SDLC step 'problem-discovery'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "business-analysis",
+      "agent_role_id": "product",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "product-vision",
+        "problem-statement",
+        "stakeholder-map"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Product Agent is the least-privilege contextual role for Guided SDLC step 'business-analysis'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "stakeholders",
+      "agent_role_id": "product",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "product-vision",
+        "problem-statement",
+        "stakeholder-map"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Product Agent is the least-privilege contextual role for Guided SDLC step 'stakeholders'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "requirements",
+      "agent_role_id": "requirements",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "requirements-specification"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.requirements.run",
+        "artifact.read",
+        "traceability.coverage",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Requirements Agent is the least-privilege contextual role for Guided SDLC step 'requirements'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "risk-analysis",
+      "agent_role_id": "security",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "security-plan",
+        "threat-model"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Security Agent is the least-privilege contextual role for Guided SDLC step 'risk-analysis'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "architecture",
+      "agent_role_id": "architecture",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "architecture-specification",
+        "adr"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Architecture Agent is the least-privilege contextual role for Guided SDLC step 'architecture'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "domain-design",
+      "agent_role_id": "architecture",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "architecture-specification",
+        "adr"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Architecture Agent is the least-privilege contextual role for Guided SDLC step 'domain-design'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "data-design",
+      "agent_role_id": "architecture",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "architecture-specification",
+        "adr"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Architecture Agent is the least-privilege contextual role for Guided SDLC step 'data-design'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "interface-design",
+      "agent_role_id": "architecture",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "architecture-specification",
+        "adr"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Architecture Agent is the least-privilege contextual role for Guided SDLC step 'interface-design'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "ux-ui-design",
+      "agent_role_id": "product",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "product-vision",
+        "problem-statement",
+        "stakeholder-map"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Product Agent is the least-privilege contextual role for Guided SDLC step 'ux-ui-design'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "quality-plan",
+      "agent_role_id": "planning",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "implementation-plan",
+        "release-plan"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Planning Agent is the least-privilege contextual role for Guided SDLC step 'quality-plan'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "security-plan",
+      "agent_role_id": "security",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "security-plan",
+        "threat-model"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Security Agent is the least-privilege contextual role for Guided SDLC step 'security-plan'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "test-plan",
+      "agent_role_id": "test",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "test-plan",
+        "quality-evidence"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Test Agent is the least-privilege contextual role for Guided SDLC step 'test-plan'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "implementation",
+      "agent_role_id": "coding",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "implementation-plan",
+        "code-change-proposal"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "fallback": {
+        "mode": "degrade-to-plan-only",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "code.review",
+        "refactor.plan",
+        "refactor.sandbox",
+        "tests.run",
+        "rollback.plan",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Coding Agent is the least-privilege contextual role for Guided SDLC step 'implementation'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "integration",
+      "agent_role_id": "review",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "review-report",
+        "verification-evidence"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock-review",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Review Agent is the least-privilege contextual role for Guided SDLC step 'integration'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "verification",
+      "agent_role_id": "test",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "test-plan",
+        "quality-evidence"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Test Agent is the least-privilege contextual role for Guided SDLC step 'verification'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "validation",
+      "agent_role_id": "review",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "review-report",
+        "verification-evidence"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock-review",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Review Agent is the least-privilege contextual role for Guided SDLC step 'validation'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    },
+    {
+      "step_id": "release",
+      "agent_role_id": "planning",
+      "explicit_none": false,
+      "allowed_artifacts": [
+        "implementation-plan",
+        "release-plan"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "rationale": "Planning Agent is the least-privilege contextual role for Guided SDLC step 'release'.",
+      "execution_mode": "descriptor-only/07-a",
+      "human_review_required": true,
+      "approval_authority": "human-only",
+      "policy_status": "PASS/binding-governed"
+    }
+  ],
+  "safety": {
+    "all_steps_explicit": true,
+    "agent_execution_enabled": false,
+    "human_review_required": true,
+    "agent_role_can_approve": false,
+    "tool_scope_inheritance": false
+  }
+}

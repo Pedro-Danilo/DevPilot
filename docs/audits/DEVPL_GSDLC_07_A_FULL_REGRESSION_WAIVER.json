@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc07a.full_regression_waiver.v1",
+  "status": "approved-by-owner-policy",
+  "owner": "Ordóñez",
+  "reason": "The approved DEVPL-GSDLC-07-A prompt explicitly mandates completion-first/selective/no-full. The backlog reserves the single logical sharded/resumable full-regression session for DEVPL-GSDLC-07-E. Test Impact v2 escalates because 07-A changes shared registries/API/UI boundaries, so closure uses expanded direct-impact tests, deterministic sweeps, browser focal evidence and Historical Regression Guard without consuming the backlog full.",
+  "risk": "high",
+  "tests_executed": [
+    "Governed selective plan in docs/audits/DEVPL_GSDLC_07_A_VALIDATION_PLAN.json; results must be attached by local/Windows validation before closure."
+  ],
+  "expires_at": "2026-09-30T23:59:59Z",
+  "full_regression_executed": false,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "hard_trigger_owner_approved": false,
+  "network_used": false,
+  "external_api_used": false
+}

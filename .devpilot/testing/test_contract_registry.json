@@ -12582,6 +12582,41 @@
         "ui/web/",
         "scripts/visual_product_smoke.py"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-a-agent-role-bindings",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-A",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "validates": [
+        ".devpilot/agents/agent_role_binding_catalog.json",
+        ".devpilot/agents/step_agent_bindings.json",
+        ".devpilot/agents/agent_runtime_boundary.json",
+        "src/devpilot_core/agents/role_bindings.py",
+        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+        "ui/web/src/components/AgentRuntimeView.ts"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_role_binding_catalog.json",
+        ".devpilot/agents/step_agent_bindings.json",
+        ".devpilot/agents/agent_runtime_boundary.json",
+        "src/devpilot_core/agents/role_bindings.py",
+        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "ui/web/src/components/AgentRuntimeView.ts",
+        "ui/web/src/components/StepActionAdvisor.ts",
+        "ui/web/src/pages/SettingsView.ts"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -12659,5 +12694,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 299
+  "contracts_total": 300
 }

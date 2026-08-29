@@ -12,6 +12,7 @@ import { runBounded } from '../utils/async';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 import { renderAIControlCenterShell } from '../components/AIControlCenterView';
 import { renderModelSettingsView } from '../components/ModelSettingsView';
+import { renderAgentRuntimeView } from '../components/AgentRuntimeView';
 import type { ControlledEvalMode, ProviderActionFeedback } from '../components/ModelSettingsView';
 
 // Provider editor plan-only contract marker retained for compatibility.
@@ -71,6 +72,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       { key: 'policy', run: () => fresh.settingsPolicy() },
       { key: 'securityPosture', run: () => fresh.securityPosture() },
       { key: 'modelGateway', run: () => fresh.settingsModelGateway() },
+      { key: 'agentRuntime', run: () => fresh.settingsAgentRuntime() },
       { key: 'portfolio', run: () => fresh.portfolioStatus() },
     ], 2, (result) => {
       state.durations[result.key] = result.durationMs;
@@ -80,13 +82,14 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
         if (result.key === 'policy') state.policy = result.value;
         if (result.key === 'securityPosture') state.securityPosture = result.value;
         if (result.key === 'modelGateway') state.modelGateway = result.value;
+        if (result.key === 'agentRuntime') state.agentRuntime = result.value;
         if (result.key === 'portfolio') state.portfolio = result.value;
       }
       if (result.error) state.errors[result.key] = result.error;
       draw();
     });
-    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'modelGateway', 'portfolio'];
-    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.modelGateway, state.portfolio].filter(Boolean);
+    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'modelGateway', 'agentRuntime', 'portfolio'];
+    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.modelGateway, state.agentRuntime, state.portfolio].filter(Boolean);
     if (responseKeys.some((key) => Boolean(state.errors[key]))) state.phase = 'error';
     else if (!responses.length) state.phase = 'empty';
     else state.phase = 'ready';
@@ -290,6 +293,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
         providerAction: state.providerAction,
       }),
       agentRuntimeStatus: 'Autoridad separada; ejecución de agentes no se habilita desde Settings.',
+      agentRuntimeHtml: renderAgentRuntimeView(state.agentRuntime?.data),
       skillsToolsStatus: 'Policy/RBAC independiente; ModelRouteDecision nunca concede ToolExecutionDecision.',
     });
     if (state.modelActionStatus) {

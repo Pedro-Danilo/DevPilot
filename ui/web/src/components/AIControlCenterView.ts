@@ -4,6 +4,7 @@ import { escapeHtml } from '../utils/sanitize';
 export interface AIControlCenterShellOptions {
   modelGatewayHtml: string;
   agentRuntimeStatus?: string;
+  agentRuntimeHtml?: string;
   skillsToolsStatus?: string;
 }
 
@@ -20,6 +21,7 @@ export function renderAIControlCenterShell(options: AIControlCenterShellOptions)
           <div class="list-item"><strong>Skills / Tools</strong><br/><small>${escapeHtml(options.skillsToolsStatus ?? 'Permisos separados; ModelRouteDecision no concede ToolExecutionDecision.')}</small></div>
         </div>
       </header>
+      ${options.agentRuntimeHtml ?? ""}
       ${options.modelGatewayHtml}
     </section>`;
 }

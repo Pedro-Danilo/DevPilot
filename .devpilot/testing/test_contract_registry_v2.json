@@ -21480,6 +21480,66 @@
         "ui/web/",
         "scripts/visual_product_smoke.py"
       ]
+    },
+    {
+      "capability": "AgentRoleBindingCatalog",
+      "classification_notes": [
+        "GSDLC-07-A explicit contextual role/step binding and authority-separation contract."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "devpl-gsdlc-07-a-agent-role-bindings",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "agentic.runtime",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 45,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "agent-runtime",
+        "guided-sdlc",
+        "settings-ui",
+        "policy"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-07-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "risk_level": "high",
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-07-a-agent-role-bindings",
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "agent-role-binding-change",
+        "guided-sdlc-agent-binding-change",
+        "agent-runtime-ui-change"
+      ],
+      "validates": [
+        "AgentRoleBindingCatalog",
+        "StepAgentBinding",
+        "AgentRuntimeBoundary",
+        "AgentRuntimeView"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_role_binding_catalog.json",
+        ".devpilot/agents/step_agent_bindings.json",
+        ".devpilot/agents/agent_runtime_boundary.json",
+        "src/devpilot_core/agents/role_bindings.py",
+        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "ui/web/src/components/AgentRuntimeView.ts",
+        "ui/web/src/components/StepActionAdvisor.ts",
+        "ui/web/src/pages/SettingsView.ts"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21642,5 +21702,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 299
+  "contracts_total": 300
 }

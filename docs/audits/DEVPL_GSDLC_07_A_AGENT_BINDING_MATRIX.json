@@ -1,0 +1,403 @@
+{
+  "schema_id": "devpilot.gsdlc07a.agent-binding-matrix.v1",
+  "micro_sprint": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "status": "PASS-CANDIDATE",
+  "roles_total": 8,
+  "steps_total": 19,
+  "bindings": [
+    {
+      "step_id": "intake",
+      "agent_role_id": "product",
+      "runtime_agent_id": "precode.documentation",
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "problem-discovery",
+      "agent_role_id": "product",
+      "runtime_agent_id": "precode.documentation",
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "business-analysis",
+      "agent_role_id": "product",
+      "runtime_agent_id": "precode.documentation",
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "stakeholders",
+      "agent_role_id": "product",
+      "runtime_agent_id": "precode.documentation",
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "requirements",
+      "agent_role_id": "requirements",
+      "runtime_agent_id": "requirements.agent",
+      "tool_allowlist": [
+        "agent.requirements.run",
+        "artifact.read",
+        "traceability.coverage",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "risk-analysis",
+      "agent_role_id": "security",
+      "runtime_agent_id": "security.agent",
+      "tool_allowlist": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "architecture",
+      "agent_role_id": "architecture",
+      "runtime_agent_id": "architecture.agent",
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "domain-design",
+      "agent_role_id": "architecture",
+      "runtime_agent_id": "architecture.agent",
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "data-design",
+      "agent_role_id": "architecture",
+      "runtime_agent_id": "architecture.agent",
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "interface-design",
+      "agent_role_id": "architecture",
+      "runtime_agent_id": "architecture.agent",
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "ux-ui-design",
+      "agent_role_id": "product",
+      "runtime_agent_id": "precode.documentation",
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "quality-plan",
+      "agent_role_id": "planning",
+      "runtime_agent_id": "repo.analysis",
+      "tool_allowlist": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "security-plan",
+      "agent_role_id": "security",
+      "runtime_agent_id": "security.agent",
+      "tool_allowlist": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "test-plan",
+      "agent_role_id": "test",
+      "runtime_agent_id": "testplanner.agent",
+      "tool_allowlist": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "implementation",
+      "agent_role_id": "coding",
+      "runtime_agent_id": "safe.refactor",
+      "tool_allowlist": [
+        "artifact.read",
+        "code.review",
+        "refactor.plan",
+        "refactor.sandbox",
+        "tests.run",
+        "rollback.plan",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "integration",
+      "agent_role_id": "review",
+      "runtime_agent_id": "code.review",
+      "tool_allowlist": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "verification",
+      "agent_role_id": "test",
+      "runtime_agent_id": "testplanner.agent",
+      "tool_allowlist": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "validation",
+      "agent_role_id": "review",
+      "runtime_agent_id": "code.review",
+      "tool_allowlist": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    },
+    {
+      "step_id": "release",
+      "agent_role_id": "planning",
+      "runtime_agent_id": "repo.analysis",
+      "tool_allowlist": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "human_review_required": true,
+      "agent_can_approve": false
+    }
+  ],
+  "safety": {
+    "generic_all_tools_agent": false,
+    "model_route_grants_tool_permission": false,
+    "agent_role_can_approve": false,
+    "execution_enabled_in_07_a": false
+  }
+}

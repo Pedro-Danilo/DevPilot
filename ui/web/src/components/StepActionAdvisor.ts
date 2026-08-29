@@ -93,6 +93,13 @@ function renderStepActionCard(action: StepActionCard, options: StepActionAdvisor
   addFact(facts, 'Tokens', estimate(action.tokens));
   addFact(facts, 'Rol(es)', action.required_roles?.length ? action.required_roles.join(', ') : 'no aplica');
   addFact(facts, 'Red / API externa', `${action.network_required ? 'red' : 'sin red'} / ${action.external_api_required ? 'API externa' : 'sin API externa'}`);
+  if (action.kind === 'AGENT' && action.agent_descriptor) {
+    addFact(facts, 'Agente recomendado', action.agent_descriptor.display_name || action.agent_descriptor.agent_role_id || 'none');
+    addFact(facts, 'Por qué', action.agent_descriptor.reason || 'Binding contextual explícito.');
+    addFact(facts, 'Runtime', action.agent_descriptor.runtime_agent_id || 'none');
+    addFact(facts, 'Capacidades', action.agent_descriptor.required_model_capabilities?.join(', ') || 'none');
+    addFact(facts, 'Policy', action.agent_descriptor.policy_status || 'UNKNOWN');
+  }
 
   const reasons = document.createElement('ul');
   reasons.className = 'step-action-card__reasons';

@@ -1,0 +1,36 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "source_repo": "repo_DevPilot_Local_381_DEVPL_GSDLC_07_ACTIVATION_ENABLER_FRX2_1_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_sha256": "3b6da2658898af196caadae578b4f8433dc7c8ca8d1e64be79e5c23e67a347ca",
+  "schema_id": "devpilot.gsdlc07a.test_impact.v1",
+  "status": "PASS/PLAN-FROZEN",
+  "analyzer": {
+    "decision": "REVIEW_REQUIRED",
+    "changed_paths_total": 37,
+    "matched_contracts_total": 191,
+    "recommended_tests_total": 294,
+    "unmatched_paths_total": 4,
+    "full_regression_required": true,
+    "waiver_required": true,
+    "residual_risk": "high"
+  },
+  "governed_selective_plan": "docs/audits/DEVPL_GSDLC_07_A_VALIDATION_PLAN.json",
+  "full_regression_runs_local": 0,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "browser_required": true,
+  "notes": [
+    "Test Impact v2 broad expansion is preserved as advisory evidence; exact closure plan is owner-policy bounded to direct changed boundaries and deterministic validators.",
+    "No full is consumed in 07-A by approved backlog/prompt policy."
+  ],
+  "final_reconciled_analyzer": {
+    "decision": "REVIEW_REQUIRED",
+    "changed_paths_total": 49,
+    "matched_contracts_total": 191,
+    "recommended_tests_total": 294,
+    "unmatched_paths_total": 12,
+    "full_regression_required": true,
+    "waiver_required": true,
+    "residual_risk": "high"
+  }
+}

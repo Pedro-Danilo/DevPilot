@@ -244,10 +244,11 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 "settings.providers.enablement.revoke",
                 "settings.model_gateway",
                 "settings.model_gateway.evaluate",
+                "settings.agent_runtime",
             }
             if op_id in gsdlc06_settings_ops:
                 assert operation["x-devpilot-status"] == "secured-initial"
-                assert operation["x-devpilot-sprint"] in {"DEVPL-GSDLC-06-C", "DEVPL-GSDLC-06-E"}
+                assert operation["x-devpilot-sprint"] in {"DEVPL-GSDLC-06-C", "DEVPL-GSDLC-06-E", "DEVPL-GSDLC-07-A"}
                 assert operation["security"] == [{"HumanSessionCookie": []}]
                 assert operation["x-devpilot-auth"] == "human-session-required"
                 assert operation["x-devpilot-source-mutation"] is False

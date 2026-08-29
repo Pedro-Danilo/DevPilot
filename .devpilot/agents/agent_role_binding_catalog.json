@@ -1,0 +1,329 @@
+{
+  "$schema": "../../docs/schemas/agent_role_binding_catalog.schema.json",
+  "schema_id": "SCHEMA-DEVPL-GSDLC-07-A-AGENT-ROLE-BINDING-CATALOG-V1",
+  "schema_version": "1.0",
+  "catalog_id": "devpl-gsdlc-07-a-agent-role-binding-catalog",
+  "catalog_version": "1.0.0",
+  "status": "implemented-initial",
+  "owner": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "authority": {
+    "miasi_agent_registry": ".devpilot/miasi/agent_registry.json",
+    "miasi_tool_registry": ".devpilot/miasi/tool_registry.json",
+    "model_capability_catalog": ".devpilot/modeling/model_capability_catalog.json",
+    "runtime_boundary": ".devpilot/agents/agent_runtime_boundary.json"
+  },
+  "roles": [
+    {
+      "role_id": "product",
+      "display_name": "Product Agent",
+      "runtime_agent_id": "precode.documentation",
+      "enabled": true,
+      "purpose": "Frame product intent, problem and stakeholder context without approving artifacts.",
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 6,
+        "wall_time_seconds": 120,
+        "max_input_tokens": 6000,
+        "max_output_tokens": 1600,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    },
+    {
+      "role_id": "requirements",
+      "display_name": "Requirements Agent",
+      "runtime_agent_id": "requirements.agent",
+      "enabled": true,
+      "purpose": "Analyze and structure requirements with traceability while preserving human approval authority.",
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.requirements.run",
+        "artifact.read",
+        "traceability.coverage",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 8,
+        "wall_time_seconds": 180,
+        "max_input_tokens": 8000,
+        "max_output_tokens": 2200,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    },
+    {
+      "role_id": "architecture",
+      "display_name": "Architecture Agent",
+      "runtime_agent_id": "architecture.agent",
+      "enabled": true,
+      "purpose": "Evaluate architecture and dependency constraints without changing model or tool authority.",
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.architecture.run",
+        "artifact.read",
+        "architecture.drift",
+        "repo.dependency_graph",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 8,
+        "wall_time_seconds": 180,
+        "max_input_tokens": 9000,
+        "max_output_tokens": 2400,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    },
+    {
+      "role_id": "security",
+      "display_name": "Security Agent",
+      "runtime_agent_id": "security.agent",
+      "enabled": true,
+      "purpose": "Review threat, secret and policy posture using a least-privilege subset of the existing Security Agent tools.",
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.security.run",
+        "artifact.read",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 8,
+        "wall_time_seconds": 180,
+        "max_input_tokens": 8000,
+        "max_output_tokens": 2200,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    },
+    {
+      "role_id": "test",
+      "display_name": "Test Agent",
+      "runtime_agent_id": "testplanner.agent",
+      "enabled": true,
+      "purpose": "Plan and analyze bounded validation using existing test-planning contracts; execution authority stays deterministic.",
+      "required_model_capabilities": [
+        "text_generation",
+        "structured_output"
+      ],
+      "fallback": {
+        "mode": "degrade-capabilities",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.test_planner.run",
+        "artifact.read",
+        "traceability.coverage",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 8,
+        "wall_time_seconds": 180,
+        "max_input_tokens": 7000,
+        "max_output_tokens": 2000,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    },
+    {
+      "role_id": "planning",
+      "display_name": "Planning Agent",
+      "runtime_agent_id": "repo.analysis",
+      "enabled": true,
+      "purpose": "Build engineering plans from repository facts with read-only repository analysis.",
+      "required_model_capabilities": [
+        "text_generation"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.repo_analysis.run",
+        "git.status",
+        "repo.inventory",
+        "repo.dependency_graph",
+        "repo.analyze",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 7,
+        "wall_time_seconds": 150,
+        "max_input_tokens": 7000,
+        "max_output_tokens": 1800,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    },
+    {
+      "role_id": "coding",
+      "display_name": "Coding Agent",
+      "runtime_agent_id": "safe.refactor",
+      "enabled": true,
+      "purpose": "Prepare bounded coding/refactor proposals; 07-A does not authorize direct source mutation.",
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "fallback": {
+        "mode": "degrade-to-plan-only",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "artifact.read",
+        "code.review",
+        "refactor.plan",
+        "refactor.sandbox",
+        "tests.run",
+        "rollback.plan",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 8,
+        "wall_time_seconds": 180,
+        "max_input_tokens": 9000,
+        "max_output_tokens": 2600,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    },
+    {
+      "role_id": "review",
+      "display_name": "Review Agent",
+      "runtime_agent_id": "code.review",
+      "enabled": true,
+      "purpose": "Review diffs and artifacts without approving or applying changes.",
+      "required_model_capabilities": [
+        "text_generation",
+        "coding"
+      ],
+      "fallback": {
+        "mode": "degrade-to-mock-review",
+        "provider_id": "devpilot-local",
+        "required_capabilities": [
+          "text_generation"
+        ]
+      },
+      "tool_allowlist": [
+        "agent.code_review.run",
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check",
+        "agent.model.generate"
+      ],
+      "limits": {
+        "max_steps": 6,
+        "wall_time_seconds": 150,
+        "max_input_tokens": 8000,
+        "max_output_tokens": 2200,
+        "max_cost_usd": 0.0
+      },
+      "policy_status": "binding-only/07-a",
+      "human_approval_role": false,
+      "can_approve": false
+    }
+  ],
+  "safety": {
+    "agent_role_is_human_approval_role": false,
+    "generic_all_tools_agent": false,
+    "model_route_grants_tool_permission": false,
+    "external_api_required": false,
+    "network_required": false,
+    "execution_enabled_in_07_a": false
+  }
+}

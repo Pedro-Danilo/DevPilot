@@ -6489,3 +6489,8 @@ Full Regression Execution v2.1 está `IMPLEMENTED-INITIAL / PASS-CANDIDATE / PEN
 - Full Regression Execution v2.1: `implemented-initial / Windows-validation-candidate`; full runs consumed by enabler: `0`.
 - 07-A program authorization: `AUTHORIZED`; execution gate: activation-enabler Windows owner adjudication `CLOSED/PASS`.
 - v2.2/v2.3: optimization phases; not prerequisites for 07-A..D.
+
+
+## GSDLC-07-A — Contextual agent role bindings
+
+Status: `PASS-CANDIDATE / PRE-WINDOWS`. Eight contextual roles and 19 explicit step bindings are source-controlled. AgentRuntimeView is read-only; agent execution, tool authority and human approval remain disabled/separate in 07-A. Source authority: repo381 Windows-validated (`3b6da265...347ca`). Full regression consumed: `0`; browser focal pending Windows.

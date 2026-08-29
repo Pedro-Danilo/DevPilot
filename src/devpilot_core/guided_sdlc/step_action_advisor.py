@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
+from devpilot_core.agents.role_bindings import AgentRoleBindingCatalog
+
 
 CATALOG_PATH = Path(".devpilot/gsdlc/step_action_catalog.json")
 MIP_REGISTRY_PATH = Path(".devpilot/gsdlc/mip_workflow_registry.json")
@@ -132,6 +134,7 @@ class StepActionCard:
     typed_operation_id: str | None
     api_route_id: str | None
     source_refs: tuple[str, ...]
+    agent_descriptor: Mapping[str, Any] | None
 
     def to_payload(self) -> dict[str, Any]:
         return {
@@ -159,6 +162,7 @@ class StepActionCard:
             "typed_operation_id": self.typed_operation_id,
             "api_route_id": self.api_route_id,
             "source_refs": list(self.source_refs),
+            "agent_descriptor": None if self.agent_descriptor is None else dict(self.agent_descriptor),
         }
 
 
@@ -266,6 +270,7 @@ class ExecutionModeAdvisor:
     def __init__(self, root: Path) -> None:
         self.root = Path(root).resolve()
         self.catalog = StepActionCatalog(self.root)
+        self.agent_bindings = AgentRoleBindingCatalog(self.root)
 
     def advise(self, context: AdvisorContext) -> AdvisorDecision:
         step = self.catalog.step(context.current_step)
@@ -394,7 +399,8 @@ class ExecutionModeAdvisor:
             configuration_target=str(action.get("configuration_target") or "") or None,
             typed_operation_id=str(action.get("typed_operation_id") or "") or None,
             api_route_id=route_id,
-            source_refs=tuple(dict.fromkeys(tuple(step.get("source_refs", [])) + (CATALOG_PATH.as_posix(),))),
+            source_refs=_normalized(step.get("source_refs", [])),
+            agent_descriptor=self.agent_bindings.descriptor_for_step(context.current_step) if str(action.get("kind")) == "AGENT" else None,
         )
 
     @staticmethod

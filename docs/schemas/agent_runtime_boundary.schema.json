@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/agent_runtime_boundary.schema.json",
+  "title": "DevPilot GSDLC-07-A AgentRuntimeBoundary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "contract_id",
+    "version",
+    "status",
+    "owner",
+    "updated",
+    "planes",
+    "tool_authority",
+    "runtime",
+    "framework_candidates",
+    "safety"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-07-A-AGENT-RUNTIME-BOUNDARY-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "contract_id": {
+      "const": "devpl-gsdlc-07-a-agent-runtime-boundary"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "implemented-initial"
+    },
+    "owner": {
+      "const": "DEVPL-GSDLC-07-A"
+    },
+    "updated": {
+      "type": "string"
+    },
+    "planes": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object"
+      }
+    },
+    "tool_authority": {
+      "type": "object",
+      "required": [
+        "intent_contract",
+        "execution_decision_contract",
+        "decision_authority",
+        "model_route_can_grant_tool_permission",
+        "agent_role_can_approve"
+      ],
+      "properties": {
+        "intent_contract": {
+          "const": "ToolIntent"
+        },
+        "execution_decision_contract": {
+          "const": "ToolExecutionDecision"
+        },
+        "decision_authority": {
+          "type": "array",
+          "minItems": 3
+        },
+        "model_route_can_grant_tool_permission": {
+          "const": false
+        },
+        "agent_role_can_approve": {
+          "const": false
+        }
+      }
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "framework_candidates": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object"
+      }
+    },
+    "safety": {
+      "type": "object"
+    }
+  }
+}

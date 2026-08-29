@@ -1,0 +1,312 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "source_repo": "repo_DevPilot_Local_381_DEVPL_GSDLC_07_ACTIVATION_ENABLER_FRX2_1_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_sha256": "3b6da2658898af196caadae578b4f8433dc7c8ca8d1e64be79e5c23e67a347ca",
+  "schema_id": "devpilot.gsdlc07a.source_delta_manifest.v1",
+  "status": "PASS/LOCAL",
+  "paths_total": 50,
+  "created_total": 23,
+  "modified_total": 27,
+  "deleted_total": 0,
+  "manifest_self_excluded_from_paths": true,
+  "paths": [
+    {
+      "path": ".devpilot/agents/agent_role_binding_catalog.json",
+      "status": "A",
+      "canonical_sha256": "8d75a3669acd350317727948a5637461cf245621c379cf16b959aca171dfeb8b",
+      "size_bytes": 9575
+    },
+    {
+      "path": ".devpilot/agents/agent_runtime_boundary.json",
+      "status": "A",
+      "canonical_sha256": "227ad48d93050a4ebb2e949a78c3630e1d67e758e92c9ddb98f44ad18859a9de",
+      "size_bytes": 2761
+    },
+    {
+      "path": ".devpilot/agents/step_agent_bindings.json",
+      "status": "A",
+      "canonical_sha256": "639e994230349f6144dcef191f9480159447f99400dbeef8248a50952a10830a",
+      "size_bytes": 19911
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "status": "M",
+      "canonical_sha256": "f4efed7acb0399f0fe3e8f9cf819b17a2908ed4032390c85a31f83c687ead9ad",
+      "size_bytes": 1175804
+    },
+    {
+      "path": ".devpilot/identity/server_rbac_policy_catalog.json",
+      "status": "M",
+      "canonical_sha256": "985c4049e48370daa46c6692d37db634860478129ee3082e4a1dccbc7cf64c0e",
+      "size_bytes": 94503
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "afc15361343508e2f96694ee5bbca303885f039866229a23022a6d2e66ac8242",
+      "size_bytes": 174497
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "status": "M",
+      "canonical_sha256": "7ac2e236cae6c61ea915f57a2297d02405f105701de3880c3e2b1cd3f4d8401b",
+      "size_bytes": 409323
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "8519c1eee7abd1ab5f2275917343ae7d84f5d169f88e95dc20905daca5e876d2",
+      "size_bytes": 41868
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "status": "M",
+      "canonical_sha256": "b0c044a9f27a8cf8bfd852a9a0a767807a66eea98e150600b390ba46f5d1d3ea",
+      "size_bytes": 244481
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "74131a561fa653230327311d39c65d6f98396036a743ff4d5722dfe15981910b",
+      "size_bytes": 589081
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "status": "M",
+      "canonical_sha256": "25bf4929cd0104e025e2b96183a15636c12bccd19d9cfff18ed587514d8cbf21",
+      "size_bytes": 910352
+    },
+    {
+      "path": "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+      "status": "M",
+      "canonical_sha256": "55a88e900710e1b64eb3c39b10376d78d9c1c8f6f35f437371f6d6392e63775e",
+      "size_bytes": 21538
+    },
+    {
+      "path": "DEVPL_GSDLC_07_A_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "status": "A",
+      "canonical_sha256": "842f1503312114d33552d3bb085298014528cf8e6955036407461727e965cc47",
+      "size_bytes": 570
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "canonical_sha256": "a3566088794e6bc9c4da290fc86ffb5b1af3b68c72f41022fdad800877b4d4c4",
+      "size_bytes": 439267
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "status": "M",
+      "canonical_sha256": "58256ed6b725f7f28a58f8c5d6e5ed5307008dd86f93ddad0e2f5ae1e60ef3da",
+      "size_bytes": 24307
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md",
+      "status": "A",
+      "canonical_sha256": "70b426461314c0fb85d9e55fd43e06389acfc4aee19c1ae2c5edad3249a00ee1",
+      "size_bytes": 1510
+    },
+    {
+      "path": "docs/07_interfaces/api_service_mapping.md",
+      "status": "M",
+      "canonical_sha256": "677db9af4585cc0803114a7c3430bca3a0f9c4f368e8d715cbf2a9074a77805a",
+      "size_bytes": 53650
+    },
+    {
+      "path": "docs/07_interfaces/openapi_v1.json",
+      "status": "M",
+      "canonical_sha256": "78cb44c98b929842d4af81a7693bf6e9bba9c05bad39dbf3e2e9f96732751c0d",
+      "size_bytes": 494465
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_AGENT_BINDING_MATRIX.json",
+      "status": "A",
+      "canonical_sha256": "d39ef2dc7b54d3a934f226fcba37896d5b49bd0b6b781f445790626b6853e303",
+      "size_bytes": 10512
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_CONTRACT_RECONCILIATION_SWEEP.json",
+      "status": "A",
+      "canonical_sha256": "5cb2826bbfb664738532a3b8d85e0a89e222d146ab59fc666d82ad5ae541e882",
+      "size_bytes": 1145
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_FORBIDDEN_PATH_AUDIT.json",
+      "status": "A",
+      "canonical_sha256": "04fe0c484444422533a4b90bb7d61aaec96eb293d0b1c71bbe34fe3d78ff3a2a",
+      "size_bytes": 367
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_FULL_REGRESSION_WAIVER.json",
+      "status": "A",
+      "canonical_sha256": "89dc1e351b760ab80946aaafc2aec60dacf73efb1f9a161fbca8ce698dd00e37",
+      "size_bytes": 1007
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_HISTORICAL_CONTRACT_SWEEP.json",
+      "status": "A",
+      "canonical_sha256": "91b7fc0504d48bae1a1cf3a2a49b528724b6069f7b2016f54b9ad925478e262a",
+      "size_bytes": 1704
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_IMPLEMENTATION_REPORT.md",
+      "status": "A",
+      "canonical_sha256": "240283608e0291ce0fa75f82473cfd24edd09a4afd8ce740b4d4c77b99a7e122",
+      "size_bytes": 2152
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_OPERATION_DECLARATION.json",
+      "status": "A",
+      "canonical_sha256": "f74b11feacfc70692476800cb29ae045f4440fee01e60e4a1482811ffc784394",
+      "size_bytes": 782
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_SECRET_DELTA_SCAN.json",
+      "status": "A",
+      "canonical_sha256": "72dc7bbf4a014776203ee4c1c25bd859c1896ee68cfa6625eeb461de82e8b9b5",
+      "size_bytes": 707
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_TEST_IMPACT.json",
+      "status": "A",
+      "canonical_sha256": "05f3e3fc3883b7ca72168d4400612862796b2fbd712a260309c0558e791d6023",
+      "size_bytes": 1406
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_A_VALIDATION_PLAN.json",
+      "status": "A",
+      "canonical_sha256": "103e239bb66c1716c0436c8490e758affcba59398a14e2ca96fdacec0ac9e08b",
+      "size_bytes": 2956
+    },
+    {
+      "path": "docs/schemas/agent_role_binding_catalog.schema.json",
+      "status": "A",
+      "canonical_sha256": "bf4606eb55a96a076727eb23b39b8c37b0bf60797a9b7be6c86dab7eaf96b79c",
+      "size_bytes": 4583
+    },
+    {
+      "path": "docs/schemas/agent_runtime_boundary.schema.json",
+      "status": "A",
+      "canonical_sha256": "067fdfb71b0b43660b90c423e7a8610749737a9822447140058c84471b11c057",
+      "size_bytes": 2060
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "status": "M",
+      "canonical_sha256": "e62244659643e06e728e4c5cc85ac0138dbbc2748990ba96cd1124c109382753",
+      "size_bytes": 153554
+    },
+    {
+      "path": "docs/schemas/step_agent_binding.schema.json",
+      "status": "A",
+      "canonical_sha256": "63a28ea6b7b78bfb933ebe486cf0405cd5924c99f3f47379ab3cc1ef1dfd36e4",
+      "size_bytes": 2909
+    },
+    {
+      "path": "src/devpilot_core/agents/__init__.py",
+      "status": "M",
+      "canonical_sha256": "0fd5b29566ea9e2e60123481989abfa52c488aa013a862b4d04d5c337726043a",
+      "size_bytes": 3180
+    },
+    {
+      "path": "src/devpilot_core/agents/role_bindings.py",
+      "status": "A",
+      "canonical_sha256": "2d177dbc144d7d3e47ea0db96ecfafb8cc074b490de02f579aab1409df2419f3",
+      "size_bytes": 14797
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "status": "M",
+      "canonical_sha256": "ba2bf8362ff94ecfd775d66b184fac024a03ff1c860bfa8338b848da70eff355",
+      "size_bytes": 161075
+    },
+    {
+      "path": "src/devpilot_core/application/settings_service.py",
+      "status": "M",
+      "canonical_sha256": "efc7a48f0d6187f633dd4ad8dba53254aed1ab868263ea603071fe2c4410eb8d",
+      "size_bytes": 22948
+    },
+    {
+      "path": "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+      "status": "M",
+      "canonical_sha256": "7a97d50e74c29d643b77f4d4a2e50f5a6ae029b788b2c20547aa6621725d926c",
+      "size_bytes": 22224
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/settings.py",
+      "status": "M",
+      "canonical_sha256": "556d58d27abc53389a24ae827841683aa5f30f205ca5033c1a098ccc06973794",
+      "size_bytes": 9765
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/security.py",
+      "status": "M",
+      "canonical_sha256": "c9097e4f6c3f6832991745377645cc5d857714d2aefe7cd8320486e7443aad7d",
+      "size_bytes": 41926
+    },
+    {
+      "path": "tests/test_api_contract.py",
+      "status": "M",
+      "canonical_sha256": "d758f83f0df55ba3e8f0cb3003003fe946c257f5f5d77ae812f06300e9c761ab",
+      "size_bytes": 23778
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py",
+      "status": "A",
+      "canonical_sha256": "950c27ef6cfb6f274719ab07f1d669eb77ae0eea9cd584c34ecbfab26e100220",
+      "size_bytes": 6245
+    },
+    {
+      "path": "ui/web/package.json",
+      "status": "M",
+      "canonical_sha256": "31a652183b10ee26aaec752666406812655e80fa3cfbed9cd4d06df70968c8d1",
+      "size_bytes": 16435
+    },
+    {
+      "path": "ui/web/scripts/gsdlc07a-agent-runtime-smoke.mjs",
+      "status": "A",
+      "canonical_sha256": "18c3f71799ccce4803743b16d20cbeded6b83de9b659afff59d8ca1524a4adac",
+      "size_bytes": 1796
+    },
+    {
+      "path": "ui/web/src/api/client.ts",
+      "status": "M",
+      "canonical_sha256": "bfa7bb812fb8282d4f8e2d0259c00ed6e83c4598b9a46baa885948312f3bea86",
+      "size_bytes": 56691
+    },
+    {
+      "path": "ui/web/src/api/types.ts",
+      "status": "M",
+      "canonical_sha256": "d143b45d86ec11470d34f293cd0216eb3748b0f9d1fa9d8cc9c217d0914e2fa5",
+      "size_bytes": 30420
+    },
+    {
+      "path": "ui/web/src/components/AIControlCenterView.ts",
+      "status": "M",
+      "canonical_sha256": "1264c2ec778631d87576bd5ab7605a5de8c653df48b386bca70497efebe7d81a",
+      "size_bytes": 1380
+    },
+    {
+      "path": "ui/web/src/components/AgentRuntimeView.ts",
+      "status": "A",
+      "canonical_sha256": "1753b9ba4fcdc23c174e97887345173323ee80e3d2406976fb069887687b16d7",
+      "size_bytes": 2555
+    },
+    {
+      "path": "ui/web/src/components/StepActionAdvisor.ts",
+      "status": "M",
+      "canonical_sha256": "10afef19d40b93a40e349fc2584891e17a38d98c1cbec4ea81eea0893fc6f091",
+      "size_bytes": 8113
+    },
+    {
+      "path": "ui/web/src/pages/SettingsView.ts",
+      "status": "M",
+      "canonical_sha256": "70f6145a8fc1da7d1468761acc546543a542571040cd4a6c6cedcf7be5c76543",
+      "size_bytes": 21438
+    }
+  ],
+  "eol_policy": "canonical SHA-256 normalizes CRLF/CR to LF for UTF-8 text; physical EOL-only differences are not source changes",
+  "full_regression_executed": false,
+  "browser_pending_windows": true
+}

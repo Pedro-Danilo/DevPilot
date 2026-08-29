@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-27",
-  "sprint": "DEVPL-GSDLC-06-D",
+  "updated": "2026-08-29",
+  "sprint": "DEVPL-GSDLC-07-A",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3267,7 +3267,49 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-06-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-A-AGENT-ROLE-BINDING-CATALOG-V1",
+      "title": "AgentRoleBindingCatalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_role_binding_catalog.schema.json",
+      "description": "GSDLC-07-A contextual role descriptors, required capabilities, fallback, limits and least-privilege tool allowlists.",
+      "status": "registered",
+      "contract": "AgentRoleBindingCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-A-STEP-AGENT-BINDING-V1",
+      "title": "StepAgentBinding v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/step_agent_binding.schema.json",
+      "description": "GSDLC-07-A explicit Guided SDLC step to contextual agent role binding contract.",
+      "status": "registered",
+      "contract": "StepAgentBinding",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-A-AGENT-RUNTIME-BOUNDARY-V1",
+      "title": "AgentRuntimeBoundary v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_runtime_boundary.schema.json",
+      "description": "GSDLC-07-A authority-plane and ToolIntent/ToolExecutionDecision separation contract.",
+      "status": "registered",
+      "contract": "AgentRuntimeBoundary",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-A"
     }
   ],
-  "schemas_total": 227
+  "schemas_total": 230
 }

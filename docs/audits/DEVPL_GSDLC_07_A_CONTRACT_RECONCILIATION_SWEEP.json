@@ -1,0 +1,25 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "source_repo": "repo_DevPilot_Local_381_DEVPL_GSDLC_07_ACTIVATION_ENABLER_FRX2_1_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_sha256": "3b6da2658898af196caadae578b4f8433dc7c8ca8d1e64be79e5c23e67a347ca",
+  "schema_id": "devpilot.gsdlc07a.contract_reconciliation.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "checks": {
+    "strict_schema_metadata": "PASS",
+    "derived_counters": "PASS",
+    "sensitive_action_rbac_approval_miasi_tool_binding": "PASS-UNCHANGED/NO-NEW-SENSITIVE-ACTION",
+    "ui_route_capability_mapping": "PASS",
+    "source_registry_project_state_readme_roadmap": "PASS-after-reconciliation",
+    "historical_mutable_pointer_guard": "PASS",
+    "runtime_ephemeral_absence": "PASS-at-source",
+    "sealed_evidence_rewrite": "NOT-APPLICABLE-local",
+    "successor_registry_recognition": "PASS",
+    "model_route_tool_authority_separation": "PASS",
+    "agent_role_human_approval_separation": "PASS"
+  },
+  "known_drift_ignored": false,
+  "full_regression_executed": false,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "browser_pending_windows": true
+}

@@ -1,0 +1,66 @@
+{
+  "schema_id": "devpilot.gsdlc07a.validation_plan.v1",
+  "micro_sprint": "DEVPL-GSDLC-07-A",
+  "status": "FROZEN-BEFORE-GOVERNED-VALIDATION",
+  "updated": "2026-08-29",
+  "source_authority": {
+    "repo": "repo_DevPilot_Local_381_DEVPL_GSDLC_07_ACTIVATION_ENABLER_FRX2_1_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "sha256": "3b6da2658898af196caadae578b4f8433dc7c8ca8d1e64be79e5c23e67a347ca",
+    "git_binding": "resolve-at-windows-preflight/three-state-equality"
+  },
+  "policy": "completion-first/selective/no-full",
+  "development_self_check_before_plan": {
+    "executed": true,
+    "scope": "new 07-A contract tests only",
+    "result": "12/12 PASS",
+    "counts_as_governed_closure_evidence": false
+  },
+  "test_impact_v2": {
+    "decision": "REVIEW_REQUIRED",
+    "changed_paths_total": 37,
+    "matched_contracts_total": 191,
+    "recommended_tests_total": 294,
+    "full_regression_required": true,
+    "waiver_required": true,
+    "rationale": "TCR v2 impact expansion traverses broad historical/shared registries. GSDLC-07-A owner-approved policy forbids a routine full and requires exact focal/selective evidence. The governed plan therefore covers every directly changed runtime/API/UI/policy/model/TCR/document-governance boundary plus historical StepActionAdvisor/MIASI successors, while HistoricalRegressionGuard adjudicates residual high impact through an owner-policy waiver reserved to 07-E."
+  },
+  "pytest_files": [
+    "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py",
+    "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
+    "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
+    "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+    "tests/test_application_services.py",
+    "tests/test_api_contract.py",
+    "tests/test_api_security.py",
+    "tests/test_post_h_028_ui_route_registry_enforcement.py",
+    "tests/test_policy_engine_approval_rbac_enforcement.py",
+    "tests/test_post_h_032_tool_calling_contract.py",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "static_ui_checks": [
+    "ui/web/scripts/gsdlc07a-agent-runtime-smoke.mjs"
+  ],
+  "administrative_validators": [
+    "project-state validate",
+    "docs-governance validate",
+    "test-contracts validate",
+    "test-contracts validate-v2"
+  ],
+  "additional_sweeps": [
+    "historical_contract_sweep",
+    "contract_reconciliation_sweep",
+    "secret_differential_scan",
+    "forbidden_path_audit",
+    "git_diff_check",
+    "historical_regression_guard"
+  ],
+  "browser_required": true,
+  "browser_scope": "AgentRuntimeView only; one focal Windows browser acceptance because runtime UI changed",
+  "full_regression_runs_allowed_now": 0,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E"
+}

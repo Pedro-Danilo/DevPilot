@@ -4628,15 +4628,52 @@
         "Mock/fake-local/fake-external governance simulation only; real external network is not used."
       ],
       "source_mutation_allowed": false
+    },
+    {
+      "route_id": "api.settings.agent-runtime",
+      "method": "GET",
+      "path": "/api/v1/settings/agent-runtime",
+      "operation": "settings.agent_runtime",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.settings",
+      "router_module": "settings",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-human-session-agent-runtime",
+      "path_subject": ".devpilot/agents/agent_role_binding_catalog.json",
+      "tags": [
+        "settings",
+        "gsdlc-07-a",
+        "agent-runtime",
+        "role-bindings",
+        "read-only"
+      ],
+      "notes": [
+        "Projects role/step/runtime-boundary descriptors only; does not execute agents, tools or models."
+      ],
+      "source_mutation_allowed": false
     }
   ],
   "summary": {
-    "routes_total": 133,
-    "protected_routes_total": 126,
+    "routes_total": 134,
+    "protected_routes_total": 127,
     "public_routes_total": 7,
     "mutating_routes_total": 48,
-    "application_service_routes_total": 128,
-    "policy_bound_routes_total": 126,
+    "application_service_routes_total": 129,
+    "policy_bound_routes_total": 127,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -4648,7 +4685,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "DEVPL-GSDLC-06-E",
+    "updated_by": "DEVPL-GSDLC-07-A",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -4688,7 +4725,7 @@
     "gsdlc_02_b_public_bootstrap_login_routes_total": 3,
     "gsdlc_02_b_human_session_routes_total": 4,
     "gsdlc_03_b_project_entry_routes_total": 2,
-    "read_only_routes_total": 85,
+    "read_only_routes_total": 86,
     "gsdlc_04_b_artifact_draft_routes_total": 5,
     "gsdlc_04_b_source_write_routes_total": 0,
     "gsdlc_04_c_artifact_import_routes_total": 3,
@@ -4707,7 +4744,8 @@
     "mutating_routes_with_justification_total": 48,
     "gsdlc_06_c_provider_enablement_routes_total": 6,
     "gsdlc_06_c_real_external_network_routes_total": 0,
-    "gsdlc_06_e_model_gateway_routes_total": 2
+    "gsdlc_06_e_model_gateway_routes_total": 2,
+    "gsdlc_07_a_agent_runtime_routes_total": 1
   },
   "safety": {
     "local_first": true,

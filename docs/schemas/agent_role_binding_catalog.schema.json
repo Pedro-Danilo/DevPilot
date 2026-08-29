@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/agent_role_binding_catalog.schema.json",
+  "title": "DevPilot GSDLC-07-A AgentRoleBindingCatalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalog_id",
+    "catalog_version",
+    "status",
+    "owner",
+    "updated",
+    "authority",
+    "roles",
+    "safety"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-07-A-AGENT-ROLE-BINDING-CATALOG-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "catalog_id": {
+      "const": "devpl-gsdlc-07-a-agent-role-binding-catalog"
+    },
+    "catalog_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "implemented-initial"
+    },
+    "owner": {
+      "const": "DEVPL-GSDLC-07-A"
+    },
+    "updated": {
+      "type": "string"
+    },
+    "authority": {
+      "type": "object"
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/role"
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "agent_role_is_human_approval_role",
+        "generic_all_tools_agent",
+        "model_route_grants_tool_permission",
+        "external_api_required",
+        "network_required",
+        "execution_enabled_in_07_a"
+      ],
+      "properties": {
+        "agent_role_is_human_approval_role": {
+          "const": false
+        },
+        "generic_all_tools_agent": {
+          "const": false
+        },
+        "model_route_grants_tool_permission": {
+          "const": false
+        },
+        "external_api_required": {
+          "const": false
+        },
+        "network_required": {
+          "const": false
+        },
+        "execution_enabled_in_07_a": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role_id",
+        "display_name",
+        "runtime_agent_id",
+        "enabled",
+        "purpose",
+        "required_model_capabilities",
+        "fallback",
+        "tool_allowlist",
+        "limits",
+        "policy_status",
+        "human_approval_role",
+        "can_approve"
+      ],
+      "properties": {
+        "role_id": {
+          "enum": [
+            "product",
+            "requirements",
+            "architecture",
+            "security",
+            "test",
+            "planning",
+            "coding",
+            "review"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_agent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enabled": {
+          "const": true
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_model_capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "fallback": {
+          "type": "object"
+        },
+        "tool_allowlist": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "limits": {
+          "type": "object",
+          "required": [
+            "max_steps",
+            "wall_time_seconds",
+            "max_input_tokens",
+            "max_output_tokens",
+            "max_cost_usd"
+          ],
+          "properties": {
+            "max_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            },
+            "wall_time_seconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 900
+            },
+            "max_input_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_output_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_cost_usd": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "policy_status": {
+          "type": "string"
+        },
+        "human_approval_role": {
+          "const": false
+        },
+        "can_approve": {
+          "const": false
+        }
+      }
+    }
+  }
+}

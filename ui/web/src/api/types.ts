@@ -106,6 +106,28 @@ export interface ApprovalCenterSnapshot {
 }
 
 
+
+export interface AgentRuntimeRoleItem {
+  role_id: string;
+  display_name: string;
+  runtime_agent_id: string;
+  enabled: boolean;
+  required_model_capabilities: string[];
+  fallback: Record<string, unknown>;
+  tool_allowlist: string[];
+  limits: { max_steps?: number; wall_time_seconds?: number; max_input_tokens?: number; max_output_tokens?: number; max_cost_usd?: number };
+  policy_status: string;
+  can_approve: false;
+}
+
+export interface AgentRuntimeSettingsData {
+  summary?: Record<string, unknown>;
+  roles?: AgentRuntimeRoleItem[];
+  bindings?: Record<string, unknown>[];
+  runtime_boundary?: { tool_authority?: Record<string, unknown>; [key: string]: unknown };
+  validation?: Record<string, unknown>;
+}
+
 export interface ModelGatewayRouteItem {
   provider_id: string;
   model_id: string;
@@ -161,6 +183,7 @@ export interface SettingsSnapshot {
   securityPosture?: DevPilotApplicationResponse;
   providerPlan?: DevPilotApplicationResponse;
   modelGateway?: DevPilotApplicationResponse<ModelGatewaySettingsData>;
+  agentRuntime?: DevPilotApplicationResponse<AgentRuntimeSettingsData>;
   modelGatewayEval?: DevPilotApplicationResponse;
 }
 
@@ -755,6 +778,12 @@ export interface StepActionCard {
   typed_operation_id?: string | null;
   api_route_id?: string | null;
   source_refs: string[];
+  agent_descriptor?: {
+    step_id?: string; agent_role_id?: string | null; display_name?: string; runtime_agent_id?: string; enabled?: boolean; reason?: string;
+    required_model_capabilities?: string[]; missing_model_capabilities?: string[]; tool_allowlist?: string[]; limits?: Record<string, unknown>;
+    policy_status?: string; human_review_required?: boolean; approval_authority?: string; model_route_grants_tool_permission?: boolean;
+    tool_execution_authority?: boolean; execution_enabled_in_07_a?: boolean;
+  } | null;
 }
 
 export interface StepActionAdvisorDecision {

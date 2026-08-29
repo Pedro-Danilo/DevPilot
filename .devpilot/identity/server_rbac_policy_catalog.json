@@ -2972,6 +2972,30 @@
       "workspace_scope_required": false,
       "risk_level": "medium",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.agent-runtime",
+      "method": "GET",
+      "path": "/api/v1/settings/agent-runtime",
+      "operation": "settings.agent_runtime",
+      "access_class": "authenticated-agent-runtime-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -3198,7 +3222,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 133,
+    "route_policies_total": 134,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3240,5 +3264,6 @@
     "GSDLC-03-A-at-close RBAC snapshot remains frozen at 98 route policies.",
     "GSDLC-04-C adds three human-session-only PASTE/UPLOAD/IMPORT runtime-DRAFT routes; no legacy-token authority and no source write.",
     "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced."
-  ]
+  ],
+  "gsdlc_07_a_agent_runtime_route_registered": true
 }

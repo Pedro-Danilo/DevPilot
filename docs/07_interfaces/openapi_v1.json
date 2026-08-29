@@ -14246,6 +14246,102 @@
         "x-devpilot-remote-execution": false,
         "x-devpilot-secret-in-response": false
       }
+    },
+    "/api/v1/settings/agent-runtime": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Read GSDLC-07-A agent runtime role bindings",
+        "operationId": "settings_agent_runtime",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-AGENT-RUNTIME",
+        "x-devpilot-operation": "settings.agent_runtime",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> SettingsApplicationService -> AgentRoleBindingCatalog",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-A",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "Read-only projection of contextual agent roles, step bindings, limits and authority boundary. No agent/tool/model execution.",
+        "x-devpilot-local-only": true
+      }
     }
   },
   "components": {

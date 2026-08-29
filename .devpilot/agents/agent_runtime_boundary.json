@@ -1,0 +1,108 @@
+{
+  "$schema": "../../docs/schemas/agent_runtime_boundary.schema.json",
+  "schema_id": "SCHEMA-DEVPL-GSDLC-07-A-AGENT-RUNTIME-BOUNDARY-V1",
+  "schema_version": "1.0",
+  "contract_id": "devpl-gsdlc-07-a-agent-runtime-boundary",
+  "version": "1.0.0",
+  "status": "implemented-initial",
+  "owner": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "planes": [
+    {
+      "plane": "model-gateway",
+      "owns": [
+        "provider-routing",
+        "model-routing",
+        "access-route-selection",
+        "auth-adapter-selection",
+        "cost-budget-routing"
+      ],
+      "must_not_own": [
+        "tool-permission",
+        "planning",
+        "handoff-execution",
+        "human-approval"
+      ]
+    },
+    {
+      "plane": "agent-runtime",
+      "owns": [
+        "session",
+        "bounded-planning",
+        "handoffs",
+        "tool-intent-lifecycle"
+      ],
+      "must_not_own": [
+        "provider-terms-authority",
+        "direct-destructive-execution",
+        "human-approval"
+      ]
+    },
+    {
+      "plane": "skills-tools-mcp",
+      "owns": [
+        "typed-capability-contracts",
+        "invocation-adapters",
+        "protocol-bindings"
+      ],
+      "must_not_own": [
+        "model-routing-policy",
+        "self-approval"
+      ]
+    }
+  ],
+  "tool_authority": {
+    "intent_contract": "ToolIntent",
+    "execution_decision_contract": "ToolExecutionDecision",
+    "decision_authority": [
+      "PolicyEngine",
+      "RBAC",
+      "Approval"
+    ],
+    "model_route_can_grant_tool_permission": false,
+    "agent_role_can_approve": false
+  },
+  "runtime": {
+    "baseline": "devpilot-governed-runtime",
+    "execution_enabled_in_07_a": false,
+    "dry_run_default": true,
+    "max_autonomous_loops": 0,
+    "external_api_required": false,
+    "network_required": false
+  },
+  "framework_candidates": [
+    {
+      "framework_id": "devpilot-governed-runtime",
+      "disposition": "baseline/reference",
+      "dependency_adopted": false
+    },
+    {
+      "framework_id": "openai-agents-sdk",
+      "disposition": "candidate-for-experiment",
+      "dependency_adopted": false
+    },
+    {
+      "framework_id": "microsoft-agent-framework",
+      "disposition": "candidate-for-experiment",
+      "dependency_adopted": false
+    },
+    {
+      "framework_id": "langgraph",
+      "disposition": "candidate-for-experiment",
+      "dependency_adopted": false
+    },
+    {
+      "framework_id": "mcp",
+      "disposition": "candidate-for-experiment/skills-protocols",
+      "dependency_adopted": false
+    }
+  ],
+  "safety": {
+    "policy_engine_final_authority": true,
+    "self_approval": false,
+    "arbitrary_shell": false,
+    "silent_file_writes": false,
+    "unbounded_runtime": false,
+    "real_mcp_write_execution": false
+  }
+}

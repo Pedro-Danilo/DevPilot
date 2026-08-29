@@ -35,6 +35,7 @@ from .release_agent import ReleaseAgent
 from .architecture_agent import ArchitectureAgent
 from .requirements_agent import RequirementsAgent
 from .runtime import AgentRuntime, AgentRuntimeConfig
+from .role_bindings import AgentRoleBindingCatalog, AgentRoleDescriptor, StepAgentBinding
 from .rag_context import (
     INSUFFICIENT_EVIDENCE,
     RAG_AGENT_CONTEXT_COMMAND,
@@ -75,6 +76,9 @@ __all__ = [
     "RagAgentContextOptions",
     "RagAwareAgentContextBuilder",
     "AgentRuntimeConfig",
+    "AgentRoleBindingCatalog",
+    "AgentRoleDescriptor",
+    "StepAgentBinding",
     "AgentSession",
     "AgentSessionEvent",
     "AgentSessionInspectOptions",

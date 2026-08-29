@@ -1,0 +1,47 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-A",
+  "updated": "2026-08-29",
+  "source_repo": "repo_DevPilot_Local_381_DEVPL_GSDLC_07_ACTIVATION_ENABLER_FRX2_1_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_sha256": "3b6da2658898af196caadae578b4f8433dc7c8ca8d1e64be79e5c23e67a347ca",
+  "schema_id": "devpilot.gsdlc07a.historical_contract_sweep.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "classifications": {
+    "historical-freeze": [
+      "GSDLC-05-D AGENT execution remains UNAVAILABLE/GSDLC_05_AGENT_EXECUTION_OUT_OF_SCOPE",
+      "R01-E research closure and Agent Runtime/Skills boundary findings",
+      "GSDLC-06 and activation-enabler closure facts"
+    ],
+    "current-active": [
+      "tests/test_api_contract.py evolves to recognize GET /api/v1/settings/agent-runtime",
+      "API/UI route registries and server RBAC catalog",
+      "Project State / Documentation Source Registry / README / roadmap",
+      "TCR v1/v2 active registries"
+    ],
+    "successor-needed": [
+      "GSDLC-07-A StepActionAdvisor agent descriptor while GSDLC-05-D execution freeze remains historical",
+      "AgentRuntimeView read-only administration successor contract"
+    ],
+    "deprecated-after-proof": [],
+    "derived": [
+      "OpenAPI projection",
+      "api_service_mapping.md",
+      "registry counters",
+      "agent_binding_matrix.json"
+    ],
+    "runtime-ephemeral": [
+      "outputs/",
+      "auth.db*",
+      "devpilot.db*",
+      ".vite/",
+      "node_modules/",
+      "__pycache__/",
+      ".pytest_cache/"
+    ]
+  },
+  "historical_tests_rewritten_to_pass": false,
+  "current_active_tests_evolved": [
+    "tests/test_api_contract.py"
+  ],
+  "full_regression_executed": false,
+  "browser_runtime_change": true
+}

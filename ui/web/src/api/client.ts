@@ -1,4 +1,4 @@
-import type { AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
+import type { AgentRuntimeSettingsData, AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
@@ -318,6 +318,10 @@ export class DevPilotApiClient {
 
   async settingsWorkspace(): Promise<DevPilotApplicationResponse> {
     return this.get('/settings/workspace', { retryNetworkErrors: true });
+  }
+
+  async settingsAgentRuntime(): Promise<DevPilotApplicationResponse<AgentRuntimeSettingsData>> {
+    return this.get('/settings/agent-runtime', { timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS, retryNetworkErrors: true });
   }
 
   async settingsModelGateway(previewInputTokens = 1200, previewOutputTokens = 300): Promise<DevPilotApplicationResponse<ModelGatewaySettingsData>> {

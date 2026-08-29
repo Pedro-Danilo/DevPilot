@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.21.0-gsdlc-06-e",
+  "version": "0.22.0-gsdlc-07-a",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — GSDLC-06-E Provider Settings UX and controlled Model Gateway evaluation.",
+  "description": "DevPilot Local Web UI — GSDLC-07-A contextual agent role bindings and AgentRuntimeView.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -30,7 +30,8 @@
     "test:artifact-review": "node scripts/gsdlc04d-artifact-review-smoke.mjs",
     "test:miasi-applicability": "node scripts/gsdlc05c-miasi-applicability-smoke.mjs",
     "test:step-action-advisor": "node scripts/gsdlc05d-step-action-advisor-smoke.mjs",
-    "test:model-settings": "node scripts/gsdlc06e-model-settings-smoke.mjs"
+    "test:model-settings": "node scripts/gsdlc06e-model-settings-smoke.mjs",
+    "test:agent-runtime": "node scripts/gsdlc07a-agent-runtime-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -386,7 +387,12 @@
     "gsdlc06eModelRouteGrantsToolExecution": false,
     "gsdlc06eCredentialRendering": "masked-reference-only",
     "gsdlc06eBrowserAcceptanceRequired": true,
-    "gsdlc06eFullRegressionRunsLocal": 0
+    "gsdlc06eFullRegressionRunsLocal": 0,
+    "gsdlc07A": true,
+    "agentRuntimeView": true,
+    "agentExecutionEnabled": false,
+    "agentRolesTotal": 8,
+    "stepAgentBindingsTotal": 19
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

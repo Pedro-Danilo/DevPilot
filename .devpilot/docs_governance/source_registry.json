@@ -29427,6 +29427,296 @@
         "test_must_pass"
       ],
       "related_adrs": []
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-07-A-FRAMEWORK-ADR",
+      "domain": "architecture",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": []
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-07-A-IMPLEMENTATION-REPORT",
+      "domain": "audit",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_IMPLEMENTATION_REPORT.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-07-A-AGENT-BINDING-MATRIX",
+      "domain": "audit",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_AGENT_BINDING_MATRIX.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-07-A-OWNER-ADJUDICATION-PROPOSAL",
+      "domain": "governance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "DEVPL_GSDLC_07_A_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-VALIDATION-PLAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_VALIDATION_PLAN.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "FROZEN-BEFORE-GOVERNED-VALIDATION",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-FULL-REGRESSION-WAIVER",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_FULL_REGRESSION_WAIVER.json",
+      "classification": "source-of-truth",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "approved-by-owner-policy",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/PLAN-FROZEN",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-SECRET-DELTA-SCAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_SECRET_DELTA_SCAN.json",
+      "classification": "derived",
+      "domain": "security",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-FINAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-FORBIDDEN-PATH-AUDIT",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_FORBIDDEN_PATH_AUDIT.json",
+      "classification": "derived",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-SOURCE-DELTA-MANIFEST",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_SOURCE_DELTA_MANIFEST.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
     }
   ],
   "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
@@ -31945,44 +32235,44 @@
   "summary": {
     "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
     "backlogs_missing_future_are_planned_info": true,
-    "critical_sources_total": 1143,
+    "critical_sources_total": 1176,
     "deprecated_total": 0,
-    "derived_total": 117,
+    "derived_total": 120,
     "documents_checked_total": 1238,
-    "documents_registered_total": 1258,
-    "documents_total": 1258,
-    "documents_with_required_tests_total": 1238,
+    "documents_registered_total": 1271,
+    "documents_total": 1271,
+    "documents_with_required_tests_total": 1271,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 1,
     "last_registered_sprint": "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE",
-    "last_updated_by": "DEVPL-GSDLC-07-ACTIVATION-ENABLER-FRX2-1",
-    "machine_readable_source_total": 648,
+    "last_updated_by": "DEVPL-GSDLC-07-A",
+    "machine_readable_source_total": 658,
     "markdown_json_pairs_total": 30,
     "markdown_json_sync_checks_enabled": true,
     "mutations_performed": false,
     "network_used": false,
     "preliminary": false,
     "roadmap_derived_backlog_governance_enabled": true,
-    "source_of_truth_total": 472,
-    "sources_total": 1238,
+    "source_of_truth_total": 492,
+    "sources_total": 1271,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "uoc_003_registered_documents_total": 10,
     "uoc_005_registered_documents_total": 4,
     "uoc_007_registered_documents_total": 8,
     "uoc_009_registered_documents_total": 8,
-    "updated": "2026-08-27",
-    "updated_by": "DEVPL-GSDLC-07-ACTIVATION-ENABLER",
-    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-ACTIVATION-ENABLER",
+    "updated": "2026-08-29",
+    "updated_by": "DEVPL-GSDLC-07-A",
+    "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-A",
     "gsdlc_active_program": "DEVPL-GSDLC",
-    "registered_documents": 1258
+    "registered_documents": 1271
   },
   "updated": "2026-08-29",
   "updated_at": "2026-08-28",
-  "updated_by": "DEVPL-GSDLC-07-ACTIVATION-ENABLER-FRX2-1",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-ACTIVATION-ENABLER",
+  "updated_by": "DEVPL-GSDLC-07-A",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-A",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "active/07-activation-enabler",
+  "gsdlc_program_status": "active/07-a-pass-candidate",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
@@ -32100,6 +32390,10 @@
   "gsdlc_06_e_full_regression_result": "FAIL/TIMEOUT/1-OF-1/PRESERVED",
   "gsdlc_06_e_browser_acceptance": "PASS/13",
   "gsdlc_06_e_composite_full_regression_selective_retest": "PASS",
-  "gsdlc_07_status": "approved/activation-enabler",
-  "gsdlc_07_a_functional_authorized": false
+  "gsdlc_07_status": "implementation/07-a",
+  "gsdlc_07_a_functional_authorized": true,
+  "gsdlc_07_a_status": "pass-candidate/pre-windows",
+  "gsdlc_07_a_owner_adjudication_pending": true,
+  "gsdlc_07_a_full_regression_runs": 0,
+  "gsdlc_07_a_browser_acceptance": "pending-windows"
 }

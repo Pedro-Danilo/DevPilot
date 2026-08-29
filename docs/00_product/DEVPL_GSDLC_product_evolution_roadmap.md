@@ -497,3 +497,7 @@ La full única de DEVPL-GSDLC-06-E fue consumida `1/1` y terminó `FAIL/TIMEOUT`
 ### DEVPL-GSDLC-07 activation enabler (2026-08-28)
 
 Antes de 07-A se ejecuta una transición no funcional mínima: materialización local del successor desde repo379, cierre de los dos S2, validación focal y formalización de Full Regression Execution v2.1. El remote se reconcilia únicamente después del commit local validado. El enabler posterior usa validación focal/acumulativa y no consume la full del backlog; la logical full session real permanece reservada a 07-E.
+
+### DEVPL-GSDLC-07-A — contextual engineering agent roles and step bindings (2026-08-29)
+
+`IMPLEMENTED / LOCAL-VALIDATED / PENDING-WINDOWS-OWNER-ADJUDICATION`. El micro-sprint 07-A se ejecuta sobre el successor Windows-validated repo381 posterior al activation enabler FRX2.1. Materializa ocho roles contextuales, 19 bindings explícitos Guided SDLC, allowlists de mínimo privilegio, capability/fallback descriptors, la frontera R01-E Agent Runtime/Model Gateway/Skills y `AgentRuntimeView` read-only. La ejecución agentic continúa deshabilitada en 07-A; `ModelRouteDecision` no concede tool authority y agent role no equivale a human approval. No se consume full regression; la única logical full session del backlog permanece reservada a 07-E. 07-B solo queda autorizable después de owner adjudication Windows de 07-A.

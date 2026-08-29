@@ -155,6 +155,11 @@ class SettingsApplicationService:
             findings=findings,
         )
 
+
+    def agent_runtime_settings(self) -> CommandResult:
+        from devpilot_core.agents import AgentRoleBindingCatalog
+        return AgentRoleBindingCatalog(self.root).snapshot()
+
     def policy(self) -> CommandResult:
         policy_path = self.root / ".devpilot" / "policy.yaml"
         matrix_path = self.root / ".devpilot" / "miasi" / "policy_matrix.json"
