@@ -1,18 +1,18 @@
 ---
 doc_id: "DEVPL-GSDLC-06-D-CLOSURE-REPORT"
 title: "DEVPL-GSDLC-06-D — Closure report"
-status: "pass-candidate/windows-validated/pending-owner-adjudication"
+status: "closed/PASS/owner-adjudicated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-27"
-approval: "pending-owner"
+approval: "approved_by_owner"
 ---
 
 # DEVPL-GSDLC-06-D — Closure report
 
 ## Estado
 
-`PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`.
+`CLOSED/PASS / OWNER-ADJUDICATED`.
 
 ## Implementación
 
@@ -32,7 +32,7 @@ El routing aplica el orden vinculante: capabilities → privacy/offline → prov
 
 ## Validación local
 
-Windows reproduce 141/141 pruebas acumulativas/selectivas, 4 schemas, Documentation Governance, Project State, TCR v1/v2, Historical/Contract guard y SecretGuard diferencial. Repo-review queda PASS con S0/S1=0 y full=0; la adjudicación owner permanece pendiente.
+Windows reproduce 141/141 pruebas acumulativas/selectivas, 4 schemas, Documentation Governance, Project State, TCR v1/v2, Historical/Contract guard y SecretGuard diferencial. Repo-review queda PASS con S0/S1=0 y full=0; la evidencia queda owner-adjudicated y 06-E queda autorizado sobre repo378.
 
 ## Limitación
 

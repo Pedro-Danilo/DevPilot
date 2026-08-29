@@ -1,0 +1,94 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-06-E",
+  "updated": "2026-08-28",
+  "source_repo": "repo_DevPilot_Local_378_DEVPL_GSDLC_06_D_TOKEN_BUDGET_CONTEXT_ROUTING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "718fa0da5d552f8bf6def39c102f0124ac7fa922",
+  "source_sha256": "25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9",
+  "schema_id": "devpilot.gsdlc06e.browser_acceptance.v1",
+  "status": "PASS/WINDOWS/PRESERVED-THROUGH-COMPOSITE",
+  "cases_total": 13,
+  "cases": [
+    {
+      "case_id": "01-provider-catalog",
+      "description": "Provider catalog visible including blocked/unknown",
+      "status": "PASS",
+      "screenshot": "01-provider-catalog.png"
+    },
+    {
+      "case_id": "02-local-route",
+      "description": "Local opt-in route visible",
+      "status": "PASS",
+      "screenshot": "02-local-route.png"
+    },
+    {
+      "case_id": "03-remote-as-local-block",
+      "description": "Remote endpoint never classified local",
+      "status": "PASS",
+      "screenshot": "03-remote-as-local-block.png"
+    },
+    {
+      "case_id": "04-external-disabled",
+      "description": "External route disabled/conditional visible",
+      "status": "PASS",
+      "screenshot": "04-external-disabled.png"
+    },
+    {
+      "case_id": "05-rbac-negative",
+      "description": "Unauthorized provider configuration is blocked",
+      "status": "PASS",
+      "screenshot": "05-rbac-negative.png"
+    },
+    {
+      "case_id": "06-masked-credential",
+      "description": "Credential reference masked; raw secret absent DOM",
+      "status": "PASS",
+      "screenshot": "06-masked-credential.png"
+    },
+    {
+      "case_id": "07-budget-cost-preview",
+      "description": "Estimated tokens/cost and request budget visible",
+      "status": "PASS",
+      "screenshot": "07-budget-cost-preview.png"
+    },
+    {
+      "case_id": "08-hard-stop",
+      "description": "Hard budget stop visible",
+      "status": "PASS",
+      "screenshot": "08-hard-stop.png"
+    },
+    {
+      "case_id": "09-fallback-reason",
+      "description": "Fallback reason explicit",
+      "status": "PASS",
+      "screenshot": "09-fallback-reason.png"
+    },
+    {
+      "case_id": "10-freshness",
+      "description": "Evidence freshness visible",
+      "status": "PASS",
+      "screenshot": "10-freshness.png"
+    },
+    {
+      "case_id": "11-route-tool-separation",
+      "description": "ModelRouteDecision does not grant tools",
+      "status": "PASS",
+      "screenshot": "11-route-tool-separation.png"
+    },
+    {
+      "case_id": "12-disable-revoke",
+      "description": "Disable/revoke persistence and audit",
+      "status": "PASS",
+      "screenshot": "12-disable-revoke.png"
+    },
+    {
+      "case_id": "13-product-invariant",
+      "description": "User understands provider/model/route/cost/freshness; S0/S1=0",
+      "status": "PASS",
+      "screenshot": "13-product-invariant.png"
+    }
+  ],
+  "machine_guard": "Windows operator verifies all 13 screenshots + observations before full marker",
+  "browser_runs_local": 0,
+  "browser_runs_windows": 1,
+  "reused_during_composite_recovery": true
+}

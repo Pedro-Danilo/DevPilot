@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-08-25",
+  "updated": "2026-08-27",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -4556,15 +4556,87 @@
       ],
       "source_mutation_allowed": false,
       "mutation_exception_justification": "Writes only ignored runtime provider enablement state/audit; never versioned provider config or raw secrets."
+    },
+    {
+      "route_id": "api.settings.model-gateway",
+      "method": "GET",
+      "path": "/api/v1/settings/model-gateway",
+      "operation": "settings.model_gateway",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.settings",
+      "router_module": "settings",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-human-session-model-gateway",
+      "path_subject": null,
+      "tags": [
+        "settings",
+        "gsdlc-06-e",
+        "model-gateway",
+        "redacted"
+      ],
+      "notes": [
+        "Projects provider/model/access-route/cost/freshness without raw credentials or tool authority."
+      ],
+      "source_mutation_allowed": false
+    },
+    {
+      "route_id": "api.settings.model-gateway.evaluate",
+      "method": "POST",
+      "path": "/api/v1/settings/model-gateway/evaluate",
+      "operation": "settings.model_gateway.evaluate",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.settings",
+      "router_module": "settings",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-human-session-model-gateway-eval",
+      "path_subject": null,
+      "tags": [
+        "settings",
+        "gsdlc-06-e",
+        "controlled-eval",
+        "hermetic"
+      ],
+      "notes": [
+        "Mock/fake-local/fake-external governance simulation only; real external network is not used."
+      ],
+      "source_mutation_allowed": false
     }
   ],
   "summary": {
-    "routes_total": 131,
-    "protected_routes_total": 124,
+    "routes_total": 133,
+    "protected_routes_total": 126,
     "public_routes_total": 7,
     "mutating_routes_total": 48,
-    "application_service_routes_total": 126,
-    "policy_bound_routes_total": 124,
+    "application_service_routes_total": 128,
+    "policy_bound_routes_total": 126,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -4576,7 +4648,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "DEVPL-GSDLC-06-C",
+    "updated_by": "DEVPL-GSDLC-06-E",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -4616,7 +4688,7 @@
     "gsdlc_02_b_public_bootstrap_login_routes_total": 3,
     "gsdlc_02_b_human_session_routes_total": 4,
     "gsdlc_03_b_project_entry_routes_total": 2,
-    "read_only_routes_total": 83,
+    "read_only_routes_total": 85,
     "gsdlc_04_b_artifact_draft_routes_total": 5,
     "gsdlc_04_b_source_write_routes_total": 0,
     "gsdlc_04_c_artifact_import_routes_total": 3,
@@ -4634,7 +4706,8 @@
     "gsdlc_05_e_human_session_required": true,
     "mutating_routes_with_justification_total": 48,
     "gsdlc_06_c_provider_enablement_routes_total": 6,
-    "gsdlc_06_c_real_external_network_routes_total": 0
+    "gsdlc_06_c_real_external_network_routes_total": 0,
+    "gsdlc_06_e_model_gateway_routes_total": 2
   },
   "safety": {
     "local_first": true,

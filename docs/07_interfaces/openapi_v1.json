@@ -13384,6 +13384,868 @@
         "x-devpilot-approval-required": false,
         "x-devpilot-atomic-write": false
       }
+    },
+    "/api/v1/settings/providers/enablement": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Provider Enablement Status",
+        "operationId": "settings_providers_enablement_status",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-PROVIDERS-ENABLEMENT-STATUS",
+        "x-devpilot-operation": "settings.providers.enablement.status",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ProviderEnablementService",
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-C",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      },
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Apply Provider Enablement",
+        "operationId": "settings_providers_enablement_apply",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-PROVIDERS-ENABLEMENT-APPLY",
+        "x-devpilot-operation": "settings.providers.enablement.apply",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "runtime_state_write_approval_bound",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ProviderEnablementService",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "settings.providers.enablement.apply",
+                "payload": {
+                  "provider_id": "external-openai",
+                  "approved": true
+                },
+                "client": "web-ui",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-C",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      }
+    },
+    "/api/v1/settings/providers/enablement/plan": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Plan Provider Enablement",
+        "operationId": "settings_providers_enablement_plan",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-PROVIDERS-ENABLEMENT-PLAN",
+        "x-devpilot-operation": "settings.providers.enablement.plan",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "plan_only_no_write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ProviderEnablementService",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "settings.providers.enablement.plan",
+                "payload": {
+                  "provider_id": "external-openai"
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-C",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      }
+    },
+    "/api/v1/settings/providers/connectivity-test": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Controlled Provider Connectivity Test",
+        "operationId": "settings_providers_connectivity_test",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-PROVIDERS-CONNECTIVITY",
+        "x-devpilot-operation": "settings.providers.connectivity_test",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "fake_connectivity_no_external_network",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ProviderEnablementService",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "settings.providers.connectivity_test",
+                "payload": {
+                  "provider_id": "external-openai",
+                  "mode": "fake"
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-C",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      }
+    },
+    "/api/v1/settings/providers/disable": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Disable Provider Runtime",
+        "operationId": "settings_providers_enablement_disable",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-PROVIDERS-DISABLE",
+        "x-devpilot-operation": "settings.providers.enablement.disable",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "runtime_state_kill_switch",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ProviderEnablementService",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "settings.providers.enablement.disable",
+                "payload": {
+                  "provider_id": "external-openai"
+                },
+                "client": "web-ui",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-C",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      }
+    },
+    "/api/v1/settings/providers/revoke": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Revoke Provider Credential Reference",
+        "operationId": "settings_providers_enablement_revoke",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-PROVIDERS-REVOKE",
+        "x-devpilot-operation": "settings.providers.enablement.revoke",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "runtime_state_credential_ref_revoke",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ProviderEnablementService",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "settings.providers.enablement.revoke",
+                "payload": {
+                  "provider_id": "external-openai"
+                },
+                "client": "web-ui",
+                "dry_run": false
+              }
+            }
+          }
+        },
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-C",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      }
+    },
+    "/api/v1/settings/model-gateway": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Model Gateway Settings",
+        "operationId": "settings_model_gateway",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-MODEL-GATEWAY",
+        "x-devpilot-operation": "settings.model_gateway",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ModelGatewaySettingsService",
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-E",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      }
+    },
+    "/api/v1/settings/model-gateway/evaluate": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Controlled Model Gateway Evaluation",
+        "operationId": "settings_model_gateway_evaluate",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-SETTINGS-MODEL-GATEWAY-EVALUATE",
+        "x-devpilot-operation": "settings.model_gateway.evaluate",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "hermetic_controlled_evaluation",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService -> ModelGatewaySettingsService",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "settings.model_gateway.evaluate",
+                "payload": {
+                  "mode": "mock",
+                  "preview_input_tokens": 1200,
+                  "preview_output_tokens": 300
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-sprint": "DEVPL-GSDLC-06-E",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false
+      }
     }
   },
   "components": {

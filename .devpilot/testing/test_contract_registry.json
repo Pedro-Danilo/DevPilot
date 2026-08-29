@@ -12459,6 +12459,67 @@
         "Cost unknown is null/explicit, never synthetic zero."
       ],
       "classification_notes": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-06-e-provider-settings-controlled-eval",
+      "scope": "quality-gate",
+      "owner": "DEVPL-GSDLC-06-E",
+      "phase": "DEVPL-GSDLC",
+      "critical": true,
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_06_e_provider_settings.py",
+        "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
+        "tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py",
+        "tests/test_api_settings.py",
+        "tests/test_web_ui_settings.py",
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "validates": [
+        "AIControlCenterView authority separation",
+        "ModelSettingsView provider/model/access-route/cost/freshness",
+        "masked credential reference",
+        "mock/local/fake external hermetic evaluation",
+        "budget hard-stop",
+        "RBAC provider configuration",
+        "disable/revoke kill switches",
+        "ModelRouteDecision cannot grant ToolExecutionDecision"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/model_gateway_settings_service.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/components/AIControlCenterView.ts",
+        "ui/web/src/components/ModelSettingsView.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_e_provider_settings.py",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "domain": "modeling.provider-settings",
+      "notes": [
+        "Browser acceptance and the single full regression are Windows closing gates.",
+        "Disable/revoke mutates only ignored runtime provider enablement state; source mutation remains forbidden."
+      ],
+      "classification_notes": []
     }
   ],
   "created_by": "POST-H-001",
@@ -12536,5 +12597,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 297
+  "contracts_total": 298
 }

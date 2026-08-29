@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.20.0-gsdlc-05-d",
+  "version": "0.21.0-gsdlc-06-e",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — server-authoritative Step Action Advisor for Guided SDLC current steps (GSDLC-05-D implementation candidate).",
+  "description": "DevPilot Local Web UI — GSDLC-06-E Provider Settings UX and controlled Model Gateway evaluation.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -29,7 +29,8 @@
     "test:artifact-import": "node scripts/gsdlc04c-artifact-import-smoke.mjs",
     "test:artifact-review": "node scripts/gsdlc04d-artifact-review-smoke.mjs",
     "test:miasi-applicability": "node scripts/gsdlc05c-miasi-applicability-smoke.mjs",
-    "test:step-action-advisor": "node scripts/gsdlc05d-step-action-advisor-smoke.mjs"
+    "test:step-action-advisor": "node scripts/gsdlc05d-step-action-advisor-smoke.mjs",
+    "test:model-settings": "node scripts/gsdlc06e-model-settings-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -194,7 +195,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-06-D",
+    "currentSprint": "DEVPL-GSDLC-06-E",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -363,7 +364,7 @@
     "gsdlc04dSourceWriteEngine": "UOC-005 WorkspaceEditExecutionApplicationService",
     "gsdlc04dFullRegressionRuns": 0,
     "historicalUoc011SourceBudgetBytes": 524288,
-    "currentUiSourceBudgetBytes": 614400,
+    "currentUiSourceBudgetBytes": 655360,
     "currentUiSourceBudgetHardCeilingBytes": 786432,
     "gsdlc05cMiasiApplicabilityIndicator": true,
     "gsdlc05cAgentExecutionEnabled": false,
@@ -372,7 +373,20 @@
     "gsdlc05dServerAuthoritative": true,
     "gsdlc05dAgentExecutionEnabled": false,
     "gsdlc05dRagExecutionEnabled": false,
-    "gsdlc05dFullRegressionRuns": 0
+    "gsdlc05dFullRegressionRuns": 0,
+    "gsdlc06eProviderSettingsUx": true,
+    "gsdlc06eAIControlCenterShell": true,
+    "gsdlc06eModelSettingsView": true,
+    "gsdlc06eControlledEvaluationModes": [
+      "mock",
+      "fake-local",
+      "fake-external"
+    ],
+    "gsdlc06eRealExternalApiRequired": false,
+    "gsdlc06eModelRouteGrantsToolExecution": false,
+    "gsdlc06eCredentialRendering": "masked-reference-only",
+    "gsdlc06eBrowserAcceptanceRequired": true,
+    "gsdlc06eFullRegressionRunsLocal": 0
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

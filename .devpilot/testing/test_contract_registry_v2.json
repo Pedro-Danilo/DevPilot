@@ -21294,6 +21294,98 @@
       "notes": [
         "Full regression remains 0 in 06-D; 06-E retains the single full-regression budget."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-06-e-provider-settings-controlled-eval",
+      "source_contract_id": "devpl-gsdlc-06-e-provider-settings-controlled-eval",
+      "schema_version": "2.0",
+      "domain": "product.ui",
+      "capability": "ProviderSettingsUxAndControlledModelEvaluation",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "high",
+      "expected_duration_seconds": 7200,
+      "test_files": [
+        "tests/test_devpl_gsdlc_06_e_provider_settings.py",
+        "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "tests/test_api_settings.py",
+        "tests/test_web_ui_settings.py",
+        "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/model_gateway_settings_service.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/components/AIControlCenterView.ts",
+        "ui/web/src/components/ModelSettingsView.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "browser provider settings",
+        "cost/freshness parity",
+        "hermetic mock/local/fake API evaluation",
+        "RBAC and secret redaction",
+        "disable/revoke fallback",
+        "route/tool authority separation",
+        "single full regression governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-06-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_e_provider_settings.py",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Runtime disable/revoke is owner-only exposure reduction and writes only gitignored provider state/audit.",
+        "Real external API remains optional and is not exercised by the mandatory contract."
+      ],
+      "trigger_hints": [
+        "provider-settings",
+        "model-gateway",
+        "cost-preview",
+        "browser-acceptance",
+        "full-regression"
+      ],
+      "impact_tags": [
+        "modeling",
+        "settings",
+        "ui",
+        "rbac",
+        "security",
+        "gsdlc-06"
+      ],
+      "owner_domain": "product.ui",
+      "service_boundary": "application",
+      "schema_ids": [],
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-06-E",
+        "expires_at_utc": "2027-08-27T00:00:00Z",
+        "justification": "Scoped runtime-only disable/revoke may mutate ignored provider state during browser acceptance; no source or external system mutation is allowed.",
+        "scope": ".devpilot/runtime/provider_enablement only",
+        "rollback_or_cleanup": "Revoke/disable remains fail-safe; runtime fixture is excluded from candidate packaging."
+      },
+      "notes": [
+        "execution_profile=release because this micro-sprint owns the one full regression for backlog 06."
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21456,5 +21548,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 297
+  "contracts_total": 298
 }

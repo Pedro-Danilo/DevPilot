@@ -17,6 +17,7 @@ from devpilot_core.policy.secrets import REDACTED, redact_sensitive_string
 from devpilot_core.schemas.builtins import parse_workspace_project_yaml
 
 from .ui_workspace_context import UiWorkspaceContextResolver
+from .model_gateway_settings_service import ModelGatewaySettingsService
 
 _PROVIDER_MUTABLE_FIELDS = {"enabled", "default_model", "endpoint"}
 _SECRET_KEY_EXCEPTIONS = {"api_key_env", "token_env_var", "requires_api_key", "secret_reference", "secrets_redacted", "raw_secrets_exposed"}
@@ -193,6 +194,22 @@ class SettingsApplicationService:
             findings=findings,
         )
 
+
+    def model_gateway_settings(self, *, preview_input_tokens: int = 1200, preview_output_tokens: int = 300) -> CommandResult:
+        return ModelGatewaySettingsService(self.root).snapshot(preview_input_tokens=preview_input_tokens, preview_output_tokens=preview_output_tokens)
+
+    def model_gateway_controlled_evaluation(self, *, payload: dict[str, Any]) -> CommandResult:
+        capabilities = tuple(str(item) for item in (payload.get("required_capabilities") or ["text_generation"]))
+        return ModelGatewaySettingsService(self.root).controlled_evaluation(
+            mode=str(payload.get("mode") or "mock"),
+            workload_id=str(payload.get("workload_id") or "gsdlc-06-e-ui-eval"),
+            required_capabilities=capabilities,
+            selected_access_route_id=(str(payload.get("selected_access_route_id")) if payload.get("selected_access_route_id") else None),
+            estimated_input_tokens=int(payload.get("estimated_input_tokens") or 900),
+            estimated_output_tokens=int(payload.get("estimated_output_tokens") or 200),
+            max_cost_usd=(None if payload.get("max_cost_usd") is None else float(payload.get("max_cost_usd"))),
+            hard_stop_case=bool(payload.get("hard_stop_case", False)),
+        )
 
     def provider_enablement_status(self) -> CommandResult:
         return self.external_enablement.status()

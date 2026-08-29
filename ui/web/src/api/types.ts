@@ -106,12 +106,62 @@ export interface ApprovalCenterSnapshot {
 }
 
 
+export interface ModelGatewayRouteItem {
+  provider_id: string;
+  model_id: string;
+  access_route_id: string;
+  locality: string;
+  disposition: string;
+  configured_enabled: boolean;
+  runtime_network_enabled: boolean;
+  health: string;
+  capabilities: Record<string, string>;
+  privacy_data_class: string;
+  target_region_display: string[];
+  auth_adapter_type: string;
+  auth_adapter_status: string;
+  credential_reference?: { masked_display?: string; raw_secret_present?: boolean } | null;
+  runtime_state_present?: boolean;
+  runtime_credential_reference_present?: boolean;
+  runtime_credential_state?: 'none' | 'present' | 'revoked' | string;
+  runtime_revoked?: boolean;
+  runtime_last_action?: string | null;
+  evidence_freshness: { raw?: string; state?: string; evidence_refs?: string[] };
+  estimated_tokens: number;
+  estimated_cost: { cost_state?: string; cost_usd?: number | null; currency?: string; total_tokens?: number };
+  request_budget: { max_tokens?: number; max_cost_usd?: number | null };
+  fallback_policy: string;
+  tool_execution_authority: boolean;
+  external_api: boolean;
+}
+
+export interface ModelGatewaySettingsData {
+  summary?: Record<string, unknown>;
+  routes?: ModelGatewayRouteItem[];
+  budget_policy?: Record<string, unknown>;
+  routing_policy?: Record<string, unknown>;
+  authority_boundary?: Record<string, unknown>;
+}
+
+export interface ModelGatewayEvaluationPayload {
+  mode: 'mock' | 'fake-local' | 'fake-external';
+  workload_id?: string;
+  required_capabilities?: string[];
+  selected_access_route_id?: string;
+  estimated_input_tokens?: number;
+  estimated_output_tokens?: number;
+  max_cost_usd?: number;
+  hard_stop_case?: boolean;
+}
+
 export interface SettingsSnapshot {
   workspace?: DevPilotApplicationResponse;
   providers?: DevPilotApplicationResponse;
   policy?: DevPilotApplicationResponse;
   securityPosture?: DevPilotApplicationResponse;
   providerPlan?: DevPilotApplicationResponse;
+  modelGateway?: DevPilotApplicationResponse<ModelGatewaySettingsData>;
+  modelGatewayEval?: DevPilotApplicationResponse;
 }
 
 export interface ProviderSettingsItem {

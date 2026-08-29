@@ -216,6 +216,8 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/actions/dry-run"): ApiRoutePolicy("ui.actions.dry_run", "read", "protected-dry-run"),
     ("GET", "/api/v1/settings/workspace"): ApiRoutePolicy("settings.workspace", "read", "protected-settings-read", path_subject=".devpilot/project.yaml"),
     ("GET", "/api/v1/settings/providers"): ApiRoutePolicy("settings.providers", "read", "protected-settings-read", path_subject=".devpilot/providers.yaml"),
+    ("GET", "/api/v1/settings/model-gateway"): ApiRoutePolicy("settings.model_gateway", "read", "protected-settings-read", path_subject=".devpilot/modeling/model_capability_catalog.json"),
+    ("POST", "/api/v1/settings/model-gateway/evaluate"): ApiRoutePolicy("settings.model_gateway.evaluate", "read", "protected-human-session-model-evaluation", path_subject=".devpilot/modeling/model_capability_catalog.json"),
     ("GET", "/api/v1/settings/policy"): ApiRoutePolicy("settings.policy", "read", "protected-settings-read", path_subject=".devpilot/policy.yaml"),
     ("POST", "/api/v1/settings/providers/plan"): ApiRoutePolicy("settings.providers.plan", "read", "protected-settings-plan", path_subject=".devpilot/providers.yaml"),
     ("GET", "/api/v1/settings/providers/enablement"): ApiRoutePolicy("settings.providers.enablement.status", "read", "protected-human-session-provider-enablement"),

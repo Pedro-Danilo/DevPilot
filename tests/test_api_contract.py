@@ -235,6 +235,37 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                     assert "requestBody" not in operation
                 continue
 
+            gsdlc06_settings_ops = {
+                "settings.providers.enablement.status",
+                "settings.providers.enablement.plan",
+                "settings.providers.connectivity_test",
+                "settings.providers.enablement.apply",
+                "settings.providers.enablement.disable",
+                "settings.providers.enablement.revoke",
+                "settings.model_gateway",
+                "settings.model_gateway.evaluate",
+            }
+            if op_id in gsdlc06_settings_ops:
+                assert operation["x-devpilot-status"] == "secured-initial"
+                assert operation["x-devpilot-sprint"] in {"DEVPL-GSDLC-06-C", "DEVPL-GSDLC-06-E"}
+                assert operation["security"] == [{"HumanSessionCookie": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-source-mutation"] is False
+                assert operation["x-devpilot-project-write"] is False
+                assert operation["x-devpilot-network-runtime"] is False
+                assert operation["x-devpilot-external-api"] is False
+                assert operation["x-devpilot-arbitrary-shell"] is False
+                assert operation["x-devpilot-remote-execution"] is False
+                assert operation["x-devpilot-secret-in-response"] is False
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
+                for status in ["400", "401", "403", "422", "500"]:
+                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
+                if method.upper() == "POST":
+                    assert "requestBody" in operation
+                else:
+                    assert "requestBody" not in operation
+                continue
+
             assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial", "approval-center-initial", "settings-ui-initial", "visual-mvp-closed"}
             if op_id in {"approvals.request", "approvals.approve", "approvals.deny"}:
                 assert operation["x-devpilot-sprint"] == "DEVPL-GSDLC-02-D"

@@ -1,4 +1,4 @@
-import type { AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, OperatorDashboardResponseData } from './types';
+import type { AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
@@ -318,6 +318,31 @@ export class DevPilotApiClient {
 
   async settingsWorkspace(): Promise<DevPilotApplicationResponse> {
     return this.get('/settings/workspace', { retryNetworkErrors: true });
+  }
+
+  async settingsModelGateway(previewInputTokens = 1200, previewOutputTokens = 300): Promise<DevPilotApplicationResponse<ModelGatewaySettingsData>> {
+    return this.get(`/settings/model-gateway${this.query({ preview_input_tokens: previewInputTokens, preview_output_tokens: previewOutputTokens })}`, {
+      timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS,
+      retryNetworkErrors: true,
+    });
+  }
+
+  async evaluateModelGateway(payload: ModelGatewayEvaluationPayload): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/model-gateway/evaluate', payload, {
+      timeoutMs: PROVIDER_PLAN_TIMEOUT_MS,
+    });
+  }
+
+  async providerEnablementStatus(): Promise<DevPilotApplicationResponse> {
+    return this.get('/settings/providers/enablement', { timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS });
+  }
+
+  async disableExternalProvider(providerId: string, reason = 'Owner kill switch from ModelSettingsView'): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/providers/disable', { provider_id: providerId, reason }, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
+  }
+
+  async revokeExternalProvider(providerId: string, reason = 'Owner credential-reference revoke from ModelSettingsView'): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/providers/revoke', { provider_id: providerId, reason }, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
   }
 
   async settingsProviders(): Promise<DevPilotApplicationResponse> {

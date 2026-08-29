@@ -10,6 +10,9 @@ import { redactSecrets, safeJsonForHtml } from '../utils/sanitize';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { runBounded } from '../utils/async';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
+import { renderAIControlCenterShell } from '../components/AIControlCenterView';
+import { renderModelSettingsView } from '../components/ModelSettingsView';
+import type { ControlledEvalMode, ProviderActionFeedback } from '../components/ModelSettingsView';
 
 // Provider editor plan-only contract marker retained for compatibility.
 type SettingsPhase = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
@@ -24,7 +27,13 @@ interface SettingsState extends SettingsSnapshot {
   providerPlanEndpoint?: string;
   providerPlanDurationMs?: number;
   providerPlanTimeoutBudgetMs: number;
-  pendingAction?: 'providerPlan';
+  pendingAction?: 'providerPlan' | 'modelEval' | 'providerDisable' | 'providerRevoke';
+  modelActionStatus?: string;
+  modelEvalMode: ControlledEvalMode;
+  modelEvalInputTokens: number;
+  modelEvalOutputTokens: number;
+  modelEvalHardStop: boolean;
+  providerAction?: ProviderActionFeedback;
 }
 
 function status(response?: DevPilotApplicationResponse, error?: string): string {
@@ -45,18 +54,23 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     errors: {},
     durations: {},
     providerPlanTimeoutBudgetMs: PROVIDER_PLAN_TIMEOUT_MS,
+    modelEvalMode: 'mock',
+    modelEvalInputTokens: 900,
+    modelEvalOutputTokens: 200,
+    modelEvalHardStop: false,
   };
 
   async function refresh(): Promise<void> {
     state.phase = 'loading';
-    state.errors = Object.fromEntries(Object.entries(state.errors).filter(([key]) => key === 'providerPlan'));
+    state.errors = Object.fromEntries(Object.entries(state.errors).filter(([key]) => key === 'providerPlan' || key === 'modelGatewayEval'));
     draw();
     const fresh = new DevPilotApiClient({ token: token() });
-    await runBounded<DevPilotApplicationResponse>([
+    await runBounded<DevPilotApplicationResponse<any>>([
       { key: 'workspace', run: () => fresh.settingsWorkspace() },
       { key: 'providers', run: () => fresh.settingsProviders() },
       { key: 'policy', run: () => fresh.settingsPolicy() },
       { key: 'securityPosture', run: () => fresh.securityPosture() },
+      { key: 'modelGateway', run: () => fresh.settingsModelGateway() },
       { key: 'portfolio', run: () => fresh.portfolioStatus() },
     ], 2, (result) => {
       state.durations[result.key] = result.durationMs;
@@ -65,13 +79,14 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
         if (result.key === 'providers') state.providers = result.value;
         if (result.key === 'policy') state.policy = result.value;
         if (result.key === 'securityPosture') state.securityPosture = result.value;
+        if (result.key === 'modelGateway') state.modelGateway = result.value;
         if (result.key === 'portfolio') state.portfolio = result.value;
       }
       if (result.error) state.errors[result.key] = result.error;
       draw();
     });
-    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'portfolio'];
-    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.portfolio].filter(Boolean);
+    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'modelGateway', 'portfolio'];
+    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.modelGateway, state.portfolio].filter(Boolean);
     if (responseKeys.some((key) => Boolean(state.errors[key]))) state.phase = 'error';
     else if (!responses.length) state.phase = 'empty';
     else state.phase = 'ready';
@@ -128,6 +143,86 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     draw();
   }
 
+  async function evaluateModelGateway(): Promise<void> {
+    if (state.pendingAction) return;
+    const mode = (root.querySelector<HTMLSelectElement>('#model-gateway-eval-mode')?.value || state.modelEvalMode || 'mock') as ControlledEvalMode;
+    const inputTokens = Number(root.querySelector<HTMLInputElement>('#model-gateway-input-tokens')?.value ?? state.modelEvalInputTokens);
+    const outputTokens = Number(root.querySelector<HTMLInputElement>('#model-gateway-output-tokens')?.value ?? state.modelEvalOutputTokens);
+    const hardStop = root.querySelector<HTMLInputElement>('#model-gateway-hard-stop')?.checked ?? state.modelEvalHardStop;
+    state.modelEvalMode = mode;
+    state.modelEvalInputTokens = Number.isFinite(inputTokens) ? inputTokens : 900;
+    state.modelEvalOutputTokens = Number.isFinite(outputTokens) ? outputTokens : 200;
+    state.modelEvalHardStop = hardStop;
+    state.pendingAction = 'modelEval';
+    delete state.errors.modelGatewayEval;
+    state.modelActionStatus = `Evaluando ${mode}${hardStop ? ' con hard-stop intencional' : ''} sin red externa…`;
+    draw();
+    try {
+      state.modelGatewayEval = await new DevPilotApiClient({ token: token() }).evaluateModelGateway({
+        mode,
+        workload_id: `settings-browser-${mode}`,
+        estimated_input_tokens: state.modelEvalInputTokens,
+        estimated_output_tokens: state.modelEvalOutputTokens,
+        hard_stop_case: hardStop,
+      });
+      state.modelActionStatus = state.modelGatewayEval.ok
+        ? `PASS · ${mode} completado; revise ruta solicitada/seleccionada y fallback en el resultado.`
+        : `BLOCK · ${state.modelGatewayEval.message}`;
+    } catch (error) {
+      if (error instanceof DevPilotApiError) {
+        const payload = isApplicationResponse(error.payload) ? error.payload : undefined;
+        const summary = recordOf(payload?.data?.summary);
+        const expectedHardStop = hardStop && error.status === 409 && summary.hard_stop_demonstrated === true;
+        if (payload) state.modelGatewayEval = payload;
+        if (expectedHardStop) {
+          state.modelActionStatus = 'PASS · hard-stop demostrado: el BLOCK esperado ocurrió antes de cualquier ejecución/costo.';
+          delete state.errors.modelGatewayEval;
+        } else {
+          state.errors.modelGatewayEval = error.message;
+          state.modelActionStatus = `BLOCK · ${error.message}`;
+        }
+      } else {
+        state.errors.modelGatewayEval = error instanceof Error ? error.message : String(error);
+        state.modelActionStatus = `ERROR · ${state.errors.modelGatewayEval}`;
+      }
+    } finally {
+      state.pendingAction = undefined;
+    }
+    draw();
+  }
+
+  async function providerKillSwitch(providerId: string, revoke: boolean): Promise<void> {
+    if (state.pendingAction || !providerId) return;
+    state.pendingAction = revoke ? 'providerRevoke' : 'providerDisable';
+    state.providerAction = {
+      providerId,
+      action: revoke ? 'revoke' : 'disable',
+      phase: 'loading',
+      message: `${revoke ? 'Revocando referencia runtime' : 'Deshabilitando runtime'}…`,
+    };
+    state.modelActionStatus = `${revoke ? 'Revocando referencia runtime' : 'Deshabilitando runtime'} de ${providerId}…`;
+    draw();
+    try {
+      const api = new DevPilotApiClient({ token: token() });
+      const response = revoke
+        ? await api.revokeExternalProvider(providerId)
+        : await api.disableExternalProvider(providerId);
+      const phase: ProviderActionFeedback['phase'] = response.ok ? 'pass' : 'block';
+      const actionLabel = revoke ? 'referencia runtime revocada' : 'runtime deshabilitado';
+      state.providerAction = { providerId, action: revoke ? 'revoke' : 'disable', phase, message: response.ok ? `${actionLabel}; estado actualizado y auditado.` : response.message };
+      state.modelActionStatus = response.ok ? `PASS · ${providerId}: ${actionLabel}.` : `BLOCK · ${response.message}`;
+      await refresh();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const phase: ProviderActionFeedback['phase'] = error instanceof DevPilotApiError && error.status === 403 ? 'block' : 'error';
+      state.providerAction = { providerId, action: revoke ? 'revoke' : 'disable', phase, message };
+      state.modelActionStatus = `${phase.toUpperCase()} · ${providerId}: ${message}`;
+    } finally {
+      state.pendingAction = undefined;
+      draw();
+    }
+  }
+
   function draw(): void {
     root.replaceChildren();
     const heading = document.createElement('div');
@@ -182,6 +277,37 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     editor.querySelector('#settings-plan-provider')?.addEventListener('click', () => void planProvider());
     providerGrid.append(providers, editor);
     root.append(providerGrid);
+
+    const aiControlCenter = document.createElement('section');
+    aiControlCenter.innerHTML = renderAIControlCenterShell({
+      modelGatewayHtml: renderModelSettingsView(state.modelGateway, state.modelGatewayEval, {
+        evaluationMode: state.modelEvalMode,
+        evaluationInputTokens: state.modelEvalInputTokens,
+        evaluationOutputTokens: state.modelEvalOutputTokens,
+        evaluationHardStop: state.modelEvalHardStop,
+        evaluationPending: state.pendingAction === 'modelEval',
+        evaluationStatus: state.modelActionStatus,
+        providerAction: state.providerAction,
+      }),
+      agentRuntimeStatus: 'Autoridad separada; ejecución de agentes no se habilita desde Settings.',
+      skillsToolsStatus: 'Policy/RBAC independiente; ModelRouteDecision nunca concede ToolExecutionDecision.',
+    });
+    if (state.modelActionStatus) {
+      const actionStatus = document.createElement('p');
+      actionStatus.className = 'action-status';
+      actionStatus.setAttribute('role', 'status');
+      actionStatus.setAttribute('aria-live', 'polite');
+      actionStatus.textContent = state.modelActionStatus;
+      aiControlCenter.prepend(actionStatus);
+    }
+    aiControlCenter.querySelector('#model-gateway-evaluate')?.addEventListener('click', () => void evaluateModelGateway());
+    aiControlCenter.querySelectorAll<HTMLElement>('[data-provider-disable]').forEach((button) => {
+      button.addEventListener('click', () => void providerKillSwitch(button.dataset.providerDisable || '', false));
+    });
+    aiControlCenter.querySelectorAll<HTMLElement>('[data-provider-revoke]').forEach((button) => {
+      button.addEventListener('click', () => void providerKillSwitch(button.dataset.providerRevoke || '', true));
+    });
+    root.append(aiControlCenter);
   }
 
   draw();
@@ -212,6 +338,10 @@ function providerPlanBadge(phase: ProviderPlanPhase): string {
   if (phase === 'block') return 'block';
   if (phase === 'timeout' || phase === 'error') return 'error';
   return 'pending';
+}
+
+function recordOf(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
 }
 
 function isApplicationResponse(value: unknown): value is DevPilotApplicationResponse {

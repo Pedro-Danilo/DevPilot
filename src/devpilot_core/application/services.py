@@ -908,6 +908,23 @@ class ApplicationService:
     def settings_providers(self, *, prefer_example: bool = False) -> CommandResult:
         return self.settings.providers(prefer_example=prefer_example)
 
+    def settings_model_gateway(self, *, preview_input_tokens: int = 1200, preview_output_tokens: int = 300) -> CommandResult:
+        return self.settings.model_gateway_settings(preview_input_tokens=preview_input_tokens, preview_output_tokens=preview_output_tokens)
+
+    def settings_model_gateway_evaluate_authenticated(self, *, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
+        del session
+        roles = self.rbac.enforcer.canonical_roles(principal)
+        if not ({"owner", "developer"} & set(roles)):
+            return CommandResult(
+                command="settings model-gateway evaluate",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Controlled model evaluation requires owner or developer human role.",
+                data={"summary": {"network_used": False, "external_api_used": False, "tool_authority_granted": False}},
+                findings=[Finding("MODEL_GATEWAY_EVAL_RBAC_BLOCK", "Role is not authorized for controlled model evaluation.", Severity.BLOCK)],
+            )
+        return self.settings.model_gateway_controlled_evaluation(payload=payload)
+
     def settings_policy(self) -> CommandResult:
         return self.settings.policy()
 
@@ -1750,6 +1767,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "ui.actions.dry_run": lambda payload: service.ui_action_dry_run(action_id=str(payload.get("action_id", "")), payload=payload),
         "settings.workspace": lambda payload: service.settings_workspace(),
         "settings.providers": lambda payload: service.settings_providers(prefer_example=bool(payload.get("prefer_example", False))),
+        "settings.model_gateway": lambda payload: service.settings_model_gateway(preview_input_tokens=int(payload.get("preview_input_tokens", 1200)), preview_output_tokens=int(payload.get("preview_output_tokens", 300))),
         "settings.policy": lambda payload: service.settings_policy(),
         "settings.status": lambda payload: service.settings_status(),
         "settings.providers.plan": lambda payload: service.settings_provider_plan(provider_id=str(payload.get("provider_id", "")), changes=dict(payload.get("changes") or {}), actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Settings UI plan-only provider change"))),
@@ -1885,6 +1903,8 @@ def _capabilities() -> list[ServiceCapability]:
         ("ui.actions.dry_run", "Launch safe UI actions in read-only/dry-run mode only.", "dry_run_only", True, "UI Action Launcher: readiness/code-review/refactor-plan"),
         ("settings.workspace", "Read workspace project settings without exposing filesystem writes.", "none", True, "Settings UI: workspace panel"),
         ("settings.providers", "Read provider settings with secret redaction and external providers disabled by default.", "none", True, "Settings UI: providers panel"),
+        ("settings.model_gateway", "Project Model Gateway provider/model/access-route, capability, cost, budget, freshness and fallback projection without secret resolution.", "none", True, "Settings UI: ModelSettingsView"),
+        ("settings.model_gateway.evaluate", "Run controlled mock/fake-local/fake-external Model Gateway evaluation; real external network remains disabled.", "hermetic_evaluation", False, "Settings UI: controlled model evaluation"),
         ("settings.policy", "Read local policy and MIASI policy matrix summaries without editing policy.", "none", True, "Settings UI: policy panel"),
         ("settings.providers.plan", "Create a provider configuration change plan without writing .devpilot/providers.yaml.", "plan_only", True, "Settings UI: provider plan-only editor"),
         ("settings.providers.enablement.status", "Read redacted runtime external-provider enablement state.", "none", True, "Settings API: external provider enablement status"),
@@ -2043,6 +2063,8 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-025", "POST", "/api/v1/actions/dry-run", "ui.actions.dry_run", ["Active Sprint 71 dry-run Action Launcher route; critical actions remain blocked from UI."]),
         ("APP-ROUTE-026", "GET", "/api/v1/settings/workspace", "settings.workspace", ["Active Sprint 72 Settings route; read-only workspace projection."]),
         ("APP-ROUTE-027", "GET", "/api/v1/settings/providers", "settings.providers", ["Active Sprint 72 Settings route; providers are redacted and read-only."]),
+        ("APP-ROUTE-132", "GET", "/api/v1/settings/model-gateway", "settings.model_gateway", ["GSDLC-06-E ModelSettingsView projection; credentials redacted and route/tool authority separated."]),
+        ("APP-ROUTE-133", "POST", "/api/v1/settings/model-gateway/evaluate", "settings.model_gateway.evaluate", ["GSDLC-06-E human-session controlled mock/local/fake-external evaluation; no real external network."]),
         ("APP-ROUTE-028", "GET", "/api/v1/settings/policy", "settings.policy", ["Active Sprint 72 Settings route; policy summary is read-only."]),
         ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
         ("APP-ROUTE-126", "GET", "/api/v1/settings/providers/enablement", "settings.providers.enablement.status", ["GSDLC-06-C redacted runtime enablement status; human session required by RBAC catalog."]),

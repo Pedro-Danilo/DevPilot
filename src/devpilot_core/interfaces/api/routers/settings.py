@@ -46,6 +46,39 @@ def settings_provider_plan(body: ProviderPlanBody, service: ApplicationService =
     return _json(*dispatch_application_request(service, operation="settings.providers.plan", payload=body.model_dump()))
 
 
+class ModelGatewayEvalBody(BaseModel):
+    mode: str = Field(default="mock")
+    workload_id: str = Field(default="gsdlc-06-e-ui-eval")
+    required_capabilities: list[str] = Field(default_factory=lambda: ["text_generation"])
+    selected_access_route_id: str | None = None
+    estimated_input_tokens: int = Field(default=900, ge=0)
+    estimated_output_tokens: int = Field(default=200, ge=0)
+    max_cost_usd: float | None = Field(default=None, ge=0.0)
+    hard_stop_case: bool = False
+
+
+@router.get("/api/v1/settings/model-gateway")
+def settings_model_gateway(
+    preview_input_tokens: int = Query(default=1200, ge=0),
+    preview_output_tokens: int = Query(default=300, ge=0),
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    return _json(*dispatch_application_request(
+        service,
+        operation="settings.model_gateway",
+        payload={"preview_input_tokens": preview_input_tokens, "preview_output_tokens": preview_output_tokens},
+    ))
+
+
+@router.post("/api/v1/settings/model-gateway/evaluate")
+def settings_model_gateway_evaluate(request: Request, body: ModelGatewayEvalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    principal, session = _session(request)
+    if principal is None or session is None:
+        return _json({"operation":"settings.model_gateway.evaluate","ok":False,"exit_code":4,"message":"Authenticated human session is required.","data":{},"findings":[{"id":"AUTH_HUMAN_SESSION_REQUIRED_BLOCK","severity":"block","message":"Controlled model evaluation requires authenticated human session."}]},401)
+    result = service.settings_model_gateway_evaluate_authenticated(payload=body.model_dump(), principal=principal, session=session)
+    return _json(*command_result_to_api_response(result, operation="settings.model_gateway.evaluate"))
+
+
 class ProviderEnablementBody(BaseModel):
     provider_id: str
     access_route_id: str

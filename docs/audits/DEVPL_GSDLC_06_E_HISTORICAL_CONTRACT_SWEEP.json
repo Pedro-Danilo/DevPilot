@@ -1,0 +1,38 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-06-E",
+  "updated": "2026-08-28",
+  "source_repo": "repo_DevPilot_Local_378_DEVPL_GSDLC_06_D_TOKEN_BUDGET_CONTEXT_ROUTING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "718fa0da5d552f8bf6def39c102f0124ac7fa922",
+  "source_sha256": "25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9",
+  "schema_id": "devpilot.gsdlc06e.historical_contract_sweep.v1",
+  "status": "PASS/WINDOWS-COMPOSITE",
+  "classifications": {
+    "historical-freeze": [
+      "POST-H-014 Settings plan-only contract",
+      "GSDLC-06-A..D closure facts"
+    ],
+    "current-active": [
+      "api/ui route registries",
+      "server RBAC catalog",
+      "source registry",
+      "project state"
+    ],
+    "successor-needed": [
+      "GSDLC-06-E runtime kill-switch contract inside ui.settings"
+    ],
+    "deprecated-after-proof": [],
+    "derived": [
+      "registry counters"
+    ],
+    "runtime-ephemeral": [
+      ".devpilot/runtime/provider_enablement",
+      "outputs",
+      "auth.db*",
+      "devpilot.db*"
+    ]
+  },
+  "historical_tests_rewritten_to_pass": false,
+  "lazy_composition_guard": "PASS",
+  "windows_revalidated": true,
+  "gsdlc_05_a_current_pointer_successor_reconciliation": "PASS/snapshot-at-close"
+}

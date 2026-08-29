@@ -1,0 +1,290 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-06-E",
+  "updated": "2026-08-27",
+  "source_repo": "repo_DevPilot_Local_378_DEVPL_GSDLC_06_D_TOKEN_BUDGET_CONTEXT_ROUTING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "718fa0da5d552f8bf6def39c102f0124ac7fa922",
+  "source_sha256": "25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9",
+  "schema_id": "devpilot.gsdlc06e.source_delta_manifest.v1",
+  "status": "PASS/LOCAL",
+  "paths_total": 47,
+  "paths": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "status": "M",
+      "canonical_sha256": "6d28ff62221d38308a3f0cf51d1c7f0bbfd29f8828d8f37408d600f5f41d3561",
+      "size_bytes": 1152995
+    },
+    {
+      "path": ".devpilot/identity/server_rbac_policy_catalog.json",
+      "status": "M",
+      "canonical_sha256": "d3195ee70dbf468ba9b4d00184a052031dd2a1a59e07a1abe32fde06a1da7e52",
+      "size_bytes": 93772
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "818de7fd640e1d377f2039a5816042279196b8e0436bdc7c77b1b36bdf6d08d0",
+      "size_bytes": 173165
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "status": "M",
+      "canonical_sha256": "f0cc77f23577be56d8ef80892fe4524548ffcdf8a40824490abdbba646e3e5d6",
+      "size_bytes": 409323
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "57b3a48b868b25709bedc38d03ac696278fa45d3ec54385d4d2a6f45fb902bfd",
+      "size_bytes": 41225
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "status": "M",
+      "canonical_sha256": "04dd5c34f67e8214e3ebbec84b09e896f96d5d460d6219a69c7afcebd634b765",
+      "size_bytes": 239233
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "8f662fe4ff34758b531334bbe03385cd81b6160f9c8b9ea468591a52b37a0fff",
+      "size_bytes": 584419
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "status": "M",
+      "canonical_sha256": "a2873ff1f45f26f36cd9443b8fd6095a231f3ee5b31e9244a6e3dcb33dff6638",
+      "size_bytes": 903974
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "canonical_sha256": "32337a1f50de5755b2dfa050f7e0433e90b10f705ec74bebe5333dd85779ac84",
+      "size_bytes": 437101
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "status": "M",
+      "canonical_sha256": "fe3673ff42562ae1c73f823b76bb1ea6b0ec6e87f994d68e3ce2a52c12dcdfb0",
+      "size_bytes": 22163
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_CLOSURE_REPORT.md",
+      "status": "M",
+      "canonical_sha256": "1a70c582295e463b5ad756c7934350788362d4cc0142baf21bd8db7478e5371f",
+      "size_bytes": 1836
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_CURRENT.json",
+      "status": "M",
+      "canonical_sha256": "7387aa21b00ccd6fc173514303cc8b23ca7212a29e45f6b6f145fa85ccb12ff5",
+      "size_bytes": 1548
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_D_OPERATION_DECLARATION.json",
+      "status": "M",
+      "canonical_sha256": "29e987e788d809b28cd2f8dcd79cbb2706c8019fbabaa83d2ebceff7d64a85e6",
+      "size_bytes": 974
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "status": "M",
+      "canonical_sha256": "52ef9f2fd5a1a5a01b4b5d5bbe8345cde0505b169c961e527cea826ccf60b484",
+      "size_bytes": 160451
+    },
+    {
+      "path": "src/devpilot_core/application/settings_service.py",
+      "status": "M",
+      "canonical_sha256": "0431c2c7ca29f6e324b1a05312dae0500afade23ca4e37b11f3115d57c740404",
+      "size_bytes": 22765
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/settings.py",
+      "status": "M",
+      "canonical_sha256": "95b07d1431c6d33944ad611fe30fa4c44c05cbdc13bc5f9d25fa3cb6d20e2939",
+      "size_bytes": 9504
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/security.py",
+      "status": "M",
+      "canonical_sha256": "08042df98025e66d3e3b7b1bd9033578bc8a3e68f43e160bd7b9c7894974a74d",
+      "size_bytes": 41737
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
+      "status": "M",
+      "canonical_sha256": "9b55f1a8809f02a9ee66e3c8aa7df167ef52e5be759969f5118feacd7178224c",
+      "size_bytes": 31033
+    },
+    {
+      "path": "ui/web/package-lock.json",
+      "status": "M",
+      "canonical_sha256": "7d3dad7aeb3f5dea2b3decaf32dc859a08667692ce6c13b33e30ff273456c662",
+      "size_bytes": 33309
+    },
+    {
+      "path": "ui/web/package.json",
+      "status": "M",
+      "canonical_sha256": "6ab4af675b7536c3b3064f79557038337f29a4b5d093219c0d0dca4583ecbcbc",
+      "size_bytes": 16221
+    },
+    {
+      "path": "ui/web/scripts/smoke-test.mjs",
+      "status": "M",
+      "canonical_sha256": "528b68af9b1fbb6bc5ba62ea8cd4fef9439dbc992ab2dec1cfdfe071272ab213",
+      "size_bytes": 13365
+    },
+    {
+      "path": "ui/web/src/api/client.ts",
+      "status": "M",
+      "canonical_sha256": "bf2b96d3c1c32e777a137ca833760be1291a52d96a4f1ac79e848120f64d9c36",
+      "size_bytes": 56439
+    },
+    {
+      "path": "ui/web/src/api/types.ts",
+      "status": "M",
+      "canonical_sha256": "7a84b04d221c1ef596536931b57a937fb6fb49cbe267c36bbd9b88c59b8d66ef",
+      "size_bytes": 28877
+    },
+    {
+      "path": "ui/web/src/pages/SettingsView.ts",
+      "status": "M",
+      "canonical_sha256": "13d12135567813ddc30eaafc845b33fe9c01de01e95f6049e8f61d8f18756704",
+      "size_bytes": 18255
+    },
+    {
+      "path": "05_PROMPT_DEVPL_GSDLC_06_E_v1_0_1_REBOUND.md",
+      "status": "??",
+      "canonical_sha256": "4ade0d47d63ef7c821b30239a8b8d030b19adb0bceaf65665a87ba41cf1ad885",
+      "size_bytes": 7858
+    },
+    {
+      "path": "DEVPL_GSDLC_06_BACKLOG_CLOSURE_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "status": "??",
+      "canonical_sha256": "a96d763480a0722d7744001be034a1e6980b9c55a3342f4080f13c748270049e",
+      "size_bytes": 1100
+    },
+    {
+      "path": "DEVPL_GSDLC_06_D_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "status": "??",
+      "canonical_sha256": "fdd21c0b61fc9bfb8e5a79dcd1a8abb5130a6b7ddef87d669d807643d0a60931",
+      "size_bytes": 2574
+    },
+    {
+      "path": "DEVPL_GSDLC_06_D_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "status": "??",
+      "canonical_sha256": "052ab509bdbc5bc48dcaeb3f1d48c1393b2260dd4eb95e0b55bf1d1b7c550763",
+      "size_bytes": 820
+    },
+    {
+      "path": "DEVPL_GSDLC_06_E_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "status": "??",
+      "canonical_sha256": "2f8d1a65ebf05aa7f2d8d30b802e5b6b184ace8c0b706cd9bbbd6130937666d8",
+      "size_bytes": 1391
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_CLOSURE_REPORT.md",
+      "status": "??",
+      "canonical_sha256": "0b4afcc3249af1e1b22019fc74dc5c29a7c9776a6c6c2b950a01bcf6a5ae7469",
+      "size_bytes": 3263
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "status": "??",
+      "canonical_sha256": "2406b80f9ae7d07a8fae1d50388f3d5fec494f775793ea5eca5ff0d6cd218d2a",
+      "size_bytes": 994
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_CURRENT.json",
+      "status": "??",
+      "canonical_sha256": "0b21e9019f5ed376b8b6a93a287218814e9f351d5409b14fda49ceaf873d722a",
+      "size_bytes": 880
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_HISTORICAL_CONTRACT_SWEEP.json",
+      "status": "??",
+      "canonical_sha256": "3f66e5f517abe064357675a04658442ba42235ebce1259a24a28a93f94ded7c6",
+      "size_bytes": 1120
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_LOCAL_VALIDATION_SUMMARY.json",
+      "status": "??",
+      "canonical_sha256": "ece63ae88d0dc7b2a797577542815c9803d9ffe197778fe9c4fb23cccbf27330",
+      "size_bytes": 1443
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_OPERATION_DECLARATION.json",
+      "status": "??",
+      "canonical_sha256": "28894b9047216a6489cd2849442e9023b7559d0fbb96b29f23b02c7c7db209f9",
+      "size_bytes": 876
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_PREDICTIVE_PRE_FULL_PLAN.json",
+      "status": "??",
+      "canonical_sha256": "e278d4ca2572efb96339c657c63878189099364415f0d8f14e28462120410e75",
+      "size_bytes": 1261
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_SECRET_DELTA_SCAN.json",
+      "status": "??",
+      "canonical_sha256": "9f840f09b6c600f4f474483bc80afd564b2be9ca5c226a5c722d436152e3c959",
+      "size_bytes": 703
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_06_E_TEST_IMPACT.json",
+      "status": "??",
+      "canonical_sha256": "b3cf57bbddbd0b9157528ccaba6bdb4f264ae546c6cd1065332ac54d10e0262b",
+      "size_bytes": 951
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_e/browser_acceptance_matrix.json",
+      "status": "??",
+      "canonical_sha256": "fa0811c67bbbba4e0ba9a9853bfb82b768fc5efa473f6603f12f3ab9a95ab4e8",
+      "size_bytes": 3051
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_e/cost_parity_report.json",
+      "status": "??",
+      "canonical_sha256": "66e17ded13e1a8687ac8ba508a8c85169beec214366762cc04c491627dd1ccc4",
+      "size_bytes": 10888
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_06_e/provider_model_eval.json",
+      "status": "??",
+      "canonical_sha256": "7de3423ff42f8be57e2318c58f5106db132c6b7c1d0594f759472c36ac605b70",
+      "size_bytes": 53601
+    },
+    {
+      "path": "src/devpilot_core/application/model_gateway_settings_service.py",
+      "status": "??",
+      "canonical_sha256": "cc1a3b974377eab3c9196cb5d95ec3329237e38cb1ef90817c92ebd1a0be1104",
+      "size_bytes": 17113
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_06_e_provider_settings.py",
+      "status": "??",
+      "canonical_sha256": "0bb8c578e63b6bbeb5eacf67a9ee0faccbe866e3c2548cffafa6d81a827748dc",
+      "size_bytes": 4954
+    },
+    {
+      "path": "ui/web/scripts/gsdlc06e-model-settings-smoke.mjs",
+      "status": "??",
+      "canonical_sha256": "524231fd8e0f7411312398edf985d5ba512c47af92503102e3302487a16ae3be",
+      "size_bytes": 1796
+    },
+    {
+      "path": "ui/web/src/components/AIControlCenterView.ts",
+      "status": "??",
+      "canonical_sha256": "2a24f1fc3b3f1b311830f10c9b98d6688bbaedc4c1fc5f4cf70300c3d2db2b0d",
+      "size_bytes": 1311
+    },
+    {
+      "path": "ui/web/src/components/ModelSettingsView.ts",
+      "status": "??",
+      "canonical_sha256": "245f0bf98e43d862622681f4d7df40e4fb2040c1fb2b3b89f0be4b8b75576227",
+      "size_bytes": 5703
+    }
+  ],
+  "self_entry_policy": "manifest path is counted in paths_total but omitted from hashed path rows to avoid recursive self-hash",
+  "note": "Regenerated after package-lock synchronization and 155-test bounded local matrix."
+}

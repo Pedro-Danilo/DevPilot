@@ -155,7 +155,7 @@ def test_05_a_activation_rebind_is_materialized_without_consuming_full():
     # Historical 05-A closure must not bind to the mutable current micro-sprint.
     assert state["gsdlc_05_a_status"] == "closed/PASS"
     assert state["gsdlc_05_a_successor_repo_at_close"].startswith("repo_DevPilot_Local_370_")
-    assert state["gsdlc_current_micro_sprint"].startswith("DEVPL-GSDLC-05-")
+    assert state["gsdlc_05_a_current_micro_sprint_at_close"] == "DEVPL-GSDLC-05-A"
     assert state["gsdlc_05_a_owner_adjudication_pending"] is False
     assert state["gsdlc_05_a_full_regression_runs"] == 0
     for name in [

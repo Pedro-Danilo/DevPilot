@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.gsdlc06d.operation-declaration.v1",
-  "status": "PASS/WINDOWS-VALIDATED/PENDING-OWNER",
+  "status": "PASS/WINDOWS-VALIDATED/OWNER-ADJUDICATED",
   "micro_sprint": "DEVPL-GSDLC-06-D",
   "network_used": false,
   "external_network_used": false,
@@ -25,5 +25,8 @@
     "external_network_used": false,
     "external_api_used": false,
     "full_regression_runs": 0
-  }
+  },
+  "owner_adjudicated": true,
+  "owner_adjudication_pending": false,
+  "next_authorized": true
 }

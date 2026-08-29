@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-25",
+  "updated": "2026-08-27",
   "routes": [
     {
       "route_id": "ui.ai",
@@ -543,7 +543,9 @@
       "page_component": "SettingsView",
       "source_files": [
         "ui/web/src/pages/SettingsView.ts",
-        "ui/web/src/components/ProviderSettings.ts"
+        "ui/web/src/components/ProviderSettings.ts",
+        "ui/web/src/components/AIControlCenterView.ts",
+        "ui/web/src/components/ModelSettingsView.ts"
       ],
       "allowed_api_routes": [
         "api.settings.workspace",
@@ -551,7 +553,12 @@
         "api.settings.policy",
         "api.settings.providers.plan",
         "api.security.posture",
-        "api.portfolio.status"
+        "api.portfolio.status",
+        "api.settings.model-gateway",
+        "api.settings.model-gateway.evaluate",
+        "api.settings.providers.enablement.status",
+        "api.settings.providers.enablement.disable",
+        "api.settings.providers.enablement.revoke"
       ],
       "critical": true,
       "local_only": true,
@@ -597,8 +604,23 @@
         "Settings view is read-only except provider plan generation; secrets remain redacted.",
         "POST-H-014-D surfaces protected security posture in Settings without exposing secrets.",
         "POST-H-EVAL-002-01-D corrective: settings phases are mutually exclusive and protected request concurrency is bounded to two.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
-      ]
+        "UOC-011: route participates in the 12-state operational browser hardening matrix.",
+        "GSDLC-06-E adds Model Gateway visibility and owner kill switches as a successor contract; the historical provider editor remains plan-only."
+      ],
+      "gsdlc_06_e_model_gateway": {
+        "ai_control_center_shell": true,
+        "model_settings_subview": true,
+        "controlled_eval_dry_run_only": true,
+        "runtime_kill_switches": [
+          "api.settings.providers.enablement.disable",
+          "api.settings.providers.enablement.revoke"
+        ],
+        "runtime_mutation_only": true,
+        "source_mutation_allowed": false,
+        "real_external_api_required": false,
+        "model_route_grants_tool_execution": false,
+        "credential_rendering": "masked-reference-only"
+      }
     },
     {
       "route_id": "ui.traces",
@@ -913,7 +935,7 @@
     "dry_run_badged_routes_total": 12,
     "no_remote_badged_routes_total": 12,
     "mutation_control_routes_total": 8,
-    "allowed_api_routes_unique_total": 98,
+    "allowed_api_routes_unique_total": 103,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -931,7 +953,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-05-E",
+    "updated_by": "DEVPL-GSDLC-06-E",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -975,7 +997,9 @@
     "gsdlc_05_d_step_action_advisor": true,
     "gsdlc_05_d_step_action_api_routes_total": 1,
     "gsdlc_05_e_pre_code_wizard": true,
-    "gsdlc_05_e_pre_code_api_routes_total": 7
+    "gsdlc_05_e_pre_code_api_routes_total": 7,
+    "gsdlc_06_e_model_gateway": true,
+    "gsdlc_06_e_model_gateway_api_routes_total": 5
   },
   "safety": {
     "local_first": true,

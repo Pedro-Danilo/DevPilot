@@ -1,0 +1,43 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-06-E",
+  "updated": "2026-08-28",
+  "source_repo": "repo_DevPilot_Local_378_DEVPL_GSDLC_06_D_TOKEN_BUDGET_CONTEXT_ROUTING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "718fa0da5d552f8bf6def39c102f0124ac7fa922",
+  "source_sha256": "25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9",
+  "schema_id": "devpilot.gsdlc06e.predictive_pre_full_plan.v1",
+  "status": "PASS/WINDOWS/v1.0.6",
+  "must_pass_before_full": [
+    "test-impact+cumulative-selective",
+    "UI static smoke/build",
+    "historical-contract-sweep",
+    "contract-reconciliation-sweep",
+    "documentation-governance",
+    "project-state",
+    "TCR-v1-v2",
+    "API/RBAC/UI route parity",
+    "derived counters",
+    "historical pointer guard",
+    "differential SecretGuard",
+    "runtime secret path scan",
+    "package forbidden path audit",
+    "operator parser/schema self-check",
+    "Windows executable resolution",
+    "source fingerprint parity",
+    "lazy capability composition"
+  ],
+  "marker": "FULL_REGRESSION_ATTEMPT_STARTED",
+  "rerun_allowed": false,
+  "recovery_on_failure": [
+    "exact failed-nodeids",
+    "bounded impacted retest",
+    "Historical Regression Guard",
+    "composite-full-regression-selective-retest"
+  ],
+  "all_must_pass_checks": "PASS",
+  "full_marker_created": true,
+  "full_regression_runs": 1,
+  "full_regression_result": "FAIL/TIMEOUT/1-OF-1/PRESERVED",
+  "full_regression_rerun_allowed": false,
+  "recovery_mode_executed": "composite-full-regression-selective-retest",
+  "composite_recovery_result": "PASS"
+}

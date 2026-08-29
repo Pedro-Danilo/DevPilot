@@ -132,6 +132,14 @@ Regla: UI no lee `outputs/` ni `.devpilot/`; todo pasa por API local.
 | API-SETTINGS-PROVIDERS | `GET /api/v1/settings/providers` | `settings.providers` | `SettingsApplicationService.providers` | read-only redacted | token + PolicyEngine |
 | API-SETTINGS-POLICY | `GET /api/v1/settings/policy` | `settings.policy` | `SettingsApplicationService.policy` | read-only redacted | token + PolicyEngine |
 | API-SETTINGS-PROVIDERS-PLAN | `POST /api/v1/settings/providers/plan` | `settings.providers.plan` | `SettingsApplicationService.provider_plan` | plan-only, no write | token + PolicyEngine |
+| API-SETTINGS-PROVIDERS-ENABLEMENT-STATUS | `GET /api/v1/settings/providers/enablement` | `settings.providers.enablement.status` | `SettingsApplicationService -> ProviderEnablementService` | read-only redacted runtime state | human session + RBAC + PolicyEngine |
+| API-SETTINGS-PROVIDERS-ENABLEMENT-PLAN | `POST /api/v1/settings/providers/enablement/plan` | `settings.providers.enablement.plan` | `SettingsApplicationService -> ProviderEnablementService` | plan-only, no write | human session + owner RBAC + PolicyEngine |
+| API-SETTINGS-PROVIDERS-CONNECTIVITY | `POST /api/v1/settings/providers/connectivity-test` | `settings.providers.connectivity_test` | `SettingsApplicationService -> ProviderEnablementService` | hermetic/fake connectivity, no external network | human session + owner RBAC + PolicyEngine |
+| API-SETTINGS-PROVIDERS-ENABLEMENT-APPLY | `POST /api/v1/settings/providers/enablement` | `settings.providers.enablement.apply` | `SettingsApplicationService -> ProviderEnablementService` | ignored runtime state write, approval-bound | human session + owner RBAC + approval + PolicyEngine |
+| API-SETTINGS-PROVIDERS-DISABLE | `POST /api/v1/settings/providers/disable` | `settings.providers.enablement.disable` | `SettingsApplicationService -> ProviderEnablementService` | runtime kill switch only | human session + owner RBAC + PolicyEngine |
+| API-SETTINGS-PROVIDERS-REVOKE | `POST /api/v1/settings/providers/revoke` | `settings.providers.enablement.revoke` | `SettingsApplicationService -> ProviderEnablementService` | clears runtime credential reference; no provider-side key revocation | human session + owner RBAC + PolicyEngine |
+| API-SETTINGS-MODEL-GATEWAY | `GET /api/v1/settings/model-gateway` | `settings.model_gateway` | `SettingsApplicationService -> ModelGatewaySettingsService` | read-only route/cost/freshness projection | human session + RBAC + PolicyEngine |
+| API-SETTINGS-MODEL-GATEWAY-EVALUATE | `POST /api/v1/settings/model-gateway/evaluate` | `settings.model_gateway.evaluate` | `SettingsApplicationService -> ModelGatewaySettingsService` | hermetic controlled evaluation; no real external API | human session + RBAC + PolicyEngine |
 
 Sprint 72 mantiene la regla API-only: la Web UI no lee `.devpilot/`, `outputs/` ni policy/provider files directamente.
 

@@ -1,0 +1,1557 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-06-E",
+  "updated": "2026-08-27",
+  "source_repo": "repo_DevPilot_Local_378_DEVPL_GSDLC_06_D_TOKEN_BUDGET_CONTEXT_ROUTING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "718fa0da5d552f8bf6def39c102f0124ac7fa922",
+  "source_sha256": "25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9",
+  "schema_id": "devpilot.gsdlc06e.provider_model_eval.v1",
+  "status": "PASS/LOCAL",
+  "evaluations": [
+    {
+      "mode": "mock",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Controlled model evaluation completed.",
+      "summary": {
+        "mode": "mock",
+        "requested_access_route_id": null,
+        "selected_access_route_id": "mock",
+        "route_status": "selected",
+        "fallback_demonstrated": true,
+        "hard_stop_demonstrated": false,
+        "network_used": false,
+        "external_api_used": false,
+        "real_api_called": false,
+        "raw_credentials_exposed": false,
+        "tool_authority_granted": false,
+        "route_decision_tool_boundary_pass": true,
+        "evaluation_is_hermetic": true
+      },
+      "decision": {
+        "workload_id": "gsdlc-06-e-controlled-eval",
+        "route_status": "selected",
+        "provider_id": "devpilot-local",
+        "model_id": "mock-deterministic-v1",
+        "access_route_id": "mock",
+        "gateway_adapter_id": "mock-adapter",
+        "auth_adapter_id": "no-secret-local",
+        "estimate": {
+          "input_tokens": 900,
+          "output_tokens": 200,
+          "total_tokens": 1100,
+          "cost_state": "known",
+          "cost_usd": 0.0,
+          "currency": "USD",
+          "source": "model-capability-catalog:mock-deterministic-v1",
+          "freshness": "current-active"
+        },
+        "fallback_from_access_route_id": "ollama-localhost-mistral7b",
+        "fallback_reason": "explicit-safe-fallback:provider-enablement:provider-disabled",
+        "blocked_reason": null,
+        "approval_required": false,
+        "decision_trace": [
+          {
+            "access_route_id": "mock",
+            "eligible": true,
+            "rejected_at": null,
+            "reasons": [],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:mock-deterministic-v1",
+              "freshness": "current-active"
+            },
+            "benchmark_score": 0.5,
+            "locality": "mock"
+          },
+          {
+            "access_route_id": "ollama-localhost-mistral7b",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:mistral:7b",
+              "freshness": "historical-benchmark"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "ollama-localhost-qwen25-15b",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:qwen2.5:1.5b-instruct",
+              "freshness": "historical-benchmark"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "lmstudio-localhost",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:local-model",
+              "freshness": "current-adapter+historical-route"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "local-openai-compatible-generic",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:local-openai-compatible-model",
+              "freshness": "current-local-policy+historical-protocol-warning"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "openai-api-direct",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:openai-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "anthropic-api-direct",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:anthropic-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "gemini-api-paid",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:gemini-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "gemini-api-unpaid",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:gemini-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "azure-openai",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:azure-openai-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "aws-bedrock",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:bedrock-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "mistral-api",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:mistral-api-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "openrouter",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:openrouter-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "remote-openai-compatible-generic",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "consumer-web-session-piggyback",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:consumer-session-non-model",
+              "freshness": "historical-block"
+            },
+            "benchmark_score": 0.0,
+            "locality": "consumer-session"
+          },
+          {
+            "access_route_id": "consumer-subscription-as-api",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:consumer-session-non-model",
+              "freshness": "historical-block"
+            },
+            "benchmark_score": 0.0,
+            "locality": "consumer-session"
+          },
+          {
+            "access_route_id": "long-tail-r01a-unfrozen",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          }
+        ],
+        "evidence_refs": [
+          "R01-E:provider_route_decision_matrix/mock",
+          "repo374:ProviderRegistry/mock",
+          "GSDLC-06-D:routing-decision-matrix"
+        ]
+      }
+    },
+    {
+      "mode": "fake-local",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Controlled model evaluation completed.",
+      "summary": {
+        "mode": "fake-local",
+        "requested_access_route_id": "ollama-localhost-mistral7b",
+        "selected_access_route_id": "ollama-localhost-mistral7b",
+        "route_status": "selected",
+        "fallback_demonstrated": false,
+        "hard_stop_demonstrated": false,
+        "network_used": false,
+        "external_api_used": false,
+        "real_api_called": false,
+        "raw_credentials_exposed": false,
+        "tool_authority_granted": false,
+        "route_decision_tool_boundary_pass": true,
+        "evaluation_is_hermetic": true
+      },
+      "decision": {
+        "workload_id": "gsdlc-06-e-controlled-eval",
+        "route_status": "selected",
+        "provider_id": "ollama",
+        "model_id": "mistral:7b",
+        "access_route_id": "ollama-localhost-mistral7b",
+        "gateway_adapter_id": "ollama-adapter-v1",
+        "auth_adapter_id": "no-secret-local",
+        "estimate": {
+          "input_tokens": 900,
+          "output_tokens": 200,
+          "total_tokens": 1100,
+          "cost_state": "known",
+          "cost_usd": 0.0,
+          "currency": "USD",
+          "source": "model-capability-catalog:mistral:7b",
+          "freshness": "historical-benchmark"
+        },
+        "fallback_from_access_route_id": null,
+        "fallback_reason": null,
+        "blocked_reason": null,
+        "approval_required": false,
+        "decision_trace": [
+          {
+            "access_route_id": "mock",
+            "eligible": true,
+            "rejected_at": null,
+            "reasons": [],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:mock-deterministic-v1",
+              "freshness": "current-active"
+            },
+            "benchmark_score": 0.5,
+            "locality": "mock"
+          },
+          {
+            "access_route_id": "ollama-localhost-mistral7b",
+            "eligible": true,
+            "rejected_at": null,
+            "reasons": [],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:mistral:7b",
+              "freshness": "historical-benchmark"
+            },
+            "benchmark_score": 1.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "ollama-localhost-qwen25-15b",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:qwen2.5:1.5b-instruct",
+              "freshness": "historical-benchmark"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "lmstudio-localhost",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:local-model",
+              "freshness": "current-adapter+historical-route"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "local-openai-compatible-generic",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:local-openai-compatible-model",
+              "freshness": "current-local-policy+historical-protocol-warning"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "openai-api-direct",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:openai-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "anthropic-api-direct",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:anthropic-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "gemini-api-paid",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:gemini-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "gemini-api-unpaid",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:gemini-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "azure-openai",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:azure-openai-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "aws-bedrock",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:bedrock-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "mistral-api",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:mistral-api-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "openrouter",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:openrouter-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "remote-openai-compatible-generic",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "consumer-web-session-piggyback",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:consumer-session-non-model",
+              "freshness": "historical-block"
+            },
+            "benchmark_score": 0.0,
+            "locality": "consumer-session"
+          },
+          {
+            "access_route_id": "consumer-subscription-as-api",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:consumer-session-non-model",
+              "freshness": "historical-block"
+            },
+            "benchmark_score": 0.0,
+            "locality": "consumer-session"
+          },
+          {
+            "access_route_id": "long-tail-r01a-unfrozen",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          }
+        ],
+        "evidence_refs": [
+          "R01-E:ollama-localhost",
+          "R01-C:benchmark",
+          "R01-D:benchmark",
+          "GSDLC-06-D:routing-decision-matrix"
+        ]
+      }
+    },
+    {
+      "mode": "fake-external",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Controlled model evaluation completed.",
+      "summary": {
+        "mode": "fake-external",
+        "requested_access_route_id": "openai-api-direct",
+        "selected_access_route_id": "mock",
+        "route_status": "selected",
+        "fallback_demonstrated": true,
+        "hard_stop_demonstrated": false,
+        "network_used": false,
+        "external_api_used": false,
+        "real_api_called": false,
+        "raw_credentials_exposed": false,
+        "tool_authority_granted": false,
+        "route_decision_tool_boundary_pass": true,
+        "evaluation_is_hermetic": true
+      },
+      "decision": {
+        "workload_id": "gsdlc-06-e-controlled-eval",
+        "route_status": "selected",
+        "provider_id": "devpilot-local",
+        "model_id": "mock-deterministic-v1",
+        "access_route_id": "mock",
+        "gateway_adapter_id": "mock-adapter",
+        "auth_adapter_id": "no-secret-local",
+        "estimate": {
+          "input_tokens": 900,
+          "output_tokens": 200,
+          "total_tokens": 1100,
+          "cost_state": "known",
+          "cost_usd": 0.0,
+          "currency": "USD",
+          "source": "model-capability-catalog:mock-deterministic-v1",
+          "freshness": "current-active"
+        },
+        "fallback_from_access_route_id": "ollama-localhost-mistral7b",
+        "fallback_reason": "explicit-safe-fallback:provider-enablement:provider-disabled",
+        "blocked_reason": null,
+        "approval_required": false,
+        "decision_trace": [
+          {
+            "access_route_id": "mock",
+            "eligible": true,
+            "rejected_at": null,
+            "reasons": [],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:mock-deterministic-v1",
+              "freshness": "current-active"
+            },
+            "benchmark_score": 0.5,
+            "locality": "mock"
+          },
+          {
+            "access_route_id": "ollama-localhost-mistral7b",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:mistral:7b",
+              "freshness": "historical-benchmark"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "ollama-localhost-qwen25-15b",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:qwen2.5:1.5b-instruct",
+              "freshness": "historical-benchmark"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "lmstudio-localhost",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:local-model",
+              "freshness": "current-adapter+historical-route"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "local-openai-compatible-generic",
+            "eligible": false,
+            "rejected_at": "provider-enablement",
+            "reasons": [
+              "provider-disabled"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "known",
+              "cost_usd": 0.0,
+              "currency": "USD",
+              "source": "model-capability-catalog:local-openai-compatible-model",
+              "freshness": "current-local-policy+historical-protocol-warning"
+            },
+            "benchmark_score": 0.0,
+            "locality": "loopback"
+          },
+          {
+            "access_route_id": "openai-api-direct",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:openai-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 1.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "anthropic-api-direct",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:anthropic-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "gemini-api-paid",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:gemini-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "gemini-api-unpaid",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:gemini-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "azure-openai",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:azure-openai-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "aws-bedrock",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:bedrock-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "mistral-api",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:mistral-api-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "openrouter",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:openrouter-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "remote-openai-compatible-generic",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          },
+          {
+            "access_route_id": "consumer-web-session-piggyback",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:consumer-session-non-model",
+              "freshness": "historical-block"
+            },
+            "benchmark_score": 0.0,
+            "locality": "consumer-session"
+          },
+          {
+            "access_route_id": "consumer-subscription-as-api",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:consumer-session-non-model",
+              "freshness": "historical-block"
+            },
+            "benchmark_score": 0.0,
+            "locality": "consumer-session"
+          },
+          {
+            "access_route_id": "long-tail-r01a-unfrozen",
+            "eligible": false,
+            "rejected_at": "capabilities",
+            "reasons": [
+              "required-capability-unavailable"
+            ],
+            "estimate": {
+              "input_tokens": 900,
+              "output_tokens": 200,
+              "total_tokens": 1100,
+              "cost_state": "unknown",
+              "cost_usd": null,
+              "currency": "USD",
+              "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+              "freshness": "F0/F1-refresh-required-before-enable"
+            },
+            "benchmark_score": 0.0,
+            "locality": "remote"
+          }
+        ],
+        "evidence_refs": [
+          "R01-E:provider_route_decision_matrix/mock",
+          "repo374:ProviderRegistry/mock",
+          "GSDLC-06-D:routing-decision-matrix"
+        ]
+      }
+    }
+  ],
+  "hard_stop": {
+    "ok": false,
+    "exit_code": 2,
+    "summary": {
+      "mode": "mock",
+      "requested_access_route_id": null,
+      "selected_access_route_id": null,
+      "route_status": "blocked",
+      "fallback_demonstrated": false,
+      "hard_stop_demonstrated": true,
+      "network_used": false,
+      "external_api_used": false,
+      "real_api_called": false,
+      "raw_credentials_exposed": false,
+      "tool_authority_granted": false,
+      "route_decision_tool_boundary_pass": true,
+      "evaluation_is_hermetic": true
+    },
+    "decision": {
+      "workload_id": "gsdlc-06-e-controlled-eval",
+      "route_status": "blocked",
+      "provider_id": null,
+      "model_id": null,
+      "access_route_id": null,
+      "gateway_adapter_id": null,
+      "auth_adapter_id": null,
+      "estimate": null,
+      "fallback_from_access_route_id": null,
+      "fallback_reason": null,
+      "blocked_reason": "no-route-survived-governance-order",
+      "approval_required": false,
+      "decision_trace": [
+        {
+          "access_route_id": "mock",
+          "eligible": false,
+          "rejected_at": "cost-ceiling",
+          "reasons": [
+            "hard-token-budget-exceeded"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "known",
+            "cost_usd": 0.0,
+            "currency": "USD",
+            "source": "model-capability-catalog:mock-deterministic-v1",
+            "freshness": "current-active"
+          },
+          "benchmark_score": 0.5,
+          "locality": "mock"
+        },
+        {
+          "access_route_id": "ollama-localhost-mistral7b",
+          "eligible": false,
+          "rejected_at": "provider-enablement",
+          "reasons": [
+            "provider-disabled"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "known",
+            "cost_usd": 0.0,
+            "currency": "USD",
+            "source": "model-capability-catalog:mistral:7b",
+            "freshness": "historical-benchmark"
+          },
+          "benchmark_score": 0.0,
+          "locality": "loopback"
+        },
+        {
+          "access_route_id": "ollama-localhost-qwen25-15b",
+          "eligible": false,
+          "rejected_at": "provider-enablement",
+          "reasons": [
+            "provider-disabled"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "known",
+            "cost_usd": 0.0,
+            "currency": "USD",
+            "source": "model-capability-catalog:qwen2.5:1.5b-instruct",
+            "freshness": "historical-benchmark"
+          },
+          "benchmark_score": 0.0,
+          "locality": "loopback"
+        },
+        {
+          "access_route_id": "lmstudio-localhost",
+          "eligible": false,
+          "rejected_at": "provider-enablement",
+          "reasons": [
+            "provider-disabled"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "known",
+            "cost_usd": 0.0,
+            "currency": "USD",
+            "source": "model-capability-catalog:local-model",
+            "freshness": "current-adapter+historical-route"
+          },
+          "benchmark_score": 0.0,
+          "locality": "loopback"
+        },
+        {
+          "access_route_id": "local-openai-compatible-generic",
+          "eligible": false,
+          "rejected_at": "provider-enablement",
+          "reasons": [
+            "provider-disabled"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "known",
+            "cost_usd": 0.0,
+            "currency": "USD",
+            "source": "model-capability-catalog:local-openai-compatible-model",
+            "freshness": "current-local-policy+historical-protocol-warning"
+          },
+          "benchmark_score": 0.0,
+          "locality": "loopback"
+        },
+        {
+          "access_route_id": "openai-api-direct",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:openai-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "anthropic-api-direct",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:anthropic-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "gemini-api-paid",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:gemini-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "gemini-api-unpaid",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:gemini-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "azure-openai",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:azure-openai-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "aws-bedrock",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:bedrock-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "mistral-api",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:mistral-api-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "openrouter",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:openrouter-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "remote-openai-compatible-generic",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        },
+        {
+          "access_route_id": "consumer-web-session-piggyback",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:consumer-session-non-model",
+            "freshness": "historical-block"
+          },
+          "benchmark_score": 0.0,
+          "locality": "consumer-session"
+        },
+        {
+          "access_route_id": "consumer-subscription-as-api",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:consumer-session-non-model",
+            "freshness": "historical-block"
+          },
+          "benchmark_score": 0.0,
+          "locality": "consumer-session"
+        },
+        {
+          "access_route_id": "long-tail-r01a-unfrozen",
+          "eligible": false,
+          "rejected_at": "capabilities",
+          "reasons": [
+            "required-capability-unavailable"
+          ],
+          "estimate": {
+            "input_tokens": 8193,
+            "output_tokens": 0,
+            "total_tokens": 8193,
+            "cost_state": "unknown",
+            "cost_usd": null,
+            "currency": "USD",
+            "source": "model-capability-catalog:remote-openai-compatible-model-unresolved",
+            "freshness": "F0/F1-refresh-required-before-enable"
+          },
+          "benchmark_score": 0.0,
+          "locality": "remote"
+        }
+      ],
+      "evidence_refs": [
+        "GSDLC-06-D:routing-decision-matrix"
+      ]
+    }
+  },
+  "real_api_used": false,
+  "network_used": false
+}

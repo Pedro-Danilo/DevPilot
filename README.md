@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-Programa activo: `DEVPL-GSDLC`; `DEVPL-GSDLC-00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `GSDLC-06-A`, `06-B` y `06-C` están owner-adjudicated `CLOSED/PASS`; 06-C cierra sobre repo377 (`6f0fdbd9142c2ad3470bcfe07a3b764a370b3698`; SHA-256 `0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c`). `DEVPL-GSDLC-06` permanece `APPROVED/ACTIVE`; `GSDLC-06-D` está `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION` con TokenBudgetPolicy, ContextBudget, CostLedgerV2 y ModelRouterV2; 141/141 selectivas Windows, 4 schemas, external API/network real=0 y full=0. 06-E permanece bloqueado hasta adjudicación owner.
+Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está aprobado, pero 07-A funcional permanece bloqueado hasta cerrar el activation enabler y Full Regression Execution v2.1.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.
 
@@ -6467,6 +6467,16 @@ Historical milestone preservation: `GSDLC-04-A` remains a frozen predecessor mil
 
 External provider credential references and fake-first governed enablement are implemented locally on repo376 successor. Real external network/API remains disabled until provider-specific ADR + freshness + RBAC + budget gates; full regression remains reserved for 06-E.
 
-## DEVPL-GSDLC-06-D current-active
+## DEVPL-GSDLC-06-D closure
 
-06-C quedó `CLOSED/PASS / OWNER-ADJUDICATED` sobre repo377 / `6f0fdbd9142c2ad3470bcfe07a3b764a370b3698` / `0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c`. 06-D está `IMPLEMENTED / LOCAL-VALIDATED / PENDING-WINDOWS`: budgets por seis scopes, ContextBudget determinístico, ledger v2 runtime-only y routing gobernado/fallback explícito. Full regression=0; browser=0; external API/network real=0.
+06-D está `CLOSED/PASS / OWNER-ADJUDICATED` sobre repo378 / `718fa0da5d552f8bf6def39c102f0124ac7fa922` / `25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9`. Cierre Windows: 141/141 selectivas, 4 schemas, Docs/Project State/TCR PASS, S0/S1=0, full=0, browser=0 y external API/network real=0.
+
+## DEVPL-GSDLC-06-E closed / owner-adjudicated
+
+06-E está `CLOSED/PASS-WITH-GAPS` sobre repo379. Implementa `AIControlCenterView`, `ModelSettingsView`, proyección Model Gateway server-side, cost/freshness/budget/fallback, evaluación hermética mock/fake-local/fake-external, hard-stop y kill switches owner-only. Windows: browser 13/13, Predictive PASS, full única `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y composite recovery PASS sobre failed-nodeids + tail + bounded impact + Historical Regression Guard.
+
+Gaps aceptados: `S2-EVIDENCE-06E-001` (captura RBAC no muestra el 403 descrito) y `S2-DOC-06E-002` (este README afirmaba erróneamente `full 1/1 PASS`). El activation rebind preserva la evidencia sellada, registra el erratum y corrobora RBAC con contratos focales existentes; no repite browser porque no cambia la superficie runtime.
+
+## DEVPL-GSDLC-07 activation enabler
+
+GSDLC-07 está `APPROVED/EXECUTABLE-DESIGN`, con repo379 como autoridad inicial. Antes de 07-A funcional se ejecuta un activation enabler sin full: reconciliación Git/checkout/remote, cierre de los dos gaps S2 y construcción de Full Regression Execution v2.1 (logical session, immutable collection/plan, sequential shards, receipts, resume y terminal accounting). La full única de GSDLC-07 sigue reservada a 07-E.

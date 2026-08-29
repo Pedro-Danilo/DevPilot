@@ -1,0 +1,32 @@
+{
+  "schema_id": "devpilot.gsdlc06.final_owner_current.v1",
+  "status": "CLOSED/PASS-WITH-GAPS",
+  "owner_adjudication_pending": false,
+  "owner_adjudication_completed": true,
+  "backlog": "DEVPL-GSDLC-06",
+  "micro_sprints": {
+    "06-A": "CLOSED/PASS",
+    "06-B": "CLOSED/PASS",
+    "06-C": "CLOSED/PASS",
+    "06-D": "CLOSED/PASS",
+    "06-E": "CLOSED/PASS-WITH-GAPS"
+  },
+  "s0_open": 0,
+  "s1_open": 0,
+  "s2_open_at_adjudication": 2,
+  "full_regression_runs": 1,
+  "maximum_full_regression_runs": 1,
+  "full_regression_original_status": "FAIL/TIMEOUT",
+  "full_regression_rerun_performed": false,
+  "composite_full_regression_selective_retest": "PASS",
+  "historical_regression_guard": "PASS",
+  "successor_repo": "repo_DevPilot_Local_379_DEVPL_GSDLC_06_E_PROVIDER_SETTINGS_CONTROLLED_EVAL_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "successor_git_commit": "7deeb043840945165205c8c1493b4f7e44d2b2ca",
+  "successor_repo_sha256": "859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2",
+  "next_backlog": "DEVPL-GSDLC-07",
+  "next_backlog_authorized": true,
+  "activation_enabler_required_before_07_a": true,
+  "updated": "2026-08-29",
+  "s2_open_after_activation_rebind_candidate": 0,
+  "s2_resolution_candidate": "README correction + evidence erratum + deterministic RBAC focal contracts; no browser rerun"
+}

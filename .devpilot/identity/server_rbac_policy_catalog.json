@@ -1,7 +1,7 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
   "version": "1.5.0",
-  "micro_sprint": "DEVPL-GSDLC-05-E",
+  "micro_sprint": "DEVPL-GSDLC-06-E",
   "status": "implemented/ready-for-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
@@ -2931,6 +2931,47 @@
       "workspace_scope_required": false,
       "risk_level": "high",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.model-gateway",
+      "method": "GET",
+      "path": "/api/v1/settings/model-gateway",
+      "operation": "settings.model_gateway",
+      "access_class": "authenticated-model-gateway-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.model-gateway.evaluate",
+      "method": "POST",
+      "path": "/api/v1/settings/model-gateway/evaluate",
+      "operation": "settings.model_gateway.evaluate",
+      "access_class": "authenticated-controlled-model-evaluation",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -3157,7 +3198,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 131,
+    "route_policies_total": 133,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3176,7 +3217,9 @@
     "gsdlc_06_c_provider_enablement_policies_total": 6,
     "gsdlc_06_c_legacy_token_allowed_total": 0,
     "gsdlc_06_c_owner_only_action_policies_total": 5,
-    "gsdlc_06_c_runtime_mutation_policies_total": 3
+    "gsdlc_06_c_runtime_mutation_policies_total": 3,
+    "human_session_required_total": 57,
+    "legacy_token_allowed_total": 69
   },
   "safety": {
     "legacy_token_human_authority": false,
@@ -3187,7 +3230,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-05-E",
+  "updated_by": "DEVPL-GSDLC-06-E",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",

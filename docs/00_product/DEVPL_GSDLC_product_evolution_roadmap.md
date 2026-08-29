@@ -476,10 +476,24 @@ Estado: `CLOSED/PASS` owner-adjudicated. Successor autoritativo: repo375 / commi
 
 Estado final: `CLOSED/PASS / OWNER-ADJUDICATED`. Successor autoritativo: repo376 / commit `a902a344cdd30bf6c967bb1513cfcd2b512b11d9` / SHA-256 `eb99257eb2de652233ace2e48a8af77354ada4bf3f535085f12f158536e7f4cf`. 06-B cerró con 73/73 selectivas Windows PASS, 2 schemas, Docs/Project State/TCR PASS, S0/S1=0, external API=0 y full=0. 06-C queda autorizado sobre repo376.
 
-### GSDLC-06-C current-active (2026-08-27)
+### GSDLC-06-C closure (2026-08-27)
 
-Estado current-active: `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`. Fuente fija: repo376 / commit `a902a344cdd30bf6c967bb1513cfcd2b512b11d9`. 06-C implementa `ProviderCredentialReference` sin valores secretos, auth adapters tipados, enablement externo runtime-only gobernado por 12 gates + freshness + notices + budget + RBAC + approval, fake-provider connectivity, disable/revoke y audit trail. `ConsumerSessionAdapter` permanece bloqueado; external network/API real permanece disabled; 93/93 selectivas Windows, 3 schemas y Docs/Project State/TCR PASS; full=0. 06-D permanece bloqueado hasta owner adjudication independiente de repo377/evidence 06-C.
+`CLOSED/PASS / OWNER-ADJUDICATED` sobre repo377 / `6f0fdbd9142c2ad3470bcfe07a3b764a370b3698`.
 
-### GSDLC-06-D current-active (2026-08-27)
+### GSDLC-06-D closure (2026-08-27)
 
-06-C quedó `CLOSED/PASS / OWNER-ADJUDICATED` sobre repo377 / commit `6f0fdbd9142c2ad3470bcfe07a3b764a370b3698` / SHA-256 `0a7cf1bcd818706d4cb46c44a88b00b4b2fd71731c0b4ed32bec635f51e4b62c`. 06-D está `PASS-CANDIDATE / WINDOWS-VALIDATED / PENDING-OWNER-ADJUDICATION`, con 141/141 selectivas acumulativas/impact-based Windows, 4 schemas, Docs/Project State/TCR PASS, TokenBudgetPolicy/ContextBudget/CostLedgerV2/ModelRouterV2, hard stops y fallback explícito. Full regression=0 y 06-E permanece bloqueado hasta adjudicación owner independiente de repo378/evidence 06-D.
+`CLOSED/PASS / OWNER-ADJUDICATED` sobre repo378 / `718fa0da5d552f8bf6def39c102f0124ac7fa922` / `25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9`. Windows: 141/141 selectivas, 4 schemas, S0/S1=0, full=0, browser=0.
+
+### GSDLC-06-E current-active (2026-08-27)
+
+`IMPLEMENTED / LOCAL-VALIDATED / PENDING-WINDOWS`. Provider Settings UX y controlled model evaluation están implementados sobre repo378; mandatory paths mock/local/fake-external son herméticos y API real no es requisito. Browser 13/13 + Predictive Pre-Full + única full regression quedan reservados al operador Windows. 06-E no está cerrado y GSDLC-07 no está autorizado todavía.
+
+
+### 06-E Windows composite recovery v1.0.7
+
+La full única de DEVPL-GSDLC-06-E fue consumida `1/1` y terminó `FAIL/TIMEOUT` después de ~82 % de progreso; no se autorizó ni ejecutó rerun. El recovery compuesto reconstruye 21 fallos observados y 487 nodeids no ejecutados, reconcilia OpenAPI GSDLC-06 y el snapshot histórico 05-A, y cierra solo con exact/tail/bounded retests + Historical Regression Guard + validators determinísticos PASS. Browser 13/13 permanece válido. Owner adjudication: `CLOSED/PASS-WITH-GAPS`; no existen S0/S1. Se aceptan dos S2: fidelidad de screenshot RBAC y README stale. GSDLC-07 queda `APPROVED`, pero su 07-A funcional requiere activation rebind previo, cierre de los dos S2 mediante corrección documental + corroboración RBAC focal y Full Regression Execution v2.1 enablement sin consumir full.
+
+
+### DEVPL-GSDLC-07 activation enabler (2026-08-28)
+
+Antes de 07-A se ejecuta una transición no funcional mínima: materialización local del successor desde repo379, cierre de los dos S2, validación focal y formalización de Full Regression Execution v2.1. El remote se reconcilia únicamente después del commit local validado. El enabler posterior usa validación focal/acumulativa y no consume la full del backlog; la logical full session real permanece reservada a 07-E.

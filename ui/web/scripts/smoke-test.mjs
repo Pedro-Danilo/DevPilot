@@ -91,7 +91,7 @@ for (const source of filesToScan) {
   assert(!source.includes('outputs/'), 'La UI no debe leer outputs directamente');
 }
 
-for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan', '/workspace/documents', '/workspace/validations/plan', '/workspace/validations/execute', '/workspace/traceability', '/jobs', '/logs', '/cancel', '/retry', '/ai/operations', '/ai/status', '/ai/jobs/plan', '/ai/evidence/package']) {
+for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan', '/settings/model-gateway', '/settings/model-gateway/evaluate', '/settings/providers/enablement', '/settings/providers/disable', '/settings/providers/revoke', '/workspace/documents', '/workspace/validations/plan', '/workspace/validations/execute', '/workspace/traceability', '/jobs', '/logs', '/cancel', '/retry', '/ai/operations', '/ai/status', '/ai/jobs/plan', '/ai/evidence/package']) {
   assert(client.includes(expectedPath), `El cliente API debe consumir ${expectedPath}`);
 }
 if (uoc005Active) {

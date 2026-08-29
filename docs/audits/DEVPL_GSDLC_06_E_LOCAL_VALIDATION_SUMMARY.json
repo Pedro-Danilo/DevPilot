@@ -1,0 +1,39 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-06-E",
+  "updated": "2026-08-27",
+  "source_repo": "repo_DevPilot_Local_378_DEVPL_GSDLC_06_D_TOKEN_BUDGET_CONTEXT_ROUTING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "718fa0da5d552f8bf6def39c102f0124ac7fa922",
+  "source_sha256": "25a159294984185b30e2b3db2fc64299568c9dd8d77c484cf73b598fbde36be9",
+  "schema_id": "devpilot.gsdlc06e.local_validation.v1",
+  "status": "PASS/LOCAL",
+  "new_tests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "focused_cumulative_matrix": {
+    "passed": 155,
+    "failed": 0,
+    "composition": "87 GSDLC-06 A-E + 68 adapters/docs/contracts/settings/UOC-003"
+  },
+  "ui_static_smoke": {
+    "passed": 8,
+    "failed": 0
+  },
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "lazy_composition_corrective": "PASS",
+  "limitations": [
+    "TypeScript/Vite build and browser acceptance are intentionally executed in Windows candidate environment.",
+    "The single full regression is intentionally not consumed outside the authoritative Windows operator."
+  ],
+  "npm_offline_dependency_check": {
+    "status": "BLOCK/ENVIRONMENT-NOT-CACHED",
+    "reason": "vite-6.4.3 not present in local npm cache",
+    "product_defect": false,
+    "network_used": false,
+    "node_modules_created": false,
+    "windows_requirement": "validate with already provisioned dependencies or explicit provisioning before browser gate"
+  }
+}
