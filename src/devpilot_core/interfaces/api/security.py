@@ -224,6 +224,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/settings/agent-runtime"): ApiRoutePolicy("settings.agent_runtime", "read", "protected-settings-read", path_subject=".devpilot/agents/agent_role_binding_catalog.json"),
     ("GET", "/api/v1/settings/rag-context"): ApiRoutePolicy("settings.rag_context", "read", "protected-settings-read", path_subject=".devpilot/rag/context_pack_v2_policy.json"),
     ("GET", "/api/v1/settings/agent-execution"): ApiRoutePolicy("settings.agent_execution", "read", "protected-settings-read", path_subject=".devpilot/agents/agent_execution_policy.json"),
+    ("GET", "/api/v1/settings/agent-evals"): ApiRoutePolicy("settings.agent_evals", "read", "protected-settings-read", path_subject="docs/audits/DEVPL_GSDLC_07_E_AGENT_EVAL_TRACES.json"),
     ("POST", "/api/v1/settings/agent-execution/sessions"): ApiRoutePolicy("settings.agent_execution.create", "read", "protected-human-session-agent-execution"),
     ("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents"): ApiRoutePolicy("settings.agent_execution.intent", "read", "protected-human-session-agent-execution"),
     ("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/handoff"): ApiRoutePolicy("settings.agent_execution.handoff", "read", "protected-human-session-agent-execution"),

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-07-E-AGENT-EVAL-TRACE-V1",
+  "title": "AgentEvalTrace",
+  "type": "object",
+  "required": ["trace_id", "journey", "step_id", "agent_role", "runtime_agent", "provider", "model", "access_route", "sources", "tokens_total", "estimated_cost_usd", "cost_known", "human_decision", "auto_approval", "source_write", "tool_authority_granted", "model_route_grants_tool_permission", "provenance_complete"],
+  "properties": {
+    "trace_id": {"type": "string"},
+    "journey": {"const": "Product Vision -> PRE_CODE_READY"},
+    "step_id": {"type": "string"},
+    "agent_role": {"type": "string"},
+    "agent_display_name": {"type": ["string", "null"]},
+    "runtime_agent": {"type": "string"},
+    "provider": {"type": "string"},
+    "model": {"type": "string"},
+    "access_route": {"enum": ["mock", "fake-local", "fake-external-hermetic"]},
+    "sources": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["path", "sha256", "citation"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "citation": {"type": "string"}}, "additionalProperties": false}},
+    "input_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "tokens_total": {"type": "integer", "minimum": 0},
+    "estimated_cost_usd": {"type": "number", "minimum": 0},
+    "cost_known": {"const": true},
+    "human_decision": {"enum": ["ACCEPT", "MODIFY", "REJECT"]},
+    "auto_approval": {"const": false},
+    "source_write": {"const": false},
+    "tool_authority_granted": {"const": false},
+    "model_route_grants_tool_permission": {"const": false},
+    "human_review_required": {"const": true},
+    "fallback": {"type": "object"},
+    "provenance_complete": {"const": true}
+  },
+  "additionalProperties": false
+}

@@ -12716,6 +12716,38 @@
         "docs/schemas/tool_execution_decision.schema.json",
         "docs/schemas/handoff_transfer_state.schema.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-e-agentic-precode-acceptance",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-E",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
+        "npm --prefix ui/web run test:gsdlc07e-agent-eval-trace"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "validates": [
+        "AgenticPrecodeAcceptanceEvaluator",
+        "AgentEvalTraceView",
+        "FullRegressionTelemetryExporter"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/agentic_precode_acceptance.py",
+        "src/devpilot_core/testing/full_regression_telemetry.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/AgentEvalTraceView.ts",
+        "docs/schemas/agent_eval_trace.schema.json",
+        "docs/schemas/full_regression_telemetry_handoff.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -12793,5 +12825,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 303
+  "contracts_total": 304
 }

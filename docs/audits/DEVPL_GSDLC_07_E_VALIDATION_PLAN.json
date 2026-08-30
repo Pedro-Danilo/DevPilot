@@ -1,0 +1,9 @@
+{
+  "status": "approved",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-E",
+  "updated": "2026-08-30",
+  "order": ["source-authority", "materialize-exact-delta", "pre-full-focal-gates", "three-console-browser", "runtime-cleanup", "commit-candidate", "single-full-start", "same-session-resume-if-infra", "adjudicate", "telemetry-export", "git-archive-candidate", "ff-only-promotion", "explicit-remote-push", "three-state-review", "evidence-package"],
+  "full": {"session_id": "DEVPL-GSDLC-07-E-FULL-01", "attempt": 1, "max_attempts": 1, "rerun_allowed": false},
+  "parallel_workers": 0
+}

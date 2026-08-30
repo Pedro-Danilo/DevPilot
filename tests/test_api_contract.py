@@ -270,6 +270,7 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 "settings.agent_runtime",
                 "settings.rag_context",
                 "settings.agent_execution",
+                "settings.agent_evals",
                 "settings.agent_execution.create",
                 "settings.agent_execution.intent",
                 "settings.agent_execution.handoff",
@@ -278,7 +279,7 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
             }
             if op_id in gsdlc06_settings_ops:
                 assert operation["x-devpilot-status"] in {"secured-initial", "gsdlc-07-d-implemented-initial"}
-                assert operation["x-devpilot-sprint"] in {"DEVPL-GSDLC-06-C", "DEVPL-GSDLC-06-E", "DEVPL-GSDLC-07-A", "DEVPL-GSDLC-07-B", "DEVPL-GSDLC-07-D"}
+                assert operation["x-devpilot-sprint"] in {"DEVPL-GSDLC-06-C", "DEVPL-GSDLC-06-E", "DEVPL-GSDLC-07-A", "DEVPL-GSDLC-07-B", "DEVPL-GSDLC-07-D", "DEVPL-GSDLC-07-E"}
                 assert operation["security"] == [{"HumanSessionCookie": []}]
                 assert operation["x-devpilot-auth"] == "human-session-required"
                 assert operation["x-devpilot-source-mutation"] is False

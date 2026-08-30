@@ -21738,6 +21738,74 @@
         "src/devpilot_core/interfaces/api/security.py",
         "ui/web/src/components/SkillToolPolicyView.ts"
       ]
+    },
+    {
+      "capability": "AgenticPrecodeAcceptance",
+      "classification_notes": [
+        "GSDLC-07-E governed Product Vision -> PRE_CODE_READY acceptance with mock/fake-local mandatory.",
+        "Full Regression telemetry prepares v2.2; v2.3 parallel execution remains disabled."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "devpl-gsdlc-07-e-agentic-precode-acceptance",
+      "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "agentic.runtime",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 120,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "agentic-acceptance",
+        "model-eval",
+        "provenance",
+        "cost",
+        "tool-policy",
+        "browser",
+        "full-regression-telemetry"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-07-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "risk_level": "high",
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-07-e-agentic-precode-acceptance",
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "agent-eval-change",
+        "full-regression-telemetry-change",
+        "ai-control-center-change"
+      ],
+      "validates": [
+        "AgenticPrecodeAcceptanceEvaluator",
+        "AgentEvalTraceView",
+        "FullRegressionTelemetryExporter",
+        "SCHEMA-DEVPL-GSDLC-07-E-AGENT-EVAL-TRACE-V1",
+        "SCHEMA-DEVPL-GSDLC-07-E-FULL-REGRESSION-TELEMETRY-HANDOFF-V1"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-07-E-AGENT-EVAL-TRACE-V1",
+        "SCHEMA-DEVPL-GSDLC-07-E-FULL-REGRESSION-TELEMETRY-HANDOFF-V1"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/agentic_precode_acceptance.py",
+        "src/devpilot_core/testing/full_regression_telemetry.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/AgentEvalTraceView.ts",
+        "docs/schemas/agent_eval_trace.schema.json",
+        "docs/schemas/full_regression_telemetry_handoff.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21900,5 +21968,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 303
+  "contracts_total": 304
 }

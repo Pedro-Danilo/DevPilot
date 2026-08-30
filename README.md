@@ -6506,3 +6506,8 @@ Status: `PASS-CANDIDATE / PRE-WINDOWS`. ContextPack v2 adds policy-filtered loca
 ### DEVPL-GSDLC-07-C — Agent Assist pass-candidate
 
 07-B está owner-adjudicated `CLOSED/PASS`; repo383 (`749d5f9ae039c961b506834de191b94bf65ff50b`) es la autoridad de entrada de 07-C. 07-C implementa `AgentAssistService` y `ArtifactAIPanel` con `PLAN → proposal/diff UNTRUSTED → HUMAN ACCEPT/REJECT/MODIFY`, ContextPack v2 y provenance. ACCEPT/MODIFY persisten únicamente runtime DRAFT; no hay transición automática APPROVED/FROZEN, network/API externa ni source write directo. Estado: `PASS-CANDIDATE/PENDING-WINDOWS-BROWSER-AND-OWNER-ADJUDICATION`; full regression=0, reservada para 07-E.
+## DEVPL-GSDLC-07-E — Agentic pre-code acceptance candidate
+
+Current implementation candidate adds a governed Product Vision → PRE_CODE_READY agent-assisted acceptance path, `AgentEvalTraceView` in AI Control Center and immutable full-regression telemetry handoff for the future v2.2 scheduler work. Mock/fake-local remain sufficient for PASS; external API is optional, ToolIntent never grants execution authority, source writes and auto-approval remain disabled, and v2.3 workers remain `0`.
+
+The only GSDLC-07 full regression is **not** consumed by this source bundle. It must be executed exactly once by the Windows closing operator after browser acceptance. A second full is prohibited.

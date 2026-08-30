@@ -332,6 +332,10 @@ export class DevPilotApiClient {
     return this.get('/settings/agent-execution', { timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS, retryNetworkErrors: true });
   }
 
+  async settingsAgentEvals(): Promise<DevPilotApplicationResponse> {
+    return this.get('/settings/agent-evals', { timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
   async createAgentExecutionSession(payload: { role_id: string; step_id: string; mode?: string }): Promise<DevPilotApplicationResponse> {
     return this.post('/settings/agent-execution/sessions', payload, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
   }

@@ -529,3 +529,13 @@ Routes: `/api/v1/workspace/artifact-assist/documents/{document_id}/plan`, `/api/
 - `API-GSDLC07D-04` — `POST /api/v1/settings/agent-execution/sessions/{session_id}/handoff` — `settings.agent_execution.handoff`.
 - `API-GSDLC07D-05` — `POST /api/v1/settings/agent-execution/sessions/{session_id}/cancel` — `settings.agent_execution.cancel`.
 - `API-GSDLC07D-06` — `POST /api/v1/settings/agent-execution/sessions/{session_id}/kill` — `settings.agent_execution.kill`.
+
+## GSDLC-07-E — Agent eval traces read-only mapping
+
+GSDLC-07-E adds a read-only projection of sealed acceptance/model-eval evidence. The route does not execute models, tools, handoffs, external APIs or source writes.
+
+| API ID | Método | Path | Operation | Domain service | Side effect | Auth | Policy/gate |
+|---|---|---|---|---|---|---|---|
+| `API-GSDLC07E-01` | `GET` | `/api/v1/settings/agent-evals` | `settings.agent_evals` | `SettingsApplicationService.agent_eval_trace_settings` | `read_only/versioned-evidence` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; sealed evidence only; model/tool execution disabled` |
+
+The API ID is current-active and must remain synchronized with OpenAPI `x-devpilot-api-id`, ApplicationService route catalog and `api_route_contract_registry.json`.

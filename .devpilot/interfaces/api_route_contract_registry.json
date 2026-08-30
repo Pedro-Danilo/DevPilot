@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-08-29",
+  "updated": "2026-08-30",
   "routes": [
     {
       "route_id": "api.actions.dry_run",
@@ -5070,15 +5070,51 @@
         "Owner-only kill switch for bounded runtime session."
       ],
       "mutation_exception_justification": "Owner-only kill switch for bounded runtime session."
+    },
+    {
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "owner": "interfaces.api.settings",
+      "router_module": "settings",
+      "policy_action": "read",
+      "path_subject": "docs/audits/DEVPL_GSDLC_07_E_AGENT_EVAL_TRACES.json",
+      "route_id": "api.settings.agent-evals",
+      "method": "GET",
+      "path": "/api/v1/settings/agent-evals",
+      "operation": "settings.agent_evals",
+      "dry_run_only": false,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "source_mutation_allowed": false,
+      "risk_level": "low",
+      "policy_sensitivity": "protected-settings-read",
+      "tags": [
+        "settings",
+        "agent-evals",
+        "provenance",
+        "gsdlc-07-e"
+      ],
+      "notes": [
+        "Read-only sealed AgentEvalTraceView projection; no model/tool execution."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 145,
-    "protected_routes_total": 138,
+    "routes_total": 146,
+    "protected_routes_total": 139,
     "public_routes_total": 7,
     "mutating_routes_total": 56,
-    "application_service_routes_total": 140,
-    "policy_bound_routes_total": 138,
+    "application_service_routes_total": 141,
+    "policy_bound_routes_total": 139,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
@@ -5090,7 +5126,7 @@
     "remote_execution_routes_total": 0,
     "connector_write_routes_total": 0,
     "plugin_execution_routes_total": 0,
-    "updated_by": "DEVPL-GSDLC-07-D",
+    "updated_by": "DEVPL-GSDLC-07-E",
     "ui_first_gap_corrective": true,
     "recursive_report_discovery": true,
     "scoped_observability": true,
@@ -5130,7 +5166,7 @@
     "gsdlc_02_b_public_bootstrap_login_routes_total": 3,
     "gsdlc_02_b_human_session_routes_total": 4,
     "gsdlc_03_b_project_entry_routes_total": 2,
-    "read_only_routes_total": 89,
+    "read_only_routes_total": 90,
     "gsdlc_04_b_artifact_draft_routes_total": 5,
     "gsdlc_04_b_source_write_routes_total": 0,
     "gsdlc_04_c_artifact_import_routes_total": 3,
@@ -5155,7 +5191,8 @@
     "gsdlc_07_c_agent_assist_routes_total": 4,
     "gsdlc_07_c_source_write_routes_total": 0,
     "gsdlc_07_d_agent_execution_routes_total": 6,
-    "gsdlc_07_d_source_write_routes_total": 0
+    "gsdlc_07_d_source_write_routes_total": 0,
+    "gsdlc_07_e_agent_eval_routes_total": 1
   },
   "safety": {
     "local_first": true,

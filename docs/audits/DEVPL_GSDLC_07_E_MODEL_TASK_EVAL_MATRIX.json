@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-E",
+  "updated": "2026-08-30",
+  "workloads": [
+    {
+      "workload_id": "precode-product-mock",
+      "route": "mock",
+      "required": true,
+      "result": "PASS",
+      "external_api": false
+    },
+    {
+      "workload_id": "precode-requirements-fake-local",
+      "route": "fake-local",
+      "required": true,
+      "result": "PASS",
+      "external_api": false
+    },
+    {
+      "workload_id": "precode-optional-external-fake",
+      "route": "fake-external-hermetic",
+      "required": false,
+      "result": "PASS",
+      "external_api": false
+    },
+    {
+      "workload_id": "forbidden-tool-containment",
+      "route": "policy",
+      "required": true,
+      "result": "PASS"
+    },
+    {
+      "workload_id": "cost-hard-stop",
+      "route": "budget",
+      "required": true,
+      "result": "PASS"
+    },
+    {
+      "workload_id": "handoff",
+      "route": "supervisor",
+      "required": true,
+      "result": "PASS"
+    }
+  ]
+}

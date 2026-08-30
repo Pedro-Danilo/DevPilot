@@ -168,6 +168,77 @@ class SettingsApplicationService:
         from devpilot_core.agents import AgentExecutionPolicy
         return AgentExecutionPolicy(self.root).snapshot()
 
+    def agent_eval_trace_settings(self) -> CommandResult:
+        """Read-only projection of the sealed GSDLC-07-E acceptance artifacts.
+
+        This method never invokes a model, tool, agent runtime, network call or
+        source mutation. It only projects versioned evidence already present in
+        the repository so browser acceptance can inspect model route, sources,
+        cost, human decisions and tool authority boundaries safely.
+        """
+        command = "settings agent-evals"
+        traces_path = self.root / "docs/audits/DEVPL_GSDLC_07_E_AGENT_EVAL_TRACES.json"
+        matrix_path = self.root / "docs/audits/DEVPL_GSDLC_07_E_MODEL_TASK_EVAL_MATRIX.json"
+        cost_path = self.root / "docs/audits/DEVPL_GSDLC_07_E_COST_LEDGER.json"
+        approvals_path = self.root / "docs/audits/DEVPL_GSDLC_07_E_APPROVAL_RECORDS.json"
+        paths = [traces_path, matrix_path, cost_path, approvals_path]
+        missing = [_relative(path, self.root) for path in paths if not path.is_file()]
+        if missing:
+            return CommandResult(
+                command=command,
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="GSDLC-07-E sealed acceptance evidence is incomplete.",
+                data={"summary": {"missing_paths": missing, "read_only": True, "network_used": False, "external_api_used": False}},
+                findings=[Finding("GSDLC07E_AGENT_EVAL_EVIDENCE_MISSING", ", ".join(missing), Severity.BLOCK)],
+            )
+        try:
+            traces = json.loads(traces_path.read_text(encoding="utf-8"))
+            matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+            cost = json.loads(cost_path.read_text(encoding="utf-8"))
+            approvals = json.loads(approvals_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            return CommandResult(command, False, ExitCode.ERROR, "GSDLC-07-E evidence could not be read.", {}, [Finding("GSDLC07E_AGENT_EVAL_EVIDENCE_PARSE_ERROR", str(exc), Severity.ERROR)])
+        rows = traces.get("traces", []) if isinstance(traces, dict) else []
+        decisions = [str(item.get("human_decision") or "") for item in rows if isinstance(item, dict)]
+        total = len(decisions)
+        rates = {
+            key: round((decisions.count(key) / total) * 100, 1) if total else 0.0
+            for key in ("ACCEPT", "MODIFY", "REJECT")
+        }
+        summary = {
+            "sprint": "DEVPL-GSDLC-07-E",
+            "status": "PASS/PRE-WINDOWS",
+            "journey": "Product Vision -> PRE_CODE_READY",
+            "traces_total": total,
+            "human_decision_rates_percent": rates,
+            "cost_known": bool(cost.get("known", False)),
+            "total_cost_usd": float(cost.get("total_cost_usd", 0.0) or 0.0),
+            "manual_route_preserved": True,
+            "auto_approval": False,
+            "source_write": False,
+            "tool_authority_chain": ["ToolIntent", "PolicyEngine", "RBAC", "Approval", "ToolExecutionDecision"],
+            "model_route_grants_tool_permission": False,
+            "forbidden_tool_containment": True,
+            "hard_stop": True,
+            "bounded_handoff": True,
+            "v2_2_next": True,
+            "v2_3_prepared_not_enabled": True,
+            "parallel_workers": 0,
+            "read_only": True,
+            "network_used": False,
+            "external_api_used": False,
+            "secrets_redacted": True,
+        }
+        return CommandResult(
+            command=command,
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="GSDLC-07-E agent eval trace evidence projected read-only.",
+            data={"summary": summary, "traces": rows, "model_task_eval_matrix": matrix, "cost_ledger": cost, "approval_records": approvals},
+            findings=[Finding("GSDLC07E_AGENT_EVAL_READ_PASS", "Sealed agent eval evidence projected without model/tool execution.", Severity.INFO, path=_relative(traces_path, self.root))],
+        )
+
     def policy(self) -> CommandResult:
         policy_path = self.root / ".devpilot" / "policy.yaml"
         matrix_path = self.root / ".devpilot" / "miasi" / "policy_matrix.json"

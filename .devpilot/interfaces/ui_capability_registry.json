@@ -10853,7 +10853,7 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-07-D",
+    "updated_by": "DEVPL-GSDLC-07-E",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -10882,7 +10882,10 @@
     "gsdlc_07_b_rag_context_api_routes_total": 1,
     "gsdlc_07_c_artifact_ai_panel": true,
     "gsdlc_07_d_skill_tool_policy": true,
-    "gsdlc_07_d_agent_execution_api_routes_total": 6
+    "gsdlc_07_d_agent_execution_api_routes_total": 6,
+    "gsdlc_07_e_agent_eval_trace_view": true,
+    "gsdlc_07_e_agent_eval_top_level_routes_added": 0,
+    "gsdlc_07_e_manual_route_preserved": true
   },
   "ui_routes": [
     {
@@ -11463,6 +11466,6 @@
       ]
     }
   ],
-  "updated": "2026-08-29",
+  "updated": "2026-08-30",
   "version": "1.3.0"
 }

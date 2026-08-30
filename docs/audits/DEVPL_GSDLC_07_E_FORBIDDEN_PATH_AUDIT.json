@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-E",
+  "updated": "2026-08-30",
+  "forbidden_patterns": [".git/", ".venv/", "outputs/", ".pytest_cache/", "__pycache__/", "node_modules/", ".vite/", ".devpilot/devpilot.db", ".devpilot/auth/auth.db"],
+  "forbidden_paths_in_source_delta": [],
+  "runtime_ephemeral_excluded": true
+}

@@ -1,0 +1,28 @@
+{
+  "status": "PASS/PRE-WINDOWS",
+  "version": "1.0.1",
+  "owner": "DEVPL-GSDLC-07-E",
+  "updated": "2026-08-30",
+  "checks": {
+    "schema_metadata_current_active_consistent": true,
+    "derived_counters_reconciled": true,
+    "sensitive_action_policy_rbac_approval_bound": true,
+    "ui_capability_api_mapping_current": true,
+    "source_registry_project_state_readme_roadmap_compatible": true,
+    "historical_current_state_confusion_introduced": false,
+    "historical_pointer_reused": false,
+    "runtime_ephemeral_excluded": true,
+    "sealed_evidence_rewritten_after_hash": false,
+    "successor_registry_updated": true,
+    "protected_api_routes_have_server_rbac_mapping": true
+  },
+  "blockers": [],
+  "api_rbac_parity": {
+    "protected_api_route_policies_total": 139,
+    "server_rbac_route_policies_total": 146,
+    "missing_total": 0,
+    "missing": [],
+    "deny_by_default_preserved": true,
+    "legacy_token_authority_expanded": false
+  }
+}

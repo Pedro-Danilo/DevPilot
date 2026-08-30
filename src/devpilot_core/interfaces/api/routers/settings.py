@@ -83,6 +83,10 @@ def settings_rag_context(step_id: str = "requirements", service: ApplicationServ
 def settings_agent_execution(service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     return _json(*dispatch_application_request(service, operation="settings.agent_execution", payload={}))
 
+@router.get("/api/v1/settings/agent-evals", openapi_extra={"x-devpilot-api-id": "API-GSDLC07E-01"})
+def settings_agent_evals(service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    return _json(*dispatch_application_request(service, operation="settings.agent_evals", payload={}))
+
 
 class AgentExecutionSessionBody(BaseModel):
     role_id: str = Field(default="requirements")

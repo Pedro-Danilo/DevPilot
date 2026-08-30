@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc.micro_sprint_closure.current.v1",
+  "micro_sprint": "GSDLC-07-D",
+  "status": "CLOSED/PASS-WITH-S2-EVIDENCE-GAP",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-30",
+  "source_repo": "repo_DevPilot_Local_385_DEVPL_GSDLC_07_D_TOOLS_APPROVALS_LIMITS_HANDOFFS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "a7a2af0660242633fb8e4a721fba3629304a60c6",
+  "source_repo_sha256": "45a394cb1c3e4e235eae5a6c354ab492b9e3229822f9269bdf144c5c66b1bb30",
+  "s0_open": 0,
+  "s1_open": 0,
+  "s2_open": 1,
+  "gaps": ["S2-EVIDENCE-07D-001"],
+  "authorizes": "GSDLC-07-E"
+}

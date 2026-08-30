@@ -131,6 +131,11 @@ def _is_excluded(relative: Path) -> bool:
     normalized = str(relative).replace("\\", "/")
     if normalized in _EXCLUDED_FILES:
         return True
+    # SQLite runtime sidecars are ephemeral state and must never invalidate a
+    # sealed source fingerprint. This covers auth/devpilot DB WAL/SHM/journal
+    # files created while API/UI are running during the single logical full.
+    if any(normalized == f"{base}{suffix}" for base in _EXCLUDED_FILES for suffix in ("-wal", "-shm", "-journal", ".wal", ".shm", ".journal")):
+        return True
     if normalized.endswith((".pyc", ".pyo")):
         return True
     return False

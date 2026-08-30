@@ -539,3 +539,17 @@ El backlog solo puede adjudicarse `CLOSED/PASS` si todos los micro-sprints A→E
 - GSDLC-08 solo después de cerrar pre-code agent-assisted sin bypass de gates.
 
 Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps estén clasificados S2/S3, tengan owner, evidencia y no invaliden la invariante de producto de esta ola.
+
+## 14. Execution reconciliation — GSDLC-07-E candidate (2026-08-30)
+
+Execution authority for 07-E is the Windows-validated 07-D successor:
+
+```text
+repo    repo_DevPilot_Local_385_DEVPL_GSDLC_07_D_TOOLS_APPROVALS_LIMITS_HANDOFFS_WINDOWS_VALIDATED_CANDIDATE.zip
+commit  a7a2af0660242633fb8e4a721fba3629304a60c6
+sha256  45a394cb1c3e4e235eae5a6c354ab492b9e3229822f9269bdf144c5c66b1bb30
+```
+
+07-D is owner-adjudicated `CLOSED/PASS-WITH-S2-EVIDENCE-GAP`; `S2-EVIDENCE-07D-001` is evidence-only and does not reopen product behavior.
+
+07-E candidate implements AgenticPrecodeAcceptanceEvaluator, AgentEvalTraceView and FullRegressionTelemetryExporter. The candidate remains `PASS/PRE-WINDOWS`: browser evidence and the unique logical full-regression session are intentionally not consumed locally. On final 07-E closure, the next engineering action is Full Regression v2.2 temporal distribution; v2.3 remains prepared/not-enabled with workers=0.

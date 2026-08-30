@@ -1,11 +1,11 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
-  "version": "1.5.0",
-  "micro_sprint": "DEVPL-GSDLC-07-D",
+  "version": "1.6.0",
+  "micro_sprint": "DEVPL-GSDLC-07-E",
   "status": "implemented/ready-for-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
-  "source_repo": "repo_DevPilot_Local_373_DEVPL_GSDLC_05_D_STEP_ACTION_ADVISOR_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_repo": "repo_DevPilot_Local_385_DEVPL_GSDLC_07_D_TOOLS_APPROVALS_LIMITS_HANDOFFS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "canonical_roles": [
     "owner",
     "product-owner",
@@ -3142,6 +3142,30 @@
       "deny_by_default": true
     },
     {
+      "route_id": "api.settings.agent-evals",
+      "method": "GET",
+      "path": "/api/v1/settings/agent-evals",
+      "operation": "settings.agent_evals",
+      "access_class": "authenticated-agent-evals-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "low",
+      "deny_by_default": true
+    },
+    {
       "route_id": "api.settings.agent-execution.create",
       "method": "POST",
       "path": "/api/v1/settings/agent-execution/sessions",
@@ -3478,7 +3502,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 145,
+    "route_policies_total": 146,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3498,11 +3522,12 @@
     "gsdlc_06_c_legacy_token_allowed_total": 0,
     "gsdlc_06_c_owner_only_action_policies_total": 5,
     "gsdlc_06_c_runtime_mutation_policies_total": 3,
-    "human_session_required_total": 69,
+    "human_session_required_total": 70,
     "legacy_token_allowed_total": 69,
     "gsdlc_07_b_rag_context_policies_total": 1,
     "gsdlc_07_c_agent_assist_policies_total": 4,
-    "gsdlc_07_d_agent_execution_policies_total": 6
+    "gsdlc_07_d_agent_execution_policies_total": 6,
+    "gsdlc_07_e_agent_evals_policies_total": 1
   },
   "safety": {
     "legacy_token_human_authority": false,
@@ -3513,7 +3538,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-07-D",
+  "updated_by": "DEVPL-GSDLC-07-E",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -3522,9 +3547,11 @@
     "GSDLC-03-B adds two human-session-required planning-only Project Entry policies; legacy local token is not human authority.",
     "GSDLC-03-A-at-close RBAC snapshot remains frozen at 98 route policies.",
     "GSDLC-04-C adds three human-session-only PASTE/UPLOAD/IMPORT runtime-DRAFT routes; no legacy-token authority and no source write.",
-    "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced."
+    "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced.",
+    "GSDLC-07-E registers settings.agent_evals as a human-session-required, deny-by-default read-only route; legacy token cannot substitute human authority."
   ],
   "gsdlc_07_a_agent_runtime_route_registered": true,
   "gsdlc_07_b_rag_context_route_registered": true,
-  "gsdlc_07_d_agent_execution_routes_registered": true
+  "gsdlc_07_d_agent_execution_routes_registered": true,
+  "gsdlc_07_e_agent_evals_route_registered": true
 }

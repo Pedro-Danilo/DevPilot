@@ -15563,6 +15563,102 @@
           }
         }
       }
+    },
+    "/api/v1/settings/agent-evals": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Read sealed GSDLC-07-E agent eval traces",
+        "operationId": "settings_agent_evals",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC07E-01",
+        "x-devpilot-operation": "settings.agent_evals",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> SettingsApplicationService.agent_eval_trace_settings",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-E",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "Read-only projection of sealed GSDLC-07-E AgentEvalTrace/model-task/cost/human-decision evidence. No model/tool execution, network, external API or source mutation.",
+        "x-devpilot-local-only": true
+      }
     }
   },
   "components": {

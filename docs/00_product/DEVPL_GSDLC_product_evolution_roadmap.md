@@ -521,3 +521,7 @@ Antes de 07-A se ejecuta una transición no funcional mínima: materialización 
 - 07-C: AgentAssistService + ArtifactAIPanel + AgentProvenance; mock/fake-local, proposal/diff review, human ACCEPT/REJECT/MODIFY, DRAFT-only persistence.
 - No automatic APPROVED/FROZEN; manual route remains first-class; full regression remains reserved for 07-E.
 - Next only after Windows owner adjudication: GSDLC-07-D.
+
+## Execution note — GSDLC-07-E and Full Regression v2.2/v2.3
+
+GSDLC-07-E is prepared as the closing micro-sprint of DEVPL-GSDLC-07. Its Windows closure produces the first authoritative per-node full-regression duration telemetry. Immediately after 07-E `CLOSED/PASS`, the planned engineering succession is **Full Regression v2.2 — Distribución temporal inteligente**. v2.3 parallelism is only prepared by conservative `UNCLASSIFIED / parallel_safe=false / workers=0` telemetry and is not enabled by 07-E.

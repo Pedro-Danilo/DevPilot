@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-29",
-  "sprint": "DEVPL-GSDLC-07-D",
+  "updated": "2026-08-30",
+  "sprint": "DEVPL-GSDLC-07-E",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3435,7 +3435,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-07-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-E-AGENT-EVAL-TRACE-V1",
+      "title": "AgentEvalTrace v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_eval_trace.schema.json",
+      "description": "GSDLC-07-E trace contract exposing agent/runtime/model route, provenance, cost and human decision without tool authority.",
+      "status": "registered",
+      "contract": "AgentEvalTrace",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-E"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-E-FULL-REGRESSION-TELEMETRY-HANDOFF-V1",
+      "title": "FullRegressionTelemetryHandoff v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/full_regression_telemetry_handoff.schema.json",
+      "description": "GSDLC-07-E immutable node outcome/duration telemetry handoff for v2.2; v2.3 remains UNCLASSIFIED/parallel-disabled.",
+      "status": "registered",
+      "contract": "FullRegressionTelemetryHandoff",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-E"
     }
   ],
-  "schemas_total": 239
+  "schemas_total": 241
 }

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-07-E-FULL-REGRESSION-TELEMETRY-HANDOFF-V1",
+  "title": "FullRegressionTelemetryHandoff",
+  "type": "object",
+  "required": ["schema_id", "status", "version", "owner", "session_id", "samples_total", "samples", "v2_2", "v2_3"],
+  "properties": {
+    "schema_id": {"const": "FullRegressionTelemetryHandoff"},
+    "status": {"enum": ["PASS", "BLOCK"]},
+    "version": {"type": "string"},
+    "owner": {"const": "DEVPL-GSDLC-07-E"},
+    "updated": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "session_id": {"type": "string"},
+    "samples_total": {"type": "integer", "minimum": 0},
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["nodeid", "outcome", "duration_seconds", "v2_3_isolation"],
+        "properties": {
+          "nodeid": {"type": "string"},
+          "outcome": {"enum": ["PASS", "FAIL", "ERROR", "SKIP_APPROVED"]},
+          "duration_seconds": {"type": "number", "minimum": 0},
+          "source_receipt": {"type": "string"},
+          "v2_3_isolation": {
+            "type": "object",
+            "required": ["classification", "parallel_safe", "explicit_review_required"],
+            "properties": {
+              "classification": {"const": "UNCLASSIFIED"},
+              "parallel_safe": {"const": false},
+              "explicit_review_required": {"const": true},
+              "shared_resource_hints": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "v2_2": {"type": "object"},
+    "v2_3": {"type": "object", "properties": {"parallel_execution_enabled": {"const": false}, "workers": {"const": 0}}, "required": ["parallel_execution_enabled", "workers"]}
+  },
+  "additionalProperties": false
+}

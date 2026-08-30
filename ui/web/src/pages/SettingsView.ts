@@ -15,6 +15,7 @@ import { renderModelSettingsView } from '../components/ModelSettingsView';
 import { renderAgentRuntimeView } from '../components/AgentRuntimeView';
 import { renderRagProvenanceView } from '../components/RagProvenanceView';
 import { renderSkillToolPolicyView } from '../components/SkillToolPolicyView';
+import { renderAgentEvalTraceView } from '../components/AgentEvalTraceView';
 import type { ControlledEvalMode, ProviderActionFeedback } from '../components/ModelSettingsView';
 
 // Provider editor plan-only contract marker retained for compatibility.
@@ -34,6 +35,7 @@ interface SettingsState extends SettingsSnapshot {
   agentExecutionSessionId?: string;
   agentExecutionStatus?: string;
   agentExecutionResult?: DevPilotApplicationResponse;
+  agentEvals?: DevPilotApplicationResponse;
   modelActionStatus?: string;
   modelEvalMode: ControlledEvalMode;
   modelEvalInputTokens: number;
@@ -80,6 +82,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       { key: 'agentRuntime', run: () => fresh.settingsAgentRuntime() },
       { key: 'ragContext', run: () => fresh.settingsRagContext('requirements') },
       { key: 'agentExecution', run: () => fresh.settingsAgentExecution() },
+      { key: 'agentEvals', run: () => fresh.settingsAgentEvals() },
       { key: 'portfolio', run: () => fresh.portfolioStatus() },
     ], 2, (result) => {
       state.durations[result.key] = result.durationMs;
@@ -92,13 +95,14 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
         if (result.key === 'agentRuntime') state.agentRuntime = result.value;
         if (result.key === 'ragContext') state.ragContext = result.value;
         if (result.key === 'agentExecution') state.agentExecution = result.value;
+        if (result.key === 'agentEvals') state.agentEvals = result.value;
         if (result.key === 'portfolio') state.portfolio = result.value;
       }
       if (result.error) state.errors[result.key] = result.error;
       draw();
     });
-    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'modelGateway', 'agentRuntime', 'ragContext', 'agentExecution', 'portfolio'];
-    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.modelGateway, state.agentRuntime, state.ragContext, state.agentExecution, state.portfolio].filter(Boolean);
+    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'modelGateway', 'agentRuntime', 'ragContext', 'agentExecution', 'agentEvals', 'portfolio'];
+    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.modelGateway, state.agentRuntime, state.ragContext, state.agentExecution, state.agentEvals, state.portfolio].filter(Boolean);
     if (responseKeys.some((key) => Boolean(state.errors[key]))) state.phase = 'error';
     else if (!responses.length) state.phase = 'empty';
     else state.phase = 'ready';
@@ -340,6 +344,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       agentRuntimeStatus: 'Autoridad separada; ejecución de agentes no se habilita desde Settings.',
       agentRuntimeHtml: renderAgentRuntimeView(state.agentRuntime?.data),
       ragProvenanceHtml: renderRagProvenanceView(state.ragContext?.data),
+      agentEvalHtml: renderAgentEvalTraceView(state.agentEvals?.data),
       skillsToolsHtml: renderSkillToolPolicyView(state.agentExecution?.data, { sessionId: state.agentExecutionSessionId, actionStatus: state.agentExecutionStatus, lastResult: state.agentExecutionResult, pending: state.pendingAction === 'agentExecution' }),
       skillsToolsStatus: 'ToolIntent → Policy/RBAC/Approval → ToolExecutionDecision; kill/cancel server-side.',
     });

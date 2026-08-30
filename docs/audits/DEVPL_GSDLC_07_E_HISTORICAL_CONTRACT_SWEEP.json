@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-E",
+  "updated": "2026-08-30",
+  "classification": {
+    "historical-freeze": ["UOC-010 AI console constraints", "GSDLC-07-A role binding close", "GSDLC-07-D forbidden-tool historical evidence"],
+    "current-active": ["AI Control Center settings projection", "API service mapping", "TCR v1/v2", "Project State"],
+    "successor-needed": ["GSDLC-07-E AgentEvalTraceView", "FullRegressionTelemetryHandoff"],
+    "deprecated-after-proof": []
+  },
+  "historical_assertions_rewritten_for_pytest": false,
+  "runtime_ephemeral": [".devpilot/auth/auth.db*", ".devpilot/devpilot.db*", "outputs/**", ".vite/**"]
+}

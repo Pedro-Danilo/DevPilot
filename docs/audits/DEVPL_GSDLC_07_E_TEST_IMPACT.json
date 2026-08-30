@@ -1,0 +1,21 @@
+{
+  "status": "PASS/PRE-FULL",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-E",
+  "updated": "2026-08-30",
+  "full_regression_consumed": 0,
+  "domains": ["agentic.runtime", "rag", "model-gateway", "tool-policy", "api", "ui", "documentation", "full-regression-v2.1"],
+  "required_focal_tests": [
+    "tests/test_devpl_gsdlc_07_e_agentic_precode.py",
+    "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+    "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+    "tests/test_devpl_gsdlc_07_b_context_pack_v2.py",
+    "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py",
+    "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py",
+    "tests/test_devpl_gsdlc_07_full_regression_cli_contract.py",
+    "tests/test_api_contract.py"
+  ],
+  "browser_required": true,
+  "full_required_at_close": true,
+  "second_full_allowed": false
+}

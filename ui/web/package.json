@@ -3,7 +3,7 @@
   "version": "0.24.0-gsdlc-07-d",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI \u2014 GSDLC-07-A contextual agent role bindings and AgentRuntimeView.",
+  "description": "DevPilot Local Web UI — GSDLC-07-A contextual agent role bindings and AgentRuntimeView.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -34,7 +34,8 @@
     "test:agent-runtime": "node scripts/gsdlc07a-agent-runtime-smoke.mjs",
     "test:rag-provenance": "node scripts/gsdlc07b-rag-provenance-smoke.mjs",
     "test:gsdlc07c-artifact-ai": "node scripts/gsdlc07c-artifact-ai-smoke.mjs",
-    "test:skill-tool-policy": "node scripts/gsdlc07d-skill-tool-policy-smoke.mjs"
+    "test:skill-tool-policy": "node scripts/gsdlc07d-skill-tool-policy-smoke.mjs",
+    "test:gsdlc07e-agent-eval-trace": "node scripts/gsdlc07e-agent-eval-trace-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
