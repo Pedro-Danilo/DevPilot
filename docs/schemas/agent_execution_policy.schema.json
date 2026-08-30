@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1",
+  "title": "AgentExecutionPolicy",
+  "type": "object",
+  "required": ["schema_id", "schema_version", "contract_id", "version", "status", "owner", "dry_run_first", "decision_authority", "global_forbidden_tools", "handoff", "kill_cancel", "experiments", "authority_invariants"],
+  "properties": {
+    "schema_id": {"const": "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1"},
+    "schema_version": {"const": "1.0"},
+    "contract_id": {"const": "devpl-gsdlc-07-d-agent-execution-policy"},
+    "version": {"type": "string"}, "status": {"type": "string"}, "owner": {"type": "string"}, "updated": {"type": "string"},
+    "default_mode": {"enum": ["mock", "fake-local"]}, "dry_run_first": {"const": true},
+    "decision_authority": {"type": "array", "contains": {"const": "PolicyEngine"}},
+    "global_forbidden_tools": {"type": "array", "contains": {"const": "filesystem.delete"}},
+    "safe_fake_local_execution_tools": {"type": "array"},
+    "limits_server_side": {"const": true},
+    "handoff": {"type": "object", "required": ["explicit_transfer_state", "human_checkpoint_required", "tool_scope_inheritance"], "properties": {"explicit_transfer_state": {"const": true}, "human_checkpoint_required": {"const": true}, "tool_scope_inheritance": {"const": false}}},
+    "kill_cancel": {"type": "object"}, "experiments": {"type": "object"},
+    "authority_invariants": {"type": "object", "required": ["model_route_can_grant_tool_permission", "agent_role_can_approve", "self_approval", "arbitrary_shell"], "properties": {"model_route_can_grant_tool_permission": {"const": false}, "agent_role_can_approve": {"const": false}, "self_approval": {"const": false}, "arbitrary_shell": {"const": false}}}
+  },
+  "additionalProperties": true
+}

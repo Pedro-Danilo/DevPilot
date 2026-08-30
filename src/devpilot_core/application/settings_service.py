@@ -164,6 +164,10 @@ class SettingsApplicationService:
         from devpilot_core.rag import ContextPackV2Builder, ContextPackV2Options
         return ContextPackV2Builder(self.root, ContextPackV2Options(step_id=step_id)).build()
 
+    def agent_execution_settings(self) -> CommandResult:
+        from devpilot_core.agents import AgentExecutionPolicy
+        return AgentExecutionPolicy(self.root).snapshot()
+
     def policy(self) -> CommandResult:
         policy_path = self.root / ".devpilot" / "policy.yaml"
         matrix_path = self.root / ".devpilot" / "miasi" / "policy_matrix.json"

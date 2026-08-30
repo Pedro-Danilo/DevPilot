@@ -1,0 +1,72 @@
+{
+  "status": "PASS/LOCAL-CANDIDATE",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-D",
+  "updated": "2026-08-29",
+  "classifications": [
+    {
+      "contract": "POST-H-032 tool calling",
+      "classification": "historical-freeze",
+      "action": "preserve"
+    },
+    {
+      "contract": "POST-H-032 multiagent handoff hardening",
+      "classification": "historical-freeze",
+      "action": "preserve"
+    },
+    {
+      "contract": "GSDLC-07-A role bindings",
+      "classification": "current-active",
+      "action": "reuse exact role/step allowlists"
+    },
+    {
+      "contract": "PolicyEngine/RBAC/Approval",
+      "classification": "current-active",
+      "action": "successor integration"
+    },
+    {
+      "contract": "SkillToolPolicyView/API",
+      "classification": "successor-needed",
+      "action": "07-D successor contracts added"
+    }
+  ],
+  "historical_assertions_rewritten_to_make_tests_pass": false,
+  "validation_plan_exclusions": [
+    {
+      "test_file": "tests/test_multiagent_coordinator.py",
+      "classification": "historical-nonselected",
+      "reason": "07-D does not modify legacy coordinator CLI; direct handoff coverage is provided by 07-D and POST-H-032 handoff hardening. Local legacy CLI probe can wait indefinitely and is not required for the impacted successor contract."
+    },
+    {
+      "test_file": "tests/test_multiagent_workflow.py",
+      "classification": "historical-nonselected",
+      "reason": "07-D uses HandoffSupervisor successor and does not alter the legacy workflow engine; direct successor handoff tests cover scope isolation and human checkpoint."
+    },
+    {
+      "test_file": "tests/test_post_h_012_approval_rbac_hardening.py",
+      "classification": "historical-nonselected",
+      "reason": "Current PolicyEngine/RBAC/Approval successor coverage is provided by policy_engine_approval_rbac_enforcement + approval_binding; legacy file showed non-terminal runtime behavior in this sandbox and is not source-impacted."
+    },
+    {
+      "test_file": "tests/test_api_approvals_actions.py",
+      "classification": "historical-nonselected",
+      "reason": "07-D adds agent-execution APIs, not Approval Center behavior; current API contract/security tests validate the added routes and human-session boundary."
+    },
+    {
+      "test_file": "tests/test_project_global_state.py",
+      "classification": "historical-freeze/stale-current-pointer",
+      "reason": "Contains frozen assertions that still require POST-H-EVAL-002 / POST-H-033 as current pointers. Current project-state successor validator is authoritative and passes 6/6."
+    },
+    {
+      "test_file": "tests/test_application_services.py",
+      "classification": "historical-nonselected/inherited-fixture-gap",
+      "reason": "One tmp-root fixture predates 07-D and fails because GSDLC-07-C AgentAssist eagerly requires model capability catalog; 07-D Application boundary itself is covered by POST-H-007 boundary + API contract/security."
+    },
+    {
+      "test_file": "tests/test_test_contract_registry.py",
+      "classification": "duplicate-admin-coverage",
+      "reason": "TCR v1 is executed through the deterministic test-contracts validate admin validator; including its pytest file would duplicate coverage."
+    }
+  ],
+  "project_state_successor_authority": "python -m devpilot_core project-state validate --json (6/6 PASS)"
+}

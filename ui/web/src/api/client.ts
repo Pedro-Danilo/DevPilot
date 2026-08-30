@@ -1,4 +1,4 @@
-import type { AgentRuntimeSettingsData, RagContextSettingsData, AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
+import type { AgentRuntimeSettingsData, AgentExecutionSettingsData, RagContextSettingsData, AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
@@ -326,6 +326,26 @@ export class DevPilotApiClient {
 
   async settingsRagContext(stepId = 'requirements'): Promise<DevPilotApplicationResponse<RagContextSettingsData>> {
     return this.get(`/settings/rag-context${this.query({ step_id: stepId })}`, { timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async settingsAgentExecution(): Promise<DevPilotApplicationResponse<AgentExecutionSettingsData>> {
+    return this.get('/settings/agent-execution', { timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async createAgentExecutionSession(payload: { role_id: string; step_id: string; mode?: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/agent-execution/sessions', payload, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
+  }
+
+  async submitAgentToolIntent(sessionId: string, payload: Record<string, unknown>): Promise<DevPilotApplicationResponse> {
+    return this.post(`/settings/agent-execution/sessions/${encodeURIComponent(sessionId)}/tool-intents`, payload, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
+  }
+
+  async handoffAgentExecution(sessionId: string, payload: { to_role_id: string; to_step_id: string; reason: string; human_checkpoint: boolean }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/settings/agent-execution/sessions/${encodeURIComponent(sessionId)}/handoff`, payload, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
+  }
+
+  async controlAgentExecution(sessionId: string, action: 'cancel' | 'kill', reason: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/settings/agent-execution/sessions/${encodeURIComponent(sessionId)}/${action}`, { reason }, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
   }
 
   async settingsModelGateway(previewInputTokens = 1200, previewOutputTokens = 300): Promise<DevPilotApplicationResponse<ModelGatewaySettingsData>> {

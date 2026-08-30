@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-07-D-HANDOFF-TRANSFER-STATE-V1",
+  "title": "HandoffTransferState",
+  "type": "object",
+  "required": ["transfer_id", "session_id", "from_role_id", "to_role_id", "from_step_id", "to_step_id", "reason", "human_checkpoint", "scope_inherited", "status", "created_at"],
+  "properties": {"transfer_id": {"type": "string", "pattern": "^ht_"}, "session_id": {"type": "string"}, "from_role_id": {"type": "string"}, "to_role_id": {"type": "string"}, "from_step_id": {"type": "string"}, "to_step_id": {"type": "string"}, "reason": {"type": "string"}, "human_checkpoint": {"const": true}, "scope_inherited": {"const": false}, "status": {"const": "transferred"}, "created_at": {"type": "string"}}, "additionalProperties": false
+}

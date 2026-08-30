@@ -223,6 +223,12 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/settings/model-gateway"): ApiRoutePolicy("settings.model_gateway", "read", "protected-settings-read", path_subject=".devpilot/modeling/model_capability_catalog.json"),
     ("GET", "/api/v1/settings/agent-runtime"): ApiRoutePolicy("settings.agent_runtime", "read", "protected-settings-read", path_subject=".devpilot/agents/agent_role_binding_catalog.json"),
     ("GET", "/api/v1/settings/rag-context"): ApiRoutePolicy("settings.rag_context", "read", "protected-settings-read", path_subject=".devpilot/rag/context_pack_v2_policy.json"),
+    ("GET", "/api/v1/settings/agent-execution"): ApiRoutePolicy("settings.agent_execution", "read", "protected-settings-read", path_subject=".devpilot/agents/agent_execution_policy.json"),
+    ("POST", "/api/v1/settings/agent-execution/sessions"): ApiRoutePolicy("settings.agent_execution.create", "read", "protected-human-session-agent-execution"),
+    ("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents"): ApiRoutePolicy("settings.agent_execution.intent", "read", "protected-human-session-agent-execution"),
+    ("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/handoff"): ApiRoutePolicy("settings.agent_execution.handoff", "read", "protected-human-session-agent-execution"),
+    ("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/cancel"): ApiRoutePolicy("settings.agent_execution.cancel", "approval", "protected-human-session-agent-execution-control"),
+    ("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/kill"): ApiRoutePolicy("settings.agent_execution.kill", "approval", "protected-human-session-agent-execution-control"),
     ("POST", "/api/v1/settings/model-gateway/evaluate"): ApiRoutePolicy("settings.model_gateway.evaluate", "read", "protected-human-session-model-evaluation", path_subject=".devpilot/modeling/model_capability_catalog.json"),
     ("GET", "/api/v1/settings/policy"): ApiRoutePolicy("settings.policy", "read", "protected-settings-read", path_subject=".devpilot/policy.yaml"),
     ("POST", "/api/v1/settings/providers/plan"): ApiRoutePolicy("settings.providers.plan", "read", "protected-settings-plan", path_subject=".devpilot/providers.yaml"),
@@ -496,6 +502,15 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
     normalized = (method.upper(), path)
     if normalized in API_ROUTE_POLICIES:
         return API_ROUTE_POLICIES[normalized]
+    if method.upper() == "POST" and path.startswith("/api/v1/settings/agent-execution/sessions/"):
+        if path.endswith("/tool-intents"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents"))
+        if path.endswith("/handoff"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/handoff"))
+        if path.endswith("/cancel"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/cancel"))
+        if path.endswith("/kill"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/kill"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-reviews/imports/") and path.endswith("/start"):
         return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/imports/{import_id}/start"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-reviews/documents/") and path.endswith("/start"):

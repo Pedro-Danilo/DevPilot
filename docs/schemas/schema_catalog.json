@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-08-29",
-  "sprint": "DEVPL-GSDLC-07-A",
+  "sprint": "DEVPL-GSDLC-07-D",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3379,7 +3379,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-07-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1",
+      "title": "AgentExecutionPolicy v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_execution_policy.schema.json",
+      "description": "GSDLC-07-D Deterministic ToolIntent/ToolExecutionDecision authority, bounded limits, kill/cancel and disabled experiment posture.",
+      "status": "registered",
+      "contract": "AgentExecutionPolicy",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-INTENT-V1",
+      "title": "ToolIntent v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/tool_intent.schema.json",
+      "description": "GSDLC-07-D Agent/model proposal contract without tool execution authority.",
+      "status": "registered",
+      "contract": "ToolIntent",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-EXECUTION-DECISION-V1",
+      "title": "ToolExecutionDecision v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/tool_execution_decision.schema.json",
+      "description": "GSDLC-07-D Deterministic PolicyEngine/RBAC/Approval execution decision contract.",
+      "status": "registered",
+      "contract": "ToolExecutionDecision",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-D-HANDOFF-TRANSFER-STATE-V1",
+      "title": "HandoffTransferState v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/handoff_transfer_state.schema.json",
+      "description": "GSDLC-07-D Explicit bounded handoff transfer state with human checkpoint and no tool-scope inheritance.",
+      "status": "registered",
+      "contract": "HandoffTransferState",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-D"
     }
   ],
-  "schemas_total": 235
+  "schemas_total": 239
 }

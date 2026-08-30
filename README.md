@@ -1,5 +1,8 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
+GSDLC-07 execution status (2026-08-29): 07-A, 07-B and 07-C are `CLOSED/PASS`. 07-C successor authority is repo384 / `c70f878951d2bc3f39f34f74b8190ce7fff69ca2` / SHA `03c601399e27c2a110f502705043ea4bd9f3d719804fff0683acd9936e27e140`. 07-D implements bounded ToolIntent -> ToolExecutionDecision, approvals, limits, handoffs and SkillToolPolicyView; full regression remains 0 and reserved for 07-E.
+
+
 Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está en implementación. El activation enabler/FRX2.1 está CLOSED/PASS y 07-A está Windows-validated CLOSED/PASS; 07-B implementa ContextPack v2, provenance y budget sobre repo382.
 
 Fuente de ejecución de 04-B: `repo_DevPilot_Local_365_DEVPL_GSDLC_04_A_ARTIFACT_LIFECYCLE_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `6b6cb70eb16c94f4aa374fc74d9ff2f8f8b6c893`, SHA-256 `0359182b736d8cbb1f90ad92cf56fd02c7081fc357674597c02c2706fedb67a6`. Repo364 permanece ancestor histórico de 04-A.

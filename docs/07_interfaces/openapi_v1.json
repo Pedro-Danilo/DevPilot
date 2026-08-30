@@ -14892,6 +14892,677 @@
           }
         ]
       }
+    },
+    "/api/v1/settings/agent-execution": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Read-only SkillToolPolicyView projection.",
+        "operationId": "settings_agent_execution",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC07D-01",
+        "x-devpilot-operation": "settings.agent_execution",
+        "x-devpilot-status": "gsdlc-07-d-implemented-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-D",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "GSDLC-07-D bounded local agent-execution control. ModelRouteDecision never grants tool permission; PolicyEngine/RBAC/Approval remains authoritative. Read-only SkillToolPolicyView projection.",
+        "x-devpilot-local-only": true
+      }
+    },
+    "/api/v1/settings/agent-execution/sessions": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Creates bounded fake-local/mock runtime session only.",
+        "operationId": "settings_agent_execution_create",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC07D-02",
+        "x-devpilot-operation": "settings.agent_execution.create",
+        "x-devpilot-status": "gsdlc-07-d-implemented-initial",
+        "x-devpilot-side-effect": "runtime-ephemeral-write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-D",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "GSDLC-07-D bounded local agent-execution control. ModelRouteDecision never grants tool permission; PolicyEngine/RBAC/Approval remains authoritative. Creates bounded fake-local/mock runtime session only.",
+        "x-devpilot-local-only": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "ToolIntent -> deterministic ToolExecutionDecision; direct execution only safe fake-local policy.check.",
+        "operationId": "settings_agent_execution_intent",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC07D-03",
+        "x-devpilot-operation": "settings.agent_execution.intent",
+        "x-devpilot-status": "gsdlc-07-d-implemented-initial",
+        "x-devpilot-side-effect": "runtime-ephemeral-write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-D",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "GSDLC-07-D bounded local agent-execution control. ModelRouteDecision never grants tool permission; PolicyEngine/RBAC/Approval remains authoritative. ToolIntent -> deterministic ToolExecutionDecision; direct execution only safe fake-local policy.check.",
+        "x-devpilot-local-only": true,
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/settings/agent-execution/sessions/{session_id}/handoff": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Explicit handoff transfer with human checkpoint and no tool-scope inheritance.",
+        "operationId": "settings_agent_execution_handoff",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC07D-04",
+        "x-devpilot-operation": "settings.agent_execution.handoff",
+        "x-devpilot-status": "gsdlc-07-d-implemented-initial",
+        "x-devpilot-side-effect": "runtime-ephemeral-write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-D",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "GSDLC-07-D bounded local agent-execution control. ModelRouteDecision never grants tool permission; PolicyEngine/RBAC/Approval remains authoritative. Explicit handoff transfer with human checkpoint and no tool-scope inheritance.",
+        "x-devpilot-local-only": true,
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/settings/agent-execution/sessions/{session_id}/cancel": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Server-side cancellation of bounded runtime session.",
+        "operationId": "settings_agent_execution_cancel",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC07D-05",
+        "x-devpilot-operation": "settings.agent_execution.cancel",
+        "x-devpilot-status": "gsdlc-07-d-implemented-initial",
+        "x-devpilot-side-effect": "runtime-ephemeral-write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-D",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "GSDLC-07-D bounded local agent-execution control. ModelRouteDecision never grants tool permission; PolicyEngine/RBAC/Approval remains authoritative. Server-side cancellation of bounded runtime session.",
+        "x-devpilot-local-only": true,
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/settings/agent-execution/sessions/{session_id}/kill": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Owner-only kill switch for bounded runtime session.",
+        "operationId": "settings_agent_execution_kill",
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC07D-06",
+        "x-devpilot-operation": "settings.agent_execution.kill",
+        "x-devpilot-status": "gsdlc-07-d-implemented-initial",
+        "x-devpilot-side-effect": "runtime-ephemeral-write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "RBAC + PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy",
+        "x-devpilot-sprint": "DEVPL-GSDLC-07-D",
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "description": "GSDLC-07-D bounded local agent-execution control. ModelRouteDecision never grants tool permission; PolicyEngine/RBAC/Approval remains authoritative. Owner-only kill switch for bounded runtime session.",
+        "x-devpilot-local-only": true,
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

@@ -13,11 +13,11 @@ design_origin_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_RE
 design_origin_git_commit: "cff43e8d992ff6139bd13bb1809ce4d497ae0952"
 design_origin_repo_sha256: "e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b"
 design_origin_role: "historical-design-origin-only/not-execution-authority"
-source_repo: "repo_DevPilot_Local_383_DEVPL_GSDLC_07_B_RAG_CONTEXT_PACKS_PROVENANCE_BUDGET_WINDOWS_VALIDATED_CANDIDATE.zip"
-source_git_commit: "749d5f9ae039c961b506834de191b94bf65ff50b"
-source_repo_sha256: "d6535db2dd4e54414a38873379957619ed1e106258a625b268d08d89683a05aa"
+source_repo: "repo_DevPilot_Local_384_DEVPL_GSDLC_07_C_DRAFT_REWRITE_CRITIQUE_TRANSFORM_WINDOWS_VALIDATED_CANDIDATE.zip"
+source_git_commit: "c70f878951d2bc3f39f34f74b8190ce7fff69ca2"
+source_repo_sha256: "03c601399e27c2a110f502705043ea4bd9f3d719804fff0683acd9936e27e140"
 source_repo_role: "execution-authority/owner-adjudicated-gsdlc-06-successor"
-execution_source_policy: "rebound/repo383-windows-validated/07-c"
+execution_source_policy: "rebound/repo384-windows-validated/07-d"
 predecessor_backlog: "DEVPL-GSDLC-06"
 predecessor_micro_sprint_closure: "DEVPL_GSDLC_06_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md"
 predecessor_backlog_closure: "DEVPL_GSDLC_06_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md"
@@ -101,6 +101,14 @@ Se adopta `DEVPL_TESTING_FULL_REGRESSION_EXECUTION_V2_ARCHITECTURE_v1_0_0.md`.
 ## 0.4 Rebound 07-B (2026-08-29)
 
 GSDLC-07-A quedó owner-adjudicated `CLOSED/PASS` sobre commit `807685993b9ef526d1274fd8d3440fb14f6e56cf`. La autoridad funcional para 07-B es repo382 Windows-validated (SHA-256 `dfde12877a1f9a96297aab42ad30a4f85a64216e42004042e43b7a51ded1e865`). La implementación de 07-B debe evolucionar los contratos RAG históricos mediante successor `ContextPack v2`; no se reescriben snapshots históricos POST-H-032.
+
+## 0.4 Estado reconciliado para GSDLC-07-D — 2026-08-29
+
+- `GSDLC-07-A = CLOSED/PASS`.
+- `GSDLC-07-B = CLOSED/PASS`.
+- `GSDLC-07-C = CLOSED/PASS`; successor repo384 / commit `c70f878951d2bc3f39f34f74b8190ce7fff69ca2` / SHA `03c601399e27c2a110f502705043ea4bd9f3d719804fff0683acd9936e27e140`.
+- `GSDLC-07-D = IMPLEMENTED-INITIAL / LOCAL-VALIDATION-PENDING` durante construcción de este successor.
+- Full regression consumida en GSDLC-07: `0`; la única logical full continúa reservada para 07-E.
 
 # DEVPL-GSDLC-07 — Agent-assisted Engineering, contextual RAG and bounded handoffs
 

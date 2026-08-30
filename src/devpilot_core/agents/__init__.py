@@ -97,3 +97,6 @@ __all__ = [
     "AgentToolCall",
     "ModelAwareAgent",
 ]
+
+# DEVPL-GSDLC-07-D bounded execution successor contracts.
+from .execution_policy import AgentExecutionPolicy, ToolIntent, ToolExecutionDecision

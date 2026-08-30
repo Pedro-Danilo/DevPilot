@@ -16,3 +16,6 @@ __all__ = [
     "MultiAgentWorkflowRunner",
     "MultiAgentWorkflowRunOptions",
 ]
+
+# DEVPL-GSDLC-07-D explicit bounded handoff supervisor.
+from .supervisor import HandoffSupervisor, HandoffTransferState

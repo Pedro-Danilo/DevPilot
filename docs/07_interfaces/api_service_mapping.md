@@ -514,3 +514,18 @@ Routes: `/api/v1/workspace/artifact-assist/documents/{document_id}/plan`, `/api/
 - `API-GSDLC07C-DECISION` — GSDLC-07-C Agent Assist governed runtime route.
 
 - `API-GSDLC07C-GET` — GSDLC-07-C Agent Assist governed runtime route.
+| `GET` | `/api/v1/settings/agent-execution` | `settings.agent_execution` | `ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy` | Human session / RBAC / PolicyEngine / Approval | runtime-only=false, source-write=false |
+| `POST` | `/api/v1/settings/agent-execution/sessions` | `settings.agent_execution.create` | `ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy` | Human session / RBAC / PolicyEngine / Approval | runtime-only=true, source-write=false |
+| `POST` | `/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents` | `settings.agent_execution.intent` | `ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy` | Human session / RBAC / PolicyEngine / Approval | runtime-only=true, source-write=false |
+| `POST` | `/api/v1/settings/agent-execution/sessions/{session_id}/handoff` | `settings.agent_execution.handoff` | `ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy` | Human session / RBAC / PolicyEngine / Approval | runtime-only=true, source-write=false |
+| `POST` | `/api/v1/settings/agent-execution/sessions/{session_id}/cancel` | `settings.agent_execution.cancel` | `ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy` | Human session / RBAC / PolicyEngine / Approval | runtime-only=true, source-write=false |
+| `POST` | `/api/v1/settings/agent-execution/sessions/{session_id}/kill` | `settings.agent_execution.kill` | `ApplicationService -> AgentExecutionApplicationService -> AgentExecutionPolicy` | Human session / RBAC / PolicyEngine / Approval | runtime-only=true, source-write=false |
+
+### GSDLC-07-D — Agent execution policy routes
+
+- `API-GSDLC07D-01` — `GET /api/v1/settings/agent-execution` — `settings.agent_execution`.
+- `API-GSDLC07D-02` — `POST /api/v1/settings/agent-execution/sessions` — `settings.agent_execution.create`.
+- `API-GSDLC07D-03` — `POST /api/v1/settings/agent-execution/sessions/{session_id}/tool-intents` — `settings.agent_execution.intent`.
+- `API-GSDLC07D-04` — `POST /api/v1/settings/agent-execution/sessions/{session_id}/handoff` — `settings.agent_execution.handoff`.
+- `API-GSDLC07D-05` — `POST /api/v1/settings/agent-execution/sessions/{session_id}/cancel` — `settings.agent_execution.cancel`.
+- `API-GSDLC07D-06` — `POST /api/v1/settings/agent-execution/sessions/{session_id}/kill` — `settings.agent_execution.kill`.

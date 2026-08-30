@@ -1,0 +1,39 @@
+{
+  "$schema": "../../docs/schemas/agent_execution_policy.schema.json",
+  "schema_id": "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1",
+  "schema_version": "1.0",
+  "contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
+  "version": "1.0.0",
+  "status": "implemented-initial",
+  "owner": "DEVPL-GSDLC-07-D",
+  "updated": "2026-08-29",
+  "default_mode": "fake-local",
+  "dry_run_first": true,
+  "decision_authority": ["PolicyEngine", "RBAC", "Approval"],
+  "global_forbidden_tools": ["filesystem.delete", "connector.write", "plugin.code.execute", "remote.runner.execute", "rollback.execute", "shell.raw_execute"],
+  "safe_fake_local_execution_tools": ["policy.check"],
+  "limits_server_side": true,
+  "handoff": {
+    "explicit_transfer_state": true,
+    "human_checkpoint_required": true,
+    "tool_scope_inheritance": false
+  },
+  "kill_cancel": {
+    "cancel_enabled": true,
+    "kill_enabled": true,
+    "post_terminal_tool_intent_executable": false
+  },
+  "experiments": {
+    "real_mcp_execution": "NOT_ENABLED/CANDIDATE_EXPERIMENT",
+    "autonomous_recovery": "BLOCK_PRODUCTION/CANDIDATE_EXPERIMENT",
+    "external_agent_framework_execution": "NOT_ENABLED/CANDIDATE_EXPERIMENT"
+  },
+  "authority_invariants": {
+    "model_route_can_grant_tool_permission": false,
+    "agent_role_can_approve": false,
+    "self_approval": false,
+    "arbitrary_shell": false,
+    "force_push": false,
+    "source_write_by_agent": false
+  }
+}

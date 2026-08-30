@@ -14,6 +14,7 @@ import { renderAIControlCenterShell } from '../components/AIControlCenterView';
 import { renderModelSettingsView } from '../components/ModelSettingsView';
 import { renderAgentRuntimeView } from '../components/AgentRuntimeView';
 import { renderRagProvenanceView } from '../components/RagProvenanceView';
+import { renderSkillToolPolicyView } from '../components/SkillToolPolicyView';
 import type { ControlledEvalMode, ProviderActionFeedback } from '../components/ModelSettingsView';
 
 // Provider editor plan-only contract marker retained for compatibility.
@@ -29,7 +30,10 @@ interface SettingsState extends SettingsSnapshot {
   providerPlanEndpoint?: string;
   providerPlanDurationMs?: number;
   providerPlanTimeoutBudgetMs: number;
-  pendingAction?: 'providerPlan' | 'modelEval' | 'providerDisable' | 'providerRevoke';
+  pendingAction?: 'providerPlan' | 'modelEval' | 'providerDisable' | 'providerRevoke' | 'agentExecution';
+  agentExecutionSessionId?: string;
+  agentExecutionStatus?: string;
+  agentExecutionResult?: DevPilotApplicationResponse;
   modelActionStatus?: string;
   modelEvalMode: ControlledEvalMode;
   modelEvalInputTokens: number;
@@ -75,6 +79,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       { key: 'modelGateway', run: () => fresh.settingsModelGateway() },
       { key: 'agentRuntime', run: () => fresh.settingsAgentRuntime() },
       { key: 'ragContext', run: () => fresh.settingsRagContext('requirements') },
+      { key: 'agentExecution', run: () => fresh.settingsAgentExecution() },
       { key: 'portfolio', run: () => fresh.portfolioStatus() },
     ], 2, (result) => {
       state.durations[result.key] = result.durationMs;
@@ -86,13 +91,14 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
         if (result.key === 'modelGateway') state.modelGateway = result.value;
         if (result.key === 'agentRuntime') state.agentRuntime = result.value;
         if (result.key === 'ragContext') state.ragContext = result.value;
+        if (result.key === 'agentExecution') state.agentExecution = result.value;
         if (result.key === 'portfolio') state.portfolio = result.value;
       }
       if (result.error) state.errors[result.key] = result.error;
       draw();
     });
-    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'modelGateway', 'agentRuntime', 'ragContext', 'portfolio'];
-    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.modelGateway, state.agentRuntime, state.ragContext, state.portfolio].filter(Boolean);
+    const responseKeys = ['workspace', 'providers', 'policy', 'securityPosture', 'modelGateway', 'agentRuntime', 'ragContext', 'agentExecution', 'portfolio'];
+    const responses = [state.workspace, state.providers, state.policy, state.securityPosture, state.modelGateway, state.agentRuntime, state.ragContext, state.agentExecution, state.portfolio].filter(Boolean);
     if (responseKeys.some((key) => Boolean(state.errors[key]))) state.phase = 'error';
     else if (!responses.length) state.phase = 'empty';
     else state.phase = 'ready';
@@ -229,6 +235,42 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     }
   }
 
+  async function agentExecutionAction(action: 'create' | 'safe' | 'delete' | 'handoff' | 'cancel' | 'kill'): Promise<void> {
+    if (state.pendingAction) return;
+    state.pendingAction = 'agentExecution';
+    state.agentExecutionStatus = `RUNNING · ${action}…`;
+    draw();
+    const api = new DevPilotApiClient({ token: token() });
+    try {
+      let response: DevPilotApplicationResponse;
+      if (action === 'create') {
+        response = await api.createAgentExecutionSession({ role_id: 'requirements', step_id: 'requirements', mode: 'fake-local' });
+        state.agentExecutionSessionId = String((response.data?.summary as any)?.session_id || '');
+      } else {
+        const sid = state.agentExecutionSessionId || String((state.agentExecution?.data?.sessions as any[])?.at(-1)?.session_id || '');
+        if (!sid) throw new Error('No hay sesión agentic activa. Cree la sesión demo primero.');
+        if (action === 'safe') response = await api.submitAgentToolIntent(sid, { agent_role_id: 'requirements', step_id: 'requirements', tool_id: 'policy.check', action: 'read', subject: 'ui-policy-fixture', dry_run: true, model_route_decision_ref: 'ui-model-route-no-tool-authority' });
+        else if (action === 'delete') response = await api.submitAgentToolIntent(sid, { agent_role_id: 'requirements', step_id: 'requirements', tool_id: 'filesystem.delete', action: 'delete', subject: 'forbidden-fixture.txt', dry_run: true, model_route_decision_ref: 'ui-model-selected-forbidden-tool' });
+        else if (action === 'handoff') response = await api.handoffAgentExecution(sid, { to_role_id: 'review', to_step_id: 'validation', reason: 'UI focal bounded handoff', human_checkpoint: true });
+        else response = await api.controlAgentExecution(sid, action, `UI ${action} control`);
+      }
+      state.agentExecutionResult = response;
+      state.agentExecutionStatus = response.ok ? `PASS · ${action}` : `BLOCK · ${response.message}`;
+    } catch (error) {
+      if (error instanceof DevPilotApiError && isApplicationResponse(error.payload)) {
+        state.agentExecutionResult = error.payload;
+        const expectedDelete = action === 'delete' && error.status === 409;
+        state.agentExecutionStatus = expectedDelete ? 'PASS · filesystem.delete quedó BLOCK/executable=false/tool_executed=false' : `BLOCK · ${error.message}`;
+      } else {
+        state.agentExecutionStatus = `ERROR · ${error instanceof Error ? error.message : String(error)}`;
+      }
+    } finally {
+      state.pendingAction = undefined;
+      try { state.agentExecution = await api.settingsAgentExecution(); } catch { /* keep last safe snapshot */ }
+      draw();
+    }
+  }
+
   function draw(): void {
     root.replaceChildren();
     const heading = document.createElement('div');
@@ -298,7 +340,8 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       agentRuntimeStatus: 'Autoridad separada; ejecución de agentes no se habilita desde Settings.',
       agentRuntimeHtml: renderAgentRuntimeView(state.agentRuntime?.data),
       ragProvenanceHtml: renderRagProvenanceView(state.ragContext?.data),
-      skillsToolsStatus: 'Policy/RBAC independiente; ModelRouteDecision nunca concede ToolExecutionDecision.',
+      skillsToolsHtml: renderSkillToolPolicyView(state.agentExecution?.data, { sessionId: state.agentExecutionSessionId, actionStatus: state.agentExecutionStatus, lastResult: state.agentExecutionResult, pending: state.pendingAction === 'agentExecution' }),
+      skillsToolsStatus: 'ToolIntent → Policy/RBAC/Approval → ToolExecutionDecision; kill/cancel server-side.',
     });
     if (state.modelActionStatus) {
       const actionStatus = document.createElement('p');
@@ -309,6 +352,12 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       aiControlCenter.prepend(actionStatus);
     }
     aiControlCenter.querySelector('#model-gateway-evaluate')?.addEventListener('click', () => void evaluateModelGateway());
+    aiControlCenter.querySelector('#agent-exec-create')?.addEventListener('click', () => void agentExecutionAction('create'));
+    aiControlCenter.querySelector('#agent-exec-safe')?.addEventListener('click', () => void agentExecutionAction('safe'));
+    aiControlCenter.querySelector('#agent-exec-delete')?.addEventListener('click', () => void agentExecutionAction('delete'));
+    aiControlCenter.querySelector('#agent-exec-handoff')?.addEventListener('click', () => void agentExecutionAction('handoff'));
+    aiControlCenter.querySelector('#agent-exec-cancel')?.addEventListener('click', () => void agentExecutionAction('cancel'));
+    aiControlCenter.querySelector('#agent-exec-kill')?.addEventListener('click', () => void agentExecutionAction('kill'));
     aiControlCenter.querySelectorAll<HTMLElement>('[data-provider-disable]').forEach((button) => {
       button.addEventListener('click', () => void providerKillSwitch(button.dataset.providerDisable || '', false));
     });

@@ -42,6 +42,7 @@ from .artifact_draft_service import ArtifactDraftApplicationService
 from .artifact_import_service import ArtifactImportApplicationService
 from .artifact_review_service import ArtifactReviewApplicationService
 from .agent_assist_service import AgentAssistApplicationService
+from .agent_execution_service import AgentExecutionApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -105,6 +106,7 @@ class ApplicationService:
         self.artifact_imports = ArtifactImportApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_reviews = ArtifactReviewApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports, plans=self.workspace_edit_planning, executions=self.workspace_edit_execution)
         self.agent_assist = AgentAssistApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports)
+        self.agent_execution = AgentExecutionApplicationService(self.root)
         self._pre_code_wizard: PreCodeWizardApplicationService | None = None
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
@@ -918,6 +920,35 @@ class ApplicationService:
 
     def settings_rag_context(self, *, step_id: str = "requirements") -> CommandResult:
         return self.settings.rag_context_settings(step_id=step_id)
+
+    def settings_agent_execution(self) -> CommandResult:
+        return self.agent_execution.snapshot()
+
+    def settings_agent_execution_create_authenticated(self, *, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
+        del session
+        roles = set(self.rbac.enforcer.canonical_roles(principal))
+        if not ({"owner", "developer"} & roles):
+            return CommandResult("agent execution session create", False, ExitCode.BLOCK, "Bounded agent execution requires owner or developer human role.", {"summary": {"created": False}}, [Finding("AGENT_EXECUTION_RBAC_ROLE_DENY", "Human role is not authorized to create bounded agent session.", Severity.BLOCK)])
+        return self.agent_execution.create_session(role_id=str(payload.get("role_id") or "requirements"), step_id=str(payload.get("step_id") or "requirements"), actor_id=principal.actor_id, mode=str(payload.get("mode") or "fake-local"))
+
+    def settings_agent_execution_intent_authenticated(self, *, session_id: str, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
+        del session
+        roles = self.rbac.enforcer.canonical_roles(principal)
+        role = "owner" if "owner" in roles else (roles[0] if roles else "unknown")
+        return self.agent_execution.tool_intent(session_id=session_id, payload=payload, actor_id=principal.actor_id, role_at_decision=role)
+
+    def settings_agent_execution_handoff_authenticated(self, *, session_id: str, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
+        del session
+        return self.agent_execution.handoff(session_id=session_id, to_role_id=str(payload.get("to_role_id") or "review"), to_step_id=str(payload.get("to_step_id") or "validation"), reason=str(payload.get("reason") or "Explicit bounded handoff"), human_checkpoint=bool(payload.get("human_checkpoint", False)), actor_id=principal.actor_id)
+
+    def settings_agent_execution_cancel_authenticated(self, *, session_id: str, reason: str, principal: AuthenticatedPrincipal, session: SessionContext, kill: bool = False) -> CommandResult:
+        del session
+        roles = set(self.rbac.enforcer.canonical_roles(principal))
+        if kill and "owner" not in roles:
+            return CommandResult("agent execution kill", False, ExitCode.BLOCK, "Kill switch requires owner human role.", {}, [Finding("AGENT_EXECUTION_KILL_RBAC_DENY", "Only owner may activate kill switch.", Severity.BLOCK)])
+        if not ({"owner", "developer"} & roles):
+            return CommandResult("agent execution cancel", False, ExitCode.BLOCK, "Cancel requires owner or developer human role.", {}, [Finding("AGENT_EXECUTION_CANCEL_RBAC_DENY", "Role is not authorized to cancel session.", Severity.BLOCK)])
+        return self.agent_execution.cancel(session_id=session_id, actor_id=principal.actor_id, reason=reason, kill=kill)
 
     def settings_model_gateway_evaluate_authenticated(self, *, payload: dict[str, Any], principal: AuthenticatedPrincipal, session: SessionContext) -> CommandResult:
         del session
@@ -1791,6 +1822,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "settings.model_gateway": lambda payload: service.settings_model_gateway(preview_input_tokens=int(payload.get("preview_input_tokens", 1200)), preview_output_tokens=int(payload.get("preview_output_tokens", 300))),
         "settings.agent_runtime": lambda payload: service.settings_agent_runtime(),
         "settings.rag_context": lambda payload: service.settings_rag_context(step_id=str(payload.get("step_id") or "requirements")),
+        "settings.agent_execution": lambda payload: service.settings_agent_execution(),
         "settings.policy": lambda payload: service.settings_policy(),
         "settings.status": lambda payload: service.settings_status(),
         "settings.providers.plan": lambda payload: service.settings_provider_plan(provider_id=str(payload.get("provider_id", "")), changes=dict(payload.get("changes") or {}), actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Settings UI plan-only provider change"))),
@@ -1929,6 +1961,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("settings.model_gateway", "Project Model Gateway provider/model/access-route, capability, cost, budget, freshness and fallback projection without secret resolution.", "none", True, "Settings UI: ModelSettingsView"),
         ("settings.agent_runtime", "Read GSDLC-07-A contextual agent roles, step bindings, limits and Agent Runtime authority boundary without enabling execution.", "none", True, "Settings UI: AgentRuntimeView"),
         ("settings.rag_context", "Read GSDLC-07-B ContextPack v2 provenance, source selection and ContextBudget projection without agent execution.", "none", True, "Settings UI: RagProvenanceView"),
+        ("settings.agent_execution", "Read GSDLC-07-D ToolIntent/ToolExecutionDecision policy, bounded limits, handoff and kill/cancel posture.", "runtime_ephemeral", True, "Settings UI: SkillToolPolicyView"),
         ("settings.model_gateway.evaluate", "Run controlled mock/fake-local/fake-external Model Gateway evaluation; real external network remains disabled.", "hermetic_evaluation", False, "Settings UI: controlled model evaluation"),
         ("settings.policy", "Read local policy and MIASI policy matrix summaries without editing policy.", "none", True, "Settings UI: policy panel"),
         ("settings.providers.plan", "Create a provider configuration change plan without writing .devpilot/providers.yaml.", "plan_only", True, "Settings UI: provider plan-only editor"),
@@ -2096,6 +2129,12 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-133", "POST", "/api/v1/settings/model-gateway/evaluate", "settings.model_gateway.evaluate", ["GSDLC-06-E human-session controlled mock/local/fake-external evaluation; no real external network."]),
         ("APP-ROUTE-134", "GET", "/api/v1/settings/agent-runtime", "settings.agent_runtime", ["GSDLC-07-A AgentRuntimeView read-only role/binding/runtime-boundary projection; no agent execution or tool authority."]),
         ("APP-ROUTE-135", "GET", "/api/v1/settings/rag-context", "settings.rag_context", ["GSDLC-07-B ContextPack v2 local provenance preview; no model/tool execution, network or external API."]),
+        ("APP-ROUTE-136", "GET", "/api/v1/settings/agent-execution", "settings.agent_execution", ["GSDLC-07-D SkillToolPolicyView projection; ModelRouteDecision grants no tool authority."]),
+        ("APP-ROUTE-137", "POST", "/api/v1/settings/agent-execution/sessions", "settings.agent_execution.create", ["GSDLC-07-D human-session bounded fake-local agent execution session."]),
+        ("APP-ROUTE-138", "POST", "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents", "settings.agent_execution.intent", ["GSDLC-07-D ToolIntent -> deterministic ToolExecutionDecision; forbidden tools remain non-executable."]),
+        ("APP-ROUTE-139", "POST", "/api/v1/settings/agent-execution/sessions/{session_id}/handoff", "settings.agent_execution.handoff", ["GSDLC-07-D explicit handoff transfer with human checkpoint and no tool-scope inheritance."]),
+        ("APP-ROUTE-140", "POST", "/api/v1/settings/agent-execution/sessions/{session_id}/cancel", "settings.agent_execution.cancel", ["GSDLC-07-D server-side cancellation control."]),
+        ("APP-ROUTE-141", "POST", "/api/v1/settings/agent-execution/sessions/{session_id}/kill", "settings.agent_execution.kill", ["GSDLC-07-D owner-only kill switch."]),
         ("APP-ROUTE-028", "GET", "/api/v1/settings/policy", "settings.policy", ["Active Sprint 72 Settings route; policy summary is read-only."]),
         ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
         ("APP-ROUTE-126", "GET", "/api/v1/settings/providers/enablement", "settings.providers.enablement.status", ["GSDLC-06-C redacted runtime enablement status; human session required by RBAC catalog."]),

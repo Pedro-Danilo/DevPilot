@@ -21669,6 +21669,75 @@
         "docs/schemas/agent_assist_proposal.schema.json",
         "docs/schemas/agent_provenance.schema.json"
       ]
+    },
+    {
+      "capability": "AgentExecutionPolicy",
+      "classification_notes": [
+        "GSDLC-07-D bounded ToolIntent -> ToolExecutionDecision with deterministic PolicyEngine/RBAC/Approval authority.",
+        "Mutations are runtime-ephemeral only; source mutations, external API, real MCP and arbitrary shell are disabled."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
+      "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "agentic.runtime",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 90,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "agent-execution",
+        "tool-policy",
+        "approval",
+        "handoff",
+        "limits",
+        "ui"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-07-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "risk_level": "high",
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "agent-execution-change",
+        "tool-intent-change",
+        "handoff-supervisor-change",
+        "skill-tool-policy-ui-change"
+      ],
+      "validates": [
+        "AgentExecutionPolicy",
+        "HandoffSupervisor",
+        "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1",
+        "SCHEMA-DEVPL-GSDLC-07-D-TOOL-INTENT-V1",
+        "SCHEMA-DEVPL-GSDLC-07-D-TOOL-EXECUTION-DECISION-V1",
+        "SCHEMA-DEVPL-GSDLC-07-D-HANDOFF-TRANSFER-STATE-V1"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1",
+        "SCHEMA-DEVPL-GSDLC-07-D-TOOL-INTENT-V1",
+        "SCHEMA-DEVPL-GSDLC-07-D-TOOL-EXECUTION-DECISION-V1",
+        "SCHEMA-DEVPL-GSDLC-07-D-HANDOFF-TRANSFER-STATE-V1"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_execution_policy.json",
+        "src/devpilot_core/agents/execution_policy.py",
+        "src/devpilot_core/multiagent/supervisor.py",
+        "src/devpilot_core/application/agent_execution_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/SkillToolPolicyView.ts"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21831,5 +21900,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 300
+  "contracts_total": 303
 }

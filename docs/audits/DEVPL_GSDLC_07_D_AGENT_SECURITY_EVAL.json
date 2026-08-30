@@ -1,0 +1,19 @@
+{
+  "status": "PASS/LOCAL-CANDIDATE",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-D",
+  "updated": "2026-08-29",
+  "tests": [
+    "filesystem.delete -> executable=false/tool_executed=false",
+    "approval bypass blocked",
+    "self approval blocked",
+    "budget/iteration/wall-time limits",
+    "cancel/kill",
+    "real MCP disabled",
+    "autonomous recovery blocked"
+  ],
+  "s0": 0,
+  "s1": 0,
+  "network_used": false,
+  "external_api_used": false
+}

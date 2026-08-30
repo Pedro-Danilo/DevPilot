@@ -12681,6 +12681,41 @@
         "docs/schemas/agent_assist_proposal.schema.json",
         "docs/schemas/agent_provenance.schema.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-D",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "validates": [
+        "AgentExecutionPolicy",
+        "HandoffSupervisor",
+        "ToolIntent",
+        "ToolExecutionDecision",
+        "SkillToolPolicyView"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_execution_policy.json",
+        "src/devpilot_core/agents/execution_policy.py",
+        "src/devpilot_core/multiagent/supervisor.py",
+        "src/devpilot_core/application/agent_execution_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/SkillToolPolicyView.ts",
+        "docs/schemas/agent_execution_policy.schema.json",
+        "docs/schemas/tool_intent.schema.json",
+        "docs/schemas/tool_execution_decision.schema.json",
+        "docs/schemas/handoff_transfer_state.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -12758,5 +12793,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 300
+  "contracts_total": 303
 }

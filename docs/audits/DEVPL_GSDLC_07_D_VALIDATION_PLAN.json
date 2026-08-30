@@ -1,0 +1,115 @@
+{
+  "status": "PASS/LOCAL-CANDIDATE",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-D",
+  "updated": "2026-08-29",
+  "policy": "completion-first/selective/no-full",
+  "full_regression_allowed": false,
+  "browser_focal_required": true,
+  "test_files": [
+    "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+    "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py",
+    "tests/test_post_h_032_tool_calling_contract.py",
+    "tests/test_post_h_032_multiagent_handoff_hardening.py",
+    "tests/test_policy_engine.py",
+    "tests/test_policy_engine_approval_rbac_enforcement.py",
+    "tests/test_approval_binding.py",
+    "tests/test_api_contract.py",
+    "tests/test_api_security.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_test_contract_registry_v2.py",
+    "tests/test_post_h_007_application_service_boundary.py"
+  ],
+  "test_file_counts": {
+    "tests/test_devpl_gsdlc_07_d_agent_execution.py": 9,
+    "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py": 12,
+    "tests/test_post_h_032_tool_calling_contract.py": 6,
+    "tests/test_post_h_032_multiagent_handoff_hardening.py": 8,
+    "tests/test_policy_engine.py": 13,
+    "tests/test_policy_engine_approval_rbac_enforcement.py": 4,
+    "tests/test_approval_binding.py": 7,
+    "tests/test_api_contract.py": 5,
+    "tests/test_api_security.py": 21,
+    "tests/test_schema_registry.py": 6,
+    "tests/test_documentation_source_registry_schema.py": 5,
+    "tests/test_test_contract_registry_v2.py": 8,
+    "tests/test_post_h_007_application_service_boundary.py": 5
+  },
+  "test_files_total": 13,
+  "nodeids_total": 109,
+  "terminal_accounting_expected": {
+    "passed": 109,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "administrative_validators": [
+    "project-state validate",
+    "docs-governance validate",
+    "test-contracts validate",
+    "test-contracts validate-v2",
+    "tests regression-guard"
+  ],
+  "excluded_after_impact_classification": [
+    {
+      "test_file": "tests/test_multiagent_coordinator.py",
+      "classification": "historical-nonselected",
+      "reason": "07-D does not modify legacy coordinator CLI; direct handoff coverage is provided by 07-D and POST-H-032 handoff hardening. Local legacy CLI probe can wait indefinitely and is not required for the impacted successor contract."
+    },
+    {
+      "test_file": "tests/test_multiagent_workflow.py",
+      "classification": "historical-nonselected",
+      "reason": "07-D uses HandoffSupervisor successor and does not alter the legacy workflow engine; direct successor handoff tests cover scope isolation and human checkpoint."
+    },
+    {
+      "test_file": "tests/test_post_h_012_approval_rbac_hardening.py",
+      "classification": "historical-nonselected",
+      "reason": "Current PolicyEngine/RBAC/Approval successor coverage is provided by policy_engine_approval_rbac_enforcement + approval_binding; legacy file showed non-terminal runtime behavior in this sandbox and is not source-impacted."
+    },
+    {
+      "test_file": "tests/test_api_approvals_actions.py",
+      "classification": "historical-nonselected",
+      "reason": "07-D adds agent-execution APIs, not Approval Center behavior; current API contract/security tests validate the added routes and human-session boundary."
+    },
+    {
+      "test_file": "tests/test_project_global_state.py",
+      "classification": "historical-freeze/stale-current-pointer",
+      "reason": "Contains frozen assertions that still require POST-H-EVAL-002 / POST-H-033 as current pointers. Current project-state successor validator is authoritative and passes 6/6."
+    },
+    {
+      "test_file": "tests/test_application_services.py",
+      "classification": "historical-nonselected/inherited-fixture-gap",
+      "reason": "One tmp-root fixture predates 07-D and fails because GSDLC-07-C AgentAssist eagerly requires model capability catalog; 07-D Application boundary itself is covered by POST-H-007 boundary + API contract/security."
+    },
+    {
+      "test_file": "tests/test_test_contract_registry.py",
+      "classification": "duplicate-admin-coverage",
+      "reason": "TCR v1 is executed through the deterministic test-contracts validate admin validator; including its pytest file would duplicate coverage."
+    }
+  ],
+  "plan_revision_history": [
+    {
+      "revision": "provisional-impact-v0",
+      "files": 19,
+      "nodeids": 160,
+      "reason": "broad candidate list before eliminating duplicate/admin and historical non-impacted contracts"
+    },
+    {
+      "revision": "provisional-impact-v1",
+      "files": 18,
+      "nodeids": 157,
+      "reason": "removed duplicate TCR v1 pytest because TCR v1 is an admin validator"
+    },
+    {
+      "revision": "final-v1",
+      "files": 13,
+      "nodeids": 109,
+      "reason": "removed historical non-impacted/hanging contracts only after mapping each to an explicit successor or administrative authority; no 07-D required behavior lost"
+    }
+  ],
+  "completion_first": true,
+  "network_required": false,
+  "external_api_required": false,
+  "full_regression_runs_consumed": 0
+}

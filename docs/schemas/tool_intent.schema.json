@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-INTENT-V1",
+  "title": "ToolIntent",
+  "type": "object",
+  "required": ["intent_id", "session_id", "agent_role_id", "step_id", "tool_id", "action", "subject", "arguments", "dry_run", "created_at"],
+  "properties": {
+    "intent_id": {"type": "string", "pattern": "^ti_"}, "session_id": {"type": "string", "pattern": "^aes_"},
+    "agent_role_id": {"type": "string"}, "step_id": {"type": "string"}, "tool_id": {"type": "string"}, "action": {"type": "string"}, "subject": {"type": "string"},
+    "arguments": {"type": "object"}, "dry_run": {"type": "boolean"}, "approval_id": {"type": ["string", "null"]},
+    "model_route_decision_ref": {"type": ["string", "null"]}, "estimated_input_tokens": {"type": "integer", "minimum": 0}, "estimated_output_tokens": {"type": "integer", "minimum": 0}, "estimated_cost_usd": {"type": "number", "minimum": 0}, "created_at": {"type": "string"}
+  }, "additionalProperties": false
+}

@@ -20,6 +20,14 @@ pilot_effect_if_approved: "pause-at-POST-H-EVAL-002-02-B-entry"
 backlogs_total: 15
 ---
 
+## 0.0 Estado GSDLC-07 reconciliado — 2026-08-29
+
+- `GSDLC-07-A = CLOSED/PASS`.
+- `GSDLC-07-B = CLOSED/PASS`.
+- `GSDLC-07-C = CLOSED/PASS`; successor repo384 / `c70f878951d2bc3f39f34f74b8190ce7fff69ca2` / SHA `03c601399e27c2a110f502705043ea4bd9f3d719804fff0683acd9936e27e140`.
+- `GSDLC-07-D = IMPLEMENTED-INITIAL / LOCAL-VALIDATION-PENDING`.
+- Full regression GSDLC-07 consumida: `0`; única logical full reservada para 07-E.
+
 # DevPilot Guided SDLC Product Evolution — Roadmap maestro v1.1.0
 
 ## 0.1 Estado de ejecución reconciliado — 2026-08-20

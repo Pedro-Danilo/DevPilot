@@ -1,0 +1,21 @@
+{
+  "status": "approved-by-owner-policy",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-08-29",
+  "micro_sprint": "DEVPL-GSDLC-07-D",
+  "risk": "high/transversal-agent-execution",
+  "tests_executed": [
+    "DEVPL-GSDLC-07-D frozen selective plan: 13 files / 109 nodeids / 109 PASS / 0 FAIL / 0 ERROR / 0 SKIP",
+    "Artifact SkillToolPolicyView static smoke: 8/8 PASS",
+    "Project State successor validator: 6/6 PASS",
+    "Documentation Governance: 1332 documents / 0 blocking / 0 warnings / PASS",
+    "TCR v1/v2 validators: 303/303 PASS",
+    "Strict secret differential scan: 0 high-confidence findings",
+    "Source/Schema Registry focal contracts: 5/5 + 6/6 PASS"
+  ],
+  "reason": "Backlog policy reserves exactly one logical full for GSDLC-07-E.",
+  "full_regression_runs_allowed_now": 0,
+  "full_regression_reserved_for": "DEVPL-GSDLC-07-E",
+  "expires_at": "2026-09-30T23:59:59Z"
+}

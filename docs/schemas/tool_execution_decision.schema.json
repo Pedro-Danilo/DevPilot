@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-EXECUTION-DECISION-V1",
+  "title": "ToolExecutionDecision",
+  "type": "object",
+  "required": ["decision_id", "intent_id", "effect", "executable", "tool_executed", "authority", "policy_ok", "role_scope_ok", "step_scope_ok", "model_route_granted_permission", "session_state", "decision_at"],
+  "properties": {
+    "decision_id": {"type": "string", "pattern": "^ted_"}, "intent_id": {"type": "string", "pattern": "^ti_"},
+    "effect": {"enum": ["ALLOW", "BLOCK"]}, "executable": {"type": "boolean"}, "tool_executed": {"type": "boolean"},
+    "approval_required": {"type": "boolean"}, "dry_run_required": {"type": "boolean"}, "reason": {"type": "string"},
+    "authority": {"type": "array", "contains": {"const": "PolicyEngine"}}, "policy_ok": {"type": "boolean"}, "rbac_actor": {"type": ["string", "null"]},
+    "role_scope_ok": {"type": "boolean"}, "step_scope_ok": {"type": "boolean"}, "model_route_granted_permission": {"const": false}, "session_state": {"type": "string"}, "decision_at": {"type": "string"}, "evidence": {"type": "object"}
+  }, "additionalProperties": false
+}

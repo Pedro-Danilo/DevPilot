@@ -79,6 +79,89 @@ def settings_agent_runtime(service: ApplicationService = Depends(get_application
 def settings_rag_context(step_id: str = "requirements", service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     return _json(*dispatch_application_request(service, operation="settings.rag_context", payload={"step_id": step_id}))
 
+@router.get("/api/v1/settings/agent-execution")
+def settings_agent_execution(service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    return _json(*dispatch_application_request(service, operation="settings.agent_execution", payload={}))
+
+
+class AgentExecutionSessionBody(BaseModel):
+    role_id: str = Field(default="requirements")
+    step_id: str = Field(default="requirements")
+    mode: str = Field(default="fake-local")
+
+
+class AgentToolIntentBody(BaseModel):
+    agent_role_id: str
+    step_id: str
+    tool_id: str
+    action: str = Field(default="read")
+    subject: str = Field(default="local-fixture")
+    arguments: dict[str, Any] = Field(default_factory=dict)
+    dry_run: bool = True
+    approval_id: str | None = None
+    model_route_decision_ref: str | None = None
+    estimated_input_tokens: int = Field(default=0, ge=0)
+    estimated_output_tokens: int = Field(default=0, ge=0)
+    estimated_cost_usd: float = Field(default=0.0, ge=0.0)
+
+
+class AgentHandoffBody(BaseModel):
+    to_role_id: str
+    to_step_id: str
+    reason: str = Field(default="Explicit bounded handoff")
+    human_checkpoint: bool = False
+
+
+class AgentControlBody(BaseModel):
+    reason: str = Field(default="Human operator control")
+
+
+def _human_session_or_401(request: Request, operation: str):
+    principal, session = _session(request)
+    if principal is None or session is None:
+        return None, None, _json({"operation":operation,"ok":False,"exit_code":4,"message":"Authenticated human session is required.","data":{},"findings":[{"id":"AUTH_HUMAN_SESSION_REQUIRED_BLOCK","severity":"block","message":"Agent execution control requires authenticated human session."}]},401)
+    return principal, session, None
+
+
+@router.post("/api/v1/settings/agent-execution/sessions")
+def settings_agent_execution_create(request: Request, body: AgentExecutionSessionBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    principal, session, blocked = _human_session_or_401(request, "settings.agent_execution.create")
+    if blocked is not None: return blocked
+    result = service.settings_agent_execution_create_authenticated(payload=body.model_dump(), principal=principal, session=session)
+    return _json(*command_result_to_api_response(result, operation="settings.agent_execution.create"))
+
+
+@router.post("/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents")
+def settings_agent_execution_intent(session_id: str, request: Request, body: AgentToolIntentBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    principal, session, blocked = _human_session_or_401(request, "settings.agent_execution.intent")
+    if blocked is not None: return blocked
+    result = service.settings_agent_execution_intent_authenticated(session_id=session_id, payload=body.model_dump(), principal=principal, session=session)
+    return _json(*command_result_to_api_response(result, operation="settings.agent_execution.intent"))
+
+
+@router.post("/api/v1/settings/agent-execution/sessions/{session_id}/handoff")
+def settings_agent_execution_handoff(session_id: str, request: Request, body: AgentHandoffBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    principal, session, blocked = _human_session_or_401(request, "settings.agent_execution.handoff")
+    if blocked is not None: return blocked
+    result = service.settings_agent_execution_handoff_authenticated(session_id=session_id, payload=body.model_dump(), principal=principal, session=session)
+    return _json(*command_result_to_api_response(result, operation="settings.agent_execution.handoff"))
+
+
+@router.post("/api/v1/settings/agent-execution/sessions/{session_id}/cancel")
+def settings_agent_execution_cancel(session_id: str, request: Request, body: AgentControlBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    principal, session, blocked = _human_session_or_401(request, "settings.agent_execution.cancel")
+    if blocked is not None: return blocked
+    result = service.settings_agent_execution_cancel_authenticated(session_id=session_id, reason=body.reason, principal=principal, session=session, kill=False)
+    return _json(*command_result_to_api_response(result, operation="settings.agent_execution.cancel"))
+
+
+@router.post("/api/v1/settings/agent-execution/sessions/{session_id}/kill")
+def settings_agent_execution_kill(session_id: str, request: Request, body: AgentControlBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    principal, session, blocked = _human_session_or_401(request, "settings.agent_execution.kill")
+    if blocked is not None: return blocked
+    result = service.settings_agent_execution_cancel_authenticated(session_id=session_id, reason=body.reason, principal=principal, session=session, kill=True)
+    return _json(*command_result_to_api_response(result, operation="settings.agent_execution.kill"))
+
 
 @router.post("/api/v1/settings/model-gateway/evaluate")
 def settings_model_gateway_evaluate(request: Request, body: ModelGatewayEvalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:

@@ -1,7 +1,7 @@
 {
   "schema_id": "SCHEMA-DEVPL-GSDLC-02-C-SERVER-RBAC-POLICY-CATALOG-V1",
   "version": "1.5.0",
-  "micro_sprint": "DEVPL-GSDLC-06-E",
+  "micro_sprint": "DEVPL-GSDLC-07-D",
   "status": "implemented/ready-for-windows",
   "runtime_enforced": true,
   "deny_by_default": true,
@@ -3116,6 +3116,142 @@
       "workspace_scope_required": true,
       "risk_level": "low",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.agent-execution",
+      "method": "GET",
+      "path": "/api/v1/settings/agent-execution",
+      "operation": "settings.agent_execution",
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "low",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.agent-execution.create",
+      "method": "POST",
+      "path": "/api/v1/settings/agent-execution/sessions",
+      "operation": "settings.agent_execution.create",
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.agent-execution.intent",
+      "method": "POST",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents",
+      "operation": "settings.agent_execution.intent",
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "high",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.agent-execution.handoff",
+      "method": "POST",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/handoff",
+      "operation": "settings.agent_execution.handoff",
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.agent-execution.cancel",
+      "method": "POST",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/cancel",
+      "operation": "settings.agent_execution.cancel",
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.settings.agent-execution.kill",
+      "method": "POST",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/kill",
+      "operation": "settings.agent_execution.kill",
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": false,
+      "risk_level": "high",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -3342,7 +3478,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 139,
+    "route_policies_total": 145,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3362,10 +3498,11 @@
     "gsdlc_06_c_legacy_token_allowed_total": 0,
     "gsdlc_06_c_owner_only_action_policies_total": 5,
     "gsdlc_06_c_runtime_mutation_policies_total": 3,
-    "human_session_required_total": 63,
+    "human_session_required_total": 69,
     "legacy_token_allowed_total": 69,
     "gsdlc_07_b_rag_context_policies_total": 1,
-    "gsdlc_07_c_agent_assist_policies_total": 4
+    "gsdlc_07_c_agent_assist_policies_total": 4,
+    "gsdlc_07_d_agent_execution_policies_total": 6
   },
   "safety": {
     "legacy_token_human_authority": false,
@@ -3376,7 +3513,7 @@
     "unknown_role_effect": "DENY",
     "llm_authorization_decision_allowed": false
   },
-  "updated_by": "DEVPL-GSDLC-07-B",
+  "updated_by": "DEVPL-GSDLC-07-D",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -3388,5 +3525,6 @@
     "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced."
   ],
   "gsdlc_07_a_agent_runtime_route_registered": true,
-  "gsdlc_07_b_rag_context_route_registered": true
+  "gsdlc_07_b_rag_context_route_registered": true,
+  "gsdlc_07_d_agent_execution_routes_registered": true
 }

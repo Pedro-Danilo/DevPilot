@@ -1,0 +1,22 @@
+{
+  "status": "PASS/LOCAL-CANDIDATE",
+  "version": "1.0.0",
+  "owner": "DEVPL-GSDLC-07-D",
+  "updated": "2026-08-29",
+  "audit_scope": "source candidate after final runtime cleanup",
+  "forbidden_patterns": [
+    ".git",
+    ".venv",
+    "node_modules",
+    "outputs",
+    ".pytest_cache",
+    "__pycache__",
+    ".vite",
+    "auth.db*",
+    "devpilot.db*",
+    "agent_sessions runtime"
+  ],
+  "forbidden_paths_total": 0,
+  "note": "Final filesystem audit rerun after cleanup before candidate ZIP.",
+  "forbidden_paths": []
+}
