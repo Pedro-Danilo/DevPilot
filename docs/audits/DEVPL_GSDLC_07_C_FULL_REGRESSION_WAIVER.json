@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.gsdlc07c.full_regression_waiver.v1",
+  "status": "approved-by-owner-policy",
+  "owner": "Ordóñez",
+  "scope": "DEVPL-GSDLC-07-C",
+  "reason": "Approved GSDLC-07 policy reserves exactly one logical full regression for closing micro-sprint 07-E. 07-C must use impact/selective completion-first validation.",
+  "risk_level": "high",
+  "full_regression_required_by_test_impact": true,
+  "full_regression_executed": false,
+  "reserved_for": "DEVPL-GSDLC-07-E",
+  "expires_at": "2026-09-30T23:59:59Z",
+  "risk": "high",
+  "tests_executed": [
+    "9/9 GSDLC-07-C specific",
+    "67/67 Artifact Workbench/API/security",
+    "49/49 governance contracts",
+    "8/8 ArtifactAIPanel static UI"
+  ]
+}

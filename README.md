@@ -6499,3 +6499,7 @@ Status: `CLOSED/PASS / WINDOWS-VALIDATED`. Eight contextual roles and 19 explici
 ## GSDLC-07-B — RAG ContextPack v2
 
 Status: `PASS-CANDIDATE / PRE-WINDOWS`. ContextPack v2 adds policy-filtered local source selection, source/content hashes, freshness/trust tags, citation parity, insufficient-evidence semantics, ContextBudget/top-k/diff-first and a read-only RagProvenanceView. Lexical/local is mandatory; embeddings/external APIs remain disabled by default. Full regression consumed: `0`; browser focal pending Windows.
+
+### DEVPL-GSDLC-07-C — Agent Assist pass-candidate
+
+07-B está owner-adjudicated `CLOSED/PASS`; repo383 (`749d5f9ae039c961b506834de191b94bf65ff50b`) es la autoridad de entrada de 07-C. 07-C implementa `AgentAssistService` y `ArtifactAIPanel` con `PLAN → proposal/diff UNTRUSTED → HUMAN ACCEPT/REJECT/MODIFY`, ContextPack v2 y provenance. ACCEPT/MODIFY persisten únicamente runtime DRAFT; no hay transición automática APPROVED/FROZEN, network/API externa ni source write directo. Estado: `PASS-CANDIDATE/PENDING-WINDOWS-BROWSER-AND-OWNER-ADJUDICATION`; full regression=0, reservada para 07-E.

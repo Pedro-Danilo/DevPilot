@@ -224,7 +224,7 @@ function renderHistory(revisions: ArtifactDraftRevisionSummary[], recover: (sha:
   const section = document.createElement('section'); section.className = 'artifact-version-history'; const h = document.createElement('h3'); h.textContent = 'Version history'; section.append(h);
   if (!revisions.length) { const p = document.createElement('p'); p.textContent = 'Aún no existen revisiones runtime.'; section.append(p); return section; }
   const list = document.createElement('ol');
-  for (const revision of revisions) { const item = document.createElement('li'); const label = document.createElement('span'); label.textContent = `r${revision.revision} · ${revision.event} · ${revision.created_at} · ${revision.revision_sha256.slice(0, 12)}`; const button = actionButton('Recuperar', () => recover(revision.revision_sha256), disabled, 'button-secondary'); item.append(label, button); list.append(item); }
+  for (const revision of revisions) { const item = document.createElement('li'); const label = document.createElement('span'); const provenance = revision.agent_provenance; const provenanceLabel = provenance ? ` · AI ${provenance.operation} · ${provenance.decision} · ${String(provenance.proposal_id).slice(0, 14)}` : ' · MANUAL'; label.textContent = `r${revision.revision} · ${revision.event} · ${revision.created_at} · ${revision.revision_sha256.slice(0, 12)}${provenanceLabel}`; const button = actionButton('Recuperar', () => recover(revision.revision_sha256), disabled, 'button-secondary'); item.append(label, button); list.append(item); }
   section.append(list); return section;
 }
 

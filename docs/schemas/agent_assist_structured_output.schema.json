@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.gsdlc07c.agent_assist_structured_output.v1",
+  "title": "Agent Assist Structured Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "operation",
+    "proposal_text",
+    "proposed_content",
+    "critique",
+    "untrusted_output"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc07c.agent_assist_structured_output.v1"
+    },
+    "operation": {
+      "enum": [
+        "critique",
+        "generate_draft",
+        "improve",
+        "rewrite_selection",
+        "transform_imported_source"
+      ]
+    },
+    "proposal_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposed_content": {
+      "type": "string",
+      "maxLength": 1048576
+    },
+    "critique": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "untrusted_output": {
+      "const": true
+    }
+  }
+}

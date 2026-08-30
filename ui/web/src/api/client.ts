@@ -494,6 +494,22 @@ export class DevPilotApiClient {
     return this.post(`/workspace/artifact-drafts/${encodeURIComponent(documentId)}/recover`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
+  async planArtifactAssist(documentId: string, payload: { operation: string; mode: string; instruction: string; current_content: string; expected_source_sha256: string; expected_revision_sha256?: string | null; selection_start?: number | null; selection_end?: number | null; import_id?: string | null; step_id?: string | null }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-assist/documents/${encodeURIComponent(documentId)}/plan`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async runArtifactAssist(planId: string, planSha256: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-assist/plans/${encodeURIComponent(planId)}/run`, { plan_sha256: planSha256 }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async decideArtifactAssist(proposalId: string, payload: { proposal_sha256: string; decision: 'ACCEPT' | 'REJECT' | 'MODIFY'; modified_content?: string | null }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/workspace/artifact-assist/proposals/${encodeURIComponent(proposalId)}/decision`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async artifactAssistProposal(proposalId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/workspace/artifact-assist/proposals/${encodeURIComponent(proposalId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
   async previewArtifactImport(payload: { source_type: 'PASTE' | 'UPLOAD' | 'IMPORT'; destination_path: string; source_label?: string | null; source_reference?: string | null; original_filename?: string | null; declared_mime?: string | null; text_content?: string | null; content_base64?: string | null }): Promise<DevPilotApplicationResponse> {
     return this.post('/workspace/artifact-imports/preview', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }

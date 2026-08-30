@@ -133,6 +133,10 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/artifact-imports/preview"): ApiRoutePolicy("workspace.artifact_imports.preview", "read", "protected-human-session-artifact-import-preview"),
     ("POST", "/api/v1/workspace/artifact-imports/persist"): ApiRoutePolicy("workspace.artifact_imports.persist", "read", "protected-human-session-artifact-import-runtime-mutation"),
     ("GET", "/api/v1/workspace/artifact-imports/recent"): ApiRoutePolicy("workspace.artifact_imports.recent", "read", "protected-human-session-artifact-import-read"),
+    ("POST", "/api/v1/workspace/artifact-assist/documents/{document_id}/plan"): ApiRoutePolicy("workspace.artifact_assist.plan", "read", "protected-human-session-agent-assist-runtime"),
+    ("POST", "/api/v1/workspace/artifact-assist/plans/{plan_id}/run"): ApiRoutePolicy("workspace.artifact_assist.run", "read", "protected-human-session-agent-assist-runtime"),
+    ("POST", "/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision"): ApiRoutePolicy("workspace.artifact_assist.decision", "read", "protected-human-session-agent-assist-runtime"),
+    ("GET", "/api/v1/workspace/artifact-assist/proposals/{proposal_id}"): ApiRoutePolicy("workspace.artifact_assist.get", "read", "protected-human-session-agent-assist-read"),
     ("POST", "/api/v1/workspace/artifact-reviews/imports/{import_id}/start"): ApiRoutePolicy("workspace.artifact_reviews.start_import", "read", "protected-human-session-artifact-review"),
     ("POST", "/api/v1/workspace/artifact-reviews/documents/{document_id}/start"): ApiRoutePolicy("workspace.artifact_reviews.start_document", "read", "protected-human-session-artifact-review"),
     ("GET", "/api/v1/workspace/artifact-reviews/{review_id}"): ApiRoutePolicy("workspace.artifact_reviews.status", "read", "protected-human-session-artifact-review"),
@@ -558,6 +562,16 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
                 return API_ROUTE_POLICIES.get(("GET", "/api/v1/jobs/{job_id}/logs"))
             if path.count("/") == 4:
                 return API_ROUTE_POLICIES.get(("GET", "/api/v1/jobs/{job_id}"))
+    if path.startswith("/api/v1/workspace/artifact-assist/"):
+        parts = [part for part in path.split("/") if part]
+        if method.upper() == "POST" and len(parts) == 7 and parts[4] == "documents" and parts[6] == "plan":
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-assist/documents/{document_id}/plan"))
+        if method.upper() == "POST" and len(parts) == 7 and parts[4] == "plans" and parts[6] == "run":
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-assist/plans/{plan_id}/run"))
+        if method.upper() == "POST" and len(parts) == 7 and parts[4] == "proposals" and parts[6] == "decision":
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision"))
+        if method.upper() == "GET" and len(parts) == 6 and parts[4] == "proposals":
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/artifact-assist/proposals/{proposal_id}"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-drafts/") and path.count("/") == 6:
         if path.endswith("/save"):
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-drafts/{document_id}/save"))

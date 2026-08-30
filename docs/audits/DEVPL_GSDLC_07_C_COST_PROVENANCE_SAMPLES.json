@@ -1,0 +1,26 @@
+{
+  "schema_id": "devpilot.gsdlc07c.cost_provenance_samples.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "samples": [
+    {
+      "mode": "mock",
+      "provider": "devpilot-local",
+      "access_route": "mock",
+      "cost_state": "known-zero-or-bounded",
+      "context_pack": "ContextPackV2",
+      "citations_required": true,
+      "human_decision": "ACCEPT"
+    },
+    {
+      "mode": "fake-local",
+      "provider": "local-compatible",
+      "access_route": "fake-local",
+      "cost_state": "known-zero-or-bounded",
+      "context_pack": "ContextPackV2",
+      "citations_required": true,
+      "human_decision": "REJECT"
+    }
+  ],
+  "hidden_model_or_cost_allowed": false,
+  "external_api_used": false
+}

@@ -3020,6 +3020,102 @@
       "workspace_scope_required": false,
       "risk_level": "medium",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-assist.plan",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-assist/documents/{document_id}/plan",
+      "operation": "workspace.artifact_assist.plan",
+      "access_class": "human-session-agent-assist-runtime",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-assist.run",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-assist/plans/{plan_id}/run",
+      "operation": "workspace.artifact_assist.run",
+      "access_class": "human-session-agent-assist-runtime",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-assist.decision",
+      "method": "POST",
+      "path": "/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision",
+      "operation": "workspace.artifact_assist.decision",
+      "access_class": "human-session-agent-assist-runtime",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true
+    },
+    {
+      "route_id": "api.workspace.artifact-assist.get",
+      "method": "GET",
+      "path": "/api/v1/workspace/artifact-assist/proposals/{proposal_id}",
+      "operation": "workspace.artifact_assist.get",
+      "access_class": "human-session-agent-assist-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "low",
+      "deny_by_default": true
     }
   ],
   "sensitive_action_policies": [
@@ -3246,7 +3342,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 135,
+    "route_policies_total": 139,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3266,9 +3362,10 @@
     "gsdlc_06_c_legacy_token_allowed_total": 0,
     "gsdlc_06_c_owner_only_action_policies_total": 5,
     "gsdlc_06_c_runtime_mutation_policies_total": 3,
-    "human_session_required_total": 59,
+    "human_session_required_total": 63,
     "legacy_token_allowed_total": 69,
-    "gsdlc_07_b_rag_context_policies_total": 1
+    "gsdlc_07_b_rag_context_policies_total": 1,
+    "gsdlc_07_c_agent_assist_policies_total": 4
   },
   "safety": {
     "legacy_token_human_authority": false,

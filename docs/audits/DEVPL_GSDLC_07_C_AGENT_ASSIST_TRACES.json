@@ -1,0 +1,44 @@
+{
+  "schema_id": "devpilot.gsdlc07c.agent_assist_traces.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "traces": [
+    {
+      "operation": "improve",
+      "mode": "mock",
+      "lifecycle": [
+        "PLAN",
+        "PROPOSED",
+        "ACCEPT"
+      ],
+      "source_write": false,
+      "draft_revision": true,
+      "human_review": true
+    },
+    {
+      "operation": "critique",
+      "mode": "fake-local",
+      "lifecycle": [
+        "PLAN",
+        "PROPOSED",
+        "REJECT"
+      ],
+      "source_write": false,
+      "draft_revision": false,
+      "human_review": true
+    },
+    {
+      "operation": "rewrite_selection",
+      "mode": "mock",
+      "lifecycle": [
+        "PLAN",
+        "PROPOSED",
+        "MODIFY"
+      ],
+      "source_write": false,
+      "draft_revision": true,
+      "human_review": true
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false
+}

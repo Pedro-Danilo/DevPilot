@@ -496,3 +496,21 @@ Workspace-scoped authenticated routes without an explicit `workspace_id` do not 
 In the GSDLC-05-E wizard, `UPLOAD_IMPORT` is context-bound to the current stage when that stage allows `IMPORT`: the browser stays on `/pre-code`, selects a local allowlisted file through the native file input and then persists only runtime DRAFT through the existing typed pre-code endpoint. The generic Artifact Workbench remains a separate surface and is not a hidden bridge required to complete the vertical slice.
 
 | API-SETTINGS-RAG-CONTEXT | `GET /api/v1/settings/rag-context` | `settings.rag_context` | `SettingsApplicationService -> ContextPackV2Builder` | read-only ContextPack v2 provenance/budget preview; no model/tool execution | human session + RBAC + PolicyEngine |
+
+### GSDLC-07-C — Artifact AI Assist runtime boundary
+
+- `workspace.artifact_assist.plan` → `ApplicationService.artifact_assist_plan` → `AgentAssistApplicationService.plan` (pre-run agent/model/context/cost/limits; no execution/write).
+- `workspace.artifact_assist.run` → `ApplicationService.artifact_assist_run` → `AgentAssistApplicationService.run` (hermetic mock/fake-local; untrusted proposal+diff only).
+- `workspace.artifact_assist.decision` → `ApplicationService.artifact_assist_decide` → `AgentAssistApplicationService.decide` (authenticated human ACCEPT/REJECT/MODIFY; ACCEPT/MODIFY only persist runtime DRAFT revision with provenance).
+- `workspace.artifact_assist.get` → `ApplicationService.artifact_assist_get` → `AgentAssistApplicationService.get` (runtime proposal/provenance read).
+- None of these routes can produce `APPROVED`/`FROZEN` or mutate approved workspace source directly.
+
+Routes: `/api/v1/workspace/artifact-assist/documents/{document_id}/plan`, `/api/v1/workspace/artifact-assist/plans/{plan_id}/run`, `/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision`, `/api/v1/workspace/artifact-assist/proposals/{proposal_id}`.
+
+- `API-GSDLC07C-PLAN` — GSDLC-07-C Agent Assist governed runtime route.
+
+- `API-GSDLC07C-RUN` — GSDLC-07-C Agent Assist governed runtime route.
+
+- `API-GSDLC07C-DECISION` — GSDLC-07-C Agent Assist governed runtime route.
+
+- `API-GSDLC07C-GET` — GSDLC-07-C Agent Assist governed runtime route.

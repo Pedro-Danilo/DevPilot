@@ -116,6 +116,7 @@ class ArtifactDraftApplicationService:
         actor_role: str,
         session_principal: str,
         event: str = "SAVE",
+        agent_provenance: dict[str, Any] | None = None,
     ) -> CommandResult:
         command = "workspace artifact draft save"
         event = str(event or "SAVE").upper()
@@ -161,7 +162,7 @@ class ArtifactDraftApplicationService:
                     findings=[Finding("GSDLC04B_AUTOSAVE_IDEMPOTENT_PASS", "Identical autosave content reused the current immutable revision.", Severity.INFO, path=str(document.get("relative_path") or ""))],
                 )
 
-            revision = self._revision(existing, content=content, event=event, actor=actor, actor_role=actor_role, session_principal=session_principal, parent_revision_sha256=current_revision_sha)
+            revision = self._revision(existing, content=content, event=event, actor=actor, actor_role=actor_role, session_principal=session_principal, parent_revision_sha256=current_revision_sha, agent_provenance=agent_provenance)
             existing["active"] = True
             existing["current_revision_sha256"] = revision["revision_sha256"]
             existing["updated_at"] = revision["created_at"]
@@ -327,6 +328,7 @@ class ArtifactDraftApplicationService:
         session_principal: str,
         parent_revision_sha256: str | None,
         recovered_from_sha256: str | None = None,
+        agent_provenance: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         created_at = _now()
         content_sha = self._sha(content)
@@ -350,6 +352,7 @@ class ArtifactDraftApplicationService:
             "recovered_from_sha256": recovered_from_sha256,
             "approved_evidence": False,
             "source_mutations_performed": False,
+            "agent_provenance": deepcopy(agent_provenance) if isinstance(agent_provenance, dict) else None,
         }
 
     def _event(self, event: str, actor: str, actor_role: str, session_principal: str, *, source_sha256: str, revision_sha256: str | None) -> dict[str, Any]:
@@ -428,7 +431,7 @@ class ArtifactDraftApplicationService:
 
     @staticmethod
     def _revision_summary(revision: dict[str, Any]) -> dict[str, Any]:
-        return {key: revision.get(key) for key in ("revision", "revision_sha256", "parent_revision_sha256", "content_sha256", "event", "actor", "actor_role", "created_at", "recovered_from_sha256", "lifecycle_state", "source_type")}
+        return {key: revision.get(key) for key in ("revision", "revision_sha256", "parent_revision_sha256", "content_sha256", "event", "actor", "actor_role", "created_at", "recovered_from_sha256", "lifecycle_state", "source_type", "agent_provenance")}
 
     @staticmethod
     def _summary(workspace_id: str, document_id: str, *, active: bool, revisions_total: int, conflict: bool = False, idempotent: bool = False) -> dict[str, Any]:

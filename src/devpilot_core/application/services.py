@@ -41,6 +41,7 @@ from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationS
 from .artifact_draft_service import ArtifactDraftApplicationService
 from .artifact_import_service import ArtifactImportApplicationService
 from .artifact_review_service import ArtifactReviewApplicationService
+from .agent_assist_service import AgentAssistApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -103,6 +104,7 @@ class ApplicationService:
         self.artifact_drafts = ArtifactDraftApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_imports = ArtifactImportApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_reviews = ArtifactReviewApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports, plans=self.workspace_edit_planning, executions=self.workspace_edit_execution)
+        self.agent_assist = AgentAssistApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports)
         self._pre_code_wizard: PreCodeWizardApplicationService | None = None
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
@@ -1244,14 +1246,27 @@ class ApplicationService:
     def workspace_traceability(self) -> CommandResult:
         return self.workspace_validation.traceability()
 
+
+    def artifact_assist_plan(self, **kwargs: Any) -> CommandResult:
+        return self.agent_assist.plan(**kwargs)
+
+    def artifact_assist_run(self, *, plan_id: str, plan_sha256: str, simulate_invalid_output: bool = False) -> CommandResult:
+        return self.agent_assist.run(plan_id=plan_id, plan_sha256=plan_sha256, simulate_invalid_output=simulate_invalid_output)
+
+    def artifact_assist_decide(self, **kwargs: Any) -> CommandResult:
+        return self.agent_assist.decide(**kwargs)
+
+    def artifact_assist_get(self, *, proposal_id: str) -> CommandResult:
+        return self.agent_assist.get(proposal_id=proposal_id)
+
     def artifact_draft_get(self, *, document_id: str) -> CommandResult:
         return self.artifact_drafts.get(document_id=document_id)
 
     def artifact_draft_history(self, *, document_id: str) -> CommandResult:
         return self.artifact_drafts.history(document_id=document_id)
 
-    def artifact_draft_save(self, *, document_id: str, content: str, expected_source_sha256: str, expected_revision_sha256: str | None, actor: str, actor_role: str, session_principal: str, event: str = "SAVE") -> CommandResult:
-        return self.artifact_drafts.save(document_id=document_id, content=content, expected_source_sha256=expected_source_sha256, expected_revision_sha256=expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal, event=event)
+    def artifact_draft_save(self, *, document_id: str, content: str, expected_source_sha256: str, expected_revision_sha256: str | None, actor: str, actor_role: str, session_principal: str, event: str = "SAVE", agent_provenance: dict[str, Any] | None = None) -> CommandResult:
+        return self.artifact_drafts.save(document_id=document_id, content=content, expected_source_sha256=expected_source_sha256, expected_revision_sha256=expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal, event=event, agent_provenance=agent_provenance)
 
     def artifact_draft_discard(self, *, document_id: str, expected_source_sha256: str, expected_revision_sha256: str | None, actor: str, actor_role: str, session_principal: str) -> CommandResult:
         return self.artifact_drafts.discard(document_id=document_id, expected_source_sha256=expected_source_sha256, expected_revision_sha256=expected_revision_sha256, actor=actor, actor_role=actor_role, session_principal=session_principal)
@@ -2042,6 +2057,10 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-04-C-IMPORT-PREVIEW", "POST", "/api/v1/workspace/artifact-imports/preview", "workspace.artifact_imports.preview", ["GSDLC-04-C bounded paste/upload/import preview; no source authority or write."]),
         ("APP-ROUTE-GSDLC-04-C-IMPORT-PERSIST", "POST", "/api/v1/workspace/artifact-imports/persist", "workspace.artifact_imports.persist", ["GSDLC-04-C persist normalized import as governed DRAFT runtime state only."]),
         ("APP-ROUTE-GSDLC-04-C-IMPORT-RECENT", "GET", "/api/v1/workspace/artifact-imports/recent", "workspace.artifact_imports.recent", ["GSDLC-04-C bounded recent import provenance projection."]),
+        ("APP-ROUTE-GSDLC-07-C-ASSIST-PLAN", "POST", "/api/v1/workspace/artifact-assist/documents/{document_id}/plan", "workspace.artifact_assist.plan", ["GSDLC-07-C plan-before-run; exposes agent/model/context/cost/limits and writes runtime plan only."]),
+        ("APP-ROUTE-GSDLC-07-C-ASSIST-RUN", "POST", "/api/v1/workspace/artifact-assist/plans/{plan_id}/run", "workspace.artifact_assist.run", ["GSDLC-07-C hermetic mock/fake-local run; produces untrusted proposal+diff only."]),
+        ("APP-ROUTE-GSDLC-07-C-ASSIST-DECISION", "POST", "/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision", "workspace.artifact_assist.decision", ["GSDLC-07-C authenticated human ACCEPT/REJECT/MODIFY; ACCEPT/MODIFY persist runtime DRAFT only, never approved source."]),
+        ("APP-ROUTE-GSDLC-07-C-ASSIST-GET", "GET", "/api/v1/workspace/artifact-assist/proposals/{proposal_id}", "workspace.artifact_assist.get", ["GSDLC-07-C read-only proposal/provenance projection."]),
         ("APP-ROUTE-GSDLC-04-D-REVIEW-START-IMPORT", "POST", "/api/v1/workspace/artifact-reviews/imports/{import_id}/start", "workspace.artifact_reviews.start_import", ["GSDLC-04-D start governed review from an imported DRAFT; human-session authority."]),
         ("APP-ROUTE-GSDLC-04-D-REVIEW-START-DOCUMENT", "POST", "/api/v1/workspace/artifact-reviews/documents/{document_id}/start", "workspace.artifact_reviews.start_document", ["GSDLC-04-D start governed review from a document draft; human-session authority."]),
         ("APP-ROUTE-GSDLC-04-D-REVIEW-STATUS", "GET", "/api/v1/workspace/artifact-reviews/{review_id}", "workspace.artifact_reviews.status", ["GSDLC-04-D review/findings/diff status projection; read-only."]),

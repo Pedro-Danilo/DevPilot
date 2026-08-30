@@ -1,0 +1,312 @@
+{
+  "micro_sprint": "DEVPL-GSDLC-07-C",
+  "updated": "2026-08-29",
+  "source_repo": "repo_DevPilot_Local_383_DEVPL_GSDLC_07_B_RAG_CONTEXT_PACKS_PROVENANCE_BUDGET_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_git_commit": "749d5f9ae039c961b506834de191b94bf65ff50b",
+  "source_sha256": "d6535db2dd4e54414a38873379957619ed1e106258a625b268d08d89683a05aa",
+  "schema_id": "devpilot.gsdlc07c.source_delta_manifest.v1",
+  "status": "PASS/LOCAL",
+  "paths_total": 50,
+  "listed_paths_total": 49,
+  "created_total": 25,
+  "modified_total": 25,
+  "deleted_total": 0,
+  "manifest_self_excluded_from_paths": true,
+  "eol_policy": "canonical SHA-256 normalizes LF/CRLF for text; binary bytes remain exact",
+  "paths": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "status": "M",
+      "canonical_sha256": "947af7e1a4c1650f4318bef8506189a4ea297e457e9138a9335ffa83b2aad9d6",
+      "size_bytes": 1200545
+    },
+    {
+      "path": ".devpilot/identity/server_rbac_policy_catalog.json",
+      "status": "M",
+      "canonical_sha256": "6d930da6ebf38b18ab9b416d827ad437678a4e08e3f2fe9130fc3f6f3fd37f45",
+      "size_bytes": 98220
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "47ea4057f59d358f57bda563c1263dcc6ed8c82e0d05aaa969392ed72a8dae6d",
+      "size_bytes": 181761
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "status": "M",
+      "canonical_sha256": "e2b7b207bd7a69e4b9d61c977fe52ed495afba68f2ae6a3c15c2f402776ec1f8",
+      "size_bytes": 411285
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "a68e5d72d5dc8eff1f7a24dbd8d1f286b7bdb8992e9585414497197be7ad984e",
+      "size_bytes": 43116
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "status": "M",
+      "canonical_sha256": "c5d9e00c606f7b5c7bb2c51fef84dc9a71a54093c5a5cbe4c9d1d116576afcca",
+      "size_bytes": 246778
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "status": "M",
+      "canonical_sha256": "3c69b82ae84c63c18f029bffc4d0f9bb54515992f6cdd74087dc02caeb7f4b3f",
+      "size_bytes": 591566
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "status": "M",
+      "canonical_sha256": "75bd3e5b9ac33f205f4b7e2f221bfcae103293bfb48e8194832ecf330ba65781",
+      "size_bytes": 915145
+    },
+    {
+      "path": "03_PROMPT_DEVPL_GSDLC_07_C_v1_0_1_REBOUND_REPO383.md",
+      "status": "A",
+      "canonical_sha256": "fa89244254eb61fbff9ecace2c9bd857d23545eb53b8602b58be0521d239d982",
+      "size_bytes": 5422
+    },
+    {
+      "path": "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+      "status": "M",
+      "canonical_sha256": "82dabba9b2a6eb177c8d808d339b5ce9294c74721691fe55ed6d071080ff8ca6",
+      "size_bytes": 22518
+    },
+    {
+      "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "status": "A",
+      "canonical_sha256": "d8b21626118b41a91b9892fc113f4a6e0e07e2a74ba1bfc2872873dfdc1fdd30",
+      "size_bytes": 853
+    },
+    {
+      "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "status": "A",
+      "canonical_sha256": "3829be161524c542d0e794a905fd5c748a7912440a69bb906ab02fd4760a374c",
+      "size_bytes": 589
+    },
+    {
+      "path": "DEVPL_GSDLC_07_C_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "status": "A",
+      "canonical_sha256": "3cec1a475d872c971ae56abe3289ab1eebb7d6d7ff6338f73d8ec30028392a22",
+      "size_bytes": 782
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "canonical_sha256": "7d917f4f1924b68780196dfa5bf3758867e242a9a8cc5d99698def927f713ea2",
+      "size_bytes": 446814
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "status": "M",
+      "canonical_sha256": "600a3f885c9a1fb01bb2c65a2a25e57e708ed5bab3896d75ce76a6fd01460c12",
+      "size_bytes": 25737
+    },
+    {
+      "path": "docs/05_operations/gsdlc_07_c_agent_assist_runbook.md",
+      "status": "A",
+      "canonical_sha256": "655469d5875f49f73c53f223d9cd3659c134339c8535cd06f995079610e15cb8",
+      "size_bytes": 1019
+    },
+    {
+      "path": "docs/07_interfaces/api_service_mapping.md",
+      "status": "M",
+      "canonical_sha256": "fe90b7b0b9773475468536a05201f7acc020dc17ad58e887488817ec4dc86e59",
+      "size_bytes": 55394
+    },
+    {
+      "path": "docs/07_interfaces/openapi_v1.json",
+      "status": "M",
+      "canonical_sha256": "cf8d00d3b8cda038d24e6791e197a18d49094e0a6b0d1ebb4db80f8013113f95",
+      "size_bytes": 515836
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_AGENT_ASSIST_TRACES.json",
+      "status": "A",
+      "canonical_sha256": "ff03ebf17ba5f7fec940240b3e1e0358b05c96064f67e6b50131fa9e3672e670",
+      "size_bytes": 891
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_CONTRACT_RECONCILIATION_SWEEP.json",
+      "status": "A",
+      "canonical_sha256": "2b6b52523073aeef506e3902082e932198057a9cf65d7bf49a7a7156966b2e9c",
+      "size_bytes": 570
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_COST_PROVENANCE_SAMPLES.json",
+      "status": "A",
+      "canonical_sha256": "723c9ba0847b085ed088533778bcd34c02e99849c1e039c8a8c975690b491297",
+      "size_bytes": 710
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_FORBIDDEN_PATH_AUDIT.json",
+      "status": "A",
+      "canonical_sha256": "6599cd49d0050082f968794befccc9e6189db14a0e7430d04938eec85ac2e4ba",
+      "size_bytes": 367
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_FULL_REGRESSION_WAIVER.json",
+      "status": "A",
+      "canonical_sha256": "5a49088281bf712019237b4a2a6fd5c1957aa1cc8ab69df1f02ffdd9fe62af67",
+      "size_bytes": 717
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_HISTORICAL_CONTRACT_SWEEP.json",
+      "status": "A",
+      "canonical_sha256": "60e3e9ca8ca70247617cfabe19bec0706720041358ec93d456f68c9248502806",
+      "size_bytes": 1076
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_IMPLEMENTATION_REPORT.md",
+      "status": "A",
+      "canonical_sha256": "dc1150eacd2ddc6903643ccad01b6a76ce898be162744791b187e154ce77b18a",
+      "size_bytes": 1962
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_OPERATION_DECLARATION.json",
+      "status": "A",
+      "canonical_sha256": "bce439378b48191a4ed917fd45099b9df8c27d5ed3633e062d3829eb7fb2bcd1",
+      "size_bytes": 513
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_SECRET_DELTA_SCAN.json",
+      "status": "A",
+      "canonical_sha256": "c63788ec1d7b933d44fa969b3e98a9d81b35cee878e2a1ed2e508585458dca5b",
+      "size_bytes": 750
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_TEST_IMPACT.json",
+      "status": "A",
+      "canonical_sha256": "0180f37f5e12513c66531cab0ec211db1916fbb714a463f12f166e369fcbd5e8",
+      "size_bytes": 1349
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_C_VALIDATION_PLAN.json",
+      "status": "A",
+      "canonical_sha256": "dd3e617e7adefc92b64c12866c2683e94079911dc63e0fcd05934374948f9cc6",
+      "size_bytes": 1736
+    },
+    {
+      "path": "docs/schemas/agent_assist_plan.schema.json",
+      "status": "A",
+      "canonical_sha256": "7cf9552498572788f9ff526b23b46b98e3fffbc39030ede58d754f2442bcf12d",
+      "size_bytes": 1893
+    },
+    {
+      "path": "docs/schemas/agent_assist_proposal.schema.json",
+      "status": "A",
+      "canonical_sha256": "2fe277294f14f60a60b1741802ef5433c7f2063214725d5f8894f051184ef42a",
+      "size_bytes": 2340
+    },
+    {
+      "path": "docs/schemas/agent_assist_structured_output.schema.json",
+      "status": "A",
+      "canonical_sha256": "58bc630cef85363e0e10068f3c158756326d2f5a431db61334248a94441b1bb1",
+      "size_bytes": 972
+    },
+    {
+      "path": "docs/schemas/agent_provenance.schema.json",
+      "status": "A",
+      "canonical_sha256": "399cbbc65f9dca1c7de809bfa0731826fd1d474747b3290affde9d1c8f53ab0f",
+      "size_bytes": 2694
+    },
+    {
+      "path": "docs/schemas/artifact_draft_store_record.schema.json",
+      "status": "M",
+      "canonical_sha256": "eb0fcd172d24973e27a366516f49ff9409d775401e91b93a55d75cb9ce215936",
+      "size_bytes": 5872
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "status": "M",
+      "canonical_sha256": "76237ed4d8e3b91960aac92ababe7f7d608349dc580e1cd86eeef806404237eb",
+      "size_bytes": 156729
+    },
+    {
+      "path": "src/devpilot_core/application/agent_assist_service.py",
+      "status": "A",
+      "canonical_sha256": "683df0523c13da3642150cf28fbcaecb0d744ce7fa097a2d869f0adc2cf7704a",
+      "size_bytes": 33103
+    },
+    {
+      "path": "src/devpilot_core/application/artifact_draft_service.py",
+      "status": "M",
+      "canonical_sha256": "cd9a77ad169805c842f739b267cd8ded097f21b440b032cc13681eebad35cf07",
+      "size_bytes": 27363
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "status": "M",
+      "canonical_sha256": "707165deae10c1a5e82169e5df2fdb60d83bdbcbd5e75c742e8520a0b4b64a77",
+      "size_bytes": 163679
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+      "status": "M",
+      "canonical_sha256": "4f93764b7e4ea7cced2123a02772a9a9fcf600982348fc0899cde6e04ff3533a",
+      "size_bytes": 19667
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/security.py",
+      "status": "M",
+      "canonical_sha256": "13cc5e36d347577c1c47765b3e8e8f8ae7b35c36906b7ae9fc290ae8d844e433",
+      "size_bytes": 43825
+    },
+    {
+      "path": "tests/test_api_contract.py",
+      "status": "M",
+      "canonical_sha256": "895857028721e6de00a03ed091573acce71c84ac0afd94d33507aebe454397a8",
+      "size_bytes": 25307
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+      "status": "A",
+      "canonical_sha256": "a80f3ee346bb194e981993b8ee41fdb6049289b2ea1a6d961e1510fd810e892d",
+      "size_bytes": 13746
+    },
+    {
+      "path": "ui/web/package.json",
+      "status": "M",
+      "canonical_sha256": "fa7051596aa3fe794cea0c7704d135daf221c0a06ca192f91b545466ee263b3a",
+      "size_bytes": 16592
+    },
+    {
+      "path": "ui/web/scripts/gsdlc07c-artifact-ai-smoke.mjs",
+      "status": "A",
+      "canonical_sha256": "c30dd0e0756633100994a46025dc75a91017cb1d20586ec26863cb1a64ac81f3",
+      "size_bytes": 1686
+    },
+    {
+      "path": "ui/web/src/api/client.ts",
+      "status": "M",
+      "canonical_sha256": "7b1f970216591ad72eee9dbb1798bea02b541846f619fe3d0f1ec784c38dbce9",
+      "size_bytes": 58395
+    },
+    {
+      "path": "ui/web/src/api/types.ts",
+      "status": "M",
+      "canonical_sha256": "9b6283454b9199b0ea76db70049439be6dbec0071de434dac2993135b74baaa3",
+      "size_bytes": 33626
+    },
+    {
+      "path": "ui/web/src/components/ArtifactAIPanel.ts",
+      "status": "A",
+      "canonical_sha256": "ae39160a280f175a6dd6e1ba183eb5a8011668ced5068525b941c294a74e4ed5",
+      "size_bytes": 15286
+    },
+    {
+      "path": "ui/web/src/components/ArtifactManualEditor.ts",
+      "status": "M",
+      "canonical_sha256": "a986111a3778990c5002968d5b3d76ac6eb63148b7ad524c304c79ac9c7f68b8",
+      "size_bytes": 17787
+    },
+    {
+      "path": "ui/web/src/pages/WorkspaceDocumentsView.ts",
+      "status": "M",
+      "canonical_sha256": "84e4a1eaa59a06b33dd3803586cea7a492cc690fe329aa0b09cfc1688864a164",
+      "size_bytes": 23763
+    }
+  ]
+}

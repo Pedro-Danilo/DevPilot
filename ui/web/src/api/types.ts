@@ -877,6 +877,7 @@ export interface ArtifactDraftRevisionSummary {
   recovered_from_sha256?: string | null;
   lifecycle_state: 'DRAFT';
   source_type: 'MANUAL';
+  agent_provenance?: AgentProvenanceRecord | null;
 }
 
 export interface ArtifactDraftRevision extends ArtifactDraftRevisionSummary {
@@ -908,6 +909,83 @@ export interface ArtifactDraftRecord {
   source_conflict?: boolean;
   approved_evidence: false;
   source_mutations_performed: false;
+}
+
+export type AgentAssistOperation = 'generate_draft' | 'rewrite_selection' | 'critique' | 'improve' | 'transform_imported_source';
+export type AgentAssistMode = 'mock' | 'fake-local';
+export type AgentAssistDecision = 'ACCEPT' | 'REJECT' | 'MODIFY';
+
+export interface AgentProvenanceRecord {
+  schema_id: 'devpilot.gsdlc07c.agent_provenance.v1';
+  proposal_id: string;
+  plan_id: string;
+  operation: AgentAssistOperation;
+  agent_role_id?: string | null;
+  runtime_agent_id?: string | null;
+  runtime_mode?: string | null;
+  provider_id?: string | null;
+  model_id?: string | null;
+  access_route_id?: string | null;
+  context_pack_id?: string | null;
+  context_pack_sha256?: string | null;
+  citations: unknown[];
+  estimated_tokens?: number | null;
+  estimated_cost_usd?: number | null;
+  cost_state?: string | null;
+  output_sha256: string;
+  decision: string;
+  human_review_required: true;
+  model_output_untrusted: true;
+  approval_state: 'not-requested';
+  approved_transition: false;
+  frozen_transition: false;
+  network_used: false;
+  external_api_used: false;
+  source_mutations_performed: false;
+}
+
+export interface AgentAssistPlan {
+  schema_id: 'devpilot.gsdlc07c.agent_assist_plan.v1';
+  plan_id: string;
+  plan_sha256: string;
+  operation: AgentAssistOperation;
+  mode: AgentAssistMode;
+  instruction: string;
+  document: Record<string, unknown>;
+  selection: { start?: number | null; end?: number | null };
+  agent: Record<string, unknown>;
+  runtime: Record<string, unknown>;
+  model_route: Record<string, unknown>;
+  context: { status?: string; sources?: Array<Record<string, unknown>>; citations?: unknown[]; selected_tokens?: number | null; [key: string]: unknown };
+  limits: Record<string, unknown>;
+  cost: Record<string, unknown>;
+  created_at: string;
+  network_used: false;
+  external_api_used: false;
+  source_mutations_performed: false;
+  approval_state: 'not-requested';
+}
+
+export interface AgentAssistProposal {
+  schema_id: 'devpilot.gsdlc07c.agent_assist_proposal.v1';
+  proposal_id: string;
+  proposal_sha256: string;
+  plan_id: string;
+  plan_sha256: string;
+  operation: AgentAssistOperation;
+  status: 'PROPOSED' | 'DECIDED';
+  proposed_content: string;
+  proposal_text: string;
+  critique: string[];
+  diff: string;
+  provenance: AgentProvenanceRecord;
+  decision?: Record<string, unknown> | null;
+  untrusted_output: true;
+  human_review_required: true;
+  source_mutations_performed: false;
+  workspace_writes_performed: false;
+  network_used: false;
+  external_api_used: false;
 }
 
 export type ArtifactImportSourceType = 'PASTE' | 'UPLOAD' | 'IMPORT';

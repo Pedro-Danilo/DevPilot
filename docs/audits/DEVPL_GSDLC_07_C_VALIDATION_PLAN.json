@@ -1,0 +1,57 @@
+{
+  "schema_id": "devpilot.gsdlc07c.validation_plan.v1",
+  "status": "PASS/PLAN-FROZEN",
+  "policy": "completion-first/selective/no-full",
+  "core_test_files": [
+    "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+    "tests/test_devpl_gsdlc_07_b_context_pack_v2.py",
+    "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py",
+    "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+    "tests/test_devpl_gsdlc_04_c_artifact_import.py",
+    "tests/test_api_contract.py",
+    "tests/test_api_security.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "ui_static": "node ui/web/scripts/gsdlc07c-artifact-ai-smoke.mjs",
+  "deterministic_validators": [
+    "Project State",
+    "Documentation Governance",
+    "TCR v1",
+    "TCR v2",
+    "Historical Regression Guard",
+    "Secret differential scan",
+    "forbidden-path audit",
+    "git diff --check"
+  ],
+  "browser_scope": [
+    "ArtifactAIPanel plan/pre-run visibility",
+    "proposal/diff/human decision"
+  ],
+  "full_regression_runs": 0,
+  "validated_windows_plan": {
+    "nodeids_total": 125,
+    "groups": [
+      {
+        "name": "07c-specific",
+        "tests": 9
+      },
+      {
+        "name": "artifact-api-security",
+        "tests": 67
+      },
+      {
+        "name": "governance-contracts",
+        "tests": 49
+      }
+    ],
+    "predecessor_inherited": [
+      "GSDLC-07-A Windows-validated",
+      "GSDLC-07-B Windows-validated"
+    ],
+    "rationale": "Only surfaces changed by 07-C are rerun; predecessor contracts remain inherited unless watched paths changed."
+  }
+}

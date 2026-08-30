@@ -1,0 +1,32 @@
+{
+  "schema_id": "devpilot.gsdlc07c.historical_contract_sweep.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "classifications": [
+    {
+      "path": "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+      "classification": "historical-freeze",
+      "action": "preserve; manual DRAFT lifecycle remains valid"
+    },
+    {
+      "path": "tests/test_api_contract.py",
+      "classification": "current-active",
+      "action": "extend only current route mapping for successor Agent Assist endpoints"
+    },
+    {
+      "path": "docs/schemas/artifact_draft_store_record.schema.json",
+      "classification": "current-active",
+      "action": "successor-compatible nullable agent_provenance field; existing MANUAL revisions serialize null"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+      "classification": "successor-needed",
+      "action": "new 07-C contract"
+    }
+  ],
+  "historical_assertions_weakened": 0,
+  "runtime_ephemeral": [
+    "outputs/agent_assist/gsdlc_07_c",
+    ".devpilot/devpilot.db",
+    ".devpilot/auth/auth.db"
+  ]
+}

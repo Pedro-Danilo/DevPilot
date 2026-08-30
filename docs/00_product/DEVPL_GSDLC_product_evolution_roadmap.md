@@ -506,3 +506,10 @@ Antes de 07-A se ejecuta una transición no funcional mínima: materialización 
 ### DEVPL-GSDLC-07-B — RAG context packs, provenance and budget (2026-08-29)
 
 `IMPLEMENTED / LOCAL-VALIDATED / PENDING-WINDOWS-OWNER-ADJUDICATION`. Añade ContextPack v2 como successor de POST-H-032-D: selección local registrada/allowlisted, hashes, freshness/trust, citations, insufficient-evidence, ContextBudget/top-k/diff-first y RagProvenanceView read-only. No ejecuta agentes, tools, embeddings ni APIs externas. 07-C solo se autoriza tras owner adjudication Windows de 07-B; full del backlog permanece 0 hasta 07-E.
+
+## 2026-08-29 — GSDLC-07-C implementation candidate
+
+- 07-B `CLOSED/PASS`; successor repo383 es autoridad de 07-C.
+- 07-C: AgentAssistService + ArtifactAIPanel + AgentProvenance; mock/fake-local, proposal/diff review, human ACCEPT/REJECT/MODIFY, DRAFT-only persistence.
+- No automatic APPROVED/FROZEN; manual route remains first-class; full regression remains reserved for 07-E.
+- Next only after Windows owner adjudication: GSDLC-07-D.

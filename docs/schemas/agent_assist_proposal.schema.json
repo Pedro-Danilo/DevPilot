@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.gsdlc07c.agent_assist_proposal.v1",
+  "title": "Agent Assist Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "proposal_id",
+    "proposal_sha256",
+    "plan_id",
+    "plan_sha256",
+    "operation",
+    "status",
+    "base_content_sha256",
+    "proposed_content_sha256",
+    "proposed_content",
+    "proposal_text",
+    "critique",
+    "diff",
+    "provenance",
+    "decision",
+    "created_at",
+    "updated_at",
+    "source_mutations_performed",
+    "workspace_writes_performed",
+    "network_used",
+    "external_api_used",
+    "untrusted_output",
+    "human_review_required"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc07c.agent_assist_proposal.v1"
+    },
+    "proposal_id": {
+      "type": "string"
+    },
+    "proposal_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "plan_id": {
+      "type": "string"
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "PROPOSED",
+        "DECIDED"
+      ]
+    },
+    "base_content_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "proposed_content_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "proposed_content": {
+      "type": "string",
+      "maxLength": 1048576
+    },
+    "proposal_text": {
+      "type": "string"
+    },
+    "critique": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "diff": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "decision": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_mutations_performed": {
+      "const": false
+    },
+    "workspace_writes_performed": {
+      "const": false
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "untrusted_output": {
+      "const": true
+    },
+    "human_review_required": {
+      "const": true
+    }
+  }
+}

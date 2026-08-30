@@ -13,11 +13,11 @@ design_origin_repo: "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_RE
 design_origin_git_commit: "cff43e8d992ff6139bd13bb1809ce4d497ae0952"
 design_origin_repo_sha256: "e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b"
 design_origin_role: "historical-design-origin-only/not-execution-authority"
-source_repo: "repo_DevPilot_Local_382_DEVPL_GSDLC_07_A_CONTEXTUAL_AGENT_ROLE_BINDINGS_WINDOWS_VALIDATED_CANDIDATE.zip"
-source_git_commit: "807685993b9ef526d1274fd8d3440fb14f6e56cf"
-source_repo_sha256: "dfde12877a1f9a96297aab42ad30a4f85a64216e42004042e43b7a51ded1e865"
+source_repo: "repo_DevPilot_Local_383_DEVPL_GSDLC_07_B_RAG_CONTEXT_PACKS_PROVENANCE_BUDGET_WINDOWS_VALIDATED_CANDIDATE.zip"
+source_git_commit: "749d5f9ae039c961b506834de191b94bf65ff50b"
+source_repo_sha256: "d6535db2dd4e54414a38873379957619ed1e106258a625b268d08d89683a05aa"
 source_repo_role: "execution-authority/owner-adjudicated-gsdlc-06-successor"
-execution_source_policy: "rebound/repo382-windows-validated/07-b"
+execution_source_policy: "rebound/repo383-windows-validated/07-c"
 predecessor_backlog: "DEVPL-GSDLC-06"
 predecessor_micro_sprint_closure: "DEVPL_GSDLC_06_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md"
 predecessor_backlog_closure: "DEVPL_GSDLC_06_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md"
@@ -55,6 +55,18 @@ sha256 859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2
 Repo341 se conserva exclusivamente como origen histórico de diseño.
 
 GSDLC-06 se adjudica `CLOSED/PASS-WITH-GAPS` con dos gaps S2 no funcionales. Antes de cualquier mutación funcional de 07-A, el activation rebind debe incorporar las adjudicaciones finales, corregir el README stale de 06-E, registrar el erratum RBAC, corroborar enforcement con contratos focales y reconciliar Project State / Source Registry / README / roadmap.
+
+## 0.0.1 Rebind vigente para GSDLC-07-C
+
+Tras owner adjudication de `GSDLC-07-B = CLOSED/PASS`, la autoridad de ejecución vigente para 07-C es:
+
+```text
+repo   repo_DevPilot_Local_383_DEVPL_GSDLC_07_B_RAG_CONTEXT_PACKS_PROVENANCE_BUDGET_WINDOWS_VALIDATED_CANDIDATE.zip
+commit 749d5f9ae039c961b506834de191b94bf65ff50b
+sha256 d6535db2dd4e54414a38873379957619ed1e106258a625b268d08d89683a05aa
+```
+
+El binding repo379 descrito debajo se conserva como registro histórico de activación de la ola y no es autoridad de ejecución para 07-C.
 
 ## 0.1 Invariantes heredadas
 

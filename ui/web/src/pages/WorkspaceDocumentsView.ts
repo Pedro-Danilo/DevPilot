@@ -18,6 +18,7 @@ import { createDocumentValidationPanel } from '../components/DocumentValidationP
 import { createWorkspaceGitOperationsPanel } from '../components/WorkspaceGitOperationsPanel';
 import { createDocumentEditPlanner } from '../components/DocumentEditPlanner';
 import { createArtifactManualEditor } from '../components/ArtifactManualEditor';
+import { createArtifactAIPanel } from '../components/ArtifactAIPanel';
 import { createArtifactImportWorkbench } from '../components/ArtifactImportWorkbench';
 import { createArtifactReviewFlow } from '../components/ArtifactReviewFlow';
 import { renderDocumentViewer } from '../components/DocumentViewer';
@@ -98,6 +99,14 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string, sessio
     tokenProvider,
     onDraftChange: (content, revisionSha256) => {
       (editPlanner as HTMLElement & { setDraftContent?: (value: string, revisionSha256?: string | null) => void }).setDraftContent?.(content, revisionSha256);
+      (aiPanel as HTMLElement & { setDraftContent?: (value: string, revisionSha256?: string | null) => void }).setDraftContent?.(content, revisionSha256);
+    },
+  });
+  const aiPanel = createArtifactAIPanel({
+    tokenProvider,
+    onDraftDecision: async () => {
+      if (!state.selected) return;
+      (manualEditor as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
     },
   });
   const reviewFlow = createArtifactReviewFlow({ tokenProvider, session, onMutationComplete: async () => { await load(false); } });
@@ -323,8 +332,9 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string, sessio
       next.append(layout, renderPagination(state, () => void load(false)));
       (editPlanner as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
       (manualEditor as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
+      (aiPanel as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
       (reviewFlow as HTMLElement & { setDocument?: (id: string) => void }).setDocument?.(state.selected?.document_id ?? state.selected?.node_id ?? '');
-      next.append(importWorkbench, reviewFlow, manualEditor, editPlanner);
+      next.append(importWorkbench, reviewFlow, manualEditor, editPlanner, aiPanel);
       (gitOperationsPanel as HTMLElement & { setDocument?: (document?: WorkspaceDocumentResource) => void }).setDocument?.(state.selected);
       next.append(gitOperationsPanel);
       next.append(renderGuarded(() => renderDocumentInspectionPanel({
@@ -344,7 +354,7 @@ export function renderWorkspaceDocumentsView(tokenProvider: () => string, sessio
     } catch (error) {
       state.renderError = `La UI aisló un error de render sin perder el estado operativo: ${error instanceof Error ? error.message : String(error)}`;
       const fallback = document.createDocumentFragment();
-      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), importWorkbench, reviewFlow, manualEditor, editPlanner, gitOperationsPanel, validationPanel);
+      fallback.append(renderIntroduction(), renderUiStateNotice('error', state.renderError), importWorkbench, reviewFlow, manualEditor, editPlanner, aiPanel, gitOperationsPanel, validationPanel);
       root.replaceChildren(fallback);
     }
   }
@@ -374,7 +384,7 @@ function renderIntroduction(): HTMLElement {
   title.textContent = 'Artifact Workbench · Explorador de documentos';
   const description = document.createElement('p');
   description.textContent = 'Navega documentos del workspace activo y, para Markdown/JSON, crea drafts MANUAL gobernados con autosave, historial y optimistic concurrency. El source aprobado no cambia hasta el flujo de plan/approval/apply.';
-  description.textContent += ' Los documentos se navegan mediante identificadores opacos.';
+  description.textContent += ' Los documentos se navegan mediante identificadores opacos. GSDLC-07-C añade AI Assist gobernado: plan visible antes del run, proposal/diff no confiable y decisión humana antes de persistir una revisión DRAFT.';
   section.append(title, description, renderContractBadges('ui.workspace-documents', { dryRunLabel: 'DRAFT runtime', warning: 'GSDLC-04-B habilita autoría manual solo como draft runtime. Apply de source sigue gobernado por UOC-005; Git por UOC-006; no remote/connector/plugin write.' }));
   return section;
 }

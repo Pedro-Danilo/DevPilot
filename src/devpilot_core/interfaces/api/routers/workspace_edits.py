@@ -89,6 +89,29 @@ class ArtifactReviewFreezeBody(BaseModel):
     execution_id: str = Field(pattern=r"^uedit_[0-9a-f]{32}$")
 
 
+class AgentAssistPlanBody(BaseModel):
+    operation: str = Field(pattern=r"^(generate_draft|rewrite_selection|critique|improve|transform_imported_source)$")
+    mode: str = Field(default="mock", pattern=r"^(mock|fake-local)$")
+    instruction: str = Field(default="", max_length=4000)
+    current_content: str = Field(max_length=1048576)
+    expected_source_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    expected_revision_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    selection_start: int | None = Field(default=None, ge=0)
+    selection_end: int | None = Field(default=None, ge=1)
+    import_id: str | None = Field(default=None, max_length=128)
+    step_id: str | None = Field(default=None, max_length=128)
+
+
+class AgentAssistRunBody(BaseModel):
+    plan_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+class AgentAssistDecisionBody(BaseModel):
+    proposal_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    decision: str = Field(pattern=r"^(ACCEPT|REJECT|MODIFY)$")
+    modified_content: str | None = Field(default=None, max_length=1048576)
+
+
 def _draft_session_identity(request: Request) -> tuple[tuple[str, str, str] | None, JSONResponse | None]:
     principal = getattr(request.state, "authenticated_principal", None)
     if principal is None:
@@ -295,6 +318,41 @@ def artifact_import_recent(
     if error: return error
     result = service.artifact_import_recent(limit=limit)
     return _draft_json(result, "workspace.artifact_imports.recent")
+
+
+
+@router.post("/api/v1/workspace/artifact-assist/documents/{document_id}/plan")
+def artifact_assist_plan(request: Request, document_id: str, body: AgentAssistPlanBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, principal = identity
+    payload = body.model_dump()
+    return _draft_json(service.artifact_assist_plan(document_id=document_id, actor=actor, actor_role=actor_role, session_principal=principal, **payload), "workspace.artifact_assist.plan")
+
+
+@router.post("/api/v1/workspace/artifact-assist/plans/{plan_id}/run")
+def artifact_assist_run(request: Request, plan_id: str, body: AgentAssistRunBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    return _draft_json(service.artifact_assist_run(plan_id=plan_id, plan_sha256=body.plan_sha256), "workspace.artifact_assist.run")
+
+
+@router.post("/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision")
+def artifact_assist_decision(request: Request, proposal_id: str, body: AgentAssistDecisionBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    assert identity is not None
+    actor, actor_role, principal = identity
+    return _draft_json(service.artifact_assist_decide(proposal_id=proposal_id, proposal_sha256=body.proposal_sha256, decision=body.decision, modified_content=body.modified_content, actor=actor, actor_role=actor_role, session_principal=principal), "workspace.artifact_assist.decision")
+
+
+@router.get("/api/v1/workspace/artifact-assist/proposals/{proposal_id}")
+def artifact_assist_get(request: Request, proposal_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _draft_session_identity(request)
+    if error: return error
+    return _draft_json(service.artifact_assist_get(proposal_id=proposal_id), "workspace.artifact_assist.get")
+
 
 @router.post("/api/v1/workspace/artifact-reviews/imports/{import_id}/start")
 def artifact_review_start_import(request: Request, import_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:

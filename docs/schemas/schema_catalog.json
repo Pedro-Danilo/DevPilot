@@ -3323,7 +3323,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-07-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-PLAN-V1",
+      "title": "AgentAssistPlan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_assist_plan.schema.json",
+      "description": "GSDLC-07-C pre-run plan exposing agent/runtime/model/provider/access-route/context/tokens/cost/limits before hermetic execution.",
+      "status": "registered",
+      "contract": "AgentAssistPlan",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-STRUCTURED-OUTPUT-V1",
+      "title": "AgentAssistStructuredOutput v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_assist_structured_output.schema.json",
+      "description": "GSDLC-07-C validated untrusted structured model/agent output contract.",
+      "status": "registered",
+      "contract": "AgentAssistStructuredOutput",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-PROVENANCE-V1",
+      "title": "AgentProvenance v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_provenance.schema.json",
+      "description": "GSDLC-07-C provenance binding proposal, context citations, model route, cost and human decision without approval authority.",
+      "status": "registered",
+      "contract": "AgentProvenance",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-PROPOSAL-V1",
+      "title": "AgentAssistProposal v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/agent_assist_proposal.schema.json",
+      "description": "GSDLC-07-C review-only proposal/diff contract requiring explicit human decision before runtime draft persistence.",
+      "status": "registered",
+      "contract": "AgentAssistProposal",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-07-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-07-C"
     }
   ],
-  "schemas_total": 230
+  "schemas_total": 235
 }

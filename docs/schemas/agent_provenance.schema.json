@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.gsdlc07c.agent_provenance.v1",
+  "title": "Agent Provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "proposal_id",
+    "plan_id",
+    "operation",
+    "agent_role_id",
+    "runtime_agent_id",
+    "runtime_mode",
+    "provider_id",
+    "model_id",
+    "access_route_id",
+    "context_pack_id",
+    "context_pack_sha256",
+    "citations",
+    "estimated_tokens",
+    "estimated_cost_usd",
+    "cost_state",
+    "output_sha256",
+    "decision",
+    "human_review_required",
+    "model_output_untrusted",
+    "approval_state",
+    "approved_transition",
+    "frozen_transition",
+    "network_used",
+    "external_api_used",
+    "source_mutations_performed"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc07c.agent_provenance.v1"
+    },
+    "proposal_id": {
+      "type": "string"
+    },
+    "plan_id": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "agent_role_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "runtime_agent_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "runtime_mode": {
+      "type": "string"
+    },
+    "provider_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "access_route_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "context_pack_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "context_pack_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "citations": {
+      "type": "array"
+    },
+    "estimated_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "estimated_cost_usd": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "cost_state": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "output_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "decision": {
+      "enum": [
+        "PENDING",
+        "ACCEPT",
+        "REJECT",
+        "MODIFY"
+      ]
+    },
+    "human_review_required": {
+      "const": true
+    },
+    "model_output_untrusted": {
+      "const": true
+    },
+    "approval_state": {
+      "const": "not-requested"
+    },
+    "approved_transition": {
+      "const": false
+    },
+    "frozen_transition": {
+      "const": false
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "source_mutations_performed": {
+      "const": false
+    }
+  }
+}

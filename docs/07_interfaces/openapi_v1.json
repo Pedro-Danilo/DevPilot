@@ -14450,6 +14450,448 @@
           }
         ]
       }
+    },
+    "/api/v1/workspace/artifact-assist/documents/{document_id}/plan": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Plan governed artifact AI assistance",
+        "operationId": "artifact_assist_plan",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-operation": "workspace.artifact_assist.plan",
+        "x-devpilot-api-id": "API-GSDLC07C-PLAN",
+        "x-devpilot-status": "gsdlc-07-c-pass-candidate",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentAssistApplicationService",
+        "x-devpilot-side-effect": "runtime-agent-assist-write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "description": "GSDLC-07-C governed Agent Assist runtime boundary; proposals are untrusted and human-reviewed, never direct APPROVED/FROZEN source writes.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentAssistPlanBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/workspace/artifact-assist/plans/{plan_id}/run": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Run hermetic artifact AI assistance plan",
+        "operationId": "artifact_assist_run",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-operation": "workspace.artifact_assist.run",
+        "x-devpilot-api-id": "API-GSDLC07C-RUN",
+        "x-devpilot-status": "gsdlc-07-c-pass-candidate",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentAssistApplicationService",
+        "x-devpilot-side-effect": "runtime-agent-assist-write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "description": "GSDLC-07-C governed Agent Assist runtime boundary; proposals are untrusted and human-reviewed, never direct APPROVED/FROZEN source writes.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentAssistRunBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Plan Id"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision": {
+      "post": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Record human decision for agent proposal",
+        "operationId": "artifact_assist_decision",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-operation": "workspace.artifact_assist.decision",
+        "x-devpilot-api-id": "API-GSDLC07C-DECISION",
+        "x-devpilot-status": "gsdlc-07-c-pass-candidate",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentAssistApplicationService",
+        "x-devpilot-side-effect": "runtime-agent-assist-write",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "description": "GSDLC-07-C governed Agent Assist runtime boundary; proposals are untrusted and human-reviewed, never direct APPROVED/FROZEN source writes.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentAssistDecisionBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "proposal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Proposal Id"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/workspace/artifact-assist/proposals/{proposal_id}": {
+      "get": {
+        "tags": [
+          "workspace-edits"
+        ],
+        "summary": "Read agent-assist proposal and provenance",
+        "operationId": "artifact_assist_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Governed API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-operation": "workspace.artifact_assist.get",
+        "x-devpilot-api-id": "API-GSDLC07C-GET",
+        "x-devpilot-status": "gsdlc-07-c-pass-candidate",
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "ApplicationService -> AgentAssistApplicationService",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "description": "GSDLC-07-C governed Agent Assist runtime boundary; proposals are untrusted and human-reviewed, never direct APPROVED/FROZEN source writes.",
+        "parameters": [
+          {
+            "name": "proposal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Proposal Id"
+            }
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -15290,6 +15732,145 @@
           "expected_preview_sha256"
         ],
         "title": "ArtifactImportPersistBody"
+      },
+      "AgentAssistPlanBody": {
+        "type": "object",
+        "required": [
+          "operation",
+          "current_content",
+          "expected_source_sha256"
+        ],
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "generate_draft",
+              "rewrite_selection",
+              "critique",
+              "improve",
+              "transform_imported_source"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "fake-local"
+            ],
+            "default": "mock"
+          },
+          "instruction": {
+            "type": "string",
+            "maxLength": 4000
+          },
+          "current_content": {
+            "type": "string",
+            "maxLength": 1048576
+          },
+          "expected_source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "expected_revision_sha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "selection_start": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "selection_end": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "import_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "step_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "AgentAssistRunBody": {
+        "type": "object",
+        "required": [
+          "plan_sha256"
+        ],
+        "properties": {
+          "plan_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "AgentAssistDecisionBody": {
+        "type": "object",
+        "required": [
+          "proposal_sha256",
+          "decision"
+        ],
+        "properties": {
+          "proposal_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "ACCEPT",
+              "REJECT",
+              "MODIFY"
+            ]
+          },
+          "modified_content": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1048576
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -15353,5 +15934,15 @@
     "human_session_required": true,
     "legacy_token_allowed": false,
     "full_regression_runs": 0
+  },
+  "x-devpilot-gsdlc-07-c": {
+    "sprint": "DEVPL-GSDLC-07-C",
+    "agent_assist_routes_total": 4,
+    "mock_local_mandatory": true,
+    "external_api_required": false,
+    "source_write_enabled": false,
+    "human_review_required": true,
+    "automatic_approved_frozen_transition": false,
+    "artifact_ai_panel": "ui/web/src/components/ArtifactAIPanel.ts"
   }
 }

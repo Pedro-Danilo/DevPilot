@@ -91,6 +91,11 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
         "workspace.artifact_reviews.status", "workspace.artifact_reviews.freeze", "workspace.artifact_reviews.reconcile",
     }
 
+    gsdlc07c_ops = {
+        "workspace.artifact_assist.plan", "workspace.artifact_assist.run",
+        "workspace.artifact_assist.decision", "workspace.artifact_assist.get",
+    }
+
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
             op_id = operation["x-devpilot-operation"]
@@ -112,6 +117,24 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                 if method.upper() == "POST":
                     assert "requestBody" in operation
                     assert "schema" in operation["requestBody"]["content"]["application/json"]
+                continue
+            elif op_id in gsdlc07c_ops:
+                assert operation["x-devpilot-status"] == "gsdlc-07-c-pass-candidate"
+                assert operation["security"] == [{"HumanSessionCookie": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-source-mutation"] is False
+                assert operation["x-devpilot-project-write"] is False
+                assert operation["x-devpilot-network-runtime"] is False
+                assert operation["x-devpilot-external-api"] is False
+                assert operation["x-devpilot-arbitrary-shell"] is False
+                assert operation["x-devpilot-remote-execution"] is False
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
+                for status in ["400", "401", "403", "422", "500"]:
+                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
+                if method.upper() == "POST":
+                    assert "requestBody" in operation
+                else:
+                    assert "requestBody" not in operation
                 continue
             elif op_id in {"project_entry.dry_run", "project_entry.revalidate"}:
                 assert operation["x-devpilot-status"] == "gsdlc-03-c-dry-run"

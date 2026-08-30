@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.gsdlc07c.agent_assist_plan.v1",
+  "title": "Agent Assist Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "plan_id",
+    "plan_sha256",
+    "operation",
+    "mode",
+    "document",
+    "instruction",
+    "selection",
+    "agent",
+    "runtime",
+    "model_route",
+    "context",
+    "limits",
+    "cost",
+    "actor",
+    "created_at",
+    "network_used",
+    "external_api_used",
+    "source_mutations_performed",
+    "approval_state"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.gsdlc07c.agent_assist_plan.v1"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^aip_[0-9a-f]{32}$"
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "operation": {
+      "enum": [
+        "critique",
+        "generate_draft",
+        "improve",
+        "rewrite_selection",
+        "transform_imported_source"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "mock",
+        "fake-local"
+      ]
+    },
+    "document": {
+      "type": "object"
+    },
+    "instruction": {
+      "type": "string"
+    },
+    "selection": {
+      "type": "object"
+    },
+    "agent": {
+      "type": "object"
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "model_route": {
+      "type": "object"
+    },
+    "context": {
+      "type": "object"
+    },
+    "limits": {
+      "type": "object"
+    },
+    "cost": {
+      "type": "object"
+    },
+    "actor": {
+      "type": "object"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "source_mutations_performed": {
+      "const": false
+    },
+    "approval_state": {
+      "const": "not-requested"
+    }
+  }
+}

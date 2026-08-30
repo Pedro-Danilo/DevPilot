@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.gsdlc07c.contract_reconciliation_sweep.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "checks": {
+    "schemas_and_metadata_current_active": "PASS",
+    "derived_registry_counters": "PASS-CANDIDATE",
+    "rbac_policy_binding": "PASS",
+    "ui_route_capability_mapping": "PASS",
+    "source_registry_project_state_readme_roadmap": "PASS-CANDIDATE",
+    "historical_snapshot_reuse": "PASS",
+    "runtime_ephemeral_excluded": "PASS",
+    "sealed_evidence_rewrite": "PASS",
+    "successor_contract_registered": "PASS"
+  },
+  "blocking_findings": []
+}

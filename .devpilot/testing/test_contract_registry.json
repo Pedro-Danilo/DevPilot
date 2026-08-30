@@ -12646,6 +12646,41 @@
         "ui/web/src/components/RagProvenanceView.ts",
         "ui/web/src/pages/SettingsView.ts"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-c-agent-assist-workflows",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-C",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "validates": [
+        "AgentAssistService",
+        "ArtifactAIPanel",
+        "AgentProvenance",
+        "docs/schemas/agent_assist_plan.schema.json",
+        "docs/schemas/agent_assist_proposal.schema.json",
+        "docs/schemas/agent_provenance.schema.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/agent_assist_service.py",
+        "src/devpilot_core/application/artifact_draft_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/ArtifactAIPanel.ts",
+        "ui/web/src/components/ArtifactManualEditor.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "docs/schemas/agent_assist_plan.schema.json",
+        "docs/schemas/agent_assist_proposal.schema.json",
+        "docs/schemas/agent_provenance.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",

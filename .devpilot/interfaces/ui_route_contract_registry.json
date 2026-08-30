@@ -706,12 +706,17 @@
         "ui/web/src/components/ArtifactManualEditor.ts",
         "ui/web/src/components/ArtifactImportWorkbench.ts",
         "ui/web/src/components/ArtifactReviewFlow.ts",
-        "ui/web/src/components/ArtifactReconciliationUX.ts"
+        "ui/web/src/components/ArtifactReconciliationUX.ts",
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ],
       "allowed_api_routes": [
         "api.approvals.approve",
         "api.approvals.deny",
         "api.portfolio.status",
+        "api.workspace.artifact-assist.decision",
+        "api.workspace.artifact-assist.get",
+        "api.workspace.artifact-assist.plan",
+        "api.workspace.artifact-assist.run",
         "api.workspace.artifact-drafts.discard",
         "api.workspace.artifact-drafts.get",
         "api.workspace.artifact-drafts.history",
@@ -818,7 +823,14 @@
         "external_drift_renamed": true,
         "external_drift_deleted": true,
         "git_diff_visible": true,
-        "revalidation_required": true
+        "revalidation_required": true,
+        "agent_assist_idle": true,
+        "agent_assist_planned": true,
+        "agent_assist_proposed": true,
+        "agent_assist_block": true,
+        "agent_assist_decided": true,
+        "agent_assist_diff_visible": true,
+        "agent_assist_untrusted_visible": true
       },
       "status_visibility": [
         "PASS",
@@ -845,7 +857,8 @@
         "GSDLC-04-B adds MANUAL Markdown/JSON runtime draft authoring, autosave, immutable history, discard/recover and optimistic concurrency; draft save never writes approved source.",
         "GSDLC-04-C adds preview-first PASTE/UPLOAD/IMPORT with original+normalized hashes, provenance and DRAFT-only runtime persistence; URL/reference is metadata and is never fetched.",
         "GSDLC-04-D composes ArtifactProfile validation, navigable findings, immutable plan/diff, exact targeted approval, UOC-005 atomic apply, freeze hash and drift invalidation; UI never becomes approval authority.",
-        "GSDLC-04-E adds external modified/rename/delete reconciliation with Git diff/provenance visibility; drift invalidates approval and moves FROZEN to REVALIDATION_REQUIRED without auto-revert or hidden merge."
+        "GSDLC-04-E adds external modified/rename/delete reconciliation with Git diff/provenance visibility; drift invalidates approval and moves FROZEN to REVALIDATION_REQUIRED without auto-revert or hidden merge.",
+        "GSDLC-07-C adds governed ArtifactAIPanel: pre-run route/context/cost visibility, hermetic mock/fake-local proposal generation, explicit diff, and authenticated human ACCEPT/REJECT/MODIFY; proposals never grant APPROVED/FROZEN and never write approved source directly."
       ],
       "mutation_controls": {
         "local_state_mutation_only": false,
@@ -866,9 +879,13 @@
         "gsdlc_04_d_freeze_hash_required": true,
         "gsdlc_04_e_reconciliation_source_write": false,
         "gsdlc_04_e_auto_revert": false,
-        "gsdlc_04_e_hidden_merge": false
+        "gsdlc_04_e_hidden_merge": false,
+        "gsdlc_07_c_agent_assist_runtime_mutation": true,
+        "gsdlc_07_c_source_write_enabled": false,
+        "gsdlc_07_c_human_review_required": true,
+        "gsdlc_07_c_automatic_approval_enabled": false
       },
-      "status": "implemented/gsdlc-04-e-external-reconciliation-browser-closure"
+      "status": "implemented/gsdlc-07-c-agent-assist-pass-candidate"
     },
     {
       "route_id": "ui.pre-code-wizard",
@@ -968,7 +985,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-07-B",
+    "updated_by": "DEVPL-GSDLC-07-C",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -1018,7 +1035,9 @@
     "gsdlc_07_a_agent_runtime": true,
     "gsdlc_07_a_agent_runtime_api_routes_total": 1,
     "gsdlc_07_b_rag_provenance": true,
-    "gsdlc_07_b_rag_provenance_api_routes_total": 1
+    "gsdlc_07_b_rag_provenance_api_routes_total": 1,
+    "gsdlc_07_c_artifact_ai_panel": true,
+    "gsdlc_07_c_agent_assist_api_routes_total": 4
   },
   "safety": {
     "local_first": true,

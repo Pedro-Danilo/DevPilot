@@ -32,7 +32,8 @@
     "test:step-action-advisor": "node scripts/gsdlc05d-step-action-advisor-smoke.mjs",
     "test:model-settings": "node scripts/gsdlc06e-model-settings-smoke.mjs",
     "test:agent-runtime": "node scripts/gsdlc07a-agent-runtime-smoke.mjs",
-    "test:rag-provenance": "node scripts/gsdlc07b-rag-provenance-smoke.mjs"
+    "test:rag-provenance": "node scripts/gsdlc07b-rag-provenance-smoke.mjs",
+    "test:gsdlc07c-artifact-ai": "node scripts/gsdlc07c-artifact-ai-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {

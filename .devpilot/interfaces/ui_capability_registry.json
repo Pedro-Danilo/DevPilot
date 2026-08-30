@@ -1775,7 +1775,8 @@
       "notes": [
         "UOC-003 reuses deterministic validators through a typed workspace facade.",
         "The UI never executes free-form CLI text and never mutates source documents.",
-        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -1795,6 +1796,9 @@
       "title": "python -m devpilot_core checklist-pre-code",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -2921,7 +2925,8 @@
         "trace_required": true
       },
       "notes": [
-        "UOC-006 UI-NATIVE subset covers current branch status plus controlled local branch-ref create. Branch deletion/checkout/push remain policy-blocked and are not claimed as parity."
+        "UOC-006 UI-NATIVE subset covers current branch status plus controlled local branch-ref create. Branch deletion/checkout/push remain policy-blocked and are not claimed as parity.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-NATIVE",
       "planned_sprint": "CURRENT",
@@ -2941,6 +2946,9 @@
       "title": "python -m devpilot_core git branches",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -2979,7 +2987,8 @@
         "trace_required": true
       },
       "notes": [
-        "UOC-006 exposes bounded read-only status/diff/compare through typed adapters; report-writing CLI behavior remains a bridge."
+        "UOC-006 exposes bounded read-only status/diff/compare through typed adapters; report-writing CLI behavior remains a bridge.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -2999,6 +3008,9 @@
       "title": "python -m devpilot_core git diff-report",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -3036,7 +3048,8 @@
         "trace_required": true
       },
       "notes": [
-        "UOC-006 exposes bounded local history through typed read-only adapters."
+        "UOC-006 exposes bounded local history through typed read-only adapters.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -3056,6 +3069,9 @@
       "title": "python -m devpilot_core git log",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -3961,7 +3977,8 @@
       "notes": [
         "UOC-003 reuses deterministic validators through a typed workspace facade.",
         "The UI never executes free-form CLI text and never mutates source documents.",
-        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -3981,6 +3998,9 @@
       "title": "python -m devpilot_core miasi validate",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -10010,7 +10030,8 @@
       "notes": [
         "UOC-003 reuses deterministic validators through a typed workspace facade.",
         "The UI never executes free-form CLI text and never mutates source documents.",
-        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -10030,6 +10051,9 @@
       "title": "python -m devpilot_core validate",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -10071,7 +10095,8 @@
       "notes": [
         "UOC-003 reuses deterministic validators through a typed workspace facade.",
         "The UI never executes free-form CLI text and never mutates source documents.",
-        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -10091,6 +10116,9 @@
       "title": "python -m devpilot_core validate-artifact",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -10132,7 +10160,8 @@
       "notes": [
         "UOC-003 reuses deterministic validators through a typed workspace facade.",
         "The UI never executes free-form CLI text and never mutates source documents.",
-        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008."
+        "This initial version is synchronous; cancellation/heartbeat are deferred to UOC-007/UOC-008.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -10152,6 +10181,9 @@
       "title": "python -m devpilot_core validate-frontmatter",
       "ui_route_ids": [
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     },
     {
@@ -10630,7 +10662,8 @@
       "notes": [
         "UOC-000 classifies capability exposure; it does not add runtime execution.",
         "Current UI mapping is read-only unless an existing API contract explicitly declares a governed local-state mutation.",
-        "UOC-002 extends the existing read-only workspace surface with typed document inspection; it does not expose shell or mutation."
+        "UOC-002 extends the existing read-only workspace surface with typed document inspection; it does not expose shell or mutation.",
+        "GSDLC-07-C adds review-only Agent Assist UI with human decision and no direct approved-source mutation."
       ],
       "parity_status": "UI-READ-ONLY",
       "planned_sprint": "CURRENT",
@@ -10651,6 +10684,9 @@
       "ui_route_ids": [
         "ui.dashboard",
         "ui.workspace-documents"
+      ],
+      "source_files": [
+        "ui/web/src/components/ArtifactAIPanel.ts"
       ]
     }
   ],
@@ -10687,7 +10723,8 @@
     "UOC-004 remains non-mutating. UOC-005 is the first narrow source-write exception: Markdown/JSON/YAML document apply/rollback bound to exact approval, plan hash, base hash, scope, actor and TTL.",
     "Generic patch.apply, generic rollback, arbitrary shell, Git write, remote execution, connector write and plugin execution remain policy-blocked.",
     "UOC-011 final reconciliation derives parity_status_counts from the 193 capability entries; summary values are not an independent authority.",
-    "DEVPL-GSDLC-02-B adds seven local auth/session API routes; no new UI route is introduced in this micro-sprint."
+    "DEVPL-GSDLC-02-B adds seven local auth/session API routes; no new UI route is introduced in this micro-sprint.",
+    "GSDLC-07-C ArtifactAIPanel is current-active under ui.workspace-documents."
   ],
   "registry_id": "devpilot-ui-capability-registry",
   "safety": {

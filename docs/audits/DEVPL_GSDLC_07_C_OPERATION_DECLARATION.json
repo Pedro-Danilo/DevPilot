@@ -1,0 +1,18 @@
+{
+  "schema_id": "devpilot.gsdlc07c.operation_declaration.v1",
+  "status": "PASS/LOCAL-CANDIDATE",
+  "micro_sprint": "DEVPL-GSDLC-07-C",
+  "local_first": true,
+  "mock_local_mandatory": true,
+  "external_api_used": false,
+  "network_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": true,
+  "source_mutations_performed": false,
+  "runtime_mutations": [
+    "outputs/agent_assist/gsdlc_07_c",
+    "outputs/drafts/gsdlc_04_b"
+  ],
+  "full_regression_runs_consumed": 0,
+  "browser_required": true
+}
