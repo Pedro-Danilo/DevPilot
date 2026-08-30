@@ -1,6 +1,6 @@
 {
   "status": "PASS/PRE-WINDOWS",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "owner": "DEVPL-GSDLC-07-E",
   "updated": "2026-08-30",
   "checks": {
@@ -14,7 +14,8 @@
     "runtime_ephemeral_excluded": true,
     "sealed_evidence_rewritten_after_hash": false,
     "successor_registry_updated": true,
-    "protected_api_routes_have_server_rbac_mapping": true
+    "protected_api_routes_have_server_rbac_mapping": true,
+    "pytest_nodeid_path_only_normalization": true
   },
   "blockers": [],
   "api_rbac_parity": {
@@ -24,5 +25,11 @@
     "missing": [],
     "deny_by_default_preserved": true,
     "legacy_token_authority_expanded": false
+  },
+  "full_regression_e03": {
+    "original_session_preserved": true,
+    "corrupted_parameter_ids_total": 2,
+    "source_change_requires_composite_recovery": true,
+    "second_full_prohibited": true
   }
 }

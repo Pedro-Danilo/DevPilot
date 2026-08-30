@@ -1,8 +1,8 @@
 {
   "schema_id": "devpilot.gsdlc.07_e.source_delta_manifest.v1",
   "doc_id": "DEVPL-GSDLC-07-E-SOURCE-DELTA-MANIFEST",
-  "status": "prepared/pre-windows",
-  "version": "1.0.1",
+  "status": "prepared/e03-corrective-pre-composite",
+  "version": "1.0.3",
   "owner": "Ordóñez",
   "updated": "2026-08-30",
   "base": {
@@ -11,12 +11,12 @@
     "sha256": "45a394cb1c3e4e235eae5a6c354ab492b9e3229822f9269bdf144c5c66b1bb30"
   },
   "target": "repo386/pre-windows-candidate",
-  "comparison_policy": "semantic-lf-normalized-for-text-drift; payload raw sha256 authoritative; E-02 RBAC corrective included",
-  "paths_total": 52,
-  "added_total": 29,
-  "modified_total": 23,
+  "comparison_policy": "semantic-lf-normalized-for-text-drift; external bundle component manifest raw SHA-256 authoritative; E-03 nodeid corrective included",
+  "paths_total": 54,
+  "added_total": 30,
+  "modified_total": 24,
   "deleted_total": 0,
-  "full_regression_consumed": 0,
+  "full_regression_consumed": 1,
   "network_used": false,
   "external_api_used": false,
   "secrets_exposed": false,
@@ -24,8 +24,8 @@
     {
       "path": ".devpilot/docs_governance/source_registry.json",
       "status": "modified",
-      "sha256": "e8c7485f486a7cc0662efd00100c1f9e43dff3d0cbe7c83b4aae7fda55f80413",
-      "semantic_sha256": "e8c7485f486a7cc0662efd00100c1f9e43dff3d0cbe7c83b4aae7fda55f80413",
+      "sha256": "735ecc22c1902c089103fc901568a36d057d7138d4eade6f72b0019c6025c9ad",
+      "semantic_sha256": "735ecc22c1902c089103fc901568a36d057d7138d4eade6f72b0019c6025c9ad",
       "base_semantic_sha256": "1db71565a925cf54081b4907506ea40764b0c0962513373c1139c47a3f89194a"
     },
     {
@@ -52,22 +52,22 @@
     {
       "path": ".devpilot/project_state.json",
       "status": "modified",
-      "sha256": "7edd2b8f40275d3d3400f52ef3ce9e8b126d082e11e8c81969ef2353c5cdb651",
-      "semantic_sha256": "7edd2b8f40275d3d3400f52ef3ce9e8b126d082e11e8c81969ef2353c5cdb651",
+      "sha256": "105e0984d1b6bedf1391b429636d775db1a0097c6ef5ee418955d75b7e0e0a6e",
+      "semantic_sha256": "105e0984d1b6bedf1391b429636d775db1a0097c6ef5ee418955d75b7e0e0a6e",
       "base_semantic_sha256": "11077a3519eab107a69d0f713b36b4184968b83112abe1a00797a8adf1f2d381"
     },
     {
       "path": ".devpilot/testing/test_contract_registry.json",
       "status": "modified",
-      "sha256": "472de50dac492454329813765453f92a865c58853fdcc63078c41d9f1e7b603a",
-      "semantic_sha256": "472de50dac492454329813765453f92a865c58853fdcc63078c41d9f1e7b603a",
+      "sha256": "1a0d653ae9f7e9ff279a36e2952618fd02c2d6cd34f047c8e500a3c98d96b178",
+      "semantic_sha256": "1a0d653ae9f7e9ff279a36e2952618fd02c2d6cd34f047c8e500a3c98d96b178",
       "base_semantic_sha256": "3514f66b6bf28ca49958c32c543556fa725d87ff0116313f977bd2b9e9ba9fef"
     },
     {
       "path": ".devpilot/testing/test_contract_registry_v2.json",
       "status": "modified",
-      "sha256": "0eafd893776f328cf6c16bf4e6c701ad02b0aa02e7b586a52a530e055ebc272f",
-      "semantic_sha256": "0eafd893776f328cf6c16bf4e6c701ad02b0aa02e7b586a52a530e055ebc272f",
+      "sha256": "f476987ba12827762b49a658e5d3e072de433a2aba1a54cf81f5dc99a72dbef5",
+      "semantic_sha256": "f476987ba12827762b49a658e5d3e072de433a2aba1a54cf81f5dc99a72dbef5",
       "base_semantic_sha256": "762e2b516d8cb06dec0d8f8bff698224e134533de1b415e5bedc60c74a452a91"
     },
     {
@@ -110,8 +110,8 @@
     {
       "path": "README.md",
       "status": "modified",
-      "sha256": "7f94a61965a2a6a47e6f607b87ed6fc839b5f2c415d5de189b0d375a8dbeef7d",
-      "semantic_sha256": "5809c593f20a1c4fe270000e6a36ac2fc26b31bdcde433b43f75ca10c6bc023b",
+      "sha256": "4fcbf154656e44b6a841a6decef4431e949c3666c84cf71494959d18e53233ab",
+      "semantic_sha256": "4fcbf154656e44b6a841a6decef4431e949c3666c84cf71494959d18e53233ab",
       "base_semantic_sha256": "56fc7fb831e84c9e1c0abba0ad3d26084020a0189691e5d5c19d06484e939a78"
     },
     {
@@ -124,8 +124,8 @@
     {
       "path": "docs/05_operations/full_regression_v2_2_v2_3_handoff.md",
       "status": "added",
-      "sha256": "69a0e775cb6637048e8c8c854eaab7deb0741681e2b19ddb5c6b8d31e2f97182",
-      "semantic_sha256": "69a0e775cb6637048e8c8c854eaab7deb0741681e2b19ddb5c6b8d31e2f97182"
+      "sha256": "ff9f34ae2ab40ca5cb6f8c568656623d84a43ec76c4d953399f8daddd2ed984a",
+      "semantic_sha256": "ff9f34ae2ab40ca5cb6f8c568656623d84a43ec76c4d953399f8daddd2ed984a"
     },
     {
       "path": "docs/05_operations/gsdlc_07_e_agentic_precode_runbook.md",
@@ -174,8 +174,8 @@
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_CONTRACT_RECONCILIATION_SWEEP.json",
       "status": "added",
-      "sha256": "c7f38a9e073708f3b39e0e6634bbf0693ee2345573c23077b13fd037c81b0593",
-      "semantic_sha256": "c7f38a9e073708f3b39e0e6634bbf0693ee2345573c23077b13fd037c81b0593"
+      "sha256": "eb9af31765b2e425b18a4e9c86079cec02240228046adc6a26dc8af7ddb8e301",
+      "semantic_sha256": "eb9af31765b2e425b18a4e9c86079cec02240228046adc6a26dc8af7ddb8e301"
     },
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_COST_LEDGER.json",
@@ -198,8 +198,8 @@
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_IMPLEMENTATION_REPORT.md",
       "status": "added",
-      "sha256": "f4411888e8c5a087fe47d425f02bbf0d0ad7a75481a7ff76ea6ae3ed2a6bbd94",
-      "semantic_sha256": "f4411888e8c5a087fe47d425f02bbf0d0ad7a75481a7ff76ea6ae3ed2a6bbd94"
+      "sha256": "93a11d27e94a825d0a4f5bf8ad8894cba68d20cd9d464cd5ba4d9170567ceab3",
+      "semantic_sha256": "93a11d27e94a825d0a4f5bf8ad8894cba68d20cd9d464cd5ba4d9170567ceab3"
     },
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_MODEL_TASK_EVAL_MATRIX.json",
@@ -210,8 +210,8 @@
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_OPERATION_DECLARATION.json",
       "status": "added",
-      "sha256": "243878c9d2123373bad81529e3cfdac96ff35200c6cbf2371d96b6e480300c2e",
-      "semantic_sha256": "243878c9d2123373bad81529e3cfdac96ff35200c6cbf2371d96b6e480300c2e"
+      "sha256": "5644c796c6e3801453d9afb4e2be9607675f6a633729c12e5eb45f1f42cfb128",
+      "semantic_sha256": "5644c796c6e3801453d9afb4e2be9607675f6a633729c12e5eb45f1f42cfb128"
     },
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_SECRET_DELTA_SCAN.json",
@@ -228,8 +228,8 @@
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_TEST_IMPACT.json",
       "status": "added",
-      "sha256": "25a865334ed413c7d234ee018793d81d069d593ba9fd29ed476ae72df071634e",
-      "semantic_sha256": "25a865334ed413c7d234ee018793d81d069d593ba9fd29ed476ae72df071634e"
+      "sha256": "d204a8e63e415bf21b08b8fad06386941ba88a900f8a410a2ae49ad3d49c0fe2",
+      "semantic_sha256": "d204a8e63e415bf21b08b8fad06386941ba88a900f8a410a2ae49ad3d49c0fe2"
     },
     {
       "path": "docs/audits/DEVPL_GSDLC_07_E_VALIDATION_PLAN.json",
@@ -293,9 +293,16 @@
     {
       "path": "src/devpilot_core/testing/full_regression.py",
       "status": "modified",
-      "sha256": "cc449fde5b3ca4cb1c53a2dcfc8989c14cccd11809ac8dc9490e225d745271e5",
-      "semantic_sha256": "cc449fde5b3ca4cb1c53a2dcfc8989c14cccd11809ac8dc9490e225d745271e5",
+      "sha256": "ac8248456e96365b7b6d3e65ad775aff5325cf5fccd246b8630760e438ee68e4",
+      "semantic_sha256": "ac8248456e96365b7b6d3e65ad775aff5325cf5fccd246b8630760e438ee68e4",
       "base_semantic_sha256": "f85798648ac4a8cfe460cd7db18e5c94cb7e3919d49fe55b615beaf4e14a94ad"
+    },
+    {
+      "path": "src/devpilot_core/testing/full_regression_collect_plugin.py",
+      "status": "modified",
+      "sha256": "3e4b38effb896e2c6bc0018e61105fd0f2b4394fc8dd5b1e4a56c8028048f58c",
+      "semantic_sha256": "3e4b38effb896e2c6bc0018e61105fd0f2b4394fc8dd5b1e4a56c8028048f58c",
+      "base_semantic_sha256": "f54ce0be983af0936f51321f3806eb5f75cb0202fb3f6ebf41cda33f4c04daa1"
     },
     {
       "path": "src/devpilot_core/testing/full_regression_telemetry.py",
@@ -315,6 +322,12 @@
       "status": "added",
       "sha256": "3b8646c504463002a547720431c00e40de8828ab0f6c7b057d3ddf6645e920e7",
       "semantic_sha256": "3b8646c504463002a547720431c00e40de8828ab0f6c7b057d3ddf6645e920e7"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_07_e_full_regression_nodeid_normalization.py",
+      "status": "added",
+      "sha256": "9f14cfecb5938c8f7709a9bb4a4668fb8162e6374ab9a709065df1da986913aa",
+      "semantic_sha256": "9f14cfecb5938c8f7709a9bb4a4668fb8162e6374ab9a709065df1da986913aa"
     },
     {
       "path": "ui/web/package.json",
@@ -363,5 +376,19 @@
     "human_session_required_total": 70,
     "legacy_token_allowed": false,
     "browser_retest_required": true
+  },
+  "entry_hashes_authority": "DEVPL_GSDLC_07_E_COMPONENT_DELTA_MANIFEST.json in the Windows bundle; internal manifest is descriptive and self-referential raw hashing is intentionally not authoritative",
+  "e03_successor": {
+    "original_full_session": "DEVPL-GSDLC-07-E-FULL-01",
+    "original_terminal_accounting": "0/2803",
+    "corrupted_nodeids_total": 2,
+    "corrective_paths_added_to_delta": [
+      "src/devpilot_core/testing/full_regression_collect_plugin.py",
+      "tests/test_devpl_gsdlc_07_e_full_regression_nodeid_normalization.py"
+    ],
+    "recovery_policy": "preserve original full; no second full; composite corrected uncovered tail + impacted + Historical Regression Guard",
+    "original_full_consumed": true,
+    "browser_acceptance": "PASS/reuse-by-runtime-equivalence",
+    "composite_pending": true
   }
 }

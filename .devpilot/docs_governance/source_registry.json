@@ -31245,7 +31245,7 @@
       "classification": "machine-readable-source",
       "domain": "audit",
       "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS/PRE-FULL",
+      "status_required": "PASS/E03-CORRECTIVE-PRE-COMPOSITE",
       "criticality": "P1",
       "required_tests": [
         "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
@@ -31287,7 +31287,7 @@
       "classification": "source-of-truth",
       "domain": "audit",
       "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS/PRE-WINDOWS",
+      "status_required": "PASS/E03-CORRECTIVE-PRE-COMPOSITE",
       "criticality": "P1",
       "required_tests": [
         "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
@@ -31308,7 +31308,7 @@
       "classification": "machine-readable-source",
       "domain": "audit",
       "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS/PRE-WINDOWS",
+      "status_required": "PASS/E03-CORRECTIVE-PRE-COMPOSITE",
       "criticality": "P1",
       "required_tests": [
         "tests/test_devpl_gsdlc_07_e_agentic_precode.py"

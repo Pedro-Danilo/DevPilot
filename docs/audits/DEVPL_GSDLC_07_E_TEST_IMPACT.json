@@ -1,10 +1,19 @@
 {
-  "status": "PASS/PRE-FULL",
+  "status": "PASS/E03-CORRECTIVE-PRE-COMPOSITE",
   "version": "1.0.0",
   "owner": "DEVPL-GSDLC-07-E",
   "updated": "2026-08-30",
-  "full_regression_consumed": 0,
-  "domains": ["agentic.runtime", "rag", "model-gateway", "tool-policy", "api", "ui", "documentation", "full-regression-v2.1"],
+  "full_regression_consumed": 1,
+  "domains": [
+    "agentic.runtime",
+    "rag",
+    "model-gateway",
+    "tool-policy",
+    "api",
+    "ui",
+    "documentation",
+    "full-regression-v2.1"
+  ],
   "required_focal_tests": [
     "tests/test_devpl_gsdlc_07_e_agentic_precode.py",
     "tests/test_devpl_gsdlc_07_d_agent_execution.py",
@@ -13,9 +22,17 @@
     "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py",
     "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py",
     "tests/test_devpl_gsdlc_07_full_regression_cli_contract.py",
-    "tests/test_api_contract.py"
+    "tests/test_api_contract.py",
+    "tests/test_devpl_gsdlc_07_e_full_regression_nodeid_normalization.py"
   ],
-  "browser_required": true,
+  "browser_required": false,
   "full_required_at_close": true,
-  "second_full_allowed": false
+  "second_full_allowed": false,
+  "e03_corrective": {
+    "cause": "global-backslash-normalization-corrupted-pytest-parameter-ids",
+    "original_full_terminal_accounting": "0/2803",
+    "second_full_allowed": false,
+    "recovery": "composite-uncovered-tail-100-percent+bounded-corrective+historical-regression-guard"
+  },
+  "browser_acceptance_status": "PASS/REUSED-BY-RUNTIME-EQUIVALENCE"
 }

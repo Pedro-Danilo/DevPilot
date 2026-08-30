@@ -1,6 +1,6 @@
 {
-  "status": "PASS/PRE-WINDOWS",
-  "version": "1.0.0",
+  "status": "PASS/E03-CORRECTIVE-PRE-COMPOSITE",
+  "version": "1.0.2",
   "owner": "DEVPL-GSDLC-07-E",
   "updated": "2026-08-30",
   "network_used": false,
@@ -8,10 +8,17 @@
   "secrets_exposed": false,
   "source_mutations_performed": true,
   "runtime_db_versioned": false,
-  "full_regression_consumed": 0,
-  "browser_acceptance_executed": false,
+  "full_regression_consumed": 1,
+  "browser_acceptance_executed": true,
   "real_mcp_execution_enabled": false,
   "autonomous_recovery_enabled": false,
   "parallel_workers": 0,
-  "note": "Local reconstruction/prevalidation only; Windows browser/full remain authoritative for closure."
+  "note": "Windows browser acceptance PASS. FULL-01 was consumed once and frozen after E-03 infrastructure abort with 0/2803 terminal nodeids; no second full is allowed. Corrective recovery must use the composite uncovered-tail path plus Historical Regression Guard.",
+  "e03_corrective_available": true,
+  "full_session_recovery_policy": "preserve-original/no-second-full/composite-uncovered-tail-after-source-corrective",
+  "nodeid_normalization": "path-component-only-before-double-colon",
+  "original_full_session_status": "BLOCK/INFRA/FROZEN",
+  "original_full_terminal_accounting": "0/2803",
+  "second_full_allowed": false,
+  "composite_recovery_pending": true
 }

@@ -107,6 +107,19 @@ def _sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
+
+
+def _normalize_nodeid_path_only(nodeid: str) -> str:
+    """Normalize only the filesystem path component of a pytest nodeid.
+
+    Parameter ids may legitimately contain pytest escape sequences such as ``\\t``
+    and ``\\x7f``. Replacing backslashes across the complete nodeid corrupts
+    those ids and makes the collected nodeid impossible to re-select.
+    """
+    path_part, sep, suffix = str(nodeid).partition("::")
+    normalized_path = path_part.replace("\\", "/")
+    return normalized_path + (sep + suffix if sep else "")
+
 def _sha256_file(path: Path) -> str | None:
     if not path.exists() or not path.is_file():
         return None
@@ -286,7 +299,7 @@ class FullRegressionSessionManager:
             try:
                 captured = json.loads(collection_capture.read_text(encoding="utf-8"))
                 if isinstance(captured, list):
-                    nodeids = [str(item).replace("\\", "/") for item in captured if str(item).strip()]
+                    nodeids = [_normalize_nodeid_path_only(str(item)) for item in captured if str(item).strip()]
             except (OSError, json.JSONDecodeError):
                 nodeids = []
             finally:
@@ -791,7 +804,7 @@ class FullRegressionSessionManager:
             if "::" not in line:
                 continue
             if line.startswith(("tests/", "test/")) or ".py::" in line:
-                nodeids.append(line.replace("\\", "/"))
+                nodeids.append(_normalize_nodeid_path_only(line))
         return nodeids
 
     def _receipt_path(self, session_id: str, shard_id: str, attempt: int) -> Path:

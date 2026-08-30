@@ -2245,6 +2245,7 @@
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py",
+        "tests/test_devpl_gsdlc_07_e_full_regression_nodeid_normalization.py",
         "tests/test_devpl_gsdlc_07_full_regression_cli_contract.py",
         "tests/test_post_h_030_cli_compatibility_contracts.py",
         "tests/test_post_h_006_e_cli_no_growth_gate.py",
@@ -2258,7 +2259,8 @@
         "same-session resume of only UNEXECUTED nodeids",
         "fingerprint/source-mutation BLOCK",
         "100 percent terminal accounting before adjudication PASS",
-        "governed tests full-session CLI compatibility"
+        "governed tests full-session CLI compatibility",
+        "pytest nodeid normalization preserves escaped parameter ids while normalizing only filesystem path separators"
       ],
       "watched_paths": [
         "src/devpilot_core/testing/full_regression.py",
@@ -2278,7 +2280,7 @@
         ".devpilot/project_state.json"
       ],
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_full_regression_execution_v2.py tests/test_devpl_gsdlc_07_full_regression_cli_contract.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_full_regression_execution_v2.py tests/test_devpl_gsdlc_07_e_full_regression_nodeid_normalization.py tests/test_devpl_gsdlc_07_full_regression_cli_contract.py",
         "python -m devpilot_core cli-registry guard --json",
         "python -m devpilot_core cli-registry compatibility --json",
         "python -m devpilot_core docs-governance validate --json",
@@ -2289,7 +2291,8 @@
       "domain": "testing.full-regression",
       "notes": [
         "Full Regression Execution v2.1 is sequential, local-first and resumable; pytest-xdist is explicitly deferred.",
-        "This activation enabler validates with synthetic/focal tests and a bounded canary only. It MUST NOT consume the backlog 07 full regression."
+        "This activation enabler validates with synthetic/focal tests and a bounded canary only. It MUST NOT consume the backlog 07 full regression.",
+        "GSDLC-07-E E-03 successor regression forbids global backslash replacement across pytest nodeids; only the path component before :: may be normalized."
       ],
       "classification_notes": []
     },
