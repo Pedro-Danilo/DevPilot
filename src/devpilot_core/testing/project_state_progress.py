@@ -39,4 +39,11 @@ def post_h_progress_rank(value: str) -> int:
     if evaluation is not None:
         return _EVALUATION_RANK_BASE + int(evaluation.group("number"))
 
-    raise AssertionError(f"Unsupported POST-H project-state identifier: {value!r}")
+    # Current-active GSDLC succeeds the frozen POST-H and POST-H-EVAL lines.
+    # Historical tests use this helper as a monotonic progress predicate, so a
+    # later GSDLC pointer must rank after those immutable historical milestones.
+    gsdlc = re.fullmatch(r"DEVPL-GSDLC-(?P<number>\d{2})(?:-[A-Z0-9]+)*", value)
+    if gsdlc is not None:
+        return 20_000 + int(gsdlc.group("number"))
+
+    raise AssertionError(f"Unsupported project-state progress identifier: {value!r}")

@@ -21,7 +21,7 @@ def test_01_b_state_closes_and_authorizes_01_c() -> None:
     # The canonical repo name may evolve beyond the POST-H-EVAL-002 naming family.
     # Preserve only the monotonic successor contract for this historical 01-B test.
     assert int(current_repo.split("_", 4)[3]) >= 320
-    assert state["current_micro_sprint"] in {
+    assert state["post_h_eval_002_current_micro_sprint"] in {
         "POST-H-EVAL-002-01-C",
         "POST-H-EVAL-002-01-D",
         "POST-H-EVAL-002-02-A",

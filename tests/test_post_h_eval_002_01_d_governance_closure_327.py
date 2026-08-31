@@ -185,8 +185,8 @@ def test_release_candidate_snapshot_matches_project_state() -> None:
     assert criteria["expected_current_repo"] == state["current_repo"]
     assert state["post_h_eval_002_02_b_platform_baseline"].startswith("repo_DevPilot_Local_341_")
     assert state["post_h_eval_002_01_d_governance_repo"] == REPO_327
-    assert criteria["expected_current_micro_sprint"] == state["post_h_eval_002_current_micro_sprint"]
-    assert criteria["expected_next_micro_sprint"] == state["post_h_eval_002_next_micro_sprint"]
+    assert criteria["expected_current_micro_sprint"] == state["current_micro_sprint"]
+    assert criteria["expected_next_micro_sprint"] == state["next_micro_sprint"]
 
 
 

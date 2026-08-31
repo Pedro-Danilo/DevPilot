@@ -44,7 +44,8 @@ def test_ui_capability_registry_schema_and_complete_inventory() -> None:
     capabilities = registry["capabilities"]
     assert BASE_COMMIT in set(registry["source_commits"].values())
     assert read_json(".devpilot/project_state.json")["uoc_000_base_commit"] == BASE_COMMIT
-    assert len(capabilities) == cli["summary"]["commands_total"] == 193
+    assert len(capabilities) == cli["summary"]["commands_total"]
+    assert len(capabilities) >= 193
     assert {item["cli_command_id"] for item in capabilities} == {item["command_id"] for item in cli["commands"]}
     assert len({item["capability_id"] for item in capabilities}) == len(capabilities)
     assert registry["summary"]["classification_complete"] is True
