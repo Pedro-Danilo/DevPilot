@@ -1,6 +1,6 @@
 {
-  "status": "PASS/PRE-WINDOWS",
-  "version": "1.0.2",
+  "status": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
+  "version": "1.0.3",
   "owner": "DEVPL-GSDLC-07-E",
   "updated": "2026-08-30",
   "checks": {
@@ -15,7 +15,13 @@
     "sealed_evidence_rewritten_after_hash": false,
     "successor_registry_updated": true,
     "protected_api_routes_have_server_rbac_mapping": true,
-    "pytest_nodeid_path_only_normalization": true
+    "pytest_nodeid_path_only_normalization": true,
+    "historical_freeze_uses_checkpoint_keys": true,
+    "current_active_global_pointers_advance_to_gsdlc": true,
+    "ui_cli_capability_parity_current": true,
+    "release_candidate_current_active_rebound": true,
+    "lazy_agent_service_boundaries": true,
+    "frx_v2_2_prepared_not_enabled": true
   },
   "blockers": [],
   "api_rbac_parity": {
@@ -30,6 +36,12 @@
     "original_session_preserved": true,
     "corrupted_parameter_ids_total": 2,
     "source_change_requires_composite_recovery": true,
+    "second_full_prohibited": true
+  },
+  "e04_forensics": {
+    "composite_accounted_total": 2805,
+    "composite_fail_total": 126,
+    "root_causes_decomposed": true,
     "second_full_prohibited": true
   }
 }

@@ -105,8 +105,11 @@ class ApplicationService:
         self.artifact_drafts = ArtifactDraftApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_imports = ArtifactImportApplicationService(self.root, documents=self.workspace_documents)
         self.artifact_reviews = ArtifactReviewApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports, plans=self.workspace_edit_planning, executions=self.workspace_edit_execution)
-        self.agent_assist = AgentAssistApplicationService(self.root, documents=self.workspace_documents, drafts=self.artifact_drafts, imports=self.artifact_imports)
-        self.agent_execution = AgentExecutionApplicationService(self.root)
+        # GSDLC-07-C/D services are strict consumers of agent/model catalogs.
+        # Keep them lazy so unrelated CLI/application operations remain valid on
+        # intentionally minimal workspaces used by historical contracts/tests.
+        self._agent_assist: AgentAssistApplicationService | None = None
+        self._agent_execution: AgentExecutionApplicationService | None = None
         self._pre_code_wizard: PreCodeWizardApplicationService | None = None
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
@@ -131,6 +134,35 @@ class ApplicationService:
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
         self.rbac = RBACApplicationService(self.root)
 
+
+    @property
+    def agent_assist(self) -> AgentAssistApplicationService:
+        """Lazily construct GSDLC-07-C Agent Assist.
+
+        The service remains strict when actually used, but constructing the
+        general ApplicationService must not require agent/model catalogs for
+        unrelated historical CLI/application contracts.
+        """
+        if self._agent_assist is None:
+            self._agent_assist = AgentAssistApplicationService(
+                self.root,
+                documents=self.workspace_documents,
+                drafts=self.artifact_drafts,
+                imports=self.artifact_imports,
+            )
+        return self._agent_assist
+
+    @property
+    def agent_execution(self) -> AgentExecutionApplicationService:
+        """Lazily construct GSDLC-07-D Agent Execution.
+
+        This prevents agent-role/tool policy catalogs from becoming an eager
+        dependency of unrelated commands while preserving strict validation at
+        the point where agent execution is requested.
+        """
+        if self._agent_execution is None:
+            self._agent_execution = AgentExecutionApplicationService(self.root)
+        return self._agent_execution
 
     @property
     def pre_code_wizard(self) -> PreCodeWizardApplicationService:

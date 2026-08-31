@@ -7,11 +7,11 @@
       "critical": true,
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
-        "current_micro_sprint": "POST-H-EVAL-002-02-B",
-        "current_repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+        "current_micro_sprint": "DEVPL-GSDLC-07-E",
+        "current_repo": "repo_DevPilot_Local_386_DEVPL_GSDLC_07_E_AGENTIC_PRECODE_MODEL_EVALS_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
-        "next_micro_sprint": "POST-H-EVAL-002-02-C",
+        "next_micro_sprint": "FULL-REGRESSION-v2.2-DISTRIBUCION-TEMPORAL-INTELIGENTE",
         "next_sprint": "POST-H-EVAL-002",
         "post_h_026_status": "closed/local-release-candidate-pass",
         "post_h_027_status": "closed/packaging-local-ready",
@@ -21,7 +21,9 @@
         "post_h_031_status": "closed/redacted-evidence-export-ux",
         "post_h_eval_002_activated": true,
         "post_h_eval_002_status": "approved/active-evaluation",
-        "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip"
+        "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
+        "post_h_eval_002_current_micro_sprint": "POST-H-EVAL-002-02-B",
+        "post_h_eval_002_next_micro_sprint": "POST-H-EVAL-002-02-C"
       },
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
       "freshness_policy": "contextual-field-match",
@@ -687,10 +689,10 @@
       "title": "UOC-003 implementation report"
     }
   ],
-  "expected_current_micro_sprint": "POST-H-EVAL-002-02-B",
-  "expected_current_repo": "repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip",
+  "expected_current_micro_sprint": "DEVPL-GSDLC-07-E",
+  "expected_current_repo": "repo_DevPilot_Local_386_DEVPL_GSDLC_07_E_AGENTIC_PRECODE_MODEL_EVALS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
-  "expected_next_micro_sprint": "POST-H-EVAL-002-02-C",
+  "expected_next_micro_sprint": "FULL-REGRESSION-v2.2-DISTRIBUCION-TEMPORAL-INTELIGENTE",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
@@ -719,6 +721,6 @@
   "uoc_004_source_write_enabled": false,
   "uoc_004_status": "closed/PASS",
   "uoc_005_authorized": true,
-  "updated": "2026-08-15",
+  "updated": "2026-08-30",
   "updated_by": "DEVPL-GSDLC-R01-E-SELECTIVE-REGRESSION-RECONCILIATION"
 }

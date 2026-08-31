@@ -16,21 +16,20 @@ def test_00_e_closes_backlog_and_authorizes_only_01():
     assert c["next"]["backlog_authorized"]=="DEVPL-GSDLC-01"
 def test_00_e_current_repo_is_successor_and_repo341_remains_parent():
     s=j(".devpilot/project_state.json"); c=j(".devpilot/gsdlc/g00e_closure_contract.json")
-    name=s["current_repo"]
+    name=c["baseline_artifact_name"]
     assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE\.zip",name)
-    # `current_repo` is the immutable GSDLC-00 activation baseline.
-    # `gsdlc_current_canonical_repo` is the mutable successor pointer and must
-    # be allowed to advance in later backlogs without invalidating 00-E.
-    assert c["baseline_artifact_name"]==name
-    assert s["gsdlc_current_canonical_repo"] != name
-    assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_.*\.zip", s["gsdlc_current_canonical_repo"])
+    # Historical 00-E baseline is frozen in the closure contract; global current_repo
+    # is intentionally allowed to advance to later GSDLC validated candidates.
+    assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_.*\.zip", s["current_repo"])
+    assert s["gsdlc_current_canonical_repo"] == s["current_repo"]
     assert c["parent_repo341"]["immutable"] is True
     assert c["parent_repo341"]["git_commit"]=="cff43e8d992ff6139bd13bb1809ce4d497ae0952"
 def test_00_e_release_freshness_criteria_tracks_successor_repo():
     s=j(".devpilot/project_state.json"); q=j(".devpilot/release/local_release_candidate_criteria.json")
     item=next(x for x in q["evidence"] if x["evidence_id"]=="project-state-current-repo")
     assert item["expected_fields"]["current_repo"]==s["current_repo"]
-    assert item["expected_fields"]["current_micro_sprint"]=="POST-H-EVAL-002-02-B"
+    assert item["expected_fields"]["current_micro_sprint"]==s["current_micro_sprint"]
+    assert item["expected_fields"]["post_h_eval_002_current_micro_sprint"]=="POST-H-EVAL-002-02-B"
 def test_00_e_no_go_and_runtime_remain_closed():
     s=j(".devpilot/project_state.json"); c=j(".devpilot/gsdlc/g00e_closure_contract.json")
     assert s["gsdlc_runtime_implemented"] is False

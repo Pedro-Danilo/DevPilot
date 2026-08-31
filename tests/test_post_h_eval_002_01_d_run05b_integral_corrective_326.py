@@ -22,7 +22,7 @@ def test_repo_326_product_history_is_preserved_after_repo_327_closure() -> None:
     assert state["post_h_eval_002_01_d_governance_repo"] == REPO_327
     assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert state["post_h_eval_002_01_d_target_repo"] == REPO_326
-    assert state["current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
+    assert state["post_h_eval_002_current_micro_sprint"] in {"POST-H-EVAL-002-02-A", "POST-H-EVAL-002-02-B"}
     assert state["post_h_eval_002_01_d_closed"] is True
     assert state["post_h_eval_002_01_d_next_authorized"] is True
     assert state["post_h_eval_002_01_d_required_retest_run_id"] == RERUN_03

@@ -1,0 +1,612 @@
+{
+  "schema_id": "devpilot.frx.v2_2.temporal_handoff.v1",
+  "status": "PREPARED_NOT_ENABLED",
+  "generated_from": "DEVPL-GSDLC-07-E-COMPOSITE-01 forensic receipts",
+  "generated_at": "2026-08-30T23:45:00-05:00",
+  "samples_total": 2805,
+  "receipt_attempts_total": 32,
+  "outcomes": {
+    "FAIL": 126,
+    "PASS": 2674,
+    "SKIP_APPROVED": 5
+  },
+  "duration_seconds": {
+    "sum_terminal": 12952.888506,
+    "median": 0.022237,
+    "p95": 10.652673,
+    "max": 774.736226,
+    "min": 0.000124
+  },
+  "slowest_nodeids": [
+    {
+      "nodeid": "tests/test_repo_engineering_gate.py::test_repo_engineering_gate_quick_passes_without_mutations",
+      "outcome": "PASS",
+      "duration_seconds": 774.736226,
+      "shard_id": "composite-0023",
+      "attempt": 1,
+      "receipt": "composite-0023-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_documentation_governance_quality_gate.py::test_quality_gate_hardening_includes_docs_governance_subgate",
+      "outcome": "FAIL",
+      "duration_seconds": 758.884388,
+      "shard_id": "composite-0009",
+      "attempt": 1,
+      "receipt": "composite-0009-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_multiagent_workflow.py::test_sdlc_workflow_contract_runs_dry_run_and_consolidates_report",
+      "outcome": "PASS",
+      "duration_seconds": 542.642425,
+      "shard_id": "composite-0011",
+      "attempt": 1,
+      "receipt": "composite-0011-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_multiagent_workflow.py::test_sdlc_workflow_cli_json_and_report_are_parseable",
+      "outcome": "PASS",
+      "duration_seconds": 538.567238,
+      "shard_id": "composite-0011",
+      "attempt": 1,
+      "receipt": "composite-0011-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_application_dto_normalization.py::test_post_h_007_c_priority_operations_return_schema_valid_application_response",
+      "outcome": "PASS",
+      "duration_seconds": 417.614315,
+      "shard_id": "composite-0002",
+      "attempt": 1,
+      "receipt": "composite-0002-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_architecture_drift_repo.py::test_architecture_drift_cli_writes_report",
+      "outcome": "PASS",
+      "duration_seconds": 415.677313,
+      "shard_id": "composite-0002",
+      "attempt": 1,
+      "receipt": "composite-0002-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_repo_quality_gate.py::test_repo_quality_gate_cli_writes_report",
+      "outcome": "PASS",
+      "duration_seconds": 388.506748,
+      "shard_id": "composite-0023",
+      "attempt": 2,
+      "receipt": "composite-0023-attempt-002.json"
+    },
+    {
+      "nodeid": "tests/test_repo_analyzer.py::test_repo_analyzer_cli_writes_report",
+      "outcome": "PASS",
+      "duration_seconds": 385.181546,
+      "shard_id": "composite-0023",
+      "attempt": 1,
+      "receipt": "composite-0023-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_post_h_002_maturity_dashboard.py::test_quality_gate_hardening_includes_maturity_dashboard_subgate",
+      "outcome": "FAIL",
+      "duration_seconds": 372.317848,
+      "shard_id": "composite-0012",
+      "attempt": 1,
+      "receipt": "composite-0012-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_application_cli_boundary_integration.py::test_post_h_007_e_hardening_quality_gate_contains_subgate_and_stays_pass",
+      "outcome": "FAIL",
+      "duration_seconds": 355.273077,
+      "shard_id": "composite-0002",
+      "attempt": 1,
+      "receipt": "composite-0002-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_runtime_state_hygiene.py::test_runtime_state_hygiene_quality_gate_hardening_includes_subgate",
+      "outcome": "FAIL",
+      "duration_seconds": 351.604921,
+      "shard_id": "composite-0023",
+      "attempt": 2,
+      "receipt": "composite-0023-attempt-002.json"
+    },
+    {
+      "nodeid": "tests/test_approval_rbac_hardening_gate.py::test_quality_gate_hardening_includes_approval_rbac_subgate",
+      "outcome": "FAIL",
+      "duration_seconds": 349.100295,
+      "shard_id": "composite-0002",
+      "attempt": 1,
+      "receipt": "composite-0002-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_industrial_readiness.py::test_quality_gate_industrial_profile_consumes_industrial_readiness",
+      "outcome": "FAIL",
+      "duration_seconds": 343.113134,
+      "shard_id": "composite-0010",
+      "attempt": 1,
+      "receipt": "composite-0010-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_observability_hygiene_gate.py::test_quality_gate_hardening_contains_observability_retention_subgate",
+      "outcome": "FAIL",
+      "duration_seconds": 342.981751,
+      "shard_id": "composite-0011",
+      "attempt": 1,
+      "receipt": "composite-0011-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_rag_groundedness_ready_gate.py::test_quality_gate_hardening_includes_rag_groundedness_ready_subgate",
+      "outcome": "FAIL",
+      "duration_seconds": 338.730461,
+      "shard_id": "composite-0022",
+      "attempt": 1,
+      "receipt": "composite-0022-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_eval_runner.py::test_eval_runner_documentation_suite_passes",
+      "outcome": "PASS",
+      "duration_seconds": 234.876888,
+      "shard_id": "composite-0009",
+      "attempt": 1,
+      "receipt": "composite-0009-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes",
+      "outcome": "PASS",
+      "duration_seconds": 202.160937,
+      "shard_id": "composite-0007",
+      "attempt": 1,
+      "receipt": "composite-0007-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_audit_pack.py::test_audit_pack_verify_passes_for_generated_pack",
+      "outcome": "PASS",
+      "duration_seconds": 137.005934,
+      "shard_id": "composite-0003",
+      "attempt": 1,
+      "receipt": "composite-0003-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_audit_pack.py::test_audit_pack_cli_build_and_verify_json_are_parseable",
+      "outcome": "PASS",
+      "duration_seconds": 136.708927,
+      "shard_id": "composite-0003",
+      "attempt": 1,
+      "receipt": "composite-0003-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_audit_pack.py::test_audit_pack_verify_blocks_tampered_checksum",
+      "outcome": "PASS",
+      "duration_seconds": 135.408884,
+      "shard_id": "composite-0003",
+      "attempt": 1,
+      "receipt": "composite-0003-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_multiagent_coordinator.py::test_multiagent_repo_review_dry_run_has_explicit_traced_handoffs",
+      "outcome": "PASS",
+      "duration_seconds": 125.907724,
+      "shard_id": "composite-0011",
+      "attempt": 1,
+      "receipt": "composite-0011-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_multiagent_coordinator.py::test_multiagent_cli_json_and_report_are_parseable",
+      "outcome": "PASS",
+      "duration_seconds": 125.125188,
+      "shard_id": "composite-0011",
+      "attempt": 1,
+      "receipt": "composite-0011-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_uses_mock_model_aware_path",
+      "outcome": "PASS",
+      "duration_seconds": 110.702213,
+      "shard_id": "composite-0023",
+      "attempt": 1,
+      "receipt": "composite-0023-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_runs_read_only_without_model",
+      "outcome": "PASS",
+      "duration_seconds": 109.529808,
+      "shard_id": "composite-0023",
+      "attempt": 1,
+      "receipt": "composite-0023-attempt-001.json"
+    },
+    {
+      "nodeid": "tests/test_agent_session.py::test_agent_runtime_can_reuse_existing_session",
+      "outcome": "PASS",
+      "duration_seconds": 100.193559,
+      "shard_id": "composite-0001",
+      "attempt": 1,
+      "receipt": "composite-0001-attempt-001.json"
+    }
+  ],
+  "slowest_receipt_attempts": [
+    {
+      "shard_id": "composite-0011",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 1800.032,
+      "planned_total": 100,
+      "observed_total": 77,
+      "infra_abort": true,
+      "returncode": null,
+      "command_chars": 9320
+    },
+    {
+      "shard_id": "composite-0023",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 1800.031,
+      "planned_total": 100,
+      "observed_total": 43,
+      "infra_abort": true,
+      "returncode": null,
+      "command_chars": 9501
+    },
+    {
+      "shard_id": "composite-0002",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 1800.015,
+      "planned_total": 100,
+      "observed_total": 91,
+      "infra_abort": true,
+      "returncode": null,
+      "command_chars": 10378
+    },
+    {
+      "shard_id": "composite-0009",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 1632.5,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 10581
+    },
+    {
+      "shard_id": "composite-0023",
+      "attempt": 2,
+      "mode": "composite-resume",
+      "duration_seconds": 821.61,
+      "planned_total": 57,
+      "observed_total": 57,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 5588
+    },
+    {
+      "shard_id": "composite-0003",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 771.782,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 9803
+    },
+    {
+      "shard_id": "composite-0022",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 757.203,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 9955
+    },
+    {
+      "shard_id": "composite-0007",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 540.953,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 0,
+      "command_chars": 12604
+    },
+    {
+      "shard_id": "composite-0012",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 524.969,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 11148
+    },
+    {
+      "shard_id": "composite-0001",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 508.078,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 0,
+      "command_chars": 10028
+    },
+    {
+      "shard_id": "composite-0016",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 501.359,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 11741
+    },
+    {
+      "shard_id": "composite-0010",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 435.641,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 9386
+    },
+    {
+      "shard_id": "composite-0013",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 282.781,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 11615
+    },
+    {
+      "shard_id": "composite-0017",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 245.781,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 12147
+    },
+    {
+      "shard_id": "composite-0014",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 189.687,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 12012
+    },
+    {
+      "shard_id": "composite-0028",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 156.25,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 10178
+    },
+    {
+      "shard_id": "composite-0018",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 146.563,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 1,
+      "command_chars": 12001
+    },
+    {
+      "shard_id": "composite-0006",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 139.188,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 0,
+      "command_chars": 12612
+    },
+    {
+      "shard_id": "composite-0024",
+      "attempt": 1,
+      "mode": "composite-start",
+      "duration_seconds": 130.11,
+      "planned_total": 100,
+      "observed_total": 100,
+      "infra_abort": false,
+      "returncode": 0,
+      "command_chars": 9866
+    },
+    {
+      "shard_id": "composite-0002",
+      "attempt": 2,
+      "mode": "composite-resume",
+      "duration_seconds": 128.297,
+      "planned_total": 9,
+      "observed_total": 9,
+      "infra_abort": false,
+      "returncode": 0,
+      "command_chars": 1234
+    }
+  ],
+  "infra_abort_receipts_total": 3,
+  "scheduler": {
+    "target": "v2.2-duration-balanced-sequential",
+    "algorithm_candidate": "deterministic-LPT-bin-packing",
+    "scheduler_enabled": false,
+    "parallel_workers": 1,
+    "history_min_samples_per_nodeid": 1,
+    "cold_start_fallback": "stable-nodeid-order + bounded count/command chars",
+    "preview_buckets": [
+      {
+        "estimated_seconds": 774.736226,
+        "bucket_id": "preview-0001",
+        "nodeids_total": 1
+      },
+      {
+        "estimated_seconds": 758.884388,
+        "bucket_id": "preview-0002",
+        "nodeids_total": 1
+      },
+      {
+        "estimated_seconds": 542.642425,
+        "bucket_id": "preview-0003",
+        "nodeids_total": 1
+      },
+      {
+        "estimated_seconds": 538.567238,
+        "bucket_id": "preview-0004",
+        "nodeids_total": 1
+      },
+      {
+        "estimated_seconds": 417.614315,
+        "bucket_id": "preview-0005",
+        "nodeids_total": 1
+      },
+      {
+        "estimated_seconds": 415.677313,
+        "bucket_id": "preview-0006",
+        "nodeids_total": 1
+      },
+      {
+        "estimated_seconds": 413.250709,
+        "bucket_id": "preview-0007",
+        "nodeids_total": 107
+      },
+      {
+        "estimated_seconds": 413.250732,
+        "bucket_id": "preview-0008",
+        "nodeids_total": 108
+      },
+      {
+        "estimated_seconds": 413.250706,
+        "bucket_id": "preview-0009",
+        "nodeids_total": 112
+      },
+      {
+        "estimated_seconds": 413.250708,
+        "bucket_id": "preview-0010",
+        "nodeids_total": 115
+      },
+      {
+        "estimated_seconds": 413.25073,
+        "bucket_id": "preview-0011",
+        "nodeids_total": 116
+      },
+      {
+        "estimated_seconds": 413.250729,
+        "bucket_id": "preview-0012",
+        "nodeids_total": 116
+      },
+      {
+        "estimated_seconds": 413.25073,
+        "bucket_id": "preview-0013",
+        "nodeids_total": 117
+      },
+      {
+        "estimated_seconds": 413.250703,
+        "bucket_id": "preview-0014",
+        "nodeids_total": 117
+      },
+      {
+        "estimated_seconds": 413.250731,
+        "bucket_id": "preview-0015",
+        "nodeids_total": 118
+      },
+      {
+        "estimated_seconds": 413.250731,
+        "bucket_id": "preview-0016",
+        "nodeids_total": 124
+      },
+      {
+        "estimated_seconds": 413.250713,
+        "bucket_id": "preview-0017",
+        "nodeids_total": 125
+      },
+      {
+        "estimated_seconds": 413.250727,
+        "bucket_id": "preview-0018",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250717,
+        "bucket_id": "preview-0019",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250731,
+        "bucket_id": "preview-0020",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250724,
+        "bucket_id": "preview-0021",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250726,
+        "bucket_id": "preview-0022",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250696,
+        "bucket_id": "preview-0023",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250729,
+        "bucket_id": "preview-0024",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250726,
+        "bucket_id": "preview-0025",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250727,
+        "bucket_id": "preview-0026",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250733,
+        "bucket_id": "preview-0027",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.250713,
+        "bucket_id": "preview-0028",
+        "nodeids_total": 127
+      },
+      {
+        "estimated_seconds": 413.25073,
+        "bucket_id": "preview-0029",
+        "nodeids_total": 127
+      }
+    ]
+  },
+  "v2_3": {
+    "status": "UNCLASSIFIED",
+    "parallel_safe": false,
+    "explicit_review_required": true,
+    "workers": 0
+  },
+  "safety": {
+    "network_used": false,
+    "second_full": false,
+    "v2_2_enabled_by_07_e": false,
+    "v2_3_enabled_by_07_e": false
+  }
+}

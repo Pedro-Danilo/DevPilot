@@ -22,4 +22,4 @@ Evidence demonstrates 157/157 selective tests, 8/8 static UI checks, Project Sta
 
 The browser evidence confirms eight contextual roles, explicit limits/policy state, `Model route grants tool permission: NO` and `Agent role can approve: NO`. Full regression consumption remains `0`; the single logical backlog full remains reserved for GSDLC-07-E.
 
-**Authorization:** GSDLC-07-B is authorized.
+**Authorization decision:** GSDLC-07-B is authorized.

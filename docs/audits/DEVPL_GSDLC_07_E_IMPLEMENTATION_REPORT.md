@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-07-E-IMPLEMENTATION-REPORT"
 title: "GSDLC-07-E — Implementation report"
-status: "PASS/E03-CORRECTIVE-PRE-COMPOSITE"
-version: "1.0.3"
+status: "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING"
+version: "1.0.4"
 owner: "DEVPL-GSDLC-07-E"
 updated: "2026-08-30"
-approval: "pending_composite_windows_validation"
+approval: "pending_selective_windows_validation"
 ---
 # GSDLC-07-E — Implementation report
 
@@ -32,3 +32,10 @@ This is the first version of AgentEvalTraceView and telemetry handoff. v2.2 must
 
 ## PASS/BLOCK
 Browser acceptance is already PASS and is reusable only with a runtime-equivalence receipt because E-03 changes testing/governance/documentation bytes only. Source corrective is PASS locally. Final closure remains BLOCK until composite recovery reaches 100% terminal accounting, Historical Regression Guard passes, packaging completes and Git three-state evidence converges.
+
+
+## Corrective E-04 — terminal failure decomposition
+The preserved E-03 composite reached 2805/2805 terminal outcomes: 2674 PASS, 126 FAIL, 5 approved skips and zero unexecuted. Raw shard JUnit/log/outcome evidence showed that the 126 FAIL collapse into a smaller set of current-active/historical contract drift, registry parity, release-candidate freshness, lazy service-boundary and documentation false-positive causes. The corrective preserves historical checkpoints instead of moving global state backward. Windows closure is limited to the original 126 failed nodeids, bounded impacted tests and the Historical Regression Guard. No second full is authorized.
+
+## FRX v2.2 preparation
+E-04 telemetry provides 2805 per-node terminal duration samples. `docs/audits/DEVPL_GSDLC_07_E_FRX_V2_2_TEMPORAL_HANDOFF.json` prepares deterministic duration-balanced sequential scheduling. It remains disabled in 07-E: `scheduler_enabled=false`, v2.2 `parallel_workers=1`; v2.3 remains `UNCLASSIFIED`, `parallel_safe=false`, `workers=0`.

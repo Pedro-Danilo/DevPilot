@@ -26,3 +26,10 @@ PASS when telemetry is generated from sealed full receipts and parallelism remai
 Windows E-03 exposed a v2.1 collection defect: normalizing backslashes across the entire pytest nodeid corrupts escaped parameter ids such as `\t` and `\x7f`. Successor collection must normalize **only** the filesystem path component before the first `::`; the test/item suffix is opaque and must be preserved byte-for-byte.
 
 The consumed v2.1 logical session remains immutable. Because it executed zero terminal nodeids, its recovery is `composite-full-regression-selective-retest` with the corrected 100% uncovered tail plus the bounded corrective tests and Historical Regression Guard. This is not a second logical full session.
+## E-04 terminal telemetry handoff to v2.2
+
+The E-04 composite produced **2805 terminal node samples** with per-node duration, outcome and shard/attempt provenance. The static handoff is `docs/audits/DEVPL_GSDLC_07_E_FRX_V2_2_TEMPORAL_HANDOFF.json`.
+
+v2.2 remains **prepared, not enabled**. Its candidate scheduling policy is deterministic duration-balanced sequential planning (LPT/bin-packing) using historical duration estimates, while preserving collection identity, source fingerprints, completion-first semantics and command-length bounds. Cold-start tests fall back to stable nodeid ordering plus bounded count/command chars.
+
+Safety boundary for 07-E: `scheduler_enabled=false`, `parallel_workers=1`. v2.3 remains `UNCLASSIFIED`, `parallel_safe=false`, `explicit_review_required=true`, `workers=0`. No duration signal can authorize parallel execution.

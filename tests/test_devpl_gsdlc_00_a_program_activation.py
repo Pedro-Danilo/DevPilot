@@ -58,7 +58,8 @@ def test_gsdlc_canonical_sources_are_registered_and_owner_approved_scope_is_pres
         "DEVPL-GSDLC-00-A-HISTORICAL-CONTRACT-SWEEP",
     }
     assert expected <= set(ids)
-    assert registry["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
+    assert registry["last_registered_sprint"] == "DEVPL-GSDLC-07-E"
+    assert registry["project_state_snapshot"]["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
     assert registry["gsdlc_00_a_last_registered_micro_sprint_at_close"] == "DEVPL-GSDLC-00-A"
     assert registry["gsdlc_00_a_program_status_at_close"] == "active/00-a"
     assert 'status: "approved"' in t("docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md")

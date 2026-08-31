@@ -1,6 +1,6 @@
 {
-  "status": "PASS/E03-CORRECTIVE-PRE-COMPOSITE",
-  "version": "1.0.0",
+  "status": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
+  "version": "1.0.1",
   "owner": "DEVPL-GSDLC-07-E",
   "updated": "2026-08-30",
   "full_regression_consumed": 1,
@@ -34,5 +34,17 @@
     "second_full_allowed": false,
     "recovery": "composite-uncovered-tail-100-percent+bounded-corrective+historical-regression-guard"
   },
-  "browser_acceptance_status": "PASS/REUSED-BY-RUNTIME-EQUIVALENCE"
+  "browser_acceptance_status": "PASS/REUSED-BY-RUNTIME-EQUIVALENCE",
+  "e04_forensics": {
+    "composite_terminal_accounting": "2805/2805",
+    "fail_total": 126,
+    "unexecuted_total": 0,
+    "recovery": "failed-nodeids-126+bounded-impacted+historical-regression-guard",
+    "second_full_allowed": false
+  },
+  "v2_2_preparation": {
+    "samples_total": 2805,
+    "scheduler_enabled": false,
+    "parallel_workers": 1
+  }
 }

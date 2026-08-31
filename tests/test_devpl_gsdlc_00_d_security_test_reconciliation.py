@@ -80,13 +80,13 @@ def test_00_d_pilot_and_uoc_tests_use_scoped_checkpoint_not_global_progression()
         assert "post_h_eval_002_current_micro_sprint" in source
         assert "post_h_eval_002_next_micro_sprint" in source
     assert 'state["current_micro_sprint"] == CURRENT_MICRO' not in activation
-    assert 'state["current_micro_sprint"] == "POST-H-EVAL-002-02-B"' not in uoc8
-    assert "s['current_micro_sprint']=='POST-H-EVAL-002-02-B'" not in uoc11
+    assert 'state["post_h_eval_002_current_micro_sprint"] == "POST-H-EVAL-002-02-B"' in uoc8
+    assert "s['post_h_eval_002_current_micro_sprint']=='POST-H-EVAL-002-02-B'" in uoc11
 
 def test_00_d_global_state_no_longer_has_pre_gsdlc_current_micro_allowlist():
     global_test = text("tests/test_project_global_state.py")
-    assert 'assert state.get("current_micro_sprint") == state.get("post_h_eval_002_current_micro_sprint")' in global_test
-    assert 'assert state.get("next_micro_sprint") == state.get("post_h_eval_002_next_micro_sprint")' in global_test
+    assert 'assert state.get("post_h_eval_002_current_micro_sprint") == "POST-H-EVAL-002-02-B"' in global_test
+    assert 'assert state.get("post_h_eval_002_next_micro_sprint") == "POST-H-EVAL-002-02-C"' in global_test
     # The old large allowlist was the false-regression pattern.
     assert 'assert state["current_micro_sprint"] in {"POST-H-033-D"' not in global_test
     assert 'assert state.get("current_micro_sprint") in {"POST-H-033-D"' not in global_test

@@ -74,6 +74,10 @@ Todo agente debe declarar:
 | `eval_policy` | Sí | Evaluaciones mínimas antes de uso. |
 | `observability_policy` | Sí | Eventos y trazas requeridas. |
 
+## 4.1 Herramientas y límites de ejecución
+
+Las herramientas de cada agente se rigen por Tool Registry, Policy Engine y las allowlists MIASI. Una declaración de `ToolIntent` no concede autoridad de ejecución: los gates determinísticos deciden `executable`, las acciones sensibles requieren aprobación humana y las herramientas prohibidas permanecen no ejecutables. El modo predeterminado es local/dry-run; shell arbitrario, escritura destructiva, red externa, MCP real y auto-aprobación permanecen bloqueados salvo contrato successor explícito.
+
 ## 5. Niveles de autonomía permitidos
 
 | Nivel | Uso en DevPilot | Requiere aprobación humana |

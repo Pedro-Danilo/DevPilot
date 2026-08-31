@@ -102,12 +102,14 @@ def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> No
         and str(value).strip().lower().startswith(("implemented", "closed"))
     ]
     if state.get("ui_operational_console_program_administrative_closure") is True:
-        assert registry["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
+        assert registry["last_registered_sprint"] == "DEVPL-GSDLC-07-E"
+        assert registry["project_state_snapshot"]["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
     elif realized:
         latest = max(realized)
         assert str(registry["last_registered_sprint"]).startswith(f"UOC-{latest:03d}")
     else:
-        assert str(registry["last_registered_sprint"]).startswith("POST-H-EVAL-002")
+        assert registry["last_registered_sprint"] == "DEVPL-GSDLC-07-E"
+        assert str(registry["project_state_snapshot"]["last_registered_sprint"]).startswith("POST-H-EVAL-002")
 
 
 def test_post_h_eval_002_test_contract_is_registered_in_v1_and_v2() -> None:
@@ -129,7 +131,7 @@ def test_project_state_activates_eval_without_reopening_post_h_034() -> None:
     assert state["last_completed_sprint"] == "POST-H-034"
     assert state["post_h_034_closed"] is True
     assert state["post_h_034_closure_status"] == "closed/full-regression-pass"
-    assert state["current_phase"] == "POST-H-EVAL-002"
+    assert state["post_h_eval_002_status"] == "approved/active-evaluation"
     assert state["next_sprint"] == "POST-H-EVAL-002"
     assert state["source_repo"] == SOURCE_REPO
     assert state["post_h_eval_002_01_d_governance_repo"] == ENTRY_GOVERNANCE_REPO
@@ -151,8 +153,10 @@ def test_rc_criteria_and_operator_docs_follow_activation_state() -> None:
     # while post_h_eval_002_02_b_platform_baseline remains the immutable repo341 pilot checkpoint.
     assert criteria["expected_current_repo"] == state["current_repo"]
     assert state["post_h_eval_002_02_b_platform_baseline"] == CURRENT_REPO
-    assert criteria["expected_current_micro_sprint"] == state["post_h_eval_002_current_micro_sprint"]
-    assert criteria["expected_next_micro_sprint"] == state["post_h_eval_002_next_micro_sprint"]
+    assert criteria["expected_current_micro_sprint"] == state["current_micro_sprint"]
+    assert criteria["expected_next_micro_sprint"] == state["next_micro_sprint"]
+    assert state["post_h_eval_002_current_micro_sprint"] == CURRENT_MICRO
+    assert state["post_h_eval_002_next_micro_sprint"] == NEXT_MICRO
 
     readme = _text("README.md")
     runbook = _text("docs/05_operations/runbook.md")

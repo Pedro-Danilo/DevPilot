@@ -1,6 +1,6 @@
 {
-  "status": "PASS/E03-CORRECTIVE-PRE-COMPOSITE",
-  "version": "1.0.2",
+  "status": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
+  "version": "1.0.3",
   "owner": "DEVPL-GSDLC-07-E",
   "updated": "2026-08-30",
   "network_used": false,
@@ -13,12 +13,29 @@
   "real_mcp_execution_enabled": false,
   "autonomous_recovery_enabled": false,
   "parallel_workers": 0,
-  "note": "Windows browser acceptance PASS. FULL-01 was consumed once and frozen after E-03 infrastructure abort with 0/2803 terminal nodeids; no second full is allowed. Corrective recovery must use the composite uncovered-tail path plus Historical Regression Guard.",
+  "note": "Browser acceptance remains PASS. FULL-01 is consumed/frozen and the E-03 composite reached 2805/2805 terminal with 126 FAIL. E-04 forensics decomposed the failures; closure now uses only the 126 failed nodeids + bounded impacted + Historical Regression Guard. No second full. FRX v2.2 is prepared but disabled.",
   "e03_corrective_available": true,
   "full_session_recovery_policy": "preserve-original/no-second-full/composite-uncovered-tail-after-source-corrective",
   "nodeid_normalization": "path-component-only-before-double-colon",
   "original_full_session_status": "BLOCK/INFRA/FROZEN",
   "original_full_terminal_accounting": "0/2803",
   "second_full_allowed": false,
-  "composite_recovery_pending": true
+  "composite_recovery_pending": false,
+  "e04": {
+    "forensics_complete": true,
+    "terminal_accounting": "2805/2805",
+    "fail_total": 126,
+    "selective_windows_pending": true,
+    "second_full": false
+  },
+  "v2_2": {
+    "prepared": true,
+    "scheduler_enabled": false,
+    "parallel_workers": 1
+  },
+  "v2_3": {
+    "status": "UNCLASSIFIED",
+    "parallel_safe": false,
+    "workers": 0
+  }
 }

@@ -59,10 +59,11 @@ def test_closure_state_and_backlog_are_administratively_closed() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md").read_text(encoding="utf-8")
 
     assert state["last_completed_sprint"] == "POST-H-034"
-    assert state["current_phase"] == "POST-H-EVAL-002"
+    assert state["post_h_eval_002_status"] == "approved/active-evaluation"
+    assert state["current_micro_sprint"] == "DEVPL-GSDLC-07-E"
     assert re.fullmatch(
         r"POST-H-EVAL-002-(?:01-[A-D]|02-[A-E]|03-[A-E])",
-        state["current_micro_sprint"],
+        state["post_h_eval_002_current_micro_sprint"],
     )
     assert state["post_h_034_closed"] is True
     assert state["next_backlog_planned"] is True

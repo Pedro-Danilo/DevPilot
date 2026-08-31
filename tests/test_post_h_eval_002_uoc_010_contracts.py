@@ -4,7 +4,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def j(p): return json.loads((ROOT/p).read_text(encoding='utf-8'))
 
 def test_uoc010_project_state_preserves_pilot_and_candidate_lifecycle() -> None:
-    s=j('.devpilot/project_state.json'); assert s['uoc_010_authorized'] is True; assert s['current_micro_sprint']=='POST-H-EVAL-002-02-B'; assert s['next_micro_sprint']=='POST-H-EVAL-002-02-C'; assert s['uoc_010_implementation_maturity']=='implemented-initial'; assert s['uoc_010_preliminary'] is True; assert s['uoc_010_external_api_enabled'] is False
+    s=j('.devpilot/project_state.json'); assert s['uoc_010_authorized'] is True; assert s['post_h_eval_002_current_micro_sprint']=='POST-H-EVAL-002-02-B'; assert s['post_h_eval_002_next_micro_sprint']=='POST-H-EVAL-002-02-C'; assert s['uoc_010_implementation_maturity']=='implemented-initial'; assert s['uoc_010_preliminary'] is True; assert s['uoc_010_external_api_enabled'] is False
     assert s['uoc_010_status'] in {'implemented-initial/pending-windows-browser-closure','closed/PASS'}
     if s['uoc_010_status'].startswith('implemented-initial'):
         assert s['current_repo']=='repo_DevPilot_Local_337_POST_H_EVAL_002_UOC_009.zip'; assert s['uoc_011_authorized'] is False

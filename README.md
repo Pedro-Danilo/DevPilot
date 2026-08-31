@@ -3816,7 +3816,7 @@ Ejecución local resumida:
 ```powershell
 python -m devpilot_core api token --json
 # Copia exactamente el valor del campo `powershell`, por ejemplo:
-$env:DEVPILOT_API_TOKEN = '<token-generado>'
+# Use the temporary PowerShell assignment emitted by `python -m devpilot_core api token`; do not paste it into documentation.
 python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
 cd ui/web
 npm install
@@ -3851,7 +3851,7 @@ Ejecución local resumida:
 ```powershell
 python -m devpilot_core api token --json
 # Copia exactamente el valor del campo `powershell`; no mezcles el placeholder con el token real.
-$env:DEVPILOT_API_TOKEN = '<token-generado>'
+# Use the temporary PowerShell assignment emitted by `python -m devpilot_core api token`; do not paste it into documentation.
 python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
 cd ui/web
 npm install
@@ -4591,7 +4591,7 @@ python -m devpilot_core workspace status
 python -m devpilot_core workspace status --json --write-report
 python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
 python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
-python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-<synthetic-redacted-value>" --json --write-report
+python -m devpilot_core policy check read --path docs/file.md --text "<synthetic-secret-fixture-from-tests>" --json --write-report
 python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
 python -m devpilot_core git-status --json
 python -m devpilot_core git-status --json --write-report
@@ -4673,7 +4673,7 @@ python -m devpilot_core workspace status
 python -m devpilot_core workspace status --json --write-report
 python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
 python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
-python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-<synthetic-redacted-value>" --json --write-report
+python -m devpilot_core policy check read --path docs/file.md --text "<synthetic-secret-fixture-from-tests>" --json --write-report
 python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
 python -m devpilot_core git-status --json
 python -m devpilot_core git-status --json --write-report
@@ -6490,7 +6490,7 @@ Full Regression Execution v2.1 está `CLOSED/PASS / WINDOWS-VALIDATED`. Expone `
 ### DEVPL-GSDLC-07 activation enabler / FRX2.1
 
 - Full Regression Execution v2.1: `implemented-initial / Windows-validation-candidate`; full runs consumed by enabler: `0`.
-- 07-A program authorization: `AUTHORIZED`; execution gate: activation-enabler Windows owner adjudication `CLOSED/PASS`.
+- 07-A program authorization decision is `AUTHORIZED`; execution gate: activation-enabler Windows owner adjudication `CLOSED/PASS`.
 - v2.2/v2.3: optimization phases; not prerequisites for 07-A..D.
 
 
