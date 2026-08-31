@@ -46,4 +46,18 @@ def post_h_progress_rank(value: str) -> int:
     if gsdlc is not None:
         return 20_000 + int(gsdlc.group("number"))
 
+    # Full Regression Execution successors are a separate current-active lifecycle
+    # family. Rank the generic semantic-version namespace after GSDLC instead of
+    # hard-coding v2.2, so later v2.3+ handoffs remain monotonic without reopening
+    # frozen POST-H contracts.
+    full_regression = re.fullmatch(
+        r"FULL-REGRESSION-v(?P<major>\d+)\.(?P<minor>\d+)(?:-[A-Z0-9]+)*",
+        value,
+        flags=re.IGNORECASE,
+    )
+    if full_regression is not None:
+        major = int(full_regression.group("major"))
+        minor = int(full_regression.group("minor"))
+        return 30_000 + (major * 100) + minor
+
     raise AssertionError(f"Unsupported project-state progress identifier: {value!r}")

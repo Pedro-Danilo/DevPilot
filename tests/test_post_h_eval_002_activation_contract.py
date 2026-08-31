@@ -38,6 +38,9 @@ def test_project_state_progress_rank_supports_evaluation_namespace() -> None:
     assert post_h_progress_rank("POST-H-034-CLOSURE") == 34
     assert post_h_progress_rank("POST-H-EVAL-002") > post_h_progress_rank("POST-H-034")
     assert post_h_progress_rank("POST-H-EVAL-002-01-A") == post_h_progress_rank("POST-H-EVAL-002")
+    assert post_h_progress_rank("DEVPL-GSDLC-07-E") > post_h_progress_rank("POST-H-EVAL-002")
+    assert post_h_progress_rank("FULL-REGRESSION-v2.2-DISTRIBUCION-TEMPORAL-INTELIGENTE") > post_h_progress_rank("DEVPL-GSDLC-07-E")
+    assert post_h_progress_rank("FULL-REGRESSION-v2.3-PARALLEL-SAFE") > post_h_progress_rank("FULL-REGRESSION-v2.2-DISTRIBUCION-TEMPORAL-INTELIGENTE")
 
 
 def test_post_h_eval_002_documents_are_approved_and_cross_linked() -> None:
