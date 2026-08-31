@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-07-E-IMPLEMENTATION-REPORT"
 title: "GSDLC-07-E — Implementation report"
-status: "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING"
-version: "1.0.4"
+status: "PASS/E09-CORRECTIVE-LOCAL/WINDOWS-HISTORICAL-GUARD-PENDING"
+version: "1.0.5"
 owner: "DEVPL-GSDLC-07-E"
-updated: "2026-08-30"
-approval: "pending_selective_windows_validation"
+updated: "2026-08-31"
+approval: "pending_historical_guard_windows_validation"
 ---
 # GSDLC-07-E — Implementation report
 
@@ -39,3 +39,11 @@ The preserved E-03 composite reached 2805/2805 terminal outcomes: 2674 PASS, 126
 
 ## FRX v2.2 preparation
 E-04 telemetry provides 2805 per-node terminal duration samples. `docs/audits/DEVPL_GSDLC_07_E_FRX_V2_2_TEMPORAL_HANDOFF.json` prepares deterministic duration-balanced sequential scheduling. It remains disabled in 07-E: `scheduler_enabled=false`, v2.2 `parallel_workers=1`; v2.3 remains `UNCLASSIFIED`, `parallel_safe=false`, `workers=0`.
+
+
+## Corrective E-09 — historical capability snapshot vs current-active registries
+Windows v1.0.9 completed the residual selective recovery at 126/126 PASS and then blocked only in Historical Regression Guard because the immutable UOC-011 closure assertion still read the mutable UI Capability Registry and required exactly 193 entries after GSDLC-07 legitimately registered six `tests full-session` capabilities (current total 199). Forward audit found the same stale exact-total assumption in `uoc011_hardening.py` and found the Governed Job Capability Registry still covering only 193 current capabilities.
+
+E-09 preserves the historical UOC-007/UOC-011 fact as explicit `*_at_close=193`, derives current-active summaries from all 199 live capabilities, and registers the six Full Regression v2.1 capabilities in the governed-job registry as `registry-only`. `run` and `resume` are sensitive/approval-bound in the governed contract; none of the six gains a UI/API execution adapter. Browser runtime bytes are unchanged, FULL-01 remains consumed exactly once, and a second full remains prohibited.
+
+Current closure state: selective/composite successor recovery PASS; E-09 focused governance tests PASS locally; Windows Historical Regression Guard, closure gates, Git three-state reconciliation and final packaging remain pending.

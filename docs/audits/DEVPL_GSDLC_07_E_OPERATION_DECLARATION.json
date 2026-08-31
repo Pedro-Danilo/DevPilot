@@ -1,8 +1,8 @@
 {
-  "status": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
-  "version": "1.0.3",
+  "status": "PASS/E09-CORRECTIVE-LOCAL/WINDOWS-HISTORICAL-GUARD-PENDING",
+  "version": "1.0.4",
   "owner": "DEVPL-GSDLC-07-E",
-  "updated": "2026-08-30",
+  "updated": "2026-08-31",
   "network_used": false,
   "external_api_used": false,
   "secrets_exposed": false,
@@ -13,7 +13,7 @@
   "real_mcp_execution_enabled": false,
   "autonomous_recovery_enabled": false,
   "parallel_workers": 0,
-  "note": "Browser acceptance remains PASS. FULL-01 is consumed/frozen and the E-03 composite reached 2805/2805 terminal with 126 FAIL. E-04 forensics decomposed the failures; closure now uses only the 126 failed nodeids + bounded impacted + Historical Regression Guard. No second full. FRX v2.2 is prepared but disabled.",
+  "note": "Browser acceptance remains PASS and FULL-01 remains consumed/frozen. E08 completed the 126/126 selective successor accounting, then Historical Regression Guard exposed one stale UOC-011 exact-193 current-registry assertion. E09 reconciles historical at-close=193 with current-active=199 and extends the governed-job registry to exact 199/199 coverage. Windows Historical Guard and closure gates remain pending; no second full.",
   "e03_corrective_available": true,
   "full_session_recovery_policy": "preserve-original/no-second-full/composite-uncovered-tail-after-source-corrective",
   "nodeid_normalization": "path-component-only-before-double-colon",
@@ -25,7 +25,7 @@
     "forensics_complete": true,
     "terminal_accounting": "2805/2805",
     "fail_total": 126,
-    "selective_windows_pending": true,
+    "selective_windows_pending": false,
     "second_full": false
   },
   "v2_2": {

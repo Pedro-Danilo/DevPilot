@@ -553,3 +553,12 @@ sha256  45a394cb1c3e4e235eae5a6c354ab492b9e3229822f9269bdf144c5c66b1bb30
 07-D is owner-adjudicated `CLOSED/PASS-WITH-S2-EVIDENCE-GAP`; `S2-EVIDENCE-07D-001` is evidence-only and does not reopen product behavior.
 
 07-E candidate implements AgenticPrecodeAcceptanceEvaluator, AgentEvalTraceView and FullRegressionTelemetryExporter. The candidate remains `PASS/PRE-WINDOWS`: browser evidence and the unique logical full-regression session are intentionally not consumed locally. On final 07-E closure, the next engineering action is Full Regression v2.2 temporal distribution; v2.3 remains prepared/not-enabled with workers=0.
+
+
+## 15. E09 validation reconciliation — 2026-08-31
+
+The v1.0.9 Windows continuation completed E08 residual/selective recovery (`126/126 PASS`) and then blocked at Historical Regression Guard on one UOC-011 test that treated the live UI Capability Registry as if it were the immutable 193-capability UOC-011 snapshot. The live registry now contains 199 entries because GSDLC-07 added six Full Regression v2.1 CLI capabilities. Forward audit also found the same stale assumption in the UOC-011 release evaluator and a 193/199 coverage gap in the current Governed Job Capability Registry.
+
+E09 classification: UOC-007/UOC-011 `193` is `historical-freeze`; the UI and governed-job registries are `current-active/derived` and must remain exact over all 199 live capabilities. The six successor capabilities remain CLI bridges with governed planning only; no UI/API runtime adapter is enabled. Sensitive full-session `run`/`resume` remain approval-bound in governed metadata. Browser evidence is reusable by runtime-byte equivalence. The single full session remains consumed; second full remains prohibited.
+
+07-E remains open until E09 Historical Regression Guard, deterministic closure gates, Git three-state convergence and Windows packaging all PASS.

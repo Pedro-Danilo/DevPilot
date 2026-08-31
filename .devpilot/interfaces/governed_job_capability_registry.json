@@ -4,8 +4,8 @@
   "registry_id": "devpilot-governed-job-capability-registry",
   "created_by": "UOC-007",
   "status": "implemented-initial",
-  "version": "1.1.0",
-  "updated": "2026-08-11",
+  "version": "1.2.0",
+  "updated": "2026-08-31",
   "source_registry": ".devpilot/interfaces/ui_capability_registry.json",
   "capabilities": [
     {
@@ -8241,6 +8241,300 @@
       }
     },
     {
+      "capability_id": "cli.tests.full-session.adjudicate",
+      "cli_command_id": "tests.full-session.adjudicate",
+      "cli_command": "python -m devpilot_core tests full-session adjudicate",
+      "application_service": null,
+      "risk_class": "mutating",
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "policy_binding": {
+        "source": ".devpilot/miasi/policy_matrix.json",
+        "required": true,
+        "default_decision": "plan-only",
+        "approval_required": false
+      },
+      "budgets": {
+        "timeout_seconds": 900,
+        "retry_limit": 0,
+        "heartbeat_interval_seconds": 5
+      },
+      "contracts": {
+        "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+        "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+        "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
+        "typed_parameters_schema_id": null
+      },
+      "controls": {
+        "dry_run_required": true,
+        "approval_required": false,
+        "supports_cancel": false,
+        "supports_rollback": false,
+        "idempotency_required": true,
+        "correlation_required": true
+      },
+      "evidence_mapping": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "runtime": {
+        "registered": true,
+        "planning_enabled": true,
+        "execution_enabled": false,
+        "adapter_bound": false,
+        "adapter_id": null,
+        "mode": "registry-only"
+      }
+    },
+    {
+      "capability_id": "cli.tests.full-session.collect",
+      "cli_command_id": "tests.full-session.collect",
+      "cli_command": "python -m devpilot_core tests full-session collect",
+      "application_service": null,
+      "risk_class": "mutating",
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "policy_binding": {
+        "source": ".devpilot/miasi/policy_matrix.json",
+        "required": true,
+        "default_decision": "plan-only",
+        "approval_required": false
+      },
+      "budgets": {
+        "timeout_seconds": 1800,
+        "retry_limit": 0,
+        "heartbeat_interval_seconds": 5
+      },
+      "contracts": {
+        "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+        "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+        "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
+        "typed_parameters_schema_id": null
+      },
+      "controls": {
+        "dry_run_required": true,
+        "approval_required": false,
+        "supports_cancel": false,
+        "supports_rollback": false,
+        "idempotency_required": true,
+        "correlation_required": true
+      },
+      "evidence_mapping": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "runtime": {
+        "registered": true,
+        "planning_enabled": true,
+        "execution_enabled": false,
+        "adapter_bound": false,
+        "adapter_id": null,
+        "mode": "registry-only"
+      }
+    },
+    {
+      "capability_id": "cli.tests.full-session.plan",
+      "cli_command_id": "tests.full-session.plan",
+      "cli_command": "python -m devpilot_core tests full-session plan",
+      "application_service": null,
+      "risk_class": "mutating",
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "policy_binding": {
+        "source": ".devpilot/miasi/policy_matrix.json",
+        "required": true,
+        "default_decision": "plan-only",
+        "approval_required": false
+      },
+      "budgets": {
+        "timeout_seconds": 900,
+        "retry_limit": 0,
+        "heartbeat_interval_seconds": 5
+      },
+      "contracts": {
+        "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+        "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+        "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
+        "typed_parameters_schema_id": null
+      },
+      "controls": {
+        "dry_run_required": true,
+        "approval_required": false,
+        "supports_cancel": false,
+        "supports_rollback": false,
+        "idempotency_required": true,
+        "correlation_required": true
+      },
+      "evidence_mapping": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "runtime": {
+        "registered": true,
+        "planning_enabled": true,
+        "execution_enabled": false,
+        "adapter_bound": false,
+        "adapter_id": null,
+        "mode": "registry-only"
+      }
+    },
+    {
+      "capability_id": "cli.tests.full-session.resume",
+      "cli_command_id": "tests.full-session.resume",
+      "cli_command": "python -m devpilot_core tests full-session resume",
+      "application_service": null,
+      "risk_class": "sensitive",
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "policy_binding": {
+        "source": ".devpilot/miasi/policy_matrix.json",
+        "required": true,
+        "default_decision": "deny",
+        "approval_required": true
+      },
+      "budgets": {
+        "timeout_seconds": 7200,
+        "retry_limit": 0,
+        "heartbeat_interval_seconds": 5
+      },
+      "contracts": {
+        "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+        "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+        "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
+        "typed_parameters_schema_id": null
+      },
+      "controls": {
+        "dry_run_required": true,
+        "approval_required": true,
+        "supports_cancel": false,
+        "supports_rollback": false,
+        "idempotency_required": true,
+        "correlation_required": true
+      },
+      "evidence_mapping": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "runtime": {
+        "registered": true,
+        "planning_enabled": true,
+        "execution_enabled": false,
+        "adapter_bound": false,
+        "adapter_id": null,
+        "mode": "registry-only"
+      }
+    },
+    {
+      "capability_id": "cli.tests.full-session.run",
+      "cli_command_id": "tests.full-session.run",
+      "cli_command": "python -m devpilot_core tests full-session run",
+      "application_service": null,
+      "risk_class": "sensitive",
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "policy_binding": {
+        "source": ".devpilot/miasi/policy_matrix.json",
+        "required": true,
+        "default_decision": "deny",
+        "approval_required": true
+      },
+      "budgets": {
+        "timeout_seconds": 7200,
+        "retry_limit": 0,
+        "heartbeat_interval_seconds": 5
+      },
+      "contracts": {
+        "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+        "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+        "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
+        "typed_parameters_schema_id": null
+      },
+      "controls": {
+        "dry_run_required": true,
+        "approval_required": true,
+        "supports_cancel": false,
+        "supports_rollback": false,
+        "idempotency_required": true,
+        "correlation_required": true
+      },
+      "evidence_mapping": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "runtime": {
+        "registered": true,
+        "planning_enabled": true,
+        "execution_enabled": false,
+        "adapter_bound": false,
+        "adapter_id": null,
+        "mode": "registry-only"
+      }
+    },
+    {
+      "capability_id": "cli.tests.full-session.status",
+      "cli_command_id": "tests.full-session.status",
+      "cli_command": "python -m devpilot_core tests full-session status",
+      "application_service": null,
+      "risk_class": "read-only",
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "policy_binding": {
+        "source": ".devpilot/miasi/policy_matrix.json",
+        "required": true,
+        "default_decision": "plan-only",
+        "approval_required": false
+      },
+      "budgets": {
+        "timeout_seconds": 900,
+        "retry_limit": 0,
+        "heartbeat_interval_seconds": 5
+      },
+      "contracts": {
+        "request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1",
+        "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1",
+        "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
+        "typed_parameters_schema_id": null
+      },
+      "controls": {
+        "dry_run_required": true,
+        "approval_required": false,
+        "supports_cancel": false,
+        "supports_rollback": false,
+        "idempotency_required": true,
+        "correlation_required": true
+      },
+      "evidence_mapping": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "runtime": {
+        "registered": true,
+        "planning_enabled": true,
+        "execution_enabled": false,
+        "adapter_bound": false,
+        "adapter_id": null,
+        "mode": "registry-only"
+      }
+    },
+    {
       "capability_id": "cli.tests.profiles",
       "cli_command_id": "tests.profiles",
       "cli_command": "python -m devpilot_core tests profiles",
@@ -9467,33 +9761,36 @@
     }
   ],
   "summary": {
-    "capabilities_total": 193,
-    "source_ui_capabilities_total": 193,
+    "capabilities_total": 199,
+    "source_ui_capabilities_total": 199,
     "coverage_exact": true,
-    "planning_enabled_total": 188,
+    "planning_enabled_total": 194,
     "execution_enabled_total": 14,
     "adapter_bound_total": 14,
     "risk_class_counts": {
-      "mutating": 121,
-      "sensitive": 57,
-      "read-only": 10,
-      "forbidden": 5
+      "forbidden": 5,
+      "mutating": 124,
+      "read-only": 11,
+      "sensitive": 59
     },
     "parity_status_counts": {
-      "CLI-BRIDGE-REGISTERED": 173,
-      "PLANNED": 2,
-      "UI-READ-ONLY": 12,
-      "UI-NATIVE": 1,
-      "POLICY-BLOCKED": 5
+      "CLI-BRIDGE-REGISTERED": 167,
+      "PLANNED": 1,
+      "POLICY-BLOCKED": 5,
+      "UI-NATIVE": 15,
+      "UI-READ-ONLY": 11
     },
-    "typed_parameters_contracts_total": 10,
+    "typed_parameters_contracts_total": 14,
     "unregistered_total": 0,
     "forbidden_runtime_enabled_total": 0,
     "runtime_execution_deferred_to_later_sprints": true,
     "uoc_009_typed_execution_enabled_total": 10,
-    "updated_by": "UOC-010",
+    "updated_by": "DEVPL-GSDLC-07-E/E09-HISTORICAL-CAPABILITY-RECONCILIATION",
     "uoc_010_typed_adapter_id": "uoc010.ai.typed-worker",
-    "uoc_010_execution_enabled_total": 4
+    "uoc_010_execution_enabled_total": 4,
+    "uoc_007_capabilities_total_at_close": 193,
+    "uoc_011_capabilities_total_at_close": 193,
+    "current_active_capabilities_total": 199
   },
   "safety": {
     "local_first": true,

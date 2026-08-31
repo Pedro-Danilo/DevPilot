@@ -34,6 +34,7 @@ def evaluate_uoc011_hardening(root: Path) -> dict[str, Any]:
     state = _load(root, ".devpilot/project_state.json")
     package = _load(root, "ui/web/package.json")
     capabilities = _load(root, ".devpilot/interfaces/ui_capability_registry.json")
+    governed_capabilities = _load(root, ".devpilot/interfaces/governed_job_capability_registry.json")
     manifest = _load(root, "docs/post_h_eval_002_uoc_011_manifest.json")
 
     route_items = {item["route_id"]: item for item in routes.get("routes", [])}
@@ -84,7 +85,26 @@ def evaluate_uoc011_hardening(root: Path) -> dict[str, Any]:
     parity_actual: dict[str, int] = {}
     for capability in capabilities.get("capabilities", []):
         key = str(capability.get("parity_status")); parity_actual[key] = parity_actual.get(key, 0) + 1
-    record("capability-parity-derived", capabilities.get("summary", {}).get("parity_status_counts", {}) == parity_actual and sum(parity_actual.values()) == 193 and capabilities.get("summary", {}).get("uoc_011_authorized") is True, "Capability parity summary is derived from all 193 registry entries.")
+    capability_summary = capabilities.get("summary", {})
+    governed_summary = governed_capabilities.get("summary", {})
+    historical_total = int(governed_summary.get("uoc_011_capabilities_total_at_close", 0))
+    current_total = len(capabilities.get("capabilities", []))
+    parity_ok = (
+        historical_total == 193
+        and current_total >= historical_total
+        and sum(parity_actual.values()) == current_total
+        and capability_summary.get("cli_commands_total") == current_total
+        and capability_summary.get("cli_commands_classified_total") == current_total
+        and capability_summary.get("parity_status_counts", {}) == parity_actual
+        and capability_summary.get("uoc_007_governed_job_capabilities_total") == current_total
+        and capability_summary.get("uoc_007_governed_job_capabilities_total_at_close") == historical_total
+        and capability_summary.get("uoc_011_authorized") is True
+    )
+    record(
+        "capability-parity-derived",
+        parity_ok,
+        f"UOC-011 historical capability floor remains {historical_total}; current parity summary is derived from all {current_total} active registry entries.",
+    )
     record("uoc011-historical-closure-recorded", manifest.get("closure_commit") == "4ce3c2f851bc572a7b014b5e7aed423f15e3e30c" and manifest.get("status") == "closed/PASS", "UOC-011 manifest records its authoritative historical closure commit instead of null.")
 
     status = "PASS" if all(item["status"] == "PASS" for item in checks) else "BLOCK"

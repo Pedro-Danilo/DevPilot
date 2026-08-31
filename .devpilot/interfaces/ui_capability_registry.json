@@ -11055,9 +11055,10 @@
     "UOC-004 UI-native plan capability is metadata on ui.workspace-documents; CLI command inventory remains truthful and unchanged until UOC-007 parity work.",
     "UOC-004 remains non-mutating. UOC-005 is the first narrow source-write exception: Markdown/JSON/YAML document apply/rollback bound to exact approval, plan hash, base hash, scope, actor and TTL.",
     "Generic patch.apply, generic rollback, arbitrary shell, Git write, remote execution, connector write and plugin execution remain policy-blocked.",
-    "UOC-011 final reconciliation derives parity_status_counts from the 193 capability entries; summary values are not an independent authority.",
+    "UOC-011 historical closure derived parity_status_counts from 193 capability entries. The current-active registry may grow; current summary values must always be derived from all live capability entries while the UOC-007/UOC-011 historical floor remains frozen at 193.",
     "DEVPL-GSDLC-02-B adds seven local auth/session API routes; no new UI route is introduced in this micro-sprint.",
-    "GSDLC-07-C ArtifactAIPanel is current-active under ui.workspace-documents."
+    "GSDLC-07-C ArtifactAIPanel is current-active under ui.workspace-documents.",
+    "UOC-007/UOC-011 closed historically with 193 capabilities; successor current-active registries may grow and must remain coverage-exact without rewriting those closure manifests."
   ],
   "registry_id": "devpilot-ui-capability-registry",
   "safety": {
@@ -11186,7 +11187,7 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-07-E/E04-CORRECTIVE",
+    "updated_by": "DEVPL-GSDLC-07-E/E09-HISTORICAL-CAPABILITY-RECONCILIATION",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -11218,7 +11219,10 @@
     "gsdlc_07_d_agent_execution_api_routes_total": 6,
     "gsdlc_07_e_agent_eval_trace_view": true,
     "gsdlc_07_e_agent_eval_top_level_routes_added": 0,
-    "gsdlc_07_e_manual_route_preserved": true
+    "gsdlc_07_e_manual_route_preserved": true,
+    "uoc_011_capabilities_total_at_close": 193,
+    "current_active_capabilities_total": 199,
+    "uoc_007_governed_job_capabilities_total_at_close": 193
   },
   "ui_routes": [
     {

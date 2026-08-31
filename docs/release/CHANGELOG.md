@@ -3081,3 +3081,10 @@ Program-level closure reconciliation after UOC-011: fixes closure metadata/parit
 ## 2026-08-14 — DEVPL-GSDLC-00 closure
 
 GSDLC-00 closes the governance-only program activation wave. Parent repo341 remains immutable; POST-H-EVAL-002 stays paused before 02-B. The successor canonical source archive is `repo_DevPilot_Local_342_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE.zip`, produced only with `git archive HEAD` after the final Windows gates and one required full regression. `DEVPL-GSDLC-01` is the next authorized backlog; Guided SDLC runtime/auth/filesystem-write/provider capabilities remain unimplemented/disabled.
+
+
+## 2026-08-31 — DEVPL-GSDLC-07-E E09 historical capability reconciliation
+- Preserves UOC-007/UOC-011 historical capability total at 193 while deriving current-active capability summaries from 199 live entries.
+- Extends Governed Job Capability Registry to 199/199 current UI capability coverage for the six GSDLC-07 full-session CLI bridges; runtime execution remains disabled for those new entries.
+- Removes stale exact-193 assumptions from current UOC-011 hardening/tests; browser runtime unchanged; no second full regression.
+- Windows Historical Regression Guard and final closure remain pending.

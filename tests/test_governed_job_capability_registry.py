@@ -12,12 +12,14 @@ def test_uoc007_governed_job_registry_covers_ui_capabilities_exactly() -> None:
     result = GovernedJobCapabilityRegistry(ROOT).validate()
     assert result.ok is True, result.to_dict()
     summary = result.data['summary']
-    assert summary['capabilities_total'] == 193
-    assert summary['ui_capabilities_total'] == 193
-    assert summary['coverage_exact'] is True
-    assert summary['planning_enabled_total'] == 188
-    assert summary['forbidden_total'] == 5
     historical = json.loads((ROOT / 'docs/post_h_eval_002_uoc_007_manifest.json').read_text(encoding='utf-8'))
+    historical_total = historical['registry']['governed_capabilities_total']
+    assert historical_total == 193
+    assert summary['capabilities_total'] == summary['ui_capabilities_total']
+    assert summary['capabilities_total'] >= historical_total
+    assert summary['coverage_exact'] is True
+    assert summary['planning_enabled_total'] >= historical['registry']['planning_enabled_total']
+    assert summary['forbidden_total'] == historical['registry']['forbidden_total']
     assert historical['registry']['execution_enabled_total'] == 0
     assert historical['registry']['adapter_bound_total'] == 0
 

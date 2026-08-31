@@ -62,9 +62,12 @@ def test_uoc007_registry_flags_and_no_go_gates_are_explicit() -> None:
     registry = j('.devpilot/interfaces/governed_job_capability_registry.json')
     flags = j('.devpilot/interfaces/ui_operational_console_flags.json')
     ui = j('.devpilot/interfaces/ui_capability_registry.json')
-    assert registry['summary']['capabilities_total'] == 193
-    assert registry['summary']['coverage_exact'] is True
     manifest = j('docs/post_h_eval_002_uoc_007_manifest.json')
+    historical_total = manifest['registry']['governed_capabilities_total']
+    assert historical_total == 193
+    assert registry['summary']['capabilities_total'] >= historical_total
+    assert registry['summary']['source_ui_capabilities_total'] == registry['summary']['capabilities_total']
+    assert registry['summary']['coverage_exact'] is True
     assert manifest['registry']['execution_enabled_total'] == 0
     assert manifest['registry']['adapter_bound_total'] == 0
     # Later UOC sprints may enable a typed subset; UOC-007's historical no-execution fact remains in its manifest.

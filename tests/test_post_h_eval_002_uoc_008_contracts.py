@@ -46,7 +46,11 @@ def test_uoc008_ui_and_api_routes_are_registered_without_relaxing_no_go_gates() 
 def test_uoc008_runtime_is_observability_and_lifecycle_not_generic_cli_execution() -> None:
     capability = load_json(".devpilot/interfaces/governed_job_capability_registry.json")
     ui_capability = load_json(".devpilot/interfaces/ui_capability_registry.json")
-    assert capability["summary"]["capabilities_total"] == 193
+    uoc007 = load_json("docs/post_h_eval_002_uoc_007_manifest.json")
+    historical_total = uoc007["registry"]["governed_capabilities_total"]
+    assert historical_total == 193
+    assert capability["summary"]["capabilities_total"] >= historical_total
+    assert capability["summary"]["source_ui_capabilities_total"] == capability["summary"]["capabilities_total"]
     historical = load_json("docs/post_h_eval_002_uoc_008_manifest.json")
     assert historical["capability_execution_enabled_total"] == 0
     assert ui_capability["summary"]["uoc_008_runtime_capability_execution_enabled_total"] == 0
