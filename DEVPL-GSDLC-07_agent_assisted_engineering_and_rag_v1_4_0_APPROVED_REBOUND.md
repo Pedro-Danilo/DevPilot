@@ -562,3 +562,8 @@ The v1.0.9 Windows continuation completed E08 residual/selective recovery (`126/
 E09 classification: UOC-007/UOC-011 `193` is `historical-freeze`; the UI and governed-job registries are `current-active/derived` and must remain exact over all 199 live capabilities. The six successor capabilities remain CLI bridges with governed planning only; no UI/API runtime adapter is enabled. Sensitive full-session `run`/`resume` remain approval-bound in governed metadata. Browser evidence is reusable by runtime-byte equivalence. The single full session remains consumed; second full remains prohibited.
 
 07-E remains open until E09 Historical Regression Guard, deterministic closure gates, Git three-state convergence and Windows packaging all PASS.
+
+
+## 16. Windows E09 closure
+
+GSDLC-07-E and DEVPL-GSDLC-07 are `CLOSED/PASS` only after the v1.0.10 E09 Historical Regression Guard, closure gates, post-finalize validation, candidate packaging and Git three-state reconciliation all pass. The original FULL-01 remains the unique logical full-regression session; no second full is authorized or executed. Browser evidence remains valid by runtime-byte equivalence. Current UI/governed-job registries cover 199/199 capabilities; UOC-007/UOC-011 historical closure remains frozen at 193 via explicit at-close metadata/manifests. GSDLC-08 is authorized.

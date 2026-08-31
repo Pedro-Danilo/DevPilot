@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-07-E-IMPLEMENTATION-REPORT"
 title: "GSDLC-07-E — Implementation report"
-status: "PASS/E09-CORRECTIVE-LOCAL/WINDOWS-HISTORICAL-GUARD-PENDING"
-version: "1.0.5"
+status: "CLOSED/PASS"
+version: "1.0.6"
 owner: "DEVPL-GSDLC-07-E"
 updated: "2026-08-31"
-approval: "pending_historical_guard_windows_validation"
+approval: "approved_by_owner"
 ---
 # GSDLC-07-E — Implementation report
 
@@ -47,3 +47,7 @@ Windows v1.0.9 completed the residual selective recovery at 126/126 PASS and the
 E-09 preserves the historical UOC-007/UOC-011 fact as explicit `*_at_close=193`, derives current-active summaries from all 199 live capabilities, and registers the six Full Regression v2.1 capabilities in the governed-job registry as `registry-only`. `run` and `resume` are sensitive/approval-bound in the governed contract; none of the six gains a UI/API execution adapter. Browser runtime bytes are unchanged, FULL-01 remains consumed exactly once, and a second full remains prohibited.
 
 Current closure state: selective/composite successor recovery PASS; E-09 focused governance tests PASS locally; Windows Historical Regression Guard, closure gates, Git three-state reconciliation and final packaging remain pending.
+
+
+## Windows closure E-09
+Closure is authorized only after the E09 expanded Historical Regression Guard and deterministic closure gates pass on the corrective commit. The original FULL-01 remains preserved as the single consumed logical full session; no second full was executed. Browser acceptance is reused by runtime-byte equivalence because E09 changes governance/tests/documentation only. The Windows validated successor is repo386, and GSDLC-08 is authorized by the approved backlog while Full Regression v2.2 temporal-distribution work remains the recorded next engineering optimization.

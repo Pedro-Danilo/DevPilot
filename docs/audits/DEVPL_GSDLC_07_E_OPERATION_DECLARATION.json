@@ -1,6 +1,6 @@
 {
-  "status": "PASS/E09-CORRECTIVE-LOCAL/WINDOWS-HISTORICAL-GUARD-PENDING",
-  "version": "1.0.4",
+  "status": "CLOSED/PASS",
+  "version": "1.0.5",
   "owner": "DEVPL-GSDLC-07-E",
   "updated": "2026-08-31",
   "network_used": false,
@@ -13,7 +13,7 @@
   "real_mcp_execution_enabled": false,
   "autonomous_recovery_enabled": false,
   "parallel_workers": 0,
-  "note": "Browser acceptance remains PASS and FULL-01 remains consumed/frozen. E08 completed the 126/126 selective successor accounting, then Historical Regression Guard exposed one stale UOC-011 exact-193 current-registry assertion. E09 reconciles historical at-close=193 with current-active=199 and extends the governed-job registry to exact 199/199 coverage. Windows Historical Guard and closure gates remain pending; no second full.",
+  "note": "GSDLC-07-E CLOSED/PASS after E09 Historical Regression Guard and closure gates PASS. Browser acceptance was reused by runtime-byte equivalence. FULL-01 remains the only consumed logical full session; no second full. Selective successor recovery is 126/126 PASS and current capability governance is 199/199 exact with UOC historical at-close=193 preserved.",
   "e03_corrective_available": true,
   "full_session_recovery_policy": "preserve-original/no-second-full/composite-uncovered-tail-after-source-corrective",
   "nodeid_normalization": "path-component-only-before-double-colon",
