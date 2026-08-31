@@ -27,7 +27,7 @@ def test_01_b_state_closes_and_authorizes_01_c() -> None:
         "POST-H-EVAL-002-02-A",
         "POST-H-EVAL-002-02-B",
     }
-    assert state["next_micro_sprint"] in {
+    assert state["post_h_eval_002_next_micro_sprint"] in {
         "POST-H-EVAL-002-01-D",
         "POST-H-EVAL-002-02-A",
         "POST-H-EVAL-002-02-B",
