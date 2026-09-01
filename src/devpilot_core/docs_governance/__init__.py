@@ -9,6 +9,20 @@ POST-H-009-E integrates the validator as a quality-gate subgate without
 mutating source files or enabling external services.
 """
 
+
+from .authority import (
+    DEFAULT_DOCUMENTATION_AUTHORITY_GRAPH,
+    DEFAULT_DOCUMENTATION_DRIFT_LEDGER,
+    DerivedMetadataProjection,
+    DocumentationAuthorityGraph,
+    DocumentationDriftLedger,
+)
+from .consistency import (
+    DEFAULT_CLOSURE_STATE_CONSISTENCY_REPORT,
+    ClosureStateConsistencyOptions,
+    ClosureStateConsistencyValidator,
+)
+from .impact import DEFAULT_DOC_IMPACT_REPORT, DocImpactPlanOptions, DocImpactPlanner
 from .backlogs import DocumentationBacklogGovernanceValidator
 from .drift import DocumentationSyncValidator
 from .quality_gate import run_docs_governance_quality_subgate
@@ -37,6 +51,17 @@ from .validator import (
 )
 
 __all__ = [
+    "DEFAULT_DOCUMENTATION_AUTHORITY_GRAPH",
+    "DEFAULT_DOCUMENTATION_DRIFT_LEDGER",
+    "DerivedMetadataProjection",
+    "DocumentationAuthorityGraph",
+    "DocumentationDriftLedger",
+    "DEFAULT_CLOSURE_STATE_CONSISTENCY_REPORT",
+    "ClosureStateConsistencyOptions",
+    "ClosureStateConsistencyValidator",
+    "DEFAULT_DOC_IMPACT_REPORT",
+    "DocImpactPlanOptions",
+    "DocImpactPlanner",
     "DocumentationBacklogGovernanceValidator",
     "DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY",
     "DOCS_GOVERNANCE_RULE_REGISTRY_CONTRACT",

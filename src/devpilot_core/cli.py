@@ -85,7 +85,7 @@ from .connectors import (
     ConnectorSandboxRequest,
     ConnectorSandboxRunner,
 )
-from .docs_governance import DocumentationGovernanceValidationOptions, DocumentationGovernanceValidator
+from .docs_governance import (ClosureStateConsistencyOptions, ClosureStateConsistencyValidator, DocImpactPlanOptions, DocImpactPlanner, DocumentationGovernanceValidationOptions, DocumentationGovernanceValidator)
 from .compliance import ComplianceMappingReporter, ComplianceMappingReportOptions, CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
 from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
 from .errors import DevPilotError
@@ -4530,6 +4530,24 @@ def docs_governance_report_command(*, json_output: bool = False, write_report: b
     return int(result.exit_code)
 
 
+def docs_governance_closure_consistency_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run FRX-v2.2-A cross-authority closure-state consistency validation."""
+
+    root = project_root()
+    result = ClosureStateConsistencyValidator(root, ClosureStateConsistencyOptions(write_report=write_report)).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def docs_governance_impact_plan_command(*, changed_paths: list[str], json_output: bool = False, write_report: bool = False) -> int:
+    """Build FRX-v2.2-A documentation impact plan without executing tests."""
+
+    root = project_root()
+    result = DocImpactPlanner(root, changed_paths, DocImpactPlanOptions(write_report=write_report)).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def runtime_state_hygiene_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Run POST-H-008-E runtime-state hygiene and release archive gate.
 
@@ -6629,6 +6647,15 @@ def build_parser() -> argparse.ArgumentParser:
     docs_governance_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     docs_governance_report.add_argument("--write-report", action="store_true", help="Persist documentation governance JSON/Markdown report; enabled by default for this command")
 
+    docs_governance_closure = docs_governance_sub.add_parser("closure-consistency", help="Validate P0/P1 closure state across Project State, backlog, Source Registry, README, changelog and adjudication")
+    docs_governance_closure.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    docs_governance_closure.add_argument("--write-report", action="store_true", help="Persist closure_state_consistency_report.json")
+
+    docs_governance_impact = docs_governance_sub.add_parser("impact-plan", help="Plan documentation and contract reconciliation from changed paths")
+    docs_governance_impact.add_argument("--changed-path", action="append", default=[], help="Changed repository path; repeat as needed")
+    docs_governance_impact.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    docs_governance_impact.add_argument("--write-report", action="store_true", help="Persist doc_impact_plan.json")
+
     test_impact = sub.add_parser("test-impact", help="Analyze changed files and recommend conservative test suites")
     test_impact_sub = test_impact.add_subparsers(dest="test_impact_command")
     test_impact_analyze = test_impact_sub.add_parser("analyze", help="Recommend tests for a changed file list")
@@ -8225,6 +8252,10 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return docs_governance_validate_command(json_output=args.json, write_report=args.write_report)
         if args.docs_governance_command == "report":
             return docs_governance_report_command(json_output=args.json, write_report=True)
+        if args.docs_governance_command == "closure-consistency":
+            return docs_governance_closure_consistency_command(json_output=args.json, write_report=args.write_report)
+        if args.docs_governance_command == "impact-plan":
+            return docs_governance_impact_plan_command(changed_paths=args.changed_path, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "test-impact":

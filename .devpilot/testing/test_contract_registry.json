@@ -12751,6 +12751,59 @@
         "docs/schemas/agent_eval_trace.schema.json",
         "docs/schemas/full_regression_telemetry_handoff.schema.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.2-a-documentation-consistency",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.2-A",
+      "phase": "FULL-REGRESSION-v2.2",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_2_a_documentation_consistency.py",
+        "python -m devpilot_core docs-governance closure-consistency --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py"
+      ],
+      "validates": [
+        "DocumentationAuthorityGraph",
+        "ClosureStateConsistencyValidator",
+        "DocImpactPlanner",
+        "DocumentationDriftLedger",
+        "DerivedMetadataProjection",
+        "historical-freeze/current-active-separation"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/docs_governance/documentation_authority_graph.json",
+        ".devpilot/docs_governance/documentation_drift_ledger.json",
+        ".devpilot/docs_governance/rule_registry.json",
+        ".devpilot/validation/frontmatter_catalog.json",
+        "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+        "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+        "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+        "README.md",
+        "docs/release/CHANGELOG.md",
+        "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
+        "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
+        "src/devpilot_core/docs_governance/authority.py",
+        "src/devpilot_core/docs_governance/consistency.py",
+        "src/devpilot_core/docs_governance/impact.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        ".devpilot/docs_governance/documentation_drift_ledger_frx_v2_2_a_before.json",
+        "docs/audits/FRX_V2_2_A_IMPLEMENTATION_REPORT.md",
+        "docs/02_architecture/governance/DEVPL_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CONTRACT_EVOLUTION_v1_0_0.md",
+        ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
+        ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -12823,10 +12876,11 @@
     "GSDLC-02-E adds the authenticated browser closure contract; the only backlog full regression remains a separate exactly-once closure action after browser PASS.",
     "GSDLC-03-A adds a P0 side-effect-free ProjectIntake/TechnologyCatalog/ProjectCreationPlan contract; full regression remains deferred to 03-E.",
     "DEVPL-GSDLC-04-B registers runtime-only MANUAL draft authoring, revision history and optimistic-concurrency contract; full regression remains unconsumed.",
-    "DEVPL-GSDLC-05-D registers server-policy-bound StepActionCatalog/ExecutionModeAdvisor coverage with no model/network/full-regression execution."
+    "DEVPL-GSDLC-05-D registers server-policy-bound StepActionCatalog/ExecutionModeAdvisor coverage with no model/network/full-regression execution.",
+    "FRX-v2.2-A adds incremental cross-authority documentation consistency before expensive testing; full/browser runs remain zero."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 304
+  "contracts_total": 305
 }

@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0",
+  "graph_id": "devpilot-documentation-authority-graph",
+  "status": "implemented-initial",
+  "owner": "Ordóñez",
+  "updated": "2026-08-31",
+  "nodes": [
+    {
+      "node_id": "project-state-gsdlc07",
+      "doc_id": "PROJECT-GLOBAL-STATE",
+      "path": ".devpilot/project_state.json",
+      "subject": "DEVPL-GSDLC-07-closure",
+      "authority_rank": 100,
+      "authority_kind": "current-active",
+      "lifecycle": "active",
+      "classification": "machine-readable-source",
+      "successor": null
+    },
+    {
+      "node_id": "gsdlc07-final-adjudication",
+      "doc_id": "DEVPL-GSDLC-07-BACKLOG-CLOSURE-ADJUDICATION",
+      "path": "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "subject": "DEVPL-GSDLC-07-closure",
+      "authority_rank": 95,
+      "authority_kind": "current-active",
+      "lifecycle": "active",
+      "classification": "source-of-truth",
+      "successor": null
+    },
+    {
+      "node_id": "gsdlc07-backlog",
+      "doc_id": "DEVPL-GSDLC-07",
+      "path": "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+      "subject": "DEVPL-GSDLC-07-closure",
+      "authority_rank": 90,
+      "authority_kind": "current-active",
+      "lifecycle": "closed",
+      "classification": "source-of-truth",
+      "successor": "FRX-v2.2-A"
+    },
+    {
+      "node_id": "documentation-source-registry",
+      "doc_id": "DEVPL-DOCUMENTATION-SOURCE-REGISTRY",
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "subject": "DEVPL-GSDLC-07-closure",
+      "authority_rank": 85,
+      "authority_kind": "current-active",
+      "lifecycle": "active",
+      "classification": "machine-readable-source",
+      "successor": null
+    },
+    {
+      "node_id": "gsdlc07-readme-summary",
+      "doc_id": "README",
+      "path": "README.md",
+      "subject": "DEVPL-GSDLC-07-closure",
+      "authority_rank": 40,
+      "authority_kind": "derived",
+      "lifecycle": "active",
+      "classification": "derived",
+      "successor": null
+    },
+    {
+      "node_id": "gsdlc07-changelog",
+      "doc_id": "CHANGELOG",
+      "path": "docs/release/CHANGELOG.md",
+      "subject": "DEVPL-GSDLC-07-closure",
+      "authority_rank": 30,
+      "authority_kind": "derived",
+      "lifecycle": "active",
+      "classification": "derived",
+      "successor": null
+    },
+    {
+      "node_id": "gsdlc07e-owner-proposal",
+      "doc_id": "DEVPL-GSDLC-07-E-OWNER-ADJUDICATION-PROPOSAL",
+      "path": "DEVPL_GSDLC_07_E_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "subject": "DEVPL-GSDLC-07-closure",
+      "authority_rank": 10,
+      "authority_kind": "historical-freeze",
+      "lifecycle": "historical",
+      "classification": "historical",
+      "successor": "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md"
+    },
+    {
+      "node_id": "frx-v2.2-roadmap",
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-2-V2-3-EXECUTION-ROADMAP",
+      "path": "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
+      "subject": "FRX-v2.2-current",
+      "authority_rank": 100,
+      "authority_kind": "current-active",
+      "lifecycle": "active",
+      "classification": "source-of-truth",
+      "successor": null
+    },
+    {
+      "node_id": "frx-v2.2-backlog",
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-2",
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
+      "subject": "FRX-v2.2-current",
+      "authority_rank": 95,
+      "authority_kind": "current-active",
+      "lifecycle": "active",
+      "classification": "source-of-truth",
+      "successor": "FRX-v2.2-B"
+    }
+  ],
+  "closure_contracts": [
+    {
+      "contract_id": "DEVPL-GSDLC-07",
+      "expected_closure": "CLOSED/PASS",
+      "project_state_field": "gsdlc_07_status",
+      "backlog_path": "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+      "backlog_frontmatter_status": "closed",
+      "backlog_state_expected": "CLOSED/PASS",
+      "final_adjudication_path": "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "final_adjudication_status": "closed",
+      "source_registry": {
+        "backlog_doc_id": "DEVPL-GSDLC-07",
+        "expected_status_required": "closed",
+        "expected_lifecycle": "closed",
+        "proposal_doc_id": "DEVPL-GSDLC-07-E-OWNER-ADJUDICATION-PROPOSAL",
+        "proposal_expected_classification": "historical",
+        "proposal_expected_lifecycle": "historical",
+        "final_adjudication_doc_id": "DEVPL-GSDLC-07-BACKLOG-CLOSURE-ADJUDICATION"
+      },
+      "readme_required_markers": [
+        "DEVPL-GSDLC-07 = CLOSED/PASS",
+        "FRX-v2.2-A"
+      ],
+      "changelog_path": "docs/release/CHANGELOG.md",
+      "changelog_required_markers": [
+        "FRX-v2.2-A Documentation consistency foundation candidate",
+        "DEVPL-GSDLC-07"
+      ],
+      "next": {
+        "project_state_expectations": {
+          "next_micro_sprint": "FRX-v2.2-B",
+          "gsdlc_08_status": "authorized/deferred-by-owner"
+        }
+      }
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "historical_sources_rewritten": false
+  }
+}

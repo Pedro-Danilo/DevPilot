@@ -4,8 +4,8 @@
   "registry_id": "devpilot-docs-governance-rule-registry",
   "created_by": "POST-H-033-F",
   "status": "implemented-initial",
-  "catalog_version": "1.1.0",
-  "updated_at": "2026-08-31",
+  "catalog_version": "1.0.0",
+  "updated_at": "2026-07-11",
   "owner": "POST-H-033-F",
   "description": "Declarative registry for DocumentationGovernanceValidator business rules. It complements the canonical source registry and preserves deterministic Python validation as engine/fallback.",
   "rule_source": ".devpilot/docs_governance/rule_registry.json",
@@ -19,8 +19,7 @@
       "approved",
       "draft",
       "reviewed",
-      "deprecated",
-      "closed"
+      "deprecated"
     ],
     "blocking_severities": [
       "fail",
@@ -60,8 +59,7 @@
         "approved",
         "draft",
         "reviewed",
-        "deprecated",
-        "closed"
+        "deprecated"
       ],
       "missing_frontmatter_severity": "block",
       "doc_id_mismatch_severity": "block",
@@ -238,8 +236,7 @@
   "notes": [
     "POST-H-033-F is implemented-initial: rule data is declarative, but parser and deterministic validation engine remain Python.",
     "The source registry remains canonical for governed documents; this registry governs how entries are validated.",
-    "Invalid rule registry must block success; missing registry uses temporary fallback with an explicit finding.",
-    "FRX-v2.2-A recognizes closed frontmatter as a governed lifecycle state and binds it to cross-authority closure consistency."
+    "Invalid rule registry must block success; missing registry uses temporary fallback with an explicit finding."
   ],
   "limitations": [
     "Fallback Python remains until accumulated equivalence evidence allows safe removal.",

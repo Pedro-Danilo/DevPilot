@@ -15,7 +15,7 @@ FRONTMATTER_CATALOG_CONTRACT = "FrontmatterMetadata"
 DEFAULT_FRONTMATTER_CATALOG_PATH = Path(".devpilot/validation/frontmatter_catalog.json")
 
 FALLBACK_REQUIRED_FRONTMATTER_FIELDS = ("title", "doc_id", "status", "version", "owner", "updated")
-FALLBACK_ALLOWED_STATUSES = ("draft", "reviewed", "approved", "deprecated")
+FALLBACK_ALLOWED_STATUSES = ("draft", "reviewed", "approved", "deprecated", "closed")
 FALLBACK_SEMVER_PATTERN = r"^\d+\.\d+\.\d+(?:[-+][A-Za-z0-9_.-]+)?$"
 FALLBACK_DATE_PATTERN = r"^\d{4}-\d{2}-\d{2}$"
 FALLBACK_DOC_ID_PATTERN = r"^[A-Z0-9][A-Z0-9_.-]*$"

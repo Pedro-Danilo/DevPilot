@@ -1,10 +1,10 @@
 ---
 doc_id: "DEVPL-GSDLC-07"
 title: "DEVPL-GSDLC-07 — Agent-assisted Engineering, contextual RAG and bounded handoffs"
-status: "approved"
+status: "closed"
 version: "1.4.0"
 owner: "Ordóñez"
-updated: "2026-08-28"
+updated: "2026-08-31"
 approval: "approved_by_owner"
 approved_at: "2026-08-28"
 approval_decision: "APPROVE"
@@ -32,15 +32,24 @@ r01_research_authority_repo: "repo_DevPilot_Local_348_DEVPL_GSDLC_R01_E_RESEARCH
 r01_research_authority_commit: "3d7fda44d7ab5feefadd2eb4a7b9d20680eb1b5d"
 r01_research_authority_sha256: "68487b2d210a0fd8fb6f2c46f2f70f205f925aeda7d556e13af205de4583515d"
 r01_binding_scope: "architecture-and-security-input; historical design origin remains unchanged"
-backlog_status: "approved/executable-design"
+backlog_status: "CLOSED/PASS"
 micro_sprints_total: 5
 validation_policy: "A-D impact/selective+completion-first/no-full; E one logical sharded/resumable full session; no second full; composite recovery"
 full_regression_architecture: "DEVPL_TESTING_FULL_REGRESSION_EXECUTION_V2_ARCHITECTURE_v1_0_0.md"
 documentation_contract_policy: "DEVPL_DOCUMENTATION_CONTRACT_RECONCILIATION_POLICY_v1_0_0_APPROVED"
 runtime_ephemeral_fixture_policy: "exclude auth.db*, devpilot.db*, outputs/tmp runtime stores, .vite caches and equivalents"
+closure_repo: "repo_DevPilot_Local_386_DEVPL_GSDLC_07_E_AGENTIC_PRECODE_MODEL_EVALS_WINDOWS_VALIDATED_CANDIDATE.zip"
+closure_git_commit: "17db6b219f5066f2df91d897a0e3ad62314a0176"
+closure_repo_sha256: "0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23"
+closure_decision: "CLOSED/PASS"
 ---
 
 # 0. Aprobación y binding de ejecución
+
+## 0.0 Cierre owner-adjudicated — 2026-08-31
+
+`DEVPL-GSDLC-07 = CLOSED/PASS` sobre repo386 / commit `17db6b219f5066f2df91d897a0e3ad62314a0176`. La secuencia posterior autorizada es `FRX-v2.2-A → FRX-v2.2-D → FRX-v2.3-A → FRX-v2.3-D → DEVPL-GSDLC-08`. Las secciones de aprobación de diseño debajo se preservan como historia del backlog y no representan el estado current-active.
+
 
 **Decisión owner:** `APPROVE / EXECUTABLE-DESIGN`.
 

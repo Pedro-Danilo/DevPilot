@@ -3095,3 +3095,12 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Browser evidence reused by runtime-byte equivalence; FULL-01 remains the single consumed full session.
 - Current capability governance is 199/199; immutable UOC-007/UOC-011 at-close total remains 193.
 - Authorizes DEVPL-GSDLC-08.
+
+
+## 2026-08-31 — FRX-v2.2-A Documentation consistency foundation candidate
+- Preserves repo386 as immutable Windows closure evidence for DEVPL-GSDLC-07.
+- Reconciles DEVPL-GSDLC-07 current-active state to CLOSED/PASS across backlog, README, Project State, Source Registry, changelog and final owner adjudication.
+- Moves the pre-closure 07-E owner proposal to historical/superseded lifecycle without rewriting its content.
+- Adds DocumentationAuthorityGraph, ClosureStateConsistencyValidator, DocumentationDriftLedger, DerivedMetadataProjection and DocImpactPlanner.
+- Registers FRX v2.2/v2.3 roadmap, backlogs and prompts while authorizing only FRX-v2.2-A implementation; DEVPL-GSDLC-08 remains authorized/deferred.
+- Full regression runs: 0. Browser runs: 0. Runtime UI/API bytes changed: 0.

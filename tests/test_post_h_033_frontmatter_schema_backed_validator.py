@@ -11,6 +11,12 @@ from devpilot_core.validators.frontmatter_catalog import load_frontmatter_catalo
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "docs"
+CURRENT_CATALOG = ROOT / ".devpilot" / "validation" / "frontmatter_catalog.json"
+AT_CLOSE_CATALOG = ROOT / ".devpilot" / "validation" / "frontmatter_catalog_post_h_033_b_at_close.json"
+
+
+def _current_catalog_version() -> str:
+    return str(json.loads(CURRENT_CATALOG.read_text(encoding="utf-8"))["catalog_version"])
 
 
 def _document(frontmatter: str) -> object:
@@ -35,13 +41,24 @@ def test_post_h_033_b_frontmatter_catalog_schema_validates() -> None:
     assert catalog["safety"]["critical_rules_disable_allowed"] is False
 
 
+
+def test_post_h_033_b_historical_catalog_snapshot_remains_frozen() -> None:
+    historical = json.loads(AT_CLOSE_CATALOG.read_text(encoding="utf-8"))
+    current = json.loads(CURRENT_CATALOG.read_text(encoding="utf-8"))
+
+    assert historical["created_by"] == "POST-H-033-B"
+    assert historical["catalog_version"] == "1.0.0"
+    assert "closed" not in historical["rules"]["allowed_statuses"]
+    assert current["catalog_version"] == "1.1.0"
+    assert "closed" in current["rules"]["allowed_statuses"]
+
 def test_post_h_033_b_valid_frontmatter_uses_catalog_source() -> None:
     result = validate_frontmatter_file(FIXTURES / "valid_frontmatter.md", root=FIXTURES)
 
     assert result.ok is True
     assert result.exit_code == ExitCode.PASS
     assert result.data["rule_source"] == ".devpilot/validation/frontmatter_catalog.json"
-    assert result.data["catalog_version"] == "1.0.0"
+    assert result.data["catalog_version"] == _current_catalog_version()
     assert result.data["catalog_valid"] is True
     assert result.data["fallback_active"] is False
 
@@ -67,7 +84,7 @@ def test_post_h_033_b_negative_status_semver_date_and_doc_id_are_catalog_backed(
     assert "FRONTMATTER_INVALID_UPDATED_DATE" in finding_ids
     assert "FRONTMATTER_INVALID_DOC_ID" in finding_ids
     assert all(finding.metadata.get("rule_source") == ".devpilot/validation/frontmatter_catalog.json" for finding in result.findings)
-    assert all(finding.metadata.get("catalog_version") == "1.0.0" for finding in result.findings)
+    assert all(finding.metadata.get("catalog_version") == _current_catalog_version() for finding in result.findings)
 
 
 def test_post_h_033_b_strict_and_non_strict_approval_behavior_is_preserved() -> None:

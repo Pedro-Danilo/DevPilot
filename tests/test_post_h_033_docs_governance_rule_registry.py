@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / ".devpilot" / "docs_governance" / "rule_registry.json"
 MANIFEST = ROOT / "docs" / "post_h_033_f_manifest.json"
 SCHEMA = ROOT / "docs" / "schemas" / "docs_governance_rule_registry.schema.json"
+AT_CLOSE_REGISTRY = ROOT / ".devpilot" / "docs_governance" / "rule_registry_post_h_033_f_at_close.json"
 
 
 def _write_minimal_source_registry(root: Path, *, required_tests: list[str] | None = None, classification: str = "source-of-truth", lifecycle: str = "active") -> None:
@@ -87,13 +88,18 @@ def test_post_h_033_f_rule_registry_schema_and_manifest_validate() -> None:
 
 
 def test_post_h_033_f_docs_governance_report_exposes_rule_source_and_version() -> None:
-    result = DocumentationGovernanceValidator(ROOT).run()
+    # Historical fact is asserted from an immutable at-close snapshot.
+    # Current-active governance may evolve without rewriting POST-H-033-F history.
+    historical = json.loads(AT_CLOSE_REGISTRY.read_text(encoding="utf-8"))
+    assert historical["catalog_version"] == "1.0.0"
+    assert historical["created_by"] == "POST-H-033-F"
 
+    result = DocumentationGovernanceValidator(ROOT).run()
     assert result.ok is True, result.to_dict()
     summary = result.data["summary"]
     governance = result.data["governance"]
     assert summary["rule_source"] == ".devpilot/docs_governance/rule_registry.json"
-    assert summary["catalog_version"] == "1.0.0"
+    assert summary["catalog_version"] == "1.1.0"
     assert summary["rule_registry_valid"] is True
     assert summary["rule_registry_fallback_active"] is False
     assert summary["source_registry_and_rule_registry_validated_together"] is True

@@ -7,6 +7,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
 from devpilot_core.docs_governance.backlogs import DocumentationBacklogGovernanceValidator
+from devpilot_core.docs_governance.consistency import ClosureStateConsistencyValidator
 from devpilot_core.docs_governance.drift import DocumentationSyncValidator
 from devpilot_core.docs_governance.registry import DEFAULT_DOCUMENTATION_SOURCE_REGISTRY, load_documentation_source_registry
 from devpilot_core.docs_governance.rule_registry import DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY, load_docs_governance_rule_registry
@@ -217,6 +218,12 @@ class DocumentationGovernanceValidator:
         backlog_summary = dict(backlog_result["summary"])
         findings.extend(backlog_result["findings"])
 
+        closure_consistency = ClosureStateConsistencyValidator(self.root).run()
+        closure_summary = dict(closure_consistency.data.get("summary", {}))
+        closure_report = dict(closure_consistency.data.get("report", {})) if isinstance(closure_consistency.data.get("report"), dict) else {}
+        for finding in closure_consistency.findings:
+            findings.append(_finding(finding.id, finding.message, finding.severity.value, finding.path, dict(finding.metadata)))
+
         blocking_total = sum(1 for item in findings if item["severity"] in {"fail", "block", "error"})
         warnings_total = sum(1 for item in findings if item["severity"] == "warning")
         info_total = sum(1 for item in findings if item["severity"] == "info")
@@ -265,6 +272,10 @@ class DocumentationGovernanceValidator:
             "backlog_milestone_match_checked_total": backlog_summary.get("backlog_milestone_match_checked_total", 0),
             "backlog_governance_passed": backlog_summary.get("backlog_governance_passed", False),
             "backlog_governance_findings_total": backlog_summary.get("backlog_governance_findings_total", 0),
+            "closure_state_consistency_configured": closure_summary.get("configured", False),
+            "closure_state_consistency_passed": closure_summary.get("closure_state_consistency_passed", True),
+            "closure_state_consistency_checks_total": closure_summary.get("checks_total", 0),
+            "documentation_drift_p0_p1_open_total": closure_summary.get("drift_p0_p1_open_total", 0),
             "read_only": True,
             "dry_run": True,
             "network_used": False,
@@ -287,6 +298,7 @@ class DocumentationGovernanceValidator:
             "document_checks": document_checks,
             "sync_checks": sync_checks,
             "backlog_checks": backlog_checks,
+            "closure_state_consistency": closure_report,
             "findings": findings,
             "safety": {
                 "local_first": True,
@@ -308,6 +320,7 @@ class DocumentationGovernanceValidator:
                 "This validator is deterministic and read-only; it does not use LLM judge, network or external APIs.",
                 "POST-H-009-E integrates this validator as the docs-governance quality-gate subgate.",
                 "POST-H-033-F adds a schema-backed docs governance rule registry for auditable severities, lifecycle and required-tests policies while preserving the source registry as canonical document inventory.",
+                "FRX-v2.2-A adds cross-authority closure consistency, derived metadata projection and incremental documentation impact planning before expensive testing.",
             ],
         }
 
@@ -344,7 +357,7 @@ class DocumentationGovernanceValidator:
             if frontmatter_doc_id != document.doc_id:
                 findings.append(_finding("DOCUMENTATION_DOC_ID_MISMATCH", "Markdown frontmatter doc_id does not match registry doc_id.", "block", path_str, {"registry_doc_id": document.doc_id, "frontmatter_doc_id": frontmatter_doc_id}))
                 ok = False
-            if document.status_required in STATUS_FRONTMATTER_REQUIRED and frontmatter_status != document.status_required:
+            if frontmatter_status != document.status_required:
                 findings.append(_finding("DOCUMENTATION_STATUS_MISMATCH", "Markdown frontmatter status does not match registry status_required.", "block", path_str, {"doc_id": document.doc_id, "status_required": document.status_required, "actual_status": frontmatter_status}))
                 ok = False
             if not frontmatter_owner:

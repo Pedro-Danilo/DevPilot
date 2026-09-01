@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "frx-v2.2-a-source-delta",
+  "status": "implemented-initial",
+  "owner": "FRX-v2.2-A",
+  "updated": "2026-08-31",
+  "parent": {
+    "repo": "repo_DevPilot_Local_386_DEVPL_GSDLC_07_E_AGENTIC_PRECODE_MODEL_EVALS_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "git_commit": "17db6b219f5066f2df91d897a0e3ad62314a0176",
+    "sha256": "0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23"
+  },
+  "scope": "FRX-v2.2-A documentation-consistency governance-only successor",
+  "changed_paths_total": 43,
+  "changed_paths": [
+    {
+      "path": ".devpilot/docs_governance/documentation_authority_graph.json",
+      "sha256": "542c5b63b55a7d4b290220017c19df6a11a34dd4f127d4d52ca76ff776a2eef9",
+      "size_bytes": 5253
+    },
+    {
+      "path": ".devpilot/docs_governance/documentation_drift_ledger.json",
+      "sha256": "90a221138dc150a96d03ae6a04de6e8b2483f1ad2f57fefdd347a09eff6dd5a0",
+      "size_bytes": 1041
+    },
+    {
+      "path": ".devpilot/docs_governance/documentation_drift_ledger_frx_v2_2_a_before.json",
+      "sha256": "d23eebd60a111e01dc27c84e76b951c921d601892b6225660164bb05e0da8181",
+      "size_bytes": 963
+    },
+    {
+      "path": ".devpilot/docs_governance/rule_registry.json",
+      "sha256": "f310b0e619b473cf30e2daa2ee3719e13d8da38f15d036ce7b291b3e9905ae7a",
+      "size_bytes": 9478
+    },
+    {
+      "path": ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
+      "sha256": "cf6ec32ade971aabe4a89f5df970ed9ea4a4d359cc59f50064e774362214720b",
+      "size_bytes": 9064
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "sha256": "36deebaef36a462bce4d7a8bb0e5945c747bffc2426072a76a14e0a34ca2d607",
+      "size_bytes": 1277121
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "sha256": "044f1d1f712986b04ce08f0eb4ea4a3604f9e0199624e47b4fa6f1d008971e3a",
+      "size_bytes": 253809
+    },
+    {
+      "path": ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json",
+      "sha256": null,
+      "size_bytes": null,
+      "self_manifest": true
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "sha256": "477dace5206a7c0c4525f4e9ab70c3656dffe5b41ee48c0acd053c3fec35c183",
+      "size_bytes": 610382
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "sha256": "2bc126c3ce717cff8abfb6873945df9ff971bcbdc0dbcb61beb3eb0cdd6b7925",
+      "size_bytes": 947063
+    },
+    {
+      "path": ".devpilot/validation/frontmatter_catalog.json",
+      "sha256": "b1199ddb24700038c1747045c83b20691faad335c8e366f9fe8b9b49201f044b",
+      "size_bytes": 5407
+    },
+    {
+      "path": ".devpilot/validation/frontmatter_catalog_post_h_033_b_at_close.json",
+      "sha256": "47b705a983b24e1f97d99f28b2d6773a36c70257b55d7fceb6ee764245c7aae7",
+      "size_bytes": 4802
+    },
+    {
+      "path": "01_PROMPT_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_v1_0_0.md",
+      "sha256": "6e9ea78b072344b1093fc8d737abff8a910208c90039a5b109f9d378e3edfd0d",
+      "size_bytes": 6276
+    },
+    {
+      "path": "01_PROMPT_FRX_V2_3_A_ISOLATION_REGISTRY_v1_0_0.md",
+      "sha256": "fc338c4af31aa096346fcd8c0ae33f17594af8ea07fd88a29e8d44971a01c8b8",
+      "size_bytes": 4862
+    },
+    {
+      "path": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_v1_0_0.md",
+      "sha256": "0e983cf67d0d45ed93d291fdb2087bac6f971ab66f3b810b28881ee72a957b82",
+      "size_bytes": 5592
+    },
+    {
+      "path": "02_PROMPT_FRX_V2_3_B_CONFLICT_GRAPH_v1_0_0.md",
+      "sha256": "791209f39974cf0c20f686eb6810fa8167415a15d9e2a4cf0c6e3b36615ac735",
+      "size_bytes": 4695
+    },
+    {
+      "path": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_v1_0_0.md",
+      "sha256": "ef93cb3eb5efbc69064f9fdea244a02565ec7a9960b713ed40a00842b317b272",
+      "size_bytes": 5373
+    },
+    {
+      "path": "03_PROMPT_FRX_V2_3_C_PARALLEL_CANARY_v1_0_0.md",
+      "sha256": "02b97395d0cbe83329008efbd57ff810b390c8664eda0d21b7ba0d47d3579a72",
+      "size_bytes": 4738
+    },
+    {
+      "path": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_0.md",
+      "sha256": "79aae620c7cd66c93519a806ea1dd6ba345bdeca6a81d87e442fbcd4baa32fec",
+      "size_bytes": 5428
+    },
+    {
+      "path": "04_PROMPT_FRX_V2_3_D_WINDOWS_CLOSURE_v1_0_0.md",
+      "sha256": "9d088b4d3ec594eed010956947ea918c92fe25e4cfc4be7e42990f7f198359db",
+      "size_bytes": 5410
+    },
+    {
+      "path": "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+      "sha256": "d847db66b10d115170be4db3202b4ac8ce360c9112903501bf20342a6a8c26cd",
+      "size_bytes": 27062
+    },
+    {
+      "path": "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "sha256": "e8914f69f76ec5c226f9ead81fe10d71f727a7d0333008b42d3a6dcd3ac50e9f",
+      "size_bytes": 2722
+    },
+    {
+      "path": "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "sha256": "8b8440f2863b1d12ef1ccd26c530483ae60daaf3b03b5377a06908eb050173f9",
+      "size_bytes": 3522
+    },
+    {
+      "path": "README.md",
+      "sha256": "1e236e5ea602aa12f2a08fb22afbc820ae8f77381eca7fc05b01b60f602e0231",
+      "size_bytes": 449293
+    },
+    {
+      "path": "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
+      "sha256": "57e45a13448f3057511e89267f3cfabb4944be3db3ae42ddbc01987357f5f535",
+      "size_bytes": 2590
+    },
+    {
+      "path": "docs/02_architecture/governance/DEVPL_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CONTRACT_EVOLUTION_v1_0_0.md",
+      "sha256": "3da13fd17d61971f46d7e291340c022eb2f2b9790f14065f51d7843ce9c211ef",
+      "size_bytes": 4270
+    },
+    {
+      "path": "docs/05_operations/GUIA_INTEGRACION_CIERRE_07_Y_ACTIVACION_FRX_V2_2_v1_0_0.md",
+      "sha256": "b20846a2cfc5dba16bf209a4270c698358ad9a213a4b88aef5a566552266e730",
+      "size_bytes": 4073
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_E_CLOSURE_REVIEW_REPORT_v1_0_0.md",
+      "sha256": "f287395d94c328da4495cfad66b49b896ad9b7aadecaebd83c3dcc55c9e62f5d",
+      "size_bytes": 2319
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_07_POST_CLOSURE_DOCUMENTATION_ERRATUM_v1_0_0.md",
+      "sha256": "8398cc1c81f0cfbc8ccd4fe038ce78a53e6547167f04fbcb43b68345a0a06460",
+      "size_bytes": 2042
+    },
+    {
+      "path": "docs/audits/FRX_V2_2_A_IMPLEMENTATION_REPORT.md",
+      "sha256": "7e0c2b5ea5288267732bea9bd8d2c8924e4cea0818f37260fd5894cf3d1c753a",
+      "size_bytes": 5749
+    },
+    {
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
+      "sha256": "bc95fa212333be518b9866170d08adb9d144e79ad0c2a6d4980589aa56f304c0",
+      "size_bytes": 4276
+    },
+    {
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_0_0.md",
+      "sha256": "08c38003fb5aba80cbc8e4a9d2ee0bd0b248b271692d61369d3269a8f516c57c",
+      "size_bytes": 3217
+    },
+    {
+      "path": "docs/release/CHANGELOG.md",
+      "sha256": "a023e1f2f3d2a25100b87f5abb044d344e5b0aef93a2ef5a7afbefed424438ef",
+      "size_bytes": 205642
+    },
+    {
+      "path": "src/devpilot_core/cli.py",
+      "sha256": "eb876282e437a9c4d7955820f1271b06c95e39c5ffed93314edabbf6287342c8",
+      "size_bytes": 475199
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/__init__.py",
+      "sha256": "10fac2e1bc09e53853eadf587f696784f6f71308e412b09dd3b0b19e3e3cd6db",
+      "size_bytes": 3286
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/authority.py",
+      "sha256": "55fb63c54c815c2a91438b9f9d3e8fe1e359336983b4d301d81abc2af4da6088",
+      "size_bytes": 6054
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/consistency.py",
+      "sha256": "7e31ad821de0f92314ad6ed4fdab7539f6c742ecf82ae899f68790c9aa432480",
+      "size_bytes": 12728
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/impact.py",
+      "sha256": "9726d0e95a54bbf9246a3c8b1b3651656943e084668c3f04579a002057b27c33",
+      "size_bytes": 5087
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/validator.py",
+      "sha256": "98c3785393f082a69f6d2aeab0b54fbce54b7387612fd94eb3223d33a6417ec4",
+      "size_bytes": 30497
+    },
+    {
+      "path": "src/devpilot_core/validators/frontmatter_catalog.py",
+      "sha256": "31bd0194b9e512c25e1c5fc902e88d04917c7f9432a8d945fe977c92ee7e6800",
+      "size_bytes": 10785
+    },
+    {
+      "path": "tests/test_frx_v2_2_a_documentation_consistency.py",
+      "sha256": "9df72c618d222da7d1ffe942f04e50e2d087339d06bbdfaf2866865899fd327e",
+      "size_bytes": 11617
+    },
+    {
+      "path": "tests/test_post_h_033_docs_governance_rule_registry.py",
+      "sha256": "a562086bd3504b2161173553c4386feb26cd33693bfdd5a3eff4f78be16ba97b",
+      "size_bytes": 10728
+    },
+    {
+      "path": "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+      "sha256": "a9f57469b83807cd42a70d222ab0c2ed37a98ceeb25b013425622fe7c23c199e",
+      "size_bytes": 9072
+    }
+  ],
+  "validation": {
+    "docimpact_required_test_files": 8,
+    "docimpact_tests_terminal_pass": 74,
+    "project_state": "PASS",
+    "documentation_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "closure_consistency": "PASS",
+    "open_p0_p1_drift": 0
+  },
+  "runtime_ui_api_changed": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": true,
+  "repo386_rewritten": false
+}

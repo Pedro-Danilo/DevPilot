@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "ledger_id": "devpilot-documentation-drift-ledger",
+  "status": "implemented-initial",
+  "owner": "Ordóñez",
+  "updated": "2026-08-31",
+  "findings": [
+    {
+      "finding_id": "S2-DOC-GSDLC07-POSTCLOSE-001",
+      "severity": "P1",
+      "authority": "DEVPL-GSDLC-07 closure state",
+      "owner": "FRX-v2.2-A",
+      "expected": "Project State, backlog, README, Source Registry, changelog and final adjudication agree on CLOSED/PASS and successor FRX-v2.2-A.",
+      "current": "Reconciled in governance-only successor; pre-closure proposal preserved as historical/superseded.",
+      "resolution_status": "resolved",
+      "resolution": "ClosureStateConsistencyValidator + DocumentationAuthorityGraph + successor metadata reconciliation",
+      "historical_source_rewritten": false
+    }
+  ],
+  "summary": {
+    "findings_total": 1,
+    "open_total": 0,
+    "open_p0_p1_total": 0,
+    "resolved_total": 1,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false
+  }
+}

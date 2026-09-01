@@ -21809,6 +21809,94 @@
         "docs/schemas/agent_eval_trace.schema.json",
         "docs/schemas/full_regression_telemetry_handoff.schema.json"
       ]
+    },
+    {
+      "capability": "DocumentationConsistencyFoundation",
+      "classification_notes": [
+        "FRX-v2.2-A blocks P0/P1 cross-authority documentation drift before full regression collection.",
+        "Current counters derive from live registries; historical snapshots/proposals remain frozen or historical."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "frx-v2.2-a-documentation-consistency",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "documentation.governance",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 90,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "documentation-governance",
+        "project-state",
+        "closure-state",
+        "source-registry",
+        "test-contracts"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "FRX-v2.2-A",
+      "owner_domain": "documentation.governance",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_2_a_documentation_consistency.py",
+        "python -m devpilot_core docs-governance closure-consistency --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "risk_level": "high",
+      "schema_ids": [],
+      "schema_version": "2.0",
+      "service_boundary": "governance",
+      "source_contract_id": "frx-v2.2-a-documentation-consistency",
+      "source_mutations_allowed": false,
+      "subgate_id": "docs-governance",
+      "test_files": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "documentation-authority-change",
+        "closure-state-change",
+        "source-registry-change",
+        "project-state-change",
+        "readme-current-state-change"
+      ],
+      "validates": [
+        "DocumentationAuthorityGraph",
+        "ClosureStateConsistencyValidator",
+        "DocImpactPlanner",
+        "DocumentationDriftLedger",
+        "DerivedMetadataProjection",
+        "historical-freeze/current-active-separation"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/docs_governance/documentation_authority_graph.json",
+        ".devpilot/docs_governance/documentation_drift_ledger.json",
+        ".devpilot/docs_governance/rule_registry.json",
+        ".devpilot/validation/frontmatter_catalog.json",
+        "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+        "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+        "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+        "README.md",
+        "docs/release/CHANGELOG.md",
+        "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
+        "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
+        "src/devpilot_core/docs_governance/authority.py",
+        "src/devpilot_core/docs_governance/consistency.py",
+        "src/devpilot_core/docs_governance/impact.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        ".devpilot/docs_governance/documentation_drift_ledger_frx_v2_2_a_before.json",
+        "docs/audits/FRX_V2_2_A_IMPLEMENTATION_REPORT.md",
+        "docs/02_architecture/governance/DEVPL_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CONTRACT_EVOLUTION_v1_0_0.md",
+        ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
+        ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -21879,7 +21967,8 @@
     "GSDLC-02-E adds an explicit P0 release contract for the authenticated browser journey and exactly-once backlog closure evidence.",
     "GSDLC-03-A registers P0 project-entry contracts without runtime writes or intermediate full regression.",
     "DEVPL-GSDLC-04-B adds explicit P0 application-service contract for governed runtime draft authoring.",
-    "DEVPL-GSDLC-05-D adds explicit P0 StepActionAdvisor contract with server RBAC/API/UI parity and AGENT/RAG no-go enforcement."
+    "DEVPL-GSDLC-05-D adds explicit P0 StepActionAdvisor contract with server RBAC/API/UI parity and AGENT/RAG no-go enforcement.",
+    "FRX-v2.2-A registers P0 incremental documentation consistency; it does not authorize a full regression outside FRX-v2.2-D."
   ],
   "profiles": [
     {
@@ -21971,5 +22060,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 304
+  "contracts_total": 305
 }
