@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "updated": "2026-08-31",
+  "owner": "FRX-v2.2-B",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": true,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "scheduler_enabled": false,
+  "parallel_workers": 1,
+  "schema_id": "devpilot.frx.v2.2.b.ingestion_receipt.v1",
+  "source": ".devpilot/testing/frx_v2_2_b_initial_telemetry.json",
+  "environment_fingerprint": "windows-pytest-devpilot-gsdlc07e-v1",
+  "samples_declared": 2805,
+  "accepted": 2805,
+  "rejected": 0,
+  "duplicate_policy": "receipt-hash/idempotent",
+  "ingested_receipts_total": 1,
+  "outcomes": {
+    "PASS": 2674,
+    "FAIL": 126,
+    "SKIP_APPROVED": 5
+  },
+  "source_hash": "8b14e8f08dcfe583f544ef06d19ea91bfa00fd37483ec0658582580deed07f3f",
+  "source_receipt": ".devpilot/testing/frx_v2_2_b_initial_telemetry.json"
+}

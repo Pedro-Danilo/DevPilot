@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "updated": "2026-08-31",
+  "owner": "FRX-v2.2-B",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": true,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "scheduler_enabled": false,
+  "parallel_workers": 1,
+  "schema_id": "devpilot.frx.v2.2.b.performance_baseline.v1",
+  "baseline": "DEVPL-GSDLC-07-E composite terminal telemetry",
+  "samples_total": 2805,
+  "total_observed_seconds": 12952.888506,
+  "median_seconds": 0.022237,
+  "p95_seconds": 10.652673,
+  "max_seconds": 774.736226,
+  "purpose": "Input telemetry baseline for FRX-v2.2-C temporal planning. This report does not claim scheduler speedup and does not execute tests.",
+  "scheduler_adoption": "DISABLED",
+  "production_quality_note": "Estimator v1 is a first production-oriented foundation. Multi-observation confidence calibration and scheduler performance thresholds remain successor work in FRX-v2.2-C/D."
+}

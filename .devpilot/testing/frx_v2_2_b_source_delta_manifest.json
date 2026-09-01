@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "micro_sprint": "FRX-v2.2-B",
+  "status": "PASS-CANDIDATE/PENDING-WINDOWS",
+  "baseline_repo": "repo_DevPilot_Local_387_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "9ae471381a081005e2f282f6dabbb6b10607590f",
+  "changed_paths": [
+    ".devpilot/docs_governance/documentation_authority_graph.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/frx_v2_2_b_initial_telemetry.json",
+    ".devpilot/testing/frx_v2_2_b_source_delta_manifest.json",
+    ".devpilot/testing/node_duration_registry.json",
+    "README.md",
+    "docs/audits/FRX_V2_2_B_COST_PERFORMANCE_BASELINE.json",
+    "docs/audits/FRX_V2_2_B_ESTIMATOR_REPORT.json",
+    "docs/audits/FRX_V2_2_B_IMPLEMENTATION_REPORT.md",
+    "docs/audits/FRX_V2_2_B_INITIAL_INGESTION_RECEIPT.json",
+    "docs/audits/FRX_V2_2_B_NODEID_PRESERVATION_FIXTURES.json",
+    "docs/prompts/02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_v1_0_1_REBOUND_REPO387.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/node_duration_registry.schema.json",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/docs_governance/impact.py",
+    "src/devpilot_core/testing/__init__.py",
+    "src/devpilot_core/testing/duration_registry.py",
+    "tests/test_documentation_closure_consistency_current.py",
+    "tests/test_frx_v2_2_a_documentation_consistency.py",
+    "tests/test_frx_v2_2_b_duration_registry.py"
+  ],
+  "changed_paths_total": 23,
+  "validation_scope": {
+    "focused_test_files": 4,
+    "full_regression_runs": 0,
+    "browser_runs": 0,
+    "runtime_ui_api_changed": false
+  },
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": true
+}

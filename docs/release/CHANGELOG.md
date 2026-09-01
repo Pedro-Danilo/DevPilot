@@ -3112,3 +3112,7 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Full regression runs: 0.
 - Browser runs: 0.
 - Successor authorized: FRX-v2.2-B.
+
+## 2026-08-31 — FRX-v2.2-B implementation candidate
+- Added environment-scoped `NodeDurationRegistry`, idempotent telemetry ingestion and deterministic duration estimates.
+- Reconciled 2,805 preserved terminal samples with zero silent omissions; scheduler remains disabled, workers=1, full/browser=0.

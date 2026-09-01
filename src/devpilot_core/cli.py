@@ -191,7 +191,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager, NodeDurationRegistry
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -6216,6 +6216,34 @@ def tests_full_session_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+def tests_duration_registry_command(*, action: str, source: str | None = None, environment: str | None = None, nodeid: str | None = None, limit: int = 20, json_output: bool = False) -> int:
+    root = project_root()
+    registry = NodeDurationRegistry(root)
+    try:
+        if action == "ingest":
+            if not source:
+                raise ValueError("--source is required for ingest")
+            result = registry.ingest_file(Path(source), environment_fingerprint=environment)
+            payload = {"status":"PASS","action":action,"accepted":result.accepted,"rejected":result.rejected,"duplicate_receipt":result.duplicate_receipt,"source_hash":result.source_hash,"environment_fingerprint":result.environment_fingerprint,"registry":registry.status()}
+        elif action == "status":
+            payload = {"status":"PASS","action":action,"registry":registry.status()}
+        elif action == "estimate":
+            if not nodeid or not environment:
+                raise ValueError("--nodeid and --environment are required for estimate")
+            payload = {"status":"PASS","action":action,"estimate":registry.estimate(nodeid, environment)}
+        elif action == "preview":
+            if not environment:
+                raise ValueError("--environment is required for preview")
+            payload = {"status":"PASS","action":action,"preview":registry.preview(environment, limit=limit)}
+        else:
+            raise ValueError(f"unknown duration-registry action: {action}")
+        print(json.dumps(payload, ensure_ascii=False, indent=2) if json_output else payload)
+        return 0
+    except Exception as exc:
+        payload={"status":"BLOCK","action":action,"error":str(exc)}
+        print(json.dumps(payload, ensure_ascii=False, indent=2) if json_output else payload)
+        return int(ExitCode.BLOCK)
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -6849,6 +6877,23 @@ def build_parser() -> argparse.ArgumentParser:
     full_adjudicate = tests_full_session_sub.add_parser("adjudicate", help="Finalize only when every collected nodeid has terminal accounting")
     full_adjudicate.add_argument("--session-id", required=True, help="Existing logical session id")
     full_adjudicate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_duration = tests_sub.add_parser("duration-registry", help="Ingest and inspect FRX-v2.2 node duration telemetry without executing tests")
+    duration_sub = tests_duration.add_subparsers(dest="duration_registry_command")
+    duration_ingest = duration_sub.add_parser("ingest", help="Idempotently ingest a telemetry handoff")
+    duration_ingest.add_argument("--source", required=True)
+    duration_ingest.add_argument("--environment", default=None)
+    duration_ingest.add_argument("--json", action="store_true")
+    duration_status = duration_sub.add_parser("status", help="Show registry status")
+    duration_status.add_argument("--json", action="store_true")
+    duration_estimate = duration_sub.add_parser("estimate", help="Estimate one exact pytest nodeid")
+    duration_estimate.add_argument("--environment", required=True)
+    duration_estimate.add_argument("--nodeid", required=True)
+    duration_estimate.add_argument("--json", action="store_true")
+    duration_preview = duration_sub.add_parser("preview", help="Preview slowest estimates without enabling a scheduler")
+    duration_preview.add_argument("--environment", required=True)
+    duration_preview.add_argument("--limit", type=int, default=20)
+    duration_preview.add_argument("--json", action="store_true")
+
     tests_taxonomy = tests_sub.add_parser("taxonomy", help="Validate POST-H-029-A test profile taxonomy without executing tests")
     tests_taxonomy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     tests_taxonomy.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown taxonomy report")
@@ -8431,6 +8476,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 return tests_full_session_command(action=args.full_session_command, session_id=args.session_id, json_output=args.json)
             parser.print_help()
             return int(ExitCode.FAIL)
+        if args.tests_command == "duration-registry":
+            if args.duration_registry_command == "ingest":
+                return tests_duration_registry_command(action="ingest", source=args.source, environment=args.environment, json_output=args.json)
+            if args.duration_registry_command == "status":
+                return tests_duration_registry_command(action="status", json_output=args.json)
+            if args.duration_registry_command == "estimate":
+                return tests_duration_registry_command(action="estimate", environment=args.environment, nodeid=args.nodeid, json_output=args.json)
+            if args.duration_registry_command == "preview":
+                return tests_duration_registry_command(action="preview", environment=args.environment, limit=args.limit, json_output=args.json)
+            parser.print_help(); return int(ExitCode.FAIL)
         if args.tests_command == "taxonomy":
             return tests_taxonomy_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "release-candidate-profile":

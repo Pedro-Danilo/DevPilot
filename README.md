@@ -1,5 +1,7 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
+FRX-v2.2 execution status (2026-08-31): `FRX-v2.2-A = CLOSED/PASS`; `FRX-v2.2-B = PASS-CANDIDATE/PENDING-WINDOWS`; `FRX-v2.2-C` remains unauthorized until B Windows closure. Full regression remains reserved exclusively for FRX-v2.2-D.
+
 GSDLC-07 execution status (2026-08-31): `DEVPL-GSDLC-07 = CLOSED/PASS`. Windows closure authority is repo386 / commit `17db6b219f5066f2df91d897a0e3ad62314a0176` / SHA `0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23`. `FRX-v2.2-A` está `CLOSED/PASS`; `FRX-v2.2-B` es el siguiente micro-sprint autorizado. DEVPL-GSDLC-08 permanece autorizado pero diferido hasta cerrar FRX v2.2 y v2.3.
 
 
@@ -6515,3 +6517,6 @@ Windows browser acceptance is PASS. The only GSDLC-07 logical full regression ha
 
 ### GSDLC-07-E closure — Windows E09
 GSDLC-07-E closure: `CLOSED/PASS`. Browser acceptance remains authoritative by runtime-byte equivalence; the single FULL-01 remains preserved and was not repeated. E08 selective successor recovery is 126/126 PASS; E09 Historical Regression Guard and closure gates pass with current-active UI/governed-job capability coverage 199/199 while immutable UOC-007/UOC-011 closure totals remain 193. GSDLC-08 is authorized by the approved backlog.
+
+### FRX-v2.2-B — NodeDurationRegistry
+FRX-v2.2-B adds a source-controlled, environment-scoped duration registry and deterministic estimator over the 2,805 preserved GSDLC-07-E terminal samples. Scheduling remains disabled and parallel workers remain 1 pending FRX-v2.2-C/D validation.

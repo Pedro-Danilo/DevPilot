@@ -98,3 +98,5 @@ __all__.extend([
     "ShardReceipt",
     "TerminalOutcome",
 ])
+
+from .duration_registry import NodeDurationRegistry, IngestionResult

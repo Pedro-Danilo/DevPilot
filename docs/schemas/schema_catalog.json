@@ -5,7 +5,7 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-30",
+  "updated": "2026-08-31",
   "sprint": "DEVPL-GSDLC-07-E",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
@@ -3463,7 +3463,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-07-E"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-NODE-DURATION-REGISTRY-V1",
+      "title": "DevPilot NodeDurationRegistry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/node_duration_registry.schema.json",
+      "description": "FRX-v2.2-B environment-scoped node duration history and estimator contract; does not enable scheduling or parallelism.",
+      "status": "registered",
+      "contract": "NodeDurationRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.2-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.2-B"
     }
   ],
-  "schemas_total": 241
+  "schemas_total": 242
 }

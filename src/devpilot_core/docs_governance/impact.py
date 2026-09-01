@@ -36,7 +36,7 @@ class DocImpactPlanner:
 
     def __init__(self, root: Path, changed_paths: Iterable[str], options: DocImpactPlanOptions | None = None) -> None:
         self.root = Path(root).resolve()
-        self.changed_paths = tuple(sorted({str(item).replace('\\', '/').lstrip('./') for item in changed_paths if str(item).strip()}))
+        self.changed_paths = tuple(sorted({str(item).replace('\\', '/').removeprefix('./') for item in changed_paths if str(item).strip()}))
         self.options = options or DocImpactPlanOptions()
 
     def run(self) -> CommandResult:
@@ -65,16 +65,14 @@ class DocImpactPlanner:
         if closure_consistency_required:
             impacted_docs.update(self.CLOSURE_CORE)
             tests.update({
-                'tests/test_frx_v2_2_a_documentation_consistency.py',
-                'tests/test_documentation_governance_validator.py',
+                'tests/test_documentation_closure_consistency_current.py',
                 'tests/test_documentation_source_registry_schema.py',
-                'tests/test_project_global_state.py',
             })
             criticalities.add('P0')
 
         plan = {
             'schema_version': '1.0',
-            'plan_id': 'frx-v2.2-a-doc-impact-plan',
+            'plan_id': 'frx-v2.2-doc-impact-plan',
             'status': 'PASS',
             'generated_at_utc': utc_now_iso(),
             'changed_paths': list(self.changed_paths),

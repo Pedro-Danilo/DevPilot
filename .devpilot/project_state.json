@@ -372,7 +372,7 @@
   "network_used": false,
   "next_backlog_planned": true,
   "next_backlog_status": "approved/post-h-eval-002",
-  "next_micro_sprint": "FRX-v2.2-B",
+  "next_micro_sprint": "FRX-v2.2-C",
   "next_sprint": "POST-H-EVAL-002",
   "notes": [
     "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
@@ -3422,5 +3422,15 @@
   "frx_v2_2_a_windows_validation_status": "CLOSED/PASS",
   "frx_v2_2_a_s0_open": 0,
   "frx_v2_2_a_s1_open": 0,
-  "frx_v2_2_b_authorized": true
+  "frx_v2_2_b_authorized": true,
+  "frx_v2_2_b_status": "PASS-CANDIDATE/PENDING-WINDOWS",
+  "frx_v2_2_b_parent_repo": "repo_DevPilot_Local_387_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "frx_v2_2_b_parent_commit": "9ae471381a081005e2f282f6dabbb6b10607590f",
+  "frx_v2_2_b_full_regression_runs": 0,
+  "frx_v2_2_b_browser_runs": 0,
+  "frx_v2_2_b_scheduler_enabled": false,
+  "frx_v2_2_b_parallel_workers": 1,
+  "frx_v2_2_b_samples_total": 2805,
+  "frx_v2_2_b_samples_rejected": 0,
+  "frx_v2_2_c_authorized": false
 }

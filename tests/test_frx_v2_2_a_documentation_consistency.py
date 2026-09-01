@@ -193,7 +193,7 @@ def test_doc_impact_planner_requires_consistency_gate_but_not_full_or_browser() 
     assert plan["closure_consistency_required"] is True
     assert plan["full_regression_required"] is False
     assert plan["browser_required"] is False
-    assert "tests/test_frx_v2_2_a_documentation_consistency.py" in plan["required_tests"]
+    assert "tests/test_documentation_closure_consistency_current.py" in plan["required_tests"]
     assert plan["summary"]["p0_p1_reconciliation_required"] is True
 
 

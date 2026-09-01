@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "updated": "2026-08-31",
+  "owner": "FRX-v2.2-B",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": true,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "scheduler_enabled": false,
+  "parallel_workers": 1,
+  "schema_id": "devpilot.frx.v2.2.b.nodeid_preservation_fixtures.v1",
+  "fixtures": [
+    {
+      "nodeid": "tests/p.py::test_param[value\\t\\x7f]",
+      "expected_exact": "tests/p.py::test_param[value\\t\\x7f]",
+      "purpose": "escaped parameter suffix preservation"
+    },
+    {
+      "nodeid": "tests/a.py::test_x[param::inner]",
+      "expected_exact": "tests/a.py::test_x[param::inner]",
+      "purpose": "suffix delimiters preserved"
+    }
+  ]
+}

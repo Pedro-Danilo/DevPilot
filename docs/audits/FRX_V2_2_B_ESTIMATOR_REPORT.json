@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "updated": "2026-08-31",
+  "owner": "FRX-v2.2-B",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": true,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "scheduler_enabled": false,
+  "parallel_workers": 1,
+  "schema_id": "devpilot.frx.v2.2.b.estimator_report.v1",
+  "environment_fingerprint": "windows-pytest-devpilot-gsdlc07e-v1",
+  "nodeids_total": 2805,
+  "samples_total": 2805,
+  "sum_duration_seconds": 12952.888506,
+  "median_seconds": 0.022237,
+  "p95_seconds": 10.652673,
+  "p95_method": "linear interpolation at q=0.95, matching the sealed GSDLC-07-E handoff",
+  "min_seconds": 0.000124,
+  "max_seconds": 774.736226,
+  "classification_counts": {
+    "cold": 2805
+  },
+  "confidence_counts": {
+    "low": 2805
+  },
+  "robust_estimator": "median for n<3; sequential EWMA alpha=0.35 for n>=3",
+  "aging_policy": {
+    "method": "sequential_ewma",
+    "alpha": 0.35,
+    "older_observations_lose_geometric_weight": true,
+    "evidence_deleted": false
+  },
+  "initial_confidence_note": "The bootstrap handoff contains one terminal observation per nodeid, therefore all 2,805 initial nodeids are intentionally cold/low-confidence. Confidence may increase only after successor observations in the same environment fingerprint."
+}

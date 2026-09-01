@@ -102,7 +102,7 @@
       "authority_kind": "current-active",
       "lifecycle": "active",
       "classification": "source-of-truth",
-      "successor": "FRX-v2.2-B"
+      "successor": "FRX-v2.2-C"
     }
   ],
   "closure_contracts": [
@@ -126,16 +126,16 @@
       },
       "readme_required_markers": [
         "DEVPL-GSDLC-07 = CLOSED/PASS",
-        "FRX-v2.2-A"
+        "FRX-v2.2-B"
       ],
       "changelog_path": "docs/release/CHANGELOG.md",
       "changelog_required_markers": [
-        "FRX-v2.2-A Documentation consistency foundation candidate",
+        "FRX-v2.2-B",
         "DEVPL-GSDLC-07"
       ],
       "next": {
         "project_state_expectations": {
-          "next_micro_sprint": "FRX-v2.2-B",
+          "next_micro_sprint": "FRX-v2.2-C",
           "gsdlc_08_status": "authorized/deferred-by-owner"
         }
       }
