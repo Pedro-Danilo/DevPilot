@@ -31884,7 +31884,7 @@
       "classification": "source-of-truth",
       "domain": "documentation.governance",
       "owner": "FRX-v2.2-A",
-      "status_required": "reviewed",
+      "status_required": "closed",
       "criticality": "P0",
       "required_tests": [
         "tests/test_frx_v2_2_a_documentation_consistency.py",

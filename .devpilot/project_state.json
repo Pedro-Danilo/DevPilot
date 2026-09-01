@@ -16,9 +16,9 @@
   "connector_write_enabled": false,
   "control_plane_enabled": false,
   "credentials_required": false,
-  "current_micro_sprint": "FRX-v2.2-A",
+  "current_micro_sprint": "FRX-v2.2-B",
   "current_phase": "DEVPL-GSDLC-07",
-  "current_repo": "repo_DevPilot_Local_387_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_387_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_WINDOWS_VALIDATED_CANDIDATE.zip",
   "dynamic_import_allowed": false,
   "enterprise_deployment_enabled": false,
   "enterprise_ready_claimed": false,
@@ -3400,8 +3400,8 @@
   "gsdlc_07_e_v2_2_scheduler_enabled": false,
   "gsdlc_07_e_v2_2_parallel_workers": 1,
   "gsdlc_07_e_v2_3_parallel_workers": 0,
-  "frx_v2_2_status": "implementation/FRX-v2.2-A",
-  "frx_v2_2_a_status": "PASS-CANDIDATE/PENDING-WINDOWS",
+  "frx_v2_2_status": "implementation/FRX-v2.2-B",
+  "frx_v2_2_a_status": "CLOSED/PASS",
   "frx_v2_2_a_parent_repo": "repo_DevPilot_Local_386_DEVPL_GSDLC_07_E_AGENTIC_PRECODE_MODEL_EVALS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "frx_v2_2_a_parent_commit": "17db6b219f5066f2df91d897a0e3ad62314a0176",
   "frx_v2_2_a_parent_sha256": "0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23",
@@ -3418,5 +3418,9 @@
   "frx_v2_2_a_implementation_report_available": true,
   "frx_v2_2_a_contract_evolution_available": true,
   "frx_v2_2_a_source_delta_manifest_available": true,
-  "frx_v2_2_a_historical_snapshots_total": 2
+  "frx_v2_2_a_historical_snapshots_total": 2,
+  "frx_v2_2_a_windows_validation_status": "CLOSED/PASS",
+  "frx_v2_2_a_s0_open": 0,
+  "frx_v2_2_a_s1_open": 0,
+  "frx_v2_2_b_authorized": true
 }

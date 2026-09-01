@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-GSDLC-07 execution status (2026-08-31): `DEVPL-GSDLC-07 = CLOSED/PASS`. Windows closure authority is repo386 / commit `17db6b219f5066f2df91d897a0e3ad62314a0176` / SHA `0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23`. `FRX-v2.2-A` is the current governance successor; DEVPL-GSDLC-08 is authorized but deferred until FRX v2.2 and v2.3 close.
+GSDLC-07 execution status (2026-08-31): `DEVPL-GSDLC-07 = CLOSED/PASS`. Windows closure authority is repo386 / commit `17db6b219f5066f2df91d897a0e3ad62314a0176` / SHA `0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23`. `FRX-v2.2-A` está `CLOSED/PASS`; `FRX-v2.2-B` es el siguiente micro-sprint autorizado. DEVPL-GSDLC-08 permanece autorizado pero diferido hasta cerrar FRX v2.2 y v2.3.
 
 
 Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está `CLOSED/PASS`. El activation enabler/FRX2.1 está CLOSED/PASS y 07-A está Windows-validated CLOSED/PASS; 07-B implementa ContextPack v2, provenance y budget sobre repo382.

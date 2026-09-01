@@ -1,20 +1,20 @@
 ---
 doc_id: "FRX-V2-2-A-IMPLEMENTATION-REPORT"
 title: "FRX-v2.2-A — Documentation consistency foundation — implementation report"
-status: "reviewed"
+status: "closed"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-31"
-approval: "implementation_candidate"
+approval: "windows_validated"
 ---
 
 # FRX-v2.2-A — Documentation consistency foundation — Implementation Report
 
 ## 1. Veredicto local
 
-`PASS-CANDIDATE / PENDING-WINDOWS`.
+`CLOSED/PASS / WINDOWS-VALIDATED`.
 
-La implementación local cumple el alcance governance-only del micro-sprint. No se ejecutó full regression, browser, API/UI ni red externa. El cierre formal `CLOSED/PASS` queda condicionado a la validación Windows sobre el successor de repo386 y a la reconciliación Git de tres estados posterior al PASS.
+La implementación local cumple el alcance governance-only del micro-sprint. No se ejecutó full regression, browser, API/UI ni red externa. La validación Windows focal cerró el micro-sprint sin full regression ni browser; FRX-v2.2-B queda autorizado sobre repo387.
 
 ## 2. Baseline
 
