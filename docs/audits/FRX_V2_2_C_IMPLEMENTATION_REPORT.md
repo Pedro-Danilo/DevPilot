@@ -1,11 +1,11 @@
 ---
 doc_id: "FRX-V2-2-C-IMPLEMENTATION-REPORT"
 title: "FRX-v2.2-C — Duration-balanced sequential scheduler — implementation report"
-status: "implementation-candidate"
+status: "closed"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-31"
-approval: "windows_validation_gate"
+approval: "windows_validation_passed"
 ---
 # FRX-v2.2-C — Implementation Report
 
@@ -33,4 +33,4 @@ Duration registry is loaded once per plan and Windows command-length counters ar
 Initial history remains one observation per nodeid and low-confidence. FRX-v2.2-D must perform the single real full benchmark and adoption decision. v2.3 owns safe parallelism.
 
 ## Windows acceptance boundary
-Formal CLOSED/PASS requires only focal planner tests, bounded canary, Project State, Closure Consistency, DocImpact, canonical-content payload application, clean repo389/components packaging and Git three-state reconciliation. No full/browser is authorized.
+Windows closure metadata is applied only after focal planner tests, bounded canary, Project State, Closure Consistency, DocImpact and canonical-content payload validation PASS. Final state is CLOSED/PASS with full=0, browser=0, workers=1 and scheduler still disabled by default. FRX-v2.2-D is authorized for the single v2.2 full benchmark.

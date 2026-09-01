@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.testing.frx_v2_2_c_source_delta_manifest.v1",
   "version": "1.0.0",
-  "status": "PASS-CANDIDATE/PENDING-WINDOWS",
+  "status": "CLOSED/PASS",
   "parent_repo": "repo_DevPilot_Local_388_FRX_V2_2_B_NODE_DURATION_REGISTRY_WINDOWS_VALIDATED_CANDIDATE.zip",
   "parent_commit": "228d5dbfb19e10584ed00d616126fe34027d1ba8",
   "parent_sha256": "c81f3be309d0fa988372b4979b57cbc3575c966deee16d8fbea1d1b34a4c2f45",
@@ -35,5 +35,7 @@
   "scheduler_enabled": false,
   "network_used": false,
   "external_api_used": false,
-  "secrets_exposed": false
+  "secrets_exposed": false,
+  "windows_validation_status": "CLOSED/PASS",
+  "successor_authorized": "FRX-v2.2-D"
 }
