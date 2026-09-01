@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "plans_total": 10,
+  "unique_plan_sha256_total": 1,
+  "plan_sha256": "fa61952910e3dbbebc207c1cef150a3985c7ba2e8a38e7c0c8c64b9d1aa04a2a",
+  "all_identical": true,
+  "collection_sha256": "aca84007fa8f419d9abf1ffaa1de2c60a8a9884caf2677b02c5e1bcb3a75453a",
+  "environment_fingerprint": "windows-pytest-devpilot-gsdlc07e-v1",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

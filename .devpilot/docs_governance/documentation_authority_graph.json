@@ -126,7 +126,7 @@
       },
       "readme_required_markers": [
         "DEVPL-GSDLC-07 = CLOSED/PASS",
-        "FRX-v2.2-B"
+        "FRX-v2.2-C"
       ],
       "changelog_path": "docs/release/CHANGELOG.md",
       "changelog_required_markers": [
@@ -135,7 +135,7 @@
       ],
       "next": {
         "project_state_expectations": {
-          "next_micro_sprint": "FRX-v2.2-C",
+          "next_micro_sprint": "FRX-v2.2-D",
           "gsdlc_08_status": "authorized/deferred-by-owner"
         }
       }

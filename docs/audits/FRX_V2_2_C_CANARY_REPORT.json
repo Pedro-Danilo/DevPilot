@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "workers": 1,
+  "parallel_execution": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": false,
+  "junit_sha256": "9ecf40bc2a6684d2a17339949b7e466bab5fca7de8983a4ecd61e3a262863c78",
+  "log_sha256": "68e35d736149ca728816eb85b49b1faa5f45b945d2708aa269323395c6f3aac7",
+  "nodeids": [
+    "tests/test_project_global_state.py::test_project_global_state_command_result_passes",
+    "tests/test_project_global_state.py::test_project_global_state_schema_and_docs_are_synchronized",
+    "tests/test_frx_v2_2_c_temporal_planner.py::test_collection_and_environment_mismatch_block",
+    "tests/test_frx_v2_2_c_temporal_planner.py::test_slow_node_over_target_is_singleton"
+  ]
+}

@@ -191,7 +191,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager, NodeDurationRegistry
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager, NodeDurationRegistry, TemporalShardPlanner, TemporalPlannerError
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -6244,6 +6244,38 @@ def tests_duration_registry_command(*, action: str, source: str | None = None, e
         print(json.dumps(payload, ensure_ascii=False, indent=2) if json_output else payload)
         return int(ExitCode.BLOCK)
 
+
+def tests_temporal_planner_command(*, action: str, collection: str, environment: str, target_shard_seconds: float = 300.0, max_nodeids: int = 50, max_command_chars: int = 7000, baseline_shard_size: int = 50, json_output: bool = False) -> int:
+    root = project_root()
+    try:
+        source = Path(collection)
+        if not source.is_absolute():
+            source = root / source
+        payload = json.loads(source.read_text(encoding="utf-8"))
+        if isinstance(payload.get("samples"), list):
+            nodeids = [str(item["nodeid"]) for item in payload["samples"]]
+        elif isinstance(payload.get("nodes"), list):
+            nodeids = [str(item["nodeid"]) for item in payload["nodes"]]
+        else:
+            raise ValueError("collection must contain samples[] or nodes[]")
+        planner = TemporalShardPlanner(root, target_shard_seconds=target_shard_seconds, max_nodeids=max_nodeids, max_command_chars=max_command_chars)
+        expected_env = payload.get("environment_fingerprint")
+        if expected_env and expected_env != environment:
+            raise TemporalPlannerError("environment fingerprint mismatch")
+        if action == "preview":
+            result = planner.plan(nodeids, environment_fingerprint=environment, expected_environment_fingerprint=expected_env)
+        elif action == "shadow-compare":
+            result = planner.shadow_compare(nodeids, environment_fingerprint=environment, baseline_shard_size=baseline_shard_size, expected_environment_fingerprint=expected_env)
+        else:
+            raise ValueError(f"unknown temporal-planner action: {action}")
+        envelope = {"status":"PASS","action":action,"tests_executed":False,"scheduler_enabled":False,"parallel_workers":1,"result":result}
+        print(json.dumps(envelope, ensure_ascii=False, indent=2) if json_output else envelope)
+        return 0
+    except Exception as exc:
+        envelope = {"status":"BLOCK","action":action,"tests_executed":False,"scheduler_enabled":False,"parallel_workers":1,"error":str(exc)}
+        print(json.dumps(envelope, ensure_ascii=False, indent=2) if json_output else envelope)
+        return int(ExitCode.BLOCK)
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -6893,6 +6925,18 @@ def build_parser() -> argparse.ArgumentParser:
     duration_preview.add_argument("--environment", required=True)
     duration_preview.add_argument("--limit", type=int, default=20)
     duration_preview.add_argument("--json", action="store_true")
+
+    tests_temporal = tests_sub.add_parser("temporal-planner", help="Preview FRX-v2.2-C temporal shard plans without enabling scheduler execution")
+    temporal_sub = tests_temporal.add_subparsers(dest="temporal_planner_command")
+    for temporal_action in ("preview", "shadow-compare"):
+        temporal_parser = temporal_sub.add_parser(temporal_action, help=f"{temporal_action} temporal plan using the same collection")
+        temporal_parser.add_argument("--collection", required=True)
+        temporal_parser.add_argument("--environment", required=True)
+        temporal_parser.add_argument("--target-shard-seconds", type=float, default=300.0)
+        temporal_parser.add_argument("--max-nodeids", type=int, default=50)
+        temporal_parser.add_argument("--max-command-chars", type=int, default=7000)
+        temporal_parser.add_argument("--baseline-shard-size", type=int, default=50)
+        temporal_parser.add_argument("--json", action="store_true")
 
     tests_taxonomy = tests_sub.add_parser("taxonomy", help="Validate POST-H-029-A test profile taxonomy without executing tests")
     tests_taxonomy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -8485,6 +8529,10 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 return tests_duration_registry_command(action="estimate", environment=args.environment, nodeid=args.nodeid, json_output=args.json)
             if args.duration_registry_command == "preview":
                 return tests_duration_registry_command(action="preview", environment=args.environment, limit=args.limit, json_output=args.json)
+            parser.print_help(); return int(ExitCode.FAIL)
+        if args.tests_command == "temporal-planner":
+            if args.temporal_planner_command in {"preview", "shadow-compare"}:
+                return tests_temporal_planner_command(action=args.temporal_planner_command, collection=args.collection, environment=args.environment, target_shard_seconds=args.target_shard_seconds, max_nodeids=args.max_nodeids, max_command_chars=args.max_command_chars, baseline_shard_size=args.baseline_shard_size, json_output=args.json)
             parser.print_help(); return int(ExitCode.FAIL)
         if args.tests_command == "taxonomy":
             return tests_taxonomy_command(json_output=args.json, write_report=args.write_report)

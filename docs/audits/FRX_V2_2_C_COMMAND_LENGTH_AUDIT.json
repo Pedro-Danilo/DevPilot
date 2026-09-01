@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "max_nodeids_configured": 50,
+  "max_command_chars_configured": 7000,
+  "shards_total": 71,
+  "max_nodeids_observed": 50,
+  "max_command_chars_observed": 5985,
+  "violations": [],
+  "parallel_workers": 1,
+  "scheduler_enabled": false,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

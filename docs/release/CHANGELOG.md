@@ -3125,3 +3125,10 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - DocumentationDriftGate P0/P1=0.
 - FRX-v2.2-C authorized; the single v2.2 full remains reserved for FRX-v2.2-D.
 
+
+## 2026-08-31 — FRX-v2.2-C duration-balanced sequential scheduler candidate
+- Rebound execution authority to repo388 / Windows commit `228d5dbfb19e10584ed00d616126fe34027d1ba8`.
+- Added deterministic LPT temporal shard planning with target 300 s, slow-singleton handling, max-nodeid and Windows command-length bounds.
+- Historical 2,805-node shadow comparison predicts max/p95/CV improvements of 57.337% / 63.081% / 38.682% versus the count-based reference plan.
+- Canary remains sequential with workers=1; scheduler default remains disabled; full regression runs=0 and browser runs=0.
+- FRX-v2.2-D remains the only micro-sprint authorized to consume the single v2.2 logical full regression.

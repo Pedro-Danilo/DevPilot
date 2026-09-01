@@ -1,0 +1,39 @@
+{
+  "schema_id": "devpilot.testing.temporal_shard_shadow_comparison.v1",
+  "version": "1.0.0",
+  "status": "PASS",
+  "collection_sha256": "aca84007fa8f419d9abf1ffaa1de2c60a8a9884caf2677b02c5e1bcb3a75453a",
+  "collection_total": 2805,
+  "same_collection": true,
+  "tests_executed": false,
+  "parallel_workers": 1,
+  "baseline": {
+    "planner": "historical-count-based",
+    "shards_total": 57,
+    "predicted_max_seconds": 1815.940795,
+    "predicted_p95_seconds": 1458.766241,
+    "predicted_cv": 1.763719,
+    "predicted_mean_seconds": 227.243658
+  },
+  "temporal": {
+    "planner": "deterministic-lpt-sequential",
+    "shards_total": 71,
+    "predicted_max_seconds": 774.736226,
+    "predicted_p95_seconds": 538.567238,
+    "predicted_cv": 1.081476,
+    "predicted_mean_seconds": 182.435049,
+    "slow_singletons": 15
+  },
+  "improvement_percent": {
+    "predicted_max_seconds": 57.337,
+    "predicted_p95_seconds": 63.081,
+    "predicted_cv": 38.682
+  },
+  "adoption_default": false,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

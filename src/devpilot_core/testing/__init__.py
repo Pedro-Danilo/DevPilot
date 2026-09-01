@@ -100,3 +100,6 @@ __all__.extend([
 ])
 
 from .duration_registry import NodeDurationRegistry, IngestionResult
+
+from .temporal_shard_planner import TemporalShardPlanner, TemporalPlannerError
+__all__.extend(["TemporalShardPlanner", "TemporalPlannerError"])

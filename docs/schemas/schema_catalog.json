@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-08-31",
-  "sprint": "DEVPL-GSDLC-07-E",
+  "sprint": "FRX-v2.2-C",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3477,7 +3477,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.2-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-TEMPORAL-SHARD-PLAN-V1",
+      "title": "DevPilot TemporalShardPlan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/temporal_shard_plan.schema.json",
+      "description": "FRX-v2.2-C deterministic sequential LPT shadow-plan contract; scheduler remains opt-in/disabled and workers=1.",
+      "status": "registered",
+      "contract": "TemporalShardPlan",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.2-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.2-C"
     }
   ],
-  "schemas_total": 242
+  "schemas_total": 243
 }

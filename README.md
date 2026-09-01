@@ -1,8 +1,8 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-FRX-v2.2 execution status (2026-08-31): `FRX-v2.2-A = CLOSED/PASS`; `FRX-v2.2-B = CLOSED/PASS`; `FRX-v2.2-C` is authorized as the next micro-sprint. Full regression remains reserved exclusively for FRX-v2.2-D.
+FRX-v2.2 execution status (2026-08-31): `FRX-v2.2-A = CLOSED/PASS`; `FRX-v2.2-B = CLOSED/PASS`; `FRX-v2.2-C = PASS-CANDIDATE/PENDING-WINDOWS`; temporal planning is shadow/canary only with workers=1. The single full regression remains reserved exclusively for FRX-v2.2-D.
 
-GSDLC-07 execution status (2026-08-31): `DEVPL-GSDLC-07 = CLOSED/PASS`. Windows closure authority is repo386 / commit `17db6b219f5066f2df91d897a0e3ad62314a0176` / SHA `0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23`. `FRX-v2.2-A` está `CLOSED/PASS`; `FRX-v2.2-B` es el siguiente micro-sprint autorizado. DEVPL-GSDLC-08 permanece autorizado pero diferido hasta cerrar FRX v2.2 y v2.3.
+GSDLC-07 execution status (2026-08-31): `DEVPL-GSDLC-07 = CLOSED/PASS`. FRX-v2.2-A/B are CLOSED/PASS; FRX-v2.2-C is the active shadow/canary temporal-planning micro-sprint. DEVPL-GSDLC-08 remains authorized/deferred until FRX v2.2 and v2.3 close.
 
 
 Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está `CLOSED/PASS`. El activation enabler/FRX2.1 está CLOSED/PASS y 07-A está Windows-validated CLOSED/PASS; 07-B implementa ContextPack v2, provenance y budget sobre repo382.
@@ -6520,3 +6520,6 @@ GSDLC-07-E closure: `CLOSED/PASS`. Browser acceptance remains authoritative by r
 
 ### FRX-v2.2-B — NodeDurationRegistry
 FRX-v2.2-B adds a source-controlled, environment-scoped duration registry and deterministic estimator over the 2,805 preserved GSDLC-07-E terminal samples. Scheduling remains disabled and parallel workers remain 1 pending FRX-v2.2-C/D validation.
+
+### FRX-v2.2-C — Duration-balanced sequential scheduler
+FRX-v2.2-C adds deterministic LPT temporal planning in shadow/canary mode. The historical 2,805-node reference predicts max/p95/CV shard reductions of 57.337% / 63.081% / 38.682% versus count-based sharding. Scheduler adoption remains opt-in and workers remain 1; the only v2.2 full is reserved for FRX-v2.2-D.
