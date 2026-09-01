@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "micro_sprint": "FRX-v2.2-B",
-  "status": "PASS-CANDIDATE/PENDING-WINDOWS",
+  "status": "CLOSED/PASS",
   "baseline_repo": "repo_DevPilot_Local_387_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_WINDOWS_VALIDATED_CANDIDATE.zip",
   "baseline_commit": "9ae471381a081005e2f282f6dabbb6b10607590f",
   "changed_paths": [
@@ -39,5 +39,6 @@
   "network_used": false,
   "external_api_used": false,
   "secrets_exposed": false,
-  "mutations_performed": true
+  "mutations_performed": true,
+  "successor_authorized": "FRX-v2.2-C"
 }

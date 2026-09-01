@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-FRX-v2.2 execution status (2026-08-31): `FRX-v2.2-A = CLOSED/PASS`; `FRX-v2.2-B = PASS-CANDIDATE/PENDING-WINDOWS`; `FRX-v2.2-C` remains unauthorized until B Windows closure. Full regression remains reserved exclusively for FRX-v2.2-D.
+FRX-v2.2 execution status (2026-08-31): `FRX-v2.2-A = CLOSED/PASS`; `FRX-v2.2-B = CLOSED/PASS`; `FRX-v2.2-C` is authorized as the next micro-sprint. Full regression remains reserved exclusively for FRX-v2.2-D.
 
 GSDLC-07 execution status (2026-08-31): `DEVPL-GSDLC-07 = CLOSED/PASS`. Windows closure authority is repo386 / commit `17db6b219f5066f2df91d897a0e3ad62314a0176` / SHA `0998e901a1149d377c6793dc923e0c45ed7eec42395e7182ef495ce652e79d23`. `FRX-v2.2-A` está `CLOSED/PASS`; `FRX-v2.2-B` es el siguiente micro-sprint autorizado. DEVPL-GSDLC-08 permanece autorizado pero diferido hasta cerrar FRX v2.2 y v2.3.
 

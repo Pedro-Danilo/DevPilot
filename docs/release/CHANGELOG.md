@@ -3116,3 +3116,12 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 ## 2026-08-31 — FRX-v2.2-B implementation candidate
 - Added environment-scoped `NodeDurationRegistry`, idempotent telemetry ingestion and deterministic duration estimates.
 - Reconciled 2,805 preserved terminal samples with zero silent omissions; scheduler remains disabled, workers=1, full/browser=0.
+## FRX-v2.2-B — NodeDurationRegistry and estimator — CLOSED/PASS
+
+- Windows focal validation PASS over the DocImpact-selected surface.
+- 2,805 authoritative terminal samples reconciled with zero silent omissions/rejections.
+- Environment-scoped estimates, idempotent ingestion, nodeid preservation and aging policy validated.
+- Scheduler remains disabled; workers=1; full regression runs=0; browser runs=0.
+- DocumentationDriftGate P0/P1=0.
+- FRX-v2.2-C authorized; the single v2.2 full remains reserved for FRX-v2.2-D.
+

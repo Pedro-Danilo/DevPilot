@@ -1,11 +1,11 @@
 ---
 doc_id: "FRX-V2-2-B-IMPLEMENTATION-REPORT"
 title: "FRX-v2.2-B — NodeDurationRegistry and robust estimator — implementation report"
-status: "reviewed"
+status: "closed"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-08-31"
-approval: "implementation_candidate"
+approval: "windows_validation_gate"
 ---
 # FRX-v2.2-B — Implementation Report
 
@@ -39,3 +39,5 @@ The estimator intentionally keeps `alpha=0.35`. The aging contract is geometric 
 ## Windows acceptance boundary
 Formal `CLOSED/PASS` remains pending Windows execution. The Windows operator must validate the payload using Git-index/canonical-content semantics, run only the four DocImpact-selected focal files plus Project State and Closure Consistency, then apply closure metadata and package repo388. No full regression or browser run is authorized.
 
+## Windows closure projection
+Applied only after Windows focal gates PASS. Final state: `CLOSED/PASS`; 2,805 samples reconciled, zero rejected, scheduler disabled, workers=1, P0/P1 drift=0, full=0, browser=0. Successor authorized: `FRX-v2.2-C`.
