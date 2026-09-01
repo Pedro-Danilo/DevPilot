@@ -42,6 +42,10 @@
     },
     "version": {
       "const": "2.1"
+    },
+    "collection_duration_seconds": {
+      "minimum": 0,
+      "type": "number"
     }
   },
   "required": [

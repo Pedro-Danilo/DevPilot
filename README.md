@@ -6523,3 +6523,7 @@ FRX-v2.2-B adds a source-controlled, environment-scoped duration registry and de
 
 ### FRX-v2.2-C — Duration-balanced sequential scheduler
 FRX-v2.2-C CLOSED/PASS: deterministic LPT temporal planning is validated in shadow/canary mode. The 2,805-node reference predicts max/p95/CV reductions of 57.337% / 63.081% / 38.682%. Scheduler default remains disabled, workers=1, full=0; FRX-v2.2-D owns the single real full benchmark.
+
+
+### FRX-v2.2-D — Windows one-full benchmark and closure
+FRX-v2.2-D implementation candidate is bound to repo389 Windows commit `503a62d0cd84fade9d057752f3e94de22e9a2c19`. The one-full guard, temporal executable plan and benchmark analyzer are implemented. The scheduler remains default-disabled and workers=1 until the single Windows logical full determines `PASS/ENABLED` or `PASS/AVAILABLE-NOT-DEFAULT`. Full consumed before Windows: 0/1.

@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any, Iterable, Sequence
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.testing.temporal_shard_planner import TemporalShardPlanner
 
 FULL_REGRESSION_VERSION = "2.1"
 DEFAULT_RUNTIME_ROOT = Path("outputs/testing/full_regression")
@@ -66,6 +67,7 @@ class FullRegressionSession:
     collection_sha256: str
     collection_total: int
     targets: tuple[str, ...]
+    collection_duration_seconds: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -93,6 +95,8 @@ class ShardReceipt:
     junit_sha256: str | None
     outcome_log_path: str | None
     outcome_log_sha256: str | None
+    log_path: str | None = None
+    log_sha256: str | None = None
 
 
 def _utc_now() -> str:
@@ -154,8 +158,73 @@ def _is_excluded(relative: Path) -> bool:
     return False
 
 
+def _git_run(root: Path, args: Sequence[str], *, timeout: int = 15) -> subprocess.CompletedProcess[str] | None:
+    try:
+        return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=timeout, shell=False, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+
+
+def _git_semantic_blob_hash(root: Path, relative: str) -> str | None:
+    path = root / relative
+    if not path.is_file():
+        return None
+    completed = _git_run(root, ["hash-object", f"--path={relative}", relative])
+    if completed is None or completed.returncode != 0:
+        return None
+    value = completed.stdout.strip()
+    return value if len(value) == 40 else None
+
+
+def _git_semantic_source_descriptor(root: Path) -> dict[str, Any] | None:
+    if not (root / ".git").exists():
+        return None
+    head = _git_run(root, ["rev-parse", "HEAD"])
+    tracked = _git_run(root, ["ls-files", "-z"])
+    untracked = _git_run(root, ["ls-files", "--others", "--exclude-standard", "-z"])
+    if head is None or tracked is None or untracked is None or head.returncode != 0 or tracked.returncode != 0 or untracked.returncode != 0:
+        return None
+    tracked_paths = [item for item in tracked.stdout.split("\0") if item]
+    untracked_paths = [item for item in untracked.stdout.split("\0") if item]
+    tracked_set = set(tracked_paths)
+    digest = hashlib.sha256()
+    files_total = bytes_total = tracked_total = untracked_total = 0
+    for relative in sorted([*tracked_paths, *untracked_paths]):
+        if _is_excluded(Path(relative)):
+            continue
+        blob = _git_semantic_blob_hash(root, relative) or "MISSING"
+        digest.update(relative.replace("\\", "/").encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(blob.encode("ascii"))
+        digest.update(b"\n")
+        files_total += 1
+        file_path = root / relative
+        if file_path.is_file():
+            try:
+                bytes_total += file_path.stat().st_size
+            except OSError:
+                pass
+        if relative in tracked_set:
+            tracked_total += 1
+        else:
+            untracked_total += 1
+    return {
+        "git_commit": head.stdout.strip() or None,
+        "content_sha256": digest.hexdigest(),
+        "files_total": files_total,
+        "bytes_total": bytes_total,
+        "tracked_files_total": tracked_total,
+        "untracked_files_total": untracked_total,
+        "fingerprint_mode": "git-semantic-working-tree-v1",
+        "excluded_runtime_dirs": sorted(_EXCLUDED_DIR_NAMES),
+    }
+
+
 def _source_descriptor(root: Path) -> dict[str, Any]:
     root = root.resolve()
+    semantic = _git_semantic_source_descriptor(root)
+    if semantic is not None:
+        return semantic
     git_commit: str | None = None
     if (root / ".git").exists():
         try:
@@ -203,7 +272,7 @@ def _environment_descriptor(root: Path) -> dict[str, Any]:
     for name in ("pyproject.toml", "requirements.txt", "requirements-dev.txt", "uv.lock", "poetry.lock"):
         path = root / name
         if path.exists() and path.is_file():
-            tracked[name] = _sha256_file(path)
+            tracked[name] = _git_semantic_blob_hash(root, name) or _sha256_file(path)
     try:
         pytest_version = importlib.metadata.version("pytest")
     except importlib.metadata.PackageNotFoundError:
@@ -282,7 +351,9 @@ class FullRegressionSessionManager:
         if collection_capture.exists():
             collection_capture.unlink()
         args = [sys.executable, "-m", "pytest", "--collect-only", "-q", "--disable-warnings", "-p", "devpilot_core.testing.full_regression_collect_plugin", *normalized_targets]
+        collection_started = time.monotonic()
         completed, timed_out = self._run_subprocess(args, timeout_seconds=timeout_seconds, extra_env={"DEVPILOT_FULL_SESSION_COLLECTION": str(collection_capture)})
+        collection_duration_seconds = round(time.monotonic() - collection_started, 6)
         if timed_out:
             return self._block("tests full-session collect", "FRX2_COLLECTION_TIMEOUT", "Pytest collection timed out; no session was created.")
         if completed is None or completed.returncode != 0:
@@ -331,6 +402,7 @@ class FullRegressionSessionManager:
             collection_sha256=collection_sha,
             collection_total=len(nodeids),
             targets=normalized_targets,
+            collection_duration_seconds=collection_duration_seconds,
         )
         session_payload = {"schema_id": "devpilot.testing.full_regression_session.v2_1", **asdict(session)}
         try:
@@ -350,11 +422,32 @@ class FullRegressionSessionManager:
                 "source_fingerprint": source_fp,
                 "environment_fingerprint": env_fp,
                 "tests_executed": False,
+                "collection_duration_seconds": collection_duration_seconds,
             },
             findings=[Finding(id="FRX2_COLLECTION_SEALED", message="Collection is unique, deterministic for this invocation and sealed under the session.", severity=Severity.INFO)],
         )
 
     def plan(self, *, session_id: str, shard_size: int = DEFAULT_SHARD_SIZE, shard_timeout_seconds: int = DEFAULT_SHARD_TIMEOUT_SECONDS) -> CommandResult:
+        config_path = self.root / ".devpilot" / "testing" / "temporal_planner_config.json"
+        if config_path.is_file():
+            try:
+                temporal_config = json.loads(config_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                return self._block("tests full-session plan", "FRX2_TEMPORAL_DEFAULT_CONFIG_INVALID", f"Temporal planner config is invalid: {exc}")
+            if bool(temporal_config.get("scheduler_enabled")):
+                if int(temporal_config.get("parallel_workers", 1)) != 1:
+                    return self._block("tests full-session plan", "FRX2_TEMPORAL_PARALLEL_WORKERS_FORBIDDEN", "FRX-v2.2 temporal scheduling is sequential and requires parallel_workers=1.")
+                registry_environment = str(temporal_config.get("registry_environment_fingerprint") or "").strip()
+                if not registry_environment:
+                    return self._block("tests full-session plan", "FRX2_TEMPORAL_REGISTRY_ENVIRONMENT_REQUIRED", "Enabled temporal scheduling requires registry_environment_fingerprint.")
+                return self.plan_temporal(
+                    session_id=session_id,
+                    registry_environment_fingerprint=registry_environment,
+                    target_shard_seconds=float(temporal_config.get("target_shard_seconds", 300.0)),
+                    max_nodeids=int(temporal_config.get("max_nodeids", 50)),
+                    max_command_chars=int(temporal_config.get("max_command_chars", 7000)),
+                    shard_timeout_seconds=shard_timeout_seconds,
+                )
         loaded = self._load_session(session_id, command="tests full-session plan")
         if isinstance(loaded, CommandResult):
             return loaded
@@ -406,6 +499,84 @@ class FullRegressionSessionManager:
             summary={"session_id": session_id, "shards_total": len(shards), "nodeids_total": len(nodeids), "shard_plan_sha256": plan_sha, "tests_executed": False},
             findings=[Finding(id="FRX2_PLAN_SEALED", message="Every collected nodeid appears exactly once in the immutable sequential plan.", severity=Severity.INFO)],
         )
+
+    def plan_temporal(
+        self,
+        *,
+        session_id: str,
+        registry_environment_fingerprint: str,
+        target_shard_seconds: float = 300.0,
+        max_nodeids: int = 50,
+        max_command_chars: int = 7000,
+        shard_timeout_seconds: int = DEFAULT_SHARD_TIMEOUT_SECONDS,
+    ) -> CommandResult:
+        command = "tests full-session temporal-plan"
+        loaded = self._load_session(session_id, command=command)
+        if isinstance(loaded, CommandResult):
+            return loaded
+        session, collection = loaded
+        integrity = self._validate_identity(session, collection, require_environment=True)
+        if integrity is not None:
+            return integrity
+        if shard_timeout_seconds <= 0 or shard_timeout_seconds > 3600:
+            return self._block(command, "FRX2_TEMPORAL_TIMEOUT_INVALID", "Shard timeout must be between 1 and 3600 seconds.")
+        nodeids = [item["nodeid"] for item in collection["nodes"]]
+        planner = TemporalShardPlanner(self.root, target_shard_seconds=target_shard_seconds, max_nodeids=max_nodeids, max_command_chars=max_command_chars)
+        try:
+            temporal = planner.plan(nodeids, environment_fingerprint=registry_environment_fingerprint, collection_sha256=session["collection_sha256"], expected_collection_sha256=session["collection_sha256"])
+        except Exception as exc:
+            return self._block(command, "FRX2_TEMPORAL_PLAN_FAILED", str(exc))
+        shards: list[dict[str, Any]] = []
+        for shard in temporal["shards"]:
+            estimate = float(shard.get("estimated_seconds") or 0.0)
+            adaptive_timeout = max(600, min(shard_timeout_seconds, int(estimate * 2 + 120) if estimate > 0 else shard_timeout_seconds))
+            shards.append({
+                "shard_id": shard["shard_id"],
+                "ordinal": shard["ordinal"],
+                "nodeids": list(shard["nodeids"]),
+                "nodeids_sha256": shard["nodeids_sha256"],
+                "timeout_seconds": adaptive_timeout,
+                "estimated_seconds": estimate,
+                "known_count": int(shard.get("known_count") or 0),
+                "unknown_count": int(shard.get("unknown_count") or 0),
+                "confidence_counts": dict(shard.get("confidence_counts") or {}),
+                "command_chars": int(shard.get("command_chars") or 0),
+                "slow_singleton": bool(shard.get("slow_singleton")),
+            })
+        flattened = [nodeid for shard in shards for nodeid in shard["nodeids"]]
+        if len(flattened) != len(nodeids) or set(flattened) != set(nodeids) or len(flattened) != len(set(flattened)):
+            return self._block(command, "FRX2_TEMPORAL_PLAN_COVERAGE_INVALID", "Temporal plan does not preserve the collection exactly once.")
+        core = {
+            "schema_id": "devpilot.testing.full_regression_temporal_shard_plan.v2_2",
+            "version": "2.2",
+            "session_id": session_id,
+            "collection_sha256": session["collection_sha256"],
+            "collection_total": len(nodeids),
+            "planner": "deterministic-lpt-sequential",
+            "mode": "windows-one-full-benchmark",
+            "scheduler_enabled_for_session": True,
+            "parallel_workers": 1,
+            "registry_environment_fingerprint": registry_environment_fingerprint,
+            "target_shard_seconds": float(target_shard_seconds),
+            "max_nodeids": int(max_nodeids),
+            "max_command_chars": int(max_command_chars),
+            "shard_timeout_seconds": int(shard_timeout_seconds),
+            "registry_provenance": temporal.get("registry_provenance"),
+            "known_nodeids": temporal.get("known_nodeids"),
+            "unknown_nodeids": temporal.get("unknown_nodeids"),
+            "slow_singletons": temporal.get("slow_singletons"),
+            "shards": shards,
+            "shards_total": len(shards),
+        }
+        plan_sha = _sha256_bytes(_canonical_bytes(core))
+        payload = {**core, "shard_plan_sha256": plan_sha}
+        try:
+            _immutable_write(self._session_dir(session_id) / "plan.json", payload)
+        except ValueError as exc:
+            return self._block(command, "FRX2_TEMPORAL_PLAN_IMMUTABILITY_VIOLATION", str(exc))
+        return _result(command, ok=True, exit_code=ExitCode.PASS, message="Temporal sequential shard plan sealed for the single v2.2 full benchmark.", summary={
+            "session_id": session_id, "collection_total": len(nodeids), "shards_total": len(shards), "shard_plan_sha256": plan_sha,
+            "parallel_workers": 1, "scheduler_enabled_for_session": True, "tests_executed": False})
 
     def run(self, *, session_id: str, execute: bool, max_shards: int | None = None, timeout_seconds: int | None = None, mode: str = "run") -> CommandResult:
         command = f"tests full-session {mode}"
@@ -598,13 +769,22 @@ class FullRegressionSessionManager:
         ]
         completed: subprocess.CompletedProcess[str] | None = None
         timed_out = False
+        timeout_stdout = ""
+        timeout_stderr = ""
         try:
             completed = subprocess.run(args, cwd=self.root, capture_output=True, text=True, timeout=timeout_seconds, shell=False, check=False, env=env)
-        except subprocess.TimeoutExpired:
+        except subprocess.TimeoutExpired as exc:
             timed_out = True
-        except OSError:
+            timeout_stdout = exc.stdout.decode("utf-8", errors="replace") if isinstance(exc.stdout, bytes) else (exc.stdout or "")
+            timeout_stderr = exc.stderr.decode("utf-8", errors="replace") if isinstance(exc.stderr, bytes) else (exc.stderr or "")
+        except OSError as exc:
             completed = None
+            timeout_stderr = f"os-error: {exc}"
         duration = round(time.monotonic() - start, 6)
+        log_path = runtime_dir / f"{receipt_stem}.log"
+        stdout_text = completed.stdout if completed is not None else timeout_stdout
+        stderr_text = completed.stderr if completed is not None else timeout_stderr
+        log_path.write_text((stdout_text or "") + ("\nSTDERR:\n" + stderr_text if stderr_text else "") + ("\nINFRA: TIMEOUT\n" if timed_out else ""), encoding="utf-8", newline="\n")
         ended_at = _utc_now()
         outcome_records = self._read_outcome_log(outcomes_path)
         outcomes = {nodeid: outcome_records.get(nodeid, TerminalOutcome.UNEXECUTED.value) for nodeid in nodeids}
@@ -645,6 +825,8 @@ class FullRegressionSessionManager:
             junit_sha256=_sha256_file(junit_path),
             outcome_log_path=_relative(outcomes_path, self.root) if outcomes_path.exists() else None,
             outcome_log_sha256=_sha256_file(outcomes_path),
+            log_path=_relative(log_path, self.root) if log_path.exists() else None,
+            log_sha256=_sha256_file(log_path),
         )
         return receipt, runtime_block
 
@@ -691,7 +873,7 @@ class FullRegressionSessionManager:
             if actual_plan_sha != plan.get("shard_plan_sha256"):
                 return self._block("tests full-session integrity", "FRX2_PLAN_HASH_MISMATCH", "Shard plan hash no longer matches its sealed content.")
             flattened = [nodeid for shard in plan.get("shards", []) for nodeid in shard.get("nodeids", [])]
-            if flattened != nodeids or len(flattened) != len(set(flattened)):
+            if len(flattened) != len(nodeids) or set(flattened) != set(nodeids) or len(flattened) != len(set(flattened)):
                 return self._block("tests full-session integrity", "FRX2_PLAN_COVERAGE_INVALID", "Shard plan no longer maps the collection exactly once.")
         return None
 
@@ -752,6 +934,8 @@ class FullRegressionSessionManager:
             "logical_attempts": 1,
             "parallel_workers": 1,
             "completion_first": True,
+            "planner": plan.get("planner", "count-based-sequential"),
+            "scheduler_enabled_for_session": bool(plan.get("scheduler_enabled_for_session", False)),
         }
         return {"summary": summary, "outcomes": outcomes, "receipts": receipts}
 

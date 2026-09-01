@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.frx.v2_2_d.adoption_policy.v1",
+  "status": "approved-engineering-default",
+  "version": "1.0.0",
+  "workers": 1,
+  "second_full_allowed": false,
+  "thresholds": {
+    "min_max_shard_improvement_pct": 25.0,
+    "min_p95_shard_improvement_pct": 25.0,
+    "min_cv_improvement_pct": 10.0,
+    "max_infra_abort_receipts": 1
+  },
+  "decision_policy": "Functional correctness may close as PASS/AVAILABLE-NOT-DEFAULT when performance thresholds are not met. PASS/ENABLED requires every threshold plus 100% terminal accounting and zero source drift.",
+  "parallelism": "forbidden-v2.2",
+  "next_evolution": "FRX-v2.3 safe parallelism"
+}

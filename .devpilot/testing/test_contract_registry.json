@@ -12804,6 +12804,51 @@
         ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
         ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.2-d-one-full-benchmark",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.2-D",
+      "phase": "FULL-REGRESSION-v2.2",
+      "scope": "quality-gate",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance closure-consistency --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "test_files": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py"
+      ],
+      "validates": [
+        "Git-semantic source fingerprint",
+        "temporal executable full plan",
+        "one logical full marker",
+        "completion-first same-session resume",
+        "real Windows benchmark/adoption decision",
+        "no second full",
+        "workers=1",
+        "per-shard JUnit/outcome/log/receipt evidence"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/testing/full_regression_benchmark.py",
+        ".devpilot/testing/temporal_planner_config.json",
+        ".devpilot/testing/frx_v2_2_d_adoption_policy.json",
+        ".devpilot/testing/frx_v2_2_d_environment_compatibility.json",
+        "docs/audits/FRX_V2_2_D_BASELINE_07_E.json",
+        "docs/schemas/full_regression_session.schema.json",
+        "docs/schemas/full_regression_temporal_shard_plan.schema.json",
+        "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
+        ".devpilot/project_state.json",
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "docs/schemas/full_regression_shard_receipt.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -12882,5 +12927,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 305
+  "contracts_total": 306
 }

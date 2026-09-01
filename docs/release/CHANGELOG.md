@@ -3137,3 +3137,11 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - CLOSED/PASS after deterministic planner focal validation, four-node sequential canary and DocumentationDriftGate PASS.
 - Temporal shadow plan preserves 2,805/2,805 nodeids, command/count bounds and workers=1; scheduler default remains disabled.
 - Full regression runs=0; browser runs=0. FRX-v2.2-D is authorized to consume the single v2.2 full benchmark.
+
+
+## 2026-08-31 — FRX-v2.2-D one-full benchmark candidate
+- Rebound D execution authority to repo389 / Windows commit `503a62d0cd84fade9d057752f3e94de22e9a2c19`.
+- Added Git-semantic source fingerprints, executable temporal full plans, immutable one-full attempt marker and real benchmark/adoption analyzer.
+- Baseline 07-E is reused from sealed evidence; no comparative legacy full is executed.
+- Scheduler remains default-disabled, workers=1, logical full consumed=0/1 and browser=0 before Windows.
+- Final adoption and FRX-v2.2 closure remain pending the one authorized Windows full.

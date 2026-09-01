@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FRX v2.2-D Full Benchmark",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "status",
+    "session_id",
+    "collection_total",
+    "logical_full_attempts",
+    "second_full",
+    "functional_pass",
+    "actual",
+    "improvement_percent",
+    "adoption_decision",
+    "benchmark_sha256"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.frx.v2_2_d.full_benchmark.v1"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "collection_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "collection_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "shard_plan_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "planner": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parallel_workers": {
+      "const": 1
+    },
+    "logical_full_attempts": {
+      "const": 1
+    },
+    "second_full": {
+      "const": false
+    },
+    "functional_pass": {
+      "type": "boolean"
+    },
+    "baseline": {
+      "type": "object"
+    },
+    "actual": {
+      "type": "object"
+    },
+    "improvement_percent": {
+      "type": "object"
+    },
+    "thresholds": {
+      "type": "object"
+    },
+    "performance_threshold_pass": {
+      "type": "boolean"
+    },
+    "adoption_decision": {
+      "enum": [
+        "PASS/ENABLED",
+        "PASS/AVAILABLE-NOT-DEFAULT",
+        "BLOCK"
+      ]
+    },
+    "benchmark_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

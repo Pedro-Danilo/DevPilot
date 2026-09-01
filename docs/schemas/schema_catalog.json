@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-08-31",
-  "sprint": "FRX-v2.2-C",
+  "sprint": "FRX-v2.2-D",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3491,7 +3491,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.2-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FULL-REGRESSION-TEMPORAL-SHARD-PLAN-V2-2",
+      "title": "DevPilot FullRegressionTemporalShardPlan v2.2",
+      "version": "1.0.0",
+      "path": "docs/schemas/full_regression_temporal_shard_plan.schema.json",
+      "description": "FRX-v2.2-D executable sequential temporal plan for the single Windows full benchmark; workers=1.",
+      "status": "registered",
+      "contract": "FullRegressionTemporalShardPlan",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.2-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.2-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FRX-V2-2-D-FULL-BENCHMARK-V1",
+      "title": "DevPilot FRX v2.2-D Full Benchmark v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
+      "description": "FRX-v2.2-D realized full benchmark, recovery overhead and adoption decision contract.",
+      "status": "registered",
+      "contract": "FRXv22DFullBenchmark",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.2-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.2-D"
     }
   ],
-  "schemas_total": 243
+  "schemas_total": 245
 }

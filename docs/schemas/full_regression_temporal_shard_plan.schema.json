@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FullRegressionTemporalShardPlan v2.2",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_temporal_shard_plan.v2_2"
+    },
+    "version": {
+      "const": "2.2"
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "collection_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "collection_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "planner": {
+      "const": "deterministic-lpt-sequential"
+    },
+    "mode": {
+      "const": "windows-one-full-benchmark"
+    },
+    "scheduler_enabled_for_session": {
+      "const": true
+    },
+    "parallel_workers": {
+      "const": 1
+    },
+    "registry_environment_fingerprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_shard_seconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "max_nodeids": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_command_chars": {
+      "type": "integer",
+      "minimum": 512
+    },
+    "shard_timeout_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "registry_provenance": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "known_nodeids": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "unknown_nodeids": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "slow_singletons": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "shards_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "shard_plan_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "shards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "shard_id": {
+            "type": "string"
+          },
+          "ordinal": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "nodeids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "nodeids_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "estimated_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "known_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unknown_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "confidence_counts": {
+            "type": "object"
+          },
+          "command_chars": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "slow_singleton": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "shard_id",
+          "ordinal",
+          "nodeids",
+          "nodeids_sha256",
+          "timeout_seconds",
+          "estimated_seconds",
+          "known_count",
+          "unknown_count",
+          "confidence_counts",
+          "command_chars",
+          "slow_singleton"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_id",
+    "version",
+    "session_id",
+    "collection_sha256",
+    "collection_total",
+    "planner",
+    "mode",
+    "scheduler_enabled_for_session",
+    "parallel_workers",
+    "registry_environment_fingerprint",
+    "target_shard_seconds",
+    "max_nodeids",
+    "max_command_chars",
+    "shard_timeout_seconds",
+    "shards",
+    "shards_total",
+    "shard_plan_sha256"
+  ]
+}

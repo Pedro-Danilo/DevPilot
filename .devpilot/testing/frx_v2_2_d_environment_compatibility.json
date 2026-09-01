@@ -1,0 +1,14 @@
+{
+  "schema_id": "devpilot.frx.v2_2_d.environment_compatibility.v1",
+  "status": "approved",
+  "version": "1.0.0",
+  "duration_registry_environment": "windows-pytest-devpilot-gsdlc07e-v1",
+  "required_platform_family": "Windows",
+  "reason": "Initial v2.2 duration history originates from the sealed GSDLC-07-E Windows toolchain and must not be mixed with an incompatible runtime.",
+  "required_python_major_minor": "3.12",
+  "required_pytest_major": 9,
+  "reference_python": "3.12.3",
+  "reference_pytest": "9.0.3",
+  "strict_patch_match": false,
+  "compatibility_rule": "Windows + Python 3.12.x + pytest 9.x; exact patch versions are recorded but do not cause a false BLOCK."
+}

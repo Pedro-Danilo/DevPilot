@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "micro_sprint": "FRX-v2.2-D",
+  "status": "PASS-CANDIDATE/PENDING-WINDOWS",
+  "execution_parent_repo": "repo_DevPilot_Local_389_FRX_V2_2_C_TEMPORAL_SCHEDULER_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "execution_parent_commit": "503a62d0cd84fade9d057752f3e94de22e9a2c19",
+  "execution_parent_sha256": "1f85f58ca3aeb9835f611a1ab792a1e6532be7216364054c46773bbae2b34055",
+  "local_engineering_parent_commit": "04aecb3fdedac7414975ee86d4cccfe3d95dd20a",
+  "paths_total": 23,
+  "paths": [
+    {
+      "path": ".devpilot/docs_governance/documentation_authority_graph.json",
+      "semantic_sha256": "69ac3e5be693e354e3a7a4a949ed85f3dd8847d0e035297678b49109ee56c025",
+      "role": "implementation"
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "semantic_sha256": "654b24e8e3acdedc20c8c3329f42c330e8cbb19f1a7e37233c7dcf7166eccceb",
+      "role": "implementation"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "semantic_sha256": "879a4016976685abc31df53d006fda3c2624fb69ec147d135491e1e535af4de2",
+      "role": "implementation"
+    },
+    {
+      "path": ".devpilot/testing/frx_v2_2_d_adoption_policy.json",
+      "semantic_sha256": "d988b0e47fbad059bdc08b8e393363ea8434e2431b6d90204065e0656ae05c9d",
+      "role": "implementation"
+    },
+    {
+      "path": ".devpilot/testing/frx_v2_2_d_environment_compatibility.json",
+      "semantic_sha256": "24f1488438cbe3192ca754c75bb570faf3f76f58f2b455af9b4af2aa001ebd48",
+      "role": "implementation"
+    },
+    {
+      "path": ".devpilot/testing/temporal_planner_config.json",
+      "semantic_sha256": "a1518424e0d1e93393e2f09115e0b322a2e24ff18fa9c4ec318df0862a8fe233",
+      "role": "implementation"
+    },
+    {
+      "path": ".devpilot/testing/frx_v2_2_d_source_delta_manifest.json",
+      "semantic_sha256": null,
+      "role": "manifest-self",
+      "hash_policy": "self-referential-excluded"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "semantic_sha256": "4ff0586ced53b60481cd63cdd86c38a01fa3a58644e21009ea47fe2c9cfc4079",
+      "role": "implementation"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "semantic_sha256": "8aee8977e240997f7ad99e52fbcc71ad4d3a395ca486d486b6b06cd78179ddf0",
+      "role": "implementation"
+    },
+    {
+      "path": "README.md",
+      "semantic_sha256": "07ad3c9b675482e0db27c82d2d8f65fdcb3e1d447b064a836ab36648c006de81",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/audits/FRX_V2_2_D_BASELINE_07_E.json",
+      "semantic_sha256": "1533bf64899904906ff928f4b07a7fe41041e66595f6997a4f716f873011dd4c",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/audits/FRX_V2_2_D_IMPLEMENTATION_REPORT.md",
+      "semantic_sha256": "5d8af29245122b2dcb09da184693b44ee89a9e998c8d673f85b0a63c660ca3ce",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/prompts/04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_1_REBOUND_REPO389.md",
+      "semantic_sha256": "c2caace4772656de618b424c5409bfe79322c2c5448ad5890c4adead5c979aab",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/release/CHANGELOG.md",
+      "semantic_sha256": "405ca78aee5a7cb4acfd3d35814a666cf121fe47b3d42ac58120effe3715bb2d",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
+      "semantic_sha256": "4120ce03713feaa9b739b617b22027668e8539d8d65eab444b18520283b8fa4e",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/schemas/full_regression_session.schema.json",
+      "semantic_sha256": "fcfcd503ba4d76044ab75dafd2a09fc3b22c6e7069f959d42660cbc22623743f",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/schemas/full_regression_shard_receipt.schema.json",
+      "semantic_sha256": "664b844b7cb4ebb6a8d015c0b58e8bf1bb7d2a480fced25ce4dd45f78e593bfd",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/schemas/full_regression_temporal_shard_plan.schema.json",
+      "semantic_sha256": "04b9d141f33364f626a9aaefe94cf37ff0baf02aaea3ea4705cbde00fdb8852a",
+      "role": "implementation"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "semantic_sha256": "23546a42bc1996444dcd0251008880373ad1f2aedbc58e576b37d601b17aaa78",
+      "role": "implementation"
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/consistency.py",
+      "semantic_sha256": "d1ff30a7ff8f37080b71d97c86bfbda6e60806fef944d525d5b7b49dec66e2de",
+      "role": "implementation"
+    },
+    {
+      "path": "src/devpilot_core/testing/full_regression.py",
+      "semantic_sha256": "38aab57a8857bc09b9abeda420ad545a17660db6f76c337db4dcac71981c2d42",
+      "role": "implementation"
+    },
+    {
+      "path": "src/devpilot_core/testing/full_regression_benchmark.py",
+      "semantic_sha256": "5925ef9f0cebd651fbcbfad9575023c3634cd4364314c0fe1505bfac78a60512",
+      "role": "implementation"
+    },
+    {
+      "path": "tests/test_frx_v2_2_d_one_full_benchmark.py",
+      "semantic_sha256": "73f7bc783c517e589046a12fcef604a1690d15ecba375374ed2b9d852bcc40a0",
+      "role": "implementation"
+    }
+  ],
+  "logical_full_runs_consumed": 0,
+  "logical_full_runs_allowed": 1,
+  "browser_runs": 0,
+  "parallel_workers": 1,
+  "scheduler_default_enabled": false,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false
+}

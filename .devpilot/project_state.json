@@ -3454,5 +3454,21 @@
   "frx_v2_2_c_canary_status": "PASS",
   "frx_v2_2_c_full_regression_runs": 0,
   "frx_v2_2_c_browser_runs": 0,
-  "frx_v2_2_d_authorized": true
+  "frx_v2_2_d_authorized": true,
+  "frx_v2_2_d_status": "PASS-CANDIDATE/PENDING-WINDOWS",
+  "frx_v2_2_d_parent_repo": "repo_DevPilot_Local_389_FRX_V2_2_C_TEMPORAL_SCHEDULER_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "frx_v2_2_d_parent_commit": "503a62d0cd84fade9d057752f3e94de22e9a2c19",
+  "frx_v2_2_d_parent_sha256": "1f85f58ca3aeb9835f611a1ab792a1e6532be7216364054c46773bbae2b34055",
+  "frx_v2_2_d_full_regression_runs": 0,
+  "frx_v2_2_d_browser_runs": 0,
+  "frx_v2_2_d_parallel_workers": 1,
+  "frx_v2_2_d_scheduler_enabled_before_benchmark": false,
+  "frx_v2_2_d_one_full_attempt": 1,
+  "frx_v2_2_d_one_full_max_attempts": 1,
+  "frx_v2_2_d_second_full_allowed": false,
+  "frx_v2_2_d_network_used": false,
+  "frx_v2_2_d_external_api_used": false,
+  "frx_v2_2_d_adoption_state": "PENDING-WINDOWS-BENCHMARK",
+  "frx_v2_2_d_baseline_07_e_available": true,
+  "frx_v2_2_d_runtime_ui_api_changed": false
 }

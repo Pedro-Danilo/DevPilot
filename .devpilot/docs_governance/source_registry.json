@@ -31604,7 +31604,7 @@
     {
       "doc_id": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_0",
       "path": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_0.md",
-      "classification": "source-of-truth",
+      "classification": "historical",
       "domain": "governance.testing",
       "owner": "FRX-v2.2",
       "status_required": "approved",
@@ -31620,7 +31620,8 @@
         "FRX-v2.2",
         "FRX-v2.2-A"
       ],
-      "lifecycle": "active"
+      "lifecycle": "historical",
+      "superseded_by": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_1_REBOUND_REPO389"
     },
     {
       "doc_id": "01_PROMPT_FRX_V2_3_A_ISOLATION_REGISTRY_V1_0_0",
@@ -32136,7 +32137,7 @@
       "classification": "machine-readable-source",
       "domain": "testing.planning",
       "owner": "FRX-v2.2-C",
-      "status_required": "shadow-canary-only",
+      "status_required": "windows-benchmark-pending",
       "criticality": "P0",
       "required_tests": [
         "tests/test_frx_v2_2_c_temporal_planner.py",
@@ -32319,6 +32320,177 @@
         "FRX-v2.2-C"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_1_REBOUND_REPO389",
+      "path": "docs/prompts/04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_1_REBOUND_REPO389.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "FRX-V2-2-D-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/FRX_V2_2_D_IMPLEMENTATION_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "FRX-V2-2-D-ADOPTION-POLICY",
+      "path": ".devpilot/testing/frx_v2_2_d_adoption_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved-engineering-default",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-ENVIRONMENT-COMPATIBILITY",
+      "path": ".devpilot/testing/frx_v2_2_d_environment_compatibility.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-BASELINE-07-E",
+      "path": "docs/audits/FRX_V2_2_D_BASELINE_07_E.json",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "historical",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FULL-REGRESSION-TEMPORAL-SHARD-PLAN-V2-2",
+      "path": "docs/schemas/full_regression_temporal_shard_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "FRX-v2.2-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FRX-V2-2-D-FULL-BENCHMARK",
+      "path": "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "FRX-v2.2-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-SOURCE-DELTA-MANIFEST",
+      "path": ".devpilot/testing/frx_v2_2_d_source_delta_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "PASS-CANDIDATE/PENDING-WINDOWS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
     }
   ],
   "last_registered_sprint": "FRX-v2.2-C",
@@ -34835,44 +35007,19 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "backlog_governance_scope": "POST-H-002..POST-H-034 plus POST-H-EVAL-002 planning sources",
-    "backlogs_missing_future_are_planned_info": true,
-    "critical_sources_total": 1299,
-    "deprecated_total": 0,
+    "documents_total": 1402,
+    "source_of_truth_total": 530,
+    "machine_readable_source_total": 730,
     "derived_total": 131,
-    "documents_checked_total": 1383,
-    "documents_registered_total": 1383,
-    "documents_total": 1394,
-    "documents_with_required_tests_total": 1394,
-    "external_api_used": false,
     "generated_runtime_total": 0,
-    "historical_total": 9,
-    "last_registered_sprint": "FRX-v2.2-C",
-    "last_updated_by": "FRX-v2.2-C-WINDOWS-CLOSURE",
-    "machine_readable_source_total": 725,
+    "historical_total": 11,
+    "deprecated_total": 0,
+    "critical_sources_total": 1307,
     "markdown_json_pairs_total": 65,
-    "markdown_json_sync_checks_enabled": true,
-    "mutations_performed": false,
+    "documents_with_required_tests_total": 1402,
     "network_used": false,
-    "preliminary": false,
-    "roadmap_derived_backlog_governance_enabled": true,
-    "source_of_truth_total": 529,
-    "sources_total": 1383,
-    "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
-    "uoc_003_registered_documents_total": 10,
-    "uoc_005_registered_documents_total": 4,
-    "uoc_007_registered_documents_total": 8,
-    "uoc_009_registered_documents_total": 8,
-    "updated": "2026-08-31",
-    "updated_by": "FRX-v2.2-C-WINDOWS-CLOSURE",
-    "gsdlc_last_registered_micro_sprint": "FRX-v2.2-C",
-    "gsdlc_active_program": "DEVPL-GSDLC",
-    "registered_documents": 1383,
-    "gsdlc_07_e_registered_documents_total": 20,
-    "gsdlc_program_status": "full-regression-v2.2/frx-v2.2-d-authorized",
-    "frx_v2_2_a_registered_documents_total": 22,
-    "frx_v2_2_b_registered_documents_total": 10,
-    "frx_v2_2_c_registered_documents_total": 11
+    "external_api_used": false,
+    "mutations_performed": false
   },
   "updated": "2026-08-31",
   "updated_at": "2026-08-30",

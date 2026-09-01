@@ -89,7 +89,7 @@ class ClosureStateConsistencyValidator:
                 'external_api_used': False,
                 'secrets_exposed': False,
                 'mutations_performed': False,
-                'full_regression_runs_consumed': int(state.get('gsdlc_07_e_full_regression_runs_consumed', 0) or 0),
+                'full_regression_runs_consumed': int(state.get('frx_v2_2_full_regression_runs_consumed', state.get('gsdlc_07_e_full_regression_runs_consumed', 0)) or 0),
             },
         }
         reports: dict[str, str] = {}

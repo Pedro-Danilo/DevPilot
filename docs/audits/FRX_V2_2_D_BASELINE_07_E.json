@@ -1,0 +1,18 @@
+{
+  "schema_id": "devpilot.frx.v2_2_d.baseline_07_e.v1",
+  "status": "PASS",
+  "source": "DEVPL-GSDLC-07-E-COMPOSITE-01 sealed receipts",
+  "receipts_total": 32,
+  "unique_shards_total": 29,
+  "infra_abort_receipts_total": 3,
+  "resume_receipts_total": 3,
+  "shard_wall_seconds": {
+    "sum": 13621.97,
+    "max": 1800.032,
+    "p95": 1800.031,
+    "mean": 425.686562,
+    "cv": 1.312454
+  },
+  "baseline_note": "Actual 07-E composite shard-attempt wall-clock evidence; includes infra-aborted attempts because v2.2 targets timeout/recovery overhead as well as balance.",
+  "full_rerun_performed": false
+}
