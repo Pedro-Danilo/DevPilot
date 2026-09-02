@@ -249,3 +249,5 @@ FRX-v2.3-C se encuentra `CLOSED/PASS/WINDOWS-VALIDATED`. Su shadow es `NO-GO`: n
 ## 13. Replan owner-approved tras C NO-GO
 
 FRX-v2.3-C cerró `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo394 con `Amdahl NO-GO`, 0 nodeids `PROVEN_PARALLEL_SAFE` y D no autorizado. El owner autoriza insertar FRX-v2.3-BR antes de D para obtener evidencia focal de aislamiento y promover candidatos de alto impacto sin consumir la full.
+
+FRX-v2.3-BR cerró `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo395 con `112` nodeids `PROVEN_PARALLEL_SAFE`, cobertura runtime `80.039%` y Amdahl successor `GO`. FRX-v2.3-D authorized=`true`; full consumida=0.

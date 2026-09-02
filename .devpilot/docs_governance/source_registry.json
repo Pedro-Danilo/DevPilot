@@ -33386,7 +33386,7 @@
       "classification": "derived",
       "domain": "governance.testing",
       "owner": "FRX-v2.3-BR",
-      "status_required": "WINDOWS-PENDING",
+      "status_required": "PASS",
       "criticality": "P1",
       "required_tests": [
         "tests/test_frx_v2_3_br_isolation_evidence.py"
@@ -33412,7 +33412,7 @@
       "classification": "derived",
       "domain": "governance.testing",
       "owner": "FRX-v2.3-BR",
-      "status_required": "WINDOWS-PENDING",
+      "status_required": "PASS",
       "criticality": "P1",
       "required_tests": [
         "tests/test_frx_v2_3_br_isolation_evidence.py"

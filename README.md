@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-FRX-v2.3 execution status (2026-09-02): `A/B/C = CLOSED/PASS/WINDOWS-VALIDATED`; C closed with `Amdahl NO-GO` and D remains unauthorized. Owner-approved `FRX-v2.3-BR` is the active successor to obtain explicit runtime-safe isolation evidence before any canary. General workers=0 and full=0.
+FRX-v2.3 execution status (2026-09-02): `A/B/C/BR = CLOSED/PASS/WINDOWS-VALIDATED`; BR successor Amdahl=`GO`, runtime-safe coverage=80.039%, D authorized=true. General-suite workers=0 and full=0.
 
 GSDLC-07 execution status (2026-09-02): `DEVPL-GSDLC-07 = CLOSED/PASS`; Full Regression v2.2 is `CLOSED/PASS`; FRX-v2.3 A/B/C are Windows-validated and BR is active to resolve C NO-GO without consuming the v2.3 full. DEVPL-GSDLC-08 remains deferred until v2.3 closes or owner adjudicates an early stop.
 

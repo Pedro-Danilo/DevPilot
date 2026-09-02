@@ -3186,3 +3186,4 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Added a 112-node runtime-ranked candidate envelope covering 80.039% of known normalized runtime; the envelope itself grants no parallel authorization.
 - General suite workers remain 0; full regression remains 0/1 and reserved for E.
 - Windows evidence will decide `PASS/GO-D` versus `PASS/NO-GO-D`.
+- FRX-v2.3-BR Windows PASS: 112 PROVEN_PARALLEL_SAFE, 80.039% runtime-safe, Amdahl GO, D authorized=true, full=0/general-workers=0.

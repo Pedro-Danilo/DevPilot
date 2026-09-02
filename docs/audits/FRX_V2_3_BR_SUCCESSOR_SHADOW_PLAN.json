@@ -1,9 +1,841 @@
 {
   "schema_id": "devpilot.testing.parallel_shadow_plan.v1",
-  "status": "WINDOWS-PENDING",
-  "created_by": "FRX-v2.3-BR",
-  "source": "successor-registry-after-Windows-evidence",
+  "status": "PASS",
+  "planner_version": "1.0.0",
+  "plan_identity": "42dbd5033a634d782acc75730f781748d8e750d14b4b165c12df255cbd872837",
+  "identity": {
+    "collection_sha256": "93328b22ce77c1c8ce58ca419883c844309ba815c32ab07a611ecc25f88111f6",
+    "isolation_sha256": "d02ffab2da8efc59675f859dbb2c3ff54f77a81f27f19e2b4cfd623a671279f7",
+    "normalized_duration_registry_sha256": "a8e40d695b1a904d0359daba0246a56f3f29da5b3b85b4b79368007bdd31406a",
+    "serial_baseline_sha256": "1e6a758d1e4f5276ef89e369b0b97bfedb182fd325f5b4dacd7629e4a94c5f5c",
+    "worker_slots_preview": 2,
+    "planner_version": "1.0.0"
+  },
+  "collection_total": 2893,
+  "registry_entries_total": 2893,
+  "implicit_unclassified_total": 0,
+  "safe_candidates_total": 112,
+  "serial_lane_total": 2781,
+  "unknown_serial_total": 2781,
+  "serial_required_total": 0,
+  "conflict_graph": {
+    "nodes": [
+      "tests/test_advanced_evals.py::test_quality_gate_ci_consumes_advanced_safety_evals",
+      "tests/test_agent_runtime.py::test_agent_runtime_runs_documentation_audit_on_target",
+      "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_blocks_secret_prompt_input_before_provider_payload_leaks",
+      "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_preserves_existing_agents_without_model",
+      "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_uses_mock_via_router_and_records_redacted_model_call",
+      "tests/test_agent_session.py::test_agent_runtime_can_reuse_existing_session",
+      "tests/test_agent_session.py::test_agent_runtime_creates_inspectable_session",
+      "tests/test_agent_session.py::test_agent_session_cli_json_and_write_report",
+      "tests/test_agentops_instrumentation.py::test_agent_runtime_persists_correlated_agentops_spans_and_metrics",
+      "tests/test_api_approvals_actions.py::test_action_launcher_runs_only_safe_dry_run_actions",
+      "tests/test_application_dto_normalization.py::test_post_h_007_c_priority_operations_return_schema_valid_application_response",
+      "tests/test_architecture_dependencies.py::test_architecture_dependencies_builder_materializes_edges_and_fan_metrics",
+      "tests/test_architecture_drift_repo.py::test_architecture_drift_cli_writes_report",
+      "tests/test_architecture_hotspots.py::test_architecture_hotspots_builder_ranks_top20_without_execution",
+      "tests/test_architecture_inventory.py::test_architecture_inventory_builder_discovers_ast_modules_without_execution",
+      "tests/test_architecture_map_report.py::test_architecture_map_builder_writes_raw_schema_valid_reports",
+      "tests/test_architecture_map_report.py::test_architecture_map_report_builder_validates_ownership_and_contract",
+      "tests/test_audit_pack.py::test_audit_pack_build_creates_clean_zip_with_manifest",
+      "tests/test_audit_pack.py::test_audit_pack_cli_build_and_verify_json_are_parseable",
+      "tests/test_audit_pack.py::test_audit_pack_verify_blocks_tampered_checksum",
+      "tests/test_audit_pack.py::test_audit_pack_verify_passes_for_generated_pack",
+      "tests/test_ci_workflow_scaffolding.py::test_quality_gate_ci_profile_static_workflow_validation_passes",
+      "tests/test_compliance_packs.py::test_compliance_run_baseline_uses_declared_gates_and_policy_engine",
+      "tests/test_compliance_packs.py::test_compliance_run_cli_json_and_report_are_parseable",
+      "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_exact_approval_apply_and_freeze_new_artifact",
+      "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_frozen_hash_drift_invalidates_successor_approval_state",
+      "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_wrong_role_freeze_and_approval_reuse_after_drift_are_blocked",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_blocking_validation_http_403_preserves_navigable_review_payload",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_branch_switch_with_changed_frozen_content_is_visible_and_invalidates",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_delete_is_detected_and_zero_hash_records_missing_source",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_exact_rename_is_detected_without_hidden_move",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_modify_invalidates_freeze_and_exposes_git_diff_provenance",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_manual_and_import_review_routes_remain_available",
+      "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_unchanged_frozen_artifact_remains_valid",
+      "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes",
+      "tests/test_devpl_gsdlc_07_c_agent_assist.py::test_accept_reject_modify_preserve_human_review_and_draft_history",
+      "tests/test_devpl_gsdlc_07_c_agent_assist.py::test_api_agent_assist_requires_human_session_and_returns_plan",
+      "tests/test_documentation_governance_backlogs.py::test_documentation_governance_report_command_includes_backlog_checks",
+      "tests/test_documentation_governance_backlogs.py::test_documentation_governance_validate_includes_backlog_governance",
+      "tests/test_documentation_governance_quality_gate.py::test_docs_governance_quality_subgate_wraps_validator_read_only",
+      "tests/test_documentation_governance_sync.py::test_documentation_governance_report_command_writes_sync_report",
+      "tests/test_documentation_governance_sync.py::test_documentation_governance_sync_passes_baseline",
+      "tests/test_documentation_governance_validator.py::test_docs_governance_cli_validate_json_is_parseable",
+      "tests/test_documentation_governance_validator.py::test_documentation_governance_validator_passes_baseline",
+      "tests/test_documentation_governance_validator.py::test_documentation_governance_write_report_validates_against_schema",
+      "tests/test_eval_runner.py::test_eval_runner_documentation_suite_passes",
+      "tests/test_multiagent_coordinator.py::test_multiagent_cli_json_and_report_are_parseable",
+      "tests/test_multiagent_coordinator.py::test_multiagent_repo_review_dry_run_has_explicit_traced_handoffs",
+      "tests/test_multiagent_workflow.py::test_sdlc_workflow_cli_json_and_report_are_parseable",
+      "tests/test_multiagent_workflow.py::test_sdlc_workflow_contract_runs_dry_run_and_consolidates_report",
+      "tests/test_patch_sandbox.py::test_patch_sandbox_cleanup_removes_runtime_directory",
+      "tests/test_post_h_006_c_handler_migration.py::test_post_h_006_c_validate_scope_handler_matches_cli_docs_contracts_all",
+      "tests/test_post_h_010_observability_retention.py::test_post_h_010_source_registry_and_docs_governance_pass",
+      "tests/test_post_h_011_rag_groundedness.py::test_post_h_011_source_registry_and_docs_governance_pass",
+      "tests/test_post_h_012_approval_rbac_hardening.py::test_post_h_012_source_registry_and_contracts_are_registered",
+      "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_cli_json_is_parseable",
+      "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_crypto_optional_dry_run_requires_explicit_flags",
+      "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_dry_run_does_not_write_pack_artifacts",
+      "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_execute_writes_zip_manifest_and_redaction_report",
+      "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_blocks_hash_mismatch",
+      "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_blocks_missing_declared_file",
+      "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_passes_clean_pack_and_writes_integrity_report",
+      "tests/test_post_h_014_ui_api_shell_gate.py::test_post_h_014_e_ui_api_shell_gate_passes_and_writes_schema_valid_report",
+      "tests/test_post_h_018_connector_policy_binding.py::test_post_h_018_d_cli_exposes_connector_policy_exposure_report",
+      "tests/test_post_h_018_connector_policy_binding.py::test_post_h_018_d_exposure_report_lists_connectors_by_risk_and_blocks_future_write",
+      "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_connector_sandbox_quality_gate_passes_without_network_or_write",
+      "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_hardening_profile_registers_connector_sandbox_subgate",
+      "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_quality_gate_cli_json_can_report_connector_sandbox_subgate",
+      "tests/test_post_h_020_compliance_mapping_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+      "tests/test_post_h_020_compliance_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+      "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_cli_command_is_available",
+      "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_registered_in_tcr_v2_impact_and_quality_gate",
+      "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_blocks_forbidden_claim_fixture",
+      "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_passes_without_network_or_shell",
+      "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_write_report_validates_schema",
+      "tests/test_post_h_027_artifact_manifest_checksums.py::test_release_artifact_manifest_passes_and_writes_checksums",
+      "tests/test_post_h_027_source_zip_policy.py::test_package_build_repo_zip_uses_policy_and_artifact_passes_policy",
+      "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_blocks_bad_candidate_zip",
+      "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_cli_json_is_available",
+      "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_json_and_report_validate_against_schemas",
+      "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_passes_without_network_or_mutations",
+      "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_cli_json_and_report",
+      "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_passes_baseline_without_source_mutations",
+      "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_writes_schema_valid_report_under_explicit_output",
+      "tests/test_post_h_030_industrial_readiness_command_extraction.py::test_post_h_030_b_cli_json_contract_matches_extracted_handlers",
+      "tests/test_post_h_030_release_command_extraction.py::test_post_h_030_c_cli_json_contract_matches_selected_extracted_handlers",
+      "tests/test_post_h_031_redacted_evidence_export_ux.py::test_operator_evidence_export_cli_json_dry_run_and_write_report",
+      "tests/test_post_h_033_docs_governance_rule_registry.py::test_post_h_033_f_docs_governance_report_exposes_rule_source_and_version",
+      "tests/test_prompt_registry.py::test_prompt_cli_commands_are_json_parseable",
+      "tests/test_quality_gate.py::test_quality_gate_ci_profile_adds_workflow_static_subgate",
+      "tests/test_quality_gate.py::test_quality_gate_full_profile_adds_extended_local_subgates",
+      "tests/test_quality_gate.py::test_quality_gate_hardening_profile_includes_post_h_subgates",
+      "tests/test_rag_groundedness_eval_runner.py::test_post_h_011_d_eval_runner_integrates_rag_query_and_groundedness",
+      "tests/test_rag_groundedness_ready_gate.py::test_post_h_011_e_cli_report_still_validates_when_written",
+      "tests/test_rag_groundedness_ready_gate.py::test_rag_groundedness_ready_gate_passes_offline_without_writing_outputs",
+      "tests/test_release_agent.py::test_quality_gate_release_profile_passes",
+      "tests/test_release_agent.py::test_release_agent_cli_json_and_report_are_parseable",
+      "tests/test_release_agent.py::test_release_agent_runs_in_dry_run_and_reports_evidence",
+      "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_runs_read_only_without_model",
+      "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_uses_mock_model_aware_path",
+      "tests/test_repo_analyzer.py::test_repo_analyzer_cli_writes_report",
+      "tests/test_repo_engineering_gate.py::test_repo_engineering_gate_quick_passes_without_mutations",
+      "tests/test_repo_quality_gate.py::test_repo_quality_gate_cli_writes_report",
+      "tests/test_sdlc_agents.py::test_sdlc_agent_aliases_remain_monoagent_and_local_on_small_fixtures",
+      "tests/test_sdlc_agents.py::test_security_agent_detects_secret_fixture_without_exposing_raw_secret",
+      "tests/test_security_readiness.py::test_security_readiness_cli_writes_report",
+      "tests/test_security_readiness.py::test_security_readiness_passes_against_repo",
+      "tests/test_validation_gateway.py::test_validate_all_cli_write_report",
+      "tests/test_validation_gateway.py::test_validate_contracts_cli_json_is_parseable",
+      "tests/test_validation_gateway.py::test_validation_gateway_all_combines_docs_and_contracts",
+      "tests/test_validation_gateway.py::test_validation_gateway_contracts_runs_schema_contract_group",
+      "tests/test_workspace_git_operations_service.py::test_commit_requires_second_approval_explicit_identity_and_skips_hooks"
+    ],
+    "edges": [],
+    "edges_total": 0
+  },
+  "shadow_waves": [
+    {
+      "nodeids": [
+        "tests/test_repo_engineering_gate.py::test_repo_engineering_gate_quick_passes_without_mutations",
+        "tests/test_multiagent_workflow.py::test_sdlc_workflow_contract_runs_dry_run_and_consolidates_report"
+      ],
+      "node_runtime_seconds": [
+        774.736226,
+        542.642425
+      ],
+      "predicted_seconds": 774.736226,
+      "wave_id": "shadow-wave-0001"
+    },
+    {
+      "nodeids": [
+        "tests/test_multiagent_workflow.py::test_sdlc_workflow_cli_json_and_report_are_parseable",
+        "tests/test_application_dto_normalization.py::test_post_h_007_c_priority_operations_return_schema_valid_application_response"
+      ],
+      "node_runtime_seconds": [
+        538.567238,
+        417.614315
+      ],
+      "predicted_seconds": 538.567238,
+      "wave_id": "shadow-wave-0002"
+    },
+    {
+      "nodeids": [
+        "tests/test_architecture_drift_repo.py::test_architecture_drift_cli_writes_report",
+        "tests/test_repo_quality_gate.py::test_repo_quality_gate_cli_writes_report"
+      ],
+      "node_runtime_seconds": [
+        415.677313,
+        388.506748
+      ],
+      "predicted_seconds": 415.677313,
+      "wave_id": "shadow-wave-0003"
+    },
+    {
+      "nodeids": [
+        "tests/test_repo_analyzer.py::test_repo_analyzer_cli_writes_report",
+        "tests/test_eval_runner.py::test_eval_runner_documentation_suite_passes"
+      ],
+      "node_runtime_seconds": [
+        385.181546,
+        234.876888
+      ],
+      "predicted_seconds": 385.181546,
+      "wave_id": "shadow-wave-0004"
+    },
+    {
+      "nodeids": [
+        "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes",
+        "tests/test_audit_pack.py::test_audit_pack_verify_passes_for_generated_pack"
+      ],
+      "node_runtime_seconds": [
+        202.160937,
+        137.005934
+      ],
+      "predicted_seconds": 202.160937,
+      "wave_id": "shadow-wave-0005"
+    },
+    {
+      "nodeids": [
+        "tests/test_audit_pack.py::test_audit_pack_cli_build_and_verify_json_are_parseable",
+        "tests/test_audit_pack.py::test_audit_pack_verify_blocks_tampered_checksum"
+      ],
+      "node_runtime_seconds": [
+        136.708927,
+        135.408884
+      ],
+      "predicted_seconds": 136.708927,
+      "wave_id": "shadow-wave-0006"
+    },
+    {
+      "nodeids": [
+        "tests/test_multiagent_coordinator.py::test_multiagent_repo_review_dry_run_has_explicit_traced_handoffs",
+        "tests/test_multiagent_coordinator.py::test_multiagent_cli_json_and_report_are_parseable"
+      ],
+      "node_runtime_seconds": [
+        125.907724,
+        125.125188
+      ],
+      "predicted_seconds": 125.907724,
+      "wave_id": "shadow-wave-0007"
+    },
+    {
+      "nodeids": [
+        "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_uses_mock_model_aware_path",
+        "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_runs_read_only_without_model"
+      ],
+      "node_runtime_seconds": [
+        110.702213,
+        109.529808
+      ],
+      "predicted_seconds": 110.702213,
+      "wave_id": "shadow-wave-0008"
+    },
+    {
+      "nodeids": [
+        "tests/test_agent_session.py::test_agent_runtime_can_reuse_existing_session",
+        "tests/test_post_h_006_c_handler_migration.py::test_post_h_006_c_validate_scope_handler_matches_cli_docs_contracts_all"
+      ],
+      "node_runtime_seconds": [
+        100.193559,
+        95.058053
+      ],
+      "predicted_seconds": 100.193559,
+      "wave_id": "shadow-wave-0009"
+    },
+    {
+      "nodeids": [
+        "tests/test_documentation_governance_backlogs.py::test_documentation_governance_report_command_includes_backlog_checks",
+        "tests/test_documentation_governance_quality_gate.py::test_docs_governance_quality_subgate_wraps_validator_read_only"
+      ],
+      "node_runtime_seconds": [
+        93.33487,
+        92.278666
+      ],
+      "predicted_seconds": 93.33487,
+      "wave_id": "shadow-wave-0010"
+    },
+    {
+      "nodeids": [
+        "tests/test_documentation_governance_backlogs.py::test_documentation_governance_validate_includes_backlog_governance",
+        "tests/test_audit_pack.py::test_audit_pack_build_creates_clean_zip_with_manifest"
+      ],
+      "node_runtime_seconds": [
+        92.099709,
+        68.80775
+      ],
+      "predicted_seconds": 92.099709,
+      "wave_id": "shadow-wave-0011"
+    },
+    {
+      "nodeids": [
+        "tests/test_architecture_map_report.py::test_architecture_map_builder_writes_raw_schema_valid_reports",
+        "tests/test_architecture_map_report.py::test_architecture_map_report_builder_validates_ownership_and_contract"
+      ],
+      "node_runtime_seconds": [
+        67.532513,
+        67.017746
+      ],
+      "predicted_seconds": 67.532513,
+      "wave_id": "shadow-wave-0012"
+    },
+    {
+      "nodeids": [
+        "tests/test_architecture_dependencies.py::test_architecture_dependencies_builder_materializes_edges_and_fan_metrics",
+        "tests/test_architecture_hotspots.py::test_architecture_hotspots_builder_ranks_top20_without_execution"
+      ],
+      "node_runtime_seconds": [
+        66.455132,
+        64.157377
+      ],
+      "predicted_seconds": 66.455132,
+      "wave_id": "shadow-wave-0013"
+    },
+    {
+      "nodeids": [
+        "tests/test_architecture_inventory.py::test_architecture_inventory_builder_discovers_ast_modules_without_execution",
+        "tests/test_agent_session.py::test_agent_session_cli_json_and_write_report"
+      ],
+      "node_runtime_seconds": [
+        62.896325,
+        53.829641
+      ],
+      "predicted_seconds": 62.896325,
+      "wave_id": "shadow-wave-0014"
+    },
+    {
+      "nodeids": [
+        "tests/test_agent_session.py::test_agent_runtime_creates_inspectable_session",
+        "tests/test_release_agent.py::test_release_agent_cli_json_and_report_are_parseable"
+      ],
+      "node_runtime_seconds": [
+        50.374213,
+        49.037165
+      ],
+      "predicted_seconds": 50.374213,
+      "wave_id": "shadow-wave-0015"
+    },
+    {
+      "nodeids": [
+        "tests/test_release_agent.py::test_release_agent_runs_in_dry_run_and_reports_evidence",
+        "tests/test_post_h_030_release_command_extraction.py::test_post_h_030_c_cli_json_contract_matches_selected_extracted_handlers"
+      ],
+      "node_runtime_seconds": [
+        48.623089,
+        46.224476
+      ],
+      "predicted_seconds": 48.623089,
+      "wave_id": "shadow-wave-0016"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_027_source_zip_policy.py::test_package_build_repo_zip_uses_policy_and_artifact_passes_policy",
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_manual_and_import_review_routes_remain_available"
+      ],
+      "node_runtime_seconds": [
+        42.935324,
+        42.792123
+      ],
+      "predicted_seconds": 42.935324,
+      "wave_id": "shadow-wave-0017"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_passes_without_network_or_shell",
+        "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_passes_baseline_without_source_mutations"
+      ],
+      "node_runtime_seconds": [
+        41.238204,
+        40.839047
+      ],
+      "predicted_seconds": 41.238204,
+      "wave_id": "shadow-wave-0018"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_registered_in_tcr_v2_impact_and_quality_gate",
+        "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_cli_command_is_available"
+      ],
+      "node_runtime_seconds": [
+        40.254533,
+        39.505748
+      ],
+      "predicted_seconds": 40.254533,
+      "wave_id": "shadow-wave-0019"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_write_report_validates_schema",
+        "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_blocks_forbidden_claim_fixture"
+      ],
+      "node_runtime_seconds": [
+        39.123696,
+        39.063037
+      ],
+      "predicted_seconds": 39.123696,
+      "wave_id": "shadow-wave-0020"
+    },
+    {
+      "nodeids": [
+        "tests/test_sdlc_agents.py::test_sdlc_agent_aliases_remain_monoagent_and_local_on_small_fixtures",
+        "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_cli_json_and_report"
+      ],
+      "node_runtime_seconds": [
+        37.235849,
+        37.005764
+      ],
+      "predicted_seconds": 37.235849,
+      "wave_id": "shadow-wave-0021"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_writes_schema_valid_report_under_explicit_output",
+        "tests/test_post_h_010_observability_retention.py::test_post_h_010_source_registry_and_docs_governance_pass"
+      ],
+      "node_runtime_seconds": [
+        36.517694,
+        34.274702
+      ],
+      "predicted_seconds": 36.517694,
+      "wave_id": "shadow-wave-0022"
+    },
+    {
+      "nodeids": [
+        "tests/test_advanced_evals.py::test_quality_gate_ci_consumes_advanced_safety_evals",
+        "tests/test_post_h_012_approval_rbac_hardening.py::test_post_h_012_source_registry_and_contracts_are_registered"
+      ],
+      "node_runtime_seconds": [
+        34.216042,
+        34.038034
+      ],
+      "predicted_seconds": 34.216042,
+      "wave_id": "shadow-wave-0023"
+    },
+    {
+      "nodeids": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_branch_switch_with_changed_frozen_content_is_visible_and_invalidates",
+        "tests/test_post_h_011_rag_groundedness.py::test_post_h_011_source_registry_and_docs_governance_pass"
+      ],
+      "node_runtime_seconds": [
+        33.866438,
+        33.849589
+      ],
+      "predicted_seconds": 33.866438,
+      "wave_id": "shadow-wave-0024"
+    },
+    {
+      "nodeids": [
+        "tests/test_documentation_governance_sync.py::test_documentation_governance_report_command_writes_sync_report",
+        "tests/test_documentation_governance_validator.py::test_documentation_governance_write_report_validates_against_schema"
+      ],
+      "node_runtime_seconds": [
+        33.83847,
+        33.832166
+      ],
+      "predicted_seconds": 33.83847,
+      "wave_id": "shadow-wave-0025"
+    },
+    {
+      "nodeids": [
+        "tests/test_documentation_governance_validator.py::test_documentation_governance_validator_passes_baseline",
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_exact_rename_is_detected_without_hidden_move"
+      ],
+      "node_runtime_seconds": [
+        33.755153,
+        33.732156
+      ],
+      "predicted_seconds": 33.755153,
+      "wave_id": "shadow-wave-0026"
+    },
+    {
+      "nodeids": [
+        "tests/test_documentation_governance_validator.py::test_docs_governance_cli_validate_json_is_parseable",
+        "tests/test_post_h_033_docs_governance_rule_registry.py::test_post_h_033_f_docs_governance_report_exposes_rule_source_and_version"
+      ],
+      "node_runtime_seconds": [
+        33.419923,
+        33.416382
+      ],
+      "predicted_seconds": 33.419923,
+      "wave_id": "shadow-wave-0027"
+    },
+    {
+      "nodeids": [
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_modify_invalidates_freeze_and_exposes_git_diff_provenance",
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_unchanged_frozen_artifact_remains_valid"
+      ],
+      "node_runtime_seconds": [
+        33.236496,
+        33.113249
+      ],
+      "predicted_seconds": 33.236496,
+      "wave_id": "shadow-wave-0028"
+    },
+    {
+      "nodeids": [
+        "tests/test_documentation_governance_sync.py::test_documentation_governance_sync_passes_baseline",
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_delete_is_detected_and_zero_hash_records_missing_source"
+      ],
+      "node_runtime_seconds": [
+        32.907005,
+        32.797342
+      ],
+      "predicted_seconds": 32.907005,
+      "wave_id": "shadow-wave-0029"
+    },
+    {
+      "nodeids": [
+        "tests/test_release_agent.py::test_quality_gate_release_profile_passes",
+        "tests/test_compliance_packs.py::test_compliance_run_cli_json_and_report_are_parseable"
+      ],
+      "node_runtime_seconds": [
+        31.559522,
+        30.892772
+      ],
+      "predicted_seconds": 31.559522,
+      "wave_id": "shadow-wave-0030"
+    },
+    {
+      "nodeids": [
+        "tests/test_ci_workflow_scaffolding.py::test_quality_gate_ci_profile_static_workflow_validation_passes",
+        "tests/test_compliance_packs.py::test_compliance_run_baseline_uses_declared_gates_and_policy_engine"
+      ],
+      "node_runtime_seconds": [
+        30.623134,
+        29.861536
+      ],
+      "predicted_seconds": 30.623134,
+      "wave_id": "shadow-wave-0031"
+    },
+    {
+      "nodeids": [
+        "tests/test_quality_gate.py::test_quality_gate_full_profile_adds_extended_local_subgates",
+        "tests/test_quality_gate.py::test_quality_gate_ci_profile_adds_workflow_static_subgate"
+      ],
+      "node_runtime_seconds": [
+        28.678313,
+        28.533673
+      ],
+      "predicted_seconds": 28.678313,
+      "wave_id": "shadow-wave-0032"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_passes_without_network_or_mutations",
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py::test_accept_reject_modify_preserve_human_review_and_draft_history"
+      ],
+      "node_runtime_seconds": [
+        27.20817,
+        24.252673
+      ],
+      "predicted_seconds": 27.20817,
+      "wave_id": "shadow-wave-0033"
+    },
+    {
+      "nodeids": [
+        "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_uses_mock_via_router_and_records_redacted_model_call",
+        "tests/test_agentops_instrumentation.py::test_agent_runtime_persists_correlated_agentops_spans_and_metrics"
+      ],
+      "node_runtime_seconds": [
+        23.431732,
+        22.961988
+      ],
+      "predicted_seconds": 23.431732,
+      "wave_id": "shadow-wave-0034"
+    },
+    {
+      "nodeids": [
+        "tests/test_validation_gateway.py::test_validate_all_cli_write_report",
+        "tests/test_validation_gateway.py::test_validation_gateway_all_combines_docs_and_contracts"
+      ],
+      "node_runtime_seconds": [
+        22.748318,
+        21.866329
+      ],
+      "predicted_seconds": 22.748318,
+      "wave_id": "shadow-wave-0035"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_cli_json_is_available",
+        "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_json_and_report_validate_against_schemas"
+      ],
+      "node_runtime_seconds": [
+        21.460748,
+        21.148356
+      ],
+      "predicted_seconds": 21.460748,
+      "wave_id": "shadow-wave-0036"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_blocks_bad_candidate_zip",
+        "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_blocks_secret_prompt_input_before_provider_payload_leaks"
+      ],
+      "node_runtime_seconds": [
+        21.033732,
+        21.00394
+      ],
+      "predicted_seconds": 21.033732,
+      "wave_id": "shadow-wave-0037"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_execute_writes_zip_manifest_and_redaction_report",
+        "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_dry_run_does_not_write_pack_artifacts"
+      ],
+      "node_runtime_seconds": [
+        20.364874,
+        20.341474
+      ],
+      "predicted_seconds": 20.364874,
+      "wave_id": "shadow-wave-0038"
+    },
+    {
+      "nodeids": [
+        "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_preserves_existing_agents_without_model",
+        "tests/test_agent_runtime.py::test_agent_runtime_runs_documentation_audit_on_target"
+      ],
+      "node_runtime_seconds": [
+        20.312372,
+        19.865904
+      ],
+      "predicted_seconds": 20.312372,
+      "wave_id": "shadow-wave-0039"
+    },
+    {
+      "nodeids": [
+        "tests/test_quality_gate.py::test_quality_gate_hardening_profile_includes_post_h_subgates",
+        "tests/test_sdlc_agents.py::test_security_agent_detects_secret_fixture_without_exposing_raw_secret"
+      ],
+      "node_runtime_seconds": [
+        19.657119,
+        16.65167
+      ],
+      "predicted_seconds": 19.657119,
+      "wave_id": "shadow-wave-0040"
+    },
+    {
+      "nodeids": [
+        "tests/test_validation_gateway.py::test_validate_contracts_cli_json_is_parseable",
+        "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_quality_gate_cli_json_can_report_connector_sandbox_subgate"
+      ],
+      "node_runtime_seconds": [
+        16.299617,
+        16.119921
+      ],
+      "predicted_seconds": 16.299617,
+      "wave_id": "shadow-wave-0041"
+    },
+    {
+      "nodeids": [
+        "tests/test_rag_groundedness_ready_gate.py::test_rag_groundedness_ready_gate_passes_offline_without_writing_outputs",
+        "tests/test_security_readiness.py::test_security_readiness_cli_writes_report"
+      ],
+      "node_runtime_seconds": [
+        16.069158,
+        15.962829
+      ],
+      "predicted_seconds": 16.069158,
+      "wave_id": "shadow-wave-0042"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_hardening_profile_registers_connector_sandbox_subgate",
+        "tests/test_validation_gateway.py::test_validation_gateway_contracts_runs_schema_contract_group"
+      ],
+      "node_runtime_seconds": [
+        15.636232,
+        15.537577
+      ],
+      "predicted_seconds": 15.636232,
+      "wave_id": "shadow-wave-0043"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_connector_sandbox_quality_gate_passes_without_network_or_write",
+        "tests/test_api_approvals_actions.py::test_action_launcher_runs_only_safe_dry_run_actions"
+      ],
+      "node_runtime_seconds": [
+        15.513317,
+        15.338805
+      ],
+      "predicted_seconds": 15.513317,
+      "wave_id": "shadow-wave-0044"
+    },
+    {
+      "nodeids": [
+        "tests/test_security_readiness.py::test_security_readiness_passes_against_repo",
+        "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_cli_json_is_parseable"
+      ],
+      "node_runtime_seconds": [
+        15.247662,
+        15.219216
+      ],
+      "predicted_seconds": 15.247662,
+      "wave_id": "shadow-wave-0045"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py::test_release_artifact_manifest_passes_and_writes_checksums",
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py::test_api_agent_assist_requires_human_session_and_returns_plan"
+      ],
+      "node_runtime_seconds": [
+        15.090675,
+        15.024373
+      ],
+      "predicted_seconds": 15.090675,
+      "wave_id": "shadow-wave-0046"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_030_industrial_readiness_command_extraction.py::test_post_h_030_b_cli_json_contract_matches_extracted_handlers",
+        "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_blocks_missing_declared_file"
+      ],
+      "node_runtime_seconds": [
+        14.020559,
+        13.898323
+      ],
+      "predicted_seconds": 14.020559,
+      "wave_id": "shadow-wave-0047"
+    },
+    {
+      "nodeids": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_wrong_role_freeze_and_approval_reuse_after_drift_are_blocked",
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_exact_approval_apply_and_freeze_new_artifact"
+      ],
+      "node_runtime_seconds": [
+        13.817389,
+        13.680524
+      ],
+      "predicted_seconds": 13.817389,
+      "wave_id": "shadow-wave-0048"
+    },
+    {
+      "nodeids": [
+        "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_frozen_hash_drift_invalidates_successor_approval_state",
+        "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_blocking_validation_http_403_preserves_navigable_review_payload"
+      ],
+      "node_runtime_seconds": [
+        13.11398,
+        12.544567
+      ],
+      "predicted_seconds": 13.11398,
+      "wave_id": "shadow-wave-0049"
+    },
+    {
+      "nodeids": [
+        "tests/test_rag_groundedness_ready_gate.py::test_post_h_011_e_cli_report_still_validates_when_written",
+        "tests/test_workspace_git_operations_service.py::test_commit_requires_second_approval_explicit_identity_and_skips_hooks"
+      ],
+      "node_runtime_seconds": [
+        12.469156,
+        12.280624
+      ],
+      "predicted_seconds": 12.469156,
+      "wave_id": "shadow-wave-0050"
+    },
+    {
+      "nodeids": [
+        "tests/test_patch_sandbox.py::test_patch_sandbox_cleanup_removes_runtime_directory",
+        "tests/test_post_h_014_ui_api_shell_gate.py::test_post_h_014_e_ui_api_shell_gate_passes_and_writes_schema_valid_report"
+      ],
+      "node_runtime_seconds": [
+        12.147747,
+        12.071947
+      ],
+      "predicted_seconds": 12.147747,
+      "wave_id": "shadow-wave-0051"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_018_connector_policy_binding.py::test_post_h_018_d_cli_exposes_connector_policy_exposure_report",
+        "tests/test_rag_groundedness_eval_runner.py::test_post_h_011_d_eval_runner_integrates_rag_query_and_groundedness"
+      ],
+      "node_runtime_seconds": [
+        11.92736,
+        11.892897
+      ],
+      "predicted_seconds": 11.92736,
+      "wave_id": "shadow-wave-0052"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_crypto_optional_dry_run_requires_explicit_flags",
+        "tests/test_prompt_registry.py::test_prompt_cli_commands_are_json_parseable"
+      ],
+      "node_runtime_seconds": [
+        11.755177,
+        11.748928
+      ],
+      "predicted_seconds": 11.755177,
+      "wave_id": "shadow-wave-0053"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_018_connector_policy_binding.py::test_post_h_018_d_exposure_report_lists_connectors_by_risk_and_blocks_future_write",
+        "tests/test_post_h_031_redacted_evidence_export_ux.py::test_operator_evidence_export_cli_json_dry_run_and_write_report"
+      ],
+      "node_runtime_seconds": [
+        11.65922,
+        11.530707
+      ],
+      "predicted_seconds": 11.65922,
+      "wave_id": "shadow-wave-0054"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_blocks_hash_mismatch",
+        "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_passes_clean_pack_and_writes_integrity_report"
+      ],
+      "node_runtime_seconds": [
+        11.342669,
+        11.338558
+      ],
+      "predicted_seconds": 11.342669,
+      "wave_id": "shadow-wave-0055"
+    },
+    {
+      "nodeids": [
+        "tests/test_post_h_020_compliance_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+        "tests/test_post_h_020_compliance_mapping_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes"
+      ],
+      "node_runtime_seconds": [
+        11.330354,
+        11.32661
+      ],
+      "predicted_seconds": 11.330354,
+      "wave_id": "shadow-wave-0056"
+    }
+  ],
+  "shadow_waves_total": 56,
+  "worker_slots_preview": 2,
   "workers_executed": 0,
   "full_runs": 0,
-  "frx_v2_3_d_authorized": false
+  "runtime_known_seconds_total": 9740.888787,
+  "safe_runtime_seconds": 7796.491791,
+  "serial_runtime_seconds": 1944.396996,
+  "runtime_weighted_safe_coverage_percent": 80.038813,
+  "serial_fraction_percent": 19.961187,
+  "lock_contention_edges_total": 0,
+  "predicted_parallel_known_runtime_seconds": 6172.611663,
+  "projected_incremental_parallel_reduction_percent": 36.631946,
+  "historical_observed_total_improvement_projection_percent": 83.314,
+  "normalized_serial_comparison_authoritative": true,
+  "historical_observed_comparison_reporting_only": true,
+  "amdahl_feasibility": {
+    "target_parallel_reduction_percent": 30.0,
+    "required_runtime_parallelizable_fraction_ideal": 0.6,
+    "actual_runtime_parallel_safe_fraction": 0.800388,
+    "explicit_overhead_seconds": 0.0,
+    "feasible_for_canary": true,
+    "decision": "GO",
+    "reason": "sufficient proven-safe runtime coverage"
+  },
+  "frx_v2_3_d_authorized": true,
+  "execution_disabled": true,
+  "created_by": "FRX-v2.3-BR",
+  "windows_validated": true
 }

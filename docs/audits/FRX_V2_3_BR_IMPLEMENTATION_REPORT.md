@@ -5,7 +5,7 @@ status: "implemented-initial"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-02"
-approval: "local-validation-pass"
+approval: "windows-validated"
 ---
 # FRX-v2.3-BR — Implementation report
 
@@ -45,3 +45,11 @@ Esta es una primera versión de evidencia de aislamiento. El contrato por clone 
 - browser/API externos: `0`.
 
 La proyección local que asume que los tres contract probes Windows pasan es únicamente orientativa y **no autoriza D**. La autoridad de promoción y Amdahl será la evidencia Windows de BR.
+
+## Resultado Windows
+
+- successor safe total: `112`;
+- runtime-safe coverage: `80.039%`;
+- Amdahl successor: `GO`;
+- FRX-v2.3-D authorized: `true`;
+- full regression: `0`; general-suite workers: `0`.
