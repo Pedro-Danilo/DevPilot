@@ -3165,3 +3165,10 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Replaces Git-clean per-file source sealing with bounded commit/tree semantics and dirty-fast-BLOCK.
 - Adds nodeid-manifest shard transport and a normalized 2844-node serial shadow plan: 57 -> 15 projected processes (73.684% reduction).
 - Workers=0, full regression runs=0; Windows performance acceptance remains pending.
+
+## 2026-09-02 — FRX-v2.3-A Windows validation closure
+- CLOSED/PASS/WINDOWS-VALIDATED.
+- Binding-only RUN-06 set: 2.306 s, reduction 99.921% vs 2931.421 s.
+- Canonical hardening: duplicate canonical executions=0; explicit scoped reuses=9.
+- Normalized serial plan: 57 -> 15 projected processes; workers=0; full=0.
+- FRX-v2.3-B authorized; no parallelism implemented in A.

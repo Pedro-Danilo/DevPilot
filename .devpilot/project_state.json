@@ -18,7 +18,7 @@
   "credentials_required": false,
   "current_micro_sprint": "DEVPL-GSDLC-07-E",
   "current_phase": "DEVPL-GSDLC-07",
-  "current_repo": "repo_DevPilot_Local_391_FRX_V2_2_D_COMPOSITE_RECOVERY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_392_FRX_V2_3_A_COST_DEDUP_SERIAL_BASELINE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "dynamic_import_allowed": false,
   "enterprise_deployment_enabled": false,
   "enterprise_ready_claimed": false,
@@ -3479,10 +3479,10 @@
   "frx_v2_2_d_windows_validation_status": "CLOSED/PASS/COMPOSITE-RECOVERY",
   "frx_v2_2_d_composite_recovery_status": "PASS/44-OF-44/31+13",
   "frx_v2_2_d_scheduler_enabled_after_benchmark": false,
-  "frx_v2_2_performance_gap_status": "OPEN/P0/QUALITY-GATE-BINDING-DEDUP",
+  "frx_v2_2_performance_gap_status": "CLOSED/FRX-v2.3-A/QUALITY-GATE-BINDING-DEDUP",
   "frx_v2_3_a_entry_prerequisite": "P0-quality-gate-binding-dedup-before-parallel-canary",
   "frx_v2_3_a_authorized": true,
-  "frx_v2_3_a_status": "IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PENDING",
+  "frx_v2_3_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "frx_v2_3_a_parent_repo": "repo_DevPilot_Local_391_FRX_V2_2_D_COMPOSITE_RECOVERY_WINDOWS_VALIDATED_CANDIDATE.zip",
   "frx_v2_3_a_parent_commit": "94a457748d7a1e1a33a203421efff4f83f459807",
   "frx_v2_3_a_full_regression_runs": 0,
@@ -3494,5 +3494,10 @@
   "frx_v2_3_a_normalized_shadow_processes": 15,
   "frx_v2_3_a_process_reduction_percent": 73.684,
   "frx_v2_3_a_nodeid_transport": "manifest",
-  "frx_v2_3_b_authorized": false
+  "frx_v2_3_b_authorized": true,
+  "frx_v2_3_a_windows_validation_status": "CLOSED/PASS",
+  "frx_v2_3_a_binding_windows_seconds": 2.306,
+  "frx_v2_3_a_binding_windows_reduction_percent": 99.921,
+  "frx_v2_3_a_hardening_duplicate_component_executions_total": 0,
+  "frx_v2_3_a_hardening_components_reused_total": 9
 }

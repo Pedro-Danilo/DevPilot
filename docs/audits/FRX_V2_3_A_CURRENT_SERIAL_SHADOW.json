@@ -16,6 +16,10 @@
     "Historical v2.2 wall-clock remains separate from normalized serial baseline.",
     "A performs no full and no parallel worker execution."
   ],
+  "windows_validation_status": "PASS",
+  "binding_cost_windows_after_seconds": 2.306,
+  "binding_cost_windows_reduction_percent": 99.921,
+  "windows_validated_at": "2026-09-02T13:35:22.247876-05:00",
   "baseline_kind": "current-collection-shadow",
   "current_collection_recalculated": true
 }

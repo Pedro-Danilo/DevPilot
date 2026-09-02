@@ -44,3 +44,11 @@ Remove demonstrated regression-work duplication before any isolation or parallel
 
 ## PASS/BLOCK
 PASS only when the Windows operator demonstrates the binding cost threshold, aggregate de-dup, Git source-seal invariants and normalized serial shadow invariants without any full regression.
+
+## Windows validation
+- Result: `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Exact eight RUN-06 binding tests (RUN-00 for this sprint): `2.306 s`; reduction `99.921%` vs `2931.421 s`.
+- Canonical hardening: `46` subgates PASS; `duplicate_component_executions_total=0`; scoped reuses `9`.
+- Historical normalized shadow after focal Windows duration ingestion: `57 -> 15` processes (`73.684%`).
+- Full regression runs: `0`; parallel workers: `0`; browser runs: `0`.
+- FRX-v2.3-B authorized.

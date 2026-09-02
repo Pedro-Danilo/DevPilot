@@ -1,6 +1,6 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-FRX-v2.3 execution status (2026-09-02): `FRX-v2.2 = CLOSED/PASS`; `FRX-v2.3-A = IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PENDING`; `FRX-v2.3-B` remains unauthorized until Windows acceptance of A. A removes duplicate aggregate work and normalizes serial planning; workers=0 and full=0.
+FRX-v2.3 execution status (2026-09-02): `FRX-v2.2 = CLOSED/PASS`; `FRX-v2.3-A = CLOSED/PASS/WINDOWS-VALIDATED`; `FRX-v2.3-B = AUTHORIZED`. A closed with binding cost de-dup, scoped aggregate reuse, bounded Git seal and normalized serial baseline; workers=0 and full=0.
 
 GSDLC-07 execution status (2026-09-02): `DEVPL-GSDLC-07 = CLOSED/PASS`; Full Regression v2.2 is `CLOSED/PASS` with scheduler `AVAILABLE-NOT-DEFAULT`; FRX-v2.3-A is the only active regression-evolution micro-sprint. DEVPL-GSDLC-08 remains authorized/deferred until v2.3 closes or owner adjudicates an early stop.
 

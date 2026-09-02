@@ -11904,3 +11904,6 @@ The authoritative full `FRX-V2-2-D-FULL-01` is immutable and consumed `1/1` with
 
 ## FRX-v2.3-A — cost de-duplication Windows validation
 FRX-v2.3-A is focal-only. Do not run a full regression, browser runtime or parallel workers. Use the single supplied Windows operator: apply the semantic corrective once, run the exact eight historical binding nodeids as one pytest process, run one canonical hardening measurement, validate Git source-seal and manifest shadow invariants, then package/promote only after PASS. Terminal receipts survive re-entry and must be reused rather than recomputed.
+
+## FRX-v2.3-A Windows closure
+FRX-v2.3-A Windows closure: CLOSED/PASS/WINDOWS-VALIDATED. Binding8=2.306 s (99.921% reduction vs RUN-06 baseline); canonical hardening duplicate components=0; normalized serial shadow=57->15; workers=0; full=0. FRX-v2.3-B is authorized.

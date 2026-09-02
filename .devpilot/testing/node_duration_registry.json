@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.testing.node_duration_registry.v1",
   "version": "1.0.0",
-  "updated": "2026-09-01T00:42:54Z",
+  "updated": "2026-09-02T18:35:21Z",
   "scheduler_enabled": false,
   "parallel_workers": 1,
   "aging_policy": {
@@ -18,6 +18,14 @@
       "accepted": 2805,
       "rejected": 0,
       "ingested_at": "2026-09-01T00:42:54Z"
+    },
+    "5e1b8ed3238aa2ea1da9558266d09c66a15338f94d9dfb044eb2719bf381b82e": {
+      "source_receipt": "D:/Projects/DevPilot_E2E_Evaluation/evidence/FRX-v2.3-A/run_v1_0_2/05_duration_update_payload.json",
+      "source_hash": "73891b5c3f101f8b93686183ecd46fdb7fa8089539a60f638a9c072a2c3b0bd8",
+      "environment_fingerprint": "41b41553c477093ab5566effc5eeb39e8a1aa9cce36cd06e4e156b75e200ed41",
+      "accepted": 8,
+      "rejected": 0,
+      "ingested_at": "2026-09-02T18:35:21Z"
     }
   },
   "environments": {
@@ -53320,6 +53328,163 @@
         }
       },
       "samples_total": 2805
+    },
+    "41b41553c477093ab5566effc5eeb39e8a1aa9cce36cd06e4e156b75e200ed41": {
+      "nodes": {
+        "tests/test_documentation_governance_quality_gate.py::test_quality_gate_hardening_includes_docs_governance_subgate": {
+          "samples": [
+            {
+              "duration_seconds": 0.001,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.001,
+          "p95": 0.001,
+          "robust_estimate": 0.001,
+          "min": 0.001,
+          "max": 0.001,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        },
+        "tests/test_post_h_002_maturity_dashboard.py::test_quality_gate_hardening_includes_maturity_dashboard_subgate": {
+          "samples": [
+            {
+              "duration_seconds": 0.001,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.001,
+          "p95": 0.001,
+          "robust_estimate": 0.001,
+          "min": 0.001,
+          "max": 0.001,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        },
+        "tests/test_application_cli_boundary_integration.py::test_post_h_007_e_hardening_quality_gate_contains_subgate_and_stays_pass": {
+          "samples": [
+            {
+              "duration_seconds": 0.001,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.001,
+          "p95": 0.001,
+          "robust_estimate": 0.001,
+          "min": 0.001,
+          "max": 0.001,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        },
+        "tests/test_runtime_state_hygiene.py::test_runtime_state_hygiene_quality_gate_hardening_includes_subgate": {
+          "samples": [
+            {
+              "duration_seconds": 0.001,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.001,
+          "p95": 0.001,
+          "robust_estimate": 0.001,
+          "min": 0.001,
+          "max": 0.001,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        },
+        "tests/test_approval_rbac_hardening_gate.py::test_quality_gate_hardening_includes_approval_rbac_subgate": {
+          "samples": [
+            {
+              "duration_seconds": 0.001,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.001,
+          "p95": 0.001,
+          "robust_estimate": 0.001,
+          "min": 0.001,
+          "max": 0.001,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        },
+        "tests/test_industrial_readiness.py::test_quality_gate_industrial_profile_consumes_industrial_readiness": {
+          "samples": [
+            {
+              "duration_seconds": 0.001,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.001,
+          "p95": 0.001,
+          "robust_estimate": 0.001,
+          "min": 0.001,
+          "max": 0.001,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        },
+        "tests/test_observability_hygiene_gate.py::test_quality_gate_hardening_contains_observability_retention_subgate": {
+          "samples": [
+            {
+              "duration_seconds": 0.003,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.003,
+          "p95": 0.003,
+          "robust_estimate": 0.003,
+          "min": 0.003,
+          "max": 0.003,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        },
+        "tests/test_rag_groundedness_ready_gate.py::test_quality_gate_hardening_includes_rag_groundedness_ready_subgate": {
+          "samples": [
+            {
+              "duration_seconds": 0.001,
+              "observed_at": "2026-09-02T13:35:21.146933-05:00",
+              "outcome": "PASS",
+              "source_receipt": "FRX-v2.3-A/RUN-00-binding8"
+            }
+          ],
+          "sample_count": 1,
+          "median": 0.001,
+          "p95": 0.001,
+          "robust_estimate": 0.001,
+          "min": 0.001,
+          "max": 0.001,
+          "last_seen": "2026-09-02T13:35:21.146933-05:00",
+          "classification": "cold",
+          "confidence": "low"
+        }
+      },
+      "samples_total": 8
     }
   },
   "rejections": []
