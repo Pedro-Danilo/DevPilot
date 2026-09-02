@@ -2,10 +2,10 @@
 doc_id: "FRX-V2-2-D-FAILURE-FORENSICS-RECOVERY"
 title: "FRX-v2.2-D — Failure forensics, performance corrective and selective recovery plan"
 status: "approved-corrective"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-09-02"
-approval: "corrective-candidate"
+approval: "residual-corrective-v1.0.5"
 ---
 # FRX-v2.2-D — Failure forensics and recovery
 
@@ -62,3 +62,14 @@ V2.2 no se desmonta. A/B conservan valor directo; C queda disponible en shadow/o
 ## 8. PASS/BLOCK
 PASS de recovery: 44/44, bounded corrective PASS, Project State PASS, Documentation Governance PASS, TCR v1/v2 PASS, CLI ownership PASS, source clean, full runs=1, second_full=false.  
 BLOCK: cualquier segundo full, nuevo FAIL fuera del bounded impact sin adjudicación, source drift, o claim `PASS/ENABLED` basado en el benchmark incompleto anterior.
+
+## RUN-04 residual selective-recovery findings (v1.0.4)
+
+Windows recovery v1.0.4 executed the exact 44 original failed nodeids in one pytest process. Accounting was `31 PASS / 13 FAIL / 0 ERROR / 0 SKIP`; no second full was executed. The 13 residual failures collapse to three causal groups:
+
+1. **Environment readiness gap:** seven UI/API hardening subgates raised `ModuleNotFoundError: fastapi` because the Python interpreter selected by the operator lacked the already-declared optional API/dev dependencies. This is an environment-selection/provisioning defect in the recovery operator, not a product regression.
+2. **Historical schema namespace gap:** `LocalReleaseCandidateCriteria` accepted POST-H, GSDLC and FULL-REGRESSION identifiers but not the live `FRX-v2.2-D` namespace used by `expected_next_micro_sprint`.
+3. **CLI compatibility drift:** the five new FRX-v2.2 duration/scheduler commands are high-risk in the live ownership matrix and therefore require explicit `cli-compat:*` contracts; v1.0.4 regenerated ownership but did not extend compatibility fixtures.
+
+Recovery v1.0.5 must preserve the 31 PASS receipts from RUN-04 and retest only the 13 still-failed nodeids. Composite terminal accounting is valid only when the union of RUN-04 PASS nodeids and RUN-05 PASS nodeids equals the exact original 44-nodeid failure set. The operator must select a Python interpreter with `pytest`, `jsonschema`, `fastapi`, `starlette`, `pydantic` and `httpx` before executing any residual test.
+

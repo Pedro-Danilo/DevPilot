@@ -191,3 +191,37 @@ def test_closure_consistency_reports_v2_2_full_budget() -> None:
     result = ClosureStateConsistencyValidator(root).run()
     assert result.ok, result.to_dict()
     assert result.data["summary"]["full_regression_runs_consumed"] == 1
+
+
+
+def test_frx_v2_2_d_residual_recovery_contracts_are_closed() -> None:
+    """RUN-04 residuals: FRX namespace and CLI compatibility stay reconciled."""
+    from devpilot_core.cli_registry.compatibility import CliCompatibilityContractRunner
+    from devpilot_core.schemas.validator import SchemaValidator
+
+    root = Path(__file__).resolve().parents[1]
+    criteria = json.loads((root / ".devpilot/release/local_release_candidate_criteria.json").read_text(encoding="utf-8"))
+    schema_result = SchemaValidator(root).validate_payload(
+        schema="LocalReleaseCandidateCriteria",
+        payload=criteria,
+        instance_label="memory:frx-v2.2-d-local-release-candidate-criteria",
+    )
+    assert schema_result.ok, schema_result.to_dict()
+    assert criteria["expected_next_micro_sprint"] == "FRX-v2.2-D"
+
+    compatibility = CliCompatibilityContractRunner(root).run()
+    assert compatibility.ok, compatibility.to_dict()
+    summary = compatibility.data["summary"]
+    assert summary["missing_required_contracts_total"] == 0
+    contracts = {
+        item["command_id"]
+        for item in compatibility.data["report"]["contracts"]
+    }
+    required = {
+        "tests.duration-registry.estimate",
+        "tests.duration-registry.ingest",
+        "tests.duration-registry.preview",
+        "tests.duration-registry.status",
+        "tests.temporal-planner",
+    }
+    assert required.issubset(contracts)

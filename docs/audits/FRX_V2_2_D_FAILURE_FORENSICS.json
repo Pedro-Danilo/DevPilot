@@ -18,11 +18,42 @@
   "receipt_duration_sum_seconds": 16546.17,
   "hidden_between_receipts_seconds": 20445.83,
   "hidden_overhead_ratio": 0.55271,
-  "inter_shard_gap_seconds": {"min": 254.0, "median": 282.0, "mean": 287.943662, "p95": 338.0, "max": 486.0},
+  "inter_shard_gap_seconds": {
+    "min": 254.0,
+    "median": 282.0,
+    "mean": 287.943662,
+    "p95": 338.0,
+    "max": 486.0
+  },
   "estimated_git_hash_object_launches": 508320,
   "root_cause": "per-shard full-worktree Git semantic fingerprint executed before and after every shard, with per-file git hash-object subprocesses; timing excluded those scans",
   "pytest_fragmentation_contributes": true,
   "pytest_fragmentation_primary_cause": false,
   "recovery_policy": "composite-selective/no-second-full",
-  "v2_2_adoption": "AVAILABLE-NOT-DEFAULT"
+  "v2_2_adoption": "AVAILABLE-NOT-DEFAULT",
+  "run_04_residual_recovery": {
+    "bundle": "v1.0.4",
+    "tests": 44,
+    "passed": 31,
+    "failed": 13,
+    "errors": 0,
+    "skipped": 0,
+    "second_full": false,
+    "causes": [
+      {
+        "id": "environment-api-deps",
+        "residual_failures_driver": "quality-gate/api-ui subgates",
+        "detail": "selected Python missing fastapi"
+      },
+      {
+        "id": "rc-criteria-frx-namespace",
+        "detail": "LocalReleaseCandidateCriteria regex rejects FRX-v2.2-D"
+      },
+      {
+        "id": "cli-compat-frx-commands",
+        "detail": "five high-risk FRX testing commands lack compatibility contracts"
+      }
+    ]
+  },
+  "residual_recovery_status": "residual-corrective-v1.0.5-ready"
 }
