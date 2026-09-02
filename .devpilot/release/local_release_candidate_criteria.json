@@ -8,7 +8,7 @@
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
         "current_micro_sprint": "DEVPL-GSDLC-07-E",
-        "current_repo": "repo_DevPilot_Local_392_FRX_V2_3_A_COST_DEDUP_SERIAL_BASELINE_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_repo": "repo_DevPilot_Local_393_FRX_V2_3_B_ISOLATION_REGISTRY_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
         "next_micro_sprint": "FRX-v2.2-D",
@@ -690,7 +690,7 @@
     }
   ],
   "expected_current_micro_sprint": "DEVPL-GSDLC-07-E",
-  "expected_current_repo": "repo_DevPilot_Local_392_FRX_V2_3_A_COST_DEDUP_SERIAL_BASELINE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_393_FRX_V2_3_B_ISOLATION_REGISTRY_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_next_micro_sprint": "FRX-v2.2-D",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
