@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-PARALLEL-SHADOW-PLAN-V1",
+  "title": "DevPilot Parallel Shadow Plan v1",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "status",
+    "plan_identity",
+    "collection_total",
+    "worker_slots_preview",
+    "workers_executed",
+    "full_runs",
+    "shadow_waves",
+    "amdahl_feasibility",
+    "execution_disabled"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.testing.parallel_shadow_plan.v1"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "plan_identity": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "collection_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "worker_slots_preview": {
+      "const": 2
+    },
+    "workers_executed": {
+      "const": 0
+    },
+    "full_runs": {
+      "const": 0
+    },
+    "execution_disabled": {
+      "const": true
+    },
+    "shadow_waves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "wave_id",
+          "nodeids",
+          "predicted_seconds"
+        ],
+        "properties": {
+          "wave_id": {
+            "type": "string"
+          },
+          "nodeids": {
+            "type": "array",
+            "maxItems": 2,
+            "items": {
+              "type": "string"
+            }
+          },
+          "predicted_seconds": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "amdahl_feasibility": {
+      "type": "object",
+      "required": [
+        "decision",
+        "feasible_for_canary"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "GO",
+            "NO-GO"
+          ]
+        },
+        "feasible_for_canary": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

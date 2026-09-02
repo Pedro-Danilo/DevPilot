@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.testing.amdahl_feasibility.v1",
+  "status": "PASS",
+  "decision": "NO-GO",
+  "feasible_for_canary": false,
+  "runtime_weighted_safe_coverage_percent": 0.0,
+  "serial_fraction_percent": 100.0,
+  "predicted_parallel_known_runtime_seconds": 9740.888787,
+  "projected_incremental_parallel_reduction_percent": 0.0,
+  "historical_observed_total_improvement_projection_percent": 73.668,
+  "normalized_serial_comparison_authoritative": true,
+  "historical_observed_comparison_reporting_only": true,
+  "frx_v2_3_d_authorized": false,
+  "workers": 0,
+  "full_runs": 0,
+  "reason": "proven-safe runtime coverage is insufficient for the target reduction",
+  "collection_total": 2883,
+  "implicit_unclassified_total": 11
+}

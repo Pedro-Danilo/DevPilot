@@ -219,3 +219,7 @@ V2.3 solo cierra cuando A–E están cerrados o existe una adjudicación owner e
 ## 12. Estado de implementación incremental — FRX-v2.3-B
 
 FRX-v2.3-B se encuentra `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo393, con repo392 como parent Windows-validado. El registry inicial conserva todos los nodeids `UNCLASSIFIED/parallel_safe=false`; static hints no autorizan ejecución paralela. `workers=0`, `full=0`. FRX-v2.3-C permanece bloqueado hasta cierre Windows PASS de B.
+
+## Estado operativo FRX-v2.3-C
+
+FRX-v2.3-C se encuentra `IMPLEMENTED-INITIAL/WINDOWS-PENDING`; su shadow actual es `NO-GO` porque B aún tiene 0 runtime `PROVEN_PARALLEL_SAFE`. D permanece no autorizado.

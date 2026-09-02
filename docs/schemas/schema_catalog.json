@@ -3533,7 +3533,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.3-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PARALLEL-SHADOW-PLAN-V1",
+      "title": "DevPilot conflict-aware parallel shadow plan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/parallel_shadow_plan.schema.json",
+      "description": "FRX-v2.3-C deterministic conflict graph/shadow waves and Amdahl feasibility; execution disabled.",
+      "status": "registered",
+      "contract": "ParallelShadowPlanner",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.3-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.3-C"
     }
   ],
-  "schemas_total": 246
+  "schemas_total": 247
 }

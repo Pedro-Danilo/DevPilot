@@ -22102,6 +22102,67 @@
       "schema_ids": [
         "docs/schemas/test_isolation_registry.schema.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.3-c-conflict-graph-shadow-planner",
+      "source_contract_id": "frx-v2.3-c-conflict-graph-shadow-planner",
+      "schema_version": "2.0",
+      "domain": "governance.testing",
+      "capability": "FRXV2_3CConflictGraphShadowPlanner",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_frx_v2_3_c_conflict_graph.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/conflict_graph.py",
+        "docs/schemas/parallel_shadow_plan.schema.json",
+        ".devpilot/testing/frx_v2_3_c_shadow_plan.json",
+        "docs/audits/FRX_V2_3_C_AMDAHL_FEASIBILITY.json"
+      ],
+      "validates": [
+        "deterministic conflict graph",
+        "serial fallback for unknown/unsafe",
+        "lock-safe shadow waves",
+        "plan identity",
+        "dual-baseline feasibility",
+        "no worker execution"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.3-C",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_c_conflict_graph.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "C is preview-only. workers=0 and full=0 are hard invariants."
+      ],
+      "trigger_hints": [
+        "frx-v2.3-c",
+        "conflict-graph",
+        "shadow-planner"
+      ],
+      "impact_tags": [
+        "testing",
+        "parallel-safety",
+        "conflicts",
+        "amdahl"
+      ],
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "schema_ids": [
+        "docs/schemas/parallel_shadow_plan.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22265,5 +22326,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 308
+  "contracts_total": 309
 }

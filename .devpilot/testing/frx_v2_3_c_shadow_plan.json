@@ -1,0 +1,53 @@
+{
+  "schema_id": "devpilot.testing.parallel_shadow_plan.v1",
+  "status": "PASS",
+  "planner_version": "1.0.0",
+  "plan_identity": "7d98dd67c69af66543df83c1d8ee21affd1fb82f9ef5237fd061237cb595f2a2",
+  "identity": {
+    "collection_sha256": "7fa14980f2baefc5a8266f38dcde082d01bd7243b0c6f595ac35589b2548d575",
+    "isolation_sha256": "91d5928410d2b5f1cf9bdde11b1430271bad0d128b31fb6b75d4a70d9d39b9d4",
+    "normalized_duration_registry_sha256": "a8e40d695b1a904d0359daba0246a56f3f29da5b3b85b4b79368007bdd31406a",
+    "serial_baseline_sha256": "1e6a758d1e4f5276ef89e369b0b97bfedb182fd325f5b4dacd7629e4a94c5f5c",
+    "worker_slots_preview": 2,
+    "planner_version": "1.0.0"
+  },
+  "collection_total": 2883,
+  "registry_entries_total": 2872,
+  "implicit_unclassified_total": 11,
+  "safe_candidates_total": 0,
+  "serial_lane_total": 2883,
+  "unknown_serial_total": 2883,
+  "serial_required_total": 0,
+  "conflict_graph": {
+    "nodes": [],
+    "edges": [],
+    "edges_total": 0
+  },
+  "shadow_waves": [],
+  "shadow_waves_total": 0,
+  "worker_slots_preview": 2,
+  "workers_executed": 0,
+  "full_runs": 0,
+  "runtime_known_seconds_total": 9740.888787,
+  "safe_runtime_seconds": 0,
+  "serial_runtime_seconds": 9740.888787,
+  "runtime_weighted_safe_coverage_percent": 0.0,
+  "serial_fraction_percent": 100.0,
+  "lock_contention_edges_total": 0,
+  "predicted_parallel_known_runtime_seconds": 9740.888787,
+  "projected_incremental_parallel_reduction_percent": 0.0,
+  "historical_observed_total_improvement_projection_percent": 73.668,
+  "normalized_serial_comparison_authoritative": true,
+  "historical_observed_comparison_reporting_only": true,
+  "amdahl_feasibility": {
+    "target_parallel_reduction_percent": 30.0,
+    "required_runtime_parallelizable_fraction_ideal": 0.6,
+    "actual_runtime_parallel_safe_fraction": 0.0,
+    "explicit_overhead_seconds": 0.0,
+    "feasible_for_canary": false,
+    "decision": "NO-GO",
+    "reason": "proven-safe runtime coverage is insufficient for the target reduction"
+  },
+  "frx_v2_3_d_authorized": false,
+  "execution_disabled": true
+}
