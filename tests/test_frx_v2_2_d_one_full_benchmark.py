@@ -8,7 +8,7 @@ import jsonschema
 import pytest
 
 from devpilot_core.testing.duration_registry import NodeDurationRegistry
-from devpilot_core.testing.full_regression import FullRegressionSessionManager, TerminalOutcome, _source_descriptor
+from devpilot_core.testing.full_regression import FullRegressionSessionManager, TerminalOutcome, _git_semantic_clean_guard, _source_descriptor
 from devpilot_core.testing.full_regression_benchmark import (
     FullRegressionBenchmarkAnalyzer,
     FullRegressionBenchmarkError,
@@ -51,6 +51,18 @@ def test_git_semantic_source_fingerprint_ignores_crlf_but_detects_content(tmp_pa
     third = _source_descriptor(root)
     assert third["content_sha256"] != first["content_sha256"]
 
+
+
+
+def test_git_semantic_clean_guard_detects_changes_without_blob_scan(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    commit = _git(root, "rev-parse", "HEAD")
+    guard = _git_semantic_clean_guard(root, expected_commit=commit)
+    assert guard is not None and guard["clean"] is True
+    (root / "tests/test_sample.py").write_text("def test_a(): assert False\ndef test_b(): assert True\n", encoding="utf-8")
+    dirty = _git_semantic_clean_guard(root, expected_commit=commit)
+    assert dirty is not None and dirty["clean"] is False
+    assert dirty["unstaged_total"] == 1
 
 def test_temporal_full_plan_reorders_but_preserves_collection_exactly_once(tmp_path: Path) -> None:
     root = _repo(tmp_path)
@@ -178,4 +190,4 @@ def test_closure_consistency_reports_v2_2_full_budget() -> None:
     root = Path(__file__).resolve().parents[1]
     result = ClosureStateConsistencyValidator(root).run()
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["full_regression_runs_consumed"] == 0
+    assert result.data["summary"]["full_regression_runs_consumed"] == 1

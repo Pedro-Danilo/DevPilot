@@ -2,9 +2,9 @@
 doc_id: "01_PROMPT_FRX_V2_3_A_ISOLATION_REGISTRY_V1_0_0"
 title: "FRX-v2.3-A — Isolation contract registry — implementation and Windows validation prompt"
 status: "approved"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
-updated: "2026-08-31"
+updated: "2026-09-02"
 approval: "approved_by_owner"
 source_policy: "successor-of-previous-micro-sprint/windows-validated-when-applicable"
 full_regression_policy: "only-closing-micro-sprint-may-consume-one-logical-full"
@@ -99,3 +99,7 @@ Duration/name implica safe; recurso compartido no clasificado se ejecutaría par
 ## 10. Salida y autorización
 
 Autoriza FRX-v2.3-B. Commit: `feat(frx-v2.3): add explicit test isolation registry`.
+
+## 11. Corrective prerequisite inherited from FRX-v2.2-D — 2026-09-02
+
+Antes de implementar A debe verificarse que FRX-v2.2-D cerró por composite recovery sin segunda full y que el bounded Git-semantic source guard/end-to-end accounting de `ADR-FRX-001` está integrado. La clasificación de aislamiento no puede usarse para ocultar overhead de orquestación preexistente. A debe preservar `workers=0`, full=0 y registrar desde el inicio la duración histórica asociada a cada nodeid para permitir coverage ponderada por runtime en B.

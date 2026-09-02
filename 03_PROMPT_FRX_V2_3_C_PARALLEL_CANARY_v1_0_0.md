@@ -2,9 +2,9 @@
 doc_id: "03_PROMPT_FRX_V2_3_C_PARALLEL_CANARY_V1_0_0"
 title: "FRX-v2.3-C — Bounded parallel canary — implementation and Windows validation prompt"
 status: "approved"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
-updated: "2026-08-31"
+updated: "2026-09-02"
 approval: "approved_by_owner"
 source_policy: "successor-of-previous-micro-sprint/windows-validated-when-applicable"
 full_regression_policy: "only-closing-micro-sprint-may-consume-one-logical-full"
@@ -102,3 +102,7 @@ Nueva flake; collision; output overwrite; orphan process; resource policy bypass
 ## 10. Salida y autorización
 
 Autoriza FRX-v2.3-D. Commit: `feat(frx-v2.3): validate two-worker safe parallel canary`.
+
+## 11. Corrective canary accounting inherited from FRX-v2.2-D — 2026-09-02
+
+El canary debe medir wall-clock end-to-end desde antes del source guard/coordinator hasta después de receipts/cleanup, no únicamente tiempo de los dos workers pytest. Debe separar `pytest_process_seconds`, `source_guard_seconds`, `lock_wait_seconds`, `coordinator_seconds` y `observed_end_to_end_wall_seconds`. El speedup del canary es inválido si excluye overhead del coordinador o si el subset safe no representa runtime suficiente para la decisión de D.

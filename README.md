@@ -6527,3 +6527,6 @@ FRX-v2.2-C CLOSED/PASS: deterministic LPT temporal planning is validated in shad
 
 ### FRX-v2.2-D — Windows one-full benchmark and closure
 FRX-v2.2-D implementation candidate is bound to repo389 Windows commit `503a62d0cd84fade9d057752f3e94de22e9a2c19`. The one-full guard, temporal executable plan and benchmark analyzer are implemented. The scheduler remains default-disabled and workers=1 until the single Windows logical full determines `PASS/ENABLED` or `PASS/AVAILABLE-NOT-DEFAULT`. Full consumed before Windows: 0/1.
+
+### FRX-v2.2-D — one-full forensic corrective (2026-09-02)
+La única full v2.2-D quedó consumida 1/1 con 100% accounting (`2795 PASS / 44 FAIL / 0 ERROR / 5 SKIP`). No se permite otra full. El corrective reemplaza el fingerprint full-tree per-shard por un Git-semantic bounded guard, añade wall-clock end-to-end al benchmark y deja el scheduler temporal `AVAILABLE-NOT-DEFAULT`. El cierre requiere selective/composite recovery; ver `docs/audits/FRX_V2_2_D_FAILURE_FORENSICS_AND_RECOVERY_PLAN.md` y ADR-FRX-001.

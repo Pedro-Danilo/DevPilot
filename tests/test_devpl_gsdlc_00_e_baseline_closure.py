@@ -20,8 +20,12 @@ def test_00_e_current_repo_is_successor_and_repo341_remains_parent():
     assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE\.zip",name)
     # Historical 00-E baseline is frozen in the closure contract; global current_repo
     # is intentionally allowed to advance to later GSDLC validated candidates.
-    assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_.*\.zip", s["current_repo"])
-    assert s["gsdlc_current_canonical_repo"] == s["current_repo"]
+    assert re.fullmatch(r"repo_DevPilot_Local_\d+_(?:DEVPL_GSDLC|FRX)_.*\.zip", s["current_repo"])
+    # GSDLC canonical repo is intentionally frozen at the paused 07-E line;
+    # global current_repo may advance through the separate FRX lifecycle.
+    assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_.*\.zip", s["gsdlc_current_canonical_repo"])
+    if "_FRX_" in s["current_repo"]:
+        assert s["gsdlc_current_canonical_repo"] != s["current_repo"]
     assert c["parent_repo341"]["immutable"] is True
     assert c["parent_repo341"]["git_commit"]=="cff43e8d992ff6139bd13bb1809ce4d497ae0952"
 def test_00_e_release_freshness_criteria_tracks_successor_repo():

@@ -11898,3 +11898,6 @@ El cierre Windows usa tres consolas: Consola 1 para operador/gates, Consola 2 AP
 ### 05-E Windows PASS-candidate
 
 Browser/manual pre-code closure reached `PRE_CODE_READY` and readiness strict PASS. The single full regression was consumed `1/1 FAIL` (`2611 PASS / 38 FAIL / 0 ERROR / 5 SKIP`) and preserved without rerun; the backlog-authorized composite recovery then passed exact failed-nodeid `38/38`, bounded impact `18/18`, Historical Regression Guard and deterministic contract validators. Candidate remains pending owner adjudication; GSDLC-06 is not authorized by this technical result alone.
+
+## FRX-v2.2-D — selective recovery after consumed full (2026-09-02)
+The authoritative full `FRX-V2-2-D-FULL-01` is immutable and consumed `1/1` with 44 functional failures. Do not execute another full. Apply the FRX-v2.2-D performance corrective transactionally, execute the exact failed-nodeid selective set plus bounded corrective/historical governance guards, then generate a composite recovery attestation. API/UI are unchanged and browser evidence is not required. Final adoption is at most `PASS/AVAILABLE-NOT-DEFAULT` for v2.2 from this evidence.

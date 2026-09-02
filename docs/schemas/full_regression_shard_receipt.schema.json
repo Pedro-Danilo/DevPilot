@@ -122,6 +122,46 @@
         "null"
       ],
       "pattern": "^[0-9a-f]{64}$"
+    },
+    "lifecycle_started_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "lifecycle_ended_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "lifecycle_duration_seconds": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "source_guard_before_seconds": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "source_guard_after_seconds": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "orchestrator_overhead_seconds": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
     }
   },
   "required": [

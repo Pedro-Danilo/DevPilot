@@ -98,3 +98,7 @@ Debe ejecutarse antes de collection y nuevamente antes de adjudication. Full-sta
 ## Riesgos
 
 v2.2 no puede reducir a la mitad el costo computacional total porque sigue siendo secuencial. Su valor es balance, predictibilidad, menos timeouts/restarts y la base estadística para v2.3.
+
+## Corrective adjudication — FRX-v2.2-D Windows attempt 1/1
+
+La única full D fue consumida y terminó `2795 PASS / 44 FAIL / 0 ERROR / 5 SKIP`, 100% accounted. No se autoriza segunda full. El scheduler temporal mejoró max/p95 de shard, pero el runner introdujo un overhead oculto crítico por fingerprint Git per-file antes/después de cada shard. D debe cerrarse únicamente mediante composite/selective recovery después del corrective de source guard y métricas end-to-end. La adopción default queda deshabilitada; resultado objetivo seguro: `PASS/AVAILABLE-NOT-DEFAULT`.

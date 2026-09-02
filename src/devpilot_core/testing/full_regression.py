@@ -97,6 +97,12 @@ class ShardReceipt:
     outcome_log_sha256: str | None
     log_path: str | None = None
     log_sha256: str | None = None
+    lifecycle_started_at: str | None = None
+    lifecycle_ended_at: str | None = None
+    lifecycle_duration_seconds: float | None = None
+    source_guard_before_seconds: float | None = None
+    source_guard_after_seconds: float | None = None
+    orchestrator_overhead_seconds: float | None = None
 
 
 def _utc_now() -> str:
@@ -218,6 +224,65 @@ def _git_semantic_source_descriptor(root: Path) -> dict[str, Any] | None:
         "fingerprint_mode": "git-semantic-working-tree-v1",
         "excluded_runtime_dirs": sorted(_EXCLUDED_DIR_NAMES),
     }
+
+
+def _git_semantic_clean_guard(root: Path, *, expected_commit: str | None = None) -> dict[str, Any] | None:
+    """Cheap Git-semantic mutation guard for a worktree sealed from a clean commit.
+
+    Unlike the strong source descriptor, this performs a bounded number of Git
+    commands and never launches ``git hash-object`` once per file.  Git itself
+    applies attributes/eol normalization, so this intentionally compares Git
+    content semantics rather than CRLF/LF physical bytes.
+    """
+    root = root.resolve()
+    if not (root / ".git").exists():
+        return None
+    head = _git_run(root, ["rev-parse", "HEAD"])
+    unstaged = _git_run(root, ["diff", "--name-only", "-z", "--no-ext-diff"])
+    staged = _git_run(root, ["diff", "--cached", "--name-only", "-z", "--no-ext-diff"])
+    untracked = _git_run(root, ["ls-files", "--others", "--exclude-standard", "-z"])
+    completed = (head, unstaged, staged, untracked)
+    if any(item is None or item.returncode != 0 for item in completed):
+        return None
+
+    def visible_paths(stdout: str) -> list[str]:
+        return sorted(
+            path for path in (item for item in stdout.split("\0") if item)
+            if not _is_excluded(Path(path))
+        )
+
+    current_commit = head.stdout.strip() or None
+    unstaged_paths = visible_paths(unstaged.stdout)
+    staged_paths = visible_paths(staged.stdout)
+    untracked_paths = visible_paths(untracked.stdout)
+    commit_matches = expected_commit is None or current_commit == expected_commit
+    clean = commit_matches and not unstaged_paths and not staged_paths and not untracked_paths
+    return {
+        "available": True,
+        "clean": clean,
+        "git_commit": current_commit,
+        "expected_commit": expected_commit,
+        "commit_matches": commit_matches,
+        "unstaged_total": len(unstaged_paths),
+        "staged_total": len(staged_paths),
+        "untracked_total": len(untracked_paths),
+        "changed_paths": sorted(set(unstaged_paths + staged_paths + untracked_paths)),
+        "fingerprint_mode": "git-semantic-clean-guard-v1",
+    }
+
+
+def _environment_runtime_guard(expected: dict[str, Any]) -> bool:
+    try:
+        pytest_version = importlib.metadata.version("pytest")
+    except importlib.metadata.PackageNotFoundError:
+        pytest_version = "not-installed"
+    current = {
+        "platform": platform.platform(),
+        "python": sys.version.split()[0],
+        "python_executable_name": Path(sys.executable).name,
+        "pytest": pytest_version,
+    }
+    return all(current.get(key) == expected.get(key) for key in current)
 
 
 def _source_descriptor(root: Path) -> dict[str, Any]:
@@ -749,10 +814,25 @@ class FullRegressionSessionManager:
             junit_path.unlink()
         if outcomes_path.exists():
             outcomes_path.unlink()
-        source_before_descriptor = _source_descriptor(self.root)
-        source_before = _fingerprint(source_before_descriptor)
-        environment = _environment_descriptor(self.root)
-        env_fp = _fingerprint(environment)
+
+        lifecycle_started_at = _utc_now()
+        lifecycle_start = time.monotonic()
+        expected_commit = (session.get("source_descriptor") or {}).get("git_commit")
+
+        guard_before_start = time.monotonic()
+        source_guard_before = _git_semantic_clean_guard(self.root, expected_commit=expected_commit)
+        source_guard_before_seconds = round(time.monotonic() - guard_before_start, 6)
+        if source_guard_before is not None and source_guard_before.get("clean"):
+            source_before = str(session["source_fingerprint"])
+        else:
+            source_before = _fingerprint(_source_descriptor(self.root))
+
+        environment_matches = _environment_runtime_guard(session.get("environment_descriptor") or {})
+        if environment_matches:
+            env_fp = str(session["environment_fingerprint"])
+        else:
+            env_fp = _fingerprint(_environment_descriptor(self.root))
+
         started_at = _utc_now()
         start = time.monotonic()
         env = self._subprocess_env(extra={"DEVPILOT_FULL_SESSION_OUTCOMES": str(outcomes_path)})
@@ -791,16 +871,26 @@ class FullRegressionSessionManager:
         observed = tuple(nodeid for nodeid in nodeids if outcomes[nodeid] != TerminalOutcome.UNEXECUTED.value)
         returncode = None if completed is None else int(completed.returncode)
         infra_abort = timed_out or completed is None or (returncode not in {0, 1})
-        source_after_descriptor = _source_descriptor(self.root)
-        source_after = _fingerprint(source_after_descriptor)
-        source_mutation = source_before != source_after or source_after != session["source_fingerprint"]
+
+        guard_after_start = time.monotonic()
+        source_guard_after = _git_semantic_clean_guard(self.root, expected_commit=expected_commit)
+        source_guard_after_seconds = round(time.monotonic() - guard_after_start, 6)
+        if source_guard_after is not None and source_guard_after.get("clean"):
+            source_after = str(session["source_fingerprint"])
+        else:
+            source_after = _fingerprint(_source_descriptor(self.root))
+        source_mutation = source_before != session["source_fingerprint"] or source_after != session["source_fingerprint"]
+
         runtime_block: str | None = None
         if source_mutation:
-            runtime_block = "Source fingerprint changed during shard execution. Resume is blocked until a new logical session is created from the intended source."
+            runtime_block = "Git-semantic source guard detected source mutation during shard execution. Resume is blocked until a new logical session is created from the intended source."
         elif env_fp != session["environment_fingerprint"]:
             runtime_block = "Environment fingerprint changed before shard execution."
         elif infra_abort:
             runtime_block = "Shard infrastructure aborted or timed out; observed outcomes are preserved and remaining nodeids stay UNEXECUTED for same-session resume."
+
+        lifecycle_duration = round(time.monotonic() - lifecycle_start, 6)
+        lifecycle_ended_at = _utc_now()
         receipt = ShardReceipt(
             session_id=session_id,
             shard_id=shard["shard_id"],
@@ -827,6 +917,12 @@ class FullRegressionSessionManager:
             outcome_log_sha256=_sha256_file(outcomes_path),
             log_path=_relative(log_path, self.root) if log_path.exists() else None,
             log_sha256=_sha256_file(log_path),
+            lifecycle_started_at=lifecycle_started_at,
+            lifecycle_ended_at=lifecycle_ended_at,
+            lifecycle_duration_seconds=lifecycle_duration,
+            source_guard_before_seconds=source_guard_before_seconds,
+            source_guard_after_seconds=source_guard_after_seconds,
+            orchestrator_overhead_seconds=round(max(0.0, lifecycle_duration - duration), 6),
         )
         return receipt, runtime_block
 
@@ -881,11 +977,19 @@ class FullRegressionSessionManager:
         sealed = self._validate_sealed_artifacts(session, collection, plan)
         if sealed is not None:
             return sealed
-        current_source = _fingerprint(_source_descriptor(self.root))
+        expected_commit = (session.get("source_descriptor") or {}).get("git_commit")
+        source_guard = _git_semantic_clean_guard(self.root, expected_commit=expected_commit)
+        if source_guard is not None and source_guard.get("clean"):
+            current_source = session.get("source_fingerprint")
+        else:
+            current_source = _fingerprint(_source_descriptor(self.root))
         if current_source != session.get("source_fingerprint"):
-            return self._block("tests full-session identity", "FRX2_SOURCE_FINGERPRINT_MISMATCH", "Current source fingerprint differs from the logical session. Start a new session; do not merge receipts.")
+            return self._block("tests full-session identity", "FRX2_SOURCE_FINGERPRINT_MISMATCH", "Current Git-semantic source differs from the logical session. Start a new session; do not merge receipts.")
         if require_environment:
-            current_env = _fingerprint(_environment_descriptor(self.root))
+            if _environment_runtime_guard(session.get("environment_descriptor") or {}):
+                current_env = session.get("environment_fingerprint")
+            else:
+                current_env = _fingerprint(_environment_descriptor(self.root))
             if current_env != session.get("environment_fingerprint"):
                 return self._block("tests full-session identity", "FRX2_ENVIRONMENT_FINGERPRINT_MISMATCH", "Current environment fingerprint differs from the logical session. Start a new session; do not merge receipts.")
         return None

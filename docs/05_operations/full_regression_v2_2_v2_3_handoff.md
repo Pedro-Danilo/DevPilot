@@ -33,3 +33,7 @@ The E-04 composite produced **2805 terminal node samples** with per-node duratio
 v2.2 remains **prepared, not enabled**. Its candidate scheduling policy is deterministic duration-balanced sequential planning (LPT/bin-packing) using historical duration estimates, while preserving collection identity, source fingerprints, completion-first semantics and command-length bounds. Cold-start tests fall back to stable nodeid ordering plus bounded count/command chars.
 
 Safety boundary for 07-E: `scheduler_enabled=false`, `parallel_workers=1`. v2.3 remains `UNCLASSIFIED`, `parallel_safe=false`, `explicit_review_required=true`, `workers=0`. No duration signal can authorize parallel execution.
+
+## FRX-v2.2-D performance forensic handoff — 2026-09-02
+
+La telemetría v2.2-D debe distinguir runtime de node/test, proceso pytest y lifecycle del shard. La corrida Windows 1/1 expuso ~5,68 h de tiempo fuera de receipts, causado principalmente por fingerprints Git full-tree per-shard. El successor v2.3 recibe únicamente métricas end-to-end reconciliadas y `parallel_safe=false` por defecto. El balance temporal v2.2 queda disponible, no default, hasta nueva evidencia gobernada.

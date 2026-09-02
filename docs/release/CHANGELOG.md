@@ -3145,3 +3145,10 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Baseline 07-E is reused from sealed evidence; no comparative legacy full is executed.
 - Scheduler remains default-disabled, workers=1, logical full consumed=0/1 and browser=0 before Windows.
 - Final adoption and FRX-v2.2 closure remain pending the one authorized Windows full.
+
+## 2026-09-02 — FRX-v2.2-D performance/selective-recovery corrective
+- Preserved the consumed failed full; no rerun authorized.
+- Replaced per-shard full-tree Git blob hashing with a bounded Git-semantic clean guard plus strong fallback.
+- Added end-to-end/lifecycle benchmark metrics and conservative adoption thresholds.
+- Reconciled FRX/GSDLC pointers, release freshness and CLI ownership metadata.
+- Adjusted v2.3 planning with runtime-weighted parallel-safe coverage and an Amdahl feasibility gate.

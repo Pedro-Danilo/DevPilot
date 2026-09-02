@@ -2,9 +2,9 @@
 doc_id: "02_PROMPT_FRX_V2_3_B_CONFLICT_GRAPH_V1_0_0"
 title: "FRX-v2.3-B — Conflict graph and shadow parallel scheduler — implementation and Windows validation prompt"
 status: "approved"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
-updated: "2026-08-31"
+updated: "2026-09-02"
 approval: "approved_by_owner"
 source_policy: "successor-of-previous-micro-sprint/windows-validated-when-applicable"
 full_regression_policy: "only-closing-micro-sprint-may-consume-one-logical-full"
@@ -100,3 +100,7 @@ Cualquier unsafe/unknown en parallel wave; non-deterministic plan; resource lock
 ## 10. Salida y autorización
 
 Autoriza FRX-v2.3-C. Commit: `feat(frx-v2.3): add conflict-aware parallel shadow scheduler`.
+
+## 11. Corrective feasibility requirement inherited from FRX-v2.2-D — 2026-09-02
+
+Además del count coverage, B debe calcular `parallel_safe_runtime_seconds`, `serial_runtime_seconds`, `parallel_safe_runtime_fraction` y el techo de speedup con Amdahl para workers=2. El predicted makespan debe incluir coordinator/source-guard/lock overhead. Para un objetivo de 30% de reducción con dos workers, la cobertura segura de runtime debe ser aproximadamente >=60% en el límite ideal; si el techo teórico es inferior al target, B debe producir `FEASIBILITY-BLOCK-FOR-DEFAULT` y D no debe consumir una full para demostrar un objetivo matemáticamente imposible.

@@ -57,3 +57,9 @@ Ninguna full puede empezar si `DocumentationDriftGate != PASS`. El gate debe exi
 ## 6. Orden
 
 `repo386 → v2.2-A..D → v2.2 CLOSED/PASS → v2.3-A..D → v2.3 CLOSED/PASS → DEVPL-GSDLC-08`.
+
+## 7. Corrective rebase after FRX-v2.2-D one-full — 2026-09-02
+
+La full v2.2-D demostró que el criterio de balance de shard era insuficiente como proxy del costo real. El benchmark debe separar `pytest_process_seconds`, `source_guard_seconds`, `inter_shard_gap_seconds` y `observed_end_to_end_wall_seconds`. La adopción v2.2 queda `AVAILABLE-NOT-DEFAULT` hasta cierre por composite recovery; no se consume otra full.
+
+V2.3 mantiene el diseño de paralelismo seguro, pero agrega un **feasibility gate ponderado por duración** antes de su única full. Con 2 workers, el target de 30% requiere que al menos ~60% del runtime sea `PROVEN_PARALLEL_SAFE` en el límite ideal de Amdahl. Si el techo teórico no llega al target, v2.3-D no debe gastar su única full para demostrar un speedup matemáticamente inalcanzable.

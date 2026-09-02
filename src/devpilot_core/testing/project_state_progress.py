@@ -60,4 +60,14 @@ def post_h_progress_rank(value: str) -> int:
         minor = int(full_regression.group("minor"))
         return 30_000 + (major * 100) + minor
 
+    # FRX is the executable micro-sprint namespace of the Full Regression
+    # evolution.  Preserve monotonicity without overloading the paused GSDLC
+    # pointer: FRX-v2.2-D ranks after the generic v2.2 program identifier.
+    frx = re.fullmatch(r"FRX-v(?P<major>\d+)\.(?P<minor>\d+)-(?P<step>[A-Z])", value, flags=re.IGNORECASE)
+    if frx is not None:
+        major = int(frx.group("major"))
+        minor = int(frx.group("minor"))
+        step = ord(frx.group("step").upper()) - ord("A") + 1
+        return 40_000 + (major * 10_000) + (minor * 100) + step
+
     raise AssertionError(f"Unsupported project-state progress identifier: {value!r}")

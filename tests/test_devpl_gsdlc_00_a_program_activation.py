@@ -58,7 +58,10 @@ def test_gsdlc_canonical_sources_are_registered_and_owner_approved_scope_is_pres
         "DEVPL-GSDLC-00-A-HISTORICAL-CONTRACT-SWEEP",
     }
     assert expected <= set(ids)
-    assert registry["last_registered_sprint"] == "DEVPL-GSDLC-07-E"
+    # Global current-active documentation may progress to FRX; the dedicated
+    # GSDLC pointer preserves the paused DEVPL-GSDLC lineage.
+    assert registry["gsdlc_last_registered_micro_sprint"] == "DEVPL-GSDLC-07-E"
+    assert registry["last_registered_sprint"] == j(".devpilot/project_state.json")["last_registered_sprint"]
     assert registry["project_state_snapshot"]["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
     assert registry["gsdlc_00_a_last_registered_micro_sprint_at_close"] == "DEVPL-GSDLC-00-A"
     assert registry["gsdlc_00_a_program_status_at_close"] == "active/00-a"

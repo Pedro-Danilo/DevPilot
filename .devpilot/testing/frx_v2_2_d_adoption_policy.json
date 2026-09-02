@@ -1,16 +1,18 @@
 {
   "schema_id": "devpilot.frx.v2_2_d.adoption_policy.v1",
-  "status": "approved-engineering-default",
-  "version": "1.0.0",
+  "status": "performance-corrective/available-not-default",
+  "version": "1.1.0",
   "workers": 1,
   "second_full_allowed": false,
   "thresholds": {
     "min_max_shard_improvement_pct": 25.0,
     "min_p95_shard_improvement_pct": 25.0,
     "min_cv_improvement_pct": 10.0,
-    "max_infra_abort_receipts": 1
+    "max_infra_abort_receipts": 1,
+    "min_total_wall_improvement_pct": 0.0,
+    "max_orchestrator_hidden_overhead_ratio": 0.15
   },
-  "decision_policy": "Functional correctness may close as PASS/AVAILABLE-NOT-DEFAULT when performance thresholds are not met. PASS/ENABLED requires every threshold plus 100% terminal accounting and zero source drift.",
+  "decision_policy": "PASS/ENABLED requires functional correctness, shard-balance thresholds, non-negative end-to-end wall improvement versus the sealed baseline, and orchestrator hidden-overhead ratio <=15%. Otherwise a functionally valid close is PASS/AVAILABLE-NOT-DEFAULT.",
   "parallelism": "forbidden-v2.2",
   "next_evolution": "FRX-v2.3 safe parallelism"
 }

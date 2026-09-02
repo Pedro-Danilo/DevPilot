@@ -794,6 +794,15 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
 
 
 COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
+    # FRX-v2.2 testing commands may create reports/registries or spawn pytest.
+    # The historical registry contract treats execute-subprocess commands as
+    # file-writing capable, so declare this conservatively and keep dry-run.
+    "tests.duration-registry.estimate": DeclarativeCommandOverride(command_id="tests.duration-registry.estimate", writes_files=True, rationale="FRX-v2.2 registry command may persist/report testing metadata."),
+    "tests.duration-registry.ingest": DeclarativeCommandOverride(command_id="tests.duration-registry.ingest", writes_files=True, rationale="FRX-v2.2 ingestion persists duration registry state."),
+    "tests.duration-registry.preview": DeclarativeCommandOverride(command_id="tests.duration-registry.preview", writes_files=True, rationale="FRX-v2.2 preview may write an explicit report when requested."),
+    "tests.duration-registry.status": DeclarativeCommandOverride(command_id="tests.duration-registry.status", writes_files=True, rationale="FRX-v2.2 status may write an explicit report when requested."),
+    "tests.temporal-planner": DeclarativeCommandOverride(command_id="tests.temporal-planner", writes_files=True, rationale="FRX-v2.2 planner may seal/write plan artifacts only under explicit execution paths."),
+
 
     "agent.capability-inventory": DeclarativeCommandOverride(
         command_id="agent.capability-inventory",

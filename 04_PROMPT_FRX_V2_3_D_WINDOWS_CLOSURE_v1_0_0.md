@@ -2,9 +2,9 @@
 doc_id: "04_PROMPT_FRX_V2_3_D_WINDOWS_CLOSURE_V1_0_0"
 title: "FRX-v2.3-D — Windows one-full safe-parallel closure — implementation and Windows validation prompt"
 status: "approved"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
-updated: "2026-08-31"
+updated: "2026-09-02"
 approval: "approved_by_owner"
 source_policy: "successor-of-previous-micro-sprint/windows-validated-when-applicable"
 full_regression_policy: "only-closing-micro-sprint-may-consume-one-logical-full"
@@ -98,3 +98,7 @@ Race/collision, outcome mismatch, flake delta, unclassified node paralelo, worke
 ## 10. Salida y autorización
 
 Cierra FRX v2.3. Si v2.3 CLOSED/PASS, autoriza reanudación funcional en DEVPL-GSDLC-08. Commit: `close(frx-v2.3): validate bounded safe parallel full regression on Windows`.
+
+## 11. Corrective go/no-go before the single v2.3 full — 2026-09-02
+
+La full v2.3-D solo puede consumirse si A/B/C están CLOSED/PASS, el source-guard corrective de v2.2-D sigue integrado, DocumentationDriftGate PASS y el feasibility report demuestra que el target owner es teóricamente alcanzable con workers=2. La comparación usa wall-clock v2.2 reconciliado end-to-end; queda prohibido usar como baseline la suma incompleta de `duration_seconds` de receipts del intento v2.2-D. Si feasibility no alcanza el target, elevar adjudicación al owner y conservar `AVAILABLE-NOT-DEFAULT` sin gastar una full únicamente para confirmar ese límite matemático.

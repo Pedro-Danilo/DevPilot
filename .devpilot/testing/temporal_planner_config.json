@@ -1,16 +1,17 @@
 {
   "schema_id": "devpilot.testing.temporal_planner_config.v1",
   "version": "1.0.0",
-  "status": "windows-benchmark-pending",
+  "status": "performance-corrective/selective-recovery-pending",
   "scheduler_enabled": false,
   "parallel_workers": 1,
   "planner": "deterministic-lpt-sequential",
-  "target_shard_seconds": 300.0,
+  "target_shard_seconds": 900.0,
   "max_nodeids": 50,
   "max_command_chars": 7000,
   "baseline_shard_size": 50,
   "adoption_default": false,
   "adoption_authority": "FRX-v2.2-D Windows benchmark only",
   "registry_environment_fingerprint": "windows-pytest-devpilot-gsdlc07e-v1",
-  "adoption_state": "PENDING-WINDOWS-BENCHMARK"
+  "adoption_state": "AVAILABLE-NOT-DEFAULT/PENDING-CORRECTED-WALL-METRICS",
+  "performance_note": "Sequential v2.2 uses coarse shards to reduce process and orchestration fragmentation; safe parallel speedup belongs to v2.3."
 }

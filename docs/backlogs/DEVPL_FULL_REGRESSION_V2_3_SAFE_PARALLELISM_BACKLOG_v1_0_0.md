@@ -74,3 +74,14 @@ Para habilitar paralelismo por defecto se exige mejora wall-clock >= 30% frente 
 ## DocumentationDriftGate
 
 Continúa siendo precondición dura antes de la full. v2.3 no debe gastar paralelismo en descubrir drift determinista que pudo detectarse focalmente.
+
+## Corrective prerequisite after v2.2-D — 2026-09-02
+
+V2.3 conserva A-D, resource classes, conflict graph y workers=2, con estos ajustes obligatorios:
+
+1. **Prerequisite P0:** el hot path v2.2 debe usar source guard acotado e instrumentación end-to-end; v2.3 no puede intentar “tapar” overhead de orquestación defectuoso con paralelismo.
+2. **Baseline:** comparar contra wall-clock v2.2 corregido/analíticamente reconciliado, no contra la suma incompleta de `duration_seconds` de receipts.
+3. **Runtime-weighted safe coverage:** B debe calcular qué porcentaje del runtime histórico, no solo del número de tests, es `PROVEN_PARALLEL_SAFE`.
+4. **Amdahl feasibility gate:** con workers=2, exigir safe-runtime coverage suficiente para que el speedup objetivo sea teóricamente alcanzable. Para 30% de reducción ideal, el umbral inicial es >=60% del runtime.
+5. **Canary C:** medir proceso + orquestación + locks + source guard; no aceptar speedup que excluya overhead del coordinador.
+6. **D:** consumir la única full solo si safety PASS y feasibility PASS. Si no, cerrar la capacidad `PASS/AVAILABLE-NOT-DEFAULT` sin gastar una full innecesaria, sujeto a aprobación owner de esa adjudicación.

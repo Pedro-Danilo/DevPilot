@@ -3,7 +3,7 @@
   "graph_id": "devpilot-documentation-authority-graph",
   "status": "implemented-initial",
   "owner": "Ordóñez",
-  "updated": "2026-08-31",
+  "updated": "2026-09-02",
   "nodes": [
     {
       "node_id": "project-state-gsdlc07",
@@ -103,6 +103,28 @@
       "lifecycle": "active",
       "classification": "source-of-truth",
       "successor": "FRX-v2.2-D"
+    },
+    {
+      "node_id": "frx-v2.2-d-forensics",
+      "doc_id": "FRX-V2-2-D-FAILURE-FORENSICS-RECOVERY",
+      "path": "docs/audits/FRX_V2_2_D_FAILURE_FORENSICS_AND_RECOVERY_PLAN.md",
+      "subject": "FRX-v2.2-D-recovery",
+      "authority_rank": 99,
+      "authority_kind": "current-active",
+      "lifecycle": "active",
+      "classification": "source-of-truth",
+      "successor": "FRX-v2.2-D-composite-closure"
+    },
+    {
+      "node_id": "adr-frx-001",
+      "doc_id": "ADR-FRX-001",
+      "path": "docs/02_architecture/adrs/ADR-FRX-001-git-semantic-source-guard-and-wall-clock-accounting.md",
+      "subject": "FRX-source-integrity-performance",
+      "authority_rank": 99,
+      "authority_kind": "current-active",
+      "lifecycle": "active",
+      "classification": "source-of-truth",
+      "successor": "FRX-v2.3"
     }
   ],
   "closure_contracts": [

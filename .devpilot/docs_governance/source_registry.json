@@ -325,6 +325,72 @@
       "sync_rules": []
     },
     {
+      "doc_id": "DEVPL-DOCUMENTATION-AUTHORITY-GRAPH",
+      "path": ".devpilot/docs_governance/documentation_authority_graph.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.documentation",
+      "owner": "FRX-v2.2-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_documentation_closure_consistency_current.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-DOCUMENTATION-DRIFT-LEDGER",
+      "path": ".devpilot/docs_governance/documentation_drift_ledger.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.documentation",
+      "owner": "FRX-v2.2-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-DOCUMENTATION-DRIFT-LEDGER-FRX-V2-2-A-BEFORE",
+      "path": ".devpilot/docs_governance/documentation_drift_ledger_frx_v2_2_a_before.json",
+      "classification": "historical",
+      "domain": "documentation.governance",
+      "owner": "FRX-v2.2-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "historical",
+      "notes": [
+        "Immutable before-state for S2-DOC-GSDLC07-POSTCLOSE-001; repo386 is not rewritten."
+      ]
+    },
+    {
       "classification": "machine-readable-source",
       "criticality": "P0",
       "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY",
@@ -343,6 +409,27 @@
         "test_must_pass"
       ],
       "related_adrs": []
+    },
+    {
+      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-AT-CLOSE",
+      "path": ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
+      "classification": "historical",
+      "domain": "documentation.governance",
+      "owner": "FRX-v2.2-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_docs_governance_rule_registry.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "historical",
+      "notes": [
+        "Immutable POST-H-033-F at-close snapshot. Current rule catalog evolves only in .devpilot/docs_governance/rule_registry.json."
+      ]
     },
     {
       "classification": "machine-readable-source",
@@ -1423,6 +1510,27 @@
       "related_adrs": []
     },
     {
+      "doc_id": "DEVPL-RAG-CONTEXT-PACK-V2-POLICY",
+      "path": ".devpilot/rag/context_pack_v2_policy.json",
+      "classification": "source-of-truth",
+      "domain": "knowledge.rag",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "classification": "machine-readable-source",
       "criticality": "P0",
       "doc_id": "POST-H-033-C-READINESS-REQUIREMENTS",
@@ -1752,6 +1860,194 @@
       "related_adrs": []
     },
     {
+      "doc_id": "FRX-V2-2-A-SOURCE-DELTA-MANIFEST",
+      "path": ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-B-INITIAL-TELEMETRY",
+      "path": ".devpilot/testing/frx_v2_2_b_initial_telemetry.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-B-SOURCE-DELTA-MANIFEST",
+      "path": ".devpilot/testing/frx_v2_2_b_source_delta_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "CLOSED/PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-C-HISTORICAL-COLLECTION",
+      "path": ".devpilot/testing/frx_v2_2_c_historical_collection.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-C-SOURCE-DELTA-MANIFEST",
+      "path": ".devpilot/testing/frx_v2_2_c_source_delta_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "CLOSED/PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-D-ADOPTION-POLICY",
+      "path": ".devpilot/testing/frx_v2_2_d_adoption_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "performance-corrective/available-not-default",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-ENVIRONMENT-COMPATIBILITY",
+      "path": ".devpilot/testing/frx_v2_2_d_environment_compatibility.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-SOURCE-DELTA-MANIFEST",
+      "path": ".devpilot/testing/frx_v2_2_d_source_delta_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "PASS-CANDIDATE/PENDING-WINDOWS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-B-NODE-DURATION-REGISTRY",
+      "path": ".devpilot/testing/node_duration_registry.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "classification": "machine-readable-source",
       "criticality": "P0",
       "doc_id": "POST-H-029-D-RELEASE-CANDIDATE-TEST-PROFILE",
@@ -1765,6 +2061,28 @@
       "status_required": "implemented-initial",
       "sync_rules": [],
       "related_adrs": []
+    },
+    {
+      "doc_id": "FRX-V2-2-C-PLANNER-CONFIG",
+      "path": ".devpilot/testing/temporal_planner_config.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "performance-corrective/selective-recovery-pending",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
     },
     {
       "classification": "machine-readable-source",
@@ -1855,6 +2173,27 @@
         "test_must_pass"
       ],
       "related_adrs": []
+    },
+    {
+      "doc_id": "POST-H-033-B-FRONTMATTER-CATALOG-AT-CLOSE",
+      "path": ".devpilot/validation/frontmatter_catalog_post_h_033_b_at_close.json",
+      "classification": "historical",
+      "domain": "validation.frontmatter",
+      "owner": "FRX-v2.2-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "historical",
+      "notes": [
+        "Immutable POST-H-033-B at-close snapshot. Current frontmatter rules evolve only in .devpilot/validation/frontmatter_catalog.json."
+      ]
     },
     {
       "classification": "machine-readable-source",
@@ -2088,6 +2427,48 @@
       "frontmatter_required": true
     },
     {
+      "doc_id": "01_PROMPT_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_V1_0_0",
+      "path": "01_PROMPT_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "01_PROMPT_FRX_V2_3_A_ISOLATION_REGISTRY_V1_0_0",
+      "path": "01_PROMPT_FRX_V2_3_A_ISOLATION_REGISTRY_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "doc_id": "DEVPL-PROMPT-GSDLC-03-B",
       "path": "02_PROMPT_DEVPL_GSDLC_03_B_v1_1_0.md",
       "classification": "source-of-truth",
@@ -2250,6 +2631,49 @@
       "lifecycle": "active"
     },
     {
+      "doc_id": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_V1_0_0",
+      "path": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_v1_0_0.md",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "historical",
+      "superseded_by": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_V1_0_1_REBOUND_REPO387"
+    },
+    {
+      "doc_id": "02_PROMPT_FRX_V2_3_B_CONFLICT_GRAPH_V1_0_0",
+      "path": "02_PROMPT_FRX_V2_3_B_CONFLICT_GRAPH_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "doc_id": "DEVPL-PROMPT-GSDLC-04-C",
       "path": "03_PROMPT_DEVPL_GSDLC_04_C_v1_0_1_REBOUND.md",
       "classification": "source-of-truth",
@@ -2385,6 +2809,70 @@
       ],
       "lifecycle": "active",
       "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-PROMPT-REBOUND",
+      "path": "03_PROMPT_DEVPL_GSDLC_07_C_v1_0_1_REBOUND_REPO383.md",
+      "classification": "source-of-truth",
+      "domain": "governance",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_0",
+      "path": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_v1_0_0.md",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "historical",
+      "superseded_by": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_1_REBOUND_REPO388"
+    },
+    {
+      "doc_id": "03_PROMPT_FRX_V2_3_C_PARALLEL_CANARY_V1_0_0",
+      "path": "03_PROMPT_FRX_V2_3_C_PARALLEL_CANARY_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
     },
     {
       "classification": "source-of-truth",
@@ -2544,6 +3032,49 @@
         "DEVPL-GSDLC",
         "DEVPL-GSDLC-07",
         "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_0",
+      "path": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_0.md",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "historical",
+      "superseded_by": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_1_REBOUND_REPO389"
+    },
+    {
+      "doc_id": "04_PROMPT_FRX_V2_3_D_WINDOWS_CLOSURE_V1_0_0",
+      "path": "04_PROMPT_FRX_V2_3_D_WINDOWS_CLOSURE_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
       ],
       "lifecycle": "active"
     },
@@ -2709,6 +3240,27 @@
       ],
       "lifecycle": "active",
       "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-PROMPT-REBOUND-REPO385",
+      "path": "05_PROMPT_DEVPL_GSDLC_07_E_v1_0_1_REBOUND_REPO385.md",
+      "classification": "source-of-truth",
+      "domain": "prompt",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
     },
     {
       "doc_id": "DEVPL-GSDLC-05",
@@ -4268,6 +4820,343 @@
       "frontmatter_required": true
     },
     {
+      "doc_id": "DEVPL-GSDLC-07-A-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_07_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-FINAL-OWNER-CLOSURE-CURRENT",
+      "path": "DEVPL_GSDLC_07_A_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "closed/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-07-A-OWNER-ADJUDICATION-PROPOSAL",
+      "domain": "governance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "DEVPL_GSDLC_07_A_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-BACKLOG-CLOSURE-ADJUDICATION",
+      "path": "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-07",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-FINAL-OWNER-CLOSURE-CURRENT",
+      "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "Ordóñez",
+      "status_required": "CLOSED/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-OWNER-ADJUDICATION-PROPOSAL",
+      "path": "DEVPL_GSDLC_07_B_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_07_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance",
+      "owner": "Ordóñez",
+      "status_required": "CLOSED/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-FINAL-OWNER-CLOSURE-CURRENT",
+      "path": "DEVPL_GSDLC_07_C_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "Ordóñez",
+      "status_required": "CLOSED/PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-OWNER-ADJUDICATION-PROPOSAL",
+      "path": "DEVPL_GSDLC_07_C_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "classification": "derived",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "draft",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-EVIDENCE-ERRATUM",
+      "path": "DEVPL_GSDLC_07_D_EVIDENCE_ERRATUM_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_07_D_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-FINAL-OWNER-CLOSURE-CURRENT",
+      "path": "DEVPL_GSDLC_07_D_FINAL_OWNER_CLOSURE_CURRENT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "CLOSED/PASS-WITH-S2-EVIDENCE-GAP",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-OWNER-ADJUDICATION-PROPOSAL",
+      "path": "DEVPL_GSDLC_07_D_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "classification": "derived",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "draft",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-FINAL-OWNER-ADJUDICATION",
+      "path": "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.gsdlc",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-OWNER-ADJUDICATION-PROPOSAL",
+      "path": "DEVPL_GSDLC_07_E_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
+      "classification": "historical",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "proposal",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "historical",
+      "notes": [
+        "Superseded by DEVPL-GSDLC-07-E-FINAL-OWNER-ADJUDICATION; content preserved unchanged."
+      ]
+    },
+    {
       "doc_id": "DEVPL-TESTING-FULL-REGRESSION-EXECUTION-V2-ARCHITECTURE",
       "path": "DEVPL_TESTING_FULL_REGRESSION_EXECUTION_V2_ARCHITECTURE_v1_0_0.md",
       "classification": "source-of-truth",
@@ -4416,6 +5305,27 @@
         "closure_status_match"
       ],
       "related_adrs": []
+    },
+    {
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-2-V2-3-EXECUTION-ROADMAP",
+      "path": "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
     },
     {
       "classification": "source-of-truth",
@@ -4602,6 +5512,43 @@
       ],
       "status_required": "approved",
       "related_adrs": []
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-07-A-FRAMEWORK-ADR",
+      "domain": "architecture",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": []
+    },
+    {
+      "doc_id": "ADR-FRX-001",
+      "path": "docs/02_architecture/adrs/ADR-FRX-001-git-semantic-source-guard-and-wall-clock-accounting.md",
+      "classification": "source-of-truth",
+      "domain": "architecture.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "accepted",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active"
     },
     {
       "classification": "source-of-truth",
@@ -4974,6 +5921,28 @@
       "lifecycle": "active",
       "frontmatter_required": true,
       "related_adrs": []
+    },
+    {
+      "doc_id": "DEVPL-FRX-V2-2-A-DOCUMENTATION-CONSISTENCY-CONTRACT-EVOLUTION",
+      "path": "docs/02_architecture/governance/DEVPL_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CONTRACT_EVOLUTION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "FRX-v2.2-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
     },
     {
       "doc_id": "DEVPL-GSDLC-TRANSVERSAL-VALIDATION-POLICY",
@@ -5734,6 +6703,27 @@
       "related_adrs": []
     },
     {
+      "doc_id": "DEVPL-GSDLC-07-CLOSURE-FRX-V2-2-INTEGRATION-GUIDE",
+      "path": "docs/05_operations/GUIA_INTEGRACION_CIERRE_07_Y_ACTIVACION_FRX_V2_2_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "operations",
+      "owner": "FRX-v2.2-A",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "classification": "source-of-truth",
       "criticality": "P0",
       "doc_id": "POST-H-EVAL-002-01-D-SPRINT7-IMPLEMENTATION-GUIDE",
@@ -5869,6 +6859,111 @@
       ],
       "lifecycle": "active",
       "frontmatter_required": true
+    },
+    {
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-2-V2-3-HANDOFF",
+      "path": "docs/05_operations/full_regression_v2_2_v2_3_handoff.md",
+      "classification": "source-of-truth",
+      "domain": "architecture",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-CONTEXT-PACK-V2-RUNBOOK",
+      "path": "docs/05_operations/gsdlc_07_b_context_pack_v2_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "operations",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-AGENT-ASSIST-RUNBOOK",
+      "path": "docs/05_operations/gsdlc_07_c_agent_assist_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "operations",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-AGENT-EXECUTION-RUNBOOK",
+      "path": "docs/05_operations/gsdlc_07_d_agent_execution_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "operations",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-AGENTIC-PRECODE-RUNBOOK",
+      "path": "docs/05_operations/gsdlc_07_e_agentic_precode_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "operations",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
     },
     {
       "doc_id": "DEVPL-GSDLC-02-B-AUTH-RUNBOOK",
@@ -11577,6 +12672,1624 @@
       "frontmatter_required": true
     },
     {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-07-A-AGENT-BINDING-MATRIX",
+      "domain": "audit",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_AGENT_BINDING_MATRIX.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-FORBIDDEN-PATH-AUDIT",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_FORBIDDEN_PATH_AUDIT.json",
+      "classification": "derived",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-FULL-REGRESSION-WAIVER",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_FULL_REGRESSION_WAIVER.json",
+      "classification": "source-of-truth",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "approved-by-owner-policy",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-07-A-IMPLEMENTATION-REPORT",
+      "domain": "audit",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-07-A",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_IMPLEMENTATION_REPORT.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-SECRET-DELTA-SCAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_SECRET_DELTA_SCAN.json",
+      "classification": "derived",
+      "domain": "security",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL-FINAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-SOURCE-DELTA-MANIFEST",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_SOURCE_DELTA_MANIFEST.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/LOCAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "PASS/PLAN-FROZEN",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-A-VALIDATION-PLAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_A_VALIDATION_PLAN.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-A",
+      "status_required": "FROZEN-BEFORE-GOVERNED-VALIDATION",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-A"
+      ],
+      "lifecycle": "active",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-CONTEXT-BUDGET-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_CONTEXT_BUDGET_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-FORBIDDEN-PATH-AUDIT",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_FORBIDDEN_PATH_AUDIT.json",
+      "classification": "derived",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-FULL-REGRESSION-WAIVER",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_FULL_REGRESSION_WAIVER.json",
+      "classification": "source-of-truth",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "approved-by-owner-policy",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_IMPLEMENTATION_REPORT.md",
+      "classification": "derived",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-RAG-GROUNDING-SAMPLES",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_RAG_GROUNDING_SAMPLES.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-SECRET-DELTA-SCAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_SECRET_DELTA_SCAN.json",
+      "classification": "derived",
+      "domain": "security",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/LOCAL-FINAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-SOURCE-DELTA-MANIFEST",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_SOURCE_DELTA_MANIFEST.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/LOCAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "PASS/PLAN-FROZEN",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-B-VALIDATION-PLAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_B_VALIDATION_PLAN.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "FROZEN-BEFORE-GOVERNED-VALIDATION",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-AGENT-ASSIST-TRACES",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_AGENT_ASSIST_TRACES.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-COST-PROVENANCE-SAMPLES",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_COST_PROVENANCE_SAMPLES.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-FORBIDDEN-PATH-AUDIT",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_FORBIDDEN_PATH_AUDIT.json",
+      "classification": "derived",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-FULL-REGRESSION-WAIVER",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_FULL_REGRESSION_WAIVER.json",
+      "classification": "source-of-truth",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "approved-by-owner-policy",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_IMPLEMENTATION_REPORT.md",
+      "classification": "derived",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-SECRET-DELTA-SCAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_SECRET_DELTA_SCAN.json",
+      "classification": "derived",
+      "domain": "security",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/LOCAL-FINAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-SOURCE-DELTA-MANIFEST",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_SOURCE_DELTA_MANIFEST.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/LOCAL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/PLAN-FROZEN",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-C-VALIDATION-PLAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_C_VALIDATION_PLAN.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "PASS/PLAN-FROZEN",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-AGENT-SECURITY-EVAL",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_AGENT_SECURITY_EVAL.json",
+      "classification": "machine-readable-source",
+      "domain": "security",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-FORBIDDEN-PATH-AUDIT",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_FORBIDDEN_PATH_AUDIT.json",
+      "classification": "derived",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-FULL-REGRESSION-WAIVER",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_FULL_REGRESSION_WAIVER.json",
+      "classification": "source-of-truth",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "approved-by-owner-policy",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-HANDOFF-TRACES",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_HANDOFF_TRACES.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_IMPLEMENTATION_REPORT.md",
+      "classification": "derived",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-SECRET-DELTA-SCAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_SECRET_DELTA_SCAN.json",
+      "classification": "derived",
+      "domain": "security",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-SOURCE-DELTA-MANIFEST",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_SOURCE_DELTA_MANIFEST.json",
+      "classification": "machine-readable-source",
+      "domain": "governance",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/PLAN-FROZEN",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-D-VALIDATION-PLAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_D_VALIDATION_PLAN.json",
+      "classification": "machine-readable-source",
+      "domain": "testing",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "PASS/LOCAL-CANDIDATE",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-AGENTIC-PRECODE-ACCEPTANCE",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_AGENTIC_PRECODE_ACCEPTANCE.md",
+      "classification": "source-of-truth",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PASS/PRE-WINDOWS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-AI-CONTROL-CENTER-ACCEPTANCE",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_AI_CONTROL_CENTER_ACCEPTANCE.md",
+      "classification": "source-of-truth",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PASS/PRE-WINDOWS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-CLOSURE-REVIEW-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_CLOSURE_REVIEW_REPORT_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "audit.gsdlc",
+      "owner": "FRX-v2.2-A",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-CONTRACT-RECONCILIATION-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-FORBIDDEN-PATH-AUDIT",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_FORBIDDEN_PATH_AUDIT.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-FRX-V2-2-TEMPORAL-HANDOFF",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_FRX_V2_2_TEMPORAL_HANDOFF.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PREPARED_NOT_ENABLED",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_IMPLEMENTATION_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "CLOSED/PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-OPERATION-DECLARATION",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_OPERATION_DECLARATION.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "CLOSED/PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-SECRET-DELTA-SCAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_SECRET_DELTA_SCAN.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_TEST_IMPACT.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-E-VALIDATION-PLAN",
+      "path": "docs/audits/DEVPL_GSDLC_07_E_VALIDATION_PLAN.json",
+      "classification": "machine-readable-source",
+      "domain": "audit",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-07-POST-CLOSURE-DOCUMENTATION-ERRATUM",
+      "path": "docs/audits/DEVPL_GSDLC_07_POST_CLOSURE_DOCUMENTATION_ERRATUM_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "audit.gsdlc",
+      "owner": "FRX-v2.2-A",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-A-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/FRX_V2_2_A_IMPLEMENTATION_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "documentation.governance",
+      "owner": "FRX-v2.2-A",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "FRX-V2-2-B-COST-PERFORMANCE-BASELINE",
+      "path": "docs/audits/FRX_V2_2_B_COST_PERFORMANCE_BASELINE.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-B-ESTIMATOR-REPORT",
+      "path": "docs/audits/FRX_V2_2_B_ESTIMATOR_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-B-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/FRX_V2_2_B_IMPLEMENTATION_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "FRX-V2-2-B-INGESTION-RECEIPT",
+      "path": "docs/audits/FRX_V2_2_B_INITIAL_INGESTION_RECEIPT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-B-NODEID-FIXTURES",
+      "path": "docs/audits/FRX_V2_2_B_NODEID_PRESERVATION_FIXTURES.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.telemetry",
+      "owner": "FRX-v2.2-B",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-C-CANARY-REPORT",
+      "path": "docs/audits/FRX_V2_2_C_CANARY_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-C-COMMAND-AUDIT",
+      "path": "docs/audits/FRX_V2_2_C_COMMAND_LENGTH_AUDIT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-C-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/FRX_V2_2_C_IMPLEMENTATION_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "FRX-V2-2-C-DETERMINISM-REPORT",
+      "path": "docs/audits/FRX_V2_2_C_PLANNER_DETERMINISM_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-C-SHADOW-COMPARISON",
+      "path": "docs/audits/FRX_V2_2_C_SHADOW_COMPARISON_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-C-TEMPORAL-PLAN-SAMPLE",
+      "path": "docs/audits/FRX_V2_2_C_TEMPORAL_PLAN_SAMPLE.json",
+      "classification": "machine-readable-source",
+      "domain": "testing.planning",
+      "owner": "FRX-v2.2-C",
+      "status_required": "shadow",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-BASELINE-07-E",
+      "path": "docs/audits/FRX_V2_2_D_BASELINE_07_E.json",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "historical",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-FAILURE-FORENSICS-JSON",
+      "path": "docs/audits/FRX_V2_2_D_FAILURE_FORENSICS.json",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "corrective-ready",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-D-FAILURE-FORENSICS-RECOVERY",
+      "path": "docs/audits/FRX_V2_2_D_FAILURE_FORENSICS_AND_RECOVERY_PLAN.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved-corrective",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_frx_v2_2_a_documentation_consistency.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "FRX-V2-2-D-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/FRX_V2_2_D_IMPLEMENTATION_REPORT.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
       "doc_id": "DEVPL-GSDLC-05-D-ADVISOR-DECISION-SAMPLES",
       "path": "docs/audits/advisor_decision_samples.json",
       "classification": "machine-readable-source",
@@ -15599,6 +18312,48 @@
       "lifecycle": "active",
       "frontmatter_required": true,
       "related_adrs": []
+    },
+    {
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-2",
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-3",
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-A"
+      ],
+      "lifecycle": "active"
     },
     {
       "classification": "derived",
@@ -19645,6 +22400,74 @@
       "related_adrs": []
     },
     {
+      "doc_id": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_V1_0_1_REBOUND_REPO387",
+      "path": "docs/prompts/02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_v1_0_1_REBOUND_REPO387.md",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "historical",
+      "frontmatter_required": true,
+      "superseded_by": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_0"
+    },
+    {
+      "doc_id": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_1_REBOUND_REPO388",
+      "path": "docs/prompts/03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_v1_0_1_REBOUND_REPO388.md",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "historical",
+      "frontmatter_required": true,
+      "superseded_by": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_0"
+    },
+    {
+      "doc_id": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_1_REBOUND_REPO389",
+      "path": "docs/prompts/04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_1_REBOUND_REPO389.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
+    },
+    {
       "classification": "source-of-truth",
       "criticality": "P1",
       "doc_id": "DEVPL-CHANGELOG-001",
@@ -19684,6 +22507,72 @@
       "related_adrs": []
     },
     {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-PLAN-V1",
+      "path": "docs/schemas/agent_assist_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-PROPOSAL-V1",
+      "path": "docs/schemas/agent_assist_proposal.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-STRUCTURED-OUTPUT-V1",
+      "path": "docs/schemas/agent_assist_structured_output.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "classification": "machine-readable-source",
       "criticality": "P0",
       "derived_documents": [],
@@ -19708,6 +22597,49 @@
       ],
       "status_required": "registered",
       "sync_rules": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-E-AGENT-EVAL-TRACE-V1",
+      "path": "docs/schemas/agent_eval_trace.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1",
+      "path": "docs/schemas/agent_execution_policy.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
     },
     {
       "classification": "machine-readable-source",
@@ -19760,6 +22692,28 @@
       ],
       "status_required": "registered",
       "sync_rules": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-PROVENANCE-V1",
+      "path": "docs/schemas/agent_provenance.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-C"
+      ],
+      "lifecycle": "active"
     },
     {
       "classification": "machine-readable-source",
@@ -20392,6 +23346,28 @@
       "lifecycle": "active"
     },
     {
+      "doc_id": "SCHEMA-DEVPL-CONTEXT-PACK-V2",
+      "path": "docs/schemas/context_pack_v2.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
       "doc_id": "SCHEMA-DEVPL-GSDLC-06-D-COST-LEDGER-V2",
       "path": "docs/schemas/cost_ledger_v2.schema.json",
       "classification": "machine-readable-source",
@@ -20671,6 +23647,69 @@
       "related_adrs": []
     },
     {
+      "doc_id": "SCHEMA-DEVPL-FRX-V2-2-D-FULL-BENCHMARK",
+      "path": "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "FRX-v2.2-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-E-FULL-REGRESSION-TELEMETRY-HANDOFF-V1",
+      "path": "docs/schemas/full_regression_telemetry_handoff.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-E",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-E"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FULL-REGRESSION-TEMPORAL-SHARD-PLAN-V2-2",
+      "path": "docs/schemas/full_regression_temporal_shard_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "FRX-v2.2-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
       "classification": "machine-readable-source",
       "criticality": "P1",
       "derived_documents": [
@@ -20790,6 +23829,28 @@
         "DEVPL-GSDLC",
         "DEVPL-GSDLC-06",
         "DEVPL-GSDLC-06-B"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-HANDOFF-TRANSFER-STATE-V1",
+      "path": "docs/schemas/handoff_transfer_state.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
       ],
       "lifecycle": "active"
     },
@@ -21183,6 +24244,26 @@
         "test_must_pass"
       ],
       "related_adrs": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-NODE-DURATION-REGISTRY-V1-SOURCE",
+      "path": "docs/schemas/node_duration_registry.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "FRX-v2.2-B",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_b_duration_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-B"
+      ],
+      "lifecycle": "active"
     },
     {
       "classification": "machine-readable-source",
@@ -22108,6 +25189,27 @@
       "related_adrs": []
     },
     {
+      "doc_id": "SCHEMA-DEVPL-TEMPORAL-SHARD-PLAN-V1-SOURCE",
+      "path": "docs/schemas/temporal_shard_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schemas",
+      "owner": "FRX-v2.2-C",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_2_c_temporal_planner.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-C"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
       "classification": "machine-readable-source",
       "criticality": "P0",
       "doc_id": "SCHEMA-DEVPL-TEST-IMPACT-RECOMMENDATION-REPORT-V1",
@@ -22182,6 +25284,50 @@
         "DEVPL-GSDLC",
         "DEVPL-GSDLC-06",
         "DEVPL-GSDLC-06-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-EXECUTION-DECISION-V1",
+      "path": "docs/schemas/tool_execution_decision.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-INTENT-V1",
+      "path": "docs/schemas/tool_intent.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "schema",
+      "owner": "DEVPL-GSDLC-07-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC",
+        "DEVPL-GSDLC-07",
+        "DEVPL-GSDLC-07-D"
       ],
       "lifecycle": "active"
     },
@@ -29406,3094 +32552,9 @@
         "test_must_pass"
       ],
       "related_adrs": []
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-07-A-FRAMEWORK-ADR",
-      "domain": "architecture",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-07-A",
-      "path": "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": []
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "doc_id": "DEVPL-GSDLC-07-A-IMPLEMENTATION-REPORT",
-      "domain": "audit",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-07-A",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_IMPLEMENTATION_REPORT.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-07-A-AGENT-BINDING-MATRIX",
-      "domain": "audit",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-07-A",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_AGENT_BINDING_MATRIX.json",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-07-A-OWNER-ADJUDICATION-PROPOSAL",
-      "domain": "governance",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-07-A",
-      "path": "DEVPL_GSDLC_07_A_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-VALIDATION-PLAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_VALIDATION_PLAN.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "FROZEN-BEFORE-GOVERNED-VALIDATION",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-FULL-REGRESSION-WAIVER",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_FULL_REGRESSION_WAIVER.json",
-      "classification": "source-of-truth",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "approved-by-owner-policy",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-TEST-IMPACT",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_TEST_IMPACT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "PASS/PLAN-FROZEN",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-HISTORICAL-CONTRACT-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_HISTORICAL_CONTRACT_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-CONTRACT-RECONCILIATION-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_CONTRACT_RECONCILIATION_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-SECRET-DELTA-SCAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_SECRET_DELTA_SCAN.json",
-      "classification": "derived",
-      "domain": "security",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "PASS/LOCAL-FINAL",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-FORBIDDEN-PATH-AUDIT",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_FORBIDDEN_PATH_AUDIT.json",
-      "classification": "derived",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "PASS",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-OPERATION-DECLARATION",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_OPERATION_DECLARATION.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-SOURCE-DELTA-MANIFEST",
-      "path": "docs/audits/DEVPL_GSDLC_07_A_SOURCE_DELTA_MANIFEST.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "PASS/LOCAL",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-A"
-      ],
-      "lifecycle": "active",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-0010-agent-runtime-framework-experiment-boundary.md"
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-FINAL-OWNER-ADJUDICATION",
-      "path": "DEVPL_GSDLC_07_A_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-A-FINAL-OWNER-CLOSURE-CURRENT",
-      "path": "DEVPL_GSDLC_07_A_FINAL_OWNER_CLOSURE_CURRENT.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-A",
-      "status_required": "closed/PASS",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_project_global_state.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-RAG-CONTEXT-PACK-V2-POLICY",
-      "path": ".devpilot/rag/context_pack_v2_policy.json",
-      "classification": "source-of-truth",
-      "domain": "knowledge.rag",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-CONTEXT-PACK-V2",
-      "path": "docs/schemas/context_pack_v2.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-CONTEXT-PACK-V2-RUNBOOK",
-      "path": "docs/05_operations/gsdlc_07_b_context_pack_v2_runbook.md",
-      "classification": "source-of-truth",
-      "domain": "operations",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_IMPLEMENTATION_REPORT.md",
-      "classification": "derived",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-RAG-GROUNDING-SAMPLES",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_RAG_GROUNDING_SAMPLES.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-CONTEXT-BUDGET-REPORT",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_CONTEXT_BUDGET_REPORT.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-OWNER-ADJUDICATION-PROPOSAL",
-      "path": "DEVPL_GSDLC_07_B_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-VALIDATION-PLAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_VALIDATION_PLAN.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "FROZEN-BEFORE-GOVERNED-VALIDATION",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-TEST-IMPACT",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_TEST_IMPACT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/PLAN-FROZEN",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-HISTORICAL-CONTRACT-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_HISTORICAL_CONTRACT_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-CONTRACT-RECONCILIATION-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_CONTRACT_RECONCILIATION_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-SECRET-DELTA-SCAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_SECRET_DELTA_SCAN.json",
-      "classification": "derived",
-      "domain": "security",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/LOCAL-FINAL",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-FORBIDDEN-PATH-AUDIT",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_FORBIDDEN_PATH_AUDIT.json",
-      "classification": "derived",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-OPERATION-DECLARATION",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_OPERATION_DECLARATION.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-FULL-REGRESSION-WAIVER",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_FULL_REGRESSION_WAIVER.json",
-      "classification": "source-of-truth",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "approved-by-owner-policy",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-SOURCE-DELTA-MANIFEST",
-      "path": "docs/audits/DEVPL_GSDLC_07_B_SOURCE_DELTA_MANIFEST.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-B",
-      "status_required": "PASS/LOCAL",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-PROMPT-REBOUND",
-      "path": "03_PROMPT_DEVPL_GSDLC_07_C_v1_0_1_REBOUND_REPO383.md",
-      "classification": "source-of-truth",
-      "domain": "governance",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-FINAL-OWNER-ADJUDICATION",
-      "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance",
-      "owner": "Ordóñez",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-B-FINAL-OWNER-CLOSURE-CURRENT",
-      "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_CLOSURE_CURRENT.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "Ordóñez",
-      "status_required": "CLOSED/PASS",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-OWNER-ADJUDICATION-PROPOSAL",
-      "path": "DEVPL_GSDLC_07_C_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
-      "classification": "derived",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "draft",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-AGENT-ASSIST-RUNBOOK",
-      "path": "docs/05_operations/gsdlc_07_c_agent_assist_runbook.md",
-      "classification": "source-of-truth",
-      "domain": "operations",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_IMPLEMENTATION_REPORT.md",
-      "classification": "derived",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-AGENT-ASSIST-TRACES",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_AGENT_ASSIST_TRACES.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-COST-PROVENANCE-SAMPLES",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_COST_PROVENANCE_SAMPLES.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-HISTORICAL-CONTRACT-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_HISTORICAL_CONTRACT_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-CONTRACT-RECONCILIATION-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_CONTRACT_RECONCILIATION_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-VALIDATION-PLAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_VALIDATION_PLAN.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/PLAN-FROZEN",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-OPERATION-DECLARATION",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_OPERATION_DECLARATION.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-FULL-REGRESSION-WAIVER",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_FULL_REGRESSION_WAIVER.json",
-      "classification": "source-of-truth",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "approved-by-owner-policy",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-PLAN-V1",
-      "path": "docs/schemas/agent_assist_plan.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-STRUCTURED-OUTPUT-V1",
-      "path": "docs/schemas/agent_assist_structured_output.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-PROVENANCE-V1",
-      "path": "docs/schemas/agent_provenance.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-C-AGENT-ASSIST-PROPOSAL-V1",
-      "path": "docs/schemas/agent_assist_proposal.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-TEST-IMPACT",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_TEST_IMPACT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/PLAN-FROZEN",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-SECRET-DELTA-SCAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_SECRET_DELTA_SCAN.json",
-      "classification": "derived",
-      "domain": "security",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/LOCAL-FINAL",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-FORBIDDEN-PATH-AUDIT",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_FORBIDDEN_PATH_AUDIT.json",
-      "classification": "derived",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-SOURCE-DELTA-MANIFEST",
-      "path": "docs/audits/DEVPL_GSDLC_07_C_SOURCE_DELTA_MANIFEST.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-C",
-      "status_required": "PASS/LOCAL",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-FINAL-OWNER-ADJUDICATION",
-      "path": "DEVPL_GSDLC_07_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance",
-      "owner": "Ordóñez",
-      "status_required": "CLOSED/PASS",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-C-FINAL-OWNER-CLOSURE-CURRENT",
-      "path": "DEVPL_GSDLC_07_C_FINAL_OWNER_CLOSURE_CURRENT.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "Ordóñez",
-      "status_required": "CLOSED/PASS",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-OWNER-ADJUDICATION-PROPOSAL",
-      "path": "DEVPL_GSDLC_07_D_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
-      "classification": "derived",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "draft",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-AGENT-EXECUTION-RUNBOOK",
-      "path": "docs/05_operations/gsdlc_07_d_agent_execution_runbook.md",
-      "classification": "source-of-truth",
-      "domain": "operations",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-AGENT-SECURITY-EVAL",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_AGENT_SECURITY_EVAL.json",
-      "classification": "machine-readable-source",
-      "domain": "security",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-HANDOFF-TRACES",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_HANDOFF_TRACES.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-HISTORICAL-CONTRACT-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_HISTORICAL_CONTRACT_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-CONTRACT-RECONCILIATION-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_CONTRACT_RECONCILIATION_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_IMPLEMENTATION_REPORT.md",
-      "classification": "derived",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-OPERATION-DECLARATION",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_OPERATION_DECLARATION.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-TEST-IMPACT",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_TEST_IMPACT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/PLAN-FROZEN",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-VALIDATION-PLAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_VALIDATION_PLAN.json",
-      "classification": "machine-readable-source",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-FULL-REGRESSION-WAIVER",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_FULL_REGRESSION_WAIVER.json",
-      "classification": "source-of-truth",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "approved-by-owner-policy",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-SECRET-DELTA-SCAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_SECRET_DELTA_SCAN.json",
-      "classification": "derived",
-      "domain": "security",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-FORBIDDEN-PATH-AUDIT",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_FORBIDDEN_PATH_AUDIT.json",
-      "classification": "derived",
-      "domain": "testing",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-SOURCE-DELTA-MANIFEST",
-      "path": "docs/audits/DEVPL_GSDLC_07_D_SOURCE_DELTA_MANIFEST.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "PASS/LOCAL-CANDIDATE",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-AGENT-EXECUTION-POLICY-V1",
-      "path": "docs/schemas/agent_execution_policy.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-INTENT-V1",
-      "path": "docs/schemas/tool_intent.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-TOOL-EXECUTION-DECISION-V1",
-      "path": "docs/schemas/tool_execution_decision.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-HANDOFF-TRANSFER-STATE-V1",
-      "path": "docs/schemas/handoff_transfer_state.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
-        "tests/test_schema_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-D"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-PROMPT-REBOUND-REPO385",
-      "path": "05_PROMPT_DEVPL_GSDLC_07_E_v1_0_1_REBOUND_REPO385.md",
-      "classification": "source-of-truth",
-      "domain": "prompt",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-FINAL-OWNER-ADJUDICATION",
-      "path": "DEVPL_GSDLC_07_D_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-FINAL-OWNER-CLOSURE-CURRENT",
-      "path": "DEVPL_GSDLC_07_D_FINAL_OWNER_CLOSURE_CURRENT.json",
-      "classification": "machine-readable-source",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "CLOSED/PASS-WITH-S2-EVIDENCE-GAP",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-D-EVIDENCE-ERRATUM",
-      "path": "DEVPL_GSDLC_07_D_EVIDENCE_ERRATUM_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-OWNER-ADJUDICATION-PROPOSAL",
-      "path": "DEVPL_GSDLC_07_E_OWNER_ADJUDICATION_PROPOSAL_v1_0_0.md",
-      "classification": "historical",
-      "domain": "governance",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "proposal",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "historical",
-      "notes": [
-        "Superseded by DEVPL-GSDLC-07-E-FINAL-OWNER-ADJUDICATION; content preserved unchanged."
-      ]
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-AGENTIC-PRECODE-RUNBOOK",
-      "path": "docs/05_operations/gsdlc_07_e_agentic_precode_runbook.md",
-      "classification": "source-of-truth",
-      "domain": "operations",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-FULL-REGRESSION-V2-2-V2-3-HANDOFF",
-      "path": "docs/05_operations/full_regression_v2_2_v2_3_handoff.md",
-      "classification": "source-of-truth",
-      "domain": "architecture",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-AGENTIC-PRECODE-ACCEPTANCE",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_AGENTIC_PRECODE_ACCEPTANCE.md",
-      "classification": "source-of-truth",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS/PRE-WINDOWS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-AI-CONTROL-CENTER-ACCEPTANCE",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_AI_CONTROL_CENTER_ACCEPTANCE.md",
-      "classification": "source-of-truth",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS/PRE-WINDOWS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-CONTRACT-RECONCILIATION-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_CONTRACT_RECONCILIATION_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-HISTORICAL-CONTRACT-SWEEP",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_HISTORICAL_CONTRACT_SWEEP.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-TEST-IMPACT",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_TEST_IMPACT.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS/E04-CORRECTIVE-LOCAL/WINDOWS-SELECTIVE-PENDING",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-VALIDATION-PLAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_VALIDATION_PLAN.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_IMPLEMENTATION_REPORT.md",
-      "classification": "source-of-truth",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "CLOSED/PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-OPERATION-DECLARATION",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_OPERATION_DECLARATION.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "CLOSED/PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-SECRET-DELTA-SCAN",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_SECRET_DELTA_SCAN.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-FORBIDDEN-PATH-AUDIT",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_FORBIDDEN_PATH_AUDIT.json",
-      "classification": "machine-readable-source",
-      "domain": "audit",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-E-AGENT-EVAL-TRACE-V1",
-      "path": "docs/schemas/agent_eval_trace.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-GSDLC-07-E-FULL-REGRESSION-TELEMETRY-HANDOFF-V1",
-      "path": "docs/schemas/full_regression_telemetry_handoff.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schema",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-FRX-V2-2-TEMPORAL-HANDOFF",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_FRX_V2_2_TEMPORAL_HANDOFF.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "PREPARED_NOT_ENABLED",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC",
-        "DEVPL-GSDLC-07",
-        "DEVPL-GSDLC-07-E"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-FINAL-OWNER-ADJUDICATION",
-      "path": "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.gsdlc",
-      "owner": "DEVPL-GSDLC-07-E",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-BACKLOG-CLOSURE-ADJUDICATION",
-      "path": "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.gsdlc",
-      "owner": "DEVPL-GSDLC-07",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-POST-CLOSURE-DOCUMENTATION-ERRATUM",
-      "path": "docs/audits/DEVPL_GSDLC_07_POST_CLOSURE_DOCUMENTATION_ERRATUM_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "audit.gsdlc",
-      "owner": "FRX-v2.2-A",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-E-CLOSURE-REVIEW-REPORT",
-      "path": "docs/audits/DEVPL_GSDLC_07_E_CLOSURE_REVIEW_REPORT_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "audit.gsdlc",
-      "owner": "FRX-v2.2-A",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-FULL-REGRESSION-V2-2-V2-3-EXECUTION-ROADMAP",
-      "path": "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-FULL-REGRESSION-V2-2",
-      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-FULL-REGRESSION-V2-3",
-      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.3",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-GSDLC-07-CLOSURE-FRX-V2-2-INTEGRATION-GUIDE",
-      "path": "docs/05_operations/GUIA_INTEGRACION_CIERRE_07_Y_ACTIVACION_FRX_V2_2_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "operations",
-      "owner": "FRX-v2.2-A",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "01_PROMPT_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_V1_0_0",
-      "path": "01_PROMPT_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_V1_0_0",
-      "path": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_v1_0_0.md",
-      "classification": "historical",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "historical",
-      "superseded_by": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_V1_0_1_REBOUND_REPO387"
-    },
-    {
-      "doc_id": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_0",
-      "path": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_v1_0_0.md",
-      "classification": "historical",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "historical",
-      "superseded_by": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_1_REBOUND_REPO388"
-    },
-    {
-      "doc_id": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_0",
-      "path": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_0.md",
-      "classification": "historical",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "historical",
-      "superseded_by": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_1_REBOUND_REPO389"
-    },
-    {
-      "doc_id": "01_PROMPT_FRX_V2_3_A_ISOLATION_REGISTRY_V1_0_0",
-      "path": "01_PROMPT_FRX_V2_3_A_ISOLATION_REGISTRY_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.3",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "02_PROMPT_FRX_V2_3_B_CONFLICT_GRAPH_V1_0_0",
-      "path": "02_PROMPT_FRX_V2_3_B_CONFLICT_GRAPH_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.3",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "03_PROMPT_FRX_V2_3_C_PARALLEL_CANARY_V1_0_0",
-      "path": "03_PROMPT_FRX_V2_3_C_PARALLEL_CANARY_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.3",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "04_PROMPT_FRX_V2_3_D_WINDOWS_CLOSURE_V1_0_0",
-      "path": "04_PROMPT_FRX_V2_3_D_WINDOWS_CLOSURE_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.3",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-DOCUMENTATION-AUTHORITY-GRAPH",
-      "path": ".devpilot/docs_governance/documentation_authority_graph.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.documentation",
-      "owner": "FRX-v2.2-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_documentation_closure_consistency_current.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "DEVPL-DOCUMENTATION-DRIFT-LEDGER",
-      "path": ".devpilot/docs_governance/documentation_drift_ledger.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.documentation",
-      "owner": "FRX-v2.2-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "POST-H-033-B-FRONTMATTER-CATALOG-AT-CLOSE",
-      "path": ".devpilot/validation/frontmatter_catalog_post_h_033_b_at_close.json",
-      "classification": "historical",
-      "domain": "validation.frontmatter",
-      "owner": "FRX-v2.2-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_033_frontmatter_schema_backed_validator.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "historical",
-      "notes": [
-        "Immutable POST-H-033-B at-close snapshot. Current frontmatter rules evolve only in .devpilot/validation/frontmatter_catalog.json."
-      ]
-    },
-    {
-      "doc_id": "POST-H-033-F-DOCS-GOVERNANCE-RULE-REGISTRY-AT-CLOSE",
-      "path": ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
-      "classification": "historical",
-      "domain": "documentation.governance",
-      "owner": "FRX-v2.2-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_post_h_033_docs_governance_rule_registry.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "schema_must_validate",
-        "test_must_pass"
-      ],
-      "lifecycle": "historical",
-      "notes": [
-        "Immutable POST-H-033-F at-close snapshot. Current rule catalog evolves only in .devpilot/docs_governance/rule_registry.json."
-      ]
-    },
-    {
-      "doc_id": "DEVPL-DOCUMENTATION-DRIFT-LEDGER-FRX-V2-2-A-BEFORE",
-      "path": ".devpilot/docs_governance/documentation_drift_ledger_frx_v2_2_a_before.json",
-      "classification": "historical",
-      "domain": "documentation.governance",
-      "owner": "FRX-v2.2-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "historical",
-      "notes": [
-        "Immutable before-state for S2-DOC-GSDLC07-POSTCLOSE-001; repo386 is not rewritten."
-      ]
-    },
-    {
-      "doc_id": "FRX-V2-2-A-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/FRX_V2_2_A_IMPLEMENTATION_REPORT.md",
-      "classification": "source-of-truth",
-      "domain": "documentation.governance",
-      "owner": "FRX-v2.2-A",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "DEVPL-FRX-V2-2-A-DOCUMENTATION-CONSISTENCY-CONTRACT-EVOLUTION",
-      "path": "docs/02_architecture/governance/DEVPL_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CONTRACT_EVOLUTION_v1_0_0.md",
-      "classification": "source-of-truth",
-      "domain": "documentation.governance",
-      "owner": "FRX-v2.2-A",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "FRX-V2-2-A-SOURCE-DELTA-MANIFEST",
-      "path": ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-A",
-      "status_required": "implemented-initial",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-A"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_V1_0_1_REBOUND_REPO387",
-      "path": "docs/prompts/02_PROMPT_FRX_V2_2_B_DURATION_REGISTRY_v1_0_1_REBOUND_REPO387.md",
-      "classification": "historical",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-B",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "historical",
-      "frontmatter_required": true,
-      "superseded_by": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_0"
-    },
-    {
-      "doc_id": "FRX-V2-2-B-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/FRX_V2_2_B_IMPLEMENTATION_REPORT.md",
-      "classification": "source-of-truth",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "FRX-V2-2-B-INITIAL-TELEMETRY",
-      "path": ".devpilot/testing/frx_v2_2_b_initial_telemetry.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "FRX-V2-2-B-NODE-DURATION-REGISTRY",
-      "path": ".devpilot/testing/node_duration_registry.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "current",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "FRX-V2-2-B-INGESTION-RECEIPT",
-      "path": "docs/audits/FRX_V2_2_B_INITIAL_INGESTION_RECEIPT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "FRX-V2-2-B-ESTIMATOR-REPORT",
-      "path": "docs/audits/FRX_V2_2_B_ESTIMATOR_REPORT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "FRX-V2-2-B-NODEID-FIXTURES",
-      "path": "docs/audits/FRX_V2_2_B_NODEID_PRESERVATION_FIXTURES.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "FRX-V2-2-B-COST-PERFORMANCE-BASELINE",
-      "path": "docs/audits/FRX_V2_2_B_COST_PERFORMANCE_BASELINE.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-NODE-DURATION-REGISTRY-V1-SOURCE",
-      "path": "docs/schemas/node_duration_registry.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "FRX-v2.2-B",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "FRX-V2-2-B-SOURCE-DELTA-MANIFEST",
-      "path": ".devpilot/testing/frx_v2_2_b_source_delta_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.telemetry",
-      "owner": "FRX-v2.2-B",
-      "status_required": "CLOSED/PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_b_duration_registry.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-B"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_1_REBOUND_REPO388",
-      "path": "docs/prompts/03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_v1_0_1_REBOUND_REPO388.md",
-      "classification": "historical",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-C",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "historical",
-      "frontmatter_required": true,
-      "superseded_by": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_0"
-    },
-    {
-      "doc_id": "FRX-V2-2-C-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/FRX_V2_2_C_IMPLEMENTATION_REPORT.md",
-      "classification": "source-of-truth",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "closed",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "FRX-V2-2-C-PLANNER-CONFIG",
-      "path": ".devpilot/testing/temporal_planner_config.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "windows-benchmark-pending",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-C-HISTORICAL-COLLECTION",
-      "path": ".devpilot/testing/frx_v2_2_c_historical_collection.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-C-TEMPORAL-PLAN-SAMPLE",
-      "path": "docs/audits/FRX_V2_2_C_TEMPORAL_PLAN_SAMPLE.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "shadow",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-C-SHADOW-COMPARISON",
-      "path": "docs/audits/FRX_V2_2_C_SHADOW_COMPARISON_REPORT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-C-DETERMINISM-REPORT",
-      "path": "docs/audits/FRX_V2_2_C_PLANNER_DETERMINISM_REPORT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-C-COMMAND-AUDIT",
-      "path": "docs/audits/FRX_V2_2_C_COMMAND_LENGTH_AUDIT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-C-CANARY-REPORT",
-      "path": "docs/audits/FRX_V2_2_C_CANARY_REPORT.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-TEMPORAL-SHARD-PLAN-V1-SOURCE",
-      "path": "docs/schemas/temporal_shard_plan.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "FRX-v2.2-C",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-C-SOURCE-DELTA-MANIFEST",
-      "path": ".devpilot/testing/frx_v2_2_c_source_delta_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "testing.planning",
-      "owner": "FRX-v2.2-C",
-      "status_required": "CLOSED/PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_c_temporal_planner.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-C"
-      ],
-      "lifecycle": "active"
-    },
-    {
-      "doc_id": "04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_V1_0_1_REBOUND_REPO389",
-      "path": "docs/prompts/04_PROMPT_FRX_V2_2_D_WINDOWS_CLOSURE_v1_0_1_REBOUND_REPO389.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "FRX-V2-2-D-IMPLEMENTATION-REPORT",
-      "path": "docs/audits/FRX_V2_2_D_IMPLEMENTATION_REPORT.md",
-      "classification": "source-of-truth",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-D",
-      "status_required": "approved",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": true
-    },
-    {
-      "doc_id": "FRX-V2-2-D-ADOPTION-POLICY",
-      "path": ".devpilot/testing/frx_v2_2_d_adoption_policy.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-D",
-      "status_required": "approved-engineering-default",
-      "criticality": "P0",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-D-ENVIRONMENT-COMPATIBILITY",
-      "path": ".devpilot/testing/frx_v2_2_d_environment_compatibility.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-D",
-      "status_required": "approved",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-D-BASELINE-07-E",
-      "path": "docs/audits/FRX_V2_2_D_BASELINE_07_E.json",
-      "classification": "historical",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-D",
-      "status_required": "PASS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "historical",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-FULL-REGRESSION-TEMPORAL-SHARD-PLAN-V2-2",
-      "path": "docs/schemas/full_regression_temporal_shard_plan.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "FRX-v2.2-D",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "SCHEMA-DEVPL-FRX-V2-2-D-FULL-BENCHMARK",
-      "path": "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
-      "classification": "machine-readable-source",
-      "domain": "schemas",
-      "owner": "FRX-v2.2-D",
-      "status_required": "current",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
-    },
-    {
-      "doc_id": "FRX-V2-2-D-SOURCE-DELTA-MANIFEST",
-      "path": ".devpilot/testing/frx_v2_2_d_source_delta_manifest.json",
-      "classification": "machine-readable-source",
-      "domain": "governance.testing",
-      "owner": "FRX-v2.2-D",
-      "status_required": "PASS-CANDIDATE/PENDING-WINDOWS",
-      "criticality": "P1",
-      "required_tests": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "sync_rules": [
-        "test_must_pass"
-      ],
-      "roadmap_milestones": [
-        "FRX-v2.2",
-        "FRX-v2.2-D"
-      ],
-      "lifecycle": "active",
-      "frontmatter_required": false
     }
   ],
-  "last_registered_sprint": "FRX-v2.2-C",
+  "last_registered_sprint": "FRX-v2.2-D",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -35007,26 +35068,27 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1402,
-    "source_of_truth_total": 530,
+    "documents_total": 1405,
+    "source_of_truth_total": 533,
     "machine_readable_source_total": 730,
     "derived_total": 131,
     "generated_runtime_total": 0,
     "historical_total": 11,
     "deprecated_total": 0,
-    "critical_sources_total": 1307,
+    "critical_sources_total": 1310,
     "markdown_json_pairs_total": 65,
-    "documents_with_required_tests_total": 1402,
+    "documents_with_required_tests_total": 1405,
     "network_used": false,
     "external_api_used": false,
-    "mutations_performed": false
+    "mutations_performed": false,
+    "last_registered_sprint": "FRX-v2.2-D"
   },
-  "updated": "2026-08-31",
+  "updated": "2026-09-02",
   "updated_at": "2026-08-30",
-  "updated_by": "FRX-v2.2-C-WINDOWS-CLOSURE",
-  "gsdlc_last_registered_micro_sprint": "FRX-v2.2-C",
+  "updated_by": "FRX-v2.2-D-performance-selective-recovery-corrective",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-E",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "full-regression-v2.2/frx-v2.2-d-authorized",
+  "gsdlc_program_status": "full-regression-v2.2/frx-v2.2-d-selective-recovery-required",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
