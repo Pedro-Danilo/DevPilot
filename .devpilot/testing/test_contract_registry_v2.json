@@ -21980,6 +21980,67 @@
         "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
         "docs/schemas/full_regression_shard_receipt.schema.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.3-a-cost-dedup-serial-baseline",
+      "source_contract_id": "frx-v2.3-a-cost-dedup-serial-baseline",
+      "schema_version": "2.0",
+      "domain": "governance.testing",
+      "capability": "FRXV2_3ACostDedupSerialBaseline",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 600,
+      "test_files": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/quality/execution.py",
+        "src/devpilot_core/release_candidate/report.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/testing/full_regression_manifest_plugin.py",
+        "src/devpilot_core/testing/temporal_shard_planner.py"
+      ],
+      "validates": [
+        "binding-vs-execution separation",
+        "scoped aggregate de-dup",
+        "RC de-dup",
+        "bounded Git source seal",
+        "nodeid manifest transport",
+        "normalized serial baseline"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.3-A",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "De-dup before parallelism; workers=0 and full=0."
+      ],
+      "trigger_hints": [
+        "frx-v2.3-a",
+        "quality-gate-dedup",
+        "normalized-serial-baseline"
+      ],
+      "impact_tags": [
+        "testing",
+        "performance",
+        "quality-gate",
+        "serial-normalization"
+      ],
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "schema_ids": []
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22143,5 +22204,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 306
+  "contracts_total": 307
 }

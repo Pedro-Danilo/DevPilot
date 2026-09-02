@@ -32594,9 +32594,255 @@
       ],
       "lifecycle": "active",
       "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-3",
+      "domain": "governance.testing",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.3-A cost de-duplication and serial normalization."
+      ],
+      "owner": "FRX-v2.3",
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_1_0.md",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-002-scoped-quality-execution-context-and-manifest-nodeids.md"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": []
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "ADR-FRX-002",
+      "domain": "governance.testing",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.3-A cost de-duplication and serial normalization."
+      ],
+      "owner": "FRX-v2.3-A",
+      "path": "docs/adr/ADR-FRX-002-scoped-quality-execution-context-and-manifest-nodeids.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "status_required": "accepted",
+      "sync_rules": []
+    },
+    {
+      "classification": "derived",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "FRX-V2-3-A-IMPLEMENTATION-REPORT",
+      "domain": "governance.testing",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.3-A cost de-duplication and serial normalization."
+      ],
+      "owner": "FRX-v2.3-A",
+      "path": "docs/audits/FRX_V2_3_A_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-002-scoped-quality-execution-context-and-manifest-nodeids.md"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": []
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "FRX-V2-3-A-NORMALIZED-SERIAL-BASELINE",
+      "domain": "governance.testing",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.3-A cost de-duplication and serial normalization."
+      ],
+      "owner": "FRX-v2.3-A",
+      "path": "docs/audits/FRX_V2_3_A_NORMALIZED_SERIAL_BASELINE.json",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-002-scoped-quality-execution-context-and-manifest-nodeids.md"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": []
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "01_PROMPT_FRX_V2_3_A_COST_DEDUP_SERIAL_BASELINE_V1_0_0",
+      "domain": "governance.testing",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Approved FRX-v2.3-A implementation/Windows validation prompt."
+      ],
+      "owner": "FRX-v2.3-A",
+      "path": "01_PROMPT_FRX_V2_3_A_COST_DEDUP_SERIAL_BASELINE_v1_0_0.md",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-002-scoped-quality-execution-context-and-manifest-nodeids.md"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "frontmatter_required": true
+    },
+    {
+      "doc_id": "FRX-V2-3-A-BINDING-COST-LOCAL",
+      "path": "docs/audits/FRX_V2_3_A_BINDING_COST_LOCAL.json",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-A",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-3-A-AGGREGATE-EXECUTION-AUDIT",
+      "path": "docs/audits/FRX_V2_3_A_AGGREGATE_EXECUTION_AUDIT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-A",
+      "status_required": "PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-3-A-CURRENT-SERIAL-SHADOW",
+      "path": "docs/audits/FRX_V2_3_A_CURRENT_SERIAL_SHADOW.json",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-A",
+      "status_required": "PASS",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-3-A-CURRENT-COLLECTION",
+      "path": ".devpilot/testing/frx_v2_3_a_current_collection.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-A",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-3-A-V2-2-COLLECTION-SNAPSHOT",
+      "path": ".devpilot/testing/frx_v2_3_a_v2_2_collection_snapshot.json",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-A",
+      "status_required": "snapshot",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "lifecycle": "historical",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-3-A-V2-2-SESSION-SNAPSHOT",
+      "path": ".devpilot/testing/frx_v2_3_a_v2_2_session_snapshot.json",
+      "classification": "historical",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-A",
+      "status_required": "snapshot",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-A"
+      ],
+      "lifecycle": "historical",
+      "frontmatter_required": false
     }
   ],
-  "last_registered_sprint": "FRX-v2.2-D",
+  "last_registered_sprint": "FRX-v2.3-A",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -35110,24 +35356,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1407,
-    "source_of_truth_total": 534,
-    "machine_readable_source_total": 731,
-    "derived_total": 131,
+    "documents_total": 1418,
+    "source_of_truth_total": 537,
+    "machine_readable_source_total": 734,
+    "derived_total": 134,
     "generated_runtime_total": 0,
-    "historical_total": 11,
+    "historical_total": 13,
     "deprecated_total": 0,
-    "critical_sources_total": 1312,
+    "critical_sources_total": 1323,
     "markdown_json_pairs_total": 65,
-    "documents_with_required_tests_total": 1407,
+    "documents_with_required_tests_total": 1418,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_registered_sprint": "FRX-v2.2-D"
+    "last_registered_sprint": "FRX-v2.3-A"
   },
   "updated": "2026-09-02",
-  "updated_at": "2026-09-02T09:17:51.192268-05:00",
-  "updated_by": "FRX-v2.2-D-performance-selective-recovery-corrective",
+  "updated_at": "2026-09-02",
+  "updated_by": "FRX-v2.3-A",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-E",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "full-regression-v2.2/closed-pass/v2.3-authorized",
@@ -35260,7 +35506,7 @@
   "gsdlc_07_b_browser_acceptance": "pending-windows",
   "gsdlc_07_c_status": "CLOSED/PASS",
   "gsdlc_07_d_status": "IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PENDING",
-  "last_updated_by": "FRX-v2.2-D-composite-recovery-v1.0.7",
+  "last_updated_by": "FRX-v2.3-A-implementation",
   "frx_v2_2_status": "CLOSED/PASS",
   "frx_v2_2_d_status": "CLOSED/PASS"
 }

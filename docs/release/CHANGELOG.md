@@ -3158,3 +3158,10 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - RUN-04 selective: 31 PASS / 13 FAIL; RUN-05/v1.0.6 residual: 13/13 PASS.
 - Exact original failure accounting: 44/44 resolved; second full: false.
 - Adoption: PASS/AVAILABLE-NOT-DEFAULT; FRX-v2.3-A authorized.
+
+## 2026-09-02 — FRX-v2.3-A cost de-duplication implementation candidate
+- Adds read-only QualityGate planning and invocation-scoped canonical component result reuse; no global cache.
+- Refactors binding-only and RC structural tests to avoid repeated aggregate execution while retaining canonical aggregate semantics.
+- Replaces Git-clean per-file source sealing with bounded commit/tree semantics and dirty-fast-BLOCK.
+- Adds nodeid-manifest shard transport and a normalized 2844-node serial shadow plan: 57 -> 15 projected processes (73.684% reduction).
+- Workers=0, full regression runs=0; Windows performance acceptance remains pending.

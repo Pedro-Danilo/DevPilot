@@ -11901,3 +11901,6 @@ Browser/manual pre-code closure reached `PRE_CODE_READY` and readiness strict PA
 
 ## FRX-v2.2-D — selective recovery after consumed full (2026-09-02)
 The authoritative full `FRX-V2-2-D-FULL-01` is immutable and consumed `1/1` with 44 functional failures. Do not execute another full. Apply the FRX-v2.2-D performance corrective transactionally, execute the exact failed-nodeid selective set plus bounded corrective/historical governance guards, then generate a composite recovery attestation. API/UI are unchanged and browser evidence is not required. Final adoption is at most `PASS/AVAILABLE-NOT-DEFAULT` for v2.2 from this evidence.
+
+## FRX-v2.3-A — cost de-duplication Windows validation
+FRX-v2.3-A is focal-only. Do not run a full regression, browser runtime or parallel workers. Use the single supplied Windows operator: apply the semantic corrective once, run the exact eight historical binding nodeids as one pytest process, run one canonical hardening measurement, validate Git source-seal and manifest shadow invariants, then package/promote only after PASS. Terminal receipts survive re-entry and must be reused rather than recomputed.

@@ -1,0 +1,8 @@
+{
+  "schema_id": "devpilot.frx.v2_3_a.binding_cost_local.v1",
+  "baseline_windows_seconds": 2931.421,
+  "local_after_seconds": 5.131,
+  "reduction_percent_vs_windows_baseline": 99.825,
+  "windows_acceptance_threshold_seconds": 586.284,
+  "note": "Local environment measurement is diagnostic; Windows measurement is authoritative."
+}

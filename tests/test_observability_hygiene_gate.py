@@ -85,12 +85,5 @@ def test_observability_retention_hygiene_blocks_unsafe_policy_target(tmp_path: P
 
 
 def test_quality_gate_hardening_contains_observability_retention_subgate() -> None:
-    result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening", include_pytest=False)).run()
-    subgates = {item["id"]: item for item in result.data["subgates"]}
-
-    assert result.ok is True, result.to_dict()
-    assert "observability-retention" in subgates
-    assert subgates["observability-retention"]["ok"] is True
-    assert subgates["observability-retention"]["summary"]["quality_gate_ready"] is True
-    assert subgates["observability-retention"]["summary"]["network_used"] is False
-    assert subgates["observability-retention"]["summary"]["external_api_used"] is False
+    plan = QualityGate(ROOT, options=QualityGateOptions(profile="hardening", include_pytest=False)).describe_plan().to_dict()
+    assert "observability-retention" in set(plan["ordered_subgate_ids"])

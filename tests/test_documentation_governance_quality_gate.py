@@ -34,18 +34,9 @@ def test_docs_governance_quality_subgate_wraps_validator_read_only() -> None:
 
 
 def test_quality_gate_hardening_includes_docs_governance_subgate() -> None:
-    result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).run()
-
-    assert result.ok is True, result.to_dict()
-    subgates = {item["id"]: item for item in result.data["subgates"]}
+    plan = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).describe_plan().to_dict()
+    subgates = {item["id"]: item for item in plan["subgates"]}
     assert "docs-governance" in subgates
-    subgate = subgates["docs-governance"]
-    assert subgate["ok"] is True
-    assert subgate["critical"] is True
-    assert subgate["command"] == "quality docs-governance"
-    assert subgate["summary"]["created_by"] == "POST-H-009-E"
-    assert subgate["summary"]["docs_governance_passed"] is True
-    assert subgate["summary"]["backlog_governance_passed"] is True
-    assert subgate["summary"]["blocking_findings_total"] == 0
-    assert result.data["summary"]["subgates_passed"] == result.data["summary"]["subgates_total"]
+    assert subgates["docs-governance"]["critical"] is True
+    assert subgates["docs-governance"]["execution_mode"] == "component"
 

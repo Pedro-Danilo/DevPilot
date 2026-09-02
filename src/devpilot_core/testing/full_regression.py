@@ -172,56 +172,46 @@ def _git_run(root: Path, args: Sequence[str], *, timeout: int = 15) -> subproces
 
 
 def _git_semantic_blob_hash(root: Path, relative: str) -> str | None:
-    path = root / relative
-    if not path.is_file():
-        return None
-    completed = _git_run(root, ["hash-object", f"--path={relative}", relative])
+    """Compatibility helper for a single file; not used by source sealing hot paths."""
+    completed = _git_run(root, ["ls-files", "-s", "--", relative])
     if completed is None or completed.returncode != 0:
         return None
-    value = completed.stdout.strip()
-    return value if len(value) == 40 else None
+    line = next((item for item in completed.stdout.splitlines() if item.strip()), "")
+    parts = line.split()
+    return parts[1] if len(parts) >= 2 and len(parts[1]) == 40 else None
 
 
 def _git_semantic_source_descriptor(root: Path) -> dict[str, Any] | None:
+    """Bounded Git source seal for a clean worktree.
+
+    Identity is the commit/tree plus semantic-clean state.  No per-file Git
+    subprocess is launched.  Dirty Git worktrees are rejected by callers.
+    """
     if not (root / ".git").exists():
         return None
     head = _git_run(root, ["rev-parse", "HEAD"])
+    tree = _git_run(root, ["rev-parse", "HEAD^{tree}"])
     tracked = _git_run(root, ["ls-files", "-z"])
-    untracked = _git_run(root, ["ls-files", "--others", "--exclude-standard", "-z"])
-    if head is None or tracked is None or untracked is None or head.returncode != 0 or tracked.returncode != 0 or untracked.returncode != 0:
+    if any(item is None or item.returncode != 0 for item in (head, tree, tracked)):
         return None
-    tracked_paths = [item for item in tracked.stdout.split("\0") if item]
-    untracked_paths = [item for item in untracked.stdout.split("\0") if item]
-    tracked_set = set(tracked_paths)
+    tracked_paths = [item for item in tracked.stdout.split("\0") if item and not _is_excluded(Path(item))]
+    commit = head.stdout.strip() or None
+    tree_id = tree.stdout.strip() or None
     digest = hashlib.sha256()
-    files_total = bytes_total = tracked_total = untracked_total = 0
-    for relative in sorted([*tracked_paths, *untracked_paths]):
-        if _is_excluded(Path(relative)):
-            continue
-        blob = _git_semantic_blob_hash(root, relative) or "MISSING"
-        digest.update(relative.replace("\\", "/").encode("utf-8"))
-        digest.update(b"\0")
-        digest.update(blob.encode("ascii"))
-        digest.update(b"\n")
-        files_total += 1
-        file_path = root / relative
-        if file_path.is_file():
-            try:
-                bytes_total += file_path.stat().st_size
-            except OSError:
-                pass
-        if relative in tracked_set:
-            tracked_total += 1
-        else:
-            untracked_total += 1
+    digest.update(str(commit or "").encode("ascii", errors="ignore"))
+    digest.update(b"\0")
+    digest.update(str(tree_id or "").encode("ascii", errors="ignore"))
     return {
-        "git_commit": head.stdout.strip() or None,
+        "git_commit": commit,
+        "git_tree": tree_id,
         "content_sha256": digest.hexdigest(),
-        "files_total": files_total,
-        "bytes_total": bytes_total,
-        "tracked_files_total": tracked_total,
-        "untracked_files_total": untracked_total,
-        "fingerprint_mode": "git-semantic-working-tree-v1",
+        "files_total": len(tracked_paths),
+        "bytes_total": 0,
+        "tracked_files_total": len(tracked_paths),
+        "untracked_files_total": 0,
+        "fingerprint_mode": "git-commit-tree-clean-v2",
+        "git_processes_total": 3,
+        "per_file_git_subprocesses": 0,
         "excluded_runtime_dirs": sorted(_EXCLUDED_DIR_NAMES),
     }
 
@@ -333,11 +323,17 @@ def _source_descriptor(root: Path) -> dict[str, Any]:
 
 
 def _environment_descriptor(root: Path) -> dict[str, Any]:
-    tracked = {}
-    for name in ("pyproject.toml", "requirements.txt", "requirements-dev.txt", "uv.lock", "poetry.lock"):
-        path = root / name
-        if path.exists() and path.is_file():
-            tracked[name] = _git_semantic_blob_hash(root, name) or _sha256_file(path)
+    tracked: dict[str, str | None] = {}
+    config_names = [name for name in ("pyproject.toml", "requirements.txt", "requirements-dev.txt", "uv.lock", "poetry.lock") if (root / name).is_file()]
+    if (root / ".git").exists() and config_names:
+        listed = _git_run(root, ["ls-files", "-s", "--", *config_names])
+        if listed is not None and listed.returncode == 0:
+            for line in listed.stdout.splitlines():
+                parts = line.split(maxsplit=3)
+                if len(parts) == 4:
+                    tracked[parts[3]] = parts[1]
+    for name in config_names:
+        tracked.setdefault(name, _sha256_file(root / name))
     try:
         pytest_version = importlib.metadata.version("pytest")
     except importlib.metadata.PackageNotFoundError:
@@ -407,6 +403,9 @@ class FullRegressionSessionManager:
         session_dir = self._session_dir(resolved_session_id)
         if session_dir.exists():
             return self._block("tests full-session collect", "FRX2_SESSION_EXISTS", "Session id already exists; immutable sessions cannot be overwritten.")
+        clean_guard = _git_semantic_clean_guard(self.root)
+        if clean_guard is not None and not clean_guard.get("clean"):
+            return self._block("tests full-session collect", "FRX2_SOURCE_DIRTY", "Git-semantic source is dirty; clean/commit intended source before sealing a collection.")
         source = _source_descriptor(self.root)
         environment = _environment_descriptor(self.root)
         source_fp = _fingerprint(source)
@@ -822,8 +821,8 @@ class FullRegressionSessionManager:
         guard_before_start = time.monotonic()
         source_guard_before = _git_semantic_clean_guard(self.root, expected_commit=expected_commit)
         source_guard_before_seconds = round(time.monotonic() - guard_before_start, 6)
-        if source_guard_before is not None and source_guard_before.get("clean"):
-            source_before = str(session["source_fingerprint"])
+        if source_guard_before is not None:
+            source_before = str(session["source_fingerprint"]) if source_guard_before.get("clean") else "DIRTY-GIT-SOURCE"
         else:
             source_before = _fingerprint(_source_descriptor(self.root))
 
@@ -835,7 +834,12 @@ class FullRegressionSessionManager:
 
         started_at = _utc_now()
         start = time.monotonic()
-        env = self._subprocess_env(extra={"DEVPILOT_FULL_SESSION_OUTCOMES": str(outcomes_path)})
+        manifest_path = runtime_dir / f"{receipt_stem}.nodeids.json"
+        manifest_path.write_text(json.dumps({"nodeids": list(nodeids)}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+        env = self._subprocess_env(extra={
+            "DEVPILOT_FULL_SESSION_OUTCOMES": str(outcomes_path),
+            "DEVPILOT_FULL_SESSION_NODEID_MANIFEST": str(manifest_path),
+        })
         args = [
             sys.executable,
             "-m",
@@ -843,9 +847,10 @@ class FullRegressionSessionManager:
             "-q",
             "--disable-warnings",
             "-p",
+            "devpilot_core.testing.full_regression_manifest_plugin",
+            "-p",
             "devpilot_core.testing.full_regression_plugin",
             f"--junitxml={junit_path}",
-            *nodeids,
         ]
         completed: subprocess.CompletedProcess[str] | None = None
         timed_out = False
@@ -875,8 +880,8 @@ class FullRegressionSessionManager:
         guard_after_start = time.monotonic()
         source_guard_after = _git_semantic_clean_guard(self.root, expected_commit=expected_commit)
         source_guard_after_seconds = round(time.monotonic() - guard_after_start, 6)
-        if source_guard_after is not None and source_guard_after.get("clean"):
-            source_after = str(session["source_fingerprint"])
+        if source_guard_after is not None:
+            source_after = str(session["source_fingerprint"]) if source_guard_after.get("clean") else "DIRTY-GIT-SOURCE"
         else:
             source_after = _fingerprint(_source_descriptor(self.root))
         source_mutation = source_before != session["source_fingerprint"] or source_after != session["source_fingerprint"]
@@ -979,7 +984,9 @@ class FullRegressionSessionManager:
             return sealed
         expected_commit = (session.get("source_descriptor") or {}).get("git_commit")
         source_guard = _git_semantic_clean_guard(self.root, expected_commit=expected_commit)
-        if source_guard is not None and source_guard.get("clean"):
+        if source_guard is not None:
+            if not source_guard.get("clean"):
+                return self._block("tests full-session identity", "FRX2_SOURCE_DIRTY", "Git-semantic source is dirty; do not invoke a strong full-tree fallback to confirm drift.")
             current_source = session.get("source_fingerprint")
         else:
             current_source = _fingerprint(_source_descriptor(self.root))

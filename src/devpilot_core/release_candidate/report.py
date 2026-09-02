@@ -9,6 +9,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.docs_governance.validator import DocumentationGovernanceValidator
+from devpilot_core.quality.execution import QualityExecutionContext
 from devpilot_core.industrial.production_ready import ProductionReadyFinalDeclaration
 from devpilot_core.release_candidate.evidence_freshness import EvidenceFreshnessOptions, EvidenceFreshnessScanner
 from devpilot_core.release_candidate.install_smoke import LocalInstallSmokeOptions, LocalInstallSmokeRunner
@@ -61,9 +62,15 @@ class LocalReleaseCandidateReporter:
     passes ``--write-report``.
     """
 
-    def __init__(self, root: Path, options: LocalReleaseCandidateOptions | None = None) -> None:
+    def __init__(self, root: Path, options: LocalReleaseCandidateOptions | None = None, execution_context: QualityExecutionContext | None = None) -> None:
         self.root = Path(root).resolve()
         self.options = options or LocalReleaseCandidateOptions()
+        self.execution_context = execution_context
+
+    def _execute_component(self, key: str, runner, *, input_signature: str = "default") -> tuple[CommandResult, bool]:
+        if self.execution_context is None:
+            return runner(), False
+        return self.execution_context.execute(key, runner, input_signature=input_signature)
 
     def run(self) -> CommandResult:
         started = perf_counter()
@@ -71,38 +78,39 @@ class LocalReleaseCandidateReporter:
         criteria, criteria_component = self._load_and_validate_criteria()
         components: list[dict[str, Any]] = [criteria_component]
 
-        evidence_result = EvidenceFreshnessScanner(
-            self.root,
-            options=EvidenceFreshnessOptions(criteria_path=self.options.criteria_path),
-        ).scan()
-        components.append(self._component("evidence_freshness", "Evidence freshness", evidence_result))
+        evidence_result, evidence_reused = self._execute_component(
+            "rc-evidence-freshness",
+            lambda: EvidenceFreshnessScanner(self.root, options=EvidenceFreshnessOptions(criteria_path=self.options.criteria_path)).scan(),
+            input_signature=f"criteria={self.options.criteria_path}",
+        )
+        components.append(self._component("evidence_freshness", "Evidence freshness", evidence_result, execution_reused=evidence_reused))
 
-        profile_result = ReleaseCandidateVerificationProfile(
-            self.root,
-            ReleaseCandidateVerificationProfileOptions(profile_id="release-candidate-local"),
-        ).inspect()
-        components.append(self._component("release_candidate_profile", "Release candidate profile", profile_result))
+        profile_result, profile_reused = self._execute_component(
+            "rc-verification-profile",
+            lambda: ReleaseCandidateVerificationProfile(self.root, ReleaseCandidateVerificationProfileOptions(profile_id="release-candidate-local")).inspect(),
+        )
+        components.append(self._component("release_candidate_profile", "Release candidate profile", profile_result, execution_reused=profile_reused))
 
-        ui_api_result = UiApiRcSmokeRunner(self.root, UiApiRcSmokeOptions()).run()
-        components.append(self._component("ui_api_smoke", "UI/API RC smoke", ui_api_result))
+        ui_api_result, ui_reused = self._execute_component("rc-ui-api-smoke", lambda: UiApiRcSmokeRunner(self.root, UiApiRcSmokeOptions()).run())
+        components.append(self._component("ui_api_smoke", "UI/API RC smoke", ui_api_result, execution_reused=ui_reused))
 
-        install_result = LocalInstallSmokeRunner(self.root, LocalInstallSmokeOptions()).run()
-        components.append(self._component("install_smoke", "Local install smoke", install_result))
+        install_result, install_reused = self._execute_component("rc-install-smoke", lambda: LocalInstallSmokeRunner(self.root, LocalInstallSmokeOptions()).run())
+        components.append(self._component("install_smoke", "Local install smoke", install_result, execution_reused=install_reused))
 
-        production_result = ProductionReadyFinalDeclaration(self.root).finalize()
-        components.append(self._component("production_ready_local_final", "Production-ready-local final declaration", production_result))
+        production_result, production_reused = self._execute_component("production-ready-local-final", lambda: ProductionReadyFinalDeclaration(self.root).finalize())
+        components.append(self._component("production_ready_local_final", "Production-ready-local final declaration", production_result, execution_reused=production_reused))
 
-        docs_result = DocumentationGovernanceValidator(self.root).run()
-        components.append(self._component("docs_governance", "Documentation governance", docs_result))
+        docs_result, docs_reused = self._execute_component("docs-governance", lambda: DocumentationGovernanceValidator(self.root).run())
+        components.append(self._component("docs_governance", "Documentation governance", docs_result, execution_reused=docs_reused))
 
-        tcr_v1_result = TestContractRegistry(self.root).validate()
-        components.append(self._component("tcr_v1", "Test Contract Registry v1", tcr_v1_result))
+        tcr_v1_result, tcr1_reused = self._execute_component("test-contract-registry", lambda: TestContractRegistry(self.root).validate())
+        components.append(self._component("tcr_v1", "Test Contract Registry v1", tcr_v1_result, execution_reused=tcr1_reused))
 
-        tcr_v2_result = TestContractRegistryV2Validator(self.root).validate()
-        components.append(self._component("tcr_v2", "Test Contract Registry v2", tcr_v2_result))
+        tcr_v2_result, tcr2_reused = self._execute_component("test-contract-registry-v2", lambda: TestContractRegistryV2Validator(self.root).validate())
+        components.append(self._component("tcr_v2", "Test Contract Registry v2", tcr_v2_result, execution_reused=tcr2_reused))
 
-        schema_result = SchemaRegistry(self.root).list()
-        components.append(self._component("schema_registry", "Schema registry", schema_result))
+        schema_result, schema_reused = self._execute_component("schema-registry", lambda: SchemaRegistry(self.root).list())
+        components.append(self._component("schema_registry", "Schema registry", schema_result, execution_reused=schema_reused))
 
         no_go_gates, no_go_enabled = self._collect_no_go_gates(criteria)
         forbidden_claims, forbidden_enabled = self._collect_forbidden_claims(criteria)
@@ -147,6 +155,7 @@ class LocalReleaseCandidateReporter:
             "advisory_gaps": advisory_gaps,
             "components": components,
             "duration_ms": duration_ms,
+            "execution_audit": self.execution_context.audit() if self.execution_context is not None else {},
             "summary": {
                 "decision": decision,
                 "created_by": "POST-H-026-E",
@@ -242,7 +251,7 @@ class LocalReleaseCandidateReporter:
         )
         return criteria, self._component("criteria", "Local release candidate criteria", validation)
 
-    def _component(self, component_id: str, label: str, result: CommandResult) -> dict[str, Any]:
+    def _component(self, component_id: str, label: str, result: CommandResult, *, execution_reused: bool = False) -> dict[str, Any]:
         summary = (result.data or {}).get("summary", {}) if isinstance(result.data, dict) else {}
         blocking_findings = [finding for finding in result.findings if finding.severity in {Severity.BLOCK, Severity.ERROR, Severity.FAIL}]
         return {
@@ -256,6 +265,7 @@ class LocalReleaseCandidateReporter:
             "summary": summary,
             "blocking_findings_total": len(blocking_findings),
             "finding_ids": [finding.id for finding in result.findings[:20]],
+            "execution_reused": execution_reused,
         }
 
     def _collect_no_go_gates(self, criteria: dict[str, Any]) -> tuple[dict[str, bool], dict[str, bool]]:

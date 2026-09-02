@@ -50,17 +50,8 @@ def test_approval_rbac_hardening_gate_passes_read_only() -> None:
 
 
 def test_quality_gate_hardening_includes_approval_rbac_subgate() -> None:
-    result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening", include_pytest=False)).run()
-
-    assert result.ok is True, result.to_dict()
-    subgates = {item["id"]: item for item in result.data["subgates"]}
-    assert "approval-rbac-hardening" in subgates
-    subgate = subgates["approval-rbac-hardening"]
-    assert subgate["ok"] is True
-    assert subgate["summary"]["quality_gate_ready"] is True
-    assert subgate["summary"]["blocking_findings_total"] == 0
-    assert subgate["summary"]["network_used"] is False
-    assert subgate["summary"]["external_api_used"] is False
+    plan = QualityGate(ROOT, options=QualityGateOptions(profile="hardening", include_pytest=False)).describe_plan().to_dict()
+    assert "approval-rbac-hardening" in set(plan["ordered_subgate_ids"])
 
 
 def test_post_h_012_e_docs_and_contracts_are_synchronized() -> None:

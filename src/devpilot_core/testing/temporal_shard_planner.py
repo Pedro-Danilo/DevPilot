@@ -11,7 +11,7 @@ from typing import Any, Iterable, Sequence
 
 from .duration_registry import NodeDurationRegistry
 
-TEMPORAL_PLANNER_VERSION = "1.0.0"
+TEMPORAL_PLANNER_VERSION = "1.1.0"
 DEFAULT_TARGET_SHARD_SECONDS = 300.0
 DEFAULT_MAX_NODEIDS = 50
 DEFAULT_MAX_COMMAND_CHARS = 7000
@@ -81,12 +81,14 @@ class TemporalShardPlanner:
         target_shard_seconds: float = DEFAULT_TARGET_SHARD_SECONDS,
         max_nodeids: int = DEFAULT_MAX_NODEIDS,
         max_command_chars: int = DEFAULT_MAX_COMMAND_CHARS,
+        nodeid_transport: str = "command-line",
     ) -> None:
         self.root = Path(root).resolve()
         self.registry = NodeDurationRegistry(self.root, registry_path=registry_path)
         self.target_shard_seconds = float(target_shard_seconds)
         self.max_nodeids = int(max_nodeids)
         self.max_command_chars = int(max_command_chars)
+        self.nodeid_transport = str(nodeid_transport)
         self._validate_config()
 
     def _validate_config(self) -> None:
@@ -96,6 +98,8 @@ class TemporalShardPlanner:
             raise TemporalPlannerError("max_nodeids must be between 1 and 500")
         if self.max_command_chars < 512 or self.max_command_chars > 30000:
             raise TemporalPlannerError("max_command_chars must be between 512 and 30000")
+        if self.nodeid_transport not in {"command-line", "manifest"}:
+            raise TemporalPlannerError("nodeid_transport must be command-line or manifest")
 
     @staticmethod
     def historical_collection_payload(nodeids: Sequence[str]) -> dict[str, Any]:
@@ -177,7 +181,7 @@ class TemporalShardPlanner:
                 index
                 for index, values in enumerate(bins)
                 if len(values) < self.max_nodeids
-                and command_chars[index] + delta_chars <= self.max_command_chars
+                and (self.nodeid_transport == "manifest" or command_chars[index] + delta_chars <= self.max_command_chars)
             ]
             if not candidates:
                 bins.append([])
@@ -197,7 +201,7 @@ class TemporalShardPlanner:
                 index
                 for index, values in enumerate(bins)
                 if len(values) < self.max_nodeids
-                and command_chars[index] + delta_chars <= self.max_command_chars
+                and (self.nodeid_transport == "manifest" or command_chars[index] + delta_chars <= self.max_command_chars)
             ]
             if not candidates:
                 bins.append([])
@@ -218,7 +222,7 @@ class TemporalShardPlanner:
             raise TemporalPlannerError("planner coverage invalid: omission or duplication detected")
         if any(shard["nodeids_total"] > self.max_nodeids for shard in shards):
             raise TemporalPlannerError("planner exceeded max_nodeids")
-        if any(shard["command_chars"] > self.max_command_chars for shard in shards):
+        if self.nodeid_transport == "command-line" and any(shard["command_chars"] > self.max_command_chars for shard in shards):
             raise TemporalPlannerError("planner exceeded max_command_chars")
 
         registry_provenance = {
@@ -239,6 +243,8 @@ class TemporalShardPlanner:
             "target_shard_seconds": self.target_shard_seconds,
             "max_nodeids": self.max_nodeids,
             "max_command_chars": self.max_command_chars,
+            "nodeid_transport": self.nodeid_transport,
+            "command_line_coupling": self.nodeid_transport == "command-line",
             "registry_provenance": registry_provenance,
             "shards": shards,
             "shards_total": len(shards),

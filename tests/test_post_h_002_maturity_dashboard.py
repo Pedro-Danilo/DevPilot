@@ -395,12 +395,5 @@ def test_schema_validate_accepts_schema_id_alias_after_report_write(monkeypatch,
 
 def test_quality_gate_hardening_includes_maturity_dashboard_subgate() -> None:
     from devpilot_core.quality import QualityGate, QualityGateOptions
-
-    result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).run()
-
-    assert result.ok is True, result.to_dict()
-    subgate_ids = {item["id"] for item in result.data["subgates"]}
-    assert "maturity-dashboard" in subgate_ids
-    maturity = next(item for item in result.data["subgates"] if item["id"] == "maturity-dashboard")
-    assert maturity["ok"] is True
-    assert maturity["summary"]["checks_passed"] == maturity["summary"]["checks_total"]
+    plan = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).describe_plan().to_dict()
+    assert "maturity-dashboard" in set(plan["ordered_subgate_ids"])

@@ -481,22 +481,34 @@ class UiRouteEnforcementRunner:
 class UiApiLocalHardeningGate:
     """POST-H-028-E aggregate gate for the completed UI/API local hardening wave."""
 
-    def __init__(self, root: Path) -> None:
+    def __init__(self, root: Path, execution_context: QualityExecutionContext | None = None) -> None:
         self.root = Path(root).resolve()
+        self.execution_context = execution_context
+
+    def _execute(self, key: str, runner, *, input_signature: str = "default") -> tuple[CommandResult, bool]:
+        if self.execution_context is None:
+            return runner(), False
+        return self.execution_context.execute(key, runner, input_signature=input_signature)
 
     def run(self) -> CommandResult:
-        subresults = [
-            ("api-contract-drift-guard", ApiContractDriftGuard(self.root, ApiContractDriftOptions(write_report=False)).run()),
-            ("local-api-security-hardening", LocalApiSecurityHardeningRunner(self.root, LocalApiSecurityHardeningOptions(write_report=False)).run()),
-            ("ui-visual-smoke", UiVisualSmokeReporter(self.root, UiVisualSmokeOptions(write_report=False)).run()),
-            ("operator-flow-smoke", OperatorFlowSmokeRunner(self.root, OperatorFlowSmokeOptions(write_report=False)).run()),
-            ("ui-route-enforcement", UiRouteEnforcementRunner(self.root, UiRouteEnforcementOptions(write_report=False, run_npm_smoke=False)).run()),
-            ("ui-api-industrial-shell", UiApiIndustrialShellGate(self.root, UiApiIndustrialShellGateOptions(write_report=False, run_ui_smoke=True)).run()),
+        specs = [
+            ("api-contract-drift-guard", lambda: ApiContractDriftGuard(self.root, ApiContractDriftOptions(write_report=False)).run()),
+            ("local-api-security-hardening", lambda: LocalApiSecurityHardeningRunner(self.root, LocalApiSecurityHardeningOptions(write_report=False)).run()),
+            ("ui-visual-smoke", lambda: UiVisualSmokeReporter(self.root, UiVisualSmokeOptions(write_report=False)).run()),
+            ("operator-flow-smoke", lambda: OperatorFlowSmokeRunner(self.root, OperatorFlowSmokeOptions(write_report=False)).run()),
+            ("ui-route-enforcement", lambda: UiRouteEnforcementRunner(self.root, UiRouteEnforcementOptions(write_report=False, run_npm_smoke=False)).run()),
+            ("ui-api-industrial-shell", lambda: UiApiIndustrialShellGate(self.root, UiApiIndustrialShellGateOptions(write_report=False, run_ui_smoke=True)).run()),
         ]
+        subresults = []
+        reuse_total = 0
+        for key, runner in specs:
+            result, reused = self._execute(key, runner, input_signature="default")
+            subresults.append((key, result, reused))
+            reuse_total += int(reused)
         findings: list[Finding] = []
         records: list[dict[str, Any]] = []
-        for subgate_id, result in subresults:
-            records.append({"id": subgate_id, "command": result.command, "ok": result.ok, "exit_code": int(result.exit_code), "summary": (result.data or {}).get("summary", {})})
+        for subgate_id, result, reused in subresults:
+            records.append({"id": subgate_id, "command": result.command, "ok": result.ok, "exit_code": int(result.exit_code), "summary": (result.data or {}).get("summary", {}), "execution_reused": reused})
             for finding in result.findings:
                 if finding.severity == Severity.INFO:
                     continue
@@ -510,6 +522,7 @@ class UiApiLocalHardeningGate:
             "ui_api_local_hardening_passed": ok,
             "subgates_total": len(records),
             "subgates_passed": sum(1 for record in records if record["ok"]),
+            "component_reuse_total": reuse_total,
             "blocking_findings_total": len(blocking),
             "cors_wildcard_enabled": False,
             "non_local_bind_allowed": False,

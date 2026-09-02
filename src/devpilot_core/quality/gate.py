@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
+from devpilot_core.quality.execution import QualityExecutionContext
+
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.evals import EvalRunner, EvalRunnerConfig
 
@@ -34,6 +36,43 @@ class QualitySubgate:
     description: str
     runner: Callable[[], CommandResult]
     critical: bool = True
+    canonical_component_key: str | None = None
+    aggregate_of: tuple[str, ...] = ()
+    execution_mode: str = "component"
+
+
+@dataclass(frozen=True)
+class QualityGatePlanEntry:
+    id: str
+    description: str
+    critical: bool
+    canonical_component_key: str
+    aggregate_of: tuple[str, ...]
+    execution_mode: str
+
+
+@dataclass(frozen=True)
+class QualityGatePlan:
+    profile: str
+    entries: tuple[QualityGatePlanEntry, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "profile": self.profile,
+            "subgates_total": len(self.entries),
+            "ordered_subgate_ids": [entry.id for entry in self.entries],
+            "subgates": [
+                {
+                    "id": entry.id,
+                    "description": entry.description,
+                    "critical": entry.critical,
+                    "canonical_component_key": entry.canonical_component_key,
+                    "aggregate_of": list(entry.aggregate_of),
+                    "execution_mode": entry.execution_mode,
+                }
+                for entry in self.entries
+            ],
+        }
 
 
 class QualityGate:
@@ -52,6 +91,7 @@ class QualityGate:
         self.root = Path(root).resolve()
         self.options = options or QualityGateOptions()
         self._service: Any | None = None
+        self._execution_context: QualityExecutionContext | None = None
 
 
     @property
@@ -61,6 +101,51 @@ class QualityGate:
         if self._service is None:
             self._service = ApplicationService(self.root)
         return self._service
+
+    def describe_plan(self) -> QualityGatePlan:
+        """Return profile composition without executing any runner."""
+        if self.options.profile not in self.SUPPORTED_PROFILES:
+            raise ValueError(f"unsupported quality gate profile: {self.options.profile}")
+        entries = tuple(
+            QualityGatePlanEntry(
+                id=subgate.id,
+                description=subgate.description,
+                critical=subgate.critical,
+                canonical_component_key=subgate.canonical_component_key or subgate.id,
+                aggregate_of=subgate.aggregate_of,
+                execution_mode=subgate.execution_mode,
+            )
+            for subgate in self._subgates()
+        )
+        return QualityGatePlan(profile=self.options.profile, entries=entries)
+
+    def run_subgate(self, subgate_id: str) -> CommandResult:
+        """Execute exactly one registered subgate, never the complete profile."""
+        matches = [item for item in self._subgates() if item.id == subgate_id]
+        if len(matches) != 1:
+            return CommandResult(
+                command="quality-gate run-subgate",
+                ok=False,
+                exit_code=ExitCode.ERROR,
+                message="Quality subgate id is unknown or ambiguous.",
+                data={"summary": {"subgate_id": subgate_id, "matches": len(matches)}},
+                findings=[Finding("QUALITY_SUBGATE_UNKNOWN", "Requested subgate is not uniquely registered.", Severity.ERROR)],
+            )
+        self._execution_context = QualityExecutionContext(source_identity=self._source_identity())
+        result, _ = self._run_subgate(matches[0])
+        return result
+
+    def _source_identity(self) -> str:
+        try:
+            completed = subprocess.run(
+                ["git", "-C", str(self.root), "rev-parse", "HEAD"],
+                capture_output=True, text=True, shell=False, check=False, timeout=10,
+            )
+            if completed.returncode == 0 and completed.stdout.strip():
+                return f"git:{completed.stdout.strip()}"
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+        return f"root:{self.root.as_posix()}"
 
     def run(self) -> CommandResult:
         if self.options.profile not in self.SUPPORTED_PROFILES:
@@ -86,14 +171,15 @@ class QualityGate:
                 ],
             )
 
+        self._execution_context = QualityExecutionContext(source_identity=self._source_identity())
         subgates = self._subgates()
         subgate_records: list[dict[str, Any]] = []
         aggregated_findings: list[Finding] = []
         for subgate in subgates:
             started = time.perf_counter()
-            result = self._run_subgate(subgate)
+            result, reused = self._run_subgate(subgate)
             duration_ms = int((time.perf_counter() - started) * 1000)
-            record = self._subgate_record(subgate, result, duration_ms)
+            record = self._subgate_record(subgate, result, duration_ms, reused=reused)
             subgate_records.append(record)
             aggregated_findings.extend(self._prefixed_findings(subgate, result))
 
@@ -119,6 +205,7 @@ class QualityGate:
             "source_mutations_performed": False,
             "reports_written": False,
             "preliminary": True,
+            "execution_audit": self._execution_context.audit() if self._execution_context is not None else {},
         }
         return CommandResult(
             command="quality-gate run",
@@ -219,14 +306,14 @@ class QualityGate:
             subgates.append(QualitySubgate("secure-transport-design-only", "POST-H-023 secure transport design artifacts and no-network invariant gate.", self._secure_transport_design_only))
             subgates.append(QualitySubgate("onboarding-bootstrap-ready", "POST-H-024 pilot fixture, templates and bootstrap dry-run onboarding quality gate.", self._onboarding_bootstrap_ready))
             subgates.append(QualitySubgate("production-ready-claims-validator", "POST-H-025 documentation/report no-go claims validator.", self._production_ready_claims_validator))
-            subgates.append(QualitySubgate("local-release-candidate", "POST-H-026 local RC final PASS/BLOCK aggregator.", lambda: self.service.local_release_candidate_final()))
+            subgates.append(QualitySubgate("local-release-candidate", "POST-H-026 local RC final PASS/BLOCK aggregator.", self._local_release_candidate, canonical_component_key="aggregate:local-release-candidate", aggregate_of=("docs-governance", "test-contract-registry", "test-contract-registry-v2", "production-ready-local-final", "rc-ui-api-smoke", "rc-install-smoke"), execution_mode="aggregate"))
             subgates.append(QualitySubgate("packaging-local-ready", "POST-H-027 local packaging, Windows install smoke and upgrade/rollback dry-run gate.", self._packaging_local_ready))
             subgates.append(QualitySubgate("api-contract-drift-guard", "POST-H-028-A API runtime/registry/policy/OpenAPI drift guard.", self._api_contract_drift_guard))
             subgates.append(QualitySubgate("local-api-security-hardening", "POST-H-028-B local token/CORS/bind/header/redaction guard.", self._local_api_security_hardening))
             subgates.append(QualitySubgate("ui-visual-smoke", "POST-H-028-C dependency-light critical UI visual smoke report.", self._ui_visual_smoke))
             subgates.append(QualitySubgate("operator-flow-smoke", "POST-H-028-D operator flows and error states smoke report.", self._operator_flow_smoke))
             subgates.append(QualitySubgate("ui-route-enforcement", "POST-H-028-E blocking UI route registry enforcement.", self._ui_route_enforcement))
-            subgates.append(QualitySubgate("ui-api-local-hardening", "POST-H-028-E aggregate UI/API local hardening gate.", self._ui_api_local_hardening))
+            subgates.append(QualitySubgate("ui-api-local-hardening", "POST-H-028-E aggregate UI/API local hardening gate.", self._ui_api_local_hardening, canonical_component_key="aggregate:ui-api-local-hardening", aggregate_of=("api-contract-drift-guard", "local-api-security-hardening", "ui-visual-smoke", "operator-flow-smoke", "ui-route-enforcement", "ui-api-industrial-shell"), execution_mode="aggregate"))
             subgates.append(QualitySubgate("testing-tiers-ready", "POST-H-029-E testing tiers, impact rules, RC profile and historical regression guard.", self._testing_tiers_ready))
             subgates.append(QualitySubgate("cli-boundary-hotspot-reduction", "POST-H-030-E CLI compatibility contracts for migrated/high-risk commands and no dynamic router invariants.", self._cli_boundary_hotspot_reduction))
             subgates.append(QualitySubgate("sensitive-capability-adr-gate", "POST-H-034-A sensitive capability ADR gate for connector write no-go invariants.", self._sensitive_capability_adr_gate))
@@ -241,18 +328,26 @@ class QualityGate:
     def _should_run_pytest(self) -> bool:
         return self.options.include_pytest
 
-    def _run_subgate(self, subgate: QualitySubgate) -> CommandResult:
-        try:
-            return subgate.runner()
-        except Exception as exc:  # pragma: no cover - defensive wrapper
-            return CommandResult(
-                command=f"quality subgate {subgate.id}",
-                ok=False,
-                exit_code=ExitCode.ERROR,
-                message=f"Quality subgate raised {type(exc).__name__}.",
-                data={"summary": {"subgate": subgate.id, "preliminary": True}},
-                findings=[Finding("QUALITY_SUBGATE_EXCEPTION", str(exc), Severity.ERROR, metadata={"subgate": subgate.id, "exception_type": type(exc).__name__})],
-            )
+    def _run_subgate(self, subgate: QualitySubgate) -> tuple[CommandResult, bool]:
+        def invoke() -> CommandResult:
+            try:
+                return subgate.runner()
+            except Exception as exc:  # pragma: no cover - defensive wrapper
+                return CommandResult(
+                    command=f"quality subgate {subgate.id}",
+                    ok=False,
+                    exit_code=ExitCode.ERROR,
+                    message=f"Quality subgate raised {type(exc).__name__}.",
+                    data={"summary": {"subgate": subgate.id, "preliminary": True}},
+                    findings=[Finding("QUALITY_SUBGATE_EXCEPTION", str(exc), Severity.ERROR, metadata={"subgate": subgate.id, "exception_type": type(exc).__name__})],
+                )
+        if self._execution_context is None:
+            return invoke(), False
+        return self._execution_context.execute(
+            subgate.canonical_component_key or subgate.id,
+            invoke,
+            input_signature="default",
+        )
 
     def _eval_harness_ready(self) -> CommandResult:
         fixture = self.root / "evals" / "fixtures" / "documentation_eval_cases.json"
@@ -379,6 +474,11 @@ class QualityGate:
             options=ReleaseReproducibilityPackOptions(write_report=True, verify_after_build=True),
         ).build()
 
+    def _local_release_candidate(self) -> CommandResult:
+        from devpilot_core.release_candidate import LocalReleaseCandidateReporter
+
+        return LocalReleaseCandidateReporter(self.root, execution_context=self._execution_context).run()
+
     def _packaging_local_ready(self) -> CommandResult:
         from devpilot_core.release import PackagingLocalReadyGate
 
@@ -414,7 +514,7 @@ class QualityGate:
     def _ui_api_local_hardening(self) -> CommandResult:
         from devpilot_core.interfaces.api import UiApiLocalHardeningGate
 
-        return UiApiLocalHardeningGate(self.root).run()
+        return UiApiLocalHardeningGate(self.root, execution_context=self._execution_context).run()
 
     def _testing_tiers_ready(self) -> CommandResult:
         from devpilot_core.testing import HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner
@@ -794,7 +894,7 @@ class QualityGate:
         )
 
     @staticmethod
-    def _subgate_record(subgate: QualitySubgate, result: CommandResult, duration_ms: int) -> dict[str, Any]:
+    def _subgate_record(subgate: QualitySubgate, result: CommandResult, duration_ms: int, *, reused: bool = False) -> dict[str, Any]:
         severities = [finding.severity for finding in result.findings]
         summary = dict((result.data or {}).get("summary") or {})
         return {
@@ -809,6 +909,8 @@ class QualityGate:
             "warnings_total": sum(1 for severity in severities if severity == Severity.WARNING),
             "blocking_findings_total": sum(1 for severity in severities if severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR}),
             "summary": summary,
+            "canonical_component_key": subgate.canonical_component_key or subgate.id,
+            "execution_reused": reused,
         }
 
     @staticmethod

@@ -1,0 +1,21 @@
+{
+  "schema_id": "devpilot.testing.normalized_serial_baseline.v1",
+  "status": "PASS",
+  "workers": 0,
+  "full_runs": 0,
+  "collection_total": 2854,
+  "historical_operational_baseline_seconds": 36992.0,
+  "historical_count50_processes": 58,
+  "normalized_shadow_processes": 15,
+  "process_reduction_percent": 74.138,
+  "nodeid_transport": "manifest",
+  "binding_cost_baseline_seconds": 2931.421,
+  "binding_cost_windows_pass_threshold_seconds": 586.284,
+  "parallel_speedup_attributed": false,
+  "notes": [
+    "Historical v2.2 wall-clock remains separate from normalized serial baseline.",
+    "A performs no full and no parallel worker execution."
+  ],
+  "baseline_kind": "current-collection-shadow",
+  "current_collection_recalculated": true
+}

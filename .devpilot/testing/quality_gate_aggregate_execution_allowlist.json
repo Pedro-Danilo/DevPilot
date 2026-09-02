@@ -1,0 +1,10 @@
+{
+  "schema_id": "devpilot.testing.quality_gate_aggregate_execution_allowlist.v1",
+  "scope": "canonical aggregate semantics only",
+  "allowed": [
+    "tests/test_quality_gate.py::test_quality_gate_fast_profile_passes_and_reports_subgates",
+    "tests/test_quality_gate.py::test_quality_gate_full_profile_adds_extended_local_subgates",
+    "tests/test_quality_gate.py::test_quality_gate_ci_profile_adds_workflow_static_subgate",
+    "tests/test_release_agent.py::test_quality_gate_release_profile_passes"
+  ]
+}

@@ -1,8 +1,8 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-FRX-v2.2 execution status (2026-08-31): `FRX-v2.2-A = CLOSED/PASS`; `FRX-v2.2-B = CLOSED/PASS`; `FRX-v2.2-C = CLOSED/PASS`; `FRX-v2.2-D` is authorized for the single sequential full benchmark. Temporal scheduler remains workers=1; parallelism belongs to v2.3.
+FRX-v2.3 execution status (2026-09-02): `FRX-v2.2 = CLOSED/PASS`; `FRX-v2.3-A = IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PENDING`; `FRX-v2.3-B` remains unauthorized until Windows acceptance of A. A removes duplicate aggregate work and normalizes serial planning; workers=0 and full=0.
 
-GSDLC-07 execution status (2026-08-31): `DEVPL-GSDLC-07 = CLOSED/PASS`. FRX-v2.2-A/B/C are CLOSED/PASS; FRX-v2.2-D is the next authorized micro-sprint. DEVPL-GSDLC-08 remains authorized/deferred until FRX v2.2 and v2.3 close.
+GSDLC-07 execution status (2026-09-02): `DEVPL-GSDLC-07 = CLOSED/PASS`; Full Regression v2.2 is `CLOSED/PASS` with scheduler `AVAILABLE-NOT-DEFAULT`; FRX-v2.3-A is the only active regression-evolution micro-sprint. DEVPL-GSDLC-08 remains authorized/deferred until v2.3 closes or owner adjudicates an early stop.
 
 
 Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está `CLOSED/PASS`. El activation enabler/FRX2.1 está CLOSED/PASS y 07-A está Windows-validated CLOSED/PASS; 07-B implementa ContextPack v2, provenance y budget sobre repo382.
@@ -6533,3 +6533,6 @@ La única full v2.2-D quedó consumida 1/1 con 100% accounting (`2795 PASS / 44 
 
 ### FRX-v2.2-D CLOSED/PASS — composite recovery
 The single v2.2 full remains preserved as 2795 PASS / 44 FAIL / 5 SKIP with 100% accounting. Recovery was completion-preserving: RUN-04 resolved 31 and RUN-06 resolved the remaining 13, yielding the exact original 44/44 without a second full. Temporal scheduling is available but not default. The Git source-guard overhead is corrected, while a remaining P0 redundant QualityGate-execution gap must be removed at FRX-v2.3-A entry before parallel canary work.
+
+### FRX-v2.3-A — Cost de-duplication and normalized serial baseline
+Implementation candidate removes binding-only aggregate executions, adds invocation-scoped QualityGate component reuse, bounded Git source sealing, nodeid-manifest shard transport and a normalized serial shadow baseline. Parallel workers remain `0`; full regression runs remain `0`. Windows acceptance must prove the eight RUN-06 binding tests improve >=80% versus 2931.421 s and that one canonical hardening run has zero duplicate canonical component executions.

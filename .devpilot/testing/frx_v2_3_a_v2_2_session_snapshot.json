@@ -1,0 +1,40 @@
+{
+  "collection_duration_seconds": 19.563,
+  "collection_sha256": "a8c6c7e0d02ca32a2619435fd8ae4aa54369e8c13420256736ccb1101602e82c",
+  "collection_total": 2844,
+  "created_at": "2026-09-01T12:10:26Z",
+  "environment_descriptor": {
+    "config_hashes": {
+      "pyproject.toml": "3ab8cfc06a6e9d3cf7dad8817cac839bd8509d52"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "pytest": "9.0.3",
+    "python": "3.12.3",
+    "python_executable_name": "python.exe"
+  },
+  "environment_fingerprint": "41b41553c477093ab5566effc5eeb39e8a1aa9cce36cd06e4e156b75e200ed41",
+  "schema_id": "devpilot.testing.full_regression_session.v2_1",
+  "session_id": "FRX-V2-2-D-FULL-01",
+  "source_descriptor": {
+    "bytes_total": 65435401,
+    "content_sha256": "647e9288b136efaaf5b93a28ef2e41d5f52ebef71ff1a3cd52cc2ceb1de522df",
+    "excluded_runtime_dirs": [
+      ".git",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".venv",
+      "__pycache__",
+      "node_modules",
+      "outputs"
+    ],
+    "files_total": 3530,
+    "fingerprint_mode": "git-semantic-working-tree-v1",
+    "git_commit": "47422b10def62db8abd1f4c221f611f8750ffc64",
+    "tracked_files_total": 3530,
+    "untracked_files_total": 0
+  },
+  "source_fingerprint": "1a3db315ac1e09013b460f581798b8403a28f18aa6059f3bdce9c57a083d3993",
+  "targets": [],
+  "version": "2.1"
+}

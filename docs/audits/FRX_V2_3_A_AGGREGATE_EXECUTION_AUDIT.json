@@ -1,0 +1,345 @@
+{
+  "schema_id": "devpilot.frx.v2_3_a.aggregate_execution_audit.v1",
+  "status": "PASS",
+  "hardening_subgates_total": 46,
+  "hardening_elapsed_sum_seconds": 153.545,
+  "duplicate_component_executions_total": 0,
+  "components_reused_total": 9,
+  "reuse_counts": {
+    "api-contract-drift-guard": 1,
+    "docs-governance": 1,
+    "local-api-security-hardening": 1,
+    "operator-flow-smoke": 1,
+    "test-contract-registry": 1,
+    "test-contract-registry-v2": 1,
+    "ui-api-industrial-shell": 1,
+    "ui-route-enforcement": 1,
+    "ui-visual-smoke": 1
+  },
+  "rows": [
+    {
+      "i": 1,
+      "id": "readiness-strict",
+      "ok": true,
+      "reused": false,
+      "seconds": 3.935
+    },
+    {
+      "i": 2,
+      "id": "standards-status",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.003
+    },
+    {
+      "i": 3,
+      "id": "miasi-validate",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.004
+    },
+    {
+      "i": 4,
+      "id": "eval-harness-ready",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.0
+    },
+    {
+      "i": 5,
+      "id": "app-contract",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.0
+    },
+    {
+      "i": 6,
+      "id": "validation-gateway-all",
+      "ok": true,
+      "reused": false,
+      "seconds": 15.024
+    },
+    {
+      "i": 7,
+      "id": "visual-product-smoke",
+      "ok": true,
+      "reused": false,
+      "seconds": 3.966
+    },
+    {
+      "i": 8,
+      "id": "ci-workflow-static",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.0
+    },
+    {
+      "i": 9,
+      "id": "advanced-evals-safety",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.007
+    },
+    {
+      "i": 10,
+      "id": "test-contract-registry",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.116
+    },
+    {
+      "i": 11,
+      "id": "test-contract-registry-v2",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.29
+    },
+    {
+      "i": 12,
+      "id": "project-global-state",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.056
+    },
+    {
+      "i": 13,
+      "id": "maturity-dashboard",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.273
+    },
+    {
+      "i": 14,
+      "id": "miasi-semantic-validate",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.333
+    },
+    {
+      "i": 15,
+      "id": "architecture-map",
+      "ok": true,
+      "reused": false,
+      "seconds": 20.832
+    },
+    {
+      "i": 16,
+      "id": "application-cli-boundary-integration",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.876
+    },
+    {
+      "i": 17,
+      "id": "runtime-state-hygiene",
+      "ok": true,
+      "reused": false,
+      "seconds": 2.158
+    },
+    {
+      "i": 18,
+      "id": "docs-governance",
+      "ok": true,
+      "reused": false,
+      "seconds": 26.189
+    },
+    {
+      "i": 19,
+      "id": "observability-retention",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.846
+    },
+    {
+      "i": 20,
+      "id": "rag-groundedness-ready",
+      "ok": true,
+      "reused": false,
+      "seconds": 11.997
+    },
+    {
+      "i": 21,
+      "id": "approval-rbac-hardening",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.907
+    },
+    {
+      "i": 22,
+      "id": "audit-pack-integrity",
+      "ok": true,
+      "reused": false,
+      "seconds": 8.485
+    },
+    {
+      "i": 23,
+      "id": "ui-api-industrial-shell",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.287
+    },
+    {
+      "i": 24,
+      "id": "operator-dashboard-ready",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.086
+    },
+    {
+      "i": 25,
+      "id": "workspace-portfolio-hardening",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.29
+    },
+    {
+      "i": 26,
+      "id": "release-reproducibility",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.271
+    },
+    {
+      "i": 27,
+      "id": "connector-sandbox",
+      "ok": true,
+      "reused": false,
+      "seconds": 9.896
+    },
+    {
+      "i": 28,
+      "id": "plugin-sandbox-design",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.055
+    },
+    {
+      "i": 29,
+      "id": "compliance-mapping-pack",
+      "ok": true,
+      "reused": false,
+      "seconds": 9.625
+    },
+    {
+      "i": 30,
+      "id": "remote-readiness-design-only",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.156
+    },
+    {
+      "i": 31,
+      "id": "enterprise-threat-model-design-only",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.005
+    },
+    {
+      "i": 32,
+      "id": "secure-transport-design-only",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.227
+    },
+    {
+      "i": 33,
+      "id": "onboarding-bootstrap-ready",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.503
+    },
+    {
+      "i": 34,
+      "id": "production-ready-claims-validator",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.233
+    },
+    {
+      "i": 35,
+      "id": "local-release-candidate",
+      "ok": true,
+      "reused": false,
+      "seconds": 3.006
+    },
+    {
+      "i": 36,
+      "id": "packaging-local-ready",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.005
+    },
+    {
+      "i": 37,
+      "id": "api-contract-drift-guard",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.062
+    },
+    {
+      "i": 38,
+      "id": "local-api-security-hardening",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.956
+    },
+    {
+      "i": 39,
+      "id": "ui-visual-smoke",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.078
+    },
+    {
+      "i": 40,
+      "id": "operator-flow-smoke",
+      "ok": true,
+      "reused": false,
+      "seconds": 19.539
+    },
+    {
+      "i": 41,
+      "id": "ui-route-enforcement",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.136
+    },
+    {
+      "i": 42,
+      "id": "ui-api-local-hardening",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.0
+    },
+    {
+      "i": 43,
+      "id": "testing-tiers-ready",
+      "ok": true,
+      "reused": false,
+      "seconds": 1.187
+    },
+    {
+      "i": 44,
+      "id": "cli-boundary-hotspot-reduction",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.004
+    },
+    {
+      "i": 45,
+      "id": "sensitive-capability-adr-gate",
+      "ok": true,
+      "reused": false,
+      "seconds": 0.717
+    },
+    {
+      "i": 46,
+      "id": "industrial-readiness",
+      "ok": true,
+      "reused": false,
+      "seconds": 2.924
+    }
+  ],
+  "full_runs": 0,
+  "workers": 0
+}
