@@ -2068,7 +2068,7 @@
       "classification": "machine-readable-source",
       "domain": "testing.planning",
       "owner": "FRX-v2.2-C",
-      "status_required": "performance-corrective/selective-recovery-pending",
+      "status_required": "windows-composite-recovery-validated",
       "criticality": "P0",
       "required_tests": [
         "tests/test_frx_v2_2_c_temporal_planner.py",
@@ -14273,7 +14273,7 @@
       "classification": "source-of-truth",
       "domain": "governance.testing",
       "owner": "FRX-v2.2-D",
-      "status_required": "approved",
+      "status_required": "closed",
       "criticality": "P0",
       "required_tests": [
         "tests/test_frx_v2_2_d_one_full_benchmark.py",
@@ -14286,7 +14286,7 @@
         "FRX-v2.2",
         "FRX-v2.2-D"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "frontmatter_required": true
     },
     {
@@ -18319,7 +18319,7 @@
       "classification": "source-of-truth",
       "domain": "governance.testing",
       "owner": "FRX-v2.2",
-      "status_required": "approved",
+      "status_required": "closed",
       "criticality": "P0",
       "required_tests": [
         "tests/test_frx_v2_2_a_documentation_consistency.py",
@@ -18332,7 +18332,7 @@
         "FRX-v2.2",
         "FRX-v2.2-A"
       ],
-      "lifecycle": "active"
+      "lifecycle": "closed"
     },
     {
       "doc_id": "DEVPL-FULL-REGRESSION-V2-3",
@@ -32552,6 +32552,48 @@
         "test_must_pass"
       ],
       "related_adrs": []
+    },
+    {
+      "doc_id": "FRX-V2-2-D-COMPOSITE-RECOVERY-REPORT",
+      "path": "docs/audits/FRX_V2_2_D_COMPOSITE_RECOVERY_REPORT.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "PASS",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false
+    },
+    {
+      "doc_id": "FRX-V2-2-D-WINDOWS-CLOSURE-ADJUDICATION",
+      "path": "docs/audits/FRX_V2_2_D_WINDOWS_CLOSURE_ADJUDICATION.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.2-D",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.2",
+        "FRX-v2.2-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true
     }
   ],
   "last_registered_sprint": "FRX-v2.2-D",
@@ -35068,27 +35110,27 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1405,
-    "source_of_truth_total": 533,
-    "machine_readable_source_total": 730,
+    "documents_total": 1407,
+    "source_of_truth_total": 534,
+    "machine_readable_source_total": 731,
     "derived_total": 131,
     "generated_runtime_total": 0,
     "historical_total": 11,
     "deprecated_total": 0,
-    "critical_sources_total": 1310,
+    "critical_sources_total": 1312,
     "markdown_json_pairs_total": 65,
-    "documents_with_required_tests_total": 1405,
+    "documents_with_required_tests_total": 1407,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
     "last_registered_sprint": "FRX-v2.2-D"
   },
   "updated": "2026-09-02",
-  "updated_at": "2026-08-30",
+  "updated_at": "2026-09-02T09:17:51.192268-05:00",
   "updated_by": "FRX-v2.2-D-performance-selective-recovery-corrective",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-E",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "full-regression-v2.2/frx-v2.2-d-selective-recovery-required",
+  "gsdlc_program_status": "full-regression-v2.2/closed-pass/v2.3-authorized",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",
@@ -35218,5 +35260,7 @@
   "gsdlc_07_b_browser_acceptance": "pending-windows",
   "gsdlc_07_c_status": "CLOSED/PASS",
   "gsdlc_07_d_status": "IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PENDING",
-  "last_updated_by": "FRX-v2.2-A"
+  "last_updated_by": "FRX-v2.2-D-composite-recovery-v1.0.7",
+  "frx_v2_2_status": "CLOSED/PASS",
+  "frx_v2_2_d_status": "CLOSED/PASS"
 }

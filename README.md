@@ -6530,3 +6530,6 @@ FRX-v2.2-D implementation candidate is bound to repo389 Windows commit `503a62d0
 
 ### FRX-v2.2-D — one-full forensic corrective (2026-09-02)
 La única full v2.2-D quedó consumida 1/1 con 100% accounting (`2795 PASS / 44 FAIL / 0 ERROR / 5 SKIP`). No se permite otra full. El corrective reemplaza el fingerprint full-tree per-shard por un Git-semantic bounded guard, añade wall-clock end-to-end al benchmark y deja el scheduler temporal `AVAILABLE-NOT-DEFAULT`. El cierre requiere selective/composite recovery; ver `docs/audits/FRX_V2_2_D_FAILURE_FORENSICS_AND_RECOVERY_PLAN.md` y ADR-FRX-001.
+
+### FRX-v2.2-D CLOSED/PASS — composite recovery
+The single v2.2 full remains preserved as 2795 PASS / 44 FAIL / 5 SKIP with 100% accounting. Recovery was completion-preserving: RUN-04 resolved 31 and RUN-06 resolved the remaining 13, yielding the exact original 44/44 without a second full. Temporal scheduling is available but not default. The Git source-guard overhead is corrected, while a remaining P0 redundant QualityGate-execution gap must be removed at FRX-v2.3-A entry before parallel canary work.

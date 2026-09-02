@@ -1,0 +1,46 @@
+{
+  "schema_id": "devpilot.frx.v2_2_d.composite_recovery_report.v2",
+  "status": "PASS",
+  "generated_at": "2026-09-02T09:17:51.170296-05:00",
+  "residual_commit": "95627c9288607cebc59910701a42e93092c8aab4",
+  "original_full": {
+    "session_id": "FRX-V2-2-D-FULL-01",
+    "collected": 2844,
+    "accounted": 2844,
+    "pass": 2795,
+    "fail": 44,
+    "error": 0,
+    "skip_approved": 5,
+    "unexecuted": 0,
+    "infra_abort": 0,
+    "result": "FAIL-PRESERVED"
+  },
+  "selective_recovery": {
+    "run_04": {
+      "passed": 31,
+      "failed": 13
+    },
+    "run_05": {
+      "passed": 13,
+      "failed": 0
+    },
+    "resolved_original_failures": 44,
+    "unresolved": 0
+  },
+  "full_regression_runs_total": 1,
+  "second_full": false,
+  "scheduler_default_enabled": false,
+  "adoption_decision": "PASS/AVAILABLE-NOT-DEFAULT",
+  "v2_3_a_authorized": true,
+  "v2_3_entry_prerequisite": "P0-quality-gate-binding-dedup-before-parallel-canary",
+  "performance_gap": {
+    "status": "OPEN/P0",
+    "run06_residual_wall_seconds": 3162.37,
+    "top8_binding_seconds": 2931.421,
+    "top8_share_percent": 92.7352,
+    "cause": "binding tests rerun full QualityGate profiles"
+  },
+  "network_used_by_tests": false,
+  "external_api_used": false,
+  "browser_runs": 0
+}

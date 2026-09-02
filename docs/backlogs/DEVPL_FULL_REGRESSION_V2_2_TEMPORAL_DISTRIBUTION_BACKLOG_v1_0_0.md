@@ -1,10 +1,10 @@
 ---
 doc_id: "DEVPL-FULL-REGRESSION-V2-2"
 title: "Full Regression v2.2 — Intelligent temporal distribution and incremental documentation consistency"
-status: "approved"
+status: "closed"
 version: "1.0.0"
 owner: "Ordóñez"
-updated: "2026-08-31"
+updated: "2026-09-02"
 approval: "approved_by_owner"
 source_repo: "repo_DevPilot_Local_386_DEVPL_GSDLC_07_E_AGENTIC_PRECODE_MODEL_EVALS_WINDOWS_VALIDATED_CANDIDATE.zip"
 source_commit: "17db6b219f5066f2df91d897a0e3ad62314a0176"
@@ -102,3 +102,7 @@ v2.2 no puede reducir a la mitad el costo computacional total porque sigue siend
 ## Corrective adjudication — FRX-v2.2-D Windows attempt 1/1
 
 La única full D fue consumida y terminó `2795 PASS / 44 FAIL / 0 ERROR / 5 SKIP`, 100% accounted. No se autoriza segunda full. El scheduler temporal mejoró max/p95 de shard, pero el runner introdujo un overhead oculto crítico por fingerprint Git per-file antes/después de cada shard. D debe cerrarse únicamente mediante composite/selective recovery después del corrective de source guard y métricas end-to-end. La adopción default queda deshabilitada; resultado objetivo seguro: `PASS/AVAILABLE-NOT-DEFAULT`.
+
+## Windows composite recovery closure
+
+FRX-v2.2-D closed `PASS` by preserving the single full 1/1 and resolving its exact 44 failed nodeids through a bounded chain: v1.0.4 = 31 PASS/13 FAIL, v1.0.6 = residual 13/13 PASS. `second_full=false`. Temporal scheduling remains `PASS/AVAILABLE-NOT-DEFAULT`. The Git hot-path corrective is retained and sequential shards are coarsened to 900 s, but RUN-06 exposed a remaining P0 test-suite duplication gap: eight binding tests rerun the same hardening/industrial QualityGate and consumed 92.7% of the 13-test residual wall time. FRX-v2.3-A is authorized only with that deduplication as its first entry prerequisite before any parallel canary.

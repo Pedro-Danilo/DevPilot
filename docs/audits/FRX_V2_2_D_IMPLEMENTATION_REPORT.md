@@ -1,11 +1,11 @@
 ---
 doc_id: "FRX-V2-2-D-IMPLEMENTATION-REPORT"
 title: "FRX-v2.2-D — Windows one-full benchmark and closure — implementation report"
-status: "approved"
+status: "closed"
 version: "1.0.0"
 owner: "Ordóñez"
-updated: "2026-08-31"
-approval: "pending_windows_one_full"
+updated: "2026-09-02"
+approval: "windows_validated_composite_recovery"
 ---
 # FRX-v2.2-D — Implementation Report
 
@@ -38,3 +38,9 @@ Only focal contracts are executed locally: one-full/benchmark contract plus dire
 
 ## Current state
 Implementation is `PASS-CANDIDATE/PENDING-WINDOWS`. Logical full consumed: `0/1`. Browser: `0`. External API/network are not required for technical PASS.
+
+## Composite recovery closure
+
+The single Windows full remains preserved as FAIL. The selective recovery chain resolves the exact original 44 failures without another full: v1.0.4 produced 31 PASS/13 FAIL, and v1.0.6 retested only the 13 open nodeids to 13/13 PASS. Adoption is `PASS/AVAILABLE-NOT-DEFAULT`.
+
+Performance remains explicitly bounded: RUN-06 used one pytest process for all 13 tests, so its 52:42 runtime was not shard fragmentation. Eight binding tests individually reran full hardening/industrial QualityGate profiles and consumed 2931.421 of 3162.37 seconds. This is a P0 prerequisite for v2.3-A, not grounds to re-enable the temporal scheduler by default.

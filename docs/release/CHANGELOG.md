@@ -3152,3 +3152,9 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Added end-to-end/lifecycle benchmark metrics and conservative adoption thresholds.
 - Reconciled FRX/GSDLC pointers, release freshness and CLI ownership metadata.
 - Adjusted v2.3 planning with runtime-weighted parallel-safe coverage and an Amdahl feasibility gate.
+
+## 2026-09-02 — FRX-v2.2-D composite recovery closure
+- Preserved the only logical full: 2795 PASS / 44 FAIL / 0 ERROR / 5 SKIP, 2844/2844 accounted.
+- RUN-04 selective: 31 PASS / 13 FAIL; RUN-05/v1.0.6 residual: 13/13 PASS.
+- Exact original failure accounting: 44/44 resolved; second full: false.
+- Adoption: PASS/AVAILABLE-NOT-DEFAULT; FRX-v2.3-A authorized.

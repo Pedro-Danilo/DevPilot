@@ -37,3 +37,6 @@ Safety boundary for 07-E: `scheduler_enabled=false`, `parallel_workers=1`. v2.3 
 ## FRX-v2.2-D performance forensic handoff — 2026-09-02
 
 La telemetría v2.2-D debe distinguir runtime de node/test, proceso pytest y lifecycle del shard. La corrida Windows 1/1 expuso ~5,68 h de tiempo fuera de receipts, causado principalmente por fingerprints Git full-tree per-shard. El successor v2.3 recibe únicamente métricas end-to-end reconciliadas y `parallel_safe=false` por defecto. El balance temporal v2.2 queda disponible, no default, hasta nueva evidencia gobernada.
+
+## FRX-v2.2-D closure handoff to v2.3
+FRX-v2.2 closed by composite recovery without a second full. V2.3 must first prove runtime-weighted parallel-safe coverage and Amdahl feasibility; with workers=2, a 30% target requires approximately 60% safe runtime in the ideal limit.

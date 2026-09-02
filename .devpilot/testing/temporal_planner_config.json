@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.testing.temporal_planner_config.v1",
   "version": "1.0.0",
-  "status": "performance-corrective/selective-recovery-pending",
+  "status": "windows-composite-recovery-validated",
   "scheduler_enabled": false,
   "parallel_workers": 1,
   "planner": "deterministic-lpt-sequential",
@@ -12,6 +12,9 @@
   "adoption_default": false,
   "adoption_authority": "FRX-v2.2-D Windows benchmark only",
   "registry_environment_fingerprint": "windows-pytest-devpilot-gsdlc07e-v1",
-  "adoption_state": "AVAILABLE-NOT-DEFAULT/PENDING-CORRECTED-WALL-METRICS",
-  "performance_note": "Sequential v2.2 uses coarse shards to reduce process and orchestration fragmentation; safe parallel speedup belongs to v2.3."
+  "adoption_state": "PASS/AVAILABLE-NOT-DEFAULT",
+  "performance_note": "Sequential v2.2 uses coarse shards to reduce process and orchestration fragmentation; safe parallel speedup belongs to v2.3.",
+  "windows_benchmark_status": "PASS-BY-COMPOSITE-RECOVERY",
+  "performance_gap_status": "OPEN/P0/QUALITY-GATE-BINDING-DEDUP",
+  "v2_3_entry_prerequisite": "deduplicate-binding-only-quality-gate-executions"
 }
