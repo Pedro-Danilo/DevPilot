@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-08-31",
-  "sprint": "FRX-v2.2-D",
+  "updated": "2026-09-02",
+  "sprint": "FRX-v2.3-B",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3519,7 +3519,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.2-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-TEST-ISOLATION-REGISTRY-V1",
+      "title": "DevPilot TestIsolationRegistry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/test_isolation_registry.schema.json",
+      "description": "FRX-v2.3-B explicit test isolation/resource contract registry. Default UNCLASSIFIED and parallel_safe=false.",
+      "status": "registered",
+      "contract": "TestIsolationRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.3-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.3-B"
     }
   ],
-  "schemas_total": 245
+  "schemas_total": 246
 }

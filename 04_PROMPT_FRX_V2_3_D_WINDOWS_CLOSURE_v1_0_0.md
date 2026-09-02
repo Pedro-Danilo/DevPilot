@@ -1,11 +1,12 @@
 ---
 doc_id: "04_PROMPT_FRX_V2_3_D_WINDOWS_CLOSURE_V1_0_0"
 title: "FRX-v2.3-D — Windows one-full safe-parallel closure — implementation and Windows validation prompt"
-status: "approved"
+status: "superseded"
 version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-09-02"
 approval: "approved_by_owner"
+superseded_by: "05_PROMPT_FRX_V2_3_E_WINDOWS_CLOSURE_v1_0_0.md"
 source_policy: "successor-of-previous-micro-sprint/windows-validated-when-applicable"
 full_regression_policy: "only-closing-micro-sprint-may-consume-one-logical-full"
 ---

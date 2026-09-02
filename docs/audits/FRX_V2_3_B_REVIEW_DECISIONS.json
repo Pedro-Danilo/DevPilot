@@ -1,0 +1,16 @@
+{
+  "schema_id": "devpilot.testing.test_isolation_review_decisions.v1",
+  "status": "PASS",
+  "created_by": "FRX-v2.3-B",
+  "policy": "No production nodeid is promoted safe in the initial registry. Review API is validated with positive/negative focal fixtures; future promotions require reviewer, reason, timestamp and evidence.",
+  "production_decisions_total": 0,
+  "proven_parallel_safe_total": 0,
+  "serial_required_total": 0,
+  "unclassified_total": 2872,
+  "focal_workflow_validated": true,
+  "workers": 0,
+  "full_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "browser_used": false
+}

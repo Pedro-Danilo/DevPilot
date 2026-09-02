@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.testing.test_isolation_registry.v1",
+  "title": "TestIsolationRegistry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "status",
+    "updated",
+    "source_commit",
+    "collection_sha256",
+    "registry_sha256",
+    "policy",
+    "resource_classes",
+    "entries"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.testing.test_isolation_registry.v1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "windows-validated"
+      ]
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_commit": {
+      "type": "string",
+      "minLength": 7
+    },
+    "collection_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "registry_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_state",
+        "default_parallel_safe",
+        "explicit_review_required",
+        "static_suggestions_authorize_parallel",
+        "duration_or_name_authorize_parallel",
+        "workers",
+        "full_runs"
+      ],
+      "properties": {
+        "default_state": {
+          "const": "UNCLASSIFIED"
+        },
+        "default_parallel_safe": {
+          "const": false
+        },
+        "explicit_review_required": {
+          "const": true
+        },
+        "static_suggestions_authorize_parallel": {
+          "const": false
+        },
+        "duration_or_name_authorize_parallel": {
+          "const": false
+        },
+        "workers": {
+          "const": 0
+        },
+        "full_runs": {
+          "const": 0
+        }
+      }
+    },
+    "resource_classes": {
+      "type": "array",
+      "minItems": 11,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "nodeid",
+          "state",
+          "parallel_safe",
+          "explicit_review_required",
+          "resource_classes",
+          "suggested_hints",
+          "isolation_domains",
+          "resource_lock_keys",
+          "runtime_estimate",
+          "review"
+        ],
+        "properties": {
+          "nodeid": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "enum": [
+              "UNCLASSIFIED",
+              "SERIAL_REQUIRED",
+              "PROVEN_PARALLEL_SAFE"
+            ]
+          },
+          "parallel_safe": {
+            "type": "boolean"
+          },
+          "explicit_review_required": {
+            "type": "boolean"
+          },
+          "resource_classes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "suggested_hints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "resource_class",
+                "confidence",
+                "evidence"
+              ],
+              "properties": {
+                "resource_class": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "const": "suggested"
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "isolation_domains": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "resource_lock_keys": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "runtime_estimate": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "known",
+              "seconds",
+              "confidence",
+              "source_environment",
+              "last_seen"
+            ],
+            "properties": {
+              "known": {
+                "type": "boolean"
+              },
+              "seconds": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "confidence": {
+                "type": "string"
+              },
+              "source_environment": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "last_seen": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "review": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "reviewer",
+                  "reason",
+                  "reviewed_at",
+                  "evidence_ids",
+                  "decision"
+                ],
+                "properties": {
+                  "reviewer": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "reviewed_at": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "decision": {
+                    "enum": [
+                      "SERIAL_REQUIRED",
+                      "PROVEN_PARALLEL_SAFE"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -22041,6 +22041,67 @@
       "owner_domain": "governance.testing",
       "service_boundary": "testing",
       "schema_ids": []
+    },
+    {
+      "contract_id": "frx-v2.3-b-isolation-registry",
+      "source_contract_id": "frx-v2.3-b-isolation-registry",
+      "schema_version": "2.0",
+      "domain": "governance.testing",
+      "capability": "FRXV2_3BIsolationRegistry",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_frx_v2_3_b_isolation_registry.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/isolation_registry.py",
+        "docs/schemas/test_isolation_registry.schema.json",
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/testing/frx_v2_3_b_collection.json",
+        "docs/audits/FRX_V2_3_B_ISOLATION_COVERAGE.json"
+      ],
+      "validates": [
+        "default-unsafe isolation registry",
+        "explicit review authority",
+        "resource suggestions are non-authoritative",
+        "runtime-weighted coverage",
+        "workers=0/full=0"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.3-B",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_b_isolation_registry.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Registry itself defaults all nodeids to UNCLASSIFIED. Static analyzer never promotes safety."
+      ],
+      "trigger_hints": [
+        "frx-v2.3-b",
+        "isolation-registry",
+        "resource-hints"
+      ],
+      "impact_tags": [
+        "testing",
+        "parallel-safety",
+        "isolation",
+        "resource-locking"
+      ],
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "schema_ids": [
+        "docs/schemas/test_isolation_registry.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22204,5 +22265,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 307
+  "contracts_total": 308
 }

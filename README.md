@@ -6536,3 +6536,5 @@ The single v2.2 full remains preserved as 2795 PASS / 44 FAIL / 5 SKIP with 100%
 
 ### FRX-v2.3-A — Cost de-duplication and normalized serial baseline
 Implementation candidate removes binding-only aggregate executions, adds invocation-scoped QualityGate component reuse, bounded Git source sealing, nodeid-manifest shard transport and a normalized serial shadow baseline. Parallel workers remain `0`; full regression runs remain `0`. Windows acceptance must prove the eight RUN-06 binding tests improve >=80% versus 2931.421 s and that one canonical hardening run has zero duplicate canonical component executions.
+### FRX-v2.3-B — Isolation contract registry
+Implemented-initial: explicit isolation/resource registry, default UNCLASSIFIED/parallel-safe=false, static hints non-authoritative, workers=0/full=0. Windows validation pending; FRX-v2.3-C remains unauthorized until closure.

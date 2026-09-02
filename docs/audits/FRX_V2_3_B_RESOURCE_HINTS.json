@@ -1,0 +1,27 @@
+{
+  "schema_id": "devpilot.testing.test_isolation_resource_hints.v1",
+  "status": "PASS",
+  "created_by": "FRX-v2.3-B",
+  "entries_total": 2872,
+  "entries_with_suggested_hints_total": 2427,
+  "resource_hint_counts": {
+    "clock-time-sensitive-state": 134,
+    "fixed-filesystem-shared-outputs": 1038,
+    "git-worktree-repo-mutation": 476,
+    "localhost-ports-server-lifecycle": 767,
+    "network-external-service": 1753,
+    "process-global-env-cwd": 1167,
+    "shared-caches": 125,
+    "singleton-global-module-state": 194,
+    "sqlite-db-files": 419,
+    "subprocess-process-trees": 521,
+    "windows-named-resources-locks": 18
+  },
+  "static_suggestions_authorize_parallel": false,
+  "parallel_safe_promotions_total": 0,
+  "workers": 0,
+  "full_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "browser_used": false
+}

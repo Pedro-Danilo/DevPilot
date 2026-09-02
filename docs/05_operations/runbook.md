@@ -11907,3 +11907,5 @@ FRX-v2.3-A is focal-only. Do not run a full regression, browser runtime or paral
 
 ## FRX-v2.3-A Windows closure
 FRX-v2.3-A Windows closure: CLOSED/PASS/WINDOWS-VALIDATED. Binding8=2.306 s (99.921% reduction vs RUN-06 baseline); canonical hardening duplicate components=0; normalized serial shadow=57->15; workers=0; full=0. FRX-v2.3-B is authorized.
+## FRX-v2.3-B isolation registry
+Use the schema-backed isolation registry as the only authority for future parallel eligibility. `suggested_hints`, test names and duration estimates never authorize parallel execution. Unknown tests remain serial. B uses focal validation only; full regression remains reserved for FRX-v2.3-E.

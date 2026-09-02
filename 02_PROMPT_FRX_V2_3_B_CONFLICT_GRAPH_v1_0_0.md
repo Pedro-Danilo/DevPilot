@@ -1,11 +1,12 @@
 ---
 doc_id: "02_PROMPT_FRX_V2_3_B_CONFLICT_GRAPH_V1_0_0"
 title: "FRX-v2.3-B — Conflict graph and shadow parallel scheduler — implementation and Windows validation prompt"
-status: "approved"
+status: "superseded"
 version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-09-02"
 approval: "approved_by_owner"
+superseded_by: "03_PROMPT_FRX_V2_3_C_CONFLICT_GRAPH_v1_0_0.md"
 source_policy: "successor-of-previous-micro-sprint/windows-validated-when-applicable"
 full_regression_policy: "only-closing-micro-sprint-may-consume-one-logical-full"
 ---

@@ -216,3 +216,6 @@ Continúa siendo precondición dura antes de la única full E. Ningún micro-spr
 ## 11. Definition of Done
 
 V2.3 solo cierra cuando A–E están cerrados o existe una adjudicación owner explícita que detenga E por inviabilidad/ROI, sin false speedup claim. La full budget permanece `1` y solo E puede consumirla.
+## 12. Estado de implementación incremental — FRX-v2.3-B
+
+FRX-v2.3-B se encuentra `IMPLEMENTED-INITIAL/WINDOWS-PENDING` sobre la autoridad repo392. El registry inicial conserva todos los nodeids `UNCLASSIFIED/parallel_safe=false`; static hints no autorizan ejecución paralela. `workers=0`, `full=0`. FRX-v2.3-C permanece bloqueado hasta cierre Windows PASS de B.
