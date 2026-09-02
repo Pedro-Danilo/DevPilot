@@ -6542,4 +6542,4 @@ Implemented-initial: explicit isolation/resource registry, default UNCLASSIFIED/
 ## FRX-v2.3-C
 Conflict graph and shadow parallel scheduler are implemented-initial. Preview slots=2; worker execution remains disabled. With the B registry still fully UNCLASSIFIED, the current feasibility result is expected to be NO-GO until explicit isolation reviews exist.
 
-FRX-v2.3-C Windows validation pending; feasibility is NO-GO and FRX-v2.3-D remains unauthorized until a successor isolation review yields sufficient proven-safe coverage.
+FRX-v2.3-C Windows validation PASS. Shadow planning is deterministic and safe, but feasibility remains NO-GO; FRX-v2.3-D is not authorized until explicit isolation reviews yield sufficient proven-safe runtime coverage.

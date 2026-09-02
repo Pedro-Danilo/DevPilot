@@ -3178,3 +3178,4 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Preserved workers=0/full=0 and unknown→serial default.
 - Rebound B to repo392 Windows validated source; superseded stale pre-v1.1 V2.3 prompt numbering.
 - FRX-v2.3-B Windows validation PASS: registry/collection exact, no inferred safe tests, workers=0/full=0; FRX-v2.3-C authorized.
+- FRX-v2.3-C Windows validation PASS: conflict graph/shadow deterministic, workers=0/full=0; Amdahl NO-GO and FRX-v2.3-D remains unauthorized.

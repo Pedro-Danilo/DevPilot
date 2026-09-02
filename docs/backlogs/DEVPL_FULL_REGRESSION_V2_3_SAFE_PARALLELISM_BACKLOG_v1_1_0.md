@@ -222,4 +222,4 @@ FRX-v2.3-B se encuentra `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo393, con repo3
 
 ## Estado operativo FRX-v2.3-C
 
-FRX-v2.3-C se encuentra `IMPLEMENTED-INITIAL/WINDOWS-PENDING`; su shadow actual es `NO-GO` porque B aún tiene 0 runtime `PROVEN_PARALLEL_SAFE`. D permanece no autorizado.
+FRX-v2.3-C se encuentra `CLOSED/PASS/WINDOWS-VALIDATED`. Su shadow es `NO-GO`: no existe runtime `PROVEN_PARALLEL_SAFE`; por lo tanto D permanece no autorizado hasta una revisión explícita successor.

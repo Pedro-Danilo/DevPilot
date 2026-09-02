@@ -5,7 +5,7 @@ status: "implemented-initial"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-02"
-approval: "pending-windows-validation"
+approval: "windows-validated"
 ---
 # FRX-v2.3-C — Implementation report
 
