@@ -3539,7 +3539,20 @@
   "frx_v2_3_c_runtime_weighted_safe_coverage_percent": 0.0,
   "frx_v2_3_c_amdahl_decision": "NO-GO",
   "frx_v2_3_c_incremental_parallel_reduction_percent": 0.0,
-  "frx_v2_3_d_block_reason": "NO-GO: zero PROVEN_PARALLEL_SAFE runtime coverage; explicit isolation reviews are required before canary",
+  "frx_v2_3_d_block_reason": "FRX-v2.3-BR Windows isolation evidence and successor Amdahl decision pending",
   "frx_v2_3_c_windows_focal_status": "PASS/11",
-  "frx_v2_3_c_windows_collection_total": 2883
+  "frx_v2_3_c_windows_collection_total": 2883,
+  "frx_v2_3_br_authorized": true,
+  "frx_v2_3_br_status": "IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PASS/WINDOWS-PENDING",
+  "frx_v2_3_br_parent_repo": "repo_DevPilot_Local_394_FRX_V2_3_C_CONFLICT_GRAPH_SHADOW_SCHEDULER_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "frx_v2_3_br_parent_commit": "95b7805744bc3878d7d60792e0647076f5517afc",
+  "frx_v2_3_br_full_regression_runs": 0,
+  "frx_v2_3_br_general_suite_parallel_workers": 0,
+  "frx_v2_3_br_probe_max_concurrency": 2,
+  "frx_v2_3_br_candidate_total": 112,
+  "frx_v2_3_br_candidate_runtime_percent": 80.039,
+  "frx_v2_3_br_candidate_runtime_seconds": 7796.491791,
+  "frx_v2_3_br_contract_probe_status": "WINDOWS-PENDING",
+  "frx_v2_3_br_successor_safe_coverage_percent": null,
+  "frx_v2_3_br_successor_amdahl_decision": "WINDOWS-PENDING"
 }

@@ -1,0 +1,69 @@
+{
+  "schema_id": "devpilot.testing.isolation_contract_catalog.v1",
+  "version": "1.0.0",
+  "status": "implemented-initial",
+  "created_by": "FRX-v2.3-BR",
+  "workers_general_suite": 0,
+  "full_runs": 0,
+  "contracts": [
+    {
+      "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+      "status": "implemented-initial",
+      "scope": "repo-relative filesystem/git/sqlite/cache/process-local state",
+      "guarantees": [
+        "each worker receives a separate local Git clone at the exact source commit",
+        "worker cwd, repo-relative outputs, Git metadata, SQLite files and caches are clone-local",
+        "process-global env/cwd/module state is process-local",
+        "subprocesses inherit the worker clone cwd unless the test explicitly overrides it"
+      ],
+      "forbidden_external_resources": [
+        "real-network-or-external-service",
+        "fixed-localhost-port-or-server-lifecycle",
+        "windows-named-resource",
+        "absolute-external-write-path",
+        "unbounded-clock-or-sleep-dependency"
+      ],
+      "dynamic_probe_required": true,
+      "parallel_safe_by_contract_alone": false
+    },
+    {
+      "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+      "status": "implemented-initial",
+      "scope": "pytest tmp_path plus process-local state inside LOCAL_CLONE_PER_WORKER_V1",
+      "guarantees": [
+        "pytest tmp_path is unique per test process",
+        "worker repository is a separate local clone",
+        "repo-relative fallback writes remain worker-local"
+      ],
+      "forbidden_external_resources": [
+        "real-network-or-external-service",
+        "fixed-localhost-port-or-server-lifecycle",
+        "windows-named-resource",
+        "absolute-external-write-path",
+        "unbounded-clock-or-sleep-dependency"
+      ],
+      "dynamic_probe_required": true,
+      "parallel_safe_by_contract_alone": false
+    },
+    {
+      "contract_id": "READ_ONLY_REPO_V1",
+      "status": "implemented-initial",
+      "scope": "read-only repo evaluation inside LOCAL_CLONE_PER_WORKER_V1",
+      "guarantees": [
+        "test contract asserts no source mutation",
+        "worker repository is a separate local clone",
+        "no external shared resource is allowed"
+      ],
+      "forbidden_external_resources": [
+        "real-network-or-external-service",
+        "fixed-localhost-port-or-server-lifecycle",
+        "windows-named-resource",
+        "absolute-external-write-path",
+        "unbounded-clock-or-sleep-dependency"
+      ],
+      "dynamic_probe_required": true,
+      "parallel_safe_by_contract_alone": false
+    }
+  ],
+  "catalog_sha256": "793ba80847843b93c58756f6114162d59e358e6195aaa2e55de7b3a4ac04de67"
+}

@@ -11909,3 +11909,6 @@ FRX-v2.3-A is focal-only. Do not run a full regression, browser runtime or paral
 FRX-v2.3-A Windows closure: CLOSED/PASS/WINDOWS-VALIDATED. Binding8=2.306 s (99.921% reduction vs RUN-06 baseline); canonical hardening duplicate components=0; normalized serial shadow=57->15; workers=0; full=0. FRX-v2.3-B is authorized.
 ## FRX-v2.3-B isolation registry
 Use the schema-backed isolation registry as the only authority for future parallel eligibility. `suggested_hints`, test names and duration estimates never authorize parallel execution. Unknown tests remain serial. B uses focal validation only; full regression remains reserved for FRX-v2.3-E.
+
+## FRX-v2.3-BR isolation evidence
+BR is focal-only and follows C `NO-GO`. Do not run a full regression and do not run the general suite in parallel. The BR Windows operator applies the successor implementation, re-collects nodeids structurally, re-audits the 112 runtime-ranked candidates, and executes only representative contract probes with at most two concurrent processes in separate local Git clones. A candidate becomes `PROVEN_PARALLEL_SAFE` only after structural audit PASS plus its contract probe PASS; otherwise it remains UNCLASSIFIED or is marked SERIAL_REQUIRED. After promotion, re-evaluate C shadow/Amdahl read-only. `PASS/NO-GO-D` is a valid BR result; never force D.

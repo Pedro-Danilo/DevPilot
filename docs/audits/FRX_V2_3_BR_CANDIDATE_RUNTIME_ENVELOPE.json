@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_3_br_candidate_runtime_envelope.v1",
+  "status": "PASS",
+  "source_repo": "repo_DevPilot_Local_394_FRX_V2_3_C_CONFLICT_GRAPH_SHADOW_SCHEDULER_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "95b7805744bc3878d7d60792e0647076f5517afc",
+  "runtime_seconds_known_total": 9740.888787,
+  "candidate_runtime_seconds_total": 7796.491791,
+  "candidate_runtime_percent": 80.039,
+  "minimum_target_percent": 80.0,
+  "candidates_total": 112,
+  "contract_counts": {
+    "READ_ONLY_REPO_V1": 23,
+    "LOCAL_CLONE_PER_WORKER_V1": 72,
+    "TMP_PATH_PROCESS_ISOLATED_V1": 17
+  },
+  "candidate_is_authorization": false,
+  "workers_general_suite": 0,
+  "full_runs": 0
+}

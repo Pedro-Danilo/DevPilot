@@ -1,0 +1,1582 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_3_br_structural_audit.v1",
+  "status": "PASS",
+  "created_by": "FRX-v2.3-BR",
+  "candidates_total": 112,
+  "eligible_total": 112,
+  "blocked_total": 0,
+  "candidate_runtime_percent": 80.039,
+  "candidate_runtime_seconds_total": 7796.491791,
+  "workers_general_suite": 0,
+  "full_runs": 0,
+  "audits": [
+    {
+      "candidate_id": "BR-CAND-0001",
+      "runtime_estimate_seconds": 774.736226,
+      "audit": {
+        "nodeid": "tests/test_repo_engineering_gate.py::test_repo_engineering_gate_quick_passes_without_mutations",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "75cf3974c3d5aa98a1f736ec12adecd653e925a6dc987d17b1515d3c0d5c60fe"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0002",
+      "runtime_estimate_seconds": 542.642425,
+      "audit": {
+        "nodeid": "tests/test_multiagent_workflow.py::test_sdlc_workflow_contract_runs_dry_run_and_consolidates_report",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "4f635c01462ab920d0579fd56620b38090b44f47049f19a7efdf0b55815346ac"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0003",
+      "runtime_estimate_seconds": 538.567238,
+      "audit": {
+        "nodeid": "tests/test_multiagent_workflow.py::test_sdlc_workflow_cli_json_and_report_are_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "4f635c01462ab920d0579fd56620b38090b44f47049f19a7efdf0b55815346ac"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0004",
+      "runtime_estimate_seconds": 417.614315,
+      "audit": {
+        "nodeid": "tests/test_application_dto_normalization.py::test_post_h_007_c_priority_operations_return_schema_valid_application_response",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "22ab99ad2615dc8bc3be33de25c8be77ace4e03952b5ce3a59024eff3b93943a"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0005",
+      "runtime_estimate_seconds": 415.677313,
+      "audit": {
+        "nodeid": "tests/test_architecture_drift_repo.py::test_architecture_drift_cli_writes_report",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "3a32cdc9c80db068650cdec6cb2a5084cfd691248eea872e6739392413dacc08"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0006",
+      "runtime_estimate_seconds": 388.506748,
+      "audit": {
+        "nodeid": "tests/test_repo_quality_gate.py::test_repo_quality_gate_cli_writes_report",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "a13f2317fb1cbe80e63f3bc48992ac666a0995b70deb1e6e912954142facfa35"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0007",
+      "runtime_estimate_seconds": 385.181546,
+      "audit": {
+        "nodeid": "tests/test_repo_analyzer.py::test_repo_analyzer_cli_writes_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "0942ad331c86538e12237bd2baab28dc55679d9d78c93b9cd5c48eddd2fe30b4"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0008",
+      "runtime_estimate_seconds": 234.876888,
+      "audit": {
+        "nodeid": "tests/test_eval_runner.py::test_eval_runner_documentation_suite_passes",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "00349a891403b8a7cc992865cf1a87973db4f9b8e1a0115c59629bc3c05d9a77"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0009",
+      "runtime_estimate_seconds": 202.160937,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "63ed153af0610483ef41aa3baf056db04ac8a1c96bfff2fed7f63d9c87259fd6"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0010",
+      "runtime_estimate_seconds": 137.005934,
+      "audit": {
+        "nodeid": "tests/test_audit_pack.py::test_audit_pack_verify_passes_for_generated_pack",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "7a93557bb08c787e0abc76bfd2158637409b378a756b100c142f49fd7f55837e"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0011",
+      "runtime_estimate_seconds": 136.708927,
+      "audit": {
+        "nodeid": "tests/test_audit_pack.py::test_audit_pack_cli_build_and_verify_json_are_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "7a93557bb08c787e0abc76bfd2158637409b378a756b100c142f49fd7f55837e"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0012",
+      "runtime_estimate_seconds": 135.408884,
+      "audit": {
+        "nodeid": "tests/test_audit_pack.py::test_audit_pack_verify_blocks_tampered_checksum",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "7a93557bb08c787e0abc76bfd2158637409b378a756b100c142f49fd7f55837e"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0013",
+      "runtime_estimate_seconds": 125.907724,
+      "audit": {
+        "nodeid": "tests/test_multiagent_coordinator.py::test_multiagent_repo_review_dry_run_has_explicit_traced_handoffs",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "ddeb3ac0a217ceb1c32172e1ed699bf3e7a7559a20145789270efe9e7dd993f2"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0014",
+      "runtime_estimate_seconds": 125.125188,
+      "audit": {
+        "nodeid": "tests/test_multiagent_coordinator.py::test_multiagent_cli_json_and_report_are_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "ddeb3ac0a217ceb1c32172e1ed699bf3e7a7559a20145789270efe9e7dd993f2"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0015",
+      "runtime_estimate_seconds": 110.702213,
+      "audit": {
+        "nodeid": "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_uses_mock_model_aware_path",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "a443efda979140ea41ec61747211bd058fbf0245d2b3ee0be286ca591eb6459c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0016",
+      "runtime_estimate_seconds": 109.529808,
+      "audit": {
+        "nodeid": "tests/test_repo_analysis_agent.py::test_repo_analysis_agent_runs_read_only_without_model",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "a443efda979140ea41ec61747211bd058fbf0245d2b3ee0be286ca591eb6459c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0017",
+      "runtime_estimate_seconds": 100.193559,
+      "audit": {
+        "nodeid": "tests/test_agent_session.py::test_agent_runtime_can_reuse_existing_session",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "c3b5c2bccdeebd080b2349712586c3ae3591cd3bc512014d55157ab2134f1814"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0018",
+      "runtime_estimate_seconds": 95.058053,
+      "audit": {
+        "nodeid": "tests/test_post_h_006_c_handler_migration.py::test_post_h_006_c_validate_scope_handler_matches_cli_docs_contracts_all",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "968c58965b1262c94d6603b61522110bc07fa18a317c5c87c2a9578982aa8f57"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0019",
+      "runtime_estimate_seconds": 93.33487,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_backlogs.py::test_documentation_governance_report_command_includes_backlog_checks",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "078b42fcc3f2daa5a9023a72fc4fc13f85073c2a44b51477c17572aa3aaf4158"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0020",
+      "runtime_estimate_seconds": 92.278666,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_quality_gate.py::test_docs_governance_quality_subgate_wraps_validator_read_only",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "4bb6e2765dae4ed20bd64b1d43c32632c5ed8196426cae8f5245ed578d991c8a"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0021",
+      "runtime_estimate_seconds": 92.099709,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_backlogs.py::test_documentation_governance_validate_includes_backlog_governance",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "078b42fcc3f2daa5a9023a72fc4fc13f85073c2a44b51477c17572aa3aaf4158"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0022",
+      "runtime_estimate_seconds": 68.80775,
+      "audit": {
+        "nodeid": "tests/test_audit_pack.py::test_audit_pack_build_creates_clean_zip_with_manifest",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "7a93557bb08c787e0abc76bfd2158637409b378a756b100c142f49fd7f55837e"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0023",
+      "runtime_estimate_seconds": 67.532513,
+      "audit": {
+        "nodeid": "tests/test_architecture_map_report.py::test_architecture_map_builder_writes_raw_schema_valid_reports",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "631f52a77db6ef1dd325f0cd1db9edf3c6db065605dbdae54a03772eb9c4b736"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0024",
+      "runtime_estimate_seconds": 67.017746,
+      "audit": {
+        "nodeid": "tests/test_architecture_map_report.py::test_architecture_map_report_builder_validates_ownership_and_contract",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "631f52a77db6ef1dd325f0cd1db9edf3c6db065605dbdae54a03772eb9c4b736"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0025",
+      "runtime_estimate_seconds": 66.455132,
+      "audit": {
+        "nodeid": "tests/test_architecture_dependencies.py::test_architecture_dependencies_builder_materializes_edges_and_fan_metrics",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "a437a79896b52ae7b65337bb07f759abbbc876e892bff1b93841b6d0e0009b65"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0026",
+      "runtime_estimate_seconds": 64.157377,
+      "audit": {
+        "nodeid": "tests/test_architecture_hotspots.py::test_architecture_hotspots_builder_ranks_top20_without_execution",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "0c328d8ece626d2ccf2728b7cb027d555fd698716a7222634c15d68e754f2131"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0027",
+      "runtime_estimate_seconds": 62.896325,
+      "audit": {
+        "nodeid": "tests/test_architecture_inventory.py::test_architecture_inventory_builder_discovers_ast_modules_without_execution",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "5b315dc52f0709d07075e2587161a22c9be24d88aebbebc3d760f918ef7524ab"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0028",
+      "runtime_estimate_seconds": 53.829641,
+      "audit": {
+        "nodeid": "tests/test_agent_session.py::test_agent_session_cli_json_and_write_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "c3b5c2bccdeebd080b2349712586c3ae3591cd3bc512014d55157ab2134f1814"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0029",
+      "runtime_estimate_seconds": 50.374213,
+      "audit": {
+        "nodeid": "tests/test_agent_session.py::test_agent_runtime_creates_inspectable_session",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "c3b5c2bccdeebd080b2349712586c3ae3591cd3bc512014d55157ab2134f1814"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0030",
+      "runtime_estimate_seconds": 49.037165,
+      "audit": {
+        "nodeid": "tests/test_release_agent.py::test_release_agent_cli_json_and_report_are_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "6c5b2d6d0e6d43077c2a93a91b070faf9040d25361f383603be583a58383a96c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0031",
+      "runtime_estimate_seconds": 48.623089,
+      "audit": {
+        "nodeid": "tests/test_release_agent.py::test_release_agent_runs_in_dry_run_and_reports_evidence",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "6c5b2d6d0e6d43077c2a93a91b070faf9040d25361f383603be583a58383a96c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0032",
+      "runtime_estimate_seconds": 46.224476,
+      "audit": {
+        "nodeid": "tests/test_post_h_030_release_command_extraction.py::test_post_h_030_c_cli_json_contract_matches_selected_extracted_handlers",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "3cdc5ff5a8abac785a707202af6f61d22e81db85ad5df588b253ff7d7561208b"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0033",
+      "runtime_estimate_seconds": 42.935324,
+      "audit": {
+        "nodeid": "tests/test_post_h_027_source_zip_policy.py::test_package_build_repo_zip_uses_policy_and_artifact_passes_policy",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "eca61066557cb8c17500d498a9ab80bab8e0e7909852c4345804c42021f290a7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0034",
+      "runtime_estimate_seconds": 42.792123,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_manual_and_import_review_routes_remain_available",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e99e6b8a9b4ad2e1e29d6827483fb83b484d292a837c5e83e5cfaecc6190f6c5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0035",
+      "runtime_estimate_seconds": 41.238204,
+      "audit": {
+        "nodeid": "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_passes_without_network_or_shell",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "346c35274a2b528e7e225ea4e1830c9ce4e8181bc6f4663a916b1772dcac2306"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0036",
+      "runtime_estimate_seconds": 40.839047,
+      "audit": {
+        "nodeid": "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_passes_baseline_without_source_mutations",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "8ea72c05dcffe7c1a53242081ddbeca66a0924ab59349ac91b150a044651d420"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0037",
+      "runtime_estimate_seconds": 40.254533,
+      "audit": {
+        "nodeid": "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_registered_in_tcr_v2_impact_and_quality_gate",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "346c35274a2b528e7e225ea4e1830c9ce4e8181bc6f4663a916b1772dcac2306"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0038",
+      "runtime_estimate_seconds": 39.505748,
+      "audit": {
+        "nodeid": "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_cli_command_is_available",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "346c35274a2b528e7e225ea4e1830c9ce4e8181bc6f4663a916b1772dcac2306"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0039",
+      "runtime_estimate_seconds": 39.123696,
+      "audit": {
+        "nodeid": "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_write_report_validates_schema",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "346c35274a2b528e7e225ea4e1830c9ce4e8181bc6f4663a916b1772dcac2306"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0040",
+      "runtime_estimate_seconds": 39.063037,
+      "audit": {
+        "nodeid": "tests/test_post_h_026_release_candidate_report.py::test_local_release_candidate_report_blocks_forbidden_claim_fixture",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "346c35274a2b528e7e225ea4e1830c9ce4e8181bc6f4663a916b1772dcac2306"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0041",
+      "runtime_estimate_seconds": 37.235849,
+      "audit": {
+        "nodeid": "tests/test_sdlc_agents.py::test_sdlc_agent_aliases_remain_monoagent_and_local_on_small_fixtures",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "af01aecc827b71ea7f5d0fb8806e8ce563b3e91ba4a26a28500160bfd121b9f7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0042",
+      "runtime_estimate_seconds": 37.005764,
+      "audit": {
+        "nodeid": "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_cli_json_and_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "8ea72c05dcffe7c1a53242081ddbeca66a0924ab59349ac91b150a044651d420"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0043",
+      "runtime_estimate_seconds": 36.517694,
+      "audit": {
+        "nodeid": "tests/test_post_h_028_operator_flows_error_states.py::test_operator_flow_smoke_writes_schema_valid_report_under_explicit_output",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "8ea72c05dcffe7c1a53242081ddbeca66a0924ab59349ac91b150a044651d420"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0044",
+      "runtime_estimate_seconds": 34.274702,
+      "audit": {
+        "nodeid": "tests/test_post_h_010_observability_retention.py::test_post_h_010_source_registry_and_docs_governance_pass",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "53d2a7afa1476bd1ad1383cf52256356185e5008e8468989f541a8c8d4c45b2b"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0045",
+      "runtime_estimate_seconds": 34.216042,
+      "audit": {
+        "nodeid": "tests/test_advanced_evals.py::test_quality_gate_ci_consumes_advanced_safety_evals",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "9a5239ef584c013876a28510d8426d63214d36196b800c50a31483c2c912c184"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0046",
+      "runtime_estimate_seconds": 34.038034,
+      "audit": {
+        "nodeid": "tests/test_post_h_012_approval_rbac_hardening.py::test_post_h_012_source_registry_and_contracts_are_registered",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "ccf2f19de565dddf4ea956d37b80bc57ab5fab0e334bad8976a27dec0df8ed45"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0047",
+      "runtime_estimate_seconds": 33.866438,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_branch_switch_with_changed_frozen_content_is_visible_and_invalidates",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e99e6b8a9b4ad2e1e29d6827483fb83b484d292a837c5e83e5cfaecc6190f6c5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0048",
+      "runtime_estimate_seconds": 33.849589,
+      "audit": {
+        "nodeid": "tests/test_post_h_011_rag_groundedness.py::test_post_h_011_source_registry_and_docs_governance_pass",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "73a607abf22474705a42524dc96767dacc69f74e50e753d8101892a5e928b7a9"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0049",
+      "runtime_estimate_seconds": 33.83847,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_sync.py::test_documentation_governance_report_command_writes_sync_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "16d072628b690bc1cc6329269a2778d7b9cd33d9b996cd72855bf5e3054055d1"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0050",
+      "runtime_estimate_seconds": 33.832166,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_validator.py::test_documentation_governance_write_report_validates_against_schema",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "37f8f98c4bf6cc88e6482be530d375f0c45d04c6dcab738cb5e5389d3e441049"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0051",
+      "runtime_estimate_seconds": 33.755153,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_validator.py::test_documentation_governance_validator_passes_baseline",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "37f8f98c4bf6cc88e6482be530d375f0c45d04c6dcab738cb5e5389d3e441049"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0052",
+      "runtime_estimate_seconds": 33.732156,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_exact_rename_is_detected_without_hidden_move",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e99e6b8a9b4ad2e1e29d6827483fb83b484d292a837c5e83e5cfaecc6190f6c5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0053",
+      "runtime_estimate_seconds": 33.419923,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_validator.py::test_docs_governance_cli_validate_json_is_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "37f8f98c4bf6cc88e6482be530d375f0c45d04c6dcab738cb5e5389d3e441049"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0054",
+      "runtime_estimate_seconds": 33.416382,
+      "audit": {
+        "nodeid": "tests/test_post_h_033_docs_governance_rule_registry.py::test_post_h_033_f_docs_governance_report_exposes_rule_source_and_version",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "a562086bd3504b2161173553c4386feb26cd33693bfdd5a3eff4f78be16ba97b"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0055",
+      "runtime_estimate_seconds": 33.236496,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_modify_invalidates_freeze_and_exposes_git_diff_provenance",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e99e6b8a9b4ad2e1e29d6827483fb83b484d292a837c5e83e5cfaecc6190f6c5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0056",
+      "runtime_estimate_seconds": 33.113249,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_unchanged_frozen_artifact_remains_valid",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e99e6b8a9b4ad2e1e29d6827483fb83b484d292a837c5e83e5cfaecc6190f6c5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0057",
+      "runtime_estimate_seconds": 32.907005,
+      "audit": {
+        "nodeid": "tests/test_documentation_governance_sync.py::test_documentation_governance_sync_passes_baseline",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "16d072628b690bc1cc6329269a2778d7b9cd33d9b996cd72855bf5e3054055d1"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0058",
+      "runtime_estimate_seconds": 32.797342,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_external_delete_is_detected_and_zero_hash_records_missing_source",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e99e6b8a9b4ad2e1e29d6827483fb83b484d292a837c5e83e5cfaecc6190f6c5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0059",
+      "runtime_estimate_seconds": 31.559522,
+      "audit": {
+        "nodeid": "tests/test_release_agent.py::test_quality_gate_release_profile_passes",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "6c5b2d6d0e6d43077c2a93a91b070faf9040d25361f383603be583a58383a96c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0060",
+      "runtime_estimate_seconds": 30.892772,
+      "audit": {
+        "nodeid": "tests/test_compliance_packs.py::test_compliance_run_cli_json_and_report_are_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "99ec62e4ddd7fe1145b39f41ba6af0d9b624102c8649c107f11002a15cf208ff"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0061",
+      "runtime_estimate_seconds": 30.623134,
+      "audit": {
+        "nodeid": "tests/test_ci_workflow_scaffolding.py::test_quality_gate_ci_profile_static_workflow_validation_passes",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "c8b83e3eedc173ff444ba82d40afd6ea8a91ac0051457ad6d0b9191d6b9942f8"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0062",
+      "runtime_estimate_seconds": 29.861536,
+      "audit": {
+        "nodeid": "tests/test_compliance_packs.py::test_compliance_run_baseline_uses_declared_gates_and_policy_engine",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "99ec62e4ddd7fe1145b39f41ba6af0d9b624102c8649c107f11002a15cf208ff"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0063",
+      "runtime_estimate_seconds": 28.678313,
+      "audit": {
+        "nodeid": "tests/test_quality_gate.py::test_quality_gate_full_profile_adds_extended_local_subgates",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "7b12c2d298b7e0c370b1909cea924d90f4f51f323f3dcb9bddc01c4acdda641c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0064",
+      "runtime_estimate_seconds": 28.533673,
+      "audit": {
+        "nodeid": "tests/test_quality_gate.py::test_quality_gate_ci_profile_adds_workflow_static_subgate",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "7b12c2d298b7e0c370b1909cea924d90f4f51f323f3dcb9bddc01c4acdda641c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0065",
+      "runtime_estimate_seconds": 27.20817,
+      "audit": {
+        "nodeid": "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_passes_without_network_or_mutations",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "eca61066557cb8c17500d498a9ab80bab8e0e7909852c4345804c42021f290a7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0066",
+      "runtime_estimate_seconds": 24.252673,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_07_c_agent_assist.py::test_accept_reject_modify_preserve_human_review_and_draft_history",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "cf37339f2f09edd20297ec1d9f42f021f86ffd36c0d5052145c6ac834478d490"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0067",
+      "runtime_estimate_seconds": 23.431732,
+      "audit": {
+        "nodeid": "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_uses_mock_via_router_and_records_redacted_model_call",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "59ea9ac5d3dedb7cc21159bb5c7281eec5cc673b303ccd5879bb35720a6d0106"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0068",
+      "runtime_estimate_seconds": 22.961988,
+      "audit": {
+        "nodeid": "tests/test_agentops_instrumentation.py::test_agent_runtime_persists_correlated_agentops_spans_and_metrics",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "640ce6a1217f5fdcda51beec5381e703a6f112b2b6227c7535b6c5ae30e26535"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0069",
+      "runtime_estimate_seconds": 22.748318,
+      "audit": {
+        "nodeid": "tests/test_validation_gateway.py::test_validate_all_cli_write_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "cfb0c55bc30d3532d2c04cbec66f7b99077ebe6b5f91bf49af0ce20610941833"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0070",
+      "runtime_estimate_seconds": 21.866329,
+      "audit": {
+        "nodeid": "tests/test_validation_gateway.py::test_validation_gateway_all_combines_docs_and_contracts",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "cfb0c55bc30d3532d2c04cbec66f7b99077ebe6b5f91bf49af0ce20610941833"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0071",
+      "runtime_estimate_seconds": 21.460748,
+      "audit": {
+        "nodeid": "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_cli_json_is_available",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "eca61066557cb8c17500d498a9ab80bab8e0e7909852c4345804c42021f290a7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0072",
+      "runtime_estimate_seconds": 21.148356,
+      "audit": {
+        "nodeid": "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_json_and_report_validate_against_schemas",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "eca61066557cb8c17500d498a9ab80bab8e0e7909852c4345804c42021f290a7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0073",
+      "runtime_estimate_seconds": 21.033732,
+      "audit": {
+        "nodeid": "tests/test_post_h_027_source_zip_policy.py::test_source_zip_release_policy_blocks_bad_candidate_zip",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "eca61066557cb8c17500d498a9ab80bab8e0e7909852c4345804c42021f290a7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0074",
+      "runtime_estimate_seconds": 21.00394,
+      "audit": {
+        "nodeid": "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_blocks_secret_prompt_input_before_provider_payload_leaks",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "59ea9ac5d3dedb7cc21159bb5c7281eec5cc673b303ccd5879bb35720a6d0106"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0075",
+      "runtime_estimate_seconds": 20.364874,
+      "audit": {
+        "nodeid": "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_execute_writes_zip_manifest_and_redaction_report",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "02e34e52b301b16074cc00afca527e153e43dfd24d0fe7a89fd6a0c6cc9d97ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0076",
+      "runtime_estimate_seconds": 20.341474,
+      "audit": {
+        "nodeid": "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_dry_run_does_not_write_pack_artifacts",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "02e34e52b301b16074cc00afca527e153e43dfd24d0fe7a89fd6a0c6cc9d97ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0077",
+      "runtime_estimate_seconds": 20.312372,
+      "audit": {
+        "nodeid": "tests/test_agent_runtime_v2.py::test_agent_runtime_v2_preserves_existing_agents_without_model",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "59ea9ac5d3dedb7cc21159bb5c7281eec5cc673b303ccd5879bb35720a6d0106"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0078",
+      "runtime_estimate_seconds": 19.865904,
+      "audit": {
+        "nodeid": "tests/test_agent_runtime.py::test_agent_runtime_runs_documentation_audit_on_target",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "bd73cf6c53b3f5b48f221813d6837f4356504bc240a05e8f1390c1a0166d3070"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0079",
+      "runtime_estimate_seconds": 19.657119,
+      "audit": {
+        "nodeid": "tests/test_quality_gate.py::test_quality_gate_hardening_profile_includes_post_h_subgates",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "7b12c2d298b7e0c370b1909cea924d90f4f51f323f3dcb9bddc01c4acdda641c"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0080",
+      "runtime_estimate_seconds": 16.65167,
+      "audit": {
+        "nodeid": "tests/test_sdlc_agents.py::test_security_agent_detects_secret_fixture_without_exposing_raw_secret",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "af01aecc827b71ea7f5d0fb8806e8ce563b3e91ba4a26a28500160bfd121b9f7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0081",
+      "runtime_estimate_seconds": 16.299617,
+      "audit": {
+        "nodeid": "tests/test_validation_gateway.py::test_validate_contracts_cli_json_is_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "cfb0c55bc30d3532d2c04cbec66f7b99077ebe6b5f91bf49af0ce20610941833"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0082",
+      "runtime_estimate_seconds": 16.119921,
+      "audit": {
+        "nodeid": "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_quality_gate_cli_json_can_report_connector_sandbox_subgate",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "96665ad90472773aa35f0042ce193d3cfc80a8a654b7426c344f586290c1e217"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0083",
+      "runtime_estimate_seconds": 16.069158,
+      "audit": {
+        "nodeid": "tests/test_rag_groundedness_ready_gate.py::test_rag_groundedness_ready_gate_passes_offline_without_writing_outputs",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "92167b718034fd2df9753e78a841c6c8eb69b5d9e05482a00534463b494e57ac"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0084",
+      "runtime_estimate_seconds": 15.962829,
+      "audit": {
+        "nodeid": "tests/test_security_readiness.py::test_security_readiness_cli_writes_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "492febf24ba63597a060de3ac05ee2e726d8f31becb7dba6cc96796221d5a518"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0085",
+      "runtime_estimate_seconds": 15.636232,
+      "audit": {
+        "nodeid": "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_hardening_profile_registers_connector_sandbox_subgate",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "96665ad90472773aa35f0042ce193d3cfc80a8a654b7426c344f586290c1e217"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0086",
+      "runtime_estimate_seconds": 15.537577,
+      "audit": {
+        "nodeid": "tests/test_validation_gateway.py::test_validation_gateway_contracts_runs_schema_contract_group",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "cfb0c55bc30d3532d2c04cbec66f7b99077ebe6b5f91bf49af0ce20610941833"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0087",
+      "runtime_estimate_seconds": 15.513317,
+      "audit": {
+        "nodeid": "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_connector_sandbox_quality_gate_passes_without_network_or_write",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "96665ad90472773aa35f0042ce193d3cfc80a8a654b7426c344f586290c1e217"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0088",
+      "runtime_estimate_seconds": 15.338805,
+      "audit": {
+        "nodeid": "tests/test_api_approvals_actions.py::test_action_launcher_runs_only_safe_dry_run_actions",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "4ec0490bb68a89bac185e3b23203ad94f9b7f8a74e4de5d98acefb69ffd012fb"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0089",
+      "runtime_estimate_seconds": 15.247662,
+      "audit": {
+        "nodeid": "tests/test_security_readiness.py::test_security_readiness_passes_against_repo",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "492febf24ba63597a060de3ac05ee2e726d8f31becb7dba6cc96796221d5a518"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0090",
+      "runtime_estimate_seconds": 15.219216,
+      "audit": {
+        "nodeid": "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_cli_json_is_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "02e34e52b301b16074cc00afca527e153e43dfd24d0fe7a89fd6a0c6cc9d97ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0091",
+      "runtime_estimate_seconds": 15.090675,
+      "audit": {
+        "nodeid": "tests/test_post_h_027_artifact_manifest_checksums.py::test_release_artifact_manifest_passes_and_writes_checksums",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "634c45aca6940843e9fcefab5da6590bff58bf7f6393542cc3976465cc291f51"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0092",
+      "runtime_estimate_seconds": 15.024373,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_07_c_agent_assist.py::test_api_agent_assist_requires_human_session_and_returns_plan",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "cf37339f2f09edd20297ec1d9f42f021f86ffd36c0d5052145c6ac834478d490"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0093",
+      "runtime_estimate_seconds": 14.020559,
+      "audit": {
+        "nodeid": "tests/test_post_h_030_industrial_readiness_command_extraction.py::test_post_h_030_b_cli_json_contract_matches_extracted_handlers",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "22137ac71a6f64e33a5056fc39d527b507a166f635d38ac16fa00b97ee283629"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0094",
+      "runtime_estimate_seconds": 13.898323,
+      "audit": {
+        "nodeid": "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_blocks_missing_declared_file",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "02e34e52b301b16074cc00afca527e153e43dfd24d0fe7a89fd6a0c6cc9d97ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0095",
+      "runtime_estimate_seconds": 13.817389,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_wrong_role_freeze_and_approval_reuse_after_drift_are_blocked",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "a9a15dc6ad6cc469a3ccb8c7fba68768963d8aedc556dc98d47f83f64786d8e5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0096",
+      "runtime_estimate_seconds": 13.680524,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_exact_approval_apply_and_freeze_new_artifact",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "a9a15dc6ad6cc469a3ccb8c7fba68768963d8aedc556dc98d47f83f64786d8e5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0097",
+      "runtime_estimate_seconds": 13.11398,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py::test_frozen_hash_drift_invalidates_successor_approval_state",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "a9a15dc6ad6cc469a3ccb8c7fba68768963d8aedc556dc98d47f83f64786d8e5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0098",
+      "runtime_estimate_seconds": 12.544567,
+      "audit": {
+        "nodeid": "tests/test_devpl_gsdlc_04_e_external_reconciliation.py::test_blocking_validation_http_403_preserves_navigable_review_payload",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e99e6b8a9b4ad2e1e29d6827483fb83b484d292a837c5e83e5cfaecc6190f6c5"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0099",
+      "runtime_estimate_seconds": 12.469156,
+      "audit": {
+        "nodeid": "tests/test_rag_groundedness_ready_gate.py::test_post_h_011_e_cli_report_still_validates_when_written",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "92167b718034fd2df9753e78a841c6c8eb69b5d9e05482a00534463b494e57ac"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0100",
+      "runtime_estimate_seconds": 12.280624,
+      "audit": {
+        "nodeid": "tests/test_workspace_git_operations_service.py::test_commit_requires_second_approval_explicit_identity_and_skips_hooks",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "e2d4b7ec1d0377668690d79a685c11817a59c87f71581f72d168d63acbbb01f3"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0101",
+      "runtime_estimate_seconds": 12.147747,
+      "audit": {
+        "nodeid": "tests/test_patch_sandbox.py::test_patch_sandbox_cleanup_removes_runtime_directory",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "d769c5759aa54021e8c00bbf5bb6921fa03e02eb08d0556ad3f32ca946703256"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0102",
+      "runtime_estimate_seconds": 12.071947,
+      "audit": {
+        "nodeid": "tests/test_post_h_014_ui_api_shell_gate.py::test_post_h_014_e_ui_api_shell_gate_passes_and_writes_schema_valid_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "a0e51c8a694ac283a85dd01935e05368eb1fc07663036eb3f17bc3fc059304cb"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0103",
+      "runtime_estimate_seconds": 11.92736,
+      "audit": {
+        "nodeid": "tests/test_post_h_018_connector_policy_binding.py::test_post_h_018_d_cli_exposes_connector_policy_exposure_report",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "8346827472c082efd2ae559a4e2efa7e44179ec2da0851684d36bd961b8945c7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0104",
+      "runtime_estimate_seconds": 11.892897,
+      "audit": {
+        "nodeid": "tests/test_rag_groundedness_eval_runner.py::test_post_h_011_d_eval_runner_integrates_rag_query_and_groundedness",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "04b17c3428b1ae300210ee4654be7892707694737d3ccdfa5bbe72eb58605f4b"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0105",
+      "runtime_estimate_seconds": 11.755177,
+      "audit": {
+        "nodeid": "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_build_v2_crypto_optional_dry_run_requires_explicit_flags",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "02e34e52b301b16074cc00afca527e153e43dfd24d0fe7a89fd6a0c6cc9d97ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0106",
+      "runtime_estimate_seconds": 11.748928,
+      "audit": {
+        "nodeid": "tests/test_prompt_registry.py::test_prompt_cli_commands_are_json_parseable",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "a81024b22eb138d4f46483358340390d0e38475669ddf25aabea38a20b1277c2"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0107",
+      "runtime_estimate_seconds": 11.65922,
+      "audit": {
+        "nodeid": "tests/test_post_h_018_connector_policy_binding.py::test_post_h_018_d_exposure_report_lists_connectors_by_risk_and_blocks_future_write",
+        "eligible": true,
+        "contract_id": "TMP_PATH_PROCESS_ISOLATED_V1",
+        "blockers": [],
+        "evidence": [
+          "pytest-tmp-path-fixture"
+        ],
+        "source_sha256": "8346827472c082efd2ae559a4e2efa7e44179ec2da0851684d36bd961b8945c7"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0108",
+      "runtime_estimate_seconds": 11.530707,
+      "audit": {
+        "nodeid": "tests/test_post_h_031_redacted_evidence_export_ux.py::test_operator_evidence_export_cli_json_dry_run_and_write_report",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "1cbd3af3a9baf37c6b3ba3a83358fa3ee2a654a8b895a222c6f3abab8655d8ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0109",
+      "runtime_estimate_seconds": 11.342669,
+      "audit": {
+        "nodeid": "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_blocks_hash_mismatch",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "02e34e52b301b16074cc00afca527e153e43dfd24d0fe7a89fd6a0c6cc9d97ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0110",
+      "runtime_estimate_seconds": 11.338558,
+      "audit": {
+        "nodeid": "tests/test_post_h_013_audit_pack_integrity.py::test_audit_pack_verify_v2_passes_clean_pack_and_writes_integrity_report",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "02e34e52b301b16074cc00afca527e153e43dfd24d0fe7a89fd6a0c6cc9d97ba"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0111",
+      "runtime_estimate_seconds": 11.330354,
+      "audit": {
+        "nodeid": "tests/test_post_h_020_compliance_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+        "eligible": true,
+        "contract_id": "READ_ONLY_REPO_V1",
+        "blockers": [],
+        "evidence": [
+          "explicit-no-mutation-assertion"
+        ],
+        "source_sha256": "7699a276f2a66db7fa0d7d4b0967b046a7bd25a6354ade7d02d8eb388b205a20"
+      }
+    },
+    {
+      "candidate_id": "BR-CAND-0112",
+      "runtime_estimate_seconds": 11.32661,
+      "audit": {
+        "nodeid": "tests/test_post_h_020_compliance_mapping_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+        "eligible": true,
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "blockers": [],
+        "evidence": [
+          "worker-local-clone-required"
+        ],
+        "source_sha256": "aa39c65be1ffec9e4afc74f6dbf67b08a6ca92155fed979cef1564b3cdec1a1b"
+      }
+    }
+  ]
+}

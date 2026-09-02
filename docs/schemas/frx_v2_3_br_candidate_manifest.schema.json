@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.testing.frx_v2_3_br_candidate_manifest.v1",
+  "title": "FRX v2.3 BR Candidate Manifest",
+  "type": "object",
+  "required": ["schema_id","version","status","source_repo","source_commit","selection_policy","runtime_seconds_known_total","candidate_runtime_seconds_total","candidate_runtime_percent","candidates_total","candidates","manifest_sha256"],
+  "properties": {
+    "schema_id": {"const": "devpilot.testing.frx_v2_3_br_candidate_manifest.v1"},
+    "version": {"const": "1.0.0"},
+    "status": {"enum": ["implemented-initial","windows-validated"]},
+    "source_repo": {"type": "string", "minLength": 1},
+    "source_commit": {"type": "string", "minLength": 7},
+    "selection_policy": {"type": "object"},
+    "runtime_seconds_known_total": {"type": "number", "minimum": 0},
+    "candidate_runtime_seconds_total": {"type": "number", "minimum": 0},
+    "candidate_runtime_percent": {"type": "number", "minimum": 0, "maximum": 100},
+    "candidates_total": {"type": "integer", "minimum": 1},
+    "candidates": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id","nodeid","contract_id","runtime_estimate_seconds","structural_audit_source_sha256"]}},
+    "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

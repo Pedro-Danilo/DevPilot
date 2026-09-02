@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.testing.runtime_safe_promotion_report.v1",
+  "title": "Runtime-safe promotion report",
+  "type": "object",
+  "required": ["schema_id","status","reviewer","reviewed_at","candidate_entries_total","decisions","coverage","workers_general_suite","full_runs","registry_sha256"],
+  "properties": {
+    "schema_id": {"const": "devpilot.testing.runtime_safe_promotion_report.v1"},
+    "status": {"enum": ["PASS","BLOCK"]},
+    "reviewer": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "minLength": 1},
+    "candidate_entries_total": {"type": "integer", "minimum": 0},
+    "decisions": {"type": "array", "items": {"type": "object"}},
+    "coverage": {"type": "object"},
+    "workers_general_suite": {"const": 0},
+    "full_runs": {"const": 0},
+    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema_id": "devpilot.testing.parallel_shadow_plan.v1",
+  "status": "WINDOWS-PENDING",
+  "created_by": "FRX-v2.3-BR",
+  "source": "successor-registry-after-Windows-evidence",
+  "workers_executed": 0,
+  "full_runs": 0,
+  "frx_v2_3_d_authorized": false
+}

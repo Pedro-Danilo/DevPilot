@@ -1,0 +1,13 @@
+{
+  "schema_id": "devpilot.testing.runtime_safe_promotion_report.v1",
+  "status": "WINDOWS-PENDING",
+  "created_by": "FRX-v2.3-BR",
+  "reviewer": null,
+  "reviewed_at": null,
+  "candidate_entries_total": 112,
+  "decisions": [],
+  "coverage": null,
+  "workers_general_suite": 0,
+  "full_runs": 0,
+  "registry_sha256": null
+}

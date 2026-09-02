@@ -1,8 +1,8 @@
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
-FRX-v2.3 execution status (2026-09-02): `FRX-v2.2 = CLOSED/PASS`; `FRX-v2.3-A = CLOSED/PASS/WINDOWS-VALIDATED`; `FRX-v2.3-B = AUTHORIZED`. A closed with binding cost de-dup, scoped aggregate reuse, bounded Git seal and normalized serial baseline; workers=0 and full=0.
+FRX-v2.3 execution status (2026-09-02): `A/B/C = CLOSED/PASS/WINDOWS-VALIDATED`; C closed with `Amdahl NO-GO` and D remains unauthorized. Owner-approved `FRX-v2.3-BR` is the active successor to obtain explicit runtime-safe isolation evidence before any canary. General workers=0 and full=0.
 
-GSDLC-07 execution status (2026-09-02): `DEVPL-GSDLC-07 = CLOSED/PASS`; Full Regression v2.2 is `CLOSED/PASS` with scheduler `AVAILABLE-NOT-DEFAULT`; FRX-v2.3-A is the only active regression-evolution micro-sprint. DEVPL-GSDLC-08 remains authorized/deferred until v2.3 closes or owner adjudicates an early stop.
+GSDLC-07 execution status (2026-09-02): `DEVPL-GSDLC-07 = CLOSED/PASS`; Full Regression v2.2 is `CLOSED/PASS`; FRX-v2.3 A/B/C are Windows-validated and BR is active to resolve C NO-GO without consuming the v2.3 full. DEVPL-GSDLC-08 remains deferred until v2.3 closes or owner adjudicates an early stop.
 
 
 Programa activo: `DEVPL-GSDLC`; backlogs `00`, `R01`, `01`, `02`, `03`, `04` y `05` están `CLOSED/PASS`. `DEVPL-GSDLC-06` está owner-adjudicated `CLOSED/PASS-WITH-GAPS` sobre repo379 (`7deeb043840945165205c8c1493b4f7e44d2b2ca`; SHA-256 `859134adf86e3b58ef16434c4db7517be536a9caa08cf3fa493055c69a28d2e2`). 06-E conserva browser 13/13 y Predictive PASS; la full única fue `FAIL/TIMEOUT/1-of-1/PRESERVED`, sin rerun, y el recovery compuesto cubrió la colección. Los dos gaps S2 (fidelidad de captura RBAC y README stale) se cierran en el activation rebind. `DEVPL-GSDLC-07` está `CLOSED/PASS`. El activation enabler/FRX2.1 está CLOSED/PASS y 07-A está Windows-validated CLOSED/PASS; 07-B implementa ContextPack v2, provenance y budget sobre repo382.
@@ -6543,3 +6543,6 @@ Implemented-initial: explicit isolation/resource registry, default UNCLASSIFIED/
 Conflict graph and shadow parallel scheduler are implemented-initial. Preview slots=2; worker execution remains disabled. With the B registry still fully UNCLASSIFIED, the current feasibility result is expected to be NO-GO until explicit isolation reviews exist.
 
 FRX-v2.3-C Windows validation PASS. Shadow planning is deterministic and safe, but feasibility remains NO-GO; FRX-v2.3-D is not authorized until explicit isolation reviews yield sufficient proven-safe runtime coverage.
+
+### FRX-v2.3-BR — Isolation evidence and runtime-safe promotion
+Implemented-initial: 112 runtime-ranked candidates form an 80.039% known-runtime envelope. Candidate membership is non-authoritative. Windows must re-audit nodeids, run contract probes in isolated local clones, promote only reviewed evidence-backed entries, and recompute C Amdahl. D remains unauthorized until that successor decision is GO.

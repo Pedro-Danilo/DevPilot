@@ -22163,6 +22163,70 @@
       "schema_ids": [
         "docs/schemas/parallel_shadow_plan.schema.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.3-br-isolation-evidence-runtime-safe-promotion",
+      "source_contract_id": "frx-v2.3-br-isolation-evidence-runtime-safe-promotion",
+      "schema_version": "2.0",
+      "domain": "governance.testing",
+      "capability": "FRXV2_3BRIsolationEvidenceRuntimeSafePromotion",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 120,
+      "test_files": [
+        "tests/test_frx_v2_3_br_isolation_evidence.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/isolation_evidence.py",
+        ".devpilot/testing/isolation_contract_catalog.json",
+        ".devpilot/testing/frx_v2_3_br_candidate_manifest.json",
+        "docs/audits/FRX_V2_3_BR_STRUCTURAL_AUDIT.json",
+        "docs/audits/FRX_V2_3_BR_CANDIDATE_RUNTIME_ENVELOPE.json"
+      ],
+      "validates": [
+        "explicit isolation contracts",
+        "no inferred parallel safety",
+        "structural blockers",
+        "contract-probe-gated promotion",
+        "runtime-weighted successor coverage",
+        "no full and no general parallel worker"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.3-BR",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_br_isolation_evidence.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "BR permits at most two concurrent focal probe processes in separate local clones; this is not suite parallel execution or D canary."
+      ],
+      "trigger_hints": [
+        "frx-v2.3-br",
+        "isolation-evidence",
+        "runtime-safe-promotion"
+      ],
+      "impact_tags": [
+        "testing",
+        "parallel-safety",
+        "isolation",
+        "runtime",
+        "amdahl"
+      ],
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "schema_ids": [
+        "docs/schemas/frx_v2_3_br_candidate_manifest.schema.json",
+        "docs/schemas/runtime_safe_promotion_report.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22326,5 +22390,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 309
+  "contracts_total": 310
 }

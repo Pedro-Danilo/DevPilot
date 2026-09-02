@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-09-02",
-  "sprint": "FRX-v2.3-B",
+  "sprint": "FRX-v2.3-BR",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3547,7 +3547,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.3-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FRX-V2-3-BR-CANDIDATE-MANIFEST-V1",
+      "title": "FRX v2.3 BR candidate manifest v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/frx_v2_3_br_candidate_manifest.schema.json",
+      "description": "Runtime-ranked explicit isolation evidence candidate envelope; candidate membership never authorizes parallel execution.",
+      "status": "registered",
+      "contract": "FRXV23BRCandidateManifest",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.3-BR",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.3-BR"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-RUNTIME-SAFE-PROMOTION-REPORT-V1",
+      "title": "Runtime-safe promotion report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/runtime_safe_promotion_report.schema.json",
+      "description": "FRX-v2.3-BR explicit structural review + contract probe promotion evidence.",
+      "status": "registered",
+      "contract": "RuntimeSafePromotion",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.3-BR",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.3-BR"
     }
   ],
-  "schemas_total": 247
+  "schemas_total": 249
 }
