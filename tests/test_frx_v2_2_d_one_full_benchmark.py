@@ -43,13 +43,18 @@ def test_git_semantic_source_fingerprint_ignores_crlf_but_detects_content(tmp_pa
     _git(root, "add", "src/example.py")
     _git(root, "commit", "-m", "add example")
     first = _source_descriptor(root)
+    commit = first["git_commit"]
     target.write_bytes(b"value = 1\r\n")
     second = _source_descriptor(root)
-    assert first["fingerprint_mode"] == "git-semantic-working-tree-v1"
+    assert first["fingerprint_mode"] == "git-commit-tree-clean-v2"
     assert first["content_sha256"] == second["content_sha256"]
+    crlf_guard = _git_semantic_clean_guard(root, expected_commit=commit)
+    assert crlf_guard is not None and crlf_guard["clean"] is True
     target.write_bytes(b"value = 2\r\n")
     third = _source_descriptor(root)
-    assert third["content_sha256"] != first["content_sha256"]
+    assert third["content_sha256"] == first["content_sha256"]
+    content_guard = _git_semantic_clean_guard(root, expected_commit=commit)
+    assert content_guard is not None and content_guard["clean"] is False
 
 
 
@@ -76,6 +81,8 @@ def test_temporal_full_plan_reorders_but_preserves_collection_exactly_once(tmp_p
         ],
     }
     assert reg.ingest_payload(payload, source_receipt="fixture").accepted == 2
+    _git(root, "add", ".")
+    _git(root, "commit", "-m", "seal temporal fixture")
     manager = FullRegressionSessionManager(root)
     collected = manager.collect(session_id="temporal")
     assert collected.ok
@@ -167,6 +174,8 @@ def test_default_plan_uses_temporal_only_after_enabled_adoption(tmp_path: Path) 
     cfg_path.parent.mkdir(parents=True, exist_ok=True)
     cfg = {"scheduler_enabled": False, "parallel_workers": 1, "registry_environment_fingerprint": "env-win", "target_shard_seconds": 300, "max_nodeids": 50, "max_command_chars": 7000}
     cfg_path.write_text(json.dumps(cfg) + "\n", encoding="utf-8")
+    _git(root, "add", ".")
+    _git(root, "commit", "-m", "seal adoption fixture")
     manager = FullRegressionSessionManager(root)
     assert manager.collect(session_id="adoption-default").ok
     count_result = manager.plan(session_id="adoption-default", shard_size=1, shard_timeout_seconds=900)
@@ -176,6 +185,8 @@ def test_default_plan_uses_temporal_only_after_enabled_adoption(tmp_path: Path) 
 
     cfg["scheduler_enabled"] = True
     cfg_path.write_text(json.dumps(cfg) + "\n", encoding="utf-8")
+    _git(root, "add", ".")
+    _git(root, "commit", "-m", "seal enabled adoption fixture")
     assert manager.collect(session_id="adoption-enabled").ok
     temporal_result = manager.plan(session_id="adoption-enabled", shard_timeout_seconds=900)
     assert temporal_result.ok

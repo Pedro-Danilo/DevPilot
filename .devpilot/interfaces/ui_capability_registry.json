@@ -11021,6 +11021,443 @@
       "source_files": [
         "ui/web/src/components/ArtifactAIPanel.ts"
       ]
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.docs-governance.closure-consistency",
+      "cli_command": "python -m devpilot_core docs-governance closure-consistency",
+      "cli_command_id": "docs-governance.closure-consistency",
+      "command_path": [
+        "docs-governance",
+        "closure-consistency"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:docs-governance.closure-consistency",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "write-report"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "documentation.governance",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "plan-only",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": false,
+      "requires_dry_run": true,
+      "risk_class": "mutating",
+      "source_risk_level": "medium",
+      "supports_cancel": false,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core docs-governance closure-consistency",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.docs-governance.impact-plan",
+      "cli_command": "python -m devpilot_core docs-governance impact-plan",
+      "cli_command_id": "docs-governance.impact-plan",
+      "command_path": [
+        "docs-governance",
+        "impact-plan"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:docs-governance.impact-plan",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "write-report"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "documentation.governance",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "plan-only",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": false,
+      "requires_dry_run": true,
+      "risk_class": "mutating",
+      "source_risk_level": "medium",
+      "supports_cancel": false,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core docs-governance impact-plan",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.duration-registry.estimate",
+      "cli_command": "python -m devpilot_core tests duration-registry estimate",
+      "cli_command_id": "tests.duration-registry.estimate",
+      "command_path": [
+        "tests",
+        "duration-registry",
+        "estimate"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.duration-registry.estimate",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": true,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": true,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests duration-registry estimate",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.duration-registry.ingest",
+      "cli_command": "python -m devpilot_core tests duration-registry ingest",
+      "cli_command_id": "tests.duration-registry.ingest",
+      "command_path": [
+        "tests",
+        "duration-registry",
+        "ingest"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.duration-registry.ingest",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": true,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": true,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests duration-registry ingest",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.duration-registry.preview",
+      "cli_command": "python -m devpilot_core tests duration-registry preview",
+      "cli_command_id": "tests.duration-registry.preview",
+      "command_path": [
+        "tests",
+        "duration-registry",
+        "preview"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.duration-registry.preview",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": true,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": true,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests duration-registry preview",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.duration-registry.status",
+      "cli_command": "python -m devpilot_core tests duration-registry status",
+      "cli_command_id": "tests.duration-registry.status",
+      "command_path": [
+        "tests",
+        "duration-registry",
+        "status"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.duration-registry.status",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": true,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": true,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests duration-registry status",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.parallel-canary",
+      "cli_command": "python -m devpilot_core tests parallel-canary",
+      "cli_command_id": "tests.parallel-canary",
+      "command_path": [
+        "tests",
+        "parallel-canary"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.parallel-canary",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess",
+          "mutate-state"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": true,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": true,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests parallel-canary",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.temporal-planner",
+      "cli_command": "python -m devpilot_core tests temporal-planner",
+      "cli_command_id": "tests.temporal-planner",
+      "command_path": [
+        "tests",
+        "temporal-planner"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.temporal-planner",
+        "dry_run_supported": false,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q"
+        ],
+        "writes_files": true
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": true,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "Historical capability reconciliation after FRX-v2.3 full exposed CLI-registry drift.",
+        "CLI bridge remains non-UI-native; no arbitrary browser shell or implicit execution is enabled."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "write-or-execute",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": true,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests temporal-planner",
+      "ui_route_ids": []
     }
   ],
   "classification_model": {
@@ -11108,20 +11545,20 @@
   "summary": {
     "api_routes_total": 146,
     "classification_complete": true,
-    "cli_commands_classified_total": 199,
-    "cli_commands_total": 199,
+    "cli_commands_classified_total": 207,
+    "cli_commands_total": 207,
     "current_ui_native_or_read_only_total": 26,
     "forbidden_capabilities_total": 5,
     "mutating_without_policy_total": 0,
     "parity_status_counts": {
-      "CLI-BRIDGE-REGISTERED": 167,
+      "CLI-BRIDGE-REGISTERED": 175,
       "PLANNED": 1,
       "POLICY-BLOCKED": 5,
       "UI-NATIVE": 15,
       "UI-READ-ONLY": 11
     },
     "planned_sprint_counts": {
-      "CURRENT": 13,
+      "CURRENT": 21,
       "UOC-003": 12,
       "UOC-006": 7,
       "UOC-007": 102,
@@ -11130,9 +11567,9 @@
     },
     "risk_class_counts": {
       "forbidden": 5,
-      "mutating": 124,
+      "mutating": 126,
       "read-only": 11,
-      "sensitive": 59
+      "sensitive": 65
     },
     "sensitive_ui_native_without_approval_total": 0,
     "ui_routes_mapped_total": 12,
@@ -11159,7 +11596,7 @@
     "uoc_006_preliminary": false,
     "uoc_006_push_enabled": false,
     "uoc_007_closed": true,
-    "uoc_007_governed_job_capabilities_total": 199,
+    "uoc_007_governed_job_capabilities_total": 207,
     "uoc_007_governed_job_registry_available": true,
     "uoc_007_job_execution_enabled_total": 0,
     "uoc_007_new_ui_routes_total": 0,
@@ -11187,7 +11624,7 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-07-E/E09-HISTORICAL-CAPABILITY-RECONCILIATION",
+    "updated_by": "FRX-v2.3-E/selective-recovery-capability-reconciliation",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -11221,7 +11658,7 @@
     "gsdlc_07_e_agent_eval_top_level_routes_added": 0,
     "gsdlc_07_e_manual_route_preserved": true,
     "uoc_011_capabilities_total_at_close": 193,
-    "current_active_capabilities_total": 199,
+    "current_active_capabilities_total": 207,
     "uoc_007_governed_job_capabilities_total_at_close": 193
   },
   "ui_routes": [

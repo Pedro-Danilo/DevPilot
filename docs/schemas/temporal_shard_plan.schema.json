@@ -2,25 +2,85 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "devpilot.testing.temporal_shard_plan.v1",
   "type": "object",
-  "required": ["schema_id", "version", "planner", "mode", "scheduler_enabled", "parallel_workers", "collection_sha256", "collection_total", "target_shard_seconds", "max_nodeids", "max_command_chars", "registry_provenance", "shards", "shards_total", "known_nodeids", "unknown_nodeids", "slow_singletons", "plan_sha256"],
+  "required": [
+    "schema_id",
+    "version",
+    "planner",
+    "mode",
+    "scheduler_enabled",
+    "parallel_workers",
+    "collection_sha256",
+    "collection_total",
+    "target_shard_seconds",
+    "max_nodeids",
+    "max_command_chars",
+    "registry_provenance",
+    "shards",
+    "shards_total",
+    "known_nodeids",
+    "unknown_nodeids",
+    "slow_singletons",
+    "plan_sha256"
+  ],
   "properties": {
-    "schema_id": {"const": "devpilot.testing.temporal_shard_plan.v1"},
-    "version": {"const": "1.0.0"},
-    "planner": {"const": "deterministic-lpt-sequential"},
-    "mode": {"const": "shadow"},
-    "scheduler_enabled": {"const": false},
-    "parallel_workers": {"const": 1},
-    "collection_sha256": {"type": "string", "minLength": 64, "maxLength": 64},
-    "collection_total": {"type": "integer", "minimum": 1},
-    "target_shard_seconds": {"type": "number", "exclusiveMinimum": 0},
-    "max_nodeids": {"type": "integer", "minimum": 1, "maximum": 500},
-    "max_command_chars": {"type": "integer", "minimum": 512},
+    "schema_id": {
+      "const": "devpilot.testing.temporal_shard_plan.v1"
+    },
+    "version": {
+      "const": "1.1.0"
+    },
+    "planner": {
+      "const": "deterministic-lpt-sequential"
+    },
+    "mode": {
+      "const": "shadow"
+    },
+    "scheduler_enabled": {
+      "const": false
+    },
+    "parallel_workers": {
+      "const": 1
+    },
+    "collection_sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "collection_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "target_shard_seconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "max_nodeids": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500
+    },
+    "max_command_chars": {
+      "type": "integer",
+      "minimum": 512
+    },
     "registry_provenance": {
       "type": "object",
-      "required": ["schema_id", "version", "canonical_sha256", "environment_fingerprint"],
+      "required": [
+        "schema_id",
+        "version",
+        "canonical_sha256",
+        "environment_fingerprint"
+      ],
       "properties": {
-        "canonical_sha256": {"type": "string", "minLength": 64, "maxLength": 64},
-        "environment_fingerprint": {"type": "string", "minLength": 1}
+        "canonical_sha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "environment_fingerprint": {
+          "type": "string",
+          "minLength": 1
+        }
       },
       "additionalProperties": true
     },
@@ -29,26 +89,82 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["shard_id", "ordinal", "nodeids", "nodeids_total", "nodeids_sha256", "estimated_seconds", "known_count", "unknown_count", "confidence_counts", "command_chars", "slow_singleton"],
+        "required": [
+          "shard_id",
+          "ordinal",
+          "nodeids",
+          "nodeids_total",
+          "nodeids_sha256",
+          "estimated_seconds",
+          "known_count",
+          "unknown_count",
+          "confidence_counts",
+          "command_chars",
+          "slow_singleton"
+        ],
         "properties": {
-          "shard_id": {"type": "string"},
-          "ordinal": {"type": "integer", "minimum": 1},
-          "nodeids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
-          "nodeids_total": {"type": "integer", "minimum": 1},
-          "estimated_seconds": {"type": "number", "minimum": 0},
-          "known_count": {"type": "integer", "minimum": 0},
-          "unknown_count": {"type": "integer", "minimum": 0},
-          "command_chars": {"type": "integer", "minimum": 1},
-          "slow_singleton": {"type": "boolean"}
+          "shard_id": {
+            "type": "string"
+          },
+          "ordinal": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "nodeids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "nodeids_total": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "estimated_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "known_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unknown_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "command_chars": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "slow_singleton": {
+            "type": "boolean"
+          }
         },
         "additionalProperties": true
       }
     },
-    "shards_total": {"type": "integer", "minimum": 1},
-    "known_nodeids": {"type": "integer", "minimum": 0},
-    "unknown_nodeids": {"type": "integer", "minimum": 0},
-    "slow_singletons": {"type": "integer", "minimum": 0},
-    "plan_sha256": {"type": "string", "minLength": 64, "maxLength": 64}
+    "shards_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "known_nodeids": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unknown_nodeids": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "slow_singletons": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "plan_sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64
+    }
   },
   "additionalProperties": true
 }

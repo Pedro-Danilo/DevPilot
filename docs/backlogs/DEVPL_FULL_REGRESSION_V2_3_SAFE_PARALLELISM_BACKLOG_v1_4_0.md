@@ -264,3 +264,10 @@ FRX-v2.3-D cerró `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo396. El mismo canary
 ## 12. FRX-v2.3-E implementation binding
 
 E is implemented against repo396 and remains `IMPLEMENTED/PENDING-WINDOWS-ONE-FULL`. The Windows operator is the only authority allowed to consume the single logical full. No comparison full is permitted.
+
+
+## 2026-09-03 — E one-full deterministic drift recovery policy
+
+The authoritative FRX-v2.3-E logical full is consumed exactly once and remains immutable: `2909/2909` accounted, `2839 PASS / 63 FAIL / 2 ERROR / 5 SKIP`, workers `<=2`, conflicts `0`, source drift `0`, strong fingerprint fallbacks `0`, and second full `false`. Corrective work is restricted to selective/composite recovery of the 65 original FAIL/ERROR nodeids.
+
+A recovery PASS does not rewrite the original full. It layers a selective recovery receipt and a composite result. Closure requires all 65 original FAIL/ERROR nodeids to become PASS, producing `2904 PASS / 0 FAIL / 0 ERROR / 5 SKIP / 2909 accounted`, while `full_regression_runs` remains `1/1`. Because the authoritative incremental parallel improvement is `24.442726%` against the normalized serial reference, below the unchanged owner threshold of `30%`, the expected post-recovery performance disposition is `PASS/AVAILABLE-NOT-DEFAULT`.

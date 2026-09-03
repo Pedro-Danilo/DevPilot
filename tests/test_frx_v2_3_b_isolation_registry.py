@@ -73,9 +73,10 @@ def test_repo_registry_schema_and_semantics_pass_and_all_current_nodeids_start_u
     semantic=TestIsolationRegistry.validate_semantics(payload)
     assert semantic['ok'], semantic
     assert semantic['entries_total']>2800
-    assert semantic['proven_parallel_safe_total']==0
+    assert semantic['proven_parallel_safe_total']==112
+    assert semantic['unclassified_total'] > 0
     assert semantic['serial_required_total']==0
-    assert semantic['unclassified_total']==semantic['entries_total']
+    assert semantic['unclassified_total'] + semantic['proven_parallel_safe_total'] + semantic['serial_required_total'] == semantic['entries_total']
     assert payload['policy']['workers']==0 and payload['policy']['full_runs']==0
 
 

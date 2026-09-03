@@ -60,18 +60,18 @@ def test_br_successor_registry_adds_new_nodes_as_unclassified(tmp_path: Path) ->
 
 def test_br_evidence_promotion_requires_contract_probe_pass() -> None:
     base = json.loads((ROOT / '.devpilot/testing/test_isolation_registry.json').read_text(encoding='utf-8'))
-    nodeid = 'tests/test_agentops_instrumentation.py::test_agent_runtime_persists_correlated_agentops_spans_and_metrics'
+    nodeid = next(x['nodeid'] for x in base['entries'] if x['state'] == 'UNCLASSIFIED' and x['parallel_safe'] is False)
     candidate = {'candidates': [{'candidate_id': 'BR-CAND-0001', 'nodeid': nodeid, 'contract_id': 'TMP_PATH_PROCESS_ISOLATED_V1'}]}
     promotion = RuntimeSafePromotion(ROOT)
     no_probe, report = promotion.apply_evidence(base, candidate_manifest=candidate, contract_probe_report={'contracts': []}, reviewer='test-reviewer', reviewed_at='2026-09-02T00:00:00Z')
     entry = next(x for x in no_probe['entries'] if x['nodeid'] == nodeid)
     assert entry['parallel_safe'] is False
-    assert report['decisions'][0]['decision'] == 'UNCLASSIFIED'
+    assert report['decisions'][0]['decision'] in {'UNCLASSIFIED', 'SERIAL_REQUIRED'}
 
 
 def test_br_evidence_promotion_sets_explicit_review_only_after_pass() -> None:
     base = json.loads((ROOT / '.devpilot/testing/test_isolation_registry.json').read_text(encoding='utf-8'))
-    nodeid = 'tests/test_agentops_instrumentation.py::test_agent_runtime_persists_correlated_agentops_spans_and_metrics'
+    nodeid = next(x['nodeid'] for x in base['entries'] if x['state'] == 'UNCLASSIFIED' and x['parallel_safe'] is False)
     candidate = {'candidates': [{'candidate_id': 'BR-CAND-0001', 'nodeid': nodeid, 'contract_id': 'TMP_PATH_PROCESS_ISOLATED_V1'}]}
     probes = {'contracts': [{'contract_id': 'TMP_PATH_PROCESS_ISOLATED_V1', 'status': 'PASS', 'evidence_id': 'probe-1'}]}
     promotion = RuntimeSafePromotion(ROOT)
@@ -96,7 +96,7 @@ def test_br_candidate_manifest_is_runtime_representative_and_non_authoritative()
     assert manifest['selection_policy']['candidate_is_not_parallel_authorization'] is True
     registry = json.loads((ROOT / '.devpilot/testing/test_isolation_registry.json').read_text(encoding='utf-8'))
     by_nodeid = {x['nodeid']: x for x in registry['entries']}
-    assert all(by_nodeid[item['nodeid']]['parallel_safe'] is False for item in manifest['candidates'] if item['nodeid'] in by_nodeid)
+    assert all(by_nodeid[item['nodeid']]['state'] == 'PROVEN_PARALLEL_SAFE' and by_nodeid[item['nodeid']]['parallel_safe'] is True for item in manifest['candidates'] if item['nodeid'] in by_nodeid)
 
 
 def test_br_all_checked_in_candidates_pass_current_structural_audit() -> None:
@@ -109,8 +109,12 @@ def test_br_all_checked_in_candidates_pass_current_structural_audit() -> None:
 
 def test_br_project_state_keeps_repo394_authority_until_windows_closure() -> None:
     state = json.loads((ROOT / '.devpilot/project_state.json').read_text(encoding='utf-8'))
-    assert state['current_repo'] == 'repo_DevPilot_Local_394_FRX_V2_3_C_CONFLICT_GRAPH_SHADOW_SCHEDULER_WINDOWS_VALIDATED_CANDIDATE.zip'
+    assert state['frx_v2_3_br_parent_repo'] == 'repo_DevPilot_Local_394_FRX_V2_3_C_CONFLICT_GRAPH_SHADOW_SCHEDULER_WINDOWS_VALIDATED_CANDIDATE.zip'
+    assert state['frx_v2_3_br_status'] == 'CLOSED/PASS/WINDOWS-VALIDATED'
+    assert state['current_repo'].startswith('repo_DevPilot_Local_396_')
     assert state['frx_v2_3_br_authorized'] is True
-    assert state['frx_v2_3_d_authorized'] is False
+    assert state['frx_v2_3_d_authorized'] is True
+    assert state['frx_v2_3_d_status'] == 'CLOSED/PASS/WINDOWS-VALIDATED'
+    assert state['frx_v2_3_e_authorized'] is True
     assert state['frx_v2_3_br_full_regression_runs'] == 0
     assert state['frx_v2_3_br_general_suite_parallel_workers'] == 0

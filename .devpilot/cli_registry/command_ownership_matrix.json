@@ -10,21 +10,21 @@
   "registry_path": "src/devpilot_core/cli_registry/registry.py",
   "cli_source": "src/devpilot_core/cli.py",
   "summary": {
-    "commands_total": 206,
-    "commands_covered_total": 206,
+    "commands_total": 207,
+    "commands_covered_total": 207,
     "coverage_complete": true,
     "registry_phase_counts": {
-      "declarative-initial": 83,
+      "declarative-initial": 84,
       "handler-migrated-incremental": 41,
       "legacy-unregistered": 82
     },
     "migration_state_counts": {
       "already-migrated": 41,
       "deferred-cli-only": 82,
-      "registered-only": 83
+      "registered-only": 84
     },
-    "high_or_critical_commands_total": 67,
-    "high_or_critical_with_owner_total": 67,
+    "high_or_critical_commands_total": 68,
+    "high_or_critical_with_owner_total": 68,
     "missing_owner_total": 0,
     "missing_compatibility_contract_total": 0,
     "migrable_commands_total": 41,
@@ -6448,6 +6448,43 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A."
+      ]
+    },
+    {
+      "command_id": "tests.parallel-canary",
+      "command_path": [
+        "tests",
+        "parallel-canary"
+      ],
+      "public_name": "python -m devpilot_core tests parallel-canary",
+      "domain_owner": "governance.testing",
+      "current_handler": "tests_parallel_canary_command",
+      "target_handler": "handle_tests_parallel_canary",
+      "current_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/cli.py",
+      "registry_phase": "declarative-initial",
+      "migration_state": "registered-only",
+      "application_operation_id": null,
+      "cli_only_reason": "Governance/registry/testing command is currently CLI-only and metadata-driven; no API/UI operation boundary is required in POST-H-030-A.",
+      "risk_level": "high",
+      "compatibility_contract_id": "cli-compat:tests.parallel-canary",
+      "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
+      "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
+      "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
+      "test_coverage_refs": [
+        "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q"
+      ],
+      "planned_micro_sprint": "POST-H-030-E",
+      "side_effects": [
+        "execute-subprocess",
+        "mutate-state"
+      ],
+      "writes_files": true,
+      "dry_run_supported": false,
+      "policy_check_required": true,
+      "notes": [
+        "No runtime behavior change in POST-H-030-A.",
+        "High/critical command requires explicit compatibility contract before migration."
       ]
     },
     {

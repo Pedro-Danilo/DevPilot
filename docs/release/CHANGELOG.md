@@ -1,3 +1,11 @@
+## 2026-09-03 — FRX-v2.3-E one-full selective/composite recovery corrective
+
+- Preserves the authoritative one-full Windows result unchanged: `2909/2909` accounted, `2839 PASS`, `63 FAIL`, `2 ERROR`, `5 SKIP`, `full_runs=1/1`, `second_full=false`.
+- Confirms scheduler safety: workers `<=2`, conflicts/source drift/leakage/strong-fingerprint fallback all zero; the BLOCK is deterministic contract/governance drift rather than parallel instability.
+- Reconciles Schema Catalog metadata/counts, CLI ownership and missing CLI bridge capability registries, stale v2.2/v2.3-B/BR historical assertions, and a missing QualityGate import in a CI contract.
+- Authorizes only resumable selective/composite recovery of the original 65 FAIL/ERROR nodeids; no second full is permitted.
+- Keeps the measured full performance attribution immutable: total improvement `80.103941%`, incremental parallel improvement `24.442726%`; post-recovery parallel disposition remains `AVAILABLE-NOT-DEFAULT` under the 30% owner threshold.
+
 ## 2026-08-14 — DEVPL-GSDLC-00-E preseal regression reconciliation
 
 - Final full regression on 00-D produced `2257 passed, 5 failed, 0 errors, 0 skipped` across 2262 tests.

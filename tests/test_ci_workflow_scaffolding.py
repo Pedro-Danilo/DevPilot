@@ -5,6 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from devpilot_core.quality.gate import QualityGate, QualityGateOptions
+
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "devpilot-ci.yml"
 
