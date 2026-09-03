@@ -33562,7 +33562,7 @@
       "classification": "derived",
       "domain": "governance.testing",
       "owner": "FRX-v2.3-D",
-      "status_required": "implemented/windows-pending",
+      "status_required": "closed/windows-validated",
       "criticality": "P1",
       "required_tests": [
         "tests/test_frx_v2_3_d_parallel_canary.py"
@@ -33588,7 +33588,7 @@
       "classification": "derived",
       "domain": "governance.testing",
       "owner": "FRX-v2.3-D",
-      "status_required": "PREVIEW",
+      "status_required": "PASS",
       "criticality": "P1",
       "required_tests": [
         "tests/test_frx_v2_3_d_parallel_canary.py"

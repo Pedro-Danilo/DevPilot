@@ -1,21 +1,305 @@
 {
-  "schema_id": "devpilot.testing.parallel_canary_report.v1",
-  "version": "1.0.0",
-  "status": "PREVIEW",
-  "decision": "PREVIEW",
-  "source_commit": "7afb0bb18dad963462c0e1d633358582a5b5c5b4",
-  "manifest_sha256": "f4b24206ff45ab470f2b01258955d3fb4f4e209d0ac4e93c6ee8dc07c4710369",
-  "full_regression_runs": 0,
-  "max_workers": 2,
-  "jobs_total": 2,
-  "serial": {},
-  "parallel": {},
-  "outcome_parity": false,
-  "source_clean": true,
   "conflict_violations": 0,
+  "decision": "GO-E",
+  "frx_v2_3_e_authorized": true,
+  "full_regression_runs": 0,
+  "incremental_parallel_speedup_percent": 41.384286,
+  "jobs_total": 2,
+  "manifest_sha256": "f4b24206ff45ab470f2b01258955d3fb4f4e209d0ac4e93c6ee8dc07c4710369",
+  "max_workers": 2,
+  "outcome_parity": true,
+  "parallel": {
+    "conflict_violations": 0,
+    "full_regression_runs": 0,
+    "jobs": [
+      {
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "job_id": "canary-local-clone-quality-gate",
+        "junit_exists": true,
+        "log_exists": true,
+        "nodeid": "tests/test_post_h_020_compliance_mapping_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+        "outcomes_exists": true,
+        "pid": 16936,
+        "return_code": 0,
+        "runtime_estimate_seconds": 11.32661,
+        "secret_leakage": false,
+        "source_clean_after": true,
+        "source_guard_after": {
+          "available": true,
+          "changed_paths": [],
+          "clean": true,
+          "commit_matches": true,
+          "expected_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "fingerprint_mode": "git-semantic-clean-guard-v1",
+          "git_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "staged_total": 0,
+          "unstaged_total": 0,
+          "untracked_total": 0
+        },
+        "status": "PASS",
+        "terminal_outcome": "PASS",
+        "terminal_receipt_seen_before_parent_exit": true,
+        "wall_seconds": 30.219
+      },
+      {
+        "contract_id": "READ_ONLY_REPO_V1",
+        "job_id": "canary-read-only-repo-gate",
+        "junit_exists": true,
+        "log_exists": true,
+        "nodeid": "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_connector_sandbox_quality_gate_passes_without_network_or_write",
+        "outcomes_exists": true,
+        "pid": 27632,
+        "return_code": 0,
+        "runtime_estimate_seconds": 15.513317,
+        "secret_leakage": false,
+        "source_clean_after": true,
+        "source_guard_after": {
+          "available": true,
+          "changed_paths": [],
+          "clean": true,
+          "commit_matches": true,
+          "expected_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "fingerprint_mode": "git-semantic-clean-guard-v1",
+          "git_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "staged_total": 0,
+          "unstaged_total": 0,
+          "untracked_total": 0
+        },
+        "status": "PASS",
+        "terminal_outcome": "PASS",
+        "terminal_receipt_seen_before_parent_exit": true,
+        "wall_seconds": 27.75
+      }
+    ],
+    "jobs_total": 2,
+    "lock_trace": [
+      {
+        "event": "lock-request",
+        "job_id": "canary-local-clone-quality-gate",
+        "keys": [],
+        "monotonic": 452792.937
+      },
+      {
+        "event": "lock-acquired",
+        "job_id": "canary-local-clone-quality-gate",
+        "keys": [],
+        "monotonic": 452792.937
+      },
+      {
+        "event": "lock-request",
+        "job_id": "canary-read-only-repo-gate",
+        "keys": [],
+        "monotonic": 452799.187
+      },
+      {
+        "event": "lock-acquired",
+        "job_id": "canary-read-only-repo-gate",
+        "keys": [],
+        "monotonic": 452799.187
+      },
+      {
+        "event": "lock-released",
+        "job_id": "canary-local-clone-quality-gate",
+        "keys": [],
+        "monotonic": 452829.25
+      },
+      {
+        "event": "lock-released",
+        "job_id": "canary-read-only-repo-gate",
+        "keys": [],
+        "monotonic": 452833.5
+      }
+    ],
+    "max_workers_allowed": 2,
+    "max_workers_observed": 2,
+    "mode": "parallel",
+    "reused_terminal_receipt": false,
+    "schema_id": "devpilot.testing.parallel_canary_mode_receipt.v1",
+    "source_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+    "status": "PASS",
+    "wall_seconds": 41.031
+  },
+  "performance_pass": true,
+  "risk_limits": {
+    "api_ui": false,
+    "browser": false,
+    "full_regression": false,
+    "generic_scheduler": false,
+    "shell": false,
+    "thread_pool": false,
+    "xdist": false
+  },
+  "runtime_artifact_shape_parity": true,
+  "safety_pass": true,
+  "schema_id": "devpilot.testing.parallel_canary_report.v1",
   "secret_leakage": false,
-  "incremental_parallel_speedup_percent": null,
-  "frx_v2_3_e_authorized": false,
-  "windows_validation": "PENDING",
-  "note": "Placeholder replaced by Windows operator only after authoritative canary execution."
+  "serial": {
+    "conflict_violations": 0,
+    "full_regression_runs": 0,
+    "jobs": [
+      {
+        "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+        "job_id": "canary-local-clone-quality-gate",
+        "junit_exists": true,
+        "log_exists": true,
+        "nodeid": "tests/test_post_h_020_compliance_mapping_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+        "outcomes_exists": true,
+        "pid": 17456,
+        "return_code": 0,
+        "runtime_estimate_seconds": 11.32661,
+        "secret_leakage": false,
+        "source_clean_after": true,
+        "source_guard_after": {
+          "available": true,
+          "changed_paths": [],
+          "clean": true,
+          "commit_matches": true,
+          "expected_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "fingerprint_mode": "git-semantic-clean-guard-v1",
+          "git_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "staged_total": 0,
+          "unstaged_total": 0,
+          "untracked_total": 0
+        },
+        "status": "PASS",
+        "terminal_outcome": "PASS",
+        "terminal_receipt_seen_before_parent_exit": true,
+        "wall_seconds": 30.641
+      },
+      {
+        "contract_id": "READ_ONLY_REPO_V1",
+        "job_id": "canary-read-only-repo-gate",
+        "junit_exists": true,
+        "log_exists": true,
+        "nodeid": "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_connector_sandbox_quality_gate_passes_without_network_or_write",
+        "outcomes_exists": true,
+        "pid": 9656,
+        "return_code": 0,
+        "runtime_estimate_seconds": 15.513317,
+        "secret_leakage": false,
+        "source_clean_after": true,
+        "source_guard_after": {
+          "available": true,
+          "changed_paths": [],
+          "clean": true,
+          "commit_matches": true,
+          "expected_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "fingerprint_mode": "git-semantic-clean-guard-v1",
+          "git_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+          "staged_total": 0,
+          "unstaged_total": 0,
+          "untracked_total": 0
+        },
+        "status": "PASS",
+        "terminal_outcome": "PASS",
+        "terminal_receipt_seen_before_parent_exit": true,
+        "wall_seconds": 25.687
+      }
+    ],
+    "jobs_total": 2,
+    "lock_trace": [
+      {
+        "event": "lock-request",
+        "job_id": "canary-local-clone-quality-gate",
+        "keys": [],
+        "monotonic": 452722.937
+      },
+      {
+        "event": "lock-acquired",
+        "job_id": "canary-local-clone-quality-gate",
+        "keys": [],
+        "monotonic": 452722.937
+      },
+      {
+        "event": "lock-released",
+        "job_id": "canary-local-clone-quality-gate",
+        "keys": [],
+        "monotonic": 452761.14
+      },
+      {
+        "event": "lock-request",
+        "job_id": "canary-read-only-repo-gate",
+        "keys": [],
+        "monotonic": 452761.562
+      },
+      {
+        "event": "lock-acquired",
+        "job_id": "canary-read-only-repo-gate",
+        "keys": [],
+        "monotonic": 452761.562
+      },
+      {
+        "event": "lock-released",
+        "job_id": "canary-read-only-repo-gate",
+        "keys": [],
+        "monotonic": 452792.656
+      }
+    ],
+    "max_workers_allowed": 1,
+    "max_workers_observed": 1,
+    "mode": "serial",
+    "reused_terminal_receipt": false,
+    "schema_id": "devpilot.testing.parallel_canary_mode_receipt.v1",
+    "source_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+    "status": "PASS",
+    "wall_seconds": 70.0
+  },
+  "source_clean": true,
+  "source_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+  "source_guard_after": {
+    "available": true,
+    "changed_paths": [],
+    "clean": true,
+    "commit_matches": true,
+    "expected_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+    "fingerprint_mode": "git-semantic-clean-guard-v1",
+    "git_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+    "staged_total": 0,
+    "unstaged_total": 0,
+    "untracked_total": 0
+  },
+  "source_guard_before": {
+    "available": true,
+    "changed_paths": [],
+    "clean": true,
+    "commit_matches": true,
+    "expected_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+    "fingerprint_mode": "git-semantic-clean-guard-v1",
+    "git_commit": "b5809dd9d3cb69cb90e15a772511488357a3daa1",
+    "staged_total": 0,
+    "unstaged_total": 0,
+    "untracked_total": 0
+  },
+  "status": "PASS",
+  "validation": {
+    "br_shadow_checked": true,
+    "conflict_graph": {
+      "edges": [],
+      "edges_total": 0,
+      "nodes": [
+        "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_connector_sandbox_quality_gate_passes_without_network_or_write",
+        "tests/test_post_h_020_compliance_mapping_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes"
+      ]
+    },
+    "isolation_registry_status": {
+      "entries_total": 2893,
+      "ok": true,
+      "problems": [],
+      "proven_parallel_safe_total": 112,
+      "serial_required_total": 0,
+      "unclassified_total": 2781
+    },
+    "manifest_sha256": "f4b24206ff45ab470f2b01258955d3fb4f4e209d0ac4e93c6ee8dc07c4710369"
+  },
+  "version": "1.0.0",
+  "wall_clock_decomposition": {
+    "comparison_basis": "same two-nodeid canary on D code; excludes v2.3-A de-dup attribution",
+    "coordinator_total_seconds": 111.391,
+    "incremental_parallel_seconds_saved": 28.969,
+    "parallel_wall_seconds": 41.031,
+    "serial_wall_seconds": 70.0
+  },
+  "windows_validation": "CLOSED/PASS",
+  "authority": "Windows FRX-v2.3-D bounded canary",
+  "validated_at": "2026-09-03T09:19:46.757847-05:00"
 }

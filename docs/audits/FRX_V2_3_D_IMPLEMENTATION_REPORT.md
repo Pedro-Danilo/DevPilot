@@ -1,11 +1,11 @@
 ---
 doc_id: "FRX-V2-3-D-IMPLEMENTATION-REPORT"
 title: "FRX-v2.3-D — Bounded parallel canary — implementation report"
-status: "implemented/windows-pending"
+status: "closed/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-03"
-approval: "local-focal-pass/windows-canary-required"
+approval: "windows-validated"
 ---
 # FRX-v2.3-D — Implementation report
 
@@ -53,3 +53,16 @@ La medición local anterior es **referencial** y no sustituye Windows. Hubo corr
 PASS Windows requiere outcome parity, source clean, artifact parity, conflicts=0, leakage=false, workers<=2, full=0 y speedup incremental >0.
 
 Cualquier violación anterior produce BLOCK y **no autoriza FRX-v2.3-E**.
+
+## Resultado Windows autoritativo
+
+- status: `CLOSED/PASS/WINDOWS-VALIDATED`;
+- same-subset outcome parity: `PASS`;
+- serial wall-clock: `70.000000 s`;
+- parallel wall-clock: `41.031000 s`;
+- incremental parallel speedup: `41.384286%`;
+- workers máximos: `2`;
+- conflict violations: `0`;
+- leakage: `false`;
+- full regression consumida por D: `0`;
+- FRX-v2.3-E authorized: `true`.

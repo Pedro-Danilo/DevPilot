@@ -255,3 +255,7 @@ FRX-v2.3-BR cerró `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo395 con `112` nodei
 ## 14. Estado de implementación — FRX-v2.3-D
 
 FRX-v2.3-BR está `CLOSED/PASS/WINDOWS-VALIDATED/GO-D` sobre repo395. FRX-v2.3-D queda `IMPLEMENTED/WINDOWS-PENDING`: el bounded canary usa exactamente dos jobs atómicos `PROVEN_PARALLEL_SAFE`, dos contratos de aislamiento, clones/namespaces separados, `max_workers=2`, full=0 y el mismo subset serial/paralelo. El cierre y la autorización de E dependen exclusivamente de la evidencia Windows del bundle FRX-v2.3-D.
+
+## 15. Cierre Windows — FRX-v2.3-D
+
+FRX-v2.3-D cerró `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo396. El mismo canary de dos nodeids `PROVEN_PARALLEL_SAFE` obtuvo parity exacta, conflictos=0, leakage=false, workers<=2 y full=0. Wall-clock serial=`70.000000s`; paralelo=`41.031000s`; speedup incremental=`41.384286%`. FRX-v2.3-E authorized=`true`. La decisión no habilita paralelismo por defecto y E mantiene la única full del backlog.

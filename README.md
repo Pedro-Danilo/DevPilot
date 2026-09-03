@@ -6550,3 +6550,6 @@ Implemented-initial: 112 runtime-ranked candidates form an 80.039% known-runtime
 ### FRX-v2.3-D — Bounded parallel canary
 
 FRX-v2.3-D está implementado y pendiente de validación Windows. Añade `python -m devpilot_core tests parallel-canary`: preview por defecto y ejecución explícita del mismo subset de dos nodeids `PROVEN_PARALLEL_SAFE` serialmente y con máximo dos workers. No usa xdist, shell, red, API/UI ni full regression; FRX-v2.3-E solo queda autorizado si la evidencia Windows produce safety PASS y speedup incremental positivo.
+
+### FRX-v2.3-D Windows closure
+FRX-v2.3-D está `CLOSED/PASS/WINDOWS-VALIDATED`: mismo canary 2-nodeid serial/paralelo, outcome parity PASS, workers<=2, full=0, speedup incremental `41.384%`. Esta evidencia autoriza preparar FRX-v2.3-E; no activa paralelismo por defecto ni consume la única full v2.3.

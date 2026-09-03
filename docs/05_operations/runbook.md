@@ -11916,3 +11916,6 @@ BR is focal-only and follows C `NO-GO`. Do not run a full regression and do not 
 ## FRX-v2.3-D — Bounded parallel canary
 
 El canary D es focal y no reemplaza la full. Debe ejecutarse exclusivamente mediante el operador Windows gobernado del sprint. El comando core es preview por defecto; `--execute` requiere worktree Git limpio, evidencia/clones en rutas separadas y máximo dos workers. Un timeout, mismatch, conflicto, leakage, source drift o speedup no positivo produce BLOCK. La única full v2.3 continúa reservada para E.
+
+### FRX-v2.3-D Windows closure
+Cierre focal Windows PASS: serial `70.000s`, paralelo `41.031s`, mejora incremental `41.384%`, workers<=2, full=0, browser=0. FRX-v2.3-E queda autorizado exclusivamente para la única full v2.3 y debe conservar serial fallback para unknown/unsafe/conflicting.

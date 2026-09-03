@@ -3189,3 +3189,5 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - FRX-v2.3-BR Windows PASS: 112 PROVEN_PARALLEL_SAFE, 80.039% runtime-safe, Amdahl GO, D authorized=true, full=0/general-workers=0.
 
 - FRX-v2.3-D implemented/windows-pending: bounded same-subset serial/2-worker canary over two BR-proven atomic nodeids; fresh clones, live receipts, source/lock/leakage checks; full=0; E remains unauthorized until Windows PASS.
+
+- FRX-v2.3-D Windows PASS: bounded 2-worker canary parity PASS; serial 70.000s / parallel 41.031s / incremental speedup 41.384%; conflicts=0; full=0; E authorized=true.
