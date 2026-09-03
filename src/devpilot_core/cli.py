@@ -191,7 +191,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager, NodeDurationRegistry, TemporalShardPlanner, TemporalPlannerError
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager, NodeDurationRegistry, TemporalShardPlanner, TemporalPlannerError, BoundedParallelCanaryRunner
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -6216,6 +6216,32 @@ def tests_full_session_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+def tests_parallel_canary_command(
+    *,
+    execute: bool = False,
+    output_dir: str = "outputs/testing/frx_v2_3_d_canary",
+    clone_root: str = "outputs/testing/frx_v2_3_d_canary_clones",
+    timeout_seconds: int = 60,
+    json_output: bool = False,
+) -> int:
+    """Preview or execute the FRX-v2.3-D bounded two-worker canary."""
+
+    root = project_root()
+    runner = BoundedParallelCanaryRunner(root)
+    if execute:
+        out = Path(output_dir)
+        clones = Path(clone_root)
+        if not out.is_absolute():
+            out = root / out
+        if not clones.is_absolute():
+            clones = root / clones
+        payload = runner.run(output_dir=out, clone_root=clones, timeout_seconds=timeout_seconds)
+    else:
+        payload = runner.preview()
+    print(json.dumps(payload, ensure_ascii=False, indent=2) if json_output else payload)
+    return 0 if payload.get("status") in {"PASS", "PREVIEW"} else int(ExitCode.BLOCK)
+
+
 def tests_duration_registry_command(*, action: str, source: str | None = None, environment: str | None = None, nodeid: str | None = None, limit: int = 20, json_output: bool = False) -> int:
     root = project_root()
     registry = NodeDurationRegistry(root)
@@ -6909,6 +6935,13 @@ def build_parser() -> argparse.ArgumentParser:
     full_adjudicate = tests_full_session_sub.add_parser("adjudicate", help="Finalize only when every collected nodeid has terminal accounting")
     full_adjudicate.add_argument("--session-id", required=True, help="Existing logical session id")
     full_adjudicate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_parallel_canary = tests_sub.add_parser("parallel-canary", help="Preview or execute FRX-v2.3-D bounded two-worker canary")
+    tests_parallel_canary.add_argument("--execute", action="store_true", help="Execute the same two-nodeid canary serially then with at most two workers; omitted means preview")
+    tests_parallel_canary.add_argument("--output-dir", default="outputs/testing/frx_v2_3_d_canary", help="Evidence directory; surviving non-terminal state is never overwritten")
+    tests_parallel_canary.add_argument("--clone-root", default="outputs/testing/frx_v2_3_d_canary_clones", help="Fresh per-worker clone parent")
+    tests_parallel_canary.add_argument("--timeout-seconds", type=int, default=60, help="Per-atomic-job watchdog, allowed 5..180 seconds")
+    tests_parallel_canary.add_argument("--json", action="store_true", help="Emit normalized JSON result")
+
     tests_duration = tests_sub.add_parser("duration-registry", help="Ingest and inspect FRX-v2.2 node duration telemetry without executing tests")
     duration_sub = tests_duration.add_subparsers(dest="duration_registry_command")
     duration_ingest = duration_sub.add_parser("ingest", help="Idempotently ingest a telemetry handoff")
@@ -8520,6 +8553,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 return tests_full_session_command(action=args.full_session_command, session_id=args.session_id, json_output=args.json)
             parser.print_help()
             return int(ExitCode.FAIL)
+        if args.tests_command == "parallel-canary":
+            return tests_parallel_canary_command(execute=args.execute, output_dir=args.output_dir, clone_root=args.clone_root, timeout_seconds=args.timeout_seconds, json_output=args.json)
         if args.tests_command == "duration-registry":
             if args.duration_registry_command == "ingest":
                 return tests_duration_registry_command(action="ingest", source=args.source, environment=args.environment, json_output=args.json)

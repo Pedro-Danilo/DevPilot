@@ -22227,6 +22227,69 @@
         "docs/schemas/frx_v2_3_br_candidate_manifest.schema.json",
         "docs/schemas/runtime_safe_promotion_report.schema.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.3-d-bounded-parallel-canary",
+      "source_contract_id": "frx-v2.3-d-bounded-parallel-canary",
+      "schema_version": "2.0",
+      "domain": "governance.testing",
+      "capability": "FRXV2_3DBoundedParallelCanary",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/parallel_canary.py",
+        ".devpilot/testing/frx_v2_3_d_canary_manifest.json",
+        "docs/audits/FRX_V2_3_D_PARALLEL_CANARY_REPORT.json"
+      ],
+      "validates": [
+        "bounded two-worker canary",
+        "BR authority and conflict-free pair",
+        "same-subset outcome parity",
+        "source/runtime safety",
+        "incremental parallel speedup",
+        "full=0"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.3-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_d_parallel_canary.py",
+        "python -m devpilot_core tests parallel-canary --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "The focal contract is read-only with respect to governed source/global state.",
+        "Windows canary execution may create isolated clones and evidence only under operator-owned external directories; that runtime behavior is not modeled as a test-contract mutation."
+      ],
+      "trigger_hints": [
+        "frx-v2.3-d",
+        "parallel-canary",
+        "bounded-workers"
+      ],
+      "impact_tags": [
+        "testing",
+        "parallel-safety",
+        "performance",
+        "canary"
+      ],
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "schema_ids": [
+        "docs/schemas/frx_v2_3_d_canary_manifest.schema.json",
+        "docs/schemas/parallel_canary_report.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22390,5 +22453,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 310
+  "contracts_total": 311
 }

@@ -6546,3 +6546,7 @@ FRX-v2.3-C Windows validation PASS. Shadow planning is deterministic and safe, b
 
 ### FRX-v2.3-BR — Isolation evidence and runtime-safe promotion
 Implemented-initial: 112 runtime-ranked candidates form an 80.039% known-runtime envelope. Candidate membership is non-authoritative. Windows must re-audit nodeids, run contract probes in isolated local clones, promote only reviewed evidence-backed entries, and recompute C Amdahl. D remains unauthorized until that successor decision is GO.
+
+### FRX-v2.3-D — Bounded parallel canary
+
+FRX-v2.3-D está implementado y pendiente de validación Windows. Añade `python -m devpilot_core tests parallel-canary`: preview por defecto y ejecución explícita del mismo subset de dos nodeids `PROVEN_PARALLEL_SAFE` serialmente y con máximo dos workers. No usa xdist, shell, red, API/UI ni full regression; FRX-v2.3-E solo queda autorizado si la evidencia Windows produce safety PASS y speedup incremental positivo.

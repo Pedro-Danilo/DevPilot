@@ -33431,9 +33431,209 @@
       "notes": [
         "Windows closure replaces WINDOWS-PENDING payload with evidence-derived PASS/GO or PASS/NO-GO."
       ]
+    },
+    {
+      "doc_id": "04_PROMPT_FRX_V2_3_D_PARALLEL_CANARY_V1_0_0",
+      "path": "04_PROMPT_FRX_V2_3_D_PARALLEL_CANARY_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": [
+        "Owner-approved implementation and Windows validation authority."
+      ]
+    },
+    {
+      "doc_id": "ADR-FRX-003",
+      "path": "docs/adr/ADR-FRX-003-bounded-two-worker-canary.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "accepted",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": []
+    },
+    {
+      "doc_id": "FRX-V2-3-D-CANARY-MANIFEST",
+      "path": ".devpilot/testing/frx_v2_3_d_canary_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/adr/ADR-FRX-003-bounded-two-worker-canary.md"
+      ],
+      "notes": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FRX-V2-3-D-CANARY-MANIFEST-V1",
+      "path": "docs/schemas/frx_v2_3_d_canary_manifest.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "registered",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FRX-V2-3-D-PARALLEL-CANARY-REPORT-V1",
+      "path": "docs/schemas/parallel_canary_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "registered",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": []
+    },
+    {
+      "doc_id": "FRX-V2-3-D-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/FRX_V2_3_D_IMPLEMENTATION_REPORT.md",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "implemented/windows-pending",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/adr/ADR-FRX-003-bounded-two-worker-canary.md"
+      ],
+      "notes": []
+    },
+    {
+      "doc_id": "FRX-V2-3-D-PARALLEL-CANARY-REPORT",
+      "path": "docs/audits/FRX_V2_3_D_PARALLEL_CANARY_REPORT.json",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "PREVIEW",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/adr/ADR-FRX-003-bounded-two-worker-canary.md"
+      ],
+      "notes": []
+    },
+    {
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-3",
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_3_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-D",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-D"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": []
     }
   ],
-  "last_registered_sprint": "FRX-v2.3-BR",
+  "last_registered_sprint": "FRX-v2.3-D",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -33533,7 +33733,8 @@
     "DEVPL-GSDLC-04-D Recovery-001 fixes UI approval/apply transport by omitting deprecated caller actor hints and preserving authenticated server-session actor authority; Windows execution resumes from browser C2/C3 without rerunning prior PASS gates or full regression.",
     "DEVPL-GSDLC-04-D Recovery-002 fixes the targeted Approval Center cross-tab guard by adding a session-bound, approval-id-bound, TTL-bound project-scoped UX handoff for artifact-review; server session/RBAC/Approval remain authoritative and no source write occurs before apply.",
     "DEVPL-GSDLC-04-E Recovery-003 binds the synthetic wrong-role viewer to the same runtime API auth store as AuthApplicationService, adds secret-free credential round-trip/live API proof and cleanup, and preserves full_regression_runs=0.",
-    "FRX-v2.3-BR inserts explicit isolation evidence and runtime-safe promotion after C Amdahl NO-GO; candidate membership never authorizes parallel execution."
+    "FRX-v2.3-BR inserts explicit isolation evidence and runtime-safe promotion after C Amdahl NO-GO; candidate membership never authorizes parallel execution.",
+    "FRX-v2.3-D adds a bounded same-subset serial/two-worker canary; default parallel execution and the v2.3 full remain disabled until Windows evidence and E closure."
   ],
   "owner": "Ordóñez",
   "phase": "POST-FASE-H",
@@ -35948,24 +36149,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1444,
-    "source_of_truth_total": 539,
-    "machine_readable_source_total": 740,
-    "derived_total": 146,
+    "documents_total": 1452,
+    "source_of_truth_total": 542,
+    "machine_readable_source_total": 743,
+    "derived_total": 148,
     "generated_runtime_total": 0,
     "historical_total": 19,
     "deprecated_total": 0,
-    "critical_sources_total": 1349,
+    "critical_sources_total": 1357,
     "markdown_json_pairs_total": 65,
-    "documents_with_required_tests_total": 1444,
+    "documents_with_required_tests_total": 1452,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_registered_sprint": "FRX-v2.3-BR"
+    "last_registered_sprint": "FRX-v2.3-D"
   },
-  "updated": "2026-09-02",
-  "updated_at": "2026-09-02",
-  "updated_by": "FRX-v2.3-BR",
+  "updated": "2026-09-03",
+  "updated_at": "2026-09-03",
+  "updated_by": "FRX-v2.3-D",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-E",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "full-regression-v2.2/closed-pass/v2.3-authorized",
@@ -36098,7 +36299,7 @@
   "gsdlc_07_b_browser_acceptance": "pending-windows",
   "gsdlc_07_c_status": "CLOSED/PASS",
   "gsdlc_07_d_status": "IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PENDING",
-  "last_updated_by": "FRX-v2.3-BR",
+  "last_updated_by": "FRX-v2.3-D",
   "frx_v2_2_status": "CLOSED/PASS",
   "frx_v2_2_d_status": "CLOSED/PASS"
 }

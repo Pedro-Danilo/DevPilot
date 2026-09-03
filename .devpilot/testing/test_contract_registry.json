@@ -13001,6 +13001,45 @@
         ".devpilot/testing/test_isolation_registry.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.3-d-bounded-parallel-canary",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-D",
+      "phase": "FULL-REGRESSION-v2.3",
+      "scope": "quality-gate",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_d_parallel_canary.py",
+        "python -m devpilot_core tests parallel-canary --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "test_files": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "validates": [
+        "exactly two BR-proven atomic jobs",
+        "workers<=2/full=0",
+        "same subset serial then parallel",
+        "conflict-free selected pair",
+        "fresh clone/namespace per worker",
+        "live terminal receipts and watchdog",
+        "outcome/artifact/source parity",
+        "incremental parallel speedup > 0 on Windows"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/parallel_canary.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/testing/frx_v2_3_d_canary_manifest.json",
+        "docs/schemas/frx_v2_3_d_canary_manifest.schema.json",
+        "docs/schemas/parallel_canary_report.schema.json",
+        "docs/audits/FRX_V2_3_D_PARALLEL_CANARY_REPORT.json",
+        ".devpilot/project_state.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -13079,5 +13118,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 310
+  "contracts_total": 311
 }

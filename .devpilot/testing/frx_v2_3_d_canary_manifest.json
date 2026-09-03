@@ -1,0 +1,42 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_3_d_canary_manifest.v1",
+  "version": "1.0.0",
+  "status": "approved",
+  "source_repo": "repo_DevPilot_Local_395_FRX_V2_3_BR_ISOLATION_EVIDENCE_RUNTIME_SAFE_PROMOTION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "7afb0bb18dad963462c0e1d633358582a5b5c5b4",
+  "predecessor": "FRX-v2.3-BR/CLOSED-PASS-WINDOWS-VALIDATED/GO-D",
+  "policy": {
+    "max_workers": 2,
+    "full_regression_runs": 0,
+    "parallel_safe_required": true,
+    "same_subset_serial_then_parallel": true,
+    "separate_worker_namespaces": true,
+    "resource_locks_required": true,
+    "live_terminal_receipts_required": true,
+    "shell_allowed": false,
+    "xdist_allowed": false,
+    "network_runtime_allowed": false,
+    "source_clean_required": true,
+    "incremental_speedup_required": true
+  },
+  "jobs": [
+    {
+      "job_id": "canary-local-clone-quality-gate",
+      "nodeid": "tests/test_post_h_020_compliance_mapping_quality_gate.py::test_post_h_020_d_compliance_mapping_quality_gate_passes",
+      "contract_id": "LOCAL_CLONE_PER_WORKER_V1",
+      "br_candidate_id": "BR-CAND-0112",
+      "runtime_estimate_seconds": 11.32661,
+      "isolation_strategy": "fresh-git-clone-per-worker",
+      "resource_lock_keys": []
+    },
+    {
+      "job_id": "canary-read-only-repo-gate",
+      "nodeid": "tests/test_post_h_018_connector_sandbox_gate.py::test_post_h_018_e_connector_sandbox_quality_gate_passes_without_network_or_write",
+      "contract_id": "READ_ONLY_REPO_V1",
+      "br_candidate_id": "BR-CAND-0087",
+      "runtime_estimate_seconds": 15.513317,
+      "isolation_strategy": "fresh-git-clone-per-worker",
+      "resource_lock_keys": []
+    }
+  ]
+}

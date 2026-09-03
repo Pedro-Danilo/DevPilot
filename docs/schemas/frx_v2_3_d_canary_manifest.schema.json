@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.testing.frx_v2_3_d_canary_manifest.v1",
+  "title": "FRX v2.3-D bounded parallel canary manifest",
+  "type": "object",
+  "required": ["schema_id", "version", "status", "source_repo", "source_commit", "predecessor", "policy", "jobs"],
+  "properties": {
+    "schema_id": {"const": "devpilot.testing.frx_v2_3_d_canary_manifest.v1"},
+    "version": {"type": "string", "minLength": 1},
+    "status": {"enum": ["approved"]},
+    "source_repo": {"type": "string", "minLength": 1},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "predecessor": {"type": "string", "minLength": 1},
+    "policy": {
+      "type": "object",
+      "required": ["max_workers", "full_regression_runs", "parallel_safe_required", "same_subset_serial_then_parallel", "separate_worker_namespaces", "resource_locks_required", "live_terminal_receipts_required", "shell_allowed", "xdist_allowed", "network_runtime_allowed", "source_clean_required", "incremental_speedup_required"],
+      "properties": {
+        "max_workers": {"const": 2},
+        "full_regression_runs": {"const": 0},
+        "parallel_safe_required": {"const": true},
+        "same_subset_serial_then_parallel": {"const": true},
+        "separate_worker_namespaces": {"const": true},
+        "resource_locks_required": {"const": true},
+        "live_terminal_receipts_required": {"const": true},
+        "shell_allowed": {"const": false},
+        "xdist_allowed": {"const": false},
+        "network_runtime_allowed": {"const": false},
+        "source_clean_required": {"const": true},
+        "incremental_speedup_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "jobs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["job_id", "nodeid", "contract_id", "br_candidate_id", "runtime_estimate_seconds", "isolation_strategy", "resource_lock_keys"],
+        "properties": {
+          "job_id": {"type": "string", "minLength": 1},
+          "nodeid": {"type": "string", "minLength": 1},
+          "contract_id": {"type": "string", "minLength": 1},
+          "br_candidate_id": {"type": "string", "pattern": "^BR-CAND-[0-9]{4}$"},
+          "runtime_estimate_seconds": {"type": "number", "exclusiveMinimum": 0},
+          "isolation_strategy": {"const": "fresh-git-clone-per-worker"},
+          "resource_lock_keys": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

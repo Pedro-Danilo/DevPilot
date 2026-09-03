@@ -11912,3 +11912,7 @@ Use the schema-backed isolation registry as the only authority for future parall
 
 ## FRX-v2.3-BR isolation evidence
 BR is focal-only and follows C `NO-GO`. Do not run a full regression and do not run the general suite in parallel. The BR Windows operator applies the successor implementation, re-collects nodeids structurally, re-audits the 112 runtime-ranked candidates, and executes only representative contract probes with at most two concurrent processes in separate local Git clones. A candidate becomes `PROVEN_PARALLEL_SAFE` only after structural audit PASS plus its contract probe PASS; otherwise it remains UNCLASSIFIED or is marked SERIAL_REQUIRED. After promotion, re-evaluate C shadow/Amdahl read-only. `PASS/NO-GO-D` is a valid BR result; never force D.
+
+## FRX-v2.3-D — Bounded parallel canary
+
+El canary D es focal y no reemplaza la full. Debe ejecutarse exclusivamente mediante el operador Windows gobernado del sprint. El comando core es preview por defecto; `--execute` requiere worktree Git limpio, evidencia/clones en rutas separadas y máximo dos workers. Un timeout, mismatch, conflicto, leakage, source drift o speedup no positivo produce BLOCK. La única full v2.3 continúa reservada para E.

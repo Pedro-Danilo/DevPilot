@@ -103,3 +103,5 @@ from .duration_registry import NodeDurationRegistry, IngestionResult
 
 from .temporal_shard_planner import TemporalShardPlanner, TemporalPlannerError
 __all__.extend(["TemporalShardPlanner", "TemporalPlannerError"])
+from .parallel_canary import BoundedParallelCanaryRunner, ParallelCanaryBlock, ResourceLockTable
+__all__.extend(["BoundedParallelCanaryRunner", "ParallelCanaryBlock", "ResourceLockTable"])

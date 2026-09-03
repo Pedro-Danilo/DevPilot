@@ -3187,3 +3187,5 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - General suite workers remain 0; full regression remains 0/1 and reserved for E.
 - Windows evidence will decide `PASS/GO-D` versus `PASS/NO-GO-D`.
 - FRX-v2.3-BR Windows PASS: 112 PROVEN_PARALLEL_SAFE, 80.039% runtime-safe, Amdahl GO, D authorized=true, full=0/general-workers=0.
+
+- FRX-v2.3-D implemented/windows-pending: bounded same-subset serial/2-worker canary over two BR-proven atomic nodeids; fresh clones, live receipts, source/lock/leakage checks; full=0; E remains unauthorized until Windows PASS.

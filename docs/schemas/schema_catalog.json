@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-09-02",
-  "sprint": "FRX-v2.3-BR",
+  "updated": "2026-09-03",
+  "sprint": "FRX-v2.3-D",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3575,7 +3575,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.3-BR"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FRX-V2-3-D-CANARY-MANIFEST-V1",
+      "title": "FRX v2.3-D canary manifest v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/frx_v2_3_d_canary_manifest.schema.json",
+      "description": "Exactly-two-job bounded parallel canary policy and BR-proven job identity.",
+      "status": "registered",
+      "contract": "FRXV23DCanaryManifest",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.3-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.3-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FRX-V2-3-D-PARALLEL-CANARY-REPORT-V1",
+      "title": "FRX v2.3-D parallel canary report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/parallel_canary_report.schema.json",
+      "description": "Same-subset serial/parallel outcome, source, conflict, leakage and incremental-speedup evidence.",
+      "status": "registered",
+      "contract": "FRXV23DParallelCanaryReport",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.3-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.3-D"
     }
   ],
-  "schemas_total": 249
+  "schemas_total": 251
 }

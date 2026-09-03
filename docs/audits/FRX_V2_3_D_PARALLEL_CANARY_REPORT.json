@@ -1,0 +1,21 @@
+{
+  "schema_id": "devpilot.testing.parallel_canary_report.v1",
+  "version": "1.0.0",
+  "status": "PREVIEW",
+  "decision": "PREVIEW",
+  "source_commit": "7afb0bb18dad963462c0e1d633358582a5b5c5b4",
+  "manifest_sha256": "f4b24206ff45ab470f2b01258955d3fb4f4e209d0ac4e93c6ee8dc07c4710369",
+  "full_regression_runs": 0,
+  "max_workers": 2,
+  "jobs_total": 2,
+  "serial": {},
+  "parallel": {},
+  "outcome_parity": false,
+  "source_clean": true,
+  "conflict_violations": 0,
+  "secret_leakage": false,
+  "incremental_parallel_speedup_percent": null,
+  "frx_v2_3_e_authorized": false,
+  "windows_validation": "PENDING",
+  "note": "Placeholder replaced by Windows operator only after authoritative canary execution."
+}

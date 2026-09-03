@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot.testing.parallel_canary_report.v1",
+  "title": "FRX v2.3-D parallel canary report",
+  "type": "object",
+  "required": ["schema_id", "version", "status", "decision", "source_commit", "manifest_sha256", "full_regression_runs", "max_workers", "jobs_total", "serial", "parallel", "outcome_parity", "source_clean", "conflict_violations", "secret_leakage", "incremental_parallel_speedup_percent", "frx_v2_3_e_authorized"],
+  "properties": {
+    "schema_id": {"const": "devpilot.testing.parallel_canary_report.v1"},
+    "version": {"type": "string"},
+    "status": {"enum": ["PASS", "BLOCK", "PREVIEW"]},
+    "decision": {"enum": ["GO-E", "BLOCK", "PREVIEW"]},
+    "source_commit": {"type": ["string", "null"]},
+    "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "full_regression_runs": {"const": 0},
+    "max_workers": {"maximum": 2, "minimum": 0},
+    "jobs_total": {"const": 2},
+    "serial": {"type": "object"},
+    "parallel": {"type": "object"},
+    "outcome_parity": {"type": "boolean"},
+    "source_clean": {"type": "boolean"},
+    "conflict_violations": {"type": "integer", "minimum": 0},
+    "secret_leakage": {"type": "boolean"},
+    "incremental_parallel_speedup_percent": {"type": ["number", "null"]},
+    "frx_v2_3_e_authorized": {"type": "boolean"}
+  },
+  "additionalProperties": true
+}
