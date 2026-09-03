@@ -6555,3 +6555,6 @@ FRX-v2.3-D está implementado y pendiente de validación Windows. Añade `python
 FRX-v2.3-D está `CLOSED/PASS/WINDOWS-VALIDATED`: mismo canary 2-nodeid serial/paralelo, outcome parity PASS, workers<=2, full=0, speedup incremental `41.384%`. Esta evidencia autoriza preparar FRX-v2.3-E; no activa paralelismo por defecto ni consume la única full v2.3.
 
 FRX-v2.3-E: safe bounded one-full closure is implemented and pending the single authoritative Windows full; max workers=2, no comparison full.
+
+### FRX-v2.3-E composite recovery closure
+Original one-full preserved: 2909/2909 accounted, 2839 PASS, 63 FAIL, 2 ERROR, 5 SKIP. Selective recovery: 65/65 PASS. Composite: 2904 PASS, 0 FAIL, 0 ERROR, 5 SKIP, 2909 accounted. No second full. Parallel decision: PASS/AVAILABLE-NOT-DEFAULT (24.443% incremental < 30% threshold). FRX v2.3 closes and DEVPL-GSDLC-08 is authorized.

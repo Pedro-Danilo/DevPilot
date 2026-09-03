@@ -3201,3 +3201,5 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - FRX-v2.3-D Windows PASS: bounded 2-worker canary parity PASS; serial 70.000s / parallel 41.031s / incremental speedup 41.384%; conflicts=0; full=0; E authorized=true.
 
 - FRX-v2.3-E implemented: hybrid PROVEN_PARALLEL_SAFE waves + manifest-coarsened serial lane; Windows one-full validation pending.
+
+- FRX-v2.3-E composite recovery PASS: original full 1/1 preserved, 65/65 selective recovery PASS, composite 2904 PASS + 5 SKIP = 2909 accounted, parallel AVAILABLE-NOT-DEFAULT; DEVPL-GSDLC-08 authorized.
