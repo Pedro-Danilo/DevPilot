@@ -1656,7 +1656,7 @@
       ],
       "domain": "guided_sdlc.executable-standards",
       "notes": [
-        "A→D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
+        "A\u2192D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
         "Normative documentation remains authoritative until owner approves the registry version."
       ],
       "classification_notes": []
@@ -1721,7 +1721,7 @@
       ],
       "domain": "guided_sdlc.mip-lifecycle",
       "notes": [
-        "A→D cumulative-selective; GSDLC-05 full regression remains 0.",
+        "A\u2192D cumulative-selective; GSDLC-05 full regression remains 0.",
         "Production v1.0.0 allows no mandatory gate waiver because no normative source/ADR authorizes one."
       ],
       "classification_notes": []
@@ -13040,6 +13040,37 @@
         "docs/audits/FRX_V2_3_D_PARALLEL_CANARY_REPORT.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.3-e-one-full-safe-parallel-closure",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-E",
+      "phase": "FULL-REGRESSION-v2.3",
+      "scope": "quality-gate",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_e_safe_parallel_full.py",
+        "python -m devpilot_core.testing.safe_parallel_full --collection .devpilot/testing/frx_v2_3_c_collection.json --environment-fingerprint windows-pytest-devpilot-gsdlc07e-v1"
+      ],
+      "test_files": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "validates": [
+        "one logical full budget",
+        "PROVEN_PARALLEL_SAFE-only waves",
+        "workers<=2",
+        "manifest-coarsened serial lane",
+        "exact-once global accounting",
+        "three-way performance attribution",
+        "no second full"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/safe_parallel_full.py",
+        ".devpilot/testing/frx_v2_3_e_policy.json",
+        "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json",
+        ".devpilot/project_state.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -13118,5 +13149,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 311
+  "contracts_total": 312
 }

@@ -469,7 +469,7 @@
       "notes": [
         "Machine-readable source for POST-H-022-A asset inventory and trust boundaries."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": ".devpilot/enterprise/enterprise_threat_model.json",
       "preliminary": true,
       "required_tests": [
@@ -498,7 +498,7 @@
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
       "required_tests": [
         "tests/test_post_h_roadmap_onboarding_adjustment.py"
@@ -1632,7 +1632,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": ".devpilot/remote/remote_readiness_criteria.json",
       "preliminary": true,
       "related_files": [
@@ -2823,7 +2823,7 @@
       "path": "03_PROMPT_DEVPL_GSDLC_07_C_v1_0_1_REBOUND_REPO383.md",
       "classification": "source-of-truth",
       "domain": "governance",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
@@ -4922,7 +4922,7 @@
       "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
       "classification": "source-of-truth",
       "domain": "governance",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "status_required": "approved",
       "criticality": "P0",
       "required_tests": [
@@ -4943,7 +4943,7 @@
       "path": "DEVPL_GSDLC_07_B_FINAL_OWNER_CLOSURE_CURRENT.json",
       "classification": "machine-readable-source",
       "domain": "governance",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "status_required": "CLOSED/PASS",
       "criticality": "P0",
       "required_tests": [
@@ -4985,7 +4985,7 @@
       "path": "DEVPL_GSDLC_07_C_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
       "classification": "source-of-truth",
       "domain": "governance",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "status_required": "CLOSED/PASS",
       "criticality": "P0",
       "required_tests": [
@@ -5006,7 +5006,7 @@
       "path": "DEVPL_GSDLC_07_C_FINAL_OWNER_CLOSURE_CURRENT.json",
       "classification": "machine-readable-source",
       "domain": "governance",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "status_required": "CLOSED/PASS",
       "criticality": "P0",
       "required_tests": [
@@ -5310,7 +5310,7 @@
       "machine_readable_counterparts": [
         ".devpilot/project_state.json"
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "README.md",
       "required_tests": [
         "tests/test_project_global_state.py"
@@ -5350,7 +5350,7 @@
       "domain": "governance.program",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/00_product/DEVPL_GSDLC_legacy_preservation_matrix.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_a_program_activation.py"
@@ -5372,7 +5372,7 @@
       "domain": "product.strategy",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_a_program_activation.py"
@@ -5395,7 +5395,7 @@
       "domain": "governance.program",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/00_product/DEVPL_GSDLC_program_charter.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_a_program_activation.py"
@@ -5417,7 +5417,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/00_product/POST-H-EVAL-002_end_to_end_product_pilot_roadmap.md",
       "required_tests": [
         "tests/test_post_h_eval_002_activation_contract.py"
@@ -5439,7 +5439,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/00_product/POST-H-EVAL-002_pilot_pause_decision.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_a_program_activation.py"
@@ -5467,7 +5467,7 @@
       "doc_id": "DEVPL-PROD-001",
       "path": "docs/00_product/product_vision.md",
       "domain": "product.vision",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_b_product_requirements.py",
         "tests/test_artifact_profile_registry.py"
@@ -5491,7 +5491,7 @@
       "doc_id": "DEVPL-REQ-001",
       "path": "docs/01_requirements/requirements_specification.md",
       "domain": "requirements.specification",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_b_product_requirements.py",
         "tests/test_artifact_validator.py"
@@ -5515,7 +5515,7 @@
       "doc_id": "DEVPL-REQ-005",
       "path": "docs/01_requirements/traceability_matrix.md",
       "domain": "requirements.traceability",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_b_product_requirements.py",
         "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py",
@@ -5578,7 +5578,7 @@
       "doc_id": "ADR-GSDLC-001",
       "path": "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md",
       "domain": "architecture.adr",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5601,7 +5601,7 @@
       "doc_id": "ADR-GSDLC-002",
       "path": "docs/02_architecture/adrs/ADR-GSDLC-002-state-separation.md",
       "domain": "architecture.adr",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5624,7 +5624,7 @@
       "doc_id": "ADR-GSDLC-003",
       "path": "docs/02_architecture/adrs/ADR-GSDLC-003-local-authenticated-operator-boundary.md",
       "domain": "architecture.adr",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5671,7 +5671,7 @@
       "doc_id": "ADR-GSDLC-004",
       "path": "docs/02_architecture/adrs/ADR-GSDLC-004-ui-complete-normal-journey.md",
       "domain": "architecture.adr",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5815,7 +5815,7 @@
       "doc_id": "DEVPL-ARCH-APPLICATION-BOUNDARY",
       "path": "docs/02_architecture/application_service_boundary_map.md",
       "domain": "architecture.application-boundary",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5837,7 +5837,7 @@
       "doc_id": "DEVPL-ARCH-001",
       "path": "docs/02_architecture/architecture_document.md",
       "domain": "architecture.reference",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5859,7 +5859,7 @@
       "doc_id": "DEVPL-ARCH-004",
       "path": "docs/02_architecture/c4_component.md",
       "domain": "architecture.c4",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5881,7 +5881,7 @@
       "doc_id": "DEVPL-ARCH-003",
       "path": "docs/02_architecture/c4_container.md",
       "domain": "architecture.c4",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -5903,7 +5903,7 @@
       "doc_id": "DEVPL-ARCH-002",
       "path": "docs/02_architecture/c4_context.md",
       "domain": "architecture.c4",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
       ],
@@ -6321,7 +6321,7 @@
         "Sandbox design declares metadata-only, validator-only and plugin_execution_allowed=false."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/02_architecture/plugin_sandbox_design.md",
       "related_files": [
         "src/devpilot_core/plugins/registry.py",
@@ -6399,7 +6399,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/03_security/compliance_mapping_disclaimers.md",
       "related_files": [
         "docs/05_operations/compliance_mapping_runbook.md"
@@ -6425,7 +6425,7 @@
         "POST-H-018-E threat model records connector write, network/API and overclaiming no-go risks."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/03_security/connector_sandbox_threat_model.md",
       "related_files": [
         "src/devpilot_core/connectors/sandbox_gate.py",
@@ -6477,7 +6477,7 @@
       "notes": [
         "Human-readable POST-H-022-A enterprise deployment threat model."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/03_security/enterprise_deployment_threat_model.md",
       "preliminary": true,
       "required_tests": [
@@ -6527,7 +6527,7 @@
         "Threat model records plugin no-go risks including arbitrary code execution, dependency confusion, secret exfiltration, path traversal, persistence and network abuse."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/03_security/plugin_sandbox_threat_model.md",
       "related_files": [
         "src/devpilot_core/plugins/registry.py",
@@ -6617,7 +6617,7 @@
       "doc_id": "DEVPL-SEC-001",
       "path": "docs/03_security/security_threat_model.md",
       "domain": "security.threat-model",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
       ],
@@ -6683,7 +6683,7 @@
       "doc_id": "DEVPL-QUAL-001",
       "path": "docs/04_quality/test_strategy.md",
       "domain": "quality.test-strategy",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py"
       ],
@@ -6700,7 +6700,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/DevPilot_POST_H_EVAL_002_Piloto_Real_End_to_End_UI_First_Runbook.md",
       "required_tests": [
         "tests/test_post_h_eval_002_activation_contract.py"
@@ -6778,7 +6778,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/compliance_mapping_runbook.md",
       "related_files": [
         "docs/03_security/compliance_mapping_disclaimers.md"
@@ -6804,7 +6804,7 @@
         "POST-H-018-E operational runbook documents read-only/replay/dry-run limits and connector sandbox no-go gates."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/connector_sandbox_runbook.md",
       "related_files": [
         "src/devpilot_core/connectors/sandbox_gate.py",
@@ -7019,7 +7019,7 @@
         "Operational runbook for POST-H-010 local observability retention maintenance commands and PASS/BLOCK criteria.",
         "Registered when POST-H-010-E integrates observability-retention into quality-gate hardening."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/observability_retention_runbook.md",
       "related_adrs": [],
       "required_tests": [
@@ -7074,7 +7074,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/plugin_metadata_runbook.md",
       "related_files": [
         "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
@@ -7124,7 +7124,7 @@
         "Verifier and quality gate remain future POST-H-017-D/E scope.",
         "POST-H-017-E documents local pack generation and release-reproducibility quality gate integration."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/release_reproducibility_runbook.md",
       "related_adrs": [],
       "required_tests": [
@@ -7177,7 +7177,7 @@
       "doc_id": "DEVPL-OPS-002",
       "domain": "operations",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/runbook.md",
       "required_tests": [
         "tests/test_project_global_state.py",
@@ -7258,7 +7258,7 @@
         "Operational onboarding checklist for local workspaces governed by POST-H-016-E.",
         "Checklist remains local-first and does not enable remote workspace execution or connector writes."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/05_operations/workspace_onboarding_checklist.md",
       "related_adrs": [],
       "required_tests": [
@@ -7468,7 +7468,7 @@
         "POST-H-015-E is implemented-initial and closes the hito with operator-dashboard-ready; production-grade SRE console evolution remains future scope.",
         "POST-H-015-D inherited manifest/TCR v2 drift was corrected before POST-H-015-E closure."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-015_local_operator_dashboard.md",
       "related_adrs": [],
       "required_tests": [
@@ -7521,7 +7521,7 @@
         "POST-H-016-D adds PortfolioApplicationService, protected GET /api/v1/portfolio/status and active-workspace non-mutation boundary tests.",
         "POST-H-016-E closes Workspace portfolio hardening with a local read-only quality gate and onboarding checklist."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-016_workspace_portfolio_hardening.md",
       "related_adrs": [],
       "required_tests": [
@@ -7580,7 +7580,7 @@
         "release_reproducibility_quality_gate_integrated: POST-H-017-E quality gate evidence remains registered.",
         "release_archive_manifest_module: src/devpilot_core/release/source_archive.py remains registered as POST-H-017-C source archive manifest evidence."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-017_release_reproducibility_pack.md",
       "related_adrs": [],
       "related_files": [
@@ -7640,7 +7640,7 @@
         "POST-H-018-B adds sandbox runner and ConnectorSandboxReport generation while keeping replay fixtures/binding/gate for C/D/E.",
         "POST-H-018-C adds deterministic replay fixtures and redaction checks; replay remains local-only and does not execute connectors."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-018_connector_sandbox.md",
       "related_adrs": [],
       "required_tests": [
@@ -7668,7 +7668,7 @@
         "POST-H-019-E closes plugin sandbox design as implemented-initial metadata-only with runbook and ADR trigger."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-019_plugin_sandbox_design.md",
       "related_files": [
         "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
@@ -7700,7 +7700,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-020_compliance_mapping_packs.md",
       "related_files": [
         "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
@@ -7741,7 +7741,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-021_remote_runner_adr2.md",
       "preliminary": true,
       "related_files": [
@@ -7833,7 +7833,7 @@
       "notes": [
         "Top-level approved POST-H-025 production-ready-local declaration gate document."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-025_production_ready_declaration_gate.md",
       "required_tests": [
         "tests/test_post_h_025_production_ready_criteria.py",
@@ -7865,7 +7865,7 @@
       "notes": [
         "Operational top-level document for POST-H-026."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-026_local_release_candidate_operator_verification.md",
       "required_tests": [
         "tests/test_post_h_026_evidence_freshness.py",
@@ -7901,7 +7901,7 @@
       "doc_id": "POST-H-028-DOC",
       "domain": "product.ui",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-028_ui_api_local_hardening.md",
       "required_tests": [
         "tests/test_post_h_028_api_contract_drift_guard.py"
@@ -7918,7 +7918,7 @@
       "doc_id": "POST-H-029-DOC",
       "domain": "governance.testing",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-029_testing_tiers_impact_regression_cost.md",
       "required_tests": [
         "tests/test_post_h_029_test_profile_taxonomy.py"
@@ -7936,7 +7936,7 @@
       "doc_id": "POST-H-030-IMPLEMENTATION",
       "domain": "interface.cli",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-030_cli_hotspot_reduction_application_boundaries.md",
       "required_tests": [
         "tests/test_post_h_030_cli_command_ownership_matrix.py"
@@ -7982,7 +7982,7 @@
       "notes": [
         "Top-level POST-H-032 implementation tracker."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md",
       "related_adrs": [],
       "required_tests": [
@@ -8005,7 +8005,7 @@
       "notes": [
         "POST-H-033-A validator inventory/migration artifact: docs/POST-H-033_schema_backed_validators_declarative_semantics.md."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-033_schema_backed_validators_declarative_semantics.md",
       "related_adrs": [],
       "required_tests": [
@@ -8025,7 +8025,7 @@
       "doc_id": "POST-H-034-TOPLEVEL",
       "domain": "architecture-decision",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/POST-H-034_sensitive_capabilities_adrs.md",
       "required_tests": [
         "tests/test_post_h_034_connector_write_adr.py",
@@ -8047,7 +8047,7 @@
       "doc_id": "ADR-POSTH-001",
       "domain": "architecture-decision",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
       "required_tests": [
         "tests/test_post_h_eval_001_documentation.py"
@@ -8069,7 +8069,7 @@
       "doc_id": "ADR-POSTH-002",
       "domain": "architecture-decision",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
       "required_tests": [
         "tests/test_post_h_eval_001_documentation.py",
@@ -8091,7 +8091,7 @@
       "doc_id": "ADR-POSTH-003",
       "domain": "architecture-decision",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-003-cli-modularization.md",
       "required_tests": [
         "tests/test_post_h_eval_001_documentation.py",
@@ -8119,7 +8119,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
       "preliminary": true,
       "related_files": [
@@ -8174,7 +8174,7 @@
       "notes": [
         "POST-H-032-C external API provider gated pilot artifact: docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md",
       "related_adrs": [],
       "required_tests": [
@@ -8197,7 +8197,7 @@
       "notes": [
         "POST-H-032-E agent memory model artifact: docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-032-E-agent-memory-local-opt-in.md",
       "related_adrs": [],
       "required_tests": [
@@ -8240,7 +8240,7 @@
       "doc_id": "ADR-POSTH-034-A",
       "domain": "architecture-decision",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-034-A-connector-write-enable-or-continue-blocked.md",
       "required_tests": [
         "tests/test_post_h_034_connector_write_adr.py"
@@ -8261,7 +8261,7 @@
       "doc_id": "ADR-POSTH-034-B",
       "domain": "architecture-decision",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-034-B-plugin-execution-enable-or-continue-blocked.md",
       "required_tests": [
         "tests/test_post_h_034_plugin_execution_adr.py"
@@ -8283,7 +8283,7 @@
       "domain": "enterprise.remote",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-034-C-remote-execution-adr3.md",
       "required_tests": [
         "tests/test_post_h_034_remote_execution_adr3.py"
@@ -8305,7 +8305,7 @@
       "domain": "security.auth",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-034-D-multiuser-auth-boundary.md",
       "required_tests": [
         "tests/test_post_h_034_multiuser_auth_adr.py"
@@ -8327,7 +8327,7 @@
       "domain": "enterprise.reporting",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/adr/ADR-POSTH-034-E-enterprise-saas-boundary.md",
       "required_tests": [
         "tests/test_post_h_034_enterprise_saas_boundary_adr.py"
@@ -15363,7 +15363,7 @@
         "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_017_d_reproducibility_verifier_report.md",
       "related_files": [
         "src/devpilot_core/release/reproducibility_verify.py",
@@ -15388,7 +15388,7 @@
         "POST-H-017-E integrates release-reproducibility quality gate and closes the release reproducibility pack as implemented-initial."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_017_e_quality_gate_runbook_report.md",
       "related_files": [
         "src/devpilot_core/release/reproducibility_pack.py",
@@ -15415,7 +15415,7 @@
         "POST-H-018-A validates connector sandbox policy coverage and deny-write/no-network/no-external-api semantics."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_018_a_connector_sandbox_policy_report.md",
       "related_files": [
         "src/devpilot_core/connectors/sandbox_policy.py",
@@ -15440,7 +15440,7 @@
         "POST-H-018-B implements local sandbox runner and schema-compatible ConnectorSandboxReport evidence without real connector execution."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_018_b_connector_sandbox_runner_report.md",
       "related_files": [
         "src/devpilot_core/connectors/sandbox.py",
@@ -15465,7 +15465,7 @@
         "POST-H-018-C documents replay fixture redaction checks and no-go gates."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_018_c_connector_replay_redaction_report.md",
       "related_files": [
         "src/devpilot_core/connectors/replay.py",
@@ -15488,7 +15488,7 @@
       "domain": "integration.connectors",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_018_d_connector_policy_binding_report.md",
       "required_tests": [
         "tests/test_post_h_018_connector_policy_binding.py"
@@ -15506,7 +15506,7 @@
         "POST-H-018-E report documents connector-sandbox quality gate integration and backlog closure."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_018_e_connector_sandbox_gate_report.md",
       "related_files": [
         "src/devpilot_core/connectors/sandbox_gate.py",
@@ -15532,7 +15532,7 @@
         "POST-H-019-A audit report records PASS/BLOCK criteria and limitations."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_019_a_plugin_sandbox_design_report.md",
       "related_files": [
         "docs/03_security/plugin_sandbox_threat_model.md",
@@ -15557,7 +15557,7 @@
         "POST-H-019-B report documents PASS/BLOCK criteria, safety invariants and scope limitations."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_019_b_plugin_permission_model_report.md",
       "related_files": [
         "src/devpilot_core/plugins/permission_model.py",
@@ -15581,7 +15581,7 @@
       "frontmatter_required": true,
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_019_c_plugin_install_dry_run_exposure_report.md",
       "required_tests": [
         "tests/test_post_h_019_plugin_static_validator.py",
@@ -15607,7 +15607,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_019_d_plugin_quality_gate_report.md",
       "related_files": [
         "src/devpilot_core/plugins/quality_gate.py",
@@ -15637,7 +15637,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_019_e_plugin_sandbox_closure_report.md",
       "related_files": [
         "docs/05_operations/plugin_metadata_runbook.md",
@@ -15667,7 +15667,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_020_a_compliance_mapping_schema_registry_report.md",
       "related_files": [
         "docs/post_h_020_a_manifest.json"
@@ -15695,7 +15695,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_020_b_compliance_mapping_validator_report.md",
       "related_files": [
         "src/devpilot_core/compliance/mapping.py",
@@ -15724,7 +15724,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_020_c_compliance_evidence_report.md",
       "related_files": [
         "src/devpilot_core/compliance/evidence.py",
@@ -15754,7 +15754,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_020_d_compliance_mapping_quality_gate_report.md",
       "related_files": [
         "src/devpilot_core/compliance/quality_gate.py",
@@ -15785,7 +15785,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_020_e_compliance_mapping_closure_report.md",
       "related_files": [
         "docs/post_h_020_e_manifest.json"
@@ -15813,7 +15813,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_021_a_remote_inventory_baseline_report.md",
       "preliminary": true,
       "related_files": [
@@ -15843,7 +15843,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_021_b_remote_adr2_report.md",
       "preliminary": true,
       "related_files": [
@@ -15873,7 +15873,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_021_c_remote_readiness_report.md",
       "preliminary": true,
       "related_files": [
@@ -16503,7 +16503,7 @@
       "notes": [
         "Audit report for POST-H-026-A implementation."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_026_a_evidence_freshness_report.md",
       "required_tests": [
         "tests/test_post_h_026_evidence_freshness.py"
@@ -16635,7 +16635,7 @@
       "doc_id": "POST-H-027-C-ARTIFACT-MANIFEST-CHECKSUMS-AUDIT",
       "domain": "release",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_027_c_artifact_manifest_checksums_report.md",
       "required_tests": [
         "tests/test_post_h_027_artifact_manifest_checksums.py"
@@ -16652,7 +16652,7 @@
       "doc_id": "POST-H-027-D-WINDOWS-INSTALL-SMOKE-AUDIT",
       "domain": "release",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_027_d_windows_install_smoke_report.md",
       "required_tests": [
         "tests/test_post_h_027_windows_install_smoke.py"
@@ -16669,7 +16669,7 @@
       "doc_id": "POST-H-027-E-UPGRADE-ROLLBACK-CLOSURE-REPORT",
       "domain": "release",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_027_e_upgrade_rollback_closure_report.md",
       "required_tests": [
         "tests/test_post_h_027_upgrade_rollback_dry_run.py"
@@ -16686,7 +16686,7 @@
       "doc_id": "POST-H-028-A-API-CONTRACT-DRIFT-REPORT",
       "domain": "product.api",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_028_a_api_contract_drift_guard_report.md",
       "required_tests": [
         "tests/test_post_h_028_api_contract_drift_guard.py"
@@ -16757,7 +16757,7 @@
       "notes": [
         "Regression-fix report for POST-H-028-E full pytest failures."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_028_e_general_pytest_regression_fix_report.md",
       "required_tests": [
         "tests/test_post_h_028_ui_route_registry_enforcement.py",
@@ -16795,7 +16795,7 @@
       "doc_id": "POST-H-029-A-TEST-PROFILE-TAXONOMY-REPORT",
       "domain": "governance.testing",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_029_a_test_profile_taxonomy_report.md",
       "required_tests": [
         "tests/test_post_h_029_test_profile_taxonomy.py"
@@ -16812,7 +16812,7 @@
       "doc_id": "POST-H-029-B-IMPACT-RULES-REPORT",
       "domain": "governance.testing",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_029_b_tcr_v2_impact_rules_report.md",
       "required_tests": [
         "tests/test_post_h_029_tcr_v2_impact_rules.py"
@@ -16829,7 +16829,7 @@
       "doc_id": "POST-H-029-C-RECOMMENDATIONS-REPORT",
       "domain": "governance.testing",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_029_c_test_impact_cli_recommendations_report.md",
       "required_tests": [
         "tests/test_post_h_029_test_impact_cli_recommendations.py"
@@ -16975,7 +16975,7 @@
       "notes": [
         "Audit report for POST-H-031-B."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_031_b_operator_health_summary_report.md",
       "related_adrs": [],
       "required_tests": [
@@ -17000,7 +17000,7 @@
       "notes": [
         "Audit report for POST-H-031-C."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_031_c_gap_to_action_mapping_report.md",
       "related_adrs": [],
       "required_tests": [
@@ -17026,7 +17026,7 @@
       "notes": [
         "Audit report for POST-H-031-D."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_031_d_claims_no_go_dashboard_report.md",
       "related_adrs": [],
       "required_tests": [
@@ -17052,7 +17052,7 @@
       "notes": [
         "Audit report for POST-H-031-E."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_031_e_redacted_evidence_export_ux_report.md",
       "related_adrs": [],
       "required_tests": [
@@ -17078,7 +17078,7 @@
       "notes": [
         "Audit report for POST-H-032-A."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_032_a_agent_capability_inventory_report.md",
       "related_adrs": [],
       "required_tests": [
@@ -17104,7 +17104,7 @@
       "notes": [
         "Audit report for POST-H-032-B Local LLM provider hardening."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_032_b_local_llm_provider_hardening_report.md",
       "related_adrs": [],
       "required_tests": [
@@ -17128,7 +17128,7 @@
       "notes": [
         "POST-H-032-C external API provider gated pilot artifact: docs/audits/post_h_032_c_external_api_provider_pilot_report.md."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_032_c_external_api_provider_pilot_report.md",
       "related_adrs": [
         "docs/adr/ADR-POSTH-032-C-external-api-provider-gated-pilot.md"
@@ -17296,7 +17296,7 @@
       "doc_id": "POST-H-033-B-FRONTMATTER-SCHEMA-BACKED-REPORT",
       "domain": "validation.frontmatter",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_033_b_frontmatter_schema_backed_validator_report.md",
       "required_tests": [
         "tests/test_post_h_033_frontmatter_schema_backed_validator.py"
@@ -17315,7 +17315,7 @@
       "domain": "governance.validation",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_033_c_readiness_requirements_registry_report.md",
       "required_tests": [
         "tests/test_post_h_033_readiness_requirements_registry.py"
@@ -17334,7 +17334,7 @@
       "domain": "governance.miasi",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_033_d_miasi_semantic_rules_registry_report.md",
       "required_tests": [
         "tests/test_post_h_033_miasi_semantic_rules_registry.py"
@@ -17353,7 +17353,7 @@
       "domain": "security.policy",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_033_e_policy_guard_pattern_catalogs_report.md",
       "required_tests": [
         "tests/test_post_h_033_policy_guard_pattern_catalogs.py"
@@ -17372,7 +17372,7 @@
       "domain": "documentation.governance",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_033_f_docs_governance_rule_registry_report.md",
       "required_tests": [
         "tests/test_post_h_033_docs_governance_rule_registry.py"
@@ -17390,7 +17390,7 @@
       "doc_id": "POST-H-034-A-CONNECTOR-WRITE-ADR-REPORT",
       "domain": "integration.connectors",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_034_a_connector_write_adr_report.md",
       "required_tests": [
         "tests/test_post_h_034_connector_write_adr.py"
@@ -17456,7 +17456,7 @@
       "domain": "operations.audit",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_034_closure_final_regression_report.md",
       "required_tests": [
         "tests/test_post_h_034_closure_regression_reconciliation.py"
@@ -17524,7 +17524,7 @@
       "machine_readable_counterparts": [
         "docs/post_h_eval_001_manifest.json"
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_eval_001_closure_report.md",
       "required_tests": [
         "tests/test_post_h_eval_001_documentation.py"
@@ -17542,7 +17542,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_eval_002_01_a_freeze_charter_evidence_control_report.md",
       "required_tests": [
         "tests/test_post_h_eval_002_01_a_freeze_charter_evidence_control.py"
@@ -17564,7 +17564,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_eval_002_01_b_clean_install_baseline_verification_report.md",
       "required_tests": [
         "tests/test_post_h_eval_002_01_b_clean_install_baseline_verification.py"
@@ -17586,7 +17586,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/audits/post_h_eval_002_01_c_api_ui_startup_security_posture_report.md",
       "required_tests": [
         "tests/test_post_h_eval_002_01_c_api_ui_startup_security_posture.py"
@@ -18220,7 +18220,7 @@
       "domain": "governance.program",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_00_a_program_activation.py"
@@ -18392,7 +18392,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
       "related_adrs": [],
       "required_tests": [
@@ -18425,7 +18425,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-003_test_contract_registry_2.md",
       "related_adrs": [],
       "required_tests": [
@@ -18458,7 +18458,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-004_policy_miasi_semantic_validator.md",
       "related_adrs": [],
       "required_tests": [
@@ -18491,7 +18491,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-005_architecture_map_executable.md",
       "related_adrs": [],
       "required_tests": [
@@ -18524,7 +18524,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-006_cli_command_registry.md",
       "related_adrs": [],
       "required_tests": [
@@ -18557,7 +18557,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-007_application_service_boundary.md",
       "related_adrs": [],
       "required_tests": [
@@ -18590,7 +18590,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
       "related_adrs": [],
       "required_tests": [
@@ -18619,7 +18619,7 @@
         "POST-H-009-A promotes this backlog to approved and registers the first canonical source registry.",
         "POST-H-009-C adds deterministic Markdown/JSON sync validation to docs-governance validate/report."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-009_documentation_governance.md",
       "required_tests": [
         "tests/test_post_h_009_documentation_governance.py",
@@ -18670,7 +18670,7 @@
         "POST-H-010-E integrates observability-retention with quality-gate hardening/industrial as a read-only deterministic subgate.",
         "POST-H-010 closes as implemented-initial; production-ready declaration remains out of scope for this hito."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-010_observability_retention.md",
       "related_adrs": [],
       "required_tests": [
@@ -18728,7 +18728,7 @@
         "POST-H-011-D adds local rag groundedness-eval CLI, eval runner bridge and outputs/evals report writing without network, external APIs or source mutations.",
         "POST-H-011-E binds rag-groundedness-ready to quality-gate hardening/industrial profiles and closes POST-H-011 as implemented-initial."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
       "related_adrs": [],
       "required_tests": [
@@ -18796,7 +18796,7 @@
         "POST-H-012-D adds homogeneous PolicyEngine enforcement for SensitiveActionCatalog, strong approval binding and local RBAC as implemented-initial.",
         "POST-H-012-E closes Approval/RBAC hardening as implemented-initial with approval-rbac-hardening quality-gate integration and operational approval lifecycle documentation."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
       "related_adrs": [],
       "required_tests": [
@@ -18857,7 +18857,7 @@
         "POST-H-013-C adds AuditPackV2Verifier with local manifest/hash/member verification and integrity report generation.",
         "POST-H-013-D adds optional local crypto sidecars for HMAC signing and Fernet encryption without remote KMS."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-013_audit_pack_integrity.md",
       "related_adrs": [],
       "required_tests": [
@@ -18900,7 +18900,7 @@
         "POST-H-014-D adds local API/UI security hardening, protected posture diagnostics and UI redaction checks.",
         "POST-H-014-E closes UI/API industrial shell with the ui-api-industrial-shell quality gate, schema-backed report and TCR coverage."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
       "related_adrs": [],
       "required_tests": [
@@ -18960,7 +18960,7 @@
         "POST-H-015-D closure required correcting PostHManifest field drift and TestContractRegistryV2 enum/null drift.",
         "POST-H-015-E adds operator-dashboard-ready quality gate and operational CLI/runbook closure."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-015_local_operator_dashboard.md",
       "related_adrs": [],
       "required_tests": [
@@ -19007,7 +19007,7 @@
         "POST-H-016-D adds secure CLI/API integration for portfolio status.",
         "POST-H-016-E closes workspace portfolio hardening with the workspace-portfolio-hardening quality gate and onboarding checklist."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
       "related_adrs": [],
       "required_tests": [
@@ -19056,7 +19056,7 @@
         "POST-H-017 approved by POST-H-017-A for local release reproducibility pack implementation.",
         "POST-H-017-A adds release reproducibility schemas and policy; pack generation remains future work."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
       "related_adrs": [],
       "related_files": [
@@ -19110,7 +19110,7 @@
         "POST-H-018 approved by POST-H-018-A for connector sandbox implementation.",
         "POST-H-018-A adds static schemas/policy only; runner, replay, RBAC binding and quality gate remain later micro-sprints."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-018_connector_sandbox.md",
       "related_adrs": [],
       "required_tests": [
@@ -19152,7 +19152,7 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
       "related_adrs": [],
       "required_tests": [
@@ -19192,7 +19192,7 @@
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-020-A approves this backlog and starts non-certifying compliance mapping schemas and registries."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
       "related_adrs": [],
       "related_files": [
@@ -19239,7 +19239,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": false,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-021_remote_runner_adr2.md",
       "preliminary": true,
       "related_files": [
@@ -19278,7 +19278,7 @@
         "POST-H-022 backlog approved by POST-H-022-A.",
         "POST-H-022-A is design-only and does not enable enterprise deployment."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
       "related_adrs": [],
       "required_tests": [
@@ -19404,7 +19404,7 @@
       "notes": [
         "POST-H-025 executable backlog approved by owner for production-ready-local declaration gate implementation."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
       "related_adrs": [],
       "required_tests": [
@@ -19438,7 +19438,7 @@
       "notes": [
         "POST-H-026-A starts local release candidate operator verification."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
       "required_tests": [
         "tests/test_post_h_026_evidence_freshness.py",
@@ -19475,7 +19475,7 @@
       "doc_id": "POST-H-028-BACKLOG",
       "domain": "product.ui",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-028_ui_api_local_hardening.md",
       "required_tests": [
         "tests/test_post_h_028_api_contract_drift_guard.py"
@@ -19492,7 +19492,7 @@
       "doc_id": "POST-H-029-BACKLOG",
       "domain": "governance.testing",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md",
       "required_tests": [
         "tests/test_post_h_029_test_profile_taxonomy.py"
@@ -19510,7 +19510,7 @@
       "doc_id": "POST-H-030-BACKLOG",
       "domain": "interface.cli",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md",
       "required_tests": [
         "tests/test_post_h_030_cli_command_ownership_matrix.py"
@@ -19558,7 +19558,7 @@
       "notes": [
         "Approved executable backlog for POST-H-032."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-032_advanced_ai_agents_llm_rag_memory_tools.md",
       "related_adrs": [],
       "required_tests": [
@@ -19581,7 +19581,7 @@
       "notes": [
         "POST-H-033-A validator inventory/migration artifact: docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-033_schema_backed_validators_declarative_semantics.md",
       "related_adrs": [],
       "required_tests": [
@@ -19602,7 +19602,7 @@
       "domain": "documentation.governance",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-034-CLOSURE_final_regression_reconciliation.md",
       "required_tests": [
         "tests/test_post_h_034_closure_regression_reconciliation.py"
@@ -19623,7 +19623,7 @@
       "doc_id": "POST-H-034-BACKLOG",
       "domain": "architecture-decision",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-034_sensitive_capabilities_adrs.md",
       "required_tests": [
         "tests/test_post_h_034_connector_write_adr.py",
@@ -19646,7 +19646,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-EVAL-002-01_baseline_ui_acceptance.md",
       "required_tests": [
         "tests/test_post_h_eval_002_activation_contract.py"
@@ -19668,7 +19668,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-EVAL-002-02_sdlc_execution_traceability.md",
       "required_tests": [
         "tests/test_post_h_eval_002_activation_contract.py"
@@ -19690,7 +19690,7 @@
       "domain": "evaluation.pilot",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/POST-H-EVAL-002-03_release_assessment_roadmap.md",
       "required_tests": [
         "tests/test_post_h_eval_002_activation_contract.py"
@@ -19770,7 +19770,7 @@
         "Roadmap Markdown is the human-readable planning authority; JSON counterpart is the machine-readable planning source.",
         "POST-H-009-D governs executable backlog documents derived from executable_backlogs_to_create."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/backlogs/post_h_prioritized_roadmap.md",
       "related_adrs": [
         "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
@@ -19826,7 +19826,7 @@
         "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_017_d_manifest.json",
       "related_files": [
         "src/devpilot_core/release/reproducibility_verify.py"
@@ -19850,7 +19850,7 @@
         "POST-H-017-E manifest records files, commands, PASS/BLOCK criteria and implemented-initial limits."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_017_e_manifest.json",
       "related_files": [
         "src/devpilot_core/release/reproducibility_pack.py"
@@ -19874,7 +19874,7 @@
         "POST-H-018-A manifest records schemas, policy, tests, PASS/BLOCK and future limits."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_018_a_manifest.json",
       "related_files": [
         "docs/schemas/connector_sandbox_policy.schema.json",
@@ -19899,7 +19899,7 @@
         "POST-H-018-B manifest records runner, CLI, PASS/BLOCK and implemented-initial limits."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_018_b_manifest.json",
       "related_files": [
         "src/devpilot_core/connectors/sandbox.py",
@@ -19924,7 +19924,7 @@
         "POST-H-018-C manifest records replay fixtures, redaction, tests, PASS/BLOCK and implemented-initial limits."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_018_c_manifest.json",
       "related_files": [
         "src/devpilot_core/connectors/replay.py",
@@ -19947,7 +19947,7 @@
       "domain": "integration.connectors",
       "frontmatter_required": false,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_018_d_manifest.json",
       "required_tests": [
         "tests/test_post_h_018_connector_policy_binding.py"
@@ -19965,7 +19965,7 @@
         "POST-H-018-E manifest records quality gate, runbook, threat model and POST-H-018 closure evidence."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_018_e_manifest.json",
       "related_files": [
         "src/devpilot_core/connectors/sandbox_gate.py",
@@ -19990,7 +19990,7 @@
         "POST-H-019-A manifest records created/modified files, commands, risks and implemented-initial limitations."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_019_a_manifest.json",
       "related_files": [
         "docs/03_security/plugin_sandbox_threat_model.md",
@@ -20015,7 +20015,7 @@
         "POST-H-019-B manifest records permission model and manifest hardening evidence."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_019_b_manifest.json",
       "related_files": [
         "docs/schemas/plugin_permission_model.schema.json",
@@ -20040,7 +20040,7 @@
       "frontmatter_required": false,
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_019_c_manifest.json",
       "required_tests": [
         "tests/test_post_h_019_plugin_static_validator.py",
@@ -20066,7 +20066,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_019_d_manifest.json",
       "related_files": [
         "src/devpilot_core/plugins/quality_gate.py",
@@ -20097,7 +20097,7 @@
       ],
       "lifecycle": "historical",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_019_e_manifest.json",
       "related_files": [
         "docs/05_operations/plugin_metadata_runbook.md",
@@ -20127,7 +20127,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_020_a_manifest.json",
       "related_files": [
         "docs/POST-H-020_compliance_mapping_packs.md",
@@ -20157,7 +20157,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_020_b_manifest.json",
       "related_files": [
         "docs/POST-H-020_compliance_mapping_packs.md",
@@ -20187,7 +20187,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_020_c_manifest.json",
       "related_files": [
         "docs/POST-H-020_compliance_mapping_packs.md",
@@ -20217,7 +20217,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_020_d_manifest.json",
       "related_files": [
         "docs/POST-H-020_compliance_mapping_packs.md",
@@ -20247,7 +20247,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_020_e_manifest.json",
       "related_files": [
         "docs/audits/post_h_020_e_compliance_mapping_closure_report.md"
@@ -20276,7 +20276,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_021_a_manifest.json",
       "preliminary": true,
       "related_files": [
@@ -20306,7 +20306,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_021_b_manifest.json",
       "preliminary": true,
       "related_files": [
@@ -20337,7 +20337,7 @@
       ],
       "lifecycle": "active",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_021_c_manifest.json",
       "preliminary": true,
       "related_files": [
@@ -21058,7 +21058,7 @@
       "doc_id": "POST-H-027-C-MANIFEST",
       "domain": "release",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_027_c_manifest.json",
       "required_tests": [
         "tests/test_post_h_027_artifact_manifest_checksums.py"
@@ -21075,7 +21075,7 @@
       "doc_id": "POST-H-027-D-MANIFEST",
       "domain": "release",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_027_d_manifest.json",
       "required_tests": [
         "tests/test_post_h_027_windows_install_smoke.py"
@@ -21092,7 +21092,7 @@
       "doc_id": "POST-H-027-E-MANIFEST",
       "domain": "release",
       "lifecycle": "historical",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_027_e_manifest.json",
       "required_tests": [
         "tests/test_post_h_027_upgrade_rollback_dry_run.py"
@@ -21109,7 +21109,7 @@
       "doc_id": "POST-H-028-A-MANIFEST",
       "domain": "product.api",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_028_a_manifest.json",
       "required_tests": [
         "tests/test_post_h_028_api_contract_drift_guard.py"
@@ -21372,7 +21372,7 @@
       "notes": [
         "Machine-readable manifest for POST-H-031-B."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_031_b_manifest.json",
       "related_adrs": [],
       "required_tests": [
@@ -21397,7 +21397,7 @@
       "notes": [
         "Machine-readable manifest for POST-H-031-C."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_031_c_manifest.json",
       "related_adrs": [],
       "required_tests": [
@@ -21422,7 +21422,7 @@
       "notes": [
         "Machine-readable manifest for POST-H-031-D."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_031_d_manifest.json",
       "related_adrs": [],
       "required_tests": [
@@ -21447,7 +21447,7 @@
       "notes": [
         "Machine-readable manifest for POST-H-031-E."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_031_e_manifest.json",
       "related_adrs": [],
       "required_tests": [
@@ -21913,7 +21913,7 @@
         "docs/audits/post_h_eval_001_closure_report.md"
       ],
       "lifecycle": "closed",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/post_h_eval_001_manifest.json",
       "required_tests": [
         "tests/test_post_h_eval_001_documentation.py"
@@ -22493,7 +22493,7 @@
       "doc_id": "DEVPL-CHANGELOG-001",
       "domain": "release-history",
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/release/CHANGELOG.md",
       "required_tests": [
         "tests/test_project_global_state.py"
@@ -22605,7 +22605,7 @@
       "notes": [
         "Schema for POST-H-032-A AgentCapabilityInventory."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/agent_capability_inventory.schema.json",
       "related_adrs": [],
       "required_tests": [
@@ -22700,7 +22700,7 @@
       "notes": [
         "Schema for POST-H-032-A AgentPromotionCriteria."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/agent_promotion_criteria.schema.json",
       "related_adrs": [],
       "required_tests": [
@@ -23314,7 +23314,7 @@
       "domain": "integration.connectors",
       "frontmatter_required": false,
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/connector_policy_exposure_report.schema.json",
       "required_tests": [
         "tests/test_post_h_018_connector_policy_binding.py"
@@ -23492,7 +23492,7 @@
       "notes": [
         "Schema registered by POST-H-022-A for design-only enterprise threat model inventory."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/enterprise_threat_model.schema.json",
       "preliminary": true,
       "required_tests": [
@@ -23989,7 +23989,7 @@
       "notes": [
         "Schema for POST-H-032-B LocalLlmProviderHealthReport."
       ],
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/local_llm_provider_health_report.schema.json",
       "related_adrs": [],
       "required_tests": [
@@ -24405,7 +24405,7 @@
         "POST-H-019-B schema defines deny-by-default plugin permission model semantics."
       ],
       "lifecycle": "active",
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/plugin_permission_model.schema.json",
       "related_files": [
         ".devpilot/plugins/plugin_permission_model.json",
@@ -24956,7 +24956,7 @@
       ],
       "lifecycle": "historical",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/remote_readiness_criteria.schema.json",
       "preliminary": true,
       "related_files": [
@@ -24986,7 +24986,7 @@
       ],
       "lifecycle": "historical",
       "machine_readable": true,
-      "owner": "Ordóñez",
+      "owner": "Ord\u00f3\u00f1ez",
       "path": "docs/schemas/remote_readiness_report.schema.json",
       "preliminary": true,
       "related_files": [
@@ -33610,20 +33610,74 @@
     },
     {
       "doc_id": "DEVPL-FULL-REGRESSION-V2-3",
-      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_3_0.md",
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_4_0.md",
       "classification": "source-of-truth",
       "domain": "governance.testing",
-      "owner": "FRX-v2.3-D",
+      "owner": "FRX-v2.3-E",
       "status_required": "approved",
       "criticality": "P1",
       "required_tests": [
-        "tests/test_frx_v2_3_d_parallel_canary.py"
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
       ],
       "sync_rules": [
         "test_must_pass"
       ],
       "roadmap_milestones": [
-        "FRX-v2.3-D"
+        "FRX-v2.3-E"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": [
+        "Active v2.3 backlog reconciled for the one-full closure micro-sprint."
+      ]
+    },
+    {
+      "doc_id": "05_PROMPT_FRX_V2_3_E_WINDOWS_CLOSURE_V1_0_1_REBOUND_REPO396",
+      "path": "05_PROMPT_FRX_V2_3_E_WINDOWS_CLOSURE_v1_0_1_REBOUND_REPO396.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-E",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-E"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/adr/ADR-FRX-004-one-full-hybrid-safe-parallel.md"
+      ],
+      "notes": [
+        "Owner-approved E prompt rebound to repo396."
+      ]
+    },
+    {
+      "doc_id": "ADR-FRX-004",
+      "path": "docs/adr/ADR-FRX-004-one-full-hybrid-safe-parallel.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-E",
+      "status_required": "accepted",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-E"
       ],
       "lifecycle": "active",
       "frontmatter_required": true,
@@ -33631,9 +33685,137 @@
       "machine_readable_counterparts": [],
       "related_adrs": [],
       "notes": []
+    },
+    {
+      "doc_id": "FRX-V2-3-E-POLICY",
+      "path": ".devpilot/testing/frx_v2_3_e_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-E",
+      "status_required": "IMPLEMENTED/PENDING-WINDOWS-ONE-FULL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-E"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/adr/ADR-FRX-004-one-full-hybrid-safe-parallel.md"
+      ],
+      "notes": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FRX-V2-3-E-SAFE-PARALLEL-FULL-PLAN-V1",
+      "path": "docs/schemas/safe_parallel_full_plan.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-E"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-FRX-V2-3-E-PERFORMANCE-REPORT-V1",
+      "path": "docs/schemas/safe_parallel_full_performance_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-E"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": []
+    },
+    {
+      "doc_id": "FRX-V2-3-E-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/FRX_V2_3_E_IMPLEMENTATION_REPORT.md",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-E",
+      "status_required": "implemented-pending-windows-full",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-E"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [
+        "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-FRX-004-one-full-hybrid-safe-parallel.md"
+      ],
+      "notes": []
+    },
+    {
+      "doc_id": "FRX-V2-3-E-WINDOWS-CLOSURE-REPORT",
+      "path": "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "owner": "FRX-v2.3-E",
+      "status_required": "PENDING-WINDOWS-ONE-FULL",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3-E"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": false,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/adr/ADR-FRX-004-one-full-hybrid-safe-parallel.md"
+      ],
+      "notes": []
     }
   ],
-  "last_registered_sprint": "FRX-v2.3-D",
+  "last_registered_sprint": "FRX-v2.3-E",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -33736,7 +33918,7 @@
     "FRX-v2.3-BR inserts explicit isolation evidence and runtime-safe promotion after C Amdahl NO-GO; candidate membership never authorizes parallel execution.",
     "FRX-v2.3-D adds a bounded same-subset serial/two-worker canary; default parallel execution and the v2.3 full remain disabled until Windows evidence and E closure."
   ],
-  "owner": "Ordóñez",
+  "owner": "Ord\u00f3\u00f1ez",
   "phase": "POST-FASE-H",
   "preliminary": true,
   "project_state_snapshot": {
@@ -33858,7 +34040,7 @@
       "POST-H-013-E closes Audit pack integrity as implemented-initial: audit-pack-integrity is bound to hardening/industrial quality-gate profiles and validates policy, no-go gates, redaction report, build-v2 dry-run, TCR registration and no-certification docs without writing packs or enabling network, external APIs, KMS, remote execution, connector write or plugin execution.",
       "POST-H-014 is the next prioritized hito: UI/API industrial shell.",
       "POST-H-014-A approves UI/API industrial shell and adds ApiRouteContractRegistry for local FastAPI route inventory.",
-      "POST-H-014-B is the next micro-sprint: Response mapping y errores homogéneos.",
+      "POST-H-014-B is the next micro-sprint: Response mapping y errores homog\u00e9neos.",
       "POST-H-014-B adds homogeneous response mapping for the local UI/API shell: CommandResult/ApplicationResponse HTTP mapping, 422 validation errors and redacted technical exception payloads.",
       "POST-H-014-C is the next micro-sprint: UI Route Contract y shell de producto.",
       "POST-H-014-C adds UI Route Contract Registry and local product shell badges/states for Dashboard, Reports, Traces, Approvals and Settings.",
@@ -33898,8 +34080,8 @@
       "POST-H-018-E adds ConnectorSandboxQualityGate and integrates connector-sandbox into quality-gate hardening/industrial profiles without enabling connector write, network, external APIs, remote execution or plugin execution.",
       "POST-H-018-E adds the approved connector sandbox runbook and threat model with no-go gates for read-only/replay/dry-run operation.",
       "POST-H-018 closes Connector sandbox avanzado as implemented-initial; future connector write or external integration requires ADR, threat model, approvals, RBAC, observability and additional quality gates.",
-      "POST-H-019 is the next prioritized hito: Plugin sandbox design sin ejecución arbitraria.",
-      "POST-H-019-A approves Plugin sandbox design sin ejecución arbitraria and adds plugin_sandbox_threat_model plus plugin_sandbox_design as metadata-only/validator-only architecture without enabling plugin execution, importlib, subprocess, network, external APIs, pip install, marketplace or remote execution.",
+      "POST-H-019 is the next prioritized hito: Plugin sandbox design sin ejecuci\u00f3n arbitraria.",
+      "POST-H-019-A approves Plugin sandbox design sin ejecuci\u00f3n arbitraria and adds plugin_sandbox_threat_model plus plugin_sandbox_design as metadata-only/validator-only architecture without enabling plugin execution, importlib, subprocess, network, external APIs, pip install, marketplace or remote execution.",
       "POST-H-019-B is the next micro-sprint: Permission model y manifest hardening.",
       "POST-H-019-B adds PluginPermissionModel schema and .devpilot/plugins/plugin_permission_model.json with deny-by-default allowlist/denylist semantics.",
       "POST-H-019-B hardens Plugin Registry manifest validation so unknown permissions and denied execution permissions such as plugin.code.execute are blocked.",
@@ -33907,7 +34089,7 @@
       "POST-H-019-C adds PluginExposureReporter, PluginSandboxDesignReport schema and plugin dry-run --all --dry-run --write-report to produce exposure evidence with execution_allowed_total=0.",
       "POST-H-019-D adds plugin-sandbox-design quality subgate to hardening/industrial profiles without enabling plugin execution, importlib, subprocess, network, external APIs, pip install, marketplace or filesystem write.",
       "POST-H-019-D validates PluginRegistry, PluginPermissionModel, PluginExposureReporter and plugin-ecosystem fixture signal as implemented-initial quality-gate evidence.",
-      "POST-H-019-E closes Plugin sandbox design sin ejecución arbitraria as implemented-initial: metadata-only registry, permission model, static validator, dry-run exposure report, quality gate, runbook and ADR trigger are synchronized without enabling plugin execution.",
+      "POST-H-019-E closes Plugin sandbox design sin ejecuci\u00f3n arbitraria as implemented-initial: metadata-only registry, permission model, static validator, dry-run exposure report, quality gate, runbook and ADR trigger are synchronized without enabling plugin execution.",
       "POST-H-019 remains metadata-only; future plugin execution requires ADR, sandbox, RBAC, approvals, tests, observability and rollback.",
       "POST-H-019-E fixes inherited TCR v2 enum drift: post-h-019-plugin-sandbox-design uses execution_profile=release instead of invalid hardening.",
       "POST-H-020 is the next prioritized hito: Compliance mapping packs ampliados.",
@@ -33921,7 +34103,7 @@
       "POST-H-020-C adds ComplianceEvidenceCollector for local metadata-only inspection of declared evidence source_paths without executing source_command values.",
       "POST-H-020-C adds ComplianceMappingReporter and compliance mapping report CLI to generate non-certifying local reports under outputs/reports by default, with explicit output paths supported.",
       "POST-H-020-C keeps certification_claimed=false, legal_advice_claimed=false, commands_executed=false, network_used=false and external_api_used=false.",
-      "POST-H-020-D is the next micro-sprint: Integración con audit packs y quality gate.",
+      "POST-H-020-D is the next micro-sprint: Integraci\u00f3n con audit packs y quality gate.",
       "POST-H-020-D adds ComplianceMappingQualityGate and quality-gate compliance-mapping-pack subgate for hardening/industrial profiles.",
       "POST-H-020-D adds non-certifying compliance_mapping summary metadata to AuditPackV2 manifests without exporting evidence or claiming certification.",
       "POST-H-020-D integrates compliance-pack-integrity eval fixture signal into the compliance mapping quality gate.",
@@ -33961,7 +34143,7 @@
       "POST-H-022-E adds enterprise design runbook, go/no-go checklist and closure report for Enterprise deployment threat model.",
       "POST-H-022 closes Enterprise deployment threat model as implemented-initial/design-only; enterprise-ready claims remain blocked.",
       "POST-H-023 is the next prioritized hito for secure transport design without active network enablement.",
-      "POST-H-023-A approves Secure transport design sin implementación activa and starts requirements/threat modeling.",
+      "POST-H-023-A approves Secure transport design sin implementaci\u00f3n activa and starts requirements/threat modeling.",
       "POST-H-023-A adds SecureTransportRequirements schema and design-only requirements instance with transport_implemented=false and network_allowed=false.",
       "POST-H-023-B is the next micro-sprint: Protocol decision matrix y ADR.",
       "POST-H-023-B adds SecureTransportDesign protocol decision matrix and ADR-POSTH-005 as design-only evidence.",
@@ -33969,14 +34151,14 @@
       "POST-H-023-C is the next micro-sprint: Key/certificate lifecycle design.",
       "POST-H-023-C adds SecureTransportKeyLifecycle schema and design-only lifecycle instance without generating certificates or secrets.",
       "POST-H-023-C documents generation, storage, distribution, rotation and revocation design with raw_secret_storage_allowed=false.",
-      "POST-H-023-D is the next micro-sprint: Validator de diseño y no-network invariant.",
+      "POST-H-023-D is the next micro-sprint: Validator de dise\u00f1o y no-network invariant.",
       "POST-H-023-D adds SecureTransportDesignValidator and SecureTransportValidationReport schema as read-only design validation evidence.",
       "POST-H-023-D adds secure-transport-design-only quality subgate to hardening/industrial profiles without enabling transport, network, sockets, certificates, secrets or remote execution.",
       "POST-H-023-E is the next micro-sprint: Runbook y cierre.",
       "POST-H-023-E adds secure transport design runbook and closure report for design-only secure transport.",
-      "POST-H-023 closes Secure transport design sin implementación activa as implemented-initial/design-only; active transport, network, certificates, secrets and remote execution remain blocked.",
+      "POST-H-023 closes Secure transport design sin implementaci\u00f3n activa as implemented-initial/design-only; active transport, network, certificates, secrets and remote execution remain blocked.",
       "POST-H-024 is the next prioritized hito: Operator onboarding bootstrap.",
-      "POST-H-024-A approves Operator onboarding bootstrap and adds an operator playbook for idea → workspace → docs → readiness → backlog without conversational memory dependency.",
+      "POST-H-024-A approves Operator onboarding bootstrap and adds an operator playbook for idea \u2192 workspace \u2192 docs \u2192 readiness \u2192 backlog without conversational memory dependency.",
       "POST-H-024-A is implemented-initial/playbook-only: templates, bootstrap workflow, readiness preview and onboarding quality gate remain pending for POST-H-024-B/C/D/E.",
       "POST-H-024-B is the next micro-sprint: Templates de proyecto nuevo.",
       "POST-H-024-B adds versioned new-project Markdown templates and MIASI JSON templates for local-first project onboarding.",
@@ -34009,7 +34191,7 @@
       "POST-H-025-D is the next micro-sprint: No-go gates y claims validator.",
       "POST-H-025-D adds ProductionReadyClaimsValidator and production-ready-claims-validator quality subgate for hardening/industrial profiles.",
       "POST-H-025-D is implemented-initial/no-go-claims-validator: final declaration or BLOCK report remains pending for POST-H-025-E.",
-      "POST-H-025-E is the final micro-sprint: Declaración final o BLOCK report.",
+      "POST-H-025-E is the final micro-sprint: Declaraci\u00f3n final o BLOCK report.",
       "POST-H-025-E adds ProductionReadyFinalDeclaration and industrial-readiness production-ready-local-final CLI.",
       "POST-H-025 closes as production-ready-local with bounded local-first claims; enterprise, compliance, remote and SaaS claims remain false.",
       "POST-H-026-A starts Release candidate local y verificacion de operador with EvidenceFreshnessReport schema, local RC criteria and read-only freshness scanner.",
@@ -36149,20 +36331,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1452,
-    "source_of_truth_total": 542,
-    "machine_readable_source_total": 743,
-    "derived_total": 148,
+    "documents_total": 1459,
+    "source_of_truth_total": 544,
+    "machine_readable_source_total": 746,
+    "derived_total": 150,
     "generated_runtime_total": 0,
     "historical_total": 19,
     "deprecated_total": 0,
-    "critical_sources_total": 1357,
-    "markdown_json_pairs_total": 65,
-    "documents_with_required_tests_total": 1452,
+    "critical_sources_total": 1364,
+    "markdown_json_pairs_total": 66,
+    "documents_with_required_tests_total": 1459,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_registered_sprint": "FRX-v2.3-D"
+    "last_registered_sprint": "FRX-v2.3-E"
   },
   "updated": "2026-09-03",
   "updated_at": "2026-09-03",

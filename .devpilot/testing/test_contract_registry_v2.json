@@ -1691,7 +1691,7 @@
       ],
       "safety_exception": {
         "justification": "Tests intentionally mutate isolated temporary workspace fixtures to prove approval-bound execution and rollback; platform source and real pilot remain read-only.",
-        "approved_by": "Ordóñez",
+        "approved_by": "Ord\u00f3\u00f1ez",
         "expires_at_utc": "2027-08-18T23:59:59Z",
         "scope": "pytest tmp_path / GSDLC-03-D controlled E2E workspace fixtures only",
         "rollback_or_cleanup": "pytest temporary directories are deleted; fault-injection tests assert rollback residue=0 and writes outside workspace=0."
@@ -1810,7 +1810,7 @@
       "schema_ids": [],
       "safety_exception": {
         "justification": "Browser acceptance intentionally materializes/opens/imports isolated fixtures under DevPilot_E2E_Evaluation through the normal API journey; platform source and pilot remain protected.",
-        "approved_by": "Ordóñez",
+        "approved_by": "Ord\u00f3\u00f1ez",
         "expires_at_utc": "2027-08-18T23:59:59Z",
         "scope": "GSDLC-03-E controlled browser fixtures only; no pilot, no remote Git, no silent network",
         "rollback_or_cleanup": "Harness records fixture roots and final manifests; rollback scenario must leave its target absent and no writes outside fixture root."
@@ -1914,7 +1914,7 @@
         "SCHEMA-DEVPL-GSDLC-04-A-ARTIFACT-LIFECYCLE-POLICY-V1"
       ],
       "notes": [
-        "A→D use cumulative/selective validation; full regression remains reserved for 04-E.",
+        "A\u2192D use cumulative/selective validation; full regression remains reserved for 04-E.",
         "Runtime-ephemeral DBs remain excluded from fixture/source state."
       ]
     },
@@ -2016,7 +2016,7 @@
         "SCHEMA-DEVPL-GSDLC-04-B-ARTIFACT-DRAFT-STORE-RECORD-V1"
       ],
       "notes": [
-        "A→D use focal/cumulative validation. 04-E owns the single backlog full regression.",
+        "A\u2192D use focal/cumulative validation. 04-E owns the single backlog full regression.",
         "Runtime draft outputs and DB stores are excluded from source packages."
       ]
     },
@@ -2119,7 +2119,7 @@
         "SCHEMA-DEVPL-GSDLC-04-C-ARTIFACT-IMPORT-RECORD-V1"
       ],
       "notes": [
-        "A→D use focal/cumulative/impact validation. 04-E owns the single backlog full regression.",
+        "A\u2192D use focal/cumulative/impact validation. 04-E owns the single backlog full regression.",
         "Runtime import outputs and DB stores are excluded from source packages."
       ]
     },
@@ -2224,11 +2224,11 @@
         "SCHEMA-DEVPL-GSDLC-04-D-ARTIFACT-APPLY-EXECUTION-V1"
       ],
       "notes": [
-        "A→D use focal/cumulative/impact validation. 04-E owns the single backlog full regression."
+        "A\u2192D use focal/cumulative/impact validation. 04-E owns the single backlog full regression."
       ],
       "safety_exception": {
         "justification": "GSDLC-04-D intentionally mutates exactly one declared artifact only after deterministic validation, immutable plan/diff, authenticated owner RBAC, exact human approval, fresh preimage revalidation and UOC-005 atomic apply; tests use isolated temporary/browser fixtures and never mutate the real pilot.",
-        "approved_by": "Ordóñez / DEVPL-GSDLC-04 owner-approved scope",
+        "approved_by": "Ord\u00f3\u00f1ez / DEVPL-GSDLC-04 owner-approved scope",
         "expires_at_utc": "2027-08-22T23:59:59Z",
         "scope": "GSDLC-04-D exact approval-bound artifact apply in isolated governed workspace fixtures only; no generic patch/shell/Git/remote/network authority.",
         "rollback_or_cleanup": "UOC-005 compensating rollback restores the exact preimage for modify or removes only the newly created target for create; pytest/browser fixtures are isolated and disposable."
@@ -2335,7 +2335,7 @@
       ],
       "safety_exception": {
         "justification": "Tests/browser intentionally edit isolated fixture artifacts to prove detection/invalidation; no pilot or DevPilot source is used as the external-edit target.",
-        "approved_by": "Ordóñez / DEVPL-GSDLC-04 owner-approved scope",
+        "approved_by": "Ord\u00f3\u00f1ez / DEVPL-GSDLC-04 owner-approved scope",
         "expires_at_utc": "2027-08-22T23:59:59Z",
         "scope": "GSDLC-04-E isolated browser/pytest fixture edits only; no arbitrary shell/network/remote/pilot authority.",
         "rollback_or_cleanup": "Fixtures are disposable; browser guide uses bounded named files and preserves evidence. Reconciliation never auto-reverts source."
@@ -2865,7 +2865,7 @@
       ],
       "safety_exception": {
         "justification": "Owner-approved GSDLC-05-E closure requires human-driven approval-bound writes only inside the dedicated local browser acceptance fixture workspace.",
-        "approved_by": "Ordóñez / DEVPL-GSDLC-05 owner-approved backlog scope",
+        "approved_by": "Ord\u00f3\u00f1ez / DEVPL-GSDLC-05 owner-approved backlog scope",
         "expires_at_utc": "2026-12-31T23:59:59Z",
         "scope": "Dedicated GSDLC-05-E local acceptance fixture; no pilot workspace and no external API/network.",
         "rollback_or_cleanup": "Delete the dedicated fixture workspace after evidence packaging; candidate source archive excludes runtime/fixture state."
@@ -22290,6 +22290,66 @@
         "docs/schemas/frx_v2_3_d_canary_manifest.schema.json",
         "docs/schemas/parallel_canary_report.schema.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.3-e-one-full-safe-parallel-closure",
+      "source_contract_id": "frx-v2.3-e-one-full-safe-parallel-closure",
+      "schema_version": "2.0",
+      "domain": "governance.testing",
+      "capability": "FRXV2_3EOneFullSafeParallelClosure",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/safe_parallel_full.py",
+        ".devpilot/testing/frx_v2_3_e_policy.json",
+        "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json"
+      ],
+      "validates": [
+        "single-full budget contract",
+        "hybrid safe/serial planning",
+        "exact coverage",
+        "performance attribution",
+        "no second full"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.3-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Focal contract is read-only. The single full is executed only by the external governed Windows operator and is not part of this test contract."
+      ],
+      "trigger_hints": [
+        "frx-v2.3-e",
+        "one-full",
+        "safe-parallel"
+      ],
+      "impact_tags": [
+        "testing",
+        "parallel-safety",
+        "full-regression",
+        "performance"
+      ],
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "schema_ids": [
+        "docs/schemas/safe_parallel_full_plan.schema.json",
+        "docs/schemas/safe_parallel_full_performance_report.schema.json"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22453,5 +22513,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 311
+  "contracts_total": 312
 }

@@ -1,0 +1,9 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_3_e_windows_closure_report.v1",
+  "status": "PENDING-WINDOWS-ONE-FULL",
+  "decision": "PENDING",
+  "full_regression_runs": 0,
+  "second_full": false,
+  "source_repo": "repo_DevPilot_Local_396_FRX_V2_3_D_BOUNDED_PARALLEL_CANARY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "8b0bc3517c79120eb5ebbaf00e57576d1292a34a"
+}

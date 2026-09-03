@@ -6553,3 +6553,5 @@ FRX-v2.3-D está implementado y pendiente de validación Windows. Añade `python
 
 ### FRX-v2.3-D Windows closure
 FRX-v2.3-D está `CLOSED/PASS/WINDOWS-VALIDATED`: mismo canary 2-nodeid serial/paralelo, outcome parity PASS, workers<=2, full=0, speedup incremental `41.384%`. Esta evidencia autoriza preparar FRX-v2.3-E; no activa paralelismo por defecto ni consume la única full v2.3.
+
+FRX-v2.3-E: safe bounded one-full closure is implemented and pending the single authoritative Windows full; max workers=2, no comparison full.

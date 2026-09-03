@@ -1,0 +1,23 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_3_e_policy.v1",
+  "version": "1.0.0",
+  "status": "IMPLEMENTED/PENDING-WINDOWS-ONE-FULL",
+  "source_repo": "repo_DevPilot_Local_396_FRX_V2_3_D_BOUNDED_PARALLEL_CANARY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "8b0bc3517c79120eb5ebbaf00e57576d1292a34a",
+  "max_workers": 2,
+  "full_regression_runs_allowed": 1,
+  "full_regression_runs_consumed": 0,
+  "second_full_allowed": false,
+  "default_enablement_threshold_percent": 30.0,
+  "serial_lane": {
+    "planner": "deterministic-lpt-sequential",
+    "target_shard_seconds": 900.0,
+    "max_nodeids": 200,
+    "nodeid_transport": "manifest"
+  },
+  "completion_first": true,
+  "parallel_safe_required": true,
+  "unknown_parallel_forbidden": true,
+  "strong_fingerprint_fallbacks_expected": 0,
+  "corrective_policy": "selective/composite-recovery-only; no second full"
+}

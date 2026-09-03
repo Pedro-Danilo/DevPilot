@@ -11919,3 +11919,5 @@ El canary D es focal y no reemplaza la full. Debe ejecutarse exclusivamente medi
 
 ### FRX-v2.3-D Windows closure
 Cierre focal Windows PASS: serial `70.000s`, paralelo `41.031s`, mejora incremental `41.384%`, workers<=2, full=0, browser=0. FRX-v2.3-E queda autorizado exclusivamente para la única full v2.3 y debe conservar serial fallback para unknown/unsafe/conflicting.
+
+FRX-v2.3-E implementation: use only the governed Windows one-full operator. Any interruption resumes the same logical session; never start a second full.

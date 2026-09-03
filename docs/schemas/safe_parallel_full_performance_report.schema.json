@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/safe_parallel_full_performance_report.schema.json",
+  "title": "Safe Parallel Full Performance Report",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "status",
+    "decision",
+    "safety_pass",
+    "full_regression_runs",
+    "second_full"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.testing.safe_parallel_full_performance_report.v1"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "decision": {
+      "enum": [
+        "BLOCK",
+        "PASS/DEFAULT-ENABLED",
+        "PASS/AVAILABLE-NOT-DEFAULT"
+      ]
+    },
+    "safety_pass": {
+      "type": "boolean"
+    },
+    "full_regression_runs": {
+      "const": 1
+    },
+    "second_full": {
+      "const": false
+    }
+  },
+  "additionalProperties": true
+}
