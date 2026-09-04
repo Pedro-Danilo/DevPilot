@@ -3227,3 +3227,5 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Added requirement/risk coverage findings, review/diff, server-role approval and immutable freeze revisions.
 - Added project-scoped `/planning/roadmap` UI and five protected API routes; no external API/model call is required for acceptance.
 - Full regression runs remain `0`; browser focal Windows validation is pending.
+
+- GSDLC-08-B R05: bound all five Roadmap Workbench API operations into the local API PolicyEngine and corrected the Windows validation runtime so application/RBAC authority is rooted in the B worktree while the human auth store remains in the official checkout; no full regression consumed.

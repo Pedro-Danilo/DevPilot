@@ -8,6 +8,8 @@ import pytest
 from devpilot_core.planning.roadmap_workbench import RoadmapWorkbench
 from devpilot_core.planning.service import PlanningPolicyError
 from devpilot_core.schemas.validator import SchemaValidator
+from devpilot_core.interfaces.api.security import resolve_route_policy
+from devpilot_core.identity.server_rbac import ServerRBACEnforcer
 
 
 def roadmap(*, include_risk: bool = True, version: str = "1.0.0") -> dict:
@@ -107,6 +109,20 @@ def test_route_rbac_ui_and_safety_registries_are_reconciled() -> None:
     for row in api['routes']:
         if row['route_id'] in ids:
             assert row['external_api_allowed'] is False and row['source_mutation_allowed'] is False
+
+    expected={
+        ("GET","/api/v1/planning/roadmap"):"planning.roadmap.status",
+        ("POST","/api/v1/planning/roadmap/proposals"):"planning.roadmap.propose",
+        ("POST","/api/v1/planning/roadmap/review"):"planning.roadmap.review",
+        ("POST","/api/v1/planning/roadmap/approve"):"planning.roadmap.approve",
+        ("POST","/api/v1/planning/roadmap/freeze"):"planning.roadmap.freeze",
+    }
+    server=ServerRBACEnforcer(root)
+    for (method,path),operation in expected.items():
+        static_policy=resolve_route_policy(method,path)
+        assert static_policy is not None and static_policy.operation == operation
+        server_policy=server.route_policy(method,path)
+        assert server_policy is not None and server_policy['operation'] == operation
 
 
 def test_b_does_not_consume_full_regression() -> None:
