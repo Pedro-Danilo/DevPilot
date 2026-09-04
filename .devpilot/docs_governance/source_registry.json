@@ -34219,7 +34219,7 @@
       "path": "docs/audits/DEVPL_GSDLC_08_B_IMPLEMENTATION_REPORT.md",
       "classification": "derived",
       "owner": "Ordóñez",
-      "status_required": "implemented/windows-pending",
+      "status_required": "closed/windows-validated",
       "frontmatter_required": true,
       "machine_readable_counterparts": [
         "docs/audits/DEVPL_GSDLC_08_B_BROWSER_ACCEPTANCE.json"
@@ -34293,7 +34293,7 @@
       "path": "docs/audits/DEVPL_GSDLC_08_B_BROWSER_ACCEPTANCE.json",
       "classification": "derived",
       "owner": "DEVPL-GSDLC-08-B",
-      "status_required": "PENDING",
+      "status_required": "PASS",
       "frontmatter_required": false,
       "machine_readable_counterparts": []
     }

@@ -3229,3 +3229,7 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Full regression runs remain `0`; browser focal Windows validation is pending.
 
 - GSDLC-08-B R05: bound all five Roadmap Workbench API operations into the local API PolicyEngine and corrected the Windows validation runtime so application/RBAC authority is rooted in the B worktree while the human auth store remains in the official checkout; no full regression consumed.
+
+## GSDLC-08-B Windows closure
+
+GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance PASS; MANUAL/IMPORT/AGENT share one governed schema, server RBAC controls approval/freeze, full regression runs=0. GSDLC-08-C authorized. Current candidate: `repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`.

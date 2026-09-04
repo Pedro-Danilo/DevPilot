@@ -545,3 +545,8 @@ GSDLC-08-A planning domain: `IMPLEMENTED/WINDOWS-PENDING`; six schemas + lifecyc
 ### DEVPL-GSDLC-08-B — Roadmap Workbench — implementation candidate
 
 Status: `IMPLEMENTED/WINDOWS-PENDING`. Source authority: repo399 / `0c2720a019b2e819d7348cc8ecf8a0c0c06dc073`. Browser focal is required; full regression remains reserved for GSDLC-08-E. 08-C remains fail-closed until Windows PASS.
+
+
+## GSDLC-08-B Windows closure
+
+GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance PASS; MANUAL/IMPORT/AGENT share one governed schema, server RBAC controls approval/freeze, full regression runs=0. GSDLC-08-C authorized. Current candidate: `repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`.

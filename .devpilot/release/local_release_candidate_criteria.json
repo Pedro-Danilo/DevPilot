@@ -7,8 +7,8 @@
       "critical": true,
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
-        "current_micro_sprint": "DEVPL-GSDLC-08-B",
-        "current_repo": "repo_DevPilot_Local_399_DEVPL_GSDLC_08_A_PLANNING_DOMAIN_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_micro_sprint": "DEVPL-GSDLC-08-C",
+        "current_repo": "repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
         "next_micro_sprint": "DEVPL-GSDLC-08-C",
@@ -104,7 +104,7 @@
       "path": "README.md",
       "producer_sprint": "POST-H-026-D",
       "required_markers": [
-        "POST-H-026-D \u2014 Local install and run verification",
+        "POST-H-026-D — Local install and run verification",
         "release-candidate install-smoke"
       ],
       "title": "README and runbook document POST-H-026-A"
@@ -117,7 +117,7 @@
       "path": "docs/05_operations/runbook.md",
       "producer_sprint": "POST-H-026-D",
       "required_markers": [
-        "POST-H-026-D \u2014 Local install and run verification",
+        "POST-H-026-D — Local install and run verification",
         "release-candidate install-smoke"
       ],
       "title": "Operations runbook documents POST-H-026-A"
@@ -230,7 +230,7 @@
       "path": "README.md",
       "producer_sprint": "POST-H-026-C",
       "required_markers": [
-        "POST-H-026-C \u2014 UI/API local smoke under RC",
+        "POST-H-026-C — UI/API local smoke under RC",
         "release-candidate ui-api-smoke"
       ],
       "title": "README/runbook document POST-H-026-C"
@@ -690,7 +690,7 @@
     }
   ],
   "expected_current_micro_sprint": "DEVPL-GSDLC-08-B",
-  "expected_current_repo": "repo_DevPilot_Local_399_DEVPL_GSDLC_08_A_PLANNING_DOMAIN_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_next_micro_sprint": "FRX-v2.2-D",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",

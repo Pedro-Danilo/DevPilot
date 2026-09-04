@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-08-B-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-08-B — Roadmap Workbench implementation report"
-status: "implemented/windows-pending"
+status: "closed/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-03"
-approval: "local-focal-pass/windows-browser-required"
+approval: "windows-browser-pass"
 ---
 # DEVPL-GSDLC-08-B — Implementation report
 
@@ -34,9 +34,12 @@ This is the first Roadmap Workbench version. It does not yet derive epics/storie
 - Full regression runs: 0.
 - Real browser acceptance remains Windows-authoritative and PENDING.
 
-
 ## R05 — Browser API authorization binding correction
 
 Windows browser evidence showed the Roadmap Workbench route itself was reachable and Project Status was recovered, while `GET /api/v1/planning/roadmap` returned HTTP 403. The cause was a split authorization authority in the pre-close validation runtime: the API transport security map did not contain the five GSDLC-08-B roadmap operations, and the validation API was rooted at repo399 while the server-RBAC catalog containing those operations lived in the B worktree.
 
 The correction adds the five explicit `ApiRoutePolicy` bindings and requires the Windows API runtime to instantiate the application against the B worktree while retaining only the authentication service/store in the official checkout. This preserves server-authoritative RBAC, source/runtime separation, local-only operation and `full=0`.
+
+## Windows closure
+
+Browser acceptance PASS using exactly three foreground consoles. MANUAL/IMPORT/AGENT routes were demonstrated, requirement coverage BLOCK remained visible, AGENT output remained DRAFT, and owner/product-owner approval/freeze produced an immutable revision. Full regression runs remained 0. GSDLC-08-C is authorized.

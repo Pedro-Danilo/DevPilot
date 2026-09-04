@@ -6575,3 +6575,8 @@ GSDLC-08-A está `CLOSED/PASS/WINDOWS-VALIDATED`: planning domain contracts/life
 ## DEVPL-GSDLC-08-B — Roadmap Workbench (Windows pending)
 
 Roadmap Workbench is implemented on repo399 with shared MANUAL/IMPORT/AGENT structured authoring, explicit coverage/provenance, server-authoritative review/approval/freeze and project-scoped UI `/planning/roadmap`. Product writes are runtime planning artifacts only; source code mutation and external API requirements remain disabled. `full=0`; browser focal acceptance is required before 08-B closure and 08-C authorization.
+
+
+## GSDLC-08-B Windows closure
+
+GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance PASS; MANUAL/IMPORT/AGENT share one governed schema, server RBAC controls approval/freeze, full regression runs=0. GSDLC-08-C authorized. Current candidate: `repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`.
