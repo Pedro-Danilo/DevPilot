@@ -22535,6 +22535,84 @@
         "rollback_or_cleanup": "Runtime roadmap proposals are revisioned under outputs/planning/gsdlc_08_b and may be discarded/recreated without rewriting managed source or Git history. Frozen revisions are immutable and successor revisions are created instead of overwriting them.",
         "scope": "GSDLC-08-B runtime-only Roadmap Workbench proposal/review/approve/freeze state mutations"
       }
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-c-backlog-derivation-prioritization",
+      "source_contract_id": "devpl-gsdlc-08-c-backlog-derivation-prioritization",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "GSDLC08CBacklogDerivationPrioritization",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "manual",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/backlog_workbench.py",
+        "src/devpilot_core/application/backlog_workbench_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/planning_backlog.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "100% required requirement coverage",
+        "orphan/duplicate/dependency negatives",
+        "acceptance criteria required",
+        "priority schema+rationale+source",
+        "manual precedence",
+        "agent proposal no auto approval",
+        "human RBAC freeze",
+        "ApplicationService boundary",
+        "historical contract successor preservation",
+        "full=0/browser=0"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-08-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Product runtime writes only outputs/planning/gsdlc_08_c; managed source mutation is forbidden.",
+        "C adds no browser route; browser acceptance is intentionally zero."
+      ],
+      "trigger_hints": [
+        "gsdlc-08-c",
+        "backlog-workbench",
+        "requirement-coverage",
+        "priority-rationale"
+      ],
+      "impact_tags": [
+        "planning",
+        "backlog",
+        "traceability",
+        "rbac"
+      ],
+      "owner_domain": "application.service",
+      "service_boundary": "planning",
+      "schema_ids": [
+        "docs/schemas/planning_backlog.schema.json"
+      ],
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-08-C owner-approved prompt v1.0.1 rebound repo400",
+        "expires_at_utc": "2027-09-04T23:59:59Z",
+        "justification": "Backlog Workbench intentionally writes only bounded runtime planning DRAFT/review/approval/frozen revision state under outputs after authenticated human operations. Managed source mutation, arbitrary shell, external API/model execution and agent auto-approval remain prohibited.",
+        "rollback_or_cleanup": "Runtime backlog proposals are revisioned under outputs/planning/gsdlc_08_c and may be discarded/recreated without rewriting managed source or Git history. Frozen revisions are immutable and require successor semantic versions.",
+        "scope": "GSDLC-08-C runtime-only backlog proposal/review/approve/freeze state mutations"
+      }
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22698,5 +22776,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 315
+  "contracts_total": 316
 }

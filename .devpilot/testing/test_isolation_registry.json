@@ -2,9 +2,9 @@
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
   "version": "1.0.0",
   "status": "implemented-initial",
-  "updated": "2026-09-03T23:30:00Z",
-  "source_commit": "0c2720a019b2e819d7348cc8ecf8a0c0c06dc073",
-  "collection_sha256": "69aa34e2cd5573277877566bc67820a206fc68cd23e204e101967319100dd4b2",
+  "updated": "2026-09-04T21:00:00Z",
+  "source_commit": "0533d7427181fd3e3e39635d136540f1f127c3e3",
+  "collection_sha256": "74e410827d9a04021b605b16b2397e28b28efb8c035afc462c1880662f292e9e",
   "policy": {
     "default_state": "UNCLASSIFIED",
     "default_parallel_safe": false,
@@ -106009,7 +106009,187 @@
         "last_seen": "2026-09-01T00:42:54Z"
       },
       "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_requirement_coverage_is_100_and_matrix_is_explainable",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_unmapped_requirement_blocks_review_and_approval",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_duplicate_story_and_dependency_gap_are_explicit_blockers",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_story_without_acceptance_criteria_blocks",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_priority_requires_rationale_scores_and_matching_provenance",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_manual_edits_prevail_over_agent_or_derived_same_version",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_agent_is_draft_only_and_human_review_approval_freeze_are_role_bound",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_backlog_schema_validates_shared_payload",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_08_c_contract_is_registered_full_zero_and_browser_zero",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_c_backlog_workbench.py::test_application_service_exposes_backlog_workbench_without_browser_route",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
     }
   ],
-  "registry_sha256": "61be8ff2b990d92d7c77925c9e32029b53aaa64a81ce1cd4fae9f28a10d266fe"
+  "registry_sha256": "6c11ada0887da0f6026fb6c5c053ebdc7e0bccf71b658310ca8cb7754104b941"
 }

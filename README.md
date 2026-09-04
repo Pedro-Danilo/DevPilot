@@ -6580,3 +6580,11 @@ Roadmap Workbench is implemented on repo399 with shared MANUAL/IMPORT/AGENT stru
 ## GSDLC-08-B Windows closure
 
 GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance PASS; MANUAL/IMPORT/AGENT share one governed schema, server RBAC controls approval/freeze, full regression runs=0. GSDLC-08-C authorized. Current candidate: `repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+## DEVPL-GSDLC-08-C — Backlog derivation and prioritization — 2026-09-04
+
+GSDLC-08-C is `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING` on the repo400 successor. It adds runtime-only `BacklogWorkbench` and deterministic `RequirementCoverageService`, a successor `SCHEMA-DEVPL-PLANNING-BACKLOG-V1`, requirement→story matrix, duplicate/orphan/dependency blockers, required acceptance criteria, and explicit priority level/value/risk with rationale/source. MANUAL edits prevail over same-version DERIVED/AGENT proposals; agent output is proposal-only and cannot self-approve. ApplicationService exposes `planning.backlog.*` operations, but C deliberately adds no browser route: `browser=0`, `full=0`. GSDLC-08-D remains blocked until Windows PASS and governed promotion of the C candidate.
+
+### DEVPL-GSDLC-08-C Windows closure
+
+GSDLC-08-C `CLOSED/PASS/WINDOWS-VALIDATED`. Required requirement→story coverage, priority rationale/provenance, duplicate/dependency/acceptance blockers, manual precedence and human role-bound freeze passed the Windows focal/impact contract. `browser=0`, `full=0`. GSDLC-08-D is authorized. Current candidate: `repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip`.

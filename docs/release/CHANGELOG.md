@@ -3233,3 +3233,17 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 ## GSDLC-08-B Windows closure
 
 GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance PASS; MANUAL/IMPORT/AGENT share one governed schema, server RBAC controls approval/freeze, full regression runs=0. GSDLC-08-C authorized. Current candidate: `repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+## 2026-09-04 — DEVPL-GSDLC-08-C backlog derivation candidate
+
+- Ratifies GSDLC-08-B Windows closure after the independent browser evidence supplement corrected distinct MANUAL/REVIEW and IMPORT/DRAFT proofs without source/Git mutation or full regression.
+- Adds runtime-only BacklogWorkbench and RequirementCoverageService.
+- Adds `SCHEMA-DEVPL-PLANNING-BACKLOG-V1` as successor instead of mutating frozen GSDLC-08-A entity schemas.
+- Enforces 100% mandatory requirement→story coverage, acceptance criteria, duplicate/dependency blockers, explicit priority rationale/source, manual precedence, and human role-bound approval/freeze.
+- Adds ApplicationService `planning.backlog.*` operations. No browser route in 08-C; browser=0 and full=0.
+
+## 2026-09-04 — DEVPL-GSDLC-08-C Windows closure
+
+- Windows focal/impact validation PASS with no browser run and no full regression.
+- GSDLC-08-C closes `CLOSED/PASS/WINDOWS-VALIDATED` and authorizes GSDLC-08-D.
+- Canonical successor candidate: `repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip`.

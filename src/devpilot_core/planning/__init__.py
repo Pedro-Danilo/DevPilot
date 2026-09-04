@@ -9,3 +9,5 @@ __all__ = [
 ]
 
 from .roadmap_workbench import AUTHORING_MODES, APPROVER_ROLES as ROADMAP_APPROVER_ROLES, AUTHOR_ROLES as ROADMAP_AUTHOR_ROLES, RoadmapFinding, RoadmapWorkbench
+
+from .backlog_workbench import AUTHORING_MODES as BACKLOG_AUTHORING_MODES, APPROVER_ROLES as BACKLOG_APPROVER_ROLES, AUTHOR_ROLES as BACKLOG_AUTHOR_ROLES, BacklogFinding, BacklogWorkbench, RequirementCoverageService

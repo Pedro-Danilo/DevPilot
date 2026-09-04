@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-09-03",
-  "sprint": "DEVPL-GSDLC-08-B",
+  "updated": "2026-09-04",
+  "sprint": "DEVPL-GSDLC-08-C",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3729,7 +3729,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-08-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-BACKLOG-V1",
+      "title": "Planning Backlog Authoring Payload",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_backlog.schema.json",
+      "description": "DEVPL-GSDLC-08-C shared backlog derivation/authoring contract with explicit priority provenance and traceability.",
+      "status": "registered",
+      "contract": "PlanningBacklog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-C"
     }
   ],
-  "schemas_total": 260
+  "schemas_total": 261
 }

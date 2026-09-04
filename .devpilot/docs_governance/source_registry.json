@@ -34296,6 +34296,129 @@
       "status_required": "PASS",
       "frontmatter_required": false,
       "machine_readable_counterparts": []
+    },
+    {
+      "domain": "planning",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08-C"
+      ],
+      "lifecycle": "active",
+      "derived_documents": [],
+      "related_adrs": [],
+      "notes": [],
+      "doc_id": "03_PROMPT_DEVPL_GSDLC_08_C_V1_0_1_REBOUND_REPO400",
+      "path": "03_PROMPT_DEVPL_GSDLC_08_C_v1_0_1_REBOUND_REPO400.md",
+      "classification": "source-of-truth",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "machine_readable_counterparts": []
+    },
+    {
+      "domain": "planning",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08-C"
+      ],
+      "lifecycle": "active",
+      "derived_documents": [],
+      "related_adrs": [],
+      "notes": [],
+      "doc_id": "SCHEMA-DEVPL-PLANNING-BACKLOG-V1",
+      "path": "docs/schemas/planning_backlog.schema.json",
+      "classification": "machine-readable-source",
+      "owner": "DEVPL-GSDLC-08-C",
+      "status_required": "registered",
+      "frontmatter_required": false,
+      "machine_readable_counterparts": []
+    },
+    {
+      "domain": "planning",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08-C"
+      ],
+      "lifecycle": "active",
+      "derived_documents": [],
+      "related_adrs": [],
+      "notes": [],
+      "doc_id": "DEVPL-GSDLC-08-C-IMPLEMENTATION-REPORT",
+      "path": "docs/audits/DEVPL_GSDLC_08_C_IMPLEMENTATION_REPORT.md",
+      "classification": "derived",
+      "owner": "Ordóñez",
+      "status_required": "closed/windows-validated",
+      "frontmatter_required": true,
+      "machine_readable_counterparts": [
+        "docs/audits/DEVPL_GSDLC_08_C_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json"
+      ]
+    },
+    {
+      "domain": "planning",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08-C"
+      ],
+      "lifecycle": "active",
+      "derived_documents": [],
+      "related_adrs": [],
+      "notes": [],
+      "doc_id": "DEVPL-GSDLC-08-C-HISTORICAL-CONTRACT-SWEEP",
+      "path": "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-08-C",
+      "status_required": "PASS",
+      "frontmatter_required": false,
+      "machine_readable_counterparts": []
+    },
+    {
+      "domain": "planning",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08-C"
+      ],
+      "lifecycle": "active",
+      "derived_documents": [],
+      "related_adrs": [],
+      "notes": [],
+      "doc_id": "DEVPL-GSDLC-08-C-TEST-IMPACT",
+      "path": "docs/audits/DEVPL_GSDLC_08_C_TEST_IMPACT.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-08-C",
+      "status_required": "PASS",
+      "frontmatter_required": false,
+      "machine_readable_counterparts": []
     }
   ],
   "last_registered_sprint": "DEVPL-GSDLC-08-B",
@@ -36816,25 +36939,21 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1478,
-    "source_of_truth_total": 550,
-    "machine_readable_source_total": 753,
-    "derived_total": 156,
+    "documents_total": 1483,
+    "source_of_truth_total": 551,
+    "machine_readable_source_total": 754,
+    "derived_total": 159,
     "generated_runtime_total": 0,
     "historical_total": 19,
     "deprecated_total": 0,
-    "critical_sources_total": 1383,
-    "markdown_json_pairs_total": 68,
-    "documents_with_required_tests_total": 1478,
-    "network_used": false,
-    "external_api_used": false,
-    "mutations_performed": true,
-    "last_registered_sprint": "DEVPL-GSDLC-08-B"
+    "critical_sources_total": 1388,
+    "markdown_json_pairs_total": 70,
+    "documents_with_required_tests_total": 1483
   },
-  "updated": "2026-09-03",
-  "updated_at": "2026-09-03T23:30:00Z",
-  "updated_by": "DEVPL-GSDLC-08-B",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-08-B",
+  "updated": "2026-09-04",
+  "updated_at": "2026-09-04T21:00:00Z",
+  "updated_by": "DEVPL-GSDLC-08-C-WINDOWS-CLOSURE",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-08-C",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_program_status": "active/GSDLC-08/08-A",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
@@ -36966,7 +37085,10 @@
   "gsdlc_07_b_browser_acceptance": "pending-windows",
   "gsdlc_07_c_status": "CLOSED/PASS",
   "gsdlc_07_d_status": "IMPLEMENTED-INITIAL/LOCAL-VALIDATION-PENDING",
-  "last_updated_by": "DEVPL-GSDLC-08-B",
+  "last_updated_by": "DEVPL-GSDLC-08-C-WINDOWS-CLOSURE",
   "frx_v2_2_status": "CLOSED/PASS",
-  "frx_v2_2_d_status": "CLOSED/PASS"
+  "frx_v2_2_d_status": "CLOSED/PASS",
+  "gsdlc_08_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "gsdlc_08_c_full_regression_runs": 0,
+  "gsdlc_08_c_browser_runs": 0
 }

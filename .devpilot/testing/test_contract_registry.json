@@ -13186,6 +13186,46 @@
         "docs/audits/DEVPL_GSDLC_08_B_BROWSER_ACCEPTANCE.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-c-backlog-derivation-prioritization",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-C",
+      "phase": "DEVPL-GSDLC-08",
+      "scope": "feature",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "validates": [
+        "required requirement→story coverage 100% or explicit blocker",
+        "duplicate story and dependency-gap detection",
+        "story acceptance criteria required",
+        "priority level/value/risk with rationale and provenance",
+        "manual edits prevail over same-version derived/agent proposals",
+        "agent proposals remain DRAFT and cannot self-approve",
+        "human role-bound review/approval/freeze",
+        "ApplicationService backlog boundary",
+        "browser=0",
+        "full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/backlog_workbench.py",
+        "src/devpilot_core/application/backlog_workbench_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/planning_backlog.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json",
+        ".devpilot/project_state.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -13264,5 +13304,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 315
+  "contracts_total": 316
 }

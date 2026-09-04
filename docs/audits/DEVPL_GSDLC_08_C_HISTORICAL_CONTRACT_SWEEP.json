@@ -1,0 +1,18 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-C-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "sprint": "DEVPL-GSDLC-08-C",
+  "classifications": [
+    {"subject":"GSDLC-08-A planning entity schemas","classification":"historical-freeze","action":"preserve V1 planning entity schemas; backlog priority contract is added as successor schema rather than mutating frozen A schemas"},
+    {"subject":"GSDLC-08-B Roadmap Workbench and browser closure","classification":"historical-freeze","action":"preserve repo400 B closure and use roadmap milestone ids as authority for backlog linkage"},
+    {"subject":"planning backlog schema/catalog/TCR/Project State","classification":"current-active/derived","action":"append C successor contracts and recompute derived counters"},
+    {"subject":"Backlog Workbench runtime artifacts under outputs/planning/gsdlc_08_c","classification":"runtime-ephemeral","action":"exclude runtime state from clean candidates and components"},
+    {"subject":"UI/API browser routes","classification":"current-active","action":"unchanged in C; no browser route added, browser_runs=0"}
+  ],
+  "unclassified_total": 0,
+  "historical_assertions_rewritten_without_successor": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

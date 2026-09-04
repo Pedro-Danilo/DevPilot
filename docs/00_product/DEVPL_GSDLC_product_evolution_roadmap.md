@@ -550,3 +550,11 @@ Status: `IMPLEMENTED/WINDOWS-PENDING`. Source authority: repo399 / `0c2720a019b2
 ## GSDLC-08-B Windows closure
 
 GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance PASS; MANUAL/IMPORT/AGENT share one governed schema, server RBAC controls approval/freeze, full regression runs=0. GSDLC-08-C authorized. Current candidate: `repo_DevPilot_Local_400_DEVPL_GSDLC_08_B_ROADMAP_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+### DEVPL-GSDLC-08-C — Backlog derivation and prioritization candidate — 2026-09-04
+
+Status: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING`. Source authority: repo400 / `0533d7427181fd3e3e39635d136540f1f127c3e3`. The successor introduces BacklogWorkbench + RequirementCoverageService, explicit requirement→story coverage, acceptance-criteria blockers, duplicate/dependency detection and explainable priority provenance. No UI/browser route is introduced in C (`browser=0`); full regression remains reserved for 08-E (`full=0`). 08-D remains fail-closed until Windows PASS.
+
+### DEVPL-GSDLC-08-C Windows closure
+
+GSDLC-08-C `CLOSED/PASS/WINDOWS-VALIDATED`; BacklogWorkbench + RequirementCoverageService are Windows-validated with 100% required coverage fixture, negative duplicate/orphan/dependency/acceptance/priority cases and role-bound freeze. No browser route changed (`browser=0`) and the backlog full remains unconsumed (`full=0`). GSDLC-08-D is authorized on repo401.

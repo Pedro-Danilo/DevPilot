@@ -1,0 +1,42 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-C-TEST-IMPACT-V1",
+  "status": "PASS",
+  "sprint": "DEVPL-GSDLC-08-C",
+  "focal": [
+    "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+  ],
+  "bounded_cumulative": [
+    "tests/test_devpl_gsdlc_08_a_planning_domain.py",
+    "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
+    "tests/test_application_services.py"
+  ],
+  "browser_required": false,
+  "browser_runs": 0,
+  "full_regression_runs": 0,
+  "rationale": "C adds runtime-only backlog derivation/coverage/application boundary and one successor schema; it does not add a browser/UI route. Full remains reserved for 08-E.",
+  "local_results": {
+    "focal": "10/10 PASS",
+    "predecessor_a_plus_b": "21/21 PASS",
+    "application_boundary": "7/7 PASS",
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "evidence_freshness": "PASS",
+    "new_isolation_entries": "10/10 UNCLASSIFIED parallel_safe=false",
+    "collection_total": 2944
+  },
+  "windows_validation": "PASS",
+  "windows_results": {
+    "c_focal": "10/10 PASS",
+    "predecessor_a_plus_b": "21/21 PASS",
+    "application_boundary": "7/7 PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "docs_governance": "PASS",
+    "evidence_freshness": "PASS",
+    "browser_runs": 0,
+    "full_regression_runs": 0
+  }
+}
