@@ -6571,3 +6571,7 @@ Original one-full preserved: 2909/2909 accounted, 2839 PASS, 63 FAIL, 2 ERROR, 5
 ### DEVPL-GSDLC-08-A Windows closure — 2026-09-03
 GSDLC-08-A está `CLOSED/PASS/WINDOWS-VALIDATED`: planning domain contracts/lifecycle/dependency graph validados; full=0/browser=0. GSDLC-08-B queda autorizado sobre repo399.
 
+
+## DEVPL-GSDLC-08-B — Roadmap Workbench (Windows pending)
+
+Roadmap Workbench is implemented on repo399 with shared MANUAL/IMPORT/AGENT structured authoring, explicit coverage/provenance, server-authoritative review/approval/freeze and project-scoped UI `/planning/roadmap`. Product writes are runtime planning artifacts only; source code mutation and external API requirements remain disabled. `full=0`; browser focal acceptance is required before 08-B closure and 08-C authorization.

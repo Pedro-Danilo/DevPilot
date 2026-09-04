@@ -3276,6 +3276,107 @@
       "workspace_scope_required": false,
       "risk_level": "high",
       "deny_by_default": true
+    },
+    {
+      "route_id": "api.planning-roadmap.status",
+      "method": "GET",
+      "path": "/api/v1/planning/roadmap",
+      "operation": "planning.roadmap.status",
+      "access_class": "authenticated-read-role-aware",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "low",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.planning-roadmap.propose",
+      "method": "POST",
+      "path": "/api/v1/planning/roadmap/proposals",
+      "operation": "planning.roadmap.propose",
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.planning-roadmap.review",
+      "method": "POST",
+      "path": "/api/v1/planning/roadmap/review",
+      "operation": "planning.roadmap.review",
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "medium",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.planning-roadmap.approve",
+      "method": "POST",
+      "path": "/api/v1/planning/roadmap/approve",
+      "operation": "planning.roadmap.approve",
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "route_id": "api.planning-roadmap.freeze",
+      "method": "POST",
+      "path": "/api/v1/planning/roadmap/freeze",
+      "operation": "planning.roadmap.freeze",
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "public": false,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "workspace_scope_required": true,
+      "risk_level": "high",
+      "deny_by_default": true,
+      "workspace_scope_source": "active-server-context"
     }
   ],
   "sensitive_action_policies": [
@@ -3502,7 +3603,7 @@
     }
   ],
   "summary": {
-    "route_policies_total": 146,
+    "route_policies_total": 151,
     "sensitive_action_policies_total": 17,
     "canonical_roles_total": 9,
     "unmapped_routes_total": 0,
@@ -3522,12 +3623,14 @@
     "gsdlc_06_c_legacy_token_allowed_total": 0,
     "gsdlc_06_c_owner_only_action_policies_total": 5,
     "gsdlc_06_c_runtime_mutation_policies_total": 3,
-    "human_session_required_total": 70,
+    "human_session_required_total": 75,
     "legacy_token_allowed_total": 69,
     "gsdlc_07_b_rag_context_policies_total": 1,
     "gsdlc_07_c_agent_assist_policies_total": 4,
     "gsdlc_07_d_agent_execution_policies_total": 6,
-    "gsdlc_07_e_agent_evals_policies_total": 1
+    "gsdlc_07_e_agent_evals_policies_total": 1,
+    "gsdlc_08_b_roadmap_policies_total": 5,
+    "gsdlc_08_b_legacy_token_allowed_total": 0
   },
   "safety": {
     "legacy_token_human_authority": false,
@@ -3553,5 +3656,6 @@
   "gsdlc_07_a_agent_runtime_route_registered": true,
   "gsdlc_07_b_rag_context_route_registered": true,
   "gsdlc_07_d_agent_execution_routes_registered": true,
-  "gsdlc_07_e_agent_evals_route_registered": true
+  "gsdlc_07_e_agent_evals_route_registered": true,
+  "updated": "2026-09-03"
 }

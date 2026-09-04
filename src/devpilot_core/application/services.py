@@ -51,6 +51,7 @@ from .ai_operations import AiOperationsApplicationService
 from .governed_jobs import GovernedJobFramework
 from .guided_sdlc_service import GuidedSDLCApplicationService
 from .pre_code_wizard_service import PreCodeWizardApplicationService
+from .roadmap_workbench_service import RoadmapWorkbenchApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -88,6 +89,7 @@ class ApplicationService:
         self.approval_auth_store = approval_auth_store
         self.ui_workspace_context = UiWorkspaceContextResolver(self.root)
         self.guided_sdlc = GuidedSDLCApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.roadmap_workbench = RoadmapWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace = WorkspaceApplicationService(self.root)
         self.project_entry_planning = ProjectEntryPlanningApplicationService(self.root)
         self.project_entry_dry_run_service = ProjectEntryDryRunApplicationService(self.root)
@@ -745,6 +747,21 @@ class ApplicationService:
 
     def guided_pre_code_readiness(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         return self.pre_code_wizard.readiness(effective_roles=effective_roles, workspace_scopes=workspace_scopes)
+
+    def planning_roadmap_status(self, *, effective_roles: list[str]):
+        return self.roadmap_workbench.status(effective_roles=effective_roles)
+
+    def planning_roadmap_propose(self, *, mode: str, roadmap: dict[str, Any], required_requirement_ids: list[str], required_risk_ids: list[str], actor_id: str, actor_role: str, source_label: str):
+        return self.roadmap_workbench.propose(mode=mode, roadmap=roadmap, required_requirement_ids=required_requirement_ids, required_risk_ids=required_risk_ids, actor_id=actor_id, actor_role=actor_role, source_label=source_label)
+
+    def planning_roadmap_review(self, *, actor_id: str, actor_role: str):
+        return self.roadmap_workbench.review(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_roadmap_approve(self, *, actor_id: str, actor_role: str):
+        return self.roadmap_workbench.approve(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_roadmap_freeze(self, *, actor_id: str, actor_role: str):
+        return self.roadmap_workbench.freeze(actor_id=actor_id, actor_role=actor_role)
 
     def guided_sdlc_reconcile_preview(
         self,
@@ -1840,6 +1857,11 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "guided_sdlc.pre_code.apply": lambda payload: service.guided_pre_code_apply(stage_id=str(payload.get("stage_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.pre_code.freeze": lambda payload: service.guided_pre_code_freeze(stage_id=str(payload.get("stage_id", "")), review_id=str(payload.get("review_id", "")), execution_id=str(payload.get("execution_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
         "guided_sdlc.pre_code.readiness": lambda payload: service.guided_pre_code_readiness(effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "planning.roadmap.status": lambda payload: service.planning_roadmap_status(effective_roles=list(payload.get("effective_roles") or [])),
+        "planning.roadmap.propose": lambda payload: service.planning_roadmap_propose(mode=str(payload.get("mode", "MANUAL")), roadmap=dict(payload.get("roadmap") or {}), required_requirement_ids=list(payload.get("required_requirement_ids") or []), required_risk_ids=list(payload.get("required_risk_ids") or []), actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", "")), source_label=str(payload.get("source_label", ""))),
+        "planning.roadmap.review": lambda payload: service.planning_roadmap_review(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.roadmap.approve": lambda payload: service.planning_roadmap_approve(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.roadmap.freeze": lambda payload: service.planning_roadmap_freeze(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
                 "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
@@ -1943,6 +1965,11 @@ def _capabilities() -> list[ServiceCapability]:
         ("guided_sdlc.pre_code.apply", "Execute inherited UOC-005 approval-bound atomic source apply for the current stage.", "approval_gated_source_write", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"),
         ("guided_sdlc.pre_code.freeze", "Bind an approval-applied execution to current stage, freeze artifact and advance wizard.", "approval_bound_state_transition", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"),
         ("guided_sdlc.pre_code.readiness", "Evaluate strict seven-stage guided pre-code vertical-slice readiness without replacing historical global readiness.", "none", True, "GET /api/v1/guided-sdlc/pre-code/readiness"),
+        ("planning.roadmap.status", "Read project-scoped GSDLC-08-B Roadmap Workbench runtime state and StepActionAdvisor projection.", "none", True, "GET /api/v1/planning/roadmap; server-authoritative local runtime projection."),
+        ("planning.roadmap.propose", "Create MANUAL/IMPORT/AGENT roadmap DRAFT using one shared planning schema and explicit provenance.", "runtime_draft_only", False, "POST /api/v1/planning/roadmap/proposals; no managed source write or external model execution."),
+        ("planning.roadmap.review", "Validate roadmap contract, coverage and immutable diff/review before human approval.", "runtime_review_only", False, "POST /api/v1/planning/roadmap/review."),
+        ("planning.roadmap.approve", "Human owner/product-owner approval of reviewed roadmap; agent self-approval impossible.", "runtime_approval_record", False, "POST /api/v1/planning/roadmap/approve; server RBAC authority."),
+        ("planning.roadmap.freeze", "Freeze approved roadmap as immutable revisioned runtime planning artifact.", "runtime_frozen_artifact", False, "POST /api/v1/planning/roadmap/freeze; no source code write."),
         ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
         ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),

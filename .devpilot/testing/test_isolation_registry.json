@@ -2,9 +2,9 @@
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
   "version": "1.0.0",
   "status": "implemented-initial",
-  "updated": "2026-09-03T17:40:00-05:00",
-  "source_commit": "ba1a87adf7d7b17a2f41f1c5821b86a86b762877",
-  "collection_sha256": "d109653ef6c2f1b9a3de4183d15542dc5e935d269c3bf3938313cde5d524d076",
+  "updated": "2026-09-03T23:30:00Z",
+  "source_commit": "0c2720a019b2e819d7348cc8ecf8a0c0c06dc073",
+  "collection_sha256": "69aa34e2cd5573277877566bc67820a206fc68cd23e204e101967319100dd4b2",
   "policy": {
     "default_state": "UNCLASSIFIED",
     "default_parallel_safe": false,
@@ -33865,6 +33865,240 @@
           "evidence": [
             "external_api",
             "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_shared_schema_and_three_authoring_routes_are_draft",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_coverage_findings_are_explicit_and_missing_requirement_blocks_approval",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_risk_gap_remains_visible_but_requirement_complete_can_approve",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_agent_cannot_approve_and_freeze_is_human_role_bound_immutable_revision",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_frozen_same_version_requires_successor_revision",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_advisor_is_server_authority_description_not_capability_grant",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_roadmap_schema_validates_shared_payload",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_route_rbac_ui_and_safety_registries_are_reconciled",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py::test_b_does_not_consume_full_regression",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
           ]
         }
       ],
@@ -105777,5 +106011,5 @@
       "review": null
     }
   ],
-  "registry_sha256": "5a42d14feb4d86b3a689cab7b3629ae8f239bc8efb8b3cb4e9e88e206e4d479c"
+  "registry_sha256": "61be8ff2b990d92d7c77925c9e32029b53aaa64a81ce1cd4fae9f28a10d266fe"
 }

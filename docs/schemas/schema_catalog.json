@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-09-03",
-  "sprint": "FRX-v2.3-D",
+  "sprint": "DEVPL-GSDLC-08-B",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3715,7 +3715,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-08-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-ROADMAP-V1",
+      "title": "Planning Roadmap Authoring Payload",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_roadmap.schema.json",
+      "description": "DEVPL-GSDLC-08-B shared MANUAL/IMPORT/AGENT roadmap authoring contract.",
+      "status": "registered",
+      "contract": "PlanningRoadmap",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-B"
     }
   ],
-  "schemas_total": 259
+  "schemas_total": 260
 }

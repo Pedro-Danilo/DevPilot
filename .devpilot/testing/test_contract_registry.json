@@ -13147,6 +13147,45 @@
         "docs/audits/DEVPL_GSDLC_08_A_PLANNING_CONTRACT_REPORT.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-b-roadmap-workbench",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-B",
+      "phase": "DEVPL-GSDLC-08",
+      "scope": "feature",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
+        "node ui/web/scripts/gsdlc08b-roadmap-workbench-smoke.mjs",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py"
+      ],
+      "validates": [
+        "shared MANUAL/IMPORT/AGENT roadmap schema",
+        "explicit requirement/risk coverage findings",
+        "server-side role-aware approval/freeze",
+        "agent output remains DRAFT and no auto-approval",
+        "immutable revisioned freeze",
+        "Roadmap Workbench UI/API/RBAC contract",
+        "browser focal acceptance",
+        "full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/roadmap_workbench.py",
+        "src/devpilot_core/application/roadmap_workbench_service.py",
+        "src/devpilot_core/interfaces/api/routers/planning.py",
+        "ui/web/src/pages/RoadmapWorkbenchView.ts",
+        "docs/schemas/planning_roadmap.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_B_BROWSER_ACCEPTANCE.json",
+        ".devpilot/project_state.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -13225,5 +13264,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 314
+  "contracts_total": 315
 }

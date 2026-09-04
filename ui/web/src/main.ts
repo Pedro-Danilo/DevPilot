@@ -12,6 +12,7 @@ import { renderSettingsView } from './pages/SettingsView';
 import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
 import { renderProjectStatusView } from './pages/ProjectStatusView';
 import { renderPreCodeWizardView } from './pages/PreCodeWizardView';
+import { renderRoadmapWorkbenchView } from './pages/RoadmapWorkbenchView';
 import { renderProjectEntryDryRunView } from './pages/ProjectEntryDryRunView';
 import { renderLoginView } from './pages/LoginView';
 import { renderFirstRunOwnerView } from './pages/FirstRunOwnerView';
@@ -27,6 +28,7 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/', routeId: 'ui.dashboard', title: 'Project Home', scope: 'home' },
   { path: '/project/status', routeId: 'ui.project-status', title: 'Estado del proyecto', scope: 'project' },
   { path: '/pre-code', routeId: 'ui.pre-code-wizard', title: 'Pre-code guiado', scope: 'project' },
+  { path: '/planning/roadmap', routeId: 'ui.planning-roadmap', title: 'Planning · Roadmap', scope: 'project' },
   { path: '/project/entry', routeId: 'ui.project-entry-dry-run', title: 'Crear / Abrir / Importar', scope: 'entry' },
   { path: '/workspace/documents', routeId: 'ui.workspace-documents', title: 'Documentos', scope: 'project' },
   { path: '/reports', routeId: 'ui.reports', title: 'Reportes', scope: 'project' },
@@ -121,6 +123,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     page.append(renderRouteHeader(route,session));
     if (route.path === '/project/status') page.append(renderProjectStatusView(() => readStoredToken()));
     else if (route.path === '/pre-code') page.append(renderPreCodeWizardView(() => readStoredToken(), session));
+    else if (route.path === '/planning/roadmap') page.append(renderRoadmapWorkbenchView(() => readStoredToken(), session));
     else if (route.path === '/project/entry') page.append(renderProjectEntryDryRunView({ session, initialMode: readEntryMode(new URLSearchParams(globalThis.location.search).get('mode')) }));
     else if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken(), session));
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));

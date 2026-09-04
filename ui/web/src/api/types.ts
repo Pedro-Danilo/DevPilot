@@ -1170,3 +1170,31 @@ export interface PreCodeWizardProjection {
 export interface PreCodeWizardResponseData {
   pre_code: PreCodeWizardProjection;
 }
+
+
+// DEVPL-GSDLC-08-B — governed Roadmap Workbench.
+export interface RoadmapProposalRequest {
+  mode: 'MANUAL' | 'IMPORT' | 'AGENT';
+  roadmap: Record<string, unknown>;
+  required_requirement_ids: string[];
+  required_risk_ids: string[];
+  source_label?: string;
+}
+
+export interface RoadmapWorkbenchProjection {
+  workspace_id?: string;
+  status?: string;
+  roadmap?: Record<string, unknown> | null;
+  review?: Record<string, unknown> | null;
+  advisor?: StepActionAdvisorDecision | null;
+  runtime_only?: boolean;
+  source_mutations_performed?: false;
+  network_used?: false;
+  external_api_used?: false;
+  model_execution_used?: false;
+  server_authoritative?: true;
+}
+
+export interface RoadmapWorkbenchResponseData {
+  roadmap_workbench: RoadmapWorkbenchProjection | Record<string, unknown>;
+}

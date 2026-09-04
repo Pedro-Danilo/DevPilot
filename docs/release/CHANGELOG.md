@@ -3221,3 +3221,9 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - CLOSED/PASS/WINDOWS-VALIDATED; planning schemas/lifecycle/dependency graph PASS.
 - New nodeids remain UNCLASSIFIED/parallel_safe=false. Full=0; browser=0; 08-B authorized.
 
+
+### DEVPL-GSDLC-08-B — implementation candidate — 2026-09-03
+- Added governed Roadmap Workbench with MANUAL/IMPORT/AGENT structured DRAFT routes.
+- Added requirement/risk coverage findings, review/diff, server-role approval and immutable freeze revisions.
+- Added project-scoped `/planning/roadmap` UI and five protected API routes; no external API/model call is required for acceptance.
+- Full regression runs remain `0`; browser focal Windows validation is pending.

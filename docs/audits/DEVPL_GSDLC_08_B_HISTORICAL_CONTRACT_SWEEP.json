@@ -1,0 +1,15 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-B-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "sprint": "DEVPL-GSDLC-08-B",
+  "classifications": [
+    {"subject":"GSDLC-08-A planning domain contracts","classification":"historical-freeze","action":"preserve A closure semantics while extending via Roadmap Workbench successor"},
+    {"subject":"UI/API route registries","classification":"current-active","action":"append roadmap route/contracts and reconcile derived counters"},
+    {"subject":"schema catalog","classification":"current-active/derived","action":"register planning roadmap schema and recompute schemas_total"},
+    {"subject":"runtime planning artifacts","classification":"runtime-ephemeral","action":"exclude outputs/planning from clean candidate ZIPs"}
+  ],
+  "unclassified_total": 0,
+  "historical_assertions_rewritten_without_successor": 0,
+  "network_used": false,
+  "external_api_used": false
+}

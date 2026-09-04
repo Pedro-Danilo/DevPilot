@@ -257,6 +257,26 @@ export class DevPilotApiClient {
 
 
 
+  async roadmapStatus(): Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>> {
+    return this.get('/planning/roadmap', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>>;
+  }
+
+  async roadmapPropose(payload: import('./types').RoadmapProposalRequest): Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>> {
+    return this.post('/planning/roadmap/proposals', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>>;
+  }
+
+  async roadmapReview(): Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>> {
+    return this.post('/planning/roadmap/review', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>>;
+  }
+
+  async roadmapApprove(): Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>> {
+    return this.post('/planning/roadmap/approve', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>>;
+  }
+
+  async roadmapFreeze(): Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>> {
+    return this.post('/planning/roadmap/freeze', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>>;
+  }
+
   async projectEntryDryRun(payload: { intake: Record<string, unknown>; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
     return this.post('/project-entry/dry-run', { intake: payload.intake, timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS }, { timeoutMs: PROJECT_ENTRY_PLANNING_TIMEOUT_MS });
   }

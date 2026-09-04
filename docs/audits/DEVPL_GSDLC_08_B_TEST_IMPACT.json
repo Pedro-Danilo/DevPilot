@@ -1,0 +1,28 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-B-TEST-IMPACT-V1",
+  "status": "PASS",
+  "sprint": "DEVPL-GSDLC-08-B",
+  "focal": [
+    "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
+    "ui/web/scripts/gsdlc08b-roadmap-workbench-smoke.mjs"
+  ],
+  "bounded_cumulative": [
+    "tests/test_devpl_gsdlc_08_a_planning_domain.py",
+    "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+    "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py",
+    "tests/test_application_services.py"
+  ],
+  "browser_required": true,
+  "full_regression_runs": 0,
+  "rationale": "B changes planning domain successor, API/RBAC registries and one project-scoped UI route; full remains reserved for 08-E.",
+  "local_results": {
+    "focal_a_plus_b": "21/21 PASS",
+    "bounded_cumulative": "24/24 PASS",
+    "ui_static_smoke": "PASS",
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "evidence_freshness": "PASS"
+  }
+}

@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.25.0-gsdlc-07-e",
+  "version": "0.26.0-gsdlc-08-b",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — GSDLC-07-A contextual agent role bindings and AgentRuntimeView.",
+  "description": "DevPilot Local Web UI — GSDLC-08-B governed Roadmap Workbench.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -35,7 +35,8 @@
     "test:rag-provenance": "node scripts/gsdlc07b-rag-provenance-smoke.mjs",
     "test:gsdlc07c-artifact-ai": "node scripts/gsdlc07c-artifact-ai-smoke.mjs",
     "test:skill-tool-policy": "node scripts/gsdlc07d-skill-tool-policy-smoke.mjs",
-    "test:gsdlc07e-agent-eval-trace": "node scripts/gsdlc07e-agent-eval-trace-smoke.mjs"
+    "test:gsdlc07e-agent-eval-trace": "node scripts/gsdlc07e-agent-eval-trace-smoke.mjs",
+    "test:roadmap-workbench": "node scripts/gsdlc08b-roadmap-workbench-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -200,7 +201,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-07-E",
+    "currentSprint": "DEVPL-GSDLC-08-B",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -284,7 +285,7 @@
     "gsdlc01eProjectStatusRoute": "ui.project-status",
     "gsdlc01eProjectStatusApiRoute": "api.guided-sdlc.project-status",
     "gsdlc01eTopLevelUiRoutesChanged": true,
-    "currentTopLevelUiRoutesTotal": 11,
+    "currentTopLevelUiRoutesTotal": 13,
     "uoc011RoutesTotalAtClose": 9,
     "gsdlc01eContinueMutatesState": false,
     "gsdlc02dAuthenticatedApprovalBinding": true,
@@ -400,7 +401,20 @@
     "gsdlc07dSkillToolPolicyView": true,
     "gsdlc07dToolIntentExecutionDecisionSeparated": true,
     "gsdlc07dRealMcpExecutionEnabled": false,
-    "gsdlc07dAutonomousRecoveryEnabled": false
+    "gsdlc07dAutonomousRecoveryEnabled": false,
+    "gsdlc08bRoadmapWorkbench": true,
+    "gsdlc08bUiRoute": "ui.planning-roadmap",
+    "gsdlc08bApiRoutesTotal": 5,
+    "gsdlc08bAuthoringModes": [
+      "MANUAL",
+      "IMPORT",
+      "AGENT"
+    ],
+    "gsdlc08bAgentAutoApproval": false,
+    "gsdlc08bExternalApiRequired": false,
+    "gsdlc08bBrowserAcceptanceRequired": true,
+    "gsdlc08bBrowserAcceptanceExecuted": false,
+    "gsdlc08bFullRegressionRuns": 0
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

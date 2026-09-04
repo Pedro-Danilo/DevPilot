@@ -541,3 +541,7 @@ GSDLC-08-A planning domain: `IMPLEMENTED/WINDOWS-PENDING`; six schemas + lifecyc
 ### DEVPL-GSDLC-08-A closure — 2026-09-03
 08-A `CLOSED/PASS/WINDOWS-VALIDATED`; 08-B autorizado. Planning sigue domain-only; Roadmap Workbench/UI se implementa en B.
 
+
+### DEVPL-GSDLC-08-B — Roadmap Workbench — implementation candidate
+
+Status: `IMPLEMENTED/WINDOWS-PENDING`. Source authority: repo399 / `0c2720a019b2e819d7348cc8ecf8a0c0c06dc073`. Browser focal is required; full regression remains reserved for GSDLC-08-E. 08-C remains fail-closed until Windows PASS.

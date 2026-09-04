@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-08-29",
+  "updated": "2026-09-03",
   "routes": [
     {
       "route_id": "ui.ai",
@@ -992,16 +992,88 @@
         "runtime_draft_source_write_enabled": false,
         "justification": "GSDLC-05-E permits bounded server-side runtime DRAFT/review/approval state without source writes; the only managed workspace source mutation is the exact approval-bound UOC-005 apply. UI never writes source directly or grants authority."
       }
+    },
+    {
+      "route_id": "ui.planning-roadmap",
+      "title": "Planning · Roadmap Workbench",
+      "path": "/planning/roadmap",
+      "page_component": "RoadmapWorkbenchView",
+      "source_files": [
+        "ui/web/src/pages/RoadmapWorkbenchView.ts",
+        "ui/web/src/components/StepActionAdvisor.ts"
+      ],
+      "allowed_api_routes": [
+        "api.planning-roadmap.status",
+        "api.planning-roadmap.propose",
+        "api.planning-roadmap.review",
+        "api.planning-roadmap.approve",
+        "api.planning-roadmap.freeze"
+      ],
+      "critical": true,
+      "local_only": true,
+      "local_first_badge_required": true,
+      "dry_run_badge_required": true,
+      "no_remote_badge_required": true,
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true,
+        "api_down": true,
+        "unauthorized": true,
+        "forbidden": true,
+        "draft": true,
+        "review": true,
+        "approval_required": true,
+        "frozen": true,
+        "coverage_findings": true,
+        "provenance": true,
+        "manual": true,
+        "import": true,
+        "agent": true
+      },
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "external_api_allowed": false,
+      "owner": "ui.web",
+      "notes": [
+        "GSDLC-08-B Roadmap Workbench exposes MANUAL/IMPORT/AGENT structured proposal routes under one schema.",
+        "UI never grants approval; owner/product-owner server RBAC remains authority.",
+        "AGENT structured output remains DRAFT; no external API/model call is required for acceptance."
+      ],
+      "mutation_controls": {
+        "local_state_mutation_only": true,
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "plan_only": false,
+        "runtime_draft_mutation": true,
+        "runtime_draft_approval_required": false,
+        "runtime_draft_source_write_enabled": false,
+        "freeze_requires_human_approval": true,
+        "source_code_write_enabled": false,
+        "justification": "Roadmap drafts/reviews/frozen revisions are project-scoped runtime planning artifacts; no managed source code write."
+      },
+      "status": "implemented/gsdlc-08-b-pass-candidate"
     }
   ],
   "summary": {
-    "routes_total": 12,
-    "critical_routes_total": 12,
-    "local_only_routes_total": 12,
+    "routes_total": 13,
+    "critical_routes_total": 13,
+    "local_only_routes_total": 13,
     "dry_run_badged_routes_total": 12,
     "no_remote_badged_routes_total": 12,
-    "mutation_control_routes_total": 8,
-    "allowed_api_routes_unique_total": 115,
+    "mutation_control_routes_total": 9,
+    "allowed_api_routes_unique_total": 120,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "dashboard_max_concurrency": 2,
@@ -1019,7 +1091,7 @@
     "workspace_document_api_routes_total": 7,
     "typed_git_read_only": true,
     "full_text_index_persistence": "memory-only",
-    "updated_by": "DEVPL-GSDLC-07-D",
+    "updated_by": "DEVPL-GSDLC-08-B",
     "uoc_003_validation_traceability": true,
     "workspace_validation_api_routes_total": 4,
     "validation_jobs_preliminary_synchronous": true,
@@ -1043,7 +1115,7 @@
     "uoc_011_states_per_route": 12,
     "uoc_011_matrix_cases_total": 108,
     "gsdlc_01_e_project_status_route_registered": true,
-    "current_routes_total": 12,
+    "current_routes_total": 13,
     "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
     "gsdlc_03_e_project_home_registered": true,
     "gsdlc_03_e_top_level_routes_added": 0,
@@ -1073,7 +1145,9 @@
     "gsdlc_07_c_artifact_ai_panel": true,
     "gsdlc_07_c_agent_assist_api_routes_total": 4,
     "gsdlc_07_d_skill_tool_policy": true,
-    "gsdlc_07_d_agent_execution_api_routes_total": 6
+    "gsdlc_07_d_agent_execution_api_routes_total": 6,
+    "gsdlc_08_b_roadmap_workbench": true,
+    "gsdlc_08_b_roadmap_api_routes_total": 5
   },
   "safety": {
     "local_first": true,

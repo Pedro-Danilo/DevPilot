@@ -22463,6 +22463,78 @@
         "planning-domain",
         "planning-lifecycle"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-b-roadmap-workbench",
+      "source_contract_id": "devpl-gsdlc-08-b-roadmap-workbench",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "RoadmapWorkbench",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "manual",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/roadmap_workbench.py",
+        "src/devpilot_core/application/roadmap_workbench_service.py",
+        "src/devpilot_core/interfaces/api/routers/planning.py",
+        "ui/web/src/pages/RoadmapWorkbenchView.ts",
+        "docs/schemas/planning_roadmap.schema.json"
+      ],
+      "validates": [
+        "three equivalent authoring routes",
+        "coverage findings",
+        "server RBAC approval/freeze",
+        "agent no auto-approval",
+        "runtime-only planning persistence",
+        "browser route contract",
+        "full=0"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-08-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_b_roadmap_workbench.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Runtime planning drafts/reviews/frozen revisions are bounded local state; managed source mutation remains false.",
+        "Approval/freeze operations require server-authenticated human owner/product-owner."
+      ],
+      "trigger_hints": [
+        "gsdlc-08-b",
+        "roadmap-workbench",
+        "planning-roadmap"
+      ],
+      "impact_tags": [
+        "planning",
+        "roadmap",
+        "ui",
+        "rbac",
+        "coverage"
+      ],
+      "owner_domain": "application.service",
+      "service_boundary": "planning",
+      "schema_ids": [
+        "docs/schemas/planning_roadmap.schema.json"
+      ],
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-08-B owner-approved prompt v1.0.1 rebound repo399",
+        "expires_at_utc": "2027-09-03T23:59:59Z",
+        "justification": "Roadmap Workbench intentionally writes only bounded runtime planning draft/review/frozen revision state under the active workspace outputs directory after server-authenticated human operations. Managed source mutation, arbitrary shell, external API and agent auto-approval remain prohibited.",
+        "rollback_or_cleanup": "Runtime roadmap proposals are revisioned under outputs/planning/gsdlc_08_b and may be discarded/recreated without rewriting managed source or Git history. Frozen revisions are immutable and successor revisions are created instead of overwriting them.",
+        "scope": "GSDLC-08-B runtime-only Roadmap Workbench proposal/review/approve/freeze state mutations"
+      }
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22626,5 +22698,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 314
+  "contracts_total": 315
 }

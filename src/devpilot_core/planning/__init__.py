@@ -7,3 +7,5 @@ __all__ = [
     "Sprint", "Story", "TraceKind", "TraceLink", "PlanningDependencyGraphReport", "PlanningDependencyGraphService",
     "PlanningContractFinding", "PlanningContractReport", "PlanningPolicyError", "PlanningStateService",
 ]
+
+from .roadmap_workbench import AUTHORING_MODES, APPROVER_ROLES as ROADMAP_APPROVER_ROLES, AUTHOR_ROLES as ROADMAP_AUTHOR_ROLES, RoadmapFinding, RoadmapWorkbench
