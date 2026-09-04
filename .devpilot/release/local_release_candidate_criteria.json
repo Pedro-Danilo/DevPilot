@@ -7,8 +7,8 @@
       "critical": true,
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
-        "current_micro_sprint": "DEVPL-GSDLC-08-C",
-        "current_repo": "repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_micro_sprint": "DEVPL-GSDLC-08-D",
+        "current_repo": "repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
         "next_micro_sprint": "DEVPL-GSDLC-08-C",

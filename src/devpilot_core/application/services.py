@@ -53,6 +53,7 @@ from .guided_sdlc_service import GuidedSDLCApplicationService
 from .pre_code_wizard_service import PreCodeWizardApplicationService
 from .roadmap_workbench_service import RoadmapWorkbenchApplicationService
 from .backlog_workbench_service import BacklogWorkbenchApplicationService
+from .sprint_planner_service import SprintPlannerApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -92,6 +93,7 @@ class ApplicationService:
         self.guided_sdlc = GuidedSDLCApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.roadmap_workbench = RoadmapWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.backlog_workbench = BacklogWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.sprint_planner = SprintPlannerApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace = WorkspaceApplicationService(self.root)
         self.project_entry_planning = ProjectEntryPlanningApplicationService(self.root)
         self.project_entry_dry_run_service = ProjectEntryDryRunApplicationService(self.root)
@@ -779,6 +781,21 @@ class ApplicationService:
 
     def planning_backlog_freeze(self, *, actor_id: str, actor_role: str):
         return self.backlog_workbench.freeze(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_sprint_status(self, *, effective_roles: list[str]):
+        return self.sprint_planner.status(effective_roles=effective_roles)
+
+    def planning_sprint_propose(self, *, sprint_plan: dict[str, Any], backlog: dict[str, Any], dependencies: list[dict[str, Any]], actor_id: str, actor_role: str):
+        return self.sprint_planner.propose(sprint_plan=sprint_plan, backlog=backlog, dependencies=dependencies, actor_id=actor_id, actor_role=actor_role)
+
+    def planning_sprint_review(self, *, actor_id: str, actor_role: str):
+        return self.sprint_planner.review(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_sprint_approve(self, *, actor_id: str, actor_role: str):
+        return self.sprint_planner.approve(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_sprint_freeze(self, *, actor_id: str, actor_role: str):
+        return self.sprint_planner.freeze(actor_id=actor_id, actor_role=actor_role)
 
     def guided_sdlc_reconcile_preview(
         self,
@@ -1884,6 +1901,11 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "planning.backlog.review": lambda payload: service.planning_backlog_review(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
         "planning.backlog.approve": lambda payload: service.planning_backlog_approve(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
         "planning.backlog.freeze": lambda payload: service.planning_backlog_freeze(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.sprint.status": lambda payload: service.planning_sprint_status(effective_roles=list(payload.get("effective_roles") or [])),
+        "planning.sprint.propose": lambda payload: service.planning_sprint_propose(sprint_plan=dict(payload.get("sprint_plan") or {}), backlog=dict(payload.get("backlog") or {}), dependencies=list(payload.get("dependencies") or []), actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.sprint.review": lambda payload: service.planning_sprint_review(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.sprint.approve": lambda payload: service.planning_sprint_approve(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.sprint.freeze": lambda payload: service.planning_sprint_freeze(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
                 "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
@@ -1997,6 +2019,11 @@ def _capabilities() -> list[ServiceCapability]:
         ("planning.backlog.review", "Validate requirement coverage, duplicates, dependencies, acceptance criteria and priority rationale.", "runtime_review_only", False, "Produces requirement_to_story_matrix and backlog_validation_report under outputs."),
         ("planning.backlog.approve", "Human owner/product-owner approval after 100% required coverage and zero blockers.", "runtime_approval_record", False, "Agent suggestions are proposals only."),
         ("planning.backlog.freeze", "Freeze approved backlog as immutable revisioned runtime planning artifact.", "runtime_frozen_artifact", False, "No source code write."),
+        ("planning.sprint.status", "Read project-scoped GSDLC-08-D SprintPlanner runtime state.", "none", True, "ApplicationService only in 08-D; browser/UI integration is reserved for 08-E."),
+        ("planning.sprint.propose", "Create human-governed SprintPlan DRAFT from a frozen backlog with explicit capacity/readiness/DoR/DoD/test/risk inputs.", "runtime_draft_only", False, "No source/code/runtime execution; planning artifact only."),
+        ("planning.sprint.review", "Validate selected stories READY, prerequisite order, capacity, DoR/DoD, test intent and risk focus.", "runtime_review_only", False, "Produces sprint plan and dependency validation reports under outputs."),
+        ("planning.sprint.approve", "Human owner/product-owner approval of executable reviewed SprintPlan.", "runtime_approval_record", False, "Role-bound; no agent approval."),
+        ("planning.sprint.freeze", "Freeze approved SprintPlan as immutable revision with content hash.", "runtime_frozen_artifact", False, "No source/code execution."),
         ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
         ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),

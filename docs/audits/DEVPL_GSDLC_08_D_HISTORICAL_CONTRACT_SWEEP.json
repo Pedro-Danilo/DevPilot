@@ -1,0 +1,61 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-D-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-08-D",
+  "source_repo": "repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "5adbfc995f02eb0210ce3300487789e639972c59",
+  "classifications": [
+    {
+      "path": "docs/schemas/planning_sprint.schema.json",
+      "classification": "historical-freeze",
+      "owner": "DEVPL-GSDLC-08-A",
+      "decision": "Preserve original generic Sprint entity contract unchanged."
+    },
+    {
+      "path": "docs/schemas/planning_backlog.schema.json",
+      "classification": "historical-freeze",
+      "owner": "DEVPL-GSDLC-08-C",
+      "decision": "Consume frozen backlog as predecessor authority; do not rewrite C schema."
+    },
+    {
+      "path": "docs/schemas/planning_sprint_plan.schema.json",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-08-D",
+      "decision": "Successor execution contract for governed SprintPlan."
+    },
+    {
+      "path": "src/devpilot_core/planning/sprint_planner.py",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-08-D",
+      "decision": "Current SprintPlanner implementation."
+    },
+    {
+      "path": "outputs/planning/gsdlc_08_d/**",
+      "classification": "runtime-ephemeral",
+      "owner": "DEVPL-GSDLC-08-D",
+      "decision": "Bounded runtime state excluded from clean source candidates."
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_08_D_PRE_FULL_HANDOFF.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-08-D",
+      "decision": "Machine-readable handoff to E; regenerated from D contract state."
+    },
+    {
+      "path": ".devpilot/project_state.json#gsdlc_current_micro_sprint,next_micro_sprint,gsdlc_program_status",
+      "classification": "successor-needed",
+      "owner": "DEVPL-GSDLC-08-E",
+      "decision": "Legacy global GSDLC pointers remain bound by historical POST-H-EVAL-002 activation contracts through 08-D; E Contract Reconciliation Sweep must introduce/activate a successor-aware pointer contract instead of rewriting historical assertions opportunistically."
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json#gsdlc_last_registered_micro_sprint,gsdlc_program_status",
+      "classification": "successor-needed",
+      "owner": "DEVPL-GSDLC-08-E",
+      "decision": "Keep registry pointer equal to the legacy Project State pointer in D so current deterministic governance remains green; E must reconcile this known historical/current ambiguity before the only full regression."
+    }
+  ],
+  "unclassified": 0,
+  "historical_assertions_rewritten_for_pytest": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

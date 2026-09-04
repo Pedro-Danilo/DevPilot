@@ -22613,6 +22613,86 @@
         "rollback_or_cleanup": "Runtime backlog proposals are revisioned under outputs/planning/gsdlc_08_c and may be discarded/recreated without rewriting managed source or Git history. Frozen revisions are immutable and require successor semantic versions.",
         "scope": "GSDLC-08-C runtime-only backlog proposal/review/approve/freeze state mutations"
       }
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-d-sprint-planning-capacity-dependencies",
+      "source_contract_id": "devpl-gsdlc-08-d-sprint-planning-capacity-dependencies",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "GSDLC08DSprintPlanningCapacityDependencies",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "manual",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_d_sprint_planner.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/sprint_planner.py",
+        "src/devpilot_core/application/sprint_planner_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/planning_sprint_plan.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_D_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_08_D_PRE_FULL_HANDOFF.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "frozen backlog authority",
+        "READY-only scheduling",
+        "dependency/prerequisite order",
+        "capacity validation and visible overcommit",
+        "DoR/DoD/test intent/risk focus",
+        "role-bound hash-bound freeze",
+        "ApplicationService boundary",
+        "pre-full E handoff",
+        "historical successor preservation",
+        "full=0/browser=0"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-08-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_d_sprint_planner.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Product runtime writes only outputs/planning/gsdlc_08_d; no source/code/runtime execution is exposed.",
+        "D adds no browser route; browser acceptance is intentionally zero and UI integration is deferred to E."
+      ],
+      "trigger_hints": [
+        "gsdlc-08-d",
+        "sprint-planner",
+        "capacity",
+        "dependencies"
+      ],
+      "impact_tags": [
+        "planning",
+        "sprint",
+        "capacity",
+        "dependencies",
+        "rbac"
+      ],
+      "owner_domain": "application.service",
+      "service_boundary": "planning",
+      "schema_ids": [
+        "docs/schemas/planning_sprint_plan.schema.json"
+      ],
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-08-D owner-approved prompt v1.0.1 rebound repo401",
+        "expires_at_utc": "2027-09-04T23:59:59Z",
+        "justification": "SprintPlanner intentionally writes only bounded runtime planning DRAFT/review/approval/frozen revision state under outputs. No scheduler executes source/code/runtime actions; approval/freeze are human owner/product-owner bound.",
+        "rollback_or_cleanup": "Runtime SprintPlan drafts are disposable under outputs/planning/gsdlc_08_d; frozen revisions are immutable and require successor semantic versions.",
+        "scope": "GSDLC-08-D runtime-only sprint plan/review/approve/freeze state mutations"
+      }
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22776,5 +22856,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 316
+  "contracts_total": 317
 }

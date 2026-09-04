@@ -3247,3 +3247,17 @@ GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance P
 - Windows focal/impact validation PASS with no browser run and no full regression.
 - GSDLC-08-C closes `CLOSED/PASS/WINDOWS-VALIDATED` and authorizes GSDLC-08-D.
 - Canonical successor candidate: `repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+## 2026-09-04 — DEVPL-GSDLC-08-D sprint planning candidate
+
+- Adds `SprintPlanner`, `SprintPlanValidationService` and `SCHEMA-DEVPL-PLANNING-SPRINT-PLAN-V1`.
+- Enforces frozen backlog authority, READY-only scheduling, dependency order, explicit capacity, DoR/DoD, test intent, risk focus and human hash-bound approval/freeze.
+- Adds ApplicationService `planning.sprint.*` operations only; no browser route in D.
+- Full regression runs=0; browser runs=0. Parent repo401 commit `5adbfc995f02eb0210ce3300487789e639972c59`.
+
+## 2026-09-04 — DEVPL-GSDLC-08-D Windows closure
+
+- GSDLC-08-D closes `CLOSED/PASS/WINDOWS-VALIDATED` and authorizes GSDLC-08-E.
+- Focal D 12/12 and predecessor A+B+C 31/31 PASS; deterministic closure gates PASS.
+- Browser runs=0; full regression runs=0.
+- Canonical successor candidate: `repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip`.

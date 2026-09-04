@@ -3743,7 +3743,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-08-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-SPRINT-PLAN-V1",
+      "title": "Governed Planning Sprint Plan",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_sprint_plan.schema.json",
+      "description": "DEVPL-GSDLC-08-D successor SprintPlan contract with explicit capacity, READY stories, DoR/DoD, test intent and risk focus.",
+      "status": "registered",
+      "contract": "PlanningSprintPlan",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-D"
     }
   ],
-  "schemas_total": 261
+  "schemas_total": 262
 }

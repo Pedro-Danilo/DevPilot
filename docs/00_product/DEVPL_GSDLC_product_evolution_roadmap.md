@@ -558,3 +558,11 @@ Status: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING`. Source authority: repo400
 ### DEVPL-GSDLC-08-C Windows closure
 
 GSDLC-08-C `CLOSED/PASS/WINDOWS-VALIDATED`; BacklogWorkbench + RequirementCoverageService are Windows-validated with 100% required coverage fixture, negative duplicate/orphan/dependency/acceptance/priority cases and role-bound freeze. No browser route changed (`browser=0`) and the backlog full remains unconsumed (`full=0`). GSDLC-08-D is authorized on repo401.
+
+### DEVPL-GSDLC-08-D — Sprint planning candidate — 2026-09-04
+
+Status: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING`. Authority: repo401 / `5adbfc995f02eb0210ce3300487789e639972c59`. Implements governed SprintPlan capacity/readiness/dependency validation and machine-readable pre-full handoff. Browser remains 0 and backlog full remains unconsumed (0/1). 08-E stays fail-closed until Windows PASS.
+
+### DEVPL-GSDLC-08-D Windows closure
+
+GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`; SprintPlanner/SprintPlan are Windows-validated with capacity/readiness/dependency negatives and role-bound immutable freeze. No browser route changed (`browser=0`), full budget remains `0/1`, and the pre-full handoff authorizes 08-E on `repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip`.

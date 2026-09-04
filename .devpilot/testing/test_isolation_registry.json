@@ -106189,6 +106189,222 @@
         "last_seen": null
       },
       "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_ordered_ready_plan_is_executable_and_capacity_is_explicit",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_dependency_violation_blocks_when_successor_is_before_prerequisite",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_missing_prerequisite_blocks_unless_completed",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_capacity_overcommit_is_visible_blocker",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_blocked_or_not_ready_story_never_enters_silently",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_ready_story_cannot_hide_blocking_reasons",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_dor_dod_test_intent_and_risk_focus_are_required",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_backlog_must_be_frozen_authority",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_human_review_approval_freeze_are_role_bound_and_hash_bound",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_sprint_plan_schema_validates_successor_contract",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_08_d_contract_and_pre_full_handoff_are_registered_full_zero_browser_zero",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_application_service_exposes_sprint_planner_without_browser_route",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
     }
   ],
   "registry_sha256": "6c11ada0887da0f6026fb6c5c053ebdc7e0bccf71b658310ca8cb7754104b941"

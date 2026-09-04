@@ -1,0 +1,52 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-D-TEST-IMPACT-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-08-D",
+  "risk": "medium",
+  "full_regression_required": false,
+  "browser_required": false,
+  "rationale": [
+    "D adds domain/ApplicationService SprintPlanner only; no visible browser surface changes.",
+    "Focal D plus cumulative A/B/C and deterministic gates are sufficient before E."
+  ],
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py"
+  ],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_08_a_planning_domain.py",
+    "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
+    "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+  ],
+  "gates": [
+    "project-state",
+    "test-contracts-v1",
+    "test-contracts-v2",
+    "docs-governance",
+    "evidence-freshness"
+  ],
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "local_results": {
+    "d_focal": "12/12 PASS",
+    "predecessor_a_b_c": "31/31 PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "docs_governance": "PASS",
+    "evidence_freshness": "PASS",
+    "new_isolation_entries": "12/12 UNCLASSIFIED parallel_safe=false",
+    "collection_total": 2956
+  },
+  "windows_validation": "PASS",
+  "windows_results": {
+    "d_focal": "12/12 PASS",
+    "predecessor_a_b_c": "31/31 PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "docs_governance": "PASS",
+    "evidence_freshness": "PASS",
+    "browser_runs": 0,
+    "full_regression_runs": 0
+  }
+}

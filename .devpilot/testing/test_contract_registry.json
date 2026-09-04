@@ -13226,6 +13226,46 @@
         "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-d-sprint-planning-capacity-dependencies",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-D",
+      "phase": "DEVPL-GSDLC-08",
+      "scope": "feature",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_d_sprint_planner.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_d_sprint_planner.py"
+      ],
+      "validates": [
+        "frozen backlog authority",
+        "selected stories READY",
+        "prerequisite/dependency order",
+        "capacity overcommit blockers",
+        "Definition of Ready/Done",
+        "test intent and risk focus",
+        "human owner/product-owner approval and hash-bound freeze",
+        "pre-full handoff",
+        "browser=0",
+        "full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/sprint_planner.py",
+        "src/devpilot_core/application/sprint_planner_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/planning_sprint_plan.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_D_PRE_FULL_HANDOFF.json",
+        ".devpilot/project_state.json"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -13304,5 +13344,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 316
+  "contracts_total": 317
 }

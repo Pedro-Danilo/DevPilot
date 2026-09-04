@@ -6588,3 +6588,11 @@ GSDLC-08-C is `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING` on the repo400 succe
 ### DEVPL-GSDLC-08-C Windows closure
 
 GSDLC-08-C `CLOSED/PASS/WINDOWS-VALIDATED`. Required requirement→story coverage, priority rationale/provenance, duplicate/dependency/acceptance blockers, manual precedence and human role-bound freeze passed the Windows focal/impact contract. `browser=0`, `full=0`. GSDLC-08-D is authorized. Current candidate: `repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+## DEVPL-GSDLC-08-D — Sprint planning, capacity and dependencies — 2026-09-04
+
+GSDLC-08-D is `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING` on repo401. `SprintPlanner` converts a frozen 08-C backlog into a governed SprintPlan with READY-only stories, explicit capacity unit/limit, prerequisite order, Definition of Ready/Done, test intent and risk focus. Overcommit, blocked/not-ready stories and missing/inverted prerequisites are visible blockers. Review is human-governed and approval/freeze are owner/product-owner bound with immutable revision + content SHA-256. No SprintPlanner UI/API route is added in D: `browser=0`, `full=0`; 08-E remains blocked until Windows PASS. Parent: `repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip` / `5adbfc995f02eb0210ce3300487789e639972c59`.
+
+### DEVPL-GSDLC-08-D Windows closure
+
+GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`. SprintPlanner focal and bounded A/B/C cumulative validation passed; READY-only scheduling, dependency order, capacity blockers, DoR/DoD/test intent/risk focus and owner/product-owner hash-bound freeze are validated. `browser=0`, `full=0`. GSDLC-08-E is authorized. Current candidate: `repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip`.

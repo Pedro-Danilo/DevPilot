@@ -61,6 +61,7 @@ from .services import ApplicationService
 from .pre_code_wizard_service import PreCodeWizardApplicationService
 from .roadmap_workbench_service import RoadmapWorkbenchApplicationService
 from .backlog_workbench_service import BacklogWorkbenchApplicationService
+from .sprint_planner_service import SprintPlannerApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
@@ -126,6 +127,7 @@ __all__ = [
     "PreCodeWizardApplicationService",
     "RoadmapWorkbenchApplicationService",
     "BacklogWorkbenchApplicationService",
+    "SprintPlannerApplicationService",
     "EvaluationApplicationService",
     "HistoryApplicationService",
     "InterfaceRouteContract",

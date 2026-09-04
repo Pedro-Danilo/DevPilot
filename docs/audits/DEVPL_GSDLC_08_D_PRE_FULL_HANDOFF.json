@@ -1,0 +1,88 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-D-PRE-FULL-HANDOFF-V1",
+  "status": "WINDOWS-PASS/READY-FOR-08-E",
+  "micro_sprint": "DEVPL-GSDLC-08-D",
+  "source_repo": "repo_DevPilot_Local_401_DEVPL_GSDLC_08_C_BACKLOG_DERIVATION_PRIORITIZATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "5adbfc995f02eb0210ce3300487789e639972c59",
+  "changed_paths_a_to_d": [
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/testing/test_isolation_registry.json",
+    "04_PROMPT_DEVPL_GSDLC_08_D_v1_0_1_REBOUND_REPO401.md",
+    "README.md",
+    "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+    "docs/audits/DEVPL_GSDLC_08_A_PLANNING_CONTRACT_REPORT.json",
+    "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json",
+    "docs/audits/DEVPL_GSDLC_08_D_HISTORICAL_CONTRACT_SWEEP.json",
+    "docs/audits/DEVPL_GSDLC_08_D_PRE_FULL_HANDOFF.json",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/planning_backlog.schema.json",
+    "docs/schemas/planning_roadmap.schema.json",
+    "docs/schemas/planning_sprint_plan.schema.json",
+    "docs/schemas/planning_state.schema.json",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/application/backlog_workbench_service.py",
+    "src/devpilot_core/application/roadmap_workbench_service.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/application/sprint_planner_service.py",
+    "src/devpilot_core/interfaces/api/routers/planning.py",
+    "src/devpilot_core/planning",
+    "src/devpilot_core/planning/backlog_workbench.py",
+    "src/devpilot_core/planning/roadmap_workbench.py",
+    "src/devpilot_core/planning/sprint_planner.py",
+    "ui/web/src/pages/RoadmapWorkbenchView.ts"
+  ],
+  "new_tests": [
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_ordered_ready_plan_is_executable_and_capacity_is_explicit",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_dependency_violation_blocks_when_successor_is_before_prerequisite",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_missing_prerequisite_blocks_unless_completed",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_capacity_overcommit_is_visible_blocker",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_blocked_or_not_ready_story_never_enters_silently",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_ready_story_cannot_hide_blocking_reasons",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_dor_dod_test_intent_and_risk_focus_are_required",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_backlog_must_be_frozen_authority",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_human_review_approval_freeze_are_role_bound_and_hash_bound",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_sprint_plan_schema_validates_successor_contract",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_08_d_contract_and_pre_full_handoff_are_registered_full_zero_browser_zero",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py::test_application_service_exposes_sprint_planner_without_browser_route"
+  ],
+  "tcr_source_registry_sync": "PASS",
+  "browser_surfaces_pending_for_e": [
+    "Roadmap Workbench existing UI",
+    "Backlog UI integration deferred",
+    "SprintPlanner UI integration deferred",
+    "planning traceability graph",
+    "Project Status PLANNING→IMPLEMENTING_READY closure"
+  ],
+  "s0_open": 0,
+  "s1_open": 0,
+  "contract_reconciliation_inputs": [
+    "schema catalog and successor schemas",
+    "Project State current/historical fields",
+    "Source Registry current-active documents",
+    "TCR v1/v2 and isolation registry",
+    "runtime-ephemeral exclusion",
+    "browser capability mapping in E"
+  ],
+  "full_budget": {
+    "consumed": 0,
+    "remaining": 1,
+    "total": 1
+  },
+  "parallel_mode": "AVAILABLE-NOT-DEFAULT",
+  "parallel_workers_default": 1,
+  "safe_parallel_owner_adjudication_required": true,
+  "changed_paths_basis": "Union of A/B/C/D registered current/historical watched paths plus D governance delta; E must resolve directories to live source during Contract Reconciliation Sweep.",
+  "windows_validated_repo": "repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "windows_validation": "PASS",
+  "known_reconciliation_items": [
+    {
+      "id": "GSDLC-08-D-HANDOFF-POINTER-001",
+      "severity": "pre-full-required",
+      "classification": "successor-needed",
+      "description": "Legacy global GSDLC pointers in Project State/Source Registry are still constrained by historical POST-H-EVAL-002 activation contracts. D preserves them deliberately; E must establish a successor-aware current pointer contract before consuming the only full regression."
+    }
+  ]
+}
