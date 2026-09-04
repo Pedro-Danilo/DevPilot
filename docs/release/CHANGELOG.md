@@ -3203,3 +3203,10 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - FRX-v2.3-E implemented: hybrid PROVEN_PARALLEL_SAFE waves + manifest-coarsened serial lane; Windows one-full validation pending.
 
 - FRX-v2.3-E composite recovery PASS: original full 1/1 preserved, 65/65 selective recovery PASS, composite 2904 PASS + 5 SKIP = 2909 accounted, parallel AVAILABLE-NOT-DEFAULT; DEVPL-GSDLC-08 authorized.
+
+
+## 2026-09-03 — DEVPL-GSDLC-08 activation/rebind candidate
+- Registers the owner-approved Full Regression v2.3 closure adjudication without rewriting the frozen v2.3 backlog.
+- Registers DEVPL-GSDLC-08 v1.3.0 APPROVED_REBOUND against repo397.
+- Reconciles current-active Project State, Source Registry, README and canonical roadmap for the 08-A entry gate.
+- Governance-only: functional mutation=false; full=0; browser=0; network/external API=false.

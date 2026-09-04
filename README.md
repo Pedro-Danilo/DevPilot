@@ -1,3 +1,8 @@
+
+## DEVPL-GSDLC-08 current activation — 2026-09-03
+
+Full Regression v2.3 is `CLOSED/PASS/WINDOWS-VALIDATED` through the owner-approved closure adjudication. DEVPL-GSDLC-08 v1.3.0 is the current executable backlog rebound to repo397. Activation/rebind is `CLOSED/PASS/WINDOWS-VALIDATED`; no product/API/UI bytes were changed by activation, full=0, browser=0. DEVPL-GSDLC-08-A is authorized on the repo398 successor.
+
 ## DEVPL-GSDLC — Guided SDLC Product Evolution
 
 FRX-v2.3 execution status (2026-09-02): `A/B/C/BR = CLOSED/PASS/WINDOWS-VALIDATED`; BR successor Amdahl=`GO`, runtime-safe coverage=80.039%, D authorized=true. General-suite workers=0 and full=0.

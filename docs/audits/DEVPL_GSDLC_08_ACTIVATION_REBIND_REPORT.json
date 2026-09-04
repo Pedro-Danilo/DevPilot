@@ -1,0 +1,19 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-ACTIVATION-REBIND-REPORT-V1",
+  "version": "1.0.0",
+  "status": "PASS",
+  "source_repo": "repo_DevPilot_Local_397_FRX_V2_3_E_ONE_FULL_SAFE_PARALLEL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "ba1a87adf7d7b17a2f41f1c5821b86a86b762877",
+  "source_repo_sha256": "109045dccb59fe235c60aac688dcee17e169dae174428df04fb3e1925dbff72a",
+  "functional_mutation": false,
+  "src_changed_by_activation": false,
+  "browser_runs": 0,
+  "full_regression_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "closure_adjudication": "DEVPL_FULL_REGRESSION_V2_3_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+  "approved_backlog": "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md",
+  "next_micro_sprint": "DEVPL-GSDLC-08-A",
+  "windows_validation": "CLOSED/PASS",
+  "successor_repo": "repo_DevPilot_Local_398_DEVPL_GSDLC_08_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip"
+}

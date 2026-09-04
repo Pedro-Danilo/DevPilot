@@ -1,0 +1,38 @@
+{
+  "schema_id": "DEVPL-HISTORICAL-CONTRACT-SWEEP-V1",
+  "micro_sprint": "DEVPL-GSDLC-08-ACTIVATION",
+  "status": "PASS",
+  "unclassified_total": 0,
+  "entries": [
+    {
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_4_0.md",
+      "classification": "historical-freeze",
+      "action": "preserve",
+      "reason": "Windows-validated v2.3 backlog remains immutable despite legacy approved frontmatter."
+    },
+    {
+      "path": "DEVPL_FULL_REGRESSION_V2_3_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "classification": "successor-needed",
+      "action": "register-current-successor",
+      "reason": "Resolves current-active closure authority without rewriting predecessor."
+    },
+    {
+      "path": "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md",
+      "classification": "current-active",
+      "action": "register",
+      "reason": "Owner-approved executable authority rebound to repo397."
+    },
+    {
+      "path": "README.md",
+      "classification": "derived",
+      "action": "reconcile-current-status",
+      "reason": "Historical dated notes remain; current status must be unambiguous."
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "classification": "current-active",
+      "action": "reconcile-m4-status",
+      "reason": "GSDLC-08 is active, not yet closed."
+    }
+  ]
+}

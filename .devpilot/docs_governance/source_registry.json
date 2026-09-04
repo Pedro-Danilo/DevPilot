@@ -33813,9 +33813,112 @@
         "docs/adr/ADR-FRX-004-one-full-hybrid-safe-parallel.md"
       ],
       "notes": []
+    },
+    {
+      "doc_id": "DEVPL-FULL-REGRESSION-V2-3-BACKLOG-CLOSURE-ADJUDICATION",
+      "path": "DEVPL_FULL_REGRESSION_V2_3_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "Ordóñez",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_activation_rebind.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.3",
+        "DEVPL-GSDLC-08"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": [
+        "Current-active successor; historical v2.3 backlog remains immutable."
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-08",
+      "path": "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md",
+      "classification": "source-of-truth",
+      "domain": "governance.program",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_activation_rebind.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": [
+        "Current executable backlog authority rebound to repo397."
+      ]
+    },
+    {
+      "doc_id": "00_PROMPT_DEVPL_GSDLC_08_ACTIVATION_REBIND_V1_0_0",
+      "path": "00_PROMPT_DEVPL_GSDLC_08_ACTIVATION_REBIND_v1_0_0.md",
+      "classification": "source-of-truth",
+      "domain": "governance.program",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_activation_rebind.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08-ACTIVATION"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": []
+    },
+    {
+      "doc_id": "01_PROMPT_DEVPL_GSDLC_08_A_V1_0_0_APPROVED_REBOUND",
+      "path": "01_PROMPT_DEVPL_GSDLC_08_A_v1_0_0_APPROVED_REBOUND.md",
+      "classification": "source-of-truth",
+      "domain": "planning",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_08_activation_rebind.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-08-A"
+      ],
+      "lifecycle": "active",
+      "frontmatter_required": true,
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "notes": [
+        "Execution requires activation Windows PASS."
+      ]
     }
   ],
-  "last_registered_sprint": "FRX-v2.3-E",
+  "last_registered_sprint": "DEVPL-GSDLC-08-ACTIVATION",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -33939,9 +34042,9 @@
     "connector_write_enabled": false,
     "control_plane_enabled": false,
     "credentials_required": false,
-    "current_micro_sprint": "DEVPL-GSDLC-05-A",
-    "current_phase": "DEVPL-GSDLC",
-    "current_repo": "repo_DevPilot_Local_369_DEVPL_GSDLC_04_E_ARTIFACT_WORKBENCH_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "current_micro_sprint": "DEVPL-GSDLC-08-A",
+    "current_phase": "DEVPL-GSDLC-08",
+    "current_repo": "repo_DevPilot_Local_398_DEVPL_GSDLC_08_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip",
     "dynamic_import_allowed": false,
     "enterprise_deployment_enabled": false,
     "enterprise_ready_claimed": false,
@@ -33979,7 +34082,7 @@
     "network_used": false,
     "next_backlog_planned": true,
     "next_backlog_status": "approved/post-h-eval-002",
-    "next_micro_sprint": "POST-H-EVAL-002-02-C",
+    "next_micro_sprint": "DEVPL-GSDLC-08-B",
     "next_sprint": "POST-H-EVAL-002",
     "notes": [
       "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
@@ -36232,7 +36335,8 @@
     "gsdlc_05_status": "active/05-a",
     "gsdlc_05_a_status": "implemented/pending-windows-validation",
     "gsdlc_05_a_owner_adjudication_pending": true,
-    "gsdlc_05_a_full_regression_runs": 0
+    "gsdlc_05_a_full_regression_runs": 0,
+    "gsdlc_08_status": "approved/active"
   },
   "registry_id": "devpilot-documentation-source-registry",
   "rules": {
@@ -36331,27 +36435,27 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1459,
-    "source_of_truth_total": 544,
+    "documents_total": 1463,
+    "source_of_truth_total": 548,
     "machine_readable_source_total": 746,
     "derived_total": 150,
     "generated_runtime_total": 0,
     "historical_total": 19,
     "deprecated_total": 0,
-    "critical_sources_total": 1364,
+    "critical_sources_total": 1368,
     "markdown_json_pairs_total": 66,
-    "documents_with_required_tests_total": 1459,
+    "documents_with_required_tests_total": 1463,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_registered_sprint": "FRX-v2.3-E"
+    "last_registered_sprint": "DEVPL-GSDLC-08-ACTIVATION"
   },
   "updated": "2026-09-03",
   "updated_at": "2026-09-03",
   "updated_by": "FRX-v2.3-D",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-07-E",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-08-ACTIVATION",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_program_status": "full-regression-v2.2/closed-pass/v2.3-authorized",
+  "gsdlc_program_status": "active/GSDLC-08/08-A",
   "gsdlc_00_a_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-A",
   "gsdlc_00_a_program_status_at_close": "active/00-a",
   "gsdlc_00_b_last_registered_micro_sprint_at_close": "DEVPL-GSDLC-00-B",

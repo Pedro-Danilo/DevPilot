@@ -7,11 +7,11 @@
       "critical": true,
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
-        "current_micro_sprint": "DEVPL-GSDLC-07-E",
-        "current_repo": "repo_DevPilot_Local_397_FRX_V2_3_E_ONE_FULL_SAFE_PARALLEL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_micro_sprint": "DEVPL-GSDLC-08-A",
+        "current_repo": "repo_DevPilot_Local_398_DEVPL_GSDLC_08_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
-        "next_micro_sprint": "FRX-v2.2-D",
+        "next_micro_sprint": "DEVPL-GSDLC-08-B",
         "next_sprint": "POST-H-EVAL-002",
         "post_h_026_status": "closed/local-release-candidate-pass",
         "post_h_027_status": "closed/packaging-local-ready",
@@ -690,7 +690,7 @@
     }
   ],
   "expected_current_micro_sprint": "DEVPL-GSDLC-07-E",
-  "expected_current_repo": "repo_DevPilot_Local_397_FRX_V2_3_E_ONE_FULL_SAFE_PARALLEL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_398_DEVPL_GSDLC_08_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_next_micro_sprint": "FRX-v2.2-D",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",

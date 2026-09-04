@@ -157,8 +157,8 @@
       ],
       "next": {
         "project_state_expectations": {
-          "next_micro_sprint": "FRX-v2.2-D",
-          "gsdlc_08_status": "authorized/deferred-by-owner"
+          "next_micro_sprint": "DEVPL-GSDLC-08-B",
+          "gsdlc_08_status": "approved/active"
         }
       }
     }

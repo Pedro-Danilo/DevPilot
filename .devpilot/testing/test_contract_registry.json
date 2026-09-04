@@ -1656,7 +1656,7 @@
       ],
       "domain": "guided_sdlc.executable-standards",
       "notes": [
-        "A\u2192D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
+        "A→D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
         "Normative documentation remains authoritative until owner approves the registry version."
       ],
       "classification_notes": []
@@ -1721,7 +1721,7 @@
       ],
       "domain": "guided_sdlc.mip-lifecycle",
       "notes": [
-        "A\u2192D cumulative-selective; GSDLC-05 full regression remains 0.",
+        "A→D cumulative-selective; GSDLC-05 full regression remains 0.",
         "Production v1.0.0 allows no mandatory gate waiver because no normative source/ADR authorizes one."
       ],
       "classification_notes": []
@@ -13071,6 +13071,41 @@
         "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-activation-rebind",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-ACTIVATION",
+      "phase": "DEVPL-GSDLC-08",
+      "scope": "quality-gate",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_activation_rebind.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_activation_rebind.py"
+      ],
+      "validates": [
+        "repo397 execution authority",
+        "v2.3 closure successor registration",
+        "GSDLC-08 approved rebound registration",
+        "governance-only activation",
+        "full=0/browser=0",
+        "08-A fail-closed until Windows PASS"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "DEVPL_FULL_REGRESSION_V2_3_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+        "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md"
+      ]
     }
   ],
   "created_by": "POST-H-001",
@@ -13149,5 +13184,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
   "status": "implemented-initial",
-  "contracts_total": 312
+  "contracts_total": 313
 }

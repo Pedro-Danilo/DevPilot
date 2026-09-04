@@ -284,9 +284,9 @@ GSDLC-07 CLOSED/PASS.
 Mismo flujo con agentes/RAG/costos controlados.
 
 ### M4 — Guided planning
-GSDLC-08 CLOSED/PASS.
+GSDLC-08 `APPROVED/ACTIVE`; activation/rebind is `CLOSED/PASS/WINDOWS-VALIDATED` and 08-A is authorized on repo398.
 
-Requirements → roadmap → backlog → sprints.
+Target invariant: Requirements → roadmap → backlog → sprints.
 
 ### M5 — Guided implementation
 GSDLC-10 CLOSED/PASS.
@@ -525,3 +525,11 @@ Antes de 07-A se ejecuta una transición no funcional mínima: materialización 
 ## Execution note — GSDLC-07-E and Full Regression v2.2/v2.3
 
 GSDLC-07-E is prepared as the closing micro-sprint of DEVPL-GSDLC-07. Its Windows closure produces the first authoritative per-node full-regression duration telemetry. Immediately after 07-E `CLOSED/PASS`, the planned engineering succession is **Full Regression v2.2 — Distribución temporal inteligente**. v2.3 parallelism is only prepared by conservative `UNCLASSIFIED / parallel_safe=false / workers=0` telemetry and is not enabled by 07-E.
+
+
+## Current execution rebind — 2026-09-03
+
+- Full Regression v2.3: `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Current execution authority: `repo_DevPilot_Local_397_FRX_V2_3_E_ONE_FULL_SAFE_PARALLEL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- DEVPL-GSDLC-08 v1.3.0: `APPROVED_REBOUND`.
+- Activation/rebind: `CLOSED/PASS/WINDOWS-VALIDATED`, governance-only, full=0/browser=0; 08-A authorized.
