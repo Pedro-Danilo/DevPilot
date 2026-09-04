@@ -3210,3 +3210,14 @@ GSDLC-00 closes the governance-only program activation wave. Parent repo341 rema
 - Registers DEVPL-GSDLC-08 v1.3.0 APPROVED_REBOUND against repo397.
 - Reconciles current-active Project State, Source Registry, README and canonical roadmap for the 08-A entry gate.
 - Governance-only: functional mutation=false; full=0; browser=0; network/external API=false.
+
+
+## 2026-09-03 — DEVPL-GSDLC-08-A planning domain candidate
+- Adds versioned Milestone/Epic/Story/Sprint/Dependency/PlanningState contracts.
+- Adds pure planning lifecycle and deterministic dependency graph with duplicate/cycle/orphan detection.
+- Adds typed trace links and role-bound human approval/freeze; agent auto-approval remains forbidden.
+- Adds focal/negative tests, Test Impact and historical contract sweep. Full=0; browser/API/UI=0.
+## 2026-09-03 — DEVPL-GSDLC-08-A Windows closure
+- CLOSED/PASS/WINDOWS-VALIDATED; planning schemas/lifecycle/dependency graph PASS.
+- New nodeids remain UNCLASSIFIED/parallel_safe=false. Full=0; browser=0; 08-B authorized.
+

@@ -1,0 +1,36 @@
+{
+  "schema_id": "DEVPL-TEST-IMPACT-REPORT-V1",
+  "micro_sprint": "DEVPL-GSDLC-08-A",
+  "status": "PASS",
+  "full_regression_required": false,
+  "browser_required": false,
+  "impact_domains": [
+    "planning.domain",
+    "governance.schemas",
+    "governance.testing",
+    "documentation.governance"
+  ],
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_08_a_planning_domain.py",
+    "tests/test_devpl_gsdlc_08_activation_rebind.py"
+  ],
+  "bounded_accumulative_tests": [
+    "tests/test_devpl_gsdlc_07_e_agentic_precode.py",
+    "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py"
+  ],
+  "reason": "A introduces pure planning contracts only; no API/UI/runtime persistence or source-execution capability.",
+  "bounded_cumulative_nodeids": [
+    "tests/test_devpl_gsdlc_07_e_agentic_precode.py::test_07_e_agent_never_auto_approves_or_writes_source",
+    "tests/test_devpl_gsdlc_07_e_agentic_precode.py::test_07_e_handoff_requires_human_checkpoint_and_no_scope_inheritance",
+    "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_catalog_is_seven_stage_sequential_and_manual_import_only",
+    "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_missing_miasi_context_fails_readiness_closed",
+    "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_pre_code_api_route_and_registry_contracts_are_explicit"
+  ],
+  "bounded_cumulative_rationale": "Preserve PRE_CODE_READY predecessor contract plus agent-human approval/no-source-write invariants without executing the two entire historical files; selected from duration evidence to keep A-D validation impact-bounded and non-full.",
+  "full_regression": false,
+  "browser": false,
+  "excluded_expensive_historical_execution": {
+    "nodeid": "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py::test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes",
+    "reason": "Observed to exceed the local bounded-validation tool ceiling; A changes no pre-code execution code, so the historical full wizard execution is deferred to the backlog one-full policy rather than creating a mini-full in A."
+  }
+}

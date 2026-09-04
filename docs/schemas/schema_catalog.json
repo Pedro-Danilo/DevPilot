@@ -3631,7 +3631,91 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.3-E"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-MILESTONE-V1",
+      "title": "Planning Milestone",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_milestone.schema.json",
+      "description": "DEVPL-GSDLC-08-A planning domain contract.",
+      "status": "registered",
+      "contract": "PlanningMilestone",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-EPIC-V1",
+      "title": "Planning Epic",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_epic.schema.json",
+      "description": "DEVPL-GSDLC-08-A planning domain contract.",
+      "status": "registered",
+      "contract": "PlanningEpic",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-STORY-V1",
+      "title": "Planning Story",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_story.schema.json",
+      "description": "DEVPL-GSDLC-08-A planning domain contract.",
+      "status": "registered",
+      "contract": "PlanningStory",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-SPRINT-V1",
+      "title": "Planning Sprint",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_sprint.schema.json",
+      "description": "DEVPL-GSDLC-08-A planning domain contract.",
+      "status": "registered",
+      "contract": "PlanningSprint",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-DEPENDENCY-V1",
+      "title": "Planning Dependency",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_dependency.schema.json",
+      "description": "DEVPL-GSDLC-08-A planning domain contract.",
+      "status": "registered",
+      "contract": "PlanningDependency",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PLANNING-STATE-V1",
+      "title": "Planning State",
+      "version": "1.0.0",
+      "path": "docs/schemas/planning_state.schema.json",
+      "description": "DEVPL-GSDLC-08-A planning domain contract.",
+      "status": "registered",
+      "contract": "PlanningState",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-08-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-08-A"
     }
   ],
-  "schemas_total": 253
+  "schemas_total": 259
 }

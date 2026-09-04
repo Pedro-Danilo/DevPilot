@@ -43,7 +43,8 @@ def test_08_activation_state_is_fail_closed_until_windows_pass():
         assert state["current_repo"].startswith("repo_DevPilot_Local_397_")
         assert state["gsdlc_08_a_authorized"] is False
     else:
-        assert state["current_repo"].startswith("repo_DevPilot_Local_398_")
+        assert state["gsdlc_08_activation_source_repo"].startswith("repo_DevPilot_Local_397_")
+        assert state["current_repo"] != state["gsdlc_08_activation_source_repo"]
         assert state["gsdlc_08_a_authorized"] is True
 
 

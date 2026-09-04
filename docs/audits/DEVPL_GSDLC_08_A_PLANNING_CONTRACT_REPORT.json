@@ -1,0 +1,45 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-A-PLANNING-CONTRACT-REPORT-V1",
+  "version": "1.0.0",
+  "status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "source_repo": "repo_DevPilot_Local_398_DEVPL_GSDLC_08_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "schemas_total": 6,
+  "domain_components": [
+    "Milestone",
+    "Epic",
+    "Story",
+    "Sprint",
+    "Dependency",
+    "PlanningState"
+  ],
+  "lifecycle": [
+    "DRAFT",
+    "REVIEW",
+    "APPROVED",
+    "FROZEN"
+  ],
+  "approval_roles": [
+    "owner",
+    "product-owner"
+  ],
+  "agent_auto_approval_allowed": false,
+  "dependency_graph": {
+    "deterministic": true,
+    "cycle_detection": true,
+    "orphan_detection": true,
+    "duplicate_id_detection": true
+  },
+  "trace_kinds": [
+    "requirement",
+    "risk",
+    "adr",
+    "test-intent"
+  ],
+  "source_mutations_performed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "windows_validation": "PASS",
+  "successor_repo": "repo_DevPilot_Local_399_DEVPL_GSDLC_08_A_PLANNING_DOMAIN_WINDOWS_VALIDATED_CANDIDATE.zip"
+}

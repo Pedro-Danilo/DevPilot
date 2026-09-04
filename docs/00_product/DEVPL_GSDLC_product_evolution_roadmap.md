@@ -533,3 +533,11 @@ GSDLC-07-E is prepared as the closing micro-sprint of DEVPL-GSDLC-07. Its Window
 - Current execution authority: `repo_DevPilot_Local_397_FRX_V2_3_E_ONE_FULL_SAFE_PARALLEL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`.
 - DEVPL-GSDLC-08 v1.3.0: `APPROVED_REBOUND`.
 - Activation/rebind: `CLOSED/PASS/WINDOWS-VALIDATED`, governance-only, full=0/browser=0; 08-A authorized.
+
+
+### DEVPL-GSDLC-08-A implementation status — 2026-09-03
+
+GSDLC-08-A planning domain: `IMPLEMENTED/WINDOWS-PENDING`; six schemas + lifecycle + dependency graph are implemented. Full=0, browser=0. 08-B remains blocked until Windows PASS and governed promotion.
+### DEVPL-GSDLC-08-A closure — 2026-09-03
+08-A `CLOSED/PASS/WINDOWS-VALIDATED`; 08-B autorizado. Planning sigue domain-only; Roadmap Workbench/UI se implementa en B.
+

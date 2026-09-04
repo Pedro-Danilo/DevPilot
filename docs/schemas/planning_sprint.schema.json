@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PLANNING-SPRINT-V1",
+  "title": "Planning Sprint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "version",
+    "title",
+    "owner_role",
+    "lifecycle",
+    "trace_links",
+    "story_ids",
+    "capacity"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-PLANNING-SPRINT-V1"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^sprint-[a-z0-9-]{2,59}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "owner_role": {
+      "enum": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer",
+        "qa-reviewer"
+      ]
+    },
+    "lifecycle": {
+      "enum": [
+        "DRAFT",
+        "REVIEW",
+        "APPROVED",
+        "FROZEN"
+      ]
+    },
+    "trace_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "target_id"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "requirement",
+              "risk",
+              "adr",
+              "test-intent"
+            ]
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        }
+      }
+    },
+    "story_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^story-[a-z0-9-]{2,59}$"
+      }
+    },
+    "capacity": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

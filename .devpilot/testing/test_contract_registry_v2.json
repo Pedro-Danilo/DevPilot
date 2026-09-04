@@ -22407,6 +22407,62 @@
         "rebind"
       ],
       "schema_ids": []
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-a-planning-domain",
+      "source_contract_id": "devpl-gsdlc-08-a-planning-domain",
+      "schema_version": "2.0",
+      "domain": "application.service",
+      "capability": "PlanningDomainLifecycle",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_a_planning_domain.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning",
+        "docs/schemas/planning_state.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_A_PLANNING_CONTRACT_REPORT.json"
+      ],
+      "validates": [
+        "six planning schemas",
+        "stable IDs/versioning",
+        "typed trace links",
+        "deterministic dependency graph",
+        "cycle/orphan/duplicate blocking",
+        "explicit lifecycle",
+        "role-bound approval/freeze",
+        "agent cannot auto-approve",
+        "full=0/browser=0"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-08-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_activation_rebind.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Pure domain contract; no runtime source/workspace mutation and no browser/API surface in A."
+      ],
+      "trigger_hints": [
+        "gsdlc-08-a",
+        "planning-domain",
+        "planning-lifecycle"
+      ]
     }
   ],
   "created_by": "POST-H-003-E",
@@ -22570,5 +22626,5 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "schema_version": "2.0",
   "status": "implemented-initial",
-  "contracts_total": 313
+  "contracts_total": 314
 }

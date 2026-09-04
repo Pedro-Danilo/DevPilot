@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "graph_id": "devpilot-documentation-authority-graph",
   "status": "implemented-initial",
-  "owner": "Ordóñez",
+  "owner": "Ord\u00f3\u00f1ez",
   "updated": "2026-09-02",
   "nodes": [
     {
@@ -157,7 +157,7 @@
       ],
       "next": {
         "project_state_expectations": {
-          "next_micro_sprint": "DEVPL-GSDLC-08-B",
+          "next_micro_sprint": "DEVPL-GSDLC-08-C",
           "gsdlc_08_status": "approved/active"
         }
       }

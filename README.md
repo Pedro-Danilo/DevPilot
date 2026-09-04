@@ -1,4 +1,9 @@
 
+## DEVPL-GSDLC-08-A — Planning domain candidate — 2026-09-03
+
+Planning domain contracts are implemented and pending Windows validation: six versioned schemas, pure `PlanningStateService`, deterministic dependency graph, typed requirement/risk/ADR/test-intent links and human role-bound approval/freeze. No UI/API/browser/full regression is introduced in A. 08-B remains unauthorized until Windows PASS.
+
+
 ## DEVPL-GSDLC-08 current activation — 2026-09-03
 
 Full Regression v2.3 is `CLOSED/PASS/WINDOWS-VALIDATED` through the owner-approved closure adjudication. DEVPL-GSDLC-08 v1.3.0 is the current executable backlog rebound to repo397. Activation/rebind is `CLOSED/PASS/WINDOWS-VALIDATED`; no product/API/UI bytes were changed by activation, full=0, browser=0. DEVPL-GSDLC-08-A is authorized on the repo398 successor.
@@ -6563,3 +6568,6 @@ FRX-v2.3-E: safe bounded one-full closure is implemented and pending the single 
 
 ### FRX-v2.3-E composite recovery closure
 Original one-full preserved: 2909/2909 accounted, 2839 PASS, 63 FAIL, 2 ERROR, 5 SKIP. Selective recovery: 65/65 PASS. Composite: 2904 PASS, 0 FAIL, 0 ERROR, 5 SKIP, 2909 accounted. No second full. Parallel decision: PASS/AVAILABLE-NOT-DEFAULT (24.443% incremental < 30% threshold). FRX v2.3 closes and DEVPL-GSDLC-08 is authorized.
+### DEVPL-GSDLC-08-A Windows closure — 2026-09-03
+GSDLC-08-A está `CLOSED/PASS/WINDOWS-VALIDATED`: planning domain contracts/lifecycle/dependency graph validados; full=0/browser=0. GSDLC-08-B queda autorizado sobre repo399.
+

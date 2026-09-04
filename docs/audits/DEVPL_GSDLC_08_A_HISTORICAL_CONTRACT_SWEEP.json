@@ -1,0 +1,54 @@
+{
+  "schema_id": "DEVPL-HISTORICAL-CONTRACT-SWEEP-V1",
+  "micro_sprint": "DEVPL-GSDLC-08-A",
+  "status": "PASS",
+  "unclassified_total": 0,
+  "entries": [
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "classification": "current-active",
+      "action": "advance-08-A-status"
+    },
+    {
+      "path": "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md",
+      "classification": "current-active",
+      "action": "preserve-authority"
+    },
+    {
+      "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_4_0.md",
+      "classification": "historical-freeze",
+      "action": "preserve"
+    },
+    {
+      "path": "tests/test_frx_v2_3_e_safe_parallel_full.py",
+      "classification": "historical-freeze",
+      "action": "no-change"
+    },
+    {
+      "path": ".devpilot/testing/test_isolation_registry.json",
+      "classification": "derived",
+      "action": "append-new-nodeids-unclassified"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "classification": "current-active",
+      "action": "register-six-planning-schemas"
+    }
+  ],
+  "isolation_registry_reconciliation": {
+    "collection_total": 2925,
+    "inherited_missing_nodeids_corrected": 16,
+    "activation_a_new_nodeids_registered": 16,
+    "default_state": "UNCLASSIFIED",
+    "parallel_safe": false,
+    "full_runs": 0
+  },
+  "classifications": [
+    {
+      "contract": "tests/test_devpl_gsdlc_08_activation_rebind.py::test_08_activation_state_is_fail_closed_until_windows_pass",
+      "classification": "current-active",
+      "action": "replace exact repo398 current pointer assertion with immutable activation source repo397 + governed successor invariant",
+      "reason": "A closure advances current_repo to repo399; activation evidence/source remains frozen."
+    }
+  ]
+}
