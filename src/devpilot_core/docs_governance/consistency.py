@@ -7,6 +7,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.runtime_state.models import utc_now_iso
+from devpilot_core.testing.project_state_progress import post_h_progress_rank
 from devpilot_core.validators.frontmatter import parse_frontmatter_file
 
 from .authority import DocumentationAuthorityGraph, DocumentationDriftLedger, DerivedMetadataProjection
@@ -185,6 +186,14 @@ class ClosureStateConsistencyValidator:
             next_cfg = contract.get('next', {}) if isinstance(contract.get('next'), dict) else {}
             for field, value in next_cfg.get('project_state_expectations', {}).items():
                 self._check(checks, findings, f'{contract_id}:next:{field}', _norm(state.get(field)) == _norm(value), f'Project State {field} must equal {value}.', path='.devpilot/project_state.json', metadata={'expected': value, 'current': state.get(field)})
+            for field, value in next_cfg.get('project_state_minimum_progress', {}).items():
+                current = state.get(field)
+                self._check(
+                    checks, findings, f'{contract_id}:next-minimum-progress:{field}',
+                    post_h_progress_rank(str(current or '')) >= post_h_progress_rank(str(value)),
+                    f'Project State {field} must not regress behind {value}.',
+                    path='.devpilot/project_state.json', metadata={'minimum': value, 'current': current},
+                )
 
         mismatches = DerivedMetadataProjection.source_registry_mismatches(registry)
         self._check(checks, findings, 'SOURCE_REGISTRY_DERIVED_SUMMARY', not mismatches, 'Source Registry mutable summary must be derived from live documents collection.', path='.devpilot/docs_governance/source_registry.json', metadata={'mismatches': mismatches})

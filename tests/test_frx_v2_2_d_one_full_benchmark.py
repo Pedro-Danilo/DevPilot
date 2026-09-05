@@ -218,7 +218,9 @@ def test_frx_v2_2_d_residual_recovery_contracts_are_closed() -> None:
         instance_label="memory:frx-v2.2-d-local-release-candidate-criteria",
     )
     assert schema_result.ok, schema_result.to_dict()
-    assert criteria["expected_next_micro_sprint"] == "FRX-v2.2-D"
+    state = json.loads((root / ".devpilot/project_state.json").read_text(encoding="utf-8"))
+    assert state["frx_v2_2_full_regression_reserved_for"] == "FRX-v2.2-D"
+    assert criteria["expected_next_micro_sprint"] == state["next_micro_sprint"]
 
     compatibility = CliCompatibilityContractRunner(root).run()
     assert compatibility.ok, compatibility.to_dict()

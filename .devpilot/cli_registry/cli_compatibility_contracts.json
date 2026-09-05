@@ -7,9 +7,9 @@
   "updated": "2026-09-02",
   "source_matrix": ".devpilot/cli_registry/command_ownership_matrix.json",
   "summary": {
-    "contracts_total": 85,
+    "contracts_total": 86,
     "tier_0_contracts_total": 79,
-    "tier_1_contracts_total": 6,
+    "tier_1_contracts_total": 7,
     "tier_2_contracts_total": 0,
     "smoke_contracts_total": 19,
     "covers_migrated_commands": true,
@@ -18,8 +18,8 @@
     "external_api_used": false,
     "source_mutations_performed": false,
     "preliminary": true,
-    "commands_with_contracts_total": 85,
-    "high_or_critical_contracts_total": 67,
+    "commands_with_contracts_total": 86,
+    "high_or_critical_contracts_total": 68,
     "missing_required_contracts_total": 0
   },
   "contracts": [
@@ -8409,6 +8409,136 @@
         "Full Regression Execution v2.1 is sequential and local-first; subprocess argv is typed and shell=False.",
         "Runtime writes are confined to outputs/testing/full_regression/<session_id>; source mutation or fingerprint drift BLOCKS.",
         "Explicit --execute is required. v2.1 does not claim Approval/PolicyEngine binding."
+      ]
+    },
+    {
+      "contract_id": "cli-compat:tests.parallel-canary",
+      "command_id": "tests.parallel-canary",
+      "tier": "tier_1",
+      "command_path": [
+        "tests",
+        "parallel-canary"
+      ],
+      "public_invocation": "python -m devpilot_core tests parallel-canary",
+      "domain_owner": "governance.testing",
+      "owner_module": "src/devpilot_core/cli.py",
+      "target_module": "src/devpilot_core/cli.py",
+      "migration_state": "registered-only",
+      "registry_phase": "declarative-initial",
+      "risk_level": "high",
+      "compatibility_scope": "migrated-or-high-risk",
+      "json_contract": {
+        "required_top_level_keys": [
+          "command",
+          "ok",
+          "exit_code",
+          "message",
+          "data",
+          "findings"
+        ],
+        "preserve_command_result_envelope": true,
+        "data_object_required": true,
+        "findings_array_required": true,
+        "allow_additive_fields": true,
+        "breaking_changes": [
+          "remove_top_level_key",
+          "rename_command",
+          "change_exit_code_semantics",
+          "drop_findings_array"
+        ]
+      },
+      "exit_code_contract": {
+        "allowed_exit_codes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "pass": 0,
+        "fail": 1,
+        "block": 2,
+        "error": 3,
+        "preserve_exit_code_semantics": true
+      },
+      "help_contract": {
+        "required_tokens": [
+          "tests",
+          "parallel-canary"
+        ],
+        "help_must_remain_available": true,
+        "operator_facing_name": "tests parallel-canary"
+      },
+      "normalization": {
+        "timestamp_fields": [
+          "generated_at_utc",
+          "created_at",
+          "created_at_utc",
+          "updated_at",
+          "last_validated_at_utc"
+        ],
+        "path_fields": [
+          "root",
+          "target_root",
+          "registry_path",
+          "output_json",
+          "output_markdown",
+          "state_path",
+          "reports_path",
+          "traces_path"
+        ],
+        "duration_fields": [
+          "duration_ms",
+          "elapsed_ms",
+          "expected_duration_seconds"
+        ],
+        "volatile_metadata_fields": [
+          "git.commit",
+          "git.branch",
+          "git.dirty",
+          "python_executable",
+          "generated_at_utc",
+          "current_time"
+        ],
+        "absolute_paths_normalized_to": "<ROOT>",
+        "runtime_outputs_normalized": true
+      },
+      "safety": {
+        "local_first": true,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "remote_execution_allowed": false,
+        "connector_write_allowed": false,
+        "plugin_execution_allowed": false,
+        "destructive_execution_allowed": false,
+        "source_mutations_allowed": false,
+        "dry_run_required_for_mutating_commands": false,
+        "reports_only_under_outputs": true
+      },
+      "smoke": {
+        "enabled": false,
+        "safe": true,
+        "argv": [
+          "tests",
+          "parallel-canary",
+          "--json"
+        ],
+        "requires_dry_run": false,
+        "notes": "Static compatibility only; executing the canary is not part of this smoke."
+      },
+      "approved_change_process": {
+        "fixture_update_requires_audit_note": true,
+        "requires_backlog_or_manifest_update": true,
+        "breaking_change_allowed_without_owner_approval": false,
+        "backlog_reference": "FRX-v2.3-D",
+        "owner": "FRX-v2.3-D"
+      },
+      "destructive_execution_allowed": false,
+      "requires_confirmation_for_destructive_execution": false,
+      "writes_files": true,
+      "writes_only_outputs_or_runtime_state": true,
+      "source_mutations_allowed": false,
+      "notes": [
+        "FRX-v2.3-D compatibility successor; preview remains default and execute remains explicitly governed."
       ]
     },
     {

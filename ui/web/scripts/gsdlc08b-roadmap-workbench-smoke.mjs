@@ -4,7 +4,7 @@ const root=path.resolve(import.meta.dirname,'..','..','..');
 const read=(rel)=>fs.readFileSync(path.join(root,rel),'utf8');
 const json=(rel)=>JSON.parse(read(rel));
 const assert=(condition,message)=>{if(!condition)throw new Error(message);};
-const main=read('ui/web/src/main.ts'); const view=read('ui/web/src/pages/RoadmapWorkbenchView.ts'); const client=read('ui/web/src/api/client.ts'); const css=read('ui/web/src/styles.css');
+const main=read('ui/web/src/main.ts'); const view=read('ui/web/src/pages/RoadmapWorkbenchView.ts'); const client=read('ui/web/src/api/client.ts'); const css=read('ui/web/src/styles.css')+read('ui/web/src/planning.css');
 const api=json('.devpilot/interfaces/api_route_contract_registry.json'); const ui=json('.devpilot/interfaces/ui_route_contract_registry.json'); const rbac=json('.devpilot/identity/server_rbac_policy_catalog.json'); const pkg=json('ui/web/package.json');
 const apiIds=['api.planning-roadmap.status','api.planning-roadmap.propose','api.planning-roadmap.review','api.planning-roadmap.approve','api.planning-roadmap.freeze'];
 assert(main.includes("'/planning/roadmap'")&&main.includes('renderRoadmapWorkbenchView'),'planning route must be wired');

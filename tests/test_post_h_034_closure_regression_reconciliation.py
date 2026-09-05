@@ -4,6 +4,8 @@ import json
 import re
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank
+
 from devpilot_core.application import application_cli_boundary_integration_report
 from devpilot_core.cli_registry import CliNoGrowthGate
 from devpilot_core.release_candidate import EvidenceFreshnessScanner, LocalReleaseCandidateReporter
@@ -60,7 +62,7 @@ def test_closure_state_and_backlog_are_administratively_closed() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-034"
     assert state["post_h_eval_002_status"] == "approved/active-evaluation"
-    assert state["current_micro_sprint"] == "DEVPL-GSDLC-07-E"
+    assert post_h_progress_rank(state["current_micro_sprint"]) >= post_h_progress_rank("DEVPL-GSDLC-07-E")
     assert re.fullmatch(
         r"POST-H-EVAL-002-(?:01-[A-D]|02-[A-E]|03-[A-E])",
         state["post_h_eval_002_current_micro_sprint"],

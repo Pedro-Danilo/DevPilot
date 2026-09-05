@@ -29,12 +29,14 @@ def _canonical_sha(value: Any) -> str:
 @dataclass(frozen=True)
 class SafeParallelFullPlanner:
     root: Path
+    policy_path: Path = POLICY_PATH
 
     def build(self, nodeids: Iterable[str], *, environment_fingerprint: str) -> dict[str, Any]:
         root=Path(self.root).resolve(); ordered=[str(x) for x in nodeids]
         if not ordered or len(ordered)!=len(set(ordered)) or any('::' not in x for x in ordered):
             raise ValueError('collection must be non-empty, unique pytest nodeids')
-        policy=_load(root/POLICY_PATH); baseline=_load(root/BASELINE_PATH); br=_load(root/BR_SHADOW_PATH); d=_load(root/D_REPORT_PATH)
+        policy_rel=Path(self.policy_path); policy_file=policy_rel if policy_rel.is_absolute() else root/policy_rel
+        policy=_load(policy_file); baseline=_load(root/BASELINE_PATH); br=_load(root/BR_SHADOW_PATH); d=_load(root/D_REPORT_PATH)
         if policy.get('full_regression_runs_consumed')!=0 or policy.get('full_regression_runs_allowed')!=1 or policy.get('second_full_allowed') is not False:
             raise ValueError('v2.3-E one-full budget is not pristine')
         if d.get('status')!='PASS' or d.get('decision')!='GO-E' or d.get('frx_v2_3_e_authorized') is not True or d.get('full_regression_runs')!=0:
@@ -60,7 +62,7 @@ class SafeParallelFullPlanner:
           'conflict_graph':shadow.get('conflict_graph',{}),'runtime_weighted_safe_coverage_percent':shadow.get('runtime_weighted_safe_coverage_percent',0.0),
           'projected_incremental_parallel_reduction_percent':shadow.get('projected_incremental_parallel_reduction_percent',0.0),
           'sealed_inputs':{
-            'policy_semantic_sha256':_sha(root/POLICY_PATH),'normalized_serial_baseline_semantic_sha256':_sha(root/BASELINE_PATH),
+            'policy_semantic_sha256':_sha(policy_file),'normalized_serial_baseline_semantic_sha256':_sha(root/BASELINE_PATH),
             'isolation_registry_semantic_sha256':_sha(root/'.devpilot/testing/test_isolation_registry.json'),'duration_registry_semantic_sha256':_sha(root/'.devpilot/testing/node_duration_registry.json'),
             'br_shadow_semantic_sha256':_sha(root/BR_SHADOW_PATH),'d_canary_report_semantic_sha256':_sha(root/D_REPORT_PATH),
           },

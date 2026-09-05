@@ -71,7 +71,13 @@ def test_br_evidence_promotion_requires_contract_probe_pass() -> None:
 
 def test_br_evidence_promotion_sets_explicit_review_only_after_pass() -> None:
     base = json.loads((ROOT / '.devpilot/testing/test_isolation_registry.json').read_text(encoding='utf-8'))
-    nodeid = next(x['nodeid'] for x in base['entries'] if x['state'] == 'UNCLASSIFIED' and x['parallel_safe'] is False)
+    # Historical BR contract test must not depend on whichever current test happens
+    # to be the first UNCLASSIFIED entry. Use a deterministic structurally eligible
+    # node and reset only the in-memory fixture to the BR pre-review state.
+    nodeid = 'tests/test_agentops_instrumentation.py::test_agent_runtime_persists_correlated_agentops_spans_and_metrics'
+    current = next(x for x in base['entries'] if x['nodeid'] == nodeid)
+    replacement = TestIsolationRegistry.default_entry(nodeid, runtime_estimate=current.get('runtime_estimate'))
+    base['entries'] = [replacement if x['nodeid'] == nodeid else x for x in base['entries']]
     candidate = {'candidates': [{'candidate_id': 'BR-CAND-0001', 'nodeid': nodeid, 'contract_id': 'TMP_PATH_PROCESS_ISOLATED_V1'}]}
     probes = {'contracts': [{'contract_id': 'TMP_PATH_PROCESS_ISOLATED_V1', 'status': 'PASS', 'evidence_id': 'probe-1'}]}
     promotion = RuntimeSafePromotion(ROOT)
@@ -111,7 +117,8 @@ def test_br_project_state_keeps_repo394_authority_until_windows_closure() -> Non
     state = json.loads((ROOT / '.devpilot/project_state.json').read_text(encoding='utf-8'))
     assert state['frx_v2_3_br_parent_repo'] == 'repo_DevPilot_Local_394_FRX_V2_3_C_CONFLICT_GRAPH_SHADOW_SCHEDULER_WINDOWS_VALIDATED_CANDIDATE.zip'
     assert state['frx_v2_3_br_status'] == 'CLOSED/PASS/WINDOWS-VALIDATED'
-    assert state['current_repo'].startswith('repo_DevPilot_Local_396_')
+    repo_num = int(str(state['current_repo']).split('_')[3])
+    assert repo_num >= 396
     assert state['frx_v2_3_br_authorized'] is True
     assert state['frx_v2_3_d_authorized'] is True
     assert state['frx_v2_3_d_status'] == 'CLOSED/PASS/WINDOWS-VALIDATED'

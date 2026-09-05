@@ -1,5 +1,7 @@
 import type { GuidedSdlcStepActionsResponseData, StepActionCard } from '../api/types';
 
+const PLANNING_ROADMAP_ROUTE_ID = 'ui.planning-roadmap';
+
 export interface StepActionAdvisorRenderOptions {
   onAction?: (action: StepActionCard) => boolean;
 }
@@ -122,6 +124,7 @@ function renderStepActionCard(action: StepActionCard, options: StepActionAdvisor
   primary.type = 'button';
   primary.textContent = action.recommended ? 'Usar opción recomendada' : 'Abrir opción';
   const target = typeof action.navigation_target === 'string' ? action.navigation_target : '';
+  if (target === '/planning/roadmap') card.dataset.routeId = PLANNING_ROADMAP_ROUTE_ID;
   if (!available || (!target && !options.onAction)) {
     primary.disabled = true;
     primary.setAttribute('aria-disabled', 'true');

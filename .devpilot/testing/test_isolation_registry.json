@@ -106380,100 +106380,220 @@
       "suggested_hints": []
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_pre_code_ready_projects_build_roadmap",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_partial_planning_projects_planning_and_visible_blockers",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_frozen_100_percent_planning_projects_implementing_ready",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_trace_graph_links_requirement_milestone_epic_story_sprint",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_incomplete_coverage_never_claims_implementing_ready",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_planning_projection_is_runtime_only_and_no_external_execution",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_application_service_exposes_closure_projection",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_http_router_exposes_backlog_sprint_and_closure_successors",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_security_policy_binds_all_new_planning_routes",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_ui_contains_backlog_sprint_trace_and_rbac_fail_closed",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_project_status_integrates_planning_journey",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     },
     {
-      "evidence": [],
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_08_e_rebind_and_exactly_one_full_lifecycle_contract",
       "parallel_safe": false,
-      "reason": "New GSDLC-08-E test; serial until explicit isolation proof.",
-      "resource_class": "unknown",
-      "state": "UNCLASSIFIED"
+      "state": "UNCLASSIFIED",
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "review": null
     }
   ],
   "policy": {

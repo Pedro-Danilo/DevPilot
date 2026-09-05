@@ -16,7 +16,7 @@
   "connector_write_enabled": false,
   "control_plane_enabled": false,
   "credentials_required": false,
-  "current_micro_sprint": "DEVPL-GSDLC-08-D",
+  "current_micro_sprint": "DEVPL-GSDLC-08-E",
   "current_phase": "DEVPL-GSDLC-08",
   "current_repo": "repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip",
   "devpl_gsdlc_08_authorized": true,
@@ -1520,7 +1520,7 @@
   "industrial_baseline_ready": true,
   "last_completed_sprint": "POST-H-034",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "last_registered_sprint": "DEVPL-GSDLC-08-A",
+  "last_registered_sprint": "DEVPL-GSDLC-08-E",
   "legal_advice_claimed": false,
   "maturity_level": "industrial-baseline-under-e2e-evaluation",
   "multiuser_auth_enabled": false,
@@ -1542,7 +1542,7 @@
   "network_used": false,
   "next_backlog_planned": true,
   "next_backlog_status": "approved/post-h-eval-002",
-  "next_micro_sprint": "DEVPL-GSDLC-08-C",
+  "next_micro_sprint": "DEVPL-GSDLC-09-A",
   "next_sprint": "POST-H-EVAL-002",
   "notes": [
     "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
@@ -3695,5 +3695,7 @@
   "uoc_011_source_commit": "5560e03f7a7c013c85f0fc9cf6075d2a651eb3a2",
   "uoc_011_status": "closed/PASS",
   "updated_at": "2026-08-09T09:18:00-05:00",
-  "gsdlc_08_closure_status": "PENDING-08-E-WINDOWS"
+  "gsdlc_08_closure_status": "PENDING-08-E-WINDOWS",
+  "gsdlc_09_authorized": false,
+  "gsdlc_09_status": "BLOCKED/PENDING-08-E-COMPOSITE-CLOSURE"
 }

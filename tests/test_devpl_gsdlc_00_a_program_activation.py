@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from devpilot_core.testing.project_state_progress import post_h_progress_rank
+
 ROOT = Path(__file__).resolve().parents[1]
 REPO341 = "repo_DevPilot_Local_341_POST_H_EVAL_002_PILOT_TRANSITION_REBIND.zip"
 SHA341 = "e28cd2bae08d099a2b62c4869c83b6e5a647f3f780ca1572727b7c80f6eeea3b"
@@ -60,7 +62,7 @@ def test_gsdlc_canonical_sources_are_registered_and_owner_approved_scope_is_pres
     assert expected <= set(ids)
     # Global current-active documentation may progress to FRX; the dedicated
     # GSDLC pointer preserves the paused DEVPL-GSDLC lineage.
-    assert registry["gsdlc_last_registered_micro_sprint"] == "DEVPL-GSDLC-07-E"
+    assert post_h_progress_rank(registry["gsdlc_last_registered_micro_sprint"]) >= post_h_progress_rank("DEVPL-GSDLC-07-E")
     assert registry["last_registered_sprint"] == j(".devpilot/project_state.json")["last_registered_sprint"]
     assert registry["project_state_snapshot"]["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
     assert registry["gsdlc_00_a_last_registered_micro_sprint_at_close"] == "DEVPL-GSDLC-00-A"

@@ -3,6 +3,7 @@ import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectSt
 import { renderStepActionAdvisor, renderStepActionAdvisorError } from '../components/StepActionAdvisor';
 
 const ROUTE_ID = 'ui.project-status';
+const PLANNING_ROADMAP_ROUTE_ID = 'ui.planning-roadmap';
 
 export function renderProjectStatusView(tokenProvider: () => string): HTMLElement {
   const root = document.createElement('section');
@@ -180,7 +181,7 @@ function renderPlanningJourney(planning: Record<string, any>): HTMLElement {
   const state=document.createElement('p'); state.className='project-status-next-kind'; state.textContent=String(planning.journey_state ?? 'UNKNOWN');
   const text=document.createElement('p'); text.textContent=`Roadmap ${String(planning.roadmap?.lifecycle ?? 'MISSING')} → Backlog ${String(planning.backlog?.lifecycle ?? 'MISSING')} → Sprint ${String(planning.sprint?.lifecycle ?? 'MISSING')}`;
   const coverage=document.createElement('p'); coverage.className='project-status-muted'; coverage.textContent=`Coverage planning requerido: ${String(planning.required_planning_coverage_percent ?? 0)}% · blockers: ${String((planning.blockers ?? []).length)}`;
-  const link=document.createElement('a'); link.href='/planning/roadmap'; link.className='button-link'; link.textContent=planning.journey_state==='IMPLEMENTING_READY'?'Revisar planning congelado':'Continuar Planning Workbench';
+  const link=document.createElement('a'); link.href='/planning/roadmap'; link.dataset.routeId=PLANNING_ROADMAP_ROUTE_ID; link.className='button-link'; link.textContent=planning.journey_state==='IMPLEMENTING_READY'?'Revisar planning congelado':'Continuar Planning Workbench';
   panel.append(title,state,text,coverage,link); return panel;
 }
 

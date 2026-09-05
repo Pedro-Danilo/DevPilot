@@ -107,7 +107,7 @@ def test_post_h_eval_002_sources_are_canonical_in_documentation_registry() -> No
     if state.get("ui_operational_console_program_administrative_closure") is True:
         # The global documentation pointer may advance into a successor FRX
         # lifecycle while GSDLC remains administratively paused at 07-E.
-        assert registry["gsdlc_last_registered_micro_sprint"] == "DEVPL-GSDLC-07-E"
+        assert post_h_progress_rank(registry["gsdlc_last_registered_micro_sprint"]) >= post_h_progress_rank("DEVPL-GSDLC-07-E")
         assert registry["last_registered_sprint"] == state["last_registered_sprint"]
         assert registry["project_state_snapshot"]["last_registered_sprint"] == "POST-H-EVAL-002-UI-OPERATIONAL-CONSOLE-FINAL-CLOSURE"
     elif realized:

@@ -19,6 +19,7 @@ import { renderFirstRunOwnerView } from './pages/FirstRunOwnerView';
 import { renderAccountRoleView } from './pages/AccountRoleView';
 import { renderSessionBanner } from './components/SessionBanner';
 import './styles.css';
+import './planning.css';
 
 const root = document.querySelector<HTMLElement>('#app');
 if (!root) throw new Error('No se encontró el contenedor #app para DevPilot Web UI.');
