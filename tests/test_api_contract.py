@@ -258,6 +258,34 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
                     assert "requestBody" not in operation
                 continue
 
+            planning_ops = {
+                "planning.roadmap.status", "planning.roadmap.propose", "planning.roadmap.review", "planning.roadmap.approve", "planning.roadmap.freeze",
+                "planning.backlog.status", "planning.backlog.propose", "planning.backlog.review", "planning.backlog.approve", "planning.backlog.freeze",
+                "planning.sprint.status", "planning.sprint.propose", "planning.sprint.review", "planning.sprint.approve", "planning.sprint.freeze",
+                "planning.closure.status",
+            }
+            if op_id in planning_ops:
+                assert operation["x-devpilot-status"] == "gsdlc-08-e-planning-closure"
+                assert operation["x-devpilot-sprint"] == "DEVPL-GSDLC-08-E"
+                assert operation["security"] == [{"HumanSessionCookie": []}]
+                assert operation["x-devpilot-auth"] == "human-session-required"
+                assert operation["x-devpilot-source-mutation"] is False
+                assert operation["x-devpilot-project-write"] is False
+                assert operation["x-devpilot-network-runtime"] is False
+                assert operation["x-devpilot-external-api"] is False
+                assert operation["x-devpilot-arbitrary-shell"] is False
+                assert operation["x-devpilot-remote-execution"] is False
+                assert operation["x-devpilot-secret-in-response"] is False
+                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
+                for status in ["400", "401", "403", "422", "500"]:
+                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
+                if method.upper() == "POST":
+                    assert "requestBody" in operation
+                    assert operation["requestBody"]["content"]["application/json"]["example"]["operation"] == op_id
+                else:
+                    assert "requestBody" not in operation
+                continue
+
             gsdlc06_settings_ops = {
                 "settings.providers.enablement.status",
                 "settings.providers.enablement.plan",

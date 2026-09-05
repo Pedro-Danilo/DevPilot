@@ -1,0 +1,22 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-E-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-08-E",
+  "phase": "local-pre-windows",
+  "checks": {
+    "schema_metadata": "PASS",
+    "derived_counters": "PASS",
+    "sensitive_action_rbac_approval_binding": "PASS",
+    "ui_api_mapping": "PASS",
+    "project_state_source_registry_readme_roadmap_current": "PASS",
+    "historical_current_pointer_separation": "PASS",
+    "runtime_ephemeral_exclusion": "PASS",
+    "sealed_evidence_hashing_policy": "PASS",
+    "successor_registry_sync": "PASS"
+  },
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_budget_consumed": 0,
+  "full_authorized_now": false,
+  "full_authorization_reason": "Windows browser acceptance and collection/duration/isolation freshness must PASS first."
+}

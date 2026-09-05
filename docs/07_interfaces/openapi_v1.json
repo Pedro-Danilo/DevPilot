@@ -130,7 +130,8 @@
     "gsdlc_02_b_human_session_authority_initial": true,
     "legacy_local_token_human_authority": false,
     "production_multiuser_enabled": false,
-    "remote_login_enabled": false
+    "remote_login_enabled": false,
+    "gsdlc_08_e_planning_routes": 16
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -15658,6 +15659,1718 @@
         "x-devpilot-secret-in-response": false,
         "description": "Read-only projection of sealed GSDLC-07-E AgentEvalTrace/model-task/cost/human-decision evidence. No model/tool execution, network, external API or source mutation.",
         "x-devpilot-local-only": true
+      }
+    },
+    "/api/v1/planning/roadmap": {
+      "get": {
+        "operationId": "planning_roadmap_status",
+        "summary": "API-GSDLC-08-B-ROADMAP-STATUS: planning.roadmap.status",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-B-ROADMAP-STATUS",
+        "x-devpilot-operation": "planning.roadmap.status",
+        "x-devpilot-domain-service": "PlanningClosureApplicationService / RoadmapWorkbench",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/roadmap/proposals": {
+      "post": {
+        "operationId": "planning_roadmap_propose",
+        "summary": "API-GSDLC-08-B-ROADMAP-PROPOSE: planning.roadmap.propose",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-B-ROADMAP-PROPOSE",
+        "x-devpilot-operation": "planning.roadmap.propose",
+        "x-devpilot-domain-service": "ApplicationService -> RoadmapWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.roadmap.propose",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/roadmap/review": {
+      "post": {
+        "operationId": "planning_roadmap_review",
+        "summary": "API-GSDLC-08-B-ROADMAP-REVIEW: planning.roadmap.review",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-B-ROADMAP-REVIEW",
+        "x-devpilot-operation": "planning.roadmap.review",
+        "x-devpilot-domain-service": "ApplicationService -> RoadmapWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.roadmap.review",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/roadmap/approve": {
+      "post": {
+        "operationId": "planning_roadmap_approve",
+        "summary": "API-GSDLC-08-B-ROADMAP-APPROVE: planning.roadmap.approve",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-B-ROADMAP-APPROVE",
+        "x-devpilot-operation": "planning.roadmap.approve",
+        "x-devpilot-domain-service": "ApplicationService -> RoadmapWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.roadmap.approve",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/roadmap/freeze": {
+      "post": {
+        "operationId": "planning_roadmap_freeze",
+        "summary": "API-GSDLC-08-B-ROADMAP-FREEZE: planning.roadmap.freeze",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-B-ROADMAP-FREEZE",
+        "x-devpilot-operation": "planning.roadmap.freeze",
+        "x-devpilot-domain-service": "ApplicationService -> RoadmapWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.roadmap.freeze",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/backlog": {
+      "get": {
+        "operationId": "planning_backlog_status",
+        "summary": "API-GSDLC-08-C-BACKLOG-STATUS: planning.backlog.status",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-C-BACKLOG-STATUS",
+        "x-devpilot-operation": "planning.backlog.status",
+        "x-devpilot-domain-service": "ApplicationService -> BacklogWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/backlog/proposals": {
+      "post": {
+        "operationId": "planning_backlog_propose",
+        "summary": "API-GSDLC-08-C-BACKLOG-PROPOSE: planning.backlog.propose",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-C-BACKLOG-PROPOSE",
+        "x-devpilot-operation": "planning.backlog.propose",
+        "x-devpilot-domain-service": "ApplicationService -> BacklogWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.backlog.propose",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/backlog/review": {
+      "post": {
+        "operationId": "planning_backlog_review",
+        "summary": "API-GSDLC-08-C-BACKLOG-REVIEW: planning.backlog.review",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-C-BACKLOG-REVIEW",
+        "x-devpilot-operation": "planning.backlog.review",
+        "x-devpilot-domain-service": "ApplicationService -> BacklogWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.backlog.review",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/backlog/approve": {
+      "post": {
+        "operationId": "planning_backlog_approve",
+        "summary": "API-GSDLC-08-C-BACKLOG-APPROVE: planning.backlog.approve",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-C-BACKLOG-APPROVE",
+        "x-devpilot-operation": "planning.backlog.approve",
+        "x-devpilot-domain-service": "ApplicationService -> BacklogWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.backlog.approve",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/backlog/freeze": {
+      "post": {
+        "operationId": "planning_backlog_freeze",
+        "summary": "API-GSDLC-08-C-BACKLOG-FREEZE: planning.backlog.freeze",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-C-BACKLOG-FREEZE",
+        "x-devpilot-operation": "planning.backlog.freeze",
+        "x-devpilot-domain-service": "ApplicationService -> BacklogWorkbenchApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.backlog.freeze",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/sprint": {
+      "get": {
+        "operationId": "planning_sprint_status",
+        "summary": "API-GSDLC-08-D-SPRINT-STATUS: planning.sprint.status",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-D-SPRINT-STATUS",
+        "x-devpilot-operation": "planning.sprint.status",
+        "x-devpilot-domain-service": "ApplicationService -> SprintPlannerApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/sprint/proposals": {
+      "post": {
+        "operationId": "planning_sprint_propose",
+        "summary": "API-GSDLC-08-D-SPRINT-PROPOSE: planning.sprint.propose",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-D-SPRINT-PROPOSE",
+        "x-devpilot-operation": "planning.sprint.propose",
+        "x-devpilot-domain-service": "ApplicationService -> SprintPlannerApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.sprint.propose",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/sprint/review": {
+      "post": {
+        "operationId": "planning_sprint_review",
+        "summary": "API-GSDLC-08-D-SPRINT-REVIEW: planning.sprint.review",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-D-SPRINT-REVIEW",
+        "x-devpilot-operation": "planning.sprint.review",
+        "x-devpilot-domain-service": "ApplicationService -> SprintPlannerApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.sprint.review",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/sprint/approve": {
+      "post": {
+        "operationId": "planning_sprint_approve",
+        "summary": "API-GSDLC-08-D-SPRINT-APPROVE: planning.sprint.approve",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-D-SPRINT-APPROVE",
+        "x-devpilot-operation": "planning.sprint.approve",
+        "x-devpilot-domain-service": "ApplicationService -> SprintPlannerApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.sprint.approve",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/sprint/freeze": {
+      "post": {
+        "operationId": "planning_sprint_freeze",
+        "summary": "API-GSDLC-08-D-SPRINT-FREEZE: planning.sprint.freeze",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-D-SPRINT-FREEZE",
+        "x-devpilot-operation": "planning.sprint.freeze",
+        "x-devpilot-domain-service": "ApplicationService -> SprintPlannerApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "local_runtime_planning_state",
+        "x-devpilot-dry-run-default": false,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "planning.sprint.freeze",
+                "payload": {},
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/planning/closure": {
+      "get": {
+        "operationId": "planning_closure_status",
+        "summary": "API-GSDLC-08-E-CLOSURE: planning.closure.status",
+        "description": "GSDLC-08-E current-active integrated Planning Workbench route. Project-scoped, human-session governed and local-first.",
+        "tags": [
+          "planning"
+        ],
+        "security": [
+          {
+            "HumanSessionCookie": []
+          }
+        ],
+        "x-devpilot-api-id": "API-GSDLC-08-E-CLOSURE",
+        "x-devpilot-operation": "planning.closure.status",
+        "x-devpilot-domain-service": "ApplicationService -> PlanningClosureApplicationService",
+        "x-devpilot-status": "gsdlc-08-e-planning-closure",
+        "x-devpilot-sprint": "DEVPL-GSDLC-08-E",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "human-session-required",
+        "x-devpilot-policy": "Policy/gate: authenticated human session + server RBAC + API_ROUTE_POLICIES; no source/code execution.",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-source-mutation": false,
+        "x-devpilot-project-write": false,
+        "x-devpilot-network-runtime": false,
+        "x-devpilot-external-api": false,
+        "x-devpilot-arbitrary-shell": false,
+        "x-devpilot-remote-execution": false,
+        "x-devpilot-secret-in-response": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid human session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RBAC/Policy blocked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },

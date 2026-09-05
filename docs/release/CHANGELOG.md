@@ -3261,3 +3261,10 @@ GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance P
 - Focal D 12/12 and predecessor A+B+C 31/31 PASS; deterministic closure gates PASS.
 - Browser runs=0; full regression runs=0.
 - Canonical successor candidate: `repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+### DEVPL-GSDLC-08-E — Planning traceability/browser closure — implementation candidate
+- Exposes governed backlog/sprint ApplicationService operations through local planning API routes.
+- Adds deterministic planning journey + requirement→milestone→epic→story→sprint trace projection.
+- Extends Planning Workbench and Project Status browser surfaces without source/code execution.
+- Reconciles current GSDLC pointers as successor state while preserving historical snapshots.
+- Leaves full regression budget at `0/1`; Windows browser acceptance precedes the exactly-one logical full.

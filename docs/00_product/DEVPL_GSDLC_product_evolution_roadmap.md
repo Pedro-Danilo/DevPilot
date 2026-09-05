@@ -566,3 +566,6 @@ Status: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING`. Authority: repo401 / `5ad
 ### DEVPL-GSDLC-08-D Windows closure
 
 GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`; SprintPlanner/SprintPlan are Windows-validated with capacity/readiness/dependency negatives and role-bound immutable freeze. No browser route changed (`browser=0`), full budget remains `0/1`, and the pre-full handoff authorizes 08-E on `repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+### GSDLC-08-E — implementation candidate
+Planning Workbench browser closure is implemented locally on repo402 successor: integrated roadmap/backlog/sprint/trace UI, planning journey projection, server-RBAC approval/freeze and successor-aware current pointers. Windows browser acceptance + exactly-one logical full remain the closure gate.

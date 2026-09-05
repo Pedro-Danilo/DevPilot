@@ -33,9 +33,11 @@ export function renderProjectStatusView(tokenProvider: () => string): HTMLElemen
 async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenProvider: () => string): Promise<void> {
   root.dataset.uiState = 'loading';
   try {
-    const response = await new DevPilotApiClient({ token: tokenProvider() }).projectStatus();
+    const api = new DevPilotApiClient({ token: tokenProvider() });
+    const [response, planning] = await Promise.all([api.projectStatus(), api.planningClosure()]);
     const data = response.data;
     const statePanel = renderState(data);
+    const planningPanel = renderPlanningJourney((planning.data as any).planning_closure ?? {});
     const advisorMount = document.createElement('div');
     advisorMount.className = 'step-action-advisor-mount';
     advisorMount.setAttribute('aria-live', 'polite');
@@ -54,7 +56,7 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     wizardLink.className = 'button-link';
     wizardLink.textContent = 'Abrir pre-code guiado';
     wizardCta.append(wizardTitle, wizardText, wizardLink);
-    content.replaceChildren(statePanel, wizardCta, advisorMount);
+    content.replaceChildren(statePanel, planningPanel, wizardCta, advisorMount);
     root.dataset.uiState = normalizeUiState(data.ui_state);
     void loadStepActions(advisorMount, tokenProvider);
   } catch (error) {
@@ -170,6 +172,16 @@ function renderNextAction(action: GuidedSdlcNextAction): HTMLElement {
   });
   panel.append(title, kind, explanation, reason, button);
   return panel;
+}
+
+function renderPlanningJourney(planning: Record<string, any>): HTMLElement {
+  const panel=document.createElement('article'); panel.className='panel project-status-card project-status-card--planning';
+  const title=document.createElement('h3'); title.textContent='Planning Journey';
+  const state=document.createElement('p'); state.className='project-status-next-kind'; state.textContent=String(planning.journey_state ?? 'UNKNOWN');
+  const text=document.createElement('p'); text.textContent=`Roadmap ${String(planning.roadmap?.lifecycle ?? 'MISSING')} → Backlog ${String(planning.backlog?.lifecycle ?? 'MISSING')} → Sprint ${String(planning.sprint?.lifecycle ?? 'MISSING')}`;
+  const coverage=document.createElement('p'); coverage.className='project-status-muted'; coverage.textContent=`Coverage planning requerido: ${String(planning.required_planning_coverage_percent ?? 0)}% · blockers: ${String((planning.blockers ?? []).length)}`;
+  const link=document.createElement('a'); link.href='/planning/roadmap'; link.className='button-link'; link.textContent=planning.journey_state==='IMPLEMENTING_READY'?'Revisar planning congelado':'Continuar Planning Workbench';
+  panel.append(title,state,text,coverage,link); return panel;
 }
 
 function renderSignals(status: GuidedSdlcProjectStatus): HTMLElement {

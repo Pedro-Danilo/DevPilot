@@ -1,0 +1,15 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-E-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-08-E",
+  "full_regression_runs": 0,
+  "classifications": [
+    {"subject":"GSDLC-08-A planning domain schemas","classification":"historical-freeze","decision":"unchanged"},
+    {"subject":"GSDLC-08-B roadmap workbench","classification":"historical-freeze","decision":"reused through successor UI"},
+    {"subject":"GSDLC-08-C backlog workbench","classification":"current-active","decision":"HTTP/UI successor binding added without changing C validation semantics"},
+    {"subject":"GSDLC-08-D sprint planner","classification":"current-active","decision":"HTTP/UI successor binding added without changing D validation semantics"},
+    {"subject":"global GSDLC current pointers","classification":"successor-needed","decision":"reconciled in E while preserving pre-E snapshot"},
+    {"subject":"outputs planning/auth/full-regression stores","classification":"runtime-ephemeral","decision":"excluded from source candidates and ZIPs"}
+  ],
+  "unclassified_total": 0
+}

@@ -1,0 +1,12 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-E-TEST-IMPACT-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-08-E",
+  "strategy": "focal+accumulative+browser-before-exactly-one-full",
+  "full_regression_runs_local": 0,
+  "full_budget": {"consumed": 0, "remaining": 1, "total": 1},
+  "focal_test": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+  "cumulative_tests": ["tests/test_devpl_gsdlc_08_a_planning_domain.py","tests/test_devpl_gsdlc_08_b_roadmap_workbench.py","tests/test_devpl_gsdlc_08_c_backlog_workbench.py","tests/test_devpl_gsdlc_08_d_sprint_planner.py"],
+  "browser_required": true,
+  "changed_domains": ["planning","application.service","api","ui","rbac","documentation-contracts","project-state"]
+}

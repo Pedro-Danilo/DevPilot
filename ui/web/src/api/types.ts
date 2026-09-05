@@ -1198,3 +1198,45 @@ export interface RoadmapWorkbenchProjection {
 export interface RoadmapWorkbenchResponseData {
   roadmap_workbench: RoadmapWorkbenchProjection | Record<string, unknown>;
 }
+
+
+export interface BacklogProposalRequest {
+  mode: 'MANUAL' | 'DERIVED' | 'AGENT';
+  backlog: Record<string, unknown>;
+  required_requirement_ids: string[];
+  roadmap_milestone_ids: string[];
+  known_adr_ids: string[];
+  known_risk_ids: string[];
+  known_test_intent_ids: string[];
+  source_label?: string;
+}
+
+export interface BacklogWorkbenchResponseData { backlog_workbench: Record<string, unknown>; }
+
+export interface SprintProposalRequest {
+  sprint_plan: Record<string, unknown>;
+  backlog: Record<string, unknown>;
+  dependencies: Array<Record<string, unknown>>;
+}
+
+export interface SprintPlannerResponseData { sprint_planner: Record<string, unknown>; }
+
+export interface PlanningClosureResponseData {
+  planning_closure: {
+    workspace_id?: string;
+    journey_state?: 'PRE_CODE_READY' | 'PLANNING' | 'IMPLEMENTING_READY' | string;
+    required_planning_coverage_percent?: number;
+    blockers?: Array<Record<string, unknown>>;
+    roadmap?: Record<string, unknown>;
+    backlog?: Record<string, unknown>;
+    sprint?: Record<string, unknown>;
+    trace_graph?: { nodes?: Array<Record<string, unknown>>; edges?: Array<Record<string, unknown>>; coverage_percent?: number };
+    next_action?: Record<string, unknown>;
+    effective_roles?: string[];
+    runtime_only?: boolean;
+    server_authoritative?: boolean;
+    source_mutations_performed?: false;
+    network_used?: false;
+    external_api_used?: false;
+  };
+}

@@ -258,3 +258,8 @@ El contrato API queda complementado por `api operator-flow-smoke`, que valida fl
 POST-H-028-E agrega enforcement bloqueante del `UiRouteContractRegistry`. Las vistas criticas deben declarar sus fuentes, estados visuales y `allowed_api_routes`; esas rutas deben existir en `ApiRouteContractRegistry`. La UI conserva frontera API-only: no importa core Python, no lee `.devpilot/` ni `outputs/`, y no muestra controles para `patch/apply`, rollback execute, refactor execute, tests/run, git push o deploy.
 
 El script `npm --prefix ui/web run test:route-enforcement` es dependency-light y complementa el CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`.
+
+
+## DEVPL-GSDLC-08-E successor — Planning Workbench
+
+La superficie current-active incorpora `/api/v1/planning/*` para RoadmapWorkbench, BacklogWorkbench, SprintPlanner y la proyección read-only `planning.closure.status`. Todas estas rutas requieren sesión humana, RBAC/policy server-side, permanecen local-first y solo mutan artefactos runtime de planning; no ejecutan código ni escriben source. El OpenAPI estático, ApplicationService route contract, API route registry y mapping se reconcilian como successor antes de la única full regression de 08-E.

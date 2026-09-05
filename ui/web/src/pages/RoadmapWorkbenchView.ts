@@ -2,70 +2,57 @@ import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { AuthSessionContext, RoadmapProposalRequest, RoadmapWorkbenchProjection } from '../api/types';
 import { renderStepActionAdvisor } from '../components/StepActionAdvisor';
 
-const DEFAULT_ROADMAP = {
-  roadmap_id: 'planning-roadmap-001', version: '1.0.0', milestones: [
-    { id: 'mil-foundation', version: '1.0.0', title: 'Foundation', owner_role: 'product-owner', outcome: 'Validated planning foundation', exit_criteria: ['Required scope covered'], trace_links: [{ kind: 'requirement', target_id: 'REQ-001' }, { kind: 'risk', target_id: 'RISK-001' }] },
-  ], dependencies: [],
-};
+const DEFAULT_ROADMAP = { roadmap_id:'planning-roadmap-001',version:'1.0.0',milestones:[{id:'mil-foundation',version:'1.0.0',title:'Foundation',owner_role:'product-owner',outcome:'Validated planning foundation',exit_criteria:['Required scope covered'],trace_links:[{kind:'requirement',target_id:'REQ-001'},{kind:'requirement',target_id:'REQ-002'},{kind:'risk',target_id:'RISK-001'}]}],dependencies:[] };
+const DEFAULT_BACKLOG = { backlog_id:'planning-backlog-001',version:'1.0.0',epics:[{id:'epic-foundation',version:'1.0.0',title:'Foundation',owner_role:'product-owner',milestone_id:'mil-foundation',trace_links:[{kind:'requirement',target_id:'REQ-001'}],priority:{level:'P0',value_score:5,risk_score:4,rationale:'Core business foundation',source:'MANUAL'}}],stories:[{id:'story-first',version:'1.0.0',title:'First story',owner_role:'developer',epic_id:'epic-foundation',acceptance_criteria:['REQ-001 accepted'],trace_links:[{kind:'requirement',target_id:'REQ-001'},{kind:'adr',target_id:'ADR-001'},{kind:'risk',target_id:'RISK-001'},{kind:'test-intent',target_id:'TEST-001'}],priority:{level:'P0',value_score:5,risk_score:4,rationale:'Required first',source:'MANUAL'}},{id:'story-second',version:'1.0.0',title:'Second story',owner_role:'developer',epic_id:'epic-foundation',acceptance_criteria:['REQ-002 accepted'],trace_links:[{kind:'requirement',target_id:'REQ-002'}],priority:{level:'P1',value_score:4,risk_score:3,rationale:'Required second',source:'MANUAL'}}],dependencies:[{id:'dep-first-second',predecessor_id:'story-first',successor_id:'story-second',kind:'requires',rationale:'Second depends on first'}] };
+const DEFAULT_SPRINT = { schema_id:'SCHEMA-DEVPL-PLANNING-SPRINT-PLAN-V1',schema_version:'1.0.0',sprint_plan_id:'sprint-plan-001',version:'1.0.0',title:'Sprint 1',owner_role:'product-owner',lifecycle:'DRAFT',backlog_reference:{backlog_id:'planning-backlog-001',version:'1.0.0',lifecycle:'FROZEN',content_sha256:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'},capacity:{unit:'points',limit:8},selected_stories:[{story_id:'story-first',estimate:3,readiness:'READY',blocking_reasons:[]},{story_id:'story-second',estimate:5,readiness:'READY',blocking_reasons:[]}],completed_story_ids:[],definition_of_ready:['acceptance criteria approved','dependencies known'],definition_of_done:['tests PASS','evidence stored'],test_intent_ids:['TEST-001'],risk_focus_ids:['RISK-001'] };
 
-export function renderRoadmapWorkbenchView(tokenProvider: () => string | null, session: AuthSessionContext): HTMLElement {
-  const host=document.createElement('section'); host.className='roadmap-workbench'; host.dataset.gsdlc08b='roadmap-workbench'; host.setAttribute('aria-labelledby','roadmap-workbench-title');
-  const intro=document.createElement('div'); intro.className='panel roadmap-workbench__intro';
-  const h=document.createElement('h2'); h.id='roadmap-workbench-title'; h.textContent='Roadmap Workbench';
-  const p=document.createElement('p'); p.textContent='Manual, import y propuesta de agente producen el mismo contrato DRAFT. Review, approval y freeze siguen siendo autoridad humana del servidor.';
-  const safety=document.createElement('p'); safety.className='muted'; safety.textContent='Local-first · runtime planning only · sin escritura de source · sin API externa obligatoria · agent output nunca auto-aprueba.';
-  intro.append(h,p,safety); host.append(intro);
-
+export function renderRoadmapWorkbenchView(tokenProvider:()=>string|null, session:AuthSessionContext):HTMLElement{
+  const host=document.createElement('section'); host.className='roadmap-workbench'; host.dataset.gsdlc08e='planning-workbench'; host.setAttribute('aria-labelledby','planning-workbench-title');
+  const intro=panel('Planning Workbench','Roadmap → backlog → sprint → trazabilidad. DevPilot mantiene una única experiencia gobernada desde PRE_CODE_READY hasta IMPLEMENTING_READY.');
+  intro.querySelector('h3')!.id='planning-workbench-title'; const safe=document.createElement('p'); safe.className='muted'; safe.textContent='Local-first · runtime planning only · sin ejecución de código · approval/freeze humano · agent suggestions nunca auto-aprueban.'; intro.append(safe); host.append(intro);
   const status=document.createElement('div'); status.className='notice'; status.setAttribute('role','status'); status.setAttribute('aria-live','polite'); host.append(status);
-  const content=document.createElement('div'); content.className='roadmap-workbench__content'; host.append(content);
-  const client=()=>new DevPilotApiClient({ token: tokenProvider() });
+  const advisorMount=document.createElement('div'); advisorMount.dataset.planningAdvisor='true'; host.append(advisorMount);
+  const journey=document.createElement('div'); host.append(journey);
+  const client=()=>new DevPilotApiClient({token:tokenProvider()});
 
-  async function load(message=''):Promise<void>{
-    status.className='notice notice--loading'; status.textContent=message||'Cargando roadmap gobernado…';
-    try {
-      const response=await client().roadmapStatus(); const wb=extract(response.data); draw(wb); status.className='notice notice--pass'; status.textContent=message||'Roadmap Workbench listo.';
-    } catch (error) { content.replaceChildren(); status.className='notice notice--block'; status.textContent=errorText(error); }
+  const roadmapArea=jsonArea('Roadmap JSON',DEFAULT_ROADMAP,16); const backlogArea=jsonArea('Backlog JSON',DEFAULT_BACKLOG,18); const sprintArea=jsonArea('SprintPlan JSON',DEFAULT_SPRINT,18);
+  const roadmapMode=selectField('Ruta roadmap',[['MANUAL','Manual'],['IMPORT','Import'],['AGENT','Agent-assisted']],new URLSearchParams(location.search).get('mode')||'MANUAL');
+  const backlogMode=selectField('Ruta backlog',[['MANUAL','Manual'],['DERIVED','Derivada'],['AGENT','Agent-assisted']],'MANUAL');
+
+  const roadmap=section('1 · Roadmap','Manual, import y agente producen DRAFT bajo el mismo schema.', roadmapMode, roadmapArea);
+  actions(roadmap,[['Guardar DRAFT',()=>client().roadmapPropose({mode:roadmapMode.value as RoadmapProposalRequest['mode'],roadmap:JSON.parse(roadmapArea.value),required_requirement_ids:['REQ-001','REQ-002'],required_risk_ids:['RISK-001'],source_label:roadmapMode.value.toLowerCase()})],['Review',()=>client().roadmapReview()],['Approve humano',()=>client().roadmapApprove(),true],['Freeze',()=>client().roadmapFreeze(),true]],session,refresh);
+
+  const backlog=section('2 · Backlog','Derivación explicable con coverage requirement→story, acceptance criteria y prioridad con rationale.', backlogMode, backlogArea);
+  actions(backlog,[['Guardar DRAFT',()=>client().backlogPropose({mode:backlogMode.value as any,backlog:JSON.parse(backlogArea.value),required_requirement_ids:['REQ-001','REQ-002'],roadmap_milestone_ids:['mil-foundation'],known_adr_ids:['ADR-001'],known_risk_ids:['RISK-001'],known_test_intent_ids:['TEST-001'],source_label:backlogMode.value.toLowerCase()})],['Review',()=>client().backlogReview()],['Approve humano',()=>client().backlogApprove(),true],['Freeze',()=>client().backlogFreeze(),true]],session,refresh);
+
+  const sprint=section('3 · Sprint','Solo stories READY; capacidad, prerequisites, DoR/DoD, test intent y risk focus deben permanecer válidos.', null, sprintArea);
+  actions(sprint,[['Guardar DRAFT',async()=>{const b=(await client().backlogStatus()).data.backlog_workbench as any; const rec=b?.backlog??{}; const body=rec.backlog??DEFAULT_BACKLOG; const plan=JSON.parse(sprintArea.value); if(rec.content_sha256) plan.backlog_reference={backlog_id:body.backlog_id,version:body.version,lifecycle:rec.lifecycle,content_sha256:rec.content_sha256}; return client().sprintPropose({sprint_plan:plan,backlog:body,dependencies:body.dependencies??[]});}],['Review',()=>client().sprintReview()],['Approve humano',()=>client().sprintApprove(),true],['Freeze',()=>client().sprintFreeze(),true]],session,refresh);
+
+  host.append(roadmap,backlog,sprint);
+
+  async function refresh(message=''):Promise<void>{
+    status.className='notice notice--loading'; status.textContent=message||'Actualizando estado planning…';
+    try{
+      const [r,b,s,c]=await Promise.all([client().roadmapStatus(),client().backlogStatus(),client().sprintStatus(),client().planningClosure()]);
+      const rw=(r.data.roadmap_workbench??{}) as RoadmapWorkbenchProjection; advisorMount.replaceChildren(); if(rw.advisor) advisorMount.append(renderStepActionAdvisor({ui_state:'READY',workspace_id:rw.workspace_id,current_step:'PLANNING_ROADMAP',advisor:rw.advisor,read_only:false,actor_neutral:false,server_authoritative:true,network_used:false,external_api_used:false,mutations_performed:false,source_mutations_performed:false}));
+      journey.replaceChildren(renderJourney(c.data.planning_closure as any, b.data.backlog_workbench as any, s.data.sprint_planner as any));
+      status.className='notice notice--pass'; status.textContent=message||`Planning listo · ${(c.data.planning_closure as any)?.journey_state??'UNKNOWN'}`;
+    }catch(e){status.className='notice notice--block';status.textContent=errorText(e);}
   }
-
-  function draw(wb:RoadmapWorkbenchProjection):void{
-    content.replaceChildren();
-    if(wb.advisor) content.append(renderStepActionAdvisor({ui_state:'READY',workspace_id:wb.workspace_id,current_step:'PLANNING_ROADMAP',advisor:wb.advisor,read_only:false,actor_neutral:false,server_authoritative:true,network_used:false,external_api_used:false,mutations_performed:false,source_mutations_performed:false}));
-    content.append(editor(wb), summary(wb));
-  }
-
-  function editor(wb:RoadmapWorkbenchProjection):HTMLElement{
-    const panel=document.createElement('section'); panel.className='panel roadmap-workbench__editor'; const title=document.createElement('h3'); title.textContent='Crear / revisar propuesta DRAFT'; panel.append(title);
-    const mode=selectField('Ruta de autoría',[['MANUAL','Manual'],['IMPORT','Importar JSON local'],['AGENT','Propuesta estructurada de agente']],new URLSearchParams(globalThis.location.search).get('mode')||'MANUAL');
-    const req=inputField('Requirements obligatorios (separados por coma)','REQ-001'); const risks=inputField('Risks conocidos (separados por coma)','RISK-001');
-    const area=document.createElement('textarea'); area.rows=18; area.value=JSON.stringify(DEFAULT_ROADMAP,null,2); area.setAttribute('aria-label','Roadmap JSON estructurado'); area.spellcheck=false;
-    const file=document.createElement('input'); file.type='file'; file.accept='.json,application/json'; file.setAttribute('aria-label','Archivo JSON local'); file.addEventListener('change',async()=>{const f=file.files?.[0];if(f){area.value=await f.text();mode.value='IMPORT';}});
-    const controls=document.createElement('div'); controls.className='roadmap-workbench__actions';
-    controls.append(button('Guardar DRAFT',async()=>{try{const roadmap=JSON.parse(area.value); await client().roadmapPropose({mode:mode.value as RoadmapProposalRequest['mode'],roadmap,required_requirement_ids:split(req.value),required_risk_ids:split(risks.value),source_label:mode.value==='IMPORT'?(file.files?.[0]?.name||'local-json'):mode.value==='AGENT'?'structured-agent-output':'manual'});await load('DRAFT guardado. Review obligatorio antes de approval.');}catch(e){setBlock(e);}}));
-    controls.append(button('Validar / Review',async()=>{try{await client().roadmapReview();await load('Review ejecutado: coverage y findings actualizados.');}catch(e){setBlock(e);}}));
-    const approve=button('Approve humano',async()=>{try{await client().roadmapApprove();await load('Approval server-side registrado.');}catch(e){setBlock(e);}}); approve.disabled=!canApprove(session); controls.append(approve);
-    const freeze=button('Freeze revisionado',async()=>{try{await client().roadmapFreeze();await load('Roadmap FROZEN como revisión inmutable.');}catch(e){setBlock(e);}}); freeze.disabled=!canApprove(session); controls.append(freeze);
-    const note=document.createElement('p'); note.className='muted'; note.textContent=canApprove(session)?'Tu rol puede aprobar/freeze. El servidor revalida RBAC en cada request.':'Approval/freeze deshabilitado visualmente para este rol; el servidor también deniega la operación.';
-    panel.append(mode,req,risks,file,area,controls,note); return panel;
-  }
-
-  function summary(wb:RoadmapWorkbenchProjection):HTMLElement{
-    const panel=document.createElement('section'); panel.className='panel roadmap-workbench__summary'; const h=document.createElement('h3'); h.textContent='Estado, coverage y provenance'; panel.append(h);
-    const roadmap=asRecord(wb.roadmap); if(!roadmap){const empty=document.createElement('p');empty.textContent='Aún no existe DRAFT. Elige una ruta de autoría.';panel.append(empty);return panel;}
-    const dl=document.createElement('dl'); dl.className='roadmap-workbench__facts'; add(dl,'Lifecycle',String(roadmap.lifecycle??'DRAFT')); add(dl,'Modo',String(roadmap.authoring_mode??'')); add(dl,'Requirements coverage',`${String(asRecord(roadmap.coverage)?.requirement_percent??0)}%`); add(dl,'Risk coverage',`${String(asRecord(roadmap.coverage)?.risk_percent??0)}%`); add(dl,'Provenance',String(asRecord(roadmap.provenance)?.mode??'')); panel.append(dl);
-    const findings=Array.isArray(roadmap.findings)?roadmap.findings:[]; const list=document.createElement('ul'); list.className='roadmap-workbench__findings'; if(!findings.length){const li=document.createElement('li');li.textContent='Sin findings de coverage/contrato.';list.append(li);} for(const row of findings){const r=asRecord(row);const li=document.createElement('li');li.dataset.severity=String(r?.severity??'');li.textContent=`${String(r?.code??'finding')}: ${String(r?.message??'')}${r?.subject?` · ${String(r.subject)}`:''}`;list.append(li);} panel.append(list);
-    if(wb.review){const pre=document.createElement('pre');pre.className='roadmap-workbench__review';pre.textContent=JSON.stringify(wb.review,null,2);panel.append(pre);} return panel;
-  }
-
-  function setBlock(error:unknown):void{status.className='notice notice--block';status.textContent=errorText(error);}
-  void load(); return host;
+  void refresh(); return host;
 }
 
-function extract(data:unknown):RoadmapWorkbenchProjection{const root=asRecord(data);return (asRecord(root?.roadmap_workbench)??{}) as RoadmapWorkbenchProjection;}
-function asRecord(value:unknown):Record<string,any>|null{return value&&typeof value==='object'&&!Array.isArray(value)?value as Record<string,any>:null;}
-function inputField(label:string,value:string):HTMLInputElement{const input=document.createElement('input');input.type='text';input.value=value;input.setAttribute('aria-label',label);input.placeholder=label;return input;}
-function selectField(label:string,options:Array<[string,string]>,value:string):HTMLSelectElement{const select=document.createElement('select');select.setAttribute('aria-label',label);for(const [v,t] of options){const o=document.createElement('option');o.value=v;o.textContent=t;o.selected=v===value;select.append(o);}return select;}
-function button(label:string,fn:()=>Promise<void>):HTMLButtonElement{const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',()=>void fn());return b;}
-function split(value:string):string[]{return value.split(',').map(x=>x.trim()).filter(Boolean);}
+function renderJourney(c:any,b:any,s:any):HTMLElement{
+  const p=panel('Estado y trazabilidad',`Journey: ${String(c?.journey_state??'UNKNOWN')} · coverage ${String(c?.required_planning_coverage_percent??0)}%`); p.dataset.journeyState=String(c?.journey_state??'UNKNOWN');
+  const facts=document.createElement('dl'); facts.className='roadmap-workbench__facts'; add(facts,'Roadmap',String(c?.roadmap?.lifecycle??'MISSING')); add(facts,'Backlog',`${String(c?.backlog?.lifecycle??'MISSING')} · coverage ${String(c?.backlog?.required_coverage_percent??0)}%`); add(facts,'Sprint',`${String(c?.sprint?.lifecycle??'MISSING')} · executable ${String(c?.sprint?.executable??false)}`); add(facts,'Blockers',String((c?.blockers??[]).length)); p.append(facts);
+  const graph=c?.trace_graph??{}; const table=document.createElement('table'); table.setAttribute('aria-label','Trace graph planning'); const head=document.createElement('tr'); for(const x of ['Origen','Relación','Destino']){const th=document.createElement('th');th.textContent=x;head.append(th);} table.append(head); for(const e of graph.edges??[]){const tr=document.createElement('tr');for(const v of [e.from,e.kind,e.to]){const td=document.createElement('td');td.textContent=String(v??'');tr.append(td);}table.append(tr);} p.append(table);
+  const review=document.createElement('p');review.className='muted';review.textContent=`Backlog lifecycle: ${String(b?.backlog?.lifecycle??'MISSING')} · Sprint lifecycle: ${String(s?.sprint_plan?.lifecycle??'MISSING')}`;p.append(review); return p;
+}
+function section(title:string,description:string,select:HTMLSelectElement|null,area:HTMLTextAreaElement):HTMLElement{const p=panel(title,description);if(select)p.append(select);p.append(area);return p;}
+function actions(root:HTMLElement,defs:Array<[string,()=>Promise<any>,boolean?]>,session:AuthSessionContext,refresh:(m?:string)=>Promise<void>):void{const box=document.createElement('div');box.className='roadmap-workbench__actions';for(const [label,fn,approval] of defs){const b=document.createElement('button');b.type='button';b.textContent=label;if(approval&&!canApprove(session)){b.disabled=true;b.title='Solo owner/product-owner. El servidor también deniega la operación.';}b.addEventListener('click',()=>void (async()=>{try{await fn();await refresh(`${label}: PASS`);}catch(e){const notice=root.closest('.roadmap-workbench')?.querySelector('.notice');if(notice){notice.className='notice notice--block';notice.textContent=errorText(e);}}})());box.append(b);}root.append(box);}
+function panel(title:string,description:string):HTMLElement{const p=document.createElement('section');p.className='panel';const h=document.createElement('h3');h.textContent=title;const d=document.createElement('p');d.textContent=description;p.append(h,d);return p;}
+function jsonArea(label:string,value:any,rows:number):HTMLTextAreaElement{const a=document.createElement('textarea');a.rows=rows;a.value=JSON.stringify(value,null,2);a.setAttribute('aria-label',label);a.spellcheck=false;return a;}
+function selectField(label:string,options:Array<[string,string]>,value:string):HTMLSelectElement{const s=document.createElement('select');s.setAttribute('aria-label',label);for(const [v,t] of options){const o=document.createElement('option');o.value=v;o.textContent=t;o.selected=v===value;s.append(o);}return s;}
 function add(dl:HTMLDListElement,k:string,v:string):void{const dt=document.createElement('dt');dt.textContent=k;const dd=document.createElement('dd');dd.textContent=v;dl.append(dt,dd);}
 function canApprove(session:AuthSessionContext):boolean{return session.principal.roles.some(x=>['owner','product-owner'].includes(x));}
-function errorText(error:unknown):string{return error instanceof DevPilotApiError?`${error.message}`:error instanceof Error?error.message:'Error local no clasificado.';}
+function errorText(e:unknown):string{return e instanceof DevPilotApiError?e.message:e instanceof Error?e.message:'Error local no clasificado.';}

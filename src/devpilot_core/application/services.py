@@ -54,6 +54,7 @@ from .pre_code_wizard_service import PreCodeWizardApplicationService
 from .roadmap_workbench_service import RoadmapWorkbenchApplicationService
 from .backlog_workbench_service import BacklogWorkbenchApplicationService
 from .sprint_planner_service import SprintPlannerApplicationService
+from .planning_closure_service import PlanningClosureApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -94,6 +95,7 @@ class ApplicationService:
         self.roadmap_workbench = RoadmapWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.backlog_workbench = BacklogWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.sprint_planner = SprintPlannerApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.planning_closure = PlanningClosureApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace = WorkspaceApplicationService(self.root)
         self.project_entry_planning = ProjectEntryPlanningApplicationService(self.root)
         self.project_entry_dry_run_service = ProjectEntryDryRunApplicationService(self.root)
@@ -796,6 +798,9 @@ class ApplicationService:
 
     def planning_sprint_freeze(self, *, actor_id: str, actor_role: str):
         return self.sprint_planner.freeze(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_closure_status(self, *, effective_roles: list[str]):
+        return self.planning_closure.status(effective_roles=effective_roles)
 
     def guided_sdlc_reconcile_preview(
         self,
@@ -1906,6 +1911,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "planning.sprint.review": lambda payload: service.planning_sprint_review(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
         "planning.sprint.approve": lambda payload: service.planning_sprint_approve(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
         "planning.sprint.freeze": lambda payload: service.planning_sprint_freeze(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.closure.status": lambda payload: service.planning_closure_status(effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
                 "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
@@ -1984,6 +1990,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "operator", "service": "OperatorDashboardApplicationService", "status": "implemented-initial", "side_effects": "read_only_optional_outputs_reports"},
         {"domain": "portfolio", "service": "PortfolioApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
         {"domain": "quality-operations", "service": "QualityOperationsApplicationService", "status": "implemented-initial-uoc-009", "side_effects": "typed_local_jobs_outputs_only"},
+        {"domain": "planning-closure", "service": "PlanningClosureApplicationService", "status": "implemented-initial-gsdlc-08-e", "side_effects": "project_scoped_runtime_planning_only"},
     ]
 
 
@@ -2024,6 +2031,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("planning.sprint.review", "Validate selected stories READY, prerequisite order, capacity, DoR/DoD, test intent and risk focus.", "runtime_review_only", False, "Produces sprint plan and dependency validation reports under outputs."),
         ("planning.sprint.approve", "Human owner/product-owner approval of executable reviewed SprintPlan.", "runtime_approval_record", False, "Role-bound; no agent approval."),
         ("planning.sprint.freeze", "Freeze approved SprintPlan as immutable revision with content hash.", "runtime_frozen_artifact", False, "No source/code execution."),
+        ("planning.closure.status", "Project planning journey projection PRE_CODE_READY → PLANNING → IMPLEMENTING_READY with requirement→milestone→epic→story→sprint trace graph.", "none", True, "GSDLC-08-E project-scoped runtime-only closure projection; no source/code execution."),
         ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
         ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),
@@ -2150,6 +2158,22 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-03-C-REVALIDATE", "POST", "/api/v1/project-entry/revalidate", "project_entry.revalidate", ["GSDLC-03-C immutable plan/preimage revalidation; stale state blocks future execution."]),
         ("APP-ROUTE-GSDLC-03-D-APPROVAL", "POST", "/api/v1/project-entry/execution-approval-request", "project_entry.execution_approval_request", ["GSDLC-03-D authenticated exact-plan approval request; caller actor is non-authoritative."]),
         ("APP-ROUTE-GSDLC-03-D-EXECUTE", "POST", "/api/v1/project-entry/execute", "project_entry.execute", ["GSDLC-03-D approval-bound typed bootstrap execution inside authorized fixture/workspace; rollback mandatory."]),
+        ("APP-ROUTE-GSDLC-08-B-ROADMAP-STATUS", "GET", "/api/v1/planning/roadmap", "planning.roadmap.status", ["GSDLC-08-E successor exposure of the GSDLC-08-B RoadmapWorkbench runtime state through the integrated Planning Workbench."]),
+        ("APP-ROUTE-GSDLC-08-B-ROADMAP-PROPOSE", "POST", "/api/v1/planning/roadmap/proposals", "planning.roadmap.propose", ["GSDLC-08-E governed MANUAL/IMPORT/AGENT roadmap DRAFT route; agent remains proposal-only."]),
+        ("APP-ROUTE-GSDLC-08-B-ROADMAP-REVIEW", "POST", "/api/v1/planning/roadmap/review", "planning.roadmap.review", ["GSDLC-08-E governed roadmap coverage/review route."]),
+        ("APP-ROUTE-GSDLC-08-B-ROADMAP-APPROVE", "POST", "/api/v1/planning/roadmap/approve", "planning.roadmap.approve", ["GSDLC-08-E human-session owner/product-owner roadmap approval."]),
+        ("APP-ROUTE-GSDLC-08-B-ROADMAP-FREEZE", "POST", "/api/v1/planning/roadmap/freeze", "planning.roadmap.freeze", ["GSDLC-08-E immutable revisioned RoadmapWorkbench freeze; runtime planning artifact only."]),
+        ("APP-ROUTE-GSDLC-08-C-BACKLOG-STATUS", "GET", "/api/v1/planning/backlog", "planning.backlog.status", ["GSDLC-08-E successor browser exposure of GSDLC-08-C BacklogWorkbench runtime state."]),
+        ("APP-ROUTE-GSDLC-08-C-BACKLOG-PROPOSE", "POST", "/api/v1/planning/backlog/proposals", "planning.backlog.propose", ["GSDLC-08-E MANUAL/DERIVED/AGENT backlog DRAFT with explicit trace/priority provenance."]),
+        ("APP-ROUTE-GSDLC-08-C-BACKLOG-REVIEW", "POST", "/api/v1/planning/backlog/review", "planning.backlog.review", ["GSDLC-08-E requirement coverage, duplicate/dependency/acceptance/priority review."]),
+        ("APP-ROUTE-GSDLC-08-C-BACKLOG-APPROVE", "POST", "/api/v1/planning/backlog/approve", "planning.backlog.approve", ["GSDLC-08-E human owner/product-owner backlog approval after 100% required coverage."]),
+        ("APP-ROUTE-GSDLC-08-C-BACKLOG-FREEZE", "POST", "/api/v1/planning/backlog/freeze", "planning.backlog.freeze", ["GSDLC-08-E immutable BacklogWorkbench freeze; no code execution."]),
+        ("APP-ROUTE-GSDLC-08-D-SPRINT-STATUS", "GET", "/api/v1/planning/sprint", "planning.sprint.status", ["GSDLC-08-E successor browser exposure of GSDLC-08-D SprintPlanner runtime state."]),
+        ("APP-ROUTE-GSDLC-08-D-SPRINT-PROPOSE", "POST", "/api/v1/planning/sprint/proposals", "planning.sprint.propose", ["GSDLC-08-E SprintPlan DRAFT with capacity, prerequisites, DoR/DoD, test intent and risk focus."]),
+        ("APP-ROUTE-GSDLC-08-D-SPRINT-REVIEW", "POST", "/api/v1/planning/sprint/review", "planning.sprint.review", ["GSDLC-08-E SprintPlan executable/capacity/dependency/readiness review."]),
+        ("APP-ROUTE-GSDLC-08-D-SPRINT-APPROVE", "POST", "/api/v1/planning/sprint/approve", "planning.sprint.approve", ["GSDLC-08-E role-bound human sprint approval."]),
+        ("APP-ROUTE-GSDLC-08-D-SPRINT-FREEZE", "POST", "/api/v1/planning/sprint/freeze", "planning.sprint.freeze", ["GSDLC-08-E immutable SprintPlan freeze bound to content hash."]),
+        ("APP-ROUTE-GSDLC-08-E-CLOSURE", "GET", "/api/v1/planning/closure", "planning.closure.status", ["GSDLC-08-E read-only journey + traceability projection to IMPLEMENTING_READY."]),
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
         ("APP-ROUTE-UOC-001-A", "GET", "/api/v1/workspace/documents", "workspace.documents.list", ["UOC-001 bounded read-only active-workspace document index."]),
         ("APP-ROUTE-UOC-001-B", "GET", "/api/v1/workspace/documents/{document_id}", "workspace.documents.read", ["UOC-001 opaque-id document viewer; no path authority accepted from browser."]),

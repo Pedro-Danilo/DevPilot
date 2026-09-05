@@ -539,3 +539,28 @@ GSDLC-07-E adds a read-only projection of sealed acceptance/model-eval evidence.
 | `API-GSDLC07E-01` | `GET` | `/api/v1/settings/agent-evals` | `settings.agent_evals` | `SettingsApplicationService.agent_eval_trace_settings` | `read_only/versioned-evidence` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; sealed evidence only; model/tool execution disabled` |
 
 The API ID is current-active and must remain synchronized with OpenAPI `x-devpilot-api-id`, ApplicationService route catalog and `api_route_contract_registry.json`.
+
+
+## DEVPL-GSDLC-08-E — Integrated Planning Workbench
+
+Current-active successor mapping. Planning routes are project-scoped, human-session/RBAC governed, local-first and never execute source/code.
+
+| API ID | Método | Path | Operation | Domain service | Side effect | Auth | Policy/gate |
+|---|---|---|---|---|---|---|---|
+| `API-GSDLC-08-B-ROADMAP-STATUS` | `GET` | `/api/v1/planning/roadmap` | `planning.roadmap.status` | `PlanningClosureApplicationService / RoadmapWorkbench` | `read_only` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-B-ROADMAP-PROPOSE` | `POST` | `/api/v1/planning/roadmap/proposals` | `planning.roadmap.propose` | `ApplicationService -> RoadmapWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-B-ROADMAP-REVIEW` | `POST` | `/api/v1/planning/roadmap/review` | `planning.roadmap.review` | `ApplicationService -> RoadmapWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-B-ROADMAP-APPROVE` | `POST` | `/api/v1/planning/roadmap/approve` | `planning.roadmap.approve` | `ApplicationService -> RoadmapWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-B-ROADMAP-FREEZE` | `POST` | `/api/v1/planning/roadmap/freeze` | `planning.roadmap.freeze` | `ApplicationService -> RoadmapWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-C-BACKLOG-STATUS` | `GET` | `/api/v1/planning/backlog` | `planning.backlog.status` | `ApplicationService -> BacklogWorkbenchApplicationService` | `read_only` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-C-BACKLOG-PROPOSE` | `POST` | `/api/v1/planning/backlog/proposals` | `planning.backlog.propose` | `ApplicationService -> BacklogWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-C-BACKLOG-REVIEW` | `POST` | `/api/v1/planning/backlog/review` | `planning.backlog.review` | `ApplicationService -> BacklogWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-C-BACKLOG-APPROVE` | `POST` | `/api/v1/planning/backlog/approve` | `planning.backlog.approve` | `ApplicationService -> BacklogWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-C-BACKLOG-FREEZE` | `POST` | `/api/v1/planning/backlog/freeze` | `planning.backlog.freeze` | `ApplicationService -> BacklogWorkbenchApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-D-SPRINT-STATUS` | `GET` | `/api/v1/planning/sprint` | `planning.sprint.status` | `ApplicationService -> SprintPlannerApplicationService` | `read_only` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-D-SPRINT-PROPOSE` | `POST` | `/api/v1/planning/sprint/proposals` | `planning.sprint.propose` | `ApplicationService -> SprintPlannerApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-D-SPRINT-REVIEW` | `POST` | `/api/v1/planning/sprint/review` | `planning.sprint.review` | `ApplicationService -> SprintPlannerApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-D-SPRINT-APPROVE` | `POST` | `/api/v1/planning/sprint/approve` | `planning.sprint.approve` | `ApplicationService -> SprintPlannerApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-D-SPRINT-FREEZE` | `POST` | `/api/v1/planning/sprint/freeze` | `planning.sprint.freeze` | `ApplicationService -> SprintPlannerApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+| `API-GSDLC-08-E-CLOSURE` | `GET` | `/api/v1/planning/closure` | `planning.closure.status` | `ApplicationService -> PlanningClosureApplicationService` | `read_only` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
+

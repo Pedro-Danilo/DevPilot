@@ -6596,3 +6596,7 @@ GSDLC-08-D is `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING` on repo401. `SprintP
 ### DEVPL-GSDLC-08-D Windows closure
 
 GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`. SprintPlanner focal and bounded A/B/C cumulative validation passed; READY-only scheduling, dependency order, capacity blockers, DoR/DoD/test intent/risk focus and owner/product-owner hash-bound freeze are validated. `browser=0`, `full=0`. GSDLC-08-E is authorized. Current candidate: `repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+## DEVPL-GSDLC-08-E — Planning browser closure (implementation candidate)
+
+08-E integra la ruta `/planning/roadmap` como Planning Workbench completo: roadmap → backlog → sprint → trace graph, y añade al Project Status la proyección `PRE_CODE_READY → PLANNING → IMPLEMENTING_READY`. El estado final requiere artefactos FROZEN, coverage requerido 100% y SprintPlan ejecutable. La implementación local no consume la full regression del backlog; browser acceptance y la única logical full pertenecen al operador Windows de cierre.

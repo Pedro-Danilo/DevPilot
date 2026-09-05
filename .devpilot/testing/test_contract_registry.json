@@ -2,15 +2,22 @@
   "contracts": [
     {
       "contract_id": "devpl-gsdlc-00-a-program-activation",
-      "scope": "integration",
+      "critical": true,
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-00-A",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_a_program_activation.py tests/test_project_global_state.py tests/test_post_h_eval_002_activation_contract.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_uoc_011_final_reconciliation.py tests/test_documentation_source_registry_schema.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "integration",
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_00_a_program_activation.py",
@@ -55,26 +62,26 @@
         "docs/audits/devpl_gsdlc_00_a_historical_contract_sweep.json",
         "README.md",
         "tests/test_devpl_gsdlc_00_a_program_activation.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_00_a_program_activation.py tests/test_project_global_state.py tests/test_post_h_eval_002_activation_contract.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_uoc_011_final_reconciliation.py tests/test_documentation_source_registry_schema.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
       ]
     },
     {
       "contract_id": "devpl-gsdlc-00-b-product-requirements",
-      "scope": "integration",
+      "critical": true,
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-00-B",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_b_product_requirements.py tests/test_artifact_validator.py tests/test_artifact_profile_registry.py tests/test_traceability_extractors.py tests/test_project_global_state.py tests/test_devpl_gsdlc_00_a_program_activation.py tests/test_documentation_source_registry_schema.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "integration",
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_00_b_product_requirements.py",
@@ -109,26 +116,26 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "tests/test_devpl_gsdlc_00_b_product_requirements.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_00_b_product_requirements.py tests/test_artifact_validator.py tests/test_artifact_profile_registry.py tests/test_traceability_extractors.py tests/test_project_global_state.py tests/test_devpl_gsdlc_00_a_program_activation.py tests/test_documentation_source_registry_schema.py -q",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
       ]
     },
     {
       "contract_id": "devpl-gsdlc-00-c-architecture-contracts",
-      "scope": "integration",
+      "critical": true,
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-00-C",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_c_architecture_contracts.py tests/test_devpl_gsdlc_00_b_product_requirements.py tests/test_application_boundary_policy.py tests/test_post_h_007_application_service_boundary.py tests/test_post_h_034_multiuser_auth_adr.py tests/test_project_global_state.py tests/test_documentation_source_registry_schema.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "integration",
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py",
@@ -178,26 +185,31 @@
         "docs/audits/devpl_gsdlc_00_c_historical_contract_sweep.json",
         "tests/test_devpl_gsdlc_00_b_product_requirements.py",
         "tests/test_devpl_gsdlc_00_c_architecture_contracts.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_00_c_architecture_contracts.py tests/test_devpl_gsdlc_00_b_product_requirements.py tests/test_application_boundary_policy.py tests/test_post_h_007_application_service_boundary.py tests/test_post_h_034_multiuser_auth_adr.py tests/test_project_global_state.py tests/test_documentation_source_registry_schema.py -q",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
       ]
     },
     {
       "contract_id": "devpl-gsdlc-00-d-security-test-reconciliation",
-      "scope": "integration",
+      "critical": true,
+      "domain": "governance.testing",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-00-D",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py tests/test_devpl_gsdlc_00_c_architecture_contracts.py tests/test_devpl_gsdlc_00_b_product_requirements.py tests/test_devpl_gsdlc_00_a_program_activation.py -q",
+        "python -m pytest tests/test_project_global_state.py tests/test_post_h_eval_002_activation_contract.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_uoc_008_contracts.py tests/test_post_h_eval_002_uoc_011_final_reconciliation.py -q",
+        "python -m pytest tests/test_post_h_034_multiuser_auth_adr.py tests/test_application_boundary_policy.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_secret_guard_hardening.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_post_h_019_plugin_quality_gate.py tests/test_post_h_018_connector_sandbox_gate.py -q",
+        "python -m pytest tests/test_post_h_026_evidence_freshness.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json"
+      ],
+      "scope": "integration",
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py",
@@ -264,31 +276,29 @@
         "tests/test_post_h_eval_002_01_d_governance_closure_327.py",
         "tests/test_post_h_eval_002_uoc_008_contracts.py",
         "tests/test_post_h_eval_002_uoc_011_final_reconciliation.py"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-00-e-baseline-closure",
+      "critical": true,
+      "domain": "governance.release",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-00-E",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py tests/test_devpl_gsdlc_00_c_architecture_contracts.py tests/test_devpl_gsdlc_00_b_product_requirements.py tests/test_devpl_gsdlc_00_a_program_activation.py -q",
-        "python -m pytest tests/test_project_global_state.py tests/test_post_h_eval_002_activation_contract.py tests/test_post_h_eval_002_01_d_governance_closure_327.py tests/test_post_h_eval_002_uoc_008_contracts.py tests/test_post_h_eval_002_uoc_011_final_reconciliation.py -q",
-        "python -m pytest tests/test_post_h_034_multiuser_auth_adr.py tests/test_application_boundary_policy.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_secret_guard_hardening.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_post_h_019_plugin_quality_gate.py tests/test_post_h_018_connector_sandbox_gate.py -q",
-        "python -m pytest tests/test_post_h_026_evidence_freshness.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_00_e_baseline_closure.py tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json"
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m pytest -q"
       ],
-      "domain": "governance.testing"
-    },
-    {
-      "contract_id": "devpl-gsdlc-00-e-baseline-closure",
       "scope": "integration",
-      "owner": "DEVPL-GSDLC-00-E",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_00_e_baseline_closure.py",
@@ -329,29 +339,29 @@
         "docs/release/CHANGELOG.md",
         "tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py",
         "tests/test_devpl_gsdlc_00_e_baseline_closure.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_00_e_baseline_closure.py tests/test_devpl_gsdlc_00_d_security_test_reconciliation.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core release-candidate evidence-freshness --json",
-        "python -m pytest -q"
-      ],
-      "domain": "governance.release"
+      ]
     },
     {
       "contract_id": "devpl-gsdlc-01-a-workspace-engineering-state",
-      "scope": "integration",
+      "critical": true,
+      "domain": "guided-sdlc.state",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": true,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-01-A",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_transversal_validation_policy.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py tests/test_devpl_gsdlc_00_c_architecture_contracts.py tests/test_devpl_gsdlc_00_e_baseline_closure.py -q",
+        "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_path_guard.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "integration",
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py",
@@ -397,29 +407,28 @@
         "docs/02_architecture/governance/DEVPL_GSDLC_TRANSVERSAL_VALIDATION_POLICY_v1_0_0_APPROVED.md",
         "docs/audits/DEVPL_GSDLC_01_A_FULL_REGRESSION_DECISION.json",
         "tests/test_devpl_gsdlc_transversal_validation_policy.py"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-b-deterministic-workflow-engine",
+      "critical": true,
+      "domain": "guided-sdlc.workflow",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-01-B",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_transversal_validation_policy.py -q",
-        "python -m pytest tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py tests/test_devpl_gsdlc_00_c_architecture_contracts.py tests/test_devpl_gsdlc_00_e_baseline_closure.py -q",
-        "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_path_guard.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
+        "python -m pytest tests/test_application_services.py tests/test_application_services_v2.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "guided-sdlc.state"
-    },
-    {
-      "contract_id": "devpl-gsdlc-01-b-deterministic-workflow-engine",
       "scope": "integration",
-      "owner": "DEVPL-GSDLC-01-B",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_01_b_workflow_engine.py",
@@ -457,28 +466,28 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "docs/schemas/schema_catalog.json"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-c-project-progress-next-action",
+      "critical": true,
+      "domain": "application.service",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-01-C",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_01_c_project_progress.py tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
         "python -m pytest tests/test_application_services.py tests/test_application_services_v2.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "guided-sdlc.workflow"
-    },
-    {
-      "contract_id": "devpl-gsdlc-01-c-project-progress-next-action",
       "scope": "integration",
-      "owner": "DEVPL-GSDLC-01-C",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_01_c_project_progress.py",
@@ -517,28 +526,28 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "docs/schemas/schema_catalog.json"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-01-d-reconciliation-revalidation",
+      "critical": true,
+      "domain": "application.service",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-01-D",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_01_c_project_progress.py tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_01_d_reconciliation.py tests/test_devpl_gsdlc_01_c_project_progress.py tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
         "python -m pytest tests/test_application_services.py tests/test_application_services_v2.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "application.service"
-    },
-    {
-      "contract_id": "devpl-gsdlc-01-d-reconciliation-revalidation",
       "scope": "integration",
-      "owner": "DEVPL-GSDLC-01-D",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_01_d_reconciliation.py",
@@ -578,28 +587,26 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "docs/schemas/schema_catalog.json"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_01_d_reconciliation.py tests/test_devpl_gsdlc_01_c_project_progress.py tests/test_devpl_gsdlc_01_b_workflow_engine.py tests/test_devpl_gsdlc_01_a_workspace_engineering_state.py -q",
-        "python -m pytest tests/test_application_services.py tests/test_application_services_v2.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "domain": "application.service"
+      ]
     },
     {
       "contract_id": "devpl-gsdlc-01-e-project-status-closure",
-      "scope": "integration",
+      "critical": true,
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-01-E",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_01_e_project_status.py tests/test_post_h_eval_002_uoc_011_contracts.py -q",
+        "npm --prefix ui/web test",
+        "npm --prefix ui/web run test:project-status",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json"
+      ],
+      "scope": "integration",
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_01_e_project_status.py",
@@ -643,26 +650,27 @@
         ".devpilot/interfaces/api_route_contract_registry.json",
         "docs/07_interfaces/openapi_v1.json",
         ".devpilot/project_state.json"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_01_e_project_status.py tests/test_post_h_eval_002_uoc_011_contracts.py -q",
-        "npm --prefix ui/web test",
-        "npm --prefix ui/web run test:project-status",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json"
       ]
     },
     {
       "contract_id": "devpl-gsdlc-02-a-auth-threat-boundary",
-      "scope": "safety",
+      "critical": true,
+      "domain": "security.rbac",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-02-A",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py tests/test_post_h_034_multiuser_auth_adr.py tests/test_post_h_012_approval_rbac_hardening.py tests/test_identity_rbac.py tests/test_approval_binding.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "safety",
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py",
@@ -707,27 +715,28 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "docs/schemas/schema_catalog.json"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-b-local-auth-sessions",
+      "critical": true,
+      "domain": "security.identity",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-02-B",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py tests/test_post_h_034_multiuser_auth_adr.py tests/test_post_h_012_approval_rbac_hardening.py tests/test_identity_rbac.py tests/test_approval_binding.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_devpl_gsdlc_02_b_api_auth.py tests/test_devpl_gsdlc_02_b_contracts.py tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py -q",
+        "python -m pytest tests/test_api_security.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_028_api_contract_drift_guard.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "security.rbac"
-    },
-    {
-      "contract_id": "devpl-gsdlc-02-b-local-auth-sessions",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-02-B",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_02_b_auth_sessions.py",
@@ -763,28 +772,27 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "docs/schemas/schema_catalog.json"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-c-server-rbac",
+      "critical": true,
+      "domain": "security.rbac",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-02-C",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_devpl_gsdlc_02_b_api_auth.py tests/test_devpl_gsdlc_02_b_contracts.py tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py -q",
-        "python -m pytest tests/test_api_security.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_028_api_contract_drift_guard.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "security.identity"
-    },
-    {
-      "contract_id": "devpl-gsdlc-02-c-server-rbac",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-02-C",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_02_c_server_rbac.py",
@@ -814,27 +822,27 @@
         "docs/07_interfaces",
         "tests/test_devpl_gsdlc_02_c_server_rbac.py",
         "tests/test_devpl_gsdlc_02_c_api_rbac.py"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-d-authenticated-approval-binding",
+      "critical": true,
+      "domain": "security.approval",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-02-D",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "security.rbac"
-    },
-    {
-      "contract_id": "devpl-gsdlc-02-d-authenticated-approval-binding",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-02-D",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
@@ -866,27 +874,28 @@
         "ui/web/src/pages/ApprovalCenterView.ts",
         "docs/03_security",
         "docs/07_interfaces"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-02-e-auth-browser-closure",
+      "critical": true,
+      "domain": "security.auth-browser",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-02-E",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
+        "python -m pytest tests/test_devpl_gsdlc_02_e_auth_browser_security.py tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_api_security.py tests/test_api_contract.py -q",
+        "npm --prefix ui/web run test:auth-journey",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "security.approval"
-    },
-    {
-      "contract_id": "devpl-gsdlc-02-e-auth-browser-closure",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-02-E",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_02_e_auth_browser_security.py",
@@ -925,28 +934,28 @@
         ".devpilot/identity/auth_ui_route_contract_registry.json",
         "docs/schemas/auth_ui_route_contract.schema.json",
         ".devpilot/gsdlc/architecture_target_contract_gsdlc00c_at_close.json"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_02_e_auth_browser_security.py tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_api_security.py tests/test_api_contract.py -q",
-        "npm --prefix ui/web run test:auth-journey",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "domain": "security.auth-browser"
+      ]
     },
     {
       "contract_id": "devpl-gsdlc-03-a-project-intake-contracts",
-      "scope": "safety",
+      "critical": true,
+      "domain": "workspace.project-entry",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-03-A",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_a_project_intake_contracts.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_onboarding_readiness_preview.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
+      ],
+      "scope": "safety",
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_03_a_project_intake_contracts.py",
@@ -977,28 +986,29 @@
         "docs/audits/DEVPL_GSDLC_03_A_TEST_IMPACT.json",
         "docs/audits/DEVPL_GSDLC_03_A_FULL_REGRESSION_WAIVER.json",
         "docs/audits/DEVPL_GSDLC_03_A_REGRESSION_GUARD.json"
-      ],
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-03-b-environment-discovery-bootstrap-planning",
+      "critical": true,
+      "domain": "workspace.project-entry-planning",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-03-B",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_a_project_intake_contracts.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_onboarding_readiness_preview.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_api_contract.py tests/test_api_security.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_028_api_contract_drift_guard.py tests/test_devpl_gsdlc_02_c_server_rbac.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
       ],
-      "domain": "workspace.project-entry"
-    },
-    {
-      "contract_id": "devpl-gsdlc-03-b-environment-discovery-bootstrap-planning",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-03-B",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py",
@@ -1032,29 +1042,26 @@
         "docs/07_interfaces",
         "docs/audits/DEVPL_GSDLC_03_B_",
         "tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_api_contract.py tests/test_api_security.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_028_api_contract_drift_guard.py tests/test_devpl_gsdlc_02_c_server_rbac.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
-      ],
-      "domain": "workspace.project-entry-planning"
+      ]
     },
     {
       "contract_id": "devpl-gsdlc-03-c-project-entry-dry-run",
-      "scope": "safety",
+      "critical": true,
+      "domain": "workspace.project-entry-dry-run",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC-03-C",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
+        "node ui/web/scripts/gsdlc03c-project-entry-dry-run-smoke.mjs",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
+      ],
+      "scope": "safety",
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py",
@@ -1086,26 +1093,32 @@
         "docs/schemas",
         "docs/audits/DEVPL_GSDLC_03_C_",
         "tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
-        "node ui/web/scripts/gsdlc03c-project-entry-dry-run-smoke.mjs",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
-      ],
-      "domain": "workspace.project-entry-dry-run"
+      ]
     },
     {
       "contract_id": "devpl-gsdlc-03-d-approval-bound-bootstrap-execution",
-      "scope": "safety",
+      "critical": true,
+      "domain": "workspace.project-bootstrap-execution",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "Mutations are allowed only inside isolated temporary/external workspace fixtures and only after authenticated approval/policy binding.",
+        "Network and remote Git execution remain disabled; dependency jobs are policy-deferred unless exact offline cache authority is bound.",
+        "Full regression remains deferred to GSDLC-03-E."
+      ],
       "owner": "DEVPL-GSDLC-03-D",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_d_bootstrap_execution.py tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
+      ],
+      "scope": "safety",
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_03_d_bootstrap_execution.py",
@@ -1151,32 +1164,40 @@
         "docs/audits/DEVPL_GSDLC_03_D_",
         "docs/audits/devpl_gsdlc_03_d_",
         "tests/test_devpl_gsdlc_03_d_bootstrap_execution.py"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-03-e-project-home-browser-closure",
+      "critical": true,
+      "domain": "ui.project-entry-browser-closure",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "03-E closes the visible Project Home/Create/Open/Import journey while preserving historical ui.dashboard at /.",
+        "Browser acceptance precedes the single backlog full regression exactly once. If the full fails, no second full is allowed; recovery becomes composite/selective.",
+        "Normal user PowerShell=0 and external operator project writes=0; fixtures/evidence harness remains external and bounded.",
+        "GSDLC-03-E UX corrective: project-facing navigation is context-gated in the browser; Project Home/global settings are pre-project, Approval Center is entry-contextual, and project operational surfaces appear only after entry PASS.",
+        "GSDLC-03-E-RUNTIME-002 preserves the ordinary 8s UI timeout while assigning bounded operation-specific budgets to Project Entry planning/revalidation/approval and the Windows-tolerant 8s probe request.",
+        "GSDLC-03-E-RUNTIME-003 single-sources the 8s bounded Project Entry probe timeout across workspace, ApplicationService/dispatch, API request defaults, approval revalidation and execute revalidation; ordinary browser requests remain 8s and Project Entry planning HTTP remains 90s.",
+        "GSDLC-03-E-UX-002 validates cross-tab Approval Center handoff: link is exposed only after approval creation; handoff is TTL/session-bound UX state and never substitutes server human-session/RBAC authority.",
+        "GSDLC-03-E v1.0.11: Project Entry handoff targets exact approval_id and does not depend on global approval list/portfolio.",
+        "GSDLC-03-E v1.0.11: predecessor-era UI composite assertions are successor-aware while frozen registries remain unchanged.",
+        "GSDLC-03-E v1.0.11: browser timeout normalization ceiling preserves 90s planning and 240s execute budgets."
       ],
+      "owner": "DEVPL-GSDLC-03-E",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_d_bootstrap_execution.py tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_e_project_home_browser_closure.py tests/test_devpl_gsdlc_03_d_bootstrap_execution.py tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
       ],
-      "domain": "workspace.project-bootstrap-execution",
-      "notes": [
-        "Mutations are allowed only inside isolated temporary/external workspace fixtures and only after authenticated approval/policy binding.",
-        "Network and remote Git execution remain disabled; dependency jobs are policy-deferred unless exact offline cache authority is bound.",
-        "Full regression remains deferred to GSDLC-03-E."
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-03-e-project-home-browser-closure",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-03-E",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_03_e_project_home_browser_closure.py",
@@ -1232,40 +1253,34 @@
         "src/devpilot_core/application/project_bootstrap_execution_service.py",
         "src/devpilot_core/application/services.py",
         "src/devpilot_core/interfaces/api/routers/project_entry.py"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-04-a-artifact-lifecycle-contracts",
+      "critical": true,
+      "domain": "artifacts.lifecycle-provenance",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "04-A is metadata/contract-only: source_mutations_allowed=false and full regression is not executed.",
+        "ArtifactProfileRegistry remains profile-selection truth; UOC-004/UOC-005 remain planning/apply predecessors.",
+        "FROZEN invalidation is hash-drift-only and produces REVALIDATION_REQUIRED."
       ],
+      "owner": "DEVPL-GSDLC-04-A",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_e_project_home_browser_closure.py tests/test_devpl_gsdlc_03_d_bootstrap_execution.py tests/test_devpl_gsdlc_03_c_project_entry_dry_run.py tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
+        "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
       ],
-      "domain": "ui.project-entry-browser-closure",
-      "notes": [
-        "03-E closes the visible Project Home/Create/Open/Import journey while preserving historical ui.dashboard at /.",
-        "Browser acceptance precedes the single backlog full regression exactly once. If the full fails, no second full is allowed; recovery becomes composite/selective.",
-        "Normal user PowerShell=0 and external operator project writes=0; fixtures/evidence harness remains external and bounded.",
-        "GSDLC-03-E UX corrective: project-facing navigation is context-gated in the browser; Project Home/global settings are pre-project, Approval Center is entry-contextual, and project operational surfaces appear only after entry PASS.",
-        "GSDLC-03-E-RUNTIME-002 preserves the ordinary 8s UI timeout while assigning bounded operation-specific budgets to Project Entry planning/revalidation/approval and the Windows-tolerant 8s probe request.",
-        "GSDLC-03-E-RUNTIME-003 single-sources the 8s bounded Project Entry probe timeout across workspace, ApplicationService/dispatch, API request defaults, approval revalidation and execute revalidation; ordinary browser requests remain 8s and Project Entry planning HTTP remains 90s.",
-        "GSDLC-03-E-UX-002 validates cross-tab Approval Center handoff: link is exposed only after approval creation; handoff is TTL/session-bound UX state and never substitutes server human-session/RBAC authority.",
-        "GSDLC-03-E v1.0.11: Project Entry handoff targets exact approval_id and does not depend on global approval list/portfolio.",
-        "GSDLC-03-E v1.0.11: predecessor-era UI composite assertions are successor-aware while frozen registries remain unchanged.",
-        "GSDLC-03-E v1.0.11: browser timeout normalization ceiling preserves 90s planning and 240s execute budgets."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-04-a-artifact-lifecycle-contracts",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-04-A",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py",
@@ -1302,34 +1317,35 @@
         "docs/02_architecture/guided_sdlc",
         "docs/audits/DEVPL_GSDLC_04_A_",
         "tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-04-b-manual-editor-draft-history",
+      "critical": true,
+      "domain": "artifacts.manual-authoring",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "04-B permits bounded runtime draft mutations only; source_mutations_allowed=false.",
+        "Markdown/JSON drafts are server-side runtime state; sessionStorage is not authority.",
+        "Full regression remains reserved for 04-E."
       ],
+      "owner": "DEVPL-GSDLC-04-B",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
+        "python -m devpilot_core schema validate --schema-id SCHEMA-DEVPL-GSDLC-04-B-ARTIFACT-DRAFT-STORE-RECORD-V1 --instance <runtime-draft-json> --json",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
       ],
-      "domain": "artifacts.lifecycle-provenance",
-      "notes": [
-        "04-A is metadata/contract-only: source_mutations_allowed=false and full regression is not executed.",
-        "ArtifactProfileRegistry remains profile-selection truth; UOC-004/UOC-005 remain planning/apply predecessors.",
-        "FROZEN invalidation is hash-drift-only and produces REVALIDATION_REQUIRED."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-04-b-manual-editor-draft-history",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-04-B",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
@@ -1373,35 +1389,32 @@
         "docs/02_architecture/adrs/ADR-GSDLC-005-runtime-draft-store-and-concurrency.md",
         "docs/audits/DEVPL_GSDLC_04_B_",
         "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-04-c-artifact-import",
+      "critical": true,
+      "domain": "artifacts.external-source-import",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "04-C product persistence mutates governed runtime DRAFT state only; TCR execution does not mutate source/global state.",
+        "Full regression remains reserved for 04-E. URL/reference is metadata only and does not enable network fetch."
       ],
+      "owner": "DEVPL-GSDLC-04-C",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
-        "python -m devpilot_core schema validate --schema-id SCHEMA-DEVPL-GSDLC-04-B-ARTIFACT-DRAFT-STORE-RECORD-V1 --instance <runtime-draft-json> --json",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json",
-        "python -m devpilot_core test-impact analyze-v2 --changed-paths-file <changed-paths> --json"
+        "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "artifacts.manual-authoring",
-      "notes": [
-        "04-B permits bounded runtime draft mutations only; source_mutations_allowed=false.",
-        "Markdown/JSON drafts are server-side runtime state; sessionStorage is not authority.",
-        "Full regression remains reserved for 04-E."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-04-c-artifact-import",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-04-C",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_04_c_artifact_import.py",
@@ -1445,32 +1458,32 @@
         "docs/02_architecture/adrs/ADR-GSDLC-006-preview-first-external-source-import.md",
         "docs/audits",
         "tests/test_devpl_gsdlc_04_c_artifact_import.py"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-04-d-artifact-review-apply-freeze",
+      "critical": true,
+      "domain": "artifacts.review-apply-freeze",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "Product source mutation is intentionally enabled only through the inherited UOC-005 approval-bound writer; this test contract does not authorize generic writes.",
+        "04-D full regression remains 0; 04-E owns the single backlog full regression."
       ],
+      "owner": "DEVPL-GSDLC-04-D",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "artifacts.external-source-import",
-      "notes": [
-        "04-C product persistence mutates governed runtime DRAFT state only; TCR execution does not mutate source/global state.",
-        "Full regression remains reserved for 04-E. URL/reference is metadata only and does not enable network fetch."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-04-d-artifact-review-apply-freeze",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-04-D",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py",
@@ -1516,32 +1529,32 @@
         "docs/07_interfaces/openapi_v1.json",
         "docs/audits",
         "tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-04-e-external-reconciliation-browser-closure",
+      "critical": true,
+      "domain": "artifacts.external-reconciliation",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "External-edit writes in tests/browser are restricted to isolated disposable fixtures and are not DevPilot source-write authority.",
+        "04-E owns the exactly-once backlog full regression after browser PASS."
       ],
+      "owner": "DEVPL-GSDLC-04-E",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_e_external_reconciliation.py tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "artifacts.review-apply-freeze",
-      "notes": [
-        "Product source mutation is intentionally enabled only through the inherited UOC-005 approval-bound writer; this test contract does not authorize generic writes.",
-        "04-D full regression remains 0; 04-E owns the single backlog full regression."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-04-e-external-reconciliation-browser-closure",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-04-E",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_04_e_external_reconciliation.py",
@@ -1587,32 +1600,32 @@
         "scripts/devpl_gsdlc_04_e_fixture_identity.py",
         "GUIA_UNICA_IMPLEMENTACION_VALIDACION_DEVPL_GSDLC_04_E_v1_0_0.md",
         "ui/web/scripts/gsdlc04e-artifact-reconciliation-smoke.mjs"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-05-a-executable-standard-registry",
+      "critical": true,
+      "domain": "guided_sdlc.executable-standards",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "A→D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
+        "Normative documentation remains authoritative until owner approves the registry version."
       ],
+      "owner": "DEVPL-GSDLC-05-A",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_e_external_reconciliation.py tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_a_executable_standard_registry.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "artifacts.external-reconciliation",
-      "notes": [
-        "External-edit writes in tests/browser are restricted to isolated disposable fixtures and are not DevPilot source-write authority.",
-        "04-E owns the exactly-once backlog full regression after browser PASS."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-05-a-executable-standard-registry",
       "scope": "integration",
-      "owner": "DEVPL-GSDLC-05-A",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_05_a_executable_standard_registry.py",
@@ -1646,32 +1659,33 @@
         "README.md",
         "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
         "docs/audits"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-05-b-mip-executable-lifecycle",
+      "critical": true,
+      "domain": "guided_sdlc.mip-lifecycle",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "A→D cumulative-selective; GSDLC-05 full regression remains 0.",
+        "Production v1.0.0 allows no mandatory gate waiver because no normative source/ADR authorizes one."
       ],
+      "owner": "DEVPL-GSDLC-05-B",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_a_executable_standard_registry.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py tests/test_devpl_gsdlc_05_a_executable_standard_registry.py tests/test_devpl_gsdlc_01_b_workflow_engine.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "guided_sdlc.executable-standards",
-      "notes": [
-        "A→D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
-        "Normative documentation remains authoritative until owner approves the registry version."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-05-b-mip-executable-lifecycle",
       "scope": "integration",
-      "owner": "DEVPL-GSDLC-05-B",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py",
@@ -1710,33 +1724,32 @@
         "README.md",
         "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
         "docs/audits"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-05-c-miasi-applicability",
+      "critical": true,
+      "domain": "governance.miasi-applicability",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "GSDLC-05-C is deterministic/local-only; no model, agent or RAG execution.",
+        "Browser capability acceptance is bounded to Project Status MIASI states; full regression remains 0."
       ],
+      "owner": "DEVPL-GSDLC-05-C",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py -q",
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_b_mip_executable_lifecycle.py tests/test_devpl_gsdlc_05_a_executable_standard_registry.py tests/test_devpl_gsdlc_01_b_workflow_engine.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_c_miasi_applicability.py -q",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "guided_sdlc.mip-lifecycle",
-      "notes": [
-        "A→D cumulative-selective; GSDLC-05 full regression remains 0.",
-        "Production v1.0.0 allows no mandatory gate waiver because no normative source/ADR authorizes one."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-05-c-miasi-applicability",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-05-C",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_05_c_miasi_applicability.py",
@@ -1790,32 +1803,33 @@
         "README.md",
         "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
         "docs/audits"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-05-d-step-action-advisor",
+      "critical": true,
+      "domain": "guided-sdlc.step-action-advisor",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "GSDLC-05-D is deterministic/local-first and grants no capability.",
+        "Browser acceptance is required on Windows before owner adjudication; full regression remains 0."
       ],
+      "owner": "DEVPL-GSDLC-05-D",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_c_miasi_applicability.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_d_step_action_advisor.py -q",
+        "node ui/web/scripts/gsdlc05d-step-action-advisor-smoke.mjs",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "governance.miasi-applicability",
-      "notes": [
-        "GSDLC-05-C is deterministic/local-only; no model, agent or RAG execution.",
-        "Browser capability acceptance is bounded to Project Status MIASI states; full regression remains 0."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-05-d-step-action-advisor",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-05-D",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_05_d_step_action_advisor.py",
@@ -1869,33 +1883,35 @@
         "README.md",
         "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
         "docs/audits"
+      ]
+    },
+    {
+      "classification_notes": [
+        "Source mutations in acceptance must be produced only by the approval-bound application service against the dedicated fixture workspace."
       ],
+      "contract_id": "devpl-gsdlc-05-e-pre-code-wizard-closure",
+      "critical": true,
+      "domain": "guided-sdlc.pre-code-wizard",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "05-E is the sole normal full-regression closure point for backlog 05.",
+        "Full must not execute until browser and predictive marker PASS."
+      ],
+      "owner": "DEVPL-GSDLC-05-E",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_05_d_step_action_advisor.py -q",
-        "node ui/web/scripts/gsdlc05d-step-action-advisor-smoke.mjs",
+        "python -m pytest --assert=plain -q tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+        "node ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "guided-sdlc.step-action-advisor",
-      "notes": [
-        "GSDLC-05-D is deterministic/local-first and grants no capability.",
-        "Browser acceptance is required on Windows before owner adjudication; full regression remains 0."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-05-e-pre-code-wizard-closure",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-05-E",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
@@ -1953,35 +1969,32 @@
         "README.md",
         "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
         "docs/audits"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-06-b-local-provider-discovery",
+      "critical": true,
+      "domain": "modeling.local-provider-security",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "network_allowed is limited to hermetic loopback fake-server tests and optional local provider probes; external network/API remains forbidden.",
+        "Discovery is read-only and does not enable providers. Full regression remains 0 in GSDLC-06-B."
       ],
+      "owner": "DEVPL-GSDLC-06-B",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest --assert=plain -q tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
-        "node ui/web/scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_b_local_provider_discovery.py tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_post_h_032_local_llm_provider_hardening.py tests/test_api_settings.py",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "guided-sdlc.pre-code-wizard",
-      "notes": [
-        "05-E is the sole normal full-regression closure point for backlog 05.",
-        "Full must not execute until browser and predictive marker PASS."
-      ],
-      "classification_notes": [
-        "Source mutations in acceptance must be produced only by the approval-bound application service against the dedicated fixture workspace."
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-06-b-local-provider-discovery",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-06-B",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py",
@@ -2032,32 +2045,32 @@
         "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
         "docs/audits",
         "tests/test_devpl_gsdlc_06_b_local_provider_discovery.py"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-06-c-external-provider-enablement",
+      "critical": true,
+      "domain": "modeling.external-provider-security",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "Fake vendors only; no external network/API real permitted in 06-C PASS.",
+        "Runtime enablement state is gitignored and secret-free."
       ],
+      "owner": "DEVPL-GSDLC-06-C",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_b_local_provider_discovery.py tests/test_devpl_gsdlc_06_a_model_gateway_contracts.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py tests/test_post_h_032_local_llm_provider_hardening.py tests/test_api_settings.py",
-        "python -m devpilot_core project-state validate --json",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
         "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "modeling.local-provider-security",
-      "notes": [
-        "network_allowed is limited to hermetic loopback fake-server tests and optional local provider probes; external network/API remains forbidden.",
-        "Discovery is read-only and does not enable providers. Full regression remains 0 in GSDLC-06-B."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-06-c-external-provider-enablement",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-06-C",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
@@ -2093,32 +2106,33 @@
         "docs/audits",
         ".devpilot/project_state.json",
         ".devpilot/docs_governance/source_registry.json"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-06-d-token-budget-context-routing",
+      "critical": true,
+      "domain": "modeling.budget-routing",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "No full regression in 06-D.",
+        "No real external provider/network required.",
+        "Cost unknown is null/explicit, never synthetic zero."
       ],
+      "owner": "DEVPL-GSDLC-06-D",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "modeling.external-provider-security",
-      "notes": [
-        "Fake vendors only; no external network/API real permitted in 06-C PASS.",
-        "Runtime enablement state is gitignored and secret-free."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-06-d-token-budget-context-routing",
       "scope": "safety",
-      "owner": "DEVPL-GSDLC-06-D",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
@@ -2154,33 +2168,32 @@
         "tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
         ".devpilot/project_state.json",
         ".devpilot/docs_governance/source_registry.json"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-06-e-provider-settings-controlled-eval",
+      "critical": true,
+      "domain": "modeling.provider-settings",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "notes": [
+        "Browser acceptance and the single full regression are Windows closing gates.",
+        "Disable/revoke mutates only ignored runtime provider enablement state; source mutation remains forbidden."
       ],
+      "owner": "DEVPL-GSDLC-06-E",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_d_budget_context_routing.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_e_provider_settings.py",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "modeling.budget-routing",
-      "notes": [
-        "No full regression in 06-D.",
-        "No real external provider/network required.",
-        "Cost unknown is null/explicit, never synthetic zero."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-06-e-provider-settings-controlled-eval",
       "scope": "quality-gate",
-      "owner": "DEVPL-GSDLC-06-E",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_06_e_provider_settings.py",
@@ -2216,32 +2229,35 @@
         ".devpilot/interfaces/ui_route_contract_registry.json",
         ".devpilot/identity/server_rbac_policy_catalog.json",
         ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "classification_notes": [],
+      "contract_id": "devpl-gsdlc-07-activation-full-regression-v2-1",
+      "critical": true,
+      "domain": "testing.full-regression",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "notes": [
+        "Full Regression Execution v2.1 is sequential, local-first and resumable; pytest-xdist is explicitly deferred.",
+        "This activation enabler validates with synthetic/focal tests and a bounded canary only. It MUST NOT consume the backlog 07 full regression.",
+        "GSDLC-07-E E-03 successor regression forbids global backslash replacement across pytest nodeids; only the path component before :: may be normalized."
       ],
+      "owner": "DEVPL-GSDLC-07-ACTIVATION-ENABLER",
+      "phase": "DEVPL-GSDLC",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_e_provider_settings.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_full_regression_execution_v2.py tests/test_devpl_gsdlc_07_e_full_regression_nodeid_normalization.py tests/test_devpl_gsdlc_07_full_regression_cli_contract.py",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core cli-registry compatibility --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
-      "domain": "modeling.provider-settings",
-      "notes": [
-        "Browser acceptance and the single full regression are Windows closing gates.",
-        "Disable/revoke mutates only ignored runtime provider enablement state; source mutation remains forbidden."
-      ],
-      "classification_notes": []
-    },
-    {
-      "contract_id": "devpl-gsdlc-07-activation-full-regression-v2-1",
       "scope": "quality-gate",
-      "owner": "DEVPL-GSDLC-07-ACTIVATION-ENABLER",
-      "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": false,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
       "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py",
@@ -2278,35 +2294,27 @@
         "docs/schemas/full_regression_shard_receipt.schema.json",
         "docs/schemas/full_regression_adjudication.schema.json",
         ".devpilot/project_state.json"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_full_regression_execution_v2.py tests/test_devpl_gsdlc_07_e_full_regression_nodeid_normalization.py tests/test_devpl_gsdlc_07_full_regression_cli_contract.py",
-        "python -m devpilot_core cli-registry guard --json",
-        "python -m devpilot_core cli-registry compatibility --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "domain": "testing.full-regression",
-      "notes": [
-        "Full Regression Execution v2.1 is sequential, local-first and resumable; pytest-xdist is explicitly deferred.",
-        "This activation enabler validates with synthetic/focal tests and a bounded canary only. It MUST NOT consume the backlog 07 full regression.",
-        "GSDLC-07-E E-03 successor regression forbids global backslash replacement across pytest nodeids; only the path component before :: may be normalized."
-      ],
-      "classification_notes": []
+      ]
     },
     {
       "contract_id": "devpl-gsdlc-transversal-validation-policy",
-      "scope": "integration",
+      "critical": true,
+      "domain": "governance.testing",
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
       "owner": "DEVPL-GSDLC",
       "phase": "DEVPL-GSDLC",
-      "critical": true,
-      "mutable_global_state_allowed": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_gsdlc_transversal_validation_policy.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "integration",
       "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_transversal_validation_policy.py",
@@ -2327,15 +2335,7 @@
         ".devpilot/gsdlc/architecture_target_contract.json",
         "docs/audits/DEVPL_GSDLC_01_A_FULL_REGRESSION_DECISION.json",
         "tests/test_devpl_gsdlc_transversal_validation_policy.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest tests/test_devpl_gsdlc_transversal_validation_policy.py -q",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "domain": "governance.testing"
+      ]
     },
     {
       "contract_id": "post-h-002-maturity-dashboard",
@@ -12812,7 +12812,6 @@
       "mutable_global_state_allowed": true,
       "owner": "FRX-v2.2-D",
       "phase": "FULL-REGRESSION-v2.2",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -q tests/test_frx_v2_2_d_one_full_benchmark.py",
         "python -m devpilot_core project-state validate --json",
@@ -12821,6 +12820,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_frx_v2_2_d_one_full_benchmark.py",
         "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py"
@@ -12857,7 +12857,6 @@
       "mutable_global_state_allowed": true,
       "owner": "FRX-v2.3-A",
       "phase": "FULL-REGRESSION-v2.3",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -q tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py",
         "python -m devpilot_core project-state validate --json",
@@ -12865,6 +12864,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
       ],
@@ -12899,7 +12899,6 @@
       "mutable_global_state_allowed": true,
       "owner": "FRX-v2.3-B",
       "phase": "FULL-REGRESSION-v2.3",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -q tests/test_frx_v2_3_b_isolation_registry.py",
         "python -m devpilot_core project-state validate --json",
@@ -12907,6 +12906,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_frx_v2_3_b_isolation_registry.py"
       ],
@@ -12936,7 +12936,6 @@
       "mutable_global_state_allowed": true,
       "owner": "FRX-v2.3-C",
       "phase": "FULL-REGRESSION-v2.3",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -q tests/test_frx_v2_3_c_conflict_graph.py",
         "python -m devpilot_core project-state validate --json",
@@ -12944,6 +12943,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_frx_v2_3_c_conflict_graph.py"
       ],
@@ -12972,7 +12972,6 @@
       "mutable_global_state_allowed": true,
       "owner": "FRX-v2.3-BR",
       "phase": "FULL-REGRESSION-v2.3",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -q tests/test_frx_v2_3_br_isolation_evidence.py",
         "python -m devpilot_core project-state validate --json",
@@ -12980,6 +12979,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_frx_v2_3_br_isolation_evidence.py"
       ],
@@ -13009,7 +13009,6 @@
       "mutable_global_state_allowed": true,
       "owner": "FRX-v2.3-D",
       "phase": "FULL-REGRESSION-v2.3",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_d_parallel_canary.py",
         "python -m devpilot_core tests parallel-canary --json",
@@ -13018,6 +13017,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_frx_v2_3_d_parallel_canary.py"
       ],
@@ -13048,11 +13048,11 @@
       "mutable_global_state_allowed": true,
       "owner": "FRX-v2.3-E",
       "phase": "FULL-REGRESSION-v2.3",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_e_safe_parallel_full.py",
         "python -m devpilot_core.testing.safe_parallel_full --collection .devpilot/testing/frx_v2_3_c_collection.json --environment-fingerprint windows-pytest-devpilot-gsdlc07e-v1"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_frx_v2_3_e_safe_parallel_full.py"
       ],
@@ -13079,7 +13079,6 @@
       "mutable_global_state_allowed": true,
       "owner": "DEVPL-GSDLC-08-ACTIVATION",
       "phase": "DEVPL-GSDLC-08",
-      "scope": "quality-gate",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_activation_rebind.py",
         "python -m devpilot_core project-state validate --json",
@@ -13087,6 +13086,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "quality-gate",
       "test_files": [
         "tests/test_devpl_gsdlc_08_activation_rebind.py"
       ],
@@ -13114,7 +13114,6 @@
       "mutable_global_state_allowed": true,
       "owner": "DEVPL-GSDLC-08-A",
       "phase": "DEVPL-GSDLC-08",
-      "scope": "feature",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_activation_rebind.py",
         "python -m devpilot_core project-state validate --json",
@@ -13122,6 +13121,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "feature",
       "test_files": [
         "tests/test_devpl_gsdlc_08_a_planning_domain.py"
       ],
@@ -13155,7 +13155,6 @@
       "mutable_global_state_allowed": true,
       "owner": "DEVPL-GSDLC-08-B",
       "phase": "DEVPL-GSDLC-08",
-      "scope": "feature",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
         "node ui/web/scripts/gsdlc08b-roadmap-workbench-smoke.mjs",
@@ -13164,6 +13163,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "feature",
       "test_files": [
         "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py"
       ],
@@ -13194,7 +13194,6 @@
       "mutable_global_state_allowed": true,
       "owner": "DEVPL-GSDLC-08-C",
       "phase": "DEVPL-GSDLC-08",
-      "scope": "feature",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
@@ -13203,6 +13202,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "feature",
       "test_files": [
         "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
       ],
@@ -13234,7 +13234,6 @@
       "mutable_global_state_allowed": true,
       "owner": "DEVPL-GSDLC-08-D",
       "phase": "DEVPL-GSDLC-08",
-      "scope": "feature",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_d_sprint_planner.py",
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
@@ -13243,6 +13242,7 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
+      "scope": "feature",
       "test_files": [
         "tests/test_devpl_gsdlc_08_d_sprint_planner.py"
       ],
@@ -13266,8 +13266,48 @@
         "docs/audits/DEVPL_GSDLC_08_D_PRE_FULL_HANDOFF.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-e-planning-browser-one-full-closure",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-E",
+      "phase": "DEVPL-GSDLC-08",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py"
+      ],
+      "validates": [
+        "planning browser end-to-end",
+        "PRE_CODE_READY→PLANNING→IMPLEMENTING_READY",
+        "requirement→milestone→epic→story→sprint trace graph",
+        "backlog/sprint API successor bindings",
+        "server RBAC approval/freeze",
+        "browser acceptance before one full",
+        "exactly-one logical full/composite recovery"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/planning_closure_service.py",
+        "src/devpilot_core/interfaces/api/routers/planning.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/RoadmapWorkbenchView.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json"
+      ]
     }
   ],
+  "contracts_total": 318,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [
@@ -13343,6 +13383,5 @@
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
-  "status": "implemented-initial",
-  "contracts_total": 317
+  "status": "implemented-initial"
 }
