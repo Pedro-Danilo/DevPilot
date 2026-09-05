@@ -4,9 +4,50 @@
   "micro_sprint": "DEVPL-GSDLC-08-E",
   "strategy": "focal+accumulative+browser-before-exactly-one-full",
   "full_regression_runs_local": 0,
-  "full_budget": {"consumed": 0, "remaining": 1, "total": 1},
+  "full_budget": {
+    "consumed": 1,
+    "remaining": 0,
+    "total": 1
+  },
   "focal_test": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
-  "cumulative_tests": ["tests/test_devpl_gsdlc_08_a_planning_domain.py","tests/test_devpl_gsdlc_08_b_roadmap_workbench.py","tests/test_devpl_gsdlc_08_c_backlog_workbench.py","tests/test_devpl_gsdlc_08_d_sprint_planner.py"],
+  "cumulative_tests": [
+    "tests/test_devpl_gsdlc_08_a_planning_domain.py",
+    "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
+    "tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py"
+  ],
   "browser_required": true,
-  "changed_domains": ["planning","application.service","api","ui","rbac","documentation-contracts","project-state"]
+  "changed_domains": [
+    "planning",
+    "application.service",
+    "api",
+    "ui",
+    "rbac",
+    "documentation-contracts",
+    "project-state"
+  ],
+  "windows_validation": "PASS/COMPOSITE-RECOVERY",
+  "browser_runs": 1,
+  "full_regression_runs": 1,
+  "second_full": false,
+  "original_full": {
+    "accounted": 2968,
+    "pass": 2917,
+    "fail": 46,
+    "error": 0,
+    "skip_approved": 5,
+    "status": "FAIL/PRESERVED"
+  },
+  "composite_recovery": {
+    "exact_failed_nodeids": "46/46 PASS",
+    "bounded_impact": "PASS",
+    "historical_regression_guard": "PASS",
+    "post_recovery_gates": "PASS",
+    "composite_accounted": 2968,
+    "composite_pass": 2963,
+    "composite_fail": 0,
+    "composite_error": 0,
+    "composite_skip_approved": 5
+  },
+  "closure_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

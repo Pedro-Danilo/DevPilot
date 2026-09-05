@@ -1,7 +1,7 @@
 ---
 doc_id: "DEVPL-GSDLC-08"
 title: "DEVPL-GSDLC-08 — Planning Workbench — roadmap, backlog and sprint construction"
-status: "approved"
+status: "closed"
 version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-09-03"
@@ -18,8 +18,10 @@ local_first: true
 ui_complete_normal_journey: true
 dry_run_default: true
 backlog_id: "DEVPL-GSDLC-08"
-backlog_status: "approved/executable/rebound-repo397"
+backlog_status: "CLOSED/PASS"
 micro_sprints_total: 5
+closure_repo: "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip"
+closure_decision: "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"
 validation_policy: "A-D impact+focal+cumulative; E exactly-one-logical-full; default workers=1; safe-parallel opt-in <=2 only by pre-full owner adjudication; no rerun; composite recovery"
 documentation_contract_policy: "DEVPL_DOCUMENTATION_CONTRACT_RECONCILIATION_POLICY_v1_0_0_APPROVED"
 runtime_ephemeral_fixture_policy: "exclude auth.db*, devpilot.db* and equivalent runtime stores"
@@ -53,6 +55,10 @@ La referencia histórica repo341 permanece únicamente como design-origin en el 
 - Si una full falla, queda inmutable y no se repite. Correctives: exact failed-nodeid retest + bounded impacted retest + Historical Regression Guard + composite recovery.
 - Tests nuevos forman parte de la colección global automáticamente; nacen `UNCLASSIFIED/parallel_safe=false` y permanecen seriales hasta promoción explícita sustentada en evidencia.
 
+
+## 0.2 Cierre Windows de la ola — 2026-09-04
+
+`DEVPL-GSDLC-08 = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` después de GSDLC-08-E Windows browser acceptance, required planning coverage 100%, S0/S1=0 y exactamente una logical full regression consumida 1/1. La full original se preserva inmutable con 2968/2968 accounted, 2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP; el cierre se obtiene únicamente por recovery selectivo autorizado: exact failed-nodeid 46/46 PASS + bounded impacted PASS + Historical Regression Guard PASS + gates post-recovery PASS. No hubo segunda full. El successor canónico es `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-09 queda formalmente autorizado; el inicio funcional queda sujeto al hardening/preflight FRX v2 recomendado para impedir bypasses del perfil current-active; las secciones históricas de activación/rebind permanecen como registro y no se reinterpretan como autoridad current-active.
 
 # 0. Política de binding de ejecución
 

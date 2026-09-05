@@ -2,7 +2,7 @@
   "schema_id": "DEVPL-GSDLC-08-E-CONTRACT-RECONCILIATION-SWEEP-V1",
   "status": "PASS",
   "micro_sprint": "DEVPL-GSDLC-08-E",
-  "phase": "local-pre-windows",
+  "phase": "windows-composite-recovery-post-closure",
   "checks": {
     "schema_metadata": "PASS",
     "derived_counters": "PASS",
@@ -16,7 +16,11 @@
   },
   "s0_open": 0,
   "s1_open": 0,
-  "full_budget_consumed": 0,
+  "full_budget_consumed": 1,
   "full_authorized_now": false,
-  "full_authorization_reason": "Windows browser acceptance and collection/duration/isolation freshness must PASS first."
+  "full_authorization_reason": "Exactly-one logical full consumed 1/1 and preserved; second full forbidden. Closure uses composite recovery.",
+  "browser_acceptance": "PASS",
+  "composite_recovery": "PASS",
+  "original_full_status": "FAIL/PRESERVED/46-FAIL",
+  "closure_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

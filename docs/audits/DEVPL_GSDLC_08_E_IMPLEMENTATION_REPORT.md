@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-08-E-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-08-E — Planning traceability and Project Status browser closure — implementation report"
-status: "implemented/local-qualified/windows-pending"
+status: "closed/windows-validated/composite-recovery"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-04"
-approval: "pending-windows-browser-and-one-full"
+approval: "windows-browser+one-full+composite-recovery-pass"
 ---
 
 # DEVPL-GSDLC-08-E — Implementation report
@@ -41,3 +41,7 @@ La implementación local usa focal E + acumulativa A→D + gates baratos. La ún
 ## Estado
 
 `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING`. Cierre final únicamente después de browser PASS + exactamente una logical full/composite PASS.
+
+## Windows composite recovery closure
+
+Browser acceptance remains PASS. The authoritative logical full was consumed exactly once and is preserved immutable: `2968/2968` accounted, `2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP`. No second full was executed. The authorized recovery closes with exact failed-nodeid `46/46 PASS`, bounded impacted retest PASS, Historical Regression Guard PASS and post-recovery Project State / TCR v1/v2 / Documentation Governance / Evidence Freshness / API contract drift PASS. Composite terminal result: `2963 PASS / 0 FAIL / 0 ERROR / 5 SKIP / 2968 accounted`, with `full_runs=1/1` and `second_full=false`. Canonical successor: `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`.

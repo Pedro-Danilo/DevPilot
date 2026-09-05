@@ -569,3 +569,7 @@ GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`; SprintPlanner/SprintPlan are Windows
 
 ### GSDLC-08-E — implementation candidate
 Planning Workbench browser closure is implemented locally on repo402 successor: integrated roadmap/backlog/sprint/trace UI, planning journey projection, server-RBAC approval/freeze and successor-aware current pointers. Windows browser acceptance + exactly-one logical full remain the closure gate.
+
+### DEVPL-GSDLC-08-E Windows composite closure
+
+GSDLC-08 closes `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` on `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`. The original one-full evidence is preserved (`1/1`, `2968/2968 accounted`, `46 FAIL`, `0 ERROR`) and is not rewritten; selective/composite recovery proves all original failed nodeids plus bounded impact and Historical Regression Guard without a second full. Planning browser closure remains PASS and GSDLC-09 is formally authorized, subject to the FRX v2 profile-hardening preflight recommended before starting new functional work.

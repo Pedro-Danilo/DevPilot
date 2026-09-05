@@ -6600,3 +6600,7 @@ GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`. SprintPlanner focal and bounded A/B/
 ## DEVPL-GSDLC-08-E — Planning browser closure (implementation candidate)
 
 08-E integra la ruta `/planning/roadmap` como Planning Workbench completo: roadmap → backlog → sprint → trace graph, y añade al Project Status la proyección `PRE_CODE_READY → PLANNING → IMPLEMENTING_READY`. El estado final requiere artefactos FROZEN, coverage requerido 100% y SprintPlan ejecutable. La implementación local no consume la full regression del backlog; browser acceptance y la única logical full pertenecen al operador Windows de cierre.
+
+### DEVPL-GSDLC-08-E Windows composite closure
+
+GSDLC-08-E and the DEVPL-GSDLC-08 Planning Workbench backlog are `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. Browser acceptance proves PRE_CODE_READY → PLANNING → IMPLEMENTING_READY, governed roadmap/backlog/sprint approval/freeze, 100% traceability, visible MANUAL/IMPORT/AGENT routes and server-side RBAC denial. The exactly-one logical full is preserved immutable at `2968/2968 accounted = 2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP`; no second full was run. Closure layers `46/46` exact failed-nodeid PASS, bounded impacted PASS, Historical Regression Guard PASS and post-recovery deterministic gates. Current candidate: `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-09 is formally authorized, with FRX v2 execution-profile hardening recommended before functional start.

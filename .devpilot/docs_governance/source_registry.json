@@ -33848,10 +33848,10 @@
       "doc_id": "DEVPL-GSDLC-08",
       "domain": "governance.program",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "machine_readable_counterparts": [],
       "notes": [
-        "Current executable backlog authority rebound to repo397."
+        "Closed Windows via GSDLC-08-E composite recovery; original full preserved 1/1."
       ],
       "owner": "Ordóñez",
       "path": "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md",
@@ -33862,7 +33862,7 @@
       "roadmap_milestones": [
         "DEVPL-GSDLC-08"
       ],
-      "status_required": "approved",
+      "status_required": "closed",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -34595,9 +34595,11 @@
       "doc_id": "DEVPL-GSDLC-08-E-IMPLEMENTATION-REPORT",
       "domain": "planning",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "machine_readable_counterparts": [],
-      "notes": [],
+      "notes": [
+        "Windows browser PASS + exactly-one full preserved + selective/composite recovery PASS."
+      ],
       "owner": "Ordóñez",
       "path": "docs/audits/DEVPL_GSDLC_08_E_IMPLEMENTATION_REPORT.md",
       "related_adrs": [],
@@ -34607,7 +34609,7 @@
       "roadmap_milestones": [
         "DEVPL-GSDLC-08-E"
       ],
-      "status_required": "implemented/local-qualified/windows-pending",
+      "status_required": "closed/windows-validated/composite-recovery",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -34824,13 +34826,13 @@
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-08-E",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_program_status": "active/GSDLC-08/08-E",
+  "gsdlc_program_status": "closed/GSDLC-08/PASS/COMPOSITE-RECOVERY",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-08-E",
+  "last_updated_by": "DEVPL-GSDLC-08-E-COMPOSITE-RECOVERY",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -37362,8 +37364,11 @@
     "external_api_used": false,
     "mutations_performed": false
   },
-  "updated": "2026-09-04",
-  "updated_at": "2026-09-04",
-  "updated_by": "DEVPL-GSDLC-08-E",
-  "gsdlc_08_closure_status": "PENDING-08-E-WINDOWS"
+  "updated": "2026-09-05",
+  "updated_at": "2026-09-05",
+  "updated_by": "DEVPL-GSDLC-08-E-COMPOSITE-RECOVERY",
+  "gsdlc_08_closure_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
+  "gsdlc_08_e_browser_acceptance": "PASS",
+  "gsdlc_08_e_full_regression_runs": 1,
+  "gsdlc_08_e_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"
 }

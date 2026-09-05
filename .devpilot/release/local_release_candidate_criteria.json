@@ -8,7 +8,7 @@
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
         "current_micro_sprint": "DEVPL-GSDLC-08-E",
-        "current_repo": "repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
         "next_micro_sprint": "DEVPL-GSDLC-09-A",
@@ -23,7 +23,8 @@
         "post_h_eval_002_status": "approved/active-evaluation",
         "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
         "post_h_eval_002_current_micro_sprint": "POST-H-EVAL-002-02-B",
-        "post_h_eval_002_next_micro_sprint": "POST-H-EVAL-002-02-C"
+        "post_h_eval_002_next_micro_sprint": "POST-H-EVAL-002-02-C",
+        "last_registered_sprint": "DEVPL-GSDLC-08-E"
       },
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
       "freshness_policy": "contextual-field-match",
@@ -690,7 +691,7 @@
     }
   ],
   "expected_current_micro_sprint": "DEVPL-GSDLC-08-E",
-  "expected_current_repo": "repo_DevPilot_Local_402_DEVPL_GSDLC_08_D_SPRINT_PLANNING_CAPACITY_DEPENDENCIES_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_next_micro_sprint": "DEVPL-GSDLC-09-A",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
@@ -722,5 +723,5 @@
   "uoc_004_status": "closed/PASS",
   "uoc_005_authorized": true,
   "updated": "2026-09-05",
-  "updated_by": "DEVPL-GSDLC-08-E-COMPOSITE-RECOVERY"
+  "updated_by": "DEVPL-GSDLC-08-E-COMPOSITE-CLOSURE"
 }

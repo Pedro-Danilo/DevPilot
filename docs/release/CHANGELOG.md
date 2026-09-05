@@ -3268,3 +3268,12 @@ GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance P
 - Extends Planning Workbench and Project Status browser surfaces without source/code execution.
 - Reconciles current GSDLC pointers as successor state while preserving historical snapshots.
 - Leaves full regression budget at `0/1`; Windows browser acceptance precedes the exactly-one logical full.
+
+## 2026-09-05 — DEVPL-GSDLC-08-E composite recovery closure
+
+- GSDLC-08-E and DEVPL-GSDLC-08 close `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`.
+- Browser journey remains PASS: PRE_CODE_READY→PLANNING→IMPLEMENTING_READY, 100% traceability and role-bound approval/freeze.
+- Exactly one logical full remains immutable: 2968/2968 accounted, 2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP; `full_runs=1/1`, `second_full=false`.
+- Recovery proves exact failed-nodeid `46/46 PASS`, bounded impact PASS, Historical Regression Guard PASS and post-recovery gates PASS.
+- Canonical successor candidate: `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- GSDLC-09 is formally authorized; FRX v2 execution-profile hardening is recommended as a preflight before new functional implementation.
