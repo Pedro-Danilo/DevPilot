@@ -88,7 +88,19 @@ def test_08_e_rebind_and_exactly_one_full_lifecycle_contract():
         assert state['gsdlc_08_e_full_regression_runs']==0
         assert state['gsdlc_08_e_browser_acceptance']=='PENDING-WINDOWS'
     else:
-        assert status=='CLOSED/PASS/WINDOWS-VALIDATED'
+        assert status in {
+            'CLOSED/PASS/WINDOWS-VALIDATED',
+            'CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY',
+        }
         assert state['gsdlc_08_e_full_regression_runs']==1
         assert state['gsdlc_08_e_browser_acceptance']=='PASS'
-        assert state['gsdlc_08_closure_status']=='CLOSED/PASS'
+        assert state['gsdlc_08_e_windows_validation_status'] in {
+            'CLOSED/PASS',
+            'CLOSED/PASS/COMPOSITE-RECOVERY',
+        }
+        assert state['gsdlc_08_closure_status'] in {
+            'CLOSED/PASS',
+            'CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY',
+        }
+        assert state['gsdlc_program_status'].startswith('closed/GSDLC-08/PASS')
+        assert state['gsdlc_current_canonical_repo'].startswith('repo_DevPilot_Local_404_')

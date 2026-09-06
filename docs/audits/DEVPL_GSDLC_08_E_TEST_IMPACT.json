@@ -49,5 +49,6 @@
     "composite_error": 0,
     "composite_skip_approved": 5
   },
-  "closure_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "closure_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "post_close_final_reconciliation": "REQUIRED/WINDOWS-PENDING"
 }

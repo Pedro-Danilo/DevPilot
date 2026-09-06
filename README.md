@@ -1,4 +1,8 @@
 
+## DEVPL-GSDLC-08 final Windows closure reconciliation — 2026-09-05
+
+DEVPL-GSDLC-08-E and the DEVPL-GSDLC-08 backlog are pending final owner ratification after a post-close reconciliation that aligns Project State current-active pointers with the already-accredited composite recovery. The Windows-validated successor produced by this corrective is `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. The original one-full evidence remains immutable (`1/1`); no browser or full regression is repeated. GSDLC-09 remains `PROPOSED/PENDING-OWNER-APPROVAL` until that reconciliation is Windows-validated and owner-ratified.
+
 ## DEVPL-GSDLC-08-A — Planning domain candidate — 2026-09-03
 
 Planning domain contracts are implemented and pending Windows validation: six versioned schemas, pure `PlanningStateService`, deterministic dependency graph, typed requirement/risk/ADR/test-intent links and human role-bound approval/freeze. No UI/API/browser/full regression is introduced in A. 08-B remains unauthorized until Windows PASS.
@@ -6603,4 +6607,4 @@ GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`. SprintPlanner focal and bounded A/B/
 
 ### DEVPL-GSDLC-08-E Windows composite closure
 
-GSDLC-08-E and the DEVPL-GSDLC-08 Planning Workbench backlog are `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. Browser acceptance proves PRE_CODE_READY → PLANNING → IMPLEMENTING_READY, governed roadmap/backlog/sprint approval/freeze, 100% traceability, visible MANUAL/IMPORT/AGENT routes and server-side RBAC denial. The exactly-one logical full is preserved immutable at `2968/2968 accounted = 2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP`; no second full was run. Closure layers `46/46` exact failed-nodeid PASS, bounded impacted PASS, Historical Regression Guard PASS and post-recovery deterministic gates. Current candidate: `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-09 is formally authorized, with FRX v2 execution-profile hardening recommended before functional start.
+GSDLC-08-E and the DEVPL-GSDLC-08 Planning Workbench backlog are `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. Browser acceptance proves PRE_CODE_READY → PLANNING → IMPLEMENTING_READY, governed roadmap/backlog/sprint approval/freeze, 100% traceability, visible MANUAL/IMPORT/AGENT routes and server-side RBAC denial. The exactly-one logical full is preserved immutable at `2968/2968 accounted = 2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP`; no second full was run. Closure layers `46/46` exact failed-nodeid PASS, bounded impacted PASS, Historical Regression Guard PASS and post-recovery deterministic gates. Current candidate: `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-09 is formally authorized, with FRX v2 execution-profile hardening recommended before functional start.

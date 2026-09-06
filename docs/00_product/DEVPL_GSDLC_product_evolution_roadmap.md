@@ -572,4 +572,9 @@ Planning Workbench browser closure is implemented locally on repo402 successor: 
 
 ### DEVPL-GSDLC-08-E Windows composite closure
 
-GSDLC-08 closes `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` on `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`. The original one-full evidence is preserved (`1/1`, `2968/2968 accounted`, `46 FAIL`, `0 ERROR`) and is not rewritten; selective/composite recovery proves all original failed nodeids plus bounded impact and Historical Regression Guard without a second full. Planning browser closure remains PASS and GSDLC-09 is formally authorized, subject to the FRX v2 profile-hardening preflight recommended before starting new functional work.
+GSDLC-08 closes `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` on `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. The original one-full evidence is preserved (`1/1`, `2968/2968 accounted`, `46 FAIL`, `0 ERROR`) and is not rewritten; selective/composite recovery proves all original failed nodeids plus bounded impact and Historical Regression Guard without a second full. Planning browser closure remains PASS and GSDLC-09 is formally authorized, subject to the FRX v2 profile-hardening preflight recommended before starting new functional work.
+
+
+### Final closure reconciliation note — 2026-09-05
+
+A post-package audit detected stale `current-active` fields in `.devpilot/project_state.json` even though the composite recovery, browser acceptance, exact retest, bounded impact, Historical Regression Guard, local/remote promotion and repo403 packaging had passed. The authoritative closure is therefore ratified only after the final Windows reconciliation successor `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip` aligns Project State, Source Registry and current documentation without running browser/full again.

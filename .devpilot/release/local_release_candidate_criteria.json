@@ -8,7 +8,7 @@
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
         "current_micro_sprint": "DEVPL-GSDLC-08-E",
-        "current_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "next_backlog_planned": true,
         "next_micro_sprint": "DEVPL-GSDLC-09-A",
@@ -691,7 +691,7 @@
     }
   ],
   "expected_current_micro_sprint": "DEVPL-GSDLC-08-E",
-  "expected_current_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
   "expected_next_micro_sprint": "DEVPL-GSDLC-09-A",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",

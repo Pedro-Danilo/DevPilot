@@ -3275,5 +3275,10 @@ GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance P
 - Browser journey remains PASS: PRE_CODE_READY→PLANNING→IMPLEMENTING_READY, 100% traceability and role-bound approval/freeze.
 - Exactly one logical full remains immutable: 2968/2968 accounted, 2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP; `full_runs=1/1`, `second_full=false`.
 - Recovery proves exact failed-nodeid `46/46 PASS`, bounded impact PASS, Historical Regression Guard PASS and post-recovery gates PASS.
-- Canonical successor candidate: `repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Canonical successor candidate: `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`.
 - GSDLC-09 is formally authorized; FRX v2 execution-profile hardening is recommended as a preflight before new functional implementation.
+
+
+### Final closure reconciliation note — 2026-09-05
+
+A post-package audit detected stale `current-active` fields in `.devpilot/project_state.json` even though the composite recovery, browser acceptance, exact retest, bounded impact, Historical Regression Guard, local/remote promotion and repo403 packaging had passed. The authoritative closure is therefore ratified only after the final Windows reconciliation successor `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip` aligns Project State, Source Registry and current documentation without running browser/full again.

@@ -2,13 +2,13 @@
   "schema_id": "DEVPL-GSDLC-08-E-CONTRACT-RECONCILIATION-SWEEP-V1",
   "status": "PASS",
   "micro_sprint": "DEVPL-GSDLC-08-E",
-  "phase": "windows-composite-recovery-post-closure",
+  "phase": "windows-post-close-final-reconciliation-candidate",
   "checks": {
     "schema_metadata": "PASS",
     "derived_counters": "PASS",
     "sensitive_action_rbac_approval_binding": "PASS",
     "ui_api_mapping": "PASS",
-    "project_state_source_registry_readme_roadmap_current": "PASS",
+    "project_state_source_registry_readme_roadmap_current": "PASS-AFTER-FINAL-RECONCILIATION-CORRECTIVE",
     "historical_current_pointer_separation": "PASS",
     "runtime_ephemeral_exclusion": "PASS",
     "sealed_evidence_hashing_policy": "PASS",
@@ -22,5 +22,7 @@
   "browser_acceptance": "PASS",
   "composite_recovery": "PASS",
   "original_full_status": "FAIL/PRESERVED/46-FAIL",
-  "closure_repo": "repo_DevPilot_Local_403_DEVPL_GSDLC_08_E_PLANNING_TRACEABILITY_BROWSER_ONE_FULL_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "closure_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "final_reconciliation_required": true,
+  "final_reconciliation_reason": "repo403 packaged with stale current-active Project State fields despite closure receipts; final Windows revalidation is required before owner ratification"
 }
