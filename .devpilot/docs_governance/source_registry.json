@@ -34685,6 +34685,172 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "ADR-FRX-005",
+      "domain": "architecture",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.4-B current execution profile lock; full/browser=0."
+      ],
+      "owner": "FRX-v2.4-B",
+      "path": "docs/adr/ADR-FRX-005-current-execution-profile-lock.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.4-B"
+      ],
+      "status_required": "accepted",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-FRX-V2-4-B-MIGRATION-NOTES",
+      "domain": "testing",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.4-B current execution profile lock; full/browser=0."
+      ],
+      "owner": "FRX-v2.4-B",
+      "path": "docs/audits/FRX_V2_4_B_MIGRATION_NOTES.md",
+      "related_adrs": [
+        "ADR-FRX-005"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.4-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-FRX-V2-4-B-IMPLEMENTATION-REPORT",
+      "domain": "testing",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.4-B current execution profile lock; full/browser=0."
+      ],
+      "owner": "FRX-v2.4-B",
+      "path": "docs/audits/FRX_V2_4_B_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [
+        "ADR-FRX-005"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.4-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-FRX-V2-4-B-OWNER-ADJUDICATION-PROPOSAL",
+      "domain": "testing",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.4-B current execution profile lock; full/browser=0."
+      ],
+      "owner": "FRX-v2.4-B",
+      "path": "docs/audits/FRX_V2_4_B_OWNER_ADJUDICATION_PROPOSAL.md",
+      "related_adrs": [
+        "ADR-FRX-005"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.4-B"
+      ],
+      "status_required": "draft",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-FRX-V2-4-B-EXECUTION-PROFILE-REGISTRY",
+      "domain": "testing",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.4-B current execution profile lock; full/browser=0."
+      ],
+      "owner": "FRX-v2.4-B",
+      "path": ".devpilot/testing/full_regression_execution_profile_registry.json",
+      "related_adrs": [
+        "ADR-FRX-005"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.4-B"
+      ],
+      "status_required": "current-active",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-FRX-V2-4-B-EXECUTION-PROFILE-CURRENT",
+      "domain": "testing",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "FRX-v2.4-B current execution profile lock; full/browser=0."
+      ],
+      "owner": "FRX-v2.4-B",
+      "path": ".devpilot/testing/full_regression_execution_profile_current.json",
+      "related_adrs": [
+        "ADR-FRX-005"
+      ],
+      "required_tests": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "roadmap_milestones": [
+        "FRX-v2.4-B"
+      ],
+      "status_required": "current-active",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -37350,16 +37516,16 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "documents_total": 1494,
-    "source_of_truth_total": 554,
-    "machine_readable_source_total": 760,
+    "documents_total": 1500,
+    "source_of_truth_total": 558,
+    "machine_readable_source_total": 762,
     "derived_total": 161,
     "generated_runtime_total": 0,
     "historical_total": 19,
     "deprecated_total": 0,
-    "critical_sources_total": 1399,
+    "critical_sources_total": 1405,
     "markdown_json_pairs_total": 70,
-    "documents_with_required_tests_total": 1494,
+    "documents_with_required_tests_total": 1500,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false
@@ -37370,5 +37536,10 @@
   "gsdlc_08_closure_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
   "gsdlc_08_e_browser_acceptance": "PASS",
   "gsdlc_08_e_full_regression_runs": 1,
-  "gsdlc_08_e_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"
+  "gsdlc_08_e_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
+  "frx_v2_4_b_status": "IMPLEMENTED/LOCAL-QUALIFIED/PENDING-WINDOWS",
+  "frx_v2_4_b_parent_repo": "repo_DevPilot_Local_405_FRX_V2_4_A_HISTORICAL_CONTRACT_AUTHORITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "frx_v2_4_b_execution_profile_id": "frx-v2.4-current",
+  "frx_v2_4_b_full_regression_runs": 0,
+  "frx_v2_4_b_browser_runs": 0
 }

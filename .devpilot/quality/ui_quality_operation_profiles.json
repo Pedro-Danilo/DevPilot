@@ -114,16 +114,17 @@
     },
     {
       "operation_id": "full-regression",
-      "label": "Full regression",
+      "label": "Full regression (FRX profile-governed session only)",
       "capability_id": "cli.tests.run",
       "kind": "tests-full",
       "risk_class": "sensitive",
       "requires_approval": true,
       "supports_cancel": true,
       "timeout_seconds": 10800,
-      "allowed_keys": [
-        "confirmation"
-      ]
+      "allowed_keys": [],
+      "frx_execution_profile": "frx-v2.4-current",
+      "direct_worker_enabled": false,
+      "consumer_path": "tests full-session collect -> plan(profile-id) -> run/resume"
     },
     {
       "operation_id": "evidence-package",
@@ -144,6 +145,8 @@
     "free_pytest_args": false,
     "full_regression_explicit_confirmation": "RUN FULL REGRESSION",
     "network_allowed": false,
-    "external_api_required": false
+    "external_api_required": false,
+    "full_regression_profile_lock": "frx-v2.4-current",
+    "legacy_direct_full_worker_enabled": false
   }
 }

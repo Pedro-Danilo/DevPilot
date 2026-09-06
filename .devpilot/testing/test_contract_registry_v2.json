@@ -22829,9 +22829,68 @@
       "classification_notes": [
         "Focal/impact only. Sprint source explicitly forbids a full regression and browser execution."
       ]
+    },
+    {
+      "contract_id": "frx-v2.4-b-execution-profile-lock",
+      "schema_version": "2.0",
+      "source_contract_id": "frx-v2.4-b-execution-profile-lock",
+      "domain": "governance.testing",
+      "capability": "FullRegressionExecutionProfileLock",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/full_regression_execution_profile.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/quality_operations.py",
+        "src/devpilot_core/application/quality_job_worker.py",
+        ".devpilot/testing/full_regression_execution_profile_registry.json",
+        ".devpilot/testing/full_regression_execution_profile_current.json",
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/testing/node_duration_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/governed_job_capability_registry.json"
+      ],
+      "validates": [
+        "current profile deterministic authority",
+        "preflight schema/coverage/topology/ETA/budget",
+        "silent low-level downgrade impossible",
+        "consumer execution lock",
+        "direct UOC full worker blocked"
+      ],
+      "trigger_hints": [
+        "frx-v2.4-b",
+        "full-regression-execution-profile",
+        "full-session",
+        "topology-compatibility",
+        "test-isolation-registry",
+        "node-duration-registry"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.4-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Focal/impact only. FRX-v2.4 source explicitly requires full=0 and browser=0."
+      ]
     }
   ],
-  "contracts_total": 319,
+  "contracts_total": 320,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

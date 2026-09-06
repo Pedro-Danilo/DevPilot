@@ -13,6 +13,7 @@ from devpilot_core.docs_governance.registry import DEFAULT_DOCUMENTATION_SOURCE_
 from devpilot_core.docs_governance.rule_registry import DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY, load_docs_governance_rule_registry
 from devpilot_core.runtime_state.models import utc_now_iso
 from devpilot_core.testing.historical_contract_authority import HistoricalContractAuthorityGate
+from devpilot_core.testing.full_regression_execution_profile import FullRegressionExecutionProfileRegistry
 from devpilot_core.validators.frontmatter import parse_frontmatter_file, validate_frontmatter_document
 
 POST_H_009_B_CREATED_BY = "POST-H-009-B"
@@ -230,6 +231,11 @@ class DocumentationGovernanceValidator:
         for finding in authority_result.findings:
             findings.append(_finding(finding.id, finding.message, finding.severity.value, finding.path, dict(finding.metadata or {})))
 
+        frx_profile_result = FullRegressionExecutionProfileRegistry(self.root).validate()
+        frx_profile_summary = dict((frx_profile_result.data or {}).get("summary") or {})
+        for finding in frx_profile_result.findings:
+            findings.append(_finding(finding.id, finding.message, finding.severity.value, finding.path, dict(finding.metadata or {})))
+
         blocking_total = sum(1 for item in findings if item["severity"] in {"fail", "block", "error"})
         warnings_total = sum(1 for item in findings if item["severity"] == "warning")
         info_total = sum(1 for item in findings if item["severity"] == "info")
@@ -286,6 +292,10 @@ class DocumentationGovernanceValidator:
             "historical_contract_authority_contracts_total": authority_summary.get("authority_contracts_total", 0),
             "historical_current_leakage_total": authority_summary.get("historical_current_leakage_total", 0),
             "frx_registry_schema_errors_total": authority_summary.get("registry_schema_errors_total", 0),
+            "full_regression_execution_profile_passed": frx_profile_result.ok,
+            "full_regression_current_profile_id": frx_profile_summary.get("current_profile_id"),
+            "full_regression_current_profile_sha256": frx_profile_summary.get("current_profile_sha256"),
+            "full_regression_profile_consumer_locked": frx_profile_summary.get("consumer_contract_locked", False),
             "read_only": True,
             "dry_run": True,
             "network_used": False,
@@ -310,6 +320,7 @@ class DocumentationGovernanceValidator:
             "backlog_checks": backlog_checks,
             "closure_state_consistency": closure_report,
             "historical_contract_authority": (authority_result.data or {}),
+            "full_regression_execution_profile": (frx_profile_result.data or {}),
             "findings": findings,
             "safety": {
                 "local_first": True,

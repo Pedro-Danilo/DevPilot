@@ -1,0 +1,279 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_4_b_source_delta_manifest.v1",
+  "version": "1.0.0",
+  "status": "LOCAL-QUALIFIED/WINDOWS-PENDING",
+  "micro_sprint": "FRX-v2.4-B",
+  "updated": "2026-09-06",
+  "source_repo": "repo_DevPilot_Local_405_FRX_V2_4_A_HISTORICAL_CONTRACT_AUTHORITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "10acf1864864f1954d07abb8c913a765795fcd9c",
+  "source_repo_sha256": "1d9f6bd62e2369ac10b54e3516f0f6c8090fa7824f03c09ce7767bee9dc4d52b",
+  "hash_domain": "utf8-lf-semantic-v1",
+  "manifest_excluded_from_hash_domain": true,
+  "manifest_path": ".devpilot/testing/frx_v2_4_b_source_delta_manifest.json",
+  "effective_paths_total": 35,
+  "adds_total": 14,
+  "modifies_total": 21,
+  "deletes_total": 0,
+  "forbidden_paths": [
+    "outputs/",
+    ".pytest_cache/",
+    "__pycache__/",
+    ".venv/",
+    ".git/",
+    ".devpilot/devpilot.db",
+    "auth.db*",
+    "devpilot.db*"
+  ],
+  "entries": [
+    {
+      "path": ".devpilot/cli_registry/cli_compatibility_contracts.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "0faa2445b9b6fd9c9440174c6a1b56b2801b6aacba407c74356e9e4779b3d4e4",
+      "postimage_semantic_sha256": "f23fbaa07c3fb6243db1d77c87736303de882c7ce337a0f89ed5663893103202"
+    },
+    {
+      "path": ".devpilot/cli_registry/command_ownership_matrix.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "3149b68390e88093df84824e79bfe44d892be499d26b66b1e2f46c324898d2e2",
+      "postimage_semantic_sha256": "3796301b97255d105056e1c4aede67a8dcbf6b2d1cc1ce03031f92ec8bc534ff"
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "9c9e35ec8c7b822ac10b0df69674fa04e5de23c3f8dba3245e55501ce5cce724",
+      "postimage_semantic_sha256": "bd801e3c90c699533fe69e8b0b195aadc57c1d009acdfddfd0a6da83604ffd9a"
+    },
+    {
+      "path": ".devpilot/interfaces/governed_job_capability_registry.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "5ce38af064a59091d502b20332fbc0e0d25d80e14f0666978eec6a88ae8f9434",
+      "postimage_semantic_sha256": "e377fd26b65603dddb996b7ce5c305475194b775b89b407c04c168c701c02bbc"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "b77655621e208d3f371a6bf24c28b7983b998d701b5948a9ab8b5d808d5a40f7",
+      "postimage_semantic_sha256": "1f134d91a18c5d71dbbe0fa6b3479def34e2e05358ff5a10e0b0aec51805beec"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "d689bc5c644018e9f5814dd64b5046bed3016a12da2aeb4aba5c47d08d201e01",
+      "postimage_semantic_sha256": "3e2c749714ad6d2c298201d50f5d6f383db14570562b5765b83620e710aa3fe5"
+    },
+    {
+      "path": ".devpilot/quality/ui_quality_operation_profiles.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "757a66e3f4a2886715a550195c3fd3ecbe776753acfdfde0a9e7fd82211a3785",
+      "postimage_semantic_sha256": "b054f8fc07c3abe539c71eee505b5fd5c41e2a3a7431932d4f8ff197908d6e8c"
+    },
+    {
+      "path": ".devpilot/testing/fixtures/frx_v2_4_b_08e_count50_topology_regression.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "d47bd7ecc722eeb20fc2f4ad4b707af123feac6c30a530f45db52a5e08af8a41"
+    },
+    {
+      "path": ".devpilot/testing/fixtures/frx_v2_4_b_v2_3_current_profile_positive.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "3a4c10b25689dacdc6eec4911d4a4674694eff39b7cd4ebdfb5e9c75a9187d1f"
+    },
+    {
+      "path": ".devpilot/testing/full_regression_execution_profile_current.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "ae9e0b442b4a918ee85b1938d09047644d644324040cac82c33b4ed9891d5ce2"
+    },
+    {
+      "path": ".devpilot/testing/full_regression_execution_profile_registry.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "fd49d5bdc95488717ed727f7cb6743355b15a704ac188f7cd21648d3529359c2"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "8625f9494844025d44145f8bd343015b20954e9dd8c0f363b033cd590398309c",
+      "postimage_semantic_sha256": "62c5b3b9a92a83f7150f723babf5f4f1ca7b3de365f481cd6b8c0c2d2f022b60"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "ebfbbf58f6d39344a397e3044fa4e717fedf5d8d70e316344d730df53df54e03",
+      "postimage_semantic_sha256": "24a54e68a5aa32bcfacf93d28e4e65e13a9339107763296d67849f3343625bbb"
+    },
+    {
+      "path": ".devpilot/testing/test_isolation_registry.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "94df50743a001968293cb0656e3c87719dd449c82b2f9d90113fead9435453d6",
+      "postimage_semantic_sha256": "debb6cd35a457d73bb960c4a263ca5cc41d6f0ba89025cb098f15e9645f0e403"
+    },
+    {
+      "path": "README.md",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "06fd694e3e8e1f90d81ce1f57a5a3fe7af4c1b2a8b10687d10d693b4a150163e",
+      "postimage_semantic_sha256": "88e7a56ec84f6ce93157be4d71451ec8583c0fa4d6863fa62cac8f68cc8627cf"
+    },
+    {
+      "path": "docs/05_operations/runbook.md",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "83fe5e7c1951e4b9afc0a14a8da482146fc64002a08d8ad4f48ce947e55f3f6f",
+      "postimage_semantic_sha256": "5039a8eecd697b78eea42b2489208faef07e636a5a512ca70a3ab51b226a2871"
+    },
+    {
+      "path": "docs/adr/ADR-FRX-005-current-execution-profile-lock.md",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "5abd08feb815d77aec8a4da57048ccc1775d71a1ca5a6a73c6afc4355f046795"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_B_FULL_REGRESSION_WAIVER.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "bad17927d8a840d8fbeb2264731d7d1027bd80f4d3d4fb1612911cd725a6225f"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_B_IMPLEMENTATION_REPORT.md",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "ba8f2a272708f3256096ca1992835e59d249cde73b93f85d0135df9c78e1142a"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_B_MIGRATION_NOTES.md",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "f06c4ee5ff6bc0170af665266558efa084ee7a51d927c3fddc6d92e6c64cd247"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_B_OWNER_ADJUDICATION_PROPOSAL.md",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "dbb237fd6eb06336a23abace2e433b63f1d97a6384daf67f6329c17d6432374d"
+    },
+    {
+      "path": "docs/release/CHANGELOG.md",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "da5131fad75c40cbc5aec144a6b0fc687f1d6ecbd8010412eed048df228a326b",
+      "postimage_semantic_sha256": "25919535e3c8046c9f4b54af11024178fa543a69dd0b39a04131a25e8509a9d6"
+    },
+    {
+      "path": "docs/schemas/full_regression_execution_profile_pointer.schema.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "06fdb3f0983c34c1f4d068071e3d41f5e65260afe22d371ef9eb9e93d462350e"
+    },
+    {
+      "path": "docs/schemas/full_regression_execution_profile_registry.schema.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "1a91256730f9a3e6d3602877ff40427b7407b83b5e46573a97b4638ca091c364"
+    },
+    {
+      "path": "docs/schemas/full_regression_preflight_report.schema.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "1ccdd8c707bcd59e9e01604f9c56df1a37fcc1801165e48f65cd7f0b35916e20"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "49aa0e11c08c697cd5e69289235373ce9ecd5771c028e6fdb138c24d8a278031",
+      "postimage_semantic_sha256": "c8457579c86ff116c0daf02bbe32df3ec2bb479ec18e7b30cd03a615b692adff"
+    },
+    {
+      "path": "src/devpilot_core/application/quality_job_worker.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "19d5761bb9997b7f3567e19218e9002de0624bbe02bfa3fdb4fe55a67e021d08",
+      "postimage_semantic_sha256": "1f5ec078e85734cf4492123732dcf50d2dde068ecadaabb38c2e2e7ce6751eff"
+    },
+    {
+      "path": "src/devpilot_core/application/quality_operations.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "85ad64566b7e635f5636761082598d90822369833f37ed13b53f3a523133c5ec",
+      "postimage_semantic_sha256": "e5cfe51b8a0ad4d51ffc9a76931d455e1ced4f3a666007f4933badd5ac910270"
+    },
+    {
+      "path": "src/devpilot_core/cli.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "8d504229cb8a668d3114d029bc90681adac2bf3e95edd2325be52ca540350942",
+      "postimage_semantic_sha256": "545a863a19cc67c686c76c868d16702d2e5e5e4c751327c0936ba4b85d53bdb1"
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/validator.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "9b46011fa1156ad50d5299c804dfff9afcbe0c841b7a5e41566488f88b3481a8",
+      "postimage_semantic_sha256": "b3774b33794eb591cebd2d868be5ce84dcc5e9ebe74d5239b74c431af75fa37a"
+    },
+    {
+      "path": "src/devpilot_core/testing/__init__.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "8ffed8df0886d7d81b6806a1da0048b6c62f9870ca3620279a11985f21991b1e",
+      "postimage_semantic_sha256": "a2b637416727f1db8656fd1a11f8e5de8c41060e08eafcec25180e4adbdfbe04"
+    },
+    {
+      "path": "src/devpilot_core/testing/full_regression.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "94c9afb7b08697d455460c531e2911da959ef9c47ac83c8a68a97fbb3f00791d",
+      "postimage_semantic_sha256": "e3fa432091dd4a672f17a977fae11fe0f98ce638da438fc78fa13160add75f00"
+    },
+    {
+      "path": "src/devpilot_core/testing/full_regression_execution_profile.py",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "3472d5b43dfd44adb665aa3333c0248b5463bfb8cf91c59c25a2d5ebf89d3be5"
+    },
+    {
+      "path": "tests/test_frx_v2_4_b_execution_profile_lock.py",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "41ef066b00b06cce456b867ed148ba6cadb8057b8bba933a6869ffcfd0f592de"
+    },
+    {
+      "path": "tests/test_quality_operations_service.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "942acf5b6752070b6e6295a9b1b4702dcbecf1402bdfb0ae69e546ced9f81eee",
+      "postimage_semantic_sha256": "e9e21a1e2b0018c6f7e6288d2f831bcb375d010c7e687655ac34a27fb9abcdce"
+    }
+  ],
+  "notes": [
+    "Text payload pre/post images compare semantic UTF-8 content after CRLF/CR/LF normalization to LF.",
+    "The manifest excludes itself from its own hash domain to avoid self-referential hashing.",
+    "FRX-v2.4-B executes no full regression or browser and does not activate GSDLC-09."
+  ]
+}

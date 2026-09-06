@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/full_regression_execution_profile_pointer.schema.json",
+  "title": "FullRegressionExecutionProfilePointer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "status",
+    "updated",
+    "owner",
+    "current_profile_id",
+    "current_profile_sha256",
+    "registry_path",
+    "source_sprint"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_execution_profile_pointer.v1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "current-active"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 10
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_profile_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "registry_path": {
+      "const": ".devpilot/testing/full_regression_execution_profile_registry.json"
+    },
+    "source_sprint": {
+      "const": "FRX-v2.4-B"
+    }
+  }
+}

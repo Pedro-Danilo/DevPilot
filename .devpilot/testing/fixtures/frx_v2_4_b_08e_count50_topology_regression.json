@@ -1,0 +1,24 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_4_b_topology_fixture.v1",
+  "fixture_id": "gsdlc-08-e-count50-regression",
+  "kind": "negative",
+  "source": "DEVPL-GSDLC-08-E historical operator topology regression",
+  "profile_id": "frx-v2.4-current",
+  "proposed_topology": {
+    "planner": "deterministic-lpt-sequential",
+    "target_shard_seconds": 900.0,
+    "max_nodeids": 50,
+    "max_command_chars": 7000,
+    "nodeid_transport": "command-line",
+    "default_workers": 1,
+    "parallel_opt_in_ceiling": 2,
+    "shard_strategy": "count50"
+  },
+  "expected_status": "BLOCK",
+  "expected_before_budget_reservation": true,
+  "expected_reasons": [
+    "max_nodeids",
+    "nodeid_transport",
+    "shard_strategy"
+  ]
+}

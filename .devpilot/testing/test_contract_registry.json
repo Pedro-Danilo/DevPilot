@@ -13342,9 +13342,46 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_a_historical_contract_authority.py"
       ]
+    },
+    {
+      "contract_id": "frx-v2.4-b-execution-profile-lock",
+      "scope": "quality-gate",
+      "owner": "FRX-v2.4-B",
+      "phase": "FULL-REGRESSION-v2.4",
+      "test_files": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "validates": [
+        "single current execution profile",
+        "profile hash/current pointer",
+        "profile-id-only consumer surface",
+        "machine-readable preflight",
+        "08-E topology downgrade BLOCK before budget",
+        "v2.3 current topology reproduction",
+        "direct full worker BLOCK"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/full_regression_execution_profile.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/quality_operations.py",
+        "src/devpilot_core/application/quality_job_worker.py",
+        ".devpilot/testing/full_regression_execution_profile_registry.json",
+        ".devpilot/testing/full_regression_execution_profile_current.json",
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/testing/node_duration_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/governed_job_capability_registry.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ]
     }
   ],
-  "contracts_total": 319,
+  "contracts_total": 320,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [

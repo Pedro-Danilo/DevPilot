@@ -1,0 +1,59 @@
+{
+  "schema_id": "devpilot.testing.full_regression_execution_profile_registry.v1",
+  "version": "1.0.0",
+  "status": "current-active",
+  "updated": "2026-09-06",
+  "owner": "Ordóñez",
+  "source_sprint": "FRX-v2.4-B",
+  "source_repo": "repo_DevPilot_Local_405_FRX_V2_4_A_HISTORICAL_CONTRACT_AUTHORITY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "10acf1864864f1954d07abb8c913a765795fcd9c",
+  "source_repo_sha256": "1d9f6bd62e2369ac10b54e3516f0f6c8090fa7824f03c09ce7767bee9dc4d52b",
+  "current_profile_id": "frx-v2.4-current",
+  "profiles": [
+    {
+      "profile_id": "frx-v2.4-current",
+      "version": "1.0.0",
+      "lifecycle": "current-active",
+      "owner": "Ordóñez",
+      "source_authority": [
+        "FRX-v2.3-E",
+        "ADR-FRX-004",
+        "FRX-v2.4-B"
+      ],
+      "planner": "deterministic-lpt-sequential",
+      "target_shard_seconds": 900.0,
+      "max_nodeids": 200,
+      "max_command_chars": 30000,
+      "nodeid_transport": "manifest",
+      "default_workers": 1,
+      "parallel_opt_in_default": false,
+      "parallel_opt_in_ceiling": 2,
+      "parallel_opt_in_required": true,
+      "unknown_policy": "serial",
+      "unclassified_isolation_policy": "serial",
+      "parallel_safe_policy": "PROVEN_PARALLEL_SAFE-only",
+      "completion_first": true,
+      "exact_accounting": true,
+      "full_regression_runs_allowed": 1,
+      "second_full_allowed": false,
+      "resume_same_session": true,
+      "composite_recovery_after_functional_fail": true,
+      "source_guard_policy": "git-semantic-v1",
+      "collection_policy": "sealed-unique-nodeids",
+      "registry_schema_required": true,
+      "registry_coverage_required": true,
+      "budget_reservation_policy": "reserve-only-after-preflight-pass",
+      "environment_fingerprint": "windows-pytest-devpilot-gsdlc07e-v1",
+      "cold_start_policy": "serial-with-deterministic-median-fallback-eta",
+      "full_regression_confirmation": "RUN FULL REGRESSION",
+      "profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
+    }
+  ],
+  "consumer_contract": {
+    "profile_id_only": true,
+    "low_level_overrides_default": "BLOCK",
+    "waiver_required_for_low_level_override": true,
+    "preflight_required_before_budget_reservation": true,
+    "full_budget_reserved_by_preflight": false
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/full_regression_execution_profile_registry.schema.json",
+  "title": "FullRegressionExecutionProfileRegistry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "status",
+    "updated",
+    "owner",
+    "source_sprint",
+    "source_repo",
+    "source_commit",
+    "source_repo_sha256",
+    "current_profile_id",
+    "profiles",
+    "consumer_contract"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_execution_profile_registry.v1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "current-active"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 10
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_sprint": {
+      "const": "FRX-v2.4-B"
+    },
+    "source_repo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "source_repo_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "current_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "consumer_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id_only",
+        "low_level_overrides_default",
+        "waiver_required_for_low_level_override",
+        "preflight_required_before_budget_reservation",
+        "full_budget_reserved_by_preflight"
+      ],
+      "properties": {
+        "profile_id_only": {
+          "const": true
+        },
+        "low_level_overrides_default": {
+          "const": "BLOCK"
+        },
+        "waiver_required_for_low_level_override": {
+          "const": true
+        },
+        "preflight_required_before_budget_reservation": {
+          "const": true
+        },
+        "full_budget_reserved_by_preflight": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "version",
+        "lifecycle",
+        "owner",
+        "source_authority",
+        "planner",
+        "target_shard_seconds",
+        "max_nodeids",
+        "max_command_chars",
+        "nodeid_transport",
+        "default_workers",
+        "parallel_opt_in_default",
+        "parallel_opt_in_ceiling",
+        "parallel_opt_in_required",
+        "unknown_policy",
+        "unclassified_isolation_policy",
+        "parallel_safe_policy",
+        "completion_first",
+        "exact_accounting",
+        "full_regression_runs_allowed",
+        "second_full_allowed",
+        "resume_same_session",
+        "composite_recovery_after_functional_fail",
+        "source_guard_policy",
+        "collection_policy",
+        "registry_schema_required",
+        "registry_coverage_required",
+        "budget_reservation_policy",
+        "environment_fingerprint",
+        "cold_start_policy",
+        "full_regression_confirmation",
+        "profile_sha256"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "lifecycle": {
+          "enum": [
+            "current-active",
+            "historical-freeze",
+            "deprecated"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_authority": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "planner": {
+          "const": "deterministic-lpt-sequential"
+        },
+        "target_shard_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "max_nodeids": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "max_command_chars": {
+          "type": "integer",
+          "minimum": 512,
+          "maximum": 30000
+        },
+        "nodeid_transport": {
+          "const": "manifest"
+        },
+        "default_workers": {
+          "const": 1
+        },
+        "parallel_opt_in_default": {
+          "const": false
+        },
+        "parallel_opt_in_ceiling": {
+          "const": 2
+        },
+        "parallel_opt_in_required": {
+          "const": true
+        },
+        "unknown_policy": {
+          "const": "serial"
+        },
+        "unclassified_isolation_policy": {
+          "const": "serial"
+        },
+        "parallel_safe_policy": {
+          "const": "PROVEN_PARALLEL_SAFE-only"
+        },
+        "completion_first": {
+          "const": true
+        },
+        "exact_accounting": {
+          "const": true
+        },
+        "full_regression_runs_allowed": {
+          "const": 1
+        },
+        "second_full_allowed": {
+          "const": false
+        },
+        "resume_same_session": {
+          "const": true
+        },
+        "composite_recovery_after_functional_fail": {
+          "const": true
+        },
+        "source_guard_policy": {
+          "const": "git-semantic-v1"
+        },
+        "collection_policy": {
+          "const": "sealed-unique-nodeids"
+        },
+        "registry_schema_required": {
+          "const": true
+        },
+        "registry_coverage_required": {
+          "const": true
+        },
+        "budget_reservation_policy": {
+          "const": "reserve-only-after-preflight-pass"
+        },
+        "environment_fingerprint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cold_start_policy": {
+          "const": "serial-with-deterministic-median-fallback-eta"
+        },
+        "full_regression_confirmation": {
+          "const": "RUN FULL REGRESSION"
+        },
+        "profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

@@ -105,3 +105,16 @@ from .temporal_shard_planner import TemporalShardPlanner, TemporalPlannerError
 __all__.extend(["TemporalShardPlanner", "TemporalPlannerError"])
 from .parallel_canary import BoundedParallelCanaryRunner, ParallelCanaryBlock, ResourceLockTable
 __all__.extend(["BoundedParallelCanaryRunner", "ParallelCanaryBlock", "ResourceLockTable"])
+
+from .full_regression_execution_profile import (
+    FullRegressionExecutionProfile,
+    FullRegressionExecutionProfileRegistry,
+    FullRegressionPreflight,
+    TopologyCompatibilityGuard,
+)
+__all__.extend([
+    "FullRegressionExecutionProfile",
+    "FullRegressionExecutionProfileRegistry",
+    "FullRegressionPreflight",
+    "TopologyCompatibilityGuard",
+])

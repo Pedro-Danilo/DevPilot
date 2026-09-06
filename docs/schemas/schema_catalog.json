@@ -3771,7 +3771,49 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.4-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FRX24B-FULL-REGRESSION-EXECUTION-PROFILE-REGISTRY-V1",
+      "title": "Full Regression Execution Profile Registry",
+      "version": "1.0.0",
+      "path": "docs/schemas/full_regression_execution_profile_registry.schema.json",
+      "description": "FRX-v2.4-B owner-governed current-active Full Regression execution profile registry and low-level consumer lock.",
+      "status": "registered",
+      "contract": "FullRegressionExecutionProfileRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.4-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.4-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FRX24B-FULL-REGRESSION-EXECUTION-PROFILE-POINTER-V1",
+      "title": "Full Regression Execution Profile Current Pointer",
+      "version": "1.0.0",
+      "path": "docs/schemas/full_regression_execution_profile_pointer.schema.json",
+      "description": "FRX-v2.4-B unique current profile pointer bound to the semantic profile SHA-256.",
+      "status": "registered",
+      "contract": "FullRegressionExecutionProfilePointer",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.4-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.4-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FRX24B-FULL-REGRESSION-PREFLIGHT-REPORT-V1",
+      "title": "Full Regression Preflight Report",
+      "version": "1.0.0",
+      "path": "docs/schemas/full_regression_preflight_report.schema.json",
+      "description": "FRX-v2.4-B machine-readable preflight result for collection, registry coverage, topology, ETA, worker policy and one-full budget.",
+      "status": "registered",
+      "contract": "FullRegressionPreflightReport",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.4-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.4-B"
     }
   ],
-  "schemas_total": 263
+  "schemas_total": 266
 }

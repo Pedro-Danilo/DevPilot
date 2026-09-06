@@ -148,9 +148,7 @@ class QualityOperationsApplicationService:
             tcr=str(parameters.get('tcr_profile',''))
             if tcr not in self._tcr_profile_ids(): return self._block('quality job plan','Focused tests require a registered Test Contract Registry v2 profile id.','UOC009_TCR_PROFILE_BLOCK')
         if operation_id=='full-regression':
-            confirm=full_regression_confirmation or str(parameters.get('confirmation',''))
-            if confirm != FULL_REGRESSION_CONFIRMATION: return self._block('quality job plan',f'Full regression requires exact confirmation: {FULL_REGRESSION_CONFIRMATION}','UOC009_FULL_REGRESSION_CONFIRMATION_BLOCK')
-            parameters={'confirmation':FULL_REGRESSION_CONFIRMATION}
+            return self._block('quality job plan','FRX-v2.4-B disables the legacy direct full-regression worker. Use tests full-session collect -> profile-locked plan/preflight -> run/resume so the current execution profile and one-full budget cannot be bypassed.','FRX24B_DIRECT_FULL_WORKER_BLOCK')
         if operation_id=='evidence-package':
             parameters={'limit':max(1,min(int(parameters.get('limit',100)),500))}
         if profile.requires_approval:

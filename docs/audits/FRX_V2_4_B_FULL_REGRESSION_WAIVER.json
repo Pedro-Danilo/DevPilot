@@ -1,0 +1,19 @@
+{
+  "waiver_id": "FRX-V2-4-B-NO-FULL-OWNER-APPROVED",
+  "owner": "Ordóñez",
+  "reason": "FRX-v2.4-B approved backlog and prompt explicitly require full_regression_runs_allowed=0. This closing micro-sprint validates the execution-policy lock through focal, bounded impacted, schema/coverage, dry-run preflight and deterministic historical guard without consuming a logical full.",
+  "risk": "FRX-v2.4-B changes CLI, Project State, TCR, schemas and quality-operation governance, which are regression-sensitive. Risk is bounded by 18 focal tests, 39 bounded impacted tests, profile/preflight positive and negative fixtures, Project State, TCR v1/v2, Documentation Governance, Evidence Freshness, API contract drift, CLI/capability governance and Historical Regression Guard. No API/UI/browser runtime is started and the full budget remains unreserved.",
+  "tests_executed": [
+    "FRX-v2.4-B focal execution-profile lock contract: 18/18 PASS",
+    "bounded impacted FRX/full-session/CLI/quality-operation set: 39/39 PASS",
+    "representative profile-locked preflight: PASS on 2883 sealed nodeids, 2804 known durations, 79 cold-starts, 15 projected shards, workers=1, budget_reserved=false",
+    "positive v2.3-current topology fixture: PASS",
+    "negative GSDLC-08-E count50/max50/command-line topology fixture: expected BLOCK before budget reservation",
+    "Project State, TCR v1/v2, Documentation Governance, Evidence Freshness and API contract drift deterministic gates: PASS"
+  ],
+  "expires_at": "2026-10-31T23:59:59Z",
+  "scope": "FRX-v2.4-B only",
+  "full_regression_runs_allowed": 0,
+  "browser_runs_allowed": 0,
+  "approval_source": "02_PROMPT_FRX_V2_4_B_EXECUTION_POLICY_LOCK_WINDOWS_ADOPTION_v1_0_0.md + DEVPL-FRX-v2.4-B backlog + DEVPL-FRX-v2.4 backlog"
+}

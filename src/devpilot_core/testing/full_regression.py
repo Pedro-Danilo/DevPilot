@@ -17,6 +17,7 @@ from typing import Any, Iterable, Sequence
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.testing.temporal_shard_planner import TemporalShardPlanner
+from devpilot_core.testing.full_regression_execution_profile import FullRegressionExecutionProfileRegistry, FullRegressionPreflight, TopologyCompatibilityGuard
 
 FULL_REGRESSION_VERSION = "2.1"
 DEFAULT_RUNTIME_ROOT = Path("outputs/testing/full_regression")
@@ -641,6 +642,145 @@ class FullRegressionSessionManager:
         return _result(command, ok=True, exit_code=ExitCode.PASS, message="Temporal sequential shard plan sealed for the single v2.2 full benchmark.", summary={
             "session_id": session_id, "collection_total": len(nodeids), "shards_total": len(shards), "shard_plan_sha256": plan_sha,
             "parallel_workers": 1, "scheduler_enabled_for_session": True, "tests_executed": False})
+
+    def plan_governed(self, *, session_id: str, profile_id: str = "current", full_budget_state: int = 0) -> CommandResult:
+        """Seal the FRX-v2.4 profile-locked plan after a read-only preflight.
+
+        This is the consumer-facing planner. It exposes only profile identity and
+        the one-full budget state; low-level planner/max-nodeids/transport/worker
+        knobs are loaded from the current owner-governed profile.
+        """
+        command = "tests full-session plan"
+        loaded = self._load_session(session_id, command=command)
+        if isinstance(loaded, CommandResult):
+            return loaded
+        session, collection = loaded
+        integrity = self._validate_identity(session, collection, require_environment=True)
+        if integrity is not None:
+            return integrity
+        nodeids = [str(item["nodeid"]) for item in collection.get("nodes", [])]
+        collection_for_preflight = dict(collection)
+        collection_for_preflight["collection_sha256"] = TemporalShardPlanner.collection_sha256(nodeids)
+        preflight = FullRegressionPreflight(self.root).run(
+            collection=collection_for_preflight,
+            profile_id=profile_id,
+            full_budget_state=full_budget_state,
+        )
+        if not preflight.ok:
+            return CommandResult(
+                command=command,
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Full Regression plan blocked by FRX-v2.4 preflight.",
+                data={"summary": dict(preflight.data.get("summary", {})), "preflight": preflight.to_dict()},
+                findings=list(preflight.findings),
+            )
+        profile = FullRegressionExecutionProfileRegistry(self.root).require(profile_id)
+        temporal = dict(preflight.data.get("temporal_plan") or {})
+        if not temporal or temporal.get("nodeid_transport") != "manifest":
+            return self._block(command, "FRX24B_MANIFEST_TRANSPORT_REQUIRED", "Governed Full Regression plan requires manifest nodeid transport.")
+        shards: list[dict[str, Any]] = []
+        for shard in temporal.get("shards", []):
+            estimate = float(shard.get("estimated_seconds") or 0.0)
+            timeout = max(600, min(DEFAULT_SHARD_TIMEOUT_SECONDS, int(estimate * 2 + 120) if estimate > 0 else DEFAULT_SHARD_TIMEOUT_SECONDS))
+            shards.append({
+                "shard_id": str(shard["shard_id"]),
+                "ordinal": int(shard["ordinal"]),
+                "nodeids": list(shard["nodeids"]),
+                "nodeids_sha256": str(shard["nodeids_sha256"]),
+                "timeout_seconds": timeout,
+                "estimated_seconds": estimate,
+                "known_count": int(shard.get("known_count") or 0),
+                "unknown_count": int(shard.get("unknown_count") or 0),
+                "confidence_counts": dict(shard.get("confidence_counts") or {}),
+                "slow_singleton": bool(shard.get("slow_singleton")),
+            })
+        flattened = [nodeid for shard in shards for nodeid in shard["nodeids"]]
+        if len(flattened) != len(nodeids) or set(flattened) != set(nodeids) or len(flattened) != len(set(flattened)):
+            return self._block(command, "FRX24B_GOVERNED_PLAN_COVERAGE_BLOCK", "Profile-governed plan does not preserve the sealed collection exactly once.")
+        core = {
+            "schema_id": "devpilot.testing.full_regression_governed_plan.v2_4",
+            "version": "2.4",
+            "session_id": session_id,
+            "collection_sha256": session["collection_sha256"],
+            "collection_total": len(nodeids),
+            "profile_id": profile.profile_id,
+            "profile_sha256": profile.profile_sha256,
+            "preflight_status": "PASS",
+            "preflight_budget_reserved": False,
+            "full_budget_state_before": int(full_budget_state),
+            "planner": profile.planner,
+            "target_shard_seconds": profile.target_shard_seconds,
+            "max_nodeids": profile.max_nodeids,
+            "max_command_chars": profile.max_command_chars,
+            "nodeid_transport": profile.nodeid_transport,
+            "parallel_workers": profile.default_workers,
+            "parallel_opt_in_ceiling": profile.parallel_opt_in_ceiling,
+            "completion_first": profile.completion_first,
+            "exact_accounting": profile.exact_accounting,
+            "full_regression_runs_allowed": profile.full_regression_runs_allowed,
+            "second_full_allowed": profile.second_full_allowed,
+            "resume_same_session": profile.resume_same_session,
+            "composite_recovery_after_functional_fail": profile.composite_recovery_after_functional_fail,
+            "source_guard_policy": profile.source_guard_policy,
+            "shards": shards,
+            "shards_total": len(shards),
+        }
+        plan_sha = _sha256_bytes(_canonical_bytes(core))
+        payload = {**core, "shard_plan_sha256": plan_sha}
+        try:
+            _immutable_write(self._session_dir(session_id) / "plan.json", payload)
+        except ValueError as exc:
+            return self._block(command, "FRX24B_PLAN_IMMUTABILITY_BLOCK", str(exc))
+        summary = {
+            "session_id": session_id,
+            "profile_id": profile.profile_id,
+            "profile_sha256": profile.profile_sha256,
+            "collection_total": len(nodeids),
+            "shards_total": len(shards),
+            "shard_plan_sha256": plan_sha,
+            "nodeid_transport": profile.nodeid_transport,
+            "effective_workers": profile.default_workers,
+            "budget_reserved": False,
+            "tests_executed": False,
+            "full_regression_runs": 0,
+        }
+        return _result(command, ok=True, exit_code=ExitCode.PASS, message="Profile-locked Full Regression plan sealed after preflight.", summary=summary, findings=[Finding(id="FRX24B_GOVERNED_PLAN_SEALED", message="Current execution profile and preflight are bound into the immutable session plan.", severity=Severity.INFO)])
+
+    def validate_governed_execution(self, *, session_id: str) -> CommandResult:
+        """Guard CLI run/resume against legacy or downgraded plans."""
+        command = "tests full-session execution-lock"
+        loaded = self._load_session_with_plan(session_id, command=command)
+        if isinstance(loaded, CommandResult):
+            return loaded
+        session, collection, plan = loaded
+        integrity = self._validate_identity(session, collection, plan=plan, require_environment=True)
+        if integrity is not None:
+            return integrity
+        if plan.get("schema_id") != "devpilot.testing.full_regression_governed_plan.v2_4":
+            return self._block(command, "FRX24B_LEGACY_PLAN_EXECUTION_BLOCK", "CLI run/resume requires a FRX-v2.4 profile-governed plan; legacy count/temporal plans cannot consume the full budget.")
+        try:
+            profile = FullRegressionExecutionProfileRegistry(self.root).require(str(plan.get("profile_id") or "current"))
+        except Exception as exc:
+            return self._block(command, "FRX24B_PROFILE_EXECUTION_BLOCK", str(exc))
+        if str(plan.get("profile_sha256") or "") != profile.profile_sha256:
+            return self._block(command, "FRX24B_PROFILE_HASH_EXECUTION_BLOCK", "Plan profile hash differs from the current profile authority.")
+        if plan.get("preflight_status") != "PASS" or plan.get("preflight_budget_reserved") is not False:
+            return self._block(command, "FRX24B_PREFLIGHT_EXECUTION_BLOCK", "Run/resume requires PASS preflight and zero budget reservation before execution.")
+        proposed = {
+            "planner": plan.get("planner"),
+            "target_shard_seconds": plan.get("target_shard_seconds"),
+            "max_nodeids": plan.get("max_nodeids"),
+            "max_command_chars": plan.get("max_command_chars"),
+            "nodeid_transport": plan.get("nodeid_transport"),
+            "default_workers": plan.get("parallel_workers"),
+            "parallel_opt_in_ceiling": plan.get("parallel_opt_in_ceiling"),
+            "shard_strategy": "profile-governed",
+        }
+        topology = TopologyCompatibilityGuard(self.root).check(proposed, profile_id=profile.profile_id)
+        if not topology.ok:
+            return CommandResult(command=command, ok=False, exit_code=ExitCode.BLOCK, message="Full Regression execution topology is not compatible with the current profile.", data=topology.data, findings=topology.findings)
+        return _result(command, ok=True, exit_code=ExitCode.PASS, message="Full Regression execution lock passed.", summary={"session_id": session_id, "profile_id": profile.profile_id, "profile_sha256": profile.profile_sha256, "nodeid_transport": profile.nodeid_transport, "budget_reserved_before_execution": False}, findings=[Finding(id="FRX24B_EXECUTION_LOCK_PASS", message="CLI run/resume is bound to the current profile and PASS preflight.", severity=Severity.INFO)])
 
     def run(self, *, session_id: str, execute: bool, max_shards: int | None = None, timeout_seconds: int | None = None, mode: str = "run") -> CommandResult:
         command = f"tests full-session {mode}"

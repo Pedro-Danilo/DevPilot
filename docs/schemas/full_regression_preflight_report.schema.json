@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/full_regression_preflight_report.schema.json",
+  "title": "FullRegressionPreflightReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "status",
+    "profile_id",
+    "profile_sha256",
+    "collection",
+    "registries",
+    "topology",
+    "eta",
+    "budget",
+    "safety",
+    "findings"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.testing.full_regression_preflight_report.v1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "profile_id": {
+      "type": "string"
+    },
+    "profile_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "collection": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "sealed",
+        "collection_total",
+        "collection_sha256"
+      ],
+      "properties": {
+        "sealed": {
+          "type": "boolean"
+        },
+        "collection_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "collection_sha256": {
+          "type": "string"
+        }
+      }
+    },
+    "registries": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "topology": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "eta": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  }
+}

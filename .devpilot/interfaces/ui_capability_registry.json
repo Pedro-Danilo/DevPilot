@@ -11458,6 +11458,171 @@
       "supports_rollback": false,
       "title": "python -m devpilot_core tests temporal-planner",
       "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.full-regression.profile",
+      "cli_command": "python -m devpilot_core tests full-regression profile",
+      "cli_command_id": "tests.full-regression.profile",
+      "command_path": [
+        "tests",
+        "full-regression",
+        "profile"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.full-regression.profile",
+        "dry_run_supported": true,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
+        ],
+        "writes_files": false
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "FRX-v2.4-B current-active CLI bridge; no UI-native execution is introduced.",
+        "Read-only profile/preflight/topology governance does not reserve or execute Full Regression."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "read-only",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": false,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests full-regression profile",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.full-regression.preflight",
+      "cli_command": "python -m devpilot_core tests full-regression preflight",
+      "cli_command_id": "tests.full-regression.preflight",
+      "command_path": [
+        "tests",
+        "full-regression",
+        "preflight"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.full-regression.preflight",
+        "dry_run_supported": true,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
+        ],
+        "writes_files": false
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "FRX-v2.4-B current-active CLI bridge; no UI-native execution is introduced.",
+        "Read-only profile/preflight/topology governance does not reserve or execute Full Regression."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "read-only",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": false,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests full-regression preflight",
+      "ui_route_ids": []
+    },
+    {
+      "api_route_ids": [],
+      "application_service": null,
+      "capability_id": "cli.tests.full-regression.topology-check",
+      "cli_command": "python -m devpilot_core tests full-regression topology-check",
+      "cli_command_id": "tests.full-regression.topology-check",
+      "command_path": [
+        "tests",
+        "full-regression",
+        "topology-check"
+      ],
+      "current_cli_contract": {
+        "compatibility_contract_id": "cli-compat:tests.full-regression.topology-check",
+        "dry_run_supported": true,
+        "migration_state": "registered-only",
+        "registry_phase": "declarative-initial",
+        "side_effects": [
+          "execute-subprocess"
+        ],
+        "test_coverage_refs": [
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
+        ],
+        "writes_files": false
+      },
+      "domain_owner": "governance.testing",
+      "evidence_contract": {
+        "command_result_required": true,
+        "commit_reference_required": false,
+        "evidence_reference_required": true,
+        "report_required": true,
+        "token_or_secret_allowed": false,
+        "trace_required": true
+      },
+      "notes": [
+        "FRX-v2.4-B current-active CLI bridge; no UI-native execution is introduced.",
+        "Read-only profile/preflight/topology governance does not reserve or execute Full Regression."
+      ],
+      "parity_status": "CLI-BRIDGE-REGISTERED",
+      "planned_sprint": "CURRENT",
+      "policy": {
+        "currently_declared_by_cli": true,
+        "default_decision": "deny",
+        "required": true,
+        "ui_exposure_requires_policy": true
+      },
+      "read_write": "read-only",
+      "requires_approval": true,
+      "requires_dry_run": true,
+      "risk_class": "sensitive",
+      "source_risk_level": "high",
+      "supports_cancel": false,
+      "supports_rollback": false,
+      "title": "python -m devpilot_core tests full-regression topology-check",
+      "ui_route_ids": []
     }
   ],
   "classification_model": {
@@ -11545,20 +11710,20 @@
   "summary": {
     "api_routes_total": 162,
     "classification_complete": true,
-    "cli_commands_classified_total": 207,
-    "cli_commands_total": 207,
+    "cli_commands_classified_total": 210,
+    "cli_commands_total": 210,
     "current_ui_native_or_read_only_total": 26,
     "forbidden_capabilities_total": 5,
     "mutating_without_policy_total": 0,
     "parity_status_counts": {
-      "CLI-BRIDGE-REGISTERED": 175,
+      "CLI-BRIDGE-REGISTERED": 178,
       "PLANNED": 1,
       "POLICY-BLOCKED": 5,
       "UI-NATIVE": 15,
       "UI-READ-ONLY": 11
     },
     "planned_sprint_counts": {
-      "CURRENT": 21,
+      "CURRENT": 24,
       "UOC-003": 12,
       "UOC-006": 7,
       "UOC-007": 102,
@@ -11569,7 +11734,7 @@
       "forbidden": 5,
       "mutating": 126,
       "read-only": 11,
-      "sensitive": 65
+      "sensitive": 68
     },
     "sensitive_ui_native_without_approval_total": 0,
     "ui_routes_mapped_total": 13,
@@ -11596,7 +11761,7 @@
     "uoc_006_preliminary": false,
     "uoc_006_push_enabled": false,
     "uoc_007_closed": true,
-    "uoc_007_governed_job_capabilities_total": 207,
+    "uoc_007_governed_job_capabilities_total": 210,
     "uoc_007_governed_job_registry_available": true,
     "uoc_007_job_execution_enabled_total": 0,
     "uoc_007_new_ui_routes_total": 0,
@@ -11624,7 +11789,7 @@
     "uoc_010_memory_enabled_by_default": false,
     "uoc_010_typed_capabilities_total": 4,
     "uoc_011_authorized": true,
-    "updated_by": "DEVPL-GSDLC-08-E/full-recovery-registry-reconciliation",
+    "updated_by": "FRX-v2.4-B/execution-profile-lock-reconciliation",
     "gsdlc_01_e_project_status": true,
     "uoc_011_ui_routes_at_close": 9,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -11658,7 +11823,7 @@
     "gsdlc_07_e_agent_eval_top_level_routes_added": 0,
     "gsdlc_07_e_manual_route_preserved": true,
     "uoc_011_capabilities_total_at_close": 193,
-    "current_active_capabilities_total": 207,
+    "current_active_capabilities_total": 210,
     "uoc_007_governed_job_capabilities_total_at_close": 193
   },
   "ui_routes": [
@@ -12317,6 +12482,6 @@
       "title": "Artifact Workbench — governed authoring, reconciliation and browser closure"
     }
   ],
-  "updated": "2026-08-30",
+  "updated": "2026-09-06",
   "version": "1.3.0"
 }

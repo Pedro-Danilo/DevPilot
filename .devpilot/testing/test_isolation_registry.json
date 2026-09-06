@@ -1,5 +1,5 @@
 {
-  "collection_sha256": "958b5b633c5abb42009552b4503c208468ce532fe5515214f90ff69b55026e85",
+  "collection_sha256": "be5839b1a3466a0e8fc121b57a90411b99921bc89cd59f9f049b7f212e855c59",
   "entries": [
     {
       "explicit_review_required": true,
@@ -106810,6 +106810,330 @@
         "last_seen": null
       },
       "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_profile_registry_schema_hash_and_unique_current_pass",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_current_profile_reproduces_v2_3_consolidated_policy",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_positive_v2_3_current_topology_fixture_passes_before_budget",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_08e_count50_topology_regression_blocks_before_budget_reservation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_low_level_max_nodeids_override_is_blocked_by_default",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_low_level_override_requires_explicit_owner_waiver_scope",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_preflight_positive_is_machine_readable_and_does_not_reserve_full",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_preflight_budget_state_one_blocks_second_full_without_reservation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_preflight_missing_collection_seal_blocks",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_preflight_negative_topology_fixture_blocks_before_budget",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_preflight_safe_parallel_opt_in_is_only_high_level_preview",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_full_session_cli_plan_exposes_profile_id_not_legacy_shard_size",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_full_regression_preflight_cli_has_no_low_level_topology_knobs",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_full_regression_profile_cli_passes_and_reports_current_profile",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_uoc_legacy_direct_full_worker_is_blocked_before_job_creation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_quality_worker_has_explicit_full_regression_runtime_backstop",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_profile_governed_full_session_path_is_bound_in_cli_source",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_b_execution_profile_lock.py::test_legacy_temporal_planner_cli_remains_preview_only_not_full_consumer",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
     }
   ],
   "policy": {
@@ -106821,7 +107145,7 @@
     "static_suggestions_authorize_parallel": false,
     "workers": 0
   },
-  "registry_sha256": "30c2a88204a1508d9c653822a63f76f5ef14df248e0c2c4350b08f76dc1b6511",
+  "registry_sha256": "de857af07f71c5f1f1dbf4f1d86b341142d15abe1c6f3afc3ea90ee509f41c01",
   "resource_classes": [
     "fixed-filesystem-shared-outputs",
     "sqlite-db-files",
@@ -106836,7 +107160,7 @@
     "windows-named-resources-locks"
   ],
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
-  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
+  "source_commit": "10acf1864864f1954d07abb8c913a765795fcd9c",
   "status": "implemented-initial",
   "updated": "2026-09-06T00:00:00Z",
   "version": "1.0.0"

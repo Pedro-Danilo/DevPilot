@@ -3299,3 +3299,13 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - Authority leakage=0; FRX registry schema errors=0; S0/S1=0.
 - Full regression/browser/API/UI remain 0 and no second historical full is introduced.
 - FRX-v2.4-B becomes authorized but is not implemented by this closure.
+
+## 2026-09-06 — FRX-v2.4-B local qualification candidate
+
+- Added the versioned/current-active `FullRegressionExecutionProfile` registry and semantic current pointer.
+- Full-session planning is profile-id-only; direct low-level topology overrides and the UOC direct full worker are blocked.
+- Added machine-readable preflight, topology compatibility guard, current-v2.3 positive fixture and GSDLC-08-E count50 negative fixture.
+- Representative preflight PASS: 2883 sealed nodeids, 2804 known durations, 79 cold-starts, 15 projected shards, workers=1, budget not reserved.
+- Local validation: focal 18/18, bounded impacted 39/39, deterministic gates and Historical Regression Guard PASS under owner-approved no-full waiver.
+- `full=0`, `browser=0`; DEVPL-FRX-v2.4 remains open until Windows qualification of B.
+

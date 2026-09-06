@@ -79,12 +79,13 @@ def run_job(root: Path, job_id: str) -> int:
         elif kind=='quality-gate': payload=_result_dict(QualityGate(root,options=QualityGateOptions(profile=str(params['profile']),include_pytest=False)).run())
         elif kind=='readiness': payload=_result_dict(build_strict_readiness_result(root))
         elif kind=='release-profile': payload=_result_dict(ReleaseCandidateVerificationProfile(root).inspect())
-        elif kind in {'tests-focused','tests-full'}:
-            if kind=='tests-full' and params.get('confirmation')!=FULL_REGRESSION_CONFIRMATION: raise RuntimeError('Full regression confirmation drifted after planning.')
-            files=_focused_files(root,str(params['tcr_profile'])) if kind=='tests-focused' else []
+        elif kind=='tests-full':
+            raise RuntimeError('FRX-v2.4-B blocks the legacy direct full-regression worker; use the profile-governed full-session path.')
+        elif kind=='tests-focused':
+            files=_focused_files(root,str(params['tcr_profile']))
             junit=runtime.runtime/f'{job_id}.junit.xml'; junit.parent.mkdir(parents=True,exist_ok=True)
             cmd=[sys.executable,'-m','pytest','-q',*files,f'--junitxml={junit}']; cp=subprocess.run(cmd,cwd=str(root),shell=False,timeout=profile.timeout_seconds,check=False)
-            summary=_pytest_summary(junit,cp.returncode); payload={'ok':cp.returncode==0,'exit_code':0 if cp.returncode==0 else 1,'command':'typed pytest registry execution','message':'Focused/full pytest completed.','data':{'summary':summary,'selection':{'profile_id':params.get('tcr_profile'),'test_files_total':len(files),'full_regression':kind=='tests-full'}},'findings':[]}
+            summary=_pytest_summary(junit,cp.returncode); payload={'ok':cp.returncode==0,'exit_code':0 if cp.returncode==0 else 1,'command':'typed pytest registry execution','message':'Focused pytest completed.','data':{'summary':summary,'selection':{'profile_id':params.get('tcr_profile'),'test_files_total':len(files),'full_regression':False}},'findings':[]}
         elif kind=='evidence-package':
             from .quality_operations import QualityOperationsApplicationService
             payload=_result_dict(QualityOperationsApplicationService(root).package_evidence(limit=int(params.get('limit',100))))

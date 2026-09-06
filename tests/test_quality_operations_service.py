@@ -17,12 +17,18 @@ def test_uoc009_test_impact_accepts_repo_relative_and_blocks_absolute_or_travers
     assert not s.test_impact_plan(changed_paths=['../secret']).ok
     assert not s.test_impact_plan(changed_paths=['C:/secret']).ok
 
-def test_uoc009_full_regression_requires_confirmation_and_approval_before_plan() -> None:
+def test_uoc009_full_regression_direct_worker_is_successor_blocked_by_frx_v2_4_b() -> None:
     s=QualityOperationsApplicationService(ROOT)
+    # UOC-009 historically required confirmation/approval for its direct worker.
+    # FRX-v2.4-B is the approved successor contract: the direct worker is now
+    # unavailable regardless of confirmation/approval so consumers cannot bypass
+    # the current execution profile and preflight.
     r=s.plan_job(operation_id='full-regression',workspace_id='devpilot-local',parameters={},idempotency_key='uoc009-confirm-no',full_regression_confirmation='NO')
     assert not r.ok and r.exit_code.value==2
-    r=s.plan_job(operation_id='full-regression',workspace_id='devpilot-local',parameters={'confirmation':'RUN FULL REGRESSION'},idempotency_key='uoc009-no-approval',full_regression_confirmation='RUN FULL REGRESSION')
-    assert not r.ok and 'approval' in r.message.lower()
+    assert 'frx-v2.4-b' in r.message.lower() and 'full-session' in r.message.lower()
+    r=s.plan_job(operation_id='full-regression',workspace_id='devpilot-local',parameters={},idempotency_key='uoc009-confirm-yes',full_regression_confirmation='RUN FULL REGRESSION',approval_id='irrelevant-successor-block')
+    assert not r.ok and r.exit_code.value==2
+    assert 'full-session' in r.message.lower()
 
 def test_uoc009_focused_tests_accept_registry_profile_only() -> None:
     s=QualityOperationsApplicationService(ROOT)

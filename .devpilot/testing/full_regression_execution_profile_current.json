@@ -1,0 +1,11 @@
+{
+  "schema_id": "devpilot.testing.full_regression_execution_profile_pointer.v1",
+  "version": "1.0.0",
+  "status": "current-active",
+  "updated": "2026-09-06",
+  "owner": "Ordóñez",
+  "current_profile_id": "frx-v2.4-current",
+  "current_profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219",
+  "registry_path": ".devpilot/testing/full_regression_execution_profile_registry.json",
+  "source_sprint": "FRX-v2.4-B"
+}

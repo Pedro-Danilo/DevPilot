@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_4_b_topology_fixture.v1",
+  "fixture_id": "frx-v2.3-current-profile-positive",
+  "kind": "positive",
+  "source": "FRX-v2.3-E consolidated current policy rebound into FRX-v2.4 profile lock",
+  "profile_id": "frx-v2.4-current",
+  "proposed_topology": {
+    "planner": "deterministic-lpt-sequential",
+    "target_shard_seconds": 900.0,
+    "max_nodeids": 200,
+    "max_command_chars": 30000,
+    "nodeid_transport": "manifest",
+    "default_workers": 1,
+    "parallel_opt_in_ceiling": 2,
+    "shard_strategy": "profile-governed"
+  },
+  "expected_status": "PASS",
+  "expected_before_budget_reservation": true
+}

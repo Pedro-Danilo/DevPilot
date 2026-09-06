@@ -191,7 +191,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager, NodeDurationRegistry, TemporalShardPlanner, TemporalPlannerError, BoundedParallelCanaryRunner
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool, FullRegressionSessionManager, FullRegressionExecutionProfileRegistry, FullRegressionPreflight, TopologyCompatibilityGuard, NodeDurationRegistry, TemporalShardPlanner, TemporalPlannerError, BoundedParallelCanaryRunner
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -6178,8 +6178,8 @@ def tests_full_session_command(
     session_id: str | None = None,
     targets: list[str] | None = None,
     collection_timeout_seconds: int = 300,
-    shard_size: int = 50,
-    shard_timeout_seconds: int = 1200,
+    profile_id: str = "current",
+    full_budget_state: int = 0,
     execute: bool = False,
     max_shards: int | None = None,
     timeout_seconds: int | None = None,
@@ -6200,11 +6200,13 @@ def tests_full_session_command(
             findings=[Finding(id="FRX2_SESSION_ID_REQUIRED", message="A sealed logical session id is required.", severity=Severity.BLOCK)],
         )
     elif action == "plan":
-        result = manager.plan(session_id=session_id, shard_size=shard_size, shard_timeout_seconds=shard_timeout_seconds)
+        result = manager.plan_governed(session_id=session_id, profile_id=profile_id, full_budget_state=full_budget_state)
     elif action == "run":
-        result = manager.run(session_id=session_id, execute=execute, max_shards=max_shards, timeout_seconds=timeout_seconds)
+        lock = manager.validate_governed_execution(session_id=session_id)
+        result = lock if not lock.ok else manager.run(session_id=session_id, execute=execute, max_shards=max_shards, timeout_seconds=timeout_seconds)
     elif action == "resume":
-        result = manager.resume(session_id=session_id, execute=execute, max_shards=max_shards, timeout_seconds=timeout_seconds)
+        lock = manager.validate_governed_execution(session_id=session_id)
+        result = lock if not lock.ok else manager.resume(session_id=session_id, execute=execute, max_shards=max_shards, timeout_seconds=timeout_seconds)
     elif action == "status":
         result = manager.status(session_id=session_id)
     elif action == "adjudicate":
@@ -6215,6 +6217,46 @@ def tests_full_session_command(
     _persist_result(root, result, subject=f"testing:full-session:{action}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
+
+def tests_full_regression_policy_command(
+    *,
+    action: str,
+    profile_id: str = "current",
+    collection: str | None = None,
+    environment: str | None = None,
+    parallel_opt_in: bool = False,
+    full_budget_state: int = 0,
+    topology_fixture: str | None = None,
+    json_output: bool = False,
+) -> int:
+    """Inspect/validate FRX-v2.4 profile lock without executing or reserving a full."""
+    root = project_root()
+    if action == "profile":
+        registry = FullRegressionExecutionProfileRegistry(root)
+        result = registry.validate()
+        if result.ok and profile_id not in {"", "current"}:
+            try:
+                profile = registry.require(profile_id)
+                result.data["selected_profile"] = profile.to_dict()
+            except ValueError as exc:
+                result = CommandResult(command="tests full-regression profile", ok=False, exit_code=ExitCode.BLOCK, message=str(exc), findings=[Finding(id="FRX24B_PROFILE_ID_BLOCK", message=str(exc), severity=Severity.BLOCK)])
+    elif action == "preflight":
+        if not collection:
+            result = CommandResult(command="tests full-regression preflight", ok=False, exit_code=ExitCode.BLOCK, message="--collection is required.", findings=[Finding(id="FRX24B_COLLECTION_REQUIRED", message="A sealed collection is required for preflight.", severity=Severity.BLOCK)])
+        else:
+            result = FullRegressionPreflight(root).run(collection=collection, profile_id=profile_id, environment_fingerprint=environment, parallel_opt_in=parallel_opt_in, full_budget_state=full_budget_state, topology_fixture=topology_fixture)
+    elif action == "topology-check":
+        if not topology_fixture:
+            result = CommandResult(command="tests full-regression topology-check", ok=False, exit_code=ExitCode.BLOCK, message="--fixture is required.", findings=[Finding(id="FRX24B_TOPOLOGY_FIXTURE_REQUIRED", message="A governed topology fixture is required.", severity=Severity.BLOCK)])
+        else:
+            result = TopologyCompatibilityGuard(root).check_fixture(topology_fixture, profile_id=profile_id)
+    else:
+        result = CommandResult(command="tests full-regression", ok=False, exit_code=ExitCode.FAIL, message="Unknown full-regression policy action.")
+    _emit_result_event(root, result, subject=f"testing:full-regression:{action}")
+    _persist_result(root, result, subject=f"testing:full-regression:{action}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 
 def tests_parallel_canary_command(
     *,
@@ -6912,10 +6954,10 @@ def build_parser() -> argparse.ArgumentParser:
     full_collect.add_argument("--target", action="append", default=[], help="Optional pytest collection target; may be repeated")
     full_collect.add_argument("--collection-timeout-seconds", type=int, default=300, help="Bounded collect-only timeout, max 1800")
     full_collect.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
-    full_plan = tests_full_session_sub.add_parser("plan", help="Seal deterministic sequential shard plan")
+    full_plan = tests_full_session_sub.add_parser("plan", help="Seal FRX-v2.4 profile-locked shard plan after preflight")
     full_plan.add_argument("--session-id", required=True, help="Existing logical session id")
-    full_plan.add_argument("--shard-size", type=int, default=50, help="Nodeids per sequential shard, max 500")
-    full_plan.add_argument("--shard-timeout-seconds", type=int, default=1200, help="Watchdog per shard, max 3600")
+    full_plan.add_argument("--profile-id", default="current", help="Owner-governed execution profile id; default: current")
+    full_plan.add_argument("--full-budget-state", type=int, choices=(0, 1), default=0, help="Current one-full budget state. Preflight never reserves it.")
     full_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     full_run = tests_full_session_sub.add_parser("run", help="Run pending shards in the same logical session")
     full_run.add_argument("--session-id", required=True, help="Existing logical session id")
@@ -6935,6 +6977,24 @@ def build_parser() -> argparse.ArgumentParser:
     full_adjudicate = tests_full_session_sub.add_parser("adjudicate", help="Finalize only when every collected nodeid has terminal accounting")
     full_adjudicate.add_argument("--session-id", required=True, help="Existing logical session id")
     full_adjudicate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_full_regression = tests_sub.add_parser("full-regression", help="Inspect FRX-v2.4 current execution profile and run read-only preflight")
+    tests_full_regression_sub = tests_full_regression.add_subparsers(dest="full_regression_command")
+    fr_profile = tests_full_regression_sub.add_parser("profile", help="Validate current execution profile registry/pointer")
+    fr_profile.add_argument("--profile-id", default="current")
+    fr_profile.add_argument("--json", action="store_true")
+    fr_preflight = tests_full_regression_sub.add_parser("preflight", help="Validate collection/registries/topology/ETA/budget without executing tests")
+    fr_preflight.add_argument("--profile-id", default="current")
+    fr_preflight.add_argument("--collection", required=True)
+    fr_preflight.add_argument("--environment", default=None)
+    fr_preflight.add_argument("--parallel-opt-in", action="store_true", help="High-level safe-parallel preview only; does not execute workers")
+    fr_preflight.add_argument("--full-budget-state", type=int, choices=(0, 1), default=0)
+    fr_preflight.add_argument("--topology-fixture", default=None, help="Optional governed topology fixture to validate before budget reservation")
+    fr_preflight.add_argument("--json", action="store_true")
+    fr_topology = tests_full_regression_sub.add_parser("topology-check", help="Check a governed topology fixture against current profile")
+    fr_topology.add_argument("--profile-id", default="current")
+    fr_topology.add_argument("--fixture", required=True)
+    fr_topology.add_argument("--json", action="store_true")
+
     tests_parallel_canary = tests_sub.add_parser("parallel-canary", help="Preview or execute FRX-v2.3-D bounded two-worker canary")
     tests_parallel_canary.add_argument("--execute", action="store_true", help="Execute the same two-nodeid canary serially then with at most two workers; omitted means preview")
     tests_parallel_canary.add_argument("--output-dir", default="outputs/testing/frx_v2_3_d_canary", help="Evidence directory; surviving non-terminal state is never overwritten")
@@ -8546,13 +8606,21 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             if args.full_session_command == "collect":
                 return tests_full_session_command(action="collect", session_id=args.session_id, targets=args.target, collection_timeout_seconds=args.collection_timeout_seconds, json_output=args.json)
             if args.full_session_command == "plan":
-                return tests_full_session_command(action="plan", session_id=args.session_id, shard_size=args.shard_size, shard_timeout_seconds=args.shard_timeout_seconds, json_output=args.json)
+                return tests_full_session_command(action="plan", session_id=args.session_id, profile_id=args.profile_id, full_budget_state=args.full_budget_state, json_output=args.json)
             if args.full_session_command in {"run", "resume"}:
                 return tests_full_session_command(action=args.full_session_command, session_id=args.session_id, execute=args.execute, max_shards=args.max_shards, timeout_seconds=args.timeout_seconds, json_output=args.json)
             if args.full_session_command in {"status", "adjudicate"}:
                 return tests_full_session_command(action=args.full_session_command, session_id=args.session_id, json_output=args.json)
             parser.print_help()
             return int(ExitCode.FAIL)
+        if args.tests_command == "full-regression":
+            if args.full_regression_command == "profile":
+                return tests_full_regression_policy_command(action="profile", profile_id=args.profile_id, json_output=args.json)
+            if args.full_regression_command == "preflight":
+                return tests_full_regression_policy_command(action="preflight", profile_id=args.profile_id, collection=args.collection, environment=args.environment, parallel_opt_in=args.parallel_opt_in, full_budget_state=args.full_budget_state, topology_fixture=args.topology_fixture, json_output=args.json)
+            if args.full_regression_command == "topology-check":
+                return tests_full_regression_policy_command(action="topology-check", profile_id=args.profile_id, topology_fixture=args.fixture, json_output=args.json)
+            parser.print_help(); return int(ExitCode.FAIL)
         if args.tests_command == "parallel-canary":
             return tests_parallel_canary_command(execute=args.execute, output_dir=args.output_dir, clone_root=args.clone_root, timeout_seconds=args.timeout_seconds, json_output=args.json)
         if args.tests_command == "duration-registry":
