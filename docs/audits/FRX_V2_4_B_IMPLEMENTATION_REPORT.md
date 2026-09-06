@@ -60,3 +60,7 @@ PASS only if consumer low-level bypass is impossible, current v2.3 profile repro
 
 ## Verification commands
 Use the single Windows guide delivered with the FRX-v2.4-B validation bundle.
+
+## Windows closure result
+After the Windows operator `validate` step passes, `close` applies this technical closure overlay: `FRX-v2.4-B=CLOSED/PASS/WINDOWS-VALIDATED`, `DEVPL-FRX-v2.4=CLOSED/PASS/WINDOWS-VALIDATED`, and only the GSDLC-09 activation/rebind is authorized. The operator must preserve focal 18/18, bounded impact 39/39, profile/preflight/positive fixture PASS, 08-E negative fixture expected BLOCK before budget reservation, deterministic gates/guard PASS, S0/S1=0, full=0 and browser=0. Git/remote/package receipts remain external runtime evidence and are not fabricated into source.
+

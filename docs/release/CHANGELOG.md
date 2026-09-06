@@ -3309,3 +3309,10 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - Local validation: focal 18/18, bounded impacted 39/39, deterministic gates and Historical Regression Guard PASS under owner-approved no-full waiver.
 - `full=0`, `browser=0`; DEVPL-FRX-v2.4 remains open until Windows qualification of B.
 
+## 2026-09-06 — FRX-v2.4-B Windows closure
+
+- FRX-v2.4-B closes `CLOSED/PASS/WINDOWS-VALIDATED` only after the supplied reentrant Windows operator passes.
+- DEVPL-FRX-v2.4 closes without consuming a full regression (`0`) or browser run (`0`).
+- The current Full Regression profile lock and mandatory preflight become the authority for later legitimate backlog-closing fulls.
+- GSDLC-09 activation/rebind becomes authorized; this closure does not implement GSDLC-09.
+
