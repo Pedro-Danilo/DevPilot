@@ -24,5 +24,10 @@
   "original_full_status": "FAIL/PRESERVED/46-FAIL",
   "closure_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
   "final_reconciliation_required": true,
-  "final_reconciliation_reason": "repo403 packaged with stale current-active Project State fields despite closure receipts; final Windows revalidation is required before owner ratification"
+  "final_reconciliation_reason": "repo403 packaged with stale current-active Project State fields despite closure receipts; final Windows revalidation is required before owner ratification",
+  "final_reconciliation_required_at_detection": true,
+  "final_reconciliation_pending_now": false,
+  "final_reconciliation_status_at_close": "REQUIRED",
+  "final_reconciliation_current_status": "CLOSED/PASS/WINDOWS-VALIDATED/FINAL-RECONCILED",
+  "lifecycle_semantics_note": "Legacy final_reconciliation_required=true records the detection-time historical fact; pending_now=false is the current authority after repo404 final reconciliation."
 }

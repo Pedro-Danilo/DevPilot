@@ -1,0 +1,133 @@
+{
+  "schema_id": "devpilot.testing.historical_contract_authority_registry.v1",
+  "version": "1.0.0",
+  "status": "implemented-initial",
+  "updated": "2026-09-06",
+  "owner": "Ordóñez",
+  "source_sprint": "FRX-v2.4-A",
+  "source_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
+  "authority_scopes": [
+    "historical-freeze",
+    "current-active",
+    "successor-needed",
+    "deprecated-after-proof",
+    "derived",
+    "runtime-ephemeral"
+  ],
+  "contracts": [
+    {
+      "contract_id": "frx-v2.3-e-pre-execution-planning-fixture",
+      "authority_scope": "historical-freeze",
+      "owner": "FRX-v2.4-A",
+      "rationale": "FRX-v2.3-E planning tests assert the pre-execution one-full budget and must not infer it from the mutable/closed current policy.",
+      "test_files": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "snapshot_path": ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+      "mutable_current_paths": [
+        ".devpilot/testing/frx_v2_3_e_policy.json"
+      ],
+      "notes": [
+        "The fixture is an explicit semantic reconstruction, not a byte-identical archive claim."
+      ]
+    },
+    {
+      "contract_id": "gsdlc-current-project-state",
+      "authority_scope": "current-active",
+      "owner": "DEVPL-GSDLC",
+      "rationale": "Global GSDLC current pointers remain governed by current product/release evidence and are not advanced by the FRX enabler timeline.",
+      "test_files": [
+        "tests/test_project_global_state.py"
+      ],
+      "current_paths": [
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.4-a-successor-evolution",
+      "authority_scope": "successor-needed",
+      "owner": "FRX-v2.4-A",
+      "rationale": "FRX-v2.4-A closes by authorizing, but not implementing, the successor FRX-v2.4-B contract.",
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "successor_contract_id": "FRX-v2.4-B"
+    },
+    {
+      "contract_id": "gsdlc-08-e-legacy-final-reconciliation-flag",
+      "authority_scope": "deprecated-after-proof",
+      "owner": "DEVPL-GSDLC-08-E",
+      "rationale": "The legacy final_reconciliation_required=true is retained as detection-time history and must not be interpreted as pending current work.",
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "proof_path": "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json"
+    },
+    {
+      "contract_id": "gsdlc-08-e-derived-recovery-counters",
+      "authority_scope": "derived",
+      "owner": "DEVPL-GSDLC-08-E",
+      "rationale": "Composite recovery and reconciliation counters are derived evidence and cannot replace their source authorities.",
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "derived_from": [
+        "docs/audits/DEVPL_GSDLC_08_E_IMPLEMENTATION_REPORT.md",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "runtime-ephemeral-auth-and-local-state",
+      "authority_scope": "runtime-ephemeral",
+      "owner": "DevPilot Security",
+      "rationale": "Runtime SQLite/auth state is not source truth and must never be copied into the hardening payload or clean repo ZIP.",
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "excluded_patterns": [
+        "auth.db*",
+        "devpilot.db*",
+        ".devpilot/devpilot.db"
+      ]
+    },
+    {
+      "contract_id": "frx-registries-schema-complete-current",
+      "authority_scope": "current-active",
+      "owner": "DEVPL-FRX",
+      "rationale": "Isolation and Duration registries are current FRX inputs and must pass their complete JSON Schemas before their semantic conclusions are trusted.",
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "current_paths": [
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/testing/node_duration_registry.json"
+      ]
+    }
+  ],
+  "lifecycle_checks": [
+    {
+      "check_id": "gsdlc-08-e-final-reconciliation-lifecycle",
+      "path": "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "required_at_detection_field": "final_reconciliation_required_at_detection",
+      "pending_now_field": "final_reconciliation_pending_now",
+      "legacy_field": "final_reconciliation_required",
+      "status_at_close_field": "final_reconciliation_status_at_close",
+      "current_status_field": "final_reconciliation_current_status"
+    }
+  ],
+  "schema_complete_registries": [
+    {
+      "registry_id": "test-isolation-registry",
+      "instance_path": ".devpilot/testing/test_isolation_registry.json",
+      "schema_contract": "TestIsolationRegistry",
+      "semantic_validator": "test-isolation"
+    },
+    {
+      "registry_id": "node-duration-registry",
+      "instance_path": ".devpilot/testing/node_duration_registry.json",
+      "schema_contract": "NodeDurationRegistry",
+      "semantic_validator": "node-duration"
+    }
+  ]
+}

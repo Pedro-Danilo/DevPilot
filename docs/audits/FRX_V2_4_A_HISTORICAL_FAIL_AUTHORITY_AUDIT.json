@@ -1,0 +1,50 @@
+{
+  "schema_id": "devpilot.audit.frx_v2_4_a_historical_fail_authority.v1",
+  "status": "PASS",
+  "micro_sprint": "FRX-v2.4-A",
+  "updated": "2026-09-06",
+  "source_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
+  "source_evidence": {
+    "gsdlc_08_e_original_full": "2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP / 2968 accounted",
+    "exact_recovery": "46/46 PASS",
+    "bounded_impacted": "40/40 PASS",
+    "full_runs": "1/1",
+    "second_full": false,
+    "repo_artifacts": [
+      "docs/audits/DEVPL_GSDLC_08_E_IMPLEMENTATION_REPORT.md",
+      "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json"
+    ]
+  },
+  "classification": {
+    "current-active": 21,
+    "successor-needed": 13,
+    "derived": 7,
+    "historical-freeze": 5,
+    "unclassified": 0,
+    "total": 46
+  },
+  "classification_basis": "Reconstructed from the owner-approved prior FRX-v2.4-A engineering record in conversation 45 and cross-checked against repo404 GSDLC-08-E closure artifacts.",
+  "raw_failed_nodeid_manifest_in_repo404": false,
+  "raw_manifest_note": "The clean repo404 does not contain the original 46-nodeid runtime manifest/log. This audit preserves the already-adjudicated authority counts without inventing nodeids.",
+  "authority_conclusion": "All 46 historical FAILs are classified; no unclassified authority remains.",
+  "historical_current_leakage_target": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "migration": {
+    "historical_test": "tests/test_frx_v2_3_e_safe_parallel_full.py",
+    "previous_authority": ".devpilot/testing/frx_v2_3_e_policy.json",
+    "new_authority": ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+    "closed_policy_rewritten": false,
+    "fixture_kind": "reconstructed-pre-execution-snapshot",
+    "fixture_immutable": true
+  },
+  "negative_fixture_cases": [
+    "historical test -> current mutable = BLOCK",
+    "historical test without snapshot = BLOCK",
+    "invalid isolation registry entry = BLOCK",
+    "ambiguous required-at-detection/pending-now lifecycle = BLOCK"
+  ]
+}

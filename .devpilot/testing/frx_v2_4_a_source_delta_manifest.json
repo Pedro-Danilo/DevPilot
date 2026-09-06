@@ -1,0 +1,188 @@
+{
+  "schema_id": "devpilot.testing.frx_v2_4_a_source_delta_manifest.v1",
+  "version": "1.0.0",
+  "status": "LOCAL-QUALIFIED/WINDOWS-PENDING",
+  "micro_sprint": "FRX-v2.4-A",
+  "updated": "2026-09-06",
+  "source_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
+  "source_repo_sha256": "c90fb00a4416bb62c50e161b1eb837efcf88f88d0d3c19d0c0bcbc9fd47cb767",
+  "hash_domain": "utf8-lf-semantic-v1",
+  "manifest_excluded_from_hash_domain": true,
+  "manifest_path": ".devpilot/testing/frx_v2_4_a_source_delta_manifest.json",
+  "effective_paths_total": 22,
+  "adds_total": 9,
+  "modifies_total": 13,
+  "deletes_total": 0,
+  "forbidden_paths": [
+    "outputs/",
+    ".pytest_cache/",
+    "__pycache__/",
+    ".venv/",
+    ".git/",
+    ".devpilot/devpilot.db",
+    "auth.db*",
+    "devpilot.db*"
+  ],
+  "entries": [
+    {
+      "path": ".devpilot/project_state.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "61c582aed9950b23d5edd25d6a444bffca51f654e575c17e7b8f70e94fa1e072",
+      "postimage_semantic_sha256": "235f285505d2f60d706b303fcb30b4dc4c64a979a9911c75ab56f897cea8f203"
+    },
+    {
+      "path": ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "13a26b1042f70ed96e6d69d04ec8e6b810d51e8e3390f54d83c0722f0d3bc4e1"
+    },
+    {
+      "path": ".devpilot/testing/historical_contract_authority_registry.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "1bf46fec08a3517fb0ecf382c171bfc874ab182b89c0cf9ffca89fb0f0066167"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "a0823d89ba3d559d7b98ea46cdec5de1b916c903f16ff44a8bbf6720b025cb63",
+      "postimage_semantic_sha256": "8625f9494844025d44145f8bd343015b20954e9dd8c0f363b033cd590398309c"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "b133b6c8f247150f65c02037f2d65d773f6c544024add7d2a5ced27ee2410328",
+      "postimage_semantic_sha256": "ebfbbf58f6d39344a397e3044fa4e717fedf5d8d70e316344d730df53df54e03"
+    },
+    {
+      "path": ".devpilot/testing/test_isolation_registry.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "547741b7ee5744cb430d15535b8949d11f88c40f0ad3379aedd8ee35e2a8e153",
+      "postimage_semantic_sha256": "94df50743a001968293cb0656e3c87719dd449c82b2f9d90113fead9435453d6"
+    },
+    {
+      "path": "README.md",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "f26ba5be8d32dd5aaa51ccf8cc3c6d350452acd2d9bf679eb4bc717ffe8ab2ad",
+      "postimage_semantic_sha256": "a09e8358a3836e7c2f148dd1de3938d5b564a34149d5993e2c08d66f1a9a37a7"
+    },
+    {
+      "path": "docs/05_operations/runbook.md",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "8bd8f1e2558e93bbc8fbf1b5bb64a2208633c9d7711976a072362c7151246860",
+      "postimage_semantic_sha256": "83fe5e7c1951e4b9afc0a14a8da482146fc64002a08d8ad4f48ce947e55f3f6f"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "38e48f5faff88fcddc4a67047a43efe3f1dba371f76eb67d51a8eb16de371133",
+      "postimage_semantic_sha256": "7ee554b1531b337c8bec5b5b655cc4e0f9c6d61f448385f50de0b47c84963de8"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_A_FULL_REGRESSION_WAIVER.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "79c20d322841398658a0d8f6810159ad73cd0940c3212d04e3946bdee0bf27f1"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_A_HISTORICAL_FAIL_AUTHORITY_AUDIT.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "87e249189ff62535e11b099ed5f8cd06b98d3d92ffc2a60cf29fcc6bd75a2d8c"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_A_IMPLEMENTATION_REPORT.md",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "2e1346839ce2f0a5d794101ac18ffc24e4edd518dc0f1093d6c244452ec2dc67"
+    },
+    {
+      "path": "docs/audits/FRX_V2_4_A_OWNER_ADJUDICATION_PROPOSAL.md",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "efbd572af3c0eb8cec6bd269a1ac3d583c262bc4043847a4233a092806cae5ea"
+    },
+    {
+      "path": "docs/release/CHANGELOG.md",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "28b1278c90c1ec2a087a79e5d3e1c888ec907ab2c05ea7f102b3c617d2254581",
+      "postimage_semantic_sha256": "6805b0f25a6a67a22ade8dde929e708c315ba6f188b5e4a0268672d69cf6116f"
+    },
+    {
+      "path": "docs/schemas/historical_contract_authority_registry.schema.json",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "c4c8d7ec6bb24ec9fba74df81d5effe04c85ec42e01686403bddb9b6b715219f"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "1f6ab4233f357eb7b18df90019f1d5fd7b4a08ac6fbb9ff89f4a02c23d7df646",
+      "postimage_semantic_sha256": "49aa0e11c08c697cd5e69289235373ce9ecd5771c028e6fdb138c24d8a278031"
+    },
+    {
+      "path": "src/devpilot_core/docs_governance/validator.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "3683e771dfc7e8003cfccf59968200232c625aa87d137fac925861f809e6392d",
+      "postimage_semantic_sha256": "9b46011fa1156ad50d5299c804dfff9afcbe0c841b7a5e41566488f88b3481a8"
+    },
+    {
+      "path": "src/devpilot_core/testing/duration_registry.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "0580a7715af6e04dea6597effd1bb148e781b6474f9a9d9c6aedddbca9557407",
+      "postimage_semantic_sha256": "beb18d245c94ddb77f5d20baa8806e0508e23611c0735437fd8314689b63f790"
+    },
+    {
+      "path": "src/devpilot_core/testing/historical_contract_authority.py",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "e70e217677995225b69a3d8d5e05d79dd1e9f98048ee2302c09349f5fd2b5209"
+    },
+    {
+      "path": "src/devpilot_core/testing/isolation_registry.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "2c2dcebbf8848108ae99c6073c3f0b624f7297a3876f918fdc92154377db1b62",
+      "postimage_semantic_sha256": "a483c3660fa42e67d54132d9454a1cdbf7cc716c98842fcd3bce95931c2d0cde"
+    },
+    {
+      "path": "tests/test_frx_v2_3_e_safe_parallel_full.py",
+      "operation": "modify",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": "859ce941636d621bbf7c09d8c1ee85c5d404d76e285eace78dbbb5cf82be7cf5",
+      "postimage_semantic_sha256": "820d2b335d4499e4217ee8cfb660cd4d854674f4aa730e544f4849dc7c9b9196"
+    },
+    {
+      "path": "tests/test_frx_v2_4_a_historical_contract_authority.py",
+      "operation": "add",
+      "content_kind": "text/utf8",
+      "preimage_semantic_sha256": null,
+      "postimage_semantic_sha256": "f85d0f1014d3e174883c34413a5c17a65ba8a3786a7c5aef853ea6ef30d1cc63"
+    }
+  ],
+  "notes": [
+    "Text payload pre/post images compare semantic UTF-8 content after CRLF/CR/LF normalization to LF.",
+    "The manifest excludes itself from its own hash domain to avoid self-referential hashing.",
+    "No source delete is part of FRX-v2.4-A."
+  ]
+}

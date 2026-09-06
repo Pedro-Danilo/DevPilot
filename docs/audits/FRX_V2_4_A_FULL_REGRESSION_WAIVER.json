@@ -1,0 +1,16 @@
+{
+  "waiver_id": "FRX-V2-4-A-NO-FULL-OWNER-APPROVED",
+  "owner": "Ordóñez",
+  "reason": "FRX-v2.4-A approved sources explicitly set full_regression_runs_allowed=0. Validation is focal + bounded impacted + deterministic historical guard.",
+  "risk": "Project State, TCR and schema catalog are sensitive historical-regression-guard paths; risk is bounded by focal/impact tests, TCR v1/v2, Project State, Docs Governance, Evidence Freshness, API contract drift and source-delta review. No runtime product surface changes.",
+  "tests_executed": [
+    "FRX-v2.4-A focal authority contract",
+    "bounded impacted FRX historical contract set",
+    "Project State/TCR/Docs/Evidence/API deterministic gates"
+  ],
+  "expires_at": "2026-10-31T23:59:59Z",
+  "scope": "FRX-v2.4-A only",
+  "full_regression_runs_allowed": 0,
+  "browser_runs_allowed": 0,
+  "approval_source": "01_PROMPT_FRX_V2_4_A_HISTORICAL_CONTRACT_AUTHORITY_HARDENING_v1_0_0.md + DEVPL-FRX-v2.4-A backlog"
+}

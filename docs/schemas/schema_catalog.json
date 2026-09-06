@@ -5,7 +5,7 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-09-04",
+  "updated": "2026-09-06",
   "sprint": "DEVPL-GSDLC-08-C",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
@@ -3757,7 +3757,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-08-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-HISTORICAL-CONTRACT-AUTHORITY-REGISTRY-V1",
+      "title": "Historical Contract Authority Registry",
+      "version": "1.0.0",
+      "path": "docs/schemas/historical_contract_authority_registry.schema.json",
+      "description": "FRX-v2.4-A machine-readable authority scope contract for historical/current/successor/derived/runtime-ephemeral test authorities.",
+      "status": "registered",
+      "contract": "HistoricalContractAuthorityRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FRX-v2.4-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FRX-v2.4-A"
     }
   ],
-  "schemas_total": 262
+  "schemas_total": 263
 }

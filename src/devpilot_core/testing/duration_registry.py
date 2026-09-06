@@ -9,6 +9,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from devpilot_core.schemas import SchemaValidator
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z')
@@ -106,6 +108,13 @@ class NodeDurationRegistry:
         if not rec:
             return {'nodeid':nodeid,'environment_fingerprint':environment_fingerprint,'known':False,'estimate_seconds':None,'classification':'unknown','fallback':'stable-nodeid-order/count-char-bounds'}
         return {'nodeid':nodeid,'environment_fingerprint':environment_fingerprint,'known':True,'estimate_seconds':rec['robust_estimate'],'sample_count':rec['sample_count'],'median':rec['median'],'p95':rec['p95'],'classification':rec['classification'],'confidence':rec['confidence'],'last_seen':rec['last_seen']}
+
+    def validate_schema(self, payload: dict[str,Any] | None = None):
+        """Validate the complete duration registry JSON Schema."""
+        validator=SchemaValidator(self.root)
+        if payload is None:
+            return validator.validate(schema='NodeDurationRegistry',instance=self.path)
+        return validator.validate_payload(schema='NodeDurationRegistry',payload=payload,instance_label=self.path.as_posix())
 
     def status(self) -> dict[str,Any]:
         data=self.load(); envs=data.get('environments') or {}

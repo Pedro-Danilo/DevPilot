@@ -1,7 +1,11 @@
+## FRX-v2.4-A — Historical Contract Authority Hardening — local qualification 2026-09-06
+
+FRX-v2.4-A is implemented on canonical repo404 and locally qualification-bound for Windows validation. It separates `historical-freeze` from mutable `current-active` authority, introduces a deterministic authority registry/gate, migrates FRX-v2.3-E pre-execution assertions to an immutable semantic fixture, disambiguates GSDLC-08-E lifecycle fields, and validates complete Isolation/Duration registry schemas. The enabler does not advance global GSDLC current pointers: FRX state uses `frx_current_micro_sprint`. Full regression/browser/API/UI/network/external API usage remains 0. FRX-v2.4-B is not implemented and is authorized only after Windows PASS/owner adjudication.
+
 
 ## DEVPL-GSDLC-08 final Windows closure reconciliation — 2026-09-05
 
-DEVPL-GSDLC-08-E and the DEVPL-GSDLC-08 backlog are pending final owner ratification after a post-close reconciliation that aligns Project State current-active pointers with the already-accredited composite recovery. The Windows-validated successor produced by this corrective is `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. The original one-full evidence remains immutable (`1/1`); no browser or full regression is repeated. GSDLC-09 remains `PROPOSED/PENDING-OWNER-APPROVAL` until that reconciliation is Windows-validated and owner-ratified.
+DEVPL-GSDLC-08-E and the DEVPL-GSDLC-08 backlog are closed and owner-ratified after the final post-close reconciliation aligned Project State current-active pointers with the accredited composite recovery. The Windows-validated successor produced by this corrective is `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. The original one-full evidence remains immutable (`1/1`); no browser or full regression is repeated. GSDLC-09 remains intentionally deferred while the mandatory pre-GSDLC-09 FRX-v2.4 hardening enabler is validated.
 
 ## DEVPL-GSDLC-08-A — Planning domain candidate — 2026-09-03
 

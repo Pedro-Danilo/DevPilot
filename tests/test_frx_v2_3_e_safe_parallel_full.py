@@ -2,16 +2,13 @@ from pathlib import Path
 import json
 from devpilot_core.testing.safe_parallel_full import SafeParallelFullPlanner, FullPerformanceAdjudicator, _collection_nodes
 ROOT=Path(__file__).resolve().parents[1]
+HISTORICAL_POLICY_FIXTURE=Path('.devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json')
 def collection():
  p=json.loads((ROOT/'.devpilot/testing/frx_v2_3_c_collection.json').read_text(encoding='utf-8')); return [x['nodeid'] for x in p['nodes']]
-def pristine_planner(tmp_path: Path):
- policy=json.loads((ROOT/'.devpilot/testing/frx_v2_3_e_policy.json').read_text(encoding='utf-8'))
- policy['full_regression_runs_consumed']=0
- policy['full_regression_runs_allowed']=1
- policy['second_full_allowed']=False
- target=tmp_path/'frx_v2_3_e_policy_pre_execution.json'
- target.write_text(json.dumps(policy,indent=2)+'\n',encoding='utf-8')
- return SafeParallelFullPlanner(ROOT, policy_path=target)
+def pristine_planner(_tmp_path: Path):
+ # Historical contract authority: use the immutable pre-execution fixture directly.
+ # Never infer historical state by reading/mutating the closed current policy.
+ return SafeParallelFullPlanner(ROOT, policy_path=HISTORICAL_POLICY_FIXTURE)
 def test_e_plan_is_hybrid_exact_once_workers_two_and_no_execution(tmp_path: Path):
  p=pristine_planner(tmp_path).build(collection(),environment_fingerprint='windows-pytest-devpilot-gsdlc07e-v1')
  assert p['status']=='PASS' and p['execution_enabled'] is False and p['full_regression_runs_planned']==1 and p['max_workers']==2

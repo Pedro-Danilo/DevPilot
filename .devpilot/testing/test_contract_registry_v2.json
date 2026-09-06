@@ -22294,7 +22294,8 @@
     {
       "capability": "FRXV2_3EOneFullSafeParallelClosure",
       "classification_notes": [
-        "Focal contract is read-only. The single full is executed only by the external governed Windows operator and is not part of this test contract."
+        "Focal contract is read-only. The single full is executed only by the external governed Windows operator and is not part of this test contract.",
+        "Historical planning assertions use the immutable pre-execution fixture; the closed policy remains historical completion evidence."
       ],
       "classification_status": "explicit",
       "contract_id": "frx-v2.3-e-one-full-safe-parallel-closure",
@@ -22347,7 +22348,9 @@
       ],
       "watched_paths": [
         "src/devpilot_core/testing/safe_parallel_full.py",
+        ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
         ".devpilot/testing/frx_v2_3_e_policy.json",
+        ".devpilot/testing/historical_contract_authority_registry.json",
         "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json"
       ]
     },
@@ -22772,9 +22775,63 @@
         ".devpilot/identity/server_rbac_policy_catalog.json",
         ".devpilot/project_state.json"
       ]
+    },
+    {
+      "contract_id": "frx-v2.4-a-historical-contract-authority",
+      "schema_version": "2.0",
+      "source_contract_id": "frx-v2.4-a-historical-contract-authority",
+      "domain": "governance.testing",
+      "capability": "HistoricalContractAuthorityHardening",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/historical_contract_authority.py",
+        ".devpilot/testing/historical_contract_authority_registry.json",
+        "docs/schemas/historical_contract_authority_registry.schema.json",
+        ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+        "src/devpilot_core/testing/isolation_registry.py",
+        "src/devpilot_core/testing/duration_registry.py",
+        "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json"
+      ],
+      "validates": [
+        "authority-scope deterministic gate",
+        "historical/current leakage=0",
+        "registry complete-schema validation",
+        "lifecycle disambiguation",
+        "successor progression"
+      ],
+      "trigger_hints": [
+        "frx-v2.4-a",
+        "historical-contract-authority",
+        "historical-freeze",
+        "test-isolation-registry",
+        "node-duration-registry"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "FRX-v2.4-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Focal/impact only. Sprint source explicitly forbids a full regression and browser execution."
+      ]
     }
   ],
-  "contracts_total": 318,
+  "contracts_total": 319,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

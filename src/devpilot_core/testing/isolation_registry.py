@@ -10,6 +10,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Iterable
 
+from devpilot_core.schemas import SchemaValidator
+
 
 DEFAULT_REGISTRY_PATH = Path('.devpilot/testing/test_isolation_registry.json')
 DEFAULT_DURATION_REGISTRY_PATH = Path('.devpilot/testing/node_duration_registry.json')
@@ -206,6 +208,13 @@ class TestIsolationRegistry:
             'decision': decision,
         }
         return out
+
+    def validate_schema(self, payload: dict[str, Any] | None = None):
+        """Validate the complete registry JSON Schema before semantic authority is trusted."""
+        validator = SchemaValidator(self.root)
+        if payload is None:
+            return validator.validate(schema='TestIsolationRegistry', instance=self.path)
+        return validator.validate_payload(schema='TestIsolationRegistry', payload=payload, instance_label=self.path.as_posix())
 
     @staticmethod
     def validate_semantics(payload: dict[str, Any]) -> dict[str, Any]:

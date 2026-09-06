@@ -3282,3 +3282,12 @@ GSDLC-08-B CLOSED/PASS/WINDOWS-VALIDATED. Roadmap Workbench browser acceptance P
 ### Final closure reconciliation note — 2026-09-05
 
 A post-package audit detected stale `current-active` fields in `.devpilot/project_state.json` even though the composite recovery, browser acceptance, exact retest, bounded impact, Historical Regression Guard, local/remote promotion and repo403 packaging had passed. The authoritative closure is therefore ratified only after the final Windows reconciliation successor `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip` aligns Project State, Source Registry and current documentation without running browser/full again.
+
+
+## 2026-09-06 — FRX-v2.4-A local qualification candidate
+
+- Added machine-readable Historical Contract Authority Registry and deterministic gate with six authority scopes.
+- Migrated FRX-v2.3-E pre-execution historical planning to an immutable semantic fixture; closed current policy remains unchanged.
+- Split GSDLC-08-E `final_reconciliation_required_at_detection=true` from `final_reconciliation_pending_now=false`, preserving legacy history.
+- Added complete schema checks for TestIsolationRegistry and NodeDurationRegistry and 12 focal authority tests.
+- Full/browser/API/UI/network/external API runs remain 0; Windows validation is still required before `CLOSED/PASS/WINDOWS-VALIDATED`.

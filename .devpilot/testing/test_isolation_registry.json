@@ -1,5 +1,5 @@
 {
-  "collection_sha256": "74e410827d9a04021b605b16b2397e28b28efb8c035afc462c1880662f292e9e",
+  "collection_sha256": "958b5b633c5abb42009552b4503c208468ce532fe5515214f90ff69b55026e85",
   "entries": [
     {
       "explicit_review_required": true,
@@ -106594,6 +106594,222 @@
         "source_environment": null
       },
       "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_authority_registry_schema_and_six_scopes_pass",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_historical_test_to_current_mutable_is_blocked",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_historical_contract_missing_snapshot_is_blocked",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_invalid_isolation_entry_fails_complete_schema_validation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_ambiguous_pending_current_lifecycle_is_detectable",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_successor_needed_progression_is_explicit_positive",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_frx_v2_3_e_fixture_is_immutable_semantic_pre_execution_authority",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_frx_v2_3_e_planner_accepts_historical_fixture_without_mutation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_isolation_registry_complete_schema_and_semantics_pass",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_duration_registry_complete_schema_pass_and_has_no_rejected_telemetry",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_documentation_governance_integrates_authority_gate",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_frx_v2_4_a_historical_contract_authority.py::test_08e_all_46_historical_failures_have_authority_classification",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
     }
   ],
   "policy": {
@@ -106605,7 +106821,7 @@
     "static_suggestions_authorize_parallel": false,
     "workers": 0
   },
-  "registry_sha256": "ef3699ec0a4d070ddcc20b51f3466ebfca32171313877ea268439686956c00b2",
+  "registry_sha256": "30c2a88204a1508d9c653822a63f76f5ef14df248e0c2c4350b08f76dc1b6511",
   "resource_classes": [
     "fixed-filesystem-shared-outputs",
     "sqlite-db-files",
@@ -106620,8 +106836,8 @@
     "windows-named-resources-locks"
   ],
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
-  "source_commit": "0533d7427181fd3e3e39635d136540f1f127c3e3",
+  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
   "status": "implemented-initial",
-  "updated": "2026-09-04T21:00:00Z",
+  "updated": "2026-09-06T00:00:00Z",
   "version": "1.0.0"
 }

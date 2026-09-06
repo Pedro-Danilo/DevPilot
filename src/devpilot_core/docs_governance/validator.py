@@ -12,6 +12,7 @@ from devpilot_core.docs_governance.drift import DocumentationSyncValidator
 from devpilot_core.docs_governance.registry import DEFAULT_DOCUMENTATION_SOURCE_REGISTRY, load_documentation_source_registry
 from devpilot_core.docs_governance.rule_registry import DEFAULT_DOCS_GOVERNANCE_RULE_REGISTRY, load_docs_governance_rule_registry
 from devpilot_core.runtime_state.models import utc_now_iso
+from devpilot_core.testing.historical_contract_authority import HistoricalContractAuthorityGate
 from devpilot_core.validators.frontmatter import parse_frontmatter_file, validate_frontmatter_document
 
 POST_H_009_B_CREATED_BY = "POST-H-009-B"
@@ -224,6 +225,11 @@ class DocumentationGovernanceValidator:
         for finding in closure_consistency.findings:
             findings.append(_finding(finding.id, finding.message, finding.severity.value, finding.path, dict(finding.metadata)))
 
+        authority_result = HistoricalContractAuthorityGate(self.root).run()
+        authority_summary = dict((authority_result.data or {}).get("summary") or {})
+        for finding in authority_result.findings:
+            findings.append(_finding(finding.id, finding.message, finding.severity.value, finding.path, dict(finding.metadata or {})))
+
         blocking_total = sum(1 for item in findings if item["severity"] in {"fail", "block", "error"})
         warnings_total = sum(1 for item in findings if item["severity"] == "warning")
         info_total = sum(1 for item in findings if item["severity"] == "info")
@@ -276,6 +282,10 @@ class DocumentationGovernanceValidator:
             "closure_state_consistency_passed": closure_summary.get("closure_state_consistency_passed", True),
             "closure_state_consistency_checks_total": closure_summary.get("checks_total", 0),
             "documentation_drift_p0_p1_open_total": closure_summary.get("drift_p0_p1_open_total", 0),
+            "historical_contract_authority_passed": authority_result.ok,
+            "historical_contract_authority_contracts_total": authority_summary.get("authority_contracts_total", 0),
+            "historical_current_leakage_total": authority_summary.get("historical_current_leakage_total", 0),
+            "frx_registry_schema_errors_total": authority_summary.get("registry_schema_errors_total", 0),
             "read_only": True,
             "dry_run": True,
             "network_used": False,
@@ -299,6 +309,7 @@ class DocumentationGovernanceValidator:
             "sync_checks": sync_checks,
             "backlog_checks": backlog_checks,
             "closure_state_consistency": closure_report,
+            "historical_contract_authority": (authority_result.data or {}),
             "findings": findings,
             "safety": {
                 "local_first": True,
@@ -321,6 +332,7 @@ class DocumentationGovernanceValidator:
                 "POST-H-009-E integrates this validator as the docs-governance quality-gate subgate.",
                 "POST-H-033-F adds a schema-backed docs governance rule registry for auditable severities, lifecycle and required-tests policies while preserving the source registry as canonical document inventory.",
                 "FRX-v2.2-A adds cross-authority closure consistency, derived metadata projection and incremental documentation impact planning before expensive testing.",
+                "FRX-v2.4-A adds deterministic historical/current authority scope, lifecycle disambiguation and complete FRX registry schema checks without executing pytest.",
             ],
         }
 

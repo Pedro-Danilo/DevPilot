@@ -11924,3 +11924,8 @@ FRX-v2.3-E implementation: use only the governed Windows one-full operator. Any 
 
 ### FRX-v2.3-E composite recovery closure
 Original one-full preserved: 2909/2909 accounted, 2839 PASS, 63 FAIL, 2 ERROR, 5 SKIP. Selective recovery: 65/65 PASS. Composite: 2904 PASS, 0 FAIL, 0 ERROR, 5 SKIP, 2909 accounted. No second full. Parallel decision: PASS/AVAILABLE-NOT-DEFAULT (24.443% incremental < 30% threshold). The original one-full evidence remains immutable; future correctives must not create a second full.
+
+
+## FRX-v2.4-A — Historical Contract Authority Hardening (2026-09-06)
+
+FRX-v2.4-A is a focal/impact-only pre-GSDLC-09 enabler. Historical tests must declare authority scope and `historical-freeze` tests must bind an immutable fixture rather than infer past state from a mutable/current contract. The deterministic `historical-contract-authority` gate is integrated into Documentation Governance and also checks complete Isolation/Duration registry schemas. Full regression and browser are explicitly forbidden (`0`); API/UI are not started. Windows implementation/validation uses the supplied compact Python operator and a single canonical Markdown guide. Git comparisons use semantic UTF-8/LF content for text payloads, not physical CRLF/LF bytes.
