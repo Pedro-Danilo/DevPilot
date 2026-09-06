@@ -3291,3 +3291,11 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - Split GSDLC-08-E `final_reconciliation_required_at_detection=true` from `final_reconciliation_pending_now=false`, preserving legacy history.
 - Added complete schema checks for TestIsolationRegistry and NodeDurationRegistry and 12 focal authority tests.
 - Full/browser/API/UI/network/external API runs remain 0; Windows validation is still required before `CLOSED/PASS/WINDOWS-VALIDATED`.
+
+
+## 2026-09-06 — FRX-v2.4-A Windows closure
+
+- FRX-v2.4-A closes `CLOSED/PASS/WINDOWS-VALIDATED` only after the supplied focal/impact operator passes on Windows.
+- Authority leakage=0; FRX registry schema errors=0; S0/S1=0.
+- Full regression/browser/API/UI remain 0 and no second historical full is introduced.
+- FRX-v2.4-B becomes authorized but is not implemented by this closure.

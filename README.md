@@ -1,6 +1,6 @@
-## FRX-v2.4-A — Historical Contract Authority Hardening — local qualification 2026-09-06
+## FRX-v2.4-A — Historical Contract Authority Hardening — Windows closure
 
-FRX-v2.4-A is implemented on canonical repo404 and locally qualification-bound for Windows validation. It separates `historical-freeze` from mutable `current-active` authority, introduces a deterministic authority registry/gate, migrates FRX-v2.3-E pre-execution assertions to an immutable semantic fixture, disambiguates GSDLC-08-E lifecycle fields, and validates complete Isolation/Duration registry schemas. The enabler does not advance global GSDLC current pointers: FRX state uses `frx_current_micro_sprint`. Full regression/browser/API/UI/network/external API usage remains 0. FRX-v2.4-B is not implemented and is authorized only after Windows PASS/owner adjudication.
+FRX-v2.4-A is `CLOSED/PASS/WINDOWS-VALIDATED` after the focal/impact-only Windows operator closed the historical authority hardening on canonical repo404 ancestry. It separates `historical-freeze` from mutable `current-active` authority, introduces a deterministic authority registry/gate, migrates FRX-v2.3-E pre-execution assertions to an immutable semantic fixture, disambiguates GSDLC-08-E lifecycle fields, and validates complete Isolation/Duration registry schemas. The enabler does not advance global GSDLC current pointers: FRX state uses `frx_current_micro_sprint`. Full regression/browser/API/UI/network/external API usage remains 0. FRX-v2.4-B is not implemented; it is authorized as the next FRX micro-sprint after this Windows PASS.
 
 
 ## DEVPL-GSDLC-08 final Windows closure reconciliation — 2026-09-05

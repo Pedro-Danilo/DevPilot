@@ -1,7 +1,7 @@
 {
   "schema_id": "devpilot.testing.historical_contract_authority_registry.v1",
   "version": "1.0.0",
-  "status": "implemented-initial",
+  "status": "closed",
   "updated": "2026-09-06",
   "owner": "Ordóñez",
   "source_sprint": "FRX-v2.4-A",

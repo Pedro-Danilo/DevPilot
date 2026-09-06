@@ -53,3 +53,6 @@ PASS only when all local/Windows qualification gates above pass and no second fu
 
 ## Verification commands
 Use the single Windows guide delivered with the validation bundle. It is the canonical operator procedure; commands are intentionally not duplicated here.
+
+## Windows closure result
+After the Windows operator `validate` step passes, `close` applies this technical closure overlay: `CLOSED/PASS/WINDOWS-VALIDATED`, FRX-v2.4-B authorized, full/browser remain `0/0`, and all deterministic post-close gates must remain PASS. Git/remote/package receipts remain external runtime evidence and are not fabricated into source.
