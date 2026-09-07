@@ -1,0 +1,113 @@
+{
+  "schema_id": "SCHEMA-DEVPL-STORY-DOR-REPORT-V1",
+  "schema_version": "1.0.0",
+  "status": "PASS",
+  "policy_version": "DEVPL-GSDLC-09-A-DOR-V1",
+  "story_id": "story-inv-001",
+  "story_version": "1.0.0",
+  "workspace_id": "pilot-workspace",
+  "evaluated_at_utc": "2026-09-06T17:20:00Z",
+  "checks": [
+    {
+      "code": "DOR_PROJECT_CONTEXT_SERVER_VALID",
+      "status": "PASS",
+      "message": "A server-validated active project context is required.",
+      "subject": null
+    },
+    {
+      "code": "DOR_SPRINT_FROZEN",
+      "status": "PASS",
+      "message": "Story execution requires a FROZEN sprint authority.",
+      "subject": null
+    },
+    {
+      "code": "DOR_STORY_SELECTED",
+      "status": "PASS",
+      "message": "Story must be selected exactly once in the frozen sprint.",
+      "subject": "story-inv-001"
+    },
+    {
+      "code": "DOR_STORY_READY",
+      "status": "PASS",
+      "message": "Selected story must be READY with zero blocking reasons.",
+      "subject": "story-inv-001"
+    },
+    {
+      "code": "DOR_ACCEPTANCE_CRITERIA",
+      "status": "PASS",
+      "message": "At least one acceptance criterion is required.",
+      "subject": null
+    },
+    {
+      "code": "DOR_DEFINITION_OF_READY",
+      "status": "PASS",
+      "message": "Sprint Definition of Ready is required.",
+      "subject": null
+    },
+    {
+      "code": "DOR_TRACE_REQUIREMENT",
+      "status": "PASS",
+      "message": "Story requires at least one requirement trace binding.",
+      "subject": null
+    },
+    {
+      "code": "DOR_TRACE_SOURCE_RESOLVED",
+      "status": "PASS",
+      "message": "Every trace target must resolve to an authoritative source fragment.",
+      "subject": "FR-INV-001"
+    },
+    {
+      "code": "DOR_TRACE_ADR",
+      "status": "PASS",
+      "message": "Story requires at least one adr trace binding.",
+      "subject": null
+    },
+    {
+      "code": "DOR_TRACE_SOURCE_RESOLVED",
+      "status": "PASS",
+      "message": "Every trace target must resolve to an authoritative source fragment.",
+      "subject": "ADR-INV-001"
+    },
+    {
+      "code": "DOR_TRACE_RISK",
+      "status": "PASS",
+      "message": "Story requires at least one risk trace binding.",
+      "subject": null
+    },
+    {
+      "code": "DOR_TRACE_SOURCE_RESOLVED",
+      "status": "PASS",
+      "message": "Every trace target must resolve to an authoritative source fragment.",
+      "subject": "RISK-INV-001"
+    },
+    {
+      "code": "DOR_TRACE_TEST_INTENT",
+      "status": "PASS",
+      "message": "Story requires at least one test-intent trace binding.",
+      "subject": null
+    },
+    {
+      "code": "DOR_TRACE_SOURCE_RESOLVED",
+      "status": "PASS",
+      "message": "Every trace target must resolve to an authoritative source fragment.",
+      "subject": "TEST-INV-001"
+    },
+    {
+      "code": "DOR_RISK_FOCUS_BOUND",
+      "status": "PASS",
+      "message": "Story risk bindings must be present in sprint risk focus.",
+      "subject": null
+    },
+    {
+      "code": "DOR_TEST_INTENT_BOUND",
+      "status": "PASS",
+      "message": "Story test-intent bindings must be present in sprint test intent.",
+      "subject": null
+    }
+  ],
+  "blockers_total": 0,
+  "dor_report_sha256": "cb787ccadc41bdd7c6222e058ff8081682278ba20b87ce9acb990e8f4c7b9503",
+  "source_mutations_performed": false,
+  "network_used": false,
+  "external_api_used": false
+}

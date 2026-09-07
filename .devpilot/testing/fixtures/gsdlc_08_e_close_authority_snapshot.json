@@ -1,0 +1,10 @@
+{
+  "schema_id": "DEVPL-GSDLC-08-E-CLOSE-AUTHORITY-SNAPSHOT-V1",
+  "schema_version": "1.0.0",
+  "authority_scope": "historical-freeze",
+  "source_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
+  "gsdlc_program_status_at_close": "closed/GSDLC-08/PASS/COMPOSITE-RECOVERY",
+  "gsdlc_current_canonical_repo_at_close": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "notes": "Frozen semantic snapshot reconstructed directly from the canonical repo404 project_state before FRX-v2.4 successors changed current-active pointers."
+}

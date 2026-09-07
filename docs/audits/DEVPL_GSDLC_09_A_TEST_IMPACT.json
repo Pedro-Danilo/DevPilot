@@ -1,0 +1,83 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-A-TEST-IMPACT-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-A",
+  "risk": "medium",
+  "full_regression_required": false,
+  "browser_required": false,
+  "analyzer": {
+    "changed_paths_total": 36,
+    "contracts_total": 322,
+    "matched_contracts_total": 180,
+    "p0_selected_total": 110,
+    "p1_selected_total": 62,
+    "heuristic_recommendations_total": 7,
+    "recommended_tests_total": 288,
+    "recommended_commands_total": 340,
+    "unmatched_paths_total": 0,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "source_mutations_performed": false
+  },
+  "rationale": [
+    "09-A adds bounded ApplicationService/domain contracts plus runtime-only story state; no source-write execution or browser surface is enabled.",
+    "Global registry/project-state changes make Test Impact deliberately conservative; focal + bounded predecessor/current contracts + deterministic registry/governance gates are the micro-sprint closure authority.",
+    "Exactly-one backlog full remains reserved for GSDLC-09-E under current FRX profile."
+  ],
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+  ],
+  "bounded_cumulative_tests": [
+    "tests/test_devpl_gsdlc_09_activation_rebind.py",
+    "tests/test_devpl_gsdlc_01_e_project_status.py",
+    "tests/test_devpl_gsdlc_07_b_context_pack_v2.py",
+    "tests/test_devpl_gsdlc_08_a_planning_domain.py",
+    "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
+    "tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+    "tests/test_devpl_gsdlc_08_d_sprint_planner.py",
+    "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+    "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py",
+    "tests/test_frx_v2_4_a_historical_contract_authority.py"
+  ],
+  "gates": [
+    "project-state",
+    "test-contracts-v1",
+    "test-contracts-v2",
+    "docs-governance",
+    "evidence-freshness",
+    "api-contract-drift",
+    "historical-contract-authority",
+    "contract-reconciliation",
+    "historical-regression-guard"
+  ],
+  "local_results": {
+    "focal": "PASS/10",
+    "bounded_predecessor_current": "PASS/60",
+    "bounded_historical_authority": "PASS/25",
+    "bounded_cumulative": "PASS/85",
+    "project_state": "PASS/6",
+    "tcr_v1": "PASS/322",
+    "tcr_v2": "PASS/322",
+    "docs_governance": "PASS",
+    "evidence_freshness": "PASS",
+    "api_contract_drift": "PASS",
+    "historical_authority": "PASS/25-TEST-SET",
+    "contract_reconciliation": "PASS/DOCUMENTED",
+    "historical_regression_guard": "PASS/OWNER-APPROVED-WAIVER",
+    "full_regression_runs": 0,
+    "browser_runs": 0
+  },
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "historical_regression_guard": {
+    "decision": "PASS",
+    "regression_decision": "waiver",
+    "changed_paths_total": 36,
+    "components": "5/5",
+    "warnings": 0,
+    "blockers": 0,
+    "waiver_id": "DEVPL-GSDLC-09-A-NO-FULL-OWNER-APPROVED"
+  }
+}

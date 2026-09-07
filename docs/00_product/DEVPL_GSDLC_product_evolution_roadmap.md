@@ -582,4 +582,7 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 ## 2026-09-06 — GSDLC-09 activation/rebind after FRX-v2.4
 
 FRX-v2.4 is `CLOSED/PASS/WINDOWS-VALIDATED` and the execution authority for DEVPL-GSDLC-09 is rebound to `repo_DevPilot_Local_406_FRX_V2_4_B_EXECUTION_PROFILE_LOCK_WINDOWS_VALIDATED_CANDIDATE.zip` / `6b8a9a5feef65860826904444f651421abad282a` / SHA-256 `59c40713182b84655315773654e49adf95419ceb517ec9496929252fba33b191`. The mandatory Full Regression policy is the current profile `frx-v2.4-current`; operators may not configure FRX low-level knobs. Activation is governance-only (`full=0`, `browser=0`) and authorizes GSDLC-09-A only after Windows PASS.
+## 2026-09-06 — GSDLC-09-A local qualification
+
+StoryExecutionState, deterministic DoR and minimized StoryContextPack are implemented on the GSDLC-09 activation successor. Project Status gains a read-only `current_story` projection without a new browser surface. Source writes remain disabled; 09-B stays unauthorized pending Windows closure. The 08-E historical closure contract is bound to an immutable at-close snapshot under FRX-v2.4 Historical Contract Authority. `full=0`, `browser=0`.
 

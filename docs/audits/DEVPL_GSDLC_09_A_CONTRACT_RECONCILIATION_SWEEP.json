@@ -1,0 +1,59 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-A-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-A",
+  "source_repo": "repo_DevPilot_Local_407_DEVPL_GSDLC_09_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "scope": "focal+bounded-impact+current-active-governance",
+  "checks": [
+    {
+      "id": "schema-strict-current",
+      "status": "PASS",
+      "evidence": "StoryExecutionState/StoryContextPack/DoR and Guided SDLC Project Status schemas validate in focal tests."
+    },
+    {
+      "id": "registry-summary-sync",
+      "status": "PASS",
+      "evidence": "TCR v1/v2 and Test Isolation Registry reconciled with 09-A and 08-E successor tests."
+    },
+    {
+      "id": "sensitive-action-binding",
+      "status": "PASS",
+      "evidence": "09-A performs no source mutation; context candidate files explicitly write_authority=false."
+    },
+    {
+      "id": "ui-capability-mapping",
+      "status": "PASS",
+      "evidence": "No new browser route/capability; Project Status read-only projection is ApplicationService/schema-bound."
+    },
+    {
+      "id": "source-project-readme-roadmap-current",
+      "status": "PASS",
+      "evidence": "Source Registry, Project State, README, roadmap, changelog and runbook are reconciled for 09-A local qualification."
+    },
+    {
+      "id": "historical-current-leakage",
+      "status": "PASS",
+      "evidence": "08-E close assertions bind immutable at-close snapshot; Historical Contract Authority Registry recognizes the successor."
+    },
+    {
+      "id": "runtime-ephemeral-exclusion",
+      "status": "PASS",
+      "evidence": "auth.db*, devpilot.db*, outputs and equivalent runtime stores excluded from context pack and clean package."
+    },
+    {
+      "id": "sealed-evidence-rewrite",
+      "status": "PASS",
+      "evidence": "No predecessor sealed evidence is rewritten."
+    },
+    {
+      "id": "successor-registry-update",
+      "status": "PASS",
+      "evidence": "Successor test/contracts are added to TCR/isolation/authority registries."
+    }
+  ],
+  "blockers_total": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

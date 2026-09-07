@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:devpilot:schema:story-context-pack:v1",
+  "title": "DevPilot StoryContextPack v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id","schema_version","context_pack_id","context_sha256","created_at_utc","policy_version","workspace_id","project_id","story","fragments","relevant_files","safety"],
+  "properties": {
+    "schema_id":{"const":"SCHEMA-DEVPL-STORY-CONTEXT-PACK-V1"},
+    "schema_version":{"const":"1.0.0"},
+    "context_pack_id":{"type":"string","minLength":1},
+    "context_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "created_at_utc":{"type":"string","minLength":1},
+    "policy_version":{"const":"DEVPL-GSDLC-09-A-CONTEXT-MINIMIZATION-V1"},
+    "workspace_id":{"type":"string","minLength":1},
+    "project_id":{"type":"string","minLength":1},
+    "story":{"type":"object","additionalProperties":false,"required":["id","version","title"],"properties":{"id":{"type":"string","minLength":1},"version":{"type":"string","minLength":1},"title":{"type":"string"}}},
+    "fragments":{"type":"array","minItems":5,"items":{"type":"object","additionalProperties":false,"required":["kind","target_id","source_ref","content","content_sha256","authority_scope","write_authority"],"properties":{"kind":{"type":"string","enum":["requirement","adr","risk","test-intent","acceptance"]},"target_id":{"type":"string","minLength":1},"source_ref":{"type":"string","minLength":1},"content":{"type":"string"},"content_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"authority_scope":{"type":"string","minLength":1},"write_authority":{"const":false}}}},
+    "relevant_files":{"type":"array","maxItems":20,"items":{"type":"object","additionalProperties":false,"required":["path","content_sha256","excerpt","excerpt_truncated","authority_scope","write_authority"],"properties":{"path":{"type":"string","minLength":1},"content_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"excerpt":{"type":"string","maxLength":2000},"excerpt_truncated":{"type":"boolean"},"authority_scope":{"const":"context-candidate-only"},"write_authority":{"const":false}}}},
+    "safety":{"type":"object","additionalProperties":false,"required":["context_minimized","secret_scan_passed","runtime_stores_excluded","candidate_files_write_authority","source_mutations_performed","network_used","external_api_used"],"properties":{"context_minimized":{"const":true},"secret_scan_passed":{"const":true},"runtime_stores_excluded":{"const":true},"candidate_files_write_authority":{"const":false},"source_mutations_performed":{"const":false},"network_used":{"const":false},"external_api_used":{"const":false}}}
+  }
+}

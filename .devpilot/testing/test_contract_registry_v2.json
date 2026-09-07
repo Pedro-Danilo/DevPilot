@@ -22745,7 +22745,8 @@
       "source_contract_id": "devpl-gsdlc-08-e-planning-browser-one-full-closure",
       "source_mutations_allowed": false,
       "test_files": [
-        "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py"
+        "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+        "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py"
       ],
       "test_type": "contract",
       "trigger_hints": [
@@ -22939,9 +22940,74 @@
       "classification_notes": [
         "Governance-only activation. full=0/browser=0; no src changes."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-a-story-execution-context",
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-09-a-story-execution-context",
+      "domain": "application.service",
+      "capability": "GSDLC09AStoryExecutionContext",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/story_execution/",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "docs/schemas/story_execution_state.schema.json",
+        "docs/schemas/story_context_pack.schema.json",
+        "docs/schemas/story_dor_report.schema.json",
+        "docs/schemas/guided_sdlc_project_status.schema.json",
+        ".devpilot/project_state.json",
+        "docs/audits/DEVPL_GSDLC_09_A_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_A_DOR_REPORT.json",
+        "docs/audits/DEVPL_GSDLC_09_A_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_A_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_09_A_OWNER_ADJUDICATION_PROPOSAL.md",
+        "tests/fixtures/gsdlc09a/story_context_fixture.json",
+        "docs/audits/DEVPL_GSDLC_09_A_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_09_A_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_A_SOURCE_DELTA_MANIFEST.json"
+      ],
+      "validates": [
+        "state transition matrix",
+        "DoR negative gate",
+        "deterministic context hash",
+        "requirement/ADR/risk/test trace",
+        "secret/runtime exclusion",
+        "Project Status current story"
+      ],
+      "trigger_hints": [
+        "gsdlc-09-a",
+        "story-execution",
+        "context-pack",
+        "project-status",
+        "dor"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-09-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "A writes runtime-only outputs/story_execution evidence; workspace source remains read-only. Browser/full are both zero.",
+        "TCR execution contract treats outputs/story_execution as disposable runtime evidence/state, not governed source/product-state mutation; source writes remain disabled."
+      ]
     }
   ],
-  "contracts_total": 321,
+  "contracts_total": 322,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

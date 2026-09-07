@@ -102,5 +102,3 @@ def test_08_e_rebind_and_exactly_one_full_lifecycle_contract():
             'CLOSED/PASS',
             'CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY',
         }
-        assert state['gsdlc_program_status'].startswith('closed/GSDLC-08/PASS')
-        assert state['gsdlc_current_canonical_repo'].startswith('repo_DevPilot_Local_404_')

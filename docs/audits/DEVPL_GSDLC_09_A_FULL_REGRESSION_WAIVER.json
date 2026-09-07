@@ -1,0 +1,26 @@
+{
+  "waiver_id": "DEVPL-GSDLC-09-A-NO-FULL-OWNER-APPROVED",
+  "schema_id": "devpilot.gsdlc09a.full_regression_waiver.v1",
+  "status": "approved-by-owner-policy",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-09-A",
+  "reason": "The owner-approved DEVPL-GSDLC-09 backlog and 09-A prompt require A-D cumulative-selective validation and reserve the exactly-one logical Full Regression for GSDLC-09-E. 09-A adds execution-context/domain contracts and a read-only Project Status projection but no source-write execution, browser route, network, external API or agent coding capability. Test Impact is conservatively broad because Project State/TCR/Source Registry are updated; the approved cadence therefore uses focal + bounded predecessor/current + Historical Contract Authority + Contract Reconciliation + deterministic gates and Historical Regression Guard without consuming the backlog full.",
+  "risk": "high/governance-and-application-boundary",
+  "tests_executed": [
+    "GSDLC-09-A focal: 10/10 PASS",
+    "bounded predecessor/current activation+01E+07B+08A-D: 60/60 PASS",
+    "08-E historical snapshot + Historical Contract Authority successor: 25/25 PASS",
+    "Project State, TCR v1/v2, Documentation Governance, Evidence Freshness and API contract drift: PASS",
+    "Test Impact v2: PASS/read-only/unmatched=0; no tests executed by analyzer"
+  ],
+  "expires_at": "2026-10-31T23:59:59Z",
+  "scope": "DEVPL-GSDLC-09-A only",
+  "full_regression_executed": false,
+  "full_regression_runs_allowed_now": 0,
+  "full_regression_reserved_for": "DEVPL-GSDLC-09-E",
+  "hard_trigger_owner_approved": false,
+  "browser_runs_allowed": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "approval_source": "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_0_APPROVED_REBOUND_REPO404.md + 01_PROMPT_DEVPL_GSDLC_09_A_v1_0_0_APPROVED_REBOUND.md + user-approved current prompt"
+}

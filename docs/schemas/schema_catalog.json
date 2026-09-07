@@ -3813,7 +3813,49 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FRX-v2.4-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-STORY-EXECUTION-STATE-V1",
+      "title": "StoryExecutionState",
+      "version": "1.0.0",
+      "path": "docs/schemas/story_execution_state.schema.json",
+      "description": "GSDLC-09-A runtime-only traceable story execution state machine.",
+      "status": "registered",
+      "contract": "StoryExecutionState",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-STORY-CONTEXT-PACK-V1",
+      "title": "StoryContextPack",
+      "version": "1.0.0",
+      "path": "docs/schemas/story_context_pack.schema.json",
+      "description": "GSDLC-09-A minimized provenance-bound story context pack without write authority.",
+      "status": "registered",
+      "contract": "StoryContextPack",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-STORY-DOR-REPORT-V1",
+      "title": "Story Definition of Ready Report",
+      "version": "1.0.0",
+      "path": "docs/schemas/story_dor_report.schema.json",
+      "description": "GSDLC-09-A deterministic DoR gate before a story may enter IN_PROGRESS.",
+      "status": "registered",
+      "contract": "StoryDoRReport",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-A"
     }
   ],
-  "schemas_total": 266
+  "schemas_total": 269
 }

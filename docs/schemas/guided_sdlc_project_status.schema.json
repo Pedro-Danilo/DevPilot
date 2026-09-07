@@ -259,6 +259,72 @@
             "type": "integer",
             "minimum": 0
           }
+        },
+        "current_story": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "execution_id",
+                "story_id",
+                "story_version",
+                "status",
+                "sequence",
+                "context_pack_sha256",
+                "dor_report_sha256",
+                "state_sha256",
+                "read_only"
+              ],
+              "properties": {
+                "execution_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "story_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "story_version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "PLANNED",
+                    "IN_PROGRESS",
+                    "CHANGES_READY",
+                    "VALIDATING",
+                    "COMMIT_READY",
+                    "DONE"
+                  ]
+                },
+                "sequence": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "context_pack_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "dor_report_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "state_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "read_only": {
+                  "const": true
+                }
+              }
+            }
+          ]
         }
       }
     },

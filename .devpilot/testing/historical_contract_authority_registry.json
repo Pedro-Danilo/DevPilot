@@ -103,6 +103,22 @@
         ".devpilot/testing/test_isolation_registry.json",
         ".devpilot/testing/node_duration_registry.json"
       ]
+    },
+    {
+      "contract_id": "gsdlc-08-e-program-status-at-close-snapshot",
+      "authority_scope": "historical-freeze",
+      "owner": "DEVPL-GSDLC-08-E",
+      "rationale": "GSDLC-08-E lifecycle tests validate frozen repo404 close-time program/repo authority and must not consult current-active successor pointers.",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py"
+      ],
+      "snapshot_path": ".devpilot/testing/fixtures/gsdlc_08_e_close_authority_snapshot.json",
+      "mutable_current_paths": [
+        ".devpilot/project_state.json"
+      ],
+      "notes": [
+        "Snapshot values are copied from canonical repo404 project_state and preserved after GSDLC-09 activation."
+      ]
     }
   ],
   "lifecycle_checks": [

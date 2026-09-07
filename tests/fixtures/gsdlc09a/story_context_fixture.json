@@ -1,0 +1,37 @@
+{
+  "story": {
+    "id": "story-inv-001",
+    "version": "1.0.0",
+    "title": "Create inventory item",
+    "acceptance_criteria": ["A valid item can be created and observed by its stable id."],
+    "trace_links": [
+      {"kind": "requirement", "target_id": "FR-INV-001"},
+      {"kind": "adr", "target_id": "ADR-INV-001"},
+      {"kind": "risk", "target_id": "RISK-INV-001"},
+      {"kind": "test-intent", "target_id": "TEST-INV-001"}
+    ]
+  },
+  "source_fragments": {
+    "FR-INV-001": {"source_ref": "docs/requirements.md#FR-INV-001", "authority_scope": "current-active", "content": "Create one inventory item with a stable local identifier."},
+    "ADR-INV-001": {"source_ref": "docs/adr/ADR-INV-001.md", "authority_scope": "current-active", "content": "Keep the inventory operation local and deterministic."},
+    "RISK-INV-001": {"source_ref": "docs/security/risk-register.md#RISK-INV-001", "authority_scope": "current-active", "content": "Reject invalid item identity before persistence."},
+    "TEST-INV-001": {"source_ref": "docs/testing/test-intents.md#TEST-INV-001", "authority_scope": "current-active", "content": "Verify one valid create and one invalid identity case."}
+  },
+  "frozen_sprint_record": {
+    "schema_id": "DEVPL-GSDLC-08-D-SPRINT-PLANNER-V1",
+    "lifecycle": "FROZEN",
+    "sprint_plan": {
+      "sprint_plan_id": "sprint-plan-001",
+      "version": "1.0.0",
+      "backlog_reference": {"lifecycle": "FROZEN"},
+      "selected_stories": [
+        {"story_id": "story-inv-001", "readiness": "READY", "blocking_reasons": [], "estimate": 3}
+      ],
+      "definition_of_ready": ["Requirement, acceptance, ADR/risk and test intent are bound."],
+      "definition_of_done": ["Focal tests and evidence pass."],
+      "test_intent_ids": ["TEST-INV-001"],
+      "risk_focus_ids": ["RISK-INV-001"],
+      "capacity": {"unit": "points", "limit": 10}
+    }
+  }
+}

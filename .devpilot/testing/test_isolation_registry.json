@@ -1,5 +1,5 @@
 {
-  "collection_sha256": "be5839b1a3466a0e8fc121b57a90411b99921bc89cd59f9f049b7f212e855c59",
+  "collection_sha256": "d9ca578594163a1ada1d09f3966702cc4f80d7b54a4a3283b93610cf937b91b9",
   "entries": [
     {
       "explicit_review_required": true,
@@ -34483,6 +34483,33 @@
       "suggested_hints": []
     },
     {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py::test_gsdlc_08_e_close_authority_is_frozen_to_repo404_snapshot",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
       "nodeid": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py::test_08_e_rebind_and_exactly_one_full_lifecycle_contract",
       "parallel_safe": false,
       "state": "UNCLASSIFIED",
@@ -34697,6 +34724,275 @@
         "source_environment": null
       },
       "review": null
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_context_pack_blocks_secret_runtime_store_and_path_escape",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_context_pack_is_runtime_only_and_source_tree_unchanged",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_dor_blocks_missing_required_trace_and_server_project_context",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_invalid_state_transition_is_blocked",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_prepare_blocks_before_state_when_dor_is_missing",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_prepare_builds_deterministic_minimized_traceable_context_and_schemas",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_project_status_projects_current_story_without_browser",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_start_requires_preimage_and_durable_dor_context_match",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_state_transition_matrix_is_strict_and_linear",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "tmp_path",
+            "outputs/story_execution"
+          ],
+          "resource_class": "fixed-filesystem-shared-outputs"
+        }
+      ]
+    },
+    {
+      "explicit_review_required": true,
+      "isolation_domains": [],
+      "nodeid": "tests/test_devpl_gsdlc_09_a_story_execution_context.py::test_story_execution_package_imports_standalone_without_application_import_order_dependency",
+      "parallel_safe": false,
+      "resource_classes": [],
+      "resource_lock_keys": [],
+      "review": null,
+      "runtime_estimate": {
+        "confidence": "unknown",
+        "known": false,
+        "last_seen": null,
+        "seconds": null,
+        "source_environment": null
+      },
+      "state": "UNCLASSIFIED",
+      "suggested_hints": [
+        {
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ],
+          "resource_class": "subprocess-process-trees"
+        }
+      ]
     },
     {
       "nodeid": "tests/test_devpl_gsdlc_09_activation_rebind.py::test_09_activation_current_pointers_are_rebound_and_functional_source_is_untouched",
@@ -107235,7 +107531,6 @@
     "static_suggestions_authorize_parallel": false,
     "workers": 0
   },
-  "registry_sha256": "6fe4c4470dd897835bc04f756468c2865d9fa495f5318bb6db55cda42c2409db",
   "resource_classes": [
     "fixed-filesystem-shared-outputs",
     "sqlite-db-files",
@@ -107252,6 +107547,7 @@
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
   "source_commit": "10acf1864864f1954d07abb8c913a765795fcd9c",
   "status": "implemented-initial",
-  "updated": "2026-09-06T00:00:00Z",
-  "version": "1.0.0"
+  "updated": "2026-09-06T17:30:00Z",
+  "version": "1.0.0",
+  "registry_sha256": "ff1963d3635ca187d0c5909dc80769a8a2f925d51610b94cc1a2ce0cbe5bc5bd"
 }

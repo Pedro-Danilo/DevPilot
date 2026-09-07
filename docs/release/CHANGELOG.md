@@ -1,3 +1,11 @@
+## 2026-09-06 — DEVPL-GSDLC-09-A local qualification candidate
+
+- Adds StoryExecutionState, deterministic DoR and minimized/provenance-bound StoryContextPack.
+- Adds read-only Project Status `current_story` projection without browser execution.
+- Preserves source mutation as disabled and excludes secrets/runtime stores from context packs.
+- Freezes GSDLC-08-E close authority in an immutable snapshot rather than consulting current GSDLC pointers.
+- Full regression=0; browser=0; 09-B remains unauthorized pending Windows closure.
+
 ## 2026-09-06 — DEVPL-GSDLC-09 activation/rebind (pre-Windows)
 
 - Rebound current execution authority from repo404 design baseline to Windows-validated repo406 after FRX-v2.4 closure.

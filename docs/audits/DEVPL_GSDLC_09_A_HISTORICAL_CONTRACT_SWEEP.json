@@ -1,0 +1,69 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-A-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-A",
+  "source_repo": "repo_DevPilot_Local_407_DEVPL_GSDLC_09_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit_policy": "activation-close-commit-resolved-by-Windows-operator",
+  "classifications": [
+    {
+      "path": ".devpilot/testing/fixtures/gsdlc_08_e_close_authority_snapshot.json",
+      "classification": "historical-freeze",
+      "owner": "DEVPL-GSDLC-08-E",
+      "decision": "Freeze 08-E close facts; successor 09-A never derives historical close from mutable current pointers."
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+      "classification": "historical-freeze",
+      "owner": "DEVPL-GSDLC-08-E",
+      "decision": "Historical browser closure uses at-close facts only; current GSDLC-09 pointers are not asserted."
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py",
+      "classification": "successor-needed",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "Successor proof for the immutable 08-E authority snapshot."
+    },
+    {
+      "path": "src/devpilot_core/story_execution/**",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "Current StoryExecutionState/DoR/StoryContextPack runtime contract."
+    },
+    {
+      "path": "docs/schemas/story_execution_state.schema.json",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "Current machine-readable lifecycle contract."
+    },
+    {
+      "path": "docs/schemas/story_context_pack.schema.json",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "Current minimized context/provenance contract."
+    },
+    {
+      "path": "docs/schemas/story_dor_report.schema.json",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "Current deterministic DoR report contract."
+    },
+    {
+      "path": "outputs/story_execution/gsdlc_09_a/**",
+      "classification": "runtime-ephemeral",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "Runtime evidence/state only; excluded from clean source packages and authority snapshots."
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_A_DOR_REPORT.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "Regenerable deterministic evidence from the governed story fixture."
+    }
+  ],
+  "unclassified_total": 0,
+  "historical_current_leakage_total": 0,
+  "historical_assertions_rewritten_for_pytest": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0,
+  "runtime_stores_copied_to_fixture": false
+}

@@ -6,6 +6,7 @@ from typing import Any
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.guided_sdlc import AdvisorContext, ExecutionModeAdvisor, GuidedSDLCService, ProjectProgressEngine, ReconciliationError, WorkflowEngineError
 from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreError
+from devpilot_core.story_execution import StoryExecutionStore
 
 from .portfolio_service import PortfolioApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
@@ -164,6 +165,12 @@ class GuidedSDLCApplicationService:
             )
             status_payload = projection.status.to_payload()
             next_payload = next_projection.next_action.to_payload()
+            planning_payload = status_payload.get("planning")
+            if isinstance(planning_payload, dict):
+                story_root = context.effective_workspace_root if context.configured and context.valid else self.root
+                story_workspace_id = server_active or resolved
+                current_story = StoryExecutionStore(story_root, workspace_id=story_workspace_id).current_story_projection()
+                planning_payload["current_story"] = current_story
             freshness = str((status_payload.get("freshness") or {}).get("status") or "UNKNOWN").upper()
             revalidation = str((status_payload.get("revalidation") or {}).get("status") or "UNKNOWN").upper()
             lifecycle = str(status_payload.get("lifecycle_status") or "UNKNOWN").upper()
