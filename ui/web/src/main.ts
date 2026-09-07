@@ -13,6 +13,7 @@ import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
 import { renderProjectStatusView } from './pages/ProjectStatusView';
 import { renderPreCodeWizardView } from './pages/PreCodeWizardView';
 import { renderRoadmapWorkbenchView } from './pages/RoadmapWorkbenchView';
+import { renderStoryCodeWorkbenchView } from './pages/StoryCodeWorkbenchView';
 import { renderProjectEntryDryRunView } from './pages/ProjectEntryDryRunView';
 import { renderLoginView } from './pages/LoginView';
 import { renderFirstRunOwnerView } from './pages/FirstRunOwnerView';
@@ -32,6 +33,7 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/planning/roadmap', routeId: 'ui.planning-roadmap', title: 'Planning · Roadmap', scope: 'project' },
   { path: '/project/entry', routeId: 'ui.project-entry-dry-run', title: 'Crear / Abrir / Importar', scope: 'entry' },
   { path: '/workspace/documents', routeId: 'ui.workspace-documents', title: 'Documentos', scope: 'project' },
+  { path: '/story/code', routeId: 'ui.story-code-workbench', title: 'Story Code Workbench', scope: 'project' },
   { path: '/reports', routeId: 'ui.reports', title: 'Reportes', scope: 'project' },
   { path: '/traces', routeId: 'ui.traces', title: 'Trazas', scope: 'project' },
   { path: '/jobs', routeId: 'ui.jobs', title: 'Jobs', scope: 'project' },
@@ -127,6 +129,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     else if (route.path === '/planning/roadmap') page.append(renderRoadmapWorkbenchView(() => readStoredToken(), session));
     else if (route.path === '/project/entry') page.append(renderProjectEntryDryRunView({ session, initialMode: readEntryMode(new URLSearchParams(globalThis.location.search).get('mode')) }));
     else if (route.path === '/workspace/documents') page.append(renderWorkspaceDocumentsView(() => readStoredToken(), session));
+    else if (route.path === '/story/code') page.append(renderStoryCodeWorkbenchView(() => readStoredToken(), session));
     else if (route.path === '/reports') page.append(renderReportsView(() => readStoredToken()));
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));
     else if (route.path === '/jobs') page.append(renderJobsView(() => readStoredToken(), jobsDetail?.[1]));

@@ -1,0 +1,63 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-B-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-B",
+  "source_repo": "repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "classifications": [
+    {
+      "path": "src/devpilot_core/story_execution/**",
+      "classification": "historical-freeze",
+      "owner": "DEVPL-GSDLC-09-A",
+      "decision": "09-A execution-context semantics stay closed; 09-B consumes current story without rewriting predecessor facts."
+    },
+    {
+      "path": "src/devpilot_core/code_workbench/**",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-B",
+      "decision": "Current bounded source viewer and runtime-only draft contract."
+    },
+    {
+      "path": ".devpilot/code_workbench/source_policy.json",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-B",
+      "decision": "Current allowlist/limits authority for manual code workbench."
+    },
+    {
+      "path": "outputs/code_workbench/**",
+      "classification": "runtime-ephemeral",
+      "owner": "DEVPL-GSDLC-09-B",
+      "decision": "Draft state and browser fixture evidence are runtime-only and excluded from source packages."
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-09-B",
+      "decision": "Current API route inventory derived with story/code endpoints."
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-09-B",
+      "decision": "Current UI route inventory derived with /story/code."
+    },
+    {
+      "path": ".devpilot/identity/server_rbac_policy_catalog.json",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-B",
+      "decision": "Server-side route RBAC explicitly binds the new project-scoped surface."
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_BROWSER_COMPONENT_QUALIFICATION.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-09-B",
+      "decision": "Local component browser qualification; does not replace required Windows live browser evidence."
+    }
+  ],
+  "unclassified_total": 0,
+  "historical_current_leakage_total": 0,
+  "historical_assertions_rewritten_for_pytest": false,
+  "runtime_stores_copied_to_fixture": false,
+  "full_regression_runs": 0,
+  "browser_runs_local_component": 1,
+  "windows_live_browser_runs": 0
+}

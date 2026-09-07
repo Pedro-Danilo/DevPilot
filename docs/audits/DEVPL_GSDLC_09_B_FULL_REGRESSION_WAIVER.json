@@ -1,0 +1,30 @@
+{
+  "waiver_id": "DEVPL-GSDLC-09-B-NO-FULL-OWNER-APPROVED",
+  "schema_id": "devpilot.gsdlc09b.full_regression_waiver.v1",
+  "status": "approved-by-owner-policy",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-09-B",
+  "reason": "The owner-approved DEVPL-GSDLC-09 backlog and 09-B prompt require A-D cumulative-selective validation and reserve the exactly-one logical Full Regression for GSDLC-09-E. 09-B introduces browser-visible manual authoring but all CREATE/EDIT/RENAME actions remain SourceDraftBuffer runtime-only; there is no source apply, shell, terminal, network or external API. Browser acceptance is mandatory and independent from the backlog full budget.",
+  "risk": "high/source-authoring-boundary-without-source-write",
+  "tests_executed": [
+    "GSDLC-09-B focal backend/security: PASS/8",
+    "Bounded current A→B/API/RBAC/UI/governance: PASS/61",
+    "Bounded historical/authority: PASS/25",
+    "UI route enforcement: PASS/8",
+    "UI static code-workbench contract: PASS",
+    "Chromium component acceptance: PASS/7; Windows live browser remains mandatory",
+    "Project State/TCR v1/TCR v2/Docs Governance/Evidence Freshness/API drift: PASS",
+    "Historical Regression Guard: PASS/5-of-5; 0 warnings; 0 blockers"
+  ],
+  "expires_at": "2026-10-31T23:59:59Z",
+  "scope": "DEVPL-GSDLC-09-B only",
+  "full_regression_executed": false,
+  "full_regression_runs_allowed_now": 0,
+  "full_regression_reserved_for": "DEVPL-GSDLC-09-E",
+  "hard_trigger_owner_approved": false,
+  "browser_required": true,
+  "network_used": false,
+  "external_api_used": false,
+  "approval_source": "DEVPL-GSDLC-09_story_and_coding_workbench + 02_PROMPT_DEVPL_GSDLC_09_B + user-approved current prompt",
+  "qualification_status": "PASS/READY-FOR-WINDOWS-LIVE-BROWSER"
+}

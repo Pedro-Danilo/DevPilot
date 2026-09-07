@@ -23005,6 +23005,81 @@
         "A writes runtime-only outputs/story_execution evidence; workspace source remains read-only. Browser/full are both zero.",
         "TCR execution contract treats outputs/story_execution as disposable runtime evidence/state, not governed source/product-state mutation; source writes remain disabled."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-b-code-workbench",
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-09-b-code-workbench",
+      "domain": "application.service",
+      "capability": "GSDLC09BCodeWorkbench",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/code_workbench/",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/application/services.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        ".devpilot/code_workbench/source_policy.json",
+        "docs/schemas/gsdlc_09_b_source_policy.schema.json",
+        "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        "docs/audits/DEVPL_GSDLC_09_B_CODE_WORKBENCH_SECURITY_REPORT.json",
+        "docs/audits/DEVPL_GSDLC_09_B_BROWSER_COMPONENT_QUALIFICATION.json",
+        "docs/audits/DEVPL_GSDLC_09_B_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_B_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_B_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_09_B_OWNER_ADJUDICATION_PROPOSAL.md",
+        "docs/audits/DEVPL_GSDLC_09_B_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_09_B_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_B_SOURCE_DELTA_MANIFEST.json",
+        "02_PROMPT_DEVPL_GSDLC_09_B_v1_0_1_REBOUND_REPO408.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_2_APPROVED_REBOUND_REPO408.md",
+        "scripts/devpl_gsdlc_09_b_browser_acceptance.py",
+        "scripts/devpl_gsdlc_09_b_browser_api.py",
+        "scripts/devpl_gsdlc_09_b_browser_fixture.py"
+      ],
+      "validates": [
+        "bounded source tree",
+        "draft-only authoring",
+        "optimistic preimage conflict",
+        "security/path/secret/role negatives",
+        "API/RBAC/UI mapping",
+        "browser live Windows acceptance"
+      ],
+      "trigger_hints": [
+        "gsdlc-09-b",
+        "code-workbench",
+        "source-draft",
+        "story-code",
+        "source-tree"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-09-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "09-B writes runtime-only SourceDraftBuffer evidence under outputs/code_workbench; source apply remains absent until 09-C.",
+        "Browser is required because 09-B introduces UX, but Full Regression remains 0 under A-D cadence.",
+        "UI static/browser acceptance is validated by the 09-B Windows operator and browser evidence contract; npm is not embedded as Test Impact executable recommendation data."
+      ]
     }
   ],
   "contracts_total": 322,

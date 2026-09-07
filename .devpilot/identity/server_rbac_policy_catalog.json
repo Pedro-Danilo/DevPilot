@@ -18,7 +18,7 @@
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "DEVPL-GSDLC-08-E",
+  "micro_sprint": "DEVPL-GSDLC-09-B",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -28,7 +28,8 @@
     "GSDLC-03-A-at-close RBAC snapshot remains frozen at 98 route policies.",
     "GSDLC-04-C adds three human-session-only PASTE/UPLOAD/IMPORT runtime-DRAFT routes; no legacy-token authority and no source write.",
     "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced.",
-    "GSDLC-07-E registers settings.agent_evals as a human-session-required, deny-by-default read-only route; legacy token cannot substitute human authority."
+    "GSDLC-07-E registers settings.agent_evals as a human-session-required, deny-by-default read-only route; legacy token cannot substitute human authority.",
+    "GSDLC-09-B registers bounded source inspection for authenticated project roles and runtime-draft authoring only for owner/developer; unknown routes remain deny-by-default."
   ],
   "route_policies": [
     {
@@ -3583,6 +3584,153 @@
       "risk_level": "low",
       "route_id": "api.planning-closure.status",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.status",
+      "path": "/api/v1/story/code/status",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.sources",
+      "path": "/api/v1/story/code/sources",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.sources",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.source.read",
+      "path": "/api/v1/story/code/sources/{source_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.source",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-authoring",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.code.draft.save",
+      "path": "/api/v1/story/code/drafts",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-code.drafts.save",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.draft.get",
+      "path": "/api/v1/story/code/drafts/{draft_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.drafts.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-authoring",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.code.draft.recheck",
+      "path": "/api/v1/story/code/drafts/{draft_id}/recheck",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-code.drafts.recheck",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-authoring",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.code.draft.discard",
+      "path": "/api/v1/story/code/drafts/{draft_id}/discard",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-code.drafts.discard",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -3846,15 +3994,18 @@
     "gsdlc_08_b_roadmap_policies_total": 5,
     "gsdlc_08_e_legacy_token_allowed_total": 0,
     "gsdlc_08_e_planning_policies_total": 11,
-    "human_session_required_total": 86,
+    "gsdlc_09_b_authoring_policies_total": 3,
+    "gsdlc_09_b_code_workbench_policies_total": 7,
+    "gsdlc_09_b_legacy_token_allowed_total": 0,
+    "human_session_required_total": 93,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 162,
+    "route_policies_total": 169,
     "sensitive_action_policies_total": 17,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-03",
+  "updated": "2026-09-07",
   "updated_by": "DEVPL-GSDLC-08-E",
   "version": "1.6.0",
   "workspace": {

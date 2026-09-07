@@ -12,7 +12,8 @@
     "UOC-003 keeps /workspace/documents as the single progressive-disclosure surface for document validation, findings navigation and traceability.",
     "UOC-011 hardens all nine current UI routes against a 12-state operational matrix.",
     "GSDLC-03-E UX-003: current registry status remains schema-valid implemented-initial; sprint/browser progress belongs in project state/audit artifacts, not the schema status enum.",
-    "GSDLC-03-E UX-003: Project Entry Approval handoff is exact-approval-id targeted and does not require the global approval list/portfolio to succeed."
+    "GSDLC-03-E UX-003: Project Entry Approval handoff is exact-approval-id targeted and does not require the global approval list/portfolio to succeed.",
+    "GSDLC-09-B adds /story/code as the dedicated project-scoped Code Workbench; drafts are runtime-only and source writes remain disabled until 09-C."
   ],
   "registry_id": "devpilot-ui-route-contract-registry",
   "routes": [
@@ -1093,6 +1094,69 @@
         "PENDING"
       ],
       "title": "Planning Workbench · Roadmap → Backlog → Sprint"
+    },
+    {
+      "allowed_api_routes": [
+        "api.settings.workspace",
+        "api.story-code.drafts.discard",
+        "api.story-code.drafts.get",
+        "api.story-code.drafts.recheck",
+        "api.story-code.drafts.save",
+        "api.story-code.source",
+        "api.story-code.sources",
+        "api.story-code.status"
+      ],
+      "connector_write_allowed": false,
+      "critical": true,
+      "dry_run_badge_required": true,
+      "external_api_allowed": false,
+      "local_first_badge_required": true,
+      "local_only": true,
+      "mutation_controls": {
+        "approval_required": false,
+        "destructive_action_allowed": false,
+        "justification": "09-B persists SourceDraftBuffer as local runtime state only; no source write or apply route exists.",
+        "local_state_mutation_only": true,
+        "plan_only": true
+      },
+      "no_remote_badge_required": true,
+      "notes": [
+        "Manual editor is draft-only.",
+        "No terminal, arbitrary upload, apply or source mutation control is exposed."
+      ],
+      "owner": "ui.story-code-workbench",
+      "page_component": "StoryCodeWorkbenchView",
+      "path": "/story/code",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.story-code-workbench",
+      "shows_mutation_controls": true,
+      "source_files": [
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/main.ts"
+      ],
+      "state_contract": {
+        "api_down": true,
+        "block_visible": true,
+        "conflict": true,
+        "draft_saved": true,
+        "empty": true,
+        "error": true,
+        "forbidden": true,
+        "loading": true,
+        "path_block": true,
+        "ready": true,
+        "source_unchanged": true
+      },
+      "status": "implemented-initial/gsdlc-09-b",
+      "status_visibility": [
+        "PASS",
+        "WARN",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "title": "Story Code Workbench — bounded manual source drafting"
     }
   ],
   "safety": {
@@ -1109,12 +1173,12 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "allowed_api_routes_unique_total": 131,
-    "critical_routes_total": 13,
-    "current_routes_total": 13,
+    "allowed_api_routes_unique_total": 138,
+    "critical_routes_total": 14,
+    "current_routes_total": 14,
     "dashboard_max_concurrency": 2,
     "document_inspection_api_routes_total": 4,
-    "dry_run_badged_routes_total": 12,
+    "dry_run_badged_routes_total": 14,
     "full_text_index_persistence": "memory-only",
     "governed_approval_request": true,
     "gsdlc_01_e_project_status_route_registered": true,
@@ -1151,17 +1215,20 @@
     "gsdlc_08_b_roadmap_workbench": true,
     "gsdlc_08_e_planning_api_routes_total": 11,
     "gsdlc_08_e_planning_browser_closure": true,
+    "gsdlc_09_b_code_workbench": true,
+    "gsdlc_09_b_code_workbench_api_routes_total": 7,
+    "gsdlc_09_b_source_write_enabled": false,
     "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
-    "local_only_routes_total": 13,
-    "mutation_control_routes_total": 9,
-    "no_remote_badged_routes_total": 12,
+    "local_only_routes_total": 14,
+    "mutation_control_routes_total": 10,
+    "no_remote_badged_routes_total": 14,
     "opaque_document_identifiers": true,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "read_only_document_routes_total": 1,
     "recursive_report_discovery": true,
     "reports_traces_route_specific": true,
-    "routes_total": 13,
+    "routes_total": 14,
     "runtime_evidence_only": true,
     "scoped_observability": true,
     "source_write_enabled": true,
@@ -1193,5 +1260,5 @@
     "workspace_document_api_routes_total": 7,
     "workspace_validation_api_routes_total": 4
   },
-  "updated": "2026-09-03"
+  "updated": "2026-09-07"
 }

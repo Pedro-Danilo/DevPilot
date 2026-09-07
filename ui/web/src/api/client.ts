@@ -290,6 +290,14 @@ export class DevPilotApiClient {
   async sprintFreeze(): Promise<DevPilotApplicationResponse<import('./types').SprintPlannerResponseData>> { return this.post('/planning/sprint/freeze', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').SprintPlannerResponseData>>; }
   async planningClosure(): Promise<DevPilotApplicationResponse<import('./types').PlanningClosureResponseData>> { return this.get('/planning/closure', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PlanningClosureResponseData>>; }
 
+  async storyCodeStatus(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/status', { retryNetworkErrors: true }); }
+  async storyCodeSources(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/sources', { retryNetworkErrors: true }); }
+  async storyCodeSource(sourceId: string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/sources/${encodeURIComponent(sourceId)}`); }
+  async storyCodeDraftSave(payload: { operation:'CREATE'|'EDIT'|'RENAME'; content:string; target_path:string; source_id:string|null; expected_source_sha256:string|null; expected_revision_sha256:string|null }): Promise<DevPilotApplicationResponse> { return this.post('/story/code/drafts', payload); }
+  async storyCodeDraft(draftId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/drafts/${encodeURIComponent(draftId)}`); }
+  async storyCodeDraftRecheck(draftId:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/drafts/${encodeURIComponent(draftId)}/recheck`, {}); }
+  async storyCodeDraftDiscard(draftId:string, expectedRevisionSha256:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/drafts/${encodeURIComponent(draftId)}/discard`, {expected_revision_sha256:expectedRevisionSha256}); }
+
   async projectEntryDryRun(payload: { intake: Record<string, unknown>; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
     return this.post('/project-entry/dry-run', { intake: payload.intake, timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS }, { timeoutMs: PROJECT_ENTRY_PLANNING_TIMEOUT_MS });
   }

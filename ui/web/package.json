@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.27.0-gsdlc-08-e",
+  "version": "0.28.0-gsdlc-09-b",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — GSDLC-08-E integrated Planning Workbench browser closure.",
+  "description": "DevPilot Local Web UI \u2014 GSDLC-08-E integrated Planning Workbench browser closure.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -37,7 +37,8 @@
     "test:skill-tool-policy": "node scripts/gsdlc07d-skill-tool-policy-smoke.mjs",
     "test:gsdlc07e-agent-eval-trace": "node scripts/gsdlc07e-agent-eval-trace-smoke.mjs",
     "test:roadmap-workbench": "node scripts/gsdlc08b-roadmap-workbench-smoke.mjs",
-    "test:planning-closure": "node scripts/gsdlc08e-planning-closure-smoke.mjs"
+    "test:planning-closure": "node scripts/gsdlc08e-planning-closure-smoke.mjs",
+    "test:story-code-workbench": "node scripts/gsdlc09b-code-workbench-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -202,7 +203,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-08-E",
+    "currentSprint": "DEVPL-GSDLC-09-B",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -415,7 +416,9 @@
     "gsdlc08bExternalApiRequired": false,
     "gsdlc08bBrowserAcceptanceRequired": true,
     "gsdlc08bBrowserAcceptanceExecuted": false,
-    "gsdlc08bFullRegressionRuns": 0
+    "gsdlc08bFullRegressionRuns": 0,
+    "storyCodeWorkbench": true,
+    "sourceWriteEnabled": false
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

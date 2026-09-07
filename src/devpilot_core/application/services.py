@@ -56,6 +56,7 @@ from .backlog_workbench_service import BacklogWorkbenchApplicationService
 from .sprint_planner_service import SprintPlannerApplicationService
 from .planning_closure_service import PlanningClosureApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
+from devpilot_core.code_workbench import CodeWorkbenchApplicationService
 
 
 def _display_path(path: str | Path) -> str:
@@ -106,6 +107,7 @@ class ApplicationService:
             approval_auth_store=approval_auth_store,
         )
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.code_workbench = CodeWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -1328,6 +1330,27 @@ class ApplicationService:
             findings=[Finding("UI_ACTION_NOT_EXPOSED_BLOCK", "The requested action is not exposed by the UI dry-run launcher.", Severity.BLOCK, metadata={"action_id": normalized})],
         )
 
+    def story_code_status(self) -> CommandResult:
+        return self.code_workbench.status()
+
+    def story_code_sources(self) -> CommandResult:
+        return self.code_workbench.list_sources()
+
+    def story_code_source_read(self, *, source_id: str) -> CommandResult:
+        return self.code_workbench.read_source(source_id)
+
+    def story_code_draft_save(self, *, operation: str, content: str, target_path: str, source_id: str | None, expected_source_sha256: str | None, expected_revision_sha256: str | None, actor: str, actor_role: str) -> CommandResult:
+        return self.code_workbench.save_draft(operation=operation, content=content, target_path=target_path, source_id=source_id, expected_source_sha256=expected_source_sha256, expected_revision_sha256=expected_revision_sha256, actor=actor, actor_role=actor_role)
+
+    def story_code_draft_get(self, *, draft_id: str) -> CommandResult:
+        return self.code_workbench.get_draft(draft_id)
+
+    def story_code_draft_recheck(self, *, draft_id: str) -> CommandResult:
+        return self.code_workbench.recheck_draft(draft_id)
+
+    def story_code_draft_discard(self, *, draft_id: str, expected_revision_sha256: str, actor_role: str) -> CommandResult:
+        return self.code_workbench.discard_draft(draft_id, expected_revision_sha256=expected_revision_sha256, actor_role=actor_role)
+
     def workspace_documents_list(self, *, limit: int = 50, offset: int = 0, query: str | None = None, extension: str | None = None, category: str | None = None) -> CommandResult:
         return self.workspace_documents.list_documents(limit=limit, offset=offset, query=query, extension=extension, category=category)
 
@@ -1771,6 +1794,13 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             expected_preimage_hash=str(payload.get("expected_preimage_hash") or ""),
             timeout_seconds=float(payload.get("timeout_seconds", DEFAULT_TIMEOUT_SECONDS)),
         ),
+        "story.code.status": lambda payload: service.story_code_status(),
+        "story.code.sources": lambda payload: service.story_code_sources(),
+        "story.code.source.read": lambda payload: service.story_code_source_read(source_id=str(payload.get("source_id", ""))),
+        "story.code.draft.save": lambda payload: service.story_code_draft_save(operation=str(payload.get("operation", "")), content=str(payload.get("content", "")), target_path=str(payload.get("target_path", "")), source_id=(str(payload.get("source_id")) if payload.get("source_id") is not None else None), expected_source_sha256=(str(payload.get("expected_source_sha256")) if payload.get("expected_source_sha256") is not None else None), expected_revision_sha256=(str(payload.get("expected_revision_sha256")) if payload.get("expected_revision_sha256") is not None else None), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", ""))),
+        "story.code.draft.get": lambda payload: service.story_code_draft_get(draft_id=str(payload.get("draft_id", ""))),
+        "story.code.draft.recheck": lambda payload: service.story_code_draft_recheck(draft_id=str(payload.get("draft_id", ""))),
+        "story.code.draft.discard": lambda payload: service.story_code_draft_discard(draft_id=str(payload.get("draft_id", "")), expected_revision_sha256=str(payload.get("expected_revision_sha256", "")), actor_role=str(payload.get("actor_role", ""))),
         "workspace.documents.list": lambda payload: service.workspace_documents_list(limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0)), query=payload.get("query"), extension=payload.get("extension"), category=payload.get("category")),
         "workspace.documents.read": lambda payload: service.workspace_documents_read(document_id=str(payload.get("document_id", ""))),
         "workspace.documents.metadata": lambda payload: service.workspace_documents_metadata(document_id=str(payload.get("document_id", ""))),
@@ -2034,6 +2064,13 @@ def _capabilities() -> list[ServiceCapability]:
         ("planning.closure.status", "Project planning journey projection PRE_CODE_READY → PLANNING → IMPLEMENTING_READY with requirement→milestone→epic→story→sprint trace graph.", "none", True, "GSDLC-08-E project-scoped runtime-only closure projection; no source/code execution."),
         ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
         ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
+        ("story.code.status", "Read GSDLC-09-B Code Workbench story/workspace/source policy status.", "none", True, "GET /api/v1/story/code/status; project-scoped human session."),
+        ("story.code.sources", "List bounded allowlisted source files for the active workspace without following symlinks/reparse points.", "none", True, "GET /api/v1/story/code/sources."),
+        ("story.code.source.read", "Read one bounded UTF-8 source file by opaque identifier.", "none", True, "GET /api/v1/story/code/sources/{source_id}."),
+        ("story.code.draft.save", "Persist CREATE/EDIT/RENAME SourceDraftBuffer runtime state only; source remains unchanged.", "runtime_draft_only", False, "POST /api/v1/story/code/drafts; owner/developer human session."),
+        ("story.code.draft.get", "Read one SourceDraftBuffer runtime record.", "none", True, "GET /api/v1/story/code/drafts/{draft_id}."),
+        ("story.code.draft.recheck", "Revalidate source/target preimages and surface external-edit conflict without source mutation.", "runtime_draft_only", False, "POST /api/v1/story/code/drafts/{draft_id}/recheck."),
+        ("story.code.draft.discard", "Discard SourceDraftBuffer runtime state only.", "runtime_draft_only", False, "POST /api/v1/story/code/drafts/{draft_id}/discard; no source apply."),
         ("workspace.documents.list", "List a bounded read-only document index for the explicit active workspace.", "none", True, "GET /api/v1/workspace/documents"),
         ("workspace.documents.read", "Read one allowlisted UTF-8 workspace document by opaque identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}"),
         ("workspace.documents.metadata", "Read deterministic metadata for one opaque workspace document identifier.", "none", True, "GET /api/v1/workspace/documents/{document_id}/metadata"),
@@ -2175,6 +2212,13 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-08-D-SPRINT-FREEZE", "POST", "/api/v1/planning/sprint/freeze", "planning.sprint.freeze", ["GSDLC-08-E immutable SprintPlan freeze bound to content hash."]),
         ("APP-ROUTE-GSDLC-08-E-CLOSURE", "GET", "/api/v1/planning/closure", "planning.closure.status", ["GSDLC-08-E read-only journey + traceability projection to IMPLEMENTING_READY."]),
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
+        ("APP-ROUTE-GSDLC-09-B-STATUS", "GET", "/api/v1/story/code/status", "story.code.status", ["GSDLC-09-B project-scoped Code Workbench status; source apply remains absent until 09-C."]),
+        ("APP-ROUTE-GSDLC-09-B-SOURCES", "GET", "/api/v1/story/code/sources", "story.code.sources", ["GSDLC-09-B bounded source tree; opaque ids, hidden/runtime/symlink paths excluded."]),
+        ("APP-ROUTE-GSDLC-09-B-SOURCE-READ", "GET", "/api/v1/story/code/sources/{source_id}", "story.code.source.read", ["GSDLC-09-B bounded UTF-8 source viewer by opaque id."]),
+        ("APP-ROUTE-GSDLC-09-B-DRAFT-SAVE", "POST", "/api/v1/story/code/drafts", "story.code.draft.save", ["GSDLC-09-B owner/developer SourceDraftBuffer runtime mutation only; zero workspace source write."]),
+        ("APP-ROUTE-GSDLC-09-B-DRAFT-GET", "GET", "/api/v1/story/code/drafts/{draft_id}", "story.code.draft.get", ["GSDLC-09-B runtime draft inspection."]),
+        ("APP-ROUTE-GSDLC-09-B-DRAFT-RECHECK", "POST", "/api/v1/story/code/drafts/{draft_id}/recheck", "story.code.draft.recheck", ["GSDLC-09-B optimistic external-edit/source-target revalidation; conflict visible."]),
+        ("APP-ROUTE-GSDLC-09-B-DRAFT-DISCARD", "POST", "/api/v1/story/code/drafts/{draft_id}/discard", "story.code.draft.discard", ["GSDLC-09-B discard runtime draft only; no source mutation."]),
         ("APP-ROUTE-UOC-001-A", "GET", "/api/v1/workspace/documents", "workspace.documents.list", ["UOC-001 bounded read-only active-workspace document index."]),
         ("APP-ROUTE-UOC-001-B", "GET", "/api/v1/workspace/documents/{document_id}", "workspace.documents.read", ["UOC-001 opaque-id document viewer; no path authority accepted from browser."]),
         ("APP-ROUTE-UOC-001-C", "GET", "/api/v1/workspace/documents/{document_id}/metadata", "workspace.documents.metadata", ["UOC-001 read-only document metadata contract."]),

@@ -586,3 +586,7 @@ FRX-v2.4 is `CLOSED/PASS/WINDOWS-VALIDATED` and the execution authority for DEVP
 
 StoryExecutionState, deterministic DoR and minimized StoryContextPack are implemented on the GSDLC-09 activation successor. Project Status gains a read-only `current_story` projection without a new browser surface. Source writes remain disabled; 09-B stays unauthorized pending Windows closure. The 08-E historical closure contract is bound to an immutable at-close snapshot under FRX-v2.4 Historical Contract Authority. `full=0`, `browser=0`.
 
+
+## 2026-09-07 — GSDLC-09-B local qualification
+
+Bounded manual Code Workbench is implemented on repo408 with source-tree containment, opaque IDs, runtime-only SourceDraftBuffer, preimage conflict detection and `/story/code` UX. Source apply remains disabled until 09-C. Backend focal 8/8 PASS, UI static PASS and Chromium component acceptance 7/7 PASS; Windows live browser is mandatory for closure. FRX-v2.4 policy remains active: full=0 for 09-B and exactly-one backlog full remains reserved for 09-E.

@@ -1,0 +1,84 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-B-TEST-IMPACT-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-B",
+  "risk": "high",
+  "full_regression_required": false,
+  "browser_required": true,
+  "analyzer": {
+    "changed_paths_total": 45,
+    "contracts_total": 323,
+    "matched_contracts_total": 203,
+    "p0_selected_total": 124,
+    "p1_selected_total": 70,
+    "heuristic_recommendations_total": 8,
+    "recommended_tests_total": 313,
+    "recommended_commands_total": 377,
+    "unmatched_paths_total": 0,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "source_mutations_performed": false
+  },
+  "rationale": [
+    "09-B introduces a new browser-visible bounded source viewer/editor but persists CREATE/EDIT/RENAME only as runtime SourceDraftBuffer; no source apply, shell or terminal exists.",
+    "Global API/RBAC/UI/TCR/Source Registry changes make Test Impact deliberately conservative; focal + bounded current/historical contracts + browser acceptance + deterministic gates are the micro-sprint closure authority.",
+    "Exactly-one backlog Full Regression remains reserved for GSDLC-09-E under the mandatory FRX-v2.4 current execution profile."
+  ],
+  "focal_tests": [
+    "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+  ],
+  "bounded_current_tests": [
+    "tests/test_devpl_gsdlc_09_a_story_execution_context.py",
+    "tests/test_devpl_gsdlc_02_c_server_rbac.py",
+    "tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py",
+    "tests/test_post_h_028_api_contract_drift_guard.py",
+    "tests/test_post_h_028_ui_route_registry_enforcement.py",
+    "tests/test_devpl_documentation_contract_reconciliation_policy.py"
+  ],
+  "bounded_historical_tests": [
+    "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+    "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py",
+    "tests/test_frx_v2_4_a_historical_contract_authority.py"
+  ],
+  "ui_static": "PASS",
+  "browser_component_local": {
+    "status": "PASS/7",
+    "mode": "browser-real/component-mock-transport",
+    "authority": "local qualification only",
+    "windows_live_required": true
+  },
+  "local_results": {
+    "focal": "PASS/8",
+    "bounded_current": "PASS/61",
+    "bounded_historical": "PASS/25",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/323",
+    "tcr_v2": "PASS/323",
+    "ui_route_enforcement": "PASS/8",
+    "api_contract_drift": "PASS/169",
+    "full_regression_runs": 0,
+    "browser_runs_local_component": 1,
+    "browser_runs_windows_live": 0,
+    "bounded_cumulative": "PASS/86",
+    "docs_governance": "PASS",
+    "evidence_freshness": "PASS",
+    "historical_regression_guard": "PASS/OWNER-APPROVED-WAIVER/5-OF-5"
+  },
+  "full_regression_runs": 0,
+  "browser_runs_local_component": 1,
+  "browser_runs_windows_live": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "source_mutations_performed_by_workbench": false,
+  "historical_regression_guard": {
+    "decision": "PASS",
+    "regression_decision": "waiver",
+    "changed_paths_total": 45,
+    "components": "5/5",
+    "warnings": 0,
+    "blockers": 0,
+    "waiver_id": "DEVPL-GSDLC-09-B-NO-FULL-OWNER-APPROVED"
+  }
+}

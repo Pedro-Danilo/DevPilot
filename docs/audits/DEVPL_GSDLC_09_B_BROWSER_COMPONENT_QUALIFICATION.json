@@ -1,0 +1,52 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-B-BROWSER-ACCEPTANCE-V1",
+  "status": "PASS",
+  "mode": "browser-real/component-mock-transport",
+  "cases": [
+    {
+      "id": "open-story-context",
+      "pass": true
+    },
+    {
+      "id": "navigate-source",
+      "pass": true
+    },
+    {
+      "id": "draft-source-unchanged",
+      "pass": true
+    },
+    {
+      "id": "path-escape-block",
+      "pass": true
+    },
+    {
+      "id": "external-edit-conflict-visible",
+      "pass": true
+    },
+    {
+      "id": "role-negative-authoring-disabled",
+      "pass": true
+    },
+    {
+      "id": "source-restored",
+      "pass": true
+    }
+  ],
+  "screenshots": [
+    "01_story_code_ready.png",
+    "02_draft_saved_source_unchanged.png",
+    "03_path_escape_block.png",
+    "04_external_edit_conflict.png",
+    "05_role_negative_read_only.png"
+  ],
+  "source_baseline_sha256": "aecc013c518523ca22b7e3780f87002f5cae13fabc369f2f59a1faf7058f8c76",
+  "source_restored": true,
+  "full_regression_runs": 0,
+  "browser_runs": 1,
+  "network_runtime_used": false,
+  "external_api_used": false,
+  "source_mutations_performed_by_workbench": false,
+  "generated_at_utc": "2026-09-07T17:02:39.857192+00:00",
+  "qualification_scope": "local-tool-environment/component-level evidence only; Windows live API/UI browser acceptance remains mandatory before close",
+  "windows_live_browser_acceptance_required": true
+}

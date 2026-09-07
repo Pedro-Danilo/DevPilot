@@ -1,0 +1,20 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-09-B-SOURCE-POLICY-V1",
+  "schema_version": "1.0.0",
+  "policy_id": "DEVPL-GSDLC-09-B-SOURCE-POLICY",
+  "status": "current-active",
+  "allowed_extensions": [".py", ".pyi", ".ts", ".tsx", ".js", ".jsx", ".css", ".html", ".json", ".toml", ".yaml", ".yml", ".sql"],
+  "denied_directory_names": [".git", ".venv", "node_modules", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".idea", ".vscode", "dist", "build", "coverage", "outputs"],
+  "denied_file_prefixes": [".env", "auth.db", "devpilot.db"],
+  "maximum_inline_bytes": 262144,
+  "maximum_discovery_files": 4000,
+  "maximum_discovery_depth": 16,
+  "allow_create": true,
+  "allow_edit": true,
+  "allow_rename": true,
+  "apply_enabled": false,
+  "shell_enabled": false,
+  "symlink_following": false,
+  "network_used": false,
+  "external_api_used": false
+}

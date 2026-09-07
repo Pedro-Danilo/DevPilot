@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-09-06",
-  "sprint": "DEVPL-GSDLC-08-C",
+  "updated": "2026-09-07",
+  "sprint": "DEVPL-GSDLC-09-B",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3855,7 +3855,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-09-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-09-B-SOURCE-POLICY-V1",
+      "title": "GSDLC-09-B Source Policy",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc_09_b_source_policy.schema.json",
+      "description": "Bounded source tree/editor allowlist and deny-by-default policy.",
+      "status": "registered",
+      "contract": "GSDLC09BSourcePolicy",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-09-B-SOURCE-DRAFT-BUFFER-V1",
+      "title": "GSDLC-09-B SourceDraftBuffer",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
+      "description": "Runtime-only create/edit/rename source draft with preimage and revision hashes; no apply authority.",
+      "status": "registered",
+      "contract": "GSDLC09BSourceDraftBuffer",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-B"
     }
   ],
-  "schemas_total": 269
+  "schemas_total": 271
 }

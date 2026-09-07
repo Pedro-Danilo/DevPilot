@@ -30,6 +30,7 @@ CANONICAL_FASTAPI_ROUTER_MODULES = (
     "devpilot_core.interfaces.api.routers.portfolio",
     "devpilot_core.interfaces.api.routers.security_posture",
     "devpilot_core.interfaces.api.routers.workspace_documents",
+    "devpilot_core.interfaces.api.routers.story_code",
     "devpilot_core.interfaces.api.routers.workspace_validations",
     "devpilot_core.interfaces.api.routers.workspace_edits",
     "devpilot_core.interfaces.api.routers.workspace_git",

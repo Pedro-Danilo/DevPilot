@@ -11941,3 +11941,7 @@ The activation is an administrative, fail-closed predecessor of GSDLC-09-A. It b
 
 09-A is a no-source-write execution-context micro-sprint. A story can be prepared only from a server-validated active project and a FROZEN sprint where the story is READY with acceptance, DoR, requirement, ADR, risk and test-intent bindings. `StoryContextPack` is minimized, provenance-bound and deterministic; candidate files never grant write authority and secrets/runtime stores are fail-closed. `StoryExecutionState` is linear and requires preimage revalidation before `IN_PROGRESS`. Project Status only projects `current_story` read-only, so browser/API/UI startup is not required for 09-A validation. Run focal + bounded cumulative + Historical Contract Authority + Contract Reconciliation and deterministic gates; do not run Full Regression. Windows operator must first close/promote the GSDLC-09 activation from repo406, then apply 09-A on that successor; LF/CRLF comparisons are semantic.
 
+
+## DEVPL-GSDLC-09-B — Code Workbench local qualification
+
+09-B adds `/story/code` as a project-scoped manual authoring surface. CREATE/EDIT/RENAME persist only SourceDraftBuffer runtime evidence; no apply or shell is available. Browser live is required for Windows closure; full regression is not run in 09-B.

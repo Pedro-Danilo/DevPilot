@@ -1,0 +1,67 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-B-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-B",
+  "source_repo": "repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "scope": "focal+bounded-current+bounded-historical+security+browser-component+current-active-governance",
+  "checks": [
+    {
+      "id": "schema-strict-current",
+      "status": "PASS",
+      "evidence": "SourcePolicy and SourceDraftBuffer schemas validate in focal contract."
+    },
+    {
+      "id": "registry-summary-sync",
+      "status": "PASS",
+      "evidence": "TCR v1/v2, Isolation Registry, Schema Catalog, API/RBAC and UI registries include 09-B successor contracts."
+    },
+    {
+      "id": "sensitive-action-binding",
+      "status": "PASS",
+      "evidence": "Draft authoring is role/RBAC-bound; apply/source mutation is absent and fail-closed."
+    },
+    {
+      "id": "ui-capability-mapping",
+      "status": "PASS",
+      "evidence": "/story/code has current UI route/capability mapping and API route mappings."
+    },
+    {
+      "id": "source-project-readme-roadmap-current",
+      "status": "PASS",
+      "evidence": "Source Registry, Project State, README, roadmap, changelog, runbook and rebound artifacts point to repo408/09-B."
+    },
+    {
+      "id": "historical-current-leakage",
+      "status": "PASS",
+      "evidence": "09-A and earlier closures remain historical facts; 09-B does not rewrite predecessor state."
+    },
+    {
+      "id": "runtime-ephemeral-exclusion",
+      "status": "PASS",
+      "evidence": "drafts, browser fixture, auth stores, outputs and runtime DBs excluded from clean source packages."
+    },
+    {
+      "id": "sealed-evidence-rewrite",
+      "status": "PASS",
+      "evidence": "No sealed predecessor evidence is rewritten."
+    },
+    {
+      "id": "successor-registry-update",
+      "status": "PASS",
+      "evidence": "09-B tests/schemas/routes/capabilities registered as current successor."
+    }
+  ],
+  "blockers_total": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "browser_required": true,
+  "local_results": {
+    "focal": "PASS/8",
+    "bounded_current": "PASS/61",
+    "bounded_historical": "PASS/25",
+    "ui_route_enforcement": "PASS/8",
+    "deterministic_gates": "PASS",
+    "historical_regression_guard": "PASS"
+  }
+}

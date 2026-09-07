@@ -1,0 +1,52 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-B-CODE-WORKBENCH-SECURITY-REPORT-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-B",
+  "source_repo": "repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "controls": [
+    {
+      "id": "workspace-root-enforcement",
+      "status": "PASS",
+      "evidence": "server-side resolver + opaque source ids + target containment"
+    },
+    {
+      "id": "path-traversal-symlink-reparse",
+      "status": "PASS",
+      "evidence": "traversal/hidden/reparse outside-root blocked"
+    },
+    {
+      "id": "binary-oversize-secret",
+      "status": "PASS",
+      "evidence": "extension, UTF-8/binary, byte limit and SecretGuard fail closed"
+    },
+    {
+      "id": "draft-only",
+      "status": "PASS",
+      "evidence": "CREATE/EDIT/RENAME persist only under outputs/code_workbench; service exposes no apply method"
+    },
+    {
+      "id": "optimistic-preimage",
+      "status": "PASS",
+      "evidence": "source SHA-256 + draft revision; external edits cause CONFLICT"
+    },
+    {
+      "id": "role-bound-authoring",
+      "status": "PASS",
+      "evidence": "owner/developer authoring; other roles read-only; server RBAC registry aligned"
+    },
+    {
+      "id": "arbitrary-execution",
+      "status": "PASS",
+      "evidence": "no terminal, shell, executable upload or /story/code/apply route"
+    }
+  ],
+  "focal_backend": "PASS/8",
+  "ui_static": "PASS",
+  "browser_component": "PASS/7",
+  "source_mutations_performed_by_workbench": false,
+  "network_used": false,
+  "external_api_used": false,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0
+}

@@ -35085,6 +35085,326 @@
       "review": null
     },
     {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_api_requires_human_session_and_exposes_no_apply_route",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_create_and_rename_are_drafts_only",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_edit_draft_never_mutates_source_and_recheck_passes",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_external_edit_invalidates_edit_draft",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_optimistic_draft_revision_blocks_stale_update",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_path_binary_oversize_secret_and_role_negatives_fail_closed",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_schemas_validate_policy_and_draft",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_09_b_code_workbench.py::test_source_tree_is_bounded_and_current_story_is_visible",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
       "explicit_review_required": true,
       "isolation_domains": [],
       "nodeid": "tests/test_devpl_gsdlc_transversal_validation_policy.py::test_backlog_closing_micro_sprint_runs_full_regression_exactly_once",
@@ -107547,7 +107867,7 @@
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
   "source_commit": "10acf1864864f1954d07abb8c913a765795fcd9c",
   "status": "implemented-initial",
-  "updated": "2026-09-06T17:30:00Z",
+  "updated": "2026-09-07T17:10:00Z",
   "version": "1.0.0",
-  "registry_sha256": "ff1963d3635ca187d0c5909dc80769a8a2f925d51610b94cc1a2ce0cbe5bc5bd"
+  "registry_sha256": "714dbbe416a4a7a70630df1833b00e7bd93c3896c5f2ed2acfac7bed3e2c49bc"
 }

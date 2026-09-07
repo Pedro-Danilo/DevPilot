@@ -118,6 +118,13 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/project-entry/revalidate"): ApiRoutePolicy("project_entry.revalidate", "read", "protected-human-session-project-entry-revalidate"),
     ("POST", "/api/v1/project-entry/execution-approval-request"): ApiRoutePolicy("project_entry.execution_approval_request", "read", "protected-human-session-bootstrap-approval"),
     ("POST", "/api/v1/project-entry/execute"): ApiRoutePolicy("project_entry.execute", "read", "protected-human-session-bootstrap-execute"),
+    ("GET", "/api/v1/story/code/status"): ApiRoutePolicy("story.code.status", "read", "protected-human-session-code-workbench"),
+    ("GET", "/api/v1/story/code/sources"): ApiRoutePolicy("story.code.sources", "read", "protected-human-session-code-workbench"),
+    ("GET", "/api/v1/story/code/sources/{source_id}"): ApiRoutePolicy("story.code.source.read", "read", "protected-human-session-code-workbench"),
+    ("POST", "/api/v1/story/code/drafts"): ApiRoutePolicy("story.code.draft.save", "read", "protected-human-session-code-draft-runtime"),
+    ("GET", "/api/v1/story/code/drafts/{draft_id}"): ApiRoutePolicy("story.code.draft.get", "read", "protected-human-session-code-workbench"),
+    ("POST", "/api/v1/story/code/drafts/{draft_id}/recheck"): ApiRoutePolicy("story.code.draft.recheck", "read", "protected-human-session-code-draft-runtime"),
+    ("POST", "/api/v1/story/code/drafts/{draft_id}/discard"): ApiRoutePolicy("story.code.draft.discard", "read", "protected-human-session-code-draft-runtime"),
     ("GET", "/api/v1/workspace/documents"): ApiRoutePolicy("workspace.documents.list", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/workspace/documents/{document_id}"): ApiRoutePolicy("workspace.documents.read", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/workspace/documents/{document_id}/metadata"): ApiRoutePolicy("workspace.documents.metadata", "read", "protected-workspace-document-read"),
@@ -167,6 +174,13 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/workspace/git/branches/plan"): ApiRoutePolicy("workspace.git.branch_plan", "read", "protected-workspace-git-branch-plan"),
     ("POST", "/api/v1/workspace/git/branches/{plan_id}/approval-request"): ApiRoutePolicy("workspace.git.branch_approval_request", "read", "protected-governed-git-approval-request"),
     ("POST", "/api/v1/workspace/git/branches/{plan_id}/create"): ApiRoutePolicy("workspace.git.branch_create", "read", "protected-governed-git-branch-create"),
+    ("GET", "/api/v1/story/code/status"): ApiRoutePolicy("story.code.status", "read", "protected-human-session-project-code-workbench-read"),
+    ("GET", "/api/v1/story/code/sources"): ApiRoutePolicy("story.code.sources", "read", "protected-human-session-project-code-workbench-read"),
+    ("GET", "/api/v1/story/code/sources/{source_id}"): ApiRoutePolicy("story.code.source.read", "read", "protected-human-session-project-code-workbench-read"),
+    ("POST", "/api/v1/story/code/drafts"): ApiRoutePolicy("story.code.draft.save", "read", "protected-human-session-project-code-workbench-draft"),
+    ("GET", "/api/v1/story/code/drafts/{draft_id}"): ApiRoutePolicy("story.code.draft.get", "read", "protected-human-session-project-code-workbench-read"),
+    ("POST", "/api/v1/story/code/drafts/{draft_id}/recheck"): ApiRoutePolicy("story.code.draft.recheck", "read", "protected-human-session-project-code-workbench-draft"),
+    ("POST", "/api/v1/story/code/drafts/{draft_id}/discard"): ApiRoutePolicy("story.code.draft.discard", "read", "protected-human-session-project-code-workbench-draft"),
     ("GET", "/api/v1/guided-sdlc/status"): ApiRoutePolicy("guided_sdlc.project_status", "read", "protected-guided-sdlc-project-status"),
     ("GET", "/api/v1/guided-sdlc/step-actions"): ApiRoutePolicy("guided_sdlc.step_actions", "read", "protected-guided-sdlc-step-actions"),
     ("GET", "/api/v1/planning/roadmap"): ApiRoutePolicy("planning.roadmap.status", "read", "protected-human-session-project-planning-read"),
@@ -543,6 +557,15 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"))
         if path.endswith("/freeze"):
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"))
+    if path.startswith("/api/v1/story/code/sources/") and method.upper() == "GET" and path.count("/") == 6:
+        return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/sources/{source_id}"))
+    if path.startswith("/api/v1/story/code/drafts/"):
+        if method.upper() == "GET" and path.count("/") == 6:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/drafts/{draft_id}"))
+        if method.upper() == "POST" and path.endswith("/recheck") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/drafts/{draft_id}/recheck"))
+        if method.upper() == "POST" and path.endswith("/discard") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/drafts/{draft_id}/discard"))
     if path.startswith("/api/v1/workspace/artifact-reviews/"):
         if method.upper() == "GET" and path.count("/") == 5:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/workspace/artifact-reviews/{review_id}"))

@@ -1,0 +1,375 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-B-SOURCE-DELTA-MANIFEST-V1",
+  "status": "PASS",
+  "version": "1.0.0",
+  "micro_sprint": "DEVPL-GSDLC-09-B",
+  "source_authority_repo": "repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_authority_commit": "fede10c963d7af571fc0fd062f76323d647877f7",
+  "source_authority_sha256": "c077fcba424527a179773e9f2b155700c357fecd0e7d9af8e40533374d290e59",
+  "target_candidate_repo": "repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "hash_domain": "utf8-lf-semantic-v1",
+  "effective_paths_total": 44,
+  "bundle_implementation_paths_total": 45,
+  "deleted_paths_total": 0,
+  "full_regression_runs": 0,
+  "browser_runs_local_component": 1,
+  "browser_runs_windows_live": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "source_mutations_performed_by_workbench": false,
+  "entries": [
+    {
+      "path": ".devpilot/code_workbench/source_policy.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "d0e83313ca492ddf9da206e8554a09273d5a97103c9c63efc1eb27f115efd97c",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 857
+    },
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "action": "modified",
+      "preimage_sha256": "00752ae5ed9f6465ca9575f9002c5c1de19d2501ff539509e504287d6884ec23",
+      "postimage_sha256": "25d9d17dc2aa7c6d9ce13a4f22af3f94e2ce408ee762300ef73b8270466b4f53",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 1356427
+    },
+    {
+      "path": ".devpilot/identity/server_rbac_policy_catalog.json",
+      "action": "modified",
+      "preimage_sha256": "9d449faaeeb4b72d0ae601cce6f6248495b2ddb03265dc84f42482737f1a2e5c",
+      "postimage_sha256": "d1cdc56f25e88f7251acc422546df0931ef965f8fb8e61ef7e75128788190431",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 117165
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "action": "modified",
+      "preimage_sha256": "16be21b7ba7e681863d58a52de7cf9fb5ca2dec6eb90a2f7c62d43e2c43febac",
+      "postimage_sha256": "dc8d5d261d0cbf880e412f970c1e4218d02b30ffb77adfcaa281d4df15a28f9e",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 226403
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "action": "modified",
+      "preimage_sha256": "1f134d91a18c5d71dbbe0fa6b3479def34e2e05358ff5a10e0b0aec51805beec",
+      "postimage_sha256": "8f73f826d7b98f08a3ae48f46f971ec003336d27c0d5d22a38ba6aea79f7c90d",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 452358
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "action": "modified",
+      "preimage_sha256": "4c2c9c9cd4359398a258bedcf409fc18fc7dfcdb418b5992868dd156402dcefc",
+      "postimage_sha256": "6e38bcb222b0450cfcadbf10a8f112366c2324cf010251871f9221f6f02efadc",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 50504
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "action": "modified",
+      "preimage_sha256": "484d585063740addd7f6a9086c36135c9cc94ae6422b8e47856449a30c1d5c64",
+      "postimage_sha256": "2c894faab28743f6288c3bb3fedb3020e9738747631ad6974791b0e9f2934e9f",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 275867
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "action": "modified",
+      "preimage_sha256": "0851ec4248a5544b998e1b58394553a96ecb5830bea249219a540461955e30e1",
+      "postimage_sha256": "91def72d45c536fe9a3121d1f78d07434fc6c6fa51be06605c61998f4f10734f",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 627138
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "action": "modified",
+      "preimage_sha256": "786233af842a52953464897f6fb44ba86fd9ad298050f6ffbc03135aef2088d9",
+      "postimage_sha256": "008ad87c4d27160ddebfbe7e692ab10f56e60bc530d37f382f7511be10440d4d",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 972110
+    },
+    {
+      "path": ".devpilot/testing/test_isolation_registry.json",
+      "action": "modified",
+      "preimage_sha256": "aa2dab9836bf760c6e9cdc4ff6fb4f0ccf4cc02615f1cbdfa7a3c011e812ab47",
+      "postimage_sha256": "b12df0719406b0701859809f64b4938e98afda6515219d272b98042ad6fa3bdc",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 3165207
+    },
+    {
+      "path": "02_PROMPT_DEVPL_GSDLC_09_B_v1_0_1_REBOUND_REPO408.md",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "5c13d5cd6a3f72341405df7810565dbf8aaa15fc0327cd504b5f537b7b79d642",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 3286
+    },
+    {
+      "path": "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_2_APPROVED_REBOUND_REPO408.md",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "6d684c57da19c67d713b9a18d2d5e742c8bca51548eef02560ccb1e1c62ae86d",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 21099
+    },
+    {
+      "path": "README.md",
+      "action": "modified",
+      "preimage_sha256": "b7b8d47749b088171ecdf733e68360d3b010750dc0aa02df2b05c14eb3e47cc5",
+      "postimage_sha256": "1970b8b65604f2164108dddf2a6509ea121d554929ee020304986ee96d109eff",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 459430
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "action": "modified",
+      "preimage_sha256": "011274cb166590f06dfe950c9acead4adc1142a8d36117555b9f92763c4c60d1",
+      "postimage_sha256": "43d792385ebff289fcf292e6ccb2e5843794142a2f13f8808937dec0a505feaa",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 32830
+    },
+    {
+      "path": "docs/05_operations/runbook.md",
+      "action": "modified",
+      "preimage_sha256": "9a9ce2f19a76c63c2b27d7275dedc0a84c018a4d6f731e1edf9e94e17d21e09b",
+      "postimage_sha256": "a2738c942759be2af2621e4a3f8ac98855d5cc2dfe6478ab559c24f5f21f4e2e",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 557898
+    },
+    {
+      "path": "docs/07_interfaces/openapi_v1.json",
+      "action": "modified",
+      "preimage_sha256": "4e04def609537276b9a0702b94da0e18fb345455de4d586f179af40e2c0435e0",
+      "postimage_sha256": "1b33279a24c347157df01978da71beb10a5fa94622f94eec8e72162170f4f355",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 608919
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_BROWSER_COMPONENT_QUALIFICATION.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "15fcb92a3cfe0aaa225e864eedfee33638edba6a33abd997606f445427aebae2",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 1387
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_CODE_WORKBENCH_SECURITY_REPORT.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "57a6f0761a8c32a44a9c5a48b68abda7acc357d1b65a067bd17b62fae61575ed",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 1650
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_CONTRACT_RECONCILIATION_SWEEP.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "777ba6c6b22dccc7f6bac19e8d8a932f4283099792dff032b13ce7312ba6442a",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 2362
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_FULL_REGRESSION_WAIVER.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "f94538ca6d6251cdea20267de118e1a097c737afa587f32c4ffb24d89176a969",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 1773
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "08c836d7305513d99fb52d3eafb8e5e7361458b127d58f47663939e895800761",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 2518
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_IMPLEMENTATION_REPORT.md",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "de8d94db5499228393f8ced416e1d158e622ecc76992ba16f2512166b56e111a",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 3555
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_OWNER_ADJUDICATION_PROPOSAL.md",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "26d33fe18a4ed70307f30cbe083bb8ca5beb33c8f3e2a13408c26ecbb53b4722",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 1329
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_09_B_TEST_IMPACT.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "d4c2130eda10422cbec5c86c887e6d6e490ee132515600595423f9496f904c06",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 3163
+    },
+    {
+      "path": "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "7d8bebad26da76ec3cb2406e439990b4b1855903426e3e4a0019a1a25c5d5534",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 2207
+    },
+    {
+      "path": "docs/schemas/gsdlc_09_b_source_policy.schema.json",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "337c8c9d6dccc247d612b67f6e7f8aaba3aaa0e61d094c39e24df361c6128ffc",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 1686
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "action": "modified",
+      "preimage_sha256": "872a1b04511e3ae32b36df3e10de7fe56a906c45bb0dca45dd1a987515412435",
+      "postimage_sha256": "650e12dfee84acf9dc8069e5213179efeb419df46cbcee6aff08993ca8891e3d",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 179003
+    },
+    {
+      "path": "scripts/devpl_gsdlc_09_b_browser_acceptance.py",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "90d0c8ca2799fac7b5f6688c4bfd4138ee9957d91faf5e360402ee133593b797",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 8938
+    },
+    {
+      "path": "scripts/devpl_gsdlc_09_b_browser_api.py",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "3f2f1bec08da27204661f464d69ccfd5657d7cac7c1b141ed0a63fb0357b7cbf",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 1309
+    },
+    {
+      "path": "scripts/devpl_gsdlc_09_b_browser_fixture.py",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "e8a4548480463ed3d2006f903cea8ae523aca76b6ef06374d44874e0b09991f7",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 2627
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "action": "modified",
+      "preimage_sha256": "07a92d5ee347cd97408454aec8ee421c18dfaa83a4b7fde72e4605997be5f273",
+      "postimage_sha256": "c61557523172ecdcf9e989ba1bbadf5bb7154edcd885514592bf08a86c43fc3b",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 190530
+    },
+    {
+      "path": "src/devpilot_core/code_workbench/__init__.py",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "123b78845bba458b9a8bd6ddc439b1e8f939c4a450fa0191e39e11161d3399fd",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 100
+    },
+    {
+      "path": "src/devpilot_core/code_workbench/service.py",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "b31c2e91d88fc21ad5e983668a8776b8c05988606fa9c490580a680836620a00",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 21496
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/app.py",
+      "action": "modified",
+      "preimage_sha256": "41948d4d7a28631e27f46ae36aa4efe433c20463d51e8ebc80690ea417984b3d",
+      "postimage_sha256": "70e9df8233a81000b414a64689291ea9899271ab746868b0fa6f96a595a7aaa1",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 22615
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/contracts.py",
+      "action": "modified",
+      "preimage_sha256": "a946d9d416e556d562622bf3e39805764c6e46526116ab7d537a18a113f506da",
+      "postimage_sha256": "8fe5a3a6913210e987a8608273429ce6775c46530b70b7106e7ccd395b985ef0",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 18656
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/story_code.py",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "229788929fe11a1c6406bc92ba2a50b144636ad1a0d379da10980f1289e8117c",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 5095
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/security.py",
+      "action": "modified",
+      "preimage_sha256": "82c7f035344688362ea5d7e698fce9c45f1097c222c244f6d6cb21aab8ab024c",
+      "postimage_sha256": "7c8c4636f64302f2319329cee2e39dfb22964adf7b0fa1c6c5b7542d6e8266b9",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 51175
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "bdd186f07610c1ff76784e213aa00edd8f121649a0bb1dadd79d44c1d3983062",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 10713
+    },
+    {
+      "path": "ui/web/package.json",
+      "action": "modified",
+      "preimage_sha256": "3947a2f33ef78d3f232264e2724193d7c30023670c7552cd1ebf556be055c76f",
+      "postimage_sha256": "5a4afbb7ec54bdc1a1c5c38d42eae9faa4fe8adfd57cd62ba186c39ac5463c4f",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 17683
+    },
+    {
+      "path": "ui/web/scripts/gsdlc09b-code-workbench-smoke.mjs",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "612049a8ce0ed31a042bb21d318398e7137e5b8f118b02fa1d408efcdf60760f",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 908
+    },
+    {
+      "path": "ui/web/src/api/client.ts",
+      "action": "modified",
+      "preimage_sha256": "d500bed35a145ba7980cc02c15c733d6a345fd7dd4cdfabe92cdbda2290184f2",
+      "postimage_sha256": "558210af9d08341591f2040805ca73ce26daaa9e4981f3b285a175c7de6c08d2",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 66486
+    },
+    {
+      "path": "ui/web/src/main.ts",
+      "action": "modified",
+      "preimage_sha256": "5f1dc538796820475c7ea13a1106eac9d2cd6e9fd119c064a9ef2b9dd949c3a0",
+      "postimage_sha256": "e178dbd64a7b141c3d890a1e1f85597f675ec944150b597f220136e44aa68fd6",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 15963
+    },
+    {
+      "path": "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+      "action": "added",
+      "preimage_sha256": null,
+      "postimage_sha256": "cd2bd921994ffb1e1e38772a4fc707cce64e1b228f17c565e6393db4c15612a3",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 9099
+    },
+    {
+      "path": "ui/web/src/styles.css",
+      "action": "modified",
+      "preimage_sha256": "6deadd8aa4d6b9f43311836380404cd4cc28d6bfb5ec9185f437aa709676cb26",
+      "postimage_sha256": "e02590fe9a9afb82f53e52fd22e33eb9156aea23a978363e0ac4bc79018816d8",
+      "hash_domain": "utf8-lf-semantic-v1",
+      "postimage_size": 64530
+    }
+  ],
+  "manifest_note": "This manifest is intentionally outside its own hash-entry domain; bundle_implementation_paths_total includes this file."
+}

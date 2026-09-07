@@ -1,3 +1,7 @@
+## DEVPL-GSDLC-09-B — Code Workbench — local qualification candidate
+
+GSDLC-09-B is implemented on `repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip`. It adds a bounded source tree, opaque-id text viewer/editor and runtime-only `SourceDraftBuffer` for CREATE/EDIT/RENAME. The workbench performs **zero source apply**; `SourceChangePlan`/approval/atomic apply remain 09-C. Backend/security focal is 8/8 PASS, UI static contract PASS and local Chromium component acceptance is 7/7 PASS. Windows live browser remains mandatory before closure. Full Regression=0 under the FRX-v2.4 A-D cadence.
+
 ## DEVPL-GSDLC-09-A — StoryExecutionState and StoryContextPack — Windows closure
 
 GSDLC-09-A closes `CLOSED/PASS/WINDOWS-VALIDATED` only after the staged Windows operator first closes/promotes the governance-only GSDLC-09 activation from repo406 to repo407 and then reproduces the 09-A focal/bounded/gates/guard qualification without Full Regression or browser. The successor candidate is `repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-09-B becomes authorized but is not implemented by this closure. Story execution remains read-only with respect to source: context candidates have `write_authority=false`, runtime state remains under `outputs/story_execution/gsdlc_09_a`, full=0 and browser=0.

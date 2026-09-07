@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
+  "title": "GSDLC-09-B SourceDraftBuffer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id","schema_version","draft_id","workspace_id","story_execution_id","operation","source","target_path","content","content_sha256","revision_sha256","status","created_at_utc","updated_at_utc","actor","actor_role","safety"],
+  "properties": {
+    "schema_id": {"const":"SCHEMA-DEVPL-GSDLC-09-B-SOURCE-DRAFT-BUFFER-V1"},
+    "schema_version": {"const":"1.0.0"},
+    "draft_id": {"type":"string","pattern":"^source-draft-[0-9a-f]{24}$"},
+    "workspace_id": {"type":"string","minLength":1},
+    "story_execution_id": {"type":"string","minLength":1},
+    "operation": {"enum":["CREATE","EDIT","RENAME"]},
+    "source": {
+      "type":"object","additionalProperties":false,
+      "required":["source_id","relative_path","sha256"],
+      "properties":{"source_id":{"type":["string","null"]},"relative_path":{"type":["string","null"]},"sha256":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"}}
+    },
+    "target_path": {"type":"string","minLength":1},
+    "content": {"type":"string"},
+    "content_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "revision_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "status": {"enum":["DRAFT","CONFLICT"]},
+    "created_at_utc": {"type":"string","minLength":1},
+    "updated_at_utc": {"type":"string","minLength":1},
+    "actor": {"type":"string","minLength":1},
+    "actor_role": {"enum":["owner","developer"]},
+    "safety": {
+      "type":"object","additionalProperties":false,
+      "required":["source_mutations_performed","apply_enabled","shell_enabled","path_guard_passed","secret_scan_passed","runtime_only","network_used","external_api_used"],
+      "properties": {
+        "source_mutations_performed":{"const":false},"apply_enabled":{"const":false},"shell_enabled":{"const":false},"path_guard_passed":{"const":true},"secret_scan_passed":{"const":true},"runtime_only":{"const":true},"network_used":{"const":false},"external_api_used":{"const":false}
+      }
+    }
+  }
+}

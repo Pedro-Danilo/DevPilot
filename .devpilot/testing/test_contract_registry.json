@@ -13445,6 +13445,49 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_a_story_execution_context.py"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-b-code-workbench",
+      "scope": "feature",
+      "owner": "DEVPL-GSDLC-09-B",
+      "phase": "DEVPL-GSDLC-09",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "validates": [
+        "bounded source tree and opaque ids",
+        "runtime-only CREATE/EDIT/RENAME SourceDraftBuffer",
+        "source preimage/external edit conflict",
+        "path/binary/oversize/secret/role fail-closed",
+        "API/RBAC no-apply contract",
+        "browser-visible draft-only UI"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/code_workbench/",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/application/services.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        ".devpilot/code_workbench/source_policy.json",
+        "docs/schemas/gsdlc_09_b_source_policy.schema.json",
+        "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        "docs/audits/DEVPL_GSDLC_09_B_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_B_SOURCE_DELTA_MANIFEST.json",
+        "02_PROMPT_DEVPL_GSDLC_09_B_v1_0_1_REBOUND_REPO408.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_2_APPROVED_REBOUND_REPO408.md",
+        "scripts/devpl_gsdlc_09_b_browser_acceptance.py",
+        "scripts/devpl_gsdlc_09_b_browser_api.py",
+        "scripts/devpl_gsdlc_09_b_browser_fixture.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ]
     }
   ],
   "contracts_total": 322,
