@@ -1,0 +1,38 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-ACTIVATION-HISTORICAL-CONTRACT-SWEEP-V1",
+  "version": "1.0.0",
+  "status": "PASS",
+  "owner": "DEVPL-GSDLC-09-activation",
+  "classifications": [
+    {
+      "subject": "repo404 GSDLC-08 closure",
+      "authority": "historical-freeze",
+      "action": "preserve"
+    },
+    {
+      "subject": "repo406 FRX-v2.4 closure",
+      "authority": "current-active",
+      "action": "bind-as-activation-source"
+    },
+    {
+      "subject": "FRX-v2.4 execution profile",
+      "authority": "current-active",
+      "action": "bind-profile-id-only"
+    },
+    {
+      "subject": "GSDLC-09 backlog repo404 frontmatter",
+      "authority": "successor-needed",
+      "action": "materialize-repo406-rebound"
+    },
+    {
+      "subject": "runtime stores auth.db*/devpilot.db*",
+      "authority": "runtime-ephemeral",
+      "action": "exclude"
+    }
+  ],
+  "unclassified_total": 0,
+  "historical_current_leakage_total": 0,
+  "source_mutations_performed": false,
+  "full_regression_runs": 0,
+  "browser_runs": 0
+}

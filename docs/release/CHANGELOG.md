@@ -1,3 +1,10 @@
+## 2026-09-06 — DEVPL-GSDLC-09 activation/rebind (pre-Windows)
+
+- Rebound current execution authority from repo404 design baseline to Windows-validated repo406 after FRX-v2.4 closure.
+- Bound `frx-v2.4-current` profile-id-only policy for future backlog-closing Full Regression.
+- Added activation report, historical authority sweep and owner adjudication proposal.
+- No functional source mutation; full=0; browser=0; network/external API=0.
+
 ## 2026-09-03 — FRX-v2.3-E one-full selective/composite recovery corrective
 
 - Preserves the authoritative one-full Windows result unchanged: `2909/2909` accounted, `2839 PASS`, `63 FAIL`, `2 ERROR`, `5 SKIP`, `full_runs=1/1`, `second_full=false`.

@@ -578,3 +578,8 @@ GSDLC-08 closes `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` on `repo_DevP
 ### Final closure reconciliation note — 2026-09-05
 
 A post-package audit detected stale `current-active` fields in `.devpilot/project_state.json` even though the composite recovery, browser acceptance, exact retest, bounded impact, Historical Regression Guard, local/remote promotion and repo403 packaging had passed. The authoritative closure is therefore ratified only after the final Windows reconciliation successor `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip` aligns Project State, Source Registry and current documentation without running browser/full again.
+
+## 2026-09-06 — GSDLC-09 activation/rebind after FRX-v2.4
+
+FRX-v2.4 is `CLOSED/PASS/WINDOWS-VALIDATED` and the execution authority for DEVPL-GSDLC-09 is rebound to `repo_DevPilot_Local_406_FRX_V2_4_B_EXECUTION_PROFILE_LOCK_WINDOWS_VALIDATED_CANDIDATE.zip` / `6b8a9a5feef65860826904444f651421abad282a` / SHA-256 `59c40713182b84655315773654e49adf95419ceb517ec9496929252fba33b191`. The mandatory Full Regression policy is the current profile `frx-v2.4-current`; operators may not configure FRX low-level knobs. Activation is governance-only (`full=0`, `browser=0`) and authorizes GSDLC-09-A only after Windows PASS.
+

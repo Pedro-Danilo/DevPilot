@@ -1,0 +1,35 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-ACTIVATION-REBIND-REPORT-V1",
+  "version": "1.0.0",
+  "status": "PASS",
+  "source_repo": "repo_DevPilot_Local_406_FRX_V2_4_B_EXECUTION_PROFILE_LOCK_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "6b8a9a5feef65860826904444f651421abad282a",
+  "source_repo_sha256": "59c40713182b84655315773654e49adf95419ceb517ec9496929252fba33b191",
+  "ancestry": {
+    "status": "PASS/WINDOWS-EVIDENCE",
+    "base_repo404_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
+    "frx_v2_4_a_close_commit": "10acf1864864f1954d07abb8c913a765795fcd9c",
+    "frx_v2_4_b_close_commit": "6b8a9a5feef65860826904444f651421abad282a",
+    "promotion_mode": "fast-forward/no-force"
+  },
+  "preconditions": {
+    "gsdlc_08": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
+    "frx_v2_4": "CLOSED/PASS/WINDOWS-VALIDATED"
+  },
+  "frx_execution_profile": {
+    "profile_id": "frx-v2.4-current",
+    "profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219",
+    "binding": "mandatory-current-active/profile-id-only"
+  },
+  "functional_mutation": false,
+  "src_changed_by_activation": false,
+  "browser_runs": 0,
+  "full_regression_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "backlog": "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_1_APPROVED_REBOUND_REPO406.md",
+  "next_micro_sprint": "DEVPL-GSDLC-09-A",
+  "windows_validation": "CLOSED/PASS",
+  "successor_repo": "repo_DevPilot_Local_407_DEVPL_GSDLC_09_ACTIVATION_REBIND_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_09_a_authorized": true
+}
