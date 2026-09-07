@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-09-A-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-09-A — StoryExecutionState and StoryContextPack — implementation report"
-status: "implemented/local-qualified/windows-pending"
+status: "closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-06"
-approval: "local-qualification"
+approval: "windows-evidence-gated"
 ---
 
 # DEVPL-GSDLC-09-A — Implementation report
@@ -53,3 +53,6 @@ Primera versión del execution context por story. No crea drafts de source, no c
 PASS si una story sin DoR no puede iniciar, el pack es completo/trazable/minimizado, los hashes son deterministas, no contiene secretos/runtime stores, Project Status proyecta el current story y los gates deterministas cierran sin S0/S1.
 
 BLOCK ante DoR incompleto, transición inválida, stale preimage, secret/runtime/path escape, drift de contexto, source mutation no autorizada o contrato histórico que consulte current mutable.
+## Windows closure result
+After the staged Windows operator reproduces activation PASS and the 09-A qualification, the close overlay sets `GSDLC-09-A=CLOSED/PASS/WINDOWS-VALIDATED`, authorizes 09-B and points current authority to repo408. Runtime Git commit IDs, ZIP SHA-256 values and promotion receipts remain external Windows evidence and are not fabricated into source. The close preserves focal 10/10, bounded cumulative 85/85, deterministic gates PASS, Historical Regression Guard PASS under the approved no-full waiver, S0/S1=0, full=0 and browser=0.
+

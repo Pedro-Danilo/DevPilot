@@ -3330,4 +3330,10 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - DEVPL-FRX-v2.4 closes without consuming a full regression (`0`) or browser run (`0`).
 - The current Full Regression profile lock and mandatory preflight become the authority for later legitimate backlog-closing fulls.
 - GSDLC-09 activation/rebind becomes authorized; this closure does not implement GSDLC-09.
+## 2026-09-06 — DEVPL-GSDLC-09-A Windows closure
+
+- GSDLC-09-A closes `CLOSED/PASS/WINDOWS-VALIDATED` after staged activation/repo407 and bounded Windows qualification.
+- StoryExecutionState, deterministic DoR, minimized/provenance-bound StoryContextPack and read-only Project Status `current_story` are accepted; source writes remain disabled.
+- Focal 10/10 + bounded 85/85 + deterministic gates + Historical Regression Guard PASS; full=0, browser=0, network/external API=0.
+- Canonical successor candidate: `repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-09-B authorized, not implemented.
 

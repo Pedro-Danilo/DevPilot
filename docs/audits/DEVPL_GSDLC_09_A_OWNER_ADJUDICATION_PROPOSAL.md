@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-09-A-OWNER-ADJUDICATION-PROPOSAL"
 title: "DEVPL-GSDLC-09-A — Owner adjudication proposal"
-status: "proposed/local-qualified/windows-pending"
+status: "adjudicated/closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-06"
-approval: "pending-windows-evidence"
+approval: "windows-evidence-gated"
 ---
 
 # DEVPL-GSDLC-09-A — Owner adjudication proposal
@@ -33,3 +33,6 @@ Solo cambiar a `closed/windows-validated` si el operador Windows reproduce focal
 
 ## Siguiente autorización
 `DEVPL-GSDLC-09-B` queda `false` hasta ese cierre Windows.
+## Windows closure adjudication
+The staged operator may materialize this adjudication only after activation/repo407 is PASS and the 09-A focal, bounded, deterministic and historical guards reproduce on Windows. The runtime close commit, package hashes and remote receipt are external evidence. Source records only the resulting authority state: repo408 current, 09-A closed and 09-B authorized.
+

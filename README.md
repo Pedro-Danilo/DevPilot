@@ -1,3 +1,7 @@
+## DEVPL-GSDLC-09-A — StoryExecutionState and StoryContextPack — Windows closure
+
+GSDLC-09-A closes `CLOSED/PASS/WINDOWS-VALIDATED` only after the staged Windows operator first closes/promotes the governance-only GSDLC-09 activation from repo406 to repo407 and then reproduces the 09-A focal/bounded/gates/guard qualification without Full Regression or browser. The successor candidate is `repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-09-B becomes authorized but is not implemented by this closure. Story execution remains read-only with respect to source: context candidates have `write_authority=false`, runtime state remains under `outputs/story_execution/gsdlc_09_a`, full=0 and browser=0.
+
 ## DEVPL-GSDLC-09-A — StoryExecutionState and StoryContextPack — local qualification candidate
 
 GSDLC-09-A is implemented on the activation/rebind successor of repo406. It introduces the strict StoryExecutionState lifecycle, deterministic DoR gate, minimized/provenance-bound StoryContextPack and a read-only Project Status `current_story` projection. Context candidates carry `write_authority=false`; runtime state remains under `outputs/story_execution/gsdlc_09_a`; no source-write/editor/diff/apply/agent coding capability is introduced. The 08-E closure contract is now historical-freeze via an immutable at-close snapshot instead of mutable current GSDLC pointers. Full regression=0 and browser=0; Windows validation is pending and GSDLC-09-B is not yet authorized.
