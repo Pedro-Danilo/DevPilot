@@ -13,7 +13,7 @@
   "deleted_paths_total": 0,
   "full_regression_runs": 0,
   "browser_runs_local_component": 1,
-  "browser_runs_windows_live": 0,
+  "browser_runs_windows_live": 1,
   "network_used": false,
   "external_api_used": false,
   "source_mutations_performed_by_workbench": false,
@@ -238,9 +238,9 @@
       "path": "scripts/devpl_gsdlc_09_b_browser_acceptance.py",
       "action": "added",
       "preimage_sha256": null,
-      "postimage_sha256": "90d0c8ca2799fac7b5f6688c4bfd4138ee9957d91faf5e360402ee133593b797",
+      "postimage_sha256": "9d598f157b808f7bc3e4cb513a88ddc63a37166a9f1ae2a581d2428fefe633fa",
       "hash_domain": "utf8-lf-semantic-v1",
-      "postimage_size": 8938
+      "postimage_size": 15447
     },
     {
       "path": "scripts/devpl_gsdlc_09_b_browser_api.py",
@@ -371,5 +371,11 @@
       "postimage_size": 64530
     }
   ],
-  "manifest_note": "This manifest is intentionally outside its own hash-entry domain; bundle_implementation_paths_total includes this file."
+  "manifest_note": "This manifest is intentionally outside its own hash-entry domain; bundle_implementation_paths_total includes this file. Final Windows closure incorporates the BLOCK-04 acceptance-runner corrective without changing the 45-path Test Impact domain.",
+  "validation_dependency_network_used_windows": true,
+  "windows_browser_runner_corrective": "BLOCK-04/v1.0.5/separate-synthetic-architect+fresh-browser-context+real-login-view+owner-preserved",
+  "manifest_scope": "implementation-and-test-impact-domain-with-browser-runner-corrective-at-windows-close",
+  "closure_state_docs_hash_domain": "separate-close-overlay-not-enumerated-in-45-path-test-impact-domain",
+  "closure_overlay_paths_total": 8,
+  "closure_overlay_note": "The 45-path Test Impact/source-delta domain remains the functional implementation domain. Windows close state/documentation overlays are governed separately. The browser acceptance runner is exceptionally rebound in the close overlay so repo409 cannot retain the known BLOCK-02/BLOCK-03/BLOCK-04 validation-runner defects."
 }

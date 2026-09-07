@@ -1,3 +1,7 @@
+## DEVPL-GSDLC-09-B — Code Workbench — Windows closure
+
+GSDLC-09-B closes `CLOSED/PASS/WINDOWS-VALIDATED` only after Windows reproduces focal 8/8, bounded 86/86, deterministic gates/FRX guard, and a **live browser 7/7** against API/UI running in foreground. The successor candidate is `repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-09-C becomes authorized but is not implemented by this closure. CREATE/EDIT/RENAME remain runtime-only `SourceDraftBuffer`; source apply, shell and terminal remain unavailable. Full Regression=0 and the exactly-one backlog full remains reserved for GSDLC-09-E.
+
 ## DEVPL-GSDLC-09-B — Code Workbench — local qualification candidate
 
 GSDLC-09-B is implemented on `repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip`. It adds a bounded source tree, opaque-id text viewer/editor and runtime-only `SourceDraftBuffer` for CREATE/EDIT/RENAME. The workbench performs **zero source apply**; `SourceChangePlan`/approval/atomic apply remain 09-C. Backend/security focal is 8/8 PASS, UI static contract PASS and local Chromium component acceptance is 7/7 PASS. Windows live browser remains mandatory before closure. Full Regression=0 under the FRX-v2.4 A-D cadence.

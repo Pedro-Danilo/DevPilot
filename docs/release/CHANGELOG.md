@@ -1,3 +1,9 @@
+## 2026-09-07 — DEVPL-GSDLC-09-B Windows closure
+
+- Closes GSDLC-09-B `CLOSED/PASS/WINDOWS-VALIDATED` after live browser 7/7 plus focal/bounded/gates/FRX guard PASS.
+- Promotes `repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip` as current canonical successor and authorizes 09-C without implementing it.
+- Preserves SourceDraftBuffer as runtime-only: no source apply, shell or terminal; Full Regression remains 0 and reserved for 09-E.
+
 ## 2026-09-06 — DEVPL-GSDLC-09-A local qualification candidate
 
 - Adds StoryExecutionState, deterministic DoR and minimized/provenance-bound StoryContextPack.
@@ -3336,4 +3342,17 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - StoryExecutionState, deterministic DoR, minimized/provenance-bound StoryContextPack and read-only Project Status `current_story` are accepted; source writes remain disabled.
 - Focal 10/10 + bounded 85/85 + deterministic gates + Historical Regression Guard PASS; full=0, browser=0, network/external API=0.
 - Canonical successor candidate: `repo_DevPilot_Local_408_DEVPL_GSDLC_09_A_STORY_EXECUTION_CONTEXT_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-09-B authorized, not implemented.
+
+
+## 2026-09-07 — DEVPL-GSDLC-09-B browser-runner Windows corrective
+
+- Preserves the 09-B Code Workbench implementation and bounded qualification; no Full Regression is rerun.
+- Fixes a live-browser acceptance race by waiting for server-loaded source/preimage state instead of the always-present editor textarea.
+- Adds fail-fast UI/API diagnostics, per-`browser_prep_id` evidence isolation and unconditional controlled fixture restoration.
+- The corrected acceptance runner is incorporated into the repo409 closure commit together with the final Source Delta Manifest; 09-C remains only authorized after Windows closure PASS.
+
+### GSDLC-09-B Windows BLOCK-04 browser acceptance corrective
+- Preserves the sole owner during role-negative browser acceptance.
+- Provisions a separate transient architect identity, authenticates it through the real UI LoginView in a fresh browser context, verifies read-only authoring, and removes the synthetic identity after evidence capture.
+- Keeps the 45-path functional/Test Impact domain, source-write prohibition and Full Regression budget unchanged.
 

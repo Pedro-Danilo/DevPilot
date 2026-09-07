@@ -1,7 +1,7 @@
 ---
 doc_id: "DEVPL-GSDLC-09-B-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-09-B — Bounded Code/File Workspace Viewer-Editor — implementation report"
-status: "implemented/local-qualified/windows-pending"
+status: "closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-07"
@@ -49,3 +49,25 @@ Primera versión del editor manual. No aplica cambios al filesystem source y no 
 
 ## PASS/BLOCK
 PASS solo si source real permanece byte/semanticamente sin cambios durante draft, path escape/binary/oversize/secret/rol inválido bloquean, external edit produce conflict, API/RBAC/UI registries son coherentes, browser live Windows pasa y S0/S1=0. BLOCK ante cualquier uncontrolled write, path escape, apply prematuro, terminal/shell o browser live no demostrado.
+
+## Windows closure contract
+
+Status after authoritative Windows validation: `CLOSED/PASS/WINDOWS-VALIDATED`. Closure requires live API/UI browser acceptance `7/7`, focal `8/8`, bounded current `61/61`, bounded historical `25/25`, deterministic gates and Historical Regression Guard PASS, with `full_regression_runs=0`. The Windows operator must preserve source unchanged by Code Workbench drafts and promote repo409 only by Git fast-forward after all evidence is sealed.
+
+## Windows BLOCK-02 corrective incorporated at closure
+
+The first live-browser attempt exposed a synchronization defect in the acceptance runner, not in Code Workbench behavior: the runner waited for a textarea that exists before the asynchronous source/preimage load completes. Bundle v1.0.3 synchronizes on the server-loaded source state and exact preimage, fails fast on UI BLOCK/ERROR, isolates evidence by `browser_prep_id`, captures diagnostic network/UI events and restores the controlled fixture in `finally`. The corrected runner is incorporated into repo409 in the normal closure commit. The 45-path Test Impact domain is unchanged because this runner already belonged to the 09-B delta. No Full Regression is consumed.
+
+
+## Windows BLOCK-03 corrective incorporated at closure
+
+The v1.0.3 live attempt proved the first draft save (HTTP 200), the path-escape negative (HTTP 403) and source restoration, then blocked while preparing the external-edit case because the runner reopened the same source after a prior draft existed. `openSource()` intentionally resets the UI-local draft pointer, while the runtime `SourceDraftBuffer` remains persisted; the backend correctly returned HTTP 409 `GSDLC09B_DRAFT_REVISION_CONFLICT` instead of accepting an unbound overwrite.
+
+Bundle v1.0.4 treats each browser case as an independent draft lifecycle: the source-unchanged draft is discarded before path-escape/external-conflict, the conflict case creates its own fresh draft, and after conflict the controlled external edit is restored, rechecked and the runtime draft is discarded before role-negative validation. `browser-prep` remains the authoritative attempt reset and recreates both browser workspace and transient auth state. No functional 09-B source behavior changes and no Full Regression is consumed.
+
+The v1.0.4 runner also validates the authenticated session roles immediately before the role-negative UI check, so a stale owner/developer session cannot create a false PASS for disabled authoring.
+
+## Windows BLOCK-04 corrective incorporated at closure
+
+The v1.0.4 live attempt reached 6/7 PASS and restored the source, then timed out only in the role-negative UI case. The runner had demoted the sole `local-owner` to `architect`, causing `owner_exists()` to become false and `/auth/bootstrap/status` to correctly enter First Run. v1.0.5 preserves the owner, provisions a separate synthetic architect in the transient auth store using the established synthetic-identity pattern, authenticates it through the real LoginView in a fresh BrowserContext, verifies architect-only session authority and disabled draft authoring, captures `05_role_negative_read_only.png`, and removes the synthetic identity before completion. No functional Code Workbench behavior changes and no Full Regression is consumed.
+
