@@ -60,6 +60,7 @@ def test_04_project_status_ui_renders_current_story_status(workspace: Path) -> N
     text=(ROOT/'ui/web/src/pages/ProjectStatusView.ts').read_text(encoding='utf-8')
     assert 'project-status-current-story' in text and 'data.currentStoryStatus' not in text
     assert 'current?.status' in text and 'Current story' in text
+    assert 'data.project_status?.planning' in text and 'planningClosure.current_story = currentStory' in text
 
 def test_05_full_regression_profile_is_current_and_one_run_only() -> None:
     import json

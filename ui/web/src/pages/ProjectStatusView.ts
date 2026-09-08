@@ -38,7 +38,10 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     const [response, planning] = await Promise.all([api.projectStatus(), api.planningClosure()]);
     const data = response.data;
     const statePanel = renderState(data);
-    const planningPanel = renderPlanningJourney((planning.data as any).planning_closure ?? {});
+    const planningClosure = { ...(((planning.data as any).planning_closure ?? {}) as Record<string, any>) };
+    const currentStory = ((data.project_status?.planning as any)?.current_story ?? null) as Record<string, any> | null;
+    planningClosure.current_story = currentStory;
+    const planningPanel = renderPlanningJourney(planningClosure);
     const advisorMount = document.createElement('div');
     advisorMount.className = 'step-action-advisor-mount';
     advisorMount.setAttribute('aria-live', 'polite');

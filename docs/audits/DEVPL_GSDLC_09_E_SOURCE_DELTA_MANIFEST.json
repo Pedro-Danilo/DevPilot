@@ -88,7 +88,7 @@
     {
       "change_type": "create",
       "path": "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
-      "postimage_semantic_sha256": "a97368a5652e4ea4f29cdfd3c31876af2b2bb8c949cc8323e73571c542649252",
+      "postimage_semantic_sha256": "3a88294b87fddfd95acb931913ae8fce36d480f8b22e91db5e9ab713e1c08bc7",
       "preimage_semantic_sha256": null
     },
     {
@@ -124,13 +124,13 @@
     {
       "change_type": "create",
       "path": "tests/test_devpl_gsdlc_09_e_story_closure.py",
-      "postimage_semantic_sha256": "ee471b1d7423f58d872fe9e326bc98ea1a10ddc7305ce85f395dc0009defd447",
+      "postimage_semantic_sha256": "6b0387ef4ccb9a082b3e92ca53f9b4ba8cc7d1c6f416d7e60c2f15251cc1d1b7",
       "preimage_semantic_sha256": null
     },
     {
       "change_type": "modify",
       "path": "ui/web/src/pages/ProjectStatusView.ts",
-      "postimage_semantic_sha256": "2a7cffa812f335fb43486dc69614f43402d782b618c0f886f3460d7320f646df",
+      "postimage_semantic_sha256": "791070252b01d11ce5368cfba00f3cfe9ad0f176c9f1d080077f469938f3ece0",
       "preimage_semantic_sha256": "1c494f016b7fe298551edc02958e632015aba9d156052b2420e4782f425dec88"
     }
   ],
