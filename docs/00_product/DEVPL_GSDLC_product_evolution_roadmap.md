@@ -594,3 +594,6 @@ Bounded manual Code Workbench is implemented on repo408 with source-tree contain
 ## 2026-09-08 — GSDLC-09-C local qualification
 
 On repo409, Story Code Workbench gains immutable `SourceChangePlan`, full diff/Test Impact/risk, owner approval, preimage revalidation, bounded all-or-nothing source apply and separately approved rollback. UOC-005 source-write history is frozen with a dedicated snapshot rather than pinning current API registry cardinality. Local focal/fault-injection and FRX authority pass; `full=0`. Windows live browser remains the closure authority and 09-D is not yet authorized.
+
+## 2026-09-08 — GSDLC-09-C CLOSED/PASS/WINDOWS-VALIDATED
+09-C cierra con SourceChangePlan, diff/Test Impact, owner approval, atomic apply y rollback. 09-D queda autorizado. Full Regression=0.

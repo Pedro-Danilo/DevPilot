@@ -3363,3 +3363,7 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - Provisions a separate transient architect identity, authenticates it through the real UI LoginView in a fresh browser context, verifies read-only authoring, and removes the synthetic identity after evidence capture.
 - Keeps the 45-path functional/Test Impact domain, source-write prohibition and Full Regression budget unchanged.
 
+
+## DEVPL-GSDLC-09-C — Windows validated
+- Added immutable SourceChangePlan, full diff/Test Impact preview, owner approval, stale-preimage revalidation, atomic multi-file apply and separate approval-bound rollback.
+- Browser live 7/7, bounded validation PASS, Full Regression=0.

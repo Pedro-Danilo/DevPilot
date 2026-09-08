@@ -11949,3 +11949,6 @@ The activation is an administrative, fail-closed predecessor of GSDLC-09-A. It b
 ## DEVPL-GSDLC-09-C — approval-bound source change local qualification
 
 Execute only from repo409. The source mutation contract is `draft → immutable plan → dry-run → owner approval → preimage revalidation → atomic execute → verify → evidence`; manual rollback requires a separate approval. Browser validation uses exactly three foreground consoles: operator, API:8787, UI:5173. Never use generic patch/shell, agent self-apply, Git stage/commit, runtime DBs in fixtures, or physical CRLF/LF equality as a gate. 09-C uses focal + cumulative impact + Historical Contract Authority + Contract Reconciliation and `full=0`; the single backlog full remains reserved for 09-E.
+
+## GSDLC-09-C — cierre Windows
+El source apply de Story Workbench está Windows-validado como operación tipada approval-bound; 09-D puede añadir propuestas agentic sin heredar autoridad de escritura.

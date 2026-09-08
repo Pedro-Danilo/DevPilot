@@ -35998,7 +35998,7 @@
         "DEVPL-GSDLC-09",
         "DEVPL-GSDLC-09-C"
       ],
-      "status_required": "implemented/local-qualified/windows-pending",
+      "status_required": "closed/pass/windows-validated",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -36025,7 +36025,7 @@
         "DEVPL-GSDLC-09",
         "DEVPL-GSDLC-09-C"
       ],
-      "status_required": "proposed/local-qualified/windows-pending",
+      "status_required": "adjudicated/closed/pass/windows-validated",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -36237,13 +36237,16 @@
   "gsdlc_09_b_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_09_c_bounded_cumulative_status": "PASS/95",
   "gsdlc_09_c_historical_regression_guard": "PASS/WAIVER/5-OF-5",
-  "gsdlc_09_c_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-PENDING",
+  "gsdlc_09_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_09_c_test_impact_status": "PASS/47-PATHS/209-CONTRACTS/317-TESTS/UNMATCHED-0",
+  "gsdlc_09_d_authorized": true,
   "gsdlc_09_status": "APPROVED/ACTIVE",
   "gsdlc_active_program": "DEVPL-GSDLC",
+  "gsdlc_current_micro_sprint": "DEVPL-GSDLC-09-D",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-09-C",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_program_status": "active/GSDLC-09/09-C",
+  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-09-D",
+  "gsdlc_program_status": "active/GSDLC-09/09-D",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",

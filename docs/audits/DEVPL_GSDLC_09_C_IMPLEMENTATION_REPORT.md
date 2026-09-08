@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-09-C-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-09-C — SourceChangePlan, approval-bound atomic apply and rollback — implementation report"
-status: "implemented/local-qualified/windows-pending"
+status: "closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-08"
-approval: "windows-live-browser-evidence-gated"
+approval: "approved_by_owner/windows_live_browser_pass"
 ---
 
 # DEVPL-GSDLC-09-C — Implementation report
@@ -44,7 +44,7 @@ El hecho histórico UOC-005 de exactamente dos source-write routes se congela en
 - UI static contract: `PASS`.
 - 3 JSON Schemas Draft 2020-12: `PASS`.
 - Full Regression: `0`.
-- Browser live Windows: `PENDING/REQUIRED`.
+- Browser live Windows: `PASS/7-of-7`; apply y rollback approval-bound demostrados con source restoration.\n- Windows closure gates: `PASS`; Full Regression permaneció `0`.
 
 ## Riesgos y limitaciones
 Primera versión del source apply de Story Workbench. La atomicidad se implementa como operación all-or-nothing con reemplazos bounded + compensating restore verificado; no es una transacción filesystem nativa. Crash/power-loss fuera del proceso entre writes requiere evolución futura con journal durable. 09-D añadirá propuestas agentic sin heredar write authority.
@@ -67,3 +67,5 @@ El corrective v1.0.2 mantiene el payload funcional y de seguridad de `SourceChan
 
 La corrida `browser_prep_id=d086cd60-29f9-4b63-b2f1-48350f221d3b` permanece evidencia forense `BLOCK`; no se reescribe. El retest debe usar un nuevo `browser_prep_id`.
 
+## Cierre Windows
+`GSDLC-09-C=CLOSED/PASS/WINDOWS-VALIDATED`; `GSDLC-09-D authorized=true`. El repositorio canónico sucesor es `repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip`.
