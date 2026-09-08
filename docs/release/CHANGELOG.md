@@ -1,3 +1,10 @@
+## 2026-09-08 — DEVPL-GSDLC-09-C local qualification
+
+- Adds immutable SourceChangePlan, full diff/Test Impact/risk and owner-approval-bound atomic source apply/rollback on repo409.
+- Adds 11 typed API routes; exactly two source-write routes. Generic patch/shell/agent self-apply remain blocked.
+- Freezes UOC-005 close-time source mutation route set in an immutable historical fixture and makes FRX historical authority successor-safe.
+- Local focal 14/14 + historical authority/freeze 13/13 + UI static/schema contracts PASS; Full Regression=0; Windows live browser pending.
+
 ## 2026-09-07 — DEVPL-GSDLC-09-B Windows closure
 
 - Closes GSDLC-09-B `CLOSED/PASS/WINDOWS-VALIDATED` after live browser 7/7 plus focal/bounded/gates/FRX guard PASS.

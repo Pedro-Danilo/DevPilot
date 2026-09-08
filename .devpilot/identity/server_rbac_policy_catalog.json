@@ -18,7 +18,7 @@
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "DEVPL-GSDLC-09-B",
+  "micro_sprint": "GSDLC-09-C",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -3731,6 +3731,189 @@
       "risk_level": "medium",
       "route_id": "api.story-code.drafts.discard",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.plan",
+      "path": "/api/v1/story/code/change-plans",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-source-change.plan",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.plan.get",
+      "path": "/api/v1/story/code/change-plans/{plan_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.plan.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.recheck",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/recheck",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-source-change.recheck",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.dry-run",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/dry-run",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-source-change.dry-run",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.approval-request",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.approval-request",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.apply",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/apply",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.apply",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.execution.get",
+      "path": "/api/v1/story/code/change-executions/{execution_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.execution.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.rollback-approval-request",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback-approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.rollback-approval-request",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.rollback",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.rollback",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.apply-manifest",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/apply-manifest",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.apply-manifest",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.rollback-evidence",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback-evidence",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.rollback-evidence",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -3965,6 +4148,32 @@
       "original_status": "implemented-initial",
       "risk_level": "high",
       "workspace_scope_required": true
+    },
+    {
+      "action_id": "filesystem.story_source_change_apply",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "legacy_role_resolution": null,
+      "legacy_token_allowed": false,
+      "original_executable": true,
+      "original_status": "implemented-initial",
+      "risk_level": "high",
+      "workspace_scope_required": true
+    },
+    {
+      "action_id": "filesystem.story_source_change_rollback",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "legacy_role_resolution": null,
+      "legacy_token_allowed": false,
+      "original_executable": true,
+      "original_status": "implemented-initial",
+      "risk_level": "high",
+      "workspace_scope_required": true
     }
   ],
   "source_repo": "repo_DevPilot_Local_385_DEVPL_GSDLC_07_D_TOOLS_APPROVALS_LIMITS_HANDOFFS_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -3997,16 +4206,19 @@
     "gsdlc_09_b_authoring_policies_total": 3,
     "gsdlc_09_b_code_workbench_policies_total": 7,
     "gsdlc_09_b_legacy_token_allowed_total": 0,
-    "human_session_required_total": 93,
+    "gsdlc_09_c_legacy_token_allowed_total": 0,
+    "gsdlc_09_c_owner_only_action_policies_total": 4,
+    "gsdlc_09_c_source_change_policies_total": 11,
+    "human_session_required_total": 104,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 169,
-    "sensitive_action_policies_total": 17,
+    "route_policies_total": 180,
+    "sensitive_action_policies_total": 19,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-09-07",
-  "updated_by": "DEVPL-GSDLC-08-E",
+  "updated_by": "DEVPL-GSDLC-09-C",
   "version": "1.6.0",
   "workspace": {
     "cross_workspace_effect": "DENY",

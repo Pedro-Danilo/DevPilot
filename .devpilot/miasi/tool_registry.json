@@ -1,614 +1,609 @@
 {
-  "schema_version": "1.0",
-  "source_document": "docs/06_miasi/tool_registry.md",
   "created_by": "FUNC-SPRINT-11",
   "description": "Executable MIASI Tool Registry for deterministic validation. It does not execute tools.",
+  "schema_version": "1.0",
+  "source_document": "docs/06_miasi/tool_registry.md",
   "tools": [
     {
-      "tool_id": "artifact.read",
       "name": "read_artifact",
       "phase": "MVP",
-      "side_effect": "read",
-      "risk_level": "low",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "read",
+      "status": "implemented",
+      "tool_id": "artifact.read"
     },
     {
-      "tool_id": "artifact.frontmatter.validate",
       "name": "validate_frontmatter",
       "phase": "MVP",
-      "side_effect": "none",
-      "risk_level": "low",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_VALIDATE_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "none",
+      "status": "implemented",
+      "tool_id": "artifact.frontmatter.validate"
     },
     {
-      "tool_id": "artifact.structure.validate",
       "name": "validate_artifact_structure",
       "phase": "MVP",
-      "side_effect": "none",
-      "risk_level": "low",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_VALIDATE_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "none",
+      "status": "implemented",
+      "tool_id": "artifact.structure.validate"
     },
     {
-      "tool_id": "checklist.precode.run",
       "name": "run_precode_checklist",
       "phase": "MVP",
-      "side_effect": "none",
-      "risk_level": "low",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_VALIDATE_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "none",
+      "status": "implemented",
+      "tool_id": "checklist.precode.run"
     },
     {
-      "tool_id": "miasi.required",
       "name": "miasi_required",
       "phase": "MVP",
-      "side_effect": "none",
-      "risk_level": "low",
-      "status": "existing",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_VALIDATE_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "none",
+      "status": "existing",
+      "tool_id": "miasi.required"
     },
     {
-      "tool_id": "report.write",
       "name": "write_report",
       "phase": "MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_WRITE_DRAFT_GATED"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "controlled_write",
+      "status": "implemented",
+      "tool_id": "report.write"
     },
     {
-      "tool_id": "trace.append",
       "name": "append_trace_event",
       "phase": "MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_WRITE_DRAFT_GATED"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "controlled_write",
+      "status": "implemented",
+      "tool_id": "trace.append"
     },
     {
-      "tool_id": "document.draft.generate",
       "name": "generate_draft_document",
       "phase": "MVP",
-      "side_effect": "optional_write",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": true,
       "policy_rule_ids": [
         "DOC_WRITE_DRAFT_GATED"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "medium",
+      "side_effect": "optional_write",
+      "status": "implemented",
+      "tool_id": "document.draft.generate"
     },
     {
-      "tool_id": "documentation.audit",
       "name": "audit_documentation",
       "phase": "MVP",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "DOC_VALIDATE_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented",
+      "tool_id": "documentation.audit"
     },
     {
-      "tool_id": "git.status",
       "name": "git_status",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented",
+      "tool_id": "git.status"
     },
     {
-      "tool_id": "git.diff",
       "name": "git_diff",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented",
+      "tool_id": "git.diff"
     },
     {
-      "tool_id": "git.branches",
       "name": "git_branches_read_only",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented",
+      "tool_id": "git.branches"
     },
     {
-      "tool_id": "git.tags",
       "name": "git_tags_read_only",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented",
+      "tool_id": "git.tags"
     },
     {
-      "tool_id": "git.log",
       "name": "git_log_read_only",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented",
+      "tool_id": "git.log"
     },
     {
-      "tool_id": "git.diff_report",
       "name": "git_diff_report_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented",
+      "tool_id": "git.diff_report"
     },
     {
-      "tool_id": "repo.inventory",
       "name": "repo_inventory",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented",
+      "tool_id": "repo.inventory"
     },
     {
-      "tool_id": "repo.dependency_graph",
       "name": "repo_dependency_graph_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "repo.dependency_graph"
     },
     {
-      "tool_id": "repo.analyze",
       "name": "repo_analyze_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "repo.analyze"
     },
     {
-      "tool_id": "repo.architecture_drift",
       "name": "repo_architecture_drift_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "repo.architecture_drift"
     },
     {
-      "tool_id": "repo.quality_gate",
       "name": "repo_quality_gate_dry_run",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "repo.quality_gate"
     },
     {
-      "tool_id": "patch.parse",
       "name": "parse_patch",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented",
+      "tool_id": "patch.parse"
     },
     {
-      "tool_id": "patch.dry_run",
       "name": "patch_dry_run",
       "phase": "MVP+",
-      "side_effect": "simulation",
-      "risk_level": "high",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "simulation",
+      "status": "implemented",
+      "tool_id": "patch.dry_run"
     },
     {
-      "tool_id": "patch.check",
       "name": "patch_preflight_check",
       "phase": "MVP+",
-      "side_effect": "simulation",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_CHECK_DRY_RUN_ALLOW",
         "PATCH_DRY_RUN_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "simulation",
+      "status": "implemented-initial",
+      "tool_id": "patch.check"
     },
     {
-      "tool_id": "patch.sandbox",
       "name": "patch_sandbox_apply_changeset",
       "phase": "MVP+",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_SANDBOX_RUNTIME_ALLOW",
         "PATCH_CHECK_DRY_RUN_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "patch.sandbox"
     },
     {
-      "tool_id": "code.review",
       "name": "code_review",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "CODE_REVIEW_DRY_RUN_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented",
+      "tool_id": "code.review"
     },
     {
-      "tool_id": "refactor.plan",
       "name": "safe_refactor_plan",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_DRY_RUN_ALLOW",
         "AGENT_CRITICAL_TOOL_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented",
+      "tool_id": "refactor.plan"
     },
     {
-      "tool_id": "tests.run",
       "name": "run_tests_controlled",
       "phase": "MVP+",
-      "side_effect": "controlled_execution",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "AGENT_CRITICAL_TOOL_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_execution",
+      "status": "implemented-initial",
+      "tool_id": "tests.run"
     },
     {
-      "tool_id": "model.call.mock",
       "name": "call_mock_model_adapter",
       "phase": "MVP",
-      "side_effect": "none",
-      "risk_level": "low",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_LOCAL_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "none",
+      "status": "implemented",
+      "tool_id": "model.call.mock"
     },
     {
-      "tool_id": "model.call.local",
       "name": "call_local_model_adapters",
       "phase": "MVP+",
-      "side_effect": "local_compute",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_LOCAL_PROVIDER_CONTROLLED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "local_compute",
+      "status": "implemented-initial",
+      "tool_id": "model.call.local"
     },
     {
-      "tool_id": "model.call.external",
       "name": "call_external_model",
       "phase": "MVP+",
-      "side_effect": "network_cost",
-      "risk_level": "high",
-      "status": "disabled",
-      "requires_approval": true,
       "policy_rule_ids": [
         "MODEL_EXTERNAL_DENY",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "network_cost",
+      "status": "disabled",
+      "tool_id": "model.call.external"
     },
     {
-      "tool_id": "policy.check",
       "name": "policy_check",
       "phase": "MVP",
-      "side_effect": "none",
-      "risk_level": "low",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "AGENT_SUGGEST_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "none",
+      "status": "implemented",
+      "tool_id": "policy.check"
     },
     {
-      "tool_id": "rollback.plan",
       "name": "rollback_plan_from_changeset",
       "phase": "MVP+",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "ROLLBACK_PLAN_RUNTIME_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "rollback.plan"
     },
     {
-      "tool_id": "rollback.list",
       "name": "rollback_points_list_read_only",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "ROLLBACK_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "rollback.list"
     },
     {
-      "tool_id": "rollback.show",
       "name": "rollback_point_show_read_only",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "ROLLBACK_READ_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "rollback.show"
     },
     {
-      "tool_id": "rollback.execute",
       "name": "rollback_execute_gated_non_mutating_initial",
       "phase": "MVP+",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "ROLLBACK_EXECUTE_GATED_BLOCKED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "rollback.execute"
     },
     {
-      "tool_id": "refactor.sandbox",
       "name": "refactor_executor_sandbox",
       "phase": "MVP+",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "REFACTOR_SANDBOX_EXECUTE_GATED",
         "ROLLBACK_PLAN_RUNTIME_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "refactor.sandbox"
     },
     {
-      "tool_id": "repo.engineering_gate",
       "name": "repo_engineering_gate_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "ENGINEERING_GATE_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "repo.engineering_gate"
     },
     {
-      "tool_id": "model.health.local",
       "name": "check_local_model_provider_health",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_LOCAL_HEALTH_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "model.health.local"
     },
     {
-      "tool_id": "model.capabilities.read",
       "name": "read_model_capability_matrix",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "low",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_CAPABILITIES_READ_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "model.capabilities.read"
     },
     {
-      "tool_id": "model.budget.status",
       "name": "read_model_budget_ledger_status",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_BUDGET_LEDGER_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "model.budget.status"
     },
     {
-      "tool_id": "prompt.registry.read",
       "name": "read_prompt_registry",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "low",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PROMPT_REGISTRY_READ_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "low",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "prompt.registry.read"
     },
     {
-      "tool_id": "prompt.contract.validate",
       "name": "validate_prompt_contracts",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PROMPT_CONTRACT_VALIDATE_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "prompt.contract.validate"
     },
     {
-      "tool_id": "prompt.render.controlled",
       "name": "render_versioned_prompt_controlled",
       "phase": "MVP+",
-      "side_effect": "local_compute",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PROMPT_RENDER_CONTROLLED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "local_compute",
+      "status": "implemented-initial",
+      "tool_id": "prompt.render.controlled"
     },
     {
-      "tool_id": "model.eval.run",
       "name": "run_local_model_evaluation_matrix",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_EVAL_RUN_ALLOW",
         "MODEL_LOCAL_PROVIDER_CONTROLLED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "model.eval.run"
     },
     {
-      "tool_id": "agent.model.generate",
       "name": "agent_model_generate_via_router",
       "phase": "MVP+",
-      "side_effect": "local_compute",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "AGENT_MODEL_CALL_GOVERNED_ALLOW",
         "MODEL_LOCAL_PROVIDER_CONTROLLED",
         "PROMPT_RENDER_CONTROLLED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "local_compute",
+      "status": "implemented-initial",
+      "tool_id": "agent.model.generate"
     },
     {
-      "tool_id": "agent.repo_analysis.run",
       "name": "run_repo_analysis_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "REPO_ANALYSIS_AGENT_GOVERNED_ALLOW",
         "GIT_READ_ALLOW",
         "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.repo_analysis.run"
     },
     {
-      "tool_id": "agent.code_review.run",
       "name": "run_code_review_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "CODE_REVIEW_AGENT_GOVERNED_ALLOW",
         "CODE_REVIEW_DRY_RUN_ALLOW",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.code_review.run"
     },
     {
-      "tool_id": "agent.patch_review.run",
       "name": "run_patch_review_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_REVIEW_AGENT_GOVERNED_ALLOW",
         "PATCH_DRY_RUN_ALLOW",
@@ -616,741 +611,772 @@
         "PATCH_APPLY_DENY",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.patch_review.run"
     },
     {
-      "tool_id": "agent.safe_refactor.run",
       "name": "run_safe_refactor_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "SAFE_REFACTOR_AGENT_GOVERNED_ALLOW",
         "AGENT_CRITICAL_TOOL_DENY",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.safe_refactor.run"
     },
     {
-      "tool_id": "agent.test_planner.run",
       "name": "run_test_planner_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
         "TESTS_RUN_PLAN_ONLY_ALLOW",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.test_planner.run"
     },
     {
-      "tool_id": "traceability.coverage",
       "name": "traceability_coverage_read",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented",
-      "requires_approval": false,
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented",
+      "tool_id": "traceability.coverage"
     },
     {
-      "tool_id": "agent.requirements.run",
       "name": "run_requirements_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "REQUIREMENTS_AGENT_GOVERNED_ALLOW",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.requirements.run"
     },
     {
-      "tool_id": "agent.architecture.run",
       "name": "run_architecture_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.architecture.run"
     },
     {
-      "tool_id": "agent.security.run",
       "name": "run_security_agent",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
         "SECURITY_REVIEW_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agent.security.run"
     },
     {
-      "tool_id": "architecture.drift",
       "name": "architecture_drift_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "architecture.drift"
     },
     {
-      "tool_id": "secret.scan",
       "name": "secret_scan_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "SECURITY_REVIEW_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "secret.scan"
     },
     {
-      "tool_id": "policy.simulate",
       "name": "policy_simulation_read_only",
       "phase": "MVP+",
-      "side_effect": "local_compute",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
         "SECURITY_REVIEW_READ_ONLY_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "local_compute",
+      "status": "implemented-initial",
+      "tool_id": "policy.simulate"
     },
     {
-      "tool_id": "security.docs.review",
       "name": "security_docs_review_read_only",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "SECURITY_REVIEW_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "security.docs.review"
     },
     {
-      "tool_id": "telemetry.export",
       "name": "telemetry_export_otel_dry_run",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "OTEL_EXPORT_DRY_RUN_ALLOW",
         "OTEL_REMOTE_EXPORT_BLOCK"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "telemetry.export"
     },
     {
-      "tool_id": "agentops.status",
       "name": "agentops_status_quality_gate",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "AGENTOPS_STATUS_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "agentops.status"
     },
     {
-      "tool_id": "release.quality_gate",
       "name": "run_release_quality_gate",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "release.quality_gate"
     },
     {
-      "tool_id": "release.manifest",
       "name": "build_release_manifest",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "release.manifest"
     },
     {
-      "tool_id": "release.changelog",
       "name": "build_release_changelog",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "release.changelog"
     },
     {
-      "tool_id": "release.package",
       "name": "plan_release_package",
       "phase": "MVP+",
-      "side_effect": "report",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "release.package"
     },
     {
-      "tool_id": "release.sbom",
       "name": "build_release_sbom",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "release.sbom"
     },
     {
-      "tool_id": "release.install_plan",
       "name": "build_install_plan",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "release.install_plan"
     },
     {
-      "tool_id": "release.upgrade_check",
       "name": "build_upgrade_check",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "release.upgrade_check"
     },
     {
-      "tool_id": "agent.session.inspect",
       "name": "inspect_agent_session_state",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "AGENT_SESSION_INSPECT_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "agent.session.inspect"
     },
     {
-      "tool_id": "rag.index",
       "name": "build_local_lexical_rag_index",
       "phase": "MVP+",
-      "side_effect": "controlled_write",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RAG_INDEX_LOCAL_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "rag.index"
     },
     {
-      "tool_id": "rag.query",
       "name": "query_local_lexical_rag_index",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RAG_QUERY_LOCAL_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "rag.query"
     },
     {
-      "tool_id": "connector.validate",
       "name": "validate_connector_registry",
       "phase": "MVP+",
-      "side_effect": "none",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "CONNECTOR_REGISTRY_VALIDATE_ALLOW",
         "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "connector.validate"
     },
     {
-      "tool_id": "connector.discover",
       "name": "discover_registered_connector_metadata",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium_high",
-      "status": "planned",
-      "requires_approval": false,
       "policy_rule_ids": [
         "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "read",
+      "status": "planned",
+      "tool_id": "connector.discover"
     },
     {
-      "tool_id": "connector.call",
       "name": "call_governed_read_only_connector",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "CONNECTOR_CALL_READ_ONLY_ALLOW",
         "CONNECTOR_REGISTRY_VALIDATE_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "connector.call"
     },
     {
-      "tool_id": "connector.local_docs.list",
       "name": "list_local_docs_connector_sources",
       "phase": "MVP+",
-      "side_effect": "read",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "CONNECTOR_CALL_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "connector.local_docs.list"
     },
     {
-      "tool_id": "multiagent.coordinator.run",
       "name": "multiagent_coordinator_run",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
         "MULTIAGENT_EXECUTE_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "multiagent.coordinator.run"
     },
     {
-      "tool_id": "multiagent.handoff",
       "name": "multiagent_handoff_trace",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "multiagent.handoff"
     },
     {
-      "tool_id": "multiagent.workflow.run",
       "name": "multiagent_workflow_run",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
         "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
         "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "multiagent.workflow.run"
     },
     {
-      "tool_id": "eval.safety.run",
       "name": "run_advanced_agentic_safety_evals",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "EVAL_SAFETY_SCORING_ALLOW",
         "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "eval.safety.run"
     },
     {
-      "tool_id": "plugin.registry.validate",
       "name": "validate_plugin_registry",
       "phase": "Post-MVP",
-      "side_effect": "none",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PLUGIN_METADATA_READ_ALLOW",
         "PLUGIN_DRY_RUN_ONLY_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "plugin.registry.validate"
     },
     {
-      "tool_id": "plugin.loader.dry_run",
       "name": "plugin_loader_metadata_dry_run",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PLUGIN_DRY_RUN_ONLY_ALLOW",
         "PLUGIN_CONNECTOR_BINDING_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "plugin.loader.dry_run"
     },
     {
-      "tool_id": "workspace.registry.validate",
       "name": "validate_multiworkspace_registry",
       "phase": "Post-MVP",
-      "side_effect": "none",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
         "MULTIWORKSPACE_ISOLATION_REQUIRED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "workspace.registry.validate"
     },
     {
-      "tool_id": "workspace.registry.register",
       "name": "register_local_workspace_metadata",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
         "MULTIWORKSPACE_ISOLATION_REQUIRED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "workspace.registry.register"
     },
     {
-      "tool_id": "workspace.registry.select",
       "name": "select_active_workspace_metadata",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
         "MULTIWORKSPACE_ISOLATION_REQUIRED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "workspace.registry.select"
     },
     {
-      "tool_id": "portfolio.status",
       "name": "portfolio_status_read_only",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
         "MULTIWORKSPACE_ISOLATION_REQUIRED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "portfolio.status"
     },
     {
-      "tool_id": "identity.current",
       "name": "identity_current_local_actor",
       "phase": "Post-MVP",
-      "side_effect": "read",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "IDENTITY_READ_LOCAL_ALLOW",
         "REMOTE_AUTH_DENY",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "identity.current"
     },
     {
-      "tool_id": "identity.roles",
       "name": "identity_roles_local_rbac",
       "phase": "Post-MVP",
-      "side_effect": "read",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "IDENTITY_READ_LOCAL_ALLOW",
         "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "identity.roles"
     },
     {
-      "tool_id": "identity.rbac.check",
       "name": "identity_rbac_check_sensitive_action",
       "phase": "Post-MVP",
-      "side_effect": "none",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
         "APPROVAL_ACTOR_BINDING_REQUIRED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "identity.rbac.check"
     },
     {
-      "tool_id": "auditpack.build",
       "name": "build_local_audit_pack",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "AUDIT_PACK_BUILD_LOCAL_ALLOW",
         "AUDIT_PACK_SECRET_EXPORT_DENY",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "auditpack.build"
     },
     {
-      "tool_id": "auditpack.verify",
       "name": "verify_local_audit_pack",
       "phase": "Post-MVP",
-      "side_effect": "read",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
         "AUDIT_PACK_SECRET_EXPORT_DENY",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "auditpack.verify"
     },
     {
-      "tool_id": "compliance.list",
       "name": "list_local_compliance_packs",
       "phase": "Post-MVP",
-      "side_effect": "read",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "COMPLIANCE_PACK_READ_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "read",
+      "status": "implemented-initial",
+      "tool_id": "compliance.list"
     },
     {
-      "tool_id": "compliance.run",
       "name": "run_declarative_compliance_pack",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
         "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
         "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "compliance.run"
     },
     {
-      "tool_id": "remote.runner.status",
       "name": "remote_runner_experimental_status",
       "phase": "Post-MVP",
-      "side_effect": "none",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "REMOTE_RUNNER_STATUS_ALLOW",
         "REMOTE_RUNNER_EXECUTE_DENY",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "remote.runner.status"
     },
     {
-      "tool_id": "enterprise.report",
       "name": "build_local_enterprise_report",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
         "REMOTE_RUNNER_EXECUTE_DENY",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "enterprise.report"
     },
     {
-      "tool_id": "industrial.readiness.check",
       "name": "run_industrial_readiness_gate",
       "phase": "Post-MVP",
-      "side_effect": "report",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "INDUSTRIAL_READINESS_LOCAL_ALLOW",
         "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
         "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "high",
+      "side_effect": "report",
+      "status": "implemented-initial",
+      "tool_id": "industrial.readiness.check"
     },
     {
-      "tool_id": "test.contracts.validate",
       "name": "validate_test_contract_registry",
       "phase": "Post-MVP",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "test.contracts.validate"
     },
     {
-      "tool_id": "project.state.validate",
       "name": "validate_project_global_state",
       "phase": "Post-MVP",
-      "side_effect": "none",
-      "risk_level": "medium",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "project.state.validate"
     },
     {
-      "tool_id": "test.impact.analyze",
       "name": "analyze_test_impact_conservative",
       "phase": "Post-MVP",
-      "side_effect": "none",
-      "risk_level": "medium_high",
-      "status": "implemented-initial",
-      "requires_approval": false,
       "policy_rule_ids": [
         "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
         "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": false,
+      "risk_level": "medium_high",
+      "side_effect": "none",
+      "status": "implemented-initial",
+      "tool_id": "test.impact.analyze"
     },
     {
-      "tool_id": "workspace.edit.apply",
       "name": "apply_approved_workspace_document_edit",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "WORKSPACE_DOCUMENT_APPLY_APPROVAL_GATED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "workspace.edit.apply"
     },
     {
-      "tool_id": "workspace.edit.rollback",
       "name": "rollback_approved_workspace_document_edit",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "WORKSPACE_DOCUMENT_ROLLBACK_APPROVAL_GATED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "workspace.edit.rollback"
     },
     {
-      "tool_id": "git.workspace.stage",
       "name": "stage_approved_workspace_documents",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "WORKSPACE_GIT_STAGE_APPROVAL_GATED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "git.workspace.stage"
     },
     {
-      "tool_id": "git.workspace.commit",
       "name": "commit_approved_workspace_index",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "WORKSPACE_GIT_COMMIT_APPROVAL_GATED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "git.workspace.commit"
     },
     {
-      "tool_id": "git.workspace.branch_create",
       "name": "create_approved_local_branch_ref",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "git.workspace.branch_create"
     },
     {
-      "tool_id": "project.bootstrap.execute",
       "name": "execute_approved_project_bootstrap_plan",
       "phase": "Post-MVP",
-      "side_effect": "controlled_write",
-      "risk_level": "high",
-      "status": "implemented-initial",
-      "requires_approval": true,
       "policy_rule_ids": [
         "GSDLC03D_BOOTSTRAP_APPROVAL_BOUND",
         "SECRETS_RAW_DENY"
-      ]
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "project.bootstrap.execute"
+    },
+    {
+      "name": "apply_approved_story_source_change",
+      "phase": "Post-MVP",
+      "policy_rule_ids": [
+        "STORY_SOURCE_CHANGE_APPLY_APPROVAL_GATED",
+        "SECRETS_RAW_DENY"
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "story.source-change.apply"
+    },
+    {
+      "name": "rollback_approved_story_source_change",
+      "phase": "Post-MVP",
+      "policy_rule_ids": [
+        "STORY_SOURCE_CHANGE_ROLLBACK_APPROVAL_GATED",
+        "SECRETS_RAW_DENY"
+      ],
+      "requires_approval": true,
+      "risk_level": "high",
+      "side_effect": "controlled_write",
+      "status": "implemented-initial",
+      "tool_id": "story.source-change.rollback"
     }
   ]
 }

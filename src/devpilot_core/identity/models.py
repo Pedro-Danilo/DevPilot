@@ -41,6 +41,8 @@ ACTION_PERMISSION_MAP = {
     "rm": "filesystem.delete.approve",
     "rmdir": "filesystem.delete.approve",
     "overwrite": "filesystem.write.approve",
+    "filesystem.story_source_change_apply": "filesystem.write.approve",
+    "filesystem.story_source_change_rollback": "filesystem.write.approve",
 }
 
 

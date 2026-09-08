@@ -181,6 +181,17 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/story/code/drafts/{draft_id}"): ApiRoutePolicy("story.code.draft.get", "read", "protected-human-session-project-code-workbench-read"),
     ("POST", "/api/v1/story/code/drafts/{draft_id}/recheck"): ApiRoutePolicy("story.code.draft.recheck", "read", "protected-human-session-project-code-workbench-draft"),
     ("POST", "/api/v1/story/code/drafts/{draft_id}/discard"): ApiRoutePolicy("story.code.draft.discard", "read", "protected-human-session-project-code-workbench-draft"),
+    ("POST", "/api/v1/story/code/change-plans"): ApiRoutePolicy("story.source-change.plan", "read", "protected-human-session-project-source-change-plan"),
+    ("GET", "/api/v1/story/code/change-plans/{plan_id}"): ApiRoutePolicy("story.source-change.plan.get", "read", "protected-human-session-project-source-change-read"),
+    ("POST", "/api/v1/story/code/change-plans/{plan_id}/recheck"): ApiRoutePolicy("story.source-change.recheck", "read", "protected-human-session-project-source-change-plan"),
+    ("POST", "/api/v1/story/code/change-plans/{plan_id}/dry-run"): ApiRoutePolicy("story.source-change.dry-run", "read", "protected-human-session-project-source-change-dry-run"),
+    ("POST", "/api/v1/story/code/change-plans/{plan_id}/approval-request"): ApiRoutePolicy("story.source-change.approval-request", "read", "protected-governed-source-change-approval-request"),
+    ("POST", "/api/v1/story/code/change-plans/{plan_id}/apply"): ApiRoutePolicy("story.source-change.apply", "read", "protected-governed-source-mutation"),
+    ("GET", "/api/v1/story/code/change-executions/{execution_id}"): ApiRoutePolicy("story.source-change.execution.get", "read", "protected-governed-source-change-read"),
+    ("POST", "/api/v1/story/code/change-executions/{execution_id}/rollback-approval-request"): ApiRoutePolicy("story.source-change.rollback-approval-request", "read", "protected-governed-source-change-approval-request"),
+    ("POST", "/api/v1/story/code/change-executions/{execution_id}/rollback"): ApiRoutePolicy("story.source-change.rollback", "read", "protected-governed-source-mutation"),
+    ("GET", "/api/v1/story/code/change-executions/{execution_id}/apply-manifest"): ApiRoutePolicy("story.source-change.apply-manifest", "read", "protected-governed-source-change-read"),
+    ("GET", "/api/v1/story/code/change-executions/{execution_id}/rollback-evidence"): ApiRoutePolicy("story.source-change.rollback-evidence", "read", "protected-governed-source-change-read"),
     ("GET", "/api/v1/guided-sdlc/status"): ApiRoutePolicy("guided_sdlc.project_status", "read", "protected-guided-sdlc-project-status"),
     ("GET", "/api/v1/guided-sdlc/step-actions"): ApiRoutePolicy("guided_sdlc.step_actions", "read", "protected-guided-sdlc-step-actions"),
     ("GET", "/api/v1/planning/roadmap"): ApiRoutePolicy("planning.roadmap.status", "read", "protected-human-session-project-planning-read"),
@@ -559,6 +570,28 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"))
     if path.startswith("/api/v1/story/code/sources/") and method.upper() == "GET" and path.count("/") == 6:
         return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/sources/{source_id}"))
+    if path.startswith("/api/v1/story/code/change-plans/"):
+        if method.upper() == "GET" and path.count("/") == 6:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/change-plans/{plan_id}"))
+        if method.upper() == "POST" and path.endswith("/recheck") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/change-plans/{plan_id}/recheck"))
+        if method.upper() == "POST" and path.endswith("/dry-run") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/change-plans/{plan_id}/dry-run"))
+        if method.upper() == "POST" and path.endswith("/approval-request") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/change-plans/{plan_id}/approval-request"))
+        if method.upper() == "POST" and path.endswith("/apply") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/change-plans/{plan_id}/apply"))
+    if path.startswith("/api/v1/story/code/change-executions/"):
+        if method.upper() == "GET" and path.count("/") == 6:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/change-executions/{execution_id}"))
+        if method.upper() == "GET" and path.endswith("/apply-manifest") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/change-executions/{execution_id}/apply-manifest"))
+        if method.upper() == "GET" and path.endswith("/rollback-evidence") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/change-executions/{execution_id}/rollback-evidence"))
+        if method.upper() == "POST" and path.endswith("/rollback-approval-request") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/change-executions/{execution_id}/rollback-approval-request"))
+        if method.upper() == "POST" and path.endswith("/rollback") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/change-executions/{execution_id}/rollback"))
     if path.startswith("/api/v1/story/code/drafts/"):
         if method.upper() == "GET" and path.count("/") == 6:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/drafts/{draft_id}"))

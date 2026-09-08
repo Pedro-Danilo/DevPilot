@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-09-07",
-  "sprint": "DEVPL-GSDLC-09-B",
+  "sprint": "DEVPL-GSDLC-09-C",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3883,7 +3883,49 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-09-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-09-C-SOURCE-CHANGE-PLAN-V1",
+      "title": "GSDLC-09-C SourceChangePlan",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc_09_c_source_change_plan.schema.json",
+      "description": "Immutable approval-bound multi-file source change plan with full diff, exact path allowlist and Test Impact preview.",
+      "status": "registered",
+      "contract": "GSDLC09CSourceChangePlan",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-09-C-APPLY-MANIFEST-V1",
+      "title": "GSDLC-09-C ApplyManifest",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc_09_c_apply_manifest.schema.json",
+      "description": "Evidence of exact approved source writes and verified backup set for all-or-nothing apply.",
+      "status": "registered",
+      "contract": "GSDLC09CApplyManifest",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-09-C-ROLLBACK-EVIDENCE-V1",
+      "title": "GSDLC-09-C RollbackEvidence",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc_09_c_rollback_evidence.schema.json",
+      "description": "Separate approval-bound rollback proof with exact source hash parity.",
+      "status": "registered",
+      "contract": "GSDLC09CRollbackEvidence",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-09-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-09-C"
     }
   ],
-  "schemas_total": 271
+  "schemas_total": 274
 }

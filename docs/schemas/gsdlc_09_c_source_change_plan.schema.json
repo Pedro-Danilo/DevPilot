@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/gsdlc_09_c_source_change_plan.schema.json",
+  "title": "GSDLC-09-C SourceChangePlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "workspace_id",
+    "story_execution_id",
+    "draft_ids",
+    "changes",
+    "exact_path_allowlist",
+    "full_diff",
+    "risk",
+    "required_approval_role",
+    "test_impact_preview",
+    "safety",
+    "plan_id",
+    "created_at_utc",
+    "created_by",
+    "created_by_role",
+    "plan_hash"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-09-C-SOURCE-CHANGE-PLAN-V1"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "story_execution_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "draft_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^source-draft-[0-9a-f]{24}$"
+      }
+    },
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "order",
+          "draft_id",
+          "draft_revision_sha256",
+          "story_execution_id",
+          "operation",
+          "source_path",
+          "target_path",
+          "preimage_sha256",
+          "postimage_sha256",
+          "content",
+          "unified_diff"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "draft_id": {
+            "type": "string",
+            "pattern": "^source-draft-[0-9a-f]{24}$"
+          },
+          "draft_revision_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "story_execution_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operation": {
+            "enum": [
+              "CREATE",
+              "EDIT",
+              "RENAME"
+            ]
+          },
+          "source_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "target_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "preimage_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "postimage_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "content": {
+            "type": "string"
+          },
+          "unified_diff": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "exact_path_allowlist": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "full_diff": {
+      "type": "string"
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "reasons"
+      ],
+      "properties": {
+        "level": {
+          "const": "high"
+        },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "required_approval_role": {
+      "const": "owner"
+    },
+    "test_impact_preview": {
+      "type": "object",
+      "required": [
+        "status",
+        "changed_paths"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "PASS",
+            "BLOCK"
+          ]
+        },
+        "changed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "matched_contracts_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recommended_tests_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unmatched_paths_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recommended_tests": {
+          "type": "array"
+        },
+        "recommended_commands": {
+          "type": "array"
+        },
+        "findings": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": false
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dry_run_required",
+        "preimage_revalidation_required",
+        "approval_required",
+        "atomic_all_or_nothing",
+        "generic_patch_enabled",
+        "shell_enabled",
+        "git_stage",
+        "git_commit",
+        "network_used",
+        "external_api_used"
+      ],
+      "properties": {
+        "dry_run_required": {
+          "const": true
+        },
+        "preimage_revalidation_required": {
+          "const": true
+        },
+        "approval_required": {
+          "const": true
+        },
+        "atomic_all_or_nothing": {
+          "const": true
+        },
+        "generic_patch_enabled": {
+          "const": false
+        },
+        "shell_enabled": {
+          "const": false
+        },
+        "git_stage": {
+          "const": false
+        },
+        "git_commit": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        }
+      }
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^source-plan-[0-9a-f]{24}$"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by_role": {
+      "enum": [
+        "owner",
+        "developer"
+      ]
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

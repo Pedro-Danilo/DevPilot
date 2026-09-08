@@ -1,0 +1,76 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-C-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-C",
+  "source_repo": "repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "scope": "focal+fault-injection+security+bounded-A-C+historical-authority+current-active-governance",
+  "checks": [
+    {
+      "id": "schema-strict-current",
+      "status": "PASS",
+      "evidence": "SourceChangePlan, ApplyManifest and RollbackEvidence schemas are registered and validated."
+    },
+    {
+      "id": "registry-summary-sync",
+      "status": "PASS",
+      "evidence": "API=180, RBAC=180, TCR successor, Isolation successor, Schema Catalog=274 and UI story route/capability mappings reconciled."
+    },
+    {
+      "id": "sensitive-action-binding",
+      "status": "PASS",
+      "evidence": "Only filesystem.story_source_change_apply/rollback are executable new source writes; owner RBAC + MIASI + approval binding required."
+    },
+    {
+      "id": "ui-capability-mapping",
+      "status": "PASS",
+      "evidence": "Existing /story/code route gains the 11 typed source-change API operations; no shadow route or shell."
+    },
+    {
+      "id": "source-project-readme-roadmap-current",
+      "status": "PASS",
+      "evidence": "repo409 is execution parent; local qualification does not pre-promote current_repo to repo410."
+    },
+    {
+      "id": "historical-current-leakage",
+      "status": "PASS",
+      "evidence": "UOC-005 close-time source-write set uses dedicated immutable snapshot/test; FRX authority count is successor-safe."
+    },
+    {
+      "id": "runtime-ephemeral-exclusion",
+      "status": "PASS",
+      "evidence": "auth.db*, devpilot.db*, outputs, caches and __pycache__ are excluded from source packages."
+    },
+    {
+      "id": "sealed-evidence-rewrite",
+      "status": "PASS",
+      "evidence": "No predecessor sealed evidence is rewritten."
+    },
+    {
+      "id": "successor-registry-update",
+      "status": "PASS",
+      "evidence": "09-C source change tests, schemas, sensitive actions, tools, policies, RBAC/API/UI mappings registered."
+    }
+  ],
+  "blockers_total": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "browser_required": true,
+  "local_results": {
+    "focal": "PASS/14",
+    "bounded_current": "PASS/69",
+    "bounded_historical": "PASS/26",
+    "bounded_total": "PASS/95",
+    "historical_authority_plus_uoc005_freeze": "PASS/13",
+    "ui_static": "PASS",
+    "schema_contracts": "PASS",
+    "project_state": "PASS",
+    "tcr_v1": "PASS/324",
+    "tcr_v2": "PASS/324",
+    "docs_governance": "PASS",
+    "evidence_freshness": "PASS",
+    "api_contract_drift": "PASS",
+    "test_impact": "PASS/47-PATHS/209-CONTRACTS/317-TESTS/UNMATCHED-0",
+    "historical_regression_guard": "PASS/WAIVER/5-OF-5"
+  }
+}

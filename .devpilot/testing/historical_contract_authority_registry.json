@@ -1,12 +1,4 @@
 {
-  "schema_id": "devpilot.testing.historical_contract_authority_registry.v1",
-  "version": "1.0.0",
-  "status": "closed",
-  "updated": "2026-09-06",
-  "owner": "Ordóñez",
-  "source_sprint": "FRX-v2.4-A",
-  "source_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
   "authority_scopes": [
     "historical-freeze",
     "current-active",
@@ -17,107 +9,120 @@
   ],
   "contracts": [
     {
-      "contract_id": "frx-v2.3-e-pre-execution-planning-fixture",
       "authority_scope": "historical-freeze",
-      "owner": "FRX-v2.4-A",
-      "rationale": "FRX-v2.3-E planning tests assert the pre-execution one-full budget and must not infer it from the mutable/closed current policy.",
-      "test_files": [
-        "tests/test_frx_v2_3_e_safe_parallel_full.py"
-      ],
-      "snapshot_path": ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+      "contract_id": "frx-v2.3-e-pre-execution-planning-fixture",
       "mutable_current_paths": [
         ".devpilot/testing/frx_v2_3_e_policy.json"
       ],
       "notes": [
         "The fixture is an explicit semantic reconstruction, not a byte-identical archive claim."
+      ],
+      "owner": "FRX-v2.4-A",
+      "rationale": "FRX-v2.3-E planning tests assert the pre-execution one-full budget and must not infer it from the mutable/closed current policy.",
+      "snapshot_path": ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+      "test_files": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
       ]
     },
     {
-      "contract_id": "gsdlc-current-project-state",
       "authority_scope": "current-active",
+      "contract_id": "gsdlc-current-project-state",
+      "current_paths": [
+        ".devpilot/project_state.json"
+      ],
       "owner": "DEVPL-GSDLC",
       "rationale": "Global GSDLC current pointers remain governed by current product/release evidence and are not advanced by the FRX enabler timeline.",
       "test_files": [
         "tests/test_project_global_state.py"
-      ],
-      "current_paths": [
-        ".devpilot/project_state.json"
       ]
     },
     {
-      "contract_id": "frx-v2.4-a-successor-evolution",
       "authority_scope": "successor-needed",
+      "contract_id": "frx-v2.4-a-successor-evolution",
       "owner": "FRX-v2.4-A",
       "rationale": "FRX-v2.4-A closes by authorizing, but not implementing, the successor FRX-v2.4-B contract.",
+      "successor_contract_id": "FRX-v2.4-B",
       "test_files": [
         "tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "successor_contract_id": "FRX-v2.4-B"
+      ]
     },
     {
-      "contract_id": "gsdlc-08-e-legacy-final-reconciliation-flag",
       "authority_scope": "deprecated-after-proof",
+      "contract_id": "gsdlc-08-e-legacy-final-reconciliation-flag",
       "owner": "DEVPL-GSDLC-08-E",
+      "proof_path": "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json",
       "rationale": "The legacy final_reconciliation_required=true is retained as detection-time history and must not be interpreted as pending current work.",
       "test_files": [
         "tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "proof_path": "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json"
+      ]
     },
     {
-      "contract_id": "gsdlc-08-e-derived-recovery-counters",
       "authority_scope": "derived",
+      "contract_id": "gsdlc-08-e-derived-recovery-counters",
+      "derived_from": [
+        "docs/audits/DEVPL_GSDLC_08_E_IMPLEMENTATION_REPORT.md",
+        ".devpilot/project_state.json"
+      ],
       "owner": "DEVPL-GSDLC-08-E",
       "rationale": "Composite recovery and reconciliation counters are derived evidence and cannot replace their source authorities.",
       "test_files": [
         "tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "derived_from": [
-        "docs/audits/DEVPL_GSDLC_08_E_IMPLEMENTATION_REPORT.md",
-        ".devpilot/project_state.json"
       ]
     },
     {
-      "contract_id": "runtime-ephemeral-auth-and-local-state",
       "authority_scope": "runtime-ephemeral",
-      "owner": "DevPilot Security",
-      "rationale": "Runtime SQLite/auth state is not source truth and must never be copied into the hardening payload or clean repo ZIP.",
-      "test_files": [
-        "tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
+      "contract_id": "runtime-ephemeral-auth-and-local-state",
       "excluded_patterns": [
         "auth.db*",
         "devpilot.db*",
         ".devpilot/devpilot.db"
+      ],
+      "owner": "DevPilot Security",
+      "rationale": "Runtime SQLite/auth state is not source truth and must never be copied into the hardening payload or clean repo ZIP.",
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
       ]
     },
     {
-      "contract_id": "frx-registries-schema-complete-current",
       "authority_scope": "current-active",
+      "contract_id": "frx-registries-schema-complete-current",
+      "current_paths": [
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/testing/node_duration_registry.json"
+      ],
       "owner": "DEVPL-FRX",
       "rationale": "Isolation and Duration registries are current FRX inputs and must pass their complete JSON Schemas before their semantic conclusions are trusted.",
       "test_files": [
         "tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "current_paths": [
-        ".devpilot/testing/test_isolation_registry.json",
-        ".devpilot/testing/node_duration_registry.json"
       ]
     },
     {
-      "contract_id": "gsdlc-08-e-program-status-at-close-snapshot",
       "authority_scope": "historical-freeze",
-      "owner": "DEVPL-GSDLC-08-E",
-      "rationale": "GSDLC-08-E lifecycle tests validate frozen repo404 close-time program/repo authority and must not consult current-active successor pointers.",
-      "test_files": [
-        "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py"
-      ],
-      "snapshot_path": ".devpilot/testing/fixtures/gsdlc_08_e_close_authority_snapshot.json",
+      "contract_id": "gsdlc-08-e-program-status-at-close-snapshot",
       "mutable_current_paths": [
         ".devpilot/project_state.json"
       ],
       "notes": [
         "Snapshot values are copied from canonical repo404 project_state and preserved after GSDLC-09 activation."
+      ],
+      "owner": "DEVPL-GSDLC-08-E",
+      "rationale": "GSDLC-08-E lifecycle tests validate frozen repo404 close-time program/repo authority and must not consult current-active successor pointers.",
+      "snapshot_path": ".devpilot/testing/fixtures/gsdlc_08_e_close_authority_snapshot.json",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py"
+      ]
+    },
+    {
+      "authority_scope": "historical-freeze",
+      "contract_id": "uoc-005-source-mutation-routes-at-close",
+      "mutable_current_paths": [
+        ".devpilot/interfaces/api_route_contract_registry.json"
+      ],
+      "owner": "UOC-005",
+      "rationale": "The UOC-005 close-time source mutation set is a historical fact and must not query the current-active API route registry after successor source-write capabilities are added.",
+      "snapshot_path": ".devpilot/testing/fixtures/uoc005_source_mutation_routes_at_close.json",
+      "test_files": [
+        "tests/test_uoc005_source_mutation_routes_at_close.py"
       ]
     }
   ],
@@ -132,6 +137,7 @@
       "current_status_field": "final_reconciliation_current_status"
     }
   ],
+  "owner": "Ordóñez",
   "schema_complete_registries": [
     {
       "registry_id": "test-isolation-registry",
@@ -145,5 +151,12 @@
       "schema_contract": "NodeDurationRegistry",
       "semantic_validator": "node-duration"
     }
-  ]
+  ],
+  "schema_id": "devpilot.testing.historical_contract_authority_registry.v1",
+  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
+  "source_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_sprint": "FRX-v2.4-A",
+  "status": "closed",
+  "updated": "2026-09-06",
+  "version": "1.0.0"
 }

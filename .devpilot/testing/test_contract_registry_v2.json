@@ -23080,9 +23080,97 @@
         "Browser is required because 09-B introduces UX, but Full Regression remains 0 under A-D cadence.",
         "UI static/browser acceptance is validated by the 09-B Windows operator and browser evidence contract; npm is not embedded as Test Impact executable recommendation data."
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-c-source-change",
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-09-c-source-change",
+      "domain": "application.service",
+      "capability": "GSDLC09CSourceChange",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "contract",
+      "execution_profile": "manual",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py",
+        "tests/test_uoc005_source_mutation_routes_at_close.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/code_workbench/",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/identity/models.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json",
+        ".devpilot/testing/historical_contract_authority_registry.json",
+        ".devpilot/testing/fixtures/uoc005_source_mutation_routes_at_close.json",
+        "docs/schemas/gsdlc_09_c_source_change_plan.schema.json",
+        "docs/schemas/gsdlc_09_c_apply_manifest.schema.json",
+        "docs/schemas/gsdlc_09_c_rollback_evidence.schema.json",
+        "docs/audits/DEVPL_GSDLC_09_C_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_09_C_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_C_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_C_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_09_C_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_C_SOURCE_DELTA_MANIFEST.json",
+        "03_PROMPT_DEVPL_GSDLC_09_C_v1_0_1_REBOUND_REPO409.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_3_APPROVED_REBOUND_REPO409.md",
+        "scripts/devpl_gsdlc_09_c_browser_fixture.py",
+        "docs/audits/DEVPL_GSDLC_09_C_OWNER_ADJUDICATION_PROPOSAL.md",
+        "docs/audits/DEVPL_GSDLC_09_C_SOURCE_CHANGE_SECURITY_REPORT.json"
+      ],
+      "validates": [
+        "immutable source plan",
+        "approval-bound source writes",
+        "atomicity/fault recovery",
+        "rollback parity",
+        "FRX-v2.4 historical successor safety",
+        "browser-visible governed source mutation"
+      ],
+      "trigger_hints": [
+        "gsdlc-09-c",
+        "source-change-plan",
+        "atomic-apply",
+        "story-source-change",
+        "rollback-evidence"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": true,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-09-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Source mutations exist only through owner-approved immutable plan/execute/rollback typed operations.",
+        "Full Regression remains 0 under A-D cadence; browser real is mandatory.",
+        "UOC-005 history is frozen in a dedicated snapshot/test rather than pinning current API route totals."
+      ],
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-09-C owner-approved prompt v1.0.1 rebound repo409",
+        "expires_at_utc": "2027-09-08T23:59:59Z",
+        "justification": "GSDLC-09-C intentionally enables bounded project source mutations only through immutable SourceChangePlan, exact path allowlist, owner RBAC/approval, stale-preimage revalidation, atomic apply, verification and rollback.",
+        "rollback_or_cleanup": "Automatic compensating rollback restores every verified preimage on apply failure; manual rollback is a separate owner-approved typed operation with source hash parity verification.",
+        "scope": "GSDLC-09-C project-scoped source change apply and rollback only; generic patch, shell, agent self-apply, Git commit and remote writes remain blocked."
+      }
     }
   ],
-  "contracts_total": 322,
+  "contracts_total": 324,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

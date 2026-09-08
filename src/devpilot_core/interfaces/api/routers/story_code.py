@@ -49,6 +49,32 @@ class SourceDraftDiscardBody(BaseModel):
     expected_revision_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
+class SourceChangePlanBody(BaseModel):
+    draft_ids: list[str] = Field(min_length=1, max_length=32)
+
+
+class SourceChangeHashBody(BaseModel):
+    plan_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+class SourceChangeApprovalBody(SourceChangeHashBody):
+    reason: str = Field(min_length=1, max_length=500)
+    ttl_minutes: int = Field(default=15, ge=1, le=30)
+
+
+class SourceChangeApplyBody(SourceChangeHashBody):
+    approval_id: str = Field(min_length=1, max_length=160)
+
+
+class SourceChangeRollbackApprovalBody(BaseModel):
+    reason: str = Field(min_length=1, max_length=500)
+    ttl_minutes: int = Field(default=15, ge=1, le=30)
+
+
+class SourceChangeRollbackBody(BaseModel):
+    approval_id: str = Field(min_length=1, max_length=160)
+
+
 @router.get("/api/v1/story/code/status")
 def story_code_status(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     _, error = _principal(request)
@@ -98,3 +124,90 @@ def story_code_draft_discard(request: Request, draft_id: str, body: SourceDraftD
     if error: return error
     _, role = identity
     return _result(service.story_code_draft_discard(draft_id=draft_id, expected_revision_sha256=body.expected_revision_sha256, actor_role=role), "story.code.draft.discard")
+
+
+@router.post("/api/v1/story/code/change-plans")
+def story_source_change_plan_create(request: Request, body: SourceChangePlanBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_source_change_plan_create(draft_ids=body.draft_ids, actor=actor, actor_role=role), "story.source-change.plan")
+
+
+@router.get("/api/v1/story/code/change-plans/{plan_id}")
+def story_source_change_plan_get(request: Request, plan_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_source_change_plan_get(plan_id=plan_id), "story.source-change.plan.get")
+
+
+@router.post("/api/v1/story/code/change-plans/{plan_id}/recheck")
+def story_source_change_plan_recheck(request: Request, plan_id: str, body: SourceChangeHashBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request, authoring=True)
+    if error: return error
+    return _result(service.story_source_change_plan_recheck(plan_id=plan_id, plan_hash=body.plan_hash), "story.source-change.recheck")
+
+
+@router.post("/api/v1/story/code/change-plans/{plan_id}/dry-run")
+def story_source_change_dry_run(request: Request, plan_id: str, body: SourceChangeHashBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_source_change_dry_run(plan_id=plan_id, plan_hash=body.plan_hash, actor=actor, actor_role=role), "story.source-change.dry-run")
+
+
+@router.post("/api/v1/story/code/change-plans/{plan_id}/approval-request")
+def story_source_change_approval_request(request: Request, plan_id: str, body: SourceChangeApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.source-change.approval-request","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC09C_WRONG_APPROVER_ROLE_BLOCK","severity":"block","message":"Only owner may request source apply approval."}]},403)
+    return _result(service.story_source_change_apply_approval_request(plan_id=plan_id, plan_hash=body.plan_hash, actor=actor, actor_role=role, reason=body.reason, ttl_minutes=body.ttl_minutes), "story.source-change.approval-request")
+
+
+@router.post("/api/v1/story/code/change-plans/{plan_id}/apply")
+def story_source_change_apply(request: Request, plan_id: str, body: SourceChangeApplyBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.source-change.apply","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC09C_WRONG_ROLE_BLOCK","severity":"block","message":"Atomic source apply requires owner role."}]},403)
+    return _result(service.story_source_change_apply(plan_id=plan_id, plan_hash=body.plan_hash, approval_id=body.approval_id, actor=actor, actor_role=role), "story.source-change.apply")
+
+
+@router.get("/api/v1/story/code/change-executions/{execution_id}")
+def story_source_change_execution_get(request: Request, execution_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_source_change_execution_get(execution_id=execution_id), "story.source-change.execution.get")
+
+
+@router.post("/api/v1/story/code/change-executions/{execution_id}/rollback-approval-request")
+def story_source_change_rollback_approval_request(request: Request, execution_id: str, body: SourceChangeRollbackApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.source-change.rollback-approval-request","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC09C_ROLLBACK_WRONG_ROLE_BLOCK","severity":"block","message":"Only owner may request rollback approval."}]},403)
+    return _result(service.story_source_change_rollback_approval_request(execution_id=execution_id, actor=actor, actor_role=role, reason=body.reason, ttl_minutes=body.ttl_minutes), "story.source-change.rollback-approval-request")
+
+
+@router.post("/api/v1/story/code/change-executions/{execution_id}/rollback")
+def story_source_change_rollback(request: Request, execution_id: str, body: SourceChangeRollbackBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.source-change.rollback","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC09C_ROLLBACK_WRONG_ROLE_BLOCK","severity":"block","message":"Manual source rollback requires owner role."}]},403)
+    return _result(service.story_source_change_rollback(execution_id=execution_id, approval_id=body.approval_id, actor=actor, actor_role=role), "story.source-change.rollback")
+
+
+@router.get("/api/v1/story/code/change-executions/{execution_id}/apply-manifest")
+def story_source_change_apply_manifest(request: Request, execution_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_source_change_apply_manifest(execution_id=execution_id), "story.source-change.apply-manifest")
+
+
+@router.get("/api/v1/story/code/change-executions/{execution_id}/rollback-evidence")
+def story_source_change_rollback_evidence(request: Request, execution_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_source_change_rollback_evidence(execution_id=execution_id), "story.source-change.rollback-evidence")

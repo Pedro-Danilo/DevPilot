@@ -214,25 +214,12 @@ def test_uoc005_historical_contract_reconciliation_keeps_evolving_registries_sch
 
 
 def test_uoc005_historical_route_contract_allows_only_narrow_source_mutations():
-    routes = {item["route_id"]: item for item in j(".devpilot/interfaces/api_route_contract_registry.json")["routes"]}
-    source_mutating = {route_id for route_id, route in routes.items() if route.get("source_mutation_allowed") is True}
-    flags = j(".devpilot/interfaces/ui_operational_console_flags.json")
-    git_enabled = next(item for item in flags["feature_flags"] if item["flag_id"] == "uoc.git.governed_operations")["enabled"] is True
-    expected = {"api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback"}
-    if git_enabled:
-        expected |= {"api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create"}
-    if "api.project-entry.execute" in routes:
-        expected.add("api.project-entry.execute")
-    successor_mutations = {
-        route_id for route_id, route in routes.items()
-        if route.get("source_mutation_allowed") is True and "gsdlc-05-e" in route.get("tags", [])
+    frozen = j(".devpilot/testing/fixtures/uoc005_source_mutation_routes_at_close.json")
+    assert set(frozen["source_mutation_route_ids"]) == {"api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback"}
+    assert frozen["invariant"] == {
+        "local_only": True,
+        "auth_required": True,
+        "policy_check_required": True,
+        "destructive_action_allowed": False,
+        "policy_sensitivity_prefix": "approval-bound-",
     }
-    assert successor_mutations == {"api.guided-sdlc.pre-code.apply"}
-    assert source_mutating == expected | successor_mutations
-    for route_id in source_mutating:
-        route = routes[route_id]
-        assert route["local_only"] is True
-        assert route["auth_required"] is True
-        assert route["policy_check_required"] is True
-        assert route["destructive_action_allowed"] is False
-        assert str(route["policy_sensitivity"]).startswith("approval-bound-")

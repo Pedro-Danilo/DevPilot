@@ -1212,3 +1212,7 @@ button, .primary-nav__links a { min-height: 44px; }
 
 /* DEVPL-GSDLC-09-B — bounded Story Code Workbench */
 .story-code-workbench{display:grid;gap:1rem}.code-safety-strip{margin-top:.75rem;padding:.65rem .8rem;border:1px solid currentColor;border-radius:.5rem;font-weight:700;letter-spacing:.02em}.code-workbench-grid{display:grid;grid-template-columns:minmax(15rem,.8fr) minmax(24rem,1.7fr);gap:1rem}.code-source-list{display:grid;gap:.35rem;max-height:32rem;overflow:auto}.code-source-item{text-align:left;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.story-code-workbench textarea{width:100%;min-height:24rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2}.story-code-workbench input,.story-code-workbench select{width:100%;margin:.35rem 0}.code-workbench-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0}.code-draft-status[data-conflict="true"]{font-weight:700}.code-draft-status{padding:.5rem 0}@media(max-width:900px){.code-workbench-grid{grid-template-columns:1fr}}
+
+/* GSDLC-09-C governed source change */
+.code-full-diff,.code-test-impact,.code-change-evidence{max-height:28rem;overflow:auto;white-space:pre-wrap;word-break:break-word;border:1px solid var(--border-color,#d1d5db);border-radius:.5rem;padding:.75rem;background:var(--surface-muted,#f7f7f8);font-size:.82rem}
+.code-safety-strip[data-source-write="approval-gated"]{font-weight:700;letter-spacing:.02em}

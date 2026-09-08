@@ -1,0 +1,38 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-C-SOURCE-CHANGE-SECURITY-REPORT-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-C",
+  "source_repo": "repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "controls": {
+    "immutable_plan_hash": true,
+    "full_diff": true,
+    "exact_path_allowlist": true,
+    "test_impact_preview": true,
+    "risk_high": true,
+    "owner_approval": true,
+    "preimage_revalidation": true,
+    "verified_backups": true,
+    "multi_file_all_or_nothing": true,
+    "fault_compensating_rollback": true,
+    "separate_rollback_approval": true,
+    "postimage_revalidation": true,
+    "source_hash_parity": true,
+    "generic_patch_enabled": false,
+    "shell_enabled": false,
+    "agent_self_apply_enabled": false,
+    "git_stage_commit_enabled": false,
+    "network_used": false,
+    "external_api_used": false
+  },
+  "negative_tests": [
+    "stale-preimage",
+    "unexpected-create-target",
+    "wrong-role",
+    "plan-tamper",
+    "fault-after-first-change",
+    "generic-patch/shell/no-agent-interface"
+  ],
+  "s0_open": 0,
+  "s1_open": 0,
+  "status_note": "Local qualification; live Windows browser remains required for closure."
+}

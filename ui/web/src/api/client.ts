@@ -298,6 +298,18 @@ export class DevPilotApiClient {
   async storyCodeDraftRecheck(draftId:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/drafts/${encodeURIComponent(draftId)}/recheck`, {}); }
   async storyCodeDraftDiscard(draftId:string, expectedRevisionSha256:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/drafts/${encodeURIComponent(draftId)}/discard`, {expected_revision_sha256:expectedRevisionSha256}); }
 
+  async storySourceChangePlanCreate(draftIds:string[]): Promise<DevPilotApplicationResponse> { return this.post('/story/code/change-plans', {draft_ids:draftIds}); }
+  async storySourceChangePlan(planId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-plans/${encodeURIComponent(planId)}`); }
+  async storySourceChangePlanRecheck(planId:string, planHash:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-plans/${encodeURIComponent(planId)}/recheck`, {plan_hash:planHash}); }
+  async storySourceChangeDryRun(planId:string, planHash:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-plans/${encodeURIComponent(planId)}/dry-run`, {plan_hash:planHash}); }
+  async storySourceChangeApplyApprovalRequest(planId:string, planHash:string, reason='Apply reviewed immutable SourceChangePlan.'): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-plans/${encodeURIComponent(planId)}/approval-request`, {plan_hash:planHash,reason,ttl_minutes:15}); }
+  async storySourceChangeApply(planId:string, planHash:string, approvalId:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-plans/${encodeURIComponent(planId)}/apply`, {plan_hash:planHash,approval_id:approvalId}); }
+  async storySourceChangeExecution(executionId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-executions/${encodeURIComponent(executionId)}`); }
+  async storySourceChangeRollbackApprovalRequest(executionId:string, reason='Rollback reviewed source change execution.'): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-executions/${encodeURIComponent(executionId)}/rollback-approval-request`, {reason,ttl_minutes:15}); }
+  async storySourceChangeRollback(executionId:string, approvalId:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-executions/${encodeURIComponent(executionId)}/rollback`, {approval_id:approvalId}); }
+  async storySourceChangeApplyManifest(executionId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-executions/${encodeURIComponent(executionId)}/apply-manifest`); }
+  async storySourceChangeRollbackEvidence(executionId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-executions/${encodeURIComponent(executionId)}/rollback-evidence`); }
+
   async projectEntryDryRun(payload: { intake: Record<string, unknown>; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
     return this.post('/project-entry/dry-run', { intake: payload.intake, timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS }, { timeoutMs: PROJECT_ENTRY_PLANNING_TIMEOUT_MS });
   }

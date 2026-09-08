@@ -1,935 +1,953 @@
 {
-  "schema_version": "1.0",
-  "source_document": "docs/06_miasi/policy_matrix.md",
   "created_by": "FUNC-SPRINT-11",
   "description": "Executable MIASI Policy Matrix for deterministic coverage validation. It complements, but does not replace, PolicyEngine enforcement.",
   "rules": [
     {
-      "rule_id": "DOC_READ_ALLOW",
-      "domain": "Docs",
       "action": "read_artifact",
-      "default_effect": "allow",
-      "gate": "PathGuard",
       "approval_required": false,
-      "observability_required": true
+      "default_effect": "allow",
+      "domain": "Docs",
+      "gate": "PathGuard",
+      "observability_required": true,
+      "rule_id": "DOC_READ_ALLOW"
     },
     {
-      "rule_id": "DOC_VALIDATE_ALLOW",
-      "domain": "Docs",
       "action": "validate_artifact",
-      "default_effect": "allow",
-      "gate": "SchemaChecklistGate",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "DOC_WRITE_DRAFT_GATED",
+      "default_effect": "allow",
       "domain": "Docs",
+      "gate": "SchemaChecklistGate",
+      "observability_required": true,
+      "rule_id": "DOC_VALIDATE_ALLOW"
+    },
+    {
       "action": "write_draft",
+      "approval_required": true,
       "default_effect": "deny_unless_safe_output",
+      "domain": "Docs",
       "gate": "PathGuard+BackupPolicy+ApprovalPolicyChecker",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "DOC_WRITE_DRAFT_GATED"
     },
     {
-      "rule_id": "FILESYSTEM_DELETE_DENY",
-      "domain": "Filesystem",
       "action": "delete",
+      "approval_required": false,
       "default_effect": "deny",
+      "domain": "Filesystem",
       "gate": "PathGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "FILESYSTEM_DELETE_DENY"
     },
     {
-      "rule_id": "GIT_READ_ALLOW",
-      "domain": "Git",
       "action": "status_diff",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Git",
       "gate": "GitReadPolicy",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "GIT_READ_ALLOW"
     },
     {
-      "rule_id": "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
-      "domain": "Repo",
       "action": "quality_gate_dry_run",
+      "approval_required": false,
       "default_effect": "allow",
-      "gate": "RepoQualityGate+ReviewRulePack+PolicyEngine",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "GIT_WRITE_DENY",
-      "domain": "Git",
-      "action": "commit_tag_push",
-      "default_effect": "deny",
-      "gate": "ReleasePolicyFuture",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PATCH_DRY_RUN_ALLOW",
-      "domain": "Patch",
-      "action": "parse_dry_run",
-      "default_effect": "allow",
-      "gate": "PatchPolicy",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PATCH_CHECK_DRY_RUN_ALLOW",
-      "domain": "Patch",
-      "action": "preflight_check",
-      "default_effect": "allow",
-      "gate": "PatchPreflightEngine+SafeSubprocessRunner+PolicyEngine+SecretGuard+PathGuard",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PATCH_SANDBOX_RUNTIME_ALLOW",
-      "domain": "Patch",
-      "action": "sandbox_apply",
-      "default_effect": "allow",
-      "gate": "PatchSandboxManager+PatchPreflightEngine+SafeSubprocessRunner+PathGuard+SecretGuard+ChangeSet",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PATCH_APPLY_DENY",
-      "domain": "Patch",
-      "action": "apply",
-      "default_effect": "deny",
-      "gate": "PatchPolicy+ApprovalPolicyChecker",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "MODEL_LOCAL_ALLOW",
-      "domain": "Model",
-      "action": "mock_local",
-      "default_effect": "allow",
-      "gate": "ModelPolicy",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "MODEL_LOCAL_PROVIDER_CONTROLLED",
-      "domain": "Model",
-      "action": "local_model_call",
-      "default_effect": "block",
-      "gate": "ModelAdapterRouter+ProviderRegistry+PolicyEngine+SecretGuard+CostGuard+LocalhostOnly",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "MODEL_EXTERNAL_DENY",
-      "domain": "Model",
-      "action": "external_api",
-      "default_effect": "deny",
-      "gate": "CostGuard+SecretGuard+ApprovalPolicyChecker",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "AGENT_SUGGEST_ALLOW",
-      "domain": "Agent",
-      "action": "suggest",
-      "default_effect": "allow",
-      "gate": "AgentPolicy",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "AGENT_CRITICAL_TOOL_DENY",
-      "domain": "Agent",
-      "action": "execute_critical_tool",
-      "default_effect": "deny",
-      "gate": "ToolPolicy+ApprovalPolicyChecker",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "SECRETS_RAW_DENY",
-      "domain": "Secrets",
-      "action": "print_store_raw",
-      "default_effect": "deny",
-      "gate": "SecretGuard",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "DEPLOY_DENY",
-      "domain": "Deployment",
-      "action": "deploy",
-      "default_effect": "deny",
-      "gate": "ReleasePolicyFuture+ApprovalPolicyChecker",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "ROLLBACK_PLAN_RUNTIME_ALLOW",
-      "domain": "Rollback",
-      "action": "plan",
-      "default_effect": "allow",
-      "gate": "RollbackManager+PathGuard+SecretGuard+LocalBackupPolicy",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "ROLLBACK_READ_ALLOW",
-      "domain": "Rollback",
-      "action": "list_show",
-      "default_effect": "allow",
-      "gate": "RollbackManager+PathGuard",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "ROLLBACK_EXECUTE_GATED_BLOCKED",
-      "domain": "Rollback",
-      "action": "execute",
-      "default_effect": "block",
-      "gate": "RollbackManager+ApprovalPolicyChecker+PathGuard+SecretGuard",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "REFACTOR_SANDBOX_EXECUTE_GATED",
-      "domain": "Refactor",
-      "action": "execute",
-      "default_effect": "block",
-      "gate": "RefactorExecutor+ApprovalPolicyChecker+PathGuard+SecretGuard+RollbackManager+SafeSubprocessRunner",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "ENGINEERING_GATE_READ_ONLY_ALLOW",
       "domain": "Repo",
+      "gate": "RepoQualityGate+ReviewRulePack+PolicyEngine",
+      "observability_required": true,
+      "rule_id": "REPO_QUALITY_GATE_DRY_RUN_ALLOW"
+    },
+    {
+      "action": "commit_tag_push",
+      "approval_required": true,
+      "default_effect": "deny",
+      "domain": "Git",
+      "gate": "ReleasePolicyFuture",
+      "observability_required": true,
+      "rule_id": "GIT_WRITE_DENY"
+    },
+    {
+      "action": "parse_dry_run",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Patch",
+      "gate": "PatchPolicy",
+      "observability_required": true,
+      "rule_id": "PATCH_DRY_RUN_ALLOW"
+    },
+    {
+      "action": "preflight_check",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Patch",
+      "gate": "PatchPreflightEngine+SafeSubprocessRunner+PolicyEngine+SecretGuard+PathGuard",
+      "observability_required": true,
+      "rule_id": "PATCH_CHECK_DRY_RUN_ALLOW"
+    },
+    {
+      "action": "sandbox_apply",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Patch",
+      "gate": "PatchSandboxManager+PatchPreflightEngine+SafeSubprocessRunner+PathGuard+SecretGuard+ChangeSet",
+      "observability_required": true,
+      "rule_id": "PATCH_SANDBOX_RUNTIME_ALLOW"
+    },
+    {
+      "action": "apply",
+      "approval_required": true,
+      "default_effect": "deny",
+      "domain": "Patch",
+      "gate": "PatchPolicy+ApprovalPolicyChecker",
+      "observability_required": true,
+      "rule_id": "PATCH_APPLY_DENY"
+    },
+    {
+      "action": "mock_local",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Model",
+      "gate": "ModelPolicy",
+      "observability_required": true,
+      "rule_id": "MODEL_LOCAL_ALLOW"
+    },
+    {
+      "action": "local_model_call",
+      "approval_required": false,
+      "default_effect": "block",
+      "domain": "Model",
+      "gate": "ModelAdapterRouter+ProviderRegistry+PolicyEngine+SecretGuard+CostGuard+LocalhostOnly",
+      "observability_required": true,
+      "rule_id": "MODEL_LOCAL_PROVIDER_CONTROLLED"
+    },
+    {
+      "action": "external_api",
+      "approval_required": true,
+      "default_effect": "deny",
+      "domain": "Model",
+      "gate": "CostGuard+SecretGuard+ApprovalPolicyChecker",
+      "observability_required": true,
+      "rule_id": "MODEL_EXTERNAL_DENY"
+    },
+    {
+      "action": "suggest",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Agent",
+      "gate": "AgentPolicy",
+      "observability_required": true,
+      "rule_id": "AGENT_SUGGEST_ALLOW"
+    },
+    {
+      "action": "execute_critical_tool",
+      "approval_required": true,
+      "default_effect": "deny",
+      "domain": "Agent",
+      "gate": "ToolPolicy+ApprovalPolicyChecker",
+      "observability_required": true,
+      "rule_id": "AGENT_CRITICAL_TOOL_DENY"
+    },
+    {
+      "action": "print_store_raw",
+      "approval_required": false,
+      "default_effect": "deny",
+      "domain": "Secrets",
+      "gate": "SecretGuard",
+      "observability_required": true,
+      "rule_id": "SECRETS_RAW_DENY"
+    },
+    {
+      "action": "deploy",
+      "approval_required": true,
+      "default_effect": "deny",
+      "domain": "Deployment",
+      "gate": "ReleasePolicyFuture+ApprovalPolicyChecker",
+      "observability_required": true,
+      "rule_id": "DEPLOY_DENY"
+    },
+    {
+      "action": "plan",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Rollback",
+      "gate": "RollbackManager+PathGuard+SecretGuard+LocalBackupPolicy",
+      "observability_required": true,
+      "rule_id": "ROLLBACK_PLAN_RUNTIME_ALLOW"
+    },
+    {
+      "action": "list_show",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Rollback",
+      "gate": "RollbackManager+PathGuard",
+      "observability_required": true,
+      "rule_id": "ROLLBACK_READ_ALLOW"
+    },
+    {
+      "action": "execute",
+      "approval_required": true,
+      "default_effect": "block",
+      "domain": "Rollback",
+      "gate": "RollbackManager+ApprovalPolicyChecker+PathGuard+SecretGuard",
+      "observability_required": true,
+      "rule_id": "ROLLBACK_EXECUTE_GATED_BLOCKED"
+    },
+    {
+      "action": "execute",
+      "approval_required": true,
+      "default_effect": "block",
+      "domain": "Refactor",
+      "gate": "RefactorExecutor+ApprovalPolicyChecker+PathGuard+SecretGuard+RollbackManager+SafeSubprocessRunner",
+      "observability_required": true,
+      "rule_id": "REFACTOR_SANDBOX_EXECUTE_GATED"
+    },
+    {
       "action": "engineering_gate_read_only",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Repo",
       "gate": "RepoEngineeringGate+GitAdapter+RepoAnalyzer+ArchitectureDrift+RepoQualityGate+MIASIRegistryCheck",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "ENGINEERING_GATE_READ_ONLY_ALLOW"
     },
     {
-      "rule_id": "MODEL_LOCAL_HEALTH_ALLOW",
-      "domain": "Model",
       "action": "local_model_health",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Model",
       "gate": "ProviderRegistry+LocalhostOnly+Timeout+NoExternalAPI+NoSecrets",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MODEL_LOCAL_HEALTH_ALLOW"
     },
     {
-      "rule_id": "MODEL_CAPABILITIES_READ_ALLOW",
-      "domain": "Model",
       "action": "capability_matrix_read",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Model",
       "gate": "CapabilityMatrix+ProviderRegistry+NoNetwork",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MODEL_CAPABILITIES_READ_ALLOW"
     },
     {
-      "rule_id": "MODEL_BUDGET_LEDGER_ALLOW",
-      "domain": "Model",
       "action": "budget_ledger_status",
-      "default_effect": "allow",
-      "gate": "BudgetLedger+LocalStore+SecretRedaction+NoRawPrompts",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PROMPT_REGISTRY_READ_ALLOW",
-      "domain": "Prompt",
-      "action": "registry_read",
       "default_effect": "allow",
-      "gate": "PromptRegistry+PathGuard+NoNetwork+RedactedTemplate",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PROMPT_CONTRACT_VALIDATE_ALLOW",
-      "domain": "Prompt",
-      "action": "contract_validate",
-      "default_effect": "allow",
-      "gate": "PromptSchema+PromptSafetyChecker+SecretGuard+PromptInjectionGuard",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PROMPT_RENDER_CONTROLLED",
-      "domain": "Prompt",
-      "action": "render_for_model_call",
-      "default_effect": "allow",
-      "gate": "PromptRegistry+DeclaredInputs+PromptSafetyChecker+NoRawPromptStorage",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "MODEL_EVAL_RUN_ALLOW",
       "domain": "Model",
+      "gate": "BudgetLedger+LocalStore+SecretRedaction+NoRawPrompts",
+      "observability_required": true,
+      "rule_id": "MODEL_BUDGET_LEDGER_ALLOW"
+    },
+    {
+      "action": "registry_read",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Prompt",
+      "gate": "PromptRegistry+PathGuard+NoNetwork+RedactedTemplate",
+      "observability_required": true,
+      "rule_id": "PROMPT_REGISTRY_READ_ALLOW"
+    },
+    {
+      "action": "contract_validate",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Prompt",
+      "gate": "PromptSchema+PromptSafetyChecker+SecretGuard+PromptInjectionGuard",
+      "observability_required": true,
+      "rule_id": "PROMPT_CONTRACT_VALIDATE_ALLOW"
+    },
+    {
+      "action": "render_for_model_call",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Prompt",
+      "gate": "PromptRegistry+DeclaredInputs+PromptSafetyChecker+NoRawPromptStorage",
+      "observability_required": true,
+      "rule_id": "PROMPT_RENDER_CONTROLLED"
+    },
+    {
       "action": "model_eval_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Model",
       "gate": "ModelEvalRunner+PromptRegistry+ModelAdapterRouter+BudgetLedger+NoExternalAPI+NoRawPrompts",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MODEL_EVAL_RUN_ALLOW"
     },
     {
-      "rule_id": "AGENT_MODEL_CALL_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "model_generate_via_runtime_v2",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "AgentRuntimeV2+PromptRegistry+ModelAdapterRouter+BudgetLedger+SingleAgentOnly+NoHandoffs+NoExternalAPI+NoRawPrompts",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "AGENT_MODEL_CALL_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "REPO_ANALYSIS_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "repo_analysis_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "RepoAnalysisAgent+AgentRuntimeV2+MIASI+RepoAnalyzer+DependencyGraph+RepoQualityGate+PromptRegistry+BudgetLedger+NoMutations+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "REPO_ANALYSIS_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "CODE_REVIEW_DRY_RUN_ALLOW",
-      "domain": "Review",
       "action": "code_review_dry_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Review",
       "gate": "CodeReviewEngine+PolicyEngine+PathGuard+SecretGuard+NoMutations+NoExternalAPI",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "CODE_REVIEW_DRY_RUN_ALLOW"
     },
     {
-      "rule_id": "CODE_REVIEW_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "code_review_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "CodeReviewAgent+AgentRuntimeV2+MIASI+CodeReviewEngine+PromptRegistry+BudgetLedger+NoMutations+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "CODE_REVIEW_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "PATCH_REVIEW_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "patch_review_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "PatchReviewAgent+AgentRuntimeV2+MIASI+PatchReviewEngine+PatchPreflightEngine+PromptRegistry+BudgetLedger+NoPatchApply+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "PATCH_REVIEW_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "SAFE_REFACTOR_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "safe_refactor_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "SafeRefactorAgent+AgentRuntimeV2+MIASI+RefactorPlanner+RefactorExecutorSandboxDeclaredOnly+RollbackPlan+TestsRunPlanOnly+PromptRegistry+BudgetLedger+NoWorkspaceMutation+NoPatchApply+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "SAFE_REFACTOR_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "test_planner_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "TestPlannerAgent+AgentRuntimeV2+MIASI+TraceabilityEngine+TestsRunProfiles+PromptRegistry+BudgetLedger+NoArbitraryCommands+NoTestExecutionByDefault+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "TEST_PLANNER_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "TESTS_RUN_PLAN_ONLY_ALLOW",
-      "domain": "Testing",
       "action": "tests_run_plan_only",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Testing",
       "gate": "TestsRunTool+FixedProfiles+PolicyEngine+ApprovalRequiredForExecution+PlanOnlyNoSubprocess",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "TESTS_RUN_PLAN_ONLY_ALLOW"
     },
     {
-      "rule_id": "REQUIREMENTS_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "requirements_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "RequirementsAgent+AgentRuntimeV2+MIASI+TraceabilityEngine+PromptRegistry+BudgetLedger+ReadOnly+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "REQUIREMENTS_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "architecture_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "ArchitectureAgent+AgentRuntimeV2+MIASI+ArchitectureDrift+C4ADRReadOnly+PromptRegistry+BudgetLedger+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "ARCHITECTURE_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "SECURITY_AGENT_GOVERNED_ALLOW",
-      "domain": "Agent",
       "action": "security_agent_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "SecurityAgent+AgentRuntimeV2+MIASI+SecretGuard+PolicySimulation+PromptRegistry+BudgetLedger+NoMutation+NoExternalAPI+NoHandoffs",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "SECURITY_AGENT_GOVERNED_ALLOW"
     },
     {
-      "rule_id": "SECURITY_REVIEW_READ_ONLY_ALLOW",
-      "domain": "Security",
       "action": "security_review_read_only",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Security",
       "gate": "SecurityDocs+SecretGuard+PolicySimulationSuite+ReadOnly+RedactedFindings+NoRawSecrets+NoPolicyMutation",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "SECURITY_REVIEW_READ_ONLY_ALLOW"
     },
     {
-      "rule_id": "OTEL_EXPORT_DRY_RUN_ALLOW",
-      "domain": "Telemetry",
       "action": "telemetry_export_dry_run",
-      "default_effect": "allow",
-      "gate": "OTelDryRunExporter+PolicyEngine+SecretGuard+TraceStore+ReportEngine+NoNetwork+NoExternalAPI",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "OTEL_REMOTE_EXPORT_BLOCK",
+      "default_effect": "allow",
       "domain": "Telemetry",
+      "gate": "OTelDryRunExporter+PolicyEngine+SecretGuard+TraceStore+ReportEngine+NoNetwork+NoExternalAPI",
+      "observability_required": true,
+      "rule_id": "OTEL_EXPORT_DRY_RUN_ALLOW"
+    },
+    {
       "action": "telemetry_export_remote",
+      "approval_required": true,
       "default_effect": "block",
+      "domain": "Telemetry",
       "gate": "PolicyEngine+CostGuard+ApprovalPolicyChecker+RemoteTelemetryDisabledByDefault",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "OTEL_REMOTE_EXPORT_BLOCK"
     },
     {
-      "rule_id": "AGENTOPS_STATUS_ALLOW",
-      "domain": "AgentOps",
       "action": "status_quality_gate",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "AgentOps",
       "gate": "AgentOpsQualityGate+ReportEngine+SecretGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "AGENTOPS_STATUS_ALLOW"
     },
     {
-      "rule_id": "RELEASE_AGENT_DRY_RUN_ALLOW",
-      "domain": "Release",
       "action": "release_assistant_dry_run",
-      "default_effect": "allow",
-      "gate": "PolicyEngine+MIASI+QualityGate+ReportEngine",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "RELEASE_PUBLISH_DEPLOY_TAG_DENY",
+      "default_effect": "allow",
       "domain": "Release",
+      "gate": "PolicyEngine+MIASI+QualityGate+ReportEngine",
+      "observability_required": true,
+      "rule_id": "RELEASE_AGENT_DRY_RUN_ALLOW"
+    },
+    {
       "action": "publish_deploy_tag",
+      "approval_required": true,
       "default_effect": "deny",
+      "domain": "Release",
       "gate": "PolicyEngine+ApprovalPolicyChecker+ReleasePolicy",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "RELEASE_PUBLISH_DEPLOY_TAG_DENY"
     },
     {
-      "rule_id": "AGENT_SESSION_INSPECT_ALLOW",
-      "domain": "AgentSession",
       "action": "inspect_session_state",
-      "default_effect": "allow",
-      "gate": "PathGuard+SecretGuard+LocalStore+TraceStoreReadOnly",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "AGENT_SESSION_STATE_ALLOW",
+      "default_effect": "allow",
       "domain": "AgentSession",
+      "gate": "PathGuard+SecretGuard+LocalStore+TraceStoreReadOnly",
+      "observability_required": true,
+      "rule_id": "AGENT_SESSION_INSPECT_ALLOW"
+    },
+    {
       "action": "record_operational_session_state",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "AgentSession",
       "gate": "AgentSessionStore+PathGuard+SecretGuard+LocalStore+TraceContext",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "AGENT_SESSION_STATE_ALLOW"
     },
     {
-      "rule_id": "RAG_INDEX_LOCAL_ALLOW",
-      "domain": "RAG",
       "action": "index_local_docs",
-      "default_effect": "allow",
-      "gate": "PathGuard+SecretGuard+LocalRagIndexer+DeniedPathPolicy+NoExternalAPI",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "RAG_QUERY_LOCAL_ALLOW",
+      "default_effect": "allow",
       "domain": "RAG",
+      "gate": "PathGuard+SecretGuard+LocalRagIndexer+DeniedPathPolicy+NoExternalAPI",
+      "observability_required": true,
+      "rule_id": "RAG_INDEX_LOCAL_ALLOW"
+    },
+    {
       "action": "query_local_index",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "RAG",
       "gate": "PathGuard+SecretGuard+LocalRagRetriever+SourcesRequired+NoExternalAPI",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "RAG_QUERY_LOCAL_ALLOW"
     },
     {
-      "rule_id": "CONNECTOR_REGISTRY_VALIDATE_ALLOW",
-      "domain": "Connector",
       "action": "validate_registry",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Connector",
       "gate": "SchemaValidator+ConnectorRegistry+PathGuard+SecretGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "CONNECTOR_REGISTRY_VALIDATE_ALLOW"
     },
     {
-      "rule_id": "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
-      "domain": "Connector",
       "action": "discover_or_call_unregistered_connector",
+      "approval_required": true,
       "default_effect": "deny",
+      "domain": "Connector",
       "gate": "ConnectorRegistry+PolicyEngine+MIASI",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT"
     },
     {
-      "rule_id": "CONNECTOR_READ_ONLY_PLANNED_ALLOW",
-      "domain": "Connector",
       "action": "future_read_only_connector_call",
+      "approval_required": false,
       "default_effect": "deny",
+      "domain": "Connector",
       "gate": "ConnectorRegistry+PolicyEngine+TraceEngine+EvalHarness",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "CONNECTOR_READ_ONLY_PLANNED_ALLOW"
     },
     {
-      "rule_id": "MCP_EXECUTION_DENY",
-      "domain": "MCP",
       "action": "mcp_client_server_execute",
+      "approval_required": true,
       "default_effect": "deny",
+      "domain": "MCP",
       "gate": "MCPThreatModel+ConnectorRegistry+ApprovalPolicyChecker",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MCP_EXECUTION_DENY"
     },
     {
-      "rule_id": "CONNECTOR_EXTERNAL_API_DENY",
-      "domain": "Connector",
       "action": "external_api_connector_call",
+      "approval_required": true,
       "default_effect": "deny",
+      "domain": "Connector",
       "gate": "CostGuard+SecretGuard+ApprovalPolicyChecker+FutureADR",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "CONNECTOR_EXTERNAL_API_DENY"
     },
     {
-      "rule_id": "CONNECTOR_CALL_READ_ONLY_ALLOW",
-      "domain": "Connector",
       "action": "read_only_connector_call_dry_run",
-      "default_effect": "allow",
-      "gate": "ConnectorRegistry+PolicyEngine+PathGuard+SecretGuard+TraceEngine+NoNetwork+NoShell",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "CONNECTOR_CALL_EXECUTE_DENY",
+      "default_effect": "allow",
       "domain": "Connector",
+      "gate": "ConnectorRegistry+PolicyEngine+PathGuard+SecretGuard+TraceEngine+NoNetwork+NoShell",
+      "observability_required": true,
+      "rule_id": "CONNECTOR_CALL_READ_ONLY_ALLOW"
+    },
+    {
       "action": "connector_call_execute_mode",
+      "approval_required": true,
       "default_effect": "deny",
+      "domain": "Connector",
       "gate": "ConnectorAdapter+ApprovalPolicyChecker+FutureSandbox",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "CONNECTOR_CALL_EXECUTE_DENY"
     },
     {
-      "rule_id": "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
-      "domain": "Agent",
       "action": "multiagent_coordinator_dry_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "PolicyEngine + MIASI Agent Registry + Workflow allowlist",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW"
     },
     {
-      "rule_id": "MULTIAGENT_EXECUTE_DENY",
-      "domain": "Agent",
       "action": "multiagent_execute",
+      "approval_required": true,
       "default_effect": "block",
+      "domain": "Agent",
       "gate": "PolicyEngine blocks non-dry-run/autonomous execution",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MULTIAGENT_EXECUTE_DENY"
     },
     {
-      "rule_id": "MULTIAGENT_HANDOFF_TRACE_REQUIRED",
-      "domain": "Agent",
       "action": "multiagent_handoff",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Agent",
       "gate": "Explicit HandoffRecord + EventLogger trace required",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
     },
     {
-      "rule_id": "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
-      "domain": "Agent",
       "action": "multiagent_workflow_run_dry_run",
-      "default_effect": "allow",
-      "gate": "WorkflowRegistry+SchemaValidator+PolicyEngine+MIASI+TraceEngine+ReportEngine",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
+      "default_effect": "allow",
       "domain": "Agent",
+      "gate": "WorkflowRegistry+SchemaValidator+PolicyEngine+MIASI+TraceEngine+ReportEngine",
+      "observability_required": true,
+      "rule_id": "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW"
+    },
+    {
       "action": "multiagent_workflow_execute",
+      "approval_required": true,
       "default_effect": "block",
+      "domain": "Agent",
       "gate": "WorkflowRunner blocks non-dry-run and destructive execution",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MULTIAGENT_WORKFLOW_EXECUTE_DENY"
     },
     {
-      "rule_id": "EVAL_SAFETY_SCORING_ALLOW",
-      "domain": "Eval",
       "action": "advanced_agentic_safety_scoring",
-      "default_effect": "allow",
-      "gate": "EvalRunner+SafetyEvalEngine+SyntheticFixtures+NoLLMJudge+NoNetwork",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+      "default_effect": "allow",
       "domain": "Eval",
+      "gate": "EvalRunner+SafetyEvalEngine+SyntheticFixtures+NoLLMJudge+NoNetwork",
+      "observability_required": true,
+      "rule_id": "EVAL_SAFETY_SCORING_ALLOW"
+    },
+    {
       "action": "red_team_fixture_load",
+      "approval_required": false,
       "default_effect": "block",
+      "domain": "Eval",
       "gate": "SafetyEvalEngine+SecretPatternGuard+SyntheticFixturePolicy",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
     },
     {
-      "rule_id": "PLUGIN_METADATA_READ_ALLOW",
-      "domain": "Plugin",
       "action": "read_metadata",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Plugin",
       "gate": "PluginRegistry+SchemaValidator+PathGuard+SecretGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "PLUGIN_METADATA_READ_ALLOW"
     },
     {
-      "rule_id": "PLUGIN_DRY_RUN_ONLY_ALLOW",
-      "domain": "Plugin",
       "action": "loader_dry_run",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Plugin",
       "gate": "PluginRegistry+PolicyEngine+EventLogger",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "PLUGIN_DRY_RUN_ONLY_ALLOW"
     },
     {
-      "rule_id": "PLUGIN_CONNECTOR_BINDING_ALLOW",
-      "domain": "Plugin",
       "action": "connector_binding_metadata",
-      "default_effect": "allow",
-      "gate": "PluginRegistry+ConnectorRegistry+PolicyEngine",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PLUGIN_EXECUTE_DENY",
+      "default_effect": "allow",
       "domain": "Plugin",
+      "gate": "PluginRegistry+ConnectorRegistry+PolicyEngine",
+      "observability_required": true,
+      "rule_id": "PLUGIN_CONNECTOR_BINDING_ALLOW"
+    },
+    {
       "action": "execute_plugin_code",
+      "approval_required": true,
       "default_effect": "deny",
+      "domain": "Plugin",
       "gate": "PluginPolicy+ApprovalPolicyChecker+SandboxFuture",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "PLUGIN_EXECUTE_DENY"
     },
     {
-      "rule_id": "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
-      "domain": "Workspace",
       "action": "validate_multiworkspace_registry",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Workspace",
       "gate": "MultiworkspaceRegistry+SchemaValidator+PathGuard+SecretGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW"
     },
     {
-      "rule_id": "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
-      "domain": "Workspace",
       "action": "register_workspace_metadata",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Workspace",
       "gate": "MultiworkspaceRegistry+PolicyEngine+PathGuard+WorkspaceProjectContract",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW"
     },
     {
-      "rule_id": "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
-      "domain": "Workspace",
       "action": "select_active_workspace_metadata",
-      "default_effect": "allow",
-      "gate": "MultiworkspaceRegistry+PolicyEngine+PathGuard",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
-      "domain": "Portfolio",
-      "action": "portfolio_status_read_only",
       "default_effect": "allow",
-      "gate": "PortfolioStatusBuilder+MultiworkspaceRegistry+PathGuard",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "MULTIWORKSPACE_ISOLATION_REQUIRED",
       "domain": "Workspace",
+      "gate": "MultiworkspaceRegistry+PolicyEngine+PathGuard",
+      "observability_required": true,
+      "rule_id": "MULTIWORKSPACE_SELECT_LOCAL_ALLOW"
+    },
+    {
+      "action": "portfolio_status_read_only",
+      "approval_required": false,
+      "default_effect": "allow",
+      "domain": "Portfolio",
+      "gate": "PortfolioStatusBuilder+MultiworkspaceRegistry+PathGuard",
+      "observability_required": true,
+      "rule_id": "PORTFOLIO_STATUS_READ_ONLY_ALLOW"
+    },
+    {
       "action": "cross_workspace_state_secret_isolation",
+      "approval_required": false,
       "default_effect": "block",
+      "domain": "Workspace",
       "gate": "MultiworkspaceRegistry+StatePathIsolation+SecretGuard+PathGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "MULTIWORKSPACE_ISOLATION_REQUIRED"
     },
     {
-      "rule_id": "IDENTITY_READ_LOCAL_ALLOW",
-      "domain": "Identity",
       "action": "identity_read_local",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Identity",
       "gate": "IdentityRegistry+SchemaValidator+PathGuard+SecretGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "IDENTITY_READ_LOCAL_ALLOW"
     },
     {
-      "rule_id": "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
-      "domain": "Identity",
       "action": "rbac_check_sensitive_action",
+      "approval_required": false,
       "default_effect": "allow",
-      "gate": "IdentityRegistry+RBAC+PolicyEngine+ApprovalPolicyChecker",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "APPROVAL_ACTOR_BINDING_REQUIRED",
-      "domain": "Approval",
-      "action": "approval_actor_binding",
-      "default_effect": "block",
-      "gate": "ApprovalService+IdentityRegistry+RBAC",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "REMOTE_AUTH_DENY",
       "domain": "Identity",
+      "gate": "IdentityRegistry+RBAC+PolicyEngine+ApprovalPolicyChecker",
+      "observability_required": true,
+      "rule_id": "RBAC_CHECK_SENSITIVE_ACTION_ALLOW"
+    },
+    {
+      "action": "approval_actor_binding",
+      "approval_required": false,
+      "default_effect": "block",
+      "domain": "Approval",
+      "gate": "ApprovalService+IdentityRegistry+RBAC",
+      "observability_required": true,
+      "rule_id": "APPROVAL_ACTOR_BINDING_REQUIRED"
+    },
+    {
       "action": "remote_authentication",
+      "approval_required": true,
       "default_effect": "deny",
+      "domain": "Identity",
       "gate": "IdentityRegistry+LocalOnlyPolicy",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "REMOTE_AUTH_DENY"
     },
     {
-      "rule_id": "AUDIT_PACK_BUILD_LOCAL_ALLOW",
-      "domain": "AuditPack",
       "action": "build_local_audit_pack",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "AuditPack",
       "gate": "RBAC+PathGuard+SecretGuard+ChecksumManifest",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "AUDIT_PACK_BUILD_LOCAL_ALLOW"
     },
     {
-      "rule_id": "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
-      "domain": "AuditPack",
       "action": "verify_local_audit_pack",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "AuditPack",
       "gate": "PathGuard+ChecksumManifest+SecretGuard",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "AUDIT_PACK_VERIFY_LOCAL_ALLOW"
     },
     {
-      "rule_id": "AUDIT_PACK_SECRET_EXPORT_DENY",
-      "domain": "AuditPack",
       "action": "export_secret_runtime_state",
+      "approval_required": false,
       "default_effect": "deny",
-      "gate": "SecretGuard+ForbiddenPathPolicy",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "AUDIT_PACK_INTEGRITY_REQUIRED",
       "domain": "AuditPack",
+      "gate": "SecretGuard+ForbiddenPathPolicy",
+      "observability_required": true,
+      "rule_id": "AUDIT_PACK_SECRET_EXPORT_DENY"
+    },
+    {
       "action": "share_evidence_pack",
+      "approval_required": false,
       "default_effect": "block",
+      "domain": "AuditPack",
       "gate": "AuditPackManifest+SHA256; block when manifest/checksums are missing or invalid",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "AUDIT_PACK_INTEGRITY_REQUIRED"
     },
     {
-      "rule_id": "COMPLIANCE_PACK_READ_ALLOW",
-      "domain": "Compliance",
       "action": "list_read",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Compliance",
       "gate": "PathGuard+SchemaValidator+CompliancePackRegistry",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "COMPLIANCE_PACK_READ_ALLOW"
     },
     {
-      "rule_id": "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
-      "domain": "Compliance",
       "action": "run_declared_pack",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "Compliance",
       "gate": "CompliancePackRunner+ValidationGateway+MIASI+Readiness+SchemaRegistry",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW"
     },
     {
-      "rule_id": "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
-      "domain": "Compliance",
       "action": "policy_engine_required",
-      "default_effect": "allow",
-      "gate": "PolicyEngine preflight before pack checks",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+      "default_effect": "allow",
       "domain": "Compliance",
+      "gate": "PolicyEngine preflight before pack checks",
+      "observability_required": true,
+      "rule_id": "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED"
+    },
+    {
       "action": "undeclared_action",
+      "approval_required": false,
       "default_effect": "block",
+      "domain": "Compliance",
       "gate": "Compliance runner allowlist; no arbitrary shell or remote execution",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
     },
     {
-      "rule_id": "REMOTE_RUNNER_STATUS_ALLOW",
-      "domain": "RemoteRunner",
       "action": "status_read",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "RemoteRunner",
       "gate": "RemoteRunnerRegistry+SchemaValidator+PolicyEngine; status only",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "REMOTE_RUNNER_STATUS_ALLOW"
     },
     {
-      "rule_id": "REMOTE_RUNNER_EXECUTE_DENY",
-      "domain": "RemoteRunner",
       "action": "execute_remote",
-      "default_effect": "block",
-      "gate": "RemoteRunnerStub blocks every execution attempt until future ADR approval",
       "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+      "default_effect": "block",
       "domain": "RemoteRunner",
+      "gate": "RemoteRunnerStub blocks every execution attempt until future ADR approval",
+      "observability_required": true,
+      "rule_id": "REMOTE_RUNNER_EXECUTE_DENY"
+    },
+    {
       "action": "cloud_control_plane",
+      "approval_required": true,
       "default_effect": "block",
+      "domain": "RemoteRunner",
       "gate": "No network/cloud/external API in Sprint 98 experimental boundary",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "REMOTE_CLOUD_CONTROL_PLANE_DENY"
     },
     {
-      "rule_id": "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
-      "domain": "EnterpriseReporting",
       "action": "aggregate_local_report",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "EnterpriseReporting",
       "gate": "EnterpriseReportBuilder read-only aggregation over local registries and summaries",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
     },
     {
-      "rule_id": "INDUSTRIAL_READINESS_LOCAL_ALLOW",
-      "domain": "IndustrialReadiness",
       "action": "check_local_governance_readiness",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "IndustrialReadiness",
       "gate": "IndustrialReadinessGate aggregates local evidence only and writes reports under outputs when requested",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "INDUSTRIAL_READINESS_LOCAL_ALLOW"
     },
     {
-      "rule_id": "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
-      "domain": "IndustrialReadiness",
       "action": "overclaim_production_maturity",
+      "approval_required": false,
       "default_effect": "block",
-      "gate": "Gate must classify production-ready, implemented, implemented-initial, experimental, planned and future capabilities explicitly",
-      "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
       "domain": "IndustrialReadiness",
+      "gate": "Gate must classify production-ready, implemented, implemented-initial, experimental, planned and future capabilities explicitly",
+      "observability_required": true,
+      "rule_id": "INDUSTRIAL_READINESS_OVERCLAIM_DENY"
+    },
+    {
       "action": "close_phase_h",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "IndustrialReadiness",
       "gate": "Fase H closure requires industrial readiness score, closure report and post-H backlog seed",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
     },
     {
-      "rule_id": "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
-      "domain": "TestingHardening",
       "action": "validate_test_contract_registry",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "TestingHardening",
       "gate": "Registry validation is local, read-only and does not execute pytest dynamically from JSON",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW"
     },
     {
-      "rule_id": "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
-      "domain": "TestingHardening",
       "action": "validate_project_global_state",
+      "approval_required": false,
       "default_effect": "allow",
+      "domain": "TestingHardening",
       "gate": "Project global state validation reads only source-controlled docs and .devpilot/project_state.json",
-      "approval_required": false,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW"
     },
     {
-      "rule_id": "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
-      "domain": "TestingHardening",
       "action": "analyze_changed_paths",
-      "default_effect": "allow",
-      "gate": "Impact analyzer must be conservative and recommend full pytest for unknown/core changes",
       "approval_required": false,
-      "observability_required": true
-    },
-    {
-      "rule_id": "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED",
+      "default_effect": "allow",
       "domain": "TestingHardening",
+      "gate": "Impact analyzer must be conservative and recommend full pytest for unknown/core changes",
+      "observability_required": true,
+      "rule_id": "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW"
+    },
+    {
       "action": "unknown_path_analysis",
-      "default_effect": "allow",
-      "gate": "Unknown changed paths require full pytest recommendation rather than false confidence",
       "approval_required": false,
-      "observability_required": true
+      "default_effect": "allow",
+      "domain": "TestingHardening",
+      "gate": "Unknown changed paths require full pytest recommendation rather than false confidence",
+      "observability_required": true,
+      "rule_id": "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
     },
     {
-      "rule_id": "WORKSPACE_DOCUMENT_APPLY_APPROVAL_GATED",
-      "domain": "Filesystem",
       "action": "workspace_document_apply",
+      "approval_required": true,
       "default_effect": "allow",
+      "domain": "Filesystem",
       "gate": "WorkspaceEditExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+PathGuard+SecretGuard+OptimisticConcurrency+AtomicReplace+PostValidation",
-      "approval_required": true,
-      "observability_required": true
+      "observability_required": true,
+      "rule_id": "WORKSPACE_DOCUMENT_APPLY_APPROVAL_GATED"
     },
     {
-      "rule_id": "WORKSPACE_DOCUMENT_ROLLBACK_APPROVAL_GATED",
-      "domain": "Filesystem",
       "action": "workspace_document_rollback",
-      "default_effect": "allow",
-      "gate": "WorkspaceEditExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+GitAdapterReadOnly+BackupHash+AtomicReplace",
       "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "WORKSPACE_GIT_STAGE_APPROVAL_GATED",
-      "domain": "Git",
-      "action": "git.workspace_stage",
       "default_effect": "allow",
-      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+OpaqueDocumentId+SecretGuard+ExactIndexSet+PreCommitValidation; no free Git args",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "WORKSPACE_GIT_COMMIT_APPROVAL_GATED",
-      "domain": "Git",
-      "action": "git.workspace_commit",
-      "default_effect": "allow",
-      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+ExactIndexFingerprint+ExplicitIdentity+HooksDisabled+PostCommitVerification; local commit only, push denied",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED",
-      "domain": "Git",
-      "action": "git.workspace_branch_create",
-      "default_effect": "allow",
-      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+SafeBranchName+CleanWorktree+CurrentHEAD; creates local ref only, no checkout/delete/push",
-      "approval_required": true,
-      "observability_required": true
-    },
-    {
-      "rule_id": "GSDLC03D_BOOTSTRAP_APPROVAL_BOUND",
       "domain": "Filesystem",
-      "action": "filesystem.project_bootstrap_execute",
-      "default_effect": "allow",
-      "gate": "ProjectBootstrapExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+PathGuard+ExactPlanHash+ExactPreimageHash+AuthorizedWorkspaceRoot+RollbackVerification; local-only, no arbitrary shell, remote/network disabled-by-default",
+      "gate": "WorkspaceEditExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+GitAdapterReadOnly+BackupHash+AtomicReplace",
+      "observability_required": true,
+      "rule_id": "WORKSPACE_DOCUMENT_ROLLBACK_APPROVAL_GATED"
+    },
+    {
+      "action": "git.workspace_stage",
       "approval_required": true,
-      "observability_required": true
+      "default_effect": "allow",
+      "domain": "Git",
+      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+OpaqueDocumentId+SecretGuard+ExactIndexSet+PreCommitValidation; no free Git args",
+      "observability_required": true,
+      "rule_id": "WORKSPACE_GIT_STAGE_APPROVAL_GATED"
+    },
+    {
+      "action": "git.workspace_commit",
+      "approval_required": true,
+      "default_effect": "allow",
+      "domain": "Git",
+      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+ExactIndexFingerprint+ExplicitIdentity+HooksDisabled+PostCommitVerification; local commit only, push denied",
+      "observability_required": true,
+      "rule_id": "WORKSPACE_GIT_COMMIT_APPROVAL_GATED"
+    },
+    {
+      "action": "git.workspace_branch_create",
+      "approval_required": true,
+      "default_effect": "allow",
+      "domain": "Git",
+      "gate": "WorkspaceGitOperationsApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+SafeBranchName+CleanWorktree+CurrentHEAD; creates local ref only, no checkout/delete/push",
+      "observability_required": true,
+      "rule_id": "WORKSPACE_GIT_BRANCH_CREATE_APPROVAL_GATED"
+    },
+    {
+      "action": "filesystem.project_bootstrap_execute",
+      "approval_required": true,
+      "default_effect": "allow",
+      "domain": "Filesystem",
+      "gate": "ProjectBootstrapExecutionApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+PathGuard+ExactPlanHash+ExactPreimageHash+AuthorizedWorkspaceRoot+RollbackVerification; local-only, no arbitrary shell, remote/network disabled-by-default",
+      "observability_required": true,
+      "rule_id": "GSDLC03D_BOOTSTRAP_APPROVAL_BOUND"
+    },
+    {
+      "action": "story_source_change_apply",
+      "approval_required": true,
+      "default_effect": "allow",
+      "domain": "Filesystem",
+      "gate": "SourceChangeApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+PathGuard+SecretGuard+ExactPathAllowlist+PreimageRevalidation+VerifiedBackups+AtomicReplace+CompensatingRollback+PostimageVerification",
+      "observability_required": true,
+      "rule_id": "STORY_SOURCE_CHANGE_APPLY_APPROVAL_GATED"
+    },
+    {
+      "action": "story_source_change_rollback",
+      "approval_required": true,
+      "default_effect": "allow",
+      "domain": "Filesystem",
+      "gate": "SourceChangeApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+ExactPostimageParity+VerifiedBackupSet+CompensatingRestore",
+      "observability_required": true,
+      "rule_id": "STORY_SOURCE_CHANGE_ROLLBACK_APPROVAL_GATED"
     }
-  ]
+  ],
+  "schema_version": "1.0",
+  "source_document": "docs/06_miasi/policy_matrix.md"
 }

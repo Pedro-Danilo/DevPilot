@@ -1,3 +1,7 @@
+## DEVPL-GSDLC-09-C — governed source change — local qualification candidate
+
+GSDLC-09-C is implemented on `repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`. `SourceDraftBuffer` now promotes only through immutable `SourceChangePlan → dry-run → owner approval → preimage revalidation → atomic apply → verify`; rollback is a separate approval-bound operation. Full diff, Test Impact preview, risk/required approver, apply manifest and rollback evidence are visible in `/story/code`. Focal 14/14 and FRX historical authority/freeze 13/13 pass locally; Full Regression remains 0 and the exactly-one backlog full remains reserved for 09-E. Windows live browser is mandatory before 09-C can close or authorize 09-D.
+
 ## DEVPL-GSDLC-09-B — Code Workbench — Windows closure
 
 GSDLC-09-B closes `CLOSED/PASS/WINDOWS-VALIDATED` only after Windows reproduces focal 8/8, bounded 86/86, deterministic gates/FRX guard, and a **live browser 7/7** against API/UI running in foreground. The successor candidate is `repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-09-C becomes authorized but is not implemented by this closure. CREATE/EDIT/RENAME remain runtime-only `SourceDraftBuffer`; source apply, shell and terminal remain unavailable. Full Regression=0 and the exactly-one backlog full remains reserved for GSDLC-09-E.

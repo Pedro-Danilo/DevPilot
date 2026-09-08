@@ -56,7 +56,7 @@ from .backlog_workbench_service import BacklogWorkbenchApplicationService
 from .sprint_planner_service import SprintPlannerApplicationService
 from .planning_closure_service import PlanningClosureApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
-from devpilot_core.code_workbench import CodeWorkbenchApplicationService
+from devpilot_core.code_workbench import CodeWorkbenchApplicationService, SourceChangeApplicationService
 
 
 def _display_path(path: str | Path) -> str:
@@ -108,6 +108,7 @@ class ApplicationService:
         )
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.code_workbench = CodeWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.source_changes = SourceChangeApplicationService(self.root, context_resolver=self.ui_workspace_context, code_workbench=self.code_workbench, approval_auth_store=approval_auth_store)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -1350,6 +1351,39 @@ class ApplicationService:
 
     def story_code_draft_discard(self, *, draft_id: str, expected_revision_sha256: str, actor_role: str) -> CommandResult:
         return self.code_workbench.discard_draft(draft_id, expected_revision_sha256=expected_revision_sha256, actor_role=actor_role)
+
+    def story_source_change_plan_create(self, *, draft_ids: list[str], actor: str, actor_role: str) -> CommandResult:
+        return self.source_changes.create_plan(draft_ids=draft_ids, actor=actor, actor_role=actor_role)
+
+    def story_source_change_plan_get(self, *, plan_id: str) -> CommandResult:
+        return self.source_changes.get_plan(plan_id=plan_id)
+
+    def story_source_change_plan_recheck(self, *, plan_id: str, plan_hash: str) -> CommandResult:
+        return self.source_changes.recheck(plan_id=plan_id, plan_hash=plan_hash)
+
+    def story_source_change_dry_run(self, *, plan_id: str, plan_hash: str, actor: str, actor_role: str) -> CommandResult:
+        return self.source_changes.dry_run(plan_id=plan_id, plan_hash=plan_hash, actor=actor, actor_role=actor_role)
+
+    def story_source_change_apply_approval_request(self, *, plan_id: str, plan_hash: str, actor: str, actor_role: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
+        return self.source_changes.request_apply_approval(plan_id=plan_id, plan_hash=plan_hash, actor=actor, actor_role=actor_role, reason=reason, ttl_minutes=ttl_minutes)
+
+    def story_source_change_apply(self, *, plan_id: str, plan_hash: str, approval_id: str, actor: str, actor_role: str) -> CommandResult:
+        return self.source_changes.apply(plan_id=plan_id, plan_hash=plan_hash, approval_id=approval_id, actor=actor, actor_role=actor_role)
+
+    def story_source_change_execution_get(self, *, execution_id: str) -> CommandResult:
+        return self.source_changes.get_execution(execution_id=execution_id)
+
+    def story_source_change_rollback_approval_request(self, *, execution_id: str, actor: str, actor_role: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
+        return self.source_changes.request_rollback_approval(execution_id=execution_id, actor=actor, actor_role=actor_role, reason=reason, ttl_minutes=ttl_minutes)
+
+    def story_source_change_rollback(self, *, execution_id: str, approval_id: str, actor: str, actor_role: str) -> CommandResult:
+        return self.source_changes.rollback(execution_id=execution_id, approval_id=approval_id, actor=actor, actor_role=actor_role)
+
+    def story_source_change_apply_manifest(self, *, execution_id: str) -> CommandResult:
+        return self.source_changes.get_apply_manifest(execution_id=execution_id)
+
+    def story_source_change_rollback_evidence(self, *, execution_id: str) -> CommandResult:
+        return self.source_changes.get_rollback_evidence(execution_id=execution_id)
 
     def workspace_documents_list(self, *, limit: int = 50, offset: int = 0, query: str | None = None, extension: str | None = None, category: str | None = None) -> CommandResult:
         return self.workspace_documents.list_documents(limit=limit, offset=offset, query=query, extension=extension, category=category)

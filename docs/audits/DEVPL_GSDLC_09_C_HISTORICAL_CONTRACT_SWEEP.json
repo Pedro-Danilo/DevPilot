@@ -1,0 +1,56 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-C-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "micro_sprint": "DEVPL-GSDLC-09-C",
+  "source_repo": "repo_DevPilot_Local_409_DEVPL_GSDLC_09_B_CODE_WORKBENCH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "classifications": [
+    {
+      "path": "tests/test_uoc005_source_mutation_routes_at_close.py + .devpilot/testing/fixtures/uoc005_source_mutation_routes_at_close.json",
+      "classification": "historical-freeze",
+      "owner": "UOC-005",
+      "decision": "Freeze exactly the two UOC-005 source mutation route ids at close; never derive that historical fact from current-active API registry."
+    },
+    {
+      "path": "tests/test_post_h_eval_002_uoc_005_contracts.py",
+      "classification": "current-active",
+      "owner": "current governance",
+      "decision": "May verify that the historical UOC routes still exist, but cannot freeze the entire current API registry cardinality."
+    },
+    {
+      "path": "src/devpilot_core/code_workbench/change_service.py",
+      "classification": "current-active",
+      "owner": "DEVPL-GSDLC-09-C",
+      "decision": "Current approval-bound story source mutation boundary."
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "classification": "derived",
+      "owner": "DEVPL-GSDLC-09-C",
+      "decision": "Current registry grows by 11 successor routes; historical UOC-005 route count is not inferred from it."
+    },
+    {
+      "path": ".devpilot/testing/historical_contract_authority_registry.json",
+      "classification": "current-active",
+      "owner": "FRX-v2.4",
+      "decision": "Authority registry accepts successor contracts; cardinality is not pinned to the first FRX-v2.4-A close."
+    },
+    {
+      "path": "outputs/code_workbench/** + outputs/story_source_change/** + auth.db* + devpilot.db*",
+      "classification": "runtime-ephemeral",
+      "owner": "DEVPL-GSDLC-09-C",
+      "decision": "Excluded from source bundles and fixtures."
+    },
+    {
+      "path": "SourceChangePlan/ApplyManifest/RollbackEvidence schemas",
+      "classification": "successor-needed",
+      "owner": "DEVPL-GSDLC-09-C",
+      "decision": "New successor contracts add bounded source writes without rewriting earlier no-write facts."
+    }
+  ],
+  "unclassified_total": 0,
+  "historical_current_leakage_total": 0,
+  "historical_assertions_rewritten_for_pytest": false,
+  "runtime_stores_copied_to_fixture": false,
+  "full_regression_runs": 0,
+  "browser_required": true
+}

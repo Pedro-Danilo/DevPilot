@@ -1,0 +1,21 @@
+{
+  "closed_scope": "POST-H-EVAL-002-UOC-005",
+  "invariant": {
+    "auth_required": true,
+    "destructive_action_allowed": false,
+    "local_only": true,
+    "policy_check_required": true,
+    "policy_sensitivity_prefix": "approval-bound-"
+  },
+  "notes": [
+    "Frozen authority for the UOC-005 historical source-mutation contract. Successor source-write routes are current-active and must not alter this historical fact."
+  ],
+  "owner": "UOC-005",
+  "schema_id": "devpilot.testing.uoc005_source_mutation_routes_at_close.v1",
+  "source_mutation_route_ids": [
+    "api.workspace.edit-executions.rollback",
+    "api.workspace.edit-plans.apply"
+  ],
+  "status": "historical-freeze",
+  "version": "1.0.0"
+}

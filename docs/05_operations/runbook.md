@@ -11945,3 +11945,7 @@ The activation is an administrative, fail-closed predecessor of GSDLC-09-A. It b
 ## DEVPL-GSDLC-09-B — Code Workbench local qualification
 
 09-B adds `/story/code` as a project-scoped manual authoring surface. CREATE/EDIT/RENAME persist only SourceDraftBuffer runtime evidence; no apply or shell is available. Browser live is required for Windows closure; full regression is not run in 09-B.
+
+## DEVPL-GSDLC-09-C — approval-bound source change local qualification
+
+Execute only from repo409. The source mutation contract is `draft → immutable plan → dry-run → owner approval → preimage revalidation → atomic execute → verify → evidence`; manual rollback requires a separate approval. Browser validation uses exactly three foreground consoles: operator, API:8787, UI:5173. Never use generic patch/shell, agent self-apply, Git stage/commit, runtime DBs in fixtures, or physical CRLF/LF equality as a gate. 09-C uses focal + cumulative impact + Historical Contract Authority + Contract Reconciliation and `full=0`; the single backlog full remains reserved for 09-E.

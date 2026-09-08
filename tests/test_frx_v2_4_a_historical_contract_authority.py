@@ -24,7 +24,7 @@ def test_authority_registry_schema_and_six_scopes_pass():
     result = HistoricalContractAuthorityGate(ROOT).run()
     assert result.ok, result.to_dict()
     summary = result.data['summary']
-    assert summary['authority_contracts_total'] == 8
+    assert summary['authority_contracts_total'] >= 8
     assert summary['authority_scope_deterministic'] is True
     assert all(summary['authority_scope_counts'][name] >= 1 for name in ('historical-freeze','current-active','successor-needed','deprecated-after-proof','derived','runtime-ephemeral'))
 

@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/gsdlc_09_c_rollback_evidence.schema.json",
+  "title": "GSDLC-09-C RollbackEvidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "execution_id",
+    "plan_id",
+    "plan_hash",
+    "status",
+    "changes",
+    "exact_path_allowlist",
+    "rollback",
+    "source_hash_parity",
+    "network_used",
+    "external_api_used"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-09-C-ROLLBACK-EVIDENCE-V1"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "execution_id": {
+      "type": "string",
+      "pattern": "^source-exec-[0-9a-f]{24}$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^source-plan-[0-9a-f]{24}$"
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": {
+      "const": "rolled-back-manual"
+    },
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operation",
+          "source_path",
+          "target_path",
+          "preimage_sha256",
+          "postimage_sha256"
+        ],
+        "properties": {
+          "operation": {
+            "enum": [
+              "CREATE",
+              "EDIT",
+              "RENAME"
+            ]
+          },
+          "source_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "target_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "preimage_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "postimage_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "exact_path_allowlist": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "approval_id",
+        "actor",
+        "restored",
+        "at",
+        "source_hash_parity"
+      ],
+      "properties": {
+        "mode": {
+          "const": "manual-approval-bound"
+        },
+        "approval_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "restored": {
+          "const": true
+        },
+        "at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_hash_parity": {
+          "const": true
+        }
+      }
+    },
+    "source_hash_parity": {
+      "const": true
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    }
+  }
+}

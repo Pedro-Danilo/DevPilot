@@ -1,0 +1,29 @@
+{
+  "waiver_id": "DEVPL-GSDLC-09-C-NO-FULL-OWNER-APPROVED",
+  "schema_id": "devpilot.gsdlc09c.full_regression_waiver.v1",
+  "status": "approved-by-owner-policy",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-09-C",
+  "reason": "Owner-approved GSDLC-09 policy requires A-D cumulative-selective validation and reserves exactly one logical Full Regression for 09-E. 09-C is high-risk because it adds source writes, so closure requires focal fault-injection/security, bounded A-C, Test Impact, Historical Contract Authority, Contract Reconciliation and real browser, but not an intermediate full.",
+  "risk": "critical/approval-bound-source-mutation",
+  "tests_executed": [
+    "09-C focal source-change: PASS/14",
+    "bounded current A-C/dependencies: PASS/69",
+    "bounded historical: PASS/26",
+    "Historical authority + UOC-005 frozen: PASS/13",
+    "UI static SourceChangePlan contract: PASS",
+    "3 JSON schemas: PASS",
+    "deterministic gates + Test Impact + Historical Regression Guard: PASS"
+  ],
+  "expires_at": "2026-10-31T23:59:59Z",
+  "scope": "DEVPL-GSDLC-09-C only",
+  "full_regression_executed": false,
+  "full_regression_runs_allowed_now": 0,
+  "full_regression_reserved_for": "DEVPL-GSDLC-09-E",
+  "hard_trigger_owner_approved": false,
+  "browser_required": true,
+  "network_used": false,
+  "external_api_used": false,
+  "approval_source": "DEVPL-GSDLC-09 v1.4.3 + 03_PROMPT_DEVPL_GSDLC_09_C v1.0.1 + owner current prompt",
+  "qualification_status": "PASS/READY-FOR-WINDOWS-LIVE-BROWSER"
+}

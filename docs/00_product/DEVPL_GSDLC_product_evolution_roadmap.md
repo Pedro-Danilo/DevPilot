@@ -590,3 +590,7 @@ StoryExecutionState, deterministic DoR and minimized StoryContextPack are implem
 ## 2026-09-07 — GSDLC-09-B local qualification
 
 Bounded manual Code Workbench is implemented on repo408 with source-tree containment, opaque IDs, runtime-only SourceDraftBuffer, preimage conflict detection and `/story/code` UX. Source apply remains disabled until 09-C. Backend focal 8/8 PASS, UI static PASS and Chromium component acceptance 7/7 PASS; Windows live browser is mandatory for closure. FRX-v2.4 policy remains active: full=0 for 09-B and exactly-one backlog full remains reserved for 09-E.
+
+## 2026-09-08 — GSDLC-09-C local qualification
+
+On repo409, Story Code Workbench gains immutable `SourceChangePlan`, full diff/Test Impact/risk, owner approval, preimage revalidation, bounded all-or-nothing source apply and separately approved rollback. UOC-005 source-write history is frozen with a dedicated snapshot rather than pinning current API registry cardinality. Local focal/fault-injection and FRX authority pass; `full=0`. Windows live browser remains the closure authority and 09-D is not yet authorized.
