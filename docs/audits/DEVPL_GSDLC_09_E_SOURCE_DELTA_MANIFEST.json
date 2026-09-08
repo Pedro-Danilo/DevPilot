@@ -1,5 +1,5 @@
 {
-  "changed_paths_total": 21,
+  "changed_paths_total": 22,
   "paths": [
     {
       "change_type": "modify",
@@ -16,13 +16,13 @@
     {
       "change_type": "modify",
       "path": ".devpilot/testing/test_contract_registry.json",
-      "postimage_semantic_sha256": "320e56a49ea39c286667d72f1d0cdb6d8e6b093330126350b8c2d1157fc92057",
+      "postimage_semantic_sha256": "5ddc6eb7fd0032db8ad966f1e3dc293644c34945c3c05fd7f7f1651d0d94afc2",
       "preimage_semantic_sha256": "ab6cbbb05bd82f81c284571d6d810d0367786511acba4e42243f204b6dff2092"
     },
     {
       "change_type": "modify",
       "path": ".devpilot/testing/test_contract_registry_v2.json",
-      "postimage_semantic_sha256": "06656e571ba7a31cfd9c44e418c00c40dbd050da354de0af5b16f35903c6e442",
+      "postimage_semantic_sha256": "209d531f05b0c9ea4feca554047342b38409c7cd4ad61be59d3fb3b2201d102a",
       "preimage_semantic_sha256": "7c4f18214fa724f95fadcf9a68ded6a88ddb6fc2a00b5310dfda7bede59c724f"
     },
     {
@@ -64,7 +64,7 @@
     {
       "change_type": "create",
       "path": "docs/audits/DEVPL_GSDLC_09_E_CHANGED_PATHS.txt",
-      "postimage_semantic_sha256": "a155672845aab39dd45cf332c9914e15ae79ddf5e5f82ef52cb582a5b665eef4",
+      "postimage_semantic_sha256": "8cae9ce72eaba6841aa1996f80296df3d4159ea74f89ed22970c6de42d0edcfb",
       "preimage_semantic_sha256": null
     },
     {
@@ -88,7 +88,7 @@
     {
       "change_type": "create",
       "path": "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
-      "postimage_semantic_sha256": "2beed706c68147d755564ca93aceec8668a7b82e2327efdfbc06032062231eb0",
+      "postimage_semantic_sha256": "a97368a5652e4ea4f29cdfd3c31876af2b2bb8c949cc8323e73571c542649252",
       "preimage_semantic_sha256": null
     },
     {
@@ -100,7 +100,7 @@
     {
       "change_type": "create",
       "path": "docs/audits/DEVPL_GSDLC_09_E_TEST_IMPACT.json",
-      "postimage_semantic_sha256": "c59bc17dc53f38179d8079a6f118d46ece7950cfde3d01fbb1e23592e622bdca",
+      "postimage_semantic_sha256": "cf2ab618c1bedcdbeb7268114db6e9a1b67cc5c0c85a2e721f5ddc3b167fb6eb",
       "preimage_semantic_sha256": null
     },
     {
@@ -111,6 +111,12 @@
     },
     {
       "change_type": "modify",
+      "path": "src/devpilot_core/application/guided_sdlc_service.py",
+      "postimage_semantic_sha256": "528e7cb8e801b2eaf4ae491c9cfd6b99765e95ed4b1d5adec1824e29bdc716d0",
+      "preimage_semantic_sha256": "528b3bdfec8405509503d8d1c129b8be31725f89283fc148d11f26fc992a0c90"
+    },
+    {
+      "change_type": "modify",
       "path": "src/devpilot_core/application/services.py",
       "postimage_semantic_sha256": "acd6476b5ffb23fadeb34b328b194df9242f25fcdc5faeb4840590f7dba98d8e",
       "preimage_semantic_sha256": "7e5df1b0696813ca7ea56b2fa73f5640459fb1b24763c6e774f302efb826fc4e"
@@ -118,7 +124,7 @@
     {
       "change_type": "create",
       "path": "tests/test_devpl_gsdlc_09_e_story_closure.py",
-      "postimage_semantic_sha256": "9cc59eba4ce566af3db2237aa96b714ba374c9a613383acab5c6ea6d501ceebe",
+      "postimage_semantic_sha256": "ee471b1d7423f58d872fe9e326bc98ea1a10ddc7305ce85f395dc0009defd447",
       "preimage_semantic_sha256": null
     },
     {

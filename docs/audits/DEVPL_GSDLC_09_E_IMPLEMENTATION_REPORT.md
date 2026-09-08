@@ -28,3 +28,8 @@ This closes GSDLC-09 at an industrial local-first baseline. It is not a claim of
 
 ## PASS/BLOCK
 PASS when browser integrated journey is complete, Story reaches CHANGES_READY, rollback parity/conflict/negative guards pass, one governed full is 100% accounted with zero terminal FAIL/ERROR, S0/S1=0, and repo successor is clean. BLOCK otherwise.
+
+
+## Corrective browser-00 — Project Status fallback + browser authority restoration
+
+Windows browser evidence `GSDLC-09-E-00` exposed two pre-full issues. First, Project Status omitted the independent StoryExecution projection whenever WorkspaceEngineeringState legitimately fell back to UNKNOWN/EMPTY. The current-active service now attaches `current_story` after both success and fallback projection paths; it does not synthesize engineering-state PASS. Second, the Windows browser runner restores owner authority/session after the deliberate wrong-role negative case before collecting final parity evidence. Full Regression budget remains 0/1 and no FRX session is created by this corrective.

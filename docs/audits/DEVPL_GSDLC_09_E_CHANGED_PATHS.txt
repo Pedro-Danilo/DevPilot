@@ -16,6 +16,7 @@ docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md
 docs/audits/DEVPL_GSDLC_09_E_SOURCE_DELTA_MANIFEST.json
 docs/audits/DEVPL_GSDLC_09_E_TEST_IMPACT.json
 docs/release/CHANGELOG.md
+src/devpilot_core/application/guided_sdlc_service.py
 src/devpilot_core/application/services.py
 tests/test_devpl_gsdlc_09_e_story_closure.py
 ui/web/src/pages/ProjectStatusView.ts

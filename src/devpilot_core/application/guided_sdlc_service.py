@@ -165,12 +165,6 @@ class GuidedSDLCApplicationService:
             )
             status_payload = projection.status.to_payload()
             next_payload = next_projection.next_action.to_payload()
-            planning_payload = status_payload.get("planning")
-            if isinstance(planning_payload, dict):
-                story_root = context.effective_workspace_root if context.configured and context.valid else self.root
-                story_workspace_id = server_active or resolved
-                current_story = StoryExecutionStore(story_root, workspace_id=story_workspace_id).current_story_projection()
-                planning_payload["current_story"] = current_story
             freshness = str((status_payload.get("freshness") or {}).get("status") or "UNKNOWN").upper()
             revalidation = str((status_payload.get("revalidation") or {}).get("status") or "UNKNOWN").upper()
             lifecycle = str(status_payload.get("lifecycle_status") or "UNKNOWN").upper()
@@ -190,6 +184,19 @@ class GuidedSDLCApplicationService:
             status_payload = unknown.status.to_payload()
             next_payload = unknown.next_action.to_payload()
             ui_state = "EMPTY"
+
+        # StoryExecution is an independent runtime authority. Project Status must
+        # expose the current story even when WorkspaceEngineeringState is not yet
+        # materialized and the engineering projection legitimately falls back to
+        # UNKNOWN/EMPTY. This keeps the read-only status surface truthful without
+        # synthesizing an engineering-state PASS.
+        planning_payload = status_payload.get("planning")
+        if isinstance(planning_payload, dict):
+            story_root = context.effective_workspace_root if context.configured and context.valid else self.root
+            story_workspace_id = server_active or resolved
+            planning_payload["current_story"] = StoryExecutionStore(
+                story_root, workspace_id=story_workspace_id
+            ).current_story_projection()
 
         return CommandResult(
             command="guided_sdlc.project_status",

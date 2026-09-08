@@ -46,8 +46,20 @@ def test_02_wrong_role_or_blocked_apply_does_not_advance_story(workspace:Path,ru
 def test_03_rollback_restores_source_and_story_state_remains_monotonic(workspace:Path,runtime)->None:
     app,client=runtime; before=(workspace/'src/app.py').read_bytes(); p=plan(app,'def answer():\n    return 45\n'); applied=app.story_source_change_apply(plan_id=p['plan_id'],plan_hash=p['plan_hash'],approval_id=approve(app,client,p),actor='local-owner',actor_role='owner'); ex=applied.data['execution']; rr=app.story_source_change_rollback_approval_request(execution_id=ex['execution_id'],actor='local-owner',actor_role='owner',reason='09-E rollback verification'); assert rr.ok; aid=rr.data['approval']['approval_id']; d=client.post(f'/api/v1/approvals/{aid}/approve',json={'reason':'Owner approves rollback'},headers=csrf(client)); assert d.status_code==200; rb=app.story_source_change_rollback(execution_id=ex['execution_id'],approval_id=aid,actor='local-owner',actor_role='owner'); assert rb.ok and rb.data['source_hash_parity'] is True and (workspace/'src/app.py').read_bytes()==before; state=StoryExecutionStore(workspace,workspace_id=workspace.name).load_state(); assert state and state.status is StoryExecutionStatus.CHANGES_READY
 
-def test_04_project_status_ui_renders_current_story_status() -> None:
-    text=(ROOT/'ui/web/src/pages/ProjectStatusView.ts').read_text(encoding='utf-8'); assert 'project-status-current-story' in text and 'data.currentStoryStatus' not in text; assert 'current?.status' in text and 'Current story' in text
+def test_04_project_status_ui_renders_current_story_status(workspace: Path) -> None:
+    # The browser fixture intentionally has no WorkspaceEngineeringState.
+    # StoryExecution remains an independent runtime authority and must still be
+    # projected by Project Status through its UNKNOWN/EMPTY fallback.
+    app = ApplicationService(ROOT)
+    projected = app.guided_sdlc_project_status_primary(
+        workspace_id=None, observed_at_utc='2026-09-08T18:30:00+00:00'
+    )
+    assert projected.ok, projected.to_dict()
+    current = ((projected.data or {}).get('project_status') or {}).get('planning', {}).get('current_story')
+    assert current and current['story_id'] == 'STORY-09E' and current['status'] == 'IN_PROGRESS'
+    text=(ROOT/'ui/web/src/pages/ProjectStatusView.ts').read_text(encoding='utf-8')
+    assert 'project-status-current-story' in text and 'data.currentStoryStatus' not in text
+    assert 'current?.status' in text and 'Current story' in text
 
 def test_05_full_regression_profile_is_current_and_one_run_only() -> None:
     import json

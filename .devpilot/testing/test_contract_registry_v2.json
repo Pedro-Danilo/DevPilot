@@ -23330,11 +23330,13 @@
         "blocked/wrong-role apply does not advance StoryExecution",
         "rollback restores exact source while StoryExecution history remains monotonic",
         "Project Status visibly projects current story",
+        "Project Status projects current StoryExecution even when WorkspaceEngineeringState falls back to UNKNOWN/EMPTY",
         "FRX-v2.4 current profile is hash-valid and permits exactly one logical full",
         "FRX-v2.4 Isolation Registry covers all sealed collection nodeids fail-closed; new successors remain serial unless explicitly reviewed"
       ],
       "watched_paths": [
         "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
         "src/devpilot_core/story_execution/",
         "src/devpilot_core/code_workbench/change_service.py",
         "ui/web/src/pages/ProjectStatusView.ts",
