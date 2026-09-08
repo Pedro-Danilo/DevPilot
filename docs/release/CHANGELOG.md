@@ -3367,3 +3367,10 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 ## DEVPL-GSDLC-09-C — Windows validated
 - Added immutable SourceChangePlan, full diff/Test Impact preview, owner approval, stale-preimage revalidation, atomic multi-file apply and separate approval-bound rollback.
 - Browser live 7/7, bounded validation PASS, Full Regression=0.
+
+## 2026-09-08 — DEVPL-GSDLC-09-D
+
+- CLOSED/PASS/WINDOWS-VALIDATED CodingAgent/TestAgent proposal-only.
+- Human ACCEPT/REJECT, diff/cost/provenance/ToolDecision visibles.
+- No source/draft write desde agentes; ModelRouteDecision no concede tool authority.
+- Successor: `repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip`; Full Regression=0; GSDLC-09-E autorizado.

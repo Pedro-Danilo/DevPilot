@@ -1,7 +1,7 @@
 ---
 doc_id: "DEVPL-GSDLC-09-D-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-09-D — CodingAgent and TestAgent proposal-only implementation report"
-status: "implemented/local-qualified/windows-pending"
+status: "closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-08"
@@ -12,7 +12,7 @@ approval: "approved_by_owner/prompt-04"
 
 ## Estado
 
-`IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-PENDING` sobre `repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip`.
+`CLOSED / PASS / WINDOWS-VALIDATED` sobre `repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip`.
 
 ## Alcance implementado
 
@@ -66,3 +66,18 @@ Esta es una primera versión gobernada. El contenido propuesto es determinístic
 - provider externo requerido para PASS;
 - evidencia sin provenance completa;
 - browser no demuestra unsafe proposal BLOCK.
+
+
+## Cierre Windows 09-D
+
+Aplicado únicamente después de qualification PASS, browser real 7/7 y revisión visual humana PASS.
+
+- successor canónico: `repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip`;
+- browser Windows live: `1`;
+- Full Regression: `0`;
+- source/draft mutations realizadas por agentes: `0`;
+- mock/fake-local suficiente para PASS; API externa no requerida;
+- `ModelRouteDecision != ToolExecutionDecision`;
+- `GSDLC-09-E authorized=true`.
+
+La única Full Regression del backlog DEVPL-GSDLC-09 permanece reservada para 09-E.

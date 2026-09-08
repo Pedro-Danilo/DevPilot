@@ -11952,3 +11952,7 @@ Execute only from repo409. The source mutation contract is `draft → immutable 
 
 ## GSDLC-09-C — cierre Windows
 El source apply de Story Workbench está Windows-validado como operación tipada approval-bound; 09-D puede añadir propuestas agentic sin heredar autoridad de escritura.
+
+## DEVPL-GSDLC-09-D — operación cerrada
+
+La asistencia CodingAgent/TestAgent es proposal-only. El operador no debe convertir selección de modelo en permiso de escritura. Un ACCEPT humano solo inserta contenido en el editor; cualquier persistencia continúa por SourceDraftBuffer y el pipeline approval-bound de 09-C. La validación 09-D usa browser real y Full Regression=0; la única full de DEVPL-GSDLC-09 se reserva para 09-E.

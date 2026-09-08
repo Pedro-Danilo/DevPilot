@@ -6648,3 +6648,7 @@ GSDLC-08-D `CLOSED/PASS/WINDOWS-VALIDATED`. SprintPlanner focal and bounded A/B/
 ### DEVPL-GSDLC-08-E Windows composite closure
 
 GSDLC-08-E and the DEVPL-GSDLC-08 Planning Workbench backlog are `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. Browser acceptance proves PRE_CODE_READY → PLANNING → IMPLEMENTING_READY, governed roadmap/backlog/sprint approval/freeze, 100% traceability, visible MANUAL/IMPORT/AGENT routes and server-side RBAC denial. The exactly-one logical full is preserved immutable at `2968/2968 accounted = 2917 PASS / 46 FAIL / 0 ERROR / 5 SKIP`; no second full was run. Closure layers `46/46` exact failed-nodeid PASS, bounded impacted PASS, Historical Regression Guard PASS and post-recovery deterministic gates. Current candidate: `repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-09 is formally authorized, with FRX v2 execution-profile hardening recommended before functional start.
+
+### DEVPL-GSDLC-09-D — Coding/Test agents · Windows closure
+
+`CLOSED/PASS/WINDOWS-VALIDATED` · successor `repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip`. CodingAgent/TestAgent permanecen proposal-only; ACCEPT inserta solo en editor; source apply conserva el pipeline gobernado de 09-C. Browser Windows 7/7; Full Regression=0; 09-E autorizado.
