@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "sprint": "DEVPL-GSDLC-09-D",
+  "proposal_only": true,
+  "mock_local_pass_required": true,
+  "external_api_required": false,
+  "network_used": false,
+  "external_api_used": false,
+  "source_mutations_performed": false,
+  "draft_mutations_performed": false,
+  "self_apply": false,
+  "self_approve": false,
+  "self_commit": false,
+  "generic_shell": false,
+  "filesystem_delete": "BLOCK",
+  "model_route_grants_tool_permission": false,
+  "instruction_budget_chars": 2000,
+  "s0": 0,
+  "s1": 0
+}

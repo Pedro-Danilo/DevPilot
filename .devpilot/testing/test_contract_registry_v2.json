@@ -22778,19 +22778,48 @@
       ]
     },
     {
+      "capability": "HistoricalContractAuthorityHardening",
+      "classification_notes": [
+        "Focal/impact only. Sprint source explicitly forbids a full regression and browser execution."
+      ],
+      "classification_status": "explicit",
       "contract_id": "frx-v2.4-a-historical-contract-authority",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "governance.testing",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 20,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "FRX-v2.4-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "risk_level": "high",
       "schema_version": "2.0",
       "source_contract_id": "frx-v2.4-a-historical-contract-authority",
-      "domain": "governance.testing",
-      "capability": "HistoricalContractAuthorityHardening",
-      "criticality": "P0",
-      "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 20,
+      "source_mutations_allowed": false,
       "test_files": [
         "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "frx-v2.4-a",
+        "historical-contract-authority",
+        "historical-freeze",
+        "test-isolation-registry",
+        "node-duration-registry"
+      ],
+      "validates": [
+        "authority-scope deterministic gate",
+        "historical/current leakage=0",
+        "registry complete-schema validation",
+        "lifecycle disambiguation",
+        "successor progression"
       ],
       "watched_paths": [
         "src/devpilot_core/testing/historical_contract_authority.py",
@@ -22800,51 +22829,52 @@
         "src/devpilot_core/testing/isolation_registry.py",
         "src/devpilot_core/testing/duration_registry.py",
         "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json"
-      ],
-      "validates": [
-        "authority-scope deterministic gate",
-        "historical/current leakage=0",
-        "registry complete-schema validation",
-        "lifecycle disambiguation",
-        "successor progression"
-      ],
-      "trigger_hints": [
-        "frx-v2.4-a",
-        "historical-contract-authority",
-        "historical-freeze",
-        "test-isolation-registry",
-        "node-duration-registry"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": false,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "FRX-v2.4-A",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Focal/impact only. Sprint source explicitly forbids a full regression and browser execution."
       ]
     },
     {
+      "capability": "FullRegressionExecutionProfileLock",
+      "classification_notes": [
+        "Focal/impact only. FRX-v2.4 source explicitly requires full=0 and browser=0."
+      ],
+      "classification_status": "explicit",
       "contract_id": "frx-v2.4-b-execution-profile-lock",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "governance.testing",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 30,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "FRX-v2.4-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "risk_level": "high",
       "schema_version": "2.0",
       "source_contract_id": "frx-v2.4-b-execution-profile-lock",
-      "domain": "governance.testing",
-      "capability": "FullRegressionExecutionProfileLock",
-      "criticality": "P0",
-      "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 30,
+      "source_mutations_allowed": false,
       "test_files": [
         "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "frx-v2.4-b",
+        "full-regression-execution-profile",
+        "full-session",
+        "topology-compatibility",
+        "test-isolation-registry",
+        "node-duration-registry"
+      ],
+      "validates": [
+        "current profile deterministic authority",
+        "preflight schema/coverage/topology/ETA/budget",
+        "silent low-level downgrade impossible",
+        "consumer execution lock",
+        "direct UOC full worker blocked"
       ],
       "watched_paths": [
         "src/devpilot_core/testing/full_regression_execution_profile.py",
@@ -22858,52 +22888,49 @@
         ".devpilot/testing/node_duration_registry.json",
         ".devpilot/interfaces/ui_capability_registry.json",
         ".devpilot/interfaces/governed_job_capability_registry.json"
-      ],
-      "validates": [
-        "current profile deterministic authority",
-        "preflight schema/coverage/topology/ETA/budget",
-        "silent low-level downgrade impossible",
-        "consumer execution lock",
-        "direct UOC full worker blocked"
-      ],
-      "trigger_hints": [
-        "frx-v2.4-b",
-        "full-regression-execution-profile",
-        "full-session",
-        "topology-compatibility",
-        "test-isolation-registry",
-        "node-duration-registry"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": false,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "FRX-v2.4-B",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Focal/impact only. FRX-v2.4 source explicitly requires full=0 and browser=0."
       ]
     },
     {
+      "capability": "GSDLC09ActivationRebind",
+      "classification_notes": [
+        "Governance-only activation. full=0/browser=0; no src changes."
+      ],
+      "classification_status": "explicit",
       "contract_id": "devpl-gsdlc-09-activation-rebind",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "governance.project_state",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 10,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-09-ACTIVATION",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_activation_rebind.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "risk_level": "medium",
       "schema_version": "2.0",
       "source_contract_id": "devpl-gsdlc-09-activation-rebind",
-      "domain": "governance.project_state",
-      "capability": "GSDLC09ActivationRebind",
-      "criticality": "P0",
-      "risk_level": "medium",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 10,
+      "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_09_activation_rebind.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-09",
+        "activation-rebind",
+        "repo406",
+        "frx-v2.4"
+      ],
+      "validates": [
+        "repo406 current source authority",
+        "FRX-v2.4 close/profile binding",
+        "current-active pointer reconciliation",
+        "historical/current separation"
       ],
       "watched_paths": [
         ".devpilot/project_state.json",
@@ -22912,49 +22939,53 @@
         "00_PROMPT_DEVPL_GSDLC_09_ACTIVATION_REBIND_v1_0_1_REBOUND_REPO406.md",
         "docs/audits/DEVPL_GSDLC_09_ACTIVATION_REBIND_REPORT.json",
         ".devpilot/testing/full_regression_execution_profile_current.json"
-      ],
-      "validates": [
-        "repo406 current source authority",
-        "FRX-v2.4 close/profile binding",
-        "current-active pointer reconciliation",
-        "historical/current separation"
-      ],
-      "trigger_hints": [
-        "gsdlc-09",
-        "activation-rebind",
-        "repo406",
-        "frx-v2.4"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": false,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "DEVPL-GSDLC-09-ACTIVATION",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_activation_rebind.py"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Governance-only activation. full=0/browser=0; no src changes."
       ]
     },
     {
+      "capability": "GSDLC09AStoryExecutionContext",
+      "classification_notes": [
+        "A writes runtime-only outputs/story_execution evidence; workspace source remains read-only. Browser/full are both zero.",
+        "TCR execution contract treats outputs/story_execution as disposable runtime evidence/state, not governed source/product-state mutation; source writes remain disabled."
+      ],
+      "classification_status": "explicit",
       "contract_id": "devpl-gsdlc-09-a-story-execution-context",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "application.service",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 15,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-09-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "risk_level": "high",
       "schema_version": "2.0",
       "source_contract_id": "devpl-gsdlc-09-a-story-execution-context",
-      "domain": "application.service",
-      "capability": "GSDLC09AStoryExecutionContext",
-      "criticality": "P0",
-      "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 15,
+      "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-09-a",
+        "story-execution",
+        "context-pack",
+        "project-status",
+        "dor"
+      ],
+      "validates": [
+        "state transition matrix",
+        "DoR negative gate",
+        "deterministic context hash",
+        "requirement/ADR/risk/test trace",
+        "secret/runtime exclusion",
+        "Project Status current story"
       ],
       "watched_paths": [
         "src/devpilot_core/story_execution/",
@@ -22973,53 +23004,54 @@
         "docs/audits/DEVPL_GSDLC_09_A_FULL_REGRESSION_WAIVER.json",
         "docs/audits/DEVPL_GSDLC_09_A_TEST_IMPACT.json",
         "docs/audits/DEVPL_GSDLC_09_A_SOURCE_DELTA_MANIFEST.json"
-      ],
-      "validates": [
-        "state transition matrix",
-        "DoR negative gate",
-        "deterministic context hash",
-        "requirement/ADR/risk/test trace",
-        "secret/runtime exclusion",
-        "Project Status current story"
-      ],
-      "trigger_hints": [
-        "gsdlc-09-a",
-        "story-execution",
-        "context-pack",
-        "project-status",
-        "dor"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "DEVPL-GSDLC-09-A",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "A writes runtime-only outputs/story_execution evidence; workspace source remains read-only. Browser/full are both zero.",
-        "TCR execution contract treats outputs/story_execution as disposable runtime evidence/state, not governed source/product-state mutation; source writes remain disabled."
       ]
     },
     {
+      "capability": "GSDLC09BCodeWorkbench",
+      "classification_notes": [
+        "09-B writes runtime-only SourceDraftBuffer evidence under outputs/code_workbench; source apply remains absent until 09-C.",
+        "Browser is required because 09-B introduces UX, but Full Regression remains 0 under A-D cadence.",
+        "UI static/browser acceptance is validated by the 09-B Windows operator and browser evidence contract; npm is not embedded as Test Impact executable recommendation data."
+      ],
+      "classification_status": "explicit",
       "contract_id": "devpl-gsdlc-09-b-code-workbench",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "application.service",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 20,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-09-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "risk_level": "high",
       "schema_version": "2.0",
       "source_contract_id": "devpl-gsdlc-09-b-code-workbench",
-      "domain": "application.service",
-      "capability": "GSDLC09BCodeWorkbench",
-      "criticality": "P0",
-      "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "low",
-      "expected_duration_seconds": 20,
+      "source_mutations_allowed": false,
       "test_files": [
         "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-09-b",
+        "code-workbench",
+        "source-draft",
+        "story-code",
+        "source-tree"
+      ],
+      "validates": [
+        "bounded source tree",
+        "draft-only authoring",
+        "optimistic preimage conflict",
+        "security/path/secret/role negatives",
+        "API/RBAC/UI mapping",
+        "browser live Windows acceptance"
       ],
       "watched_paths": [
         "src/devpilot_core/code_workbench/",
@@ -23047,55 +23079,62 @@
         "scripts/devpl_gsdlc_09_b_browser_acceptance.py",
         "scripts/devpl_gsdlc_09_b_browser_api.py",
         "scripts/devpl_gsdlc_09_b_browser_fixture.py"
-      ],
-      "validates": [
-        "bounded source tree",
-        "draft-only authoring",
-        "optimistic preimage conflict",
-        "security/path/secret/role negatives",
-        "API/RBAC/UI mapping",
-        "browser live Windows acceptance"
-      ],
-      "trigger_hints": [
-        "gsdlc-09-b",
-        "code-workbench",
-        "source-draft",
-        "story-code",
-        "source-tree"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "DEVPL-GSDLC-09-B",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "09-B writes runtime-only SourceDraftBuffer evidence under outputs/code_workbench; source apply remains absent until 09-C.",
-        "Browser is required because 09-B introduces UX, but Full Regression remains 0 under A-D cadence.",
-        "UI static/browser acceptance is validated by the 09-B Windows operator and browser evidence contract; npm is not embedded as Test Impact executable recommendation data."
       ]
     },
     {
+      "capability": "GSDLC09CSourceChange",
+      "classification_notes": [
+        "Source mutations exist only through owner-approved immutable plan/execute/rollback typed operations.",
+        "Full Regression remains 0 under A-D cadence; browser real is mandatory.",
+        "UOC-005 history is frozen in a dedicated snapshot/test rather than pinning current API route totals."
+      ],
+      "classification_status": "explicit",
       "contract_id": "devpl-gsdlc-09-c-source-change",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "application.service",
+      "execution_profile": "manual",
+      "expected_duration_seconds": 45,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-09-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": true,
+      "risk_level": "critical",
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-09-C owner-approved prompt v1.0.1 rebound repo409",
+        "expires_at_utc": "2027-09-08T23:59:59Z",
+        "justification": "GSDLC-09-C intentionally enables bounded project source mutations only through immutable SourceChangePlan, exact path allowlist, owner RBAC/approval, stale-preimage revalidation, atomic apply, verification and rollback.",
+        "rollback_or_cleanup": "Automatic compensating rollback restores every verified preimage on apply failure; manual rollback is a separate owner-approved typed operation with source hash parity verification.",
+        "scope": "GSDLC-09-C project-scoped source change apply and rollback only; generic patch, shell, agent self-apply, Git commit and remote writes remain blocked."
+      },
       "schema_version": "2.0",
       "source_contract_id": "devpl-gsdlc-09-c-source-change",
-      "domain": "application.service",
-      "capability": "GSDLC09CSourceChange",
-      "criticality": "P0",
-      "risk_level": "critical",
-      "test_type": "contract",
-      "execution_profile": "manual",
-      "cost_class": "low",
-      "expected_duration_seconds": 45,
+      "source_mutations_allowed": true,
       "test_files": [
         "tests/test_devpl_gsdlc_09_c_source_change.py",
         "tests/test_uoc005_source_mutation_routes_at_close.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-09-c",
+        "source-change-plan",
+        "atomic-apply",
+        "story-source-change",
+        "rollback-evidence"
+      ],
+      "validates": [
+        "immutable source plan",
+        "approval-bound source writes",
+        "atomicity/fault recovery",
+        "rollback parity",
+        "FRX-v2.4 historical successor safety",
+        "browser-visible governed source mutation"
       ],
       "watched_paths": [
         "src/devpilot_core/code_workbench/",
@@ -23128,49 +23167,110 @@
         "scripts/devpl_gsdlc_09_c_browser_fixture.py",
         "docs/audits/DEVPL_GSDLC_09_C_OWNER_ADJUDICATION_PROPOSAL.md",
         "docs/audits/DEVPL_GSDLC_09_C_SOURCE_CHANGE_SECURITY_REPORT.json"
+      ]
+    },
+    {
+      "capability": "GSDLC09DAgentProposals",
+      "classification_notes": [
+        "09-D is proposal-only: runtime proposal records and editor insertion are not source mutations.",
+        "Mock/fake-local route is mandatory for PASS; external API is optional and not required.",
+        "ModelRouteDecision is never ToolExecutionDecision; filesystem.delete remains blocked."
       ],
-      "validates": [
-        "immutable source plan",
-        "approval-bound source writes",
-        "atomicity/fault recovery",
-        "rollback parity",
-        "FRX-v2.4 historical successor safety",
-        "browser-visible governed source mutation"
+      "classification_status": "explicit",
+      "contract_id": "devpl-gsdlc-09-d-agent-proposals",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "application.service",
+      "execution_profile": "manual",
+      "expected_duration_seconds": 30,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "story-execution",
+        "agent-assist",
+        "rag",
+        "model-gateway",
+        "tool-policy",
+        "ui",
+        "api-contracts",
+        "documentation-governance"
       ],
-      "trigger_hints": [
-        "gsdlc-09-c",
-        "source-change-plan",
-        "atomic-apply",
-        "story-source-change",
-        "rollback-evidence"
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-09-D",
+      "owner_domain": "application.service",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_09_d_agent_proposals.py -q"
       ],
       "required_for_release": true,
       "required_for_security_gate": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
-      "source_mutations_allowed": true,
       "requires_human_approval": true,
-      "owner": "DEVPL-GSDLC-09-C",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Source mutations exist only through owner-approved immutable plan/execute/rollback typed operations.",
-        "Full Regression remains 0 under A-D cadence; browser real is mandatory.",
-        "UOC-005 history is frozen in a dedicated snapshot/test rather than pinning current API route totals."
-      ],
+      "risk_level": "high",
       "safety_exception": {
-        "approved_by": "DEVPL-GSDLC-09-C owner-approved prompt v1.0.1 rebound repo409",
+        "approved_by": "PROMPT-DEVPL-GSDLC-09-D v1.0.0 approved_by_owner",
         "expires_at_utc": "2027-09-08T23:59:59Z",
-        "justification": "GSDLC-09-C intentionally enables bounded project source mutations only through immutable SourceChangePlan, exact path allowlist, owner RBAC/approval, stale-preimage revalidation, atomic apply, verification and rollback.",
-        "rollback_or_cleanup": "Automatic compensating rollback restores every verified preimage on apply failure; manual rollback is a separate owner-approved typed operation with source hash parity verification.",
-        "scope": "GSDLC-09-C project-scoped source change apply and rollback only; generic patch, shell, agent self-apply, Git commit and remote writes remain blocked."
-      }
+        "justification": "09-D intentionally permits only runtime proposal records and human editor insertion. It does not permit source mutation, draft mutation, self-apply, self-approve, self-commit, generic shell, filesystem.delete, network or external API for PASS.",
+        "rollback_or_cleanup": "Delete workspace outputs/story_agent_assist/gsdlc_09_d runtime proposal state; source and SourceDraftBuffer remain unchanged.",
+        "scope": "GSDLC-09-D proposal-only CodingAgent/TestAgent runtime evidence and human ACCEPT/REJECT only."
+      },
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-09-d-agent-proposals",
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-09-d",
+        "coding-agent",
+        "test-agent",
+        "story-agent-proposal",
+        "proposal-only",
+        "model-route",
+        "tool-execution-decision"
+      ],
+      "validates": [
+        "CodingAgent and TestAgent produce proposal-only artifacts over StoryContextPack + bounded RAG + Model Gateway",
+        "mock and fake-local routes are sufficient for PASS with no network or external API requirement",
+        "proposal provenance records model_id/provider_id/access_route_id/agent_session/trace_id/ToolIntent/ToolExecutionDecision/cost",
+        "ModelRouteDecision never grants tool or filesystem authority",
+        "human ACCEPT inserts proposal into editor only and REJECT mutates nothing",
+        "filesystem.delete, self-apply, self-approve, self-commit and generic shell remain blocked",
+        "stale source and unsafe/budget-exceeding proposal requests BLOCK deterministically"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/story_agent_assist_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/agents/execution_policy.py",
+        "src/devpilot_core/agents/role_bindings.py",
+        "src/devpilot_core/modeling/",
+        "src/devpilot_core/rag/",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/project_state.json",
+        "docs/audits/DEVPL_GSDLC_09_D_IMPLEMENTATION_REPORT.md",
+        ".devpilot/agents/story_code_agent_bindings.json",
+        "04_PROMPT_DEVPL_GSDLC_09_D_v1_0_1_REBOUND_REPO410.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_4_APPROVED_REBOUND_REPO410.md",
+        "docs/schemas/gsdlc_09_d_agent_proposal.schema.json",
+        "docs/audits/DEVPL_GSDLC_09_D_AGENT_SECURITY_EVAL.json",
+        "docs/audits/DEVPL_GSDLC_09_D_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_09_D_CODING_AGENT_TRACES.json",
+        "docs/audits/DEVPL_GSDLC_09_D_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_D_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_09_D_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_D_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_09_D_TEST_AGENT_TRACES.json",
+        "docs/audits/DEVPL_GSDLC_09_D_TEST_IMPACT.json"
+      ]
     }
   ],
-  "contracts_total": 324,
+  "contracts_total": 325,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

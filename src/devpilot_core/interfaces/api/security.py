@@ -192,6 +192,9 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/story/code/change-executions/{execution_id}/rollback"): ApiRoutePolicy("story.source-change.rollback", "read", "protected-governed-source-mutation"),
     ("GET", "/api/v1/story/code/change-executions/{execution_id}/apply-manifest"): ApiRoutePolicy("story.source-change.apply-manifest", "read", "protected-governed-source-change-read"),
     ("GET", "/api/v1/story/code/change-executions/{execution_id}/rollback-evidence"): ApiRoutePolicy("story.source-change.rollback-evidence", "read", "protected-governed-source-change-read"),
+    ("POST", "/api/v1/story/code/agent-assist/proposals"): ApiRoutePolicy("story.agent-assist.proposal.create", "read", "protected-human-session-project-agent-proposal"),
+    ("GET", "/api/v1/story/code/agent-assist/proposals/{proposal_id}"): ApiRoutePolicy("story.agent-assist.proposal.get", "read", "protected-human-session-project-agent-proposal-read"),
+    ("POST", "/api/v1/story/code/agent-assist/proposals/{proposal_id}/decision"): ApiRoutePolicy("story.agent-assist.proposal.decision", "read", "protected-human-session-project-agent-proposal-decision"),
     ("GET", "/api/v1/guided-sdlc/status"): ApiRoutePolicy("guided_sdlc.project_status", "read", "protected-guided-sdlc-project-status"),
     ("GET", "/api/v1/guided-sdlc/step-actions"): ApiRoutePolicy("guided_sdlc.step_actions", "read", "protected-guided-sdlc-step-actions"),
     ("GET", "/api/v1/planning/roadmap"): ApiRoutePolicy("planning.roadmap.status", "read", "protected-human-session-project-planning-read"),
@@ -570,6 +573,11 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"))
     if path.startswith("/api/v1/story/code/sources/") and method.upper() == "GET" and path.count("/") == 6:
         return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/sources/{source_id}"))
+    if path.startswith("/api/v1/story/code/agent-assist/proposals/"):
+        if method.upper() == "GET" and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/agent-assist/proposals/{proposal_id}"))
+        if method.upper() == "POST" and path.endswith("/decision"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/agent-assist/proposals/{proposal_id}/decision"))
     if path.startswith("/api/v1/story/code/change-plans/"):
         if method.upper() == "GET" and path.count("/") == 6:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/change-plans/{plan_id}"))

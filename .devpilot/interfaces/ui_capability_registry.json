@@ -11647,7 +11647,7 @@
     "sensitive_requires_approval_before_ui_execution": true,
     "write_report_is_mutation": true
   },
-  "created_by": "UOC-000",
+  "created_by": "DEVPL-GSDLC-09-D",
   "feature_flags_registry": ".devpilot/interfaces/ui_operational_console_flags.json",
   "notes": [
     "UOC-000 freezes architecture and classification only; no runtime route or executor is added.",
@@ -11749,6 +11749,10 @@
     "gsdlc_07_e_manual_route_preserved": true,
     "gsdlc_09_b_code_workbench": true,
     "gsdlc_09_b_source_write_enabled": false,
+    "gsdlc_09_c_approval_bound_source_write_routes_total": 2,
+    "gsdlc_09_c_governed_source_change": true,
+    "gsdlc_09_c_source_change_api_routes_total": 11,
+    "gsdlc_09_c_source_write_enabled": true,
     "mutating_without_policy_total": 0,
     "parity_status_counts": {
       "CLI-BRIDGE-REGISTERED": 178,
@@ -11827,11 +11831,7 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-09-C",
-    "gsdlc_09_c_governed_source_change": true,
-    "gsdlc_09_c_source_change_api_routes_total": 11,
-    "gsdlc_09_c_source_write_enabled": true,
-    "gsdlc_09_c_approval_bound_source_write_routes_total": 2
+    "updated_by": "DEVPL-GSDLC-09-C"
   },
   "ui_routes": [
     {
@@ -12490,6 +12490,9 @@
     },
     {
       "allowed_api_route_ids": [
+        "api.story-agent-assist.proposal.create",
+        "api.story-agent-assist.proposal.decision",
+        "api.story-agent-assist.proposal.get",
         "api.story-code.drafts.discard",
         "api.story-code.drafts.get",
         "api.story-code.drafts.recheck",
@@ -12551,12 +12554,26 @@
           "parity_status": "UI-NATIVE",
           "planned_sprint": "DEVPL-GSDLC-09-C",
           "read_write": "approval-bound-source-write",
+          "required_role": "owner",
           "requires_approval_for_future_apply": true,
           "requires_dry_run": true,
           "risk_class": "sensitive",
-          "source_write_enabled": true,
-          "required_role": "owner",
-          "separate_rollback_approval": true
+          "separate_rollback_approval": true,
+          "source_write_enabled": true
+        },
+        {
+          "application_service": "story_agent_assist",
+          "capability_id": "ui.story-code-workbench.agent-proposal",
+          "human_accept_reject_required": true,
+          "model_route_grants_tool_permission": false,
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "DEVPL-GSDLC-09-D",
+          "read_write": "runtime-proposal/editor-insertion-only",
+          "requires_approval_for_future_apply": true,
+          "requires_dry_run": true,
+          "risk_class": "agent-assisted-proposal",
+          "runtime_persistence": "outputs/story_agent_assist/gsdlc_09_d",
+          "source_write_enabled": false
         }
       ],
       "page_component": "StoryCodeWorkbenchView",

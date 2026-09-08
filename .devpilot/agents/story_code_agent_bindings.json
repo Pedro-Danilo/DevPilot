@@ -1,0 +1,59 @@
+{
+  "schema_id": "DEVPL-GSDLC-09-D-STORY-CODE-AGENT-BINDINGS-V1",
+  "schema_version": "1.0.0",
+  "status": "current-active",
+  "owner": "DEVPL-GSDLC-09-D",
+  "source_repo": "repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "proposal_only": true,
+  "bindings": [
+    {
+      "agent_id": "coding.agent",
+      "display_name": "CodingAgent",
+      "role_id": "coding",
+      "step_id": "implementation",
+      "model_gateway_required": true,
+      "story_context_pack_required": true,
+      "rag_required": "bounded-local-optional-sources",
+      "allowed_model_routes": [
+        "mock",
+        "fake-local"
+      ],
+      "human_decision_required": true,
+      "accept_effect": "insert-into-editor-only",
+      "source_write_allowed": false,
+      "draft_write_allowed": false,
+      "self_apply_allowed": false,
+      "self_approve_allowed": false,
+      "self_commit_allowed": false,
+      "filesystem_delete_allowed": false
+    },
+    {
+      "agent_id": "test.agent",
+      "display_name": "TestAgent",
+      "role_id": "test",
+      "step_id": "test-plan",
+      "model_gateway_required": true,
+      "story_context_pack_required": true,
+      "rag_required": "bounded-local-optional-sources",
+      "allowed_model_routes": [
+        "mock",
+        "fake-local"
+      ],
+      "human_decision_required": true,
+      "accept_effect": "insert-into-editor-only",
+      "source_write_allowed": false,
+      "draft_write_allowed": false,
+      "self_apply_allowed": false,
+      "self_approve_allowed": false,
+      "self_commit_allowed": false,
+      "filesystem_delete_allowed": false
+    }
+  ],
+  "safety": {
+    "model_route_is_tool_authority": false,
+    "external_api_required_for_pass": false,
+    "network_required_for_pass": false,
+    "max_instruction_chars": 2000,
+    "max_cost_usd": 0.0
+  }
+}

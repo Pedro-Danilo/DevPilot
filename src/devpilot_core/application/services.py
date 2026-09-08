@@ -43,6 +43,7 @@ from .artifact_import_service import ArtifactImportApplicationService
 from .artifact_review_service import ArtifactReviewApplicationService
 from .agent_assist_service import AgentAssistApplicationService
 from .agent_execution_service import AgentExecutionApplicationService
+from .story_agent_assist_service import StoryAgentAssistApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -121,6 +122,7 @@ class ApplicationService:
         # intentionally minimal workspaces used by historical contracts/tests.
         self._agent_assist: AgentAssistApplicationService | None = None
         self._agent_execution: AgentExecutionApplicationService | None = None
+        self._story_agent_assist: StoryAgentAssistApplicationService | None = None
         self._pre_code_wizard: PreCodeWizardApplicationService | None = None
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
@@ -174,6 +176,17 @@ class ApplicationService:
         if self._agent_execution is None:
             self._agent_execution = AgentExecutionApplicationService(self.root)
         return self._agent_execution
+
+    @property
+    def story_agent_assist(self) -> StoryAgentAssistApplicationService:
+        """Lazily construct the GSDLC-09-D proposal-only Coding/Test agent boundary."""
+        if self._story_agent_assist is None:
+            self._story_agent_assist = StoryAgentAssistApplicationService(
+                self.root,
+                context_resolver=self.ui_workspace_context,
+                code_workbench=self.code_workbench,
+            )
+        return self._story_agent_assist
 
     @property
     def pre_code_wizard(self) -> PreCodeWizardApplicationService:
@@ -1384,6 +1397,15 @@ class ApplicationService:
 
     def story_source_change_rollback_evidence(self, *, execution_id: str) -> CommandResult:
         return self.source_changes.get_rollback_evidence(execution_id=execution_id)
+
+    def story_agent_proposal_create(self, *, agent_type: str, mode: str, instruction: str, source_id: str | None, actor: str, actor_role: str) -> CommandResult:
+        return self.story_agent_assist.propose(agent_type=agent_type, mode=mode, instruction=instruction, source_id=source_id, actor=actor, actor_role=actor_role)
+
+    def story_agent_proposal_get(self, *, proposal_id: str) -> CommandResult:
+        return self.story_agent_assist.get(proposal_id=proposal_id)
+
+    def story_agent_proposal_decide(self, *, proposal_id: str, proposal_sha256: str, decision: str, actor: str, actor_role: str) -> CommandResult:
+        return self.story_agent_assist.decide(proposal_id=proposal_id, proposal_sha256=proposal_sha256, decision=decision, actor=actor, actor_role=actor_role)
 
     def workspace_documents_list(self, *, limit: int = 50, offset: int = 0, query: str | None = None, extension: str | None = None, category: str | None = None) -> CommandResult:
         return self.workspace_documents.list_documents(limit=limit, offset=offset, query=query, extension=extension, category=category)

@@ -1,0 +1,14 @@
+{
+  "authority": "Test Impact Analyzer v2/current-active TCR v2",
+  "changed_paths_total": 36,
+  "dry_run": true,
+  "external_api_used": false,
+  "matched_contracts_total": 193,
+  "network_used": false,
+  "recommended_tests_total": 301,
+  "source_mutations_performed": false,
+  "sprint": "DEVPL-GSDLC-09-D",
+  "status": "PASS",
+  "tests_executed": false,
+  "unmatched_paths_total": 0
+}

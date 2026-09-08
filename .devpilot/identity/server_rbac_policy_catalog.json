@@ -15,6 +15,7 @@
   "gsdlc_07_b_rag_context_route_registered": true,
   "gsdlc_07_d_agent_execution_routes_registered": true,
   "gsdlc_07_e_agent_evals_route_registered": true,
+  "gsdlc_09_d_agent_proposal_routes_registered": true,
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
@@ -3914,6 +3915,60 @@
       "risk_level": "low",
       "route_id": "api.story-source-change.rollback-evidence",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-agent-proposal",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.agent-assist.proposal.create",
+      "path": "/api/v1/story/code/agent-assist/proposals",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-agent-assist.proposal.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-agent-proposal-read",
+      "allowed_roles": [
+        "owner",
+        "developer",
+        "architect",
+        "qa-reviewer",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.agent-assist.proposal.get",
+      "path": "/api/v1/story/code/agent-assist/proposals/{proposal_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-agent-assist.proposal.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-agent-proposal-decision",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.agent-assist.proposal.decision",
+      "path": "/api/v1/story/code/agent-assist/proposals/{proposal_id}/decision",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-agent-assist.proposal.decision",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -4211,14 +4266,14 @@
     "gsdlc_09_c_source_change_policies_total": 11,
     "human_session_required_total": 104,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 180,
+    "route_policies_total": 183,
     "sensitive_action_policies_total": 19,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-07",
-  "updated_by": "DEVPL-GSDLC-09-C",
+  "updated": "2026-09-08",
+  "updated_by": "DEVPL-GSDLC-09-D",
   "version": "1.6.0",
   "workspace": {
     "cross_workspace_effect": "DENY",

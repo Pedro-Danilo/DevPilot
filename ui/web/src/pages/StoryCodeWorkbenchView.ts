@@ -6,10 +6,11 @@ type SourceData = { source_id:string; relative_path:string; content:string; sha2
 type Draft = { draft_id:string; operation:'CREATE'|'EDIT'|'RENAME'; target_path:string; status:'DRAFT'|'CONFLICT'; revision_sha256:string; source?:{source_id?:string;relative_path?:string;sha256?:string}; safety?:Record<string,unknown> };
 type ChangePlan = { plan_id:string; plan_hash:string; full_diff:string; exact_path_allowlist:string[]; required_approval_role:string; risk:{level:string;reasons:string[]}; test_impact_preview:Record<string,unknown>; changes:Array<Record<string,unknown>> };
 type Execution = { execution_id:string; status:string; plan_id:string; plan_hash:string; approval_id:string; changes:Array<Record<string,unknown>> };
+type AgentProposal = { proposal_id:string; proposal_sha256:string; agent_type:'coding'|'test'; status:string; target_path:string; operation:'EDIT'|'CREATE'; proposed_content:string; full_diff:string; model_id:string; provider_id:string; access_route_id:string; agent_session:string; trace_id:string; tool_intent:Record<string,unknown>; tool_execution_decision:Record<string,unknown>; cost:Record<string,unknown>; provenance:Record<string,unknown>; safety:Record<string,unknown> };
 
 export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, session:AuthSessionContext):HTMLElement {
-  const host=document.createElement('section'); host.className='story-code-workbench'; host.dataset.routeId='ui.story-code-workbench'; host.dataset.gsdlc09c='governed-source-change';
-  const intro=panel('Story Code Workbench','Autoría manual bounded + SourceChangePlan inmutable. 09-C habilita apply/rollback únicamente mediante plan, dry-run, RBAC, approval owner y revalidación de preimage.');
+  const host=document.createElement('section'); host.className='story-code-workbench'; host.dataset.routeId='ui.story-code-workbench'; host.dataset.gsdlc09c='governed-source-change'; host.dataset.gsdlc09d='proposal-only-agent-assist';
+  const intro=panel('Story Code Workbench','Autoría manual bounded + asistencia CodingAgent/TestAgent proposal-only + SourceChangePlan gobernado. Los agentes proponen; la persona decide; source apply sigue bajo 09-C.');
   const safety=document.createElement('div'); safety.className='code-safety-strip'; safety.dataset.sourceWrite='approval-gated'; safety.textContent='SOURCE WRITE · APPROVAL-GATED · EXACT PATH ALLOWLIST · ATOMIC APPLY/ROLLBACK · SIN TERMINAL'; intro.append(safety); host.append(intro);
   const state=document.createElement('div'); state.className='notice'; state.setAttribute('role','status'); state.setAttribute('aria-live','polite'); host.append(state);
   const layout=document.createElement('div'); layout.className='code-workbench-grid';
@@ -28,6 +29,21 @@ export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, sess
   const draftInfo=document.createElement('div'); draftInfo.className='code-draft-status'; draftInfo.dataset.draftStatus='true';
   actions.append(save,recheck,discard); editorPanel.append(sourceMeta,mode,target,editor,actions,sourceHash,draftInfo);
   layout.append(sourcePanel,editorPanel); host.append(layout);
+
+  const agentPanel=panel('Agent assistance · proposal-only','CodingAgent y TestAgent usan StoryContextPack + RAG + Model Gateway mock/local. Una propuesta nunca escribe source, no crea draft, no aprueba ni hace commit.'); agentPanel.dataset.agentAssistPanel='true';
+  const agentControls=document.createElement('div'); agentControls.className='code-workbench-actions';
+  const agentType=document.createElement('select'); agentType.setAttribute('aria-label','Tipo de agente'); agentType.dataset.agentType='true'; for(const [value,label] of [['coding','CodingAgent'],['test','TestAgent']]){const o=document.createElement('option');o.value=value;o.textContent=label;agentType.append(o);}
+  const agentMode=document.createElement('select'); agentMode.setAttribute('aria-label','Ruta de modelo'); agentMode.dataset.agentMode='true'; for(const value of ['mock','fake-local']){const o=document.createElement('option');o.value=value;o.textContent=value;agentMode.append(o);}
+  const agentInstruction=document.createElement('textarea'); agentInstruction.rows=3; agentInstruction.maxLength=2000; agentInstruction.placeholder='Describe la propuesta que deseas revisar. No incluyas secretos ni acciones destructivas.'; agentInstruction.setAttribute('aria-label','Instrucción para propuesta agentic'); agentInstruction.dataset.agentInstruction='true';
+  const generateProposal=button('Generar propuesta'); generateProposal.dataset.generateAgentProposal='true';
+  const acceptProposal=button('Aceptar en editor'); acceptProposal.dataset.acceptAgentProposal='true'; acceptProposal.disabled=true;
+  const rejectProposal=button('Rechazar propuesta'); rejectProposal.dataset.rejectAgentProposal='true'; rejectProposal.disabled=true;
+  agentControls.append(agentType,agentMode,generateProposal,acceptProposal,rejectProposal);
+  const agentStatus=document.createElement('div'); agentStatus.className='code-draft-status'; agentStatus.dataset.agentProposalStatus='true';
+  const agentDiff=document.createElement('pre'); agentDiff.className='code-full-diff'; agentDiff.dataset.agentProposalDiff='true'; agentDiff.textContent='Genera una propuesta para revisar su diff sin mutar draft/source.';
+  const agentProvenance=document.createElement('pre'); agentProvenance.className='code-test-impact'; agentProvenance.dataset.agentProvenance='true';
+  const agentSafety=document.createElement('pre'); agentSafety.className='code-change-evidence'; agentSafety.dataset.agentToolDecision='true';
+  agentPanel.append(agentInstruction,agentControls,agentStatus,agentDiff,agentProvenance,agentSafety); host.append(agentPanel);
 
   const changePanel=panel('Governed source change','Secuencia obligatoria: immutable plan → diff/Test Impact → recheck/dry-run → owner approval → atomic apply → separate rollback approval.'); changePanel.dataset.changePlanPanel='true';
   const planActions=document.createElement('div'); planActions.className='code-workbench-actions';
@@ -54,13 +70,15 @@ export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, sess
   rollbackActions.append(requestRollback,rollbackLink,rollbackInput,rollback); rollbackPanel.append(rollbackActions,evidence); host.append(rollbackPanel);
 
   const client=()=>new DevPilotApiClient({token:tokenProvider()});
-  let selected:SourceData|null=null; let draft:Draft|null=null; let plan:ChangePlan|null=null; let execution:Execution|null=null;
+  let selected:SourceData|null=null; let draft:Draft|null=null; let plan:ChangePlan|null=null; let execution:Execution|null=null; let agentProposal:AgentProposal|null=null;
   const canAuthor=session.principal.roles.some((x)=>['owner','developer'].includes(x)); const isOwner=session.principal.roles.includes('owner');
   save.disabled=!canAuthor; createPlan.disabled=true; planRecheck.disabled=true; dryRun.disabled=true; requestApproval.disabled=true; apply.disabled=true; requestRollback.disabled=true; rollback.disabled=true;
   if(!canAuthor)save.title='Solo owner/developer puede persistir SourceDraftBuffer.'; if(!isOwner){requestApproval.title='Solo owner puede solicitar/aplicar.';apply.title=requestApproval.title;requestRollback.title=requestApproval.title;rollback.title=requestApproval.title;}
 
   mode.addEventListener('change',()=>{const op=mode.value;if(op==='CREATE'){selected=null;target.value='src/new_file.py';editor.value='';sourceMeta.textContent='CREATE · archivo nuevo como draft runtime-only.';}else if(selected){target.value=selected.relative_path;editor.value=selected.content;} updateButtons();});
   save.addEventListener('click',()=>void saveDraft()); recheck.addEventListener('click',()=>void recheckDraft()); discard.addEventListener('click',()=>void discardDraft());
+  generateProposal.addEventListener('click',()=>void createAgentProposal()); acceptProposal.addEventListener('click',()=>void decideAgentProposal('ACCEPT')); rejectProposal.addEventListener('click',()=>void decideAgentProposal('REJECT'));
+  agentType.addEventListener('change',()=>{if(agentType.value==='coding'&&!selected)agentStatus.textContent='CodingAgent requiere un source seleccionado; TestAgent puede proponer un archivo de test nuevo.';});
   createPlan.addEventListener('click',()=>void createChangePlan()); planRecheck.addEventListener('click',()=>void recheckPlan()); dryRun.addEventListener('click',()=>void runDryRun()); requestApproval.addEventListener('click',()=>void requestApplyApproval()); apply.addEventListener('click',()=>void executeApply()); requestRollback.addEventListener('click',()=>void requestRollbackApproval()); rollback.addEventListener('click',()=>void executeRollback());
   void refresh();
 
@@ -80,6 +98,31 @@ export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, sess
   }
   function renderSources(rows:SourceRow[]):void{sourceList.replaceChildren();if(!rows.length){const p=document.createElement('p');p.className='muted';p.textContent='No hay source allowlisted.';sourceList.append(p);return;}for(const row of rows){const b=button(`${row.relative_path} · ${row.language_hint}`);b.className='code-source-item';b.dataset.sourcePath=row.relative_path;b.addEventListener('click',()=>void openSource(row));sourceList.append(b);}}
   async function openSource(row:SourceRow):Promise<void>{setState('loading',`Leyendo ${row.relative_path}…`);try{const r=await client().storyCodeSource(row.source_id);selected=(r.data as any).source as SourceData;mode.value='EDIT';target.value=selected.relative_path;editor.value=selected.content;sourceMeta.textContent=`${selected.relative_path} · ${selected.language_hint}`;sourceHash.textContent=`preimage ${selected.sha256}`;draft=null;clearPlan();draftInfo.textContent='';recheck.disabled=true;discard.disabled=true;updateButtons();setState('pass','PASS · source leído por opaque id.');}catch(e){setState('block',errorText(e));}}
+  async function createAgentProposal():Promise<void>{
+    if(!canAuthor){setState('block','BLOCK · owner/developer requerido para solicitar propuestas.');return;}
+    const kind=agentType.value as 'coding'|'test';
+    if(kind==='coding'&&!selected){setState('block','BLOCK · CodingAgent requiere source seleccionado.');return;}
+    const instruction=agentInstruction.value.trim(); if(!instruction){setState('block','BLOCK · escribe una instrucción acotada.');return;}
+    setState('loading',`Solicitando ${kind==='coding'?'CodingAgent':'TestAgent'} proposal-only por ${agentMode.value}…`);
+    try{const r=await client().storyAgentProposalCreate({agent_type:kind,mode:agentMode.value as 'mock'|'fake-local',instruction,source_id:kind==='coding'?(selected?.source_id??null):null});agentProposal=(r.data as any).proposal as AgentProposal;renderAgentProposal();setState('pass','PASS · propuesta agentic creada; source/draft mutations=false.');}
+    catch(e){agentProposal=null;renderAgentProposal();setState('block',errorText(e));}
+  }
+  async function decideAgentProposal(decision:'ACCEPT'|'REJECT'):Promise<void>{
+    if(!agentProposal)return; setState('loading',`${decision==='ACCEPT'?'Aceptando para revisión humana en editor':'Rechazando'} propuesta…`);
+    try{const r=await client().storyAgentProposalDecision(agentProposal.proposal_id,agentProposal.proposal_sha256,decision);agentProposal=(r.data as any).proposal as AgentProposal;
+      if(decision==='ACCEPT'){const proposal=agentProposal; editor.value=proposal.proposed_content; target.value=proposal.target_path; if(proposal.operation==='CREATE'){mode.value='CREATE'; selected=null;} else {mode.value='EDIT';} draft=null; clearPlan(); draftInfo.textContent='Proposal ACCEPTED → contenido insertado en editor solamente; presiona Guardar draft para persistir SourceDraftBuffer.'; setState('pass','PASS · aceptación humana insertó contenido en editor; source/draft write=false.');}
+      else {setState('pass','PASS · propuesta rechazada; source/draft write=false.');}
+      renderAgentProposal(); updateButtons();
+    }catch(e){setState('block',errorText(e));}
+  }
+  function renderAgentProposal():void{
+    if(!agentProposal){agentStatus.textContent='';agentDiff.textContent='Genera una propuesta para revisar su diff sin mutar draft/source.';agentProvenance.textContent='';agentSafety.textContent='';acceptProposal.disabled=true;rejectProposal.disabled=true;return;}
+    agentStatus.textContent=`${agentProposal.agent_type==='coding'?'CodingAgent':'TestAgent'} · ${agentProposal.status} · ${agentProposal.proposal_id} · target=${agentProposal.target_path}`;
+    agentDiff.textContent=agentProposal.full_diff||'(diff vacío)';
+    agentProvenance.textContent=JSON.stringify({model_id:agentProposal.model_id,provider_id:agentProposal.provider_id,access_route_id:agentProposal.access_route_id,agent_session:agentProposal.agent_session,trace_id:agentProposal.trace_id,cost:agentProposal.cost,provenance:agentProposal.provenance},null,2);
+    agentSafety.textContent=JSON.stringify({ToolIntent:agentProposal.tool_intent,ToolExecutionDecision:agentProposal.tool_execution_decision,safety:agentProposal.safety},null,2);
+    const pending=agentProposal.status==='PROPOSED';acceptProposal.disabled=!pending;rejectProposal.disabled=!pending;
+  }
   async function saveDraft():Promise<void>{if(!canAuthor){setState('block','BLOCK · rol read-only.');return;}const operation=mode.value as 'CREATE'|'EDIT'|'RENAME';if(operation!=='CREATE'&&!selected){setState('block','BLOCK · selecciona source para EDIT/RENAME.');return;}setState('loading','Guardando SourceDraftBuffer runtime-only…');try{const r=await client().storyCodeDraftSave({operation,content:editor.value,target_path:target.value,source_id:selected?.source_id??null,expected_source_sha256:selected?.sha256??null,expected_revision_sha256:draft?.revision_sha256??null});draft=(r.data as any).draft as Draft;clearPlan();renderDraft();setState('pass','PASS · draft guardado; source real permanece sin cambios.');}catch(e){setState('block',errorText(e));}}
   async function recheckDraft():Promise<void>{if(!draft)return;setState('loading','Revalidando source preimage…');try{const r=await client().storyCodeDraftRecheck(draft.draft_id);draft=(r.data as any).draft as Draft;renderDraft();setState('pass','PASS · preimage vigente.');}catch(e){setState('block',errorText(e));draftInfo.textContent='CONFLICT · external edit/revalidation requerida';draftInfo.dataset.conflict='true';clearPlan();}}
   async function discardDraft():Promise<void>{if(!draft)return;try{await client().storyCodeDraftDiscard(draft.draft_id,draft.revision_sha256);draft=null;clearPlan();draftInfo.textContent='Draft descartado; source no fue modificado.';recheck.disabled=true;discard.disabled=true;updateButtons();setState('pass','PASS · runtime draft descartado.');}catch(e){setState('block',errorText(e));}}

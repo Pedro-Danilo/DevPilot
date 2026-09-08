@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/gsdlc_09_d_agent_proposal.schema.json",
+  "title": "GSDLC 09-D Agent Proposal",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_id",
+    "proposal_id",
+    "proposal_sha256",
+    "agent_type",
+    "status",
+    "target_path",
+    "operation",
+    "proposed_content",
+    "full_diff",
+    "model_id",
+    "provider_id",
+    "access_route_id",
+    "agent_session",
+    "trace_id",
+    "tool_intent",
+    "tool_execution_decision",
+    "cost",
+    "provenance",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "DEVPL-GSDLC-09-D-AGENT-PROPOSAL-V1"
+    },
+    "proposal_id": {
+      "type": "string",
+      "minLength": 20
+    },
+    "proposal_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "agent_type": {
+      "enum": [
+        "coding",
+        "test"
+      ]
+    },
+    "status": {
+      "enum": [
+        "PROPOSED",
+        "ACCEPTED",
+        "REJECTED"
+      ]
+    },
+    "operation": {
+      "enum": [
+        "EDIT",
+        "CREATE"
+      ]
+    },
+    "target_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposed_content": {
+      "type": "string"
+    },
+    "full_diff": {
+      "type": "string"
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "access_route_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_session": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool_intent": {
+      "type": "object"
+    },
+    "tool_execution_decision": {
+      "type": "object"
+    },
+    "cost": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "proposal_only",
+        "source_mutations_performed",
+        "draft_mutations_performed",
+        "agent_self_apply",
+        "agent_self_approve",
+        "agent_self_commit",
+        "filesystem_delete_blocked",
+        "model_route_grants_tool_permission",
+        "network_used",
+        "external_api_used"
+      ],
+      "properties": {
+        "proposal_only": {
+          "const": true
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "draft_mutations_performed": {
+          "const": false
+        },
+        "agent_self_apply": {
+          "const": false
+        },
+        "agent_self_approve": {
+          "const": false
+        },
+        "agent_self_commit": {
+          "const": false
+        },
+        "filesystem_delete_blocked": {
+          "const": true
+        },
+        "model_route_grants_tool_permission": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        }
+      }
+    }
+  }
+}

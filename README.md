@@ -1,3 +1,7 @@
+## DEVPL-GSDLC-09-D — CodingAgent/TestAgent proposal-only — local qualification candidate
+
+GSDLC-09-D is implemented on `repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip` / `311fa063346441d04b805f9e5ea5b004cfcfbb31` / SHA-256 `457b4499b2f5c774ed5a5c99108b0780b1b55e01595ad07591bc02fb87eb0c33`. CodingAgent and TestAgent consume StoryContextPack + bounded local RAG + Model Gateway `mock`/`fake-local` to produce proposal-only code/test diffs with complete model/provider/access-route/session/trace/ToolIntent provenance. `ModelRouteDecision != ToolExecutionDecision`: agents cannot self-apply, self-approve, self-commit, execute generic shell or `filesystem.delete`. Human ACCEPT inserts proposed content into the editor only; SourceDraftBuffer/source remain unchanged until the existing 09-C governed workflow is used. Local focal 8/8 PASS; Full Regression=0; Windows live browser remains mandatory before 09-D can close or authorize 09-E.
+
 ## DEVPL-GSDLC-09-C — CLOSED/PASS/WINDOWS-VALIDATED
 
 09-C cerró en Windows con browser real 7/7, source apply approval-bound y rollback con hash parity. Repo canónico: `repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip`. Siguiente micro-sprint autorizado: 09-D. Full Regression consumida: 0.

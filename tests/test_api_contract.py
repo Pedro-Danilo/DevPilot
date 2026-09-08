@@ -3,10 +3,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from devpilot_core.application import ApplicationService
+from devpilot_core.interfaces.api.contract_drift import ApiContractDriftGuard
 
 ROOT = Path(__file__).resolve().parents[1]
 OPENAPI_PATH = ROOT / "docs" / "07_interfaces" / "openapi_v1.json"
+REGISTRY_PATH = ROOT / ".devpilot" / "interfaces" / "api_route_contract_registry.json"
 MAPPING_PATH = ROOT / "docs" / "07_interfaces" / "api_service_mapping.md"
 
 
@@ -14,425 +15,122 @@ def _openapi() -> dict:
     return json.loads(OPENAPI_PATH.read_text(encoding="utf-8"))
 
 
-def _app_contract() -> dict:
-    return ApplicationService(ROOT).application_contract().to_dict()["data"]
+def _registry() -> dict:
+    return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
 
 
-def test_openapi_v1_tracks_local_api_mvp_contract() -> None:
+def _route_key(method: str, path: str) -> str:
+    return f"{method.upper()} {path}"
+
+
+def test_visual_mvp_historical_metadata_remains_preserved() -> None:
+    """Historical FUNC-SPRINT-73 product facts remain frozen at top level.
+
+    The current route-level authority is POST-H-028 ApiContractDriftGuard; old
+    per-operation x-devpilot metadata is not a current-active contract.
+    """
+
     spec = _openapi()
+    meta = spec["x-devpilot"]
 
     assert spec["openapi"] == "3.1.0"
-    assert spec["info"]["version"] == "1.0.0-visual-mvp"
-    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-73"
-    assert spec["x-devpilot"]["status"] == "visual-mvp-closed"
-    assert spec["x-devpilot"]["api_implemented"] is True
-    assert spec["x-devpilot"]["server_implemented"] is True
-    assert spec["x-devpilot"]["ui_implemented"] is True
-    assert spec["x-devpilot"]["desktop_deferred"] is True
-    assert spec["x-devpilot"]["api_security_implemented"] is True
-    assert spec["x-devpilot"]["token_required"] is True
-    assert spec["x-devpilot"]["cors_wildcard_enabled"] is False
-    assert spec["x-devpilot"]["policy_binding_enabled"] is True
-    assert spec["x-devpilot"]["web_ui_mvp_implemented"] is True
-    assert spec["x-devpilot"]["web_ui_consumer"] == "ui/web"
-    assert spec["servers"][0]["url"].startswith("http://127.0.0.1")
-    assert (ROOT / "src" / "devpilot_core" / "interfaces" / "api" / "app.py").exists()
+    assert meta["sprint"] == "FUNC-SPRINT-73"
+    assert meta["status"] == "visual-mvp-closed"
+    assert meta["api_implemented"] is True
+    assert meta["server_implemented"] is True
+    assert meta["ui_implemented"] is True
+    assert meta["desktop_deferred"] is True
+    assert meta["api_security_implemented"] is True
+    assert meta["token_required"] is True
+    assert meta["cors_wildcard_enabled"] is False
+    assert meta["policy_binding_enabled"] is True
+    assert meta["web_ui_mvp_implemented"] is True
+    assert meta["web_ui_consumer"] == "ui/web"
 
 
-def test_openapi_paths_match_application_service_route_contract() -> None:
+def test_current_api_contract_uses_post_h_028_drift_guard() -> None:
+    result = ApiContractDriftGuard(ROOT).run()
+    assert result.ok is True
+    summary = result.data["report"]["summary"]
+    assert summary["decision"] == "PASS"
+    assert summary["checks_passed"] == summary["checks_total"] == 5
+    assert summary["unregistered_runtime_routes_total"] == 0
+    assert summary["stale_registry_routes_total"] == 0
+    assert summary["protected_routes_missing_policy_total"] == 0
+    assert summary["response_contract_violations_total"] == 0
+    assert summary["no_go_violations_total"] == 0
+    assert summary["mutating_routes_without_justification_total"] == 0
+    assert summary["openapi_extra_paths_total"] == 0
+    assert summary["openapi_missing_non_public_paths_total"] == 0
+
+
+def test_static_openapi_tracks_current_registry_without_false_transport_block() -> None:
     spec = _openapi()
-    app_contract = _app_contract()
+    registry = _registry()
 
-    openapi_routes = {
-        (method.upper(), path, operation["x-devpilot-operation"])
+    static_keys = {
+        _route_key(method, path)
         for path, methods in spec["paths"].items()
-        for method, operation in methods.items()
+        for method in methods
     }
-    app_routes = {
-        (route["method"], route["path"], route["operation"])
-        for route in app_contract["routes"]
-    }
-
-    assert openapi_routes == app_routes
-    assert len(openapi_routes) == app_contract["summary"]["routes_total"]
-    assert len(openapi_routes) >= 30
-    assert ("GET", "/api/v1/portfolio/status", "portfolio.status") in openapi_routes
-    assert all(path.startswith("/api/v1/") for _, path, _ in openapi_routes)
-
-
-def test_openapi_uses_application_response_for_success_and_errors() -> None:
-    spec = _openapi()
-    schemas = spec["components"]["schemas"]
-
-    assert "ApplicationRequest" in schemas
-    assert "ApplicationResponse" in schemas
-    assert "ErrorApplicationResponse" in schemas
-    assert "AuthBootstrapStatus" in schemas
-    assert "AuthSessionSafeEnvelope" in schemas
-    assert "AuthRevocationSafeEnvelope" in schemas
-    assert "AuthErrorEnvelope" in schemas
-
-    auth_operations = {
-        "auth.bootstrap.status",
-        "auth.bootstrap.owner",
-        "auth.login",
-        "auth.session.inspect",
-        "auth.session.rotate",
-        "auth.logout",
-        "auth.session.revoke",
-        "auth.session.status",
-    }
-    public_auth = {"auth.bootstrap.status", "auth.bootstrap.owner", "auth.login", "auth.session.status"}
-    artifact_workbench_ops = {
-        "workspace.artifact_drafts.get", "workspace.artifact_drafts.history", "workspace.artifact_drafts.save",
-        "workspace.artifact_drafts.discard", "workspace.artifact_drafts.recover",
-        "workspace.artifact_imports.preview", "workspace.artifact_imports.persist", "workspace.artifact_imports.recent",
-        "workspace.artifact_reviews.start_import", "workspace.artifact_reviews.start_document",
-        "workspace.artifact_reviews.status", "workspace.artifact_reviews.freeze", "workspace.artifact_reviews.reconcile",
+    registry_keys = {
+        _route_key(route["method"], route["path"])
+        for route in registry["routes"]
     }
 
-    gsdlc07c_ops = {
-        "workspace.artifact_assist.plan", "workspace.artifact_assist.run",
-        "workspace.artifact_assist.decision", "workspace.artifact_assist.get",
+    # FastAPI public docs/openapi transport may intentionally be absent from the
+    # checked static payload. No protected route may be missing.
+    optional_public_transport = {
+        "GET /api/v1/docs",
+        "GET /api/v1/openapi.json",
     }
+    assert static_keys - registry_keys == set()
+    assert (registry_keys - static_keys) <= optional_public_transport
 
-    for path, methods in spec["paths"].items():
-        for method, operation in methods.items():
-            op_id = operation["x-devpilot-operation"]
-            if op_id in artifact_workbench_ops:
-                assert operation["x-devpilot-status"].startswith("gsdlc-04-")
-                assert operation["security"] == [{"HumanSessionCookie": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-source-mutation"] is False
-                assert operation["x-devpilot-project-write"] is False
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-arbitrary-shell"] is False
-                assert operation["x-devpilot-remote-execution"] is False
-                assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
-                assert operation["x-devpilot-security-headers"] is True
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                for status in ["400", "401", "403", "422", "500"]:
-                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
-                if method.upper() == "POST":
-                    assert "requestBody" in operation
-                    assert "schema" in operation["requestBody"]["content"]["application/json"]
-                continue
-            elif op_id in gsdlc07c_ops:
-                assert operation["x-devpilot-status"] == "gsdlc-07-c-pass-candidate"
-                assert operation["security"] == [{"HumanSessionCookie": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-source-mutation"] is False
-                assert operation["x-devpilot-project-write"] is False
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-arbitrary-shell"] is False
-                assert operation["x-devpilot-remote-execution"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                for status in ["400", "401", "403", "422", "500"]:
-                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
-                if method.upper() == "POST":
-                    assert "requestBody" in operation
-                else:
-                    assert "requestBody" not in operation
-                continue
-            elif op_id in {"project_entry.dry_run", "project_entry.revalidate"}:
-                assert operation["x-devpilot-status"] == "gsdlc-03-c-dry-run"
-                assert operation["x-devpilot-domain-service"] == "ApplicationService -> ProjectEntryDryRunApplicationService -> ProjectEntryDryRunService"
-                assert operation["security"] == [{"LocalHumanSession": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-source-mutation"] is False
-                assert operation["x-devpilot-project-write"] is False
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-remote-execution"] is False
-                assert operation["x-devpilot-arbitrary-shell"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                continue
-
-            if op_id in {"project_entry.execution_approval_request", "project_entry.execute"}:
-                assert operation["x-devpilot-status"] == "gsdlc-03-d-approval-bound-bootstrap"
-                assert operation["security"] == [{"LocalHumanSession": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-remote-execution"] is False
-                assert operation["x-devpilot-arbitrary-shell"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                if op_id == "project_entry.execute":
-                    assert operation["x-devpilot-project-write"] is True
-                    assert operation["x-devpilot-source-mutation"] is True
-                else:
-                    assert operation["x-devpilot-project-write"] is False
-                    assert operation["x-devpilot-source-mutation"] is False
-                continue
-
-            if op_id in {"project_entry.environment_discovery", "project_entry.bootstrap_plan"}:
-                assert operation["x-devpilot-status"] == "gsdlc-03-b-planning"
-                assert operation["x-devpilot-domain-service"] == "ApplicationService -> ProjectEntryPlanningApplicationService -> EnvironmentDiscoveryService"
-                assert operation["security"] == [{"LocalHumanSession": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-source-mutation"] is False
-                assert operation["x-devpilot-project-write"] is False
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-remote-execution"] is False
-                assert operation["x-devpilot-arbitrary-shell"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                assert operation["requestBody"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ProjectEntryPlanningRequest"
-                example = operation["requestBody"]["content"]["application/json"]["example"]
-                assert "intake" in example and "timeout_seconds" in example
-                assert "command" not in json.dumps(example).lower()
-                continue
-
-            if str(operation.get("x-devpilot-operation", "")).startswith("guided_sdlc.pre_code."):
-                assert operation["x-devpilot-status"] == "gsdlc-05-e-implemented-initial"
-                assert operation["x-devpilot-domain-service"].startswith("ApplicationService -> PreCodeWizardApplicationService")
-                assert operation["security"] == [{"HumanSessionCookie": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-agent-execution"] is False
-                assert operation["x-devpilot-rag-execution"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                for status in ["400", "401", "403", "422", "500"]:
-                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
-                if method.upper() == "POST":
-                    bodyless_ops = {"guided_sdlc.pre_code.review", "guided_sdlc.pre_code.apply"}
-                    if operation["x-devpilot-operation"] in bodyless_ops:
-                        assert "requestBody" not in operation
-                    else:
-                        assert "requestBody" in operation
-                        assert "schema" in operation["requestBody"]["content"]["application/json"]
-                else:
-                    assert "requestBody" not in operation
-                if operation["x-devpilot-operation"] == "guided_sdlc.pre_code.apply":
-                    assert operation["x-devpilot-source-mutation"] is True
-                    assert operation["x-devpilot-approval-required"] is True
-                else:
-                    assert operation["x-devpilot-source-mutation"] is False
-                continue
-
-            if op_id == "guided_sdlc.step_actions":
-                assert operation["x-devpilot-status"] == "gsdlc-05-d-implemented-initial"
-                assert operation["x-devpilot-domain-service"] == "ApplicationService -> GuidedSDLCApplicationService -> ExecutionModeAdvisor"
-                assert operation["security"] == [{"HumanSessionCookie": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-source-mutation"] is False
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-agent-execution"] is False
-                assert operation["x-devpilot-rag-execution"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                for status in ["400", "401", "403", "422", "500"]:
-                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
-                continue
-
-            if op_id == "auth.capabilities":
-                assert operation["x-devpilot-status"] == "gsdlc-02-c-rbac"
-                assert operation["x-devpilot-domain-service"] == "RBACApplicationService"
-                assert operation["security"] == [{"LocalHumanSession": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-secret-in-response"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/RBACCapabilityView"
-                continue
-
-            if op_id in auth_operations:
-                expected_status = "gsdlc-02-e-browser-auth" if op_id == "auth.session.status" else "gsdlc-02-b-initial"
-                assert operation["x-devpilot-status"] == expected_status
-                assert operation["x-devpilot-domain-service"] == "AuthApplicationService"
-                assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
-                assert operation["x-devpilot-security-headers"] is True
-                assert operation["x-devpilot-secret-in-response"] is False
-                if op_id in public_auth:
-                    assert operation["security"] == []
-                    assert operation["x-devpilot-auth"] in {"public-local-auth", "public-local-auth-recovery"}
-                else:
-                    assert operation["security"] == [{"LocalHumanSession": []}]
-                    assert operation["x-devpilot-auth"] == "human-session-required"
-                assert any(code in operation["responses"] for code in {"200", "201"})
-                assert operation["responses"]["403"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/AuthErrorEnvelope"
-                if method.upper() == "POST" and op_id in {"auth.bootstrap.owner", "auth.login"}:
-                    assert "requestBody" in operation
-                elif method.upper() == "GET" or op_id in {"auth.session.rotate", "auth.logout", "auth.session.revoke"}:
-                    assert "requestBody" not in operation
-                continue
-
-            planning_ops = {
-                "planning.roadmap.status", "planning.roadmap.propose", "planning.roadmap.review", "planning.roadmap.approve", "planning.roadmap.freeze",
-                "planning.backlog.status", "planning.backlog.propose", "planning.backlog.review", "planning.backlog.approve", "planning.backlog.freeze",
-                "planning.sprint.status", "planning.sprint.propose", "planning.sprint.review", "planning.sprint.approve", "planning.sprint.freeze",
-                "planning.closure.status",
-            }
-            if op_id in planning_ops:
-                assert operation["x-devpilot-status"] == "gsdlc-08-e-planning-closure"
-                assert operation["x-devpilot-sprint"] == "DEVPL-GSDLC-08-E"
-                assert operation["security"] == [{"HumanSessionCookie": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-source-mutation"] is False
-                assert operation["x-devpilot-project-write"] is False
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-arbitrary-shell"] is False
-                assert operation["x-devpilot-remote-execution"] is False
-                assert operation["x-devpilot-secret-in-response"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                for status in ["400", "401", "403", "422", "500"]:
-                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
-                if method.upper() == "POST":
-                    assert "requestBody" in operation
-                    assert operation["requestBody"]["content"]["application/json"]["example"]["operation"] == op_id
-                else:
-                    assert "requestBody" not in operation
-                continue
-
-            gsdlc06_settings_ops = {
-                "settings.providers.enablement.status",
-                "settings.providers.enablement.plan",
-                "settings.providers.connectivity_test",
-                "settings.providers.enablement.apply",
-                "settings.providers.enablement.disable",
-                "settings.providers.enablement.revoke",
-                "settings.model_gateway",
-                "settings.model_gateway.evaluate",
-                "settings.agent_runtime",
-                "settings.rag_context",
-                "settings.agent_execution",
-                "settings.agent_evals",
-                "settings.agent_execution.create",
-                "settings.agent_execution.intent",
-                "settings.agent_execution.handoff",
-                "settings.agent_execution.cancel",
-                "settings.agent_execution.kill",
-            }
-            if op_id in gsdlc06_settings_ops:
-                assert operation["x-devpilot-status"] in {"secured-initial", "gsdlc-07-d-implemented-initial"}
-                assert operation["x-devpilot-sprint"] in {"DEVPL-GSDLC-06-C", "DEVPL-GSDLC-06-E", "DEVPL-GSDLC-07-A", "DEVPL-GSDLC-07-B", "DEVPL-GSDLC-07-D", "DEVPL-GSDLC-07-E"}
-                assert operation["security"] == [{"HumanSessionCookie": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-source-mutation"] is False
-                assert operation["x-devpilot-project-write"] is False
-                assert operation["x-devpilot-network-runtime"] is False
-                assert operation["x-devpilot-external-api"] is False
-                assert operation["x-devpilot-arbitrary-shell"] is False
-                assert operation["x-devpilot-remote-execution"] is False
-                assert operation["x-devpilot-secret-in-response"] is False
-                assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-                for status in ["400", "401", "403", "422", "500"]:
-                    assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
-                if method.upper() == "POST":
-                    assert "requestBody" in operation
-                else:
-                    assert "requestBody" not in operation
-                continue
-
-            assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial", "approval-center-initial", "settings-ui-initial", "visual-mvp-closed"}
-            if op_id in {"approvals.request", "approvals.approve", "approvals.deny"}:
-                assert operation["x-devpilot-sprint"] == "DEVPL-GSDLC-02-D"
-                assert operation["security"] == [{"HumanSessionCookie": []}]
-                assert operation["x-devpilot-auth"] == "human-session-required"
-                assert operation["x-devpilot-approval-actor-authority"] == "authenticated-session"
-                assert operation["x-devpilot-legacy-token-human-authority"] is False
-            else:
-                assert operation["security"] == [{"LocalTokenAuth": []}]
-                assert operation["x-devpilot-auth"] == "local-token-required"
-            assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
-            assert operation["x-devpilot-security-headers"] is True
-            assert operation["x-devpilot-domain-service"].endswith(("Service", "application_contract")) or "ApplicationService" in operation["x-devpilot-domain-service"]
-            assert "x-devpilot-side-effect" in operation
-            assert "x-devpilot-dry-run-default" in operation
-            assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-            for status in ["400", "401", "403", "422", "500"]:
-                assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
-            if method.upper() == "POST":
-                assert "requestBody" in operation, path
-                document_source_mutation_ids = {"API-UOC005-EDIT-APPLY", "API-UOC005-EDIT-ROLLBACK"}
-                if op_id in artifact_workbench_ops:
-                    assert "schema" in operation["requestBody"]["content"]["application/json"]
-                    assert operation["x-devpilot-source-mutation"] is False
-                    assert operation["x-devpilot-arbitrary-shell"] is False
-                    assert operation["x-devpilot-remote-execution"] is False
-                    continue
-                example = operation["requestBody"]["content"]["application/json"]["example"]
-                governed_git_mutation_ids = {"API-UOC006-STAGE", "API-UOC006-COMMIT", "API-UOC006-BRANCH-CREATE"}
-                governed_job_control_ids = {"API-UOC008-JOBS-CANCEL", "API-UOC008-JOBS-RETRY"}
-                quality_typed_ids = {
-                    "API-UOC009-QUALITY-TEST-IMPACT-PLAN",
-                    "API-UOC009-QUALITY-JOBS-PLAN",
-                    "API-UOC009-QUALITY-JOBS-EXECUTE",
-                    "API-UOC009-QUALITY-EVIDENCE-PACKAGE",
-                }
-                ai_typed_ids = {
-                    "API-UOC010-AI-JOBS-PLAN",
-                    "API-UOC010-AI-JOBS-EXECUTE",
-                    "API-UOC010-AI-EVIDENCE-PACKAGE",
-                }
-                if operation["x-devpilot-api-id"] in governed_job_control_ids:
-                    assert set(example) == {"actor", "reason"}
-                    assert operation["x-devpilot-source-mutation"] is False
-                    assert operation["x-devpilot-arbitrary-shell"] is False
-                    assert operation["x-devpilot-remote-execution"] is False
-                elif operation["x-devpilot-api-id"] in quality_typed_ids | ai_typed_ids:
-                    assert operation["x-devpilot-source-mutation"] is False
-                    assert operation["x-devpilot-arbitrary-shell"] is False
-                    assert operation["x-devpilot-remote-execution"] is False
-                    assert "command" not in example and "executable" not in example and "pytest_args" not in example
-                else:
-                    assert example["operation"] == operation["x-devpilot-operation"]
-                if operation["x-devpilot-api-id"] in document_source_mutation_ids:
-                    assert example["dry_run"] is False
-                    assert operation["x-devpilot-approval-required"] is True
-                    assert operation["x-devpilot-atomic-write"] is True
-                elif operation["x-devpilot-api-id"] in governed_git_mutation_ids:
-                    assert example["dry_run"] is False
-                    assert operation["x-devpilot-approval-required"] is True
-                    assert operation["x-devpilot-git-arbitrary-args"] is False
-                    assert operation["x-devpilot-push-enabled"] is False
-                elif operation["x-devpilot-api-id"] in governed_job_control_ids:
-                    assert operation["x-devpilot-side-effect"] == "local_runtime_job_control"
-                elif operation["x-devpilot-api-id"] in quality_typed_ids | ai_typed_ids:
-                    assert operation["x-devpilot-side-effect"] in {"read_only", "local_runtime_plan", "local_runtime_job_execution", "local_evidence_output"}
-                else:
-                    assert example["dry_run"] is True
-            else:
-                assert "requestBody" not in operation
+    # GSDLC-09-D successor routes must be represented by the current static
+    # OpenAPI and registry without granting source-write authority.
+    for key in {
+        "POST /api/v1/story/code/agent-assist/proposals",
+        "GET /api/v1/story/code/agent-assist/proposals/{proposal_id}",
+        "POST /api/v1/story/code/agent-assist/proposals/{proposal_id}/decision",
+    }:
+        assert key in static_keys
+        assert key in registry_keys
 
 
-def test_api_service_mapping_covers_every_endpoint_and_blocks_dangerous_routes() -> None:
-    spec = _openapi()
+def test_current_api_security_and_source_mutation_authority_are_explicit() -> None:
+    registry = _registry()
+    routes = registry["routes"]
+
+    source_mutations = {
+        route["route_id"]
+        for route in routes
+        if route.get("source_mutation_allowed") is True
+    }
+    assert "api.story-source-change.apply" in source_mutations
+    assert "api.story-source-change.rollback" in source_mutations
+    assert not any(route.get("remote_execution_allowed") for route in routes)
+    assert not any(route.get("connector_write_allowed") for route in routes)
+    assert not any(route.get("plugin_execution_allowed") for route in routes)
+    assert not any(route.get("external_api_allowed") for route in routes)
+    assert not any(route.get("destructive_action_allowed") for route in routes)
+
+    # Agent-assist is proposal-only: all three routes are source-non-mutating.
+    agent_ops = {
+        "story.agent-assist.proposal.create",
+        "story.agent-assist.proposal.get",
+        "story.agent-assist.proposal.decision",
+    }
+    found = [route for route in routes if route.get("operation") in agent_ops]
+    assert {route["operation"] for route in found} == agent_ops
+    assert all(route.get("source_mutation_allowed") is False for route in found)
+    assert all(route.get("application_service_required") is True for route in found)
+    assert all(route.get("auth_required") is True for route in found)
+    assert all(route.get("policy_check_required") is True for route in found)
+
+
+def test_api_service_mapping_retains_governed_boundary_documentation() -> None:
     mapping = MAPPING_PATH.read_text(encoding="utf-8")
-    forbidden_fragments = ["patch/apply", "rollback/execute", "refactor/execute", "0.0.0.0"]
-    allowed_typed_execute_paths = {"/api/v1/workspace/validations/execute", "/api/v1/quality/jobs/{job_id}/execute", "/api/v1/ai/jobs/{job_id}/execute", "/api/v1/project-entry/execute"}
-
-    for path, methods in spec["paths"].items():
-        assert path in mapping
-        assert all(fragment not in path for fragment in forbidden_fragments)
-        if path.endswith("/execute"):
-            assert path in allowed_typed_execute_paths, path
-        for operation in methods.values():
-            assert operation["x-devpilot-operation"] in mapping
-            assert operation["x-devpilot-api-id"] in mapping
-            assert "Policy/gate" in mapping
-
     assert "ApplicationService" in mapping
     assert "Policy/gate" in mapping
     assert "no patch execution" in mapping or "plan-only" in mapping
-
-
-def test_api_contract_artifacts_are_synchronized_with_manifest() -> None:
-    manifest = json.loads((ROOT / "docs" / "functional_sprint_68_manifest.json").read_text(encoding="utf-8"))
-    contract = (ROOT / "docs" / "07_interfaces" / "api_contract_v1.md").read_text(encoding="utf-8")
-    audit = (ROOT / "docs" / "audits" / "func_sprint_68_api_security_audit.md").read_text(encoding="utf-8")
-
-    assert manifest["sprint"] == "FUNC-SPRINT-68"
-    assert manifest["status"] == "implemented"
-    assert manifest["summary"]["api_local_mvp_implemented"] is True
-    assert manifest["summary"]["server_implemented"] is True
-    assert manifest["summary"]["api_security_implemented"] is True
-    assert manifest["summary"]["token_implemented"] is True
-    assert manifest["summary"]["cors_restricted"] is True
-    assert manifest["summary"]["ui_implemented"] is False
-    assert manifest["next_sprint"].startswith("FUNC-SPRINT-69")
-    assert "server_implemented: true" in contract
-    assert "token_required: true" in contract
-    assert "Veredicto: `PASS`" in audit

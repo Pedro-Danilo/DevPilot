@@ -1,0 +1,30 @@
+{
+  "classifications": {
+    "current-active": [
+      "Project State/API/UI/RBAC/TCR registries evolve for proposal-only routes",
+      "tests/test_api_contract.py now validates POST-H-028 current-active API drift authority instead of obsolete per-operation x-devpilot metadata",
+      "tests/test_post_h_014_api_route_contracts.py preserves the POST-H-014 safety invariant while recognizing typed GSDLC-09-C source-write successors"
+    ],
+    "deprecated-after-proof": [],
+    "derived": [
+      "UI/API summary counters recomputed from live collections"
+    ],
+    "historical-freeze": [
+      "UOC-005 source mutation route snapshot remains frozen and untouched",
+      "GSDLC-09-C API route cardinality is frozen in .devpilot/testing/fixtures/gsdlc_09_c_api_routes_at_close.json"
+    ],
+    "runtime-ephemeral": [
+      "outputs/story_agent_assist/gsdlc_09_d",
+      "auth.db*",
+      "devpilot.db*"
+    ],
+    "successor-needed": [
+      "GSDLC-09-D agent proposal contract added as successor without rewriting 09-C",
+      "Current OpenAPI adds only the three 09-D proposal routes while preserving top-level Visual MVP historical metadata"
+    ]
+  },
+  "historical_test_reconciliation": "PASS/safety-invariant-preserved/current-authority-modernized",
+  "historical_tests_modified_to_pass": false,
+  "sprint": "DEVPL-GSDLC-09-D",
+  "status": "PASS"
+}

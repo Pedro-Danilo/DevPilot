@@ -1,0 +1,690 @@
+{
+  "draft_mutations_performed": false,
+  "external_api_used": false,
+  "network_used": false,
+  "proposal": {
+    "access_route_id": "ollama-localhost-mistral7b",
+    "agent_session": "aes_42f93846ebda4ba7a5298897f19feef2",
+    "agent_type": "test",
+    "cost": {
+      "estimated_cost_usd": 0.0,
+      "estimated_input_tokens": 88,
+      "estimated_output_tokens": 800
+    },
+    "forbidden_delete_decision": {
+      "approval_required": false,
+      "authority": [
+        "PolicyEngine",
+        "RBAC",
+        "Approval"
+      ],
+      "decision_at": "2026-09-08T15:30:22Z",
+      "decision_id": "ted_9471442b241b40d29db293f202452ff9",
+      "dry_run_required": false,
+      "effect": "BLOCK",
+      "evidence": {
+        "fake_local_dispatch": null,
+        "model_route_decision_ref": "ollama-localhost-mistral7b",
+        "policy_result": {
+          "command": "policy check",
+          "data": {
+            "decisions": [
+              {
+                "effect": "block",
+                "guard": "ApprovalPolicyChecker",
+                "metadata": {
+                  "action": "delete",
+                  "actor_id": "local-owner",
+                  "agent_role_id": "test",
+                  "approval_required": true,
+                  "command_id": null,
+                  "interface": "agent-runtime",
+                  "path": null,
+                  "policy_matrix": ".devpilot/miasi/policy_matrix.json",
+                  "role_at_decision": "owner",
+                  "sensitive_action_catalog": ".devpilot/approval/sensitive_action_catalog.json",
+                  "step_id": "test-plan",
+                  "subject": "forbidden-fixture",
+                  "subject_hash": null,
+                  "tool_call_id": "ti_ff924ec0b85b4928bdb9dfee051a6e5d",
+                  "tool_id": "filesystem.delete",
+                  "tool_registry": ".devpilot/miasi/tool_registry.json"
+                },
+                "ok": false,
+                "reason": "Approval-gated action requires a valid approval_id.",
+                "rule_id": "APPROVAL_REQUIRED_MISSING",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "block",
+                "guard": "PolicyEngine",
+                "metadata": {
+                  "action": "delete",
+                  "actor_id": "local-owner",
+                  "approval_required": true,
+                  "created_by": "POST-H-012-D",
+                  "interface": "agent-runtime",
+                  "original_rule_id": "APPROVAL_REQUIRED_MISSING",
+                  "sensitive_action_id": "filesystem.delete",
+                  "tool_id": "filesystem.delete"
+                },
+                "ok": false,
+                "reason": "APPROVAL_REQUIRED: sensitive or approval-gated action requires a valid scoped approval_id.",
+                "rule_id": "APPROVAL_REQUIRED",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "allow",
+                "guard": "RBAC",
+                "metadata": {
+                  "action": "delete",
+                  "actor_id": "local-owner",
+                  "actor_roles": [
+                    "owner",
+                    "agent-supervisor"
+                  ],
+                  "auth_remote_enabled": false,
+                  "credentials_stored": false,
+                  "identity_registry": ".devpilot/identity/identity_registry.json",
+                  "permission": "filesystem.delete.approve",
+                  "permissions_total": 13,
+                  "registry_valid": true,
+                  "subject": "forbidden-fixture",
+                  "tool_id": "filesystem.delete",
+                  "workspace_id": null
+                },
+                "ok": true,
+                "reason": "RBAC allowed the action for the local actor.",
+                "rule_id": "RBAC_PERMISSION_ALLOWED",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "block",
+                "guard": "RBAC",
+                "metadata": {
+                  "actor_has_required_role": false,
+                  "actor_id": "local-owner",
+                  "actor_roles": [
+                    "owner",
+                    "agent-supervisor"
+                  ],
+                  "created_by": "POST-H-012-D",
+                  "required_role_declared": false,
+                  "requires_rbac_role": "maintainer",
+                  "sensitive_action_id": "filesystem.delete"
+                },
+                "ok": false,
+                "reason": "RBAC_DENIED: actor does not hold the exact required role for this sensitive action.",
+                "rule_id": "RBAC_DENIED",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "block",
+                "guard": "SensitiveActionCatalog",
+                "metadata": {
+                  "connector_write_enabled": false,
+                  "created_by": "POST-H-012-D",
+                  "default_effect": "deny",
+                  "domain": "filesystem",
+                  "executable": false,
+                  "plugin_execution_enabled": false,
+                  "remote_execution_enabled": false,
+                  "risk_level": "critical",
+                  "sensitive_action_id": "filesystem.delete",
+                  "source_mutation_allowed": false,
+                  "status": "blocked"
+                },
+                "ok": false,
+                "reason": "Sensitive action remains non-executable or deny/block-by-default; POST-H-012-D does not enable side effects.",
+                "rule_id": "SENSITIVE_ACTION_NON_EXECUTABLE_BLOCKED",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "block",
+                "guard": "PolicyEngine",
+                "metadata": {
+                  "action": "delete",
+                  "approval_valid": false,
+                  "dry_run": true
+                },
+                "ok": false,
+                "reason": "PolicyEngine blocks dangerous actions by default, even in dry-run, until scoped human approval is valid.",
+                "rule_id": "POLICY_DANGEROUS_ACTION_BLOCKED",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "allow",
+                "guard": "PathGuard",
+                "metadata": {
+                  "action": "delete"
+                },
+                "ok": true,
+                "reason": "No path was provided for PathGuard evaluation.",
+                "rule_id": "PATHGUARD_NO_PATH"
+              },
+              {
+                "effect": "allow",
+                "guard": "SecretGuard",
+                "ok": true,
+                "reason": "SecretGuard did not detect secret-like content.",
+                "rule_id": "SECRETGUARD_PASS",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "allow",
+                "guard": "PromptInjectionGuard",
+                "ok": true,
+                "reason": "PromptInjectionGuard did not detect prompt-injection patterns.",
+                "rule_id": "PROMPT_INJECTION_PASS",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "allow",
+                "guard": "ToolInjectionGuard",
+                "ok": true,
+                "reason": "ToolInjectionGuard did not detect tool-injection patterns.",
+                "rule_id": "TOOL_INJECTION_PASS",
+                "subject": "forbidden-fixture"
+              },
+              {
+                "effect": "allow",
+                "guard": "CostGuard",
+                "metadata": {
+                  "budget_limit_usd": 0.0,
+                  "budget_used_usd": 0.0,
+                  "estimated_cost_usd": 0.0,
+                  "external_api": false,
+                  "provider": "local"
+                },
+                "ok": true,
+                "reason": "CostGuard allowed local/mock/no-cost execution.",
+                "rule_id": "COSTGUARD_LOCAL_ALLOWED"
+              }
+            ],
+            "request": {
+              "action": "delete",
+              "actor": "local-owner",
+              "approval_id": null,
+              "command_id": null,
+              "dry_run": true,
+              "estimated_cost_usd": 0.0,
+              "external_api": false,
+              "interface": "agent-runtime",
+              "metadata": {
+                "agent_role_id": "test",
+                "step_id": "test-plan"
+              },
+              "path": null,
+              "provider": null,
+              "role_at_decision": "owner",
+              "subject": "forbidden-fixture",
+              "subject_hash": null,
+              "text_preview": "{\"proposal_only\": true}",
+              "text_provided": true,
+              "tool_call_id": "ti_ff924ec0b85b4928bdb9dfee051a6e5d",
+              "tool_id": "filesystem.delete"
+            },
+            "summary": {
+              "actor_id": "local-owner",
+              "allowed": false,
+              "approval_required": true,
+              "approval_valid": false,
+              "blocked": true,
+              "command_id_bound": false,
+              "connector_write_enabled": false,
+              "decisions_total": 11,
+              "denied": false,
+              "guards": [
+                "ApprovalPolicyChecker",
+                "CostGuard",
+                "PathGuard",
+                "PolicyEngine",
+                "PromptInjectionGuard",
+                "RBAC",
+                "SecretGuard",
+                "SensitiveActionCatalog",
+                "ToolInjectionGuard"
+              ],
+              "interface": "agent-runtime",
+              "plugin_execution_enabled": false,
+              "policy_engine_enforcement_created_by": "POST-H-012-D",
+              "post_h_012_d_enforced": true,
+              "remote_execution_enabled": false,
+              "role_at_decision": "owner",
+              "sensitive_action_id": "filesystem.delete",
+              "sensitive_action_matched": true,
+              "tool_call_id_bound": true,
+              "warnings": 0
+            }
+          },
+          "exit_code": 2,
+          "findings": [
+            {
+              "id": "APPROVAL_REQUIRED_MISSING",
+              "message": "Approval-gated action requires a valid approval_id.",
+              "metadata": {
+                "action": "delete",
+                "actor_id": "local-owner",
+                "agent_role_id": "test",
+                "approval_required": true,
+                "command_id": null,
+                "effect": "block",
+                "guard": "ApprovalPolicyChecker",
+                "interface": "agent-runtime",
+                "path": null,
+                "policy_matrix": ".devpilot/miasi/policy_matrix.json",
+                "role_at_decision": "owner",
+                "sensitive_action_catalog": ".devpilot/approval/sensitive_action_catalog.json",
+                "step_id": "test-plan",
+                "subject": "forbidden-fixture",
+                "subject_hash": null,
+                "tool_call_id": "ti_ff924ec0b85b4928bdb9dfee051a6e5d",
+                "tool_id": "filesystem.delete",
+                "tool_registry": ".devpilot/miasi/tool_registry.json"
+              },
+              "path": "forbidden-fixture",
+              "severity": "block"
+            },
+            {
+              "id": "APPROVAL_REQUIRED",
+              "message": "APPROVAL_REQUIRED: sensitive or approval-gated action requires a valid scoped approval_id.",
+              "metadata": {
+                "action": "delete",
+                "actor_id": "local-owner",
+                "approval_required": true,
+                "created_by": "POST-H-012-D",
+                "effect": "block",
+                "guard": "PolicyEngine",
+                "interface": "agent-runtime",
+                "original_rule_id": "APPROVAL_REQUIRED_MISSING",
+                "sensitive_action_id": "filesystem.delete",
+                "tool_id": "filesystem.delete"
+              },
+              "path": "forbidden-fixture",
+              "severity": "block"
+            },
+            {
+              "id": "RBAC_DENIED",
+              "message": "RBAC_DENIED: actor does not hold the exact required role for this sensitive action.",
+              "metadata": {
+                "actor_has_required_role": false,
+                "actor_id": "local-owner",
+                "actor_roles": [
+                  "owner",
+                  "agent-supervisor"
+                ],
+                "created_by": "POST-H-012-D",
+                "effect": "block",
+                "guard": "RBAC",
+                "required_role_declared": false,
+                "requires_rbac_role": "maintainer",
+                "sensitive_action_id": "filesystem.delete"
+              },
+              "path": "forbidden-fixture",
+              "severity": "block"
+            },
+            {
+              "id": "SENSITIVE_ACTION_NON_EXECUTABLE_BLOCKED",
+              "message": "Sensitive action remains non-executable or deny/block-by-default; POST-H-012-D does not enable side effects.",
+              "metadata": {
+                "connector_write_enabled": false,
+                "created_by": "POST-H-012-D",
+                "default_effect": "deny",
+                "domain": "filesystem",
+                "effect": "block",
+                "executable": false,
+                "guard": "SensitiveActionCatalog",
+                "plugin_execution_enabled": false,
+                "remote_execution_enabled": false,
+                "risk_level": "critical",
+                "sensitive_action_id": "filesystem.delete",
+                "source_mutation_allowed": false,
+                "status": "blocked"
+              },
+              "path": "forbidden-fixture",
+              "severity": "block"
+            },
+            {
+              "id": "POLICY_DANGEROUS_ACTION_BLOCKED",
+              "message": "PolicyEngine blocks dangerous actions by default, even in dry-run, until scoped human approval is valid.",
+              "metadata": {
+                "action": "delete",
+                "approval_valid": false,
+                "dry_run": true,
+                "effect": "block",
+                "guard": "PolicyEngine"
+              },
+              "path": "forbidden-fixture",
+              "severity": "block"
+            }
+          ],
+          "message": "Policy check blocked or denied the simulated request.",
+          "ok": false
+        },
+        "tool_registry_side_effect": "unknown"
+      },
+      "executable": false,
+      "intent_id": "ti_ff924ec0b85b4928bdb9dfee051a6e5d",
+      "model_route_granted_permission": false,
+      "policy_ok": false,
+      "rbac_actor": "local-owner",
+      "reason": "tool outside agent role allowlist; tool outside step allowlist; tool not present in MIASI Tool Registry; tool is globally forbidden in 07-D; PolicyEngine/RBAC/Approval blocked the intent",
+      "role_scope_ok": false,
+      "session_state": "active",
+      "step_scope_ok": false,
+      "tool_executed": false
+    },
+    "model_id": "mistral:7b",
+    "operation": "CREATE",
+    "proposal_id": "agent-proposal-f7daae8b370b85828a37038f",
+    "proposal_sha256": "f7daae8b370b85828a37038f8a10b26c1133b7eebc2fe6ed7fb45e1885dfe9dd",
+    "provenance": {
+      "access_route_id": "ollama-localhost-mistral7b",
+      "agent_session": "aes_42f93846ebda4ba7a5298897f19feef2",
+      "model_id": "mistral:7b",
+      "provider_id": "ollama",
+      "rag_source_refs": [
+        "docs/post_h_003_a_manifest.json#L36-L43",
+        "docs/POST-H-029_testing_tiers_impact_regression_cost.md#L561-L600",
+        "docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md#L561-L600"
+      ],
+      "story_context_pack_id": "story-context-trace09d1234567890",
+      "story_context_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "trace_id": "trace_af6e911fd6a1483295e1c378aa7b3f76"
+    },
+    "provider_id": "ollama",
+    "safety": {
+      "agent_self_apply": false,
+      "agent_self_approve": false,
+      "agent_self_commit": false,
+      "draft_mutations_performed": false,
+      "external_api_used": false,
+      "filesystem_delete_blocked": true,
+      "generic_shell": false,
+      "human_decision_required": true,
+      "model_route_grants_tool_permission": false,
+      "network_used": false,
+      "proposal_only": true,
+      "source_mutations_performed": false
+    },
+    "target_path": "tests/test_agent_proposal_story_09d_trace.py",
+    "tool_execution_decision": {
+      "approval_required": true,
+      "authority": [
+        "PolicyEngine",
+        "RBAC",
+        "Approval"
+      ],
+      "decision_at": "2026-09-08T15:30:22Z",
+      "decision_id": "ted_9a870819e07e4d87a89fb14d90f9fd3d",
+      "dry_run_required": true,
+      "effect": "BLOCK",
+      "evidence": {
+        "fake_local_dispatch": null,
+        "model_route_decision_ref": "ollama-localhost-mistral7b",
+        "policy_result": {
+          "command": "policy check",
+          "data": {
+            "decisions": [
+              {
+                "effect": "block",
+                "guard": "ApprovalPolicyChecker",
+                "metadata": {
+                  "action": "propose-only",
+                  "actor_id": "local-owner",
+                  "agent_role_id": "test",
+                  "approval_required": true,
+                  "command_id": null,
+                  "interface": "agent-runtime",
+                  "path": null,
+                  "policy_matrix": ".devpilot/miasi/policy_matrix.json",
+                  "role_at_decision": "owner",
+                  "sensitive_action_catalog": ".devpilot/approval/sensitive_action_catalog.json",
+                  "step_id": "test-plan",
+                  "subject": "story-09d-trace",
+                  "subject_hash": null,
+                  "tool_call_id": "ti_bc98a59c1a8546b0ae429fb3342c4404",
+                  "tool_id": "tests.run",
+                  "tool_registry": ".devpilot/miasi/tool_registry.json"
+                },
+                "ok": false,
+                "reason": "Approval-gated action requires a valid approval_id.",
+                "rule_id": "APPROVAL_REQUIRED_MISSING",
+                "subject": "story-09d-trace"
+              },
+              {
+                "effect": "block",
+                "guard": "PolicyEngine",
+                "metadata": {
+                  "action": "propose-only",
+                  "actor_id": "local-owner",
+                  "approval_required": true,
+                  "created_by": "POST-H-012-D",
+                  "interface": "agent-runtime",
+                  "original_rule_id": "APPROVAL_REQUIRED_MISSING",
+                  "sensitive_action_id": null,
+                  "tool_id": "tests.run"
+                },
+                "ok": false,
+                "reason": "APPROVAL_REQUIRED: sensitive or approval-gated action requires a valid scoped approval_id.",
+                "rule_id": "APPROVAL_REQUIRED",
+                "subject": "story-09d-trace"
+              },
+              {
+                "effect": "allow",
+                "guard": "RBAC",
+                "metadata": {
+                  "action": "propose-only",
+                  "actor_id": "local-owner",
+                  "actor_roles": [
+                    "owner",
+                    "agent-supervisor"
+                  ],
+                  "auth_remote_enabled": false,
+                  "credentials_stored": false,
+                  "identity_registry": ".devpilot/identity/identity_registry.json",
+                  "permission": "action.propose-only",
+                  "permissions_total": 13,
+                  "registry_valid": true,
+                  "subject": "story-09d-trace",
+                  "tool_id": "tests.run",
+                  "workspace_id": null
+                },
+                "ok": true,
+                "reason": "RBAC allowed the action for the local actor.",
+                "rule_id": "RBAC_PERMISSION_ALLOWED",
+                "subject": "story-09d-trace"
+              },
+              {
+                "effect": "allow",
+                "guard": "PathGuard",
+                "metadata": {
+                  "action": "propose-only"
+                },
+                "ok": true,
+                "reason": "No path was provided for PathGuard evaluation.",
+                "rule_id": "PATHGUARD_NO_PATH"
+              },
+              {
+                "effect": "allow",
+                "guard": "SecretGuard",
+                "ok": true,
+                "reason": "SecretGuard did not detect secret-like content.",
+                "rule_id": "SECRETGUARD_PASS",
+                "subject": "story-09d-trace"
+              },
+              {
+                "effect": "allow",
+                "guard": "PromptInjectionGuard",
+                "ok": true,
+                "reason": "PromptInjectionGuard did not detect prompt-injection patterns.",
+                "rule_id": "PROMPT_INJECTION_PASS",
+                "subject": "story-09d-trace"
+              },
+              {
+                "effect": "allow",
+                "guard": "ToolInjectionGuard",
+                "ok": true,
+                "reason": "ToolInjectionGuard did not detect tool-injection patterns.",
+                "rule_id": "TOOL_INJECTION_PASS",
+                "subject": "story-09d-trace"
+              },
+              {
+                "effect": "allow",
+                "guard": "CostGuard",
+                "metadata": {
+                  "budget_limit_usd": 0.0,
+                  "budget_used_usd": 0.0,
+                  "estimated_cost_usd": 0.0,
+                  "external_api": false,
+                  "provider": "local"
+                },
+                "ok": true,
+                "reason": "CostGuard allowed local/mock/no-cost execution.",
+                "rule_id": "COSTGUARD_LOCAL_ALLOWED"
+              }
+            ],
+            "request": {
+              "action": "propose-only",
+              "actor": "local-owner",
+              "approval_id": null,
+              "command_id": null,
+              "dry_run": true,
+              "estimated_cost_usd": 0.0,
+              "external_api": false,
+              "interface": "agent-runtime",
+              "metadata": {
+                "agent_role_id": "test",
+                "step_id": "test-plan"
+              },
+              "path": null,
+              "provider": null,
+              "role_at_decision": "owner",
+              "subject": "story-09d-trace",
+              "subject_hash": null,
+              "text_preview": "{\"proposal_only\": true, \"real_execution_requested\": false}",
+              "text_provided": true,
+              "tool_call_id": "ti_bc98a59c1a8546b0ae429fb3342c4404",
+              "tool_id": "tests.run"
+            },
+            "summary": {
+              "actor_id": "local-owner",
+              "allowed": false,
+              "approval_required": true,
+              "approval_valid": false,
+              "blocked": true,
+              "command_id_bound": false,
+              "connector_write_enabled": false,
+              "decisions_total": 8,
+              "denied": false,
+              "guards": [
+                "ApprovalPolicyChecker",
+                "CostGuard",
+                "PathGuard",
+                "PolicyEngine",
+                "PromptInjectionGuard",
+                "RBAC",
+                "SecretGuard",
+                "ToolInjectionGuard"
+              ],
+              "interface": "agent-runtime",
+              "plugin_execution_enabled": false,
+              "policy_engine_enforcement_created_by": "POST-H-012-D",
+              "post_h_012_d_enforced": true,
+              "remote_execution_enabled": false,
+              "role_at_decision": "owner",
+              "sensitive_action_id": null,
+              "sensitive_action_matched": false,
+              "tool_call_id_bound": true,
+              "warnings": 0
+            }
+          },
+          "exit_code": 2,
+          "findings": [
+            {
+              "id": "APPROVAL_REQUIRED_MISSING",
+              "message": "Approval-gated action requires a valid approval_id.",
+              "metadata": {
+                "action": "propose-only",
+                "actor_id": "local-owner",
+                "agent_role_id": "test",
+                "approval_required": true,
+                "command_id": null,
+                "effect": "block",
+                "guard": "ApprovalPolicyChecker",
+                "interface": "agent-runtime",
+                "path": null,
+                "policy_matrix": ".devpilot/miasi/policy_matrix.json",
+                "role_at_decision": "owner",
+                "sensitive_action_catalog": ".devpilot/approval/sensitive_action_catalog.json",
+                "step_id": "test-plan",
+                "subject": "story-09d-trace",
+                "subject_hash": null,
+                "tool_call_id": "ti_bc98a59c1a8546b0ae429fb3342c4404",
+                "tool_id": "tests.run",
+                "tool_registry": ".devpilot/miasi/tool_registry.json"
+              },
+              "path": "story-09d-trace",
+              "severity": "block"
+            },
+            {
+              "id": "APPROVAL_REQUIRED",
+              "message": "APPROVAL_REQUIRED: sensitive or approval-gated action requires a valid scoped approval_id.",
+              "metadata": {
+                "action": "propose-only",
+                "actor_id": "local-owner",
+                "approval_required": true,
+                "created_by": "POST-H-012-D",
+                "effect": "block",
+                "guard": "PolicyEngine",
+                "interface": "agent-runtime",
+                "original_rule_id": "APPROVAL_REQUIRED_MISSING",
+                "sensitive_action_id": null,
+                "tool_id": "tests.run"
+              },
+              "path": "story-09d-trace",
+              "severity": "block"
+            }
+          ],
+          "message": "Policy check blocked or denied the simulated request.",
+          "ok": false
+        },
+        "tool_registry_side_effect": "controlled_execution"
+      },
+      "executable": false,
+      "intent_id": "ti_bc98a59c1a8546b0ae429fb3342c4404",
+      "model_route_granted_permission": false,
+      "policy_ok": false,
+      "rbac_actor": "local-owner",
+      "reason": "PolicyEngine/RBAC/Approval blocked the intent",
+      "role_scope_ok": true,
+      "session_state": "active",
+      "step_scope_ok": true,
+      "tool_executed": false
+    },
+    "tool_intent": {
+      "action": "propose-only",
+      "agent_role_id": "test",
+      "approval_id": null,
+      "arguments": {
+        "proposal_only": true,
+        "real_execution_requested": false
+      },
+      "created_at": "2026-09-08T15:30:21Z",
+      "dry_run": true,
+      "estimated_cost_usd": 0.0,
+      "estimated_input_tokens": 88,
+      "estimated_output_tokens": 800,
+      "intent_id": "ti_bc98a59c1a8546b0ae429fb3342c4404",
+      "model_route_decision_ref": "ollama-localhost-mistral7b",
+      "session_id": "aes_42f93846ebda4ba7a5298897f19feef2",
+      "step_id": "test-plan",
+      "subject": "story-09d-trace",
+      "tool_id": "tests.run"
+    },
+    "trace_id": "trace_af6e911fd6a1483295e1c378aa7b3f76"
+  },
+  "source_mutations_performed": false,
+  "sprint": "DEVPL-GSDLC-09-D",
+  "status": "PASS"
+}

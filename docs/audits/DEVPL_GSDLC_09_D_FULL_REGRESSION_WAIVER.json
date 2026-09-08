@@ -1,0 +1,30 @@
+{
+  "approval_source": "DEVPL-GSDLC-09 v1.4.4 + 04_PROMPT_DEVPL_GSDLC_09_D v1.0.1 + owner current prompt",
+  "browser_required": true,
+  "expires_at": "2026-10-31T23:59:59Z",
+  "external_api_used": false,
+  "full_regression_executed": false,
+  "full_regression_reserved_for": "DEVPL-GSDLC-09-E",
+  "full_regression_runs_allowed_now": 0,
+  "hard_trigger_owner_approved": false,
+  "micro_sprint": "DEVPL-GSDLC-09-D",
+  "network_used": false,
+  "owner": "Ordóñez",
+  "qualification_status": "PASS/READY-FOR-WINDOWS-LIVE-BROWSER",
+  "reason": "Owner-approved GSDLC-09 policy requires A-D focal/cumulative validation and reserves exactly one logical Full Regression for 09-E. 09-D is proposal-only and requires browser/agent eval/security/contract reconciliation, not an intermediate full.",
+  "risk": "high/agent-proposal-no-source-authority",
+  "schema_id": "devpilot.gsdlc09d.full_regression_waiver.v1",
+  "scope": "DEVPL-GSDLC-09-D only",
+  "status": "PASS",
+  "tests_executed": [
+    "09-D focal: PASS/8",
+    "09-A cumulative predecessor: PASS/10",
+    "09-B cumulative predecessor: PASS/8",
+    "09-C cumulative predecessor: PASS/14",
+    "current API contracts: PASS/19",
+    "current UI route contracts: PASS/8",
+    "Historical Contract Authority/UOC freeze/Project State: PASS/40",
+    "Test Impact v2: PASS/36 paths/193 contracts/301 tests/unmatched 0"
+  ],
+  "waiver_id": "DEVPL-GSDLC-09-D-NO-FULL-OWNER-APPROVED"
+}

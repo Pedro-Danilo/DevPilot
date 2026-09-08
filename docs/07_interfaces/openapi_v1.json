@@ -2100,6 +2100,65 @@
         "title": "SprintProposalBody",
         "type": "object"
       },
+      "StoryAgentProposalBody": {
+        "properties": {
+          "agent_type": {
+            "pattern": "^(coding|test)$",
+            "title": "Agent Type",
+            "type": "string"
+          },
+          "instruction": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Instruction",
+            "type": "string"
+          },
+          "mode": {
+            "default": "mock",
+            "pattern": "^(mock|fake-local)$",
+            "title": "Mode",
+            "type": "string"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Id"
+          }
+        },
+        "required": [
+          "agent_type",
+          "instruction"
+        ],
+        "title": "StoryAgentProposalBody",
+        "type": "object"
+      },
+      "StoryAgentProposalDecisionBody": {
+        "properties": {
+          "decision": {
+            "pattern": "^(ACCEPT|REJECT)$",
+            "title": "Decision",
+            "type": "string"
+          },
+          "proposal_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Proposal Sha256",
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposal_sha256",
+          "decision"
+        ],
+        "title": "StoryAgentProposalDecisionBody",
+        "type": "object"
+      },
       "TestImpactBody": {
         "properties": {
           "changed_paths": {
@@ -6085,6 +6144,135 @@
         ]
       }
     },
+    "/api/v1/story/code/agent-assist/proposals": {
+      "post": {
+        "operationId": "story_agent_proposal_create_api_v1_story_code_agent_assist_proposals_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryAgentProposalBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Agent Proposal Create",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/agent-assist/proposals/{proposal_id}": {
+      "get": {
+        "operationId": "story_agent_proposal_get_api_v1_story_code_agent_assist_proposals__proposal_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Agent Proposal Get",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/agent-assist/proposals/{proposal_id}/decision": {
+      "post": {
+        "operationId": "story_agent_proposal_decide_api_v1_story_code_agent_assist_proposals__proposal_id__decision_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryAgentProposalDecisionBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Agent Proposal Decide",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
     "/api/v1/story/code/change-executions/{execution_id}": {
       "get": {
         "operationId": "story_source_change_execution_get_api_v1_story_code_change_executions__execution_id__get",
@@ -9386,6 +9574,10 @@
     "gsdlc_08_e_planning_routes": 16,
     "gsdlc_09_c_source_change_routes_total": 11,
     "gsdlc_09_c_source_write_routes_total": 2,
+    "gsdlc_09_d_agent_proposal_routes_total": 3,
+    "gsdlc_09_d_external_api_required": false,
+    "gsdlc_09_d_model_route_grants_tool_authority": false,
+    "gsdlc_09_d_proposal_only": true,
     "legacy_local_token_human_authority": false,
     "network_required": false,
     "phase_f_closed": true,
@@ -9417,7 +9609,7 @@
     "uoc_008_generic_capability_execution_enabled": false,
     "uoc_008_job_console": true,
     "uoc_008_jobs_routes_total": 5,
-    "updated_by": "DEVPL-GSDLC-02-B",
+    "updated_by": "DEVPL-GSDLC-09-D",
     "visual_product_mvp_release": true,
     "web_real_evolution_planned": true,
     "web_ui_consumer": "ui/web",
@@ -9511,5 +9703,17 @@
     "stale_preimage_blocks": true,
     "status": "implemented-initial/windows-pending",
     "test_impact_preview": true
+  },
+  "x-devpilot-gsdlc-09-d": {
+    "full_regression_runs": 0,
+    "model_route_is_tool_authority": false,
+    "proposal_only": true,
+    "routes": [
+      "POST /api/v1/story/code/agent-assist/proposals",
+      "GET /api/v1/story/code/agent-assist/proposals/{proposal_id}",
+      "POST /api/v1/story/code/agent-assist/proposals/{proposal_id}/decision"
+    ],
+    "source_mutations_performed": false,
+    "status": "implemented/local-qualified/WINDOWS-PENDING"
   }
 }

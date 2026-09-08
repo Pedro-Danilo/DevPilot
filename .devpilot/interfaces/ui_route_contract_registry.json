@@ -13,7 +13,8 @@
     "UOC-011 hardens all nine current UI routes against a 12-state operational matrix.",
     "GSDLC-03-E UX-003: current registry status remains schema-valid implemented-initial; sprint/browser progress belongs in project state/audit artifacts, not the schema status enum.",
     "GSDLC-03-E UX-003: Project Entry Approval handoff is exact-approval-id targeted and does not require the global approval list/portfolio to succeed.",
-    "GSDLC-09-B adds /story/code as the dedicated project-scoped Code Workbench; drafts are runtime-only and source writes remain disabled until 09-C."
+    "GSDLC-09-B adds /story/code as the dedicated project-scoped Code Workbench; drafts are runtime-only and source writes remain disabled until 09-C.",
+    "DEVPL-GSDLC-09-D extends the current-active /story/code route with proposal-only agent-assist API bindings; original registry authority remains POST-H-014-C."
   ],
   "registry_id": "devpilot-ui-route-contract-registry",
   "routes": [
@@ -1098,6 +1099,9 @@
     {
       "allowed_api_routes": [
         "api.settings.workspace",
+        "api.story-agent-assist.proposal.create",
+        "api.story-agent-assist.proposal.decision",
+        "api.story-agent-assist.proposal.get",
         "api.story-code.drafts.discard",
         "api.story-code.drafts.get",
         "api.story-code.drafts.recheck",
@@ -1134,7 +1138,8 @@
       "no_remote_badge_required": true,
       "notes": [
         "Manual authoring remains draft-first.",
-        "09-C apply and rollback are owner-approval-bound typed operations; no terminal, shell, generic patch, Git stage/commit or agent self-apply."
+        "09-C apply and rollback are owner-approval-bound typed operations; no terminal, shell, generic patch, Git stage/commit or agent self-apply.",
+        "09-D adds CodingAgent/TestAgent proposal-only with human ACCEPT/REJECT; ACCEPT inserts into editor only and does not write draft/source."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1148,7 +1153,12 @@
         "ui/web/src/main.ts"
       ],
       "state_contract": {
+        "agent_proposal_ready": true,
+        "agent_proposal_rejected": true,
+        "agent_provenance_visible": true,
         "api_down": true,
+        "applied": true,
+        "approval_pending": true,
         "block_visible": true,
         "conflict": true,
         "draft_saved": true,
@@ -1157,16 +1167,15 @@
         "forbidden": true,
         "loading": true,
         "path_block": true,
-        "ready": true,
-        "source_unchanged": true,
         "plan_ready": true,
-        "approval_pending": true,
-        "applied": true,
+        "ready": true,
         "rollback_ready": true,
         "rolled_back": true,
-        "stale_preimage": true
+        "source_unchanged": true,
+        "stale_preimage": true,
+        "unsafe_agent_proposal_blocked": true
       },
-      "status": "implemented-initial/gsdlc-09-c",
+      "status": "implemented-initial/gsdlc-09-d",
       "status_visibility": [
         "PASS",
         "WARN",
@@ -1174,7 +1183,7 @@
         "ERROR",
         "PENDING"
       ],
-      "title": "Story Code Workbench — governed SourceChangePlan apply/rollback"
+      "title": "Story Code Workbench — manual + proposal-only agent assist + governed source change"
     }
   ],
   "safety": {
@@ -1236,6 +1245,10 @@
     "gsdlc_09_b_code_workbench": true,
     "gsdlc_09_b_code_workbench_api_routes_total": 7,
     "gsdlc_09_b_source_write_enabled": false,
+    "gsdlc_09_c_atomic_apply_rollback": true,
+    "gsdlc_09_c_owner_approval_required": true,
+    "gsdlc_09_c_source_change_api_routes_total": 11,
+    "gsdlc_09_c_source_write_routes_total": 2,
     "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
     "local_only_routes_total": 14,
     "mutation_control_routes_total": 10,
@@ -1276,11 +1289,7 @@
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
-    "workspace_validation_api_routes_total": 4,
-    "gsdlc_09_c_source_change_api_routes_total": 11,
-    "gsdlc_09_c_source_write_routes_total": 2,
-    "gsdlc_09_c_atomic_apply_rollback": true,
-    "gsdlc_09_c_owner_approval_required": true
+    "workspace_validation_api_routes_total": 4
   },
   "updated": "2026-09-08"
 }

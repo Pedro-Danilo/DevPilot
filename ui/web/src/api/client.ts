@@ -309,6 +309,9 @@ export class DevPilotApiClient {
   async storySourceChangeRollback(executionId:string, approvalId:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-executions/${encodeURIComponent(executionId)}/rollback`, {approval_id:approvalId}); }
   async storySourceChangeApplyManifest(executionId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-executions/${encodeURIComponent(executionId)}/apply-manifest`); }
   async storySourceChangeRollbackEvidence(executionId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-executions/${encodeURIComponent(executionId)}/rollback-evidence`); }
+  async storyAgentProposalCreate(payload:{agent_type:'coding'|'test';mode:'mock'|'fake-local';instruction:string;source_id:string|null}): Promise<DevPilotApplicationResponse> { return this.post('/story/code/agent-assist/proposals', payload); }
+  async storyAgentProposal(proposalId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/agent-assist/proposals/${encodeURIComponent(proposalId)}`); }
+  async storyAgentProposalDecision(proposalId:string, proposalSha256:string, decision:'ACCEPT'|'REJECT'): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/agent-assist/proposals/${encodeURIComponent(proposalId)}/decision`, {proposal_sha256:proposalSha256,decision}); }
 
   async projectEntryDryRun(payload: { intake: Record<string, unknown>; timeout_seconds?: number }): Promise<DevPilotApplicationResponse> {
     return this.post('/project-entry/dry-run', { intake: payload.intake, timeout_seconds: payload.timeout_seconds ?? PROJECT_ENTRY_PROBE_TIMEOUT_SECONDS }, { timeoutMs: PROJECT_ENTRY_PLANNING_TIMEOUT_MS });

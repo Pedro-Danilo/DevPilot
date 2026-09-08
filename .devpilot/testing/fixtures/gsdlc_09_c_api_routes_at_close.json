@@ -1,0 +1,24 @@
+{
+  "gsdlc_09_c_routes_total": 11,
+  "mutable_current_path": ".devpilot/interfaces/api_route_contract_registry.json",
+  "owner": "DEVPL-GSDLC-09-C",
+  "route_ids": [
+    "api.story-source-change.apply",
+    "api.story-source-change.apply-manifest",
+    "api.story-source-change.approval-request",
+    "api.story-source-change.dry-run",
+    "api.story-source-change.execution.get",
+    "api.story-source-change.plan",
+    "api.story-source-change.plan.get",
+    "api.story-source-change.recheck",
+    "api.story-source-change.rollback",
+    "api.story-source-change.rollback-approval-request",
+    "api.story-source-change.rollback-evidence"
+  ],
+  "routes_total_at_close": 180,
+  "schema_id": "DEVPL-GSDLC-09-C-API-ROUTES-AT-CLOSE-V1",
+  "source_commit": "311fa063346441d04b805f9e5ea5b004cfcfbb31",
+  "source_mutation_routes_total": 2,
+  "source_repo": "repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "status": "historical-freeze"
+}

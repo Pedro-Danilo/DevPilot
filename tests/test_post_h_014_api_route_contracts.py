@@ -157,6 +157,16 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
     # explicit successor only when the current registry actually contains it.
     if "api.guided-sdlc.pre-code.apply" in mutating_ids:
         expected_source_mutating.add("api.guided-sdlc.pre-code.apply")
+    # DEVPL-GSDLC-09-C adds two approval-bound SourceChangePlan successor
+    # routes. They preserve the POST-H-014 safety invariant: exact typed
+    # source writes only, no generic patch/shell authority. Recognize them
+    # explicitly when the current registry contains the successor contract.
+    for successor_route_id in {
+        "api.story-source-change.apply",
+        "api.story-source-change.rollback",
+    }:
+        if successor_route_id in mutating_ids:
+            expected_source_mutating.add(successor_route_id)
     assert {route["route_id"] for route in source_mutating} == expected_source_mutating
 
     for route in mutating:
@@ -188,13 +198,17 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
 
     for route in source_mutating:
         assert route["risk_level"] == "high"
-        assert any(tag in {"uoc-005", "uoc-006", "gsdlc-03-d"} for tag in route["tags"])
+        assert any(tag in {"uoc-005", "uoc-006", "gsdlc-03-d", "gsdlc-09-c"} for tag in route["tags"])
         assert str(route["policy_sensitivity"]).startswith("approval-bound-")
         # Historical UOC source writes use read at the API front-door and revalidate
         # exact approval in the owning service. GSDLC-03-D uses the named sensitive
         # action directly; both remain owner-bound and local-only.
         if route["route_id"] == "api.project-entry.execute":
             assert route["policy_action"] == "filesystem.project_bootstrap_execute"
+        elif route["route_id"] == "api.story-source-change.apply":
+            assert route["policy_action"] == "filesystem.story_source_change_apply"
+        elif route["route_id"] == "api.story-source-change.rollback":
+            assert route["policy_action"] == "filesystem.story_source_change_rollback"
         else:
             assert route["policy_action"] == "read"
 

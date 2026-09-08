@@ -124,39 +124,52 @@
       "test_files": [
         "tests/test_uoc005_source_mutation_routes_at_close.py"
       ]
+    },
+    {
+      "authority_scope": "historical-freeze",
+      "contract_id": "gsdlc-09-c-api-routes-at-close",
+      "mutable_current_paths": [
+        ".devpilot/interfaces/api_route_contract_registry.json"
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "rationale": "09-C validates its repo410 close-time route cardinality and two source-write routes; 09-D may add proposal-only current routes without rewriting the historical fact.",
+      "snapshot_path": ".devpilot/testing/fixtures/gsdlc_09_c_api_routes_at_close.json",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ]
     }
   ],
   "lifecycle_checks": [
     {
       "check_id": "gsdlc-08-e-final-reconciliation-lifecycle",
-      "path": "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json",
-      "required_at_detection_field": "final_reconciliation_required_at_detection",
-      "pending_now_field": "final_reconciliation_pending_now",
+      "current_status_field": "final_reconciliation_current_status",
       "legacy_field": "final_reconciliation_required",
-      "status_at_close_field": "final_reconciliation_status_at_close",
-      "current_status_field": "final_reconciliation_current_status"
+      "path": "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "pending_now_field": "final_reconciliation_pending_now",
+      "required_at_detection_field": "final_reconciliation_required_at_detection",
+      "status_at_close_field": "final_reconciliation_status_at_close"
     }
   ],
   "owner": "Ordóñez",
   "schema_complete_registries": [
     {
-      "registry_id": "test-isolation-registry",
       "instance_path": ".devpilot/testing/test_isolation_registry.json",
+      "registry_id": "test-isolation-registry",
       "schema_contract": "TestIsolationRegistry",
       "semantic_validator": "test-isolation"
     },
     {
-      "registry_id": "node-duration-registry",
       "instance_path": ".devpilot/testing/node_duration_registry.json",
+      "registry_id": "node-duration-registry",
       "schema_contract": "NodeDurationRegistry",
       "semantic_validator": "node-duration"
     }
   ],
   "schema_id": "devpilot.testing.historical_contract_authority_registry.v1",
-  "source_commit": "c0347423b78c67ed93f9eb4a2af39e0411b1d22f",
-  "source_repo": "repo_DevPilot_Local_404_DEVPL_GSDLC_08_E_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "311fa063346441d04b805f9e5ea5b004cfcfbb31",
+  "source_repo": "repo_DevPilot_Local_410_DEVPL_GSDLC_09_C_SOURCE_CHANGE_APPLY_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_sprint": "FRX-v2.4-A",
   "status": "closed",
-  "updated": "2026-09-06",
+  "updated": "2026-09-08",
   "version": "1.0.0"
 }

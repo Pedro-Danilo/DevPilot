@@ -75,6 +75,18 @@ class SourceChangeRollbackBody(BaseModel):
     approval_id: str = Field(min_length=1, max_length=160)
 
 
+class StoryAgentProposalBody(BaseModel):
+    agent_type: str = Field(pattern=r"^(coding|test)$")
+    mode: str = Field(default="mock", pattern=r"^(mock|fake-local)$")
+    instruction: str = Field(min_length=1, max_length=2000)
+    source_id: str | None = Field(default=None, max_length=128)
+
+
+class StoryAgentProposalDecisionBody(BaseModel):
+    proposal_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    decision: str = Field(pattern=r"^(ACCEPT|REJECT)$")
+
+
 @router.get("/api/v1/story/code/status")
 def story_code_status(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     _, error = _principal(request)
@@ -211,3 +223,26 @@ def story_source_change_rollback_evidence(request: Request, execution_id: str, s
     _, error = _principal(request)
     if error: return error
     return _result(service.story_source_change_rollback_evidence(execution_id=execution_id), "story.source-change.rollback-evidence")
+
+
+@router.post("/api/v1/story/code/agent-assist/proposals")
+def story_agent_proposal_create(request: Request, body: StoryAgentProposalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_agent_proposal_create(actor=actor, actor_role=role, **body.model_dump()), "story.agent-assist.proposal.create")
+
+
+@router.get("/api/v1/story/code/agent-assist/proposals/{proposal_id}")
+def story_agent_proposal_get(request: Request, proposal_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_agent_proposal_get(proposal_id=proposal_id), "story.agent-assist.proposal.get")
+
+
+@router.post("/api/v1/story/code/agent-assist/proposals/{proposal_id}/decision")
+def story_agent_proposal_decide(request: Request, proposal_id: str, body: StoryAgentProposalDecisionBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_agent_proposal_decide(proposal_id=proposal_id, proposal_sha256=body.proposal_sha256, decision=body.decision, actor=actor, actor_role=role), "story.agent-assist.proposal.decision")
