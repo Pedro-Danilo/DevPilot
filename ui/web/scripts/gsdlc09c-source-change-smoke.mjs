@@ -9,6 +9,7 @@ const checks=[
  ['dry-run',view.includes('Dry-run')],
  ['apply approval',view.includes('Solicitar approval owner')],
  ['separate rollback approval',view.includes('Solicitar approval de rollback')],
+ ['operation notice survives source refresh',view.includes("refresh({preserveNotice:true})") && (view.match(/refresh\(\{preserveNotice:true\}\)/g)||[]).length>=2 && view.includes("const preserveNotice=options.preserveNotice===true;")],
  ['no terminal',view.includes('SIN TERMINAL')],
  ['11 client routes',[
   '/story/code/change-plans', '/recheck', '/dry-run', '/approval-request', '/apply',

@@ -51,3 +51,19 @@ Primera versión del source apply de Story Workbench. La atomicidad se implement
 
 ## PASS/BLOCK
 PASS solo si stale preimage, wrong role, unexpected path y tampered plan bloquean; fault injection deja cero residue; writes coinciden con plan aprobado; rollback restaura hash parity; browser Windows demuestra el journey; S0/S1=0. BLOCK ante partial residue, stale apply, path no aprobado, self-apply, generic patch/shell o browser no demostrado.
+
+
+## Windows browser corrective before closure — bundle v1.0.2
+
+La primera corrida browser Windows alcanzó el apply HTTP `200` y confirmó que la mutación approval-bound ocurrió, pero la vista sobrescribía inmediatamente el notice de éxito de apply/rollback al refrescar el source tree. Esto producía un falso `BLOCK` de aceptación UX aunque el servicio atómico hubiese respondido correctamente.
+
+El corrective v1.0.2 mantiene el payload funcional y de seguridad de `SourceChangeApplicationService` y corrige únicamente la estabilidad observable de la UI:
+
+- `refresh({preserveNotice:true})` actualiza story/source sin reemplazar el resultado de la operación;
+- apply deja como estado final visible `PASS · apply exacto verificado; manifest disponible.`;
+- rollback deja como estado final visible `PASS · rollback limpio; source_hash_parity=true.`;
+- el browser runner exige simultáneamente notice final + cambio/paridad semántica + evidence payload;
+- LF/CRLF continúa fuera del dominio de bloqueo mediante hash semántico UTF-8 normalizado.
+
+La corrida `browser_prep_id=d086cd60-29f9-4b63-b2f1-48350f221d3b` permanece evidencia forense `BLOCK`; no se reescribe. El retest debe usar un nuevo `browser_prep_id`.
+
