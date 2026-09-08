@@ -181,8 +181,10 @@ function renderPlanningJourney(planning: Record<string, any>): HTMLElement {
   const state=document.createElement('p'); state.className='project-status-next-kind'; state.textContent=String(planning.journey_state ?? 'UNKNOWN');
   const text=document.createElement('p'); text.textContent=`Roadmap ${String(planning.roadmap?.lifecycle ?? 'MISSING')} → Backlog ${String(planning.backlog?.lifecycle ?? 'MISSING')} → Sprint ${String(planning.sprint?.lifecycle ?? 'MISSING')}`;
   const coverage=document.createElement('p'); coverage.className='project-status-muted'; coverage.textContent=`Coverage planning requerido: ${String(planning.required_planning_coverage_percent ?? 0)}% · blockers: ${String((planning.blockers ?? []).length)}`;
+  const current=(planning.current_story ?? null) as Record<string,any>|null;
+  const story=document.createElement('p'); story.className='project-status-current-story'; story.dataset.currentStoryStatus=String(current?.status ?? 'NONE'); story.textContent=current?`Current story · ${String(current.story_id ?? 'UNKNOWN')} · ${String(current.status ?? 'UNKNOWN')} · seq ${String(current.sequence ?? 0)}`:'Current story · no active story execution';
   const link=document.createElement('a'); link.href='/planning/roadmap'; link.dataset.routeId=PLANNING_ROADMAP_ROUTE_ID; link.className='button-link'; link.textContent=planning.journey_state==='IMPLEMENTING_READY'?'Revisar planning congelado':'Continuar Planning Workbench';
-  panel.append(title,state,text,coverage,link); return panel;
+  panel.append(title,state,text,coverage,story,link); return panel;
 }
 
 function renderSignals(status: GuidedSdlcProjectStatus): HTMLElement {

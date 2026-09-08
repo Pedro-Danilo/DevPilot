@@ -3374,3 +3374,8 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - Human ACCEPT/REJECT, diff/cost/provenance/ToolDecision visibles.
 - No source/draft write desde agentes; ModelRouteDecision no concede tool authority.
 - Successor: `repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip`; Full Regression=0; GSDLC-09-E autorizado.
+
+## 2026-09-08 — DEVPL-GSDLC-09-E local qualification candidate
+- Approved atomic source apply advances active StoryExecution to CHANGES_READY.
+- Project Status surfaces current story.
+- Windows close requires browser acceptance plus exactly one FRX-v2.4 governed logical full; no second full.

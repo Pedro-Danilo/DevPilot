@@ -6652,3 +6652,6 @@ GSDLC-08-E and the DEVPL-GSDLC-08 Planning Workbench backlog are `CLOSED/PASS/WI
 ### DEVPL-GSDLC-09-D — Coding/Test agents · Windows closure
 
 `CLOSED/PASS/WINDOWS-VALIDATED` · successor `repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip`. CodingAgent/TestAgent permanecen proposal-only; ACCEPT inserta solo en editor; source apply conserva el pipeline gobernado de 09-C. Browser Windows 7/7; Full Regression=0; 09-E autorizado.
+
+## DEVPL-GSDLC-09-E — Story-level closure — local qualification candidate
+09-E integrates approved atomic apply with StoryExecution `CHANGES_READY`, exposes current story in Project Status, and reserves exactly one FRX-v2.4 current-profile logical full for Windows closure. Source authority: repo411. GSDLC-10 remains unauthorized until Windows close.

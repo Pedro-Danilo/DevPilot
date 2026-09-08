@@ -58,6 +58,8 @@ from .sprint_planner_service import SprintPlannerApplicationService
 from .planning_closure_service import PlanningClosureApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 from devpilot_core.code_workbench import CodeWorkbenchApplicationService, SourceChangeApplicationService
+from devpilot_core.story_execution import StoryExecutionStatus, StoryExecutionStore, StoryExecutionTransitionError
+from datetime import datetime, timezone
 
 
 def _display_path(path: str | Path) -> str:
@@ -1381,7 +1383,29 @@ class ApplicationService:
         return self.source_changes.request_apply_approval(plan_id=plan_id, plan_hash=plan_hash, actor=actor, actor_role=actor_role, reason=reason, ttl_minutes=ttl_minutes)
 
     def story_source_change_apply(self, *, plan_id: str, plan_hash: str, approval_id: str, actor: str, actor_role: str) -> CommandResult:
-        return self.source_changes.apply(plan_id=plan_id, plan_hash=plan_hash, approval_id=approval_id, actor=actor, actor_role=actor_role)
+        result = self.source_changes.apply(plan_id=plan_id, plan_hash=plan_hash, approval_id=approval_id, actor=actor, actor_role=actor_role)
+        if not result.ok:
+            return result
+        execution = dict((result.data or {}).get("execution") or {})
+        if str(execution.get("status") or "") != "applied":
+            return result
+        context = self.ui_workspace_context.resolve()
+        workspace_id = str(context.active_workspace_id or "").strip()
+        if not (context.configured and context.valid and workspace_id):
+            return result
+        store = StoryExecutionStore(context.effective_workspace_root, workspace_id=workspace_id)
+        state = store.load_state()
+        if state is None or state.status is not StoryExecutionStatus.IN_PROGRESS:
+            return result
+        try:
+            transitioned = state.transition(StoryExecutionStatus.CHANGES_READY, actor_id=actor, observed_at_utc=datetime.now(timezone.utc).isoformat())
+        except StoryExecutionTransitionError:
+            return result
+        story_payload = store.save_state(transitioned)
+        data = dict(result.data or {})
+        data["story_execution_state"] = story_payload
+        data["story_state_transition"] = {"from": "IN_PROGRESS", "to": "CHANGES_READY", "trigger": "approved-atomic-source-apply", "runtime_only": True}
+        return CommandResult(result.command, result.ok, result.exit_code, result.message + " Story execution advanced to CHANGES_READY.", data=data, findings=result.findings)
 
     def story_source_change_execution_get(self, *, execution_id: str) -> CommandResult:
         return self.source_changes.get_execution(execution_id=execution_id)

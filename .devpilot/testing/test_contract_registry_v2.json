@@ -23268,9 +23268,95 @@
         "docs/audits/DEVPL_GSDLC_09_D_TEST_AGENT_TRACES.json",
         "docs/audits/DEVPL_GSDLC_09_D_TEST_IMPACT.json"
       ]
+    },
+    {
+      "capability": "GSDLC09EStoryBrowserFullClosure",
+      "classification_notes": [
+        "09-E is backlog closure: source write authority remains 09-C approval-bound; Story state transition is runtime-only metadata.",
+        "Exactly one logical full must be consumed under current FRX-v2.4 profile after browser and cheap gates."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "devpl-gsdlc-09-e-story-browser-full-closure",
+      "cost_class": "high",
+      "criticality": "P0",
+      "domain": "application.service",
+      "execution_profile": "manual",
+      "expected_duration_seconds": 18000,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "story-execution",
+        "code-workbench",
+        "source-change",
+        "project-status",
+        "ui",
+        "regression-policy",
+        "documentation-governance"
+      ],
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-09-E",
+      "owner_domain": "application.service",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_09_e_story_closure.py -q"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": true,
+      "risk_level": "high",
+      "safety_exception": {
+        "approved_by": "PROMPT-DEVPL-GSDLC-09-E v1.0.0 approved_by_owner",
+        "expires_at_utc": "2027-09-08T23:59:59Z",
+        "justification": "09-E intentionally exercises existing 09-C approval-bound source apply/rollback in an isolated browser fixture and runs the single profile-governed logical full required to close backlog 09.",
+        "rollback_or_cleanup": "Browser fixture restores semantic source parity; runtime outputs are disposable; full session is immutable evidence and never rerun after functional failure.",
+        "scope": "GSDLC-09-E integrated browser closure and exactly-one logical full."
+      },
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-09-e-story-browser-full-closure",
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-09-e",
+        "story-changes-ready",
+        "browser-closure",
+        "full-regression",
+        "rollback",
+        "external-edit-conflict"
+      ],
+      "validates": [
+        "approved atomic apply advances active StoryExecution IN_PROGRESS to CHANGES_READY",
+        "blocked/wrong-role apply does not advance StoryExecution",
+        "rollback restores exact source while StoryExecution history remains monotonic",
+        "Project Status visibly projects current story",
+        "FRX-v2.4 current profile is hash-valid and permits exactly one logical full",
+        "FRX-v2.4 Isolation Registry covers all sealed collection nodeids fail-closed; new successors remain serial unless explicitly reviewed"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/story_execution/",
+        "src/devpilot_core/code_workbench/change_service.py",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "tests/test_devpl_gsdlc_09_e_story_closure.py",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_09_E_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_E_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_E_FULL_REGRESSION_EXECUTION_PLAN.json",
+        "05_PROMPT_DEVPL_GSDLC_09_E_v1_0_1_REBOUND_REPO411.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_5_APPROVED_REBOUND_REPO411.md",
+        "docs/audits/DEVPL_GSDLC_09_E_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_09_E_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_E_SOURCE_DELTA_MANIFEST.json",
+        ".devpilot/testing/test_isolation_registry.json"
+      ]
     }
   ],
-  "contracts_total": 325,
+  "contracts_total": 326,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

@@ -1,0 +1,146 @@
+{
+  "changed_paths_total": 21,
+  "paths": [
+    {
+      "change_type": "modify",
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "postimage_semantic_sha256": "5f4251f277b42f58fc8ac56eccf0f333a89ccbf272d6171bc8a437ee40066169",
+      "preimage_semantic_sha256": "6e37eb84a25efda7a430f38c07e2441ff111c98de847411e4a980d7c4fd57267"
+    },
+    {
+      "change_type": "modify",
+      "path": ".devpilot/project_state.json",
+      "postimage_semantic_sha256": "b9e23969a9d25b4dfc1a1f45a4a3ec427890f792c6d1c9abd885052f01e28421",
+      "preimage_semantic_sha256": "ecc8373fabfcf64ad880c7b702270e262e2831443f4647e456cfc6f9ec0bdcca"
+    },
+    {
+      "change_type": "modify",
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "postimage_semantic_sha256": "320e56a49ea39c286667d72f1d0cdb6d8e6b093330126350b8c2d1157fc92057",
+      "preimage_semantic_sha256": "ab6cbbb05bd82f81c284571d6d810d0367786511acba4e42243f204b6dff2092"
+    },
+    {
+      "change_type": "modify",
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "postimage_semantic_sha256": "06656e571ba7a31cfd9c44e418c00c40dbd050da354de0af5b16f35903c6e442",
+      "preimage_semantic_sha256": "7c4f18214fa724f95fadcf9a68ded6a88ddb6fc2a00b5310dfda7bede59c724f"
+    },
+    {
+      "change_type": "modify",
+      "path": ".devpilot/testing/test_isolation_registry.json",
+      "postimage_semantic_sha256": "1344b76bcde6c1652942143ab0a4cefa00ea4490bc2cc970ae8b9575dfe1d90b",
+      "preimage_semantic_sha256": "0568e567810a5f957fbab1b916c4f0e81c8404145d89159f0de40e63125f1518"
+    },
+    {
+      "change_type": "create",
+      "path": "05_PROMPT_DEVPL_GSDLC_09_E_v1_0_1_REBOUND_REPO411.md",
+      "postimage_semantic_sha256": "b98c0785146bfbf0bd809e9da6d9aa2a621168f243ea006ce541b6d357b642b5",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "create",
+      "path": "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_5_APPROVED_REBOUND_REPO411.md",
+      "postimage_semantic_sha256": "d4a35a889109d1ff7d6bfa04117e04cb1c39cccb72068b9b9d5c9ad67709b622",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "modify",
+      "path": "README.md",
+      "postimage_semantic_sha256": "5519a9381b0135a5c7e9919902e941bc723a1aa75d5a20eab7a53da3dd61381f",
+      "preimage_semantic_sha256": "3a44d1845831a7bfd0665d3a4b40df195202332fdee5c11c1a9e9c5f35fd2322"
+    },
+    {
+      "change_type": "modify",
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "postimage_semantic_sha256": "bf40375293ac2646bd93ded6a456287f856304b0333995686e3034255861bb1d",
+      "preimage_semantic_sha256": "ff8ab569d428e7f8916de5dd15fe5e5b12a31db664a8fe7e967e114692c57ba1"
+    },
+    {
+      "change_type": "modify",
+      "path": "docs/05_operations/runbook.md",
+      "postimage_semantic_sha256": "a859f09d3ef9dc92292e3402c171e6ef0c713683f138e58b169782d0daebf88b",
+      "preimage_semantic_sha256": "3b13aa5d0a87e8b008689b8990ed079aec3f91b8d0df22e249f8092158360ccb"
+    },
+    {
+      "change_type": "create",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_CHANGED_PATHS.txt",
+      "postimage_semantic_sha256": "a155672845aab39dd45cf332c9914e15ae79ddf5e5f82ef52cb582a5b665eef4",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "create",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "postimage_semantic_sha256": "ae4f8371aa1328286285f180b4fa5f5bf7381632f6a0104ec789606a3b394fab",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "create",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_FULL_REGRESSION_EXECUTION_PLAN.json",
+      "postimage_semantic_sha256": "e26d8499ea71de3b0432fb29983210fc73f117d75e8b60331beb7aa5a9fa1885",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "create",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_HISTORICAL_CONTRACT_SWEEP.json",
+      "postimage_semantic_sha256": "9cbadd9286a1035ac61f8f8d7d00deacd148c0d09a29191de1588556134e1f26",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "create",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
+      "postimage_semantic_sha256": "2beed706c68147d755564ca93aceec8668a7b82e2327efdfbc06032062231eb0",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "create",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_SOURCE_DELTA_MANIFEST.json",
+      "postimage_semantic_sha256": "SELF-MANIFEST-EXCLUDED",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "create",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_TEST_IMPACT.json",
+      "postimage_semantic_sha256": "c59bc17dc53f38179d8079a6f118d46ece7950cfde3d01fbb1e23592e622bdca",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "modify",
+      "path": "docs/release/CHANGELOG.md",
+      "postimage_semantic_sha256": "0bf0a9736cc52a313bd13eb4e353588a6b0f3419d423540d8534a96843348757",
+      "preimage_semantic_sha256": "ecb6a7f1f8dc9bdb5fda1af82a7be3304035ac0a9ba98a8190da2843bba07870"
+    },
+    {
+      "change_type": "modify",
+      "path": "src/devpilot_core/application/services.py",
+      "postimage_semantic_sha256": "acd6476b5ffb23fadeb34b328b194df9242f25fcdc5faeb4840590f7dba98d8e",
+      "preimage_semantic_sha256": "7e5df1b0696813ca7ea56b2fa73f5640459fb1b24763c6e774f302efb826fc4e"
+    },
+    {
+      "change_type": "create",
+      "path": "tests/test_devpl_gsdlc_09_e_story_closure.py",
+      "postimage_semantic_sha256": "9cc59eba4ce566af3db2237aa96b714ba374c9a613383acab5c6ea6d501ceebe",
+      "preimage_semantic_sha256": null
+    },
+    {
+      "change_type": "modify",
+      "path": "ui/web/src/pages/ProjectStatusView.ts",
+      "postimage_semantic_sha256": "2a7cffa812f335fb43486dc69614f43402d782b618c0f886f3460d7320f646df",
+      "preimage_semantic_sha256": "1c494f016b7fe298551edc02958e632015aba9d156052b2420e4782f425dec88"
+    }
+  ],
+  "runtime_exclusions": [
+    ".git",
+    ".venv",
+    ".pytest_cache",
+    "__pycache__",
+    "node_modules",
+    "outputs",
+    "auth.db*",
+    "devpilot.db*"
+  ],
+  "schema_id": "DEVPL-GSDLC-09-E-SOURCE-DELTA-MANIFEST-V1",
+  "semantic_hash_policy": "utf8-lf-normalized; binary raw; manifest self hash excluded",
+  "source_git_commit": "bef575da644f7280d6d31a044d3993f0c5d50a74",
+  "source_repo": "repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "status": "PASS"
+}

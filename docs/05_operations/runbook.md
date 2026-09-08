@@ -11956,3 +11956,6 @@ El source apply de Story Workbench está Windows-validado como operación tipada
 ## DEVPL-GSDLC-09-D — operación cerrada
 
 La asistencia CodingAgent/TestAgent es proposal-only. El operador no debe convertir selección de modelo en permiso de escritura. Un ACCEPT humano solo inserta contenido en el editor; cualquier persistencia continúa por SourceDraftBuffer y el pipeline approval-bound de 09-C. La validación 09-D usa browser real y Full Regression=0; la única full de DEVPL-GSDLC-09 se reserva para 09-E.
+
+## GSDLC-09-E closure policy
+Use the delivered Windows validation guide as the single operator authority. The backlog-closing full must use profile `frx-v2.4-current` and the full-session path; low-level planner/nodeid/worker overrides are forbidden.

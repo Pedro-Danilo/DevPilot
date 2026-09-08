@@ -601,3 +601,6 @@ On repo409, Story Code Workbench gains immutable `SourceChangePlan`, full diff/T
 ### GSDLC-09-D — CLOSED/PASS/WINDOWS-VALIDATED
 
 CodingAgent/TestAgent proposal-only cerrados sobre `repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip`. Mock/fake-local es la ruta obligatoria sin costo para PASS; provenance/model route/tool decision visibles; no self-apply/self-approve/self-commit; `filesystem.delete` BLOCK. Autoriza GSDLC-09-E. Full Regression consumidas en 09-D: 0.
+
+### GSDLC-09-E — IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-PENDING
+Story-level browser closure integrates manual+agent paths, governed apply/rollback/conflict, Project Status current story and exactly-one logical full via FRX-v2.4 current profile. GSDLC-10 remains unauthorized pending Windows closure.

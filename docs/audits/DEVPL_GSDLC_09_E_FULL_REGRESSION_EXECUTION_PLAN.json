@@ -1,0 +1,31 @@
+{
+  "status": "READY-FOR-WINDOWS",
+  "sprint": "DEVPL-GSDLC-09-E",
+  "budget": "0/1-before-Windows",
+  "logical_full_runs_required": 1,
+  "second_full_allowed": false,
+  "profile_id": "frx-v2.4-current",
+  "profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219",
+  "low_level_overrides_allowed": false,
+  "order": [
+    "browser PASS",
+    "Historical Contract Authority PASS",
+    "Contract Reconciliation PASS",
+    "Project/docs CURRENT PASS",
+    "runtime exclusion PASS",
+    "FRX preflight PASS",
+    "budget 0/1",
+    "profile/topology/isolation/duration/ETA PASS",
+    "run exactly one logical full"
+  ],
+  "fail_recovery": "preserve original full; exact failed/error retest + bounded impacted retest + Historical Regression Guard; no second full",
+  "isolation_registry_successor_coverage": {
+    "status": "PASS",
+    "collection_nodeids_expected": 3050,
+    "successor_entries_added": 19,
+    "new_entries_state": "UNCLASSIFIED",
+    "parallel_safe": false,
+    "execution_policy": "serial-until-explicit-review",
+    "full_regression_runs_consumed": 0
+  }
+}

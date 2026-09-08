@@ -1,0 +1,30 @@
+---
+doc_id: "DEVPL-GSDLC-09-E-IMPLEMENTATION-REPORT"
+title: "GSDLC-09-E — Story-level browser acceptance and one-full closure"
+status: "implemented/local-qualified/windows-pending"
+version: "1.0.0"
+owner: "Ordóñez"
+updated: "2026-09-08"
+approval: "owner-approved-scope"
+---
+
+# GSDLC-09-E implementation report
+
+## Scope
+Closes Story/Coding Workbench by connecting approved atomic source apply to StoryExecutionState `IN_PROGRESS → CHANGES_READY` and surfacing the current story in Project Status. Browser Windows must demonstrate manual + agent-assisted paths, approved apply, rollback, external-edit conflict, Project Status coherence and negative authority guards.
+
+## Architecture
+- Existing 09-C remains the only source-write authority.
+- Successful approved atomic apply advances an active StoryExecution runtime state to CHANGES_READY; blocked apply never advances state.
+- Project Status remains read-only and now renders `planning.current_story`.
+- Rollback remains approval-bound and exact-preimage; StoryExecution history is monotonic.
+- 09-E consumes exactly one logical full through FRX-v2.4 current profile on Windows after all cheap gates/browser pass.
+
+## Security
+No generic shell, no force push, no agent self-apply/approve/commit, no runtime stores in packages. Source comparisons use semantic UTF-8 LF-normalized hashes.
+
+## Maturity
+This closes GSDLC-09 at an industrial local-first baseline. It is not a claim of distributed autonomous coding, remote orchestration, or production-scale multi-user concurrency; those remain future evolution.
+
+## PASS/BLOCK
+PASS when browser integrated journey is complete, Story reaches CHANGES_READY, rollback parity/conflict/negative guards pass, one governed full is 100% accounted with zero terminal FAIL/ERROR, S0/S1=0, and repo successor is clean. BLOCK otherwise.
