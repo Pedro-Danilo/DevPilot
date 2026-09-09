@@ -150,7 +150,7 @@ def main() -> int:
 
     baseline = json.loads(seal.read_text(encoding="utf-8"))
     baseline_sha = str(baseline["original_sha256"])
-    password = "Browser09B-" + secrets.token_urlsafe(12)
+    owner_ephemeral_credential = "Browser09B-" + secrets.token_urlsafe(12)
     results: list[tuple[str, bool]] = []
     events: list[dict[str, Any]] = []
     page = None
@@ -196,7 +196,7 @@ def main() -> int:
             r = req.post(
                 args.api_url + "/auth/bootstrap/owner",
                 headers={"Origin": "http://127.0.0.1:5173"},
-                data={"username": "browser.owner", "display_name": "Browser Owner", "password": password},
+                data={"username": "browser.owner", "display_name": "Browser Owner", "password": owner_ephemeral_credential},
             )
             if r.status not in (201, 409):
                 raise RuntimeError(f"transient owner bootstrap failed status={r.status} body={r.text()[:500]}")
@@ -204,7 +204,7 @@ def main() -> int:
                 r = req.post(
                     args.api_url + "/auth/login",
                     headers={"Origin": "http://127.0.0.1:5173"},
-                    data={"username": "browser.owner", "password": password},
+                    data={"username": "browser.owner", "password": owner_ephemeral_credential},
                 )
                 if r.status != 200:
                     raise RuntimeError("transient browser auth store is stale; rerun browser-prep before acceptance")
@@ -344,9 +344,9 @@ def main() -> int:
             existing_by_actor = store.get_identity(actor)
             if existing_by_user is not None or existing_by_actor is not None:
                 raise RuntimeError("synthetic architect already exists; rerun browser-prep for a clean auth store")
-            architect_password = "Browser09B-Architect-" + secrets.token_urlsafe(12)
+            architect_ephemeral_credential = "Browser09B-Architect-" + secrets.token_urlsafe(12)
             kdf = CredentialKdf()
-            digest, salt, params = kdf.hash_password(architect_password)
+            digest, salt, params = kdf.hash_password(architect_ephemeral_credential)
             created = utc_now_iso()
             identity = LocalIdentity(
                 actor_id=actor,
@@ -391,7 +391,7 @@ def main() -> int:
             negative_page.goto(login_url, wait_until="load")
             negative_page.locator(".login-view").wait_for(timeout=12000)
             negative_page.locator('input[name="username"]').fill(username)
-            negative_page.locator('input[name="password"]').fill(architect_password)
+            negative_page.locator('input[name="password"]').fill(architect_ephemeral_credential)
             negative_page.locator('button[type="submit"]').click()
             negative_page.locator('[data-gsdlc09b="code-workbench"]').wait_for(timeout=15000)
 

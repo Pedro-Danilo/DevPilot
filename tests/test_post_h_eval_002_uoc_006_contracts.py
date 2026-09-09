@@ -107,8 +107,17 @@ def test_uoc006_api_routes_are_exact_typed_local_and_no_go_stays_blocked() -> No
         "api.workspace.edit-plans.apply", "api.workspace.edit-executions.rollback",
         "api.workspace.git.stage", "api.workspace.git.commit", "api.workspace.git.branch-create", "api.project-entry.execute",
     }
-    successor_mutations = {rid for rid, route in routes.items() if "gsdlc-05-e" in route.get("tags", []) and route.get("source_mutation_allowed") is True}
-    assert successor_mutations == {"api.guided-sdlc.pre-code.apply"}
+    successor_mutations = {
+        rid for rid, route in routes.items()
+        if route.get("source_mutation_allowed") is True
+        and ({"gsdlc-05-e", "gsdlc-09-c"} & set(route.get("tags", [])))
+    }
+    assert successor_mutations == {
+        "api.guided-sdlc.pre-code.apply",
+        "api.story-source-change.apply",
+        "api.story-source-change.rollback",
+    }
+    # UOC-006 remains frozen; later source-write successors are recognized without rewriting the historical close.
     assert historical_mutations | successor_mutations == source_mutations
     for rid in expected:
         route = routes[rid]

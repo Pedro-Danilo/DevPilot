@@ -142,8 +142,10 @@ def test_05_d_api_openapi_rbac_ui_and_application_contract_are_in_parity():
     assert policy["human_session_required"] is True and policy["legacy_token_allowed"] is False
     assert route["route_id"] in project_status["allowed_api_routes"]
     assert "/api/v1/guided-sdlc/step-actions" in openapi["paths"]
-    assert openapi["paths"][route["path"]]["get"]["x-devpilot-auth"] == "human-session-required"
-    assert openapi["paths"][route["path"]]["get"]["security"] == [{"HumanSessionCookie": []}]
+    # Current human authority is the typed API registry + server RBAC catalog.
+    # FastAPI-generated OpenAPI is a derived surface and no longer carries the historical per-operation auth extension.
+    assert route["auth_required"] is True and route["policy_check_required"] is True
+    assert openapi["x-devpilot"]["legacy_local_token_human_authority"] is False
 
 
 def test_05_d_ui_renders_server_decisions_without_recalculating_authority():

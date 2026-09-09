@@ -110,8 +110,12 @@ class ApplicationService:
             approval_auth_store=approval_auth_store,
         )
         self.workspace_documents = WorkspaceDocumentsApplicationService(self.root, context_resolver=self.ui_workspace_context)
-        self.code_workbench = CodeWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
-        self.source_changes = SourceChangeApplicationService(self.root, context_resolver=self.ui_workspace_context, code_workbench=self.code_workbench, approval_auth_store=approval_auth_store)
+        # GSDLC-09-B/C are strict consumers of Code Workbench source policy.
+        # Keep them lazy so unrelated historical/minimal workspaces can still
+        # construct the general ApplicationService facade.  The policy remains
+        # fail-closed at the first Story Code operation that actually uses it.
+        self._code_workbench: CodeWorkbenchApplicationService | None = None
+        self._source_changes: SourceChangeApplicationService | None = None
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -149,6 +153,33 @@ class ApplicationService:
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
         self.rbac = RBACApplicationService(self.root)
 
+
+    @property
+    def code_workbench(self) -> CodeWorkbenchApplicationService:
+        """Lazily construct the GSDLC-09-B bounded Code Workbench.
+
+        Minimal/historical ApplicationService consumers do not require the
+        GSDLC-09 source policy.  Story Code operations still fail closed if
+        the policy is missing when this capability is actually requested.
+        """
+        if self._code_workbench is None:
+            self._code_workbench = CodeWorkbenchApplicationService(
+                self.root,
+                context_resolver=self.ui_workspace_context,
+            )
+        return self._code_workbench
+
+    @property
+    def source_changes(self) -> SourceChangeApplicationService:
+        """Lazily construct the GSDLC-09-C approval-bound source change service."""
+        if self._source_changes is None:
+            self._source_changes = SourceChangeApplicationService(
+                self.root,
+                context_resolver=self.ui_workspace_context,
+                code_workbench=self.code_workbench,
+                approval_auth_store=self.approval_auth_store,
+            )
+        return self._source_changes
 
     @property
     def agent_assist(self) -> AgentAssistApplicationService:

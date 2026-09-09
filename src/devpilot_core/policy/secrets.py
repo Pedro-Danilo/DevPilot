@@ -22,13 +22,24 @@ _SECRET_KEY_PATTERN = re.compile(
 
 
 @lru_cache(maxsize=32)
-def _cached_guard_pattern_catalog(root_key: str, catalog_key: str):
+def _cached_guard_pattern_catalog(root_key: str, catalog_key: str, mtime_ns: int, size: int):
+    # mtime_ns + size are part of the key so a catalog mutation invalidates the
+    # process-local cache deterministically without weakening fail-closed checks.
     return load_guard_pattern_catalog(Path(root_key), Path(catalog_key))
 
 
 def _load_cached_guard_pattern_catalog(root: Path | None, catalog_path: str | Path):
     resolved_root = Path(root).resolve() if root is not None else Path.cwd().resolve()
-    return _cached_guard_pattern_catalog(str(resolved_root), str(Path(catalog_path)))
+    relative = Path(catalog_path)
+    resolved_catalog = relative if relative.is_absolute() else resolved_root / relative
+    try:
+        stat = resolved_catalog.stat()
+        stamp = (int(stat.st_mtime_ns), int(stat.st_size))
+    except OSError:
+        # Missing/invalid catalogs still flow through the authoritative loader,
+        # which preserves the existing fail-closed behavior.
+        stamp = (-1, -1)
+    return _cached_guard_pattern_catalog(str(resolved_root), str(relative), *stamp)
 
 _SECRET_VALUE_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"sk-proj-[A-Za-z0-9_\-]{12,}"),
@@ -84,14 +95,14 @@ class SecretGuard:
     def redact(self, value: Any) -> RedactionResult:
         """Recursively redact sensitive keys and known token-like values."""
 
-        catalog = load_guard_pattern_catalog(self.root, self.catalog_path)
+        catalog = _load_cached_guard_pattern_catalog(self.root, self.catalog_path)
         redacted, count = self._redact_value(value, catalog=catalog)
         return RedactionResult(value=redacted, redactions=count, catalog_metadata=catalog.metadata())
 
     def scan_text(self, text: str | None, *, subject: str | None = None) -> PolicyDecision:
         """Return BLOCK when text contains a secret-like value."""
 
-        catalog = load_guard_pattern_catalog(self.root, self.catalog_path)
+        catalog = _load_cached_guard_pattern_catalog(self.root, self.catalog_path)
         if catalog.has_blocking_catalog_findings:
             return PolicyDecision(
                 effect=PolicyEffect.BLOCK,
@@ -128,7 +139,7 @@ class SecretGuard:
         )
 
     def _redact_value(self, value: Any, *, catalog=None) -> tuple[Any, int]:
-        catalog = catalog or load_guard_pattern_catalog(self.root, self.catalog_path)
+        catalog = catalog or _load_cached_guard_pattern_catalog(self.root, self.catalog_path)
         if isinstance(value, dict):
             redacted: dict[Any, Any] = {}
             count = 0

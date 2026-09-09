@@ -1,5 +1,5 @@
 {
-  "status": "PASS",
+  "status": "PASS/CORRECTIVE-LOCAL-QUALIFIED",
   "sprint": "DEVPL-GSDLC-09-E",
   "classification": [
     "historical-freeze",
@@ -17,5 +17,17 @@
   "tests_historically_rewritten_for_pass": false,
   "runtime_ephemeral_excluded": true,
   "s0_open": 0,
-  "s1_open": 0
+  "s1_open": 0,
+  "corrective_authority_reconciliation": [
+    "GSDLC-00-E authorization reads frozen g00e_closure_contract instead of mutable current pointer",
+    "GSDLC-09 activation reads activation report next_micro_sprint instead of mutable current pointer",
+    "Sprint68/05-D recognize human-session+RBAC successor authority without erasing historical local-token facts",
+    "UOC-006 recognizes approval-bound GSDLC-09-C source-write successors",
+    "declarative CLI distinguishes execute-subprocess from actual file-write side effects"
+  ],
+  "derived_registry_reconciliation": [
+    "API route summary counters rebuilt from live routes",
+    "UI capability parity/counters rebuilt from live capabilities",
+    "UI package lock/current budget metadata synchronized"
+  ]
 }

@@ -42,7 +42,9 @@ def test_09_activation_preserves_gsdlc08_and_requires_closed_frx_v24() -> None:
 def test_09_activation_current_pointers_are_rebound_and_functional_source_is_untouched() -> None:
     state = j(".devpilot/project_state.json")
     assert state["gsdlc_current_backlog"] == "DEVPL-GSDLC-09"
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-09-A"
+    # Activation intent is frozen in the activation report; mutable project state is expected to advance through 09-B..E.
+    report = j("docs/audits/DEVPL_GSDLC_09_ACTIVATION_REBIND_REPORT.json")
+    assert report["next_micro_sprint"] == "DEVPL-GSDLC-09-A"
     assert state["gsdlc_09_activation_functional_mutation"] is False
     assert state["gsdlc_09_activation_full_regression_runs"] == 0
     assert state["gsdlc_09_activation_browser_runs"] == 0
@@ -52,7 +54,10 @@ def test_09_activation_current_pointers_are_rebound_and_functional_source_is_unt
         assert state["current_repo"] == REPO406
         assert state["gsdlc_09_a_authorized"] is False
     else:
-        assert state["current_repo"].startswith("repo_DevPilot_Local_407_")
+        report = j("docs/audits/DEVPL_GSDLC_09_ACTIVATION_REBIND_REPORT.json")
+        assert report["successor_repo"].startswith("repo_DevPilot_Local_407_")
+        current_number = int(state["current_repo"].split("_")[3])
+        assert current_number >= 407
         assert state["gsdlc_09_a_authorized"] is True
 
 

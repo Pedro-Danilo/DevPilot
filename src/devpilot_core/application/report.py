@@ -268,7 +268,14 @@ class ApplicationServiceBoundaryReportBuilder:
                 if not method or not route_path:
                     continue
                 operation = _find_literal_keyword_call(node, "dispatch_application_request", "operation")
-                application_service_bound = "dispatch_application_request" in text and "ApplicationService" in text
+                # POST-H-007 originally recognized only the dispatcher-era
+                # ApplicationService boundary.  Current FastAPI routes may bind
+                # the same facade through Depends(get_application_service).
+                # Detect both forms at function scope; neither changes runtime.
+                node_text = ast.get_source_segment(text, node) or ""
+                dispatcher_bound = "dispatch_application_request" in node_text and "ApplicationService" in text
+                dependency_bound = "get_application_service" in node_text and "Depends" in node_text
+                application_service_bound = dispatcher_bound or dependency_bound
                 boundary_exemption_reason = _api_boundary_exemption_reason(route_path, application_service_bound)
                 routes.append(
                     {

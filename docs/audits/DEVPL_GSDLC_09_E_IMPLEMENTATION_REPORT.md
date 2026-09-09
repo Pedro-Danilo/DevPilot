@@ -1,8 +1,8 @@
 ---
 doc_id: "DEVPL-GSDLC-09-E-IMPLEMENTATION-REPORT"
 title: "GSDLC-09-E — Story-level browser acceptance and one-full closure"
-status: "implemented/local-qualified/windows-pending"
-version: "1.0.0"
+status: "implemented/local-qualified/windows-composite-recovery-pending"
+version: "1.0.3"
 owner: "Ordóñez"
 updated: "2026-09-08"
 approval: "owner-approved-scope"
@@ -37,3 +37,18 @@ Windows browser evidence `GSDLC-09-E-00` exposed two pre-full issues. First, Pro
 ## Corrective browser-01 — Project Status UI source reconciliation
 
 Windows browser evidence `GSDLC-09-E-01` confirmed that the backend StoryExecution projection and owner-session restoration were already corrected, but the visible Planning Journey panel still consumed `planningClosure().planning_closure` instead of the current StoryExecution projection returned by `projectStatus().project_status.planning.current_story`. The UI now merges the read-only `current_story` authority from Project Status into the Planning Journey view while preserving PlanningClosure as the authority for roadmap/backlog/sprint journey fields. No StoryExecution duplication or new mutation authority is introduced. The browser report is also hardened to record API StoryExecution readiness and UI Project Status readiness separately. Full Regression budget remains 0/1 and no FRX session has been created.
+
+
+## Corrective full-recovery-01 — historical/current authority reconciliation
+
+La única Full Regression Windows `DEVPL-GSDLC-09-E-FULL-01` fue consumida y se preserva inmutable: 3050 collected = 2986 PASS + 59 FAIL + 0 ERROR + 5 SKIP. La política del backlog prohíbe una segunda Full. El primer recovery de v1.0.2 bloqueó correctamente porque el exact retest seguía 0/59, aunque bounded 27/27 y Historical Regression Guard ya estaban PASS.
+
+El corrective v1.0.3 reconcilia las 59 fallas por familias: lazy initialization del Story Code Workbench en `ApplicationService`; autoridad documental fail-closed solo cuando las autoridades HCA/FRX están declaradas en el fixture; separación de snapshots históricos y punteros current-active; contratos API/RBAC successor-aware; analyzer de ApplicationService compatible con `Depends(get_application_service)`; semántica CLI `execute-subprocess != writes_files`; higiene SecretGuard del browser fixture; contadores API/UI derivados de colecciones vivas; Source Registry/ADR/route schema reconciliados; sucesores de source mutation GSDLC-09-C; identidad `package-lock` y budgets UI current-active; y cache/hashing seguro para SecretGuard/Source ZIP.
+
+Calificación local del corrective: exact failed-nodeid set 59/59 PASS (ejecutado en tramos deterministas para evitar timeout del harness), bounded impacted 27/27 PASS, Test Impact 38 paths / 202 contracts / 313 recommended tests / 0 unmatched. Esto **no** adjudica Windows: el operador v1.0.3 debe reusar la evidencia browser 8/8 y la Full original, ejecutar únicamente recovery selectivo + guard + post-recovery gates y después cerrar por `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`.
+
+### Invariantes del recovery
+- `logical_full_runs = 1/1`; `second_full_allowed = false`.
+- La Full original FAIL nunca se reescribe como PASS.
+- Browser acceptance 8/8 ya demostrada se reutiliza; no se repite porque este corrective no cambia el journey browser 09-E.
+- GSDLC-10 permanece no autorizado hasta cierre Windows composite PASS.

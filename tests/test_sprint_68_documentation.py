@@ -81,10 +81,16 @@ def test_sprint_68_contract_and_openapi_declare_local_token_security() -> None:
     assert "policy_binding_enabled: true" in contract
     assert "local-token-required" in mapping
     assert "API_ROUTE_POLICIES" in mapping
-    assert openapi["info"]["version"] in {"1.0.0-web-ui-consumed", "1.0.0-report-trace-viewer", "1.0.0-approval-center", "1.0.0-settings-ui", "1.0.0-visual-mvp"}
+    assert openapi["info"]["version"] in {"1.0.0-web-ui-consumed", "1.0.0-report-trace-viewer", "1.0.0-approval-center", "1.0.0-settings-ui", "1.0.0-visual-mvp", "1.0.0-post-h-014-e"}
     assert openapi["x-devpilot"]["sprint"] in {"FUNC-SPRINT-72", "FUNC-SPRINT-73"}
     assert openapi["x-devpilot"]["token_required"] is True
     assert openapi["x-devpilot"]["web_ui_mvp_implemented"] is True
     assert openapi["x-devpilot"]["cors_wildcard_enabled"] is False
-    assert openapi["components"]["securitySchemes"]["LocalTokenAuth"]["name"] == "X-DevPilot-Token"
+    if openapi["x-devpilot"].get("legacy_local_token_human_authority", True):
+        assert openapi["components"]["securitySchemes"]["LocalTokenAuth"]["name"] == "X-DevPilot-Token"
+    else:
+        rbac = _json(".devpilot/identity/server_rbac_policy_catalog.json")
+        assert rbac["summary"]["human_session_required_total"] > 0
+        assert rbac["summary"]["gsdlc_09_c_legacy_token_allowed_total"] == 0
+        assert any(row["human_session_required"] is True and row["legacy_token_allowed"] is False for row in rbac["route_policies"])
     assert "Veredicto: `PASS`" in audit

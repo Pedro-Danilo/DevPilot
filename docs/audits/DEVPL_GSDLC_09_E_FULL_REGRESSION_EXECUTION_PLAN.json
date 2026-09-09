@@ -1,7 +1,7 @@
 {
-  "status": "READY-FOR-WINDOWS",
+  "status": "FULL-CONSUMED/FUNCTIONAL-FAIL-PRESERVED/COMPOSITE-RECOVERY-REQUIRED",
   "sprint": "DEVPL-GSDLC-09-E",
-  "budget": "0/1-before-Windows",
+  "budget": "1/1-consumed-windows",
   "logical_full_runs_required": 1,
   "second_full_allowed": false,
   "profile_id": "frx-v2.4-current",
@@ -26,6 +26,25 @@
     "new_entries_state": "UNCLASSIFIED",
     "parallel_safe": false,
     "execution_policy": "serial-until-explicit-review",
-    "full_regression_runs_consumed": 0
-  }
+    "full_regression_runs_consumed": 1
+  },
+  "full_session_id": "DEVPL-GSDLC-09-E-FULL-01",
+  "original_full_result": {
+    "collected": 3050,
+    "passed": 2986,
+    "failed": 59,
+    "errors": 0,
+    "skipped": 5,
+    "unexecuted": 0,
+    "status": "FAIL/FUNCTIONAL-NO-RERUN",
+    "immutable": true
+  },
+  "recovery_only": true,
+  "recovery_required": [
+    "exact-original-59-nodeid-retest",
+    "bounded-impacted-27",
+    "Historical Regression Guard",
+    "six post-recovery deterministic gates",
+    "composite adjudication"
+  ]
 }

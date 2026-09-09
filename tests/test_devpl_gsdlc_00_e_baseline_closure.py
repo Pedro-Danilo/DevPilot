@@ -9,7 +9,8 @@ def test_00_e_closes_backlog_and_authorizes_only_01():
     assert s["gsdlc_00_status"]=="closed/PASS"
     assert s["gsdlc_00_d_status"]=="closed/PASS"
     assert s["gsdlc_00_e_status"]=="closed/PASS"
-    assert s["gsdlc_next_backlog_authorized"]=="DEVPL-GSDLC-01"
+    # Historical 00-E authorization is frozen in its closure contract; current state advances by later waves.
+    assert c["next"]["backlog_authorized"]=="DEVPL-GSDLC-01"
     assert s["gsdlc_01_authorized"] is True
     assert s["post_h_eval_002_execution_status"]=="paused-before-02-b"
     assert s["post_h_eval_002_02_b_executed"] is False

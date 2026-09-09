@@ -11647,7 +11647,7 @@
     "sensitive_requires_approval_before_ui_execution": true,
     "write_report_is_mutation": true
   },
-  "created_by": "DEVPL-GSDLC-09-D",
+  "created_by": "UOC-000",
   "feature_flags_registry": ".devpilot/interfaces/ui_operational_console_flags.json",
   "notes": [
     "UOC-000 freezes architecture and classification only; no runtime route or executor is added.",
@@ -11709,12 +11709,12 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 180,
+    "api_routes_total": 183,
     "classification_complete": true,
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
     "current_active_capabilities_total": 210,
-    "current_ui_native_or_read_only_total": 28,
+    "current_ui_native_or_read_only_total": 26,
     "forbidden_capabilities_total": 5,
     "gsdlc_01_e_project_status": true,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -11758,8 +11758,8 @@
       "CLI-BRIDGE-REGISTERED": 178,
       "PLANNED": 1,
       "POLICY-BLOCKED": 5,
-      "UI-NATIVE": 16,
-      "UI-READ-ONLY": 12
+      "UI-NATIVE": 15,
+      "UI-READ-ONLY": 11
     },
     "planned_sprint_counts": {
       "CURRENT": 24,
@@ -11772,8 +11772,8 @@
     "risk_class_counts": {
       "forbidden": 5,
       "mutating": 126,
-      "read-only": 12,
-      "sensitive": 69
+      "read-only": 11,
+      "sensitive": 68
     },
     "sensitive_ui_native_without_approval_total": 0,
     "ui_routes_mapped_total": 14,
@@ -12582,7 +12582,21 @@
       "source_files": [
         "ui/web/src/pages/StoryCodeWorkbenchView.ts",
         "ui/web/src/main.ts"
-      ]
+      ],
+      "title": "Story Code Workbench",
+      "mapped_cli_capability_ids": [],
+      "shows_mutation_controls": true,
+      "local_only": true,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true
+      }
     }
   ],
   "updated": "2026-09-08",

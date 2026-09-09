@@ -1,5 +1,5 @@
 {
-  "status": "PASS",
+  "status": "PASS/CORRECTIVE-LOCAL-QUALIFIED",
   "sprint": "DEVPL-GSDLC-09-E",
   "strict_schema_drift": 0,
   "registry_counter_drift": 0,
@@ -16,6 +16,9 @@
     "new_entries_state": "UNCLASSIFIED",
     "parallel_safe": false,
     "execution_policy": "serial-until-explicit-review",
-    "full_regression_runs_consumed": 0
-  }
+    "full_regression_runs_consumed": 1
+  },
+  "recovery_corrective_paths_total": 38,
+  "original_full_preserved": true,
+  "second_full_allowed": false
 }

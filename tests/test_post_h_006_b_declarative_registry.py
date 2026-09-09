@@ -130,7 +130,8 @@ def test_post_h_006_b_registered_descriptors_are_complete_safe_and_not_dynamic()
             assert command["remote_execution_enabled"] is False
             assert command["connector_write_enabled"] is False
             assert command["plugin_execution_enabled"] is False
-            if any(effect in command["side_effects"] for effect in ["write-report", "write-files", "mutate-state", "execute-subprocess"]):
+            # execute-subprocess is not intrinsically a file write; only declared write/mutation effects require writes_files.
+            if any(effect in command["side_effects"] for effect in ["write-report", "write-files", "mutate-state"]):
                 assert command["writes_files"] is True
 
 

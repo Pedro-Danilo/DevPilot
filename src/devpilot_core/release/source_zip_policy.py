@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import fnmatch
+import hashlib
 import json
 import zipfile
 from dataclasses import dataclass
@@ -72,7 +73,10 @@ class SourceZipReleasePolicyValidator:
         self.root = Path(root).resolve()
         self.options = options or SourceZipPolicyOptions()
         self.policy_path = self._resolve(self.options.policy_path)
-        self.secret_guard = SecretGuard()
+        self.secret_guard = SecretGuard(self.root)
+        # Clean source hashes are populated only after SecretGuard passes the exact source bytes.
+        # Artifact inspection may reuse that result iff the ZIP entry bytes are byte-identical.
+        self._clean_source_secret_scan_hashes: dict[str, str] = {}
 
     def run(self) -> CommandResult:
         findings: list[Finding] = []
@@ -154,6 +158,8 @@ class SourceZipReleasePolicyValidator:
                     redactions = _scan_secret_text(path, rel, self.secret_guard)
                     if redactions > 0:
                         secret_findings.append({"path": rel, "redactions": redactions})
+                    else:
+                        self._clean_source_secret_scan_hashes[rel] = _sha256_bytes(path.read_bytes())
 
         source_forbidden_count = len(forbidden_present) + len(secret_findings)
         checks.append(
@@ -292,7 +298,13 @@ class SourceZipReleasePolicyValidator:
                             data = archive.read(name)
                             if b"\x00" not in data[:1024]:
                                 text_scanned += 1
-                                redactions = _count_material_secret_redactions(data.decode("utf-8", errors="replace"), secret_guard=self.secret_guard)
+                                clean_source_hash = self._clean_source_secret_scan_hashes.get(normalized)
+                                if clean_source_hash is not None and clean_source_hash == _sha256_bytes(data):
+                                    # Exact bytes already passed SecretGuard in this validator run.
+                                    # Never reuse by pathname alone: modified ZIP content is rescanned.
+                                    redactions = 0
+                                else:
+                                    redactions = _count_material_secret_redactions(data.decode("utf-8", errors="replace"), secret_guard=self.secret_guard)
                                 if redactions > 0:
                                     secret_findings.append({"path": name, "redactions": redactions})
                 required_missing = sorted(item for item in required if item not in name_set)
@@ -462,6 +474,10 @@ class SourceZipReleasePolicyValidator:
         path = Path(value)
         return path if path.is_absolute() else self.root / path
 
+
+
+def _sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
 
 def load_source_zip_release_policy(root: Path, policy_path: str = DEFAULT_SOURCE_ZIP_POLICY_PATH) -> dict[str, Any] | None:
     path = Path(policy_path)
