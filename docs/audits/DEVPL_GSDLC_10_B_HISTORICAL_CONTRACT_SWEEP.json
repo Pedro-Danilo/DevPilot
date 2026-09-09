@@ -1,0 +1,39 @@
+{
+  "sprint": "DEVPL-GSDLC-10-B",
+  "status": "PASS",
+  "full_regression_runs": 0,
+  "historical_tests_modified_to_pass": false,
+  "classifications": {
+    "historical-freeze": [
+      "GSDLC-10-A browser/StoryTestPlan closure facts remain immutable.",
+      "UOC-007/UOC-008 governed-job framework and Job Console close-state facts remain historical.",
+      "FRX v2.4 A/B regression/drift policy remains historical authority and current execution profile input."
+    ],
+    "current-active": [
+      "StoryValidationJob typed capability/profile registries.",
+      "Story Workbench and Job Console lifecycle/live-log integration.",
+      "API/RBAC/UI/OpenAPI mappings for StoryValidationJob planning/start.",
+      "TCR v1/v2 contract devpl-gsdlc-10-b-story-validation-jobs.",
+      "Project State/Source Registry/README/roadmap current binding to GSDLC-10-B on repo415."
+    ],
+    "successor-needed": [
+      "StoryValidationJob is a successor projection from approved StoryTestPlan and reuses GovernedJobFramework rather than replacing it."
+    ],
+    "deprecated-after-proof": [],
+    "derived": [
+      "API/UI/RBAC/OpenAPI/TCR counters and current-state summaries are derived from live collections."
+    ],
+    "runtime-ephemeral": [
+      "outputs/runtime/gsdlc10b_story_validation",
+      "outputs/runtime/governed_jobs",
+      "auth.db*",
+      "devpilot.db*",
+      ".venv",
+      "node_modules",
+      "__pycache__",
+      ".pytest_cache"
+    ]
+  },
+  "policy": "FRX v2.4 A/B: bounded non-critical drift repaired inside active/next micro-sprint; Full=0 in 10-B.",
+  "result": "PASS/no historical assertion edited solely to make tests pass"
+}

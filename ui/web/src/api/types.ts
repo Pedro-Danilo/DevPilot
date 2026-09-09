@@ -654,6 +654,10 @@ export interface GovernedJobSnapshot {
   errors: string[];
   result_summary: Record<string, unknown>;
   operational?: GovernedJobOperationalSnapshot;
+  story_test_plan_id?: string;
+  story_test_plan_hash?: string;
+  story_validation_kind?: 'test' | 'build' | 'lint' | string;
+  story_validation_status?: string;
 }
 
 export interface JobLogEntry { timestamp: string; level: string; phase: string; message: string; }

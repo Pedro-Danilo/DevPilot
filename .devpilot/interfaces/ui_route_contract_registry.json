@@ -234,7 +234,8 @@
         "api.jobs.inspect",
         "api.jobs.logs",
         "api.jobs.cancel",
-        "api.jobs.retry"
+        "api.jobs.retry",
+        "api.story-validation-jobs.start"
       ],
       "connector_write_allowed": false,
       "critical": true,
@@ -252,7 +253,8 @@
       "no_remote_badge_required": true,
       "notes": [
         "UOC-008 local Job Console with bounded polling, sanitized logs, heartbeat/stale visibility, governed cancel/retry and no arbitrary shell.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
+        "UOC-011: route participates in the 12-state operational browser hardening matrix.",
+        "GSDLC-10-B Job Console observes StoryValidationJob lifecycle/logs and reuses governed cancel/retry."
       ],
       "owner": "ui.web",
       "page_component": "JobsView",
@@ -1122,7 +1124,10 @@
         "api.story-source-change.rollback-evidence",
         "api.story-test-plan.create",
         "api.story-test-plan.decision",
-        "api.story-test-plan.get"
+        "api.story-test-plan.get",
+        "api.story-validation-jobs.create",
+        "api.story-validation-jobs.list",
+        "api.story-validation-jobs.start"
       ],
       "connector_write_allowed": false,
       "critical": true,
@@ -1143,7 +1148,8 @@
         "Manual authoring remains draft-first.",
         "09-C apply and rollback are owner-approval-bound typed operations; no terminal, shell, generic patch, Git stage/commit or agent self-apply.",
         "09-D adds CodingAgent/TestAgent proposal-only with human ACCEPT/REJECT; ACCEPT inserts into editor only and does not write draft/source.",
-        "10-A adds Story → Validar → Test Impact v2 → StoryTestPlan review/approval; Full signal is informative only and no free-form test command exists."
+        "10-A adds Story → Validar → Test Impact v2 → StoryTestPlan review/approval; Full signal is informative only and no free-form test command exists.",
+        "GSDLC-10-B extends Story Workbench with typed validation-job planning/start/status; no arbitrary shell."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1175,15 +1181,15 @@
         "ready": true,
         "rollback_ready": true,
         "rolled_back": true,
+        "sensitive_impact_visible": true,
         "source_unchanged": true,
         "stale_preimage": true,
-        "unsafe_agent_proposal_blocked": true,
-        "sensitive_impact_visible": true,
         "test_plan_approved": true,
         "test_plan_ready": true,
         "test_plan_rejected": true,
         "test_plan_review_required": true,
         "unknown_impact_visible": true,
+        "unsafe_agent_proposal_blocked": true,
         "waiver_expired_block": true
       },
       "status": "implemented-initial/gsdlc-10-a",
@@ -1193,6 +1199,9 @@
         "BLOCK",
         "ERROR",
         "PENDING"
+      ],
+      "tags": [
+        "gsdlc-10-b"
       ],
       "title": "Story Code Workbench — manual + agents + governed source change + StoryTestPlan"
     }
@@ -1260,6 +1269,11 @@
     "gsdlc_09_c_owner_approval_required": true,
     "gsdlc_09_c_source_change_api_routes_total": 11,
     "gsdlc_09_c_source_write_routes_total": 2,
+    "gsdlc_10_a_story_test_plan": true,
+    "gsdlc_10_a_story_test_plan_api_routes_total": 3,
+    "gsdlc_10_b_job_console_reused": true,
+    "gsdlc_10_b_story_validation_api_routes_total": 3,
+    "gsdlc_10_b_story_validation_jobs": true,
     "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
     "local_only_routes_total": 14,
     "mutation_control_routes_total": 10,
@@ -1296,13 +1310,11 @@
     "uoc_011_matrix_cases_total": 108,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "updated_by": "DEVPL-GSDLC-10-A",
+    "updated_by": "DEVPL-GSDLC-10-B",
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
-    "workspace_validation_api_routes_total": 4,
-    "gsdlc_10_a_story_test_plan": true,
-    "gsdlc_10_a_story_test_plan_api_routes_total": 3
+    "workspace_validation_api_routes_total": 4
   },
-  "updated": "2026-09-08"
+  "updated": "2026-09-09"
 }

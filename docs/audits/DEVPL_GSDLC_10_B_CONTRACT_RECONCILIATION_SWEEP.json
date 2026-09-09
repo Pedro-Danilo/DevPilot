@@ -1,0 +1,27 @@
+{
+  "sprint": "DEVPL-GSDLC-10-B",
+  "status": "PASS",
+  "full_regression_runs": 0,
+  "checks": {
+    "execution_source": "PASS/repo415 Windows-validated predecessor",
+    "project_state_current_binding": "PASS/GSDLC-10/10-B",
+    "source_registry_current_binding": "PASS/GSDLC-10/10-B",
+    "api_route_rbac_binding": "PASS/StoryValidationJob create-list-start human-session bound",
+    "ui_route_capability_mapping": "PASS/Story Workbench plan/start + Job Console lifecycle/logs",
+    "typed_capability_allowlist": "PASS/test-build-lint only; shell=false; Full=false",
+    "test_contract_registry_v1_v2": "PASS/10-B successor contract registered",
+    "historical_current_pointer_separation": "PASS",
+    "runtime_ephemeral_excluded": "PASS",
+    "sealed_predecessor_evidence_rewrite": "PASS/none",
+    "full_regression_budget": "PASS/0 of 0 in 10-B",
+    "lf_crlf_semantic_delta": "PASS/semantic UTF-8 LF equality used by Windows operator",
+    "documentation_governance": "PASS",
+    "test_impact": "PASS/35 paths/196 matched/304 recommended/unmatched 0",
+    "bounded_cumulative": "PASS/53",
+    "governance_contract_tests": "PASS/55",
+    "tcr_current_total": "PASS/328"
+  },
+  "critical_drift_open": 0,
+  "s0_open": 0,
+  "s1_open": 0
+}

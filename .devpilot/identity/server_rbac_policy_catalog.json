@@ -4020,6 +4020,57 @@
       "risk_level": "medium",
       "route_id": "api.story-test-plan.decision",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-validation-job-plan",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.validation-jobs.create",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-validation-jobs.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-validation-job-read",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.validation-jobs.list",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-validation-jobs.list",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-validation-job-execute",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.validation-jobs.start",
+      "path": "/api/v1/story/code/validation-jobs/{job_id}/start",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-validation-jobs.start",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -4315,17 +4366,19 @@
     "gsdlc_09_c_legacy_token_allowed_total": 0,
     "gsdlc_09_c_owner_only_action_policies_total": 4,
     "gsdlc_09_c_source_change_policies_total": 11,
+    "gsdlc_10_a_legacy_token_allowed_total": 0,
+    "gsdlc_10_a_story_test_plan_policies_total": 3,
+    "gsdlc_10_b_legacy_token_allowed_total": 0,
+    "gsdlc_10_b_story_validation_job_policies_total": 3,
     "human_session_required_total": 110,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 186,
+    "route_policies_total": 189,
     "sensitive_action_policies_total": 19,
-    "unmapped_routes_total": 0,
-    "unmapped_sensitive_actions_total": 0,
-    "gsdlc_10_a_legacy_token_allowed_total": 0,
-    "gsdlc_10_a_story_test_plan_policies_total": 3
+    "unmapped_routes_total": 189,
+    "unmapped_sensitive_actions_total": 0
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-08",
+  "updated": "2026-09-09",
   "updated_by": "DEVPL-GSDLC-09-D",
   "version": "1.6.0",
   "workspace": {

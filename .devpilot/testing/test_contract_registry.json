@@ -13697,9 +13697,72 @@
         "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json",
         "docs/audits/DEVPL_GSDLC_10_A_TEST_IMPACT.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-10-b-story-validation-jobs",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-10-B",
+      "phase": "DEVPL-GSDLC-10",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_b_story_validation_jobs.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "validates": [
+        "APPROVED StoryTestPlan projects deterministic typed test/build/lint validation jobs without browser-supplied command strings",
+        "job contexts bind immutable StoryTestPlan id/hash, changed paths, typed adapter and Full=false",
+        "lifecycle is observable through governed jobs and Job Console with heartbeat, bounded redacted logs and structured result",
+        "worker emits JUnit/artifact references for typed test jobs",
+        "cancel uses process-tree termination and timeout terminates the process tree",
+        "retry creates a new attempt identity while preserving exact immutable context",
+        "orphan reconciliation never converts missing worker state into PASS",
+        "stale/unapproved StoryTestPlan and unsafe test targets fail closed",
+        "GSDLC-10-B exposes no arbitrary shell and consumes zero Full Regression runs",
+        "UI integrates StoryTestPlan -> typed jobs -> Job Console instead of creating a parallel job engine"
+      ],
+      "watched_paths": [
+        ".devpilot/quality/story_validation_job_capabilities.json",
+        ".devpilot/quality/story_validation_job_profiles.json",
+        "src/devpilot_core/application/story_validation_jobs.py",
+        "src/devpilot_core/application/story_validation_job_worker.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/pages/JobsView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/schemas/story_validation_job_context.schema.json",
+        "docs/schemas/story_validation_job_result.schema.json",
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
+        "02_PROMPT_DEVPL_GSDLC_10_B_v1_0_1_REBOUND_REPO415.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits/DEVPL_GSDLC_10_B_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_10_B_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_B_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_10_B_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_B_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_B_IMPLEMENTATION_REPORT.md",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ]
     }
   ],
-  "contracts_total": 327,
+  "contracts_total": 328,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [
@@ -13771,7 +13834,8 @@
     "GSDLC-03-A adds a P0 side-effect-free ProjectIntake/TechnologyCatalog/ProjectCreationPlan contract; full regression remains deferred to 03-E.",
     "DEVPL-GSDLC-04-B registers runtime-only MANUAL draft authoring, revision history and optimistic-concurrency contract; full regression remains unconsumed.",
     "DEVPL-GSDLC-05-D registers server-policy-bound StepActionCatalog/ExecutionModeAdvisor coverage with no model/network/full-regression execution.",
-    "FRX-v2.2-A adds incremental cross-authority documentation consistency before expensive testing; full/browser runs remain zero."
+    "FRX-v2.2-A adds incremental cross-authority documentation consistency before expensive testing; full/browser runs remain zero.",
+    "DEVPL-GSDLC-10-B registers typed StoryValidationJob lifecycle, worker/log/cancel/retry/orphan contracts with Full Regression=0."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",

@@ -1,0 +1,61 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-CAPABILITIES-V1",
+  "schema_version": "1.0.0",
+  "status": "current-active",
+  "owner": "Ordóñez",
+  "updated": "2026-09-09",
+  "capabilities": [
+    {
+      "capability_id": "story.validation.tests",
+      "cli_command_id": "story.validation.tests",
+      "cli_command": "internal typed adapter: approved StoryTestPlan tests",
+      "application_service": "story.validation.jobs",
+      "risk_class": "sensitive",
+      "parity_status": "UI-NATIVE",
+      "policy_binding": {"source": ".devpilot/miasi/policy_matrix.json", "required": true, "default_decision": "deny", "approval_required": true},
+      "budgets": {"timeout_seconds": 900, "retry_limit": 1, "heartbeat_interval_seconds": 3},
+      "contracts": {"request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1", "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1", "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1", "typed_parameters_schema_id": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-CONTEXT-V1"},
+      "controls": {"dry_run_required": true, "approval_required": true, "supports_cancel": true, "supports_rollback": false, "idempotency_required": true, "correlation_required": true},
+      "evidence_mapping": {"command_result_required": true, "trace_required": true, "report_required": true, "evidence_reference_required": true, "commit_reference_required": false, "token_or_secret_allowed": false},
+      "runtime": {"registered": true, "planning_enabled": true, "execution_enabled": true, "adapter_bound": true, "adapter_id": "gsdlc10b.story-validation-worker.tests", "mode": "typed-local-worker"}
+    },
+    {
+      "capability_id": "story.validation.build",
+      "cli_command_id": "story.validation.build",
+      "cli_command": "internal typed adapter: project build profile",
+      "application_service": "story.validation.jobs",
+      "risk_class": "sensitive",
+      "parity_status": "UI-NATIVE",
+      "policy_binding": {"source": ".devpilot/miasi/policy_matrix.json", "required": true, "default_decision": "deny", "approval_required": true},
+      "budgets": {"timeout_seconds": 300, "retry_limit": 1, "heartbeat_interval_seconds": 3},
+      "contracts": {"request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1", "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1", "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1", "typed_parameters_schema_id": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-CONTEXT-V1"},
+      "controls": {"dry_run_required": true, "approval_required": true, "supports_cancel": true, "supports_rollback": false, "idempotency_required": true, "correlation_required": true},
+      "evidence_mapping": {"command_result_required": true, "trace_required": true, "report_required": true, "evidence_reference_required": true, "commit_reference_required": false, "token_or_secret_allowed": false},
+      "runtime": {"registered": true, "planning_enabled": true, "execution_enabled": true, "adapter_bound": true, "adapter_id": "gsdlc10b.story-validation-worker.build", "mode": "typed-local-worker"}
+    },
+    {
+      "capability_id": "story.validation.lint",
+      "cli_command_id": "story.validation.lint",
+      "cli_command": "internal typed adapter: changed-file syntax lint",
+      "application_service": "story.validation.jobs",
+      "risk_class": "sensitive",
+      "parity_status": "UI-NATIVE",
+      "policy_binding": {"source": ".devpilot/miasi/policy_matrix.json", "required": true, "default_decision": "deny", "approval_required": true},
+      "budgets": {"timeout_seconds": 120, "retry_limit": 1, "heartbeat_interval_seconds": 3},
+      "contracts": {"request_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-REQUEST-V1", "result_envelope_schema_id": "SCHEMA-DEVPL-GOVERNED-JOB-RESULT-V1", "command_result_schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1", "typed_parameters_schema_id": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-CONTEXT-V1"},
+      "controls": {"dry_run_required": true, "approval_required": true, "supports_cancel": true, "supports_rollback": false, "idempotency_required": true, "correlation_required": true},
+      "evidence_mapping": {"command_result_required": true, "trace_required": true, "report_required": true, "evidence_reference_required": true, "commit_reference_required": false, "token_or_secret_allowed": false},
+      "runtime": {"registered": true, "planning_enabled": true, "execution_enabled": true, "adapter_bound": true, "adapter_id": "gsdlc10b.story-validation-worker.lint", "mode": "typed-local-worker"}
+    }
+  ],
+  "safety": {
+    "arbitrary_shell": false,
+    "free_form_command": false,
+    "network_allowed": false,
+    "external_api_required": false,
+    "max_concurrent_per_story": 3,
+    "max_test_targets": 200,
+    "max_log_bytes_per_job": 524288,
+    "full_regression_allowed": false
+  }
+}

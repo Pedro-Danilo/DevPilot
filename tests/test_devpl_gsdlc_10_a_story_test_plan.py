@@ -287,10 +287,12 @@ def test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_
     assert "shell" not in text.lower() or "SIN TERMINAL" in text
 
 
-def test_10_activation_binding_is_current_10_a_and_full_budget_zero() -> None:
+def test_10_a_closed_and_10_b_current_binding_preserves_full_budget_zero() -> None:
     state = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
     assert state["gsdlc_current_backlog"] == "DEVPL-GSDLC-10"
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-10-A"
-    assert state["gsdlc_10_status"].startswith("APPROVED/ACTIVE/GSDLC-10-A")
+    assert state["gsdlc_10_a_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
+    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-10-B"
+    assert state["gsdlc_10_b_authorized"] is True
+    assert state["gsdlc_10_status"].startswith("APPROVED/ACTIVE/GSDLC-10-B")
     assert state["gsdlc_10_a_full_regression_runs"] == 0
     assert state["gsdlc_10_a_full_regression_runs_allowed"] == 0

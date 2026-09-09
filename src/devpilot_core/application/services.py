@@ -45,6 +45,7 @@ from .agent_assist_service import AgentAssistApplicationService
 from .agent_execution_service import AgentExecutionApplicationService
 from .story_agent_assist_service import StoryAgentAssistApplicationService
 from .story_test_plan_service import StoryTestPlanApplicationService
+from .story_validation_jobs import StoryValidationJobApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -118,6 +119,7 @@ class ApplicationService:
         self._code_workbench: CodeWorkbenchApplicationService | None = None
         self._source_changes: SourceChangeApplicationService | None = None
         self._story_test_plans: StoryTestPlanApplicationService | None = None
+        self._story_validation_jobs: StoryValidationJobApplicationService | None = None
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -193,6 +195,16 @@ class ApplicationService:
                 source_plan_loader=self.source_changes.get_plan,
             )
         return self._story_test_plans
+
+    @property
+    def story_validation_jobs(self) -> StoryValidationJobApplicationService:
+        """Lazily construct the GSDLC-10-B typed StoryValidationJobs service."""
+        if self._story_validation_jobs is None:
+            self._story_validation_jobs = StoryValidationJobApplicationService(
+                self.root,
+                story_test_plan_loader=self.story_test_plans.get,
+            )
+        return self._story_validation_jobs
 
     @property
     def agent_assist(self) -> AgentAssistApplicationService:
@@ -1429,6 +1441,15 @@ class ApplicationService:
     def story_test_plan_decide(self, *, test_plan_id: str, test_plan_hash: str, decision: str, actor: str, actor_role: str, reason: str | None = None, waived_test_ids: list[str] | None = None, ttl_minutes: int = 60, authority_source: str = "human-session") -> CommandResult:
         return self.story_test_plans.decide(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, decision=decision, actor=actor, actor_role=actor_role, reason=reason, waived_test_ids=waived_test_ids, ttl_minutes=ttl_minutes, authority_source=authority_source)
 
+    def story_validation_jobs_create(self, *, test_plan_id: str, test_plan_hash: str, actor: str, actor_role: str) -> CommandResult:
+        return self.story_validation_jobs.create_for_plan(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, actor=actor, actor_role=actor_role)
+
+    def story_validation_jobs_list(self, *, test_plan_id: str) -> CommandResult:
+        return self.story_validation_jobs.list_for_plan(test_plan_id=test_plan_id)
+
+    def story_validation_job_start(self, *, job_id: str) -> CommandResult:
+        return self.story_validation_jobs.start(job_id=job_id)
+
     def story_source_change_dry_run(self, *, plan_id: str, plan_hash: str, actor: str, actor_role: str) -> CommandResult:
         return self.source_changes.dry_run(plan_id=plan_id, plan_hash=plan_hash, actor=actor, actor_role=actor_role)
 
@@ -2103,6 +2124,9 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
         "model.providers": lambda payload: service.model_providers(),
+        "story.validation-jobs.create": lambda payload: service.story_validation_jobs_create(test_plan_id=str(payload.get("test_plan_id", "")), test_plan_hash=str(payload.get("test_plan_hash", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", ""))),
+        "story.validation-jobs.list": lambda payload: service.story_validation_jobs_list(test_plan_id=str(payload.get("test_plan_id", ""))),
+        "story.validation-jobs.start": lambda payload: service.story_validation_job_start(job_id=str(payload.get("job_id", ""))),
         "jobs.list": lambda payload: service.jobs_list(workspace_id=payload.get("workspace_id"), capability_id=payload.get("capability_id"), status=payload.get("status"), limit=int(payload.get("limit", 50)), offset=int(payload.get("offset", 0))),
         "jobs.inspect": lambda payload: service.jobs_inspect(job_id=str(payload.get("job_id", ""))),
         "jobs.logs": lambda payload: service.jobs_logs(job_id=str(payload.get("job_id", "")), cursor=int(payload.get("cursor", 0)), limit=int(payload.get("limit", 100))),

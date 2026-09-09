@@ -1,0 +1,43 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-PROFILES-V1",
+  "schema_version": "1.0.0",
+  "status": "current-active",
+  "owner": "Ordóñez",
+  "updated": "2026-09-09",
+  "profiles": [
+    {
+      "job_kind": "test",
+      "capability_id": "story.validation.tests",
+      "adapter": "pytest-story-test-plan",
+      "required": true,
+      "trigger": {"mode": "always"},
+      "result_contract": {"junit": true, "artifact_result": true},
+      "limits": {"max_targets": 200, "timeout_seconds": 900, "max_log_bytes": 524288}
+    },
+    {
+      "job_kind": "build",
+      "capability_id": "story.validation.build",
+      "adapter": "ui-vite-build",
+      "required": true,
+      "trigger": {"mode": "path-prefix", "prefixes": ["ui/web/"]},
+      "result_contract": {"junit": false, "artifact_result": true},
+      "limits": {"timeout_seconds": 300, "max_log_bytes": 524288}
+    },
+    {
+      "job_kind": "lint",
+      "capability_id": "story.validation.lint",
+      "adapter": "changed-python-syntax",
+      "required": true,
+      "trigger": {"mode": "path-suffix", "suffixes": [".py"]},
+      "result_contract": {"junit": false, "artifact_result": true},
+      "limits": {"max_targets": 100, "timeout_seconds": 120, "max_log_bytes": 262144}
+    }
+  ],
+  "policy": {
+    "source_of_test_targets": "approved StoryTestPlan only",
+    "retry_must_reuse_context_hash": true,
+    "orphan_never_passes": true,
+    "shell": false,
+    "full_regression": false
+  }
+}

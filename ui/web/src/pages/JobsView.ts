@@ -73,6 +73,15 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
     } catch (error) { state.errors.action = message(error); state.loading = false; draw(); }
   }
 
+  async function startStoryValidation(): Promise<void> {
+    if (!state.selected) return;
+    state.loading = true; draw();
+    try {
+      state.detail = await new DevPilotApiClient({ token: tokenProvider() }).startStoryValidationJob(state.selected.job_id);
+      delete state.errors.action; await inspectId(state.selected.job_id);
+    } catch (error) { state.errors.action = message(error); state.loading = false; draw(); }
+  }
+
   function togglePolling(): void {
     state.polling = !state.polling;
     if (pollHandle !== undefined) { globalThis.clearInterval(pollHandle); pollHandle = undefined; }
@@ -120,7 +129,8 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
       const actions = document.createElement('div'); actions.className = 'viewer-controls job-actions';
       const cancelButton = document.createElement('button'); cancelButton.textContent = 'Solicitar cancelación'; cancelButton.disabled = state.loading || !snapshot.supports_cancel || !['queued', 'running'].includes(snapshot.status); cancelButton.addEventListener('click', () => void cancel());
       const retryButton = document.createElement('button'); retryButton.className = 'button-secondary'; retryButton.textContent = 'Crear retry gobernado'; retryButton.disabled = state.loading || !RETRYABLE.has(snapshot.status) || snapshot.retry_count >= snapshot.retry_limit; retryButton.addEventListener('click', () => void retry());
-      actions.append(cancelButton, retryButton); detail.append(actions);
+      const startButton = document.createElement('button'); startButton.textContent = 'Iniciar validación tipada'; startButton.disabled = state.loading || !snapshot.capability_id.startsWith('story.validation.') || !['planned', 'approved', 'queued'].includes(snapshot.status); startButton.addEventListener('click', () => void startStoryValidation());
+      actions.append(startButton, cancelButton, retryButton); detail.append(actions);
       const refs = document.createElement('pre'); refs.className = 'viewer-pre'; refs.textContent = JSON.stringify({ artifact_refs: snapshot.artifact_refs, evidence_refs: snapshot.evidence_refs, errors: snapshot.errors, result_summary: snapshot.result_summary, operational: snapshot.operational }, null, 2); detail.append(refs);
     }
     grid.append(index, detail); section.append(grid);

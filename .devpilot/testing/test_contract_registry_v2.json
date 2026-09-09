@@ -23452,20 +23452,121 @@
         "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json",
         "docs/audits/DEVPL_GSDLC_10_A_TEST_IMPACT.json"
       ]
+    },
+    {
+      "capability": "GSDLC10BStoryValidationJobs",
+      "classification_notes": [
+        "Execution is typed and local; browser cannot submit a command string.",
+        "Retry preserves immutable context and creates a new attempt identity.",
+        "Full Regression is forbidden in 10-B and remains 0."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "devpl-gsdlc-10-b-story-validation-jobs",
+      "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "application.service",
+      "execution_profile": "manual",
+      "expected_duration_seconds": 60,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "story-test-plan",
+        "governed-jobs",
+        "job-console",
+        "quality",
+        "ui",
+        "api-contracts",
+        "rbac",
+        "documentation-governance"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-10-B",
+      "owner_domain": "application.service",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_b_story_validation_jobs.py -q"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": true,
+      "risk_level": "high",
+      "schema_version": "2.0",
+      "source_contract_id": "devpl-gsdlc-10-b-story-validation-jobs",
+      "source_mutations_allowed": false,
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-10-b",
+        "story-validation-job",
+        "governed-job",
+        "live-logs",
+        "cancel-tree",
+        "retry",
+        "orphan"
+      ],
+      "validates": [
+        "APPROVED StoryTestPlan projects deterministic typed test/build/lint validation jobs without browser-supplied command strings",
+        "job contexts bind immutable StoryTestPlan id/hash, changed paths, typed adapter and Full=false",
+        "lifecycle is observable through governed jobs and Job Console with heartbeat, bounded redacted logs and structured result",
+        "worker emits JUnit/artifact references for typed test jobs",
+        "cancel uses process-tree termination and timeout terminates the process tree",
+        "retry creates a new attempt identity while preserving exact immutable context",
+        "orphan reconciliation never converts missing worker state into PASS",
+        "stale/unapproved StoryTestPlan and unsafe test targets fail closed",
+        "GSDLC-10-B exposes no arbitrary shell and consumes zero Full Regression runs",
+        "UI integrates StoryTestPlan -> typed jobs -> Job Console instead of creating a parallel job engine"
+      ],
+      "watched_paths": [
+        ".devpilot/quality/story_validation_job_capabilities.json",
+        ".devpilot/quality/story_validation_job_profiles.json",
+        "src/devpilot_core/application/story_validation_jobs.py",
+        "src/devpilot_core/application/story_validation_job_worker.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/pages/JobsView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/schemas/story_validation_job_context.schema.json",
+        "docs/schemas/story_validation_job_result.schema.json",
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
+        "02_PROMPT_DEVPL_GSDLC_10_B_v1_0_1_REBOUND_REPO415.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits/DEVPL_GSDLC_10_B_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_10_B_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_B_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_10_B_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_B_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_B_IMPLEMENTATION_REPORT.md",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ]
     }
   ],
-  "contracts_total": 327,
+  "contracts_total": 328,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
-    "contracts_total": 293,
+    "contracts_total": 328,
     "external_api_used": false,
-    "last_updated_by": "DEVPL-GSDLC-05-D",
+    "last_updated_by": "DEVPL-GSDLC-10-B",
     "migrator": "TestContractRegistryV2Migrator",
     "mutations_performed_by_default": false,
     "network_used": false,
-    "source_contracts_total": 293,
+    "source_contracts_total": 328,
     "source_registry_preserved": true,
     "tests_executed": false
   },
@@ -23524,7 +23625,8 @@
     "GSDLC-03-A registers P0 project-entry contracts without runtime writes or intermediate full regression.",
     "DEVPL-GSDLC-04-B adds explicit P0 application-service contract for governed runtime draft authoring.",
     "DEVPL-GSDLC-05-D adds explicit P0 StepActionAdvisor contract with server RBAC/API/UI parity and AGENT/RAG no-go enforcement.",
-    "FRX-v2.2-A registers P0 incremental documentation consistency; it does not authorize a full regression outside FRX-v2.2-D."
+    "FRX-v2.2-A registers P0 incremental documentation consistency; it does not authorize a full regression outside FRX-v2.2-D.",
+    "DEVPL-GSDLC-10-B adds explicit P0 typed StoryValidationJob lifecycle/log/cancel/retry/orphan coverage without Full Regression."
   ],
   "profiles": [
     {

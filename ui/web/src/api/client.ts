@@ -481,6 +481,18 @@ export class DevPilotApiClient {
     return this.post(`/jobs/${encodeURIComponent(jobId)}/retry`, payload, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }
 
+  async createStoryValidationJobs(testPlanId: string, testPlanHash: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/code/test-plans/${encodeURIComponent(testPlanId)}/validation-jobs`, { test_plan_hash: testPlanHash }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async listStoryValidationJobs(testPlanId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/story/code/test-plans/${encodeURIComponent(testPlanId)}/validation-jobs`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async startStoryValidationJob(jobId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/code/validation-jobs/${encodeURIComponent(jobId)}/start`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   async qualityOperations(): Promise<DevPilotApplicationResponse> {
     return this.get('/quality/operations', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }

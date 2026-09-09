@@ -622,3 +622,8 @@ GSDLC-10 is current-active on repo414 while repo413 remains the canonical produc
 ## DEVPL-GSDLC-10-A — Windows closure
 
 GSDLC-10-A `CLOSED/PASS/WINDOWS-VALIDATED`. Story Workbench demuestra `Validar → Test Impact v2 → StoryTestPlan` con required/recommended explicables, unknown/sensitive fail-closed y approval/waiver server-side. Browser real=1; Full Regression=0. Candidate: `repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-10-B autorizado.
+
+
+## DEVPL-GSDLC-10-B — Typed validation jobs local qualification
+
+GSDLC-10-B se ejecuta sobre repo415 y extiende `StoryTestPlan APPROVED → StoryValidationJob(test/build/lint) → GovernedJob lifecycle → Job Console/live logs`. Reutiliza `governed_jobs`/UOC-008, no acepta command strings libres, mantiene cancelación de process tree, timeout, retry con nueva attempt identity, orphan reconciliation fail-closed y logs bounded/redacted. Estado: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`; browser real requerido una vez; Full Regression=0; GSDLC-10-C continúa no autorizado hasta cierre Windows.

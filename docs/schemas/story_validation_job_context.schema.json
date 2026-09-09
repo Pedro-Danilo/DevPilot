@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-CONTEXT-V1",
+  "title": "GSDLC-10-B StoryValidationJob immutable context",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "job_kind", "workspace_id", "story_execution_id", "story_test_plan_id", "story_test_plan_hash", "changed_paths", "test_targets", "adapter", "full_regression", "context_hash"],
+  "properties": {
+    "schema_id": {"const": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-CONTEXT-V1"},
+    "job_kind": {"enum": ["test", "build", "lint"]},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "story_execution_id": {"type": "string", "minLength": 1},
+    "story_test_plan_id": {"type": "string", "pattern": "^story-test-plan-"},
+    "story_test_plan_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "changed_paths": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "test_targets": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "adapter": {"type": "string", "minLength": 1},
+    "limits": {"type": "object"},
+    "full_regression": {"const": false},
+    "context_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

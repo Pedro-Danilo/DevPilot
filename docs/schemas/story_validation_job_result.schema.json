@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-RESULT-V1",
+  "title": "GSDLC-10-B StoryValidationJob result",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_id", "job_id", "job_kind", "context_hash", "story_test_plan_id", "story_test_plan_hash", "full_regression", "network_used", "external_api_used", "summary"],
+  "properties": {
+    "schema_id": {"const": "SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-RESULT-V1"},
+    "job_id": {"pattern": "^job_[0-9a-f]{32}$"},
+    "job_kind": {"enum": ["test", "build", "lint"]},
+    "context_hash": {"pattern": "^[0-9a-f]{64}$"},
+    "story_test_plan_id": {"pattern": "^story-test-plan-"},
+    "story_test_plan_hash": {"pattern": "^[0-9a-f]{64}$"},
+    "full_regression": {"const": false},
+    "network_used": {"const": false},
+    "external_api_used": {"const": false},
+    "summary": {"type": "object"},
+    "timed_out": {"type": "boolean"}
+  }
+}

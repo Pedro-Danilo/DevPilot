@@ -77,6 +77,10 @@ class StoryTestPlanDecisionBody(BaseModel):
     waived_test_ids: list[str] = Field(default_factory=list, max_length=100)
     ttl_minutes: int = Field(default=60, ge=1, le=1440)
 
+class StoryValidationJobsCreateBody(BaseModel):
+    test_plan_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
 
 class SourceChangeRollbackApprovalBody(BaseModel):
     reason: str = Field(min_length=1, max_length=500)
@@ -233,6 +237,28 @@ def story_test_plan_decide(request: Request, test_plan_id: str, body: StoryTestP
         payload, _ = command_result_to_api_response(result, operation="story.test-plan.decision")
         return _json(payload, 403)
     return _result(result, "story.test-plan.decision")
+
+
+@router.post("/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs")
+def story_validation_jobs_create(request: Request, test_plan_id: str, body: StoryValidationJobsCreateBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_validation_jobs_create(test_plan_id=test_plan_id, test_plan_hash=body.test_plan_hash, actor=actor, actor_role=role), "story.validation-jobs.create")
+
+
+@router.get("/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs")
+def story_validation_jobs_list(request: Request, test_plan_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_validation_jobs_list(test_plan_id=test_plan_id), "story.validation-jobs.list")
+
+
+@router.post("/api/v1/story/code/validation-jobs/{job_id}/start")
+def story_validation_job_start(request: Request, job_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request, authoring=True)
+    if error: return error
+    return _result(service.story_validation_job_start(job_id=job_id), "story.validation-jobs.start")
 
 
 @router.get("/api/v1/story/code/change-executions/{execution_id}")
