@@ -3379,3 +3379,11 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - Approved atomic source apply advances active StoryExecution to CHANGES_READY.
 - Project Status surfaces current story.
 - Windows close requires browser acceptance plus exactly one FRX-v2.4 governed logical full; no second full.
+
+## 2026-09-08 — DEVPL-GSDLC-09-E Windows composite closure
+
+- Closes GSDLC-09-E as `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`; backlog GSDLC-09 closes and GSDLC-10 is authorized.
+- Preserves the single Full session unchanged: 3050/3050 accounted, 2986 PASS / 59 FAIL / 0 ERROR / 5 SKIP, `full_runs=1/1`, `second_full=false`.
+- Composite recovery requires exact failed-nodeid 59/59 PASS, bounded impacted 27/27 PASS, Historical Regression Guard PASS and six deterministic gates PASS.
+- Reuses sealed browser 8/8 evidence; the corrective does not repeat browser or Full execution.
+- Canonical successor: `repo_DevPilot_Local_412_DEVPL_GSDLC_09_E_STORY_BROWSER_FULL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`.

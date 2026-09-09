@@ -36358,7 +36358,7 @@
         "DEVPL-GSDLC-09",
         "DEVPL-GSDLC-09-E"
       ],
-      "status_required": "implemented/local-qualified/windows-composite-recovery-pending",
+      "status_required": "closed/pass/windows-validated/composite-recovery",
       "sync_rules": [
         "test_must_pass"
       ]

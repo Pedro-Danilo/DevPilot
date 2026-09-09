@@ -11959,3 +11959,7 @@ La asistencia CodingAgent/TestAgent es proposal-only. El operador no debe conver
 
 ## GSDLC-09-E closure policy
 Use the delivered Windows validation guide as the single operator authority. The backlog-closing full must use profile `frx-v2.4-current` and the full-session path; low-level planner/nodeid/worker overrides are forbidden.
+
+## DEVPL-GSDLC-09-E — composite recovery closure authority
+
+For the Windows close, never invoke `full-session run`, `full-run`, `full-resume` or browser acceptance again. The only Full session `DEVPL-GSDLC-09-E-FULL-01` is already consumed 1/1 and preserved. Apply the bounded v1.0.3 corrective, run only the exact failed-nodeid recovery set, bounded impacted tests, Historical Regression Guard and six deterministic gates, then adjudicate `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`. Promotion and packaging are allowed only after that evidence is PASS.

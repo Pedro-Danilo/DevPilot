@@ -604,3 +604,7 @@ CodingAgent/TestAgent proposal-only cerrados sobre `repo_DevPilot_Local_411_DEVP
 
 ### GSDLC-09-E — IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-PENDING
 Story-level browser closure integrates manual+agent paths, governed apply/rollback/conflict, Project Status current story and exactly-one logical full via FRX-v2.4 current profile. GSDLC-10 remains unauthorized pending Windows closure.
+
+### DEVPL-GSDLC-09-E — Windows composite closure
+
+`CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. Story Workbench browser acceptance is 8/8. The one permitted Full is preserved as 3050/3050 accounted with 59 historical functional failures and is not rerun. Recovery closes those exact 59 nodeids plus 27 bounded impacted tests, Historical Regression Guard and six deterministic gates. Successor repo412 becomes current and DEVPL-GSDLC-10 is authorized.

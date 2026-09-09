@@ -1,7 +1,7 @@
 ---
 doc_id: "DEVPL-GSDLC-09-E-IMPLEMENTATION-REPORT"
 title: "GSDLC-09-E — Story-level browser acceptance and one-full closure"
-status: "implemented/local-qualified/windows-composite-recovery-pending"
+status: "closed/pass/windows-validated/composite-recovery"
 version: "1.0.3"
 owner: "Ordóñez"
 updated: "2026-09-08"
@@ -52,3 +52,12 @@ Calificación local del corrective: exact failed-nodeid set 59/59 PASS (ejecutad
 - La Full original FAIL nunca se reescribe como PASS.
 - Browser acceptance 8/8 ya demostrada se reutiliza; no se repite porque este corrective no cambia el journey browser 09-E.
 - GSDLC-10 permanece no autorizado hasta cierre Windows composite PASS.
+
+
+## Windows composite closure — final authority
+
+GSDLC-09-E closes only through the composite path authorized after the single logical Full Regression. The original session `DEVPL-GSDLC-09-E-FULL-01` remains immutable at `3050/3050` accounted: `2986 PASS / 59 FAIL / 0 ERROR / 5 SKIP`. The failed nodes are not erased or converted into a direct Full PASS.
+
+Windows closure requires the corrective source delta to reproduce exact original failed-nodeid retest `59/59 PASS`, bounded impacted retest `27/27 PASS`, Historical Regression Guard `PASS/5-of-5`, and all six deterministic post-recovery gates PASS. Browser acceptance `8/8` is reused by sealed evidence because the corrective does not change the demonstrated 09-E browser journey. `logical_full_runs=1/1`, `second_full_regression_allowed=false`, `second_full_regression_executed=false`.
+
+Final adjudication: `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`. GSDLC-09-E is `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`; GSDLC-09 is `CLOSED/PASS/WINDOWS-VALIDATED`; GSDLC-10 becomes authorized.
