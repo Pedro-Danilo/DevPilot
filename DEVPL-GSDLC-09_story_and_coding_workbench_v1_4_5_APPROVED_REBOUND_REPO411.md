@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-09"
 title: "DEVPL-GSDLC-09 — Story and Coding Workbench"
-status: "approved"
+status: "closed"
 version: "1.4.5"
 owner: "Ordóñez"
 updated: "2026-09-08"
-approval: "approved_by_owner/rebound_repo411"
+approval: "owner_adjudicated/windows_validated/composite_recovery/final_reconciliation"
 program_id: "DEVPL-GSDLC"
 source_repo: "repo_DevPilot_Local_411_DEVPL_GSDLC_09_D_CODING_TEST_AGENTS_WINDOWS_VALIDATED_CANDIDATE.zip"
 source_git_commit: "bef575da644f7280d6d31a044d3993f0c5d50a74"
@@ -27,7 +27,7 @@ r01_research_authority_repo: "repo_DevPilot_Local_348_DEVPL_GSDLC_R01_E_RESEARCH
 r01_research_authority_commit: "3d7fda44d7ab5feefadd2eb4a7b9d20680eb1b5d"
 r01_research_authority_sha256: "68487b2d210a0fd8fb6f2c46f2f70f205f925aeda7d556e13af205de4583515d"
 r01_binding_scope: "architecture-and-security-input"
-backlog_status: "APPROVED/ACTIVE/GSDLC-09-E"
+backlog_status: "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"
 micro_sprints_total: 5
 validation_policy: "A-D cumulative-selective; E exactly-one-logical-full via mandatory current FRX profile; no operator low-level overrides; no rerun after functional failure; composite recovery"
 frx_execution_profile_policy: "mandatory-current-active/profile-id-only"
@@ -36,6 +36,13 @@ runtime_ephemeral_fixture_policy: "exclude auth.db*, devpilot.db* and equivalent
 repo403_role: "historical functional Windows-validated predecessor before final reconciliation"
 repo404_role: "current canonical authority before FRX-v2.4 enabler"
 ---
+
+# 0.0.4 Final closure reconciliation — repo412 evidence / repo413 successor
+
+GSDLC-09-E fue validado en Windows por cierre compuesto sobre `repo_DevPilot_Local_412_DEVPL_GSDLC_09_E_STORY_BROWSER_FULL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip` / commit `96fa474de2fa40e2f52ffd6e7cf27cfbf19b56ff` / SHA-256 `df603060408602ebdb067b6a09c8e15d121a535df84e05488753273e17007c99`. La única Full `DEVPL-GSDLC-09-E-FULL-01` queda preservada en `2986 PASS / 59 FAIL / 0 ERROR / 5 SKIP / 3050 accounted`; no existió segunda Full. El recovery autorizado acredita `59/59` exact, `27/27` bounded, Historical Regression Guard `5/5`, seis gates de cierre y browser sellado `8/8`.
+
+La auditoría post-package detectó drift exclusivamente administrativo entre Project State, Source Registry y este backlog current-active. El successor de reconciliación `repo_DevPilot_Local_413_DEVPL_GSDLC_09_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip` corrige solo esas autoridades; **no modifica comportamiento de producto, no repite browser y no consume Full**. Tras PASS Windows de este reconciliation, `DEVPL-GSDLC-09 = CLOSED/PASS/WINDOWS-VALIDATED` y `DEVPL-GSDLC-10` queda autorizado para owner APPROVE/rebind.
+
 
 # 0.0.3 Rebind GSDLC-09-E — repo411 Windows-validated
 

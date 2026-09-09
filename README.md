@@ -6658,3 +6658,8 @@ GSDLC-08-E and the DEVPL-GSDLC-08 Planning Workbench backlog are `CLOSED/PASS/WI
 ## DEVPL-GSDLC-09-E — Windows composite closure
 
 GSDLC-09-E closes `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. Browser acceptance remains the sealed Windows 8/8 result. The only logical Full `DEVPL-GSDLC-09-E-FULL-01` is preserved at 3050/3050 accounted (`2986 PASS / 59 FAIL / 0 ERROR / 5 SKIP`); no second Full exists or is allowed. The approved recovery proves exact original failed nodeids 59/59 PASS, bounded impacted 27/27 PASS, Historical Regression Guard PASS and six post-recovery gates PASS. Canonical successor: `repo_DevPilot_Local_412_DEVPL_GSDLC_09_E_STORY_BROWSER_FULL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-10 is authorized.
+
+
+## 2026-09-08 — DEVPL-GSDLC-09 final closure reconciliation
+
+Post-package authority audit found repo412 functionally closed but Project State / Source Registry current pointers were not fully reconciled. The repo413 reconciliation successor changes governance/current-state metadata only; it reuses sealed browser 8/8 and composite Full recovery evidence, runs no browser and no Full, and is the canonical predecessor for GSDLC-10 after Windows PASS.

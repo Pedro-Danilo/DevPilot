@@ -36315,7 +36315,7 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
+        "DEVPL-GSDLC-09 final current-active backlog authority reconciled after Windows composite closure; repo412 is functional closure predecessor and repo413 is final reconciliation successor."
       ],
       "owner": "DEVPL-GSDLC-09-E",
       "path": "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_5_APPROVED_REBOUND_REPO411.md",
@@ -36329,7 +36329,7 @@
         "DEVPL-GSDLC-09",
         "DEVPL-GSDLC-09-E"
       ],
-      "status_required": "approved",
+      "status_required": "closed",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -36611,14 +36611,14 @@
   "gsdlc_09_d_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_09_e_browser_runs": 1,
   "gsdlc_09_e_full_regression_runs": 1,
-  "gsdlc_09_e_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-COMPOSITE-RECOVERY-PENDING",
-  "gsdlc_09_status": "APPROVED/ACTIVE/09-E-COMPOSITE-RECOVERY-PENDING",
+  "gsdlc_09_e_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
+  "gsdlc_09_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_current_micro_sprint": "DEVPL-GSDLC-09-E",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-09-E",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-09-E",
-  "gsdlc_program_status": "active/GSDLC-09/09-E",
+  "gsdlc_next_micro_sprint": "NONE/DEVPL-GSDLC-09-CLOSED",
+  "gsdlc_program_status": "closed/GSDLC-09",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
@@ -39159,9 +39159,12 @@
   "updated": "2026-09-08",
   "updated_at": "2026-09-08",
   "updated_by": "DEVPL-GSDLC-09-D-WINDOWS-CLOSE",
-  "gsdlc_10_authorized": false,
+  "gsdlc_10_authorized": true,
   "gsdlc_09_e_full_regression_original_result": "FAIL/2986-PASS/59-FAIL/0-ERROR/5-SKIP/3050-ACCOUNTED/PRESERVED",
-  "gsdlc_09_e_full_regression_adjudication": "PENDING/COMPOSITE-RECOVERY",
+  "gsdlc_09_e_full_regression_adjudication": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
   "gsdlc_09_e_second_full_regression_allowed": false,
-  "gsdlc_09_e_composite_recovery_status": "LOCAL-PASS/WINDOWS-PENDING/59-OF-59-EXACT/27-OF-27-BOUNDED"
+  "gsdlc_09_e_composite_recovery_status": "PASS/WINDOWS-VALIDATED/59-OF-59-EXACT/27-OF-27-BOUNDED/HRG-PASS/GATES-6-OF-6",
+  "gsdlc_09_final_reconciliation_repo": "repo_DevPilot_Local_413_DEVPL_GSDLC_09_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_09_final_reconciliation_predecessor_repo": "repo_DevPilot_Local_412_DEVPL_GSDLC_09_E_STORY_BROWSER_FULL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_09_final_reconciliation_predecessor_commit": "96fa474de2fa40e2f52ffd6e7cf27cfbf19b56ff"
 }

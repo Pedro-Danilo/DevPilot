@@ -3387,3 +3387,8 @@ A post-package audit detected stale `current-active` fields in `.devpilot/projec
 - Composite recovery requires exact failed-nodeid 59/59 PASS, bounded impacted 27/27 PASS, Historical Regression Guard PASS and six deterministic gates PASS.
 - Reuses sealed browser 8/8 evidence; the corrective does not repeat browser or Full execution.
 - Canonical successor: `repo_DevPilot_Local_412_DEVPL_GSDLC_09_E_STORY_BROWSER_FULL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+
+## 2026-09-08 — DEVPL-GSDLC-09 final closure reconciliation
+
+Post-package authority audit found repo412 functionally closed but Project State / Source Registry current pointers were not fully reconciled. The repo413 reconciliation successor changes governance/current-state metadata only; it reuses sealed browser 8/8 and composite Full recovery evidence, runs no browser and no Full, and is the canonical predecessor for GSDLC-10 after Windows PASS.

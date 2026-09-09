@@ -61,3 +61,8 @@ GSDLC-09-E closes only through the composite path authorized after the single lo
 Windows closure requires the corrective source delta to reproduce exact original failed-nodeid retest `59/59 PASS`, bounded impacted retest `27/27 PASS`, Historical Regression Guard `PASS/5-of-5`, and all six deterministic post-recovery gates PASS. Browser acceptance `8/8` is reused by sealed evidence because the corrective does not change the demonstrated 09-E browser journey. `logical_full_runs=1/1`, `second_full_regression_allowed=false`, `second_full_regression_executed=false`.
 
 Final adjudication: `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`. GSDLC-09-E is `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`; GSDLC-09 is `CLOSED/PASS/WINDOWS-VALIDATED`; GSDLC-10 becomes authorized.
+
+
+## 2026-09-08 — DEVPL-GSDLC-09 final closure reconciliation
+
+Post-package authority audit found repo412 functionally closed but Project State / Source Registry current pointers were not fully reconciled. The repo413 reconciliation successor changes governance/current-state metadata only; it reuses sealed browser 8/8 and composite Full recovery evidence, runs no browser and no Full, and is the canonical predecessor for GSDLC-10 after Windows PASS.
