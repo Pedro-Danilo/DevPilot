@@ -6667,3 +6667,8 @@ GSDLC-09-E closes `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. Browser ac
 ## 2026-09-08 — DEVPL-GSDLC-09 final closure reconciliation
 
 Post-package authority audit found repo412 functionally closed but Project State / Source Registry current pointers were not fully reconciled. The repo413 reconciliation successor changes governance/current-state metadata only; it reuses sealed browser 8/8 and composite Full recovery evidence, runs no browser and no Full, and is the canonical predecessor for GSDLC-10 after Windows PASS.
+
+
+## DEVPL-GSDLC-10-A — Windows closure
+
+GSDLC-10-A `CLOSED/PASS/WINDOWS-VALIDATED`. Story Workbench demuestra `Validar → Test Impact v2 → StoryTestPlan` con required/recommended explicables, unknown/sensitive fail-closed y approval/waiver server-side. Browser real=1; Full Regression=0. Candidate: `repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-10-B autorizado.

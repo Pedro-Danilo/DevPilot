@@ -1,7 +1,7 @@
 ---
 doc_id: "DEVPL-GSDLC-10-A-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-10-A — Test Impact and StoryTestPlan UI-native implementation report"
-status: "implemented/local-qualified/windows-validation-pending"
+status: "closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-09"
@@ -12,7 +12,7 @@ approval: "approved_by_owner/prompts-00-and-01"
 
 ## Estado
 
-`IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-VALIDATION-PENDING`. Activation/rebind está absorbido por el mismo delta de 10-A; no existe repo/commit independiente de activación.
+`CLOSED / PASS / WINDOWS-VALIDATED`. Activation/rebind está absorbido por el mismo delta de 10-A; no existe repo/commit independiente de activación.
 
 ## Capacidades implementadas
 
@@ -58,3 +58,12 @@ Focal/bounded/gates PASS, browser acceptance única PASS, S0/S1=0, Full=0, repo 
 ## BLOCK Windows
 
 StoryTestPlan no hash-bound, required test omitible silenciosamente, agent/model puede waivar, free-form execution surface, browser journey incompleto, gate focal/bounded FAIL o cualquier intento de Full en 10-A.
+
+
+## Correctives browser Windows incorporados al mismo sprint
+
+Durante la aceptación Windows se detectaron tres defectos de continuidad UX del journey, corregidos dentro de 10-A sin Full Regression ni nuevo browser fixture: (1) rehidratación server-side de SourceChangePlan/approval al volver al Story Workbench, (2) handoff dirigido a Approval Center para pestañas auxiliares sin depender de `sessionStorage` del opener y (3) transición post-apply a `CHANGES_READY` que no actualizaba el gating local de `Validar story` y además no podía rehidratar el plan aplicado después de un reload. El corrective final hace que `CHANGES_READY` sea la autoridad para habilitar Validar, recupera el SourceChangePlan aplicado mediante approval exacto `APPROVED` + `metadata.plan_hash` server-side y deja apply/approval deshabilitados fuera de `IN_PROGRESS`. Todos los correctives mantienen `Full Regression=0` y la autoridad de aprobación/plan del servidor.
+
+## Windows closure
+
+Cierre esperado por el operador Windows 10-A: browser real una sola vez, Full Regression=0, focal/bounded/gates PASS, S0/S1=0 y promoción Git fast-forward. Candidate final: `repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-10-B queda autorizado solo después del receipt de cierre PASS.

@@ -617,3 +617,8 @@ Post-package authority audit found repo412 functionally closed but Project State
 
 GSDLC-10 is current-active on repo414 while repo413 remains the canonical product baseline of the GSDLC-09 functional closure. Activation is folded into 10-A. Story Code Workbench reuses Test Impact v2 and adds deterministic StoryTestPlan review/approval with unknown/sensitive fail-closed semantics, role-bound expiring waivers and a non-executable Full signal. No test command free-form surface exists. Full Regression runs=0. Windows live browser and bounded focal/cumulative validation remain the micro-sprint closure authority before 10-B can be authorized.
 
+
+
+## DEVPL-GSDLC-10-A — Windows closure
+
+GSDLC-10-A `CLOSED/PASS/WINDOWS-VALIDATED`. Story Workbench demuestra `Validar → Test Impact v2 → StoryTestPlan` con required/recommended explicables, unknown/sensitive fail-closed y approval/waiver server-side. Browser real=1; Full Regression=0. Candidate: `repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-10-B autorizado.

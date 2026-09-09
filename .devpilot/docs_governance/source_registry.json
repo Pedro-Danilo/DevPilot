@@ -36612,7 +36612,7 @@
       "required_tests": [
         "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
       ],
-      "status_required": "implemented/local-qualified/windows-validation-pending"
+      "status_required": "closed/pass/windows-validated"
     },
     {
       "domain": "gsdlc.integrated-quality",
@@ -36720,7 +36720,7 @@
       "required_tests": [
         "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
       ],
-      "status_required": "PASS/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING"
+      "status_required": "PASS/WINDOWS-VALIDATED"
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -36889,8 +36889,8 @@
   "gsdlc_current_micro_sprint": "DEVPL-GSDLC-10-A",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-10-A",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-10-B/PENDING-10-A-WINDOWS-PASS",
-  "gsdlc_program_status": "active/GSDLC-10/10-A",
+  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-10-B",
+  "gsdlc_program_status": "active/GSDLC-10/10-B-READY",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
@@ -39430,7 +39430,7 @@
   },
   "updated": "2026-09-09",
   "updated_at": "2026-09-08",
-  "updated_by": "DEVPL-GSDLC-10-A",
+  "updated_by": "DEVPL-GSDLC-10-A-WINDOWS-CLOSURE",
   "gsdlc_10_authorized": true,
   "gsdlc_09_e_full_regression_original_result": "FAIL/2986-PASS/59-FAIL/0-ERROR/5-SKIP/3050-ACCOUNTED/PRESERVED",
   "gsdlc_09_e_full_regression_adjudication": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
@@ -39439,15 +39439,16 @@
   "gsdlc_09_final_reconciliation_repo": "repo_DevPilot_Local_413_DEVPL_GSDLC_09_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_09_final_reconciliation_predecessor_repo": "repo_DevPilot_Local_412_DEVPL_GSDLC_09_E_STORY_BROWSER_FULL_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_09_final_reconciliation_predecessor_commit": "96fa474de2fa40e2f52ffd6e7cf27cfbf19b56ff",
-  "gsdlc_10_a_browser_runs": 0,
+  "gsdlc_10_a_browser_runs": 1,
   "gsdlc_10_a_canonical_product_baseline_repo": "repo_DevPilot_Local_413_DEVPL_GSDLC_09_FINAL_CLOSURE_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_10_a_execution_source_commit": "adccda6a8fe296a96511bc313be5b883dad32767",
   "gsdlc_10_a_execution_source_repo": "repo_DevPilot_Local_414_DEVPL_GSDLC_09_FINAL_AUTHORITY_POINTERS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_10_a_execution_source_sha256": "1ab8b2d38a243ae04caffbf3cd62360c6e613eda3f181cb9d5210b25d549bfe3",
   "gsdlc_10_a_free_form_test_command_allowed": false,
   "gsdlc_10_a_full_regression_runs": 0,
-  "gsdlc_10_a_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_10_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_10_a_story_test_plan_available": true,
   "gsdlc_10_a_test_impact_v2_reused": true,
-  "gsdlc_10_status": "APPROVED/ACTIVE/GSDLC-10-A"
+  "gsdlc_10_status": "APPROVED/READY-GSDLC-10-B",
+  "gsdlc_10_b_authorized": true
 }
