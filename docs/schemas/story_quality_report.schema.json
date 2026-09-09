@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/story_quality_report.schema.json",
+  "title": "StoryQualityReport",
+  "type": "object",
+  "required": ["schema_id", "report_id", "report_hash", "inputs_hash", "story_test_plan_id", "story_test_plan_hash", "decision", "commit_ready", "findings", "severity_counts", "required_job_results", "policy", "provenance"],
+  "properties": {
+    "schema_id": {"const": "DEVPL-GSDLC-10-C-STORY-QUALITY-REPORT-V1"},
+    "report_id": {"type": "string", "pattern": "^story-quality-report-[0-9a-f]{24}$"},
+    "report_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "inputs_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "story_test_plan_id": {"type": "string", "minLength": 1},
+    "story_test_plan_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "decision": {"enum": ["PASS", "BLOCK"]},
+    "commit_ready": {"type": "boolean"},
+    "findings": {"type": "array", "items": {"type": "object", "required": ["finding_id", "origin", "severity", "message", "blocking"], "properties": {"finding_id": {"type": "string"}, "origin": {"type": "string"}, "severity": {"enum": ["S0", "S1", "S2", "S3"]}, "message": {"type": "string"}, "blocking": {"type": "boolean"}, "waivable": {"type": "boolean"}, "waived": {"type": "boolean"}}}},
+    "severity_counts": {"type": "object", "required": ["S0", "S1", "S2", "S3"]},
+    "required_job_results": {"type": "array"},
+    "policy": {"type": "object"},
+    "provenance": {"type": "object"},
+    "full_regression_started": {"const": false}
+  },
+  "additionalProperties": true
+}

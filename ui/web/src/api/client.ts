@@ -13,6 +13,25 @@ export const PROJECT_ENTRY_RESUME_STATE_KEY = 'devpilot.gsdlc03e.projectEntryRes
 export const PROJECT_ENTRY_RESUME_TTL_MS = 30 * 60 * 1000;
 export const PROJECT_RECOVERY_INTENT_KEY = 'devpilot.gsdlc04e.projectRecoveryIntent.v1';
 export const PROJECT_RECOVERY_INTENT_TTL_MS = 15 * 60 * 1000;
+export const QUALITY_STORY_CONTEXT_KEY = 'devpilot.gsdlc10c.storyQualityContext.v1';
+
+export interface QualityStoryContext {
+  test_plan_id: string;
+  test_plan_hash: string;
+  story_execution_id?: string;
+  story_id?: string;
+  recorded_at_ms: number;
+}
+
+export function writeQualityStoryContext(context: Omit<QualityStoryContext, 'recorded_at_ms'>): void {
+  try { sessionStorage.setItem(QUALITY_STORY_CONTEXT_KEY, JSON.stringify({ ...context, recorded_at_ms: Date.now() })); } catch {}
+}
+
+export function readQualityStoryContext(): QualityStoryContext | null {
+  try { const raw=sessionStorage.getItem(QUALITY_STORY_CONTEXT_KEY); if(!raw)return null; const value=JSON.parse(raw) as QualityStoryContext; return value?.test_plan_id && value?.test_plan_hash ? value : null; } catch { return null; }
+}
+
+export function clearQualityStoryContext(): void { try { sessionStorage.removeItem(QUALITY_STORY_CONTEXT_KEY); } catch {} }
 
 export type ProjectJourneyPhase = 'entry' | 'project';
 export type ProjectEntryMode = 'CREATE_NEW' | 'OPEN_EXISTING' | 'IMPORT_GIT';
@@ -491,6 +510,42 @@ export class DevPilotApiClient {
 
   async startStoryValidationJob(jobId: string): Promise<DevPilotApplicationResponse> {
     return this.post(`/story/code/validation-jobs/${encodeURIComponent(jobId)}/start`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityRecordFinding(payload: { test_plan_id: string; test_plan_hash: string; origin: 'review'|'security'|'traceability'|'policy'; severity: 'S0'|'S1'|'S2'|'S3'; message: string; source_ref?: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/story/quality/findings', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityEvaluate(testPlanId: string, testPlanHash: string): Promise<DevPilotApplicationResponse> {
+    return this.post('/story/quality/evaluate', { test_plan_id: testPlanId, test_plan_hash: testPlanHash }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityReport(reportId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/story/quality/reports/${encodeURIComponent(reportId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityRequestWaiver(reportId: string, payload: { report_hash: string; finding_id: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/quality/reports/${encodeURIComponent(reportId)}/waivers`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityDecideWaiver(waiverId: string, decision: 'APPROVE'|'REJECT'): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/quality/waivers/${encodeURIComponent(waiverId)}/decision`, { decision }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityPlanRemediation(reportId: string, payload: { report_hash: string; finding_id: string; mode: 'manual'|'agent'; instruction?: string; source_id?: string; agent_mode?: 'mock'|'fake-local' }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/quality/reports/${encodeURIComponent(reportId)}/remediations`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityRemediations(reportId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/story/quality/reports/${encodeURIComponent(reportId)}/remediations`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityPlanRetest(traceId: string, newTestPlanId: string, newTestPlanHash: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/quality/remediations/${encodeURIComponent(traceId)}/retest-plan`, { new_test_plan_id: newTestPlanId, new_test_plan_hash: newTestPlanHash }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyQualityCompleteRetest(traceId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/quality/remediations/${encodeURIComponent(traceId)}/retest-complete`, {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
   async qualityOperations(): Promise<DevPilotApplicationResponse> {

@@ -37162,19 +37162,19 @@
   "gsdlc_10_b_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_10_b_test_impact_status": "PASS/35-paths/196-contracts/304-tests/unmatched-0",
   "gsdlc_10_c_authorized": true,
-  "gsdlc_10_status": "APPROVED/READY-GSDLC-10-C",
+  "gsdlc_10_status": "APPROVED/ACTIVE/GSDLC-10-C",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_current_micro_sprint": "DEVPL-GSDLC-10-B",
-  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-10-B",
+  "gsdlc_current_micro_sprint": "DEVPL-GSDLC-10-C",
+  "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-10-C",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-10-C",
+  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-10-D",
   "gsdlc_program_status": "active/GSDLC-10/10-C-READY",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-10-B-CORRECTIVE-104",
+  "last_updated_by": "DEVPL-GSDLC-10-C",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -39704,12 +39704,15 @@
     "markdown_json_pairs_total": 72,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 567
+    "source_of_truth_total": 567,
+    "last_updated_by": "DEVPL-GSDLC-10-C"
   },
   "updated": "2026-09-09",
   "updated_at": "2026-09-08",
   "updated_by": "DEVPL-GSDLC-10-B-CORRECTIVE-104",
   "gsdlc_10_b_candidate_repo": "repo_DevPilot_Local_417_DEVPL_GSDLC_10_B_JOB_CONSOLE_LIVE_REFRESH_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_10_b_corrective_104_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "gsdlc_10_b_corrective_104_contract": "ui.jobs polling refreshes selected job detail and logs; UOC-008 base API route set treated as historical subset under typed successors"
+  "gsdlc_10_b_corrective_104_contract": "ui.jobs polling refreshes selected job detail and logs; UOC-008 base API route set treated as historical subset under typed successors",
+  "gsdlc_10_c_execution_source_repo": "repo_DevPilot_Local_417_DEVPL_GSDLC_10_B_JOB_CONSOLE_LIVE_REFRESH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_10_c_status": "implementation-candidate/local-qualified-pending-windows"
 }

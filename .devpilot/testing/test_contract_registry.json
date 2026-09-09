@@ -2232,6 +2232,41 @@
       ]
     },
     {
+      "contract_id": "devpl-gsdlc-07-a-agent-role-bindings",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-A",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
+      ],
+      "validates": [
+        ".devpilot/agents/agent_role_binding_catalog.json",
+        ".devpilot/agents/step_agent_bindings.json",
+        ".devpilot/agents/agent_runtime_boundary.json",
+        "src/devpilot_core/agents/role_bindings.py",
+        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+        "ui/web/src/components/AgentRuntimeView.ts"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_role_binding_catalog.json",
+        ".devpilot/agents/step_agent_bindings.json",
+        ".devpilot/agents/agent_runtime_boundary.json",
+        "src/devpilot_core/agents/role_bindings.py",
+        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "ui/web/src/components/AgentRuntimeView.ts",
+        "ui/web/src/components/StepActionAdvisor.ts",
+        "ui/web/src/pages/SettingsView.ts"
+      ]
+    },
+    {
       "classification_notes": [],
       "contract_id": "devpl-gsdlc-07-activation-full-regression-v2-1",
       "critical": true,
@@ -2297,6 +2332,811 @@
       ]
     },
     {
+      "contract_id": "devpl-gsdlc-07-b-context-pack-v2",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-B",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "validates": [
+        "ContextPackV2",
+        ".devpilot/rag/context_pack_v2_policy.json",
+        "docs/schemas/context_pack_v2.schema.json",
+        "ui/web/src/components/RagProvenanceView.ts"
+      ],
+      "watched_paths": [
+        ".devpilot/rag/context_pack_v2_policy.json",
+        "src/devpilot_core/rag/context_pack_v2.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "ui/web/src/components/RagProvenanceView.ts",
+        "ui/web/src/pages/SettingsView.ts"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-c-agent-assist-workflows",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-C",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+      ],
+      "validates": [
+        "AgentAssistService",
+        "ArtifactAIPanel",
+        "AgentProvenance",
+        "docs/schemas/agent_assist_plan.schema.json",
+        "docs/schemas/agent_assist_proposal.schema.json",
+        "docs/schemas/agent_provenance.schema.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/agent_assist_service.py",
+        "src/devpilot_core/application/artifact_draft_service.py",
+        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/ArtifactAIPanel.ts",
+        "ui/web/src/components/ArtifactManualEditor.ts",
+        "ui/web/src/pages/WorkspaceDocumentsView.ts",
+        "docs/schemas/agent_assist_plan.schema.json",
+        "docs/schemas/agent_assist_proposal.schema.json",
+        "docs/schemas/agent_provenance.schema.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-D",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+      ],
+      "validates": [
+        "AgentExecutionPolicy",
+        "HandoffSupervisor",
+        "ToolIntent",
+        "ToolExecutionDecision",
+        "SkillToolPolicyView"
+      ],
+      "watched_paths": [
+        ".devpilot/agents/agent_execution_policy.json",
+        "src/devpilot_core/agents/execution_policy.py",
+        "src/devpilot_core/multiagent/supervisor.py",
+        "src/devpilot_core/application/agent_execution_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/SkillToolPolicyView.ts",
+        "docs/schemas/agent_execution_policy.schema.json",
+        "docs/schemas/tool_intent.schema.json",
+        "docs/schemas/tool_execution_decision.schema.json",
+        "docs/schemas/handoff_transfer_state.schema.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-07-e-agentic-precode-acceptance",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-07-E",
+      "phase": "DEVPL-GSDLC-07",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
+        "npm --prefix ui/web run test:gsdlc07e-agent-eval-trace"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+      ],
+      "validates": [
+        "AgenticPrecodeAcceptanceEvaluator",
+        "AgentEvalTraceView",
+        "FullRegressionTelemetryExporter"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/agentic_precode_acceptance.py",
+        "src/devpilot_core/testing/full_regression_telemetry.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/application/settings_service.py",
+        "src/devpilot_core/interfaces/api/routers/settings.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/components/AgentEvalTraceView.ts",
+        "docs/schemas/agent_eval_trace.schema.json",
+        "docs/schemas/full_regression_telemetry_handoff.schema.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-a-planning-domain",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-A",
+      "phase": "DEVPL-GSDLC-08",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_activation_rebind.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_a_planning_domain.py"
+      ],
+      "validates": [
+        "six planning schemas",
+        "stable IDs/versioning",
+        "typed trace links",
+        "deterministic dependency graph",
+        "cycle/orphan/duplicate blocking",
+        "explicit lifecycle",
+        "role-bound approval/freeze",
+        "agent cannot auto-approve",
+        "full=0/browser=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning",
+        "docs/schemas/planning_milestone.schema.json",
+        "docs/schemas/planning_epic.schema.json",
+        "docs/schemas/planning_story.schema.json",
+        "docs/schemas/planning_sprint.schema.json",
+        "docs/schemas/planning_dependency.schema.json",
+        "docs/schemas/planning_state.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_A_PLANNING_CONTRACT_REPORT.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-activation-rebind",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-ACTIVATION",
+      "phase": "DEVPL-GSDLC-08",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_activation_rebind.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_activation_rebind.py"
+      ],
+      "validates": [
+        "repo397 execution authority",
+        "v2.3 closure successor registration",
+        "GSDLC-08 approved rebound registration",
+        "governance-only activation",
+        "full=0/browser=0",
+        "08-A fail-closed until Windows PASS"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "DEVPL_FULL_REGRESSION_V2_3_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+        "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-b-roadmap-workbench",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-B",
+      "phase": "DEVPL-GSDLC-08",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
+        "node ui/web/scripts/gsdlc08b-roadmap-workbench-smoke.mjs",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py"
+      ],
+      "validates": [
+        "shared MANUAL/IMPORT/AGENT roadmap schema",
+        "explicit requirement/risk coverage findings",
+        "server-side role-aware approval/freeze",
+        "agent output remains DRAFT and no auto-approval",
+        "immutable revisioned freeze",
+        "Roadmap Workbench UI/API/RBAC contract",
+        "browser focal acceptance",
+        "full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/roadmap_workbench.py",
+        "src/devpilot_core/application/roadmap_workbench_service.py",
+        "src/devpilot_core/interfaces/api/routers/planning.py",
+        "ui/web/src/pages/RoadmapWorkbenchView.ts",
+        "docs/schemas/planning_roadmap.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_B_BROWSER_ACCEPTANCE.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-c-backlog-derivation-prioritization",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-C",
+      "phase": "DEVPL-GSDLC-08",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
+      ],
+      "validates": [
+        "required requirement→story coverage 100% or explicit blocker",
+        "duplicate story and dependency-gap detection",
+        "story acceptance criteria required",
+        "priority level/value/risk with rationale and provenance",
+        "manual edits prevail over same-version derived/agent proposals",
+        "agent proposals remain DRAFT and cannot self-approve",
+        "human role-bound review/approval/freeze",
+        "ApplicationService backlog boundary",
+        "browser=0",
+        "full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/backlog_workbench.py",
+        "src/devpilot_core/application/backlog_workbench_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/planning_backlog.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-d-sprint-planning-capacity-dependencies",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-D",
+      "phase": "DEVPL-GSDLC-08",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_d_sprint_planner.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_d_sprint_planner.py"
+      ],
+      "validates": [
+        "frozen backlog authority",
+        "selected stories READY",
+        "prerequisite/dependency order",
+        "capacity overcommit blockers",
+        "Definition of Ready/Done",
+        "test intent and risk focus",
+        "human owner/product-owner approval and hash-bound freeze",
+        "pre-full handoff",
+        "browser=0",
+        "full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/planning/sprint_planner.py",
+        "src/devpilot_core/application/sprint_planner_service.py",
+        "src/devpilot_core/application/services.py",
+        "docs/schemas/planning_sprint_plan.schema.json",
+        "docs/audits/DEVPL_GSDLC_08_D_PRE_FULL_HANDOFF.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-08-e-planning-browser-one-full-closure",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-08-E",
+      "phase": "DEVPL-GSDLC-08",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
+        "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py"
+      ],
+      "validates": [
+        "planning browser end-to-end",
+        "PRE_CODE_READY→PLANNING→IMPLEMENTING_READY",
+        "requirement→milestone→epic→story→sprint trace graph",
+        "backlog/sprint API successor bindings",
+        "server RBAC approval/freeze",
+        "browser acceptance before one full",
+        "exactly-one logical full/composite recovery"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/planning_closure_service.py",
+        "src/devpilot_core/interfaces/api/routers/planning.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/RoadmapWorkbenchView.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-a-story-execution-context",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-09-A",
+      "phase": "DEVPL-GSDLC-09",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "validates": [
+        "strict StoryExecutionState lifecycle",
+        "Definition of Ready before IN_PROGRESS",
+        "deterministic minimized StoryContextPack with provenance",
+        "secret/runtime/path exclusion",
+        "Project Status current_story read-only projection",
+        "full/browser=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/story_execution/",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "docs/schemas/story_execution_state.schema.json",
+        "docs/schemas/story_context_pack.schema.json",
+        "docs/schemas/story_dor_report.schema.json",
+        "docs/schemas/guided_sdlc_project_status.schema.json",
+        ".devpilot/project_state.json",
+        "docs/audits/DEVPL_GSDLC_09_A_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_A_SOURCE_DELTA_MANIFEST.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-activation-rebind",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-09-ACTIVATION",
+      "phase": "DEVPL-GSDLC-09",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_activation_rebind.py"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_activation_rebind.py"
+      ],
+      "validates": [
+        "repo406 source authority",
+        "FRX-v2.4 CLOSED/PASS binding",
+        "FRX current profile binding",
+        "GSDLC current pointer rebind",
+        "historical authority classification",
+        "full/browser=0"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_1_APPROVED_REBOUND_REPO406.md",
+        "00_PROMPT_DEVPL_GSDLC_09_ACTIVATION_REBIND_v1_0_1_REBOUND_REPO406.md",
+        "docs/audits/DEVPL_GSDLC_09_ACTIVATION_REBIND_REPORT.json",
+        ".devpilot/testing/full_regression_execution_profile_current.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-b-code-workbench",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-09-B",
+      "phase": "DEVPL-GSDLC-09",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "validates": [
+        "bounded source tree and opaque ids",
+        "runtime-only CREATE/EDIT/RENAME SourceDraftBuffer",
+        "source preimage/external edit conflict",
+        "path/binary/oversize/secret/role fail-closed",
+        "API/RBAC no-apply contract",
+        "browser-visible draft-only UI"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/code_workbench/",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/application/services.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        ".devpilot/code_workbench/source_policy.json",
+        "docs/schemas/gsdlc_09_b_source_policy.schema.json",
+        "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        "docs/audits/DEVPL_GSDLC_09_B_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_B_SOURCE_DELTA_MANIFEST.json",
+        "02_PROMPT_DEVPL_GSDLC_09_B_v1_0_1_REBOUND_REPO408.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_2_APPROVED_REBOUND_REPO408.md",
+        "scripts/devpl_gsdlc_09_b_browser_acceptance.py",
+        "scripts/devpl_gsdlc_09_b_browser_api.py",
+        "scripts/devpl_gsdlc_09_b_browser_fixture.py"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-c-source-change",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-09-C",
+      "phase": "DEVPL-GSDLC-09",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py",
+        "tests/test_uoc005_source_mutation_routes_at_close.py"
+      ],
+      "validates": [
+        "immutable SourceChangePlan/full diff/Test Impact",
+        "stale preimage and unexpected target fail-closed",
+        "owner RBAC + approval binding",
+        "multi-file atomic apply + compensating rollback",
+        "separate manual rollback approval + source hash parity",
+        "generic patch/shell/agent self-apply remain blocked",
+        "UOC-005 source-write history frozen while current registry evolves"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/code_workbench/change_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/identity/models.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json",
+        "docs/schemas/gsdlc_09_c_source_change_plan.schema.json",
+        "docs/schemas/gsdlc_09_c_apply_manifest.schema.json",
+        "docs/schemas/gsdlc_09_c_rollback_evidence.schema.json",
+        "03_PROMPT_DEVPL_GSDLC_09_C_v1_0_1_REBOUND_REPO409.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_3_APPROVED_REBOUND_REPO409.md",
+        "docs/audits/DEVPL_GSDLC_09_C_OWNER_ADJUDICATION_PROPOSAL.md",
+        "docs/audits/DEVPL_GSDLC_09_C_SOURCE_CHANGE_SECURITY_REPORT.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-d-agent-proposals",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-09-D",
+      "phase": "DEVPL-GSDLC-09",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_09_d_agent_proposals.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "validates": [
+        "CodingAgent/TestAgent proposal-only over StoryContextPack + bounded RAG + Model Gateway",
+        "mock/fake-local route with zero external cost/network",
+        "complete model/provider/access-route/session/trace/ToolIntent provenance",
+        "ModelRouteDecision never grants tool/file-write authority",
+        "human ACCEPT inserts into editor only; REJECT mutates nothing",
+        "filesystem.delete and unsafe instructions remain BLOCK",
+        "stale source blocks proposal acceptance",
+        "agent self-apply/self-approve/self-commit/generic shell remain disabled"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/story_agent_assist_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/agents/execution_policy.py",
+        "src/devpilot_core/agents/role_bindings.py",
+        "src/devpilot_core/modeling/",
+        "src/devpilot_core/rag/",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/api/client.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/project_state.json",
+        "docs/audits/DEVPL_GSDLC_09_D_IMPLEMENTATION_REPORT.md",
+        ".devpilot/agents/story_code_agent_bindings.json",
+        "04_PROMPT_DEVPL_GSDLC_09_D_v1_0_1_REBOUND_REPO410.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_4_APPROVED_REBOUND_REPO410.md",
+        "docs/schemas/gsdlc_09_d_agent_proposal.schema.json",
+        "docs/audits/DEVPL_GSDLC_09_D_AGENT_SECURITY_EVAL.json",
+        "docs/audits/DEVPL_GSDLC_09_D_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_09_D_CODING_AGENT_TRACES.json",
+        "docs/audits/DEVPL_GSDLC_09_D_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_D_FULL_REGRESSION_WAIVER.json",
+        "docs/audits/DEVPL_GSDLC_09_D_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_D_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_09_D_TEST_AGENT_TRACES.json",
+        "docs/audits/DEVPL_GSDLC_09_D_TEST_IMPACT.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-09-e-story-browser-full-closure",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-09-E",
+      "phase": "DEVPL-GSDLC-09",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_09_e_story_closure.py -q"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "validates": [
+        "approved atomic apply advances active StoryExecution IN_PROGRESS to CHANGES_READY",
+        "blocked/wrong-role apply does not advance StoryExecution",
+        "rollback restores exact source while StoryExecution history remains monotonic",
+        "Project Status visibly projects current story",
+        "Project Status projects current StoryExecution even when WorkspaceEngineeringState falls back to UNKNOWN/EMPTY",
+        "FRX-v2.4 current profile is hash-valid and permits exactly one logical full",
+        "FRX-v2.4 Isolation Registry covers all sealed collection nodeids fail-closed; new successors remain serial unless explicitly reviewed"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/story_execution/",
+        "src/devpilot_core/code_workbench/change_service.py",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "tests/test_devpl_gsdlc_09_e_story_closure.py",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_09_E_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_E_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_09_E_FULL_REGRESSION_EXECUTION_PLAN.json",
+        "05_PROMPT_DEVPL_GSDLC_09_E_v1_0_1_REBOUND_REPO411.md",
+        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_5_APPROVED_REBOUND_REPO411.md",
+        "docs/audits/DEVPL_GSDLC_09_E_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_09_E_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_09_E_SOURCE_DELTA_MANIFEST.json",
+        ".devpilot/testing/test_isolation_registry.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-10-a-story-test-plan",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-10-A",
+      "phase": "DEVPL-GSDLC-10",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_a_story_test_plan.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "validates": [
+        "deterministic StoryTestPlan binds StoryExecution + immutable SourceChangePlan hash + Test Impact report hash",
+        "existing Test Impact v2 is reused; no second impact engine and no free-form test command",
+        "required/recommended tests are explainable by matched contracts/rules",
+        "unknown impact requires explicit human review and sensitive under-testing blocks fail-closed",
+        "waivers are owner-only, reasoned, expiring and cannot waive sensitive/P0 required tests",
+        "agent/model authority cannot approve or waive StoryTestPlan",
+        "Full Regression signal is informational only and GSDLC-10-A full runs remain zero",
+        "Story Code Workbench exposes Story → Validate → StoryTestPlan review without a parallel Quality UI",
+        "activation/rebind is folded into 10-A on repo414 while repo413 remains canonical functional predecessor"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/story_test_plan_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/styles.css",
+        "ui/web/scripts/gsdlc10a-story-test-plan-smoke.mjs",
+        "ui/web/package.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/schemas/story_test_plan.schema.json",
+        "docs/schemas/story_test_impact_report.schema.json",
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_0_APPROVED_REBOUND_REPO414.md",
+        "00_PROMPT_DEVPL_GSDLC_10_ACTIVATION_REBIND_v1_0_0_REPO414.md",
+        "01_PROMPT_DEVPL_GSDLC_10_A_v1_0_0_REPO414.md",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/audits/DEVPL_GSDLC_10_A_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_10_A_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_A_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_A_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_A_TEST_IMPACT.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-10-b-story-validation-jobs",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-10-B",
+      "phase": "DEVPL-GSDLC-10",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_b_story_validation_jobs.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "validates": [
+        "APPROVED StoryTestPlan projects deterministic typed test/build/lint validation jobs without browser-supplied command strings",
+        "job contexts bind immutable StoryTestPlan id/hash, changed paths, typed adapter and Full=false",
+        "lifecycle is observable through governed jobs and Job Console with heartbeat, bounded redacted logs and structured result",
+        "worker emits JUnit/artifact references for typed test jobs",
+        "cancel uses process-tree termination and timeout terminates the process tree",
+        "retry creates a new attempt identity while preserving exact immutable context",
+        "orphan reconciliation never converts missing worker state into PASS",
+        "stale/unapproved StoryTestPlan and unsafe test targets fail closed",
+        "GSDLC-10-B exposes no arbitrary shell and consumes zero Full Regression runs",
+        "UI integrates StoryTestPlan -> typed jobs -> Job Console instead of creating a parallel job engine"
+      ],
+      "watched_paths": [
+        ".devpilot/quality/story_validation_job_capabilities.json",
+        ".devpilot/quality/story_validation_job_profiles.json",
+        "src/devpilot_core/application/story_validation_jobs.py",
+        "src/devpilot_core/application/story_validation_job_worker.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/pages/JobsView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/schemas/story_validation_job_context.schema.json",
+        "docs/schemas/story_validation_job_result.schema.json",
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
+        "02_PROMPT_DEVPL_GSDLC_10_B_v1_0_1_REBOUND_REPO415.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits/DEVPL_GSDLC_10_B_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_10_B_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_B_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_10_B_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_B_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_B_IMPLEMENTATION_REPORT.md",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-10-c-story-quality-gate",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-10-C",
+      "phase": "DEVPL-GSDLC-10",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_c_story_quality_gate.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_c_story_quality_gate.py"
+      ],
+      "validates": [
+        "required validation FAIL/ERROR/PENDING prevents COMMIT_READY and no false PASS is possible",
+        "all PASS required jobs produce deterministic StoryQualityGate PASS and stable input/report hashes",
+        "S0/S1 cannot be waived; S2/S3 require bounded reason/expiry/separate owner approval; agent/model cannot approve or widen waiver",
+        "remediation is manual or proposal-only agent ToolIntent and source mutation remains governed by GSDLC-09",
+        "remediation changes invalidate stale quality reports and impacted retest requires a successor APPROVED StoryTestPlan",
+        "retest plans only typed jobs derived from successor Test Impact; rerun-everything=false and Full Regression=false",
+        "finding→remediation→retest provenance remains explicit and Quality UI exposes blockers/actions",
+        "GSDLC-10-C consumes zero Full Regression runs and exposes no new source-write authority"
+      ],
+      "watched_paths": [
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "03_PROMPT_DEVPL_GSDLC_10_C_v1_0_1_REBOUND_REPO417.md",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_2_APPROVED_REBOUND_REPO417.md",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/07_interfaces/api_service_mapping.md",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/audits/DEVPL_GSDLC_10_C_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_10_C_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_C_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_C_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_10_C_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_C_TEST_IMPACT.json",
+        "docs/schemas/remediation_trace.schema.json",
+        "docs/schemas/story_quality_report.schema.json",
+        "docs/schemas/story_quality_waiver.schema.json",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/story_quality_gate.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "tests/test_devpl_gsdlc_10_c_story_quality_gate.py",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/components/StoryQualityGatePanel.ts",
+        "ui/web/src/pages/QualityOperationsView.ts",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts"
+      ]
+    },
+    {
       "contract_id": "devpl-gsdlc-transversal-validation-policy",
       "critical": true,
       "domain": "governance.testing",
@@ -2335,6 +3175,400 @@
         ".devpilot/gsdlc/architecture_target_contract.json",
         "docs/audits/DEVPL_GSDLC_01_A_FULL_REGRESSION_DECISION.json",
         "tests/test_devpl_gsdlc_transversal_validation_policy.py"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.2-a-documentation-consistency",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.2-A",
+      "phase": "FULL-REGRESSION-v2.2",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_2_a_documentation_consistency.py",
+        "python -m devpilot_core docs-governance closure-consistency --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_2_a_documentation_consistency.py"
+      ],
+      "validates": [
+        "DocumentationAuthorityGraph",
+        "ClosureStateConsistencyValidator",
+        "DocImpactPlanner",
+        "DocumentationDriftLedger",
+        "DerivedMetadataProjection",
+        "historical-freeze/current-active-separation"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/docs_governance/documentation_authority_graph.json",
+        ".devpilot/docs_governance/documentation_drift_ledger.json",
+        ".devpilot/docs_governance/rule_registry.json",
+        ".devpilot/validation/frontmatter_catalog.json",
+        "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
+        "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
+        "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
+        "README.md",
+        "docs/release/CHANGELOG.md",
+        "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
+        "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
+        "src/devpilot_core/docs_governance/authority.py",
+        "src/devpilot_core/docs_governance/consistency.py",
+        "src/devpilot_core/docs_governance/impact.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "tests/test_frx_v2_2_a_documentation_consistency.py",
+        ".devpilot/docs_governance/documentation_drift_ledger_frx_v2_2_a_before.json",
+        "docs/audits/FRX_V2_2_A_IMPLEMENTATION_REPORT.md",
+        "docs/02_architecture/governance/DEVPL_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CONTRACT_EVOLUTION_v1_0_0.md",
+        ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
+        ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.2-d-one-full-benchmark",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.2-D",
+      "phase": "FULL-REGRESSION-v2.2",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance closure-consistency --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py"
+      ],
+      "validates": [
+        "Git-semantic source fingerprint",
+        "temporal executable full plan",
+        "one logical full marker",
+        "completion-first same-session resume",
+        "real Windows benchmark/adoption decision",
+        "no second full",
+        "workers=1",
+        "per-shard JUnit/outcome/log/receipt evidence"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/testing/full_regression_benchmark.py",
+        ".devpilot/testing/temporal_planner_config.json",
+        ".devpilot/testing/frx_v2_2_d_adoption_policy.json",
+        ".devpilot/testing/frx_v2_2_d_environment_compatibility.json",
+        "docs/audits/FRX_V2_2_D_BASELINE_07_E.json",
+        "docs/schemas/full_regression_session.schema.json",
+        "docs/schemas/full_regression_temporal_shard_plan.schema.json",
+        "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
+        ".devpilot/project_state.json",
+        "tests/test_frx_v2_2_d_one_full_benchmark.py",
+        "docs/schemas/full_regression_shard_receipt.schema.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.3-a-cost-dedup-serial-baseline",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-A",
+      "phase": "FULL-REGRESSION-v2.3",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
+      ],
+      "validates": [
+        "QualityGatePlan",
+        "QualityExecutionContext",
+        "AggregateExecutionCostAudit",
+        "bounded Git source seal",
+        "nodeid manifest transport",
+        "normalized serial baseline"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/quality/execution.py",
+        "src/devpilot_core/release_candidate/report.py",
+        "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/testing/full_regression_manifest_plugin.py",
+        "src/devpilot_core/testing/temporal_shard_planner.py",
+        "src/devpilot_core/testing/aggregate_cost_audit.py",
+        "src/devpilot_core/testing/normalized_serial_baseline.py",
+        ".devpilot/testing/quality_gate_aggregate_execution_allowlist.json",
+        ".devpilot/testing/frx_v2_3_a_v2_2_collection_snapshot.json",
+        "docs/audits/FRX_V2_3_A_NORMALIZED_SERIAL_BASELINE.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.3-b-isolation-registry",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-B",
+      "phase": "FULL-REGRESSION-v2.3",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_b_isolation_registry.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_3_b_isolation_registry.py"
+      ],
+      "validates": [
+        "default UNCLASSIFIED/parallel_safe=false",
+        "static hints cannot authorize safety",
+        "explicit positive/negative review workflow",
+        "resource class coverage",
+        "runtime-weighted classification coverage",
+        "workers=0/full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/isolation_registry.py",
+        "docs/schemas/test_isolation_registry.schema.json",
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/testing/frx_v2_3_b_collection.json",
+        "docs/audits/FRX_V2_3_B_ISOLATION_COVERAGE.json",
+        "docs/audits/FRX_V2_3_B_RESOURCE_HINTS.json",
+        "docs/audits/FRX_V2_3_B_REVIEW_DECISIONS.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.3-br-isolation-evidence-runtime-safe-promotion",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-BR",
+      "phase": "FULL-REGRESSION-v2.3",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_br_isolation_evidence.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_3_br_isolation_evidence.py"
+      ],
+      "validates": [
+        "candidate envelope is non-authoritative",
+        "structural isolation audit",
+        "contract probes required before promotion",
+        "successor registry preserves unknown serial",
+        "runtime-weighted safe coverage",
+        "C successor Amdahl GO/NO-GO",
+        "general workers=0/full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/isolation_evidence.py",
+        ".devpilot/testing/isolation_contract_catalog.json",
+        ".devpilot/testing/frx_v2_3_br_candidate_manifest.json",
+        "docs/audits/FRX_V2_3_BR_STRUCTURAL_AUDIT.json",
+        "docs/audits/FRX_V2_3_BR_CANDIDATE_RUNTIME_ENVELOPE.json",
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.3-c-conflict-graph-shadow-planner",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-C",
+      "phase": "FULL-REGRESSION-v2.3",
+      "recommended_commands": [
+        "python -m pytest -q tests/test_frx_v2_3_c_conflict_graph.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_3_c_conflict_graph.py"
+      ],
+      "validates": [
+        "conflict graph completeness",
+        "unknown/unsafe always serial",
+        "deterministic shadow waves",
+        "resource-lock collision exclusion",
+        "plan identity four-authority seal",
+        "Amdahl feasibility dual-baseline reporting",
+        "workers=0/full=0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/conflict_graph.py",
+        "docs/schemas/parallel_shadow_plan.schema.json",
+        ".devpilot/testing/frx_v2_3_c_shadow_plan.json",
+        "docs/audits/FRX_V2_3_C_CONFLICT_GRAPH.json",
+        "docs/audits/FRX_V2_3_C_AMDAHL_FEASIBILITY.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.3-d-bounded-parallel-canary",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-D",
+      "phase": "FULL-REGRESSION-v2.3",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_d_parallel_canary.py",
+        "python -m devpilot_core tests parallel-canary --json",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_3_d_parallel_canary.py"
+      ],
+      "validates": [
+        "exactly two BR-proven atomic jobs",
+        "workers<=2/full=0",
+        "same subset serial then parallel",
+        "conflict-free selected pair",
+        "fresh clone/namespace per worker",
+        "live terminal receipts and watchdog",
+        "outcome/artifact/source parity",
+        "incremental parallel speedup > 0 on Windows"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/parallel_canary.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/testing/frx_v2_3_d_canary_manifest.json",
+        "docs/schemas/frx_v2_3_d_canary_manifest.schema.json",
+        "docs/schemas/parallel_canary_report.schema.json",
+        "docs/audits/FRX_V2_3_D_PARALLEL_CANARY_REPORT.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.3-e-one-full-safe-parallel-closure",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "historical_authority_scope": "historical-freeze",
+      "mutable_global_state_allowed": true,
+      "owner": "FRX-v2.3-E",
+      "phase": "FULL-REGRESSION-v2.3",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_e_safe_parallel_full.py",
+        "python -m devpilot_core.testing.safe_parallel_full --collection .devpilot/testing/frx_v2_3_c_collection.json --environment-fingerprint windows-pytest-devpilot-gsdlc07e-v1"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_3_e_safe_parallel_full.py"
+      ],
+      "validates": [
+        "one logical full budget",
+        "PROVEN_PARALLEL_SAFE-only waves",
+        "workers<=2",
+        "manifest-coarsened serial lane",
+        "exact-once global accounting",
+        "three-way performance attribution",
+        "no second full",
+        "historical pre-execution policy is frozen and does not read current mutable state"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/safe_parallel_full.py",
+        ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+        ".devpilot/testing/frx_v2_3_e_policy.json",
+        ".devpilot/testing/historical_contract_authority_registry.json",
+        "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json",
+        ".devpilot/project_state.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.4-a-historical-contract-authority",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "FRX-v2.4-A",
+      "phase": "FULL-REGRESSION-v2.4",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "validates": [
+        "six authority scopes",
+        "historical snapshot requirement",
+        "historical/current leakage=0",
+        "lifecycle required-at-detection vs pending-now",
+        "Isolation/Duration complete schema validation",
+        "successor evolution",
+        "46 historical FAIL authority classification"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/historical_contract_authority.py",
+        ".devpilot/testing/historical_contract_authority_registry.json",
+        "docs/schemas/historical_contract_authority_registry.schema.json",
+        ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
+        "src/devpilot_core/testing/isolation_registry.py",
+        "src/devpilot_core/testing/duration_registry.py",
+        "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json"
+      ]
+    },
+    {
+      "contract_id": "frx-v2.4-b-execution-profile-lock",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": false,
+      "owner": "FRX-v2.4-B",
+      "phase": "FULL-REGRESSION-v2.4",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "scope": "quality-gate",
+      "test_files": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py"
+      ],
+      "validates": [
+        "single current execution profile",
+        "profile hash/current pointer",
+        "profile-id-only consumer surface",
+        "machine-readable preflight",
+        "08-E topology downgrade BLOCK before budget",
+        "v2.3 current topology reproduction",
+        "direct full worker BLOCK"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/full_regression_execution_profile.py",
+        "src/devpilot_core/testing/full_regression.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/quality_operations.py",
+        "src/devpilot_core/application/quality_job_worker.py",
+        ".devpilot/testing/full_regression_execution_profile_registry.json",
+        ".devpilot/testing/full_regression_execution_profile_current.json",
+        ".devpilot/testing/test_isolation_registry.json",
+        ".devpilot/testing/node_duration_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/interfaces/governed_job_capability_registry.json"
       ]
     },
     {
@@ -12584,1181 +13818,6 @@
       "watched_paths": [
         "ui/web/",
         "scripts/visual_product_smoke.py"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-07-a-agent-role-bindings",
-      "critical": true,
-      "global_state_source": null,
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-07-A",
-      "phase": "DEVPL-GSDLC-07",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "scope": "integration",
-      "test_files": [
-        "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
-      ],
-      "validates": [
-        ".devpilot/agents/agent_role_binding_catalog.json",
-        ".devpilot/agents/step_agent_bindings.json",
-        ".devpilot/agents/agent_runtime_boundary.json",
-        "src/devpilot_core/agents/role_bindings.py",
-        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
-        "ui/web/src/components/AgentRuntimeView.ts"
-      ],
-      "watched_paths": [
-        ".devpilot/agents/agent_role_binding_catalog.json",
-        ".devpilot/agents/step_agent_bindings.json",
-        ".devpilot/agents/agent_runtime_boundary.json",
-        "src/devpilot_core/agents/role_bindings.py",
-        "src/devpilot_core/guided_sdlc/step_action_advisor.py",
-        "src/devpilot_core/application/settings_service.py",
-        "src/devpilot_core/interfaces/api/routers/settings.py",
-        "ui/web/src/components/AgentRuntimeView.ts",
-        "ui/web/src/components/StepActionAdvisor.ts",
-        "ui/web/src/pages/SettingsView.ts"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-07-b-context-pack-v2",
-      "critical": true,
-      "global_state_source": null,
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-07-B",
-      "phase": "DEVPL-GSDLC-07",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "scope": "integration",
-      "test_files": [
-        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
-      ],
-      "validates": [
-        "ContextPackV2",
-        ".devpilot/rag/context_pack_v2_policy.json",
-        "docs/schemas/context_pack_v2.schema.json",
-        "ui/web/src/components/RagProvenanceView.ts"
-      ],
-      "watched_paths": [
-        ".devpilot/rag/context_pack_v2_policy.json",
-        "src/devpilot_core/rag/context_pack_v2.py",
-        "src/devpilot_core/application/settings_service.py",
-        "src/devpilot_core/interfaces/api/routers/settings.py",
-        "ui/web/src/components/RagProvenanceView.ts",
-        "ui/web/src/pages/SettingsView.ts"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-07-c-agent-assist-workflows",
-      "critical": true,
-      "global_state_source": null,
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-07-C",
-      "phase": "DEVPL-GSDLC-07",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "scope": "integration",
-      "test_files": [
-        "tests/test_devpl_gsdlc_07_c_agent_assist.py"
-      ],
-      "validates": [
-        "AgentAssistService",
-        "ArtifactAIPanel",
-        "AgentProvenance",
-        "docs/schemas/agent_assist_plan.schema.json",
-        "docs/schemas/agent_assist_proposal.schema.json",
-        "docs/schemas/agent_provenance.schema.json"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/agent_assist_service.py",
-        "src/devpilot_core/application/artifact_draft_service.py",
-        "src/devpilot_core/interfaces/api/routers/workspace_edits.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "ui/web/src/components/ArtifactAIPanel.ts",
-        "ui/web/src/components/ArtifactManualEditor.ts",
-        "ui/web/src/pages/WorkspaceDocumentsView.ts",
-        "docs/schemas/agent_assist_plan.schema.json",
-        "docs/schemas/agent_assist_proposal.schema.json",
-        "docs/schemas/agent_provenance.schema.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
-      "critical": true,
-      "global_state_source": null,
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-07-D",
-      "phase": "DEVPL-GSDLC-07",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "scope": "integration",
-      "test_files": [
-        "tests/test_devpl_gsdlc_07_d_agent_execution.py"
-      ],
-      "validates": [
-        "AgentExecutionPolicy",
-        "HandoffSupervisor",
-        "ToolIntent",
-        "ToolExecutionDecision",
-        "SkillToolPolicyView"
-      ],
-      "watched_paths": [
-        ".devpilot/agents/agent_execution_policy.json",
-        "src/devpilot_core/agents/execution_policy.py",
-        "src/devpilot_core/multiagent/supervisor.py",
-        "src/devpilot_core/application/agent_execution_service.py",
-        "src/devpilot_core/interfaces/api/routers/settings.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "ui/web/src/components/SkillToolPolicyView.ts",
-        "docs/schemas/agent_execution_policy.schema.json",
-        "docs/schemas/tool_intent.schema.json",
-        "docs/schemas/tool_execution_decision.schema.json",
-        "docs/schemas/handoff_transfer_state.schema.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-07-e-agentic-precode-acceptance",
-      "critical": true,
-      "global_state_source": null,
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-07-E",
-      "phase": "DEVPL-GSDLC-07",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
-        "npm --prefix ui/web run test:gsdlc07e-agent-eval-trace"
-      ],
-      "scope": "integration",
-      "test_files": [
-        "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
-      ],
-      "validates": [
-        "AgenticPrecodeAcceptanceEvaluator",
-        "AgentEvalTraceView",
-        "FullRegressionTelemetryExporter"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/agentic_precode_acceptance.py",
-        "src/devpilot_core/testing/full_regression_telemetry.py",
-        "src/devpilot_core/testing/full_regression.py",
-        "src/devpilot_core/application/settings_service.py",
-        "src/devpilot_core/interfaces/api/routers/settings.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "ui/web/src/components/AgentEvalTraceView.ts",
-        "docs/schemas/agent_eval_trace.schema.json",
-        "docs/schemas/full_regression_telemetry_handoff.schema.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.2-a-documentation-consistency",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.2-A",
-      "phase": "FULL-REGRESSION-v2.2",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_2_a_documentation_consistency.py",
-        "python -m devpilot_core docs-governance closure-consistency --json",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_2_a_documentation_consistency.py"
-      ],
-      "validates": [
-        "DocumentationAuthorityGraph",
-        "ClosureStateConsistencyValidator",
-        "DocImpactPlanner",
-        "DocumentationDriftLedger",
-        "DerivedMetadataProjection",
-        "historical-freeze/current-active-separation"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/docs_governance/documentation_authority_graph.json",
-        ".devpilot/docs_governance/documentation_drift_ledger.json",
-        ".devpilot/docs_governance/rule_registry.json",
-        ".devpilot/validation/frontmatter_catalog.json",
-        "DEVPL-GSDLC-07_agent_assisted_engineering_and_rag_v1_4_0_APPROVED_REBOUND.md",
-        "DEVPL_GSDLC_07_E_FINAL_OWNER_ADJUDICATION_v1_0_0.md",
-        "DEVPL_GSDLC_07_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
-        "README.md",
-        "docs/release/CHANGELOG.md",
-        "docs/00_product/DEVPL_FULL_REGRESSION_V2_2_V2_3_EXECUTION_ROADMAP_v1_0_0.md",
-        "docs/backlogs/DEVPL_FULL_REGRESSION_V2_2_TEMPORAL_DISTRIBUTION_BACKLOG_v1_0_0.md",
-        "src/devpilot_core/docs_governance/authority.py",
-        "src/devpilot_core/docs_governance/consistency.py",
-        "src/devpilot_core/docs_governance/impact.py",
-        "src/devpilot_core/docs_governance/validator.py",
-        "tests/test_frx_v2_2_a_documentation_consistency.py",
-        ".devpilot/docs_governance/documentation_drift_ledger_frx_v2_2_a_before.json",
-        "docs/audits/FRX_V2_2_A_IMPLEMENTATION_REPORT.md",
-        "docs/02_architecture/governance/DEVPL_FRX_V2_2_A_DOCUMENTATION_CONSISTENCY_CONTRACT_EVOLUTION_v1_0_0.md",
-        ".devpilot/docs_governance/rule_registry_post_h_033_f_at_close.json",
-        ".devpilot/testing/frx_v2_2_a_source_delta_manifest.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.2-d-one-full-benchmark",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.2-D",
-      "phase": "FULL-REGRESSION-v2.2",
-      "recommended_commands": [
-        "python -m pytest -q tests/test_frx_v2_2_d_one_full_benchmark.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance closure-consistency --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_2_d_one_full_benchmark.py",
-        "tests/test_devpl_gsdlc_07_full_regression_execution_v2.py"
-      ],
-      "validates": [
-        "Git-semantic source fingerprint",
-        "temporal executable full plan",
-        "one logical full marker",
-        "completion-first same-session resume",
-        "real Windows benchmark/adoption decision",
-        "no second full",
-        "workers=1",
-        "per-shard JUnit/outcome/log/receipt evidence"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/full_regression.py",
-        "src/devpilot_core/testing/full_regression_benchmark.py",
-        ".devpilot/testing/temporal_planner_config.json",
-        ".devpilot/testing/frx_v2_2_d_adoption_policy.json",
-        ".devpilot/testing/frx_v2_2_d_environment_compatibility.json",
-        "docs/audits/FRX_V2_2_D_BASELINE_07_E.json",
-        "docs/schemas/full_regression_session.schema.json",
-        "docs/schemas/full_regression_temporal_shard_plan.schema.json",
-        "docs/schemas/frx_v2_2_d_full_benchmark.schema.json",
-        ".devpilot/project_state.json",
-        "tests/test_frx_v2_2_d_one_full_benchmark.py",
-        "docs/schemas/full_regression_shard_receipt.schema.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.3-a-cost-dedup-serial-baseline",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.3-A",
-      "phase": "FULL-REGRESSION-v2.3",
-      "recommended_commands": [
-        "python -m pytest -q tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_3_a_cost_dedup_serial_baseline.py"
-      ],
-      "validates": [
-        "QualityGatePlan",
-        "QualityExecutionContext",
-        "AggregateExecutionCostAudit",
-        "bounded Git source seal",
-        "nodeid manifest transport",
-        "normalized serial baseline"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/quality/gate.py",
-        "src/devpilot_core/quality/execution.py",
-        "src/devpilot_core/release_candidate/report.py",
-        "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
-        "src/devpilot_core/testing/full_regression.py",
-        "src/devpilot_core/testing/full_regression_manifest_plugin.py",
-        "src/devpilot_core/testing/temporal_shard_planner.py",
-        "src/devpilot_core/testing/aggregate_cost_audit.py",
-        "src/devpilot_core/testing/normalized_serial_baseline.py",
-        ".devpilot/testing/quality_gate_aggregate_execution_allowlist.json",
-        ".devpilot/testing/frx_v2_3_a_v2_2_collection_snapshot.json",
-        "docs/audits/FRX_V2_3_A_NORMALIZED_SERIAL_BASELINE.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.3-b-isolation-registry",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.3-B",
-      "phase": "FULL-REGRESSION-v2.3",
-      "recommended_commands": [
-        "python -m pytest -q tests/test_frx_v2_3_b_isolation_registry.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_3_b_isolation_registry.py"
-      ],
-      "validates": [
-        "default UNCLASSIFIED/parallel_safe=false",
-        "static hints cannot authorize safety",
-        "explicit positive/negative review workflow",
-        "resource class coverage",
-        "runtime-weighted classification coverage",
-        "workers=0/full=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/isolation_registry.py",
-        "docs/schemas/test_isolation_registry.schema.json",
-        ".devpilot/testing/test_isolation_registry.json",
-        ".devpilot/testing/frx_v2_3_b_collection.json",
-        "docs/audits/FRX_V2_3_B_ISOLATION_COVERAGE.json",
-        "docs/audits/FRX_V2_3_B_RESOURCE_HINTS.json",
-        "docs/audits/FRX_V2_3_B_REVIEW_DECISIONS.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.3-c-conflict-graph-shadow-planner",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.3-C",
-      "phase": "FULL-REGRESSION-v2.3",
-      "recommended_commands": [
-        "python -m pytest -q tests/test_frx_v2_3_c_conflict_graph.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_3_c_conflict_graph.py"
-      ],
-      "validates": [
-        "conflict graph completeness",
-        "unknown/unsafe always serial",
-        "deterministic shadow waves",
-        "resource-lock collision exclusion",
-        "plan identity four-authority seal",
-        "Amdahl feasibility dual-baseline reporting",
-        "workers=0/full=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/conflict_graph.py",
-        "docs/schemas/parallel_shadow_plan.schema.json",
-        ".devpilot/testing/frx_v2_3_c_shadow_plan.json",
-        "docs/audits/FRX_V2_3_C_CONFLICT_GRAPH.json",
-        "docs/audits/FRX_V2_3_C_AMDAHL_FEASIBILITY.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.3-br-isolation-evidence-runtime-safe-promotion",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.3-BR",
-      "phase": "FULL-REGRESSION-v2.3",
-      "recommended_commands": [
-        "python -m pytest -q tests/test_frx_v2_3_br_isolation_evidence.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_3_br_isolation_evidence.py"
-      ],
-      "validates": [
-        "candidate envelope is non-authoritative",
-        "structural isolation audit",
-        "contract probes required before promotion",
-        "successor registry preserves unknown serial",
-        "runtime-weighted safe coverage",
-        "C successor Amdahl GO/NO-GO",
-        "general workers=0/full=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/isolation_evidence.py",
-        ".devpilot/testing/isolation_contract_catalog.json",
-        ".devpilot/testing/frx_v2_3_br_candidate_manifest.json",
-        "docs/audits/FRX_V2_3_BR_STRUCTURAL_AUDIT.json",
-        "docs/audits/FRX_V2_3_BR_CANDIDATE_RUNTIME_ENVELOPE.json",
-        ".devpilot/testing/test_isolation_registry.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.3-d-bounded-parallel-canary",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.3-D",
-      "phase": "FULL-REGRESSION-v2.3",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_d_parallel_canary.py",
-        "python -m devpilot_core tests parallel-canary --json",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_3_d_parallel_canary.py"
-      ],
-      "validates": [
-        "exactly two BR-proven atomic jobs",
-        "workers<=2/full=0",
-        "same subset serial then parallel",
-        "conflict-free selected pair",
-        "fresh clone/namespace per worker",
-        "live terminal receipts and watchdog",
-        "outcome/artifact/source parity",
-        "incremental parallel speedup > 0 on Windows"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/parallel_canary.py",
-        "src/devpilot_core/cli.py",
-        ".devpilot/testing/frx_v2_3_d_canary_manifest.json",
-        "docs/schemas/frx_v2_3_d_canary_manifest.schema.json",
-        "docs/schemas/parallel_canary_report.schema.json",
-        "docs/audits/FRX_V2_3_D_PARALLEL_CANARY_REPORT.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.3-e-one-full-safe-parallel-closure",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "historical_authority_scope": "historical-freeze",
-      "mutable_global_state_allowed": true,
-      "owner": "FRX-v2.3-E",
-      "phase": "FULL-REGRESSION-v2.3",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_3_e_safe_parallel_full.py",
-        "python -m devpilot_core.testing.safe_parallel_full --collection .devpilot/testing/frx_v2_3_c_collection.json --environment-fingerprint windows-pytest-devpilot-gsdlc07e-v1"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_3_e_safe_parallel_full.py"
-      ],
-      "validates": [
-        "one logical full budget",
-        "PROVEN_PARALLEL_SAFE-only waves",
-        "workers<=2",
-        "manifest-coarsened serial lane",
-        "exact-once global accounting",
-        "three-way performance attribution",
-        "no second full",
-        "historical pre-execution policy is frozen and does not read current mutable state"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/safe_parallel_full.py",
-        ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
-        ".devpilot/testing/frx_v2_3_e_policy.json",
-        ".devpilot/testing/historical_contract_authority_registry.json",
-        "docs/audits/FRX_V2_3_E_WINDOWS_CLOSURE_REPORT.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-08-activation-rebind",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-08-ACTIVATION",
-      "phase": "DEVPL-GSDLC-08",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_activation_rebind.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_devpl_gsdlc_08_activation_rebind.py"
-      ],
-      "validates": [
-        "repo397 execution authority",
-        "v2.3 closure successor registration",
-        "GSDLC-08 approved rebound registration",
-        "governance-only activation",
-        "full=0/browser=0",
-        "08-A fail-closed until Windows PASS"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        "README.md",
-        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
-        "DEVPL_FULL_REGRESSION_V2_3_BACKLOG_CLOSURE_ADJUDICATION_v1_0_0.md",
-        "DEVPL-GSDLC-08_planning_workbench_roadmap_backlog_sprints_v1_3_0_APPROVED_REBOUND.md"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-08-a-planning-domain",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-08-A",
-      "phase": "DEVPL-GSDLC-08",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_activation_rebind.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_08_a_planning_domain.py"
-      ],
-      "validates": [
-        "six planning schemas",
-        "stable IDs/versioning",
-        "typed trace links",
-        "deterministic dependency graph",
-        "cycle/orphan/duplicate blocking",
-        "explicit lifecycle",
-        "role-bound approval/freeze",
-        "agent cannot auto-approve",
-        "full=0/browser=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/planning",
-        "docs/schemas/planning_milestone.schema.json",
-        "docs/schemas/planning_epic.schema.json",
-        "docs/schemas/planning_story.schema.json",
-        "docs/schemas/planning_sprint.schema.json",
-        "docs/schemas/planning_dependency.schema.json",
-        "docs/schemas/planning_state.schema.json",
-        "docs/audits/DEVPL_GSDLC_08_A_PLANNING_CONTRACT_REPORT.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-08-b-roadmap-workbench",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-08-B",
-      "phase": "DEVPL-GSDLC-08",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_b_roadmap_workbench.py",
-        "node ui/web/scripts/gsdlc08b-roadmap-workbench-smoke.mjs",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_08_b_roadmap_workbench.py"
-      ],
-      "validates": [
-        "shared MANUAL/IMPORT/AGENT roadmap schema",
-        "explicit requirement/risk coverage findings",
-        "server-side role-aware approval/freeze",
-        "agent output remains DRAFT and no auto-approval",
-        "immutable revisioned freeze",
-        "Roadmap Workbench UI/API/RBAC contract",
-        "browser focal acceptance",
-        "full=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/planning/roadmap_workbench.py",
-        "src/devpilot_core/application/roadmap_workbench_service.py",
-        "src/devpilot_core/interfaces/api/routers/planning.py",
-        "ui/web/src/pages/RoadmapWorkbenchView.ts",
-        "docs/schemas/planning_roadmap.schema.json",
-        "docs/audits/DEVPL_GSDLC_08_B_BROWSER_ACCEPTANCE.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-08-c-backlog-derivation-prioritization",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-08-C",
-      "phase": "DEVPL-GSDLC-08",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
-      ],
-      "validates": [
-        "required requirement→story coverage 100% or explicit blocker",
-        "duplicate story and dependency-gap detection",
-        "story acceptance criteria required",
-        "priority level/value/risk with rationale and provenance",
-        "manual edits prevail over same-version derived/agent proposals",
-        "agent proposals remain DRAFT and cannot self-approve",
-        "human role-bound review/approval/freeze",
-        "ApplicationService backlog boundary",
-        "browser=0",
-        "full=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/planning/backlog_workbench.py",
-        "src/devpilot_core/application/backlog_workbench_service.py",
-        "src/devpilot_core/application/services.py",
-        "docs/schemas/planning_backlog.schema.json",
-        "docs/audits/DEVPL_GSDLC_08_C_HISTORICAL_CONTRACT_SWEEP.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-08-d-sprint-planning-capacity-dependencies",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-08-D",
-      "phase": "DEVPL-GSDLC-08",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_d_sprint_planner.py",
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_a_planning_domain.py tests/test_devpl_gsdlc_08_b_roadmap_workbench.py tests/test_devpl_gsdlc_08_c_backlog_workbench.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_08_d_sprint_planner.py"
-      ],
-      "validates": [
-        "frozen backlog authority",
-        "selected stories READY",
-        "prerequisite/dependency order",
-        "capacity overcommit blockers",
-        "Definition of Ready/Done",
-        "test intent and risk focus",
-        "human owner/product-owner approval and hash-bound freeze",
-        "pre-full handoff",
-        "browser=0",
-        "full=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/planning/sprint_planner.py",
-        "src/devpilot_core/application/sprint_planner_service.py",
-        "src/devpilot_core/application/services.py",
-        "docs/schemas/planning_sprint_plan.schema.json",
-        "docs/audits/DEVPL_GSDLC_08_D_PRE_FULL_HANDOFF.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-08-e-planning-browser-one-full-closure",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-08-E",
-      "phase": "DEVPL-GSDLC-08",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
-        "python -m devpilot_core project-state validate --json",
-        "python -m devpilot_core docs-governance validate --json",
-        "python -m devpilot_core test-contracts validate --json",
-        "python -m devpilot_core test-contracts validate-v2 --json"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_08_e_planning_browser_closure.py",
-        "tests/test_devpl_gsdlc_08_e_close_authority_snapshot.py"
-      ],
-      "validates": [
-        "planning browser end-to-end",
-        "PRE_CODE_READY→PLANNING→IMPLEMENTING_READY",
-        "requirement→milestone→epic→story→sprint trace graph",
-        "backlog/sprint API successor bindings",
-        "server RBAC approval/freeze",
-        "browser acceptance before one full",
-        "exactly-one logical full/composite recovery"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/planning_closure_service.py",
-        "src/devpilot_core/interfaces/api/routers/planning.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "ui/web/src/pages/RoadmapWorkbenchView.ts",
-        "ui/web/src/pages/ProjectStatusView.ts",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        ".devpilot/interfaces/ui_route_contract_registry.json",
-        ".devpilot/identity/server_rbac_policy_catalog.json",
-        ".devpilot/project_state.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.4-a-historical-contract-authority",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "FRX-v2.4-A",
-      "phase": "FULL-REGRESSION-v2.4",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "validates": [
-        "six authority scopes",
-        "historical snapshot requirement",
-        "historical/current leakage=0",
-        "lifecycle required-at-detection vs pending-now",
-        "Isolation/Duration complete schema validation",
-        "successor evolution",
-        "46 historical FAIL authority classification"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/historical_contract_authority.py",
-        ".devpilot/testing/historical_contract_authority_registry.json",
-        "docs/schemas/historical_contract_authority_registry.schema.json",
-        ".devpilot/testing/fixtures/frx_v2_3_e_policy_pre_execution_fixture.json",
-        "src/devpilot_core/testing/isolation_registry.py",
-        "src/devpilot_core/testing/duration_registry.py",
-        "docs/audits/DEVPL_GSDLC_08_E_CONTRACT_RECONCILIATION_SWEEP.json"
-      ]
-    },
-    {
-      "contract_id": "frx-v2.4-b-execution-profile-lock",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "FRX-v2.4-B",
-      "phase": "FULL-REGRESSION-v2.4",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_frx_v2_4_b_execution_profile_lock.py"
-      ],
-      "validates": [
-        "single current execution profile",
-        "profile hash/current pointer",
-        "profile-id-only consumer surface",
-        "machine-readable preflight",
-        "08-E topology downgrade BLOCK before budget",
-        "v2.3 current topology reproduction",
-        "direct full worker BLOCK"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/testing/full_regression_execution_profile.py",
-        "src/devpilot_core/testing/full_regression.py",
-        "src/devpilot_core/cli.py",
-        "src/devpilot_core/application/quality_operations.py",
-        "src/devpilot_core/application/quality_job_worker.py",
-        ".devpilot/testing/full_regression_execution_profile_registry.json",
-        ".devpilot/testing/full_regression_execution_profile_current.json",
-        ".devpilot/testing/test_isolation_registry.json",
-        ".devpilot/testing/node_duration_registry.json",
-        ".devpilot/interfaces/ui_capability_registry.json",
-        ".devpilot/interfaces/governed_job_capability_registry.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-09-activation-rebind",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-09-ACTIVATION",
-      "phase": "DEVPL-GSDLC-09",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_activation_rebind.py"
-      ],
-      "scope": "quality-gate",
-      "test_files": [
-        "tests/test_devpl_gsdlc_09_activation_rebind.py"
-      ],
-      "validates": [
-        "repo406 source authority",
-        "FRX-v2.4 CLOSED/PASS binding",
-        "FRX current profile binding",
-        "GSDLC current pointer rebind",
-        "historical authority classification",
-        "full/browser=0"
-      ],
-      "watched_paths": [
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_1_APPROVED_REBOUND_REPO406.md",
-        "00_PROMPT_DEVPL_GSDLC_09_ACTIVATION_REBIND_v1_0_1_REBOUND_REPO406.md",
-        "docs/audits/DEVPL_GSDLC_09_ACTIVATION_REBIND_REPORT.json",
-        ".devpilot/testing/full_regression_execution_profile_current.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-09-a-story-execution-context",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-09-A",
-      "phase": "DEVPL-GSDLC-09",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "validates": [
-        "strict StoryExecutionState lifecycle",
-        "Definition of Ready before IN_PROGRESS",
-        "deterministic minimized StoryContextPack with provenance",
-        "secret/runtime/path exclusion",
-        "Project Status current_story read-only projection",
-        "full/browser=0"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/story_execution/",
-        "src/devpilot_core/application/guided_sdlc_service.py",
-        "docs/schemas/story_execution_state.schema.json",
-        "docs/schemas/story_context_pack.schema.json",
-        "docs/schemas/story_dor_report.schema.json",
-        "docs/schemas/guided_sdlc_project_status.schema.json",
-        ".devpilot/project_state.json",
-        "docs/audits/DEVPL_GSDLC_09_A_TEST_IMPACT.json",
-        "docs/audits/DEVPL_GSDLC_09_A_SOURCE_DELTA_MANIFEST.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-09-b-code-workbench",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-09-B",
-      "phase": "DEVPL-GSDLC-09",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "validates": [
-        "bounded source tree and opaque ids",
-        "runtime-only CREATE/EDIT/RENAME SourceDraftBuffer",
-        "source preimage/external edit conflict",
-        "path/binary/oversize/secret/role fail-closed",
-        "API/RBAC no-apply contract",
-        "browser-visible draft-only UI"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/code_workbench/",
-        "src/devpilot_core/interfaces/api/routers/story_code.py",
-        "src/devpilot_core/application/services.py",
-        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
-        ".devpilot/code_workbench/source_policy.json",
-        "docs/schemas/gsdlc_09_b_source_policy.schema.json",
-        "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        ".devpilot/identity/server_rbac_policy_catalog.json",
-        ".devpilot/interfaces/ui_route_contract_registry.json",
-        ".devpilot/interfaces/ui_capability_registry.json",
-        "docs/audits/DEVPL_GSDLC_09_B_TEST_IMPACT.json",
-        "docs/audits/DEVPL_GSDLC_09_B_SOURCE_DELTA_MANIFEST.json",
-        "02_PROMPT_DEVPL_GSDLC_09_B_v1_0_1_REBOUND_REPO408.md",
-        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_2_APPROVED_REBOUND_REPO408.md",
-        "scripts/devpl_gsdlc_09_b_browser_acceptance.py",
-        "scripts/devpl_gsdlc_09_b_browser_api.py",
-        "scripts/devpl_gsdlc_09_b_browser_fixture.py"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-09-c-source-change",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-09-C",
-      "phase": "DEVPL-GSDLC-09",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py",
-        "tests/test_uoc005_source_mutation_routes_at_close.py"
-      ],
-      "validates": [
-        "immutable SourceChangePlan/full diff/Test Impact",
-        "stale preimage and unexpected target fail-closed",
-        "owner RBAC + approval binding",
-        "multi-file atomic apply + compensating rollback",
-        "separate manual rollback approval + source hash parity",
-        "generic patch/shell/agent self-apply remain blocked",
-        "UOC-005 source-write history frozen while current registry evolves"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/code_workbench/change_service.py",
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/story_code.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "src/devpilot_core/identity/models.py",
-        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
-        "ui/web/src/api/client.ts",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        ".devpilot/interfaces/ui_route_contract_registry.json",
-        ".devpilot/interfaces/ui_capability_registry.json",
-        ".devpilot/identity/server_rbac_policy_catalog.json",
-        ".devpilot/approval/sensitive_action_catalog.json",
-        ".devpilot/miasi/tool_registry.json",
-        ".devpilot/miasi/policy_matrix.json",
-        "docs/schemas/gsdlc_09_c_source_change_plan.schema.json",
-        "docs/schemas/gsdlc_09_c_apply_manifest.schema.json",
-        "docs/schemas/gsdlc_09_c_rollback_evidence.schema.json",
-        "03_PROMPT_DEVPL_GSDLC_09_C_v1_0_1_REBOUND_REPO409.md",
-        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_3_APPROVED_REBOUND_REPO409.md",
-        "docs/audits/DEVPL_GSDLC_09_C_OWNER_ADJUDICATION_PROPOSAL.md",
-        "docs/audits/DEVPL_GSDLC_09_C_SOURCE_CHANGE_SECURITY_REPORT.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-09-d-agent-proposals",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-09-D",
-      "phase": "DEVPL-GSDLC-09",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_09_d_agent_proposals.py -q"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "validates": [
-        "CodingAgent/TestAgent proposal-only over StoryContextPack + bounded RAG + Model Gateway",
-        "mock/fake-local route with zero external cost/network",
-        "complete model/provider/access-route/session/trace/ToolIntent provenance",
-        "ModelRouteDecision never grants tool/file-write authority",
-        "human ACCEPT inserts into editor only; REJECT mutates nothing",
-        "filesystem.delete and unsafe instructions remain BLOCK",
-        "stale source blocks proposal acceptance",
-        "agent self-apply/self-approve/self-commit/generic shell remain disabled"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/story_agent_assist_service.py",
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/agents/execution_policy.py",
-        "src/devpilot_core/agents/role_bindings.py",
-        "src/devpilot_core/modeling/",
-        "src/devpilot_core/rag/",
-        "src/devpilot_core/interfaces/api/routers/story_code.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
-        "ui/web/src/api/client.ts",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        ".devpilot/identity/server_rbac_policy_catalog.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        ".devpilot/project_state.json",
-        "docs/audits/DEVPL_GSDLC_09_D_IMPLEMENTATION_REPORT.md",
-        ".devpilot/agents/story_code_agent_bindings.json",
-        "04_PROMPT_DEVPL_GSDLC_09_D_v1_0_1_REBOUND_REPO410.md",
-        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_4_APPROVED_REBOUND_REPO410.md",
-        "docs/schemas/gsdlc_09_d_agent_proposal.schema.json",
-        "docs/audits/DEVPL_GSDLC_09_D_AGENT_SECURITY_EVAL.json",
-        "docs/audits/DEVPL_GSDLC_09_D_CHANGED_PATHS.txt",
-        "docs/audits/DEVPL_GSDLC_09_D_CODING_AGENT_TRACES.json",
-        "docs/audits/DEVPL_GSDLC_09_D_CONTRACT_RECONCILIATION_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_09_D_FULL_REGRESSION_WAIVER.json",
-        "docs/audits/DEVPL_GSDLC_09_D_HISTORICAL_CONTRACT_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_09_D_SOURCE_DELTA_MANIFEST.json",
-        "docs/audits/DEVPL_GSDLC_09_D_TEST_AGENT_TRACES.json",
-        "docs/audits/DEVPL_GSDLC_09_D_TEST_IMPACT.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-09-e-story-browser-full-closure",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": false,
-      "owner": "DEVPL-GSDLC-09-E",
-      "phase": "DEVPL-GSDLC-09",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_09_e_story_closure.py -q"
-      ],
-      "scope": "integration",
-      "test_files": [
-        "tests/test_devpl_gsdlc_09_e_story_closure.py"
-      ],
-      "validates": [
-        "approved atomic apply advances active StoryExecution IN_PROGRESS to CHANGES_READY",
-        "blocked/wrong-role apply does not advance StoryExecution",
-        "rollback restores exact source while StoryExecution history remains monotonic",
-        "Project Status visibly projects current story",
-        "Project Status projects current StoryExecution even when WorkspaceEngineeringState falls back to UNKNOWN/EMPTY",
-        "FRX-v2.4 current profile is hash-valid and permits exactly one logical full",
-        "FRX-v2.4 Isolation Registry covers all sealed collection nodeids fail-closed; new successors remain serial unless explicitly reviewed"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/application/guided_sdlc_service.py",
-        "src/devpilot_core/story_execution/",
-        "src/devpilot_core/code_workbench/change_service.py",
-        "ui/web/src/pages/ProjectStatusView.ts",
-        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
-        "tests/test_devpl_gsdlc_09_e_story_closure.py",
-        ".devpilot/project_state.json",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json",
-        "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
-        "docs/audits/DEVPL_GSDLC_09_E_HISTORICAL_CONTRACT_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_09_E_CONTRACT_RECONCILIATION_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_09_E_FULL_REGRESSION_EXECUTION_PLAN.json",
-        "05_PROMPT_DEVPL_GSDLC_09_E_v1_0_1_REBOUND_REPO411.md",
-        "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_5_APPROVED_REBOUND_REPO411.md",
-        "docs/audits/DEVPL_GSDLC_09_E_CHANGED_PATHS.txt",
-        "docs/audits/DEVPL_GSDLC_09_E_TEST_IMPACT.json",
-        "docs/audits/DEVPL_GSDLC_09_E_SOURCE_DELTA_MANIFEST.json",
-        ".devpilot/testing/test_isolation_registry.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-10-a-story-test-plan",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-10-A",
-      "phase": "DEVPL-GSDLC-10",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_a_story_test_plan.py -q"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "validates": [
-        "deterministic StoryTestPlan binds StoryExecution + immutable SourceChangePlan hash + Test Impact report hash",
-        "existing Test Impact v2 is reused; no second impact engine and no free-form test command",
-        "required/recommended tests are explainable by matched contracts/rules",
-        "unknown impact requires explicit human review and sensitive under-testing blocks fail-closed",
-        "waivers are owner-only, reasoned, expiring and cannot waive sensitive/P0 required tests",
-        "agent/model authority cannot approve or waive StoryTestPlan",
-        "Full Regression signal is informational only and GSDLC-10-A full runs remain zero",
-        "Story Code Workbench exposes Story → Validate → StoryTestPlan review without a parallel Quality UI",
-        "activation/rebind is folded into 10-A on repo414 while repo413 remains canonical functional predecessor"
-      ],
-      "watched_paths": [
-        "src/devpilot_core/application/story_test_plan_service.py",
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/story_code.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
-        "ui/web/src/api/client.ts",
-        "ui/web/src/styles.css",
-        "ui/web/scripts/gsdlc10a-story-test-plan-smoke.mjs",
-        "ui/web/package.json",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        ".devpilot/identity/server_rbac_policy_catalog.json",
-        ".devpilot/interfaces/ui_route_contract_registry.json",
-        ".devpilot/interfaces/ui_capability_registry.json",
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        "docs/07_interfaces/openapi_v1.json",
-        "docs/schemas/story_test_plan.schema.json",
-        "docs/schemas/story_test_impact_report.schema.json",
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py",
-        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_0_APPROVED_REBOUND_REPO414.md",
-        "00_PROMPT_DEVPL_GSDLC_10_ACTIVATION_REBIND_v1_0_0_REPO414.md",
-        "01_PROMPT_DEVPL_GSDLC_10_A_v1_0_0_REPO414.md",
-        "README.md",
-        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        "docs/audits/DEVPL_GSDLC_10_A_CHANGED_PATHS.txt",
-        "docs/audits/DEVPL_GSDLC_10_A_CONTRACT_RECONCILIATION_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_10_A_HISTORICAL_CONTRACT_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_10_A_IMPLEMENTATION_REPORT.md",
-        "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json",
-        "docs/audits/DEVPL_GSDLC_10_A_TEST_IMPACT.json"
-      ]
-    },
-    {
-      "contract_id": "devpl-gsdlc-10-b-story-validation-jobs",
-      "critical": true,
-      "global_state_source": ".devpilot/project_state.json",
-      "mutable_global_state_allowed": true,
-      "owner": "DEVPL-GSDLC-10-B",
-      "phase": "DEVPL-GSDLC-10",
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_b_story_validation_jobs.py -q"
-      ],
-      "scope": "feature",
-      "test_files": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "validates": [
-        "APPROVED StoryTestPlan projects deterministic typed test/build/lint validation jobs without browser-supplied command strings",
-        "job contexts bind immutable StoryTestPlan id/hash, changed paths, typed adapter and Full=false",
-        "lifecycle is observable through governed jobs and Job Console with heartbeat, bounded redacted logs and structured result",
-        "worker emits JUnit/artifact references for typed test jobs",
-        "cancel uses process-tree termination and timeout terminates the process tree",
-        "retry creates a new attempt identity while preserving exact immutable context",
-        "orphan reconciliation never converts missing worker state into PASS",
-        "stale/unapproved StoryTestPlan and unsafe test targets fail closed",
-        "GSDLC-10-B exposes no arbitrary shell and consumes zero Full Regression runs",
-        "UI integrates StoryTestPlan -> typed jobs -> Job Console instead of creating a parallel job engine"
-      ],
-      "watched_paths": [
-        ".devpilot/quality/story_validation_job_capabilities.json",
-        ".devpilot/quality/story_validation_job_profiles.json",
-        "src/devpilot_core/application/story_validation_jobs.py",
-        "src/devpilot_core/application/story_validation_job_worker.py",
-        "src/devpilot_core/application/services.py",
-        "src/devpilot_core/interfaces/api/routers/story_code.py",
-        "src/devpilot_core/interfaces/api/security.py",
-        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
-        "ui/web/src/pages/JobsView.ts",
-        "ui/web/src/api/client.ts",
-        "ui/web/src/api/types.ts",
-        ".devpilot/interfaces/api_route_contract_registry.json",
-        ".devpilot/interfaces/ui_route_contract_registry.json",
-        ".devpilot/interfaces/ui_capability_registry.json",
-        ".devpilot/identity/server_rbac_policy_catalog.json",
-        "docs/07_interfaces/openapi_v1.json",
-        "docs/schemas/story_validation_job_context.schema.json",
-        "docs/schemas/story_validation_job_result.schema.json",
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py",
-        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
-        "02_PROMPT_DEVPL_GSDLC_10_B_v1_0_1_REBOUND_REPO415.md",
-        ".devpilot/project_state.json",
-        ".devpilot/docs_governance/source_registry.json",
-        ".devpilot/release/local_release_candidate_criteria.json",
-        "README.md",
-        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
-        "docs/audits/DEVPL_GSDLC_10_B_CHANGED_PATHS.txt",
-        "docs/audits/DEVPL_GSDLC_10_B_SOURCE_DELTA_MANIFEST.json",
-        "docs/audits/DEVPL_GSDLC_10_B_TEST_IMPACT.json",
-        "docs/audits/DEVPL_GSDLC_10_B_HISTORICAL_CONTRACT_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_10_B_CONTRACT_RECONCILIATION_SWEEP.json",
-        "docs/audits/DEVPL_GSDLC_10_B_IMPLEMENTATION_REPORT.md",
-        ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json"
       ]
     }
   ],

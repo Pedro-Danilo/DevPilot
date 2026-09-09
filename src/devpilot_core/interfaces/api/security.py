@@ -193,6 +193,15 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs"): ApiRoutePolicy("story.validation-jobs.create", "read", "protected-human-session-project-validation-jobs"),
     ("GET", "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs"): ApiRoutePolicy("story.validation-jobs.list", "read", "protected-human-session-project-validation-jobs-read"),
     ("POST", "/api/v1/story/code/validation-jobs/{job_id}/start"): ApiRoutePolicy("story.validation-jobs.start", "read", "protected-human-session-project-validation-job-start"),
+    ("POST", "/api/v1/story/quality/findings"): ApiRoutePolicy("story.quality.finding.record", "read", "protected-human-session-story-quality"),
+    ("POST", "/api/v1/story/quality/evaluate"): ApiRoutePolicy("story.quality.evaluate", "read", "protected-human-session-story-quality"),
+    ("GET", "/api/v1/story/quality/reports/{report_id}"): ApiRoutePolicy("story.quality.report.get", "read", "protected-human-session-story-quality"),
+    ("POST", "/api/v1/story/quality/reports/{report_id}/waivers"): ApiRoutePolicy("story.quality.waiver.request", "read", "protected-human-session-story-quality"),
+    ("POST", "/api/v1/story/quality/waivers/{waiver_id}/decision"): ApiRoutePolicy("story.quality.waiver.decision", "read", "protected-human-session-story-quality"),
+    ("POST", "/api/v1/story/quality/reports/{report_id}/remediations"): ApiRoutePolicy("story.quality.remediation.plan", "read", "protected-human-session-story-quality"),
+    ("GET", "/api/v1/story/quality/reports/{report_id}/remediations"): ApiRoutePolicy("story.quality.remediation.list", "read", "protected-human-session-story-quality"),
+    ("POST", "/api/v1/story/quality/remediations/{trace_id}/retest-plan"): ApiRoutePolicy("story.quality.retest.plan", "read", "protected-human-session-story-quality"),
+    ("POST", "/api/v1/story/quality/remediations/{trace_id}/retest-complete"): ApiRoutePolicy("story.quality.retest.complete", "read", "protected-human-session-story-quality"),
     ("GET", "/api/v1/story/code/change-executions/{execution_id}"): ApiRoutePolicy("story.source-change.execution.get", "read", "protected-governed-source-change-read"),
     ("POST", "/api/v1/story/code/change-executions/{execution_id}/rollback-approval-request"): ApiRoutePolicy("story.source-change.rollback-approval-request", "read", "protected-governed-source-change-approval-request"),
     ("POST", "/api/v1/story/code/change-executions/{execution_id}/rollback"): ApiRoutePolicy("story.source-change.rollback", "read", "protected-governed-source-mutation"),
@@ -610,6 +619,22 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
     if path.startswith("/api/v1/story/code/validation-jobs/"):
         if method.upper() == "POST" and path.endswith("/start") and path.count("/") == 7:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/validation-jobs/{job_id}/start"))
+    if path.startswith("/api/v1/story/quality/reports/"):
+        if method.upper() == "GET" and path.endswith("/remediations"):
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/quality/reports/{report_id}/remediations"))
+        if method.upper() == "POST" and path.endswith("/remediations"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/quality/reports/{report_id}/remediations"))
+        if method.upper() == "POST" and path.endswith("/waivers"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/quality/reports/{report_id}/waivers"))
+        if method.upper() == "GET" and path.count("/") == 6:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/quality/reports/{report_id}"))
+    if path.startswith("/api/v1/story/quality/waivers/") and method.upper() == "POST" and path.endswith("/decision"):
+        return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/quality/waivers/{waiver_id}/decision"))
+    if path.startswith("/api/v1/story/quality/remediations/") and method.upper() == "POST":
+        if path.endswith("/retest-plan"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/quality/remediations/{trace_id}/retest-plan"))
+        if path.endswith("/retest-complete"):
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/quality/remediations/{trace_id}/retest-complete"))
     if path.startswith("/api/v1/story/code/change-executions/"):
         if method.upper() == "GET" and path.count("/") == 6:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/change-executions/{execution_id}"))

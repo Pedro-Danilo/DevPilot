@@ -1244,3 +1244,53 @@ export interface PlanningClosureResponseData {
     external_api_used?: false;
   };
 }
+
+export interface StoryQualityFinding {
+  finding_id: string;
+  origin: string;
+  severity: 'S0'|'S1'|'S2'|'S3';
+  message: string;
+  source_ref?: string;
+  status: string;
+  waivable: boolean;
+  waived?: boolean;
+  waiver_id?: string | null;
+  blocking?: boolean;
+}
+
+export interface StoryQualityReport {
+  schema_id: string;
+  report_id: string;
+  report_hash: string;
+  inputs_hash: string;
+  story_test_plan_id: string;
+  story_test_plan_hash: string;
+  story_execution_id?: string;
+  story_id?: string;
+  decision: 'PASS'|'BLOCK';
+  commit_ready: boolean;
+  stale?: boolean;
+  findings: StoryQualityFinding[];
+  severity_counts: Record<string, number>;
+  required_job_results: GovernedJobSnapshot[];
+  waiver_decisions: Array<Record<string, unknown>>;
+  remediation_advisor: Record<string, unknown>;
+  provenance: Record<string, unknown>;
+  policy: Record<string, unknown>;
+}
+
+export interface StoryQualityRemediationTrace {
+  trace_id: string;
+  source_report_id: string;
+  source_report_hash: string;
+  finding_id: string;
+  mode: 'manual'|'agent';
+  status: string;
+  story_test_plan_id: string;
+  story_test_plan_hash: string;
+  source_change_handoff: Record<string, unknown>;
+  step_action_advisor: Record<string, unknown>;
+  agent_proposal?: Record<string, unknown> | null;
+  tool_authority: Record<string, unknown>;
+  retest?: Record<string, unknown> | null;
+}

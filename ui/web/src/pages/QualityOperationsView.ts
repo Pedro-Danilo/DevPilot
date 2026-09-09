@@ -1,3 +1,4 @@
+import { renderStoryQualityGatePanel } from '../components/StoryQualityGatePanel';
 import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFixture';
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { DevPilotApplicationResponse, GovernedJobSnapshot, QualityOperationItem } from '../api/types';
@@ -36,6 +37,7 @@ export function renderQualityOperationsView(tokenProvider: () => string): HTMLEl
     section.replaceChildren(); const header=document.createElement('div'); header.className='viewer-panel__header'; const intro=document.createElement('div'); intro.innerHTML='<h2>Quality, tests y release</h2><p>Operaciones determinísticas con Test Impact, budgets, approvals, heartbeat y evidencia reproducible.</p>'; intro.append(renderContractBadges('ui.quality',{warning:'Local-first · selección por registry ID · no shell · full regression nunca automática.'})); header.append(intro); section.append(header);
     if(state.loading) section.append(renderUiStateNotice('loading','Procesando operación gobernada local.')); for(const [k,v] of Object.entries(state.errors)) section.append(renderUiStateNotice('error',`${k}: ${v}`));
     if(!state.catalog){ section.append(renderUiStateNotice('empty','Aplica el token local para cargar el catálogo de Quality/Tests/Release.')); return; }
+    section.append(renderStoryQualityGatePanel(tokenProvider));
     const base=document.createElement('article'); base.className='viewer-card quality-baseline'; base.innerHTML='<h3>Baseline y contrato</h3>'; const bp=document.createElement('pre'); bp.className='viewer-pre'; bp.textContent=JSON.stringify(state.baseline?.data ?? {},null,2); base.append(bp); section.append(base);
     const grid=document.createElement('div'); grid.className='quality-grid';
     const planner=document.createElement('article'); planner.className='viewer-card'; planner.innerHTML='<h3>Planificador gobernado</h3><p>Selecciona una capacidad registrada; no se aceptan comandos, rutas de ejecutables ni argumentos pytest libres.</p>';

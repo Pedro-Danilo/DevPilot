@@ -81,6 +81,42 @@ class StoryValidationJobsCreateBody(BaseModel):
     test_plan_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
+class StoryQualityEvaluateBody(BaseModel):
+    test_plan_id: str = Field(min_length=1, max_length=160)
+    test_plan_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+class StoryQualityFindingBody(StoryQualityEvaluateBody):
+    origin: str = Field(pattern=r"^(review|security|traceability|policy)$")
+    severity: str = Field(pattern=r"^S[0-3]$")
+    message: str = Field(min_length=1, max_length=1000)
+    source_ref: str | None = Field(default=None, max_length=500)
+
+
+class StoryQualityWaiverRequestBody(BaseModel):
+    report_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    finding_id: str = Field(min_length=1, max_length=200)
+    reason: str = Field(min_length=1, max_length=500)
+    ttl_minutes: int = Field(default=60, ge=1, le=1440)
+
+
+class StoryQualityWaiverDecisionBody(BaseModel):
+    decision: str = Field(pattern=r"^(APPROVE|REJECT)$")
+
+
+class StoryQualityRemediationBody(BaseModel):
+    report_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    finding_id: str = Field(min_length=1, max_length=200)
+    mode: str = Field(pattern=r"^(manual|agent)$")
+    instruction: str = Field(default="", max_length=2000)
+    source_id: str | None = Field(default=None, max_length=160)
+    agent_mode: str = Field(default="mock", pattern=r"^(mock|fake-local)$")
+
+
+class StoryQualityRetestPlanBody(BaseModel):
+    new_test_plan_id: str = Field(min_length=1, max_length=160)
+    new_test_plan_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+
 
 class SourceChangeRollbackApprovalBody(BaseModel):
     reason: str = Field(min_length=1, max_length=500)
@@ -259,6 +295,76 @@ def story_validation_job_start(request: Request, job_id: str, service: Applicati
     _, error = _principal(request, authoring=True)
     if error: return error
     return _result(service.story_validation_job_start(job_id=job_id), "story.validation-jobs.start")
+
+
+@router.post("/api/v1/story/quality/findings")
+def story_quality_finding_record(request: Request, body: StoryQualityFindingBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_quality_finding_record(actor=actor, actor_role=role, authority_source="human-session", **body.model_dump()), "story.quality.finding.record")
+
+
+@router.post("/api/v1/story/quality/evaluate")
+def story_quality_evaluate(request: Request, body: StoryQualityEvaluateBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_quality_evaluate(test_plan_id=body.test_plan_id, test_plan_hash=body.test_plan_hash, actor=actor, actor_role=role), "story.quality.evaluate")
+
+
+@router.get("/api/v1/story/quality/reports/{report_id}")
+def story_quality_report_get(request: Request, report_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_quality_report_get(report_id=report_id), "story.quality.report.get")
+
+
+@router.post("/api/v1/story/quality/reports/{report_id}/waivers")
+def story_quality_waiver_request(request: Request, report_id: str, body: StoryQualityWaiverRequestBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_quality_waiver_request(report_id=report_id, report_hash=body.report_hash, finding_id=body.finding_id, reason=body.reason, ttl_minutes=body.ttl_minutes, actor=actor, actor_role=role, authority_source="human-session"), "story.quality.waiver.request")
+
+
+@router.post("/api/v1/story/quality/waivers/{waiver_id}/decision")
+def story_quality_waiver_decide(request: Request, waiver_id: str, body: StoryQualityWaiverDecisionBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_quality_waiver_decide(waiver_id=waiver_id, decision=body.decision, actor=actor, actor_role=role, authority_source="human-session"), "story.quality.waiver.decision")
+
+
+@router.post("/api/v1/story/quality/reports/{report_id}/remediations")
+def story_quality_remediation_plan(request: Request, report_id: str, body: StoryQualityRemediationBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_quality_remediation_plan(report_id=report_id, report_hash=body.report_hash, finding_id=body.finding_id, mode=body.mode, instruction=body.instruction, source_id=body.source_id, agent_mode=body.agent_mode, actor=actor, actor_role=role), "story.quality.remediation.plan")
+
+
+@router.get("/api/v1/story/quality/reports/{report_id}/remediations")
+def story_quality_remediation_list(request: Request, report_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_quality_remediation_list(report_id=report_id), "story.quality.remediation.list")
+
+
+@router.post("/api/v1/story/quality/remediations/{trace_id}/retest-plan")
+def story_quality_retest_plan(request: Request, trace_id: str, body: StoryQualityRetestPlanBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_quality_retest_plan(trace_id=trace_id, new_test_plan_id=body.new_test_plan_id, new_test_plan_hash=body.new_test_plan_hash, actor=actor, actor_role=role), "story.quality.retest.plan")
+
+
+@router.post("/api/v1/story/quality/remediations/{trace_id}/retest-complete")
+def story_quality_retest_complete(request: Request, trace_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_quality_retest_complete(trace_id=trace_id, actor=actor, actor_role=role), "story.quality.retest.complete")
 
 
 @router.get("/api/v1/story/code/change-executions/{execution_id}")

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/remediation_trace.schema.json",
+  "title": "RemediationTrace",
+  "type": "object",
+  "required": ["schema_id", "trace_id", "source_report_id", "source_report_hash", "finding_id", "mode", "status", "story_test_plan_id", "story_test_plan_hash", "source_change_handoff", "step_action_advisor", "tool_authority"],
+  "properties": {
+    "schema_id": {"const": "DEVPL-GSDLC-10-C-REMEDIATION-TRACE-V1"},
+    "trace_id": {"type": "string", "pattern": "^remediation-trace-[0-9a-f]{24}$"},
+    "source_report_id": {"type": "string"},
+    "source_report_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "finding_id": {"type": "string"},
+    "mode": {"enum": ["manual", "agent"]},
+    "status": {"enum": ["PROPOSED", "RETEST_PLANNED", "RESOLVED"]},
+    "story_test_plan_id": {"type": "string"},
+    "story_test_plan_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_change_handoff": {"type": "object"},
+    "step_action_advisor": {"type": "object"},
+    "tool_authority": {"type": "object"},
+    "retest": {"type": ["object", "null"]}
+  },
+  "additionalProperties": true
+}

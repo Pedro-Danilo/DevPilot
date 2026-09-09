@@ -19,7 +19,7 @@
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "GSDLC-09-C",
+  "micro_sprint": "GSDLC-10-C",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -30,7 +30,8 @@
     "GSDLC-04-C adds three human-session-only PASTE/UPLOAD/IMPORT runtime-DRAFT routes; no legacy-token authority and no source write.",
     "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced.",
     "GSDLC-07-E registers settings.agent_evals as a human-session-required, deny-by-default read-only route; legacy token cannot substitute human authority.",
-    "GSDLC-09-B registers bounded source inspection for authenticated project roles and runtime-draft authoring only for owner/developer; unknown routes remain deny-by-default."
+    "GSDLC-09-B registers bounded source inspection for authenticated project roles and runtime-draft authoring only for owner/developer; unknown routes remain deny-by-default.",
+    "GSDLC-10-C Story Quality routes require authenticated human sessions; waiver decision is owner-only and application service additionally enforces no self-approval/S0-S1 non-waivable/model non-authority."
   ],
   "route_policies": [
     {
@@ -523,6 +524,141 @@
       "workspace_scope_required": false
     },
     {
+      "access_class": "authenticated-read-role-aware",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "guided_sdlc.pre_code.status",
+      "path": "/api/v1/guided-sdlc/pre-code",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.guided-sdlc.pre-code.status",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-read-role-aware",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "guided_sdlc.pre_code.readiness",
+      "path": "/api/v1/guided-sdlc/pre-code/readiness",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.guided-sdlc.pre-code.readiness",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.apply",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.guided-sdlc.pre-code.apply",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.approval_request",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.guided-sdlc.pre-code.approval-request",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.draft",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.guided-sdlc.pre-code.draft",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.freeze",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.guided-sdlc.pre-code.freeze",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.review",
+      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.guided-sdlc.pre-code.review",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
       "access_class": "authenticated-read",
       "allowed_roles": [
         "owner",
@@ -969,6 +1105,309 @@
       "workspace_scope_required": false
     },
     {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer",
+        "qa-reviewer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "planning.backlog.status",
+      "path": "/api/v1/planning/backlog",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.planning-backlog.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.backlog.approve",
+      "path": "/api/v1/planning/backlog/approve",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.planning-backlog.approve",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.backlog.freeze",
+      "path": "/api/v1/planning/backlog/freeze",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.planning-backlog.freeze",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer",
+        "qa-reviewer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.backlog.propose",
+      "path": "/api/v1/planning/backlog/proposals",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-backlog.propose",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer",
+        "qa-reviewer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.backlog.review",
+      "path": "/api/v1/planning/backlog/review",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-backlog.review",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer",
+        "qa-reviewer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "planning.closure.status",
+      "path": "/api/v1/planning/closure",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.planning-closure.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "authenticated-read-role-aware",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "planning.roadmap.status",
+      "path": "/api/v1/planning/roadmap",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.planning-roadmap.status",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.roadmap.approve",
+      "path": "/api/v1/planning/roadmap/approve",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.planning-roadmap.approve",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.roadmap.freeze",
+      "path": "/api/v1/planning/roadmap/freeze",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.planning-roadmap.freeze",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.roadmap.propose",
+      "path": "/api/v1/planning/roadmap/proposals",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-roadmap.propose",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.roadmap.review",
+      "path": "/api/v1/planning/roadmap/review",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-roadmap.review",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer",
+        "qa-reviewer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "planning.sprint.status",
+      "path": "/api/v1/planning/sprint",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.planning-sprint.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.sprint.approve",
+      "path": "/api/v1/planning/sprint/approve",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.planning-sprint.approve",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.sprint.freeze",
+      "path": "/api/v1/planning/sprint/freeze",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.planning-sprint.freeze",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.sprint.propose",
+      "path": "/api/v1/planning/sprint/proposals",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-sprint.propose",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.sprint.review",
+      "path": "/api/v1/planning/sprint/review",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-sprint.review",
+      "workspace_scope_required": true
+    },
+    {
       "access_class": "authenticated-read",
       "allowed_roles": [
         "owner",
@@ -1403,6 +1842,231 @@
       "workspace_scope_required": false
     },
     {
+      "access_class": "authenticated-agent-evals-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "settings.agent_evals",
+      "path": "/api/v1/settings/agent-evals",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.settings.agent-evals",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "settings.agent_execution",
+      "path": "/api/v1/settings/agent-execution",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.settings.agent-execution",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.agent_execution.create",
+      "path": "/api/v1/settings/agent-execution/sessions",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.agent-execution.create",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.agent_execution.cancel",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/cancel",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.agent-execution.cancel",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.agent_execution.handoff",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/handoff",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.agent-execution.handoff",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.agent_execution.kill",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/kill",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.agent-execution.kill",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session-agent-execution",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.agent_execution.intent",
+      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.agent-execution.intent",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-agent-runtime-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "settings.agent_runtime",
+      "path": "/api/v1/settings/agent-runtime",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.agent-runtime",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-model-gateway-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "settings.model_gateway",
+      "path": "/api/v1/settings/model-gateway",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.model-gateway",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-controlled-model-evaluation",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.model_gateway.evaluate",
+      "path": "/api/v1/settings/model-gateway/evaluate",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.model-gateway.evaluate",
+      "workspace_scope_required": false
+    },
+    {
       "access_class": "authenticated-read",
       "allowed_roles": [
         "owner",
@@ -1451,6 +2115,87 @@
       "workspace_scope_required": false
     },
     {
+      "access_class": "authenticated-provider-connectivity",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.providers.connectivity_test",
+      "path": "/api/v1/settings/providers/connectivity-test",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.providers.connectivity-test",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-provider-enablement-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.providers.enablement.disable",
+      "path": "/api/v1/settings/providers/disable",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.providers.enablement.disable",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-provider-enablement-read",
+      "allowed_roles": [
+        "owner",
+        "security-reviewer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "settings.providers.enablement.status",
+      "path": "/api/v1/settings/providers/enablement",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.providers.enablement.status",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-provider-enablement-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.providers.enablement.apply",
+      "path": "/api/v1/settings/providers/enablement",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.providers.enablement.apply",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-provider-enablement-plan",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.providers.enablement.plan",
+      "path": "/api/v1/settings/providers/enablement/plan",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.providers.enablement.plan",
+      "workspace_scope_required": false
+    },
+    {
       "access_class": "system/legacy-compatibility",
       "allowed_roles": [
         "owner",
@@ -1472,6 +2217,46 @@
       "public": false,
       "risk_level": "high",
       "route_id": "api.settings.providers.plan",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-provider-enablement-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.providers.enablement.revoke",
+      "path": "/api/v1/settings/providers/revoke",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.providers.enablement.revoke",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-rag-context-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "settings.rag_context",
+      "path": "/api/v1/settings/rag-context",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.rag-context",
       "workspace_scope_required": false
     },
     {
@@ -1521,6 +2306,644 @@
       "risk_level": "low",
       "route_id": "api.standards.status",
       "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session/project-agent-proposal",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.agent-assist.proposal.create",
+      "path": "/api/v1/story/code/agent-assist/proposals",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-agent-assist.proposal.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-agent-proposal-read",
+      "allowed_roles": [
+        "owner",
+        "developer",
+        "architect",
+        "qa-reviewer",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.agent-assist.proposal.get",
+      "path": "/api/v1/story/code/agent-assist/proposals/{proposal_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-agent-assist.proposal.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-agent-proposal-decision",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.agent-assist.proposal.decision",
+      "path": "/api/v1/story/code/agent-assist/proposals/{proposal_id}/decision",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-agent-assist.proposal.decision",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.execution.get",
+      "path": "/api/v1/story/code/change-executions/{execution_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.execution.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.apply-manifest",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/apply-manifest",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.apply-manifest",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.rollback",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.rollback",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.rollback-approval-request",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback-approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.rollback-approval-request",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.rollback-evidence",
+      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback-evidence",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.rollback-evidence",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.plan",
+      "path": "/api/v1/story/code/change-plans",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-source-change.plan",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.source-change.plan.get",
+      "path": "/api/v1/story/code/change-plans/{plan_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-source-change.plan.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.apply",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/apply",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.apply",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change-owner",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.approval-request",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-source-change.approval-request",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.dry-run",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/dry-run",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-source-change.dry-run",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-source-change",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.source-change.recheck",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/recheck",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-source-change.recheck",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-test-plan",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.test-plan.create",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/test-plan",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-test-plan.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-authoring",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.code.draft.save",
+      "path": "/api/v1/story/code/drafts",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-code.drafts.save",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.draft.get",
+      "path": "/api/v1/story/code/drafts/{draft_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.drafts.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-authoring",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.code.draft.discard",
+      "path": "/api/v1/story/code/drafts/{draft_id}/discard",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-code.drafts.discard",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-authoring",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.code.draft.recheck",
+      "path": "/api/v1/story/code/drafts/{draft_id}/recheck",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-code.drafts.recheck",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.sources",
+      "path": "/api/v1/story/code/sources",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.sources",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.source.read",
+      "path": "/api/v1/story/code/sources/{source_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.source",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.status",
+      "path": "/api/v1/story/code/status",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-test-plan-read",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.test-plan.get",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-test-plan.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-test-plan-decision",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.test-plan.decision",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}/decision",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-test-plan.decision",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-validation-job-read",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.validation-jobs.list",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-validation-jobs.list",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-validation-job-plan",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.validation-jobs.create",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-validation-jobs.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-validation-job-execute",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.validation-jobs.start",
+      "path": "/api/v1/story/code/validation-jobs/{job_id}/start",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-validation-jobs.start",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.quality.evaluate",
+      "path": "/api/v1/story/quality/evaluate",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-quality.evaluate",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.quality.finding.record",
+      "path": "/api/v1/story/quality/findings",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-quality.finding-record",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.quality.retest.complete",
+      "path": "/api/v1/story/quality/remediations/{trace_id}/retest-complete",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-quality.retest-complete",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.quality.retest.plan",
+      "path": "/api/v1/story/quality/remediations/{trace_id}/retest-plan",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-quality.retest-plan",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.quality.report.get",
+      "path": "/api/v1/story/quality/reports/{report_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-quality.report-get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.quality.remediation.list",
+      "path": "/api/v1/story/quality/reports/{report_id}/remediations",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-quality.remediation-list",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.quality.remediation.plan",
+      "path": "/api/v1/story/quality/reports/{report_id}/remediations",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-quality.remediation-plan",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.quality.waiver.request",
+      "path": "/api/v1/story/quality/reports/{report_id}/waivers",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-quality.waiver-request",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-story-quality",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.quality.waiver.decision",
+      "path": "/api/v1/story/quality/waivers/{waiver_id}/decision",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-quality.waiver-decision",
+      "workspace_scope_required": true
     },
     {
       "access_class": "authenticated-read",
@@ -1641,6 +3064,102 @@
       "risk_level": "medium",
       "route_id": "api.validation.readiness",
       "workspace_scope_required": false
+    },
+    {
+      "access_class": "human-session-agent-assist-runtime",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "workspace.artifact_assist.plan",
+      "path": "/api/v1/workspace/artifact-assist/documents/{document_id}/plan",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.workspace.artifact-assist.plan",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-agent-assist-runtime",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "workspace.artifact_assist.run",
+      "path": "/api/v1/workspace/artifact-assist/plans/{plan_id}/run",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.workspace.artifact-assist.run",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-agent-assist-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "workspace.artifact_assist.get",
+      "path": "/api/v1/workspace/artifact-assist/proposals/{proposal_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.workspace.artifact-assist.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-agent-assist-runtime",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "workspace.artifact_assist.decision",
+      "path": "/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.workspace.artifact-assist.decision",
+      "workspace_scope_required": true
     },
     {
       "access_class": "human-session-runtime-draft-read",
@@ -2705,1372 +4224,6 @@
       "risk_level": "medium",
       "route_id": "api.workspace.validations.status",
       "workspace_scope_required": true
-    },
-    {
-      "access_class": "authenticated-read-role-aware",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "guided_sdlc.pre_code.status",
-      "path": "/api/v1/guided-sdlc/pre-code",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.guided-sdlc.pre-code.status",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-pre-code-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "guided_sdlc.pre_code.draft",
-      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.guided-sdlc.pre-code.draft",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-pre-code-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "guided_sdlc.pre_code.review",
-      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.guided-sdlc.pre-code.review",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-pre-code-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "guided_sdlc.pre_code.approval_request",
-      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.guided-sdlc.pre-code.approval-request",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-pre-code-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "guided_sdlc.pre_code.apply",
-      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.guided-sdlc.pre-code.apply",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-pre-code-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "guided_sdlc.pre_code.freeze",
-      "path": "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.guided-sdlc.pre-code.freeze",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-read-role-aware",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "guided_sdlc.pre_code.readiness",
-      "path": "/api/v1/guided-sdlc/pre-code/readiness",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.guided-sdlc.pre-code.readiness",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-provider-enablement-read",
-      "allowed_roles": [
-        "owner",
-        "security-reviewer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "settings.providers.enablement.status",
-      "path": "/api/v1/settings/providers/enablement",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.providers.enablement.status",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-provider-enablement-plan",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.providers.enablement.plan",
-      "path": "/api/v1/settings/providers/enablement/plan",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.settings.providers.enablement.plan",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-provider-connectivity",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.providers.connectivity_test",
-      "path": "/api/v1/settings/providers/connectivity-test",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.settings.providers.connectivity-test",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-provider-enablement-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.providers.enablement.apply",
-      "path": "/api/v1/settings/providers/enablement",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.settings.providers.enablement.apply",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-provider-enablement-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.providers.enablement.disable",
-      "path": "/api/v1/settings/providers/disable",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.settings.providers.enablement.disable",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-provider-enablement-mutation",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.providers.enablement.revoke",
-      "path": "/api/v1/settings/providers/revoke",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.settings.providers.enablement.revoke",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-model-gateway-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "settings.model_gateway",
-      "path": "/api/v1/settings/model-gateway",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.model-gateway",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-controlled-model-evaluation",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.model_gateway.evaluate",
-      "path": "/api/v1/settings/model-gateway/evaluate",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.model-gateway.evaluate",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-agent-runtime-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "settings.agent_runtime",
-      "path": "/api/v1/settings/agent-runtime",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.agent-runtime",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-rag-context-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "settings.rag_context",
-      "path": "/api/v1/settings/rag-context",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.rag-context",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "human-session-agent-assist-runtime",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "workspace.artifact_assist.plan",
-      "path": "/api/v1/workspace/artifact-assist/documents/{document_id}/plan",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.workspace.artifact-assist.plan",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session-agent-assist-runtime",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "workspace.artifact_assist.run",
-      "path": "/api/v1/workspace/artifact-assist/plans/{plan_id}/run",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.workspace.artifact-assist.run",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session-agent-assist-runtime",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "workspace.artifact_assist.decision",
-      "path": "/api/v1/workspace/artifact-assist/proposals/{proposal_id}/decision",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.workspace.artifact-assist.decision",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session-agent-assist-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "workspace.artifact_assist.get",
-      "path": "/api/v1/workspace/artifact-assist/proposals/{proposal_id}",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.workspace.artifact-assist.get",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session-agent-execution",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "settings.agent_execution",
-      "path": "/api/v1/settings/agent-execution",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.settings.agent-execution",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-agent-evals-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "settings.agent_evals",
-      "path": "/api/v1/settings/agent-evals",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.settings.agent-evals",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "human-session-agent-execution",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.agent_execution.create",
-      "path": "/api/v1/settings/agent-execution/sessions",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.agent-execution.create",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "human-session-agent-execution",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.agent_execution.intent",
-      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/tool-intents",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.settings.agent-execution.intent",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "human-session-agent-execution",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.agent_execution.handoff",
-      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/handoff",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.agent-execution.handoff",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "human-session-agent-execution",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.agent_execution.cancel",
-      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/cancel",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.settings.agent-execution.cancel",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "human-session-agent-execution",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "settings.agent_execution.kill",
-      "path": "/api/v1/settings/agent-execution/sessions/{session_id}/kill",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.settings.agent-execution.kill",
-      "workspace_scope_required": false
-    },
-    {
-      "access_class": "authenticated-read-role-aware",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "planning.roadmap.status",
-      "path": "/api/v1/planning/roadmap",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.planning-roadmap.status",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.roadmap.propose",
-      "path": "/api/v1/planning/roadmap/proposals",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.planning-roadmap.propose",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.roadmap.review",
-      "path": "/api/v1/planning/roadmap/review",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.planning-roadmap.review",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.roadmap.approve",
-      "path": "/api/v1/planning/roadmap/approve",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.planning-roadmap.approve",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "authenticated-project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.roadmap.freeze",
-      "path": "/api/v1/planning/roadmap/freeze",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.planning-roadmap.freeze",
-      "workspace_scope_required": true,
-      "workspace_scope_source": "active-server-context"
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "developer",
-        "qa-reviewer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "planning.backlog.status",
-      "path": "/api/v1/planning/backlog",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.planning-backlog.status",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "developer",
-        "qa-reviewer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.backlog.propose",
-      "path": "/api/v1/planning/backlog/proposals",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.planning-backlog.propose",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "developer",
-        "qa-reviewer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.backlog.review",
-      "path": "/api/v1/planning/backlog/review",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.planning-backlog.review",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.backlog.approve",
-      "path": "/api/v1/planning/backlog/approve",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.planning-backlog.approve",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.backlog.freeze",
-      "path": "/api/v1/planning/backlog/freeze",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.planning-backlog.freeze",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "developer",
-        "qa-reviewer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "planning.sprint.status",
-      "path": "/api/v1/planning/sprint",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.planning-sprint.status",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.sprint.propose",
-      "path": "/api/v1/planning/sprint/proposals",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.planning-sprint.propose",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.sprint.review",
-      "path": "/api/v1/planning/sprint/review",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.planning-sprint.review",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.sprint.approve",
-      "path": "/api/v1/planning/sprint/approve",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.planning-sprint.approve",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "planning.sprint.freeze",
-      "path": "/api/v1/planning/sprint/freeze",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.planning-sprint.freeze",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-planning",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "developer",
-        "qa-reviewer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "planning.closure.status",
-      "path": "/api/v1/planning/closure",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.planning-closure.status",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-code-workbench-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.code.status",
-      "path": "/api/v1/story/code/status",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-code.status",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-code-workbench-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.code.sources",
-      "path": "/api/v1/story/code/sources",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-code.sources",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-code-workbench-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.code.source.read",
-      "path": "/api/v1/story/code/sources/{source_id}",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-code.source",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-code-workbench-authoring",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.code.draft.save",
-      "path": "/api/v1/story/code/drafts",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-code.drafts.save",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-code-workbench-read",
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.code.draft.get",
-      "path": "/api/v1/story/code/drafts/{draft_id}",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-code.drafts.get",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-code-workbench-authoring",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.code.draft.recheck",
-      "path": "/api/v1/story/code/drafts/{draft_id}/recheck",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-code.drafts.recheck",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-code-workbench-authoring",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.code.draft.discard",
-      "path": "/api/v1/story/code/drafts/{draft_id}/discard",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-code.drafts.discard",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.source-change.plan",
-      "path": "/api/v1/story/code/change-plans",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-source-change.plan",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.source-change.plan.get",
-      "path": "/api/v1/story/code/change-plans/{plan_id}",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-source-change.plan.get",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.source-change.recheck",
-      "path": "/api/v1/story/code/change-plans/{plan_id}/recheck",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-source-change.recheck",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.source-change.dry-run",
-      "path": "/api/v1/story/code/change-plans/{plan_id}/dry-run",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-source-change.dry-run",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change-owner",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.source-change.approval-request",
-      "path": "/api/v1/story/code/change-plans/{plan_id}/approval-request",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.story-source-change.approval-request",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change-owner",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.source-change.apply",
-      "path": "/api/v1/story/code/change-plans/{plan_id}/apply",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.story-source-change.apply",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.source-change.execution.get",
-      "path": "/api/v1/story/code/change-executions/{execution_id}",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-source-change.execution.get",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change-owner",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.source-change.rollback-approval-request",
-      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback-approval-request",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.story-source-change.rollback-approval-request",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change-owner",
-      "allowed_roles": [
-        "owner"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.source-change.rollback",
-      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback",
-      "public": false,
-      "risk_level": "high",
-      "route_id": "api.story-source-change.rollback",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.source-change.apply-manifest",
-      "path": "/api/v1/story/code/change-executions/{execution_id}/apply-manifest",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-source-change.apply-manifest",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-source-change",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.source-change.rollback-evidence",
-      "path": "/api/v1/story/code/change-executions/{execution_id}/rollback-evidence",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-source-change.rollback-evidence",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-agent-proposal",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.agent-assist.proposal.create",
-      "path": "/api/v1/story/code/agent-assist/proposals",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-agent-assist.proposal.create",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-agent-proposal-read",
-      "allowed_roles": [
-        "owner",
-        "developer",
-        "architect",
-        "qa-reviewer",
-        "agent-supervisor"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.agent-assist.proposal.get",
-      "path": "/api/v1/story/code/agent-assist/proposals/{proposal_id}",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-agent-assist.proposal.get",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-agent-proposal-decision",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.agent-assist.proposal.decision",
-      "path": "/api/v1/story/code/agent-assist/proposals/{proposal_id}/decision",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-agent-assist.proposal.decision",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-test-plan",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.test-plan.create",
-      "path": "/api/v1/story/code/change-plans/{plan_id}/test-plan",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-test-plan.create",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-test-plan-read",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.test-plan.get",
-      "path": "/api/v1/story/code/test-plans/{test_plan_id}",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-test-plan.get",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session/project-test-plan-decision",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.test-plan.decision",
-      "path": "/api/v1/story/code/test-plans/{test_plan_id}/decision",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-test-plan.decision",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session-project-validation-job-plan",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.validation-jobs.create",
-      "path": "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-validation-jobs.create",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session-project-validation-job-read",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "GET",
-      "operation": "story.validation-jobs.list",
-      "path": "/api/v1/story/code/test-plans/{test_plan_id}/validation-jobs",
-      "public": false,
-      "risk_level": "low",
-      "route_id": "api.story-validation-jobs.list",
-      "workspace_scope_required": true
-    },
-    {
-      "access_class": "human-session-project-validation-job-execute",
-      "allowed_roles": [
-        "owner",
-        "developer"
-      ],
-      "deny_by_default": true,
-      "human_session_required": true,
-      "legacy_token_allowed": false,
-      "method": "POST",
-      "operation": "story.validation-jobs.start",
-      "path": "/api/v1/story/code/validation-jobs/{job_id}/start",
-      "public": false,
-      "risk_level": "medium",
-      "route_id": "api.story-validation-jobs.start",
-      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -4370,12 +4523,15 @@
     "gsdlc_10_a_story_test_plan_policies_total": 3,
     "gsdlc_10_b_legacy_token_allowed_total": 0,
     "gsdlc_10_b_story_validation_job_policies_total": 3,
-    "human_session_required_total": 110,
+    "human_session_required_total": 122,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 189,
+    "route_policies_total": 198,
     "sensitive_action_policies_total": 19,
-    "unmapped_routes_total": 189,
-    "unmapped_sensitive_actions_total": 0
+    "unmapped_routes_total": 0,
+    "unmapped_sensitive_actions_total": 0,
+    "gsdlc_10_c_story_quality_policies_total": 9,
+    "gsdlc_10_c_legacy_token_allowed_total": 0,
+    "gsdlc_10_c_waiver_decision_owner_only": true
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-09-09",

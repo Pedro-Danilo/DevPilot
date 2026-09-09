@@ -426,16 +426,25 @@
     },
     {
       "allowed_api_routes": [
-        "api.quality.operations",
-        "api.quality.baseline",
-        "api.quality.test-impact-plan",
-        "api.quality.jobs.plan",
-        "api.quality.jobs.execute",
-        "api.quality.evidence-package",
+        "api.approvals.request",
+        "api.approvals.show",
         "api.jobs.inspect",
         "api.jobs.logs",
-        "api.approvals.request",
-        "api.approvals.show"
+        "api.quality.baseline",
+        "api.quality.evidence-package",
+        "api.quality.jobs.execute",
+        "api.quality.jobs.plan",
+        "api.quality.operations",
+        "api.quality.test-impact-plan",
+        "api.story-quality.evaluate",
+        "api.story-quality.finding-record",
+        "api.story-quality.remediation-list",
+        "api.story-quality.remediation-plan",
+        "api.story-quality.report-get",
+        "api.story-quality.retest-complete",
+        "api.story-quality.retest-plan",
+        "api.story-quality.waiver-decision",
+        "api.story-quality.waiver-request"
       ],
       "connector_write_allowed": false,
       "critical": true,
@@ -453,7 +462,8 @@
       "no_remote_badge_required": true,
       "notes": [
         "UOC-009 exposes deterministic quality/test/release operations through typed profiles, approval/budget gates and UOC-007/008 jobs.",
-        "UOC-011: route participates in the 12-state operational browser hardening matrix."
+        "UOC-011: route participates in the 12-state operational browser hardening matrix.",
+        "GSDLC-10-C elevates the existing Quality route with StoryQualityGate blockers, governed waiver/remediation provenance and impacted-retest controls; no parallel quality engine is introduced."
       ],
       "owner": "ui.web",
       "page_component": "QualityOperationsView",
@@ -463,7 +473,10 @@
       "route_id": "ui.quality",
       "shows_mutation_controls": true,
       "source_files": [
-        "ui/web/src/pages/QualityOperationsView.ts"
+        "ui/web/src/pages/QualityOperationsView.ts",
+        "ui/web/src/components/StoryQualityGatePanel.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts"
       ],
       "state_contract": {
         "api_down": true,
@@ -483,7 +496,13 @@
         "stale_data": true,
         "timeout": true,
         "unauthorized": true,
-        "warn": true
+        "warn": true,
+        "commit_blocked": true,
+        "commit_ready": true,
+        "quality_report_stale": true,
+        "remediation_planned": true,
+        "retest_planned": true,
+        "waiver_pending": true
       },
       "status_visibility": [
         "PASS",
@@ -1220,7 +1239,7 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "allowed_api_routes_unique_total": 155,
+    "allowed_api_routes_unique_total": 167,
     "critical_routes_total": 14,
     "current_routes_total": 14,
     "dashboard_max_concurrency": 2,
@@ -1310,11 +1329,13 @@
     "uoc_011_matrix_cases_total": 108,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "updated_by": "DEVPL-GSDLC-10-B",
+    "updated_by": "DEVPL-GSDLC-10-C",
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
-    "workspace_validation_api_routes_total": 4
+    "workspace_validation_api_routes_total": 4,
+    "gsdlc_10_c_story_quality_gate": true,
+    "gsdlc_10_c_story_quality_api_routes_total": 9
   },
   "updated": "2026-09-09"
 }

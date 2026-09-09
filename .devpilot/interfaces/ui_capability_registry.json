@@ -11709,7 +11709,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 189,
+    "api_routes_total": 198,
     "classification_complete": true,
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
@@ -11836,7 +11836,9 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-10-B"
+    "updated_by": "DEVPL-GSDLC-10-C",
+    "gsdlc_10_c_story_quality_gate": true,
+    "gsdlc_10_c_story_quality_api_routes_total": 9
   },
   "ui_routes": [
     {

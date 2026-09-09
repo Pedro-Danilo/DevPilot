@@ -1,0 +1,49 @@
+{
+  "sprint": "DEVPL-GSDLC-10-C",
+  "status": "PASS",
+  "full_regression_runs": 0,
+  "classifications": [
+    {
+      "path": "tests/test_devpl_gsdlc_10_a_story_test_plan.py",
+      "classification": "successor-needed",
+      "reason": "10-A closure remains historical-freeze; mutable current GSDLC-10 pointer must advance from 10-B to 10-C without rewriting the historical 10-A fact."
+    },
+    {
+      "path": ".devpilot/release/local_release_candidate_criteria.json",
+      "classification": "current-active",
+      "reason": "repo416 expectation was stale after the Windows-validated 10-B corrective successor repo417; rebound to repo417 inside active 10-C."
+    },
+    {
+      "path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
+      "classification": "historical-freeze",
+      "reason": "Preserved unchanged as the 10-B-era execution rebound; 10-C adds v1.4.2 successor instead of rewriting it."
+    },
+    {
+      "path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_2_APPROVED_REBOUND_REPO417.md",
+      "classification": "current-active",
+      "reason": "Current 10-C execution authority rebound to repo417/FRX-v2.4."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "classification": "derived",
+      "reason": "Adds current-active GSDLC-10-C contract while preserving historical contracts."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "classification": "derived",
+      "reason": "Adds explicit P0 impact contract for Story Quality Gate/remediation."
+    },
+    {
+      "path": "outputs/runtime/gsdlc10c_story_quality/**",
+      "classification": "runtime-ephemeral",
+      "reason": "Quality reports/findings/waivers/remediation traces are runtime evidence and excluded from clean repo packages."
+    }
+  ],
+  "invariants": {
+    "historical_assertions_edited_only_for_pytest": false,
+    "s0_s1_waivable": false,
+    "agent_model_quality_authority": false,
+    "full_regression_runs": 0
+  },
+  "result": "PASS"
+}

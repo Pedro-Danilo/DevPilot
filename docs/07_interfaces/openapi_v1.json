@@ -1974,6 +1974,402 @@
         }
       }
     },
+    "/api/v1/story/quality/findings": {
+      "post": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Finding Record",
+        "operationId": "story_quality_finding_record_api_v1_story_quality_findings_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryQualityFindingBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story/quality/evaluate": {
+      "post": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Evaluate",
+        "operationId": "story_quality_evaluate_api_v1_story_quality_evaluate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryQualityEvaluateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story/quality/reports/{report_id}": {
+      "get": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Report Get",
+        "operationId": "story_quality_report_get_api_v1_story_quality_reports__report_id__get",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Report Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story/quality/reports/{report_id}/waivers": {
+      "post": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Waiver Request",
+        "operationId": "story_quality_waiver_request_api_v1_story_quality_reports__report_id__waivers_post",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Report Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryQualityWaiverRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story/quality/waivers/{waiver_id}/decision": {
+      "post": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Waiver Decide",
+        "operationId": "story_quality_waiver_decide_api_v1_story_quality_waivers__waiver_id__decision_post",
+        "parameters": [
+          {
+            "name": "waiver_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Waiver Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryQualityWaiverDecisionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story/quality/reports/{report_id}/remediations": {
+      "post": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Remediation Plan",
+        "operationId": "story_quality_remediation_plan_api_v1_story_quality_reports__report_id__remediations_post",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Report Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryQualityRemediationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Remediation List",
+        "operationId": "story_quality_remediation_list_api_v1_story_quality_reports__report_id__remediations_get",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Report Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story/quality/remediations/{trace_id}/retest-plan": {
+      "post": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Retest Plan",
+        "operationId": "story_quality_retest_plan_api_v1_story_quality_remediations__trace_id__retest_plan_post",
+        "parameters": [
+          {
+            "name": "trace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Trace Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryQualityRetestPlanBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/story/quality/remediations/{trace_id}/retest-complete": {
+      "post": {
+        "tags": [
+          "story-code-workbench"
+        ],
+        "summary": "Story Quality Retest Complete",
+        "operationId": "story_quality_retest_complete_api_v1_story_quality_remediations__trace_id__retest_complete_post",
+        "parameters": [
+          {
+            "name": "trace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Trace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/story/code/change-executions/{execution_id}": {
       "get": {
         "tags": [
@@ -9753,6 +10149,200 @@
           "decision"
         ],
         "title": "StoryAgentProposalDecisionBody"
+      },
+      "StoryQualityEvaluateBody": {
+        "properties": {
+          "test_plan_id": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Test Plan Id"
+          },
+          "test_plan_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Test Plan Hash"
+          }
+        },
+        "type": "object",
+        "required": [
+          "test_plan_id",
+          "test_plan_hash"
+        ],
+        "title": "StoryQualityEvaluateBody"
+      },
+      "StoryQualityFindingBody": {
+        "properties": {
+          "test_plan_id": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Test Plan Id"
+          },
+          "test_plan_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Test Plan Hash"
+          },
+          "origin": {
+            "type": "string",
+            "pattern": "^(review|security|traceability|policy)$",
+            "title": "Origin"
+          },
+          "severity": {
+            "type": "string",
+            "pattern": "^S[0-3]$",
+            "title": "Severity"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "source_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Ref"
+          }
+        },
+        "type": "object",
+        "required": [
+          "test_plan_id",
+          "test_plan_hash",
+          "origin",
+          "severity",
+          "message"
+        ],
+        "title": "StoryQualityFindingBody"
+      },
+      "StoryQualityRemediationBody": {
+        "properties": {
+          "report_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Report Hash"
+          },
+          "finding_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Finding Id"
+          },
+          "mode": {
+            "type": "string",
+            "pattern": "^(manual|agent)$",
+            "title": "Mode"
+          },
+          "instruction": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Instruction",
+            "default": ""
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Id"
+          },
+          "agent_mode": {
+            "type": "string",
+            "pattern": "^(mock|fake-local)$",
+            "title": "Agent Mode",
+            "default": "mock"
+          }
+        },
+        "type": "object",
+        "required": [
+          "report_hash",
+          "finding_id",
+          "mode"
+        ],
+        "title": "StoryQualityRemediationBody"
+      },
+      "StoryQualityRetestPlanBody": {
+        "properties": {
+          "new_test_plan_id": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "New Test Plan Id"
+          },
+          "new_test_plan_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "New Test Plan Hash"
+          }
+        },
+        "type": "object",
+        "required": [
+          "new_test_plan_id",
+          "new_test_plan_hash"
+        ],
+        "title": "StoryQualityRetestPlanBody"
+      },
+      "StoryQualityWaiverDecisionBody": {
+        "properties": {
+          "decision": {
+            "type": "string",
+            "pattern": "^(APPROVE|REJECT)$",
+            "title": "Decision"
+          }
+        },
+        "type": "object",
+        "required": [
+          "decision"
+        ],
+        "title": "StoryQualityWaiverDecisionBody"
+      },
+      "StoryQualityWaiverRequestBody": {
+        "properties": {
+          "report_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Report Hash"
+          },
+          "finding_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Finding Id"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason"
+          },
+          "ttl_minutes": {
+            "type": "integer",
+            "maximum": 1440.0,
+            "minimum": 1.0,
+            "title": "Ttl Minutes",
+            "default": 60
+          }
+        },
+        "type": "object",
+        "required": [
+          "report_hash",
+          "finding_id",
+          "reason"
+        ],
+        "title": "StoryQualityWaiverRequestBody"
       },
       "StoryTestPlanCreateBody": {
         "properties": {

@@ -46,6 +46,7 @@ from .agent_execution_service import AgentExecutionApplicationService
 from .story_agent_assist_service import StoryAgentAssistApplicationService
 from .story_test_plan_service import StoryTestPlanApplicationService
 from .story_validation_jobs import StoryValidationJobApplicationService
+from .story_quality_gate import StoryQualityGateApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -120,6 +121,7 @@ class ApplicationService:
         self._source_changes: SourceChangeApplicationService | None = None
         self._story_test_plans: StoryTestPlanApplicationService | None = None
         self._story_validation_jobs: StoryValidationJobApplicationService | None = None
+        self._story_quality_gate: StoryQualityGateApplicationService | None = None
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -205,6 +207,19 @@ class ApplicationService:
                 story_test_plan_loader=self.story_test_plans.get,
             )
         return self._story_validation_jobs
+
+    @property
+    def story_quality_gate(self) -> StoryQualityGateApplicationService:
+        """Lazily construct the GSDLC-10-C story-level deterministic Quality Gate."""
+        if self._story_quality_gate is None:
+            self._story_quality_gate = StoryQualityGateApplicationService(
+                self.root,
+                story_test_plan_loader=self.story_test_plans.get,
+                validation_jobs_lister=self.story_validation_jobs.list_for_plan,
+                validation_jobs_creator=self.story_validation_jobs.create_for_plan,
+                agent_proposal_creator=self.story_agent_proposal_create,
+            )
+        return self._story_quality_gate
 
     @property
     def agent_assist(self) -> AgentAssistApplicationService:
@@ -1449,6 +1464,33 @@ class ApplicationService:
 
     def story_validation_job_start(self, *, job_id: str) -> CommandResult:
         return self.story_validation_jobs.start(job_id=job_id)
+
+    def story_quality_finding_record(self, *, test_plan_id: str, test_plan_hash: str, origin: str, severity: str, message: str, actor: str, actor_role: str, source_ref: str | None = None, authority_source: str = "human-session") -> CommandResult:
+        return self.story_quality_gate.record_finding(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, origin=origin, severity=severity, message=message, actor=actor, actor_role=actor_role, source_ref=source_ref, authority_source=authority_source)
+
+    def story_quality_evaluate(self, *, test_plan_id: str, test_plan_hash: str, actor: str, actor_role: str) -> CommandResult:
+        return self.story_quality_gate.evaluate(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, actor=actor, actor_role=actor_role)
+
+    def story_quality_report_get(self, *, report_id: str) -> CommandResult:
+        return self.story_quality_gate.get_report(report_id=report_id)
+
+    def story_quality_waiver_request(self, *, report_id: str, report_hash: str, finding_id: str, reason: str, ttl_minutes: int, actor: str, actor_role: str, authority_source: str = "human-session") -> CommandResult:
+        return self.story_quality_gate.request_waiver(report_id=report_id, report_hash=report_hash, finding_id=finding_id, reason=reason, ttl_minutes=ttl_minutes, actor=actor, actor_role=actor_role, authority_source=authority_source)
+
+    def story_quality_waiver_decide(self, *, waiver_id: str, decision: str, actor: str, actor_role: str, authority_source: str = "human-session") -> CommandResult:
+        return self.story_quality_gate.decide_waiver(waiver_id=waiver_id, decision=decision, actor=actor, actor_role=actor_role, authority_source=authority_source)
+
+    def story_quality_remediation_plan(self, *, report_id: str, report_hash: str, finding_id: str, mode: str, actor: str, actor_role: str, instruction: str = "", source_id: str | None = None, agent_mode: str = "mock") -> CommandResult:
+        return self.story_quality_gate.plan_remediation(report_id=report_id, report_hash=report_hash, finding_id=finding_id, mode=mode, actor=actor, actor_role=actor_role, instruction=instruction, source_id=source_id, agent_mode=agent_mode)
+
+    def story_quality_retest_plan(self, *, trace_id: str, new_test_plan_id: str, new_test_plan_hash: str, actor: str, actor_role: str) -> CommandResult:
+        return self.story_quality_gate.plan_impacted_retest(trace_id=trace_id, new_test_plan_id=new_test_plan_id, new_test_plan_hash=new_test_plan_hash, actor=actor, actor_role=actor_role)
+
+    def story_quality_retest_complete(self, *, trace_id: str, actor: str, actor_role: str) -> CommandResult:
+        return self.story_quality_gate.complete_retest(trace_id=trace_id, actor=actor, actor_role=actor_role)
+
+    def story_quality_remediation_list(self, *, report_id: str) -> CommandResult:
+        return self.story_quality_gate.list_remediation(report_id=report_id)
 
     def story_source_change_dry_run(self, *, plan_id: str, plan_hash: str, actor: str, actor_role: str) -> CommandResult:
         return self.source_changes.dry_run(plan_id=plan_id, plan_hash=plan_hash, actor=actor, actor_role=actor_role)

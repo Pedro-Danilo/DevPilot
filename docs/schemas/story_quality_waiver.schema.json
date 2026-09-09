@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "devpilot://schemas/story_quality_waiver.schema.json",
+  "title": "StoryQualityWaiver",
+  "type": "object",
+  "required": ["schema_id", "waiver_id", "story_test_plan_id", "story_test_plan_hash", "report_id", "report_hash", "finding_id", "finding_severity", "reason", "requester", "status", "created_at_utc", "expires_at_utc"],
+  "properties": {
+    "schema_id": {"const": "DEVPL-GSDLC-10-C-QUALITY-WAIVER-V1"},
+    "waiver_id": {"type": "string", "pattern": "^quality-waiver-[0-9a-f]{24}$"},
+    "finding_severity": {"enum": ["S2", "S3"]},
+    "status": {"enum": ["PENDING", "APPROVED", "REJECTED"]},
+    "authority_source": {"const": "human-session"}
+  },
+  "additionalProperties": true
+}

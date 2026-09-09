@@ -564,3 +564,8 @@ Current-active successor mapping. Planning routes are project-scoped, human-sess
 | `API-GSDLC-08-D-SPRINT-FREEZE` | `POST` | `/api/v1/planning/sprint/freeze` | `planning.sprint.freeze` | `ApplicationService -> SprintPlannerApplicationService` | `local_runtime_planning_state` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
 | `API-GSDLC-08-E-CLOSURE` | `GET` | `/api/v1/planning/closure` | `planning.closure.status` | `ApplicationService -> PlanningClosureApplicationService` | `read_only` | `human-session-required` | Policy/gate: server RBAC + API_ROUTE_POLICIES; no source/code execution |
 
+
+
+## GSDLC-10-C Story Quality Gate
+
+Las rutas `/api/v1/story/quality/*` se resuelven exclusivamente vía `ApplicationService.story_quality_*` → `StoryQualityGateApplicationService`. Reutilizan StoryTestPlan/StoryValidationJob/GSDLC-09 agent/source governance; no ejecutan shell, no mutan source y no conceden authority por selección de modelo. Quality permanece fail-closed y Full=0.

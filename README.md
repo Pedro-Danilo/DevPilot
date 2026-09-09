@@ -6677,3 +6677,8 @@ GSDLC-10-A `CLOSED/PASS/WINDOWS-VALIDATED`. Story Workbench demuestra `Validar �
 ## DEVPL-GSDLC-10-B — Typed validation jobs local qualification
 
 GSDLC-10-B `CLOSED/PASS/WINDOWS-VALIDATED/CORRECTIVE-104` sobre repo417. La primera evidencia Windows repo416 confirmó backend/jobs, pero las capturas 2/3 revelaron que el polling de Job Console refrescaba la lista sin sincronizar el detalle/logs seleccionados. Corrective 1.0.4 alinea list + selected detail + logs en cada refresh/poll, preserva jobs tipados allowlisted, no arbitrary shell y Full Regression=0. UOC-008 conserva su set histórico de rutas como base/subset frente a successors tipados. GSDLC-10-C queda autorizado únicamente después del PASS Windows del corrective y repo417.
+
+
+## DEVPL-GSDLC-10-C — Story Quality Gate and remediation loop
+
+GSDLC-10-C se activa sobre repo417. Eleva la superficie Quality existente con `StoryQualityReport`/`StoryQualityGate` deterministas, findings S0-S3, waiver gobernado server-side, provenance de remediación manual/agent proposal-only y retest acotado derivado de un StoryTestPlan successor. `COMMIT_READY` solo puede resultar de Quality PASS; S0/S1 no son waivable, modelo/ruta nunca concede authority y Full Regression=0. La implementación es una primera versión industrial del loop story-level; hardening E2E y release permanecen en 10-D/10-E.
