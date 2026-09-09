@@ -272,8 +272,15 @@ def test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_
     client = (ROOT / "ui/web/src/api/client.ts").read_text(encoding="utf-8")
     for marker in ["Validar story", "StoryTestPlan", "Required tests", "Recommended tests", "unknown impact", "SENSITIVE", "informative only", "execution_authorized"]:
         assert marker in text
-    for marker in ["restoreApplyContext", "listApprovals", "sessionStorage", "storySourceChangePlan", "story_execution_id", "APPLY_CONTEXT_SESSION_KEY", "armApprovalCenterArtifactReviewHandoff", "handoff=artifact-review", "Abrir Approval Center dirigido"]:
+    for marker in ["restoreApplyContext", "listApprovals", "sessionStorage", "storySourceChangePlan", "story_execution_id", "APPLY_CONTEXT_SESSION_KEY", "armApprovalCenterArtifactReviewHandoff", "handoff=artifact-review", "Abrir Approval Center dirigido", "storyStatus", "CHANGES_READY", "SourceChangePlan restaurado para validación"]:
         assert marker in text
+    assert "validateStory.disabled=!canAuthor||!plan||storyStatus!=='CHANGES_READY'" in text
+    assert "validateStory.disabled=!canAuthor||!plan||!execution" not in text
+    assert "new Set(['IN_PROGRESS','CHANGES_READY']).has(currentStatus)" in text
+    assert "row?.metadata?.plan_hash" in text
+    assert "boundHash!==String(candidate.plan_hash??'')" in text
+    assert "requestApproval.disabled=!isOwner||!plan||storyStatus!=='IN_PROGRESS'" in text
+    assert "apply.disabled=!isOwner||!plan||!approvalInput.value.trim()||storyStatus!=='IN_PROGRESS'" in text
     for marker in ["storyTestPlanCreate", "storyTestPlanDecision", "/test-plan", "/test-plans/"]:
         assert marker in client
     assert "test command" not in text.lower()
