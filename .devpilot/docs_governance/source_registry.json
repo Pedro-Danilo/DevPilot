@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_repo": "repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_416_DEVPL_GSDLC_10_B_GOVERNED_VALIDATION_JOBS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "documents": [
     {
       "classification": "machine-readable-source",
@@ -36961,7 +36961,7 @@
         "DEVPL-GSDLC-10",
         "DEVPL-GSDLC-10-B"
       ],
-      "status_required": "PASS/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+      "status_required": "CLOSED/PASS/WINDOWS-VALIDATED",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -37150,7 +37150,7 @@
   "gsdlc_10_b_authorized": true,
   "gsdlc_10_b_bounded_cumulative_tests": "PASS/53",
   "gsdlc_10_b_browser_required": true,
-  "gsdlc_10_b_browser_runs_windows_live": 0,
+  "gsdlc_10_b_browser_runs_windows_live": 1,
   "gsdlc_10_b_documentation_governance": "PASS",
   "gsdlc_10_b_execution_source_commit": "ca3fadb3febf12fa5b405712d5611bbd96d7905f",
   "gsdlc_10_b_execution_source_repo": "repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -37159,16 +37159,16 @@
   "gsdlc_10_b_full_regression_runs_allowed": 0,
   "gsdlc_10_b_s0_open": 0,
   "gsdlc_10_b_s1_open": 0,
-  "gsdlc_10_b_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_10_b_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_10_b_test_impact_status": "PASS/35-paths/196-contracts/304-tests/unmatched-0",
-  "gsdlc_10_c_authorized": false,
-  "gsdlc_10_status": "APPROVED/ACTIVE/GSDLC-10-B",
+  "gsdlc_10_c_authorized": true,
+  "gsdlc_10_status": "APPROVED/READY-GSDLC-10-C",
   "gsdlc_active_program": "DEVPL-GSDLC",
   "gsdlc_current_micro_sprint": "DEVPL-GSDLC-10-B",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-10-B",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
   "gsdlc_next_micro_sprint": "DEVPL-GSDLC-10-B",
-  "gsdlc_program_status": "active/GSDLC-10/10-B",
+  "gsdlc_program_status": "active/GSDLC-10/10-C-READY",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
@@ -39708,5 +39708,6 @@
   },
   "updated": "2026-09-09",
   "updated_at": "2026-09-08",
-  "updated_by": "DEVPL-GSDLC-10-B"
+  "updated_by": "DEVPL-GSDLC-10-B",
+  "gsdlc_10_b_candidate_repo": "repo_DevPilot_Local_416_DEVPL_GSDLC_10_B_GOVERNED_VALIDATION_JOBS_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

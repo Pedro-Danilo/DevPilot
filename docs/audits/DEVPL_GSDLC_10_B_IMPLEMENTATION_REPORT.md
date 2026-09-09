@@ -1,7 +1,7 @@
 ---
 doc_id: "DEVPL-GSDLC-10-B-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-10-B — Governed validation jobs and live logs implementation report"
-status: "implemented/local-qualified/windows-validation-pending"
+status: "closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-09"
@@ -12,7 +12,7 @@ approval: "approved_by_owner/rebound_repo415"
 
 ## Estado
 
-`IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-VALIDATION-PENDING` sobre repo415. GSDLC-10-A permanece cerrado y no se reabre. Full Regression en 10-B = 0.
+`CLOSED / PASS / WINDOWS-VALIDATED` sobre repo416. GSDLC-10-A permanece cerrado. Browser real 10-B = 1; Full Regression en 10-B = 0; GSDLC-10-C autorizado.
 
 ## Capacidades implementadas
 
@@ -60,3 +60,7 @@ Command/shell libre, stale StoryTestPlan ejecutable, secret en log, timeout/canc
 - Python py_compile: PASS;
 - Test Impact v2: 35 changed paths / 328 contracts / 196 matched / 304 recommended / 0 unmatched; tests_executed=false;
 - Full Regression: 0.
+
+## Cierre Windows
+
+Browser lifecycle/live logs = PASS/WINDOWS-LIVE-ONCE; repo416 empaquetado limpio; promoción Git fast-forward; S0/S1=0; Full Regression=0; GSDLC-10-C autorizado.

@@ -8,7 +8,7 @@
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
         "current_micro_sprint": "DEVPL-GSDLC-10-B",
-        "current_repo": "repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_repo": "repo_DevPilot_Local_416_DEVPL_GSDLC_10_B_GOVERNED_VALIDATION_JOBS_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "last_registered_sprint": "DEVPL-GSDLC-08-E",
         "next_backlog_planned": true,

@@ -6676,4 +6676,4 @@ GSDLC-10-A `CLOSED/PASS/WINDOWS-VALIDATED`. Story Workbench demuestra `Validar �
 
 ## DEVPL-GSDLC-10-B — Typed validation jobs local qualification
 
-GSDLC-10-B se ejecuta sobre repo415 y extiende `StoryTestPlan APPROVED → StoryValidationJob(test/build/lint) → GovernedJob lifecycle → Job Console/live logs`. Reutiliza `governed_jobs`/UOC-008, no acepta command strings libres, mantiene cancelación de process tree, timeout, retry con nueva attempt identity, orphan reconciliation fail-closed y logs bounded/redacted. Estado: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`; browser real requerido una vez; Full Regression=0; GSDLC-10-C continúa no autorizado hasta cierre Windows.
+GSDLC-10-B `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo416. El flujo `StoryTestPlan APPROVED → StoryValidationJob(test/build/lint) → GovernedJob lifecycle → Job Console/live logs` quedó demostrado una vez en browser real con jobs tipados allowlisted, heartbeat/logs sanitizados y resultado estructurado. Cancel/timeout/retry/orphan permanecen cubiertos por validación automática. Browser real=1; Full Regression=0; S0/S1=0; GSDLC-10-C autorizado.
