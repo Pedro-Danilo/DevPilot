@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_repo": "repo_DevPilot_Local_416_DEVPL_GSDLC_10_B_GOVERNED_VALIDATION_JOBS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_417_DEVPL_GSDLC_10_B_JOB_CONSOLE_LIVE_REFRESH_WINDOWS_VALIDATED_CANDIDATE.zip",
   "documents": [
     {
       "classification": "machine-readable-source",
@@ -37167,14 +37167,14 @@
   "gsdlc_current_micro_sprint": "DEVPL-GSDLC-10-B",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-10-B",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-10-B",
+  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-10-C",
   "gsdlc_program_status": "active/GSDLC-10/10-C-READY",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-10-B",
+  "last_updated_by": "DEVPL-GSDLC-10-B-CORRECTIVE-104",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -39708,6 +39708,8 @@
   },
   "updated": "2026-09-09",
   "updated_at": "2026-09-08",
-  "updated_by": "DEVPL-GSDLC-10-B",
-  "gsdlc_10_b_candidate_repo": "repo_DevPilot_Local_416_DEVPL_GSDLC_10_B_GOVERNED_VALIDATION_JOBS_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "updated_by": "DEVPL-GSDLC-10-B-CORRECTIVE-104",
+  "gsdlc_10_b_candidate_repo": "repo_DevPilot_Local_417_DEVPL_GSDLC_10_B_JOB_CONSOLE_LIVE_REFRESH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_10_b_corrective_104_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "gsdlc_10_b_corrective_104_contract": "ui.jobs polling refreshes selected job detail and logs; UOC-008 base API route set treated as historical subset under typed successors"
 }
