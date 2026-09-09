@@ -613,3 +613,7 @@ Story-level browser closure integrates manual+agent paths, governed apply/rollba
 ## 2026-09-08 — DEVPL-GSDLC-09 final closure reconciliation
 
 Post-package authority audit found repo412 functionally closed but Project State / Source Registry current pointers were not fully reconciled. The repo413 reconciliation successor changes governance/current-state metadata only; it reuses sealed browser 8/8 and composite Full recovery evidence, runs no browser and no Full, and is the canonical predecessor for GSDLC-10 after Windows PASS.
+## 2026-09-09 — DEVPL-GSDLC-10-A integrated activation + local qualification
+
+GSDLC-10 is current-active on repo414 while repo413 remains the canonical product baseline of the GSDLC-09 functional closure. Activation is folded into 10-A. Story Code Workbench reuses Test Impact v2 and adds deterministic StoryTestPlan review/approval with unknown/sensitive fail-closed semantics, role-bound expiring waivers and a non-executable Full signal. No test command free-form surface exists. Full Regression runs=0. Windows live browser and bounded focal/cumulative validation remain the micro-sprint closure authority before 10-B can be authorized.
+

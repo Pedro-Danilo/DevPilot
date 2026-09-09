@@ -66,6 +66,18 @@ class SourceChangeApplyBody(SourceChangeHashBody):
     approval_id: str = Field(min_length=1, max_length=160)
 
 
+class StoryTestPlanCreateBody(SourceChangeHashBody):
+    pass
+
+
+class StoryTestPlanDecisionBody(BaseModel):
+    test_plan_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    decision: str = Field(pattern=r"^(APPROVE|REJECT|WAIVE)$")
+    reason: str | None = Field(default=None, max_length=500)
+    waived_test_ids: list[str] = Field(default_factory=list, max_length=100)
+    ttl_minutes: int = Field(default=60, ge=1, le=1440)
+
+
 class SourceChangeRollbackApprovalBody(BaseModel):
     reason: str = Field(min_length=1, max_length=500)
     ttl_minutes: int = Field(default=15, ge=1, le=30)
@@ -184,6 +196,43 @@ def story_source_change_apply(request: Request, plan_id: str, body: SourceChange
     actor, role = identity
     if role != "owner": return _json({"operation":"story.source-change.apply","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC09C_WRONG_ROLE_BLOCK","severity":"block","message":"Atomic source apply requires owner role."}]},403)
     return _result(service.story_source_change_apply(plan_id=plan_id, plan_hash=body.plan_hash, approval_id=body.approval_id, actor=actor, actor_role=role), "story.source-change.apply")
+
+
+@router.post("/api/v1/story/code/change-plans/{plan_id}/test-plan")
+def story_test_plan_create(request: Request, plan_id: str, body: StoryTestPlanCreateBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_test_plan_create(source_plan_id=plan_id, source_plan_hash=body.plan_hash, actor=actor, actor_role=role), "story.test-plan.create")
+
+
+@router.get("/api/v1/story/code/test-plans/{test_plan_id}")
+def story_test_plan_get(request: Request, test_plan_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_test_plan_get(test_plan_id=test_plan_id), "story.test-plan.get")
+
+
+@router.post("/api/v1/story/code/test-plans/{test_plan_id}/decision")
+def story_test_plan_decide(request: Request, test_plan_id: str, body: StoryTestPlanDecisionBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    result = service.story_test_plan_decide(
+        test_plan_id=test_plan_id,
+        test_plan_hash=body.test_plan_hash,
+        decision=body.decision,
+        actor=actor,
+        actor_role=role,
+        reason=body.reason,
+        waived_test_ids=body.waived_test_ids,
+        ttl_minutes=body.ttl_minutes,
+        authority_source="human-session",
+    )
+    if not result.ok and any(f.id in {"GSDLC10A_APPROVAL_ROLE_BLOCK", "GSDLC10A_WAIVER_ROLE_BLOCK"} for f in result.findings):
+        payload, _ = command_result_to_api_response(result, operation="story.test-plan.decision")
+        return _json(payload, 403)
+    return _result(result, "story.test-plan.decision")
 
 
 @router.get("/api/v1/story/code/change-executions/{execution_id}")

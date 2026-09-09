@@ -1,0 +1,22 @@
+{
+  "sprint": "DEVPL-GSDLC-10-A",
+  "status": "PASS",
+  "full_regression_runs": 0,
+  "checks": {
+    "activation_execution_source": "PASS/repo414 execution-source + repo413 canonical functional predecessor preserved",
+    "project_state_current_binding": "PASS/GSDLC-10/10-A",
+    "source_registry_current_binding": "PASS/GSDLC-10/10-A",
+    "local_release_evidence_freshness": "PASS",
+    "api_route_rbac_binding": "PASS/3 StoryTestPlan routes human-session bound",
+    "ui_route_capability_mapping": "PASS/Story Code Workbench Validate->StoryTestPlan",
+    "test_contract_registry_v1_v2": "PASS/327 contracts",
+    "historical_current_pointer_separation": "PASS",
+    "runtime_ephemeral_excluded": "PASS",
+    "sealed_predecessor_evidence_rewrite": "PASS/none",
+    "full_regression_budget": "PASS/0 of 0 in 10-A",
+    "lf_crlf_semantic_delta": "PASS/physical line endings do not determine equality"
+  },
+  "critical_drift_open": 0,
+  "s0_open": 0,
+  "s1_open": 0
+}

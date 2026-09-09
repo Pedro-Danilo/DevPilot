@@ -44,6 +44,7 @@ from .artifact_review_service import ArtifactReviewApplicationService
 from .agent_assist_service import AgentAssistApplicationService
 from .agent_execution_service import AgentExecutionApplicationService
 from .story_agent_assist_service import StoryAgentAssistApplicationService
+from .story_test_plan_service import StoryTestPlanApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
@@ -116,6 +117,7 @@ class ApplicationService:
         # fail-closed at the first Story Code operation that actually uses it.
         self._code_workbench: CodeWorkbenchApplicationService | None = None
         self._source_changes: SourceChangeApplicationService | None = None
+        self._story_test_plans: StoryTestPlanApplicationService | None = None
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -180,6 +182,17 @@ class ApplicationService:
                 approval_auth_store=self.approval_auth_store,
             )
         return self._source_changes
+
+    @property
+    def story_test_plans(self) -> StoryTestPlanApplicationService:
+        """Lazily construct the GSDLC-10-A story-bound Test Impact/Test Plan service."""
+        if self._story_test_plans is None:
+            self._story_test_plans = StoryTestPlanApplicationService(
+                self.root,
+                context_resolver=self.ui_workspace_context,
+                source_plan_loader=self.source_changes.get_plan,
+            )
+        return self._story_test_plans
 
     @property
     def agent_assist(self) -> AgentAssistApplicationService:
@@ -1406,6 +1419,15 @@ class ApplicationService:
 
     def story_source_change_plan_recheck(self, *, plan_id: str, plan_hash: str) -> CommandResult:
         return self.source_changes.recheck(plan_id=plan_id, plan_hash=plan_hash)
+
+    def story_test_plan_create(self, *, source_plan_id: str, source_plan_hash: str, actor: str, actor_role: str) -> CommandResult:
+        return self.story_test_plans.create(source_plan_id=source_plan_id, source_plan_hash=source_plan_hash, actor=actor, actor_role=actor_role)
+
+    def story_test_plan_get(self, *, test_plan_id: str) -> CommandResult:
+        return self.story_test_plans.get(test_plan_id=test_plan_id)
+
+    def story_test_plan_decide(self, *, test_plan_id: str, test_plan_hash: str, decision: str, actor: str, actor_role: str, reason: str | None = None, waived_test_ids: list[str] | None = None, ttl_minutes: int = 60, authority_source: str = "human-session") -> CommandResult:
+        return self.story_test_plans.decide(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, decision=decision, actor=actor, actor_role=actor_role, reason=reason, waived_test_ids=waived_test_ids, ttl_minutes=ttl_minutes, authority_source=authority_source)
 
     def story_source_change_dry_run(self, *, plan_id: str, plan_hash: str, actor: str, actor_role: str) -> CommandResult:
         return self.source_changes.dry_run(plan_id=plan_id, plan_hash=plan_hash, actor=actor, actor_role=actor_role)

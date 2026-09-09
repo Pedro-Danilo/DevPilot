@@ -3969,6 +3969,57 @@
       "risk_level": "medium",
       "route_id": "api.story-agent-assist.proposal.decision",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-test-plan",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.test-plan.create",
+      "path": "/api/v1/story/code/change-plans/{plan_id}/test-plan",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-test-plan.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-test-plan-read",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.test-plan.get",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-test-plan.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-test-plan-decision",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.test-plan.decision",
+      "path": "/api/v1/story/code/test-plans/{test_plan_id}/decision",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-test-plan.decision",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -4264,12 +4315,14 @@
     "gsdlc_09_c_legacy_token_allowed_total": 0,
     "gsdlc_09_c_owner_only_action_policies_total": 4,
     "gsdlc_09_c_source_change_policies_total": 11,
-    "human_session_required_total": 104,
+    "human_session_required_total": 110,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 183,
+    "route_policies_total": 186,
     "sensitive_action_policies_total": 19,
     "unmapped_routes_total": 0,
-    "unmapped_sensitive_actions_total": 0
+    "unmapped_sensitive_actions_total": 0,
+    "gsdlc_10_a_legacy_token_allowed_total": 0,
+    "gsdlc_10_a_story_test_plan_policies_total": 3
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-09-08",

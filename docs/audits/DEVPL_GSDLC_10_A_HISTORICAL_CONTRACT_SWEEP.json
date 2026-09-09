@@ -1,0 +1,39 @@
+{
+  "sprint": "DEVPL-GSDLC-10-A",
+  "status": "PASS",
+  "full_regression_runs": 0,
+  "historical_tests_modified_to_pass": false,
+  "classifications": {
+    "historical-freeze": [
+      "DEVPL-GSDLC-09/09-E closure evidence and repo413 functional-baseline facts remain immutable.",
+      "Existing Test Impact v2 / POST-H-029 execution semantics are reused, not rewritten.",
+      "GSDLC-09-C/D/E historical contract snapshots remain scoped to their close state."
+    ],
+    "current-active": [
+      "Project State + local release candidate criteria advance to GSDLC-10-A/repo414.",
+      "API/RBAC/UI route/capability registries add StoryTestPlan routes and state mappings.",
+      "Test Contract Registry v1/v2 adds devpl-gsdlc-10-a-story-test-plan.",
+      "OpenAPI current authority adds StoryTestPlan endpoints/schemas.",
+      "README and GSDLC roadmap expose 10-A as current local-qualification candidate."
+    ],
+    "successor-needed": [
+      "StoryTestPlan service/schema/API/UI is a successor capability layered on immutable SourceChangePlan + StoryExecution.",
+      "10-A extends Story Workbench Validate journey without replacing QualityOperationsView or Test Impact v2."
+    ],
+    "deprecated-after-proof": [],
+    "derived": [
+      "API/UI/RBAC/Test Contract Registry summary counters and OpenAPI are recomputed from live collections."
+    ],
+    "runtime-ephemeral": [
+      "outputs/story_execution/gsdlc_10_a",
+      "auth.db*",
+      "devpilot.db*",
+      ".venv",
+      "node_modules",
+      "__pycache__",
+      ".pytest_cache"
+    ]
+  },
+  "policy": "bounded non-critical drift repaired inside active micro-sprint; no standalone corrective repo",
+  "result": "PASS/no historical assertion edited solely to make pytest pass"
+}

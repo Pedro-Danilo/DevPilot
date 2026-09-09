@@ -13638,9 +13638,68 @@
         "docs/audits/DEVPL_GSDLC_09_E_SOURCE_DELTA_MANIFEST.json",
         ".devpilot/testing/test_isolation_registry.json"
       ]
+    },
+    {
+      "contract_id": "devpl-gsdlc-10-a-story-test-plan",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-10-A",
+      "phase": "DEVPL-GSDLC-10",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_a_story_test_plan.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "validates": [
+        "deterministic StoryTestPlan binds StoryExecution + immutable SourceChangePlan hash + Test Impact report hash",
+        "existing Test Impact v2 is reused; no second impact engine and no free-form test command",
+        "required/recommended tests are explainable by matched contracts/rules",
+        "unknown impact requires explicit human review and sensitive under-testing blocks fail-closed",
+        "waivers are owner-only, reasoned, expiring and cannot waive sensitive/P0 required tests",
+        "agent/model authority cannot approve or waive StoryTestPlan",
+        "Full Regression signal is informational only and GSDLC-10-A full runs remain zero",
+        "Story Code Workbench exposes Story → Validate → StoryTestPlan review without a parallel Quality UI",
+        "activation/rebind is folded into 10-A on repo414 while repo413 remains canonical functional predecessor"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/story_test_plan_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/styles.css",
+        "ui/web/scripts/gsdlc10a-story-test-plan-smoke.mjs",
+        "ui/web/package.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/schemas/story_test_plan.schema.json",
+        "docs/schemas/story_test_impact_report.schema.json",
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_0_APPROVED_REBOUND_REPO414.md",
+        "00_PROMPT_DEVPL_GSDLC_10_ACTIVATION_REBIND_v1_0_0_REPO414.md",
+        "01_PROMPT_DEVPL_GSDLC_10_A_v1_0_0_REPO414.md",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/audits/DEVPL_GSDLC_10_A_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_10_A_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_A_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_A_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_A_TEST_IMPACT.json"
+      ]
     }
   ],
-  "contracts_total": 326,
+  "contracts_total": 327,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [

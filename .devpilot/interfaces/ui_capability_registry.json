@@ -11709,12 +11709,12 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 183,
+    "api_routes_total": 186,
     "classification_complete": true,
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
     "current_active_capabilities_total": 210,
-    "current_ui_native_or_read_only_total": 26,
+    "current_ui_native_or_read_only_total": 13,
     "forbidden_capabilities_total": 5,
     "gsdlc_01_e_project_status": true,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -11758,8 +11758,8 @@
       "CLI-BRIDGE-REGISTERED": 178,
       "PLANNED": 1,
       "POLICY-BLOCKED": 5,
-      "UI-NATIVE": 15,
-      "UI-READ-ONLY": 11
+      "UI-NATIVE": 12,
+      "UI-READ-ONLY": 1
     },
     "planned_sprint_counts": {
       "CURRENT": 24,
@@ -11831,7 +11831,9 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-09-C"
+    "updated_by": "DEVPL-GSDLC-10-A",
+    "gsdlc_10_a_story_test_plan": true,
+    "gsdlc_10_a_story_test_plan_api_routes_total": 3
   },
   "ui_routes": [
     {
@@ -12510,7 +12512,10 @@
         "api.story-source-change.recheck",
         "api.story-source-change.rollback",
         "api.story-source-change.rollback-approval-request",
-        "api.story-source-change.rollback-evidence"
+        "api.story-source-change.rollback-evidence",
+        "api.story-test-plan.create",
+        "api.story-test-plan.decision",
+        "api.story-test-plan.get"
       ],
       "native_capabilities": [
         {
@@ -12574,6 +12579,21 @@
           "risk_class": "agent-assisted-proposal",
           "runtime_persistence": "outputs/story_agent_assist/gsdlc_09_d",
           "source_write_enabled": false
+        },
+        {
+          "application_service": "story_test_plans",
+          "capability_id": "ui.story-code-workbench.story-test-plan",
+          "full_regression_execution_enabled": false,
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "DEVPL-GSDLC-10-A",
+          "read_write": "runtime-plan/human-review",
+          "requires_approval_for_future_apply": false,
+          "requires_dry_run": false,
+          "risk_class": "governed-runtime-state",
+          "runtime_persistence": "outputs/story_execution/gsdlc_10_a",
+          "source_write_enabled": false,
+          "test_execution_enabled": false,
+          "waiver_authority": "human-owner-server-side"
         }
       ],
       "page_component": "StoryCodeWorkbenchView",
@@ -12595,7 +12615,12 @@
         "loading": true,
         "empty": true,
         "error": true,
-        "block_visible": true
+        "block_visible": true,
+        "sensitive_impact_visible": true,
+        "test_plan_approved": true,
+        "test_plan_ready": true,
+        "test_plan_review_required": true,
+        "unknown_impact_visible": true
       }
     }
   ],

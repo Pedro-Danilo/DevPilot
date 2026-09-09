@@ -1,0 +1,18 @@
+{
+  "sprint": "DEVPL-GSDLC-10-A",
+  "status": "PASS",
+  "authority": "Test Impact Analyzer v2/current-active TCR v2",
+  "changed_paths_total": 33,
+  "full_regression_runs": 0,
+  "tests_executed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "source_mutations_performed": false,
+  "contracts_total": 327,
+  "matched_contracts_total": 206,
+  "p0_selected_total": 127,
+  "p1_selected_total": 70,
+  "recommended_tests_total": 315,
+  "unmatched_paths_total": 0,
+  "dry_run": true
+}

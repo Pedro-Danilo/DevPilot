@@ -1119,7 +1119,10 @@
         "api.story-source-change.recheck",
         "api.story-source-change.rollback",
         "api.story-source-change.rollback-approval-request",
-        "api.story-source-change.rollback-evidence"
+        "api.story-source-change.rollback-evidence",
+        "api.story-test-plan.create",
+        "api.story-test-plan.decision",
+        "api.story-test-plan.get"
       ],
       "connector_write_allowed": false,
       "critical": true,
@@ -1139,7 +1142,8 @@
       "notes": [
         "Manual authoring remains draft-first.",
         "09-C apply and rollback are owner-approval-bound typed operations; no terminal, shell, generic patch, Git stage/commit or agent self-apply.",
-        "09-D adds CodingAgent/TestAgent proposal-only with human ACCEPT/REJECT; ACCEPT inserts into editor only and does not write draft/source."
+        "09-D adds CodingAgent/TestAgent proposal-only with human ACCEPT/REJECT; ACCEPT inserts into editor only and does not write draft/source.",
+        "10-A adds Story → Validar → Test Impact v2 → StoryTestPlan review/approval; Full signal is informative only and no free-form test command exists."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1173,9 +1177,16 @@
         "rolled_back": true,
         "source_unchanged": true,
         "stale_preimage": true,
-        "unsafe_agent_proposal_blocked": true
+        "unsafe_agent_proposal_blocked": true,
+        "sensitive_impact_visible": true,
+        "test_plan_approved": true,
+        "test_plan_ready": true,
+        "test_plan_rejected": true,
+        "test_plan_review_required": true,
+        "unknown_impact_visible": true,
+        "waiver_expired_block": true
       },
-      "status": "implemented-initial/gsdlc-09-d",
+      "status": "implemented-initial/gsdlc-10-a",
       "status_visibility": [
         "PASS",
         "WARN",
@@ -1183,7 +1194,7 @@
         "ERROR",
         "PENDING"
       ],
-      "title": "Story Code Workbench — manual + proposal-only agent assist + governed source change"
+      "title": "Story Code Workbench — manual + agents + governed source change + StoryTestPlan"
     }
   ],
   "safety": {
@@ -1200,7 +1211,7 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "allowed_api_routes_unique_total": 149,
+    "allowed_api_routes_unique_total": 155,
     "critical_routes_total": 14,
     "current_routes_total": 14,
     "dashboard_max_concurrency": 2,
@@ -1285,11 +1296,13 @@
     "uoc_011_matrix_cases_total": 108,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "updated_by": "DEVPL-GSDLC-09-C",
+    "updated_by": "DEVPL-GSDLC-10-A",
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
-    "workspace_validation_api_routes_total": 4
+    "workspace_validation_api_routes_total": 4,
+    "gsdlc_10_a_story_test_plan": true,
+    "gsdlc_10_a_story_test_plan_api_routes_total": 3
   },
   "updated": "2026-09-08"
 }

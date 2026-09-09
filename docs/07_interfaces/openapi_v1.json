@@ -2216,6 +2216,67 @@
         ],
         "title": "ValidationError",
         "type": "object"
+      },
+      "StoryTestPlanCreateBody": {
+        "properties": {
+          "plan_hash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Plan Hash",
+            "type": "string"
+          }
+        },
+        "required": [
+          "plan_hash"
+        ],
+        "title": "StoryTestPlanCreateBody",
+        "type": "object"
+      },
+      "StoryTestPlanDecisionBody": {
+        "properties": {
+          "decision": {
+            "pattern": "^(APPROVE|REJECT|WAIVE)$",
+            "title": "Decision",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "test_plan_hash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Test Plan Hash",
+            "type": "string"
+          },
+          "ttl_minutes": {
+            "default": 60,
+            "maximum": 1440.0,
+            "minimum": 1.0,
+            "title": "Ttl Minutes",
+            "type": "integer"
+          },
+          "waived_test_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Waived Test Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "test_plan_hash",
+          "decision"
+        ],
+        "title": "StoryTestPlanDecisionBody",
+        "type": "object"
       }
     }
   },
@@ -9544,6 +9605,146 @@
           "workspace-validations"
         ]
       }
+    },
+    "/api/v1/story/code/change-plans/{plan_id}/test-plan": {
+      "post": {
+        "operationId": "story_test_plan_create_api_v1_story_code_change_plans__plan_id__test_plan_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plan_id",
+            "required": true,
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryTestPlanCreateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Test Plan Create",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/test-plans/{test_plan_id}": {
+      "get": {
+        "operationId": "story_test_plan_get_api_v1_story_code_test_plans__test_plan_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "test_plan_id",
+            "required": true,
+            "schema": {
+              "title": "Test Plan Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Test Plan Get",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/test-plans/{test_plan_id}/decision": {
+      "post": {
+        "operationId": "story_test_plan_decide_api_v1_story_code_test_plans__test_plan_id__decision_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "test_plan_id",
+            "required": true,
+            "schema": {
+              "title": "Test Plan Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryTestPlanDecisionBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Test Plan Decide",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
     }
   },
   "x-devpilot": {
@@ -9609,7 +9810,7 @@
     "uoc_008_generic_capability_execution_enabled": false,
     "uoc_008_job_console": true,
     "uoc_008_jobs_routes_total": 5,
-    "updated_by": "DEVPL-GSDLC-09-D",
+    "updated_by": "DEVPL-GSDLC-10-A",
     "visual_product_mvp_release": true,
     "web_real_evolution_planned": true,
     "web_ui_consumer": "ui/web",
@@ -9623,7 +9824,10 @@
     "workspace_edit_execution_routes_total": 5,
     "workspace_edit_plan_routes_total": 3,
     "workspace_git_routes_total": 13,
-    "workspace_validation_traceability_routes": 4
+    "workspace_validation_traceability_routes": 4,
+    "gsdlc_10_a_free_form_test_command_allowed": false,
+    "gsdlc_10_a_full_regression_runs": 0,
+    "gsdlc_10_a_story_test_plan_routes_total": 3
   },
   "x-devpilot-gsdlc-04-b": {
     "full_regression_executed": false,
@@ -9715,5 +9919,15 @@
     ],
     "source_mutations_performed": false,
     "status": "implemented/local-qualified/WINDOWS-PENDING"
+  },
+  "x-devpilot-gsdlc-10-a": {
+    "free_form_test_command_allowed": false,
+    "full_regression_execution_authorized": false,
+    "full_regression_runs": 0,
+    "model_route_grants_waiver_or_test_execution_authority": false,
+    "status": "implemented-local-qualification/windows-browser-pending",
+    "story_test_plan_routes_total": 3,
+    "test_impact_v2_reused": true,
+    "waiver_authority": "human-owner-server-side"
   }
 }
