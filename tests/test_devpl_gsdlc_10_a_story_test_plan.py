@@ -272,7 +272,7 @@ def test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_
     client = (ROOT / "ui/web/src/api/client.ts").read_text(encoding="utf-8")
     for marker in ["Validar story", "StoryTestPlan", "Required tests", "Recommended tests", "unknown impact", "SENSITIVE", "informative only", "execution_authorized"]:
         assert marker in text
-    for marker in ["restoreApplyContext", "listApprovals", "sessionStorage", "storySourceChangePlan", "story_execution_id", "APPLY_CONTEXT_SESSION_KEY"]:
+    for marker in ["restoreApplyContext", "listApprovals", "sessionStorage", "storySourceChangePlan", "story_execution_id", "APPLY_CONTEXT_SESSION_KEY", "armApprovalCenterArtifactReviewHandoff", "handoff=artifact-review", "Abrir Approval Center dirigido"]:
         assert marker in text
     for marker in ["storyTestPlanCreate", "storyTestPlanDecision", "/test-plan", "/test-plans/"]:
         assert marker in client
