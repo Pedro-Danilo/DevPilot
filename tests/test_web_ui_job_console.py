@@ -29,3 +29,16 @@ def test_job_console_supports_opaque_job_deep_links() -> None:
     assert "initialJobId" in view
     assert "history.replaceState" in view
     assert "`/jobs/${job.job_id}`" in view
+
+def test_job_console_polling_refreshes_selected_detail_and_logs() -> None:
+    view = text("ui/web/src/pages/JobsView.ts")
+    assert "async function refreshSelected(client: DevPilotApiClient, jobId: string)" in view
+    assert "if (state.selected) await refreshSelected(client, state.selected.job_id);" in view
+    assert "state.detail = await client.inspectJob(jobId);" in view
+    assert "state.logs = await client.jobLogs(jobId, 0, 200);" in view
+    assert "setInterval(() => { if (!state.loading) void refresh(); }, 3000)" in view
+
+def test_job_console_manual_refresh_uses_same_selected_snapshot_refresh_path() -> None:
+    view = text("ui/web/src/pages/JobsView.ts")
+    assert "refreshButton.addEventListener('click', () => void refresh())" in view
+    assert "await refreshSelected(client, jobId);" in view

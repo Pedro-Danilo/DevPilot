@@ -139,6 +139,8 @@ def test_ui_contract_exposes_typed_job_planning_job_console_and_no_free_form_com
     assert 'FULL REGRESSION=0 EN 10-B' in story
     assert 'Iniciar validación tipada' in jobs
     assert 'startStoryValidationJob' in jobs
+    assert 'refreshSelected(client, state.selected.job_id)' in jobs
+    assert 'state.logs = await client.jobLogs(jobId, 0, 200)' in jobs
     assert 'free-form' not in story.lower() or 'no' in story.lower()
 
 

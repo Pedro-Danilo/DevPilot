@@ -29,12 +29,26 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
   const state: JobsState = { loading: false, errors: {}, workspace: '', capability: '', status: '', polling: false, logCursor: 0 };
   let pollHandle: number | undefined;
 
+  async function refreshSelected(client: DevPilotApiClient, jobId: string): Promise<void> {
+    try {
+      state.detail = await client.inspectJob(jobId);
+      state.logs = await client.jobLogs(jobId, 0, 200);
+      const detailJob = (state.detail?.data as { job?: GovernedJobSnapshot } | undefined)?.job;
+      if (detailJob) state.selected = detailJob;
+      delete state.errors.detail; delete state.errors.logs;
+    } catch (error) {
+      state.errors.detail = message(error);
+    }
+  }
+
   async function refresh(): Promise<void> {
     state.loading = true; draw();
+    const client = new DevPilotApiClient({ token: tokenProvider() });
     try {
-      state.jobs = await new DevPilotApiClient({ token: tokenProvider() }).listJobs({ workspace_id: state.workspace || undefined, capability_id: state.capability || undefined, status: state.status || undefined, limit: 100 });
+      state.jobs = await client.listJobs({ workspace_id: state.workspace || undefined, capability_id: state.capability || undefined, status: state.status || undefined, limit: 100 });
       delete state.errors.jobs;
     } catch (error) { state.errors.jobs = message(error); }
+    if (state.selected) await refreshSelected(client, state.selected.job_id);
     state.loading = false; draw();
   }
 
@@ -45,13 +59,7 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
   async function inspectId(jobId: string): Promise<void> {
     state.logCursor = 0; state.loading = true; draw();
     const client = new DevPilotApiClient({ token: tokenProvider() });
-    try {
-      state.detail = await client.inspectJob(jobId);
-      state.logs = await client.jobLogs(jobId, 0, 200);
-      const detailJob = (state.detail?.data as { job?: GovernedJobSnapshot } | undefined)?.job;
-      if (detailJob) state.selected = detailJob;
-      delete state.errors.detail; delete state.errors.logs;
-    } catch (error) { state.errors.detail = message(error); }
+    await refreshSelected(client, jobId);
     state.loading = false; draw();
   }
 
