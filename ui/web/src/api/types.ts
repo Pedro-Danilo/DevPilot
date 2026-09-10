@@ -1,3 +1,4 @@
+// UI route contract markers: ui.quality; ui.story-code-workbench
 export type FindingSeverity = 'info' | 'warning' | 'block' | 'error' | string;
 
 export interface DevPilotFinding {
@@ -600,6 +601,83 @@ export interface WorkspaceGitCommitExecution {
   commit_identity: { message: string; author_name: string; author_email: string };
   push_performed: boolean;
   hooks_executed: boolean;
+}
+
+export interface StoryGitCommitReadyContext {
+  story_execution_id: string;
+  story_id: string;
+  quality_report_id: string;
+  quality_report_hash: string;
+  story_test_plan_id: string;
+  story_test_plan_hash: string;
+  source_change_plan_id: string;
+  source_change_plan_hash: string;
+  exact_paths: string[];
+  quality_decision: 'PASS';
+  commit_ready: true;
+  git_authority_granted?: false;
+}
+
+export interface StoryGitCommitPlan {
+  schema_id: string;
+  schema_version: string;
+  commit_plan_id: string;
+  commit_plan_hash: string;
+  workspace_id: string;
+  story_execution_id: string;
+  story_id: string;
+  branch: string;
+  head_before: string;
+  exact_paths: string[];
+  include_paths: string[];
+  exclude_paths: string[];
+  expected_git_status: Record<string, string>;
+  source_change_plan_id: string;
+  source_change_plan_hash: string;
+  story_test_plan_id: string;
+  story_test_plan_hash: string;
+  story_quality_report_id: string;
+  story_quality_report_hash: string;
+  commit: { message: string; author_name: string; author_email: string };
+  approval: { required: boolean; required_role: 'owner'; stage_and_commit_separate: boolean; agent_granted_authority: false; model_route_granted_authority: false };
+  traceability: { requirement_ids: string[]; test_evidence_ids: string[] };
+  safety: Record<string, boolean>;
+  created_at_utc: string;
+  expires_at_utc: string;
+}
+
+export interface StoryGitStageExecution {
+  stage_execution_id: string;
+  status: 'STAGED' | 'COMMITTED' | string;
+  commit_plan_id: string;
+  commit_plan_hash: string;
+  stage_approval_id: string;
+  index_fingerprint: string;
+  staging_manifest: { exact_paths: string[]; git_add_all: false; shell: false };
+  push_performed: false;
+}
+
+export interface StoryGitCommitRecord {
+  commit_record_id: string;
+  commit_hash: string;
+  parent_hash: string;
+  committed_paths: string[];
+  message: string;
+  author_name: string;
+  author_email: string;
+  requirement_ids: string[];
+  test_evidence_ids: string[];
+  traceability_complete: boolean;
+  worktree_clean: boolean;
+  index_clean: boolean;
+  push_performed: false;
+  force_push_performed: false;
+  rebase_performed: false;
+  reset_hard_performed: false;
+  shell: false;
+  agent_granted_authority: false;
+  model_route_granted_authority: false;
+  full_regression_started: false;
 }
 
 export interface WorkspaceGitBranchPlan {

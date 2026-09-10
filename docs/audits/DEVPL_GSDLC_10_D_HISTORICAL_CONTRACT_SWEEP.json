@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "DEVPL-GSDLC-10-D-HISTORICAL-CONTRACT-SWEEP",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-10-D",
+  "updated": "2026-09-10",
+  "full_regression_runs": 0,
+  "classifications": [
+    {
+      "surface": "GSDLC-10-A closure facts and immutable evidence",
+      "classification": "historical-freeze",
+      "decision": "preserved; no historical closure assertion rewritten"
+    },
+    {
+      "surface": "GSDLC-10 current-active project/status assertions",
+      "classification": "current-active",
+      "decision": "advanced from stale 10-C pointer to 10-D implementation state"
+    },
+    {
+      "surface": "UOC-006 governed Git default MAX_PATHS=20 and destructive Git no-go",
+      "classification": "historical-freeze",
+      "decision": "preserved unchanged"
+    },
+    {
+      "surface": "GSDLC-10-D story-bound exact staging path ceiling=32",
+      "classification": "successor-needed",
+      "decision": "explicit bounded override only for story-bound operation; does not widen historical UOC-006 default"
+    },
+    {
+      "surface": "API/RBAC/UI route registries and OpenAPI current mappings",
+      "classification": "current-active",
+      "decision": "extended for the eight 10-D story Git routes"
+    },
+    {
+      "surface": "story Git focal contract in Test Contract Registry v1/v2",
+      "classification": "successor-needed",
+      "decision": "new isolated mutation-aware contract registered with explicit safety exception"
+    },
+    {
+      "surface": "UI capability summary/counters",
+      "classification": "derived",
+      "decision": "reconciled from live current-active route/capability set"
+    },
+    {
+      "surface": "auth.db*, devpilot.db*, outputs/, caches and isolated browser workspace",
+      "classification": "runtime-ephemeral",
+      "decision": "excluded from source/evidence/packages; browser Git mutations remain fixture-only"
+    }
+  ],
+  "findings": [],
+  "s0_open": 0,
+  "s1_open": 0,
+  "verdict": "PASS — historical facts frozen; current-active contracts advanced by successor/rebind only; no Full Regression consumed."
+}

@@ -105,7 +105,7 @@
       "path": "README.md",
       "producer_sprint": "POST-H-026-D",
       "required_markers": [
-        "POST-H-026-D \u2014 Local install and run verification",
+        "POST-H-026-D — Local install and run verification",
         "release-candidate install-smoke"
       ],
       "title": "README and runbook document POST-H-026-A"
@@ -118,7 +118,7 @@
       "path": "docs/05_operations/runbook.md",
       "producer_sprint": "POST-H-026-D",
       "required_markers": [
-        "POST-H-026-D \u2014 Local install and run verification",
+        "POST-H-026-D — Local install and run verification",
         "release-candidate install-smoke"
       ],
       "title": "Operations runbook documents POST-H-026-A"
@@ -231,7 +231,7 @@
       "path": "README.md",
       "producer_sprint": "POST-H-026-C",
       "required_markers": [
-        "POST-H-026-C \u2014 UI/API local smoke under RC",
+        "POST-H-026-C — UI/API local smoke under RC",
         "release-candidate ui-api-smoke"
       ],
       "title": "README/runbook document POST-H-026-C"
@@ -690,10 +690,10 @@
       "title": "UOC-003 implementation report"
     }
   ],
-  "expected_current_micro_sprint": "DEVPL-GSDLC-10-A",
-  "expected_current_repo": "repo_DevPilot_Local_415_DEVPL_GSDLC_10_A_TEST_IMPACT_STORY_TEST_PLAN_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_micro_sprint": "DEVPL-GSDLC-10-D",
+  "expected_current_repo": "repo_DevPilot_Local_418_DEVPL_GSDLC_10_C_QUALITY_GATE_REMEDIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
-  "expected_next_micro_sprint": "DEVPL-GSDLC-10-B",
+  "expected_next_micro_sprint": "DEVPL-GSDLC-10-E",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
@@ -722,6 +722,6 @@
   "uoc_004_source_write_enabled": false,
   "uoc_004_status": "closed/PASS",
   "uoc_005_authorized": true,
-  "updated": "2026-09-09",
-  "updated_by": "DEVPL-GSDLC-10-C/rebind-repo417"
+  "updated": "2026-09-10",
+  "updated_by": "DEVPL-GSDLC-10-D/rebind-repo418"
 }

@@ -6,13 +6,14 @@ import os
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from devpilot_core.approval.service import ApprovalCliInput, ApprovalService
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PolicyEngine, PolicyRequest, SecretGuard, configured_external_workspace_roots
 from devpilot_core.repo.git_adapter import GitAdapter
 from devpilot_core.schemas import SchemaValidator
+from devpilot_core.story_execution import StoryExecutionStatus, StoryExecutionStore, StoryExecutionTransitionError
 from devpilot_core.repo.governed_git_mutation import (
     GovernedGitMutationAdapter,
     validate_author_email,
@@ -28,6 +29,7 @@ from .workspace_documents_service import ALLOWED_EXTENSIONS, WorkspaceDocumentsA
 CONTROL_ROOT_ENV = "DEVPILOT_UOC006_CONTROL_ROOT"
 PLAN_TTL_SECONDS = 1800
 MAX_PLAN_FILES = 20
+MAX_STORY_PLAN_FILES = 32
 MAX_TOTAL_BYTES = 2_097_152
 STAGE_ACTION = "git.workspace_stage"
 COMMIT_ACTION = "git.workspace_commit"
@@ -61,6 +63,9 @@ class WorkspaceGitOperationsApplicationService:
         context_resolver: UiWorkspaceContextResolver | None = None,
         documents: WorkspaceDocumentsApplicationService | None = None,
         approval_auth_store: LocalAuthStore | None = None,
+        source_plan_loader: Callable[..., CommandResult] | None = None,
+        story_test_plan_loader: Callable[..., CommandResult] | None = None,
+        story_quality_report_loader: Callable[..., CommandResult] | None = None,
     ) -> None:
         self.platform_root = Path(platform_root).resolve()
         self.context_resolver = context_resolver or UiWorkspaceContextResolver(self.platform_root)
@@ -69,6 +74,9 @@ class WorkspaceGitOperationsApplicationService:
         self.secret_guard = SecretGuard(self.platform_root)
         self.validation = ValidationApplicationService(self.platform_root, enforce_workspace_paths=True)
         self.approval_auth_store = approval_auth_store
+        self.source_plan_loader = source_plan_loader
+        self.story_test_plan_loader = story_test_plan_loader
+        self.story_quality_report_loader = story_quality_report_loader
 
     # ------------------------------------------------------------------ reads
     def status(self) -> CommandResult:
@@ -551,6 +559,570 @@ class WorkspaceGitOperationsApplicationService:
             return schema_block
         self._write_json(control / "records" / f"{execution_id}.json", record)
         return CommandResult("workspace git branch create", True, ExitCode.PASS, "Approved local branch ref was created without checkout or push.", data={"execution": record, "summary": {"branch_name": plan["branch_name"], "head": plan["head_before"], "checkout_performed": False, "push_performed": False}}, findings=[Finding("UOC006_BRANCH_CREATE_PASS", "Branch ref creation did not checkout, push or delete refs.", Severity.INFO)])
+
+    # ---------------------------------------------------- GSDLC-10-D story Git
+    def plan_story_commit(
+        self,
+        *,
+        quality_report_id: str,
+        quality_report_hash: str,
+        commit_message: str,
+        author_name: str,
+        author_email: str,
+        actor: str,
+        actor_role: str,
+        authority_source: str = "human-session",
+    ) -> CommandResult:
+        """Build an immutable story-bound CommitPlan without mutating Git.
+
+        The plan binds the current COMMIT_READY StoryExecution to the exact
+        SourceChangePlan, APPROVED StoryTestPlan and non-stale Quality PASS.
+        Git write authority is intentionally *not* granted by this operation.
+        """
+        command = "story git commit plan"
+        role_failure = self._story_human_role(command, actor_role, authority_source, allow_developer=True)
+        if role_failure is not None:
+            return role_failure
+        context, root, failure = self._workspace(command)
+        if failure is not None:
+            return failure
+        assert context is not None and root is not None
+        try:
+            message = validate_commit_message(commit_message)
+            name = validate_author_name(author_name)
+            email = validate_author_email(author_email)
+        except ValueError as exc:
+            return self._story_block(command, "GSDLC10D_COMMIT_IDENTITY_BLOCK", str(exc))
+
+        chain, chain_failure = self._story_chain(
+            root=root,
+            workspace_id=str(context.active_workspace_id or ""),
+            quality_report_id=quality_report_id,
+            quality_report_hash=quality_report_hash,
+        )
+        if chain_failure is not None:
+            return chain_failure
+        assert chain is not None
+        source_plan = chain["source_plan"]
+        exact_paths = sorted({str(path).replace("\\", "/") for path in source_plan.get("exact_path_allowlist") or [] if str(path).strip()})
+        if not exact_paths or len(exact_paths) > MAX_STORY_PLAN_FILES:
+            return self._story_block(command, "GSDLC10D_EXACT_PATH_SET_BLOCK", f"Story CommitPlan requires 1-{MAX_STORY_PLAN_FILES} exact approved paths.")
+
+        mutation = GovernedGitMutationAdapter(root)
+        head_result, branch_result = mutation.head(), mutation.current_branch()
+        if not head_result.ok or not branch_result.ok:
+            return self._story_block(command, "GSDLC10D_GIT_IDENTITY_BLOCK", "Current Git HEAD/branch could not be resolved through the typed adapter.")
+        head = head_result.stdout.strip(); branch = branch_result.stdout.strip()
+        if not branch:
+            return self._story_block(command, "GSDLC10D_DETACHED_HEAD_BLOCK", "Story commit planning requires a named local branch.")
+        try:
+            staged = sorted(mutation.staged_paths())
+            dirty = sorted(mutation.dirty_paths())
+        except RuntimeError as exc:
+            return self._story_block(command, "GSDLC10D_GIT_INVENTORY_BLOCK", str(exc))
+        if staged:
+            return self._story_block(command, "GSDLC10D_PREEXISTING_STAGED_BLOCK", "Index must be empty before a story CommitPlan is created.", metadata={"staged_paths": staged})
+        if dirty != exact_paths:
+            return self._story_block(command, "GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK", "Dirty Git path set must equal the approved SourceChangePlan exactly.", metadata={"expected_paths": exact_paths, "actual_dirty_paths": dirty})
+
+        expected_files, expected_failure = self._story_expected_files(source_plan, root)
+        if expected_failure is not None:
+            return expected_failure
+        assert expected_files is not None
+        context_pack = StoryExecutionStore(root, workspace_id=str(context.active_workspace_id)).load_context() or {}
+        requirement_ids = sorted({str(row.get("target_id") or "") for row in context_pack.get("fragments") or [] if isinstance(row, dict) and row.get("kind") == "requirement" and str(row.get("target_id") or "").strip()})
+        quality = chain["quality_report"]
+        test_evidence_ids = sorted({str(ref) for job in quality.get("required_job_results") or [] if isinstance(job, dict) for ref in (job.get("artifact_refs") or []) if str(ref).strip()})
+        traceability = {
+            "requirement_ids": requirement_ids,
+            "story_id": chain["story_state"].get("story_id"),
+            "story_execution_id": chain["story_state"].get("execution_id"),
+            "source_change_plan_id": source_plan.get("plan_id"),
+            "source_change_plan_hash": source_plan.get("plan_hash"),
+            "story_test_plan_id": chain["story_test_plan"].get("test_plan_id"),
+            "story_test_plan_hash": chain["story_test_plan"].get("test_plan_hash"),
+            "story_quality_report_id": quality.get("report_id"),
+            "story_quality_report_hash": quality.get("report_hash"),
+            "test_evidence_ids": test_evidence_ids,
+        }
+        core = {
+            "schema_id": "SCHEMA-DEVPL-GSDLC-10-D-STORY-COMMIT-PLAN-V1",
+            "schema_version": "1.0.0",
+            "workspace_id": str(context.active_workspace_id),
+            "story_execution_id": chain["story_state"].get("execution_id"),
+            "story_id": chain["story_state"].get("story_id"),
+            "source_change_plan_id": source_plan.get("plan_id"),
+            "source_change_plan_hash": source_plan.get("plan_hash"),
+            "story_test_plan_id": chain["story_test_plan"].get("test_plan_id"),
+            "story_test_plan_hash": chain["story_test_plan"].get("test_plan_hash"),
+            "story_quality_report_id": quality.get("report_id"),
+            "story_quality_report_hash": quality.get("report_hash"),
+            "quality_inputs_hash": quality.get("inputs_hash"),
+            "branch": branch,
+            "head_before": head,
+            "exact_paths": exact_paths,
+            "include_paths": exact_paths,
+            "exclude_paths": [],
+            "files": expected_files,
+            "commit": {"message": message, "author_name": name, "author_email": email, "message_editable_before_plan": True},
+            "approval": {
+                "required_role": "owner",
+                "stage_approval_required": True,
+                "commit_approval_required": True,
+                "authority_source": "server-rbac-policy-approval",
+                "agent_granted_authority": False,
+                "model_route_granted_authority": False,
+            },
+            "traceability": traceability,
+            "safety": {
+                "exact_staging_only": True,
+                "git_add_all_enabled": False,
+                "push_enabled": False,
+                "force_push_enabled": False,
+                "rebase_enabled": False,
+                "reset_hard_enabled": False,
+                "shell_enabled": False,
+                "full_regression_started": False,
+            },
+        }
+        plan_hash = _sha_json(core)
+        plan_id = f"story-commit-plan-{plan_hash[:24]}"
+        plan = {**core, "commit_plan_id": plan_id, "commit_plan_hash": plan_hash, "created_at_utc": _now(), "expires_at_utc": _future(PLAN_TTL_SECONDS)}
+        schema_block = self._schema_block(command, "GSDLC10DStoryCommitPlan", plan)
+        if schema_block is not None:
+            return self._story_wrap_schema_block(command, schema_block)
+        control = self._story_control_root(root)
+        if control is None:
+            return self._story_block(command, "GSDLC10D_CONTROL_ROOT_BLOCK", "Story Git control root must resolve outside the active workspace.")
+        path = control / "plans" / f"{plan_id}.json"
+        existing = self._read_json(path)
+        if existing and str(existing.get("commit_plan_hash")) != plan_hash:
+            return self._story_block(command, "GSDLC10D_PLAN_COLLISION_BLOCK", "Existing story CommitPlan id has incompatible immutable content.")
+        if not existing:
+            self._write_json(path, plan)
+        return self._story_pass(command, "Immutable story CommitPlan created; Git index/history remain untouched.", {"commit_plan": existing or plan, "idempotent": bool(existing), "mutations_performed": False})
+
+    def get_story_commit_plan(self, *, commit_plan_id: str) -> CommandResult:
+        command = "story git commit plan get"
+        _, root, failure = self._workspace(command)
+        if failure is not None:
+            return failure
+        assert root is not None
+        plan = self._load_story_plan(root, commit_plan_id)
+        if plan is None:
+            return self._story_block(command, "GSDLC10D_PLAN_NOT_FOUND_BLOCK", "Story CommitPlan was not found or is malformed.")
+        if _expired(plan.get("expires_at_utc")):
+            return self._story_block(command, "GSDLC10D_PLAN_EXPIRED_BLOCK", "Story CommitPlan has expired.")
+        return self._story_pass(command, "Story CommitPlan loaded read-only.", {"commit_plan": plan, "read_only": True, "mutations_performed": False})
+
+    def request_story_stage_approval(self, *, commit_plan_id: str, commit_plan_hash: str, actor: str, actor_role: str, reason: str, ttl_minutes: int = 15, authority_source: str = "human-session") -> CommandResult:
+        command = "story git stage approval request"
+        role_failure = self._story_human_role(command, actor_role, authority_source, allow_developer=False)
+        if role_failure is not None:
+            return role_failure
+        plan, failure = self._story_plan_exact(commit_plan_id, commit_plan_hash)
+        if failure is not None:
+            return failure
+        assert plan is not None
+        recheck = self._recheck_story_plan(plan, require_unstaged=True)
+        if not recheck.ok:
+            return recheck
+        reason = str(reason or "").strip()
+        if not reason:
+            return self._story_block(command, "GSDLC10D_APPROVAL_REASON_BLOCK", "A human-readable stage approval reason is required.")
+        scope = self._story_stage_scope(plan, actor=actor)
+        result = self.approvals.request(ApprovalCliInput(tool_id=STAGE_TOOL, action=STAGE_ACTION, subject=commit_plan_id, actor=_actor(actor), reason=reason, scope=json.dumps(scope, sort_keys=True), ttl_minutes=max(1, min(int(ttl_minutes), 30)), metadata={"source":"gsdlc-10-d","interface":"ui","commit_plan_hash":commit_plan_hash,"authority_source":"human-session"}))
+        return self._story_decorate_approval(result, phase="stage", binding_hash=commit_plan_hash)
+
+    def stage_story(self, *, commit_plan_id: str, commit_plan_hash: str, approval_id: str, actor: str, actor_role: str, authority_source: str = "human-session") -> CommandResult:
+        command = "story git stage"
+        role_failure = self._story_human_role(command, actor_role, authority_source, allow_developer=False)
+        if role_failure is not None:
+            return role_failure
+        plan, failure = self._story_plan_exact(commit_plan_id, commit_plan_hash)
+        if failure is not None:
+            return failure
+        assert plan is not None
+        recheck = self._recheck_story_plan(plan, require_unstaged=True)
+        if not recheck.ok:
+            return recheck
+        _, root, workspace_failure = self._workspace(command)
+        if workspace_failure is not None:
+            return workspace_failure
+        assert root is not None
+        actor = _actor(actor)
+        scope = self._story_stage_scope(plan, actor=actor)
+        policy = PolicyEngine(self.platform_root, allowed_external_roots=configured_external_workspace_roots(), approval_auth_store=self.approval_auth_store).evaluate(PolicyRequest(action=STAGE_ACTION, path=str(root), text=str(plan.get("commit",{}).get("message") or ""), dry_run=False, approval_id=str(approval_id or ""), tool_id=STAGE_TOOL, subject=commit_plan_id, actor=actor, role_at_decision="owner", subject_hash=commit_plan_hash, interface="ui", metadata=scope))
+        if not policy.ok:
+            return CommandResult(command, False, ExitCode.BLOCK, "Approval/policy binding blocked exact story staging.", data={"policy":policy.to_dict(),"full_regression_started":False}, findings=policy.findings)
+        paths = list(plan["exact_paths"])
+        mutation = GovernedGitMutationAdapter(root)
+        executed = mutation.stage_paths(paths, max_paths=MAX_STORY_PLAN_FILES)
+        if not executed.ok:
+            return self._story_block(command, "GSDLC10D_GIT_STAGE_BLOCK", "Typed exact Git staging failed.", metadata={"stderr": executed.stderr[-1200:]})
+        validation = self._validate_story_staged(plan, root)
+        if not validation["ok"]:
+            mutation.unstage_paths(paths, max_paths=MAX_STORY_PLAN_FILES)
+            return self._story_block(command, "GSDLC10D_STAGED_VERIFY_BLOCK", "Staged index failed exact story validation; exact staging was compensated.", metadata={"checks": validation["checks"]})
+        fingerprint = str(validation["index_fingerprint"])
+        stage_execution_id = f"story-stage-{_sha_text(commit_plan_hash+'|'+approval_id+'|'+fingerprint)[:24]}"
+        commit_intent_hash = _sha_json({"commit_plan_hash":commit_plan_hash,"stage_execution_id":stage_execution_id,"head_before":plan["head_before"],"index_fingerprint":fingerprint,"commit":plan["commit"]})
+        staging_manifest = {
+            "schema_id":"DEVPL-GSDLC-10-D-STAGING-MANIFEST-V1",
+            "stage_execution_id":stage_execution_id,
+            "commit_plan_id":commit_plan_id,
+            "commit_plan_hash":commit_plan_hash,
+            "stage_approval_id":approval_id,
+            "exact_paths":paths,
+            "index_fingerprint":fingerprint,
+            "checks":validation["checks"],
+            "git_stage":True,
+            "git_commit":False,
+            "git_add_all":False,
+            "shell":False,
+            "push":False,
+            "created_at_utc":_now(),
+        }
+        record = {
+            "schema_id":"DEVPL-GSDLC-10-D-STAGE-EXECUTION-V1",
+            "stage_execution_id":stage_execution_id,
+            "status":"STAGED",
+            "commit_plan_id":commit_plan_id,
+            "commit_plan_hash":commit_plan_hash,
+            "stage_approval_id":approval_id,
+            "actor":actor,
+            "actor_role":"owner",
+            "workspace_id":plan["workspace_id"],
+            "story_execution_id":plan["story_execution_id"],
+            "branch":plan["branch"],
+            "head_before":plan["head_before"],
+            "exact_paths":paths,
+            "files":plan["files"],
+            "commit":plan["commit"],
+            "index_fingerprint":fingerprint,
+            "commit_intent_hash":commit_intent_hash,
+            "staging_manifest":staging_manifest,
+            "created_at_utc":_now(),
+            "git_stage":True,"git_commit":False,"push_performed":False,"shell":False,"full_regression_started":False,
+        }
+        control=self._story_control_root(root); assert control is not None
+        self._write_json(control/"records"/f"{stage_execution_id}.json",record)
+        self._write_json(control/"evidence"/f"{stage_execution_id}_staging_manifest.json",staging_manifest)
+        return self._story_pass(command,"Exact approval-bound story paths were staged and verified.",{"stage_execution":record,"staging_manifest":staging_manifest})
+
+    def request_story_commit_approval(self, *, stage_execution_id: str, actor: str, actor_role: str, reason: str, ttl_minutes: int = 15, authority_source: str = "human-session") -> CommandResult:
+        command="story git commit approval request"
+        role_failure=self._story_human_role(command,actor_role,authority_source,allow_developer=False)
+        if role_failure is not None:return role_failure
+        record,failure=self._story_stage_record(stage_execution_id)
+        if failure is not None:return failure
+        assert record is not None
+        verify=self._recheck_story_stage_record(record)
+        if not verify.ok:return verify
+        reason=str(reason or "").strip()
+        if not reason:return self._story_block(command,"GSDLC10D_APPROVAL_REASON_BLOCK","A human-readable commit approval reason is required.")
+        actor=_actor(actor); binding_hash=str(record["commit_intent_hash"]); scope=self._story_commit_scope(record,actor=actor)
+        result=self.approvals.request(ApprovalCliInput(tool_id=COMMIT_TOOL,action=COMMIT_ACTION,subject=stage_execution_id,actor=actor,reason=reason,scope=json.dumps(scope,sort_keys=True),ttl_minutes=max(1,min(int(ttl_minutes),30)),metadata={"source":"gsdlc-10-d","interface":"ui","commit_intent_hash":binding_hash,"authority_source":"human-session"}))
+        return self._story_decorate_approval(result,phase="commit",binding_hash=binding_hash)
+
+    def commit_story(self, *, stage_execution_id: str, approval_id: str, actor: str, actor_role: str, authority_source: str = "human-session") -> CommandResult:
+        command="story git commit"
+        role_failure=self._story_human_role(command,actor_role,authority_source,allow_developer=False)
+        if role_failure is not None:return role_failure
+        stage_record,failure=self._story_stage_record(stage_execution_id)
+        if failure is not None:return failure
+        assert stage_record is not None
+        verify=self._recheck_story_stage_record(stage_record)
+        if not verify.ok:return verify
+        plan_result=self.get_story_commit_plan(commit_plan_id=str(stage_record["commit_plan_id"]))
+        if not plan_result.ok:return plan_result
+        plan=dict(plan_result.data["commit_plan"])
+        # Re-evaluate Quality/TestPlan/SourcePlan/Story immediately before commit.
+        chain,chain_failure=self._story_chain(root=self._workspace(command)[1],workspace_id=str(plan["workspace_id"]),quality_report_id=str(plan["story_quality_report_id"]),quality_report_hash=str(plan["story_quality_report_hash"]))
+        if chain_failure is not None:return chain_failure
+        _,root,workspace_failure=self._workspace(command)
+        if workspace_failure is not None:return workspace_failure
+        assert root is not None
+        actor=_actor(actor); binding_hash=str(stage_record["commit_intent_hash"]); scope=self._story_commit_scope(stage_record,actor=actor)
+        policy=PolicyEngine(self.platform_root,allowed_external_roots=configured_external_workspace_roots(),approval_auth_store=self.approval_auth_store).evaluate(PolicyRequest(action=COMMIT_ACTION,path=str(root),text=str(stage_record.get("commit",{}).get("message") or ""),dry_run=False,approval_id=str(approval_id or ""),tool_id=COMMIT_TOOL,subject=stage_execution_id,actor=actor,role_at_decision="owner",subject_hash=binding_hash,interface="ui",metadata=scope))
+        if not policy.ok:return CommandResult(command,False,ExitCode.BLOCK,"Approval/policy binding blocked governed story commit.",data={"policy":policy.to_dict(),"full_regression_started":False},findings=policy.findings)
+        validation=self._validate_story_staged(plan,root)
+        if not validation["ok"] or validation["index_fingerprint"]!=stage_record["index_fingerprint"]:
+            return self._story_block(command,"GSDLC10D_COMMIT_RECHECK_BLOCK","Staged content changed after stage approval or no longer matches the exact CommitPlan.",metadata={"checks":validation["checks"]})
+        mutation=GovernedGitMutationAdapter(root); spec=dict(plan["commit"])
+        executed=mutation.commit(message=str(spec["message"]),author_name=str(spec["author_name"]),author_email=str(spec["author_email"]))
+        if not executed.ok:return self._story_block(command,"GSDLC10D_GIT_COMMIT_BLOCK","Typed governed Git commit failed; no push or destructive recovery was attempted.",metadata={"stderr":executed.stderr[-1200:]})
+        head_result=mutation.head()
+        if not head_result.ok:return self._story_block(command,"GSDLC10D_POST_COMMIT_HEAD_BLOCK","Commit completed but resulting HEAD could not be verified.")
+        head_after=head_result.stdout.strip(); expected=sorted(plan["exact_paths"])
+        try:
+            committed=sorted(mutation.committed_paths(head_after)); parent=mutation.parent_of(head_after); staged_after=mutation.staged_paths(); dirty_after=mutation.dirty_paths()
+        except Exception as exc:return self._story_block(command,"GSDLC10D_POST_COMMIT_VERIFY_BLOCK",f"Commit completed but Git postconditions could not be verified: {exc}")
+        if parent!=plan["head_before"] or committed!=expected or staged_after or dirty_after:
+            return self._story_block(command,"GSDLC10D_POST_COMMIT_CONTRACT_BLOCK","Commit tree, parent or clean-worktree postconditions differ from the approved CommitPlan.",metadata={"parent":parent,"expected_parent":plan["head_before"],"committed_paths":committed,"expected_paths":expected,"staged_after":staged_after,"dirty_after":dirty_after})
+        commit_record={
+            "schema_id":"SCHEMA-DEVPL-GSDLC-10-D-GIT-COMMIT-RECORD-V1","schema_version":"1.0.0",
+            "commit_record_id":f"story-commit-record-{head_after[:24]}","commit_hash":head_after,"parent_hash":parent,
+            "workspace_id":plan["workspace_id"],"story_execution_id":plan["story_execution_id"],"story_id":plan["story_id"],
+            "commit_plan_id":plan["commit_plan_id"],"commit_plan_hash":plan["commit_plan_hash"],"stage_execution_id":stage_execution_id,
+            "stage_approval_id":stage_record["stage_approval_id"],"commit_approval_id":approval_id,"actor":actor,"actor_role":"owner","authority_source":"human-session",
+            "message":spec["message"],"author_name":spec["author_name"],"author_email":spec["author_email"],"committed_paths":committed,
+            "source_change_plan_id":plan["source_change_plan_id"],"source_change_plan_hash":plan["source_change_plan_hash"],
+            "story_test_plan_id":plan["story_test_plan_id"],"story_test_plan_hash":plan["story_test_plan_hash"],
+            "story_quality_report_id":plan["story_quality_report_id"],"story_quality_report_hash":plan["story_quality_report_hash"],
+            "requirement_ids":list(plan["traceability"]["requirement_ids"]),"test_evidence_ids":list(plan["traceability"]["test_evidence_ids"]),
+            "traceability_complete":bool(plan["story_id"] and plan["source_change_plan_id"] and plan["story_test_plan_id"] and plan["story_quality_report_id"]),
+            "worktree_clean":True,"index_clean":True,"push_performed":False,"force_push_performed":False,"rebase_performed":False,"reset_hard_performed":False,"shell":False,
+            "agent_granted_authority":False,"model_route_granted_authority":False,"full_regression_started":False,"created_at_utc":_now(),
+        }
+        schema_block=self._schema_block(command,"GSDLC10DGitCommitRecord",commit_record)
+        if schema_block is not None:return self._story_wrap_schema_block(command,schema_block)
+        trace={
+            "schema_id":"DEVPL-GSDLC-10-D-COMMIT-TRACEABILITY-V1","commit_hash":head_after,
+            "requirement_ids":commit_record["requirement_ids"],"story_id":plan["story_id"],"story_execution_id":plan["story_execution_id"],
+            "source_change_plan_id":plan["source_change_plan_id"],"story_test_plan_id":plan["story_test_plan_id"],"test_evidence_ids":commit_record["test_evidence_ids"],
+            "story_quality_report_id":plan["story_quality_report_id"],"commit_record_id":commit_record["commit_record_id"],"traceability_complete":commit_record["traceability_complete"],
+        }
+        control=self._story_control_root(root); assert control is not None
+        execution_id=f"story-commit-{head_after[:24]}"
+        execution={"schema_id":"DEVPL-GSDLC-10-D-COMMIT-EXECUTION-V1","execution_id":execution_id,"status":"COMMITTED","commit_record":commit_record,"commit_traceability":trace,"staging_manifest":stage_record["staging_manifest"],"created_at_utc":_now()}
+        self._write_json(control/"records"/f"{execution_id}.json",execution)
+        self._write_json(control/"evidence"/f"{execution_id}_commit_record.json",commit_record)
+        self._write_json(control/"evidence"/f"{execution_id}_commit_traceability.json",trace)
+        stage_record["status"]="COMMITTED"; stage_record["commit_execution_id"]=execution_id; stage_record["commit_approval_id"]=approval_id
+        self._write_json(control/"records"/f"{stage_execution_id}.json",stage_record)
+        store=StoryExecutionStore(root,workspace_id=str(plan["workspace_id"])); state=store.load_state(); transitioned_payload=None
+        if state is not None and state.status is StoryExecutionStatus.COMMIT_READY:
+            try:
+                transitioned=state.transition(StoryExecutionStatus.DONE,actor_id=actor,observed_at_utc=_now()); transitioned_payload=store.save_state(transitioned)
+            except StoryExecutionTransitionError:
+                transitioned_payload=None
+        return self._story_pass(command,"Governed story commit created and verified with exact traceability and a clean worktree.",{"execution":execution,"git_commit_record":commit_record,"commit_traceability":trace,"story_execution_state":transitioned_payload})
+
+    def get_story_git_execution(self, *, execution_id: str) -> CommandResult:
+        command="story git execution get"
+        _,root,failure=self._workspace(command)
+        if failure is not None:return failure
+        assert root is not None
+        if not str(execution_id).startswith(("story-stage-","story-commit-")):
+            return self._story_block(command,"GSDLC10D_EXECUTION_ID_BLOCK","Story Git execution id is not recognized.")
+        control=self._story_control_root(root)
+        record=self._read_json(control/"records"/f"{execution_id}.json") if control is not None else None
+        if record is None:return self._story_block(command,"GSDLC10D_EXECUTION_NOT_FOUND_BLOCK","Story Git execution was not found.")
+        return self._story_pass(command,"Story Git execution loaded read-only.",{"execution":record,"read_only":True,"mutations_performed":False})
+
+    def recover_story_commit_ready_context(self) -> CommandResult:
+        """Recover current COMMIT_READY bindings server-side without Git authority."""
+        command="story git context recover"
+        context,root,failure=self._workspace(command)
+        if failure is not None:return failure
+        assert context is not None and root is not None
+        if self.story_quality_report_loader is None or self.story_test_plan_loader is None or self.source_plan_loader is None:
+            return self._story_block(command,"GSDLC10D_LOADER_BLOCK","Story Git context dependencies are unavailable.")
+        state=StoryExecutionStore(root,workspace_id=str(context.active_workspace_id)).load_state()
+        if state is None or state.status is not StoryExecutionStatus.COMMIT_READY:
+            return self._story_block(command,"GSDLC10D_COMMIT_READY_BLOCK","Current StoryExecution is not COMMIT_READY.")
+        # Search the bounded local Quality store by asking the platform callback
+        # for the current story. This callback is intentionally read-only.
+        finder=getattr(self,"story_commit_ready_finder",None)
+        if not callable(finder):
+            return self._story_block(command,"GSDLC10D_CONTEXT_FINDER_BLOCK","Server-side COMMIT_READY finder is unavailable.")
+        result=finder(story_execution_id=state.execution_id)
+        if not result.ok:return result
+        data=dict(result.data or {})
+        return self._story_pass(command,"COMMIT_READY Quality/TestPlan/SourcePlan bindings recovered read-only.",{**data,"story_execution_id":state.execution_id,"story_id":state.story_id,"read_only":True,"mutations_performed":False,"git_authority_granted":False,"agent_granted_authority":False,"model_route_granted_authority":False})
+
+    def _story_plan_exact(self, commit_plan_id: str, commit_plan_hash: str) -> tuple[dict[str, Any] | None, CommandResult | None]:
+        loaded=self.get_story_commit_plan(commit_plan_id=commit_plan_id)
+        if not loaded.ok:return None,loaded
+        plan=dict(loaded.data["commit_plan"])
+        if str(plan.get("commit_plan_hash"))!=str(commit_plan_hash or ""):
+            return None,self._story_block("story git plan recheck","GSDLC10D_PLAN_HASH_MISMATCH_BLOCK","Provided CommitPlan hash is stale or incorrect.")
+        core={k:v for k,v in plan.items() if k not in {"commit_plan_id","commit_plan_hash","created_at_utc","expires_at_utc"}}
+        if _sha_json(core)!=str(plan.get("commit_plan_hash")):
+            return None,self._story_block("story git plan recheck","GSDLC10D_PLAN_TAMPER_BLOCK","Stored CommitPlan immutable hash no longer matches its contents.")
+        return plan,None
+
+    def _recheck_story_plan(self, plan: dict[str, Any], *, require_unstaged: bool) -> CommandResult:
+        command="story git plan recheck"
+        if _expired(plan.get("expires_at_utc")):return self._story_block(command,"GSDLC10D_PLAN_EXPIRED_BLOCK","Story CommitPlan expired before mutation.")
+        context,root,failure=self._workspace(command)
+        if failure is not None:return failure
+        assert context is not None and root is not None
+        chain,chain_failure=self._story_chain(root=root,workspace_id=str(context.active_workspace_id),quality_report_id=str(plan["story_quality_report_id"]),quality_report_hash=str(plan["story_quality_report_hash"]))
+        if chain_failure is not None:return chain_failure
+        mutation=GovernedGitMutationAdapter(root); head=mutation.head(); branch=mutation.current_branch()
+        if not head.ok or not branch.ok or head.stdout.strip()!=str(plan["head_before"]) or branch.stdout.strip()!=str(plan["branch"]):
+            return self._story_block(command,"GSDLC10D_HEAD_BRANCH_STALE_BLOCK","HEAD or branch changed after CommitPlan creation.")
+        try:
+            staged=sorted(mutation.staged_paths()); dirty=sorted(mutation.dirty_paths())
+        except RuntimeError as exc:return self._story_block(command,"GSDLC10D_GIT_INVENTORY_BLOCK",str(exc))
+        if require_unstaged and staged:return self._story_block(command,"GSDLC10D_PREEXISTING_STAGED_BLOCK","Index is no longer empty before exact story staging.",metadata={"staged_paths":staged})
+        if dirty!=sorted(plan["exact_paths"]):return self._story_block(command,"GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK","Dirty path set drifted from approved CommitPlan.",metadata={"expected_paths":plan["exact_paths"],"actual_dirty_paths":dirty})
+        expected_files,expected_failure=self._story_expected_files(chain["source_plan"],root)
+        if expected_failure is not None:return expected_failure
+        if expected_files!=plan["files"]:return self._story_block(command,"GSDLC10D_SOURCE_CONTENT_STALE_BLOCK","Current source content/state differs from the approved story CommitPlan.")
+        return self._story_pass(command,"Story CommitPlan still matches Quality, story state, HEAD and exact dirty paths.",{"stale":False,"mutations_performed":False})
+
+    def _story_chain(self, *, root: Path | None, workspace_id: str, quality_report_id: str, quality_report_hash: str) -> tuple[dict[str, Any] | None, CommandResult | None]:
+        command="story git authority chain"
+        if root is None or self.source_plan_loader is None or self.story_test_plan_loader is None or self.story_quality_report_loader is None:
+            return None,self._story_block(command,"GSDLC10D_LOADER_BLOCK","Story Git authority-chain dependencies are unavailable.")
+        qres=self.story_quality_report_loader(report_id=quality_report_id)
+        if not qres.ok:return None,self._story_dependency(command,qres,"GSDLC10D_QUALITY_LOAD_BLOCK")
+        quality=dict((qres.data or {}).get("story_quality_report") or {})
+        if str(quality.get("report_hash"))!=str(quality_report_hash or "") or quality.get("stale") is True or quality.get("decision")!="PASS" or quality.get("commit_ready") is not True:
+            return None,self._story_block(command,"GSDLC10D_STALE_QUALITY_BLOCK","Quality Report must be current, exact, PASS and COMMIT_READY immediately before Git authority is evaluated.")
+        test_id=str(quality.get("story_test_plan_id") or ""); test_hash=str(quality.get("story_test_plan_hash") or "")
+        tres=self.story_test_plan_loader(test_plan_id=test_id)
+        if not tres.ok:return None,self._story_dependency(command,tres,"GSDLC10D_TEST_PLAN_LOAD_BLOCK")
+        test_plan=dict((tres.data or {}).get("story_test_plan") or {})
+        if test_plan.get("status")!="APPROVED" or str(test_plan.get("test_plan_hash"))!=test_hash:
+            return None,self._story_block(command,"GSDLC10D_TEST_PLAN_BINDING_BLOCK","Quality Report no longer binds an exact APPROVED StoryTestPlan.")
+        source_id=str(test_plan.get("source_change_plan_id") or ""); source_hash=str(test_plan.get("source_change_plan_hash") or "")
+        sres=self.source_plan_loader(plan_id=source_id)
+        if not sres.ok:return None,self._story_dependency(command,sres,"GSDLC10D_SOURCE_PLAN_LOAD_BLOCK")
+        source=dict((sres.data or {}).get("plan") or {})
+        if str(source.get("plan_hash"))!=source_hash or str(source.get("story_execution_id"))!=str(test_plan.get("story_execution_id") or ""):
+            return None,self._story_block(command,"GSDLC10D_SOURCE_PLAN_BINDING_BLOCK","StoryTestPlan no longer binds the exact SourceChangePlan/story execution.")
+        store=StoryExecutionStore(root,workspace_id=workspace_id); state=store.load_state()
+        if state is None or state.status is not StoryExecutionStatus.COMMIT_READY or state.execution_id!=str(test_plan.get("story_execution_id") or "") or state.story_id!=str(test_plan.get("story_id") or state.story_id):
+            return None,self._story_block(command,"GSDLC10D_COMMIT_READY_BLOCK","Current StoryExecution must be the exact COMMIT_READY story bound to Quality/TestPlan/SourcePlan.")
+        return {"quality_report":quality,"story_test_plan":test_plan,"source_plan":source,"story_state":state.to_dict()},None
+
+    def _story_expected_files(self, source_plan: dict[str, Any], root: Path) -> tuple[list[dict[str, Any]] | None, CommandResult | None]:
+        command="story git source postimage recheck"
+        expected:dict[str,dict[str,Any]]={}
+        for change in source_plan.get("changes") or []:
+            op=str(change.get("operation") or "").upper(); source=str(change.get("source_path") or "").replace("\\","/"); target=str(change.get("target_path") or "").replace("\\","/")
+            if op=="RENAME" and source and source!=target:
+                expected[source]={"relative_path":source,"expected_state":"deleted","change_operation":"RENAME_SOURCE","approved_content_sha256":str(change.get("preimage_sha256") or "")}
+            if target:
+                expected[target]={"relative_path":target,"expected_state":"present","change_operation":op,"approved_content_sha256":str(change.get("postimage_sha256") or "")}
+        exact=sorted(str(x).replace("\\","/") for x in source_plan.get("exact_path_allowlist") or [])
+        if sorted(expected)!=exact:
+            return None,self._story_block(command,"GSDLC10D_SOURCE_PLAN_PATH_BINDING_BLOCK","SourceChangePlan change rows do not resolve exactly to its path allowlist.",metadata={"expected_from_changes":sorted(expected),"allowlist":exact})
+        rows=[]
+        for rel in exact:
+            row=dict(expected[rel]); path=(root/rel).resolve()
+            try:path.relative_to(root.resolve())
+            except ValueError:return None,self._story_block(command,"GSDLC10D_PATH_ESCAPE_BLOCK","Approved story path escaped active workspace.",path=rel)
+            if row["expected_state"]=="deleted":
+                if path.exists():return None,self._story_block(command,"GSDLC10D_DELETED_PATH_STALE_BLOCK","Approved rename source unexpectedly exists before staging.",path=rel)
+                row["working_content_sha256"]=None
+            else:
+                if not path.is_file():return None,self._story_block(command,"GSDLC10D_POSTIMAGE_MISSING_BLOCK","Approved source target is missing before staging.",path=rel)
+                actual=self._story_semantic_sha(path)
+                if actual!=row["approved_content_sha256"]:return None,self._story_block(command,"GSDLC10D_POSTIMAGE_STALE_BLOCK","Current source content does not match approved SourceChangePlan postimage.",path=rel,metadata={"expected":row["approved_content_sha256"],"actual":actual})
+                row["working_content_sha256"]=actual
+            rows.append(row)
+        return rows,None
+
+    def _validate_story_staged(self, plan: dict[str, Any], root: Path) -> dict[str, Any]:
+        mutation=GovernedGitMutationAdapter(root); checks=[]; expected=sorted(plan["exact_paths"])
+        try:staged=sorted(mutation.staged_paths())
+        except Exception as exc:return {"ok":False,"checks":[{"check":"exact_staged_paths","status":"BLOCK","error":str(exc)}],"index_fingerprint":""}
+        checks.append({"check":"exact_staged_paths","status":"PASS" if staged==expected else "BLOCK","expected":expected,"actual":staged})
+        diff_check=mutation.cached_diff_check(); checks.append({"check":"git_diff_cached_check","status":"PASS" if diff_check.ok else "BLOCK","stderr":diff_check.stderr[-1000:]})
+        fingerprints=[]
+        for item in plan["files"]:
+            rel=str(item["relative_path"]); expected_state=str(item["expected_state"])
+            if expected_state=="deleted":
+                try:mutation.index_file_bytes(rel); present=True
+                except Exception:present=False
+                checks.append({"check":"index_deleted","path":rel,"status":"BLOCK" if present else "PASS"})
+                fingerprints.append({"path":rel,"sha256":"DELETED"})
+            else:
+                try:raw=mutation.index_file_bytes(rel)
+                except Exception as exc:checks.append({"check":"index_blob","path":rel,"status":"BLOCK","error":str(exc)});continue
+                try:text=raw.decode("utf-8-sig").replace("\r\n","\n").replace("\r","\n"); canonical=text.encode("utf-8")
+                except UnicodeDecodeError:checks.append({"check":"utf8","path":rel,"status":"BLOCK"});continue
+                sha=hashlib.sha256(canonical).hexdigest(); fingerprints.append({"path":rel,"sha256":sha})
+                checks.append({"check":"approved_postimage","path":rel,"status":"PASS" if sha==item["approved_content_sha256"] else "BLOCK","expected":item["approved_content_sha256"],"actual":sha})
+                eq=mutation.worktree_index_equivalent(rel); checks.append({"check":"git_worktree_index_equivalence","path":rel,"status":"PASS" if eq.ok else "BLOCK","git_exit_code":eq.exit_code})
+                secret=self.secret_guard.scan_text(text,subject=rel); checks.append({"check":"secret_guard","path":rel,"status":"PASS" if secret.effect.value!="block" else "BLOCK"})
+        ok=all(row.get("status")=="PASS" for row in checks)
+        return {"ok":ok,"checks":checks,"index_fingerprint":_sha_json(sorted(fingerprints,key=lambda x:x["path"]))}
+
+    def _recheck_story_stage_record(self, record: dict[str, Any]) -> CommandResult:
+        command="story git staged recheck"
+        if record.get("status")!="STAGED":return self._story_block(command,"GSDLC10D_STAGE_STATE_BLOCK","Commit approval requires a current STAGED story execution.")
+        plan_result=self.get_story_commit_plan(commit_plan_id=str(record["commit_plan_id"]))
+        if not plan_result.ok:return plan_result
+        plan=dict(plan_result.data["commit_plan"])
+        context,root,failure=self._workspace(command)
+        if failure is not None:return failure
+        assert context is not None and root is not None
+        chain,chain_failure=self._story_chain(root=root,workspace_id=str(context.active_workspace_id),quality_report_id=str(plan["story_quality_report_id"]),quality_report_hash=str(plan["story_quality_report_hash"]))
+        if chain_failure is not None:return chain_failure
+        mutation=GovernedGitMutationAdapter(root); head=mutation.head(); branch=mutation.current_branch()
+        if not head.ok or not branch.ok or head.stdout.strip()!=record["head_before"] or branch.stdout.strip()!=record["branch"]:
+            return self._story_block(command,"GSDLC10D_STAGED_HEAD_BRANCH_BLOCK","HEAD/branch changed after story staging.")
+        validation=self._validate_story_staged(plan,root)
+        if not validation["ok"] or validation["index_fingerprint"]!=record["index_fingerprint"]:
+            return self._story_block(command,"GSDLC10D_STAGED_CONTENT_DRIFT_BLOCK","Staged content no longer matches the approval-bound index fingerprint.",metadata={"checks":validation["checks"]})
+        return self._story_pass(command,"Story staged execution remains exact and Quality-current.",{"stale":False})
+
+    def _story_stage_record(self, execution_id: str) -> tuple[dict[str, Any] | None, CommandResult | None]:
+        loaded=self.get_story_git_execution(execution_id=execution_id)
+        if not loaded.ok:return None,loaded
+        record=dict(loaded.data["execution"])
+        if record.get("status")!="STAGED":return None,self._story_block("story git staged record","GSDLC10D_STAGE_STATE_BLOCK","Story stage execution is not currently STAGED.")
+        return record,None
+
+    def _load_story_plan(self, root: Path, plan_id: str) -> dict[str, Any] | None:
+        if not str(plan_id).startswith("story-commit-plan-"):return None
+        control=self._story_control_root(root)
+        return self._read_json(control/"plans"/f"{plan_id}.json") if control is not None else None
+
+    def _story_control_root(self, workspace_root: Path) -> Path | None:
+        base=self._control_root(workspace_root)
+        return (base/"gsdlc10d_story_git") if base is not None else None
+
+    @staticmethod
+    def _story_semantic_sha(path: Path) -> str:
+        raw=path.read_bytes()
+        try:text=raw.decode("utf-8-sig").replace("\r\n","\n").replace("\r","\n")
+        except UnicodeDecodeError:return hashlib.sha256(raw).hexdigest()
+        return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+    @staticmethod
+    def _story_human_role(command: str, actor_role: str, authority_source: str, *, allow_developer: bool) -> CommandResult | None:
+        if authority_source!="human-session" or authority_source.startswith(("agent","model")):
+            return WorkspaceGitOperationsApplicationService._story_block(command,"GSDLC10D_AGENT_MODEL_AUTHORITY_BLOCK","Agent/model route cannot grant stage/commit authority.")
+        allowed={"owner","developer"} if allow_developer else {"owner"}
+        if actor_role not in allowed:
+            return WorkspaceGitOperationsApplicationService._story_block(command,"GSDLC10D_WRONG_ROLE_BLOCK",f"Operation requires {'owner/developer' if allow_developer else 'owner'} authenticated human role.")
+        return None
+
+    @staticmethod
+    def _story_stage_scope(plan: dict[str, Any], *, actor: str) -> dict[str, Any]:
+        return {"actor_id":actor,"role_at_decision":"owner","tool_id":STAGE_TOOL,"action":STAGE_ACTION,"action_id":STAGE_ACTION,"subject":plan["commit_plan_id"],"subject_hash":plan["commit_plan_hash"],"commit_plan_id":plan["commit_plan_id"],"commit_plan_hash":plan["commit_plan_hash"],"story_execution_id":plan["story_execution_id"],"head_before":plan["head_before"],"branch":plan["branch"],"paths":plan["exact_paths"],"interface":"ui","scope_type":"gsdlc10d-story-exact-staging-plan"}
+
+    @staticmethod
+    def _story_commit_scope(record: dict[str, Any], *, actor: str) -> dict[str, Any]:
+        return {"actor_id":actor,"role_at_decision":"owner","tool_id":COMMIT_TOOL,"action":COMMIT_ACTION,"action_id":COMMIT_ACTION,"subject":record["stage_execution_id"],"subject_hash":record["commit_intent_hash"],"stage_execution_id":record["stage_execution_id"],"commit_plan_id":record["commit_plan_id"],"commit_plan_hash":record["commit_plan_hash"],"story_execution_id":record["story_execution_id"],"head_before":record["head_before"],"branch":record["branch"],"index_fingerprint":record["index_fingerprint"],"paths":record["exact_paths"],"interface":"ui","scope_type":"gsdlc10d-story-exact-commit-intent"}
+
+    @staticmethod
+    def _story_decorate_approval(result: CommandResult, *, phase: str, binding_hash: str) -> CommandResult:
+        data=dict(result.data or {}); data["gsdlc10d"]={"phase":phase,"binding_hash":binding_hash,"authority_source":"server-rbac-policy-approval","agent_granted_authority":False,"model_route_granted_authority":False,"full_regression_started":False}
+        return CommandResult(result.command,result.ok,result.exit_code,result.message,data=data,findings=result.findings)
+
+    @staticmethod
+    def _story_pass(command: str, message: str, data: dict[str, Any]) -> CommandResult:
+        return CommandResult(command,True,ExitCode.PASS,message,data={**data,"network_used":False,"external_api_used":False,"full_regression_started":False},findings=[Finding("GSDLC10D_PASS",message,Severity.INFO)])
+
+    @staticmethod
+    def _story_block(command: str, finding_id: str, message: str, *, path: str | None = None, metadata: dict[str, Any] | None = None) -> CommandResult:
+        return CommandResult(command,False,ExitCode.BLOCK,message,data={"mutations_performed":False,"network_used":False,"external_api_used":False,"full_regression_started":False},findings=[Finding(finding_id,message,Severity.BLOCK,path=path,metadata=metadata or {})])
+
+    @staticmethod
+    def _story_dependency(command: str, result: CommandResult, code: str) -> CommandResult:
+        return CommandResult(command,False,ExitCode.BLOCK,result.message,data=result.data,findings=[*result.findings,Finding(code,"A required GSDLC-10-D authority-chain dependency blocked execution.",Severity.BLOCK)])
+
+    @staticmethod
+    def _story_wrap_schema_block(command: str, result: CommandResult) -> CommandResult:
+        return CommandResult(command,False,ExitCode.BLOCK,"GSDLC-10-D evidence failed its registered schema.",data={"full_regression_started":False},findings=result.findings)
 
     # -------------------------------------------------------------- records
     def get_execution(self, *, execution_id: str) -> CommandResult:

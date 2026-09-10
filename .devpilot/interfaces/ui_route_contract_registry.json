@@ -1130,6 +1130,14 @@
         "api.story-code.source",
         "api.story-code.sources",
         "api.story-code.status",
+        "api.story-git.commit",
+        "api.story-git.commit-approval",
+        "api.story-git.commit-plans.create",
+        "api.story-git.commit-plans.get",
+        "api.story-git.context",
+        "api.story-git.execution.get",
+        "api.story-git.stage",
+        "api.story-git.stage-approval",
         "api.story-source-change.apply",
         "api.story-source-change.apply-manifest",
         "api.story-source-change.approval-request",
@@ -1168,7 +1176,8 @@
         "09-C apply and rollback are owner-approval-bound typed operations; no terminal, shell, generic patch, Git stage/commit or agent self-apply.",
         "09-D adds CodingAgent/TestAgent proposal-only with human ACCEPT/REJECT; ACCEPT inserts into editor only and does not write draft/source.",
         "10-A adds Story → Validar → Test Impact v2 → StoryTestPlan review/approval; Full signal is informative only and no free-form test command exists.",
-        "GSDLC-10-B extends Story Workbench with typed validation-job planning/start/status; no arbitrary shell."
+        "GSDLC-10-B extends Story Workbench with typed validation-job planning/start/status; no arbitrary shell.",
+        "GSDLC-10-D reuses WorkspaceGitOperationsPanel inside Story Code Workbench for CommitPlan→stage approval→exact stage→commit approval→commit; no second Git engine and no push."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1209,9 +1218,18 @@
         "test_plan_review_required": true,
         "unknown_impact_visible": true,
         "unsafe_agent_proposal_blocked": true,
-        "waiver_expired_block": true
+        "waiver_expired_block": true,
+        "commit_plan_ready": true,
+        "unexpected_dirty_block": true,
+        "stage_approval_pending": true,
+        "exact_staged": true,
+        "commit_approval_pending": true,
+        "committed": true,
+        "traceability_complete": true,
+        "stale_quality_block": true,
+        "wrong_role_block": true
       },
-      "status": "implemented-initial/gsdlc-10-a",
+      "status": "implemented-initial/gsdlc-10-d",
       "status_visibility": [
         "PASS",
         "WARN",
@@ -1220,9 +1238,10 @@
         "PENDING"
       ],
       "tags": [
-        "gsdlc-10-b"
+        "gsdlc-10-b",
+        "gsdlc-10-d"
       ],
-      "title": "Story Code Workbench — manual + agents + governed source change + StoryTestPlan"
+      "title": "Story Code Workbench — manual + agents + governed source change + tests + governed Git commit"
     }
   ],
   "safety": {
@@ -1335,7 +1354,8 @@
     "workspace_document_api_routes_total": 7,
     "workspace_validation_api_routes_total": 4,
     "gsdlc_10_c_story_quality_gate": true,
-    "gsdlc_10_c_story_quality_api_routes_total": 9
+    "gsdlc_10_c_story_quality_api_routes_total": 9,
+    "last_updated_by": "DEVPL-GSDLC-10-D"
   },
-  "updated": "2026-09-09"
+  "updated": "2026-09-10"
 }

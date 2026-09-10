@@ -67,12 +67,12 @@ class GovernedGitMutationAdapter:
             raise RuntimeError((changed.stderr or untracked.stderr).strip() or "git dirty path inventory failed")
         return sorted(set(_split_z(changed.stdout) + _split_z(untracked.stdout)))
 
-    def stage_paths(self, paths: Iterable[str]) -> GovernedGitCommandResult:
-        validated = validate_paths(paths)
+    def stage_paths(self, paths: Iterable[str], *, max_paths: int = MAX_PATHS) -> GovernedGitCommandResult:
+        validated = validate_paths(paths, max_paths=max_paths)
         return self._run(("add", "--", *validated))
 
-    def unstage_paths(self, paths: Iterable[str]) -> GovernedGitCommandResult:
-        validated = validate_paths(paths)
+    def unstage_paths(self, paths: Iterable[str], *, max_paths: int = MAX_PATHS) -> GovernedGitCommandResult:
+        validated = validate_paths(paths, max_paths=max_paths)
         return self._run(("restore", "--staged", "--", *validated))
 
     def cached_diff_check(self) -> GovernedGitCommandResult:
@@ -201,10 +201,11 @@ def validate_relative_path(value: str) -> str:
     return normalized
 
 
-def validate_paths(paths: Iterable[str]) -> tuple[str, ...]:
+def validate_paths(paths: Iterable[str], *, max_paths: int = MAX_PATHS) -> tuple[str, ...]:
+    bounded_max = max(1, min(int(max_paths), 32))
     values = tuple(dict.fromkeys(validate_relative_path(item) for item in paths))
-    if not values or len(values) > MAX_PATHS:
-        raise ValueError(f"Git mutation requires 1-{MAX_PATHS} exact paths")
+    if not values or len(values) > bounded_max:
+        raise ValueError(f"Git mutation requires 1-{bounded_max} exact paths")
     return values
 
 

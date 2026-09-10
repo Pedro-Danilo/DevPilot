@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "DEVPL-GSDLC-10-D-CONTRACT-RECONCILIATION-SWEEP",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-10-D",
+  "updated": "2026-09-10",
+  "checks": [
+    {
+      "check": "strict_schema_current_metadata",
+      "status": "PASS",
+      "evidence": "TCR schemas and current-active project/source/interface metadata are schema-valid and aligned to repo418/10-D."
+    },
+    {
+      "check": "derived_summary_registry",
+      "status": "PASS",
+      "evidence": "API/UI derived counters and route/capability mappings reconciled to their live collections."
+    },
+    {
+      "check": "sensitive_action_binding",
+      "status": "PASS",
+      "evidence": "Story stage/commit are typed Git operations with owner RBAC, human session and independent approvals; Quality PASS is precondition only."
+    },
+    {
+      "check": "ui_route_capability_mapping",
+      "status": "PASS",
+      "evidence": "Story Workbench current route maps validation, quality and the eight story-Git API operations; ui.quality/ui.story-code-workbench source markers present."
+    },
+    {
+      "check": "current_authority_pointers",
+      "status": "PASS",
+      "evidence": "Project State, Source Registry, release criteria, README, roadmap, rebound backlog/prompt agree on repo418/10-D local-qualified Windows-pending state."
+    },
+    {
+      "check": "historical_mutable_pointer_usage",
+      "status": "PASS",
+      "evidence": "Historical closure facts remain frozen; only the current-active 10-A successor pointer assertion was advanced to 10-D."
+    },
+    {
+      "check": "historical_pointer_reuse",
+      "status": "PASS",
+      "evidence": "No historical successor pointer was reused as a new authority; repo418 remains immediate Windows-validated execution source."
+    },
+    {
+      "check": "runtime_ephemeral_fixture_copy",
+      "status": "PASS",
+      "evidence": "Runtime stores and fixture Git metadata are excluded from source/evidence/package manifests."
+    },
+    {
+      "check": "sealed_evidence_rewrite",
+      "status": "PASS",
+      "evidence": "No sealed predecessor evidence is modified; 10-D evidence is generated in a new evidence root."
+    },
+    {
+      "check": "successor_registry_recognition",
+      "status": "PASS",
+      "evidence": "New story Git schemas, routes, RBAC and focal TCR contract are registered without replacing frozen predecessor contracts."
+    }
+  ],
+  "repaired_drift": [
+    "current-active GSDLC-10 pointer assertion was still bound to 10-C",
+    "eight new story Git runtime routes were absent from API route registry",
+    "Story Workbench UI contract/capability mapping lagged 10-B/10-C and lacked 10-D routes",
+    "ui.quality current route marker was absent from shared API client/type source markers",
+    "local release candidate criteria still pointed to predecessor repo rather than repo418"
+  ],
+  "full_regression_runs": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "verdict": "PASS/LOCAL — deterministic contract drift repaired before Windows bundle; Full Regression remains 0."
+}

@@ -136,7 +136,17 @@ class ApplicationService:
         self._agent_execution: AgentExecutionApplicationService | None = None
         self._story_agent_assist: StoryAgentAssistApplicationService | None = None
         self._pre_code_wizard: PreCodeWizardApplicationService | None = None
-        self.workspace_git_operations = WorkspaceGitOperationsApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents, approval_auth_store=approval_auth_store)
+        self.workspace_git_operations = WorkspaceGitOperationsApplicationService(
+            self.root,
+            context_resolver=self.ui_workspace_context,
+            documents=self.workspace_documents,
+            approval_auth_store=approval_auth_store,
+            source_plan_loader=lambda **kwargs: self.source_changes.get_plan(**kwargs),
+            story_test_plan_loader=lambda **kwargs: self.story_test_plans.get(**kwargs),
+            story_quality_report_loader=lambda **kwargs: self.story_quality_gate.get_report(**kwargs),
+        )
+        # Read-only COMMIT_READY recovery callback; no Git authority is granted.
+        self.workspace_git_operations.story_commit_ready_finder = self._story_commit_ready_quality_context
         self.governed_job_capabilities = GovernedJobCapabilityRegistry(self.root)
         self.governed_jobs = GovernedJobFramework(self.root, registry=self.governed_job_capabilities)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
@@ -1491,6 +1501,71 @@ class ApplicationService:
 
     def story_quality_remediation_list(self, *, report_id: str) -> CommandResult:
         return self.story_quality_gate.list_remediation(report_id=report_id)
+
+    def _story_commit_ready_quality_context(self, *, story_execution_id: str) -> CommandResult:
+        command = "story git context recover"
+        candidates = []
+        for row in self.story_quality_gate.store.list_reports():
+            report_id = str(row.get("report_id") or "")
+            if not report_id:
+                continue
+            current = self.story_quality_gate.get_report(report_id=report_id)
+            if not current.ok:
+                continue
+            report = dict((current.data or {}).get("story_quality_report") or {})
+            if report.get("stale") is True or report.get("decision") != "PASS" or report.get("commit_ready") is not True:
+                continue
+            test_id = str(report.get("story_test_plan_id") or "")
+            test = self.story_test_plans.get(test_plan_id=test_id)
+            if not test.ok:
+                continue
+            plan = dict((test.data or {}).get("story_test_plan") or {})
+            if str(plan.get("story_execution_id") or "") != str(story_execution_id) or plan.get("status") != "APPROVED":
+                continue
+            source = self.source_changes.get_plan(plan_id=str(plan.get("source_change_plan_id") or ""))
+            if not source.ok:
+                continue
+            source_plan = dict((source.data or {}).get("plan") or {})
+            candidates.append({
+                "quality_report_id": report.get("report_id"),
+                "quality_report_hash": report.get("report_hash"),
+                "story_test_plan_id": plan.get("test_plan_id"),
+                "story_test_plan_hash": plan.get("test_plan_hash"),
+                "source_change_plan_id": source_plan.get("plan_id"),
+                "source_change_plan_hash": source_plan.get("plan_hash"),
+                "exact_paths": source_plan.get("exact_path_allowlist") or [],
+                "quality_decision": "PASS",
+                "commit_ready": True,
+            })
+        if not candidates:
+            return CommandResult(command, False, ExitCode.BLOCK, "No current Quality PASS/COMMIT_READY chain was found for the active story.", data={"read_only":True,"mutations_performed":False,"full_regression_started":False}, findings=[Finding("GSDLC10D_CONTEXT_NOT_FOUND_BLOCK", "No exact current Quality/TestPlan/SourcePlan binding exists for the COMMIT_READY story.", Severity.BLOCK)])
+        # Report identifiers are content-addressed; sort for deterministic recovery.
+        selected = sorted(candidates, key=lambda row: str(row["quality_report_id"]))[-1]
+        return CommandResult(command, True, ExitCode.PASS, "Current COMMIT_READY authority-chain context recovered read-only.", data=selected, findings=[])
+
+    def story_git_context_recover(self) -> CommandResult:
+        return self.workspace_git_operations.recover_story_commit_ready_context()
+
+    def story_git_commit_plan_create(self, *, quality_report_id: str, quality_report_hash: str, commit_message: str, author_name: str, author_email: str, actor: str, actor_role: str, authority_source: str = "human-session") -> CommandResult:
+        return self.workspace_git_operations.plan_story_commit(quality_report_id=quality_report_id, quality_report_hash=quality_report_hash, commit_message=commit_message, author_name=author_name, author_email=author_email, actor=actor, actor_role=actor_role, authority_source=authority_source)
+
+    def story_git_commit_plan_get(self, *, commit_plan_id: str) -> CommandResult:
+        return self.workspace_git_operations.get_story_commit_plan(commit_plan_id=commit_plan_id)
+
+    def story_git_stage_approval_request(self, *, commit_plan_id: str, commit_plan_hash: str, actor: str, actor_role: str, reason: str, ttl_minutes: int = 15, authority_source: str = "human-session") -> CommandResult:
+        return self.workspace_git_operations.request_story_stage_approval(commit_plan_id=commit_plan_id, commit_plan_hash=commit_plan_hash, actor=actor, actor_role=actor_role, reason=reason, ttl_minutes=ttl_minutes, authority_source=authority_source)
+
+    def story_git_stage(self, *, commit_plan_id: str, commit_plan_hash: str, approval_id: str, actor: str, actor_role: str, authority_source: str = "human-session") -> CommandResult:
+        return self.workspace_git_operations.stage_story(commit_plan_id=commit_plan_id, commit_plan_hash=commit_plan_hash, approval_id=approval_id, actor=actor, actor_role=actor_role, authority_source=authority_source)
+
+    def story_git_commit_approval_request(self, *, stage_execution_id: str, actor: str, actor_role: str, reason: str, ttl_minutes: int = 15, authority_source: str = "human-session") -> CommandResult:
+        return self.workspace_git_operations.request_story_commit_approval(stage_execution_id=stage_execution_id, actor=actor, actor_role=actor_role, reason=reason, ttl_minutes=ttl_minutes, authority_source=authority_source)
+
+    def story_git_commit(self, *, stage_execution_id: str, approval_id: str, actor: str, actor_role: str, authority_source: str = "human-session") -> CommandResult:
+        return self.workspace_git_operations.commit_story(stage_execution_id=stage_execution_id, approval_id=approval_id, actor=actor, actor_role=actor_role, authority_source=authority_source)
+
+    def story_git_execution_get(self, *, execution_id: str) -> CommandResult:
+        return self.workspace_git_operations.get_story_git_execution(execution_id=execution_id)
 
     def story_source_change_dry_run(self, *, plan_id: str, plan_hash: str, actor: str, actor_role: str) -> CommandResult:
         return self.source_changes.dry_run(plan_id=plan_id, plan_hash=plan_hash, actor=actor, actor_role=actor_role)

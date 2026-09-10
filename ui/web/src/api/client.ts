@@ -1,3 +1,4 @@
+// UI route contract markers: ui.quality; ui.story-code-workbench
 import type { AgentRuntimeSettingsData, AgentExecutionSettingsData, RagContextSettingsData, AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
@@ -795,6 +796,38 @@ export class DevPilotApiClient {
 
   async commitWorkspaceGitExecution(executionId: string, payload: { approval_id: string; actor: string }): Promise<DevPilotApplicationResponse> {
     return this.post(`/workspace/git/stage-executions/${encodeURIComponent(executionId)}/commit`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyGitContextRecover(): Promise<DevPilotApplicationResponse> {
+    return this.get('/story/git/context', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
+  }
+
+  async storyGitCommitPlanCreate(payload: { quality_report_id: string; quality_report_hash: string; commit_message: string; author_name: string; author_email: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/story/git/commit-plans', payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyGitCommitPlanGet(planId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/story/git/commit-plans/${encodeURIComponent(planId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyGitStageApprovalRequest(planId: string, planHash: string, reason = 'Approve exact story staging.'): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/git/commit-plans/${encodeURIComponent(planId)}/stage-approval-request`, { commit_plan_hash: planHash, reason, ttl_minutes: 15 }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyGitStage(planId: string, planHash: string, approvalId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/git/commit-plans/${encodeURIComponent(planId)}/stage`, { commit_plan_hash: planHash, approval_id: approvalId }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyGitCommitApprovalRequest(executionId: string, reason = 'Approve exact story commit.'): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/git/stage-executions/${encodeURIComponent(executionId)}/commit-approval-request`, { reason, ttl_minutes: 15 }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyGitCommit(executionId: string, approvalId: string): Promise<DevPilotApplicationResponse> {
+    return this.post(`/story/git/stage-executions/${encodeURIComponent(executionId)}/commit`, { approval_id: approvalId }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async storyGitExecutionGet(executionId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/story/git/executions/${encodeURIComponent(executionId)}`, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }
 
   async planWorkspaceGitBranch(branchName: string): Promise<DevPilotApplicationResponse> {

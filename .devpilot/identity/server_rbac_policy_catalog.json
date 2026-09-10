@@ -19,7 +19,7 @@
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "GSDLC-10-C",
+  "micro_sprint": "GSDLC-10-D",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -31,7 +31,8 @@
     "GSDLC-04-E reuses the protected artifact-review reconcile route; no new client-side authority or role expansion is introduced.",
     "GSDLC-07-E registers settings.agent_evals as a human-session-required, deny-by-default read-only route; legacy token cannot substitute human authority.",
     "GSDLC-09-B registers bounded source inspection for authenticated project roles and runtime-draft authoring only for owner/developer; unknown routes remain deny-by-default.",
-    "GSDLC-10-C Story Quality routes require authenticated human sessions; waiver decision is owner-only and application service additionally enforces no self-approval/S0-S1 non-waivable/model non-authority."
+    "GSDLC-10-C Story Quality routes require authenticated human sessions; waiver decision is owner-only and application service additionally enforces no self-approval/S0-S1 non-waivable/model non-authority.",
+    "GSDLC-10-D registers eight human-session story Git routes; stage/commit and both approval requests are owner-only and reuse governed Git policy authority. Model/agent routing grants no Git authority."
   ],
   "route_policies": [
     {
@@ -2794,6 +2795,159 @@
       "workspace_scope_required": true
     },
     {
+      "access_class": "human-session/project-story-git-plan",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.git.commit-plan.create",
+      "path": "/api/v1/story/git/commit-plans",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-git.commit-plans.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-git-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.git.commit-plan.get",
+      "path": "/api/v1/story/git/commit-plans/{commit_plan_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-git.commit-plans.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-git-governed",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.git.stage",
+      "path": "/api/v1/story/git/commit-plans/{commit_plan_id}/stage",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-git.stage",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-git-governed",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.git.stage-approval-request",
+      "path": "/api/v1/story/git/commit-plans/{commit_plan_id}/stage-approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-git.stage-approval",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-git-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.git.context",
+      "path": "/api/v1/story/git/context",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-git.context",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-git-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.git.execution.get",
+      "path": "/api/v1/story/git/executions/{execution_id}",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-git.execution.get",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-git-governed",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.git.commit",
+      "path": "/api/v1/story/git/stage-executions/{execution_id}/commit",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-git.commit",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-git-governed",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.git.commit-approval-request",
+      "path": "/api/v1/story/git/stage-executions/{execution_id}/commit-approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.story-git.commit-approval",
+      "workspace_scope_required": true
+    },
+    {
       "access_class": "human-session-project-story-quality",
       "allowed_roles": [
         "owner",
@@ -4523,23 +4677,27 @@
     "gsdlc_10_a_story_test_plan_policies_total": 3,
     "gsdlc_10_b_legacy_token_allowed_total": 0,
     "gsdlc_10_b_story_validation_job_policies_total": 3,
-    "human_session_required_total": 122,
+    "human_session_required_total": 130,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 198,
+    "route_policies_total": 206,
     "sensitive_action_policies_total": 19,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
     "gsdlc_10_c_story_quality_policies_total": 9,
     "gsdlc_10_c_legacy_token_allowed_total": 0,
-    "gsdlc_10_c_waiver_decision_owner_only": true
+    "gsdlc_10_c_waiver_decision_owner_only": true,
+    "gsdlc_10_d_story_git_policies_total": 8,
+    "gsdlc_10_d_legacy_token_allowed_total": 0,
+    "gsdlc_10_d_owner_only_mutation_policies_total": 4
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-09",
+  "updated": "2026-09-10",
   "updated_by": "DEVPL-GSDLC-09-D",
-  "version": "1.6.0",
+  "version": "1.1.0",
   "workspace": {
     "cross_workspace_effect": "DENY",
     "default_local_workspace_id": "devpilot-local",
     "scope_required_for_workspace_routes": true
-  }
+  },
+  "gsdlc_10_d_story_git_routes_registered": true
 }

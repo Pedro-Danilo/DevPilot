@@ -1,5 +1,6 @@
 import { armApprovalCenterArtifactReviewHandoff, DevPilotApiClient, DevPilotApiError, writeQualityStoryContext } from '../api/client';
 import type { AuthSessionContext, GovernedJobSnapshot } from '../api/types';
+import { createWorkspaceGitOperationsPanel } from '../components/WorkspaceGitOperationsPanel';
 
 type SourceRow = { source_id:string; relative_path:string; name:string; extension:string; size_bytes:number; language_hint:string };
 type SourceData = { source_id:string; relative_path:string; content:string; sha256:string; language_hint:string };
@@ -12,7 +13,7 @@ type StoryTestPlan = { test_plan_id:string; test_plan_hash:string; status:string
 const APPLY_CONTEXT_SESSION_KEY='devpilot.story-code.apply-context.v1';
 
 export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, session:AuthSessionContext):HTMLElement {
-  const host=document.createElement('section'); host.className='story-code-workbench'; host.dataset.routeId='ui.story-code-workbench'; host.dataset.gsdlc09c='governed-source-change'; host.dataset.gsdlc09d='proposal-only-agent-assist'; host.dataset.gsdlc10a='story-test-plan'; host.dataset.gsdlc10b='story-validation-jobs';
+  const host=document.createElement('section'); host.className='story-code-workbench'; host.dataset.routeId='ui.story-code-workbench'; host.dataset.gsdlc09c='governed-source-change'; host.dataset.gsdlc09d='proposal-only-agent-assist'; host.dataset.gsdlc10a='story-test-plan'; host.dataset.gsdlc10b='story-validation-jobs'; host.dataset.gsdlc10d='story-git-governed';
   const intro=panel('Story Code Workbench','Autoría manual bounded + asistencia proposal-only + SourceChangePlan gobernado + StoryTestPlan UI-native. Después de apply, Validar deriva Test Impact v2 y un plan de pruebas explicable; no ejecuta comandos ni Full Regression.');
   const safety=document.createElement('div'); safety.className='code-safety-strip'; safety.dataset.sourceWrite='approval-gated'; safety.textContent='SOURCE WRITE · APPROVAL-GATED · EXACT PATH ALLOWLIST · ATOMIC APPLY/ROLLBACK · SIN TERMINAL'; intro.append(safety); host.append(intro);
   const state=document.createElement('div'); state.className='notice'; state.setAttribute('role','status'); state.setAttribute('aria-live','polite'); host.append(state);
@@ -98,6 +99,7 @@ export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, sess
   const rollback=button('Ejecutar rollback aprobado'); rollback.dataset.executeRollback='true';
   const evidence=document.createElement('pre'); evidence.className='code-change-evidence'; evidence.dataset.changeEvidence='true';
   rollbackActions.append(requestRollback,rollbackLink,rollbackInput,rollback); rollbackPanel.append(rollbackActions,evidence); host.append(rollbackPanel);
+  const storyGitPanel=createWorkspaceGitOperationsPanel({tokenProvider:()=>tokenProvider()??'',storyMode:true,onCommitComplete:async()=>{setState('pass','COMMIT PASS · Story DONE · trazabilidad Git completa; GSDLC-10-E puede continuar tras cierre Windows.');}}); host.append(storyGitPanel);
 
   const client=()=>new DevPilotApiClient({token:tokenProvider()});
   let selected:SourceData|null=null; let draft:Draft|null=null; let plan:ChangePlan|null=null; let execution:Execution|null=null; let agentProposal:AgentProposal|null=null; let storyTestPlan:StoryTestPlan|null=null; let validationJobs:GovernedJobSnapshot[]=[];

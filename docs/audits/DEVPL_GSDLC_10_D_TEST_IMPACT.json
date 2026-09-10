@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "DEVPL-GSDLC-10-D-TEST-IMPACT",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-10-D",
+  "updated": "2026-09-10",
+  "changed_paths_file": "docs/audits/DEVPL_GSDLC_10_D_CHANGED_PATHS.txt",
+  "full_regression_runs": 0,
+  "tests_executed": false,
+  "dry_run": true,
+  "summary": {
+    "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
+    "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
+    "rules_path": ".devpilot/testing/test_impact_rules.json",
+    "changed_paths_total": 35,
+    "contracts_total": 330,
+    "matched_contracts_total": 206,
+    "p0_selected_total": 129,
+    "p1_selected_total": 73,
+    "heuristic_recommendations_total": 7,
+    "recommended_tests_total": 310,
+    "recommended_commands_total": 359,
+    "recommended_profiles": [
+      "p0-critical",
+      "docs-historical",
+      "impact",
+      "release-candidate-local",
+      "release"
+    ],
+    "unmatched_paths_total": 0,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "full_regression_signal": null,
+  "recommended_tests_total": 310,
+  "recommended_commands_total": 359,
+  "unmatched_paths": [],
+  "recommended_profiles": [
+    "p0-critical",
+    "docs-historical",
+    "impact",
+    "release-candidate-local",
+    "release"
+  ],
+  "verdict": "PASS — 35 changed paths, 206 matched contracts, 310 recommended tests, 0 unmatched; Full Regression remains 0 for GSDLC-10-D."
+}

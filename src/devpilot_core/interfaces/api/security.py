@@ -125,6 +125,14 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/story/code/drafts/{draft_id}"): ApiRoutePolicy("story.code.draft.get", "read", "protected-human-session-code-workbench"),
     ("POST", "/api/v1/story/code/drafts/{draft_id}/recheck"): ApiRoutePolicy("story.code.draft.recheck", "read", "protected-human-session-code-draft-runtime"),
     ("POST", "/api/v1/story/code/drafts/{draft_id}/discard"): ApiRoutePolicy("story.code.draft.discard", "read", "protected-human-session-code-draft-runtime"),
+    ("GET", "/api/v1/story/git/context"): ApiRoutePolicy("story.git.context", "read", "protected-human-session-story-git-read"),
+    ("POST", "/api/v1/story/git/commit-plans"): ApiRoutePolicy("story.git.commit_plan.create", "read", "protected-human-session-story-git-plan"),
+    ("GET", "/api/v1/story/git/commit-plans/{commit_plan_id}"): ApiRoutePolicy("story.git.commit_plan.get", "read", "protected-human-session-story-git-read"),
+    ("POST", "/api/v1/story/git/commit-plans/{commit_plan_id}/stage-approval-request"): ApiRoutePolicy("story.git.stage_approval_request", "read", "protected-governed-git-approval-request"),
+    ("POST", "/api/v1/story/git/commit-plans/{commit_plan_id}/stage"): ApiRoutePolicy("story.git.stage", "read", "protected-governed-git-stage"),
+    ("POST", "/api/v1/story/git/stage-executions/{execution_id}/commit-approval-request"): ApiRoutePolicy("story.git.commit_approval_request", "read", "protected-governed-git-approval-request"),
+    ("POST", "/api/v1/story/git/stage-executions/{execution_id}/commit"): ApiRoutePolicy("story.git.commit", "read", "protected-governed-git-commit"),
+    ("GET", "/api/v1/story/git/executions/{execution_id}"): ApiRoutePolicy("story.git.execution.get", "read", "protected-human-session-story-git-read"),
     ("GET", "/api/v1/workspace/documents"): ApiRoutePolicy("workspace.documents.list", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/workspace/documents/{document_id}"): ApiRoutePolicy("workspace.documents.read", "read", "protected-workspace-document-read"),
     ("GET", "/api/v1/workspace/documents/{document_id}/metadata"): ApiRoutePolicy("workspace.documents.metadata", "read", "protected-workspace-document-read"),
@@ -586,6 +594,20 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"))
         if path.endswith("/freeze"):
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"))
+    if path.startswith("/api/v1/story/git/commit-plans/"):
+        if method.upper() == "GET" and path.count("/") == 6:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/git/commit-plans/{commit_plan_id}"))
+        if method.upper() == "POST" and path.endswith("/stage-approval-request") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/git/commit-plans/{commit_plan_id}/stage-approval-request"))
+        if method.upper() == "POST" and path.endswith("/stage") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/git/commit-plans/{commit_plan_id}/stage"))
+    if path.startswith("/api/v1/story/git/stage-executions/") and method.upper() == "POST":
+        if path.endswith("/commit-approval-request") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/git/stage-executions/{execution_id}/commit-approval-request"))
+        if path.endswith("/commit") and path.count("/") == 7:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/git/stage-executions/{execution_id}/commit"))
+    if path.startswith("/api/v1/story/git/executions/") and method.upper() == "GET" and path.count("/") == 6:
+        return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/git/executions/{execution_id}"))
     if path.startswith("/api/v1/story/code/sources/") and method.upper() == "GET" and path.count("/") == 6:
         return API_ROUTE_POLICIES.get(("GET", "/api/v1/story/code/sources/{source_id}"))
     if path.startswith("/api/v1/story/code/agent-assist/proposals/"):

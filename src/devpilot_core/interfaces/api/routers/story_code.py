@@ -127,6 +127,36 @@ class SourceChangeRollbackBody(BaseModel):
     approval_id: str = Field(min_length=1, max_length=160)
 
 
+class StoryGitCommitPlanBody(BaseModel):
+    quality_report_id: str = Field(min_length=1, max_length=160)
+    quality_report_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    commit_message: str = Field(min_length=1, max_length=200)
+    author_name: str = Field(min_length=1, max_length=120)
+    author_email: str = Field(min_length=3, max_length=254)
+
+
+class StoryGitPlanHashBody(BaseModel):
+    commit_plan_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+class StoryGitApprovalRequestBody(StoryGitPlanHashBody):
+    reason: str = Field(min_length=1, max_length=500)
+    ttl_minutes: int = Field(default=15, ge=1, le=30)
+
+
+class StoryGitStageBody(StoryGitPlanHashBody):
+    approval_id: str = Field(min_length=1, max_length=160)
+
+
+class StoryGitCommitApprovalRequestBody(BaseModel):
+    reason: str = Field(min_length=1, max_length=500)
+    ttl_minutes: int = Field(default=15, ge=1, le=30)
+
+
+class StoryGitCommitBody(BaseModel):
+    approval_id: str = Field(min_length=1, max_length=160)
+
+
 class StoryAgentProposalBody(BaseModel):
     agent_type: str = Field(pattern=r"^(coding|test)$")
     mode: str = Field(default="mock", pattern=r"^(mock|fake-local)$")
@@ -427,3 +457,68 @@ def story_agent_proposal_decide(request: Request, proposal_id: str, body: StoryA
     if error: return error
     actor, role = identity
     return _result(service.story_agent_proposal_decide(proposal_id=proposal_id, proposal_sha256=body.proposal_sha256, decision=body.decision, actor=actor, actor_role=role), "story.agent-assist.proposal.decision")
+
+@router.get("/api/v1/story/git/context")
+def story_git_context(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_git_context_recover(), "story.git.context")
+
+
+@router.post("/api/v1/story/git/commit-plans")
+def story_git_commit_plan_create(request: Request, body: StoryGitCommitPlanBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_git_commit_plan_create(actor=actor, actor_role=role, authority_source="human-session", **body.model_dump()), "story.git.commit-plan.create")
+
+
+@router.get("/api/v1/story/git/commit-plans/{commit_plan_id}")
+def story_git_commit_plan_get(request: Request, commit_plan_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_git_commit_plan_get(commit_plan_id=commit_plan_id), "story.git.commit-plan.get")
+
+
+@router.post("/api/v1/story/git/commit-plans/{commit_plan_id}/stage-approval-request")
+def story_git_stage_approval_request(request: Request, commit_plan_id: str, body: StoryGitApprovalRequestBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.git.stage-approval-request","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC10D_WRONG_ROLE_BLOCK","severity":"block","message":"Only owner may request governed story stage approval."}]},403)
+    return _result(service.story_git_stage_approval_request(commit_plan_id=commit_plan_id, commit_plan_hash=body.commit_plan_hash, actor=actor, actor_role=role, reason=body.reason, ttl_minutes=body.ttl_minutes, authority_source="human-session"), "story.git.stage-approval-request")
+
+
+@router.post("/api/v1/story/git/commit-plans/{commit_plan_id}/stage")
+def story_git_stage(request: Request, commit_plan_id: str, body: StoryGitStageBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.git.stage","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC10D_WRONG_ROLE_BLOCK","severity":"block","message":"Only owner may execute exact story staging."}]},403)
+    return _result(service.story_git_stage(commit_plan_id=commit_plan_id, commit_plan_hash=body.commit_plan_hash, approval_id=body.approval_id, actor=actor, actor_role=role, authority_source="human-session"), "story.git.stage")
+
+
+@router.post("/api/v1/story/git/stage-executions/{execution_id}/commit-approval-request")
+def story_git_commit_approval_request(request: Request, execution_id: str, body: StoryGitCommitApprovalRequestBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.git.commit-approval-request","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC10D_WRONG_ROLE_BLOCK","severity":"block","message":"Only owner may request governed story commit approval."}]},403)
+    return _result(service.story_git_commit_approval_request(stage_execution_id=execution_id, actor=actor, actor_role=role, reason=body.reason, ttl_minutes=body.ttl_minutes, authority_source="human-session"), "story.git.commit-approval-request")
+
+
+@router.post("/api/v1/story/git/stage-executions/{execution_id}/commit")
+def story_git_commit(request: Request, execution_id: str, body: StoryGitCommitBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    if role != "owner": return _json({"operation":"story.git.commit","ok":False,"exit_code":2,"message":"Owner role required.","data":{},"findings":[{"id":"GSDLC10D_WRONG_ROLE_BLOCK","severity":"block","message":"Only owner may execute governed story commit."}]},403)
+    return _result(service.story_git_commit(stage_execution_id=execution_id, approval_id=body.approval_id, actor=actor, actor_role=role, authority_source="human-session"), "story.git.commit")
+
+
+@router.get("/api/v1/story/git/executions/{execution_id}")
+def story_git_execution_get(request: Request, execution_id: str, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_git_execution_get(execution_id=execution_id), "story.git.execution.get")
+

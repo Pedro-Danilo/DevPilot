@@ -3137,6 +3137,67 @@
       ]
     },
     {
+      "contract_id": "devpl-gsdlc-10-d-story-git-commit",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-10-D",
+      "phase": "DEVPL-GSDLC-10",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_d_story_git_commit.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_d_story_git_commit.py"
+      ],
+      "validates": [
+        "CommitPlan is immutable/hash-bound to story, source plan, StoryTestPlan, current Quality PASS/COMMIT_READY, exact paths and expected Git status",
+        "unexpected dirty path, stale Quality, wrong role and agent/model authority fail closed before Git mutation",
+        "stage uses exact paths only; git add dot/add-all and arbitrary shell remain unavailable",
+        "stage and commit require independent authenticated owner approvals and revalidation immediately before execution",
+        "GitCommitRecord binds real commit hash, author/session/message/exact paths, tests/quality/evidence and requirement traceability",
+        "committed tree equals approved delta, fixture worktree is clean and StoryExecution advances COMMIT_READY→DONE",
+        "push/force-push/rebase/reset-hard remain unavailable and Full Regression stays zero in GSDLC-10-D",
+        "Story Code Workbench reuses WorkspaceGitOperationsPanel and exposes plan→approve→stage→approve→commit UX"
+      ],
+      "watched_paths": [
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "04_PROMPT_DEVPL_GSDLC_10_D_v1_0_1_REBOUND_REPO418.md",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_3_APPROVED_REBOUND_REPO418.md",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/07_interfaces/api_service_mapping.md",
+        "docs/07_interfaces/openapi_v1.json",
+        "docs/audits/DEVPL_GSDLC_10_D_CHANGED_PATHS.txt",
+        "docs/audits/DEVPL_GSDLC_10_D_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_D_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_D_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_10_D_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_D_TEST_IMPACT.json",
+        "docs/schemas/git_commit_record.schema.json",
+        "docs/schemas/story_commit_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/workspace_git_operations_service.py",
+        "src/devpilot_core/interfaces/api/routers/story_code.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/repo/governed_git_mutation.py",
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py",
+        "tests/test_devpl_gsdlc_10_d_story_git_commit.py",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts"
+      ]
+    },
+    {
       "contract_id": "devpl-gsdlc-transversal-validation-policy",
       "critical": true,
       "domain": "governance.testing",

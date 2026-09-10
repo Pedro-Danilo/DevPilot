@@ -569,3 +569,21 @@ Current-active successor mapping. Planning routes are project-scoped, human-sess
 ## GSDLC-10-C Story Quality Gate
 
 Las rutas `/api/v1/story/quality/*` se resuelven exclusivamente vía `ApplicationService.story_quality_*` → `StoryQualityGateApplicationService`. Reutilizan StoryTestPlan/StoryValidationJob/GSDLC-09 agent/source governance; no ejecutan shell, no mutan source y no conceden authority por selección de modelo. Quality permanece fail-closed y Full=0.
+
+
+## DEVPL-GSDLC-10-D — Story Git governed stage/commit
+
+Todas las rutas son project-scoped, human-session y reutilizan `WorkspaceGitOperationsApplicationService`; no existe un segundo Git engine.
+
+| Método | Ruta | Application service | Authority / efecto |
+|---|---|---|---|
+| GET | `/api/v1/story/git/context` | `WorkspaceGitOperationsApplicationService.story_git_context` | read-only context; no Git mutation |
+| POST | `/api/v1/story/git/commit-plans` | `plan_story_commit` | developer/owner plan; Quality PASS + COMMIT_READY required |
+| GET | `/api/v1/story/git/commit-plans/{commit_plan_id}` | `get_story_commit_plan` | read-only immutable CommitPlan |
+| POST | `/api/v1/story/git/commit-plans/{commit_plan_id}/stage-approval-request` | `request_story_stage_approval` | owner human-session approval request |
+| POST | `/api/v1/story/git/commit-plans/{commit_plan_id}/stage` | `stage_story` | owner + approved stage approval; exact paths only |
+| POST | `/api/v1/story/git/stage-executions/{execution_id}/commit-approval-request` | `request_story_commit_approval` | second independent owner approval request |
+| POST | `/api/v1/story/git/stage-executions/{execution_id}/commit` | `commit_story` | owner + approved commit approval; local commit, no push |
+| GET | `/api/v1/story/git/executions/{execution_id}` | `get_story_git_execution` | read-only staging/commit evidence |
+
+Safety: no `git add .`, arbitrary shell, push, force push, rebase ni reset-hard. Agent/model route nunca concede Git authority. Full Regression=0 en 10-D.
